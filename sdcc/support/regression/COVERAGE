@@ -1,0 +1,180 @@
+Primary goal: good coverage of the backend code generators.  The
+following list was derived from the token list in SDCC.lex
+
+Follows is a list of tokens and the test case that covers them.  If no
+case is listed then the token is not yet covered.  Special cases are
+listed under the token.  If the token is listed as covered then the
+special cases are also covered.
+
+The cases generally assume that on stack local variables and
+parameters are accessed using the same methods and hence doesn't test
+stack based parameters.
+
+Todo
+Operations:
+        Shifts:
+                Common cases:
+                        For byte multiples (8, 16...)
+                        For more than the word size
+                        For negative shifts
+                        For shift of 1
+                >>=
+                <<=
+                >>
+                <<
+
+        Comparison:
+                Common cases:
+                        Around zero
+                        Constants on either side (reversal)
+                <=
+                >=
+                ==
+                !=
+                <
+                >
+
+        Basic arithmetic:
+                Common cases:
+                        For small constants (<3)
+                ++
+                --
+                +=
+                -=
+                -
+                +
+
+        Mul/Div/Mod arithmetic:
+                Common cases:
+                        For powers of 2                               
+                *=
+                /=
+                %=
+                *
+                /
+                %
+
+        Bitwise operations:
+                &=
+                ^=
+                |=
+                &
+                ~
+                ^
+                |
+
+        Logical operations:
+                &&
+                ||
+                !
+
+        Misc:
+                ->
+                        Test that members are not cached across
+function calls
+                =
+                .
+                ?
+                casts
+                        Test sign extension
+                arrays
+                        Test a[a[const]]
+                pointers
+
+        Language features (untestable):
+                ;
+                {
+                }
+                ,
+                :
+                (
+                )
+                [
+                ]
+
+Keywords:
+        Specificers:
+                const
+                register
+                signed
+                static
+                unsigned
+                volatile
+
+        Conditional:
+                break
+                case
+                default
+                else
+                goto
+                if
+                switch
+
+        Types:
+                char
+                double
+                float
+                int
+                long
+                short
+                void
+
+        Iterative:
+                continue
+                do
+                for
+                while
+
+        Language features:
+                enum
+                extern
+                sizeof
+                struct
+                typedef
+                union
+
+        Misc:
+                return
+
+        Unknown:
+                auto
+                interrupt
+
+Optional keywords:
+        banked
+        bit
+        flash
+        code
+        critical
+        near
+        data
+        eeprom
+        idata
+        nonbanked
+        pdata
+        reentrant
+        sbit
+        sfr
+        using
+        sram
+        xdata
+        far
+        _code
+        _flash
+        _eeprom
+        _generic
+        _idata
+        _data
+        _near
+        _pdata
+        _sram
+        _xdata
+
+Language features:
+        va args (...)
+
+Optional:
+        Constants:
+        	Hex, dec, oct
+                Character constants	'x'
+                Specials		'\n', '\0', ...

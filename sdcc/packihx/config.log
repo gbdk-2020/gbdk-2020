@@ -1,0 +1,16 @@
+This file contains any messages produced by compilers while
+running configure, to aid debugging if configure makes a mistake.
+
+configure:531: checking for gcc
+configure:644: checking whether the C compiler (i586-mingw32msvc-gcc  ) works
+configure:660: i586-mingw32msvc-gcc -o conftest    conftest.c  1>&5
+configure:686: checking whether the C compiler (i586-mingw32msvc-gcc  ) is a cross-compiler
+configure:691: checking whether we are using GNU C
+configure:719: checking whether i586-mingw32msvc-gcc accepts -g
+configure:757: checking size of char
+configure:797: checking size of short
+configure:837: checking size of int
+configure:877: checking size of long
+configure:917: checking size of long long
+configure:983: checking type name for byte
+configure:987: checking type name for word
