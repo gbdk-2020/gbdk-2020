@@ -8,29 +8,29 @@ MODEL =	small
 endif
 
 ifndef PORTS
-PORTS = gbz80 z80
+PORTS = gbz80
 endif
 ifndef PLATFORMS
-PLATFORMS = gb consolez80 rrgb
+PLATFORMS = gb
 endif
 
 ifndef SDCCLIB
-SDCCLIB = /home/michaelh/projects/sdcc
+SDCCLIB = $(ZGB_PATH)/../env/SDCC
 endif
 
 SCC = 	$(SDCCLIB)/bin/sdcc
 GBCC = 	$(SDCCLIB)/bin/lcc
 
-AS_Z80 = $(SDCCLIB)/bin/as-z80
+AS_Z80 = $(SDCCLIB)/bin/sdasz80
 ifeq ($(RGBDS),1)
 AS_GBZ80 = rgbasm
 else
-AS_GBZ80 = $(SDCCLIB)/bin/as-gbz80
+AS_GBZ80 = $(SDCCLIB)/bin/sdasgb
 endif
 
 CLEANSPEC = *.o *.cdb *.sym *.lst *~ *.asm
 
-CFLAGS = -I$(TOPDIR)/include --model-$(MODEL)
+CFLAGS = -I$(TOPDIR)/include -DSDCC_z80 -D__gbz80
 CFLAGS += -m$(PORT) -DGBDK=1
 CC = 	$(SCC)
 BUILD = $(TOPDIR)/build/$(MODEL)/$(ASM)/$(THIS)

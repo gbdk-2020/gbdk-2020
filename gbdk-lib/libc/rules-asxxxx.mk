@@ -4,8 +4,7 @@ $(LIB): pre $(OBJ)
 pre: set-model build-dir
 
 $(BUILD)/%.o: %.c
-	$(CC) $(CFLAGS) -c $<
-	mv `basename $< .c`.o $@
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 $(BUILD)/%.o: %.s
 	$(AS) -plosgff $@ $<
