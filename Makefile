@@ -26,14 +26,16 @@ TARGETSTRIP = $(TOOLSPREFIX)strip
 TARGETCXXFLAGS =
 
 # Directory containing the source to sdcc
-SDCCDIR = $(TOPDIR)/sdcc
-#SDCCDIR = $(ZGB_PATH)/../env/SDCC
+#SDCCDIR = $(TOPDIR)/sdcc
+SDCCDIR = $(ZGB_PATH)/../env/SDCC
 # Directory containing the source to gbdk-lib
 GBDKLIBDIR = $(TOPDIR)/gbdk-lib
 # Directory containing the source to gbdk-support
 GBDKSUPPORTDIR = $(TOPDIR)/gbdk-support
 # Directory containing the source to maccer
 MACCERDIR = $(TOPDIR)/maccer
+# Directory containing the source to linker
+LINKERDIR = $(TOPDIR)/link
 
 # Base setup
 # Extension to add to executables
@@ -53,7 +55,7 @@ NOISELOG = $(TOPDIR)/noise.log
 
 all: native-build
 
-clean: maccer-clean gbdk-support-clean gbdk-lib-clean
+clean: maccer-clean linker-clean gbdk-support-clean gbdk-lib-clean
 
 distclean: clean build-dir-clean
 
@@ -95,9 +97,9 @@ src: clean
 	tar czf gbdk-$(VER).tar.gz gbdk
 
 # Base rules
-gbdk-build: maccer-build gbdk-support-build gbdk-lib-build 
+gbdk-build: maccer-build linker-build gbdk-support-build gbdk-lib-build 
 
-gbdk-install: gbdk-support-install gbdk-lib-install
+gbdk-install: build-bin-dir linker-install gbdk-support-install gbdk-lib-install
 
 # Directories
 build-bin-dir:
@@ -121,36 +123,7 @@ setup-from-cvs:
 	cvs -d :pserver:anonymous@cvs.gbdk.sourceforge.net:/cvsroot/gbdk -q co $(CVSFLAGS) gbdk-support
 
 # Rules for sdcc
-SDCCCONFIGUREFLAGS = \
-		--disable-mcs51-port \
-		--disable-avr-port \
-		--disable-ds390-port \
-		--disable-pic-port \
-		--disable-i186-port \
-		--disable-tlcs900h-port \
-		--disable-ucsim \
-		--disable-device-lib-build \
-		--disable-packihx
 
-SDCCCONFIGUREFLAGS += \
-		--prefix=$(TARGETDIR) \
-		--program-suffix=$(EXEEXTENSION)
-
-sdcc-build: $(SDCCDIR)/sdccconf.h
-	$(MAKE) -C $(SDCCDIR) SDCC_SUB_VERSION=$(PKG)-$(VER)
-
-$(SDCCDIR)/sdccconf.h:
-	cd $(SDCCDIR); CC=$(TARGETCC) CXX=$(TARGETCXX) STRIP=$(TARGETSTRIP) RANLIB=$(TARGETRANLIB) CXXFLAGS=$(TARGETCXXFLAGS) ./configure $(SDCCCONFIGUREFLAGS) --host=$(HOSTOS)
-
-sdcc-install: sdcc-build build-bin-dir
-	rm -fr tmp
-	$(MAKE) -C $(SDCCDIR) install prefix=$(TOPDIR)/tmp
-	cp tmp/bin/sdcc* tmp/bin/sdcpp* tmp/bin/link-* tmp/bin/as-* $(BUILDDIR)/bin
-
-# PENDING: Hack below
-sdcc-clean:
-	-$(MAKE) -C $(SDCCDIR) distclean
-	touch $(SDCCDIR)/doc/holder.pdf
 
 # Rules for gbdk-support
 gbdk-support-build:
@@ -184,10 +157,21 @@ gbdk-lib-examples-makefile:
 
 # Rules for maccer
 maccer-build:
-	$(MAKE) -C $(MACCERDIR)
+	$(MAKE) -C $(MACCERDIR) BUILDDIR=$(BUILDDIR)
 	
 maccer-clean:
 	$(MAKE) -C $(MACCERDIR) clean
+	
+#rules for linker
+linker-build:
+	$(MAKE) -C $(LINKERDIR)
+	
+linker-install:
+	$(MAKE) -C $(LINKERDIR) install BUILDDIR=$(BUILDDIR)
+
+linker-clean:
+	$(MAKE) -C $(LINKERDIR) clean
+
 
 # Final binary
 binary: binary-tidyup
