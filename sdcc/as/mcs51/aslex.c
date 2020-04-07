@@ -26,7 +26,7 @@
  *		char	endline()
  *		char	get()
  *		VOID	getid(id,c)
- *		int	getline()
+ *		int	getLine_()
  *		int	getmap()
  *		char	getnb()
  *		VOID	getst()
@@ -352,9 +352,9 @@ getmap(d)
 	return (c);
 }
 
-/*)Function	int	getline()
+/*)Function	int	getLine_()
  *
- *	The function getline() reads a line of assembler-source text
+ *	The function getLine_() reads a line of assembler-source text
  *	from an assembly source text file or an include file.
  *	Lines of text are processed from assembler-source files until
  *	all files have been read.  If an include file is opened then
@@ -362,7 +362,7 @@ getmap(d)
  *	include file) until the end of the include file is found.
  *	The input text line is copied into the global string ib[]
  *	and converted to a NULL terminated string.  The function
- *	getline() returns a (1) after succesfully reading a line
+ *	getLine_() returns a (1) after succesfully reading a line
  *	or a (0) if all files have been read.
  *
  *	local variables:
@@ -399,7 +399,7 @@ getmap(d)
  */
 
 int
-getline()
+getLine_()
 {
 loop:	if (incfil >= 0) {
 		if (fgets(ib, sizeof ib, ifp[incfil]) == NULL) {

@@ -521,7 +521,7 @@ extern	VOID		usage();
 extern	char		endline();
 extern	char		get();
 extern	VOID		getid();
-extern	int		getline();
+extern	int		getLine_();
 extern	int		getmap();
 extern	char		getnb();
 extern	VOID		getst();
