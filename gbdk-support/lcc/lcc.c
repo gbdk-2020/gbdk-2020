@@ -48,7 +48,7 @@ extern int suffix(char *, char *[], int);
 extern char *tempname(char *);
 
 extern int access(char *, int);
-extern int getpid(void);
+//extern int getpid(void);
 
 extern char *cpp[], *include[], *com[], *as[],*ld[], inputs[], *suffixes[];
 extern int option(char *);
@@ -308,6 +308,7 @@ char *concat(const char *s1, const char *s2) {
 /* compile - compile src into dst, return status */
 static int compile(char *src, char *dst) {
 	compose(com, clist, append(src, 0), append(dst, 0));
+	freopen(src, "r", stdin);
 	return callsys(av);
 }
 

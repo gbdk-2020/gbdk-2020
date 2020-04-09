@@ -32,19 +32,19 @@ static struct {
 } _tokens[] = {
     { "port",		"gbz80" },
     { "plat",		"gb" },
-    { "cpp",		"%bindir%sdcpp" },
-    { "cppdefault", 	"-Wall -lang-c++ -DSDCC=1 -DSDCC_PORT=%port% "
+    { "cpp",		"sdcpp" },
+    { "cppdefault", 	"-Wall -DSDCC=1 -DSDCC_PORT=%port% "
 			"-DSDCC_PLAT=%plat% -D%cppmodel%"
     },
     { "cppmodel",	"SDCC_MODEL_SMALL" },
     { "includedefault",	"-I%includedir%" },
     { "includedir", 	"%prefix%include" },
     { "prefix",		GBDKLIBDIR },
-    { "com",		"%bindir%sdcc" },
-    { "comdefault",	"-m%port% %comopt% --nostdinc --nostdlib --model-%commodel% --c1mode" },
     { "comopt",		"--noinvariant --noinduction" },
     { "commodel", 	"small" },
-    { "as",		"%bindir%as-%port%" },
+    { "com",		"sdcc" },
+    { "comdefault",	"-mgbz80 --no-std-crt0 --fsigned-char --use-stdout --c1mode" },
+    { "as",		"sdasgb" },
     { "ld",		"%bindir%link-%port%" },
     { "libdir",		"%prefix%lib/%libmodel%/asxxxx/" },
     { "libmodel",	"small" },
@@ -82,8 +82,8 @@ static CLASS classes[] = {
       "gb",
       "%cpp% %cppdefault% -DGB=1 -DGAMEBOY=1 -DINT_16_BITS $1 $2 $3",
       "%includedefault%",
-      "%com% %comdefault% $1 $2 $3",
-      "%as% -pog $1 $3 $2",
+      "%com% %comdefault% -o $3",
+      "%as% -plosgff $1 $3 $2",
       "%ld% -n -- -z $1 -k%libdir%%port%/ -l%port%.lib "
         "-k%libdir%%plat%/ -l%plat%.lib $3 %libdir%%plat%/crt0.o $2",
     },
