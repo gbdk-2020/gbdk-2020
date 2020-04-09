@@ -27,7 +27,6 @@ TARGETCXXFLAGS =
 
 # Directory containing the source to sdcc
 #SDCCDIR = $(TOPDIR)/sdcc
-SDCCDIR = $(ZGB_PATH)/../env/SDCC
 # Directory containing the source to gbdk-lib
 GBDKLIBDIR = $(TOPDIR)/gbdk-lib
 # Directory containing the source to gbdk-support
@@ -140,7 +139,7 @@ gbdk-support-clean:
 # Rules for gbdk-lib
 gbdk-lib-build:
 ifndef CROSSCOMPILING
-	$(MAKE) -C $(GBDKLIBDIR)/libc PORTS=gbz80 PLATFORMS=gb SDCCLIB=$(SDCCDIR)
+	$(MAKE) -C $(GBDKLIBDIR)/libc PORTS=gbz80 PLATFORMS=gb
 endif
 
 gbdk-lib-install: gbdk-lib-build
