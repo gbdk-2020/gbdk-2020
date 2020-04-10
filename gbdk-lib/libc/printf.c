@@ -4,7 +4,7 @@
 #include <gbdk-lib.h>
 #include <stdio.h>
 #include <stdarg.h>
-#pragma bank=BASE
+#pragma bank BASE
 
 static void _printn(unsigned u, unsigned base, char issigned, 
                     volatile void (*emitter)(char, void *), void *pData)
