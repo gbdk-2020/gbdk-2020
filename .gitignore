@@ -54,3 +54,5 @@ build/
 *.user
 *.opendb
 *.db
+gbdk-support/Debug/
+gbdk-support/
