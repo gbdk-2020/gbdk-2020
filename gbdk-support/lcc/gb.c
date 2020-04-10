@@ -82,7 +82,7 @@ static CLASS classes[] = {
       "gb",
       "%cpp% %cppdefault% -DGB=1 -DGAMEBOY=1 -DINT_16_BITS $1 $2 $3",
       "%includedefault%",
-      "%com% %comdefault% -o $3",
+      "%com% %comdefault% $1 -o $3",
       "%as% -plosgff $1 $3 $2",
       "%ld% -n -- -z $1 -k%libdir%%port%/ -l%port%.lib "
         "-k%libdir%%plat%/ -l%plat%.lib $3 %libdir%%plat%/crt0.o $2",
