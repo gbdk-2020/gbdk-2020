@@ -15,7 +15,7 @@ PLATFORMS = gb
 endif
 
 ifndef SDCCLIB
-SDCCLIB = $(ZGB_PATH)/../env/SDCC
+SDCCLIB = $(SDCCDIR)
 endif
 
 SCC = 	$(SDCCLIB)/bin/sdcc
