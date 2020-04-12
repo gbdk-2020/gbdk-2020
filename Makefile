@@ -35,6 +35,8 @@ GBDKSUPPORTDIR = $(TOPDIR)/gbdk-support
 MACCERDIR = $(TOPDIR)/maccer
 # Directory containing the source to linker
 LINKERDIR = $(TOPDIR)/link
+# Directory containing the source to assembler
+ASDIR = $(TOPDIR)/as
 
 # Base setup
 # Extension to add to executables
@@ -54,7 +56,7 @@ NOISELOG = $(TOPDIR)/noise.log
 
 all: native-build
 
-clean: maccer-clean linker-clean gbdk-support-clean gbdk-lib-clean
+clean: maccer-clean as-clean linker-clean gbdk-support-clean gbdk-lib-clean
 
 distclean: clean build-dir-clean
 
@@ -96,9 +98,9 @@ src: clean
 	tar czf gbdk-$(VER).tar.gz gbdk
 
 # Base rules
-gbdk-build: maccer-build linker-build gbdk-support-build gbdk-lib-build 
+gbdk-build: maccer-build as-build linker-build gbdk-support-build gbdk-lib-build 
 
-gbdk-install: build-bin-dir linker-install gbdk-support-install gbdk-lib-install
+gbdk-install: build-bin-dir as-install linker-install gbdk-support-install gbdk-lib-install
 
 # Directories
 build-bin-dir:
@@ -170,6 +172,16 @@ linker-install:
 
 linker-clean:
 	$(MAKE) -C $(LINKERDIR) clean
+	
+#rules for assembler
+as-build:
+	$(MAKE) -C $(ASDIR)
+	
+as-install:
+	$(MAKE) -C $(ASDIR) install BUILDDIR=$(BUILDDIR)
+
+as-clean:
+	$(MAKE) -C $(ASDIR) clean
 
 
 # Final binary

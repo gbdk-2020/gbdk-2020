@@ -1,0 +1,12 @@
+asdata.o: asdata.c string.h asm.h
+asexpr.o: asexpr.c string.h asm.h
+aslex.o: aslex.c string.h asm.h
+aslist.o: aslist.c string.h asm.h
+asmain.o: asmain.c string.h asm.h z80.h
+asout.o: asout.c string.h asm.h
+assubr.o: assubr.c string.h asm.h
+assym.o: assym.c string.h asm.h
+z80adr.o: z80adr.c asm.h z80.h
+z80ext.o: z80ext.c asm.h z80.h
+z80mch.o: z80mch.c asm.h z80.h
+z80pst.o: z80pst.c asm.h z80.h
