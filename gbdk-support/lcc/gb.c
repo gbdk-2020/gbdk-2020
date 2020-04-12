@@ -32,7 +32,8 @@ static struct {
 } _tokens[] = {
     { "port",		"gbz80" },
     { "plat",		"gb" },
-    { "cpp",		"sdcpp" },
+		{ "sdccdir", "%bindir%SDCC/bin/"},
+    { "cpp",		"%sdccdir%sdcpp" },
     { "cppdefault", 	"-Wall -DSDCC=1 -DSDCC_PORT=%port% "
 			"-DSDCC_PLAT=%plat% -D%cppmodel%"
     },
@@ -42,9 +43,9 @@ static struct {
     { "prefix",		GBDKLIBDIR },
     { "comopt",		"--noinvariant --noinduction" },
     { "commodel", 	"small" },
-    { "com",		"sdcc" },
+    { "com",		"%sdccdir%sdcc" },
     { "comdefault",	"-mgbz80 --no-std-crt0 --fsigned-char --use-stdout --c1mode" },
-    { "as",		"sdasgb" },
+    { "as",		"%sdccdir%sdasgb" },
     { "ld",		"%bindir%link-%port%" },
     { "libdir",		"%prefix%lib/%libmodel%/asxxxx/" },
     { "libmodel",	"small" },

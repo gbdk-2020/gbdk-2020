@@ -100,7 +100,7 @@ src: clean
 # Base rules
 gbdk-build: maccer-build as-build linker-build gbdk-support-build gbdk-lib-build 
 
-gbdk-install: build-bin-dir as-install linker-install gbdk-support-install gbdk-lib-install
+gbdk-install: build-bin-dir as-install linker-install gbdk-support-install gbdk-lib-install sdcc-install
 
 # Directories
 build-bin-dir:
@@ -183,6 +183,10 @@ as-install:
 as-clean:
 	$(MAKE) -C $(ASDIR) clean
 
+
+#SDDC copy
+sdcc-install:
+	cp -r $(SDCCDIR) $(BUILDDIR)/bin
 
 # Final binary
 binary: binary-tidyup
