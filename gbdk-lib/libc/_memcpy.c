@@ -27,7 +27,7 @@
 -------------------------------------------------------------------------*/
 
 #include <string.h>
-#include <sdcc-lib.h>
+//#include <sdcc-lib.h>
 
 #if !_SDCC_PORT_PROVIDES_MEMCPY
 
