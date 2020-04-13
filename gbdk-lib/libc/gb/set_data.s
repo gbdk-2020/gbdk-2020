@@ -24,12 +24,12 @@ _set_win_data::
 	PUSH	HL
 
 	XOR	A
-	OR	E		; Is nb_tiles == 0?
+	CMP	E		; Is nb_tiles == 0?
 	JR	NZ,1$
 	LD	D,#0x10		; DE = nb_tiles = 256
 	JR	2$
 1$:
-	LD	H,#0x00		; HL = nb_tiles
+	LD	H,A		; HL = nb_tiles
 	LD	L,E
 	ADD	HL,HL		; HL *= 16
 	ADD	HL,HL
