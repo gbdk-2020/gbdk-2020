@@ -48,10 +48,9 @@ _set_win_data::
 	ADD	HL,HL
 	ADD	HL,HL
 
-	PUSH	BC
-	LD	BC,#0x9000
-	ADD	HL,BC
-	POP	BC
+        LD	A,#0x90
+        ADD	H
+        LD	H,A
 
 3$:				; Special version of '.copy_vram'
 	BIT	3,H		; Bigger than 0x9800
