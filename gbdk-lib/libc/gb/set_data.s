@@ -26,7 +26,7 @@ _set_win_data::
 	XOR	A
 	OR	E		; Is nb_tiles == 0?
 	JR	NZ,1$
-	LD	DE,#0x1000	; DE = nb_tiles = 256
+	LD	D,#0x10		; DE = nb_tiles = 256
 	JR	2$
 1$:
 	LD	H,#0x00		; HL = nb_tiles
