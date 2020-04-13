@@ -1,3 +1,12 @@
+gbdk3-3.00
+	Updated SDCC to v4.0
+	The new linker is not working so the old version is still there
+	There is an issue with sdagb compiling drawing.s (the JP in 
+	line 32 after ".org .MODE_TABLE+4*.G_MODE" it's writing more
+	than 4 bytes invading some addresses required by input.s:41)
+	Because of this, all .s files in libc have been assembled 
+	with the old as-gbz80 and that's why it is still included
+
 gbdk3-2.96
 	* Many changes.  Code generated is now much more reliable and
 	passes all of sdcc's regression suite.  Added support for large
