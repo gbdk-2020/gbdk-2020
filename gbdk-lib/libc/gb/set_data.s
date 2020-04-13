@@ -88,7 +88,6 @@ _set_sprite_data::
 	LD	L,(HL)		; L = first_tile
 	PUSH	HL
 
-	XOR	A
 	OR	E		; Is nb_tiles == 0?
 	JR	NZ,1$
 	LD	DE,#0x1000	; DE = nb_tiles = 256
