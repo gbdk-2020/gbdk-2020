@@ -56,8 +56,6 @@ _set_win_data::
 3$:				; Special version of '.copy_vram'
 	BIT	3,H		; Bigger than 0x9800
 	JR	Z,4$
-	BIT	4,H
-	JR	Z,4$
 	RES	4,H		; Switch to 0x8800
 4$:
 	LDH	A,(.STAT)
