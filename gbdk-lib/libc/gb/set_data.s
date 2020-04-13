@@ -106,10 +106,9 @@ _set_sprite_data::
 	ADD	HL,HL
 	ADD	HL,HL
 
-	PUSH	BC
-	LD	BC,#0x8000
-	ADD	HL,BC
-	POP	BC
+	LD	A,#0x80
+	ADD	H
+	LD	H,A
 
 	CALL	.copy_vram
 
