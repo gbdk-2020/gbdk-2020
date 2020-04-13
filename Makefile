@@ -25,8 +25,6 @@ TARGETSTRIP = $(TOOLSPREFIX)strip
 # Add extra flags here.  g++ 2.95.4 requires -fdollars-in-identifiers
 TARGETCXXFLAGS =
 
-# Directory containing the source to sdcc
-#SDCCDIR = $(TOPDIR)/sdcc
 # Directory containing the source to gbdk-lib
 GBDKLIBDIR = $(TOPDIR)/gbdk-lib
 # Directory containing the source to gbdk-support
@@ -139,15 +137,22 @@ gbdk-support-clean:
 	$(MAKE) -C $(GBDKSUPPORTDIR)/lcc clean
 
 # Rules for gbdk-lib
-gbdk-lib-build:
+gbdk-lib-build: check-SDCCDIR
 ifndef CROSSCOMPILING
 	$(MAKE) -C $(GBDKLIBDIR)/libc PORTS=gbz80 PLATFORMS=gb
 endif
 
 gbdk-lib-install: gbdk-lib-build
-	cp -r $(GBDKLIBDIR)/libc $(GBDKLIBDIR)/include $(GBDKLIBDIR)/examples $(GBDKLIBDIR)/tools $(BUILDDIR)
+	cp -r $(GBDKLIBDIR)/include $(GBDKLIBDIR)/examples $(BUILDDIR)
 	rm -rf $(BUILDDIR)/lib
 	cp -r $(GBDKLIBDIR)/build $(BUILDDIR)/lib
+	rm $(BUILDDIR)/lib/small/asxxxx/gb/*.asm
+	rm $(BUILDDIR)/lib/small/asxxxx/gb/*.lst
+	rm $(BUILDDIR)/lib/small/asxxxx/gb/*.sym
+	rm $(BUILDDIR)/lib/small/asxxxx/gbz80/*.asm
+	rm $(BUILDDIR)/lib/small/asxxxx/gbz80/*.lst
+	rm $(BUILDDIR)/lib/small/asxxxx/gbz80/*.sym
+	cp $(GBDKLIBDIR)/libc/gb/global.s $(BUILDDIR)/lib/small/asxxxx/global.s
 
 gbdk-lib-clean:
 	$(MAKE) -C $(GBDKLIBDIR) clean
@@ -185,7 +190,7 @@ as-clean:
 
 
 #SDDC copy
-sdcc-install:
+sdcc-install: check-SDCCDIR
 	cp -r $(SDCCDIR) $(BUILDDIR)/bin
 
 # Final binary
@@ -205,3 +210,8 @@ binary-tidyup:
 install: native-build
 	mkdir -p $(TARGETDIR)
 	cp -r $(BUILDDIR)/* $(TARGETDIR)
+	
+check-SDCCDIR:
+ifndef SDCCDIR
+	$(error SDCCDIR is undefined)
+endif
