@@ -56,3 +56,6 @@ build/
 *.db
 gbdk-support/Debug/
 gbdk-support/
+as/bin
+link/bin
+maccer
