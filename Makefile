@@ -191,7 +191,8 @@ as-clean:
 
 #SDDC copy
 sdcc-install: check-SDCCDIR
-	cp -r $(SDCCDIR) $(BUILDDIR)/bin
+	mkdir -p $(BUILDDIR)/bin/SDCC/bin
+	cp -r $(SDCCDIR)/bin $(BUILDDIR)/bin/SDCC
 
 # Final binary
 binary: binary-tidyup
