@@ -32,7 +32,7 @@ static struct {
 } _tokens[] = {
     { "port",		"gbz80" },
     { "plat",		"gb" },
-		{ "sdccdir", "%bindir%SDCC/bin/"},
+    { "sdccdir", "%bindir%SDCC/bin/"},
     { "cpp",		"%sdccdir%sdcpp" },
     { "cppdefault", 	"-Wall -DSDCC=1 -DSDCC_PORT=%port% "
 			"-DSDCC_PLAT=%plat% -D%cppmodel%"
@@ -278,21 +278,33 @@ void finalise(void)
     buildArgs(ld, _class->ld);
 }
 
-void set_gbdk_dir(void)
+void set_gbdk_dir(char* argv_0)
 {
-#ifdef __WIN32__
     char buf[1024];
+#ifdef __WIN32__
     if (GetModuleFileName(NULL,buf, sizeof(buf)) != 0) {
-	/* Strip of the trailing bin/lcc.exe and use it as the prefix. */
-	char *p = strrchr(buf, '\\');
-	if (p) {
-	    *p = '\0';
-	    p = strrchr(buf, '\\');
-	    if (p) {
-		*++p = '\0';
-		setTokenVal("prefix", buf);
-	    }
-	}
+        /* Strip of the trailing bin/lcc.exe and use it as the prefix. */
+        char *p = strrchr(buf, '\\');
+        if (p) {
+            *p = '\0';
+            p = strrchr(buf, '\\');
+            if (p) {
+            *++p = '\0';
+            setTokenVal("prefix", buf);
+            }
+        }
+    }
+#else
+    strcpy(buf, argv_0);
+    /* Strip of the trailing bin/lcc.exe and use it as the prefix. */
+    char *p = strrchr(buf, '/');
+    if (p) {
+        *p = '\0';
+        p = strrchr(buf, '/');
+        if (p) {
+            *++p = '\0';
+            setTokenVal("prefix", buf);
+        }
     }
 #endif
 }

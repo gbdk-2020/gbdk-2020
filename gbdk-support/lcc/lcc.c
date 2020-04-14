@@ -52,7 +52,7 @@ extern int access(char *, int);
 
 extern char *cpp[], *include[], *com[], *as[],*ld[], inputs[], *suffixes[];
 extern int option(char *);
-extern void set_gbdk_dir(void);
+extern void set_gbdk_dir(char*);
 
 void finalise(void);
 
@@ -107,7 +107,7 @@ int main(int argc, char *argv[]) {
 	if (getenv("GBDKDIR"))
 	        option(stringf("--prefix=%s", getenv("GBDKDIR")));
 	else
-	    set_gbdk_dir();
+	    set_gbdk_dir(argv[0]);
 	for (nf = 0, i = j = 1; i < argc; i++) {
 		if (strcmp(argv[i], "-o") == 0) {
 			if (++i < argc) {
