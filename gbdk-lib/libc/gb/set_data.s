@@ -85,12 +85,13 @@ _set_sprite_data::
 	LD	L,(HL)		; L = first_tile
 	PUSH	HL
 
+	XOR	A
 	OR	E		; Is nb_tiles == 0?
 	JR	NZ,1$
 	LD	D,#0x10		; DE = nb_tiles = 256
 	JR	2$
 1$:
-	LD	H,#0x00		; HL = nb_tiles
+	LD	H,A		; HL = nb_tiles
 	LD	L,E
 	ADD	HL,HL		; HL *= 16
 	ADD	HL,HL
@@ -100,15 +101,13 @@ _set_sprite_data::
 	LD	E,L
 2$:
 	POP	HL		; HL = first_tile
-	LD	H,#0x00
+	LD	H,A
 	ADD	HL,HL		; HL *= 16
 	ADD	HL,HL
 	ADD	HL,HL
 	ADD	HL,HL
 
-	LD	A,#0x80
-	ADD	H
-	LD	H,A
+	SET	7,H		; add 0x8000 to HL
 
 	CALL	.copy_vram
 
