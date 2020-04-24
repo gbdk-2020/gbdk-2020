@@ -1,4 +1,5 @@
 CC	= ../../bin/lcc -Wa-l -Wl-m -Wl-j
+AS	= ../../bin/as-gbz80 -plosgff
 
 BINS	= galaxy.gb \
 	space.gb \
@@ -11,7 +12,8 @@ BINS	= galaxy.gb \
 	ram_fn.gb \
 	fonts.gb \
 	samptest.gb \
-	banks.gb
+	banks.gb \
+	new_banks.gb
 
 # sound.gb: Cant do bitfields
 OTHER = sound.gb \
@@ -74,6 +76,13 @@ bank_3.o:	bank_3.c
 #
 banks.gb:	banks.o bank_0.o bank_1.o bank_2.o bank_3.o
 	$(CC) -Wl-yt2 -Wl-yo4 -Wl-ya4 -o $@ banks.o bank_0.o bank_1.o bank_2.o bank_3.o
+
+############################################################
+# Multiple banks NEW example
+
+new_banks.gb:	new_banks.o
+	$(AS) MBC1_RAM_INIT.o MBC1_RAM_INIT.s
+	$(CC) -Wl-yt2 -Wl-yo4 -Wl-ya4 -o $@ MBC1_RAM_INIT.o new_banks.o
 
 ############################################################
 # RAM function example
