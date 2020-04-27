@@ -385,14 +385,13 @@ gsinit::
 	XOR	A
 	LD	(HL-),A
 	LD	(HL),A
-	INC	A		; Clear Z flag
 
 	;; Now do a memcpy from here until the end of the list
 	LD	D,H
 	LD	E,L
-	DEC	DE
-
 	INC	HL
+	INC	HL
+
 2$:
 	LD	A,(HL+)
 	LD	(DE),A
