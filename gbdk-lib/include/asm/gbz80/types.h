@@ -8,8 +8,8 @@
 #error gbz80 only.
 #endif
 
-#define NONBANKED
-#define BANKED
+#define NONBANKED		__nonbanked
+#define BANKED			__banked
 
 /** Signed eight bit.
  */
