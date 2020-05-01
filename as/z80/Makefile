@@ -32,25 +32,29 @@ Makefile.dep: $(SRC) *.h
 include Makefile.dep
 
 $(OBJDIR):
-	mkdir -p $(OBJDIR)
+	@echo Creating dir $(OBJDIR)
+	@mkdir -p $(OBJDIR)
 	
 $(BUILDDIR):
-	mkdir -p $(BUILDDIR)
+	@echo Creating dir $(BUILDDIR)
+	@mkdir -p $(BUILDDIR)
 
 $(BINS): $(OBJS) $(SLIBOBJS)
-	$(CC) -o $(BINS) $(OBJS) $(SLIBOBJS) $(LDFLAGS)
-
+	@echo Linking
+	@$(CC) -o $(BINS) $(OBJS) $(SLIBOBJS) $(LDFLAGS)
 
 $(OBJDIR)/%.o:	%.c
-	$(CC) -c $(CFLAGS) -o $@ $<
+	@echo compiling $<
+	@$(CC) -c $(CFLAGS) -o $@ $<
 
 $(OBJDIR)/%.o:	$(SLIB)/%.c
-	$(CC) -c $(CFLAGS) -o $@ $<
+	@echo compiling $<
+	@$(CC) -c $(CFLAGS) -o $@ $<
 
 _as-z80:
-	$(MAKE) EXT=-z80$(E)
+	@$(MAKE) EXT=-z80$(E)
 
 _as-gbz80:
-	$(MAKE) EXT=-gbz80$(E) OPTS=-DGAMEBOY
+	@$(MAKE) EXT=-gbz80$(E) OPTS=-DGAMEBOY
 
 include clean.mk

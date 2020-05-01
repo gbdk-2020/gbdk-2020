@@ -5,7 +5,7 @@ TARGETDIR = /opt/gbdk
 endif
 
 CC = $(TOOLSPREFIX)gcc
-CFLAGS = -ggdb -O -Wall -DGBDKLIBDIR=\"$(TARGETDIR)\"
+CFLAGS = -ggdb -O -Wno-incompatible-pointer-types -DGBDKLIBDIR=\"$(TARGETDIR)\"
 OBJ = lcc.o gb.o
 BIN = lcc
 

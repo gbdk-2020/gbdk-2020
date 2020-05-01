@@ -24,24 +24,29 @@ LDFLAGS += -lm $(EXTRALIBS)
 all:	$(BINS)
 
 $(BINS): $(OBJDIR) $(BUILDDIR) $(OBJS) $(SLIBOBJS)
-	$(CC) -g -o $(BINS) $(OBJS) $(SLIBOBJS) $(LDFLAGS)
+	@echo Linking
+	@$(CC) -g -o $(BINS) $(OBJS) $(SLIBOBJS) $(LDFLAGS)
 
 $(OBJDIR):
-	mkdir -p $(OBJDIR)
+	@echo Creating dir $(OBJDIR)
+	@mkdir -p $(OBJDIR)
 	
 $(BUILDDIR):
-	mkdir -p $(BUILDDIR)
+	@echo Creating dir $(BUILDDIR)
+	@mkdir -p $(BUILDDIR)
 
 $(OBJDIR)/%.o:	%.c
-	$(CC) -c $(CFLAGS) -o $@ $<
+	@echo compiling $<
+	@$(CC) -c $(CFLAGS) -o $@ $<
 
 $(OBJDIR)/%.o:	$(SLIB)/%.c
-	$(CC) -c $(CFLAGS) -o $@ $<
+	@echo compiling $<
+	@$(CC) -c $(CFLAGS) -o $@ $<
 
 _link-z80:
-	$(MAKE) EXT=-z80$(E) PORT=z80
+	@$(MAKE) EXT=-z80$(E) PORT=z80
 
 _link-gbz80:
-	$(MAKE) EXT=-gbz80$(E) OPTS=-DGAMEBOY PORT=z80
+	@$(MAKE) EXT=-gbz80$(E) OPTS=-DGAMEBOY PORT=z80
 
 include clean.mk

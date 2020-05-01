@@ -48,7 +48,7 @@ transform       = s,$$,,;
 
 DEFS            = $(subs -DHAVE_CONFIG_H,,-DHAVE_CONFIG_H)
 CPPFLAGS        = $(INCLUDEFLAGS) -I. -I$(PRJDIR) -I$(SLIB)
-CFLAGS          = -ggdb -O2 -pipe -Wall
+CFLAGS          = -ggdb -O2 -pipe -Wall -Wno-implicit-int -Wno-pointer-sign
 M_OR_MM         = -MM
 
 EXTRALIBS	= 

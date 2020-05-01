@@ -877,8 +877,7 @@ void print_token_chain(pmtoken current_token, pmmacro first_macro, pmdefine firs
 {
     int dont_print = 0;
 
-    pmmacro current_macro, scan_macro;
-    current_macro = first_macro;
+    pmmacro scan_macro;
 
     while (current_token) {
 	if (current_token->state == RST) {

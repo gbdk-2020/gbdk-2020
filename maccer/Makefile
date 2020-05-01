@@ -15,7 +15,8 @@ PREFIX	?= /usr/local/bin
 all: $(BIN)
 
 $(BIN): $(OBJS)
-	$(CC) $(LDFLAGS) -o $(BIN) $(OBJS) $(LDADD)
+	@echo Linking
+	@$(CC) $(LDFLAGS) -o $(BIN) $(OBJS) $(LDADD)
 
 clean:
 	rm -f $(BIN) $(BIN).exe $(OBJS) *~

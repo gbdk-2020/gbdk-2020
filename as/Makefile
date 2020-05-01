@@ -8,10 +8,12 @@ ifeq ($(OS),Windows_NT)
 endif
 
 all:
-	$(MAKE) -C z80 _as-gbz80 E=$(E) BUILDDIR=../bin/
+	@echo Building as-gbz80
+	@$(MAKE) -C z80 _as-gbz80 E=$(E) BUILDDIR=../bin/
 
 install: all
-	$(INSTALL) $(PRJDIR)/bin/as-gbz80 `echo $(BUILDDIR)/bin/as-gbz80|sed '$(transform)'`
-	$(STRIP) `echo $(BUILDDIR)/bin/as-gbz80$(EXT)|sed '$(transform)'`
+	@echo Installing link-gbz80
+	@$(INSTALL) $(PRJDIR)/bin/as-gbz80 `echo $(BUILDDIR)/bin/as-gbz80|sed '$(transform)'`
+	@$(STRIP) `echo $(BUILDDIR)/bin/as-gbz80$(EXT)|sed '$(transform)'`
 
 include clean.mk

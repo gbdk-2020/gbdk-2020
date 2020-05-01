@@ -48,7 +48,7 @@ TARGETOS = ppc-unknown-linux2.2
 # Directory that gbdk should finally end up in
 TARGETDIR = /opt/gbdk
 # Directory that gbdk for this target is built into.
-BUILDDIR = $(TOPDIR)/build/$(TARGETOS)/gbdk
+BUILDDIR = $(TOPDIR)/build/gbdk
 
 NOISELOG = $(TOPDIR)/noise.log
 
@@ -102,7 +102,8 @@ gbdk-install: build-bin-dir as-install linker-install gbdk-support-install gbdk-
 
 # Directories
 build-bin-dir:
-	mkdir -p $(BUILDDIR)/bin
+	@echo Creating dir $(BUILDDIR)/bin
+	@mkdir -p $(BUILDDIR)/bin
 
 build-dir-clean:
 	rm -r $(BUILDDIR)
@@ -126,36 +127,50 @@ setup-from-cvs:
 
 # Rules for gbdk-support
 gbdk-support-build:
-	$(MAKE) -C $(GBDKSUPPORTDIR)/lcc TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/
+	@echo Building lcc
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/lcc TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
+	@echo
 
 gbdk-support-install: gbdk-support-build build-bin-dir
-	cp $(GBDKSUPPORTDIR)/lcc/lcc $(BUILDDIR)/bin/lcc$(EXEEXTENSION)
-	$(TARGETSTRIP) $(BUILDDIR)/bin/lcc*
-	cp $(GBDKSUPPORTDIR)/ChangeLog $(BUILDDIR)
+	@echo Installing lcc
+	@cp $(GBDKSUPPORTDIR)/lcc/lcc $(BUILDDIR)/bin/lcc$(EXEEXTENSION)
+	@$(TARGETSTRIP) $(BUILDDIR)/bin/lcc*
+	@cp $(GBDKSUPPORTDIR)/ChangeLog $(BUILDDIR)
+	@echo
 
 gbdk-support-clean:
-	$(MAKE) -C $(GBDKSUPPORTDIR)/lcc clean
+	@echo Cleaning lcc
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/lcc clean --no-print-directory
+	@echo 
 
 # Rules for gbdk-lib
 gbdk-lib-build: check-SDCCDIR
 ifndef CROSSCOMPILING
-	$(MAKE) -C $(GBDKLIBDIR)/libc PORTS=gbz80 PLATFORMS=gb
+	@echo Building lib
+	@$(MAKE) -C $(GBDKLIBDIR)/libc PORTS=gbz80 PLATFORMS=gb --no-print-directory
+	@echo
 endif
 
 gbdk-lib-install: gbdk-lib-build
-	cp -r $(GBDKLIBDIR)/include $(GBDKLIBDIR)/examples $(BUILDDIR)
-	rm -rf $(BUILDDIR)/lib
-	cp -r $(GBDKLIBDIR)/build $(BUILDDIR)/lib
-	rm $(BUILDDIR)/lib/small/asxxxx/gb/*.asm
-	rm $(BUILDDIR)/lib/small/asxxxx/gb/*.lst
-	rm $(BUILDDIR)/lib/small/asxxxx/gb/*.sym
-	rm $(BUILDDIR)/lib/small/asxxxx/gbz80/*.asm
-	rm $(BUILDDIR)/lib/small/asxxxx/gbz80/*.lst
-	rm $(BUILDDIR)/lib/small/asxxxx/gbz80/*.sym
-	cp $(GBDKLIBDIR)/libc/gb/global.s $(BUILDDIR)/lib/small/asxxxx/global.s
+	@echo Installing Examples
+	@cp -r $(GBDKLIBDIR)/include $(GBDKLIBDIR)/examples $(BUILDDIR)
+	@echo
+	@echo Installing lib
+	@rm -rf $(BUILDDIR)/lib
+	@cp -r $(GBDKLIBDIR)/build $(BUILDDIR)/lib
+	@rm $(BUILDDIR)/lib/small/asxxxx/gb/*.asm
+	@rm $(BUILDDIR)/lib/small/asxxxx/gb/*.lst
+	@rm $(BUILDDIR)/lib/small/asxxxx/gb/*.sym
+	@rm $(BUILDDIR)/lib/small/asxxxx/gbz80/*.asm
+	@rm $(BUILDDIR)/lib/small/asxxxx/gbz80/*.lst
+	@rm $(BUILDDIR)/lib/small/asxxxx/gbz80/*.sym
+	@cp $(GBDKLIBDIR)/libc/gb/global.s $(BUILDDIR)/lib/small/asxxxx/global.s
+	@echo
 
 gbdk-lib-clean:
-	$(MAKE) -C $(GBDKLIBDIR) clean
+	@echo Cleaning lib
+	@$(MAKE) -C $(GBDKLIBDIR) clean
+	@echo
 
 gbdk-lib-examples-makefile:
 	$(MAKE) -C $(BUILDDIR)/examples/gb make.bat
@@ -163,36 +178,52 @@ gbdk-lib-examples-makefile:
 
 # Rules for maccer
 maccer-build:
-	$(MAKE) -C $(MACCERDIR) BUILDDIR=$(BUILDDIR)
+	@echo Building Maccer
+	@$(MAKE) -C $(MACCERDIR) BUILDDIR=$(BUILDDIR) --no-print-directory
+	@echo 
 	
 maccer-clean:
-	$(MAKE) -C $(MACCERDIR) clean
+	@echo Cleaning Maccer
+	@$(MAKE) -C $(MACCERDIR) clean --no-print-directory
+	@echo
 	
 #rules for linker
 linker-build:
-	$(MAKE) -C $(LINKERDIR)
+	@echo Building Linker
+	@$(MAKE) -C $(LINKERDIR) --no-print-directory
+	@echo
 	
 linker-install:
-	$(MAKE) -C $(LINKERDIR) install BUILDDIR=$(BUILDDIR)
+	@echo Installing Linker
+	@$(MAKE) -C $(LINKERDIR) install BUILDDIR=$(BUILDDIR) --no-print-directory
+	@echo
 
 linker-clean:
-	$(MAKE) -C $(LINKERDIR) clean
+	@echo Cleaning Linker
+	@$(MAKE) -C $(LINKERDIR) clean --no-print-directory
+	@echo
 	
 #rules for assembler
 as-build:
-	$(MAKE) -C $(ASDIR)
+	@echo Building Assembler
+	@$(MAKE) -C $(ASDIR) --no-print-directory
+	@echo
 	
 as-install:
-	$(MAKE) -C $(ASDIR) install BUILDDIR=$(BUILDDIR)
+	@echo Installing Assembler  
+	@$(MAKE) -C $(ASDIR) install BUILDDIR=$(BUILDDIR) --no-print-directory
+	@echo
 
 as-clean:
-	$(MAKE) -C $(ASDIR) clean
-
+	@echo Cleaning Assembler
+	@$(MAKE) -C $(ASDIR) clean --no-print-directory
+	@echo
 
 #SDDC copy
 sdcc-install: check-SDCCDIR
-	mkdir -p $(BUILDDIR)/bin/SDCC/bin
-	cp -r $(SDCCDIR)/bin $(BUILDDIR)/bin/SDCC
+	@echo Installing SDCC
+	@mkdir -p $(BUILDDIR)/bin/SDCC/bin
+	@cp -r $(SDCCDIR)/bin $(BUILDDIR)/bin/SDCC
 
 # Final binary
 binary: binary-tidyup
