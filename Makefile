@@ -165,6 +165,8 @@ gbdk-lib-install: gbdk-lib-build
 	@rm $(BUILDDIR)/lib/small/asxxxx/gbz80/*.lst
 	@rm $(BUILDDIR)/lib/small/asxxxx/gbz80/*.sym
 	@cp $(GBDKLIBDIR)/libc/gb/global.s $(BUILDDIR)/lib/small/asxxxx/global.s
+	@echo Generating make.bat
+	@$(MAKE) -C $(BUILDDIR)/examples/gb make.bat --no-print-directory
 	@echo
 
 gbdk-lib-clean:
