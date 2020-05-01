@@ -2,6 +2,14 @@
 
 .EXPORT_ALL_VARIABLES:
 
+ifeq ($(PORTS),)
+	PORTS = gbz80
+endif
+
+ifeq ($(PLATFORMS),)
+	PLATFORMS = gb
+endif
+
 TOPDIR = ..
 
 CSRC =	abs.c atoi.c atol.c isalpha.c isdigit.c \
