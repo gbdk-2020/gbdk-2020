@@ -13,6 +13,9 @@
  * Extensions: P. Felber
  */
 #include <limits.h>
+#ifndef PATH_MAX
+#define PATH_MAX 4096 
+#endif
 
 #define	VERSION	"V01.75"
 

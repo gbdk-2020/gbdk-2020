@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="z80\lkarea.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="z80\lkdata.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="z80\lkeval.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="z80\lkgb.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="z80\lkgg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="z80\lkhead.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="z80\lkihx.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="z80\lklex.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="z80\lklibr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="z80\lklist.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="z80\lkmain.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="z80\lkrloc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="z80\lks19.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="z80\lksym.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="support\Util\NewAlloc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="z80\aslink.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="support\Util\newalloc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
