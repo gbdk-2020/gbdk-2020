@@ -308,8 +308,10 @@ char *concat(const char *s1, const char *s2) {
 /* compile - compile src into dst, return status */
 static int compile(char *src, char *dst) {
 	compose(com, clist, append(src, 0), append(dst, 0));
-	freopen(src, "r", stdin);
-	return callsys(av);
+	FILE* file = freopen(src, "r", stdin);
+	int ret = callsys(av);
+	fclose(file);
+	return ret;
 }
 
 /* compose - compose cmd into av substituting a, b, c for $1, $2, $3, resp. */
