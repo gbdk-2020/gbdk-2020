@@ -408,7 +408,7 @@ static int filename(char *name, char *base) {
 			break;
 		}
 		if (itemp == NULL)
-			itemp =  tempname(first(suffixes[1]));
+			itemp = tempname(first(suffixes[1]));
 		compose(cpp, plist, append(name, 0), append(itemp, 0));
 		status = callsys(av);
 		if (status == 0)
@@ -419,7 +419,7 @@ static int filename(char *name, char *base) {
 			break;
 		if (Sflag)
 			status = compile(name, outfile ? outfile : concat(base, first(suffixes[2])));
-		else if ((status = compile(name, stemp?stemp:(stemp=concat(base,first(suffixes[2]))))) == 0)
+		else if ((status = compile(name, stemp?stemp:(stemp=tempname(first(suffixes[2]))))) == 0)
 			return filename(stemp, base);
 		break;
 	case 2:	/* assembly language files */
@@ -794,8 +794,7 @@ int suffix(char *name, char *tails[], int n) {
 	return -1;
 }
 
-// tempname - generates a temporary file name in tempdir with given suffix 
-// and adds it to the remove list 
+/* tempname - generate a temporary file name in tempdir with given suffix */
 char *tempname(char *suffix) {
 	static int n;
 	char *name = stringf("%s/lcc%d%d%s", tempdir, getpid(), n++, suffix);
