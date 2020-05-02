@@ -36,7 +36,7 @@
 	.globl	.del_char
 	.globl	.cury
 
-	.area	_HEADER (ABS)
+	.area	_INPUT_HEADER (ABS)
 
 	.org	.MODE_TABLE+4*.T_MODE_INOUT
 	JP	.tmode_inout
