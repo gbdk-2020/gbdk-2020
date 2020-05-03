@@ -22,11 +22,7 @@ SCC = 	$(SDCCLIB)/bin/sdcc
 GBCC = 	$(SDCCLIB)/bin/lcc
 
 AS_Z80 = $(SDCCLIB)/bin/sdasz80
-ifeq ($(RGBDS),1)
-AS_GBZ80 = rgbasm
-else
-AS_GBZ80 = sdasgb
-endif
+AS_GBZ80 = $(SDCCLIB)/bin/sdasgb
 
 CLEANSPEC = *.o *.cdb *.sym *.lst *~ *.asm
 

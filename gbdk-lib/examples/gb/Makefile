@@ -1,5 +1,5 @@
 CC	= ../../bin/lcc -Wa-l -Wl-m -Wl-j
-AS	= ../../bin/as-gbz80 -plosgff
+AS	= ../../bin/sdcc/bin/sdasgb -plosgff
 
 BINS	= galaxy.gb \
 	space.gb \
