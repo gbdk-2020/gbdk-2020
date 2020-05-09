@@ -4,6 +4,9 @@
 #include <sstream>
 #include <map>
 
+//Object file format is specified in this link
+//https://github.com/whitequark/sdcc/blob/master/sdcc/sdas/doc/format.txt
+
 struct Line{
 	std::vector< std::string > words;
 };
@@ -36,6 +39,18 @@ std::string IntToHexStr(int value)
 	return stream.str();
 }
 
+bool EndsWith(const std::string& fullString, const std::string& ending){
+	if (fullString.length() >= ending.length()) {
+		return (0 == fullString.compare (fullString.length() - ending.length(), ending.length(), ending));
+	} else {
+		return false;
+	}
+}
+
+bool StartsWith(const std::string& fullString, const std::string& start){
+	return fullString.find(start) == 0;
+}
+
 struct Symbol {
 public:
 	std::string path;
@@ -61,7 +76,7 @@ public:
 
 std::map< std::string, Symbol > symbols;
 
-File Parse(const char* path) {
+File Parse(const std::string& path) {
 	std::string line;
 	File ret;
 	ret.path = path;
@@ -92,9 +107,9 @@ File Parse(const char* path) {
 void Write(const File& _file) {
 	std::ofstream file(_file.path);
 	if(file.is_open()) {
-		for(int line_idx = 0; line_idx < _file.lines.size(); ++ line_idx) {
+		for(size_t line_idx = 0; line_idx < _file.lines.size(); ++ line_idx) {
 			const Line& line = _file.lines[line_idx];
-			for(int word_idx = 0; word_idx < line.words.size(); ++ word_idx) {
+			for(size_t word_idx = 0; word_idx < line.words.size(); ++ word_idx) {
 				if(word_idx != 0) {
  					file << ' ';
 				}
@@ -145,7 +160,9 @@ Symbol GetOrAddSymbol(const std::string symbol_name) {
 }
 
 void FixBankedCall(File& file) {
-	if(file.lines[0].words[0] != "XL2")
+	// see https://github.com/whitequark/sdcc/blob/master/sdcc/sdas/doc/asmlnk.txt
+	// 3.6  ASXXXX VERSION 3.XX LINKING 
+	if(file.lines[0].words[0] != "XL2" && file.lines[0].words[0] != "XL")
 	{
 		printf("Error: Format(%s) Only XL2 format is supported\n", file.lines[0].words[0].c_str());
 		return;
@@ -226,8 +243,12 @@ void FixBankedCall(File& file) {
 						}
 
 						//Patch
-						file.lines[patch_line].words[byte_idx] = IntToHexStr(symbol->GetBank());
-						file.touched = true;
+						std::string& patch_word = file.lines[patch_line].words[byte_idx];
+						std::string patch_value = IntToHexStr(symbol->GetBank());
+						if(patch_word != patch_value) {
+							patch_word = patch_value;
+							file.touched = true;
+						}
 					}
 
 					far_call_detected = false;
@@ -237,10 +258,34 @@ void FixBankedCall(File& file) {
 	}
 }
 
-void main(int argc, char* argv[]){
+void far_fix(int argc, char* argv[]){
+	std::vector< std::string > lib_paths; 
+
 	//Parse files
 	for(int i = 1; i < argc; ++ i) {
-		files.push_back(Parse(argv[i]));
+		std::string param(argv[i]);
+
+		//Parse .o files
+		if(EndsWith(param, ".o")) {
+			files.push_back(Parse(argv[i]));
+		} else if(StartsWith(param, "-k")) {
+			lib_paths.push_back(param.substr(2));
+		} else if(StartsWith(param, "-l")) {
+			for(size_t p = 0; p < lib_paths.size(); ++p) {
+				File f = Parse(lib_paths[p] + "/" + param.substr(2));
+				if(f.lines.size()) { //lib path found
+					//Parse content (each line is a .o file)
+					for(size_t l = 0; l < f.lines.size(); ++ l) {
+						Line& line = f.lines[l];
+						if(EndsWith(line.words[0], ".o")) {
+							files.push_back(Parse(lib_paths[p] + "/" + line.words[0]));
+						}
+					}
+
+					break;
+				}
+			}
+		}
 	}
 
 	//Load symbols from all files
@@ -250,7 +295,9 @@ void main(int argc, char* argv[]){
 
 	//Fix files
 	for(size_t i = 0; i < files.size(); ++i) {
-		FixBankedCall(files[i]);
+		if(files[i].path.find("crt0.o") == -1) { //Don't patch crt0.o (because banked call is defined there)
+			FixBankedCall(files[i]);
+		}
 	}
 
 	//Write fixed files
@@ -259,4 +306,8 @@ void main(int argc, char* argv[]){
 			Write(files[i]);
 		}
 	}
+}
+
+void main(int argc, char* argv[]){
+	far_fix(argc, argv);
 }
