@@ -11,6 +11,9 @@
 	.org	0x00
 	RET			; Empty function (default for interrupts)
 
+    .org    0x08
+    JP      .profiler_message
+    
 	.org	0x10
 	.byte	0x80,0x40,0x20,0x10,0x08,0x04,0x02,0x01
 	.byte	0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80
@@ -72,6 +75,14 @@
 3$:
 	JP	(HL)
 
+	;; BGB profiler message
+.profiler_message:
+    LD      D, D
+    JR      1$
+    .dw     0x6464
+    .dw     0
+    .ascii "PROFILE,%(SP+$0)%,%(SP+$1)%,%A%,%TOTALCLKS%"
+1$: RET
 	;; GameBoy Header
 
 	;; DO NOT CHANGE...
