@@ -24,6 +24,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="support\Util\NewAlloc.c" />
+    <ClCompile Include="z80\far_fixer.cpp" />
     <ClCompile Include="z80\lkarea.c" />
     <ClCompile Include="z80\lkdata.c" />
     <ClCompile Include="z80\lkeval.c" />

@@ -56,6 +56,9 @@
     <ClCompile Include="support\Util\NewAlloc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="z80\far_fixer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="z80\aslink.h">

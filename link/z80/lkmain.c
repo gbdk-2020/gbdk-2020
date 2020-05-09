@@ -158,12 +158,16 @@ char *default_globlp[] = {
 };
 #endif /* GAMEBOY */
 
+void far_fix(int argc, char* argv[]);
+
 int
 main(argc, argv)
 char *argv[];
 {
 	register char *p;
 	register int c, i;
+
+	far_fix(argc, argv);
 
 #ifdef GAMEBOY
 	nb_rom_banks = 2;

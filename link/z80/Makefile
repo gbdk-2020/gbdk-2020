@@ -8,10 +8,13 @@ SLIBSRC	= NewAlloc.c
 
 SRC	= lkarea.c lkdata.c lkeval.c lkhead.c lkihx.c lklex.c \
 	  lklibr.c lklist.c lkmain.c lkrloc.c lks19.c lksym.c \
-	  lkgb.c lkgg.c
+	  lkgb.c lkgg.c 
+	  
+SRC_CPP = far_fixer.cpp
 
 OBJS	= $(SRC:%.c=$(OBJDIR)/%.o) 
 SLIBOBJS	= $(SLIBSRC:%.c=$(OBJDIR)/%.o) 
+SCPPOBJS = $(SRC_CPP:%.cpp=$(OBJDIR)/%.o) 
 
 BINS	= $(BUILDDIR)link$(EXT)
 
@@ -23,9 +26,9 @@ LDFLAGS += -lm $(EXTRALIBS)
 
 all:	$(BINS)
 
-$(BINS): $(OBJDIR) $(BUILDDIR) $(OBJS) $(SLIBOBJS)
+$(BINS): $(OBJDIR) $(BUILDDIR) $(OBJS) $(SLIBOBJS) $(SCPPOBJS)
 	@echo Linking
-	@$(CC) -g -o $(BINS) $(OBJS) $(SLIBOBJS) $(LDFLAGS)
+	@g++ -static-libstdc++ -g -o $(BINS) $(OBJS) $(SLIBOBJS) $(SCPPOBJS) $(LDFLAGS)
 
 $(OBJDIR):
 	@echo Creating dir $(OBJDIR)
@@ -38,6 +41,10 @@ $(BUILDDIR):
 $(OBJDIR)/%.o:	%.c
 	@echo compiling $<
 	@$(CC) -c $(CFLAGS) -o $@ $<
+
+$(OBJDIR)/%.o:	%.cpp
+	@echo compiling $<
+	@g++ -c -o $@ $<
 
 $(OBJDIR)/%.o:	$(SLIB)/%.c
 	@echo compiling $<

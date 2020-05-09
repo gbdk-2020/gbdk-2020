@@ -1,8 +1,10 @@
 #include <string>
 #include <vector>
+#include <iostream>
 #include <fstream>
 #include <sstream>
 #include <map>
+#include <stdlib.h>
 
 //Object file format is specified in this link
 //https://github.com/whitequark/sdcc/blob/master/sdcc/sdas/doc/format.txt
@@ -81,7 +83,7 @@ File Parse(const std::string& path) {
 	File ret;
 	ret.path = path;
 	
-	std::fstream file(path);
+	std::fstream file(path.c_str());
 	if(file.is_open()){
 		while(!file.eof()) {
 			getline(file, line);
@@ -105,7 +107,7 @@ File Parse(const std::string& path) {
 }
 
 void Write(const File& _file) {
-	std::ofstream file(_file.path);
+	std::ofstream file(_file.path.c_str());
 	if(file.is_open()) {
 		for(size_t line_idx = 0; line_idx < _file.lines.size(); ++ line_idx) {
 			const Line& line = _file.lines[line_idx];
@@ -258,6 +260,8 @@ void FixBankedCall(File& file) {
 	}
 }
 
+extern "C" void far_fix(int argc, char* argv[]);
+
 void far_fix(int argc, char* argv[]){
 	std::vector< std::string > lib_paths; 
 
@@ -308,6 +312,3 @@ void far_fix(int argc, char* argv[]){
 	}
 }
 
-void main(int argc, char* argv[]){
-	far_fix(argc, argv);
-}
