@@ -249,7 +249,7 @@
 	.if __RGBDS__
 	.dw	BANK(_main)
 	.else
-	.dw	1
+	.dw	0
 	.endif
 _exit::	
 99$:
