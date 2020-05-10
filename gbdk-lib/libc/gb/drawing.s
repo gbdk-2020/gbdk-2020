@@ -27,7 +27,7 @@
 	;; 7 6 5 4 3 2 1 0
 	;;   mode  fg  bg
 
-	.area   _HEADER (ABS)
+	.area   _DRAW_HEADER (ABS)
 
 	.org    .MODE_TABLE+4*.G_MODE
 	JP      .gmode

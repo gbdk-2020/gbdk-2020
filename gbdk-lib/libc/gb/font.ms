@@ -31,7 +31,7 @@
 	; Maximum number of fonts
 	.MAX_FONTS		= 	6
 
-	.area	_HEADER (ABS)
+	.area	_FONT_HEADER (ABS)
 
 	.org	.MODE_TABLE+4*.T_MODE
 	JP	.tmode
