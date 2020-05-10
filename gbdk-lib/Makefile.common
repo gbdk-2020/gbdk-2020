@@ -25,7 +25,7 @@ AS_Z80 = $(SDCCLIB)/bin/sdasz80
 ifeq ($(RGBDS),1)
 AS_GBZ80 = rgbasm
 else
-AS_GBZ80 = $(TOPDIR)/../as/bin/as-gbz80
+AS_GBZ80 = $(SDCCLIB)/bin/sdasgb
 endif
 
 CLEANSPEC = *.o *.cdb *.sym *.lst *~ *.asm
