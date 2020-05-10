@@ -234,9 +234,9 @@ void FixBankedCall(File& file) {
 						int patch_line = l - 1;
 						byte_idx += 2; //currently pointing to the first byte of a short value 
 						//Locate the line to make the patch
-						while(byte_idx > file.lines[patch_line].words.size()) {
+						while(byte_idx >= file.lines[patch_line].words.size()) {
 							byte_idx -= file.lines[patch_line].words.size();
-							byte_idx += 1; //each new line adds 1 extra char 'T' at the beggining
+							byte_idx += 3; //each new line adds 3 extra char at the beggining T XX XX 
 						
 							//Search next line "T"
 							do {
@@ -270,7 +270,7 @@ void far_fix(int argc, char* argv[]){
 		std::string param(argv[i]);
 
 		//Parse .o files
-		if(EndsWith(param, ".o")) {
+		if(EndsWith(param, ".o") || EndsWith(param, ".rel")) {
 			files.push_back(Parse(argv[i]));
 		} else if(StartsWith(param, "-k")) {
 			lib_paths.push_back(param.substr(2));
