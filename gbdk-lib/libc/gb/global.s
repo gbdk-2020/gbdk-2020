@@ -114,14 +114,20 @@
 
 	.if .NEAR_CALLS
 	.BANKOV		= 2
-
 	.else
 	.BANKOV		= 6
-
 	.endif
-	
+
+	.globl  __current_bank
+	.globl  .hram_tramp
+	.globl	__tramp_proc
+	.globl	__tramp_bank
+
 	.globl	banked_call
 	.globl	banked_ret
+	.globl  __banked_call	
+	.globl	__banked_ret
+	.globl	__hram_banked_call
 	
 	;; Global variables
 	.globl	.mode

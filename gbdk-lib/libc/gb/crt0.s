@@ -11,8 +11,8 @@
 	.org	0x00
 	RET			; Empty function (default for interrupts)
 
-    .org    0x08
-    JP      .profiler_message
+	.org	0x08
+	JP	.profiler_message
     
 	.org	0x10
 	.byte	0x80,0x40,0x20,0x10,0x08,0x04,0x02,0x01
@@ -77,12 +77,13 @@
 
 	;; BGB profiler message
 .profiler_message:
-    LD      D, D
-    JR      1$
-    .dw     0x6464
-    .dw     0
-    .ascii "PROFILE,%(SP+$0)%,%(SP+$1)%,%A%,%TOTALCLKS%"
-1$: RET
+	LD	D, D
+	JR	1$
+	.dw	0x6464
+	.dw	0
+	.ascii "PROFILE,%(SP+$0)%,%(SP+$1)%,%A%,%TOTALCLKS%,%ROMBANK%,%WRAMBANK%"
+1$:	RET
+
 	;; GameBoy Header
 
 	;; DO NOT CHANGE...
@@ -199,6 +200,8 @@
 	DEC	B
 	JR	NZ,4$
 
+	call	.create_hram_trampoline
+
 	;; Install interrupt routines
 	LD	BC,#.vbl
 	CALL	.add_VBL
@@ -306,8 +309,6 @@ __io_status::
 	.ds	0x01		; Status of serial IO
 .vbl_done::
 	.ds	0x01		; Is VBL interrupt finished?
-__current_bank::
-	.ds	0x01		; Current MBC1 style bank.
 .sys_time::
 _sys_time::
 	.ds	0x02		; System time in VBL units
@@ -321,6 +322,18 @@ _sys_time::
 	.blkw	0x08
 .int_0x60::
 	.blkw	0x08
+
+	.area	_HRAM (ABS)
+
+	.org	0xFF90
+__current_bank::	; Current bank
+	.ds	0x01
+.hram_tramp::
+	.ds	0x03	; call
+__tramp_proc::
+	.ds	0x02
+__tramp_bank::
+	.ds	0x02
 
 	;; Runtime library
 	.area	_GSINIT
@@ -690,14 +703,10 @@ __printTStates::
 	;;   .dw low
 	;;   .dw bank
 	;;   remainder of the code
-	;; Total m-cycles:
-	;;	3+4+4 + 2+2+2+2+2+2 + 4+4+ 3+4+1+1+1
-	;;      = 41 for the call
-	;;	3+3+4+4+1
-	;;	= 15 for the ret
+__banked_call::
 banked_call::
 	pop	hl		; Get the return address
-	ld	a,(__current_bank)
+	ldh	a,(__current_bank)
 	push	af		; Push the current bank onto the stack
 	ld	e,(hl)		; Fetch the call address
 	inc	hl
@@ -706,7 +715,7 @@ banked_call::
 	ld	a,(hl+)		; ...and page
 	inc	hl		; Yes this should be here
 	push	hl		; Push the real return address
-	ld	(__current_bank),a
+	ldh	(__current_bank),a
 	ld	(.MBC1_ROM_PAGE),a	; Perform the switch
 	ld	hl,#banked_ret	; Push the fake return address
 	push	hl
@@ -714,12 +723,46 @@ banked_call::
 	ld	h,d
 	jp	(hl)
 
+__banked_ret::
 banked_ret::
 	pop	hl		; Get the return address
 	pop	af		; Pop the old bank
 	ld	(.MBC1_ROM_PAGE),a
-	ld	(__current_bank),a
+	ldh	(__current_bank),a
 	jp	(hl)
-		
+
+__hram_banked_call::
+	pop	hl
+	pop	de      
+	ldh	a,(__current_bank)
+	push	af		; push the current bank onto the stack
+
+	push	de
+    
+	ld	a, (hl+)	; fetch the call address
+	ld	e, a
+	ld	a, (hl+)
+	ld	d, a
+	
+	ld	a, (hl)
+	ldh	(__current_bank),a
+	ld	(.MBC1_ROM_PAGE),A	; Perform the switch
+
+	ld	hl,#banked_ret	; push the fake return address
+	push	hl
+	ld	l,e
+	ld	h,d
+	jp	(hl)
+
+.create_hram_trampoline:
+	;; Create hirem_trampoline stub in HIRAM
+	ld	A, #0xCD
+	ldh	(#.hram_tramp), A
+	ld	A, #<__hram_banked_call
+	ldh	(#.hram_tramp+1), A
+	ld	A, #>__hram_banked_call
+	ldh	(#.hram_tramp+2), A
+	ret
+
 	.area	_HEAP
 _malloc_heap_start::
