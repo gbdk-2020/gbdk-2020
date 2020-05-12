@@ -732,36 +732,32 @@ banked_ret::
 	jp	(hl)
 
 __hram_banked_call::
-	pop	hl
 	pop	de      
 	ldh	a,(__current_bank)
 	push	af		; push the current bank onto the stack
 
 	push	de
-    
-	ld	a, (hl+)	; fetch the call address
-	ld	e, a
-	ld	a, (hl+)
-	ld	d, a
-	
-	ld	a, (hl)
+    	
+	ldh	a, (__tramp_bank)
 	ldh	(__current_bank),a
-	ld	(.MBC1_ROM_PAGE),A	; Perform the switch
+	ld	(.MBC1_ROM_PAGE),a	; Perform the switch
 
 	ld	hl,#banked_ret	; push the fake return address
 	push	hl
-	ld	l,e
-	ld	h,d
+	ldh	a,(__tramp_proc)
+	ld	l,a
+	ldh     a,(__tramp_proc+1)
+	ld	h,a
 	jp	(hl)
 
 .create_hram_trampoline:
 	;; Create hirem_trampoline stub in HIRAM
-	ld	A, #0xCD
-	ldh	(#.hram_tramp), A
+	ld	a, #0xC3
+	ldh	(#.hram_tramp), a
 	ld	A, #<__hram_banked_call
-	ldh	(#.hram_tramp+1), A
+	ldh	(#.hram_tramp+1), a
 	ld	A, #>__hram_banked_call
-	ldh	(#.hram_tramp+2), A
+	ldh	(#.hram_tramp+2), a
 	ret
 
 	.area	_HEAP
