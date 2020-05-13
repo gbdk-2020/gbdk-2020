@@ -17,6 +17,7 @@ ASSRC =	cgb.s cpy_data.s drawing.s f_ibm_sh.s \
 	sgb.s font.s delay.s \
 	rand.s arand.s \
 	__sdcc_call_hl.s div.s mul.s \
+	bgb_emu.s \
 	crt0.s
 
 ifeq ($(ASM),asxxxx)
