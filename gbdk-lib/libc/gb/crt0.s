@@ -295,8 +295,6 @@ __io_status::
 	.ds	0x01		; Status of serial IO
 .vbl_done::
 	.ds	0x01		; Is VBL interrupt finished?
-__current_bank::
-	.ds	0x01		; Current MBC1 style bank.
 .sys_time::
 _sys_time::
 	.ds	0x02		; System time in VBL units
@@ -310,6 +308,12 @@ _sys_time::
 	.blkw	0x08
 .int_0x60::
 	.blkw	0x08
+
+	.area	_HRAM (ABS)
+
+	.org	0xFF90
+__current_bank::	; Current bank
+	.ds	0x01
 
 	;; Runtime library
 	.area	_GSINIT
@@ -680,13 +684,13 @@ __printTStates::
 	;;   .dw bank
 	;;   remainder of the code
 	;; Total m-cycles:
-	;;	3+4+4 + 2+2+2+2+2+2 + 4+4+ 3+4+1+1+1
-	;;      = 41 for the call
-	;;	3+3+4+4+1
-	;;	= 15 for the ret
+	;;	3+3+4 + 2+2+2+2+2+2 + 4+4+ 3+4+1+1+1
+	;;      = 40 for the call
+	;;	3+3+4+3+1
+	;;	= 14 for the ret
 banked_call::
 	pop	hl		; Get the return address
-	ld	a,(__current_bank)
+	ldh	a,(__current_bank)
 	push	af		; Push the current bank onto the stack
 	ld	e,(hl)		; Fetch the call address
 	inc	hl
@@ -695,7 +699,7 @@ banked_call::
 	ld	a,(hl+)		; ...and page
 	inc	hl		; Yes this should be here
 	push	hl		; Push the real return address
-	ld	(__current_bank),a
+	ldh	(__current_bank),a
 	ld	(.MBC1_ROM_PAGE),a	; Perform the switch
 	ld	hl,#banked_ret	; Push the fake return address
 	push	hl
@@ -707,8 +711,8 @@ banked_ret::
 	pop	hl		; Get the return address
 	pop	af		; Pop the old bank
 	ld	(.MBC1_ROM_PAGE),a
-	ld	(__current_bank),a
+	ldh	(__current_bank),a
 	jp	(hl)
-		
+
 	.area	_HEAP
 _malloc_heap_start::
