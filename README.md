@@ -25,7 +25,9 @@ The original [website](http://gbdk.sourceforge.net/) also contains a lot of imfo
 
 For SDCC you can check its [website](http://sdcc.sourceforge.net/) and the [manual](http://sdcc.sourceforge.net/doc/sdccman.pdf)
 
-[The Game Boy Development Forum](https://gbdev.gg8.se/forums/) is a good place to search for answers. There is a #gbdk channel  in the [gbdev Discord](https://discord.gg/kjZVje)
+[The Game Boy Development Forum](https://gbdev.gg8.se/forums/) is a good place to search for answers. 
+
+There is also a #gbdk channel in the [gbdev Discord community](https://discord.gg/kjZVje)
 
 # Build instructions
 Unless you are interested on recompiling the sources for some reason (like fixing some bugs) **you don't need to build GBDK**
