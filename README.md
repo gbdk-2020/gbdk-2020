@@ -17,6 +17,7 @@ Although **sdcc** already includes a library supporting Game Boy development, th
 
 # Usage
 Most users will only need to download and unzip the latest [release](https://github.com/Zal0/gbdk-2020/releases)
+Then go to the examples folder and build them (with make.bat on windows or running make)
 
 # Docs
 You can still refer to the documentation of GBDK [html](http://gbdk.sourceforge.net/doc/html/book01.html) or [pdf](http://gbdk.sourceforge.net/doc/gbdk-doc.pdf)
