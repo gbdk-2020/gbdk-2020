@@ -32,12 +32,9 @@ There is also a #gbdk channel in the [gbdev Discord community](https://discord.g
 # Build instructions
 Unless you are interested on recompiling the sources for some reason (like fixing some bugs) **you don't need to build GBDK**
 
-## Windows only
-- Download and install [mingw](http://www.mingw.org/)
-
-## Windows, Linux, Mac OS
+- **Windows only**: Download and install [mingw](http://www.mingw.org/)
 - Clone, download this repo or just get the source form the [releases](https://github.com/Zal0/gbdk-2020/releases)
-- Download and install [sdcc](http://sdcc.sourceforge.net/) (SDCC is no longer part of GDDK so you need to download it (just the binaries) in the platform you need)
-- Create and environment var SDCCDIR pointint to the folder where you installed sdcc
-- Open a command prompt or a terminal, go the root directory of the repo and run make
+- Download and install [**sdcc**](http://sdcc.sourceforge.net/) (SDCC is no longer part of GDDK so you need to download it (just the binaries) in the platform you need)
+- Create and environment var **SDCCDIR** pointint to the folder where you installed sdcc
+- Open a command prompt or a terminal, go the root directory of the repo and run **make**
 
