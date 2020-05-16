@@ -136,6 +136,7 @@ gbdk-support-install: gbdk-support-build build-bin-dir
 	@cp $(GBDKSUPPORTDIR)/lcc/lcc $(BUILDDIR)/bin/lcc$(EXEEXTENSION)
 	@$(TARGETSTRIP) $(BUILDDIR)/bin/lcc*
 	@cp $(GBDKSUPPORTDIR)/ChangeLog $(BUILDDIR)
+	@cp $(GBDKSUPPORTDIR)/README $(BUILDDIR)
 	@echo
 
 gbdk-support-clean:
