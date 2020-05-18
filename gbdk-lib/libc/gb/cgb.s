@@ -6,174 +6,79 @@
 	;; BANKED: checked, imperfect
 	.area	_BASE
 
-_set_bkg_palette::		; Non-banked
-	PUSH	BC
-	PUSH	DE
-
-	LDA	HL,9(SP)	; Skip return address and registers
-	LD	B,(HL)		; BC = rgb_data
-	DEC	HL
-	LD	C,(HL)
-	DEC	HL
-	LD	D,(HL)		; D = nb_palettes
-	DEC	HL
-	LD	E,(HL)		; E = first_palette
-
-	LD	A,D		; A = nb_palettes
-	ADD	E
-	ADD	A		; A *= 8
-	ADD	A
-	ADD	A
-	LD	D,A
-
-        LD      A,E		; E = first_palette
-	ADD	A		; A *= 8
-	ADD	A
-	ADD	A
-	LD	E,A		; A = first BCPS data
-1$:
-	LDH	A,(.STAT)
-	AND	#0x02
-	JR	NZ,1$
-
-	LD	A,E
-	LDH	(.BCPS),A
-	LD	A,(BC)
-	LDH	(.BCPD),A
-	INC	BC		; next rgb_data
-	INC	E		; next BCPS
-	LD	A,E
-	CP	A,D
-	JR	NZ,1$
-
-	POP	DE
-	POP	BC
-	RET
-
 _set_sprite_palette::		; Non-banked
 	PUSH	BC
-	PUSH	DE
+	LD	C,#.OCPS
+	JR	.set_palette
 
-	LDA	HL,9(SP)	; Skip return address and registers
-	LD	B,(HL)		; BC = rgb_data
-	DEC	HL
-	LD	C,(HL)
-	DEC	HL
-	LD	D,(HL)		; D = nb_palettes
-	DEC	HL
-	LD	E,(HL)		; E = first_palette
+_set_bkg_palette::		; Non-banked
+	PUSH	BC
+	LD	C,#.BCPS
 
-	LD	A,D		; A = nb_palettes
-	ADD	E
+.set_palette::
+	LDA	HL,6(SP)	; Skip return address and registers
+	LD	A,(HL+)		; first_palette
 	ADD	A		; A *= 8
 	ADD	A
 	ADD	A
-	LD	D,A
-
-        LD      A,E		; E = first_palette
+	OR	#0x80		; Set auto-increment
+	LDH	(C),A
+	INC	C
+	LD	A,(HL+)		; D = nb_palettes
 	ADD	A		; A *= 8
 	ADD	A
 	ADD	A
-	LD	E,A		; A = first BCPS data
+	LD	B,A		; Number of bytes
+	LD	A,(HL+)		; rgb_data
+	LD	H,(HL)
+	LD	L,A
 1$:
 	LDH	A,(.STAT)
 	AND	#0x02
 	JR	NZ,1$
 
-	LD	A,E
-	LDH	(.OCPS),A
-	LD	A,(BC)
-	LDH	(.OCPD),A
-	INC	BC		; next rgb_data
-	INC	E		; next BCPS
-	LD	A,E
-	CP	A,D
+	LD	A,(HL+)
+	LDH	(C),A
+	DEC	B
 	JR	NZ,1$
 
-	POP	DE
 	POP	BC
 	RET
 
 	.area	_CODE
+_set_sprite_palette_entry::	; Banked
+	PUSH	BC
+	LD	C,#.OCPS
+	JR	.set_palette_entry
+
 _set_bkg_palette_entry::	; Banked
 	PUSH	BC
-	PUSH	DE
+	LD	C,#.BCPS
 
-	LDA	HL,.BANKOV+4+3(SP); Skip return address and registers
-	LD	B,(HL)		; BC = rgb_data
-	DEC	HL
-	LD	C,(HL)
-	DEC	HL
-	LD	D,(HL)		; D = pal_entry
-	DEC	HL
-	LD	E,(HL)		; E = first_palette
-
-        LD      A,E		; E = first_palette
-	ADD	A		; A *= 8
+.set_palette_entry::
+	LDA	HL,.BANKOV+4(SP); Skip return address and registers
+	LD	A,(HL+)		; first_palette
+	ADD	A		; A *= 4
 	ADD	A
-	ADD	A
-	ADD	D		; A += 2 * pal_entry
-	ADD	D
-	LD	E,A		; A = first BCPS data
-
+	LD	B,A
+	LD	A,(HL+)		; pal_entry
+	ADD	B		; A += first_palette * 4
+	ADD	A		; A *= 2
+	OR	#0x80		; Set auto-increment
+	LDH	(C),A
+	INC	C
+	LD	A,(HL+)		; rgb_data
+	LD	H,(HL)
+	LD	L,A
 1$:
 	LDH	A,(.STAT)
 	AND	#0x02
 	JR	NZ,1$
+	LD	A,L
+	LDH	(C),A
+	LD	A,H
+	LDH	(C),A
 
-	LD	A,E
-	LDH	(.BCPS),A
-	LD	A,C
-	LDH	(.BCPD),A
-	INC	E		; next BCPS
-
-	LD	A,E
-	LDH	(.BCPS),A
-	LD	A,B
-	LDH	(.BCPD),A
-
-	POP	DE
-	POP	BC
-	RET
-
-_set_sprite_palette_entry::
-	PUSH	BC
-	PUSH	DE
-
-	LDA	HL,.BANKOV+4+3(SP); Skip return address and registers
-	LD	B,(HL)		; BC = rgb_data
-	DEC	HL
-	LD	C,(HL)
-	DEC	HL
-	LD	D,(HL)		; D = pal_entry
-	DEC	HL
-	LD	E,(HL)		; E = first_palette
-
-        LD      A,E		; E = first_palette
-	ADD	A		; A *= 8
-	ADD	A
-	ADD	A
-	ADD	D		; A += 2 * pal_entry
-	ADD	D
-	LD	E,A		; A = first BCPS data
-
-1$:
-	LDH	A,(.STAT)
-	AND	#0x02
-	JR	NZ,1$
-
-	LD	A,E
-	LDH	(.OCPS),A
-	LD	A,C
-	LDH	(.OCPD),A
-	INC	E		; next BCPS
-
-	LD	A,E
-	LDH	(.OCPS),A
-	LD	A,B
-	LDH	(.OCPD),A
-
-	POP	DE
 	POP	BC
 	RET
 
@@ -215,9 +120,9 @@ _cgb_compatibility::		; Banked
 
 	LD	A,#0x80
 	LDH	(.BCPS),A	; Set default bkg palette
-	LD	A,#0xff		; White
+	OR	#0x7f		; 0xff: White
 	LDH	(.BCPD),A
-	LD	A,#0x7f
+	RRA			; 0x7f
 	LDH	(.BCPD),A
 	LD	A,#0xb5		; Light gray
 	LDH	(.BCPD),A
@@ -227,16 +132,15 @@ _cgb_compatibility::		; Banked
 	LDH	(.BCPD),A
 	LD	A,#0x29
 	LDH	(.BCPD),A
-	LD	A,#0x00		; Black
+	XOR	A		; Black
 	LDH	(.BCPD),A
-	LD	A,#0x00
 	LDH	(.BCPD),A
 
 	LD	A,#0x80
 	LDH	(.OCPS),A	; Set default sprite palette
-	LD	A,#0xff		; White
+	OR	#0x7f		; 0xff: White
 	LDH	(.OCPD),A
-	LD	A,#0x7f
+	RRA
 	LDH	(.OCPD),A
 	LD	A,#0xb5		; Light gray
 	LDH	(.OCPD),A
@@ -246,9 +150,8 @@ _cgb_compatibility::		; Banked
 	LDH	(.OCPD),A
 	LD	A,#0x29
 	LDH	(.OCPD),A
-	LD	A,#0x00		; Black
+	XOR	A		; Black
 	LDH	(.OCPD),A
-	LD	A,#0x00
 	LDH	(.OCPD),A
 
 	RET
