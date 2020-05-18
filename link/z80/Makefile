@@ -22,7 +22,11 @@ CFLAGS	+= $(CPPFLAGS) $(OPTS) -DINDEXLIB -DMLH_MAP -DUNIX -DSDK
 CFLAGS	+= -funsigned-char -DUNIX
 CFLAGS	+= -I$(PRJDIR)/as/$(PORT) -I$(SLIB) 
 
-LDFLAGS += -lm $(EXTRALIBS) -static-libgcc -static-libstdc++
+LDFLAGS += -lm $(EXTRALIBS)
+
+ifeq ($(OS),Windows_NT)
+	LDFLAGS += -static-libgcc -static-libstdc++
+endif
 
 all:	$(BINS)
 
