@@ -18,11 +18,12 @@ __endasm
 #define BGB_CONCAT(A,B) BGB_STR(A:B)
 #define BGB_PROFILE_BEGIN(MSG) BGB_MESSAGE(BGB_CONCAT(MSG,%ZEROCLKS%));
 #define BGB_PROFILE_END(MSG) BGB_MESSAGE(BGB_CONCAT(MSG,%-8+LASTCLKS%));
+#define BGB_TEXT(MSG) BGB_MESSAGE(BGB_STR(MSG))
 
 
 void BGB_profiler_message();
 
-void * __BGB_PROFILER_INIT = &BGB_profiler_message();
+void * __BGB_PROFILER_INIT = &BGB_profiler_message;
 
 
 #endif
