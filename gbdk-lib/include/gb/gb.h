@@ -612,9 +612,9 @@ get_sprite_tile(UINT8 nb) NONBANKED;
     Where the bits in p represent:
     Bit 7 - 	Priority flag. When this is set the sprites appear behind the
 		background and window layer. 0: infront, 1: behind.
-    Bit 6 - 	GBC only. Vertical flip. Dictates which way up the sprite is drawn
+    Bit 6 - 	Vertical flip. Dictates which way up the sprite is drawn
 		vertically. 0: normal, 1:upside down.
-    Bit 5 - 	GBC only. Horizontal flip. Dictates which way up the sprite is
+    Bit 5 - 	Horizontal flip. Dictates which way up the sprite is
     drawn horizontally. 0: normal, 1:back to front.
     Bit 4 - 	DMG only. Assigns either one of the two b/w palettes to the sprite.
 		0: OBJ palette 0, 1: OBJ palette 1.
