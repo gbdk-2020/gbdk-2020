@@ -23,14 +23,14 @@ _get_data::
 	PUSH	BC
 
 	LDA	HL,9(SP)	; Skip return address and registers
-	LD	D,(HL)		; DE = len
-	DEC	HL
-	LD	E,(HL)
-	DEC	HL
-	LD	B,(HL)		; BC = src
-	DEC	HL
-	LD	C,(HL)
-	DEC	HL
+	LD	A,(HL-)		; DE = len
+	LD	D, A
+	LD	A,(HL-)
+	LD	E, A
+	LD	A,(HL-)		; BC = src
+	LD	B, A
+	LD	A,(HL-)
+	LD	C, A
 	LD	A,(HL-)		; HL = dst
 	LD	L,(HL)
 	LD	H,A

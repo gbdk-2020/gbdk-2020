@@ -7,10 +7,10 @@
 ; char *strcpy(char *dest, const char *source)
 _strcpy::
 	lda	hl,2(sp)
-	ld	e,(hl)
-	inc	hl
-	ld	d,(hl)
-	inc	hl
+	ld	a,(hl+)
+	ld	e, a
+	ld	a,(hl+)
+	ld	d, a
 	ld	a,(hl+)
 	ld	h,(hl)
 	ld	l,a
@@ -30,12 +30,12 @@ _strcpy::
 _memcpy::
 	push	bc
 	lda	hl,6(sp)
-	ld	e,(hl)
-	inc	hl
-	ld	d,(hl)
-	inc	hl
-	ld	c,(hl)
-	inc	hl
+	ld	a,(hl+)
+	ld	e, a
+	ld	a,(hl+)
+	ld	d, a
+	ld	a,(hl+)
+	ld	c, a
 	ld	b,(hl)
 	lda	hl,4(sp)
 	ld	a,(hl+)
@@ -64,10 +64,10 @@ _memcpy::
 ; int strcmp(const char *s1, const char *s2) 
 _strcmp::
 	lda	hl,2(sp)
-	ld	e,(hl)
-	inc	hl
-	ld	d,(hl)
-	inc	hl
+	ld	a,(hl+)
+	ld	e, a
+	ld	a,(hl+)
+	ld	d, a
 	ld	a,(hl+)
 	ld	h,(hl)
 	ld	l,a

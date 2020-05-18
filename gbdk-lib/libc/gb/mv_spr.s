@@ -22,10 +22,10 @@ _move_sprite::
 	PUSH	BC
 
 	LDA	HL,4(SP)	; Skip return address and registers
-	LD	C,(HL)		; C = nb
-	INC	HL
-	LD	D,(HL)		; D = x
-	INC	HL
+	LD	A,(HL+)		; C = nb
+	LD	C, A
+	LD	A,(HL+)		; D = x
+	LD	D, A
 	LD	E,(HL)		; E = y
 
 	CALL	.mv_sprite

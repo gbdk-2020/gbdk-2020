@@ -62,8 +62,8 @@ __mulschar:
         ld      hl,#2
         add     hl,sp
 
-        ld      e,(hl)
-        inc     hl
+        ld      a,(hl+)
+        ld      a, e
         ld      l,(hl)
 
         ;; Need to sign extend before going in.
@@ -85,9 +85,9 @@ __muluchar:
         ld      hl,#2
         add     hl,sp
 
-        ld      e,(hl)
+        ld      a,(hl+)
 
-        inc     hl
+        ld      e, a
         ld      c,(hl)
 
         ;; Clear the top
@@ -101,12 +101,11 @@ __mulint:
         ld      hl,#2
         add     hl,sp
 
-        ld      e,(hl)
-        inc     hl
-        ld      d,(hl)
-        inc     hl
-        ld      a,(hl)
-        inc     hl
+        ld      a,(hl+)
+        ld      e, a
+        ld      a,(hl+)
+        ld      d, a
+        ld      a,(hl+)
         ld      h,(hl)
         ld      l,a
 

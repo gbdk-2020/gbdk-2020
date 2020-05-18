@@ -3,14 +3,14 @@ __rrulong_rrx_s::
         ld      hl,#2
         add     hl,sp
 
-        ld      e,(hl)
-        inc     hl
-        ld      d,(hl)
-        inc     hl
-        ld      c,(hl)
-        inc     hl
-        ld      b,(hl)
-        inc     hl
+        ld      a,(hl+)
+        ld      e, a
+        ld      a,(hl+)
+        ld      d, a
+        ld      a,(hl+)
+        ld      c, a
+        ld      a,(hl+)
+        ld      b, a
         ld      a,(hl)
 
         ld      l,c
@@ -31,14 +31,14 @@ __rrslong_rrx_s::
         ld      hl,#2
         add     hl,sp
                 
-        ld      e,(hl)
-        inc     hl
-        ld      d,(hl)
-        inc     hl
-        ld      c,(hl)
-        inc     hl
-        ld      b,(hl)
-        inc     hl
+        ld      a,(hl+)
+        ld      e, a
+        ld      a,(hl+)
+        ld      d, a
+        ld      a,(hl+)
+        ld      c, a
+        ld      a,(hl+)
+        ld      b, a
         ld      a,(hl)
 
         ld      l,c
@@ -60,14 +60,14 @@ __rlulong_rrx_s::
         ld      hl,#2
         add     hl,sp
         
-        ld      e,(hl)
-        inc     hl
-        ld      d,(hl)
-        inc     hl
-        ld      c,(hl)
-        inc     hl
-        ld      b,(hl)
-        inc     hl
+        ld      a,(hl+)
+        ld      e, a
+        ld      a,(hl+)
+        ld      d, a
+        ld      a,(hl+)
+        ld      c, a
+        ld      a,(hl+)
+        ld      b, a
         ld      a,(hl)
 
         ld      l,c

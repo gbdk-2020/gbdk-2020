@@ -26,8 +26,8 @@ _hiramcpy::
 	LDA	HL,4(SP)	; Skip return address and registers
 	LD	C,(HL)		; C = dst
 	LDA	HL,7(SP)
-	LD	B,(HL)		; B = n
-	DEC	HL
+	LD	A,(HL-)		; B = n
+	LD	B, A
 	LD	A,(HL-)		; HL = src
 	LD	L,(HL)
 	LD	H,A
