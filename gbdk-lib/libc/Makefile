@@ -18,7 +18,7 @@ CSRC =	abs.c atoi.c atol.c isalpha.c isdigit.c \
 	strlen.c strncat.c strncmp.c strncpy.c time.c \
 	tolower.c toupper.c \
 	_modulong.c _modslong.c _divulong.c _divslong.c _mullong.c \
-	bsearch.c qsort.c
+	bsearch.c qsort.c atomic_flag_clear.c
 #	free.c malloc.c realloc.c calloc.c ltoa.c
 
 include $(TOPDIR)/Makefile.common
