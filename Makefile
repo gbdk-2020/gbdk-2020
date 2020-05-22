@@ -210,7 +210,7 @@ linker-clean:
 sdcc-install: check-SDCCDIR
 	@echo Installing SDCC
 	@mkdir -p $(BUILDDIR)/bin/SDCC/bin
-	@cp -r $(SDCCDIR)/bin $(BUILDDIR)/bin/SDCC
+	@cp $(SDCCDIR)/bin/{as2gbmap,makebin,packihx,sdar,sdasgb,sdcc,sdcdb,sdcdb{,src}.el,sdcpp,sdldgb,sdnm,sdobjcopy,sdranlib,sz80} $(BUILDDIR)/bin/SDCC/bin/
 
 # Final binary
 binary: binary-tidyup
