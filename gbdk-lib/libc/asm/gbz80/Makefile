@@ -3,7 +3,7 @@
 TOPDIR = ../../..
 
 THIS = gbz80
-ASSRC = mul.s div.s shift.s stubs.s crt0_rle.s
+ASSRC = abs.s mul.s div.s shift.s stubs.s crt0_rle.s
 
 include $(TOPDIR)/Makefile.common
 
