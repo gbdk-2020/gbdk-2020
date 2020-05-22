@@ -1,7 +1,7 @@
-/*-------------------------------------------------------------------------
-   _memcpy.c - part of string library functions
+/*---------------------------------------------------------------------
+   bsearch() - search a sorted array
 
-   Copyright (C) 1999, Sandeep Dutta . sandeep.dutta@usa.net
+   Copyright (C) 2018, Philipp Klaus Krause . pkk@spth.de
 
    This library is free software; you can redistribute it and/or modify it
    under the terms of the GNU General Public License as published by the
@@ -13,7 +13,7 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
+   You should have received a copy of the GNU General Public License 
    along with this library; see the file COPYING. If not, write to the
    Free Software Foundation, 51 Franklin Street, Fifth Floor, Boston,
    MA 02110-1301, USA.
@@ -26,26 +26,26 @@
    might be covered by the GNU General Public License.
 -------------------------------------------------------------------------*/
 
-#include <string.h>
-//#include <sdcc-lib.h>
+#include <stdlib.h>
 
-#if !_SDCC_PORT_PROVIDES_MEMCPY
-
-#undef memcpy /* Avoid conflict with builtin memcpy() in Z80 and some related ports */
-
-void * memcpy (void * dst, const void * src, size_t acount)
+void *bsearch(const void *key, const void *base, size_t nmemb, size_t size, int (*compar)(const void *, const void *) __reentrant)
 {
-	void * ret = dst;
-	char * d = dst;
-	const char * s = src;
+	for(const char *left = base; nmemb;)
+	{
+		const char *middle = left + nmemb / 2 * size;
+		int c = (*compar)(key, middle);
 
-	/*
-	 * copy from lower addresses to higher addresses
-	 */
-	while (acount--) {
-		*d++ = *s++;
+		if(c < 0)
+			nmemb = nmemb / 2;	
+		else if(c > 0)
+		{
+			left = middle + size;
+			nmemb = (nmemb - 1) / 2;
+		}
+		else
+			return(middle);
 	}
 
-	return(ret);
+	return(0);
 }
-#endif
+

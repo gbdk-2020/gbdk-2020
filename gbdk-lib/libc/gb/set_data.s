@@ -7,115 +7,116 @@
 
 _set_bkg_data::
 _set_win_data::
-	LDH	A,(.LCDC)
-	BIT	4,A
-	JP	NZ,_set_sprite_data
-
-	PUSH	BC
-
-	LDA	HL,7(SP)	; Skip return address and registers
-	LD	B,(HL)		; BC = data
-	DEC	HL
-	LD	C,(HL)
-	DEC	HL
-	LD	E,(HL)		; E = nb_tiles
-	DEC	HL
-	LD	L,(HL)		; L = first_tile
-	PUSH	HL
-
-	XOR	A
-	OR	E		; Is nb_tiles == 0?
-	JR	NZ,1$
-	LD	DE,#0x1000	; DE = nb_tiles = 256
-	JR	2$
-1$:
-	LD	H,#0x00		; HL = nb_tiles
-	LD	L,E
-	ADD	HL,HL		; HL *= 16
-	ADD	HL,HL
-	ADD	HL,HL
-	ADD	HL,HL
-	LD	D,H		; DE = nb_tiles
-	LD	E,L
-2$:
-	POP	HL		; HL = first_tile
-	LD	A,L
-	RLCA			; Sign extend (patterns have signed numbers)
-	SBC	A
-	LD	H,A
-	ADD	HL,HL		; HL *= 16
-	ADD	HL,HL
-	ADD	HL,HL
-	ADD	HL,HL
-
-	PUSH	BC
-	LD	BC,#0x9000
-	ADD	HL,BC
-	POP	BC
-
-3$:				; Special version of '.copy_vram'
-	BIT	3,H		; Bigger than 0x9800
-	JR	Z,4$
-	BIT	4,H
-	JR	Z,4$
-	RES	4,H		; Switch to 0x8800
-4$:
-	LDH	A,(.STAT)
-	AND	#0x02
-	JR	NZ,4$
-
-	LD	A,(BC)
-	LD	(HL+),A
-	INC	BC
-	DEC	DE
-	LD	A,D
-	OR	E
-	JR	NZ,3$
-
-	POP	BC
-	RET
-
+	ld d, #0x90
+	ldh a, (.LCDC)
+	bit 4, a
+	jr z, .copy_tiles
 _set_sprite_data::
-	PUSH	BC
-
-	LDA	HL,7(SP)	; Skip return address and registers
-	LD	B,(HL)		; BC = data
-	DEC	HL
-	LD	C,(HL)
-	DEC	HL
-	LD	E,(HL)		; E = nb_tiles
-	DEC	HL
-	LD	L,(HL)		; L = first_tile
-	PUSH	HL
-
-	XOR	A
-	OR	E		; Is nb_tiles == 0?
-	JR	NZ,1$
-	LD	DE,#0x1000	; DE = nb_tiles = 256
-	JR	2$
+	ld d, #0x80
+.copy_tiles:
+	push bc
+	lda hl, 4(sp)
+	ld a, (hl+) ; ID of 1st tile
+	ld e, a
+	ld a, (hl+) ; Nb of tiles
+	ld c, a
+	ld a, (hl+) ; Src ptr
+	ld h, (hl)
+	ld l, a
+	
+	; Compute dest ptr
+	swap e ; *16 (size of a tile)
+	ld a, e
+	and #0x0F ; Get high bits
+	add a, d ; Add base offset of target tile "block"
+	ld d, a
+	ld a, e
+	and #0xF0 ; Get low bits only
+	ld e, a
+	
+copy_tile$:
+	; Wrap from past $97FF to $8800 onwards
+	; This can be reduced to "bit 4 must be clear if bit 3 is set"
+	bit 3, d
+	jr z, 1$
+	res 4, d
 1$:
-	LD	H,#0x00		; HL = nb_tiles
-	LD	L,E
-	ADD	HL,HL		; HL *= 16
-	ADD	HL,HL
-	ADD	HL,HL
-	ADD	HL,HL
-	LD	D,H		; DE = nb_tiles
-	LD	E,L
+	ldh a, (.STAT)
+	and #2 ; Check if in LCD modes 0 or 1
+	jr nz, 1$
+	; We have 16 cycles free to access VRAM, during which we can copy 3 bytes
+	ld a, (hl+)
+	ld (de), a
+	inc e ; inc de
+	ld a, (hl+)
+	ld (de), a
+	inc e ; inc de
+	ld a, (hl+)
+	ld (de), a
+	inc e ; inc de
+	; Repeat this 4 more times to copy 15 of the 16 bytes...
 2$:
-	POP	HL		; HL = first_tile
-	LD	H,#0x00
-	ADD	HL,HL		; HL *= 16
-	ADD	HL,HL
-	ADD	HL,HL
-	ADD	HL,HL
-
-	PUSH	BC
-	LD	BC,#0x8000
-	ADD	HL,BC
-	POP	BC
-
-	CALL	.copy_vram
-
-	POP	BC
-	RET
+	ldh a, (.STAT)
+	and #2
+	jr nz, 2$
+	ld a, (hl+)
+	ld (de), a
+	inc e ; inc de
+	ld a, (hl+)
+	ld (de), a
+	inc e ; inc de
+	ld a, (hl+)
+	ld (de), a
+	inc e ; inc de
+3$:
+	ldh a, (.STAT)
+	and #2
+	jr nz, 3$
+	ld a, (hl+)
+	ld (de), a
+	inc e ; inc de
+	ld a, (hl+)
+	ld (de), a
+	inc e ; inc de
+	ld a, (hl+)
+	ld (de), a
+	inc e ; inc de
+4$:
+	ldh a, (.STAT)
+	and #2
+	jr nz, 4$
+	ld a, (hl+)
+	ld (de), a
+	inc e ; inc de
+	ld a, (hl+)
+	ld (de), a
+	inc e ; inc de
+	ld a, (hl+)
+	ld (de), a
+	inc e ; inc de
+5$:
+	ldh a, (.STAT)
+	and #2
+	jr nz, 5$
+	ld a, (hl+)
+	ld (de), a
+	inc e ; inc de
+	ld a, (hl+)
+	ld (de), a
+	inc e ; inc de
+	ld a, (hl+)
+	ld (de), a
+	inc e ; inc de
+	; Now, copy the final byte, wherein we will increment `de` in full
+6$:
+	ldh a, (.STAT)
+	and #2
+	jr nz, 6$
+	ld a, (hl+)
+	ld (de), a
+	inc de ; This actually can overflow into the high byte
+	dec c
+	jr nz, copy_tile$
+	
+	pop bc
+	ret
