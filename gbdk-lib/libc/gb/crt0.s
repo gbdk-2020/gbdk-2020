@@ -147,11 +147,10 @@
 	DEC	C
 	JR	NZ,1$
 	;; Clear from 0xFE00 to 0xFEFF
-	LD	HL,#0xFEFF
-	LD	B,#0x00
+	LD	HL,#0xFE00
 2$:
-	LD	(HL-),A
-	DEC	B
+	LD	(HL),A
+	DEC	L
 	JR	NZ,2$
 	;; Clear from 0xFF80 to 0xFFFF
 	LD	HL,#0xFFFF
