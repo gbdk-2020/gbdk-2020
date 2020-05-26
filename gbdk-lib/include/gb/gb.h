@@ -4,6 +4,8 @@
 #ifndef _GB_H
 #define _GB_H
 
+#define __GBDK_VERSION 312
+
 #include <types.h>
 #include <gb/hardware.h>
 #include <gb/sgb.h>
@@ -179,6 +181,16 @@ add_SIO(int_handler h) NONBANKED;
 */
 void
 add_JOY(int_handler h) NONBANKED;
+
+/** Interrupt handler chain terminator that don't wait for .STAT
+
+    You must add this handler the last in every interrupt handler 
+    chain if you want to change the default interrupt handler 
+    behaviour that waits for LCD controller mode to become 1 or 0
+    before return from the interrupt.
+*/
+void 
+nowait_int_handler(void) NONBANKED;
 
 /* ************************************************************ */
 

@@ -18,36 +18,40 @@
 	;; Interrupt vectors
 	.org	0x40		; VBL
 .int_VBL:
+	PUSH	AF
 	PUSH	HL
 	LD	HL,#.int_0x40
 	JP	.int
 
 	.org	0x48		; LCD
 .int_LCD:
+	PUSH	AF
 	PUSH	HL
 	LD	HL,#.int_0x48
 	JP	.int
 
 	.org	0x50		; TIM
 .int_TIM:
+	PUSH	AF
 	PUSH	HL
 	LD	HL,#.int_0x50
 	JP	.int
 
 	.org	0x58		; SIO
 .int_SIO:
+	PUSH	AF
 	PUSH	HL
 	LD	HL,#.int_0x58
 	JP	.int
 
 	.org	0x60		; JOY
 .int_JOY:
+	PUSH	AF
 	PUSH	HL
 	LD	HL,#.int_0x60
 	JP	.int
 
 .int:
-	PUSH	AF
 	PUSH	BC
 	PUSH	DE
 1$:
@@ -65,8 +69,14 @@
 2$:
 	POP	DE
 	POP	BC
-	POP	AF
 	POP	HL
+
+	;; we return at least at the beginning of mode 2
+4$:	LDH	A,(.STAT)
+	AND 	#0x02
+	JR	NZ, 4$
+	
+	POP	AF
 	RETI
 
 3$:
