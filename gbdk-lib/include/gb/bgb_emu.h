@@ -14,6 +14,22 @@ __asm \
 lbl: \
 __endasm
 
+#define HASH #
+#define ADD_HASH(x) x
+#define BGB_MAKE_LABEL(a) ADD_HASH(HASH)a
+
+#define BGB_MESSAGE_FMT(buf, fmt_str, ...) sprintf(buf, fmt_str, __VA_ARGS__);BGB_MESSAGE2(ADD_DOLLARD(__LINE__), BGB_MAKE_LABEL(_##buf));
+#define BGB_MESSAGE2(lbl, buf) \
+__asm \
+  ld d, d \
+  jr lbl \
+  .dw 0x6464 \
+  .dw 0x0001 \
+  .dw buf \
+  .dw 0 \
+lbl: \
+__endasm
+
 #define BGB_STR(A) #A
 #define BGB_CONCAT(A,B) BGB_STR(A:B)
 #define BGB_PROFILE_BEGIN(MSG) BGB_MESSAGE(BGB_CONCAT(MSG,%ZEROCLKS%));
