@@ -23,7 +23,6 @@ __endasm
 
 void BGB_profiler_message();
 
-void * __BGB_PROFILER_INIT = &BGB_profiler_message;
-
+static void * __BGB_PROFILER_INIT = &BGB_profiler_message;
 
 #endif
