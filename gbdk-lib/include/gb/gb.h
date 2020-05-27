@@ -457,6 +457,13 @@ set_bkg_data(UINT8 first_tile,
 	     UINT8 nb_tiles,
 	     unsigned char *data) NONBANKED;
 
+void
+get_bkg_data(UINT8 first_tile,
+	     UINT8 nb_tiles,
+	     unsigned char *data) NONBANKED;
+
+
+
 /** Sets the tiles in the background tile table.
     Starting at position x,y in tiles and writing across for w tiles
     and down for h tiles. Taking the values starting from the pointer
@@ -510,6 +517,11 @@ scroll_bkg(INT8 x,
 */
 void
 set_win_data(UINT8 first_tile,
+	     UINT8 nb_tiles,
+	     unsigned char *data) NONBANKED;
+
+void
+get_win_data(UINT8 first_tile,
 	     UINT8 nb_tiles,
 	     unsigned char *data) NONBANKED;
 
