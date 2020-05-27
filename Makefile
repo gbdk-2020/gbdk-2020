@@ -98,12 +98,11 @@ src: clean
 # Base rules
 gbdk-build: maccer-build linker-build gbdk-support-build gbdk-lib-build 
 
-gbdk-install: build-bin-dir linker-install gbdk-support-install gbdk-lib-install sdcc-install
+gbdk-install: $(BUILDDIR)/bin linker-install gbdk-support-install gbdk-lib-install sdcc-install
 
 # Directories
-build-bin-dir:
-	@echo Creating dir $(BUILDDIR)/bin
-	@mkdir -p $(BUILDDIR)/bin
+$(BUILDDIR)/bin:
+	mkdir -p $@
 
 build-dir-clean:
 	rm -r $(BUILDDIR)
@@ -131,7 +130,7 @@ gbdk-support-build:
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/lcc TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
 	@echo
 
-gbdk-support-install: gbdk-support-build build-bin-dir
+gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
 	@echo Installing lcc
 	@cp $(GBDKSUPPORTDIR)/lcc/lcc $(BUILDDIR)/bin/lcc$(EXEEXTENSION)
 	@$(TARGETSTRIP) $(BUILDDIR)/bin/lcc*
