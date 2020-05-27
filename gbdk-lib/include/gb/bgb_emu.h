@@ -18,7 +18,7 @@ __endasm
 #define BGB_ADD_HASH(x) x
 #define BGB_MAKE_LABEL(a) BGB_ADD_HASH(BGB_HASH)a
 
-#define BGB_MESSAGE_FMT(buf, fmt_str, ...) sprintf(buf, fmt_str, __VA_ARGS__);BGB_MESSAGE2(BGB_ADD_DOLLARD(__LINE__), BGB_MAKE_LABEL(_##buf));
+#define BGB_MESSAGE_FMT(buf, ...) sprintf(buf, __VA_ARGS__);BGB_MESSAGE2(BGB_ADD_DOLLARD(__LINE__), BGB_MAKE_LABEL(_##buf));
 #define BGB_MESSAGE2(lbl, buf) \
 __asm \
   ld d, d \
