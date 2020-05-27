@@ -1,9 +1,9 @@
 #ifndef __BGB_EMU_INCLUDE
 #define __BGB_EMU_INCLUDE
 
-#define ADD_DOLLARD(A) ADD_DOLLARD1 (A)
-#define ADD_DOLLARD1(A) A##$
-#define BGB_MESSAGE(message_text) BGB_MESSAGE1(ADD_DOLLARD(__LINE__), message_text)
+#define BGB_ADD_DOLLARD(A) BGB_ADD_DOLLARD1 (A)
+#define BGB_ADD_DOLLARD1(A) bgb##A##$
+#define BGB_MESSAGE(message_text) BGB_MESSAGE1(BGB_ADD_DOLLARD(__LINE__), message_text)
 #define BGB_MESSAGE1(lbl, message_text) \
 __asm \
   ld d, d \
@@ -14,11 +14,11 @@ __asm \
 lbl: \
 __endasm
 
-#define HASH #
-#define ADD_HASH(x) x
-#define BGB_MAKE_LABEL(a) ADD_HASH(HASH)a
+#define BGB_HASH #
+#define BGB_ADD_HASH(x) x
+#define BGB_MAKE_LABEL(a) BGB_ADD_HASH(BGB_HASH)a
 
-#define BGB_MESSAGE_FMT(buf, fmt_str, ...) sprintf(buf, fmt_str, __VA_ARGS__);BGB_MESSAGE2(ADD_DOLLARD(__LINE__), BGB_MAKE_LABEL(_##buf));
+#define BGB_MESSAGE_FMT(buf, fmt_str, ...) sprintf(buf, fmt_str, __VA_ARGS__);BGB_MESSAGE2(BGB_ADD_DOLLARD(__LINE__), BGB_MAKE_LABEL(_##buf));
 #define BGB_MESSAGE2(lbl, buf) \
 __asm \
   ld d, d \
