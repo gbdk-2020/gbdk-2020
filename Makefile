@@ -102,7 +102,8 @@ gbdk-install: $(BUILDDIR)/bin linker-install gbdk-support-install gbdk-lib-insta
 
 # Directories
 $(BUILDDIR)/bin:
-	mkdir -p $@
+	@echo Creating dir $(BUILDDIR)/bin
+	@mkdir -p $@
 
 build-dir-clean:
 	rm -r $(BUILDDIR)
