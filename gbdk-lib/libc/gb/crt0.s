@@ -156,12 +156,6 @@
 	JR	NZ,1$
 	DEC	C
 	JR	NZ,1$
-	;; Clear from 0xFE00 to 0xFEFF
-	LD	HL,#0xFE00
-2$:
-	LD	(HL),A
-	DEC	L
-	JR	NZ,2$
 	;; Clear from 0xFF80 to 0xFFFF
 	LD	HL,#0xFFFF
 	LD	B,#0x80
@@ -176,6 +170,13 @@
 
 	;; Turn the screen off
 	CALL	.display_off
+
+	;; Clear the OAM (from 0xFE00 to 0xFEFF)
+	LD	HL,#0xFE00
+2$:
+	LD	(HL),A
+	DEC	L
+	JR	NZ,2$
 
 	;; Initialize the display
 	XOR	A
