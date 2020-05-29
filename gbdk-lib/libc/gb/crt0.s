@@ -171,6 +171,7 @@
 	;; Turn the screen off
 	CALL	.display_off
 
+	XOR	A
 	;; Clear the OAM (from 0xFE00 to 0xFEFF)
 	LD	HL,#0xFE00
 2$:
@@ -179,7 +180,6 @@
 	JR	NZ,2$
 
 	;; Initialize the display
-	XOR	A
 	LDH	(.SCY),A
 	LDH	(.SCX),A
 	LDH	(.STAT),A
