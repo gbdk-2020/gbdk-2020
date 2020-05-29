@@ -8,14 +8,14 @@ _set_bkg_tiles::
 	PUSH	BC
 
 	LDA	HL,4(SP)	; Skip return address and registers
-	LD	D,(HL)		; D = x
-	INC	HL
+	LD	A,(HL+)		; D = x
+	LD	D, A
 	LD	E,(HL)		; E = y
 	LDA	HL,9(SP)
-	LD	B,(HL)		; BC = tiles
-	DEC	HL
-	LD	C,(HL)
-	DEC	HL
+	LD	A,(HL-)		; BC = tiles
+	LD	B, A
+	LD	A,(HL-)
+	LD	C, A
 	LD	A,(HL-)		; A = h
 	LD	H,(HL)		; H = w
 	LD	L,A		; L = h

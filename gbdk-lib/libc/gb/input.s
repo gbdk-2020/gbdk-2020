@@ -419,8 +419,8 @@
 	LD	(HL),#>.MINACCEL
 	JR	4$		; Update position
 2$:
-	LD	C,(HL)
-	INC	HL
+	LD	A,(HL+)
+	LD	C, A
 	LD	B,(HL)
 	DEC	BC
 	LD	A,B

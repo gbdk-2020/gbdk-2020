@@ -20,8 +20,8 @@ _set_sprite_tile::
 	PUSH	BC
 
 	LDA	HL,4(SP)	; Skip return address and registers
-	LD	C,(HL)		; C = nb
-	INC	HL
+	LD	A,(HL+)		; C = nb
+	LD	C, A
 	LD	D,(HL)		; D = tile
 
 	CALL	.set_sprite_tile

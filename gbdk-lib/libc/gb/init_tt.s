@@ -10,8 +10,8 @@
 	AND	#0x02
 	JR	NZ,1$
 
-	LD	(HL),B
-	INC	HL
+	LD	A, B
+	LD	(HL+),A
 	DEC	DE
 	LD	A,D
 	OR	E

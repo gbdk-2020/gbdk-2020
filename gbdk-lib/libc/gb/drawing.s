@@ -197,10 +197,9 @@
 	LD      B,#0x00
 	ADD     HL,BC
 	ADD     HL,BC
-	LD      B,(HL)
-	INC     HL
+	LD      A,(HL+)
 	LD      H,(HL)
-	LD      L,B
+	LD      L,A
 	ADD     HL,DE
 
 	LD      B,H             ; BC = src
@@ -1481,8 +1480,8 @@ end$:	LD	E,B
 	LD	E,A
 	ADD	HL,DE
 	ADD	HL,DE
-	LD	B,(HL)
-	INC	HL
+	LD	A,(HL+)
+	LD	B, A
 	LD	H,(HL)
 	LD	L,B
 

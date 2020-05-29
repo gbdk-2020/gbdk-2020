@@ -14,12 +14,12 @@ _get_win_data::
 	PUSH	BC
 
 	LDA	HL,7(SP)	; Skip return address and registers
-	LD	B,(HL)		; BC = data
-	DEC	HL
-	LD	C,(HL)
-	DEC	HL
-	LD	E,(HL)		; E = nb_tiles
-	DEC	HL
+	LD	A,(HL-)		; BC = data
+	LD	B, A
+	LD	A,(HL-)
+	LD	C, A
+	LD	A,(HL-)		; E = nb_tiles
+	LD	E, A
 	LD	L,(HL)		; L = first_tile
 	PUSH	HL
 
@@ -79,12 +79,12 @@ _get_sprite_data::
 	PUSH	BC
 
 	LDA	HL,7(SP)	; Skip return address and registers
-	LD	B,(HL)		; BC = data
-	DEC	HL
-	LD	C,(HL)
-	DEC	HL
-	LD	E,(HL)		; E = nb_tiles
-	DEC	HL
+	LD	A,(HL-)		; BC = data
+	LD	B, A
+	LD	A,(HL-)
+	LD	C, A
+	LD	A,(HL-)		; E = nb_tiles
+	LD	E, A
 	LD	L,(HL)		; L = first_tile
 	PUSH	HL
 

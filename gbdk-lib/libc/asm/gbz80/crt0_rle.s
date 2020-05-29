@@ -10,14 +10,13 @@ __initrleblock::
         pop     hl
 1$:
         ;; Fetch the run
-        ld      e,(hl)
-        inc     hl
+        ld      a,(hl+)
+        ld      e, a
         ;; Negative means a run
         bit     7,e
         jp      z,2$
         ;; Code for expanding a run
-        ld      a,(hl)
-        inc     hl
+        ld      a,(hl+)
 3$:
         ld      (bc),a
         inc     bc
@@ -31,8 +30,7 @@ __initrleblock::
         jp      z,4$
         ;; Code for expanding a block
 5$:     
-        ld      a,(hl)        
-        inc     hl
+        ld      a,(hl+)
         ld      (bc),a
         inc     bc
         dec     e
