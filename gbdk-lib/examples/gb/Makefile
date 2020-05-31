@@ -12,7 +12,8 @@ BINS	= galaxy.gb \
 	fonts.gb \
 	samptest.gb \
 	banks.gb \
-	new_banks.gb
+	new_banks.gb \
+	farptr.gb
 
 # sound.gb: Cant do bitfields
 OTHER = sound.gb \
@@ -75,6 +76,15 @@ bank_3.o:	bank_3.c
 #
 banks.gb:	banks.o bank_0.o bank_1.o bank_2.o bank_3.o
 	$(CC) -Wl-yt2 -Wl-yo4 -Wl-ya4 -o $@ banks.o bank_0.o bank_1.o bank_2.o bank_3.o
+
+############################################################
+# Far pointers example
+
+bank1code.o:	bank1code.c
+	$(CC) -Wf-bo1 -c -o $@ $<
+
+farptr.gb:	farptr.o bank1code.o
+	$(CC) -Wl-yt1 -Wl-yo4 -o $@ bank1code.o farptr.o
 
 ############################################################
 # Multiple banks NEW example
