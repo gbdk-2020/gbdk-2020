@@ -214,9 +214,12 @@
 1$:
 	POP     HL              ; HL = dst
 	POP     BC              ; BC = src
+	LD      A,B
+	OR      B
+	JR      Z,2$
 	LD      DE,#0x10
 	CALL    .copy_vram
-
+2$:
 	RET
 
 	.area	_CODE
