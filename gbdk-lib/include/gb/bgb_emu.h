@@ -2,7 +2,7 @@
 #define __BGB_EMU_INCLUDE
 
 #define BGB_ADD_DOLLARD(A) BGB_ADD_DOLLARD1 (A)
-#define BGB_ADD_DOLLARD1(A) bgb##A##$
+#define BGB_ADD_DOLLARD1(A) A##00$
 #define BGB_MESSAGE(message_text) BGB_MESSAGE1(BGB_ADD_DOLLARD(__LINE__), message_text)
 #define BGB_MESSAGE1(lbl, message_text) \
 __asm \
