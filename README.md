@@ -1,7 +1,5 @@
-# Links to the latest releases
-Current release for Windows: [WIN32 Binaries](https://github.com/Zal0/gbdk-2020/releases/latest/download/gbdk-3.2-win.zip)
-Current release for MacOS: [MacOS Binaries](https://github.com/Zal0/gbdk-2020/releases/latest/download/gbdk-3.2-macos.zip)
-
+## Current release for Windows: [WIN32 Binaries](https://github.com/Zal0/gbdk-2020/releases/latest/download/gbdk-3.2-win.zip)
+## Current release for MacOS: [MacOS Binaries](https://github.com/Zal0/gbdk-2020/releases/latest/download/gbdk-3.2-macos.zip)
 You don't need the sources, unless you wish to compile GBDK-2020 yourself. Download the current release binaries using the links above.
 
 # gbdk-2020
@@ -45,4 +43,3 @@ Unless you are interested on recompiling the sources for some reason (like fixin
 - Download and install [**sdcc**](http://sdcc.sourceforge.net/) (SDCC is no longer part of GDDK so you need to download it (just the binaries) in the platform you need)
 - Create and environment var **SDCCDIR** pointint to the folder where you installed sdcc
 - Open a command prompt or a terminal, go the root directory of the repo and run **make**
-
