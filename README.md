@@ -1,3 +1,9 @@
+# Links to the latest releases
+Current release for Windows: [WIN32 Binaries](https://github.com/Zal0/gbdk-2020/releases/latest/download/gbdk-3.2-win.zip)
+Current release for MacOS: [MacOS Binaries](https://github.com/Zal0/gbdk-2020/releases/latest/download/gbdk-3.2-macos.zip)
+
+You don't need the sources, unless you wish to compile GBDK-2020 yourself. Download the current release binaries using the links above.
+
 # gbdk-2020
 [GBDK](http://gbdk.sourceforge.net/) A C compiler, assembler, linker and set of libraries for the Z80 like Nintendo Gameboy.
 
