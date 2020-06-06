@@ -3,6 +3,33 @@
 
 	;; Why - because I want a better dhrystone score :)
 	.area	_BASE
+
+; void *memset (void *s, int c, size_t n)
+_memset::
+	lda	hl,7(sp)
+	ld	a,(hl-)
+	ld 	d, a
+	or      (hl)
+	ret     z
+	ld	a,(hl-)
+	ld	e, a
+	dec	hl
+	ld	a,(hl-)
+	push    af
+	ld	a,(hl-)
+	ld	l,(hl)
+	ld	h,a
+	pop	af
+	inc     d
+	inc     e
+1$:	
+	ld	(hl+),a
+2$:
+	dec	e
+	jr	nz,1$
+	dec	d
+	jr	nz,1$
+	ret
 	
 ; char *strcpy(char *dest, const char *source)
 _strcpy::
@@ -27,6 +54,7 @@ _strcpy::
 	ret
 
 ; void *memcpy(void *dest, const void *source, int count)
+___memcpy::
 _memcpy::
 	push	bc
 	lda	hl,6(sp)
