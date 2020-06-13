@@ -16,10 +16,10 @@ _memcpy::
 	ld	a,(hl+)
 	ld	h,(hl)
 	ld	l,a
-	call    .memcpy
-	pop     bc
-	ret
+	jr	.memcpy_cont
 .memcpy::
+	push    bc
+.memcpy_cont:	
 	push	hl
 	push    bc
 
@@ -72,5 +72,6 @@ _memcpy::
 	ld	(hl+),a
 5$:	
 	pop	de
+	pop     bc
 	ret
 	
