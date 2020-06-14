@@ -672,7 +672,7 @@ move_sprite(UINT8 nb,
 /** Moves the given sprite relative to its current position.
  */
 void
-scroll_sprite(INT8 nb,
+scroll_sprite(UINT8 nb,
 	      INT8 x,
 	      INT8 y) NONBANKED;
 
