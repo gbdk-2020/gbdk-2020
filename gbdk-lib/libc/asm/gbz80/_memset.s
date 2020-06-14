@@ -24,13 +24,7 @@ _memset::
 	rr      e
 	srl     d
 	rr      e
-	
-	ld      b,a
-	ld      a,d
-	or      e
-	ld      a,b
-	jr      z, 3$
-	
+		
 	inc     d
 	inc     e
 	jr      2$
@@ -45,7 +39,6 @@ _memset::
 	dec	d
 	jr	nz,1$
 
-3$:
 	srl     c
 	jr      nc, 4$
 	ld	(hl+),a

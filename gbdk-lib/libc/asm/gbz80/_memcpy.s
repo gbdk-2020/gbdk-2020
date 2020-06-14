@@ -34,7 +34,6 @@ _memcpy::
 
 	inc	b
 	inc	c
-
 	jr	2$
 1$:
 	ld	a,(de)
@@ -54,7 +53,6 @@ _memcpy::
 	jr	nz,1$
 	dec	b
 	jr	nz,1$	
-
 3$:
 	pop     bc
 	srl     c
