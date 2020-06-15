@@ -98,7 +98,9 @@ src: clean
 # Base rules
 gbdk-build: maccer-build linker-build gbdk-support-build gbdk-lib-build 
 
-gbdk-install: $(BUILDDIR)/bin linker-install gbdk-support-install gbdk-lib-install sdcc-install
+gbdk-install: gbdk-install-nosdcc sdcc-install
+
+gbdk-install-nosdcc: $(BUILDDIR)/bin linker-install gbdk-support-install gbdk-lib-install
 
 # Directories
 $(BUILDDIR)/bin:
