@@ -13,7 +13,8 @@ BINS	= galaxy.gb \
 	samptest.gb \
 	banks.gb \
 	new_banks.gb \
-	farptr.gb
+	farptr.gb \
+	bcd.gb
 
 # sound.gb: Cant do bitfields
 OTHER = sound.gb \
