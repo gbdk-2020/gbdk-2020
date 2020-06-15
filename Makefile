@@ -111,7 +111,11 @@ build-dir-clean:
 # Rules for gbdk-support
 gbdk-support-build:
 	@echo Building lcc
+ifdef BINDIR
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/lcc TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ BINDIR=$(BINDIR)/ --no-print-directory
+else
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/lcc TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
+endif
 	@echo
 	@echo Building ihxcheck
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/ihxcheck TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
