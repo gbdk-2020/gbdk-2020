@@ -49,7 +49,11 @@ static struct {
     { "ld",		"%bindir%link-%port%" },
     { "libdir",		"%prefix%lib/%libmodel%/asxxxx/" },
     { "libmodel",	"small" },
+#ifndef GBDKBINDIR
     { "bindir",		"%prefix%bin/" },
+#else
+    { "bindir",		GBDKBINDIR },
+#endif
 };
 
 #define NUM_TOKENS	(sizeof(_tokens)/sizeof(_tokens[0]))
