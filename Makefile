@@ -209,11 +209,11 @@ linker-clean:
 #SDDC copy
 sdcc-install: check-SDCCDIR
 	@echo Installing SDCC
-	@mkdir -p $(BUILDDIR)/bin/SDCC/bin
+	@mkdir -p $(BUILDDIR)/bin/
 ifeq ($(OS),Windows_NT)
-		@cp -r $(SDCCDIR)/bin $(BUILDDIR)/bin/SDCC
+		@cp -r $(SDCCDIR)/bin $(BUILDDIR)/
 else
-		@cp $(SDCCDIR)/bin/{as2gbmap,makebin,packihx,sdar,sdasgb,sdcc,sdcdb,sdcdb{,src}.el,sdcpp,sdldgb,sdnm,sdobjcopy,sdranlib,sz80} $(BUILDDIR)/bin/SDCC/bin/
+		@cp $(SDCCDIR)/bin/{as2gbmap,makebin,packihx,sdar,sdasgb,sdcc,sdcdb,sdcdb{,src}.el,sdcpp,sdldgb,sdnm,sdobjcopy,sdranlib,sz80} $(BUILDDIR)/bin/
 endif
 
 # Final binary
