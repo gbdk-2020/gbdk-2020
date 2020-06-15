@@ -55,7 +55,11 @@ static struct {
 		{ "ld",		"%sdccdir%sdldgb" },
 		{ "libdir",		"%prefix%lib/%libmodel%/asxxxx/" },
 		{ "libmodel",	"small" },
+#ifndef GBDKBINDIR
 		{ "bindir",		"%prefix%bin/" },
+#else
+		{ "bindir",		GBDKBINDIR },
+#endif
 		{ "ihxcheck", "%sdccdir%ihxcheck" },
 		{ "mkbin", "%sdccdir%makebin" }
 };
