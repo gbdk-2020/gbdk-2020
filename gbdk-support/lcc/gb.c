@@ -32,8 +32,8 @@ static struct {
 } _tokens[] = {
     { "port",		"gbz80" },
     { "plat",		"gb" },
-    { "sdccdir", "%bindir%SDCC/bin/"},
-    { "cpp",		"%sdccdir%sdcpp" },
+    { "sdccbin", "%bindir%SDCC/bin/"},
+    { "cpp",		"%sdccbin%sdcpp" },
     { "cppdefault", 	"-Wall -DSDCC=1 -DSDCC_PORT=%port% "
 			"-DSDCC_PLAT=%plat% -D%cppmodel%"
     },
@@ -43,9 +43,9 @@ static struct {
     { "prefix",		GBDKLIBDIR },
     { "comopt",		"--noinvariant --noinduction" },
     { "commodel", 	"small" },
-    { "com",		"%sdccdir%sdcc" },
+    { "com",		"%sdccbin%sdcc" },
     { "comdefault",	"-mgbz80 --no-std-crt0 --fsigned-char --use-stdout --c1mode" },
-    { "as",		"%sdccdir%sdasgb" },
+    { "as",		"%sdccbin%sdasgb" },
     { "ld",		"%bindir%link-%port%" },
     { "libdir",		"%prefix%lib/%libmodel%/asxxxx/" },
     { "libmodel",	"small" },
@@ -232,6 +232,10 @@ int option(char *arg) {
     }
     else if ((tail = starts_with(arg, "--gbdkincludedir="))) {
 	setTokenVal("includedir", tail);
+	return 1;
+    }
+    else if ((tail = starts_with(arg, "--sdccbin="))) {
+	setTokenVal("sdccbin", tail);
 	return 1;
     }
     else if ((tail = starts_with(arg, "-m"))) {
