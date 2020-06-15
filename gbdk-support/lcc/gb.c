@@ -296,6 +296,35 @@ void set_gbdk_dir(char* argv_0)
     }
 #else
     strcpy(buf, argv_0);
+    char * match = NULL;
+    char * rmatch = NULL;
+    // simplify some relative paths
+    while ((match = strstr(buf, "//")) != NULL) {
+        // include \0
+        memmove(match, match + 1, strlen(match + 1)+1);
+    }
+    while ((match = strstr(buf, "/./")) != NULL) {
+        memmove(match, match + 2, strlen(match + 2)+1);
+    }
+    while ((match = strstr(buf, "/../")) != NULL) {
+        // set temporary end for strrchr
+        *match = '\0';
+        rmatch = strrchr(buf, '/');
+        // handle a/.., but ignore ./.., ../.. and /..
+        if (rmatch == NULL && buf[0] != '.' && buf[0] != '/'){
+            rmatch = buf;
+            // skip second /
+            ++match;
+        }
+        if (rmatch == NULL || strcmp(rmatch, "/..") == 0) {
+            // we can't replace this and would enter an endless loop
+            *match = '/';
+            break;
+        } else {
+            *match = '/';
+            memmove(rmatch, match + 3, strlen(match + 3)+1);
+        }
+    }
     /* Strip of the trailing bin/lcc.exe and use it as the prefix. */
     char *p = strrchr(buf, '/');
     if (p) {
