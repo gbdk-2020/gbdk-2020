@@ -130,7 +130,11 @@ setup-from-cvs:
 # Rules for gbdk-support
 gbdk-support-build:
 	@echo Building lcc
+ifdef BINDIR
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/lcc TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ BINDIR=$(BINDIR)/ --no-print-directory
+else
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/lcc TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
+endif
 	@echo
 
 gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
