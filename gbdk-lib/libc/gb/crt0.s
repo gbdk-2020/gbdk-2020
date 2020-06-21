@@ -10,10 +10,24 @@
 	;; Standard header for the GB
 	.org	0x00
 	RET			; Empty function (default for interrupts)
+	
+;	.org	0x08
+				; --profile handler utilized by bgb_emu.h
 
-	.org	0x10
-	.byte	0x80,0x40,0x20,0x10,0x08,0x04,0x02,0x01
-	.byte	0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80
+;	.org	0x10
+				; empty
+;	.org	0x18
+				; empty
+	.org	0x20
+.call_hl::
+	jp	(hl)		; RST 0x20 == calling HL
+
+;	.org	0x28
+				; empty
+;	.org	0x30
+				; empty
+;	.org	0x38
+				; empty
 
 	;; Interrupt vectors
 	.org	0x40		; VBL
@@ -22,13 +36,6 @@
 	PUSH	HL
 	LD	HL,#.int_0x40
 	JP	.int
-
-	.org	0x48		; LCD
-.int_LCD:
-	PUSH	AF
-	PUSH	HL
-	LD	HL,#.int_0x48
-	JP	.int_nowait
 
 	.org	0x50		; TIM
 .int_TIM:
@@ -51,6 +58,10 @@
 	LD	HL,#.int_0x60
 	JP	.int
 
+	.org	0x70		; Table of bits for drawing.s
+	.byte	0x80,0x40,0x20,0x10,0x08,0x04,0x02,0x01
+	.byte	0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80
+
 .int:
 	PUSH	BC
 	PUSH	DE
@@ -62,7 +73,7 @@
 	LD	A,(HL-)
 	LD	L,(HL)
 	LD	H,A
-	CALL	3$
+	RST	0x20		; .call_hl
 	POP	HL
 	INC	HL
 	JR	1$
@@ -72,40 +83,12 @@
 	POP	HL
 
 	;; we return at least at the beginning of mode 2
-4$:	LDH	A,(.STAT)
+3$:	LDH	A,(.STAT)
 	AND 	#0x02
-	JR	NZ, 4$
+	JR	NZ, 3$
 	
 	POP	AF
 	RETI
-
-3$:
-	JP	(HL)
-
-.int_nowait:
-	PUSH	BC
-	PUSH	DE
-1$:
-	LD	A,(HL+)
-	OR	(HL)
-	JR	Z,2$
-	PUSH	HL
-	LD	A,(HL-)
-	LD	L,(HL)
-	LD	H,A
-	CALL	3$
-	POP	HL
-	INC	HL
-	JR	1$
-2$:
-	POP	DE
-	POP	BC
-	POP	HL
-	POP	AF
-	RETI
-
-3$:
-	JP	(HL)
 
 	;; GameBoy Header
 
@@ -375,9 +358,6 @@ gsinit::
 .remove_VBL::
 	LD	HL,#.int_0x40
 	JP	.remove_int
-.remove_LCD::
-	LD	HL,#.int_0x48
-	JP	.remove_int
 .remove_TIM::
 	LD	HL,#.int_0x50
 	JP	.remove_int
@@ -389,9 +369,6 @@ gsinit::
 	JP	.remove_int
 .add_VBL::
 	LD	HL,#.int_0x40
-	JP	.add_int
-.add_LCD::
-	LD	HL,#.int_0x48
 	JP	.add_int
 .add_TIM::
 	LD	HL,#.int_0x50
@@ -609,16 +586,6 @@ _remove_VBL::
 	POP	BC
 	RET
 
-_remove_LCD::
-	PUSH	BC
-	LDA	HL,4(SP)	; Skip return address and registers
-	LD	C,(HL)
-	INC	HL
-	LD	B,(HL)
-	CALL	.remove_LCD
-	POP	BC
-	RET
-
 _remove_TIM::
 	PUSH	BC
 	LDA	HL,4(SP)	; Skip return address and registers
@@ -656,16 +623,6 @@ _add_VBL::
 	INC	HL
 	LD	B,(HL)
 	CALL	.add_VBL
-	POP	BC
-	RET
-
-_add_LCD::
-	PUSH	BC
-	LDA	HL,4(SP)	; Skip return address and registers
-	LD	C,(HL)
-	INC	HL
-	LD	B,(HL)
-	CALL	.add_LCD
 	POP	BC
 	RET
 

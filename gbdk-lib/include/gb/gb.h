@@ -4,7 +4,7 @@
 #ifndef _GB_H
 #define _GB_H
 
-#define __GBDK_VERSION 312
+#define __GBDK_VERSION 314
 
 #include <types.h>
 #include <gb/hardware.h>
@@ -191,6 +191,12 @@ add_JOY(int_handler h) NONBANKED;
 */
 void 
 nowait_int_handler(void) NONBANKED;
+
+/** Interrupt handler chain terminator that waits for .STAT and 
+    returns in the BEGINNING of mode0 or mode1 ONLY
+*/
+void 
+wait_int_handler(void) NONBANKED;
 
 /* ************************************************************ */
 

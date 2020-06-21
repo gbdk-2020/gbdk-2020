@@ -848,7 +848,7 @@ dx1$:
 
 	LD	A,B
 	AND	#7
-	ADD	#0x10	; Table of bits is located at 0x0010
+	ADD	#0x70	; Table of bits is located at 0x0070
 	LD	C,A
 	LD	B,#0x00
 	LD	A,(BC)	; Get start bit
@@ -959,7 +959,7 @@ nadj$:
 	AND	#7	;just look at bottom 3 bits
 	JR	Z,2$
 	PUSH	HL
-	ADD	#0x10	;Table of bits is located at 0x0010
+	ADD	#0x70	;Table of bits is located at 0x0070
 	LD	L,A
 	LD	H,#0x00
 	LD	C,(HL)
@@ -1138,7 +1138,7 @@ dy1$:
 
 	LD	A,B
 	AND	#7
-	ADD	#0x10	; Table of bits is located at 0x0010
+	ADD	#0x70	; Table of bits is located at 0x0070
 	LD	C,A
 	LD	B,#0x00
 	LD	A,(BC)	; Get start bit
@@ -1215,7 +1215,7 @@ nchgy$:
 	LD	A,B	;check X
 	AND	#7	;just look at bottom 3 bits
 	PUSH	HL
-	ADD	#0x10	;Table of bits is located at 0x0010
+	ADD	#0x70	;Table of bits is located at 0x0070
 	LD	L,A
 	LD	H,#0x00
 	LD	A,(HL)	;Get mask bit
@@ -1258,7 +1258,7 @@ nchgy$:
 	LD	A,B
 
 	AND     #7
-	ADD     #0x10		; Table of bits is located at 0x0010
+	ADD     #0x70		; Table of bits is located at 0x0070
 	LD      C,A
 	LD      B,#0x00
 	LD      A,(BC)
@@ -1445,7 +1445,7 @@ nchgy$:
 	LD	A,B
 
 	AND     #7
-	ADD     #0x10		; Table of bits is located at 0x0010
+	ADD     #0x70		; Table of bits is located at 0x0070
 	LD      C,A
 	LD      B,#0x00
 	LD      A,(BC)
