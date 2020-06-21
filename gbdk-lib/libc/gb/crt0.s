@@ -28,7 +28,7 @@
 	PUSH	AF
 	PUSH	HL
 	LD	HL,#.int_0x48
-	JP	.int
+	JP	.int_nowait
 
 	.org	0x50		; TIM
 .int_TIM:
@@ -76,6 +76,31 @@
 	AND 	#0x02
 	JR	NZ, 4$
 	
+	POP	AF
+	RETI
+
+3$:
+	JP	(HL)
+
+.int_nowait:
+	PUSH	BC
+	PUSH	DE
+1$:
+	LD	A,(HL+)
+	OR	(HL)
+	JR	Z,2$
+	PUSH	HL
+	LD	A,(HL-)
+	LD	L,(HL)
+	LD	H,A
+	CALL	3$
+	POP	HL
+	INC	HL
+	JR	1$
+2$:
+	POP	DE
+	POP	BC
+	POP	HL
 	POP	AF
 	RETI
 
