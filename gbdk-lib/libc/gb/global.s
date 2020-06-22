@@ -145,7 +145,7 @@
 
 	;; Interrupt routines 
 	.globl	.add_VBL
-	.globl	.add_LCD
+;	.globl	.add_LCD	;; don't link LCD.o by default
 	.globl	.add_TIM
 	.globl	.add_SIO
 	.globl	.add_JOY
