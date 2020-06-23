@@ -22,12 +22,25 @@
 .call_hl::
 	jp	(hl)		; RST 0x20 == calling HL
 
-;	.org	0x28
-				; empty
-;	.org	0x30
-				; empty
-;	.org	0x38
-				; empty
+	.org	0x28
+banked_call::			; Performs a long call.
+	pop	hl		; Get the return address
+	ldh	a,(__current_bank)
+	push	af		; Push the current bank onto the stack
+	ld	a,(hl+)		; Fetch the call address
+	ld	e, a
+	ld	a,(hl+)
+	ld	d, a
+	ld	a,(hl+)		; ...and page
+	inc	hl		; Yes this should be here
+	push	hl		; Push the real return address
+	ldh	(__current_bank),a
+	ld	(.MBC1_ROM_PAGE),a	; Perform the switch
+	ld	hl,#banked_ret	; Push the fake return address
+	push	hl
+	ld	l,e
+	ld	h,d
+	jp	(hl)
 
 	;; Interrupt vectors
 	.org	0x40		; VBL
@@ -58,10 +71,9 @@
 	LD	HL,#.int_0x60
 	JP	.int
 
-	.org	0x70		; Table of bits for drawing.s
-	.byte	0x80,0x40,0x20,0x10,0x08,0x04,0x02,0x01
-	.byte	0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80
+	;; space for drawing.s bit table
 
+	.org    0x80
 .int:
 	PUSH	BC
 	PUSH	DE
@@ -668,36 +680,6 @@ _clock::
 
 __printTStates::
 	ret
-
-	;; Performs a long call.
-	;; Basically:
-	;;   call banked_call
-	;;   .dw low
-	;;   .dw bank
-	;;   remainder of the code
-	;; Total m-cycles:
-	;;	3+3+4 + 2+2+2+2+2+2 + 4+4+ 3+4+1+1+1
-	;;      = 40 for the call
-	;;	3+3+4+3+1
-	;;	= 14 for the ret
-banked_call::
-	pop	hl		; Get the return address
-	ldh	a,(__current_bank)
-	push	af		; Push the current bank onto the stack
-	ld	e,(hl)		; Fetch the call address
-	inc	hl
-	ld	d,(hl)
-	inc	hl
-	ld	a,(hl+)		; ...and page
-	inc	hl		; Yes this should be here
-	push	hl		; Push the real return address
-	ldh	(__current_bank),a
-	ld	(.MBC1_ROM_PAGE),a	; Perform the switch
-	ld	hl,#banked_ret	; Push the fake return address
-	push	hl
-	ld	l,e
-	ld	h,d
-	jp	(hl)
 
 banked_ret::
 	pop	hl		; Get the return address
