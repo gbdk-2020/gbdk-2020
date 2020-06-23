@@ -88,7 +88,7 @@ File Parse(const std::string& path) {
 		while(!file.eof()) {
 			getline(file, line);
 
-			if(line.empty())
+			if(line.empty() || line[0] == ';')
 				continue;
 
 			Line l;
