@@ -10,10 +10,37 @@
 	;; Standard header for the GB
 	.org	0x00
 	RET			; Empty function (default for interrupts)
+	
+;	.org	0x08
+				; --profile handler utilized by bgb_emu.h
 
-	.org	0x10
-	.byte	0x80,0x40,0x20,0x10,0x08,0x04,0x02,0x01
-	.byte	0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80
+;	.org	0x10
+				; empty
+;	.org	0x18
+				; empty
+	.org	0x20
+.call_hl::
+	jp	(hl)		; RST 0x20 == calling HL
+
+	.org	0x28
+banked_call::			; Performs a long call.
+	pop	hl		; Get the return address
+	ldh	a,(__current_bank)
+	push	af		; Push the current bank onto the stack
+	ld	a,(hl+)		; Fetch the call address
+	ld	e, a
+	ld	a,(hl+)
+	ld	d, a
+	ld	a,(hl+)		; ...and page
+	inc	hl		; Yes this should be here
+	push	hl		; Push the real return address
+	ldh	(__current_bank),a
+	ld	(.MBC1_ROM_PAGE),a	; Perform the switch
+	ld	hl,#banked_ret	; Push the fake return address
+	push	hl
+	ld	l,e
+	ld	h,d
+	jp	(hl)
 
 	;; Interrupt vectors
 	.org	0x40		; VBL
@@ -21,13 +48,6 @@
 	PUSH	AF
 	PUSH	HL
 	LD	HL,#.int_0x40
-	JP	.int
-
-	.org	0x48		; LCD
-.int_LCD:
-	PUSH	AF
-	PUSH	HL
-	LD	HL,#.int_0x48
 	JP	.int
 
 	.org	0x50		; TIM
@@ -51,6 +71,9 @@
 	LD	HL,#.int_0x60
 	JP	.int
 
+	;; space for drawing.s bit table
+
+	.org    0x80
 .int:
 	PUSH	BC
 	PUSH	DE
@@ -62,7 +85,7 @@
 	LD	A,(HL-)
 	LD	L,(HL)
 	LD	H,A
-	CALL	3$
+	RST	0x20		; .call_hl
 	POP	HL
 	INC	HL
 	JR	1$
@@ -72,15 +95,12 @@
 	POP	HL
 
 	;; we return at least at the beginning of mode 2
-4$:	LDH	A,(.STAT)
+3$:	LDH	A,(.STAT)
 	AND 	#0x02
-	JR	NZ, 4$
+	JR	NZ, 3$
 	
 	POP	AF
 	RETI
-
-3$:
-	JP	(HL)
 
 	;; GameBoy Header
 
@@ -350,9 +370,6 @@ gsinit::
 .remove_VBL::
 	LD	HL,#.int_0x40
 	JP	.remove_int
-.remove_LCD::
-	LD	HL,#.int_0x48
-	JP	.remove_int
 .remove_TIM::
 	LD	HL,#.int_0x50
 	JP	.remove_int
@@ -364,9 +381,6 @@ gsinit::
 	JP	.remove_int
 .add_VBL::
 	LD	HL,#.int_0x40
-	JP	.add_int
-.add_LCD::
-	LD	HL,#.int_0x48
 	JP	.add_int
 .add_TIM::
 	LD	HL,#.int_0x50
@@ -584,16 +598,6 @@ _remove_VBL::
 	POP	BC
 	RET
 
-_remove_LCD::
-	PUSH	BC
-	LDA	HL,4(SP)	; Skip return address and registers
-	LD	C,(HL)
-	INC	HL
-	LD	B,(HL)
-	CALL	.remove_LCD
-	POP	BC
-	RET
-
 _remove_TIM::
 	PUSH	BC
 	LDA	HL,4(SP)	; Skip return address and registers
@@ -631,16 +635,6 @@ _add_VBL::
 	INC	HL
 	LD	B,(HL)
 	CALL	.add_VBL
-	POP	BC
-	RET
-
-_add_LCD::
-	PUSH	BC
-	LDA	HL,4(SP)	; Skip return address and registers
-	LD	C,(HL)
-	INC	HL
-	LD	B,(HL)
-	CALL	.add_LCD
 	POP	BC
 	RET
 
@@ -686,36 +680,6 @@ _clock::
 
 __printTStates::
 	ret
-
-	;; Performs a long call.
-	;; Basically:
-	;;   call banked_call
-	;;   .dw low
-	;;   .dw bank
-	;;   remainder of the code
-	;; Total m-cycles:
-	;;	3+3+4 + 2+2+2+2+2+2 + 4+4+ 3+4+1+1+1
-	;;      = 40 for the call
-	;;	3+3+4+3+1
-	;;	= 14 for the ret
-banked_call::
-	pop	hl		; Get the return address
-	ldh	a,(__current_bank)
-	push	af		; Push the current bank onto the stack
-	ld	e,(hl)		; Fetch the call address
-	inc	hl
-	ld	d,(hl)
-	inc	hl
-	ld	a,(hl+)		; ...and page
-	inc	hl		; Yes this should be here
-	push	hl		; Push the real return address
-	ldh	(__current_bank),a
-	ld	(.MBC1_ROM_PAGE),a	; Perform the switch
-	ld	hl,#banked_ret	; Push the fake return address
-	push	hl
-	ld	l,e
-	ld	h,d
-	jp	(hl)
 
 banked_ret::
 	pop	hl		; Get the return address

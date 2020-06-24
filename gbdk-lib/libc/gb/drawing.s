@@ -29,6 +29,10 @@
 
 	.area   _DRAW_HEADER (ABS)
 
+	.org	0x70
+	.byte	0x80,0x40,0x20,0x10,0x08,0x04,0x02,0x01
+	.byte	0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80
+
 	.org    .MODE_TABLE+4*.G_MODE
 	JP      .gmode
 
@@ -848,7 +852,7 @@ dx1$:
 
 	LD	A,B
 	AND	#7
-	ADD	#0x10	; Table of bits is located at 0x0010
+	ADD	#0x70	; Table of bits is located at 0x0070
 	LD	C,A
 	LD	B,#0x00
 	LD	A,(BC)	; Get start bit
@@ -959,7 +963,7 @@ nadj$:
 	AND	#7	;just look at bottom 3 bits
 	JR	Z,2$
 	PUSH	HL
-	ADD	#0x10	;Table of bits is located at 0x0010
+	ADD	#0x70	;Table of bits is located at 0x0070
 	LD	L,A
 	LD	H,#0x00
 	LD	C,(HL)
@@ -1138,7 +1142,7 @@ dy1$:
 
 	LD	A,B
 	AND	#7
-	ADD	#0x10	; Table of bits is located at 0x0010
+	ADD	#0x70	; Table of bits is located at 0x0070
 	LD	C,A
 	LD	B,#0x00
 	LD	A,(BC)	; Get start bit
@@ -1215,7 +1219,7 @@ nchgy$:
 	LD	A,B	;check X
 	AND	#7	;just look at bottom 3 bits
 	PUSH	HL
-	ADD	#0x10	;Table of bits is located at 0x0010
+	ADD	#0x70	;Table of bits is located at 0x0070
 	LD	L,A
 	LD	H,#0x00
 	LD	A,(HL)	;Get mask bit
@@ -1258,7 +1262,7 @@ nchgy$:
 	LD	A,B
 
 	AND     #7
-	ADD     #0x10		; Table of bits is located at 0x0010
+	ADD     #0x70		; Table of bits is located at 0x0070
 	LD      C,A
 	LD      B,#0x00
 	LD      A,(BC)
@@ -1445,7 +1449,7 @@ nchgy$:
 	LD	A,B
 
 	AND     #7
-	ADD     #0x10		; Table of bits is located at 0x0010
+	ADD     #0x70		; Table of bits is located at 0x0070
 	LD      C,A
 	LD      B,#0x00
 	LD      A,(BC)

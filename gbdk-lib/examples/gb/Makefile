@@ -14,7 +14,8 @@ BINS	= galaxy.gb \
 	banks.gb \
 	new_banks.gb \
 	farptr.gb \
-	bcd.gb
+	bcd.gb \
+	wobble.gb
 
 # sound.gb: Cant do bitfields
 OTHER = sound.gb \
