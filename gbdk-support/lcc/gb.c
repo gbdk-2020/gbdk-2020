@@ -32,7 +32,11 @@ static struct {
 } _tokens[] = {
     { "port",		"gbz80" },
     { "plat",		"gb" },
+#ifdef __WIN32__
+    { "sdccbin", "%bindir%SDCC/bin/"},
+#else
     { "sdccbin", "%bindir%"},
+#endif
     { "cpp",		"%sdccbin%sdcpp" },
     { "cppdefault", 	"-Wall -DSDCC=1 -DSDCC_PORT=%port% "
 			"-DSDCC_PLAT=%plat% -D%cppmodel%"
@@ -62,7 +66,7 @@ static char *getTokenVal(const char *key)
 {
     int i;
     for (i=0; i<NUM_TOKENS; i++) {
-	if (!strcmp(_tokens[i].name, key)) 
+	if (!strcmp(_tokens[i].name, key))
 	    return strdup(_tokens[i].val);
     }
     assert(0);
@@ -112,7 +116,7 @@ static CLASS classes[] = {
       "%ld% -n -- -i $1 -b_DATA=0x8000 -b_CODE=0x200 -k%libdir%%port%/ -l%port%.lib "
         "-k%libdir%%plat%/ -l%plat%.lib $3 %libdir%%plat%/crt0.o $2",
     }
-};      
+};
 
 static CLASS *_class = &classes[0];
 
@@ -144,7 +148,7 @@ static int setClass(const char *port, const char *plat)
 		Call ourself on value of token
 		Continue scanning
 */
-	      
+
 /* src is destroyed */
 static char **subBuildArgs(char **args, char *template)
 {

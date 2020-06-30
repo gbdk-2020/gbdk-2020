@@ -38,7 +38,7 @@ ASDIR = $(TOPDIR)/as
 
 # Base setup
 # Extension to add to executables
-EXEEXTENSION = 
+EXEEXTENSION =
 # Host operating system identifier.  The one below should work for
 # most systems.
 HOSTOS = ppc-unknown-linux2.2
@@ -96,7 +96,7 @@ src: clean
 	tar czf gbdk-$(VER).tar.gz gbdk
 
 # Base rules
-gbdk-build: maccer-build linker-build gbdk-support-build gbdk-lib-build 
+gbdk-build: maccer-build linker-build gbdk-support-build gbdk-lib-build
 
 gbdk-install: gbdk-install-nosdcc sdcc-install
 
@@ -148,7 +148,7 @@ gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
 gbdk-support-clean:
 	@echo Cleaning lcc
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/lcc clean --no-print-directory
-	@echo 
+	@echo
 
 # Rules for gbdk-lib
 gbdk-lib-build: check-SDCCDIR
@@ -189,19 +189,19 @@ gbdk-lib-examples-makefile:
 maccer-build:
 	@echo Building Maccer
 	@$(MAKE) -C $(MACCERDIR) BUILDDIR=$(BUILDDIR) --no-print-directory
-	@echo 
-	
+	@echo
+
 maccer-clean:
 	@echo Cleaning Maccer
 	@$(MAKE) -C $(MACCERDIR) clean --no-print-directory
 	@echo
-	
+
 #rules for linker
 linker-build:
 	@echo Building Linker
 	@$(MAKE) -C $(LINKERDIR) --no-print-directory
 	@echo
-	
+
 linker-install:
 	@echo Installing Linker
 	@$(MAKE) -C $(LINKERDIR) install BUILDDIR=$(BUILDDIR) --no-print-directory
@@ -215,10 +215,11 @@ linker-clean:
 #SDDC copy
 sdcc-install: check-SDCCDIR
 	@echo Installing SDCC
-	@mkdir -p $(BUILDDIR)/bin/
 ifeq ($(OS),Windows_NT)
-		@cp -r $(SDCCDIR)/bin $(BUILDDIR)/
+		@mkdir -p $(BUILDDIR)/bin/SDCC/bin
+		@cp -r $(SDCCDIR)/bin $(BUILDDIR)/bin/SDCC/
 else
+		@mkdir -p $(BUILDDIR)/bin
 		@cp $(SDCCDIR)/bin/{as2gbmap,makebin,packihx,sdar,sdasgb,sdcc,sdcdb,sdcdb{,src}.el,sdcpp,sdldgb,sdnm,sdobjcopy,sdranlib,sz80} $(BUILDDIR)/bin/
 endif
 
@@ -239,7 +240,7 @@ binary-tidyup:
 install: native-build
 	mkdir -p $(TARGETDIR)
 	cp -r $(BUILDDIR)/* $(TARGETDIR)
-	
+
 check-SDCCDIR:
 ifndef SDCCDIR
 	$(error SDCCDIR is undefined)
