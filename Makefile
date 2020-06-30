@@ -6,9 +6,6 @@
 #
 TOPDIR = $(shell pwd)
 
-# Enable shell globbing
-SHELL:=/bin/bash -O globstar
-
 # Package name, used for tarballs and cvs
 PKG = gbdk
 # Version, used for tarballs
@@ -216,7 +213,7 @@ sdcc-install: check-SDCCDIR
 ifeq ($(OS),Windows_NT)
 		@cp -r $(SDCCDIR)/bin $(BUILDDIR)/bin/SDCC
 else
-		@cp $(SDCCDIR)/bin/{as2gbmap,makebin,packihx,sdar,sdasgb,sdcc,sdcpp,sdldgb,sdnm,sdobjcopy,sdranlib,sz80} $(BUILDDIR)/bin/SDCC/bin/
+		@cp $(addprefix $(SDCCDIR)/bin/, as2gbmap makebin packihx sdar sdasgb sdcc sdcpp sdldgb sdnm sdobjcopy sdranlib) $(BUILDDIR)/bin/SDCC/bin/
 endif
 
 # Final binary
