@@ -279,7 +279,7 @@ banked_call::			; Performs a long call.
 	.if __RGBDS__
 	.dw	BANK(_main)
 	.else
-	.dw	0
+	.dw	#1
 	.endif
 _exit::	
 99$:
