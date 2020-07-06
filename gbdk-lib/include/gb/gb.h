@@ -315,21 +315,18 @@ delay(UINT16 d) NONBANKED;
     Return value is an OR of J_*
     @see J_START
 */
-UINT8
-joypad(void) NONBANKED;
+UINT8 joypad(void) NONBANKED __preserves_regs(b, c, h, l);
 
 /** Waits until all the keys given in mask are pressed.
     Normally only used for checking one key, but it will
     support many, even J_LEFT at the same time as J_RIGHT :)
     @see joypad, J_START
 */
-UINT8
-waitpad(UINT8 mask) NONBANKED;
+UINT8 waitpad(UINT8 mask) NONBANKED __preserves_regs(b, c);
 
 /** Waits for the pad and all buttons to be released.
 */
-void
-waitpadup(void) NONBANKED;
+void waitpadup(void) NONBANKED __preserves_regs(a, b, c, d, e, h, l);
 
 /* ************************************************************ */
 
