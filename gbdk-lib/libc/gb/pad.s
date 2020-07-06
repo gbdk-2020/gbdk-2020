@@ -7,8 +7,9 @@
 .padup::
 _waitpadup::
 	PUSH	AF		; Save modified registers
+	PUSH	DE
 1$:
-	LD	D,#0xFF
+	LD	D,#0x7F		; wait for .jpad return zero 127 times in a row
 2$:
 	CALL	.jpad
 	OR	A		; Have all buttons been released?
@@ -17,6 +18,7 @@ _waitpadup::
 	DEC	D
 	JR	NZ,2$
 	
+	POP	DE
 	POP	AF
 	RET
 
