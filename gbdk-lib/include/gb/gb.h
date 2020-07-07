@@ -102,20 +102,15 @@ typedef void (*int_handler)(void) NONBANKED;
    handler.  A handler of NULL will cause bad things
    to happen.
 */
-void
-remove_VBL(int_handler h) NONBANKED;
+void remove_VBL(int_handler h) NONBANKED;
 
-void
-remove_LCD(int_handler h) NONBANKED;
+void remove_LCD(int_handler h) NONBANKED;
 
-void
-remove_TIM(int_handler h) NONBANKED;
+void remove_TIM(int_handler h) NONBANKED;
 
-void
-remove_SIO(int_handler h) NONBANKED;
+void remove_SIO(int_handler h) NONBANKED;
 
-void
-remove_JOY(int_handler h) NONBANKED;
+void remove_JOY(int_handler h) NONBANKED;
 
 /** Adds a V-blank interrupt handler.
     The handler 'h' will be called whenever a V-blank
@@ -124,8 +119,7 @@ remove_JOY(int_handler h) NONBANKED;
     function is to be called, only three may be added.
     @see remove_VBL
 */
-void
-add_VBL(int_handler h) NONBANKED;
+void add_VBL(int_handler h) NONBANKED;
 
 /** Adds a LCD interrupt handler.
     Called when the LCD interrupt occurs, which is normally
@@ -142,8 +136,7 @@ add_VBL(int_handler h) NONBANKED;
 
     @see add_VBL
 */
-void
-add_LCD(int_handler h) NONBANKED;
+void add_LCD(int_handler h) NONBANKED;
 
 /** Adds a timer interrupt handler.
 
@@ -153,8 +146,7 @@ add_LCD(int_handler h) NONBANKED;
 
     @see add_VBL
 */    
-void
-add_TIM(int_handler h) NONBANKED;
+void add_TIM(int_handler h) NONBANKED;
 
 /** Adds a serial transmit complete interrupt handler.
 
@@ -164,8 +156,7 @@ add_TIM(int_handler h) NONBANKED;
     
     @see send_byte, receive_byte, add_VBL
 */
-void
-add_SIO(int_handler h) NONBANKED;
+void add_SIO(int_handler h) NONBANKED;
 
 /** Adds a pad tranisition interrupt handler.
     
@@ -179,8 +170,7 @@ add_SIO(int_handler h) NONBANKED;
 
     @see joypad
 */
-void
-add_JOY(int_handler h) NONBANKED;
+void add_JOY(int_handler h) NONBANKED;
 
 /** Interrupt handler chain terminator that don't wait for .STAT
 
@@ -189,24 +179,20 @@ add_JOY(int_handler h) NONBANKED;
     behaviour that waits for LCD controller mode to become 1 or 0
     before return from the interrupt.
 */
-void 
-nowait_int_handler(void) NONBANKED;
+void nowait_int_handler(void) NONBANKED;
 
 /** Interrupt handler chain terminator that waits for .STAT and 
     returns in the BEGINNING of mode0 or mode1 ONLY
 */
-void 
-wait_int_handler(void) NONBANKED;
+void wait_int_handler(void) NONBANKED;
 
 /* ************************************************************ */
 
 /** Set the current mode - one of M_* defined above */
-void
-	mode(UINT8 m) NONBANKED;
+void mode(UINT8 m) NONBANKED;
 
 /** Returns the current mode */
-UINT8
-	get_mode(void) NONBANKED;
+UINT8 get_mode(void) NONBANKED __preserves_regs(b, c);
 
 /** GB type (GB, PGB, CGB) */
 extern UINT8 _cpu;
@@ -224,12 +210,10 @@ extern UINT16 sys_time;
 /* ************************************************************ */
 
 /** Send byte in _io_out to the serial port */
-void
-send_byte(void);
+void send_byte(void);
 
 /** Receive byte from the serial port in _io_in */
-void
-receive_byte(void);
+void receive_byte(void);
 
 /** An OR of IO_* */
 extern UINT8 _io_status;
@@ -305,8 +289,7 @@ extern UINT8 _io_out;
     Uses no timers or interrupts, and can be called with 
     interrupts disabled (why nobody knows :)
  */
-void
-delay(UINT16 d) NONBANKED;
+void delay(UINT16 d) NONBANKED;
 
 /* ************************************************************ */
 
@@ -333,8 +316,7 @@ void waitpadup(void) NONBANKED __preserves_regs(a, b, c, d, e, h, l);
 /** Enables unmasked interrupts
     @see disable_interrupts
 */
-void
-enable_interrupts(void) NONBANKED;
+void enable_interrupts(void) NONBANKED __preserves_regs(a, b, c, d, e, h, l);
 
 /** Disables interrupts.
     This function may be called as many times as you like;
@@ -342,22 +324,19 @@ enable_interrupts(void) NONBANKED;
     them.
     @see enable_interrupts
 */
-void
-disable_interrupts(void) NONBANKED;
+void disable_interrupts(void) NONBANKED __preserves_regs(a, b, c, d, e, h, l);
 
 /** Clears any pending interrupts and sets the interrupt mask
     register IO to flags.
     @see VBL_IFLAG
     @param flags	A logical OR of *_IFLAGS
 */
-void
-set_interrupts(UINT8 flags) NONBANKED;
+void set_interrupts(UINT8 flags) NONBANKED __preserves_regs(b, c, d, e);
 
 /** Performs a warm reset by reloading the CPU value
     then jumping to the start of crt0 (0x0150)
 */
-void
-reset(void) NONBANKED;
+void reset(void) NONBANKED;
 
 /** Waits for the vertical blank interrupt (VBL) to finish.  
     This can be used to sync animation with the screen 
@@ -365,16 +344,14 @@ reset(void) NONBANKED;
     never return.  If the screen is off this function returns
     immediatly.
 */
-void
-wait_vbl_done(void) NONBANKED;
+void wait_vbl_done(void) NONBANKED __preserves_regs(b, c, d, e, h, l);
 
 /** Turns the display off.
     Waits until the VBL interrupt before turning the display
     off.
     @see DISPLAY_ON
 */
-void
-display_off(void) NONBANKED;
+void display_off(void) NONBANKED __preserves_regs(b, c, d, e, h, l);
 
 /* ************************************************************ */
 
@@ -385,10 +362,9 @@ display_off(void) NONBANKED;
     @param src		Area to copy from
     @param n		Number of bytes to copy.
 */
-void
-hiramcpy(UINT8 dst,
-	 const void *src,
-	 UINT8 n) NONBANKED;
+void hiramcpy(UINT8 dst,
+          const void *src,
+          UINT8 n) NONBANKED __preserves_regs(b, c);
 
 /* ************************************************************ */
 
@@ -467,15 +443,13 @@ hiramcpy(UINT8 dst,
     @param first_tile	Range 0 - 255
     @param nb_tiles	Range 0 - 255
 */
-void
-set_bkg_data(UINT8 first_tile,
-	     UINT8 nb_tiles,
-	     unsigned char *data) NONBANKED;
+void set_bkg_data(UINT8 first_tile,
+         UINT8 nb_tiles,
+         unsigned char *data) NONBANKED __preserves_regs(b, c);
 
-void
-get_bkg_data(UINT8 first_tile,
-	     UINT8 nb_tiles,
-	     unsigned char *data) NONBANKED;
+void get_bkg_data(UINT8 first_tile,
+         UINT8 nb_tiles,
+         unsigned char *data) NONBANKED __preserves_regs(b, c);
 
 
 
@@ -493,35 +467,31 @@ get_bkg_data(UINT8 first_tile,
     @param data		Pointer to an unsigned char. Usually the 
     			first element in an array.
 */
-void
-set_bkg_tiles(UINT8 x,
-	      UINT8 y,
-	      UINT8 w,
-	      UINT8 h,
-	      unsigned char *tiles) NONBANKED;
+void set_bkg_tiles(UINT8 x,
+          UINT8 y,
+          UINT8 w,
+          UINT8 h,
+          unsigned char *tiles) NONBANKED __preserves_regs(b, c);
 
-void
-get_bkg_tiles(UINT8 x,
-	      UINT8 y,
-	      UINT8 w,
-	      UINT8 h,
-	      unsigned char *tiles) NONBANKED;
+void get_bkg_tiles(UINT8 x,
+          UINT8 y,
+          UINT8 w,
+          UINT8 h,
+          unsigned char *tiles) NONBANKED __preserves_regs(b, c);
 
 /** Moves the background layer to the position specified in x and y in pixels.
     Where 0,0 is the top left corner of the GB screen. You'll notice the screen
     wraps around in all 4 directions, and is always under the window layer.
 */
-void
-move_bkg(UINT8 x,
-	 UINT8 y) NONBANKED;
+void move_bkg(UINT8 x,
+          UINT8 y) NONBANKED __preserves_regs(b, c, d, e);
 
 /** Moves the background relative to it's current position.
 
     @see move_bkg
 */
-void
-scroll_bkg(INT8 x,
-	   INT8 y) NONBANKED;
+void scroll_bkg(INT8 x,
+          INT8 y) NONBANKED __preserves_regs(b, c, d, e);
 
 /* ************************************************************ */
 
@@ -530,15 +500,13 @@ scroll_bkg(INT8 x,
     layer share the same Tile Patterns.
     @see set_bkg_data
 */
-void
-set_win_data(UINT8 first_tile,
-	     UINT8 nb_tiles,
-	     unsigned char *data) NONBANKED;
+void set_win_data(UINT8 first_tile,
+          UINT8 nb_tiles,
+          unsigned char *data) NONBANKED __preserves_regs(b, c);
 
-void
-get_win_data(UINT8 first_tile,
-	     UINT8 nb_tiles,
-	     unsigned char *data) NONBANKED;
+void get_win_data(UINT8 first_tile,
+          UINT8 nb_tiles,
+          unsigned char *data) NONBANKED __preserves_regs(b, c);
 
 /** Sets the tiles in the win tile table. 
     Starting at position x,y in
@@ -570,35 +538,31 @@ get_win_data(UINT8 first_tile,
     @param w		Range 0 - 31
     @param h		Range 0 - 31
 */
-void
-set_win_tiles(UINT8 x,
-	      UINT8 y,
-	      UINT8 w,
-	      UINT8 h,
-	      unsigned char *tiles) NONBANKED;
+void set_win_tiles(UINT8 x,
+          UINT8 y,
+          UINT8 w,
+          UINT8 h,
+          unsigned char *tiles) NONBANKED __preserves_regs(b, c);
 
-void
-get_win_tiles(UINT8 x,
-	      UINT8 y,
-	      UINT8 w,
-	      UINT8 h,
-	      unsigned char *tiles) NONBANKED;
+void get_win_tiles(UINT8 x,
+          UINT8 y,
+          UINT8 w,
+          UINT8 h,
+          unsigned char *tiles) NONBANKED __preserves_regs(b, c);
 
 /** Moves the window layer to the position specified in x and y in pixels.
     Where 7,0 is the top left corner of the GB screen. The window is locked to
     the bottom right corner, and is always over the background layer.
     @see SHOW_WIN, HIDE_WIN
 */
-void
-move_win(UINT8 x,
-	 UINT8 y) NONBANKED;
+void move_win(UINT8 x,
+          UINT8 y) NONBANKED __preserves_regs(b, c, d, e);
 
 /** Move the window relative to its current position.
     @see move_win
 */
-void
-scroll_win(INT8 x,
-	   INT8 y) NONBANKED;
+void scroll_win(INT8 x,
+          INT8 y) NONBANKED __preserves_regs(b, c, d, e);
 
 /* ************************************************************ */
 
@@ -613,27 +577,23 @@ scroll_win(INT8 x,
     patterns are written to. VBK_REG=0 indicates the first bank, and VBK_REG=1
     indicates the second.
 */
-void
-set_sprite_data(UINT8 first_tile,
-		UINT8 nb_tiles,
-		unsigned char *data) NONBANKED;
+void set_sprite_data(UINT8 first_tile,
+          UINT8 nb_tiles,
+          unsigned char *data) NONBANKED __preserves_regs(b, c);
 
-void
-get_sprite_data(UINT8 first_tile,
-		UINT8 nb_tiles,
-		unsigned char *data) NONBANKED;
+void get_sprite_data(UINT8 first_tile,
+          UINT8 nb_tiles,
+          unsigned char *data) NONBANKED __preserves_regs(b, c);
 
 /** Sets sprite n to display tile number t, from the sprite tile data. 
     If the GB is in 8x16 sprite mode then it will display the next
     tile, t+1, below the first tile.
     @param nb		Sprite number, range 0 - 39
 */
-void
-set_sprite_tile(UINT8 nb,
-		UINT8 tile) NONBANKED;
+void set_sprite_tile(UINT8 nb,
+          UINT8 tile) NONBANKED __preserves_regs(b, c);
 
-UINT8
-get_sprite_tile(UINT8 nb) NONBANKED;
+UINT8 get_sprite_tile(UINT8 nb) NONBANKED __preserves_regs(b, c);
 
 /** Sets the property of sprite n to those defined in p.
     Where the bits in p represent:
@@ -654,12 +614,10 @@ get_sprite_tile(UINT8 nb) NONBANKED;
     
     @param nb		Sprite number, range 0 - 39
 */
-void
-set_sprite_prop(UINT8 nb,
-		UINT8 prop) NONBANKED;
+void set_sprite_prop(UINT8 nb,
+          UINT8 prop) NONBANKED __preserves_regs(b, c);
 
-UINT8
-get_sprite_prop(UINT8 nb) NONBANKED;
+UINT8 get_sprite_prop(UINT8 nb) NONBANKED __preserves_regs(b, c);
 
 /** Moves the given sprite to the given position on the
     screen.
@@ -667,44 +625,38 @@ get_sprite_prop(UINT8 nb) NONBANKED;
     is at (8,16).  To put sprite 0 at the top left, use
     move_sprite(0, 8, 16);
 */
-void
-move_sprite(UINT8 nb,
-	    UINT8 x,
-	    UINT8 y) NONBANKED;
+void move_sprite(UINT8 nb,
+          UINT8 x,
+          UINT8 y) NONBANKED __preserves_regs(b, c);
 
 /** Moves the given sprite relative to its current position.
  */
-void
-scroll_sprite(UINT8 nb,
-	      INT8 x,
-	      INT8 y) NONBANKED;
+void scroll_sprite(UINT8 nb,
+          INT8 x,
+          INT8 y) NONBANKED __preserves_regs(b, c);
 
 /* ************************************************************ */
 
-void
-set_data(unsigned char *vram_addr,
-	 unsigned char *data,
-	 UINT16 len) NONBANKED;
+void set_data(unsigned char *vram_addr,
+          unsigned char *data,
+          UINT16 len) NONBANKED __preserves_regs(b, c);
 
-void
-get_data(unsigned char *data,
-	 unsigned char *vram_addr,
-	 UINT16 len) NONBANKED;
+void get_data(unsigned char *data,
+          unsigned char *vram_addr,
+          UINT16 len) NONBANKED __preserves_regs(b, c);
 
-void
-set_tiles(UINT8 x,
-	  UINT8 y,
-	  UINT8 w,
-	  UINT8 h,
-	  unsigned char *vram_addr,
-	  unsigned char *tiles) NONBANKED;
+void set_tiles(UINT8 x,
+          UINT8 y,
+          UINT8 w,
+          UINT8 h,
+          unsigned char *vram_addr,
+          unsigned char *tiles) NONBANKED __preserves_regs(b, c);
 
-void
-get_tiles(UINT8 x,
-	  UINT8 y,
-	  UINT8 w,
-	  UINT8 h,
-	  unsigned char *tiles,
-	  unsigned char *vram_addr) NONBANKED;
+void get_tiles(UINT8 x,
+          UINT8 y,
+          UINT8 w,
+          UINT8 h,
+          unsigned char *tiles,
+          unsigned char *vram_addr) NONBANKED __preserves_regs(b, c);
 
 #endif /* _GB_H */
