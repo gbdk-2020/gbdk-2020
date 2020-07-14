@@ -155,8 +155,5 @@
 	.globl	.OAM
 	.globl	.refresh_OAM
 
-	;; Initialization routine   
-	.globl	.init
-
 	;; Main user routine	
 	.globl	_main

@@ -23,24 +23,12 @@
 	jp	(hl)		; RST 0x20 == calling HL
 
 	.org	0x28
-banked_call::			; Performs a long call.
-	pop	hl		; Get the return address
-	ldh	a,(__current_bank)
-	push	af		; Push the current bank onto the stack
-	ld	a,(hl+)		; Fetch the call address
-	ld	e, a
-	ld	a,(hl+)
-	ld	d, a
-	ld	a,(hl+)		; ...and page
-	inc	hl		; Yes this should be here
-	push	hl		; Push the real return address
-	ldh	(__current_bank),a
-	ld	(.MBC1_ROM_PAGE),a	; Perform the switch
-	ld	hl,#banked_ret	; Push the fake return address
-	push	hl
-	ld	l,e
-	ld	h,d
-	jp	(hl)
+	jp	banked_call	; banked call
+
+;	.org	0x30
+				; empty
+;	.org	0x38
+				; empty
 
 	;; Interrupt vectors
 	.org	0x40		; VBL
@@ -254,6 +242,13 @@ banked_call::			; Performs a long call.
 	LDH	(.IE),A
 
 	XOR	A
+
+	LD      HL,#.sys_time
+	LD      (HL+),A
+	LD      (HL),A
+;	LD	(_malloc_heap_start+0),A
+;	LD	(_malloc_heap_start+1),A
+
 	LDH	(.NR52),A	; Turn sound off
 	LDH	(.SC),A		; Use external clock
 	LD	A,#.DT_IDLE
@@ -261,15 +256,7 @@ banked_call::			; Performs a long call.
 	LD	A,#0x80
 	LDH	(.SC),A		; Use external clock
 
-	XOR	A		; Erase the malloc list
-;	LD	(_malloc_heap_start+0),A
-;	LD	(_malloc_heap_start+1),A
-;	LD	(.sys_time+0),A	; Zero the system clock
-;	LD	(.sys_time+1),A	
-
-	call	gsinit
-
-;	CALL	.init		
+	CALL	gsinit
 
 	EI			; Enable interrupts
 
@@ -681,6 +668,22 @@ _clock::
 __printTStates::
 	ret
 
+banked_call::			; Performs a long call.
+	pop	hl		; Get the return address
+	ldh	a,(__current_bank)
+	push	af		; Push the current bank onto the stack
+	ld	a,(hl+)		; Fetch the call address
+	ld	e, a
+	ld	a,(hl+)
+	ld	d, a
+	ld	a,(hl+)		; ...and page
+	inc	hl		; Yes this should be here
+	push	hl		; Push the real return address
+	ldh	(__current_bank),a
+	ld	(.MBC1_ROM_PAGE),a	; Perform the switch
+	ld	l,e
+	ld	h,d
+	rst	0x20
 banked_ret::
 	pop	hl		; Get the return address
 	pop	af		; Pop the old bank
