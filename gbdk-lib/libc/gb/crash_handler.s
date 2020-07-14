@@ -1,3 +1,7 @@
+; Crash handler support
+; Original code by ISSOtm
+; Adapted by Toxa from gb-starter-kit: https://github.com/ISSOtm/gb-starter-kit
+
 	.include	"global.s"
 
 	SCRN_X = 160		; Width of screen in pixels
