@@ -18,7 +18,8 @@ ASSRC =	cgb.s cpy_data.s drawing.s f_ibm_sh.s \
 	rand.s arand.s \
 	bgb_emu.s \
 	nowait.s far_ptr.s \
-	lcd.s crash_handler.s \
+	lcd.s \
+	crash_handler.s \
 	crt0.s
 
 ifeq ($(ASM),asxxxx)
