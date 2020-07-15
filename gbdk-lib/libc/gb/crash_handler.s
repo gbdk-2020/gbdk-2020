@@ -58,14 +58,13 @@ ___HandleCrash::
 
 	; We need to have all the data in bank 0, but we can't guarantee we were there
 	ldh	a, (.VBK)
-	ld      b, a
+	ld	e, a
 	bit	#0, a
 	jr	z, .bank0
 	; Oh noes. We need to copy the data across banks!
 	ld	hl, #vCrashAF
 	ld	c, #(5 * 2)
 .copyAcross:
-	ld	(vCrashVBK), a
 	ld 	b, (hl)
 	xor	a
 	ldh 	(.VBK), a
@@ -75,17 +74,15 @@ ___HandleCrash::
 	ldh 	(.VBK), a
 	dec	c
 	jr	nz, .copyAcross
-	ld	a, (vCrashVBK)
-	ld      b, a
 .bank0:
 	xor	a
 	ldh	(.NR52), a	; Kill sound for this screen
 
 	ldh	(.VBK), a
-	ld      a, b
+	ld	a, e
 	ld	(vCrashVBK), a	; copy vCrashVBK across banks
 
-	inc	a		; ld a, 1
+	ld	a, #1
 	ldh	(.VBK), a
 	ld	hl, #vCrashDumpScreen
 	ld	b, #SCRN_Y_B
