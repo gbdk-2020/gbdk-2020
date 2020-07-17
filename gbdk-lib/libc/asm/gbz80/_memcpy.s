@@ -4,21 +4,14 @@
 .memcpy::
 	push	bc
 	jr	.memcpy_cont
-.memcpy_exit:
-	pop	hl
-	pop	de
-	push 	de
-	jp	(hl)
 ___memcpy::
 _memcpy::
-	lda	hl,7(sp)
+	push	bc
+	lda	hl,9(sp)
 	ld	a,(hl-)
 	ld	d, a
 	ld	a,(hl-)
-	or	d
-	jr	z,.memcpy_exit
 	ld	e,a
-	push	bc
 	ld	a,(hl-)
 	ld	b,a
 	ld	a,(hl-)
