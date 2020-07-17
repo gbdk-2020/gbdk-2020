@@ -1,75 +1,84 @@
 	.area	_BASE
 
 ; void *memcpy(void *dest, const void *source, int count)
+.memcpy::
+	push	bc
+	jr	.memcpy_cont
+.memcpy_exit:
+	pop	hl
+	pop	de
+	push 	de
+	jp	(hl)
 ___memcpy::
 _memcpy::
-	push	bc
-	lda	hl,6(sp)
-	ld	a,(hl+)
-	ld	e, a
-	ld	a,(hl+)
+	lda	hl,7(sp)
+	ld	a,(hl-)
 	ld	d, a
-	ld	a,(hl+)
-	ld	c, a
-	ld	b,(hl)
-	lda	hl,4(sp)
-	ld	a,(hl+)
-	ld	h,(hl)
-	ld	l,a
-	jr	.memcpy_cont
-.memcpy::
-	push    bc
+	ld	a,(hl-)
+	or	d
+	jr	z,.memcpy_exit
+	ld	e,a
+	push	bc
+	ld	a,(hl-)
+	ld	b,a
+	ld	a,(hl-)
+	ld	c,a
+	ld	a,(hl-)
+	ld	l,(hl)
+	ld	h,a
 .memcpy_cont:	
 	push	hl
-	push    bc
 
-	srl     b
-	rr      c
-	srl     b
-	rr      c
-	
-	ld      a,b
-	or      c
-	jr      z, 3$
+	ld	a, e
+	and	#0xfc
+	or	d
+	jr	z,3$
 
-	inc	b
-	inc	c
+	push	de
+
+	srl	d
+	rr	e
+	srl	d
+	rr	e
+
+	inc	d
+	inc	e
 	jr	2$
 1$:
-	ld	a,(de)
+	ld	a,(bc)
 	ld	(hl+),a
-	inc	de
-	ld	a,(de)
+	inc	bc
+	ld	a,(bc)
 	ld	(hl+),a
-	inc	de
-	ld	a,(de)
+	inc	bc
+	ld	a,(bc)
 	ld	(hl+),a
-	inc	de
-	ld	a,(de)
+	inc	bc
+	ld	a,(bc)
 	ld	(hl+),a
-	inc	de
+	inc	bc
 2$:
-	dec	c
+	dec	e
 	jr	nz,1$
-	dec	b
-	jr	nz,1$	
+	dec	d
+	jr	nz,1$
+
+	pop	de
 3$:
-	pop     bc
-	srl     c
-	jr      nc, 4$
-	ld	a,(de)
+	srl	e
+	jr	nc,4$
+	ld	a,(bc)
 	ld	(hl+),a
-	inc	de	
+	inc	bc
 4$:
-	srl     c
-	jr      nc, 5$
-	ld	a,(de)
+	srl	e
+	jr	nc,5$
+	ld	a,(bc)
 	ld	(hl+),a
-	inc	de	
-	ld	a,(de)
+	inc	bc
+	ld	a,(bc)
 	ld	(hl+),a
 5$:	
 	pop	de
-	pop     bc
+	pop	bc
 	ret
-	
