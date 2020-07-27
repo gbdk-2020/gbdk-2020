@@ -41,9 +41,8 @@ __asm
             ld      A, (HL)
             adc     A
             daa
-            ld      (HL), A
+            ld      (HL-), A
             
-            dec     HL
             dec     HL
             
             dec     B
