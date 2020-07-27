@@ -28,4 +28,9 @@ void main() {
 
     len = bcd2text(&bcd, 0x11, buf);
     set_bkg_tiles(5, 7, len, 1, buf);
+
+    uint2bcd(12345, &bcd);
+
+    len = bcd2text(&bcd, 0x11, buf);
+    set_bkg_tiles(5, 8, len, 1, buf);
 }

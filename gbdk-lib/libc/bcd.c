@@ -1,5 +1,59 @@
 #include "bcd.h"
 
+void uint2bcd(unsigned int i, BCD * value) __naked
+{
+    i; value; // suppress warninig: unreferenced function argument
+__asm
+            lda     HL, 2(SP)
+            ld      A, (HL+)        ; DE: uint
+            ld      E, A
+            ld      A, (HL+)
+            ld      D, A
+            ld      A, (HL+)
+            ld      H, (HL)
+            ld      L, A            ; HL: dest
+
+            push    BC
+
+            ; clear value
+            xor     A
+            ld      BC, #-4
+            
+            ld      (HL+), A
+            ld      (HL+), A
+            ld      (HL+), A
+            ld      (HL+), A
+            add     HL, BC
+
+            ld      B, #16
+1$:            
+            sla     E
+            rl      D
+            
+            ld      A, (HL)
+            adc     A
+            daa
+            ld      (HL+), A
+            ld      A, (HL)
+            adc     A
+            daa
+            ld      (HL+), A
+            ld      A, (HL)
+            adc     A
+            daa
+            ld      (HL), A
+            
+            dec     HL
+            dec     HL
+            
+            dec     B
+            jr      NZ, 1$
+
+            pop     BC
+            ret
+__endasm;
+}
+
 void bcd_add(BCD * sour, BCD * value) __naked
 {
     sour; value; // suppress warninig: unreferenced function argument

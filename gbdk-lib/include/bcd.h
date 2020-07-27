@@ -9,6 +9,9 @@
 
 typedef unsigned long BCD;
 
+// converts into into BCD
+void uint2bcd(unsigned int i, BCD * value);
+
 // adding BCD numbers: sour += value
 void bcd_add(BCD * sour, const BCD * value);
 // subtracting BCD numbers: sour -= value
