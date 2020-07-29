@@ -61,10 +61,14 @@ public:
 	int rel_address;
 
 	int GetBank() {
+		int bank = 0;
 		if(area.find_first_of("_CODE") == 0) {
-			return atoi(area.substr(area.find_last_of('_') + 1).c_str());
+			bank = atoi(area.substr(area.find_last_of('_') + 1).c_str());
+			if(bank == 0) {
+				bank = 1; //Fixes https://github.com/Zal0/gbdk-2020/issues/44
+			}
 		}
-		return 0;
+		return bank;
 	}
 
 public:
@@ -88,7 +92,7 @@ File Parse(const std::string& path) {
 		while(!file.eof()) {
 			getline(file, line);
 
-			if(line.empty())
+			if(line.empty() || line[0] == ';')
 				continue;
 
 			Line l;
