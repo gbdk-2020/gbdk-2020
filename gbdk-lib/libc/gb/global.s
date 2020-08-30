@@ -152,7 +152,7 @@
 
 	;; Symbols defined at link time
 	.globl	.STACK
-	.globl	.OAM
+	.globl	_shadow_OAM
 	.globl	.refresh_OAM
 
 	;; Main user routine	

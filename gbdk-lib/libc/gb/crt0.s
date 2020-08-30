@@ -493,7 +493,7 @@ _display_off::
 
 	;; Copy OAM data to OAM RAM
 .start_refresh_OAM:
-	LD	A,#>.OAM
+	LD	A,#>_shadow_OAM
 	LDH	(.DMA),A	; Put A into DMA registers
 	LD	A,#0x28		; We need to wait 160 ns
 1$:
@@ -668,6 +668,7 @@ _clock::
 __printTStates::
 	ret
 
+___sdcc_bcall::
 banked_call::			; Performs a long call.
 	pop	hl		; Get the return address
 	ldh	a,(__current_bank)
