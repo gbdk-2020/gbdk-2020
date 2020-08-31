@@ -650,7 +650,7 @@ _add_JOY::
 	RET
 
 _clock::
-	LD	HL,#.SYS_TIME
+	LD	HL,#.sys_time
 	DI
 	LD	A,(HL+)
 	EI
