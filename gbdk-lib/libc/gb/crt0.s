@@ -17,7 +17,7 @@
 ;	.org	0x10
 				; empty
 ;	.org	0x18
-				; empty
+				; crash handler utilized by crash_handler.h
 	.org	0x20
 .call_hl::
 	jp	(hl)		; RST 0x20 == calling HL
@@ -539,8 +539,7 @@ _mode::
 	LDA	HL,2(SP)	; Skip return address
 	LD	L,(HL)
 	LD	H,#0x00
-	CALL	.set_mode
-	RET
+	JP	.set_mode
 
 _get_mode::
 	LD	HL,#.mode
@@ -651,17 +650,17 @@ _add_JOY::
 	RET
 
 _clock::
-	ld	hl,#.sys_time
-	di
-	ld	a,(hl+)
-	ei
+	LD	HL,#.SYS_TIME
+	DI
+	LD	A,(HL+)
+	EI
 	;; Interrupts are disabled for the next instruction...
-	ld	d,(hl)
-	ld	e,a
-	ret
+	LD	D,(HL)
+	LD	E,A
+	RET
 
 __printTStates::
-	ret
+	RET
 
 	.area	_HEAP
 _malloc_heap_start::
