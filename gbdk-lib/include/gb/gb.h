@@ -647,14 +647,14 @@ inline UINT8 get_sprite_prop(UINT8 nb){
 */
 inline void move_sprite(UINT8 nb, UINT8 x, UINT8 y) {
     OAM_item_t * itm = &shadow_OAM[nb];
-    itm->x=x, itm->y=y; 
+    itm->y=y, itm->x=x; 
 }
 
 /** Moves the given sprite relative to its current position.
  */
 inline void scroll_sprite(UINT8 nb, INT8 x, INT8 y) {
     OAM_item_t * itm = &shadow_OAM[nb];
-    itm->x+=x; itm->y+=y; 
+    itm->y+=y, itm->x+=x; 
 }
 
 /* ************************************************************ */
