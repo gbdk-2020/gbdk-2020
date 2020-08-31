@@ -22,9 +22,8 @@
 .call_hl::
 	jp	(hl)		; RST 0x20 == calling HL
 
-	.org	0x28
-	jp	banked_call	; banked call
-
+;	.org	0x28
+				; empty
 ;	.org	0x30
 				; empty
 ;	.org	0x38
@@ -261,13 +260,7 @@
 	EI			; Enable interrupts
 
 	;; Call the main function
-	CALL	banked_call
-	.dw	_main
-	.if __RGBDS__
-	.dw	BANK(_main)
-	.else
-	.dw	0
-	.endif
+	CALL	_main
 _exit::	
 99$:
 	HALT
@@ -286,6 +279,8 @@ _exit::
 	.area	_BASE
 	;; Code
 	.area	_CODE
+	;; #pragma bank 0 workaround
+	.area	_CODE_0
 	;; Constant data
 	.area	_LIT
 	;; Constant data used to init _DATA
@@ -667,30 +662,6 @@ _clock::
 
 __printTStates::
 	ret
-
-___sdcc_bcall::
-banked_call::			; Performs a long call.
-	pop	hl		; Get the return address
-	ldh	a,(__current_bank)
-	push	af		; Push the current bank onto the stack
-	ld	a,(hl+)		; Fetch the call address
-	ld	e, a
-	ld	a,(hl+)
-	ld	d, a
-	ld	a,(hl+)		; ...and page
-	inc	hl		; Yes this should be here
-	push	hl		; Push the real return address
-	ldh	(__current_bank),a
-	ld	(.MBC1_ROM_PAGE),a	; Perform the switch
-	ld	l,e
-	ld	h,d
-	rst	0x20
-banked_ret::
-	pop	hl		; Get the return address
-	pop	af		; Pop the old bank
-	ld	(.MBC1_ROM_PAGE),a
-	ldh	(__current_bank),a
-	jp	(hl)
 
 	.area	_HEAP
 _malloc_heap_start::

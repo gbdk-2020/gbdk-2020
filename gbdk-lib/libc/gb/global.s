@@ -121,9 +121,6 @@
 	.endif
 
 	.globl  __current_bank
-
-	.globl	banked_call
-	.globl	banked_ret
 	
 	;; Global variables
 	.globl	.mode
