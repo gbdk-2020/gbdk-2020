@@ -483,15 +483,17 @@ void get_bkg_tiles(UINT8 x,
     Where 0,0 is the top left corner of the GB screen. You'll notice the screen
     wraps around in all 4 directions, and is always under the window layer.
 */
-void move_bkg(UINT8 x,
-          UINT8 y) NONBANKED __preserves_regs(b, c, d, e);
+inline void move_bkg(UINT8 x, UINT8 y) {
+    SCX_REG=x, SCY_REG=y;
+}
 
 /** Moves the background relative to it's current position.
 
     @see move_bkg
 */
-void scroll_bkg(INT8 x,
-          INT8 y) NONBANKED __preserves_regs(b, c, d, e);
+inline void scroll_bkg(INT8 x, INT8 y) {
+    SCX_REG+=x, SCY_REG+=y;
+}
 
 /* ************************************************************ */
 
@@ -555,14 +557,16 @@ void get_win_tiles(UINT8 x,
     the bottom right corner, and is always over the background layer.
     @see SHOW_WIN, HIDE_WIN
 */
-void move_win(UINT8 x,
-          UINT8 y) NONBANKED __preserves_regs(b, c, d, e);
+inline void move_win(UINT8 x, UINT8 y) {
+    WX_REG=x, WY_REG=y;
+}
 
 /** Move the window relative to its current position.
     @see move_win
 */
-void scroll_win(INT8 x,
-          INT8 y) NONBANKED __preserves_regs(b, c, d, e);
+inline void scroll_win(INT8 x, INT8 y) {
+    WX_REG+=x, WY_REG+=y;
+}
 
 /* ************************************************************ */
 
