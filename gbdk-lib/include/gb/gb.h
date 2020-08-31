@@ -645,16 +645,16 @@ inline UINT8 get_sprite_prop(UINT8 nb){
     is at (8,16).  To put sprite 0 at the top left, use
     move_sprite(0, 8, 16);
 */
-
 inline void move_sprite(UINT8 nb, UINT8 x, UINT8 y) {
-    shadow_OAM[nb].x=x; shadow_OAM[nb].y=y; 
+    OAM_item_t * itm = &shadow_OAM[nb];
+    itm->x=x, itm->y=y; 
 }
 
 /** Moves the given sprite relative to its current position.
  */
-
 inline void scroll_sprite(UINT8 nb, INT8 x, INT8 y) {
-    shadow_OAM[nb].x+=x; shadow_OAM[nb].y+=y; 
+    OAM_item_t * itm = &shadow_OAM[nb];
+    itm->x+=x; itm->y+=y; 
 }
 
 /* ************************************************************ */
