@@ -216,19 +216,7 @@ ifeq ($(OS),Windows_NT)
 		@cp -r $(SDCCDIR)/bin $(BUILDDIR)/bin/SDCC
 endif
 ifeq ($(OS),Linux)
-		@cp $(SDCCDIR)/bin/as2gbmap $(BUILDDIR)/bin/SDCC/bin/
-		@cp $(SDCCDIR)/bin/makebin $(BUILDDIR)/bin/SDCC/bin/
-		@cp $(SDCCDIR)/bin/packihx $(BUILDDIR)/bin/SDCC/bin/
-		@cp $(SDCCDIR)/bin/sdar $(BUILDDIR)/bin/SDCC/bin/
-		@cp $(SDCCDIR)/bin/sdasgb $(BUILDDIR)/bin/SDCC/bin/
-		@cp $(SDCCDIR)/bin/sdcc $(BUILDDIR)/bin/SDCC/bin/
-		@cp $(SDCCDIR)/bin/sdcpp $(BUILDDIR)/bin/SDCC/bin/
-		@cp $(SDCCDIR)/bin/sdldgb $(BUILDDIR)/bin/SDCC/bin/
-		@cp $(SDCCDIR)/bin/sdnm $(BUILDDIR)/bin/SDCC/bin/
-		@cp $(SDCCDIR)/bin/sdobjcopy $(BUILDDIR)/bin/SDCC/bin/
-		@cp $(SDCCDIR)/bin/sdranlib $(BUILDDIR)/bin/SDCC/bin/
-		@cp $(SDCCDIR)/bin/sz80 $(BUILDDIR)/bin/SDCC/bin/
-		@cp /usr/share/emacs/site-lisp/sdcc-ucsim/sdcdbsrc.el $(BUILDDIR)/bin/SDCC/bin/
+		@cp $(SDCCDIR)/bin/* $(BUILDDIR)/bin/SDCC/bin/
 endif
 ifeq ($(OS),Darwin)
 		@cp $(SDCCDIR)/bin/{as2gbmap,makebin,packihx,sdar,sdasgb,sdcc,sdcdb,sdcdb{,src}.el,sdcpp,sdldgb,sdnm,sdobjcopy,sdranlib,sz80} $(BUILDDIR)/bin/SDCC/bin/
@@ -238,10 +226,10 @@ endif
 binary: binary-tidyup
 ifeq ($(ARCHIVETYPE),zip)
 	rm -f $(TOPDIR)/gbdk-$(VER)-$(TARGETOS).zip
-	cd $(BUILDDIR)/..; zip -9Xrq $(TOPDIR)/gbdk-$(VER)-$(TARGETOS).zip gbdk
+	cd $(BUILDDIR)/..; zip -9Xrq $(TOPDIR)/gbdk-$(VER)-$(OS).zip gbdk
 else
 	rm -f $(TOPDIR)/gbdk-$(VER)-$(TARGETOS).tar.gz
-	cd $(BUILDDIR)/..; tar czf $(TOPDIR)/gbdk-$(VER)-$(TARGETOS).tar.gz gbdk
+	cd $(BUILDDIR)/..; tar czf $(TOPDIR)/gbdk-$(VER)-$(OS).tar.gz gbdk
 endif
 
 binary-tidyup:

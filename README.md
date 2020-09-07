@@ -48,9 +48,13 @@ Unless you are interested on recompiling the sources for some reason (like fixin
 
 ```shell
 sudo apt-get update 
-sudo apt-get install make sdcc sdcc-ucsim g++ gcc --fix-missing
-export SDCCDIR="/usr"
-sudo ln -s /usr/share/emacs/site-lisp/sdcc-ucsim/sdcdbsrc.el /usr/bin
+sudo apt-get install make wget g++ gcc --fix-missing
+wget https://github.com/drpaneas/fetchsdcc/releases/download/v1/fetchsdcc-linux
+chmod +x fetchsdcc-linux
+wget $(./fetchsdcc-linux)
+tar -xf *.tar.bz2
+cp -avr sdcc/ /tmp
+export SDCCDIR="/tmp/sdcc"
 make
 ```
 

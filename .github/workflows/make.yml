@@ -1,0 +1,39 @@
+name: Make CI
+
+on: [push]
+
+env:
+  BUILD_TYPE: Release
+  SDCCDIR: /tmp/sdcc
+
+jobs:
+  linux:
+    # ubuntu-latest is using 18.04 (See https://github.com/actions/virtual-environments/issues/1430)
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install Packages
+      run: |
+        sudo apt-get update
+        sudo apt-get install make wget g++ gcc --fix-missing
+    - name: SDCC
+      run: |
+        wget https://github.com/drpaneas/fetchsdcc/releases/download/v1/fetchsdcc-linux
+        chmod +x fetchsdcc-linux
+        wget $(./fetchsdcc-linux)
+        tar -xf *.tar.bz2
+        cp -avr sdcc/ /tmp
+    - name: Build
+      run: make
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: linux
+        path: build/
+    - name: GitHub Releases
+      uses: fnkr/github-action-ghr@v1.3
+      if: startsWith(github.ref, 'refs/tags/')
+      env:
+        GHR_COMPRESS: zip
+        GHR_PATH: build/
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
