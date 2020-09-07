@@ -43,3 +43,15 @@ Unless you are interested on recompiling the sources for some reason (like fixin
 - Download and install [**sdcc**](http://sdcc.sourceforge.net/) (SDCC is no longer part of GDDK so you need to download it (just the binaries) in the platform you need)
 - Create and environment var **SDCCDIR** pointint to the folder where you installed sdcc
 - Open a command prompt or a terminal, go the root directory of the repo and run **make**
+
+## Ubuntu
+
+```shell
+sudo apt-get update 
+sudo apt-get install make sdcc sdcc-ucsim g++ gcc --fix-missing
+export SDCCDIR="/usr"
+sudo ln -s /usr/share/emacs/site-lisp/sdcc-ucsim/sdcdbsrc.el /usr/bin
+make
+```
+
+The `lcc` binary can be found inside `./build/gbdk/bin/SDCC/bin/` directory.
