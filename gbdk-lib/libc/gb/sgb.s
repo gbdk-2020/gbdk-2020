@@ -71,13 +71,14 @@ _sgb_check::			; Banked
 ;	CALL	.sgb_transfer
 ;	CALL	.wait4
 	XOR	A
+	LD	E,A
 	RET
 
 .sgb_mode:
 	LD	HL,#.MLT_REQ_1
 	CALL	.sgb_transfer
 	CALL	.wait4
-	LD	A,#0xFF
+	LD	E,#0xFF
 	RET
 
 .sgb_transfer::
