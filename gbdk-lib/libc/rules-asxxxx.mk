@@ -1,5 +1,8 @@
 $(LIB): pre $(OBJ)
-	cd $(BUILD); ls *.o > `basename $(LIB)`
+	for file in $(OBJ) ; do \
+		$(SDAR) -q $(LIB) $${file} ; \
+	done
+	$(SDAR) -d $(LIB) crt0.o
 
 pre: set-model build-dir
 
