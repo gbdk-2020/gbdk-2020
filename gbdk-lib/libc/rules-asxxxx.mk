@@ -1,8 +1,7 @@
 $(LIB): pre $(OBJ)
-	for file in $(OBJ) ; do \
+	for file in $(filter-out %/crt0.o,$(OBJ)) ; do \
 		$(SDAR) -q $(LIB) $${file} ; \
 	done
-	$(SDAR) -d $(LIB) crt0.o
 
 pre: set-model build-dir
 
