@@ -33,6 +33,7 @@
 	;;   Clear A when running on DMG
 .sgb_check::
 _sgb_check::			; Banked
+	PUSH	BC
 	LD	HL,#.MLT_REQ_2
 	CALL	.sgb_transfer
 	CALL	.wait4
@@ -72,6 +73,7 @@ _sgb_check::			; Banked
 ;	CALL	.wait4
 	XOR	A
 	LD	E,A
+	POP	BC
 	RET
 
 .sgb_mode:
@@ -79,8 +81,30 @@ _sgb_check::			; Banked
 	CALL	.sgb_transfer
 	CALL	.wait4
 	LD	E,#0xFF
+	POP	BC
 	RET
 
+_sgb_transfer::
+	PUSH    BC
+	LDA	HL,4(SP)
+	LD	A,(HL+)
+	LD	H,(HL)
+	LD	L,A
+	CALL	.sgb_transfer
+	CALL	.wait4
+	POP	BC
+	RET
+
+_sgb_transfer_nowait::
+	PUSH    BC
+	LDA	HL,4(SP)
+	LD	A,(HL+)
+	LD	H,(HL)
+	LD	L,A
+	CALL	.sgb_transfer
+	POP	BC
+	RET
+	
 .sgb_transfer::
 	LD	A,(HL)		; Top of command data
 	AND	#0x03
@@ -125,6 +149,7 @@ _sgb_check::			; Banked
 	JR	1$
 
 .wait4:
+	PUSH	BC
 	LD	DE,#7000
 1$:
 	NOP			; 1 +
@@ -134,6 +159,7 @@ _sgb_check::			; Banked
 	LD	A,D		; 1 +
 	OR	E		; 1 +
 	JR	NZ,1$		; 3 = 10 cycles
+	POP	BC
 	RET
 
 .MLT_REQ_1:
