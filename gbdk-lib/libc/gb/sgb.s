@@ -68,9 +68,6 @@ _sgb_check::			; Banked
 	JR	NZ,.sgb_mode
 
 .dmg_mode:
-;	LD	HL,#.MLT_REQ_1
-;	CALL	.sgb_transfer
-;	CALL	.wait4
 	XOR	A
 	LD	E,A
 	POP	BC
@@ -149,7 +146,6 @@ _sgb_transfer_nowait::
 	JR	1$
 
 .wait4:
-	PUSH	BC
 	LD	DE,#7000
 1$:
 	NOP			; 1 +
@@ -159,7 +155,6 @@ _sgb_transfer_nowait::
 	LD	A,D		; 1 +
 	OR	E		; 1 +
 	JR	NZ,1$		; 3 = 10 cycles
-	POP	BC
 	RET
 
 .MLT_REQ_1:
