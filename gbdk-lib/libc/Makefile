@@ -13,7 +13,7 @@ endif
 TOPDIR = ..
 
 CSRC =	atoi.c atol.c isalpha.c isdigit.c \
-	islower.c isspace.c isupper.c itoa.c labs.c \
+	islower.c isspace.c isupper.c labs.c \
 	printf.c puts.c reverse.c scanf.c strcat.c string.c \
 	strlen.c strncat.c strncmp.c strncpy.c time.c \
 	tolower.c toupper.c \
