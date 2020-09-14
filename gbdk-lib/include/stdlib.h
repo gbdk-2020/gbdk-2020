@@ -54,6 +54,10 @@ char *utoa(unsigned int n, char *s);
  */
 char *ltoa(long n, char *s);
 
+/** Converts an unsigned long into a base 10 ASCII string.
+ */
+char *ultoa(unsigned long n, char *s);
+
 /* Searching and sorting utilities (ISO C11 7.22.5) */
 extern void *bsearch(const void *key, const void *base, size_t nmemb, size_t size, int (*compar)(const void *, const void *) __reentrant);
 extern void qsort(void *base, size_t nmemb, size_t size, int (*compar)(const void *, const void *) __reentrant);

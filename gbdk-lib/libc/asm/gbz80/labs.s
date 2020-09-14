@@ -1,5 +1,5 @@
 ;--------------------------------------------------------------------------
-;  reverse.s
+;  labs.s
 ;
 ;  Copyright (C) 2020, Tony Pavlov
 ;
@@ -26,59 +26,45 @@
 ;   might be covered by the GNU General Public License.
 ;--------------------------------------------------------------------------
 
-	.module		reverse
+	.module	labs
 
 	.area	_CODE
 
-_reverse::
+;long labs(long num)
+_labs::
 	lda	HL, 2(SP)
 	ld	A, (HL+)
+	ld	E, A
+	ld	A, (HL+)
+	ld	D, A
+	ld	A, (HL+)
 	ld	H, (HL)
-	ld	L, A		; HL: s
-	
-	push    BC
-	ld 	B, H
-	ld	C, L		; BC: s
-	
-	ld	DE, #0
-1$:	ld	A, (HL+)
-	or	A
-	jr	Z, 2$
-	inc	DE
-	jr	1$
+	ld	L, A		; DEHL = num
 
-2$:
-	srl	D
-	rr	E
-	
+.labs::
+	ld	A, H
+	add	A, A
+	ret	NC
+
+1$:
 	ld	A, E
-	or	D
-	jr	Z, 3$
+	cpl
+	add	#1
+	ld	E, A
 
-	dec	HL
-	dec	HL
+	ld	A, D
+	cpl
+	adc	#0
+	ld	D, A
 
-	inc	D
-	inc	E
-	jr	5$
-4$:
-	ld	A, (HL)
-	push 	AF
-	ld	A, (BC)
-	ld	(HL-), A
-	pop	AF
-	ld	(BC), A
-	inc	BC
-5$:
-	dec	E
-	jr	NZ, 4$
-	dec	D
-	jr	NZ, 4$
-	
-3$:
-	pop	BC
-	lda	HL, 2(SP)
-	ld	E, (HL)
-	inc	HL
-	ld	D, (HL)
-	ret
+	ld	A, L
+	cpl
+	adc	#0
+	ld	L, A
+
+	ld	A, H
+	cpl
+	adc	#0
+	ld	H, A
+
+	ret 

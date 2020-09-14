@@ -13,7 +13,7 @@ endif
 TOPDIR = ..
 
 CSRC =	atoi.c atol.c isalpha.c isdigit.c \
-	islower.c isspace.c isupper.c labs.c \
+	islower.c isspace.c isupper.c \
 	printf.c puts.c scanf.c strcat.c string.c \
 	strncat.c strncmp.c strncpy.c time.c \
 	tolower.c toupper.c \
@@ -21,7 +21,7 @@ CSRC =	atoi.c atol.c isalpha.c isdigit.c \
 	_modulong.c _modslong.c _divulong.c _divslong.c _mullong.c \
 	bsearch.c qsort.c atomic_flag_clear.c \
 	bcd.c
-#	free.c malloc.c realloc.c calloc.c ltoa.c
+#	free.c malloc.c realloc.c calloc.c
 
 include $(TOPDIR)/Makefile.common
 
