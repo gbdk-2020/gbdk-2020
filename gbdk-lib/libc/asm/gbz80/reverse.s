@@ -1,5 +1,5 @@
 ;--------------------------------------------------------------------------
-;  itoa.s
+;  reverse.s
 ;
 ;  Copyright (C) 2020, Tony Pavlov
 ;
@@ -26,159 +26,59 @@
 ;   might be covered by the GNU General Public License.
 ;--------------------------------------------------------------------------
 
-	.module		itoa
+	.module		reverse
 
 	.area	_CODE
 
-_utoa::
-	push    BC
-	lda	HL, 4(SP)
-	ld	A, (HL+)
-	ld	E, A
-	ld	A, (HL+)
-	ld	D, A		; DE: uint
-	ld	A, (HL+)
-	ld	C, A
-	ld	B, (HL)		; BC: dest
-	call 	.utoa
-	pop	BC
-	ret
-
-_itoa::
-	push    BC
-	lda	HL, 4(SP)
-	ld	A, (HL+)
-	ld	E, A
-	ld	A, (HL+)
-	ld	D, A		; DE: int
-	ld	A, (HL+)
-	ld	C, A
-	ld	B, (HL)		; BC: dest
-	call 	.itoa
-	pop	BC
-	ret
-	
-.itoa::				; convert int into ascii
-	ld	A, D
-	add	A, A
-	jr	NC, .utoa
-
-	rra			; DE = abs(DE)
-	cpl
-	ld	D, A
-	ld	A, E
-	cpl
-	ld	E, A
-	inc	DE
-	
-	ld	A, #'-'
-	ld	(BC), A
-	inc	BC
-	
-	call    .utoa
-	dec	DE
-	ret
-
-.utoa::				; convert unsigned int into ascii
-	add	SP, #-3
+_reverse::
 	lda	HL, 2(SP)
+	ld	A, (HL+)
+	ld	H, (HL)
+	ld	L, A		; HL: s
 	
-	xor	A		; clear value
-	ld	(HL-), A
-	ld	(HL-), A
-	ld	(HL), A
-
-	push	BC
-	ld	B, #8
-1$:
-	sla	E
-	rl	D
-	
-	ld	A, (HL)
-	adc	A
-	daa
-	ld	(HL+), A
-	ld	A, (HL)
-	adc	A
-	daa
-	ld	(HL+), A
-	ld	A, (HL)
-	adc	A
-	daa
-	ld	(HL-), A
-	dec	HL
-
-	sla	E
-	rl	D
-	
-	ld	A, (HL)
-	adc	A
-	daa
-	ld	(HL+), A
-	ld	A, (HL)
-	adc	A
-	daa
-	ld	(HL+), A
-	ld	A, (HL)
-	adc	A
-	daa
-	ld	(HL-), A
-	dec	HL
-
-	dec	B
-	jr	NZ, 1$
-
-	pop	BC
 	push    BC
-
-	ld	DE, #((0x0f << 8) | '0')
-	lda	HL, 4(SP)
+	ld 	B, H
+	ld	C, L		; BC: s
 	
-	ld	A, (HL-)
-	and	D
+	ld	DE, #0
+1$:	ld	A, (HL+)
 	or	A
+	jr	Z, 2$
+	inc	DE
+	jr	1$
+
+2$:
+	srl	D
+	rr	E
+	
+	ld	A, E
+	or	D
 	jr	Z, 3$
-	add	A, E
-	ld	(BC), A
-	inc	BC	
-3$:
-	ld	A, (HL)
-	swap 	A
-	and	D
-	or	A
-	jr	Z, 4$
-	add	A, E
-	ld	(BC), A
-	inc	BC
+
+	dec	HL
+	dec	HL
+
+	inc	D
+	inc	E
+
 4$:
-	ld	A, (HL-)
-	and	D
-	or	A
-	jr	Z, 5$
-	add	A, E
-	ld	(BC), A
-	inc	BC	
-5$:
 	ld	A, (HL)
-	swap 	A
-	and	D
-	or	A
-	jr	Z, 6$
-	add	A, E
-	ld	(BC), A
-	inc	BC
-6$:
-	ld	A, (HL)
-	and	D
-	add	A, E
+	push 	AF
+	ld	A, (BC)
+	ld	(HL-), A
+	pop	AF
 	ld	(BC), A
 	inc	BC
 	
-	xor	A
-	ld	(BC), A		; write trailing #0
-
-	pop	DE
-
-	add	sp, #3
-
+	dec	E
+	jr	NZ, 4$
+	dec	D
+	jr	NZ, 4$
+	
+3$:
+	pop	BC
+	lda	HL, 2(SP)
+	ld	E, (HL)
+	inc	HL
+	ld	D, (HL)
 	ret
