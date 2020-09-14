@@ -1,105 +1,84 @@
-/** Simple printf implementation
-    Again a stub - will use the std one later...
-*/
 #include <gbdk-lib.h>
 #include <stdio.h>
 #include <stdarg.h>
-#pragma bank BASE
+#include <stdlib.h>
 
-static void _printn(unsigned u, unsigned base, char issigned, 
-                    volatile void (*emitter)(char, void *), void *pData)
+typedef void (*emitter_t)(char, char **);
+
+static inline void _printhex(unsigned u, emitter_t emitter, char ** pData)
 {
     const char *_hex = "0123456789ABCDEF";
-    if (issigned && ((int)u < 0)) {
-	(*emitter)('-', pData);
-	u = (unsigned)-((int)u);
+    for (char i = 0; i < 4; i++) {
+        (*emitter)(_hex[u >> 12], pData);
+        u = u << 4;     
     }
-    if (u >= base)
-	_printn(u/base, base, 0, emitter, pData);
-    (*emitter)(_hex[u%base], pData);
 }
 
-/* PENDING: HACK: A bug in 2.96a pulls emitter into registers and then
-   destroys them.  Marking it as volatile stops this.
-*/
-static void _printf(const char *format, volatile void (*emitter)(char, void *), void *pData, va_list va)
+static void _printf(const char *format, emitter_t emitter, char **pData, va_list va)
 {
     while (*format) {
-	if (*format == '%') {
-	    switch (*++format) {
-	    case 'c': {
-		char c = va_arg(va, char);
-		(*emitter)(c, pData);
-		break;
-	    }
-	    case 'u':
-		{
-		    unsigned u = va_arg(va, unsigned);
-		    _printn(u, 10, 0, emitter, pData);
-		    break;
-		}
-	    case 'd':
-		{
-		    unsigned u = va_arg(va, unsigned);
-		    _printn(u, 10, 1, emitter, pData);
-		    break;
-		}
-	    case 'x':
-		{
-		    unsigned u = va_arg(va, unsigned);
-		    _printn(u, 16, 0, emitter, pData);
-		    break;
-		}
-	    case 's': 
-		{
-		    char *s = va_arg(va, char *);
-		    while (*s) {
-			(*emitter)(*s, pData);
-			s++;
-		    }
-		    break;
-		}
-	    }
-	}
-	else {
-	    (*emitter)(*format, pData);
-	}
-	format++;
+        if (*format == '%') {
+            switch (*++format) {
+                case 'c': {
+                    char c = va_arg(va, char);
+                    (*emitter)(c, pData);
+                    break;
+                }
+                case 'u':
+                {
+                    char buf[16];
+                    utoa(va_arg(va, int), buf);
+                    char * s = buf;
+                    while (*s) (*emitter)(*s, pData), s++;
+                    break;
+                }
+                case 'd':
+                {
+                    char buf[16];
+                    itoa(va_arg(va, int), buf);
+                    char * s = buf;
+                    while (*s) (*emitter)(*s, pData), s++;
+                    break;
+                }
+                case 'x':
+                {
+                    unsigned u = va_arg(va, int);
+                    _printhex(u, emitter, pData);
+                    break;
+                }
+                case 's': 
+                {
+                    char *s = va_arg(va, char *);
+                    while (*s) (*emitter)(*s, pData), s++;
+                    break;
+                }
+            }
+        } else {
+            (*emitter)(*format, pData);
+        }
+        format++;
     }
 }
 
-static void _char_emitter(char c, void *pData)
-{
-    putchar(c);
-}
-
-void printf(const char *format, ...) NONBANKED
+void printf(const char *format, ...)
 {
     va_list va;
     va_start(va, format);
 
-    _printf(format, _char_emitter, NULL, va);
+    _printf(format, (emitter_t)putchar, NULL, va);
 }
 
-typedef struct {
-    char *at;
-} _SPRINTF_INFO;
-
-static void _sprintf_emitter(char c, void *pData)
+static void _sprintf_emitter(char c, char ** pData)
 {
-    /* This way to avoid bugs in sdcc */
-    *(((_SPRINTF_INFO *)pData)->at) = c;
-    ((_SPRINTF_INFO *)pData)->at++;
+    **pData = c;
+    (*pData)++;
 }
 
-void sprintf(char *into, const char *format, ...) NONBANKED
+void sprintf(char *into, const char *format, ...)
 {
-    _SPRINTF_INFO si;
     va_list va;
-
-    si.at = into;
     va_start(va, format);
 
-    _printf(format, _sprintf_emitter, &si, va);
-    _sprintf_emitter('\0', &si);
+    _printf(format, _sprintf_emitter, &into, va);
+    _sprintf_emitter('\0', &into);
 }
