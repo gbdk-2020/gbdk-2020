@@ -22,6 +22,6 @@ banked_call::			; Performs a long call.
 banked_ret::
 	pop	hl		; Get the return address
 	pop	af		; Pop the old bank
-	ld	(.MBC1_ROM_PAGE),a
 	ldh	(__current_bank),a
+	ld	(.MBC1_ROM_PAGE),a
 	jp	(hl)

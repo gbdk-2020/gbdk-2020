@@ -10,6 +10,6 @@ ldh a,(__current_bank)
 	ld	(.MBC1_ROM_PAGE),a	; Perform the switch
 	rst	0x20
 	pop	af			; Pop the old bank
-	ld	(.MBC1_ROM_PAGE),a
 	ldh	(__current_bank),a
+	ld	(.MBC1_ROM_PAGE),a
 	ret
