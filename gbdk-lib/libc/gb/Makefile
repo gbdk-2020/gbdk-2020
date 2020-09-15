@@ -18,7 +18,7 @@ ASSRC =	cgb.s cpy_data.s drawing.s f_ibm_sh.s \
 	rand.s arand.s \
 	bgb_emu.s \
 	nowait.s far_ptr.s \
-	lcd.s \
+	lcd.s joy.s tim.s \
 	crash_handler.s \
 	___sdcc_bcall_ehl.s ___sdcc_bcall.s \
 	crt0.s

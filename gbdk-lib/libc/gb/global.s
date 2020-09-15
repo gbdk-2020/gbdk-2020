@@ -127,10 +127,6 @@
 
 	.globl	__cpu
 
-	.globl	__io_out
-	.globl	__io_in
-	.globl	__io_status
-
 	;; Global routines
 	.globl	.set_mode
 
@@ -143,9 +139,9 @@
 	;; Interrupt routines 
 	.globl	.add_VBL
 ;	.globl	.add_LCD	;; don't link LCD.o by default
-	.globl	.add_TIM
-	.globl	.add_SIO
-	.globl	.add_JOY
+;	.globl	.add_TIM	;; don't link TIM.o by default
+;	.globl	.add_SIO	;; don't link serial.o by default
+;	.globl	.add_JOY	;; don't link JOY.o by default
 
 	;; Symbols defined at link time
 	.globl	.STACK

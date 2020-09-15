@@ -37,31 +37,19 @@
 	LD	HL,#.int_0x40
 	JP	.int
 
-	.org	0x50		; TIM
-.int_TIM:
-	PUSH	AF
-	PUSH	HL
-	LD	HL,#.int_0x50
-	JP	.int
+;	.org	0x48		; LCD
 
-	.org	0x58		; SIO
-.int_SIO:
-	PUSH	AF
-	PUSH	HL
-	LD	HL,#.int_0x58
-	JP	.int
+;	.org	0x50		; TIM
 
-	.org	0x60		; JOY
-.int_JOY:
-	PUSH	AF
-	PUSH	HL
-	LD	HL,#.int_0x60
-	JP	.int
+;	.org	0x58		; SIO
 
+;	.org	0x60		; JOY
+
+;	.org	0x70
 	;; space for drawing.s bit table
 
 	.org    0x80
-.int:
+.int::
 	PUSH	BC
 	PUSH	DE
 1$:
@@ -208,8 +196,6 @@
 	;; Install interrupt routines
 	LD	BC,#.vbl
 	CALL	.add_VBL
-	LD	BC,#.serial_IO
-	CALL	.add_SIO
 
 	;; Standard color palettes
 	LD	A,#0b11100100	; Grey 3 = 11 (Black)
@@ -233,8 +219,8 @@
 	LDH	(.LCDC),A
 	XOR	A
 	LDH	(.IF),A
-	LD	A,#0b00001001	; Pin P10-P13	=   Off
-				; Serial I/O	=   On
+	LD	A,#0b00000001	; Pin P10-P13	=   Off
+				; Serial I/O	=   Off
 				; Timer Ovfl	=   Off
 				; LCDC		=   Off
 				; V-Blank	=   On
@@ -249,11 +235,6 @@
 ;	LD	(_malloc_heap_start+1),A
 
 	LDH	(.NR52),A	; Turn sound off
-	LDH	(.SC),A		; Use external clock
-	LD	A,#.DT_IDLE
-	LDH	(.SB),A		; Send IDLE byte
-	LD	A,#0x80
-	LDH	(.SC),A		; Use external clock
 
 	CALL	gsinit
 
@@ -299,26 +280,12 @@ __cpu::
 	.ds	0x01		; GB type (GB, PGB, CGB)
 .mode::
 	.ds	0x01		; Current mode
-__io_out::
-	.ds	0x01		; Byte to send
-__io_in::
-	.ds	0x01		; Received byte
-__io_status::
-	.ds	0x01		; Status of serial IO
 .vbl_done::
 	.ds	0x01		; Is VBL interrupt finished?
 .sys_time::
 _sys_time::
 	.ds	0x02		; System time in VBL units
 .int_0x40::
-	.blkw	0x08
-.int_0x48::
-	.blkw	0x08
-.int_0x50::
-	.blkw	0x08
-.int_0x58::
-	.blkw	0x08
-.int_0x60::
 	.blkw	0x08
 
 	.area	_HRAM (ABS)
@@ -352,26 +319,8 @@ gsinit::
 .remove_VBL::
 	LD	HL,#.int_0x40
 	JP	.remove_int
-.remove_TIM::
-	LD	HL,#.int_0x50
-	JP	.remove_int
-.remove_SIO::
-	LD	HL,#.int_0x58
-	JP	.remove_int
-.remove_JOY::
-	LD	HL,#.int_0x60
-	JP	.remove_int
 .add_VBL::
 	LD	HL,#.int_0x40
-	JP	.add_int
-.add_TIM::
-	LD	HL,#.int_0x50
-	JP	.add_int
-.add_SIO::
-	LD	HL,#.int_0x58
-	JP	.add_int
-.add_JOY::
-	LD	HL,#.int_0x60
 	JP	.add_int
 
 	;; Remove interrupt BC from interrupt list HL if it exists
@@ -497,44 +446,6 @@ _display_off::
 	RET
 .end_refresh_OAM:
 
-	;; Serial interrupt
-.serial_IO::
-	LD	A,(__io_status) ; Get status
-
-	CP	#.IO_RECEIVING
-	JR	NZ,10$
-
-	;; Receiving data
-	LDH	A,(.SB)		; Get data byte
-	LD	(__io_in),A	; Store it
-	LD	A,#.IO_IDLE
-	JR	11$
-
-10$:
-
-	CP	#.IO_SENDING
-	JR	NZ,99$
-
-	;; Sending data
-	LDH	A,(.SB)		; Get data byte
-	CP	#.DT_RECEIVING
-	JR	Z,11$
-	LD	A,#.IO_ERROR
-	JR	12$
-11$:
-	LD	A,#.IO_IDLE
-12$:
-	LD	(__io_status),A ; Store status
-
-	XOR	A
-	LDH	(.SC),A		; Use external clock
-	LD	A,#.DT_IDLE
-	LDH	(.SB),A		; Reply with IDLE byte
-99$:
-	LD	A,#0x80
-	LDH	(.SC),A		; Enable transfer with external clock
-	RET
-
 _mode::
 	LDA	HL,2(SP)	; Skip return address
 	LD	L,(HL)
@@ -578,36 +489,6 @@ _remove_VBL::
 	CALL	.remove_VBL
 	POP	BC
 	RET
-
-_remove_TIM::
-	PUSH	BC
-	LDA	HL,4(SP)	; Skip return address and registers
-	LD	C,(HL)
-	INC	HL
-	LD	B,(HL)
-	CALL	.remove_TIM
-	POP	BC
-	RET
-
-_remove_SIO::
-	PUSH	BC
-	LDA	HL,4(SP)	; Skip return address and registers
-	LD	C,(HL)
-	INC	HL
-	LD	B,(HL)
-	CALL	.remove_SIO
-	POP	BC
-	RET
-
-_remove_JOY::
-	PUSH	BC
-	LDA	HL,4(SP)	; Skip return address and registers
-	LD	C,(HL)
-	INC	HL
-	LD	B,(HL)
-	CALL	.remove_JOY
-	POP	BC
-	RET
 	
 _add_VBL::
 	PUSH	BC
@@ -616,36 +497,6 @@ _add_VBL::
 	INC	HL
 	LD	B,(HL)
 	CALL	.add_VBL
-	POP	BC
-	RET
-
-_add_TIM::
-	PUSH	BC
-	LDA	HL,4(SP)	; Skip return address and registers
-	LD	C,(HL)
-	INC	HL
-	LD	B,(HL)
-	CALL	.add_TIM
-	POP	BC
-	RET
-
-_add_SIO::
-	PUSH	BC
-	LDA	HL,4(SP)	; Skip return address and registers
-	LD	C,(HL)
-	INC	HL
-	LD	B,(HL)
-	CALL	.add_SIO
-	POP	BC
-	RET
-
-_add_JOY::
-	PUSH	BC
-	LDA	HL,4(SP)	; Skip return address and registers
-	LD	C,(HL)
-	INC	HL
-	LD	B,(HL)
-	CALL	.add_JOY
 	POP	BC
 	RET
 
