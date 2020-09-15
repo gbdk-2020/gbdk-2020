@@ -14,7 +14,7 @@ TOPDIR = ..
 
 CSRC =	atoi.c atol.c isalpha.c isdigit.c \
 	islower.c isspace.c isupper.c \
-	printf.c puts.c scanf.c strcat.c string.c \
+	sprintf.c printf.c puts.c scanf.c strcat.c string.c \
 	strncat.c strncmp.c strncpy.c time.c \
 	tolower.c toupper.c \
 	__assert.c \
