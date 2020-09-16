@@ -286,6 +286,8 @@ _exit::
 	.area	_BASE
 	;; Code
 	.area	_CODE
+	;; Code_0
+	.area _CODE_0
 	;; Constant data
 	.area	_LIT
 	;; Constant data used to init _DATA
