@@ -23,7 +23,7 @@ struct list {		/* circular list nodes: */
 };
 
 static void *alloc(int);
-List append(char *,List);
+List append(char *, List);
 extern char *basepath(char *);
 static int callsys(char *[]);
 extern char *concat(const char *, const char *);
@@ -50,7 +50,7 @@ extern char *tempname(char *);
 extern int access(char *, int);
 //extern int getpid(void);
 
-extern char *cpp[], *include[], *com[], *as[],*ld[], inputs[], *suffixes[];
+extern char *cpp[], *include[], *com[], *as[], *ld[], inputs[], *suffixes[];
 extern int option(char *);
 extern void set_gbdk_dir(char*);
 
@@ -76,10 +76,10 @@ static List lccinputs;		/* list of input directories */
 
 int main(int argc, char *argv[]) {
 	int i, j, nf;
-	
+
 	progname = argv[0];
 	ac = argc + 50;
-	av = alloc(ac*sizeof(char *));
+	av = alloc(ac * sizeof(char *));
 	if (signal(SIGINT, SIG_IGN) != SIG_IGN)
 		signal(SIGINT, interrupt);
 	if (signal(SIGTERM, SIG_IGN) != SIG_IGN)
@@ -96,8 +96,8 @@ int main(int argc, char *argv[]) {
 		tempdir = getenv("TMPDIR");
 	assert(tempdir);
 	i = strlen(tempdir);
-	for (; i > 0 && tempdir[i-1] == '/' || tempdir[i-1] == '\\'; i--)
-		tempdir[i-1] = '\0';
+	for (; i > 0 && tempdir[i - 1] == '/' || tempdir[i - 1] == '\\'; i--)
+		tempdir[i - 1] = '\0';
 	if (argc <= 1) {
 		help();
 		exit(0);
@@ -105,9 +105,9 @@ int main(int argc, char *argv[]) {
 	plist = append("-D__LCC__", 0);
 	initinputs();
 	if (getenv("GBDKDIR"))
-	        option(stringf("--prefix=%s", getenv("GBDKDIR")));
+		option(stringf("--prefix=%s", getenv("GBDKDIR")));
 	else
-	    set_gbdk_dir(argv[0]);
+		set_gbdk_dir(argv[0]);
 	for (nf = 0, i = j = 1; i < argc; i++) {
 		if (strcmp(argv[i], "-o") == 0) {
 			if (++i < argc) {
@@ -117,18 +117,22 @@ int main(int argc, char *argv[]) {
 				}
 				outfile = argv[i];
 				continue;
-			} else {
-				error("unrecognized option `%s'", argv[i-1]);
+			}
+			else {
+				error("unrecognized option `%s'", argv[i - 1]);
 				exit(8);
 			}
-		} else if (strcmp(argv[i], "-target") == 0) {
-			if (argv[i+1] && *argv[i+1] != '-')
+		}
+		else if (strcmp(argv[i], "-target") == 0) {
+			if (argv[i + 1] && *argv[i + 1] != '-')
 				i++;
 			continue;
-		} else if (*argv[i] == '-' && argv[i][1] != 'l') {
+		}
+		else if (*argv[i] == '-' && argv[i][1] != 'l') {
 			opt(argv[i]);
 			continue;
-		} else if (*argv[i] != '-' && suffix(argv[i], suffixes, 3) >= 0)
+		}
+		else if (*argv[i] != '-' && suffix(argv[i], suffixes, 3) >= 0)
 			nf++;
 		argv[j++] = argv[i];
 	}
@@ -155,37 +159,38 @@ int main(int argc, char *argv[]) {
 			char *name = exists(argv[i]);
 			if (name) {
 				if (strcmp(name, argv[i]) != 0
-				|| nf > 1 && suffix(name, suffixes, 3) >= 0)
+					|| nf > 1 && suffix(name, suffixes, 3) >= 0)
 					fprintf(stderr, "%s:\n", name);
 				filename(name, 0);
-			} else
+			}
+			else
 				error("can't find `%s'", argv[i]);
 		}
-	if (errcnt == 0 && !Eflag && !Sflag && !cflag && llist[1]) {
-		compose(ld, llist[0], llist[1],
-			append(outfile ? outfile : concat("a", first(suffixes[4])), 0));
-		if (callsys(av))
-			errcnt++;
-	}
-	rm(rmlist);	
-	return errcnt ? EXIT_FAILURE : EXIT_SUCCESS;
+		if (errcnt == 0 && !Eflag && !Sflag && !cflag && llist[1]) {
+			compose(ld, llist[0], llist[1],
+				append(outfile ? outfile : concat("a", first(suffixes[4])), 0));
+			if (callsys(av))
+				errcnt++;
+		}
+		rm(rmlist);
+		return errcnt ? EXIT_FAILURE : EXIT_SUCCESS;
 }
 
 /* alloc - allocate n bytes or die */
 static void *alloc(int n) {
 	static char *avail, *limit;
-	
+
 	n = (n + sizeof(char *) - 1)&~(sizeof(char *) - 1);
 	if (n >= limit - avail) {
-		avail = malloc(n + 4*1024);
+		avail = malloc(n + 4 * 1024);
 		assert(avail);
-		limit = avail + n + 4*1024;
+		limit = avail + n + 4 * 1024;
 	}
 	avail += n;
 	return avail - n;
 }
 
-/* append - append a node with string str onto list, return new list */	
+/* append - append a node with string str onto list, return new list */
 List append(char *str, List list) {
 	List p = alloc(sizeof *p);
 
@@ -193,7 +198,8 @@ List append(char *str, List list) {
 	if (list) {
 		p->link = list->link;
 		list->link = p;
-	} else
+	}
+	else
 		p->link = p;
 	return p;
 }
@@ -206,11 +212,12 @@ char *basepath(char *name) {
 		if (*s == '/' || *s == '\\') {
 			b = s + 1;
 			t = 0;
-		} else if (*s == '.')
+		}
+		else if (*s == '.')
 			t = s;
 	s = strsave(b);
 	if (t)
-		s[t-b] = 0;
+		s[t - b] = 0;
 	return s;
 }
 
@@ -240,11 +247,11 @@ static int _spawnvp(int mode, const char *cmdname, char *argv[]) {
 		;
 	if (n == -1)
 		status = -1;
-	if (status&0377) {
+	if (status & 0377) {
 		fprintf(stderr, "%s: fatal error in %s\n", progname, cmdname);
 		status |= 0400;
 	}
-	return (status>>8)&0377;
+	return (status >> 8) & 0377;
 }
 #endif
 
@@ -259,15 +266,15 @@ static int callsys(char **av) {
 	if (i + 1 > argc) {
 		argc = i + 1;
 		if (argv == NULL)
-			argv = malloc(argc*sizeof *argv);
+			argv = malloc(argc * sizeof *argv);
 		else
-			argv = realloc(argv, argc*sizeof *argv);
+			argv = realloc(argv, argc * sizeof *argv);
 		assert(argv);
 	}
 	for (i = 0; status == 0 && av[i] != NULL; ) {
 		int j = 0;
 		char *s;
-		for ( ; av[i] != NULL && (s = strchr(av[i], '\n')) == NULL; i++)
+		for (; av[i] != NULL && (s = strchr(av[i], '\n')) == NULL; i++)
 			argv[j++] = av[i];
 		if (s != NULL) {
 			if (s > av[i])
@@ -326,21 +333,22 @@ static void compose(char *cmd[], List a, List b, List c) {
 		char *s = strchr(cmd[i], '$');
 		if (s && isdigit(s[1])) {
 			int k = s[1] - '0';
-			assert(k >=1 && k <= 3);
-			if (b = lists[k-1]) {
+			assert(k >= 1 && k <= 3);
+			if (b = lists[k - 1]) {
 				b = b->link;
 				av[j] = alloc(strlen(cmd[i]) + strlen(b->str) - 1);
 				strncpy(av[j], cmd[i], s - cmd[i]);
-				av[j][s-cmd[i]] = '\0';
+				av[j][s - cmd[i]] = '\0';
 				strcat(av[j], b->str);
 				strcat(av[j++], s + 2);
-				while (b != lists[k-1]) {
+				while (b != lists[k - 1]) {
 					b = b->link;
 					assert(j < ac);
 					av[j++] = b->str;
 				};
 			}
-		} else if (*cmd[i]) {
+		}
+		else if (*cmd[i]) {
 			assert(j < ac);
 			av[j++] = cmd[i];
 		}
@@ -360,11 +368,11 @@ static void error(char *fmt, char *msg) {
 static char *exists(char *name) {
 	List b;
 
-	if ( (name[0] == '/' || name[0] == '\\' || name[2] == ':')
-	&& access(name, 4) == 0)
+	if ((name[0] == '/' || name[0] == '\\' || name[2] == ':')
+		&& access(name, 4) == 0)
 		return name;
 	if (!(name[0] == '/' || name[0] == '\\' || name[2] == ':')
-	&& (b = lccinputs))		
+		&& (b = lccinputs))
 		do {
 			b = b->link;
 			if (b->str[0]) {
@@ -372,12 +380,13 @@ static char *exists(char *name) {
 				sprintf(buf, "%s/%s", b->str, name);
 				if (access(buf, 4) == 0)
 					return strsave(buf);
-			} else if (access(name, 4) == 0)
+			}
+			else if (access(name, 4) == 0)
 				return name;
 		} while (b != lccinputs);
-	if (verbose > 1)
-		return name;
-	return 0;
+		if (verbose > 1)
+			return name;
+		return 0;
 }
 
 /* first - return first component in semicolon separated list */
@@ -386,10 +395,11 @@ static char *first(char *list) {
 
 	if (s) {
 		char buf[1024];
-		strncpy(buf, list, s-list);
-		buf[s-list] = '\0';
+		strncpy(buf, list, s - list);
+		buf[s - list] = '\0';
 		return strsave(buf);
-	} else
+	}
+	else
 		return list;
 }
 
@@ -419,7 +429,7 @@ static int filename(char *name, char *base) {
 			break;
 		if (Sflag)
 			status = compile(name, outfile ? outfile : concat(base, first(suffixes[2])));
-		else if ((status = compile(name, stemp?stemp:(stemp=tempname(first(suffixes[2]))))) == 0)
+		else if ((status = compile(name, stemp ? stemp : (stemp = tempname(first(suffixes[2]))))) == 0)
 			return filename(stemp, base);
 		break;
 	case 2:	/* assembly language files */
@@ -459,13 +469,13 @@ static int filename(char *name, char *base) {
 /* find - find 1st occurrence of str in list, return list node or 0 */
 static List find(char *str, List list) {
 	List b;
-	
+
 	if (b = list)
 		do {
 			if (strcmp(str, b->str) == 0)
 				return b;
 		} while ((b = b->link) != list);
-	return 0;
+		return 0;
 }
 
 /* help - print help message */
@@ -486,7 +496,7 @@ static void help(void) {
 "-E	run only the preprocessor on the named C programs and unsuffixed files\n",
 "-g	produce symbol table information for debuggers\n",
 "-help or -?	print this message\n",
-"-Idir	add `dir' to the beginning of the list of #include directories\n",	
+"-Idir	add `dir' to the beginning of the list of #include directories\n",
 "-lx	search library `x'\n",
 "-N	do not search the standard directories for #include files\n",
 "-n	emit code to check for dereferencing zero pointers\n",
@@ -542,7 +552,8 @@ static void initinputs(void) {
 					ilist = append(concat("-I", b->str), ilist);
 					if (strstr(com[1], "win32") == NULL)
 						llist[0] = append(concat("-L", b->str), llist[0]);
-				} else
+				}
+				else
 					b->str = "";
 			} while (b != lccinputs);
 	}
@@ -617,30 +628,30 @@ static void opt(char *arg) {
 		else
 #endif	
 		{
-		static char *path;
-		if (path)
-			error("-B overwrites earlier option", 0);
-		path = arg + 2;
-		if (strstr(com[1], "win32") != NULL)
-			com[0] = concat(replace(path, '/', '\\'), concat("rcc", first(suffixes[4])));
-		else
-			com[0] = concat(path, "rcc");
-		if (path[0] == 0)
-			error("missing directory in -B option", 0);
+			static char *path;
+			if (path)
+				error("-B overwrites earlier option", 0);
+			path = arg + 2;
+			if (strstr(com[1], "win32") != NULL)
+				com[0] = concat(replace(path, '/', '\\'), concat("rcc", first(suffixes[4])));
+			else
+				com[0] = concat(path, "rcc");
+			if (path[0] == 0)
+				error("missing directory in -B option", 0);
 		}
 		return;
 	case 'h':
 		if (strcmp(arg, "-help") == 0) {
 			static int printed = 0;
 	case '?':
-			if (!printed)
-				help();
-			printed = 1;
-			return;
+		if (!printed)
+			help();
+		printed = 1;
+		return;
 		}
 #ifdef linux
 	case 's':
-		if (strcmp(arg,"-static") == 0) {
+		if (strcmp(arg, "-static") == 0) {
 			if (!option(arg))
 				fprintf(stderr, "%s: %s ignored\n", progname, arg);
 			return;
@@ -668,7 +679,8 @@ static void opt(char *arg) {
 			if (option(arg)) {
 				clist = append("-g3", clist);
 				llist[0] = append("-N", llist[0]);
-			} else
+			}
+			else
 				fprintf(stderr, "%s: %s ignored\n", progname, arg);
 			return;
 		case 'E':
@@ -686,7 +698,7 @@ static void opt(char *arg) {
 		case 'v':
 			if (verbose++ == 0) {
 #if 0
-			    /* GBDK removed */
+				/* GBDK removed */
 				if (strcmp(basepath(cpp[0]), "gcc-cpp") == 0)
 					plist = append(arg, plist);
 				clist = append(arg, clist);
@@ -696,7 +708,7 @@ static void opt(char *arg) {
 			return;
 		}
 	if (option(arg))
-	    return;
+		return;
 	if (cflag || Sflag || Eflag)
 		fprintf(stderr, "%s: %s ignored\n", progname, arg);
 	else
@@ -717,8 +729,9 @@ static List path2list(const char *path) {
 		if (p = strchr(path, sep)) {
 			assert(p - path < sizeof buf);
 			strncpy(buf, path, p - path);
-			buf[p-path] = '\0';
-		} else {
+			buf[p - path] = '\0';
+		}
+		else {
 			assert(strlen(path) < sizeof buf);
 			strcpy(buf, path);
 		}
@@ -735,7 +748,7 @@ static List path2list(const char *path) {
 char *replace(const char *str, int from, int to) {
 	char *s = strsave(str), *p = s;
 
-	for ( ; (p = strchr(p, from)) != NULL; p++)
+	for (; (p = strchr(p, from)) != NULL; p++)
 		*p = to;
 	return s;
 }
@@ -759,7 +772,7 @@ static void rm(List list) {
 
 /* strsave - return a saved copy of string str */
 char *strsave(const char *str) {
-	return strcpy(alloc(strlen(str)+1), str);
+	return strcpy(alloc(strlen(str) + 1), str);
 }
 
 /* stringf - format and return a string */
@@ -780,14 +793,14 @@ int suffix(char *name, char *tails[], int n) {
 
 	for (i = 0; i < n; i++) {
 		char *s = tails[i], *t;
-		for ( ; t = strchr(s, ';'); s = t + 1) {
+		for (; t = strchr(s, ';'); s = t + 1) {
 			int m = t - s;
-			if (len > m && strncmp(&name[len-m], s, m) == 0)
+			if (len > m && strncmp(&name[len - m], s, m) == 0)
 				return i;
 		}
 		if (*s) {
 			int m = strlen(s);
-			if (len > m && strncmp(&name[len-m], s, m) == 0)
+			if (len > m && strncmp(&name[len - m], s, m) == 0)
 				return i;
 		}
 	}
