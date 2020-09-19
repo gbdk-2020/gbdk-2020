@@ -33,6 +33,7 @@
 	;;   Clear A when running on DMG
 .sgb_check::
 _sgb_check::			; Banked
+	PUSH	BC
 	LD	HL,#.MLT_REQ_2
 	CALL	.sgb_transfer
 	CALL	.wait4
@@ -67,19 +68,40 @@ _sgb_check::			; Banked
 	JR	NZ,.sgb_mode
 
 .dmg_mode:
-;	LD	HL,#.MLT_REQ_1
-;	CALL	.sgb_transfer
-;	CALL	.wait4
 	XOR	A
+	LD	E,A
+	POP	BC
 	RET
 
 .sgb_mode:
 	LD	HL,#.MLT_REQ_1
 	CALL	.sgb_transfer
 	CALL	.wait4
-	LD	A,#0xFF
+	LD	E,#0xFF
+	POP	BC
 	RET
 
+_sgb_transfer::
+	PUSH    BC
+	LDA	HL,4(SP)
+	LD	A,(HL+)
+	LD	H,(HL)
+	LD	L,A
+	CALL	.sgb_transfer
+	CALL	.wait4
+	POP	BC
+	RET
+
+_sgb_transfer_nowait::
+	PUSH    BC
+	LDA	HL,4(SP)
+	LD	A,(HL+)
+	LD	H,(HL)
+	LD	L,A
+	CALL	.sgb_transfer
+	POP	BC
+	RET
+	
 .sgb_transfer::
 	LD	A,(HL)		; Top of command data
 	AND	#0x03

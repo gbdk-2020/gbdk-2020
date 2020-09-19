@@ -354,13 +354,7 @@ font_set::
 	ld	(font_first_free_tile),a
 
 	.globl	_font_load_ibm_fixed
-	call	banked_call
-	.dw	_font_load_ibm_fixed
-	.if __RGBDS__
-	.dw	BANK(_font_load_ibm_fixed);
-	.else
-	.dw	0
-	.endif
+	call	_font_load_ibm_fixed
 3$:
 	pop	af
 	push	bc
