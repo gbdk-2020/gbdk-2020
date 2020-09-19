@@ -33,7 +33,7 @@ For SDCC you can check its [website](http://sdcc.sourceforge.net/) and the [manu
 
 [The Game Boy Development Forum](https://gbdev.gg8.se/forums/) is a good place to search for answers. 
 
-There is also a #gbdk channel in the [gbdev Discord community](https://discord.gg/kjZVje)
+There is also a #gbdk channel in the [gbdev Discord community](https://discord.gg/gpBxq85)
 
 # Build instructions
 Unless you are interested on recompiling the sources for some reason (like fixing some bugs) **you don't need to build GBDK**
