@@ -14,7 +14,7 @@
  */
 #include <limits.h>
 #ifndef PATH_MAX
-#define PATH_MAX 4096 
+#define PATH_MAX 4096
 #endif
 
 #define	VERSION	"V01.75"
@@ -82,7 +82,7 @@
  */
 
 #ifdef SDK
-#define	NCPS	32		/* characters per symbol */
+#define	NCPS	100		/* characters per symbol */
 #else /* SDK */
 #define	NCPS	8		/* characters per symbol */
 #endif /* SDK */
