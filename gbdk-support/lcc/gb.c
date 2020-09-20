@@ -33,7 +33,7 @@ static struct {
 } _tokens[] = {
 		{ "port",		"gbz80" },
 		{ "plat",		"gb" },
-		{ "sdccdir", "%bindir%SDCC/bin/"},
+		{ "sdccdir", "%bindir%"},
 		{ "cpp",		"%sdccdir%sdcpp" },
 		{ "cppdefault", 	"-Wall -DSDCC=1 -DSDCC_PORT=%port% "
 			"-DSDCC_PLAT=%plat% -D%cppmodel%"
