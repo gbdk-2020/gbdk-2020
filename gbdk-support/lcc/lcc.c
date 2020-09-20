@@ -216,7 +216,7 @@ static void Fixllist()
 			b = b->link;
 			if(b->str[1] == 'g' || b->str[1] == 'b')
 			{
-				if(BEGINS_WITH(strchr(b->str, '.'), ".OAM="))
+				if(BEGINS_WITH(strchr(b->str, '.'), "_shadow_OAM="))
 					oamDefFound = 1;
 				else if(BEGINS_WITH(strchr(b->str, '.'), ".STACK="))
 					stackDefFound = 1;
@@ -231,7 +231,7 @@ static void Fixllist()
 	}
 
 	if(!oamDefFound) 
-		llist[0] = append("-g .OAM=0xC000", llist[0]);
+		llist[0] = append("-g _shadow_OAM=0xC000", llist[0]);
 	if(!stackDefFound)
 		llist[0] = append("-g .STACK=0xDEFF", llist[0]);
 	if(!refreshOAMDefFound) 
