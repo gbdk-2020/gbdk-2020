@@ -49,8 +49,9 @@ extern char *tempname(char *);
 
 extern int access(char *, int);
 //extern int getpid(void);
+static void Fixllist();
 
-extern char *cpp[], *include[], *com[], *as[], *ld[], inputs[], *suffixes[];
+extern char *cpp[], *include[], *com[], *as[], *ld[], *mkbin[], inputs[], *suffixes[];
 extern int option(char *);
 extern void set_gbdk_dir(char*);
 
@@ -61,6 +62,7 @@ static int Eflag;		/* -E specified */
 static int Sflag;		/* -S specified */
 static int cflag;		/* -c specified */
 static int verbose;		/* incremented for each -v */
+static List mkbinlist;		/* loader files, flags */
 static List llist[2];		/* loader files, flags */
 static List alist;		/* assembler flags */
 List clist;		/* compiler flags */
@@ -166,14 +168,81 @@ int main(int argc, char *argv[]) {
 			else
 				error("can't find `%s'", argv[i]);
 		}
+
 		if (errcnt == 0 && !Eflag && !Sflag && !cflag && llist[1]) {
-			compose(ld, llist[0], llist[1],
-				append(outfile ? outfile : concat("a", first(suffixes[4])), 0));
+		if(!outfile)
+			outfile = concat("a", first(suffixes[4]));
+
+		//file.gb to file.ihx (don't use tmpfile becuase maps and other stuffs are created there)
+		char ihxFile[255];
+		int lastP = strrchr(outfile, '.') - outfile;
+		strncpy(ihxFile, outfile, lastP);
+		ihxFile[lastP] = '\0';
+		strcat(ihxFile, ".ihx");
+		append(ihxFile, rmlist);
+
+		Fixllist();
+		compose(ld, llist[0], llist[1], append(ihxFile, 0));
+		if (callsys(av))
+			errcnt++;
+
+		if(errcnt == 0)
+		{
+			//makebin
+			compose(mkbin, mkbinlist, append(ihxFile, 0), append(outfile, 0));
 			if (callsys(av))
 				errcnt++;
 		}
+	}
 		rm(rmlist);
 		return errcnt ? EXIT_FAILURE : EXIT_SUCCESS;
+}
+
+/* Adds linker default needed vars if not defined by user */
+static void Fixllist()
+{
+	#define BEGINS_WITH(A, B) strncmp(A, B, sizeof(B) - 1) == 0
+	//-g .OAM=0xC000 -g .STACK=0xDEFF -g .refresh_OAM=0xFF80 -b _DATA=0xc0a0 -b _CODE=0x0200 
+
+	int oamDefFound = 0;
+	int stackDefFound = 0;
+	int refreshOAMDefFound = 0;
+	int dataDefFound = 0;
+	int codeDefFound = 0;
+
+	if(llist[0]) {
+		List b = llist[0];
+		do {
+			b = b->link;
+			if(b->str[1] == 'g')
+			{
+				if(BEGINS_WITH(&b->str[3], ".OAM="))
+					oamDefFound = 1;
+				else if(BEGINS_WITH(&b->str[3], ".STACK="))
+					stackDefFound = 1;
+				else if(BEGINS_WITH(&b->str[3], ".refresh_OAM="))
+					stackDefFound = 1;
+			}
+			else if(b->str[1] == 'b')
+			{
+				if(BEGINS_WITH(&b->str[3], "_DATA="))
+					dataDefFound = 1;
+				else if(BEGINS_WITH(&b->str[3], "_CODE="))
+					codeDefFound = 1;
+			}
+		} while (b != llist[0]);
+	}
+
+	if(!oamDefFound) 
+		llist[0] = append("-g .OAM=0xC000", llist[0]);
+	if(!stackDefFound)
+		llist[0] = append("-g .STACK=0xDEFF", llist[0]);
+	if(!refreshOAMDefFound) 
+		llist[0] = append("-g .refresh_OAM=0xFF80", llist[0]);
+	if(!dataDefFound) 
+		llist[0] = append("-b _DATA=0xc0a0", llist[0]);
+	if(!codeDefFound) 
+		llist[0] = append("-b _CODE=0x0200", llist[0]);
 }
 
 /* alloc - allocate n bytes or die */
@@ -582,21 +651,27 @@ static void opt(char *arg) {
 				if (option(&arg[3]))
 					return;
 				break;
-			case 'p':
+			case 'p': /* Preprocessor */
 				plist = append(&arg[3], plist);
 				return;
-			case 'f':
+			case 'f': /* Compiler */
 				if (strcmp(&arg[3], "-C") || option("-b")) {
 					clist = append(&arg[3], clist);
 					return;
 				}
 				break; /* and fall thru */
-			case 'a':
+			case 'a': /* Assembler */
 				alist = append(&arg[3], alist);
 				return;
-			case 'l':
+			case 'l': /* Linker */
+				if(arg[4] == 'y')
+					goto makebinoption; //automatically pass -y options to makebin (backwards compatibility)
 				llist[0] = append(&arg[3], llist[0]);
 				return;
+			case 'm': /* Makebin */
+			makebinoption:{
+				mkbinlist = append(&arg[3], mkbinlist);
+				}return;
 			}
 		fprintf(stderr, "%s: %s ignored\n", progname, arg);
 		return;
