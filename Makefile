@@ -31,8 +31,6 @@ GBDKLIBDIR = $(TOPDIR)/gbdk-lib
 GBDKSUPPORTDIR = $(TOPDIR)/gbdk-support
 # Directory containing the source to maccer
 MACCERDIR = $(TOPDIR)/maccer
-# Directory containing the source to linker
-LINKERDIR = $(TOPDIR)/link
 # Directory containing the source to assembler
 ASDIR = $(TOPDIR)/as
 
@@ -54,7 +52,7 @@ NOISELOG = $(TOPDIR)/noise.log
 
 all: native-build
 
-clean: maccer-clean linker-clean gbdk-support-clean gbdk-lib-clean
+clean: maccer-clean gbdk-support-clean gbdk-lib-clean
 
 distclean: clean build-dir-clean
 
@@ -96,9 +94,9 @@ src: clean
 	tar czf gbdk-$(VER).tar.gz gbdk
 
 # Base rules
-gbdk-build: maccer-build linker-build gbdk-support-build gbdk-lib-build 
+gbdk-build: maccer-build gbdk-support-build gbdk-lib-build 
 
-gbdk-install: $(BUILDDIR)/bin linker-install gbdk-support-install gbdk-lib-install sdcc-install
+gbdk-install: $(BUILDDIR)/bin gbdk-support-install gbdk-lib-install sdcc-install
 
 # Directories
 $(BUILDDIR)/bin:
@@ -188,22 +186,6 @@ maccer-build:
 maccer-clean:
 	@echo Cleaning Maccer
 	@$(MAKE) -C $(MACCERDIR) clean --no-print-directory
-	@echo
-	
-#rules for linker
-linker-build:
-	@echo Building Linker
-	@$(MAKE) -C $(LINKERDIR) --no-print-directory
-	@echo
-	
-linker-install:
-	@echo Installing Linker
-	@$(MAKE) -C $(LINKERDIR) install BUILDDIR=$(BUILDDIR) --no-print-directory
-	@echo
-
-linker-clean:
-	@echo Cleaning Linker
-	@$(MAKE) -C $(LINKERDIR) clean --no-print-directory
 	@echo
 
 #SDDC copy
