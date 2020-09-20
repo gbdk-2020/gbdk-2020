@@ -169,7 +169,7 @@ int main(int argc, char *argv[]) {
 				error("can't find `%s'", argv[i]);
 		}
 
-		if (errcnt == 0 && !Eflag && !Sflag && !cflag && llist[1]) {
+	if (errcnt == 0 && !Eflag && !Sflag && !cflag && llist[1]) {
 		if(!outfile)
 			outfile = concat("a", first(suffixes[4]));
 
@@ -194,14 +194,14 @@ int main(int argc, char *argv[]) {
 				errcnt++;
 		}
 	}
-		rm(rmlist);
-		return errcnt ? EXIT_FAILURE : EXIT_SUCCESS;
+	rm(rmlist);
+	return errcnt ? EXIT_FAILURE : EXIT_SUCCESS;
 }
 
 /* Adds linker default needed vars if not defined by user */
 static void Fixllist()
 {
-	#define BEGINS_WITH(A, B) strncmp(A, B, sizeof(B) - 1) == 0
+	#define BEGINS_WITH(A, B) (A ? strncmp(A, B, sizeof(B) - 1) == 0 : 0)
 	//-g .OAM=0xC000 -g .STACK=0xDEFF -g .refresh_OAM=0xFF80 -b _DATA=0xc0a0 -b _CODE=0x0200 
 
 	int oamDefFound = 0;
@@ -214,20 +214,17 @@ static void Fixllist()
 		List b = llist[0];
 		do {
 			b = b->link;
-			if(b->str[1] == 'g')
+			if(b->str[1] == 'g' || b->str[1] == 'b')
 			{
-				if(BEGINS_WITH(&b->str[3], ".OAM="))
+				if(BEGINS_WITH(strchr(b->str, '.'), ".OAM="))
 					oamDefFound = 1;
-				else if(BEGINS_WITH(&b->str[3], ".STACK="))
+				else if(BEGINS_WITH(strchr(b->str, '.'), ".STACK="))
 					stackDefFound = 1;
-				else if(BEGINS_WITH(&b->str[3], ".refresh_OAM="))
+				else if(BEGINS_WITH(strchr(b->str, '.'), ".refresh_OAM="))
 					stackDefFound = 1;
-			}
-			else if(b->str[1] == 'b')
-			{
-				if(BEGINS_WITH(&b->str[3], "_DATA="))
+				else if(BEGINS_WITH(strchr(b->str, '_'), "_DATA="))
 					dataDefFound = 1;
-				else if(BEGINS_WITH(&b->str[3], "_CODE="))
+				else if(BEGINS_WITH(strchr(b->str, '_'), "_CODE="))
 					codeDefFound = 1;
 			}
 		} while (b != llist[0]);
@@ -666,11 +663,19 @@ static void opt(char *arg) {
 			case 'l': /* Linker */
 				if(arg[4] == 'y')
 					goto makebinoption; //automatically pass -y options to makebin (backwards compatibility)
-				llist[0] = append(&arg[3], llist[0]);
-				return;
+				{
+					char *tmp = malloc(256);
+					sprintf(tmp, "%c%c %s", arg[3], arg[4], &arg[5]); //sdldgb requires spaces between -k and the path
+					llist[0] = append(tmp, llist[0]);
+				}return;
 			case 'm': /* Makebin */
 			makebinoption:{
-				mkbinlist = append(&arg[3], mkbinlist);
+				char *tmp = malloc(256);
+				if(arg[4] == 'y')
+					sprintf(tmp, "%c%c%c %s", arg[3], arg[4], arg[5], &arg[6]); //-yo -ya -yt -yl -yk -yn
+				if(arg[4] == 's')
+					sprintf(tmp, "%c%c %s", arg[3], arg[4], &arg[5]); //-s
+				mkbinlist = append(tmp, mkbinlist);
 				}return;
 			}
 		fprintf(stderr, "%s: %s ignored\n", progname, arg);
