@@ -20,6 +20,7 @@ endif
 
 SCC = 	$(SDCCLIB)/bin/sdcc
 GBCC = 	$(SDCCLIB)/bin/lcc
+SDAR = 	$(SDCCLIB)/bin/sdar
 
 AS_Z80 = $(SDCCLIB)/bin/sdasz80
 ifeq ($(RGBDS),1)

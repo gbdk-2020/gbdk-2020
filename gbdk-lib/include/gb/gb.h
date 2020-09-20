@@ -483,15 +483,17 @@ void get_bkg_tiles(UINT8 x,
     Where 0,0 is the top left corner of the GB screen. You'll notice the screen
     wraps around in all 4 directions, and is always under the window layer.
 */
-void move_bkg(UINT8 x,
-          UINT8 y) NONBANKED __preserves_regs(b, c, d, e);
+inline void move_bkg(UINT8 x, UINT8 y) {
+    SCX_REG=x, SCY_REG=y;
+}
 
 /** Moves the background relative to it's current position.
 
     @see move_bkg
 */
-void scroll_bkg(INT8 x,
-          INT8 y) NONBANKED __preserves_regs(b, c, d, e);
+inline void scroll_bkg(INT8 x, INT8 y) {
+    SCX_REG+=x, SCY_REG+=y;
+}
 
 /* ************************************************************ */
 
@@ -555,14 +557,16 @@ void get_win_tiles(UINT8 x,
     the bottom right corner, and is always over the background layer.
     @see SHOW_WIN, HIDE_WIN
 */
-void move_win(UINT8 x,
-          UINT8 y) NONBANKED __preserves_regs(b, c, d, e);
+inline void move_win(UINT8 x, UINT8 y) {
+    WX_REG=x, WY_REG=y;
+}
 
 /** Move the window relative to its current position.
     @see move_win
 */
-void scroll_win(INT8 x,
-          INT8 y) NONBANKED __preserves_regs(b, c, d, e);
+inline void scroll_win(INT8 x, INT8 y) {
+    WX_REG+=x, WY_REG+=y;
+}
 
 /* ************************************************************ */
 
@@ -590,10 +594,22 @@ void get_sprite_data(UINT8 first_tile,
     tile, t+1, below the first tile.
     @param nb		Sprite number, range 0 - 39
 */
-void set_sprite_tile(UINT8 nb,
-          UINT8 tile) NONBANKED __preserves_regs(b, c);
 
-UINT8 get_sprite_tile(UINT8 nb) NONBANKED __preserves_regs(b, c);
+typedef struct OAM_item_t {
+    UINT8 y, x;
+    UINT8 tile;
+    UINT8 prop;
+} OAM_item_t;
+
+extern volatile struct OAM_item_t shadow_OAM[];
+
+inline void set_sprite_tile(UINT8 nb, UINT8 tile) {
+    shadow_OAM[nb].tile=tile; 
+}
+
+inline UINT8 get_sprite_tile(UINT8 nb) {
+    return shadow_OAM[nb].tile;
+}
 
 /** Sets the property of sprite n to those defined in p.
     Where the bits in p represent:
@@ -614,10 +630,14 @@ UINT8 get_sprite_tile(UINT8 nb) NONBANKED __preserves_regs(b, c);
     
     @param nb		Sprite number, range 0 - 39
 */
-void set_sprite_prop(UINT8 nb,
-          UINT8 prop) NONBANKED __preserves_regs(b, c);
 
-UINT8 get_sprite_prop(UINT8 nb) NONBANKED __preserves_regs(b, c);
+inline void set_sprite_prop(UINT8 nb, UINT8 prop){
+    shadow_OAM[nb].prop=prop;
+}
+
+inline UINT8 get_sprite_prop(UINT8 nb){
+    return shadow_OAM[nb].prop;
+}
 
 /** Moves the given sprite to the given position on the
     screen.
@@ -625,15 +645,17 @@ UINT8 get_sprite_prop(UINT8 nb) NONBANKED __preserves_regs(b, c);
     is at (8,16).  To put sprite 0 at the top left, use
     move_sprite(0, 8, 16);
 */
-void move_sprite(UINT8 nb,
-          UINT8 x,
-          UINT8 y) NONBANKED __preserves_regs(b, c);
+inline void move_sprite(UINT8 nb, UINT8 x, UINT8 y) {
+    OAM_item_t * itm = &shadow_OAM[nb];
+    itm->y=y, itm->x=x; 
+}
 
 /** Moves the given sprite relative to its current position.
  */
-void scroll_sprite(UINT8 nb,
-          INT8 x,
-          INT8 y) NONBANKED __preserves_regs(b, c);
+inline void scroll_sprite(UINT8 nb, INT8 x, INT8 y) {
+    OAM_item_t * itm = &shadow_OAM[nb];
+    itm->y+=y, itm->x+=x; 
+}
 
 /* ************************************************************ */
 

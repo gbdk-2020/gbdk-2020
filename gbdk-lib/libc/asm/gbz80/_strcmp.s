@@ -10,27 +10,24 @@ _strcmp::
 	ld	a,(hl+)
 	ld	h,(hl)
 	ld	l,a
-
-	jr	1$
-2$:	
-	ld	a,(de)
-	sub	(hl)
-	jr	nz,4$
-	;; A == 0
-	cp	(hl)
-	jr	z,3$
 1$:	
+	ld	a,(de)
+	sub	(hl)		; s1[i]==s2[i]?
+	jr	nz, 2$		; -> Different
+	;; A == 0
+	cp	(hl)		; s1[i]==s2[i]==0?
+	
 	inc	de
 	inc	hl
-	jr	2$
-
-3$:
-	ld	de,#0
-	jr	5$
-4$:
-	ld	de,#1
-	jr	nc,5$
-	ld	de,#-1
-5$:
-	ret
+	jr	nz, 1$		; ^ Didn't reach a null character. Loop.
 	
+	; Yes. return 0;
+	ld	d, a		; Since a == 0 this is faster than a 16 bit immediate load.
+	ld	e, a
+	ret
+2$:
+	ld	de,#-1
+	ret	c
+
+	ld	de,#1
+	ret

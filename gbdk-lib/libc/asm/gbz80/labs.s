@@ -1,5 +1,5 @@
 ;--------------------------------------------------------------------------
-;  far_ptr.s
+;  labs.s
 ;
 ;  Copyright (C) 2020, Tony Pavlov
 ;
@@ -26,32 +26,12 @@
 ;   might be covered by the GNU General Public License.
 ;--------------------------------------------------------------------------
 
-	.module	far_ptr
+	.module	labs
 
-	.include	"global.s"
-	
-	.area	_HOME
-		
-___call__banked::
-	ldh	A, (#__current_bank)
-	push	AF
-	ld	HL, #1$
-	push	HL
-	ld	HL, #___call_banked_addr
-	ld	A, (HL+)
-	ld	H, (HL)
-	ld	L, A
-	ld	A, (#___call_banked_bank)
-	ldh	(#__current_bank), A
-	ld	(.MBC1_ROM_PAGE),A
-	jp	(HL)
-1$:
-	pop	AF
-	ldh	(#__current_bank), A
-	ld	(.MBC1_ROM_PAGE), A
-	ret
+	.area	_CODE
 
-_to_far_ptr::
+;long labs(long num)
+_labs::
 	lda	HL, 2(SP)
 	ld	A, (HL+)
 	ld	E, A
@@ -59,13 +39,32 @@ _to_far_ptr::
 	ld	D, A
 	ld	A, (HL+)
 	ld	H, (HL)
-	ld	L, A
-	ret
+	ld	L, A		; DEHL = num
 
-	.area	_BSS
-	
-___call_banked_ptr::
-___call_banked_addr::
-	.ds	0x02		; far pointer offset
-___call_banked_bank::
-	.ds	0x02		; far pointer segment
+.labs::
+	ld	A, H
+	add	A, A
+	ret	NC
+
+1$:
+	ld	A, E
+	cpl
+	add	#1
+	ld	E, A
+
+	ld	A, D
+	cpl
+	adc	#0
+	ld	D, A
+
+	ld	A, L
+	cpl
+	adc	#0
+	ld	L, A
+
+	ld	A, H
+	cpl
+	adc	#0
+	ld	H, A
+
+	ret 

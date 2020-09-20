@@ -1,5 +1,5 @@
 ;--------------------------------------------------------------------------
-;  far_ptr.s
+;  reverse.s
 ;
 ;  Copyright (C) 2020, Tony Pavlov
 ;
@@ -26,46 +26,59 @@
 ;   might be covered by the GNU General Public License.
 ;--------------------------------------------------------------------------
 
-	.module	far_ptr
+	.module		reverse
 
-	.include	"global.s"
-	
-	.area	_HOME
-		
-___call__banked::
-	ldh	A, (#__current_bank)
-	push	AF
-	ld	HL, #1$
-	push	HL
-	ld	HL, #___call_banked_addr
-	ld	A, (HL+)
-	ld	H, (HL)
-	ld	L, A
-	ld	A, (#___call_banked_bank)
-	ldh	(#__current_bank), A
-	ld	(.MBC1_ROM_PAGE),A
-	jp	(HL)
-1$:
-	pop	AF
-	ldh	(#__current_bank), A
-	ld	(.MBC1_ROM_PAGE), A
-	ret
+	.area	_CODE
 
-_to_far_ptr::
+_reverse::
 	lda	HL, 2(SP)
 	ld	A, (HL+)
-	ld	E, A
-	ld	A, (HL+)
-	ld	D, A
-	ld	A, (HL+)
 	ld	H, (HL)
-	ld	L, A
-	ret
-
-	.area	_BSS
+	ld	L, A		; HL: s
 	
-___call_banked_ptr::
-___call_banked_addr::
-	.ds	0x02		; far pointer offset
-___call_banked_bank::
-	.ds	0x02		; far pointer segment
+	push    BC
+	ld 	B, H
+	ld	C, L		; BC: s
+	
+	ld	DE, #0
+1$:	ld	A, (HL+)
+	or	A
+	jr	Z, 2$
+	inc	DE
+	jr	1$
+
+2$:
+	srl	D
+	rr	E
+	
+	ld	A, E
+	or	D
+	jr	Z, 3$
+
+	dec	HL
+	dec	HL
+
+	inc	D
+	inc	E
+	jr	5$
+4$:
+	ld	A, (HL)
+	push 	AF
+	ld	A, (BC)
+	ld	(HL-), A
+	pop	AF
+	ld	(BC), A
+	inc	BC
+5$:
+	dec	E
+	jr	NZ, 4$
+	dec	D
+	jr	NZ, 4$
+	
+3$:
+	pop	BC
+	lda	HL, 2(SP)
+	ld	E, (HL)
+	inc	HL
+	ld	D, (HL)
+	ret

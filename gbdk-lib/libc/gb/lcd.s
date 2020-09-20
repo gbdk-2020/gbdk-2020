@@ -69,3 +69,8 @@ _remove_LCD::
 .remove_LCD::
 	LD	HL,#.int_0x48
 	JP	.remove_int
+
+	.area	_BSS
+
+.int_0x48::
+	.blkw	0x08

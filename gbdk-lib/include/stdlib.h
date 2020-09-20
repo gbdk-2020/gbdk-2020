@@ -26,24 +26,37 @@ int getkey(void);
     If i is negative, returns -i; else returns i.
 */
 int abs(int i);
+
 /** Returns the absolute value of a long.
  */
 long labs(long num);
+
 /** Converts an ASCII string to an int.
     The string may be of the format [\s]*[+-][\d]+[\D]* i.e. any number
     of spaces, an optional + or -, then an arbitrary number of digits.
     The result is undefined if the number doesnt fit in an int.
  */
 int atoi(const char *s);
+
 /** Converts an ASCII string to a long.
  */
 long atol(const char *s);
+
 /** Converts an int into a base 10 ASCII string.
  */
 char *itoa(int n, char *s);
+
+/** Converts an unsigned int into a base 10 ASCII string.
+ */
+char *utoa(unsigned int n, char *s);
+
 /** Converts a long into a base 10 ASCII string.
  */
 char *ltoa(long n, char *s);
+
+/** Converts an unsigned long into a base 10 ASCII string.
+ */
+char *ultoa(unsigned long n, char *s);
 
 /* Searching and sorting utilities (ISO C11 7.22.5) */
 extern void *bsearch(const void *key, const void *base, size_t nmemb, size_t size, int (*compar)(const void *, const void *) __reentrant);

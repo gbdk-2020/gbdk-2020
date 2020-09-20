@@ -156,13 +156,11 @@ gbdk-lib-install: gbdk-lib-build
 	@echo
 	@echo Installing lib
 	@rm -rf $(BUILDDIR)/lib
-	@cp -r $(GBDKLIBDIR)/build $(BUILDDIR)/lib
-	@rm $(BUILDDIR)/lib/small/asxxxx/gb/*.asm
-	@rm $(BUILDDIR)/lib/small/asxxxx/gb/*.lst
-	@rm $(BUILDDIR)/lib/small/asxxxx/gb/*.sym
-	@rm $(BUILDDIR)/lib/small/asxxxx/gbz80/*.asm
-	@rm $(BUILDDIR)/lib/small/asxxxx/gbz80/*.lst
-	@rm $(BUILDDIR)/lib/small/asxxxx/gbz80/*.sym
+	mkdir -p $(BUILDDIR)/lib/small/asxxxx/gb/
+	mkdir -p $(BUILDDIR)/lib/small/asxxxx/gbz80/
+	@cp $(GBDKLIBDIR)/build/small/asxxxx/gb/crt0.o $(BUILDDIR)/lib/small/asxxxx/gb/crt0.o
+	@cp $(GBDKLIBDIR)/build/small/asxxxx/gb/gb.lib $(BUILDDIR)/lib/small/asxxxx/gb/gb.lib
+	@cp $(GBDKLIBDIR)/build/small/asxxxx/gbz80/gbz80.lib $(BUILDDIR)/lib/small/asxxxx/gbz80/gbz80.lib
 	@cp $(GBDKLIBDIR)/libc/gb/global.s $(BUILDDIR)/lib/small/asxxxx/global.s
 	@echo Generating make.bat
 	@$(MAKE) -C $(BUILDDIR)/examples/gb make.bat --no-print-directory
