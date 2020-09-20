@@ -40,7 +40,7 @@ make.bat: Makefile
 	$(CC) -o $@ $<
 
 clean:
-	rm -f *.o *.lst *.map *.gb *~ *.rel *.cdb *.ihx *.lnk *.sym *.asm
+	rm -f *.o *.lst *.map *.gb *~ *.rel *.cdb *.ihx *.lnk *.sym *.asm *.noi
 
 ############################################################
 # Multiple bank example
