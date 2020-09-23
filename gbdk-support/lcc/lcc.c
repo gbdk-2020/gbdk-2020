@@ -321,6 +321,40 @@ static int _spawnvp(int mode, const char *cmdname, char *argv[]) {
 }
 #endif
 
+/* removes quotes from src and stores it on dst */
+void removeQuotes(char* src, char* dst)
+{
+	while(*src != '\0')
+	{
+		if(*src != '\"')
+			*(dst ++) = *src;
+		src ++;
+	}
+	*dst = '\0';
+}
+
+/* turns "C:\Users\Zalo\Desktop\gb\gbdk 2020\build\gbdk\"bin/sdcpp
+   into  "C:\Users\Zalo\Desktop\gb\gbdk 2020\build\gbdk\bin/sdcpp" */
+void fixQuotes(char* str)
+{
+	while(*str != '\"' && *str != '\0')
+		str ++;
+	
+	char* src = str;
+	if(*src == '\"')
+	{
+		*(str ++) = '\"';
+		while(*src != '\0')
+		{
+			if(*src != '\"')
+				*(str ++) = *src;
+			src ++;
+		}
+		*(str ++) = '\"';
+		*(str ++) = '\0';
+	}
+}
+
 /* callsys - execute the command described by av[0...], return status */
 static int callsys(char **av) {
 	int i, status = 0;
@@ -359,7 +393,19 @@ static int callsys(char **av) {
 			fprintf(stderr, "\n");
 		}
 		if (verbose < 2)
-			status = _spawnvp(_P_WAIT, argv[0], argv);
+		{
+			char argv_0_no_quotes[256];
+			removeQuotes(argv[0], argv_0_no_quotes);
+			for(char** it = argv; *it != 0; it ++)
+			{
+				fixQuotes(*it);
+			}
+			//For future reference:
+			//_spawnvp requires _FileName to not have quotes
+			//_Arguments must have quotes
+			//Quoted strings must begin and end with quotes, no quotes in the middle
+			status = _spawnvp(_P_WAIT, argv_0_no_quotes, argv);
+		}
 		if (status == -1) {
 			fprintf(stderr, "%s: ", progname);
 			perror(argv[0]);

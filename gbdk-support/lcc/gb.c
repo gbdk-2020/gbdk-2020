@@ -156,13 +156,15 @@ static char **subBuildArgs(char **args, char *template)
 {
 	char *src = template;
 	char *last = src;
+	static int quoting = 0;
+
 	/* Shared buffer between calls of this function. */
 	static char buffer[128];
 	static int indent = 0;
 
 	indent++;
 	while (*src) {
-		if (isspace(*src)) {
+		if (isspace(*src) && !quoting) {
 			/* End of set - add in the command */
 			*src = '\0';
 			strcat(buffer, last);
@@ -190,6 +192,9 @@ static char **subBuildArgs(char **args, char *template)
 			args = subBuildArgs(args, getTokenVal(last));
 			*src = '%';
 			last = src + 1;
+		}
+		else if (*src == '\"') {
+			quoting = !quoting;
 		}
 		src++;
 	}
