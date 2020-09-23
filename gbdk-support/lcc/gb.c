@@ -299,29 +299,29 @@ void set_gbdk_dir(char* argv_0)
 {
 	char buf[1024];
 #ifdef __WIN32__
-	if (GetModuleFileName(NULL, buf, sizeof(buf)) != 0) {
-		/* Strip of the trailing bin/lcc.exe and use it as the prefix. */
-		char *p = strrchr(buf, '\\');
-		if (p) {
-			*p = '\0';
-			p = strrchr(buf, '\\');
-			if (p) {
-				*++p = '\0';
-				setTokenVal("prefix", buf);
-			}
-		}
+	char slash = '\\';
+	if (GetModuleFileName(NULL,buf, sizeof(buf)) == 0)
+	{
+		return;
 	}
 #else
+	char slash = '/';
 	strcpy(buf, argv_0);
-	/* Strip of the trailing bin/lcc.exe and use it as the prefix. */
-	char *p = strrchr(buf, '/');
+#endif
+
+	// Strip of the trailing GBDKDIR/bin/lcc.exe and use it as the prefix.
+	char *p = strrchr(buf, slash);
 	if (p) {
+		while(p != buf && *(p - 1) == slash) //Fixes https://github.com/Zal0/gbdk-2020/issues/29
+			-- p;
 		*p = '\0';
-		p = strrchr(buf, '/');
+
+		p = strrchr(buf, slash);
 		if (p) {
 			*++p = '\0';
-			setTokenVal("prefix", buf);
+			char quotedBuf[1024];
+			sprintf(quotedBuf, "\"%s\"", buf);
+			setTokenVal("prefix", quotedBuf);
 		}
 	}
-#endif
 }
