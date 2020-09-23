@@ -192,7 +192,7 @@ sdcc-install: check-SDCCDIR
 ifeq ($(OS),Windows_NT)
 		@cp -r $(SDCCDIR)/bin $(BUILDDIR)
 else
-		@cp $(SDCCDIR)/bin/{as2gbmap,makebin,packihx,sdar,sdasgb,sdcc,sdcdb,sdcdb{,src}.el,sdcpp,sdldgb,sdnm,sdobjcopy,sdranlib,sz80} $(BUILDDIR)/
+		@cp $(SDCCDIR)/bin/{as2gbmap,makebin,packihx,sdar,sdasgb,sdcc,sdcdb,sdcdb{,src}.el,sdcpp,sdldgb,sdnm,sdobjcopy,sdranlib,sz80} $(BUILDDIR)/bin/
 endif
 
 # Final binary
