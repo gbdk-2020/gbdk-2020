@@ -10,9 +10,9 @@ extern int var_1;  /* In external RAM bank 1 */
 extern int var_2;  /* In external RAM bank 2 */
 extern int var_3;  /* In external RAM bank 3 */
 
-void bank_1() NONBANKED;
-void bank_2() NONBANKED;
-void bank_3() NONBANKED;
+void bank_1() BANKED;
+void bank_2() BANKED;
+void bank_3() BANKED;
 
 void bank_fixed(void) NONBANKED
 {
@@ -43,11 +43,8 @@ void main(void)
   var_3 = 5;
 
   bank_fixed();
-  SWITCH_ROM_MBC1(1);
   bank_1();
-  SWITCH_ROM_MBC1(2);
   bank_2();
-  SWITCH_ROM_MBC1(3);
   bank_3();
 
   printf("Var is %u\n", var_internal);
