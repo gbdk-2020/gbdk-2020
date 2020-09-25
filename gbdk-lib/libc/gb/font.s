@@ -5,7 +5,6 @@
 ;	Distrubuted under the Artistic License - see www.opensource.org
 ;
 	.include        "global.s"
-	INCLUDE		"wait_hbl.mh"
 
 	.globl	.cr_curs
 	.globl	.adv_curs
@@ -73,12 +72,18 @@ font_copy_uncompressed::
 	jr	nz,1$
 	dec	d
 1$:
-	WAIT_HBL
+	ldh	a,(.STAT)
+	bit	1,a
+	jr	nz,#.-4
+
 	ld	a,(bc)
 	ld	(hl+),a
 	inc	bc
 	
-	WAIT_HBL
+	ldh	a,(.STAT)
+	bit	1,a
+	jr	nz,#.-4
+
 	ld	a,(bc)
 	ld	(hl),a
 	inc	bc
@@ -151,10 +156,17 @@ font_copy_compressed_grey1:
 	xor	c
 	ld	c,a
 font_copy_compressed_grey2:
-	WAIT_HBL
+	ldh	a,(.STAT)
+	bit	1,a
+	jr	nz,#.-4
+
 	ld	(hl),b
 	inc	hl
-	WAIT_HBL
+
+	ldh	a,(.STAT)
+	bit	1,a
+	jr	nz,#.-4
+
 	ld	(hl),c
 	inc	hl
 	ld	a,h		; Take care of the 97FFF -> 8800 wrap around
@@ -396,7 +408,10 @@ set_char_no_encoding:
 	LD      BC,#0x9800
 	ADD     HL,BC
 
-	WAIT_HBL
+	ldh	a,(.STAT)
+	bit	1,a
+	jr	nz,#.-4
+
 	LD      (HL),E
 	POP     HL
 	POP     DE
@@ -481,7 +496,9 @@ _cls::
 1$:
 	LD	D,#0x20		; D = width
 2$:
-	WAIT_HBL
+	ldh	a,(.STAT)
+	bit	1,a
+	jr	nz,#.-4
 
 	LD	(HL),#.SPACE	; Always clear
 	INC	HL
