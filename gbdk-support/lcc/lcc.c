@@ -230,16 +230,26 @@ static void Fixllist()
 		} while (b != llist[0]);
 	}
 
-	if(!oamDefFound) 
-		llist[0] = append("-g _shadow_OAM=0xC000", llist[0]);
-	if(!stackDefFound)
-		llist[0] = append("-g .STACK=0xDEFF", llist[0]);
-	if(!refreshOAMDefFound) 
-		llist[0] = append("-g .refresh_OAM=0xFF80", llist[0]);
-	if(!dataDefFound) 
-		llist[0] = append("-b _DATA=0xc0a0", llist[0]);
-	if(!codeDefFound) 
-		llist[0] = append("-b _CODE=0x0200", llist[0]);
+	if(!oamDefFound) {
+		llist[0] = append("-g", llist[0]);
+        llist[0] = append("_shadow_OAM=0xC000", llist[0]);
+    }
+	if(!stackDefFound){
+		llist[0] = append("-g", llist[0]);
+        llist[0] = append(".STACK=0xDEFF", llist[0]);
+    }
+	if(!refreshOAMDefFound) {
+        llist[0] = append("-g", llist[0]);
+		llist[0] = append(".refresh_OAM=0xFF80", llist[0]);
+    }
+	if(!dataDefFound) {
+		llist[0] = append("-b", llist[0]);
+        llist[0] = append("_DATA=0xc0a0", llist[0]);
+    }
+	if(!codeDefFound) {
+		llist[0] = append("-b", llist[0]);
+        llist[0] = append("_CODE=0x0200", llist[0]);
+    }
 }
 
 /* alloc - allocate n bytes or die */
@@ -711,17 +721,26 @@ static void opt(char *arg) {
 					goto makebinoption; //automatically pass -y options to makebin (backwards compatibility)
 				{
 					char *tmp = malloc(256);
-					sprintf(tmp, "%c%c %s", arg[3], arg[4], &arg[5]); //sdldgb requires spaces between -k and the path
+					sprintf(tmp, "%c%c", arg[3], arg[4]); //sdldgb requires spaces between -k and the path
 					llist[0] = append(tmp, llist[0]);
+                    char *tmp2 = malloc(256);
+                    sprintf(tmp2, "%s", &arg[5]); //sdldgb requires spaces between -k and the path
+					llist[0] = append(tmp2, llist[0]);
 				}return;
 			case 'm': /* Makebin */
 			makebinoption:{
 				char *tmp = malloc(256);
-				if(arg[4] == 'y')
-					sprintf(tmp, "%c%c%c %s", arg[3], arg[4], arg[5], &arg[6]); //-yo -ya -yt -yl -yk -yn
-				if(arg[4] == 's')
-					sprintf(tmp, "%c%c %s", arg[3], arg[4], &arg[5]); //-s
+                char *tmp2 = malloc(256);
+				if(arg[4] == 'y') {
+					sprintf(tmp, "%c%c%c", arg[3], arg[4], arg[5]); //-yo -ya -yt -yl -yk -yn
+                    sprintf(tmp2, "%s", &arg[6]);
+                }
+				if(arg[4] == 's') {
+					sprintf(tmp, "%c%c", arg[3], arg[4]); //-s
+                    sprintf(tmp2, "%s", &arg[5]);
+                }
 				mkbinlist = append(tmp, mkbinlist);
+                mkbinlist = append(tmp2, mkbinlist);
 				}return;
 			}
 		fprintf(stderr, "%s: %s ignored\n", progname, arg);
