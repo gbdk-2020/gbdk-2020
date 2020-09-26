@@ -337,10 +337,15 @@ void removeQuotes(char* src, char* dst)
 	while(*src != '\0')
 	{
 		if(*src != '\"')
-			*(dst ++) = *src;
+        {
+            if(*dst != *src)
+			    *(dst) = *src;
+            dst ++;
+        }
 		src ++;
 	}
-	*dst = '\0';
+    if(*dst != '\0')
+	    *dst = '\0';
 }
 
 /* turns "C:\Users\Zalo\Desktop\gb\gbdk 2020\build\gbdk\"bin/sdcpp
@@ -408,11 +413,15 @@ static int callsys(char **av) {
 			removeQuotes(argv[0], argv_0_no_quotes);
 			for(char** it = argv; *it != 0; it ++)
 			{
-				fixQuotes(*it);
+#ifdef __WIN32__
+				fixQuotes(*it); //On windows quotes must be kept, and fixed
+#else
+                removeQuotes(*it, *it); //On macos, quotes must be fully removed from args
+#endif
 			}
 			//For future reference:
 			//_spawnvp requires _FileName to not have quotes
-			//_Arguments must have quotes
+			//_Arguments must have quotes on windows, but not in macos
 			//Quoted strings must begin and end with quotes, no quotes in the middle
 			status = _spawnvp(_P_WAIT, argv_0_no_quotes, argv);
 		}
