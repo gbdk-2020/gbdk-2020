@@ -1,23 +1,24 @@
-## Current release for Windows: [WIN32 Binaries](https://github.com/Zal0/gbdk-2020/releases/latest/download/gbdk-3.2-win.zip)
-## Current release for MacOS: [MacOS Binaries](https://github.com/Zal0/gbdk-2020/releases/latest/download/gbdk-3.2-macos.zip)
+## Current release for Windows: [WIN32 Binaries](https://github.com/Zal0/gbdk-2020/releases/latest/download/gbdk-win.zip)
+## Current release for MacOS: [MacOS Binaries](https://github.com/Zal0/gbdk-2020/releases/latest/download/gbdk-macos.zip)
 You don't need the sources, unless you wish to compile GBDK-2020 yourself. Download the current release binaries using the links above.
 
 # gbdk-2020
 [GBDK](http://gbdk.sourceforge.net/) A C compiler, assembler, linker and set of libraries for the Z80 like Nintendo Gameboy.
 
-The last version in the old repo is [2.96](https://sourceforge.net/projects/gbdk/files/gbdk/2.96/) although releases are available until 2.95-3.
+# Current status
+- updated CRT and library that suits better for game development
+- the latest version of **sdcc** (the compiler and toolchain) is used from [sourceforge](http://sdcc.sourceforge.net)
+- **lcc** (the retargetable compiler) supports the latest version of sdcc compiler and toolchain. 
 
-Over the years people have been complaining about all the issues caused by a very old version of SDCC (the compiler). This is a proper attempt of updating it while also keeping all the old functionallity working, like banks support
+For full list of changes see the [ChangeLog](https://github.com/Zal0/gbdk-2020/gbdk-support/ChangeLog) file
+
+# Origin
+
+The last version in the OLD repo is [2.96](https://sourceforge.net/projects/gbdk/files/gbdk/2.96/) although releases are available until 2.95-3.
+
+Over the years people have been complaining about all the issues caused by a very old version of SDCC (the compiler). This is a proper attempt of updating it while also keeping all the old functionallity working, like support for banked code and data and so on
 
 Version [2.96](https://sourceforge.net/projects/gbdk/files/gbdk/2.96/) is the starting point of this repo
-
-# Current status
-Although **sdcc** already includes a library supporting Game Boy development, the linker is broken and does not support banks (more info [here](http://zalods.blogspot.com/2017/07/bitbitjam-4-velcro-sheep.html)). Years ago it was discovered that it is still posible to link with the old linker **link-gbz80** while also updating **sdcc**. Here is what has been updated
-- **sdcc** (the compiler), fully removed the old one and using the latest version from [sourceforge](http://sdcc.sourceforge.net)
-- **sdccp** (the preprocessor) also from the same repo
-- **sdasgb** (the assembler) has also been updated
-- **link-gbz80** (the linker) is kept as it was, because it works and has banking support. Support for far calls, aka BANKED functions has also been added
-- **lcc** (the retargetable compiler) to support the new versions of sdcc, sdcpp and sdasgb 
 
 # Usage
 Most users will only need to download and unzip the latest [release](https://github.com/Zal0/gbdk-2020/releases)
