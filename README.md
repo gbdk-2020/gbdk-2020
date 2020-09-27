@@ -10,15 +10,13 @@ You don't need the sources, unless you wish to compile GBDK-2020 yourself. Downl
 - the latest version of **sdcc** (the compiler and toolchain) is used from [sourceforge](http://sdcc.sourceforge.net)
 - **lcc** (the retargetable compiler) supports the latest version of sdcc compiler and toolchain. 
 
-For full list of changes see the [ChangeLog](https://github.com/Zal0/gbdk-2020/gbdk-support/ChangeLog) file
+For full list of changes see the [ChangeLog](https://github.com/Zal0/gbdk-2020/blob/master/gbdk-support/ChangeLog) file
 
 # Origin
 
-The last version in the OLD repo is [2.96](https://sourceforge.net/projects/gbdk/files/gbdk/2.96/) although releases are available until 2.95-3.
-
 Over the years people have been complaining about all the issues caused by a very old version of SDCC (the compiler). This is a proper attempt of updating it while also keeping all the old functionallity working, like support for banked code and data and so on
 
-Version [2.96](https://sourceforge.net/projects/gbdk/files/gbdk/2.96/) is the starting point of this repo
+The last version in the OLD repo is [2.96](https://sourceforge.net/projects/gbdk/files/gbdk/2.96/) although releases are available until 2.95-3. Version [2.96](https://sourceforge.net/projects/gbdk/files/gbdk/2.96/) is the starting point of this repo
 
 # Usage
 Most users will only need to download and unzip the latest [release](https://github.com/Zal0/gbdk-2020/releases)
