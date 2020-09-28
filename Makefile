@@ -29,10 +29,6 @@ TARGETCXXFLAGS =
 GBDKLIBDIR = $(TOPDIR)/gbdk-lib
 # Directory containing the source to gbdk-support
 GBDKSUPPORTDIR = $(TOPDIR)/gbdk-support
-# Directory containing the source to maccer
-MACCERDIR = $(TOPDIR)/maccer
-# Directory containing the source to assembler
-ASDIR = $(TOPDIR)/as
 
 # Base setup
 # Extension to add to executables
@@ -52,7 +48,7 @@ NOISELOG = $(TOPDIR)/noise.log
 
 all: native-build
 
-clean: maccer-clean gbdk-support-clean gbdk-lib-clean
+clean: gbdk-support-clean gbdk-lib-clean
 
 distclean: clean build-dir-clean
 
@@ -94,7 +90,7 @@ src: clean
 	tar czf gbdk-$(VER).tar.gz gbdk
 
 # Base rules
-gbdk-build: maccer-build gbdk-support-build gbdk-lib-build 
+gbdk-build: gbdk-support-build gbdk-lib-build 
 
 gbdk-install: $(BUILDDIR)/bin gbdk-support-install gbdk-lib-install sdcc-install
 
@@ -174,17 +170,6 @@ gbdk-lib-clean:
 gbdk-lib-examples-makefile:
 	$(MAKE) -C $(BUILDDIR)/examples/gb make.bat
 	unix2dos $(BUILDDIR)/examples/gb/make.bat
-
-# Rules for maccer
-maccer-build:
-	@echo Building Maccer
-	@$(MAKE) -C $(MACCERDIR) BUILDDIR=$(BUILDDIR) --no-print-directory
-	@echo 
-	
-maccer-clean:
-	@echo Cleaning Maccer
-	@$(MAKE) -C $(MACCERDIR) clean --no-print-directory
-	@echo
 
 #SDDC copy
 sdcc-install: check-SDCCDIR
