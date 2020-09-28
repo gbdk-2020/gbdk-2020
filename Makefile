@@ -177,7 +177,20 @@ sdcc-install: check-SDCCDIR
 ifeq ($(OS),Windows_NT)
 		@cp -r $(SDCCDIR)/bin $(BUILDDIR)
 else
-		@cp $(SDCCDIR)/bin/{as2gbmap,makebin,packihx,sdar,sdasgb,sdcc,sdcdb,sdcdb{,src}.el,sdcpp,sdldgb,sdnm,sdobjcopy,sdranlib,sz80} $(BUILDDIR)/bin/
+#		@cp $(SDCCDIR)/bin/{as2gbmap,makebin,packihx,sdar,sdasgb,sdcc,sdcdb,sdcdb{,src}.el,sdcpp,sdldgb,sdnm,sdobjcopy,sdranlib,sz80} $(BUILDDIR)/bin/
+		@cp $(SDCCDIR)/bin/as2gbmap $(BUILDDIR)/bin/
+		@cp $(SDCCDIR)/bin/makebin $(BUILDDIR)/bin/
+		@cp $(SDCCDIR)/bin/packihx $(BUILDDIR)/bin/
+		@cp $(SDCCDIR)/bin/sdar $(BUILDDIR)/bin/
+		@cp $(SDCCDIR)/bin/sdasgb $(BUILDDIR)/bin/
+		@cp $(SDCCDIR)/bin/sdcc $(BUILDDIR)/bin/
+		@cp $(SDCCDIR)/bin/sdcdb $(BUILDDIR)/bin/
+		@cp $(SDCCDIR)/bin/sdcpp $(BUILDDIR)/bin/
+		@cp $(SDCCDIR)/bin/sdldgb $(BUILDDIR)/bin/
+		@cp $(SDCCDIR)/bin/sdnm $(BUILDDIR)/bin/
+		@cp $(SDCCDIR)/bin/sdobjcopy $(BUILDDIR)/bin/
+		@cp $(SDCCDIR)/bin/sdranlib $(BUILDDIR)/bin/
+		@cp $(SDCCDIR)/bin/sz80 $(BUILDDIR)/bin/
 endif
 
 # Final binary
