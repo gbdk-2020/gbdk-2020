@@ -5,7 +5,6 @@
 /* ---------------------------------------- */
 
 #include <gb/gb.h>
-#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -45,15 +44,15 @@
 /* display */
 #define TITLE " GB-DTMF BY 05AMU "
 
-#define OFFSET 			27
-#define KEY_STEP 		24	/* Key matrix size as 24 x 24	*/
-#define START_CURSOR_X	24	/* CURSOR position	*/
-#define START_CURSOR_Y	72
+#define OFFSET 			27U
+#define KEY_STEP 		24U	/* Key matrix size as 24 x 24	*/
+#define START_CURSOR_X	24U	/* CURSOR position	*/
+#define START_CURSOR_Y	72U
 
-#define LCD_X 			1	/* start position of X		*/
-#define LCD_Y			2	/* start position of Y		*/
-#define LCD_WIDTH		18	/* Horizontal size of LCD	*/
-#define LCD_HIGHT		2	/* Vertical Size of LCD		*/
+#define LCD_X 			1U	/* start position of X		*/
+#define LCD_Y			2U	/* start position of Y		*/
+#define LCD_WIDTH		18U	/* Horizontal size of LCD	*/
+#define LCD_HIGHT		2U	/* Vertical Size of LCD		*/
 
 
 #define ON	1
@@ -161,7 +160,7 @@ const char	pad[4][6] = {		/* DTMF Pad assign */
 	{'*','0','#','D','s','s'}
 };
 
-unsigned char disp_tile[MAX_DTMF];
+unsigned char disp_tile[MAX_DTMF * 2];
 
 /*
 	Initialize for sound registers
@@ -435,7 +434,7 @@ void break_button(UBYTE x, UBYTE y)
 
 void init_key()
 {
-	UBYTE key_x, key_y, i, j;
+	UBYTE key_x, key_y, i;
 
 	/* To make numeric KeyPad */
 	set_sprite_data(0, 24, key_num);
@@ -474,14 +473,14 @@ void init_key()
 
 	/* key pad '*', '0', '#' */
 	set_sprite_tile(15, 15);
-	move_sprite(15, KEY_STEP * 1, KEY_STEP * 4 + 40);
+	move_sprite(15, KEY_STEP * 1, KEY_STEP * 4 + 40U);
 	set_sprite_tile(0, 0);
-	move_sprite(0, KEY_STEP * 2, KEY_STEP * 4 + 40);
+	move_sprite(0, KEY_STEP * 2, KEY_STEP * 4 + 40U);
 	set_sprite_tile(14, 14);
-	move_sprite(14, KEY_STEP * 3, KEY_STEP * 4 + 40);
+	move_sprite(14, KEY_STEP * 3, KEY_STEP * 4 + 40U);
 
 	/* func left */
-	key_x = KEY_STEP * 5 + 8;
+	key_x = KEY_STEP * 5 + 8U;
 	for(i = 0;i <= 2;i++){
 		key_y = (i+1) * KEY_STEP + 40;
 		set_sprite_tile(i+16, i+16);
@@ -489,7 +488,7 @@ void init_key()
 	}
 
 	/* func right */
-	key_x = KEY_STEP * 6 + 8;
+	key_x = KEY_STEP * 6 + 8U;
 	for(i = 0;i <= 2;i++){
 		key_y = (i+1) * KEY_STEP + 40;
 		set_sprite_tile(i+19, i+19);
@@ -497,8 +496,8 @@ void init_key()
 	}
 
 	/* dialing button */
-	key_x = KEY_STEP * 5 + 20;
-	key_y = KEY_STEP * 4 + 40;
+	key_x = KEY_STEP * 5 + 20U;
+	key_y = KEY_STEP * 4 + 40U;
 	set_sprite_tile(22, 22);
 	move_sprite(22, key_x, key_y);
 }
@@ -568,7 +567,7 @@ void main()
 	DISPLAY_ON;
 
 	enable_interrupts();
-	
+
 	i = j = 0;
 
 	ch_pos = 0;

@@ -1,4 +1,4 @@
-CC	= ../../../bin/lcc -Wa-l -Wl-m -DGBDK_2_COMPAT=1
+CC	= ../../../bin/lcc -Wa-l -Wl-m
 
 BINS	= gb-dtmf.gb
 
@@ -17,4 +17,4 @@ all:	$(BINS)
 	$(CC) -o $@ $<
 
 clean:
-	rm -f *.o *.lst *.map *.gb
+	rm -f *.o *.lst *.map *.gb *.ihx *.sym
