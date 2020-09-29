@@ -205,7 +205,7 @@ extern UINT8 _cpu;
 #define CGB_TYPE 0x11 
 
 /** Time in VBL periods (60Hz) */
-extern UINT16 sys_time;	
+extern volatile UINT16 sys_time;	
 
 /* ************************************************************ */
 
@@ -216,13 +216,13 @@ void send_byte(void);
 void receive_byte(void);
 
 /** An OR of IO_* */
-extern UINT8 _io_status;
+extern volatile UINT8 _io_status;
 /** Byte just read. */
-extern UINT8 _io_in;
+extern volatile UINT8 _io_in;
 /** Write the byte to send here before calling send_byte()
     @see send_byte
 */
-extern UINT8 _io_out;
+extern volatile UINT8 _io_out;
 
 /* Status codes */
 /** IO is completed */
