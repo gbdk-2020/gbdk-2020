@@ -248,8 +248,10 @@ extern volatile UINT8 _io_out;
 
     -Wl-yo# where # is the number of rom banks. 2,4,8,16,32.
 */
+__REG _current_bank;
+
 #define SWITCH_ROM_MBC1(b) \
-  *(unsigned char *)0x2000 = (b)
+  _current_bank = (b), *(unsigned char *)0x2000 = (b)
 
 #define SWITCH_RAM_MBC1(b) \
   *(unsigned char *)0x4000 = (b)
@@ -271,7 +273,8 @@ extern volatile UINT8 _io_out;
  */
 /** MBC5 */
 #define SWITCH_ROM_MBC5(b) \
-  *(unsigned char *)0x3000 = (UINT16)(b)>>8; \
+  _current_bank = (b), \
+  *(unsigned char *)0x3000 = (UINT16)(b) >> 8, \
   *(unsigned char *)0x2000 = (UINT8)(b)
 
 #define SWITCH_RAM_MBC5(b) \
