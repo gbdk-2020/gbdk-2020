@@ -443,13 +443,6 @@ char *concat(const char *s1, const char *s2) {
 	return s;
 }
 
-/* compile - compile src into dst, return status */
-static int compile(char *src, char *dst) {
-	compose(com, clist, append(src, 0), append(dst, 0));
-	int ret = callsys(av);
-	return ret;
-}
-
 /* compose - compose cmd into av substituting a, b, c for $1, $2, $3, resp. */
 static void compose(char *cmd[], List a, List b, List c) {
 	int i, j;
@@ -541,10 +534,31 @@ static int filename(char *name, char *base) {
 		base = basepath(name);
 	switch (suffix(name, suffixes, 4)) {
 	case 0:	/* C source files */
-		if (Sflag)
-			status = compile(name, /*outfile ? outfile :*/ concat(base, first(suffixes[3])));
+		/*if (Sflag)
+			status = compile(name, outfile ? outfile : concat(base, first(suffixes[3])));
 		else if ((status = compile(name, stemp ? stemp : (stemp = tempname(first(suffixes[3]))))) == 0)
 			return filename(stemp, base);
+		break;*/
+		{
+			char *ofile;
+			if (cflag && outfile)
+				ofile = outfile;
+			else if (cflag)
+				ofile = concat(base, first(suffixes[3]));
+			else
+			{
+				ofile = tempname(first(suffixes[3]));
+				char* ofileBase = basepath(ofile);
+				rmlist = append(stringf("%s/%s%s", tempdir, ofileBase, ".asm"), rmlist);
+				rmlist = append(stringf("%s/%s%s", tempdir, ofileBase, ".lst"), rmlist);
+				rmlist = append(stringf("%s/%s%s", tempdir, ofileBase, ".sym"), rmlist);
+			}
+
+			compose(com, clist, append(name, 0), append(ofile, 0));
+			status = callsys(av);
+			if (!find(ofile, llist[1]))
+				llist[1] = append(ofile, llist[1]);
+		}
 		break;
 	case 2:	/* assembly language files */
 		if (Eflag)
