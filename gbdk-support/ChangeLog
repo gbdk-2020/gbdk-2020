@@ -15,6 +15,9 @@ gbdk3-4.0
         - many other improvements and fixes - thanks to all contributors!
     - Revised examples
     - Improved linux support
+    - Lcc has been updated
+        - it works with the latest version of sdcc
+        - quoted paths with spaces are working now
 
 gbdk3-3.2
     - support for BCD numbers
