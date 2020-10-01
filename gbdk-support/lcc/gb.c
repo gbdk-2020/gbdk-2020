@@ -45,7 +45,7 @@ static struct {
 		{ "comopt",		"--noinvariant --noinduction" },
 		{ "commodel", 	"small" },
 		{ "com",		"%sdccdir%sdcc" },
-		{ "comdefault",	"-mgbz80 --no-std-crt0 --fsigned-char --use-stdout --c1mode" },
+		{ "comdefault",	"-mgbz80 --no-std-crt0 --fsigned-char --use-stdout" },
 		{ "as",		"%sdccdir%sdasgb" },
 		{ "ld",		"%sdccdir%sdldgb" },
 		{ "libdir",		"%prefix%lib/%libmodel%/asxxxx/" },
@@ -90,7 +90,7 @@ static CLASS classes[] = {
 			"gb",
 			"%cpp% %cppdefault% -DGB=1 -DGAMEBOY=1 -DINT_16_BITS $1 $2 $3",
 			"%includedefault%",
-			"%com% %comdefault% $1 -o $3",
+			"%com% %comdefault% -Wa-pog -DGB=1 -DGAMEBOY=1 -DINT_16_BITS $1 -c $2 -o $3",
 			"%as% -pog $1 $3 $2",
 			"%ld% -n -i $1 -k %libdir%%port%/ -l %port%.lib "
 				"-k %libdir%%plat%/ -l %plat%.lib $3 %libdir%%plat%/crt0.o $2",

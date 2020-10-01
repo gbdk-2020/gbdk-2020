@@ -446,9 +446,7 @@ char *concat(const char *s1, const char *s2) {
 /* compile - compile src into dst, return status */
 static int compile(char *src, char *dst) {
 	compose(com, clist, append(src, 0), append(dst, 0));
-	FILE* file = freopen(src, "r", stdin);
 	int ret = callsys(av);
-	fclose(file);
 	return ret;
 }
 
@@ -543,24 +541,9 @@ static int filename(char *name, char *base) {
 		base = basepath(name);
 	switch (suffix(name, suffixes, 4)) {
 	case 0:	/* C source files */
-		compose(cpp, plist, append(name, 0), 0);
-		if (Eflag) {
-			status = callsys(av);
-			break;
-		}
-		if (itemp == NULL)
-			itemp = tempname(first(suffixes[1]));
-		compose(cpp, plist, append(name, 0), append(itemp, 0));
-		status = callsys(av);
-		if (status == 0)
-			return filename(itemp, base);
-		break;
-	case 1:	/* preprocessed source files */
-		if (Eflag)
-			break;
 		if (Sflag)
-			status = compile(name, outfile ? outfile : concat(base, first(suffixes[2])));
-		else if ((status = compile(name, stemp ? stemp : (stemp = tempname(first(suffixes[2]))))) == 0)
+			status = compile(name, /*outfile ? outfile :*/ concat(base, first(suffixes[3])));
+		else if ((status = compile(name, stemp ? stemp : (stemp = tempname(first(suffixes[3]))))) == 0)
 			return filename(stemp, base);
 		break;
 	case 2:	/* assembly language files */
