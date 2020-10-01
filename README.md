@@ -1,5 +1,6 @@
 ## Current release for Windows: [WIN32 Binaries](https://github.com/Zal0/gbdk-2020/releases/latest/download/gbdk-win.zip)
 ## Current release for MacOS: [MacOS Binaries](https://github.com/Zal0/gbdk-2020/releases/latest/download/gbdk-macos.zip)
+## Current release for Linux: [Linux Binaries](https://github.com/Zal0/gbdk-2020/releases/latest/download/gbdk-linux64.tar.gz)
 You don't need the sources, unless you wish to compile GBDK-2020 yourself. Download the current release binaries using the links above.
 
 # gbdk-2020
