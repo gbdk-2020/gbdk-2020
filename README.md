@@ -8,7 +8,7 @@ You don't need the sources, unless you wish to compile GBDK-2020 yourself. Downl
 
 # Current status
 - updated CRT and library that suits better for game development
-- the latest version of **sdcc** (the compiler and toolchain) is used from [sourceforge](http://sdcc.sourceforge.net)
+- the latest nightlies of **sdcc** (the compiler and toolchain) are used from [sourceforge](http://sdcc.sourceforge.net). At the moment of writing this the last stable version is 4.0 which has linker issues and won't work if you want to use banks. Please use one of the nightlies available [here](http://sdcc.sourceforge.net/snap.php) (we used 11875)
 - **lcc** (the retargetable compiler) supports the latest version of sdcc compiler and toolchain. 
 
 For full list of changes see the [ChangeLog](https://github.com/Zal0/gbdk-2020/blob/master/gbdk-support/ChangeLog) file
@@ -40,6 +40,7 @@ Unless you are interested on recompiling the sources for some reason (like fixin
 
 - **Windows only**: Download and install [mingw](http://www.mingw.org/)
 - Clone, download this repo or just get the source form the [releases](https://github.com/Zal0/gbdk-2020/releases)
-- Download and install [**sdcc**](http://sdcc.sourceforge.net/) (SDCC is no longer part of GDDK so you need to download it (just the binaries) in the platform you need)
+- Download and install [**sdcc nightlies from 11875 onwards**](http://sdcc.sourceforge.net/snap.php) (SDCC is no longer part of GDDK so you need to download it (just the binaries) in the platform you need)
+- On Linux **don't use package managers** The latest release available won't work, you need to compile or download one of the nightlies
 - Create and environment var **SDCCDIR** pointint to the folder where you installed sdcc
 - Open a command prompt or a terminal, go the root directory of the repo and run **make**
