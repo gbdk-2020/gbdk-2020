@@ -68,38 +68,36 @@ _remove_SIO::
 	LD	A,(__io_status) ; Get status
 
 	CP	#.IO_RECEIVING
-	JR	NZ,10$
+	JR	NZ, 1$
 
 	;; Receiving data
 	LDH	A,(.SB)		; Get data byte
 	LD	(__io_in),A	; Store it
+
+2$:
 	LD	A,#.IO_IDLE
-	JR	11$
-
-10$:
-
-	CP	#.IO_SENDING
-	JR	NZ,99$
-
-	;; Sending data
-	LDH	A,(.SB)		; Get data byte
-	CP	#.DT_RECEIVING
-	JR	Z,11$
-	LD	A,#.IO_ERROR
-	JR	12$
-11$:
-	LD	A,#.IO_IDLE
-12$:
+3$:
 	LD	(__io_status),A ; Store status
 
 	XOR	A
 	LDH	(.SC),A		; Use external clock
 	LD	A,#.DT_IDLE
 	LDH	(.SB),A		; Reply with IDLE byte
-99$:
+4$:
 	LD	A,#0x80
 	LDH	(.SC),A		; Enable transfer with external clock
 	RET
+
+1$:
+	CP	#.IO_SENDING
+	JR	NZ, 4$
+
+	;; Sending data
+	LDH	A,(.SB)		; Get data byte
+	CP	#.DT_RECEIVING
+	JR	Z, 2$
+	LD	A,#.IO_ERROR
+	JR	3$
 
 	.area	_BSS
 
