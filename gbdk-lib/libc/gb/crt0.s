@@ -226,6 +226,8 @@
 				; V-Blank	=   On
 	LDH	(.IE),A
 
+	LDH	(__current_bank),A	; current bank is 1 at startup
+
 	XOR	A
 
 	LD      HL,#.sys_time
