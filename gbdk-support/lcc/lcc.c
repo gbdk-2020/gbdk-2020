@@ -104,7 +104,7 @@ int main(int argc, char *argv[]) {
 		help();
 		exit(0);
 	}
-	plist = append("-D__LCC__", 0);
+	clist = append("-D__LCC__", 0);
 	initinputs();
 	if (getenv("GBDKDIR"))
 		option(stringf("--prefix=%s", getenv("GBDKDIR")));
@@ -145,12 +145,12 @@ int main(int argc, char *argv[]) {
 	argv[j] = 0;
 	finalise();
 	for (i = 0; include[i]; i++)
-		plist = append(include[i], plist);
+		clist = append(include[i], clist);
 	if (ilist) {
 		List b = ilist;
 		do {
 			b = b->link;
-			plist = append(b->str, plist);
+			clist = append(b->str, clist);
 		} while (b != ilist);
 	}
 	ilist = 0;
@@ -711,7 +711,7 @@ static void opt(char *arg) {
 					return;
 				break;
 			case 'p': /* Preprocessor */
-				plist = append(&arg[3], plist);
+				clist = append(&arg[3], clist);
 				return;
 			case 'f': /* Compiler */
 				if (strcmp(&arg[3], "-C") || option("-b")) {
@@ -772,7 +772,7 @@ static void opt(char *arg) {
 	case 'D':	/* -Dname -Dname=def */
 	case 'U':	/* -Uname */
 	case 'I':	/* -Idir */
-		plist = append(arg, plist);
+		clist = append(arg, clist);
 		return;
 	case 'B':	/* -Bdir -Bstatic -Bdynamic */
 #ifdef sparc
@@ -844,7 +844,7 @@ static void opt(char *arg) {
 			return;
 		case 'N':
 			if (strcmp(basepath(cpp[0]), "gcc-cpp") == 0)
-				plist = append("-nostdinc", plist);
+				clist = append("-nostdinc", clist);
 			include[0] = 0;
 			ilist = 0;
 			return;
@@ -853,7 +853,7 @@ static void opt(char *arg) {
 #if 0
 				/* GBDK removed */
 				if (strcmp(basepath(cpp[0]), "gcc-cpp") == 0)
-					plist = append(arg, plist);
+					clist = append(arg, clist);
 				clist = append(arg, clist);
 #endif
 				fprintf(stderr, "%s %s\n", progname, rcsid);
