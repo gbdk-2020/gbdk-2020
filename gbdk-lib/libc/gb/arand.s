@@ -102,8 +102,6 @@ _initarand::			; Banked
 	LD	H,B
 	LD	L,C
 
-	LD	A, D
-	LD	(HL+),A
 	LD	A, E
 	LD	(HL+),A
 	
