@@ -17,4 +17,4 @@ all:	$(BINS)
 	$(CC) -o $@ $<
 
 clean:
-	rm -f *.o *.lst *.map *.gb *.ihx *.sym
+	rm -f *.o *.lst *.map *.gb *.ihx *.sym *.cdb *.adb *.asm
