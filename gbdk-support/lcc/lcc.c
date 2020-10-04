@@ -202,7 +202,7 @@ int main(int argc, char *argv[]) {
 static void Fixllist()
 {
 	#define BEGINS_WITH(A, B) (A ? strncmp(A, B, sizeof(B) - 1) == 0 : 0)
-	//-g .OAM=0xC000 -g .STACK=0xDEFF -g .refresh_OAM=0xFF80 -b _DATA=0xc0a0 -b _CODE=0x0200 
+	//-g .OAM=0xC000 -g .STACK=0xDEFF -g .refresh_OAM=0xFF80 -b _DATA=0xc0a0 -b _CODE=0x0200
 
 	int oamDefFound = 0;
 	int stackDefFound = 0;
@@ -354,7 +354,7 @@ void fixQuotes(char* str)
 {
 	while(*str != '\"' && *str != '\0')
 		str ++;
-	
+
 	char* src = str;
 	if(*src == '\"')
 	{
@@ -643,7 +643,7 @@ static void help(void) {
 "-v	show commands as they are executed; 2nd -v suppresses execution\n",
 "-w	suppress warnings\n",
 "-Woarg	specify system-specific `arg'\n",
-"-W[pfal]arg	pass `arg' to the preprocessor, compiler, assembler, or linker\n",
+"-W[pfalm]arg	pass `arg' to the preprocessor, compiler, assembler, linker, or makebin\n",
 	0 };
 	int i;
 	char *s;
@@ -731,7 +731,7 @@ static void opt(char *arg) {
 					llist[0] = append(tmp, llist[0]);     //splitting the args into 2 works on Win and Linux
 					if(arg[5]){
 						char *tmp2 = malloc(256);
-						sprintf(tmp2, "%s", &arg[5]); 
+						sprintf(tmp2, "%s", &arg[5]);
 						llist[0] = append(tmp2, llist[0]);
 					}
 				}return;
@@ -739,16 +739,19 @@ static void opt(char *arg) {
 			makebinoption:{
 				char *tmp = malloc(256);
 				char *tmp2 = malloc(256);
+				tmp2[0] = '\0'; // Zero out second arg by default
 				if(arg[4] == 'y') {
 					sprintf(tmp, "%c%c%c", arg[3], arg[4], arg[5]); //-yo -ya -yt -yl -yk -yn
-					sprintf(tmp2, "%s", &arg[6]);
+					if (!(arg[5] == 'c' || arg[5] == 'C' || arg[5] == 's' || arg[5] == 'j')) // Don't add secong arg for -yc -yC -ys -yj
+						sprintf(tmp2, "%s", &arg[6]);
 				} else {
 					sprintf(tmp, "%c%c", arg[3], arg[4]); //-s
 					if(arg[5])
 						sprintf(tmp2, "%s", &arg[5]);
 				}
 				mkbinlist = append(tmp, mkbinlist);
-				mkbinlist = append(tmp2, mkbinlist);
+				if (tmp2[0] != '\0')  // Only append second argument if it's populated
+					mkbinlist = append(tmp2, mkbinlist);
 				}return;
 			}
 		fprintf(stderr, "%s: %s ignored\n", progname, arg);
@@ -779,7 +782,7 @@ static void opt(char *arg) {
 		if (strcmp(arg, "-Bstatic") == 0 || strcmp(arg, "-Bdynamic") == 0)
 			llist[1] = append(arg, llist[1]);
 		else
-#endif	
+#endif
 		{
 			static char *path;
 			if (path)
@@ -809,7 +812,7 @@ static void opt(char *arg) {
 				fprintf(stderr, "%s: %s ignored\n", progname, arg);
 			return;
 		}
-#endif         
+#endif
 	}
 	if (arg[2] == 0)
 		switch (arg[1]) {	/* single-character options */
