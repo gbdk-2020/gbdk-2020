@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include <assert.h>
 #include <ctype.h>
 
@@ -306,7 +307,8 @@ void set_gbdk_dir(char* argv_0)
 	}
 #else
 	char slash = '/';
-	strcpy(buf, argv_0);
+	strncpy(buf, argv_0, sizeof(buf));
+	buf[sizeof(buf) - 1] = '\0';
 #endif
 
 	// Strip of the trailing GBDKDIR/bin/lcc.exe and use it as the prefix.
@@ -320,7 +322,7 @@ void set_gbdk_dir(char* argv_0)
 		if (p) {
 			*++p = '\0';
 			char quotedBuf[1024];
-			sprintf(quotedBuf, "\"%s\"", buf);
+			snprintf(quotedBuf, 1024, "\"%s\"", buf);
 			setTokenVal("prefix", quotedBuf);
 		}
 	}
