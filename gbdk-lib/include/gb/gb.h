@@ -269,13 +269,17 @@ __REG _current_bank;
   *(unsigned char *)0x6000 = 0x01
 
 /* Note the order used here.  Writing the other way around
- * on a MBC1 always selects bank 0 (d'oh)
+ * on a MBC1 always selects bank 1
  */
 /** MBC5 */
 #define SWITCH_ROM_MBC5(b) \
   _current_bank = (b), \
-  *(unsigned char *)0x3000 = (UINT16)(b) >> 8, \
-  *(unsigned char *)0x2000 = (UINT8)(b)
+  *(unsigned char *)0x3000 = 0, \
+  *(unsigned char *)0x2000 = (b)
+
+#define SWITCH_ROM_MBC5_8M(b) \
+  *(unsigned char *)0x3000 = ((UINT16)(b) >> 8), \
+  *(unsigned char *)0x2000 = (b)
 
 #define SWITCH_RAM_MBC5(b) \
   *(unsigned char *)0x4000 = (b)
