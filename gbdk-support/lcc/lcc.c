@@ -12,6 +12,15 @@ static char rcsid[] = "$Id: lcc.c,v 1.6 2001/10/28 18:38:13 michaelh Exp $";
 #include <ctype.h>
 #include <signal.h>
 
+#ifdef _WIN32
+# include <io.h>
+# include <process.h>
+#else
+# include <unistd.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+#endif
+
 #ifndef TEMPDIR
 #define TEMPDIR "/tmp"
 #endif
@@ -27,7 +36,6 @@ List append(char *, List);
 extern char *basepath(char *);
 static int callsys(char *[]);
 extern char *concat(const char *, const char *);
-static int compile(char *, char *);
 static void compose(char *[], List, List, List);
 static void error(char *, char *);
 static char *exists(char *);
@@ -47,8 +55,6 @@ extern char *stringf(const char *, ...);
 extern int suffix(char *, char *[], int);
 extern char *tempname(char *);
 
-extern int access(char *, int);
-//extern int getpid(void);
 static void Fixllist();
 
 extern char *cpp[], *include[], *com[], *as[], *ld[], *mkbin[], inputs[], *suffixes[];
@@ -297,16 +303,12 @@ char *basepath(char *name) {
 	return s;
 }
 
-#ifdef WIN32
-#include <process.h>
-#else
+#ifndef WIN32
 #define _P_WAIT 0
-extern int fork(void);
-extern int wait(int *);
-extern void execv(const char *, char *[]);
 
 static int _spawnvp(int mode, const char *cmdname, char *argv[]) {
-	int pid, n, status;
+	int status;
+	pid_t pid, n;
 
 	switch (pid = fork()) {
 	case -1:
@@ -517,8 +519,10 @@ static char *first(char *list) {
 
 	if (s) {
 		char buf[1024];
-		strncpy(buf, list, s - list);
-		buf[s - list] = '\0';
+		size_t len = s - list;
+		if(len >= sizeof(buf)) len = sizeof(buf)-1;
+		strncpy(buf, list, len);
+		buf[len] = '\0';
 		return strsave(buf);
 	}
 	else
@@ -534,16 +538,11 @@ static int filename(char *name, char *base) {
 		base = basepath(name);
 	switch (suffix(name, suffixes, 4)) {
 	case 0:	/* C source files */
-		/*if (Sflag)
-			status = compile(name, outfile ? outfile : concat(base, first(suffixes[3])));
-		else if ((status = compile(name, stemp ? stemp : (stemp = tempname(first(suffixes[3]))))) == 0)
-			return filename(stemp, base);
-		break;*/
 		{
 			char *ofile;
-			if (cflag && outfile)
+			if ((cflag || Sflag) && outfile)
 				ofile = outfile;
-			else if (cflag)
+			else if (cflag || Sflag)
 				ofile = concat(base, first(suffixes[3]));
 			else
 			{
@@ -883,13 +882,14 @@ static List path2list(const char *path) {
 	while (*path) {
 		char *p, buf[512];
 		if (p = strchr(path, sep)) {
-			assert(p - path < sizeof buf);
-			strncpy(buf, path, p - path);
-			buf[p - path] = '\0';
+			size_t len = p - path;
+			if(len >= sizeof(buf)) len = sizeof(buf)-1;
+			strncpy(buf, path, len);
+			buf[len] = '\0';
 		}
 		else {
-			assert(strlen(path) < sizeof buf);
-			strcpy(buf, path);
+			strncpy(buf, path, sizeof(buf));
+			buf[sizeof(buf)-1] = '\0';
 		}
 		if (!find(buf, list))
 			list = append(strsave(buf), list);
@@ -938,7 +938,7 @@ char *stringf(const char *fmt, ...) {
 	int n;
 
 	va_start(ap, fmt);
-	n = vsprintf(buf, fmt, ap);
+	n = vsnprintf(buf, sizeof(buf), fmt, ap);
 	va_end(ap);
 	return strsave(buf);
 }
