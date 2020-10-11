@@ -454,6 +454,10 @@ void set_bkg_data(UINT8 first_tile,
          UINT8 nb_tiles,
          unsigned char *data) NONBANKED __preserves_regs(b, c);
 
+void set_bkg_1bit_data(UINT8 first_tile,
+         UINT8 nb_tiles,
+         unsigned char *data) NONBANKED __preserves_regs(b, c);
+
 void get_bkg_data(UINT8 first_tile,
          UINT8 nb_tiles,
          unsigned char *data) NONBANKED __preserves_regs(b, c);
@@ -510,6 +514,10 @@ inline void scroll_bkg(INT8 x, INT8 y) {
     @see set_bkg_data
 */
 void set_win_data(UINT8 first_tile,
+          UINT8 nb_tiles,
+          unsigned char *data) NONBANKED __preserves_regs(b, c);
+
+void set_win_1bit_data(UINT8 first_tile,
           UINT8 nb_tiles,
           unsigned char *data) NONBANKED __preserves_regs(b, c);
 
@@ -589,6 +597,10 @@ inline void scroll_win(INT8 x, INT8 y) {
     indicates the second.
 */
 void set_sprite_data(UINT8 first_tile,
+          UINT8 nb_tiles,
+          unsigned char *data) NONBANKED __preserves_regs(b, c);
+
+void set_sprite_1bit_data(UINT8 first_tile,
           UINT8 nb_tiles,
           unsigned char *data) NONBANKED __preserves_regs(b, c);
 

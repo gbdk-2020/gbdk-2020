@@ -14,6 +14,7 @@ ASSRC =	cgb.s cpy_data.s drawing.s f_ibm_sh.s \
 	pad.s sample.s \
 	serial.s set_bk_t.s \
 	set_data.s set_prop.s set_spr.s set_wi_t.s set_xy_t.s \
+	set_1bit_data.s \
 	sgb.s font.s delay.s \
 	rand.s arand.s \
 	bgb_emu.s \
