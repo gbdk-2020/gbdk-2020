@@ -25,7 +25,7 @@ typedef struct {
 	const char *com;
 	const char *as;
 	const char *ld;
-	const char *mkbin; 
+	const char *mkbin;
 } CLASS;
 
 static struct {
@@ -298,7 +298,7 @@ void finalise(void)
 
 void set_gbdk_dir(char* argv_0)
 {
-	char buf[1024];
+	char buf[1024 - 2]; // Path will get quoted below, so reserve two characters for them
 #ifdef __WIN32__
 	char slash = '\\';
 	if (GetModuleFileName(NULL,buf, sizeof(buf)) == 0)
@@ -322,7 +322,7 @@ void set_gbdk_dir(char* argv_0)
 		if (p) {
 			*++p = '\0';
 			char quotedBuf[1024];
-			snprintf(quotedBuf, 1024, "\"%s\"", buf);
+			snprintf(quotedBuf, sizeof(quotedBuf), "\"%s\"", buf);
 			setTokenVal("prefix", quotedBuf);
 		}
 	}
