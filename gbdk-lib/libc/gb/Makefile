@@ -5,7 +5,7 @@ TOPDIR = ../..
 THIS = gb
 PORT = gbz80
 
-CSRC = digits.c gprint.c gprintf.c gprintln.c gprintn.c
+CSRC = digits.c gprint.c gprintf.c gprintln.c gprintn.c pad_ex.c
 
 ASSRC =	cgb.s cpy_data.s drawing.s f_ibm_sh.s \
 	f_italic.s f_min.s f_spect.s get_bk_t.s get_data.s \

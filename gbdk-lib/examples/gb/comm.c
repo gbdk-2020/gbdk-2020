@@ -77,7 +77,6 @@ void main(void)
                     printf("#%d\n", _io_status); 
                     break;
                 }
-//                putchar(_io_in);
                 *s = _io_in;
                 if(*s == 0) break;
                 s++;

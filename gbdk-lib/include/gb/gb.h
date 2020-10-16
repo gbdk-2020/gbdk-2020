@@ -318,6 +318,36 @@ UINT8 waitpad(UINT8 mask) NONBANKED __preserves_regs(b, c);
 */
 void waitpadup(void) NONBANKED __preserves_regs(a, b, c, d, e, h, l);
 
+/** Multiplayer joypad structure
+    must be initialized with joypad_init() first
+    then it may be used to poll all avaliable joypads with joypad_ex()
+*/
+
+typedef struct {
+    UINT8 npads;
+    union {
+        struct { 
+            UINT8 joy0, joy1, joy2, joy3;
+        };
+        UINT8 joypads[4];
+    };
+} joypads_t;
+
+/** Initializes joypads_t structure for polling multiple joypads
+    @param npads	number of joypads requested (1, 2 or 4)
+    @param joypads	pointer to joypads_t structure to be initialized
+    Returns number of joypads avaliable
+*/
+
+UINT8 joypad_init(UINT8 npads, joypads_t * joypads);
+
+/** Polls all avaliable joypads
+    @param joypads	pointer to joypads_t structure to be filled with joypad statuses, 
+    		must be previously initialized with joypad_init()
+*/
+
+void joypad_ex(joypads_t * joypads);
+
 /* ************************************************************ */
 
 /** Enables unmasked interrupts
@@ -608,10 +638,11 @@ void get_sprite_data(UINT8 first_tile,
           UINT8 nb_tiles,
           unsigned char *data) NONBANKED __preserves_regs(b, c);
 
-/** Sets sprite n to display tile number t, from the sprite tile data. 
-    If the GB is in 8x16 sprite mode then it will display the next
-    tile, t+1, below the first tile.
-    @param nb		Sprite number, range 0 - 39
+/** Sprite attribute structure
+    x x-coord of the sprite on screen
+    y y-coord of the sprite on screen
+    tile sprite tile number
+    prop sprite properties
 */
 
 typedef struct OAM_item_t {
@@ -620,7 +651,16 @@ typedef struct OAM_item_t {
     UINT8 prop;
 } OAM_item_t;
 
+/** Shadow OAM array in WRAM, that is DMA-transferred into the real OAM each VBlank
+*/
+
 extern volatile struct OAM_item_t shadow_OAM[];
+
+/** Sets sprite n to display tile number t, from the sprite tile data. 
+    If the GB is in 8x16 sprite mode then it will display the next
+    tile, t+1, below the first tile.
+    @param nb		Sprite number, range 0 - 39
+*/
 
 inline void set_sprite_tile(UINT8 nb, UINT8 tile) {
     shadow_OAM[nb].tile=tile; 
