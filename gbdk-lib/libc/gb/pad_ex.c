@@ -3,7 +3,7 @@
 
 UINT8 joypad_init(UINT8 npads, joypads_t * joypads) {
     UINT8 np = npads;
-    if ((np > 1) && (sgb_check())) {
+    if (sgb_check()) {
         switch (np) {
             case 2: 
                 sgb_transfer("\x89\x01"); 
@@ -11,7 +11,8 @@ UINT8 joypad_init(UINT8 npads, joypads_t * joypads) {
             case 4:
                 sgb_transfer("\x89\x03"); 
                 break;
-            default: 
+            default:
+                sgb_transfer("\x89\x00");
                 np = 1;
                 break;
         }
