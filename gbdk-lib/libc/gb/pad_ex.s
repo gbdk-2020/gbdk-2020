@@ -16,20 +16,22 @@ _joypad_init::
 	cp	a, #0x04
 	jr	Z, 4$
 	jr	5$
+
 3$:
-	ld	hl, #pkt_req_2
+	ld	hl, #.MLT_REQ_2
 	call	.sgb_transfer
 	call	.sgb_wait4
 	ld	e, #0x02
 	jr	2$
+
 4$:
-	ld	hl, #pkt_req_4
+	ld	hl, #.MLT_REQ_4
 	call	.sgb_transfer
 	call	.sgb_wait4
 	ld	e, #0x04
 	jr	2$
 5$:
-	ld	hl, #pkt_req_1
+	ld	hl, #.MLT_REQ_1
 	call	.sgb_transfer
 	call	.sgb_wait4
 1$:
@@ -47,13 +49,6 @@ _joypad_init::
 	ld	(hl+), a
 	ld	(hl), a	
 	ret
-
-pkt_req_4:
-	.db 0x89, 0x03
-pkt_req_2:
-	.db 0x89, 0x01
-pkt_req_1:
-	.db 0x89, 0x00
 
 _joypad_ex::
 	lda	hl, 2(sp)
