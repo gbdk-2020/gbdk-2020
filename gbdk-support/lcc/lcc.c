@@ -208,7 +208,7 @@ int main(int argc, char *argv[]) {
 static void Fixllist()
 {
 	#define BEGINS_WITH(A, B) (A ? strncmp(A, B, sizeof(B) - 1) == 0 : 0)
-	//-g .OAM=0xC000 -g .STACK=0xDEFF -g .refresh_OAM=0xFF80 -b _DATA=0xc0a0 -b _CODE=0x0200
+	//-g .OAM=0xC000 -g .STACK=0xE000 -g .refresh_OAM=0xFF80 -b _DATA=0xc0a0 -b _CODE=0x0200
 
 	int oamDefFound = 0;
 	int stackDefFound = 0;
@@ -242,7 +242,7 @@ static void Fixllist()
     }
 	if(!stackDefFound){
 		llist[0] = append("-g", llist[0]);
-        llist[0] = append(".STACK=0xDEFF", llist[0]);
+        llist[0] = append(".STACK=0xE000", llist[0]);
     }
 	if(!refreshOAMDefFound) {
         llist[0] = append("-g", llist[0]);
