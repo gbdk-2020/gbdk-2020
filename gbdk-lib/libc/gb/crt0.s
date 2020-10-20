@@ -268,7 +268,6 @@ _exit::
 	.area	_LIT
 	;; Constant data used to init _DATA
 	.area	_GSINIT
-	.area	_GSINITTAIL
 	.area	_GSFINAL
 	;; Initialised in ram data
 	.area	_DATA
@@ -299,7 +298,7 @@ __current_bank::	; Current bank
 	;; Runtime library
 	.area	_GSINIT
 gsinit::
-	.area	_GSINITTAIL
+	.area	_GSFINAL
 	ret
 	
 	.area	_HOME
