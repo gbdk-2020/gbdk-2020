@@ -17,7 +17,8 @@ BINS	= galaxy.gb \
 	bcd.gb \
 	wobble.gb \
 	crash.gb \
-	multiplayer.gb
+	multiplayer.gb \
+	pong.gb
 
 # sound.gb: Cant do bitfields
 OTHER = sound.gb \
@@ -109,4 +110,10 @@ ram_fn.gb:	ram_fn.o
 # SGB multiplayer example
 
 multiplayer.gb:	multiplayer.o
+	$(CC) -Wm-ys -o $@ $<
+
+############################################################
+# SGB pong example
+
+pong.gb:	pong.o
 	$(CC) -Wm-ys -o $@ $<
