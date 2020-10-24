@@ -19,10 +19,10 @@
 
 	LD	BC,#.serial_IO
 	CALL	.add_SIO
-	
+
 	XOR	A
 	LDH	(.IF),A
-	
+
 	LDH	A,(.IE)
 	OR	A,#0b00001000	; Serial I/O	=   On
 	LDH	(.IE),A
@@ -64,7 +64,8 @@ _remove_SIO::
 	JP	.remove_int
 
 	;; Serial interrupt
-.serial_IO::
+.serial_IO:
+_serial_IO::
 	LD	A,(__io_status) ; Get status
 
 	CP	#.IO_RECEIVING

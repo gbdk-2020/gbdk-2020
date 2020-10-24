@@ -39,7 +39,7 @@
 #define	M_DRAWING    0x01U
 #define	M_TEXT_OUT   0x02U
 #define	M_TEXT_INOUT 0x03U
-/** Set this in addition to the others to disable scrolling 
+/** Set this in addition to the others to disable scrolling
     If scrolling is disabled, the cursor returns to (0,0) */
 #define M_NO_SCROLL  0x04U
 /** Set this to disable \n interpretation */
@@ -145,7 +145,7 @@ void add_LCD(int_handler h) NONBANKED;
     changes from $FF to $00.
 
     @see add_VBL
-*/    
+*/
 void add_TIM(int_handler h) NONBANKED;
 
 /** Adds a serial transmit complete interrupt handler.
@@ -153,13 +153,13 @@ void add_TIM(int_handler h) NONBANKED;
     From pan/k0Pa:
     This interrupt occurs when a serial transfer has
     completed on the game link port.
-    
+
     @see send_byte, receive_byte, add_VBL
 */
 void add_SIO(int_handler h) NONBANKED;
 
 /** Adds a pad tranisition interrupt handler.
-    
+
     From pan/k0Pa:
     This interrupt occurs on a transition of any of the
     keypad input lines from high to low. Due to the fact
@@ -174,17 +174,22 @@ void add_JOY(int_handler h) NONBANKED;
 
 /** Interrupt handler chain terminator that don't wait for .STAT
 
-    You must add this handler the last in every interrupt handler 
-    chain if you want to change the default interrupt handler 
+    You must add this handler the last in every interrupt handler
+    chain if you want to change the default interrupt handler
     behaviour that waits for LCD controller mode to become 1 or 0
     before return from the interrupt.
 */
 void nowait_int_handler(void) NONBANKED;
 
-/** Interrupt handler chain terminator that waits for .STAT and 
+/** Interrupt handler chain terminator that waits for .STAT and
     returns in the BEGINNING of mode0 or mode1 ONLY
 */
 void wait_int_handler(void) NONBANKED;
+
+/** Default Interrupt handler for Serial Link / SIO
+    @see add_SIO(), remove_SIO()
+*/
+void serial_IO(void) NONBANKED;
 
 /* ************************************************************ */
 
@@ -198,14 +203,14 @@ UINT8 get_mode(void) NONBANKED __preserves_regs(b, c);
 extern UINT8 _cpu;
 
 /** Original GB or Super GB */
-#define DMG_TYPE 0x01 
+#define DMG_TYPE 0x01
 /** Pocket GB or Super GB 2 */
 #define MGB_TYPE 0xFF
 /** Color GB */
-#define CGB_TYPE 0x11 
+#define CGB_TYPE 0x11
 
 /** Time in VBL periods (60Hz) */
-extern volatile UINT16 sys_time;	
+extern volatile UINT16 sys_time;
 
 /* ************************************************************ */
 
@@ -226,22 +231,22 @@ extern volatile UINT8 _io_out;
 
 /* Status codes */
 /** IO is completed */
-#define IO_IDLE		0x00U		
+#define IO_IDLE		0x00U
 /** Sending data */
-#define IO_SENDING	0x01U		
+#define IO_SENDING	0x01U
 /** Receiving data */
-#define IO_RECEIVING	0x02U		
+#define IO_RECEIVING	0x02U
 /** Error */
-#define IO_ERROR	0x04U		
+#define IO_ERROR	0x04U
 
 /* ************************************************************ */
 
 /* Multiple banks */
 
-/** Switches the upper 16k bank of the 32k rom to bank rombank 
-    using the MBC1 controller. 
-    By default the upper 16k bank is 1. Make sure the rom you compile 
-    has more than just bank 0 and bank 1, a 32k rom. This is done by 
+/** Switches the upper 16k bank of the 32k rom to bank rombank
+    using the MBC1 controller.
+    By default the upper 16k bank is 1. Make sure the rom you compile
+    has more than just bank 0 and bank 1, a 32k rom. This is done by
     feeding lcc.exe the following switches:
 
     -Wl-yt# where # is the type of cartridge. 1 for ROM+MBC1.
@@ -293,7 +298,7 @@ __REG _current_bank;
 /* ************************************************************ */
 
 /** Delays the given number of milliseconds.
-    Uses no timers or interrupts, and can be called with 
+    Uses no timers or interrupts, and can be called with
     interrupts disabled (why nobody knows :)
  */
 void delay(UINT16 d) NONBANKED;
@@ -326,7 +331,7 @@ void waitpadup(void) NONBANKED __preserves_regs(a, b, c, d, e, h, l);
 typedef struct {
     UINT8 npads;
     union {
-        struct { 
+        struct {
             UINT8 joy0, joy1, joy2, joy3;
         };
         UINT8 joypads[4];
@@ -342,7 +347,7 @@ typedef struct {
 UINT8 joypad_init(UINT8 npads, joypads_t * joypads);
 
 /** Polls all avaliable joypads
-    @param joypads	pointer to joypads_t structure to be filled with joypad statuses, 
+    @param joypads	pointer to joypads_t structure to be filled with joypad statuses,
     		must be previously initialized with joypad_init()
 */
 
@@ -375,8 +380,8 @@ void set_interrupts(UINT8 flags) NONBANKED __preserves_regs(b, c, d, e);
 */
 void reset(void) NONBANKED;
 
-/** Waits for the vertical blank interrupt (VBL) to finish.  
-    This can be used to sync animation with the screen 
+/** Waits for the vertical blank interrupt (VBL) to finish.
+    This can be used to sync animation with the screen
     re-draw.  If VBL interrupt is disabled, this function will
     never return.  If the screen is off this function returns
     immediatly.
@@ -471,7 +476,7 @@ void hiramcpy(UINT8 dst,
     Starting with the tile pattern x and carrying on for n number of
     tile patterns.Taking the values starting from the pointer
     data. Note that patterns 128-255 overlap with patterns 128-255
-    of the sprite Tile Pattern table.  
+    of the sprite Tile Pattern table.
 
     GBC: Depending on the VBK_REG this determines which bank of
     Background tile patterns are written to. VBK_REG=0 indicates the
@@ -505,7 +510,7 @@ void get_bkg_data(UINT8 first_tile,
     @param y		Range 0 - 31
     @param w		Range 0 - 31
     @param h		Range 0 - 31
-    @param data		Pointer to an unsigned char. Usually the 
+    @param data		Pointer to an unsigned char. Usually the
     			first element in an array.
 */
 void set_bkg_tiles(UINT8 x,
@@ -555,12 +560,12 @@ void get_win_data(UINT8 first_tile,
           UINT8 nb_tiles,
           unsigned char *data) NONBANKED __preserves_regs(b, c);
 
-/** Sets the tiles in the win tile table. 
+/** Sets the tiles in the win tile table.
     Starting at position x,y in
     tiles and writing across for w tiles and down for h tiles. Taking the
     values starting from the pointer data. Note that patterns 128-255 overlap
     with patterns 128-255 of the sprite Tile Pattern table.
-	
+
     GBC only.
     Depending on the VBK_REG this determines if you're setting the tile numbers
     VBK_REG=0; or the attributes for those tiles VBK_REG=1;. The bits in the
@@ -576,7 +581,7 @@ void get_win_data(UINT8 first_tile,
     Bit 3 - 	Character Bank specification. Dictates from which bank of
     		Background Tile Patterns the tile is taken. 0: Bank 0, 1: Bank 1
     Bit 2 - 	See bit 0.
-    Bit 1 - 	See bit 0. 
+    Bit 1 - 	See bit 0.
     Bit 0 - 	Bits 0-2 indicate which of the 7 BKG colour palettes the tile is
 		assigned.
 
@@ -620,7 +625,7 @@ inline void scroll_win(INT8 x, INT8 y) {
     tile patterns.Taking the values starting from the pointer
     data. Note that patterns 128-255 overlap with patterns 128-255 of
     the Background Tile Pattern table.
-    
+
     GBC only.
     Depending on the VBK_REG this determines which bank of Background tile
     patterns are written to. VBK_REG=0 indicates the first bank, and VBK_REG=1
@@ -656,14 +661,14 @@ typedef struct OAM_item_t {
 
 extern volatile struct OAM_item_t shadow_OAM[];
 
-/** Sets sprite n to display tile number t, from the sprite tile data. 
+/** Sets sprite n to display tile number t, from the sprite tile data.
     If the GB is in 8x16 sprite mode then it will display the next
     tile, t+1, below the first tile.
     @param nb		Sprite number, range 0 - 39
 */
 
 inline void set_sprite_tile(UINT8 nb, UINT8 tile) {
-    shadow_OAM[nb].tile=tile; 
+    shadow_OAM[nb].tile=tile;
 }
 
 inline UINT8 get_sprite_tile(UINT8 nb) {
@@ -683,10 +688,10 @@ inline UINT8 get_sprite_tile(UINT8 nb) {
     Bit 3 -	GBC only. Dictates from which bank of Sprite Tile Patterns the tile
 		is taken. 0: Bank 0, 1: Bank 1
     Bit 2 -	See bit 0.
-    Bit 1 -	See bit 0. 
+    Bit 1 -	See bit 0.
     Bit 0 - 	GBC only. Bits 0-2 indicate which of the 7 OBJ colour palettes the
 		sprite is assigned.
-    
+
     @param nb		Sprite number, range 0 - 39
 */
 
@@ -706,14 +711,14 @@ inline UINT8 get_sprite_prop(UINT8 nb){
 */
 inline void move_sprite(UINT8 nb, UINT8 x, UINT8 y) {
     OAM_item_t * itm = &shadow_OAM[nb];
-    itm->y=y, itm->x=x; 
+    itm->y=y, itm->x=x;
 }
 
 /** Moves the given sprite relative to its current position.
  */
 inline void scroll_sprite(UINT8 nb, INT8 x, INT8 y) {
     OAM_item_t * itm = &shadow_OAM[nb];
-    itm->y+=y, itm->x+=x; 
+    itm->y+=y, itm->x+=x;
 }
 
 /* ************************************************************ */
