@@ -23,13 +23,17 @@ void print_counter()
     unsigned int cnt;
 
     // Ensure mutual exclusion 
-    __critical { cnt = tim_cnt; }
+    CRITICAL { 
+        cnt = tim_cnt; 
+    }
 
     printf(" TIM %u", cnt);
     gotoxy(9, posy());
 
     // Ensure mutual exclusion
-    __critical { cnt = vbl_cnt; }
+    CRITICAL { 
+        cnt = vbl_cnt; 
+    }
 
     printf("- VBL %u\n", cnt);
 }
@@ -37,7 +41,7 @@ void print_counter()
 void main()
 {
     // Ensure mutual exclusion
-    __critical {
+    CRITICAL {
         vbl_cnt = tim_cnt = 0;
         add_VBL(vbl);
         add_TIM(tim);

@@ -14,7 +14,7 @@ void scanline_isr() {
 void main() {
     printf("This is\na wobble\ntest\nfor DMG\n|\n|\n|\n|\n|");
     
-    __critical {
+    CRITICAL {
         STAT_REG = 0x18;
         add_LCD(scanline_isr);
     }

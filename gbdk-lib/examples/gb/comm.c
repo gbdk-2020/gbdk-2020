@@ -16,7 +16,7 @@ void main(void)
     puts("  START  : Send");
     puts("  SELECT : Receive");
 
-    __critical {
+    CRITICAL {
         add_SIO(nowait_int_handler);    // disable waiting VRAM state before return
         set_interrupts(SIO_IFLAG);      // disable other interrupts
     }
