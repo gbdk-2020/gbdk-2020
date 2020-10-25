@@ -63,3 +63,6 @@ link/Debug/
 link/.vs/
 far_fixer/Debug/
 far_fixer/.vs/
+
+# Doc generation files
+gbdk-lib/doc/
