@@ -320,8 +320,13 @@ extern volatile UINT8 _io_out;
 
     @todo This should probably be moved into a general section about Banking
 */
+
+/** Tracks current active ROM bank @see SWITCH_ROM_MBC1(), SWITCH_ROM_MBC5()
+*/
 __REG _current_bank;
 
+/** Forces MBC1 and compatible to switch the active ROM bank 
+*/
 #define SWITCH_ROM_MBC1(b) \
   _current_bank = (b), *(unsigned char *)0x2000 = (b)
 
@@ -340,15 +345,18 @@ __REG _current_bank;
 #define SWITCH_4_32_MODE_MBC1 \
   *(unsigned char *)0x6000 = 0x01
 
-/* Note the order used here.  Writing the other way around
- * on a MBC1 always selects bank 1
- */
-/** MBC5 */
+/** Forces MBC5 to switch the active ROM bank; only 4M roms are supported, @see SWITCH_ROM_MBC5_8M()
+    Note the order used here. Writing the other way around on a MBC1 always selects bank 1
+*/
 #define SWITCH_ROM_MBC5(b) \
   _current_bank = (b), \
   *(unsigned char *)0x3000 = 0, \
   *(unsigned char *)0x2000 = (b)
 
+/** Forces MBC5 to switch the active ROM bank; active bank number is not tracked by _current_bank if you use this macro
+    @see _current_bank
+    Note the order used here. Writing the other way around on a MBC1 always selects bank 1
+*/
 #define SWITCH_ROM_MBC5_8M(b) \
   *(unsigned char *)0x3000 = ((UINT16)(b) >> 8), \
   *(unsigned char *)0x2000 = (b)
