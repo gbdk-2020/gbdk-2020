@@ -6,13 +6,7 @@
 
 #include <types.h>
 
-#if SDCC_PLAT==consolez80
-#define CLOCKS_PER_SEC		100
-#else
-/** For now... */
-#error
-#define CLOCKS_PER_SEC		50
-#endif
+#define CLOCKS_PER_SEC		60
 
 typedef UINT16	time_t;
 
