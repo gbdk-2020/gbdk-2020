@@ -10,7 +10,7 @@
 	;; Standard header for the GB
 	.org	0x00
 	RET			; Empty function (default for interrupts)
-	
+
 ;	.org	0x08
 				; --profile handler utilized by bgb_emu.h
 
@@ -71,9 +71,9 @@
 
 	;; we return at least at the beginning of mode 2
 3$:	LDH	A,(.STAT)
-	AND 	#0x02
+	AND	#0x02
 	JR	NZ, 3$
-	
+
 	POP	AF
 	RETI
 
@@ -88,7 +88,7 @@
 	CALL	.refresh_OAM
 
 	LD	A,#0x01
-	LD	(.vbl_done),A
+	LDH	(.vbl_done),A
 	RET
 
 	;; GameBoy Header
@@ -96,8 +96,8 @@
 	;; DO NOT CHANGE...
 	.org	0x100
 .header:
-	NOP
-	JP	0x150
+	JP	.code_start
+
 	.byte	0xCE,0xED,0x66,0x66
 	.byte	0xCC,0x0D,0x00,0x0B
 	.byte	0x03,0x73,0x00,0x83
@@ -148,8 +148,14 @@
 
 	;; ****************************************
 	.org	0x150
+	
+	;; soft reset: falldown to .code_start
+.reset::
+_reset::
+	LD	A,(__cpu)
+
+	;; Initialization code
 .code_start:
-	;; Beginning of the code
 	DI			; Disable interrupts
 	LD	D,A		; Store CPU type in D
 	XOR	A
@@ -244,9 +250,9 @@
 
 	XOR	A
 
-	LD      HL,#.sys_time
-	LD      (HL+),A
-	LD      (HL),A
+	LD	HL,#.sys_time
+	LD	(HL+),A
+	LD	(HL),A
 ;	LD	(_malloc_heap_start+0),A
 ;	LD	(_malloc_heap_start+1),A
 
@@ -261,6 +267,7 @@
 _exit::	
 99$:
 	HALT
+	NOP
 	JR	99$		; Wait forever
 
 	.org	.MODE_TABLE
@@ -295,8 +302,6 @@ __cpu::
 	.ds	0x01		; GB type (GB, PGB, CGB)
 .mode::
 	.ds	0x01		; Current mode
-.vbl_done::
-	.ds	0x01		; Is VBL interrupt finished?
 .sys_time::
 _sys_time::
 	.ds	0x02		; System time in VBL units
@@ -308,13 +313,15 @@ _sys_time::
 	.org	0xFF90
 __current_bank::	; Current bank
 	.ds	0x01
+.vbl_done:
+	.ds	0x01		; Is VBL interrupt finished?
 
 	;; Runtime library
 	.area	_GSINIT
 gsinit::
 	.area	_GSFINAL
 	ret
-	
+
 	.area	_HOME
 
 	;; Remove interrupt routine in BC from the VBL interrupt list
@@ -324,7 +331,6 @@ gsinit::
 
 	;; Remove interrupt BC from interrupt list HL if it exists
 	;; Abort if a 0000 is found (end of list)
-	;; Will only remove last int on list
 .remove_int::
 1$:
 	LD	A,(HL+)
@@ -358,7 +364,7 @@ gsinit::
 	OR	B
 	RET	Z
 	JR	2$
-	
+
 	;; Add interrupt routine in BC to the VBL interrupt list
 	;; falldown to .add_int
 .add_VBL::
@@ -373,8 +379,8 @@ gsinit::
 	INC	HL
 	JR	1$
 2$:
-	LD	(HL),B
-	DEC	HL
+	LD	A,B
+	LD	(HL-),A
 	LD	(HL),C
 	RET
 
@@ -386,19 +392,14 @@ _wait_vbl_done::
 	ADD	A
 	RET	NC		; Return if screen is off
 	XOR	A
-	DI
-	LD	(.vbl_done),A	; Clear any previous sets of vbl_done
-	EI
+	LDH	(.vbl_done),A	; Clear any previous sets of vbl_done
 1$:
 	HALT			; Wait for any interrupt
 	NOP			; HALT sometimes skips the next instruction
-	LD	A,(.vbl_done)	; Was it a VBlank interrupt?
+	LDH	A,(.vbl_done)	; Was it a VBlank interrupt?
 	;; Warning: we may lose a VBlank interrupt, if it occurs now
 	OR	A
 	JR	Z,1$		; No: back to sleep!
-
-	XOR	A
-	LD	(.vbl_done),A
 	RET
 
 .display_off::
@@ -431,7 +432,7 @@ _display_off::
 	JR	NZ,1$
 	RET
 .end_refresh_OAM:
-	
+
 _enable_interrupts::
 	EI
 	RET
@@ -440,26 +441,21 @@ _disable_interrupts::
 	DI
 	RET
 
-.reset::
-_reset::
-	LD	A,(__cpu)
-	JP	.code_start
-
 _set_interrupts::
 	DI
 	LDA	HL,2(SP)	; Skip return address
 	XOR	A
 	LDH	(.IF),A		; Clear pending interrupts
 	LD	A,(HL)
-	LDH	(.IE),A
 	EI			; Enable interrupts
+	LDH	(.IE),A		; interrupts are still disabled here
 	RET
 
 _remove_VBL::
 	PUSH	BC
 	LDA	HL,4(SP)	; Skip return address and registers
-	LD	C,(HL)
-	INC	HL
+	LD	A,(HL+)
+	LD	C,A
 	LD	B,(HL)
 	CALL	.remove_VBL
 	POP	BC
@@ -467,9 +463,9 @@ _remove_VBL::
 	
 _add_VBL::
 	PUSH	BC
-	LDA	HL,4(SP)	; Skip return address and registers
-	LD	C,(HL)
-	INC	HL
+	LDA	HL, 4(SP)	; Skip return address and registers
+	LD	A,(HL+)
+	LD	C,A
 	LD	B,(HL)
 	CALL	.add_VBL
 	POP	BC
