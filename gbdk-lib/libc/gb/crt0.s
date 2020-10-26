@@ -77,6 +77,20 @@
 	POP	AF
 	RETI
 
+	;; VBlank default interrupt routine
+.vbl:
+	LD	HL,#.sys_time
+	INC	(HL)
+	JR	NZ,2$
+	INC	HL
+	INC	(HL)
+2$:
+	CALL	.refresh_OAM
+
+	LD	A,#0x01
+	LD	(.vbl_done),A
+	RET
+
 	;; GameBoy Header
 
 	;; DO NOT CHANGE...
@@ -302,27 +316,11 @@ gsinit::
 	ret
 	
 	.area	_HOME
-	;; Call the initialization function for the mode specified in HL
-.set_mode::
-	LD	A,L
-	LD	(.mode),A
 
-	;; AND to get rid of the extra flags
-	AND	#0x03
-	LD	L,A
-	LD	BC,#.MODE_TABLE
-	SLA	L		; Multiply mode by 4
-	SLA	L
-	ADD	HL,BC
-	JP	(HL)		; Jump to initialization routine
-
-	;; Add interrupt routine in BC to the interrupt list
+	;; Remove interrupt routine in BC from the VBL interrupt list
+	;; falldown to .remove_int
 .remove_VBL::
 	LD	HL,#.int_0x40
-	JP	.remove_int
-.add_VBL::
-	LD	HL,#.int_0x40
-	JP	.add_int
 
 	;; Remove interrupt BC from interrupt list HL if it exists
 	;; Abort if a 0000 is found (end of list)
@@ -332,6 +330,7 @@ gsinit::
 	LD	A,(HL+)
 	LD	E,A
 	LD	D,(HL)
+	INC	HL
 	OR	D
 	RET	Z		; No interrupt found
 
@@ -342,16 +341,12 @@ gsinit::
 	CP	B
 	JR	NZ,1$
 
-	XOR	A
-	LD	(HL-),A
-	LD	(HL),A
-
-	;; Now do a memcpy from here until the end of the list
 	LD	D,H
 	LD	E,L
-	INC	HL
-	INC	HL
+	DEC	DE
+	DEC	DE
 
+	;; Now do a memcpy from here until the end of the list
 2$:
 	LD	A,(HL+)
 	LD	(DE),A
@@ -364,6 +359,11 @@ gsinit::
 	RET	Z
 	JR	2$
 	
+	;; Add interrupt routine in BC to the VBL interrupt list
+	;; falldown to .add_int
+.add_VBL::
+	LD	HL,#.int_0x40
+
 	;; Add interrupt routine in BC to the interrupt list in HL
 .add_int::
 1$:
@@ -376,21 +376,6 @@ gsinit::
 	LD	(HL),B
 	DEC	HL
 	LD	(HL),C
-	RET
-
-	
-	;; VBlank interrupt
-.vbl:
-	LD	HL,#.sys_time
-	INC	(HL)
-	JR	NZ,2$
-	INC	HL
-	INC	(HL)
-2$:	
-	CALL	.refresh_OAM
-
-	LD	A,#0x01
-	LD	(.vbl_done),A
 	RET
 
 	;; Wait for VBL interrupt to be finished
@@ -446,17 +431,6 @@ _display_off::
 	JR	NZ,1$
 	RET
 .end_refresh_OAM:
-
-_mode::
-	LDA	HL,2(SP)	; Skip return address
-	LD	L,(HL)
-	LD	H,#0x00
-	JP	.set_mode
-
-_get_mode::
-	LD	HL,#.mode
-	LD	E,(HL)
-	RET
 	
 _enable_interrupts::
 	EI
@@ -499,19 +473,6 @@ _add_VBL::
 	LD	B,(HL)
 	CALL	.add_VBL
 	POP	BC
-	RET
-
-_clock::
-	LD	HL,#.sys_time
-	DI
-	LD	A,(HL+)
-	EI
-	;; Interrupts are disabled for the next instruction...
-	LD	D,(HL)
-	LD	E,A
-	RET
-
-__printTStates::
 	RET
 
 	.area	_HEAP

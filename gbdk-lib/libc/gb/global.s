@@ -128,7 +128,7 @@
 	.globl	__cpu
 
 	;; Global routines
-	.globl	.set_mode
+;	.globl	.set_mode	;; don't link mode.o by default
 
 	.globl	.reset
 
