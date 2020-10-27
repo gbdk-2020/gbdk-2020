@@ -656,13 +656,13 @@ UBYTE draw_screen(UBYTE mode)
 
   cls();
   gotoxy(FIRST_X, TITLE_Y);
-  print(params[0].name);
+  printf("%s", params[0].name);
 
   for(i = 0; params[i+1].name; i++) {
     gotoxy(FIRST_X, FIRST_Y+i);
-    print(params[i+1].name);
+    printf("%s", params[i+1].name);
     gotoxy(VAL_X, FIRST_Y+i);
-    println(current_value(mode, i), 10, UNSIGNED);
+    printf("%d", current_value(mode, i));
   }
   return i-1;
 }
@@ -689,19 +689,19 @@ void dump_registers()
 
   cls();
   gotoxy(FIRST_X, TITLE_Y);
-  print("Register Dump");
+  printf("Register Dump");
 
   for(i = 0, j = 0; i <= 0x16; i++, j++) {
     if(i == 0x05 || i == 0x0F)
       i++;
     if(j%2 == 0) {
       gotoxy(FIRST_X, FIRST_Y+j/2);
-      print("0xFF");
+      printf("0xFF");
     } else {
       gotoxy(FIRST_X+6, FIRST_Y+j/2);
       putchar('-');
     }
-    printn(i+0x10, 16, UNSIGNED);
+    printf("%ux", (UBYTE)(i+0x10));
     if(j%2 == 0) {
       gotoxy(VAL_X, FIRST_Y+j/2);
     } else {
@@ -710,7 +710,7 @@ void dump_registers()
     }
     reg = ((UBYTE *)soundReg)[i];
     if(!(reg & 0xF0U)) putchar('0');
-    printn(reg, 16, UNSIGNED);
+    printf("%ux", reg);
   }
 }
 
@@ -748,8 +748,8 @@ void wait_event(UBYTE mode)
 	  else
 	    l--;
 	  update_value(mode, y-FIRST_Y, l);
-	  gotoxy(VAL_X, y); print("    ");
-	  gotoxy(VAL_X, y); println(l, 10, UNSIGNED);
+	  gotoxy(VAL_X, y); printf("    ");
+	  gotoxy(VAL_X, y); printf("%d", l);
 	}
       } else if(input & J_RIGHT) {
 	l = current_value(mode, y-FIRST_Y);
@@ -761,8 +761,8 @@ void wait_event(UBYTE mode)
 	  else
 	    l++;
 	  update_value(mode, y-FIRST_Y, l);
-	  gotoxy(VAL_X, y); print("    ");
-	  gotoxy(VAL_X, y); println(l, 10, UNSIGNED);
+	  gotoxy(VAL_X, y); printf("    ");
+	  gotoxy(VAL_X, y); printf("%d", l);
 	}
       } else if(input & J_START) {
 	if(input & J_A)
