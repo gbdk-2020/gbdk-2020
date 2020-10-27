@@ -26,7 +26,8 @@
 	LD	A,(HL+)
 	LD      H,(HL)
 	LD	L,A
-				; don't need to check the first one: if 0, then call an empty handler
+	OR	H
+	JR 	Z, 1$
 	RST     0x20		; .call_hl
 	LD	HL, #.int_0x48 + 2
 	LD	A,(HL+)

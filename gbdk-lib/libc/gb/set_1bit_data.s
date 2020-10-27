@@ -38,17 +38,16 @@ _set_sprite_1bit_data::
 	ld a, e
 	and #0xF0 ; Get low bits only
 	ld e, a
-	
 1$:
 	; Wrap from past $97FF to $8800 onwards
 	; This can be reduced to "bit 4 must be clear if bit 3 is set"
 	bit 3, d
 	jr z, 2$
 	res 4, d
-2$:	
-	.rept 3		; Repeat this 4 more times to copy 16 bytes...
+2$:
+	.rept 3		; Repeat this 3 times to copy 12 bytes...
 		WAIT_STAT
-		; We have 16 cycles free to access VRAM, during which we can copy 3 bytes
+		; We have 16 cycles free to access VRAM, during which we can expand 2 bytes into 4 bytes
 		ld a, (hl+)
 		ld (de), a
 		inc e ; inc de
@@ -61,7 +60,7 @@ _set_sprite_1bit_data::
 		inc e ; inc de
 	.endm
 	WAIT_STAT
-	; We have 16 cycles free to access VRAM, during which we can copy 3 bytes
+	; We have 16 cycles free to access VRAM, during which we can expand 2 bytes into 4 byte
 	ld a, (hl+)
 	ld (de), a
 	inc e ; inc de

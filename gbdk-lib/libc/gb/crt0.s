@@ -64,7 +64,7 @@
 1$:
 	LD	A,(HL+)
 	OR	(HL)
-	JR	Z,2$
+	JR	Z,.int_tail
 	PUSH	HL
 	LD	A,(HL-)
 	LD	L,(HL)
@@ -73,7 +73,9 @@
 	POP	HL
 	INC	HL
 	JR	1$
-2$:
+_wait_int_handler::    
+	ADD	SP,#4
+.int_tail:
 	POP	DE
 	POP	BC
 	POP	HL
