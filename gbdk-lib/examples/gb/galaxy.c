@@ -366,11 +366,11 @@ const unsigned char * const film[] = {
 #define OPENED  0x02
 #define CLOSING 0x03
 
-static UBYTE time;  /* Global "time" value (counter) */
-UBYTE doorstate;    /* State of the door (OPENED, CLOSED...) */
-UBYTE doorpos;      /* Current position in the door animation */
-static UBYTE color; /* Current color for fading effect */
-UBYTE sframe;       /* Current frame of the sprite */
+static UBYTE time = 0;  /* Global "time" value (counter) */
+UBYTE doorstate = 0;    /* State of the door (OPENED, CLOSED...) */
+UBYTE doorpos = 0;      /* Current position in the door animation */
+static UBYTE color = 0; /* Current color for fading effect */
+UBYTE sframe = 0;       /* Current frame of the sprite */
 fixed bposx, bposy; /* Background position (fixed point) */
 fixed bspx, bspy;   /* Background speed (fixed point) */
 fixed wposx, wposy; /* Window position (fixed point) */

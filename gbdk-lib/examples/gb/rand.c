@@ -15,8 +15,8 @@
 #include <gb/drawing.h>
 #include <stdio.h>
 
-UBYTE accu[80];
-UBYTE accua[80];
+UBYTE accu[80] = {0};
+UBYTE accua[80] = {0};
 
 void main(void)
 {

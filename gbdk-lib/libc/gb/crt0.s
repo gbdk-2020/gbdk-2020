@@ -7,29 +7,38 @@
 	.module	Runtime
 	.area	_HEADER (ABS)
 
-	;; Standard header for the GB
-	.org	0x00
-	RET			; Empty function (default for interrupts)
+	;; RST vectors
+;	.org	0x00		; Trap, utilized by crash_handler.h
 
-;	.org	0x08
-				; --profile handler utilized by bgb_emu.h
+;	.org	0x08		; --profile handler utilized by bgb_emu.h
 
-;	.org	0x10
-				; empty
-;	.org	0x18
-				; crash handler utilized by crash_handler.h
-	.org	0x20
+;	.org	0x10		; empty
+
+;	.org	0x18		; empty
+
+	.org	0x20		; RST 0x20 == call HL
 .call_hl::
-	jp	(hl)		; RST 0x20 == calling HL
+	JP	(HL)
 
-;	.org	0x28
-				; empty
-;	.org	0x30
-				; empty
-;	.org	0x38
-				; empty
+	.org	0x28		; zero up to 256 bytes in C pointed by HL
+.MemsetSmall::
+	LD	(HL+),A
+	DEC	C
+	JR	NZ,.MemsetSmall
+	ret
 
-	;; Interrupt vectors
+	.org	0x30		; copy up to 256 bytes in C from DE to HL
+.MemcpySmall::
+	LD	A, (DE)
+	LD	(HL+), A
+	INC	DE
+	DEC	C
+	JR	NZ,.MemcpySmall
+	RET
+
+;	.org	0x38		; crash handler utilized by crash_handler.h
+
+	;; Hardware interrupt vectors
 	.org	0x40		; VBL
 .int_VBL:
 	PUSH	AF
@@ -78,7 +87,7 @@
 	RETI
 
 	;; VBlank default interrupt routine
-.vbl:
+.std_vbl:
 	LD	HL,#.sys_time
 	INC	(HL)
 	JR	NZ,2$
@@ -155,30 +164,24 @@ _reset::
 	LD	A,(__cpu)
 
 	;; Initialization code
-.code_start:
+.code_start::
 	DI			; Disable interrupts
 	LD	D,A		; Store CPU type in D
 	XOR	A
 	;; Initialize the stack
 	LD	SP,#.STACK
-	;; Clear from 0xC000 to 0xDFFF
-	LD	HL,#0xDFFF
-	LD	C,#0x20
-	LD	B,#0x00
-1$:
-	LD	(HL-),A
-	DEC	B
-	JR	NZ,1$
-	DEC	C
-	JR	NZ,1$
-	;; Clear from 0xFF80 to 0xFFFF
-	LD	HL,#0xFFFF
-	LD	B,#0x80
-3$:
-	LD	(HL-),A
-	DEC	B
-	JR	NZ,3$
+
+	LD	HL,#_shadow_OAM
+	LD	C, #(40 << 2)	; 40 entries 4 bytes each
+	RST	0x28
+
+	;; Clear CRT0 global variables
+	LD	HL,#.start_crt_globals
+	LD 	C,#(.end_crt_globals - .start_crt_globals)
+	RST	0x28
+
 ; 	LD	(.mode),A	; Clearing (.mode) is performed when clearing RAM
+
 	;; Store CPU type
 	LD	A,D
 	LD	(__cpu),A
@@ -187,13 +190,6 @@ _reset::
 	CALL	.display_off
 
 	XOR	A
-	;; Clear the OAM (from 0xFE00 to 0xFEFF)
-	LD	HL,#0xFE00
-2$:
-	LD	(HL),A
-	DEC	L
-	JR	NZ,2$
-
 	;; Initialize the display
 	LDH	(.SCY),A
 	LDH	(.SCX),A
@@ -202,19 +198,17 @@ _reset::
 	LD	A,#0x07
 	LDH	(.WX),A
 
-	;; Copy refresh_OAM routine to HIRAM
-	LD	BC,#.refresh_OAM
-	LD	HL,#.start_refresh_OAM
-	LD	B,#.end_refresh_OAM-.start_refresh_OAM
-4$:
-	LD	A,(HL+)
-	LDH	(C),A
-	INC	C
-	DEC	B
-	JR	NZ,4$
+	;; Copy refresh_OAM routine to HRAM
+	LD	DE,#.start_refresh_OAM				; source
+	LD	HL,#.refresh_OAM				; dest
+	LD	C,#(.end_refresh_OAM - .start_refresh_OAM)	; size
+	RST	0x30						; call .MemcpySmall
+
+	;; Clear the OAM by calling refresh_OAM
+	CALL	.refresh_OAM
 
 	;; Install interrupt routines
-	LD	BC,#.vbl
+	LD	BC,#.std_vbl
 	CALL	.add_VBL
 
 	;; Standard color palettes
@@ -243,7 +237,7 @@ _reset::
 				; Serial I/O	=   Off
 				; Timer Ovfl	=   Off
 				; LCDC		=   Off
-				; V-Blank	=   On
+				 ; V-Blank	=   On
 	LDH	(.IE),A
 
 	LDH	(__current_bank),A	; current bank is 1 at startup
@@ -298,6 +292,8 @@ _exit::
 	.area	_HEAP
 
 	.area	_BSS
+.start_crt_globals:
+
 __cpu::
 	.ds	0x01		; GB type (GB, PGB, CGB)
 .mode::
@@ -306,11 +302,13 @@ __cpu::
 _sys_time::
 	.ds	0x02		; System time in VBL units
 .int_0x40::
-	.blkw	0x08
+	.blkw	0x0A		; 4 interrupt handlers (built-in + user-defined)
+
+.end_crt_globals:
 
 	.area	_HRAM (ABS)
 
-	.org	0xFF90
+	.org	0xFF90	
 __current_bank::	; Current bank
 	.ds	0x01
 .vbl_done:

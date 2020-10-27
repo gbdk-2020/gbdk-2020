@@ -44,6 +44,8 @@
 
 	.area	_BSS
 	; The current font
+.start_font_vars:
+
 font_current::
 	.ds	sfont_handle_sizeof
 	; Cached copy of the first free tile
@@ -52,7 +54,17 @@ font_first_free_tile::
 	; Table containing descriptors for all of the fonts
 font_table::
 	.ds	sfont_handle_sizeof*.MAX_FONTS
-	
+.end_font_vars:
+
+	.area	_GSINIT
+
+	XOR	A
+	LD	(#.curx),A
+	LD	(#.cury),A
+	LD	HL,#.start_font_vars
+	LD 	C,#(.end_font_vars - .start_font_vars)
+	RST	0x28
+
 	.area   _BASE
 	; Copy uncompressed 16 byte tiles from (BC) to (HL), length = DE*2
 	; Note: HL must be aligned on a UWORD boundry

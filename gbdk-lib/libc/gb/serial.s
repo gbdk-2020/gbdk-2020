@@ -17,6 +17,13 @@
 
 	.area	_GSINIT
 
+	;; Clear SIO global variables
+	XOR	A
+	LD	HL,#.start_sio_globals
+	LD 	C,#(.end_sio_globals - .start_sio_globals)
+	RST	0x28
+
+	;; initialize SIO
 	LD	BC,#.serial_IO
 	CALL	.add_SIO
 	
@@ -100,6 +107,7 @@ _remove_SIO::
 	JR	3$
 
 	.area	_BSS
+.start_sio_globals:
 
 __io_out::
 	.ds	0x01		; Byte to send
@@ -109,6 +117,8 @@ __io_status::
 	.ds	0x01		; Status of serial IO
 .int_0x58::
 	.blkw	0x08
+
+.end_sio_globals:
 
 	.area	_CODE
 

@@ -9,7 +9,7 @@
 #define SGB_SCR_FREEZE 1
 #define SGB_SCR_UNFREEZE 0
 
-unsigned char map_buf[20];
+unsigned char map_buf[20] = {0};
 
 #define SGB_TRANSFER(A,B) map_buf[0]=(A),map_buf[1]=(B),sgb_transfer(map_buf) 
 

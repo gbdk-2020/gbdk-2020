@@ -725,6 +725,8 @@ void main()
   disable_interrupts();
   DISPLAY_OFF;
 
+  initarand(((UINT16)DIV_REG << 8));
+
   init_screen();
   init_score();
   init_player();

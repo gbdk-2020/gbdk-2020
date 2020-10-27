@@ -6,7 +6,14 @@
 	.org	0x48		; LCD
 .int_LCD:
 	JP	.int_lcd_handler
-	
+
+	.area	_GSINIT
+
+	XOR	A
+	LD	HL,#.int_0x48
+	LD 	C,#0x08
+	RST	0x28
+
 	.area	_BASE
 
 .int_lcd_handler:
