@@ -175,7 +175,8 @@ int main(int argc, char *argv[]) {
 				error("can't find `%s'", argv[i]);
 		}
 
-	if (errcnt == 0 && !Eflag && !Sflag && !cflag && llist[1]) {
+    // Perform Link stage unless some conditions prevent it
+	if (errcnt == 0 && !Eflag && !cflag && !Sflag && llist[1]) {
 		if(!outfile)
 			outfile = concat("a", first(suffixes[4]));
 
@@ -542,11 +543,16 @@ static int filename(char *name, char *base) {
 			char *ofile;
 			if ((cflag || Sflag) && outfile)
 				ofile = outfile;
-			else if (cflag || Sflag)
+			else if (cflag)
 				ofile = concat(base, first(suffixes[3]));
+			else if (Sflag) {
+				// When compiling to asm only, set outfile as .asm
+				ofile = concat(base, ".asm");
+			}
 			else
 			{
-				ofile = tempname(first(suffixes[3]));
+    			ofile = tempname(first(suffixes[3]));
+
 				char* ofileBase = basepath(ofile);
 				rmlist = append(stringf("%s/%s%s", tempdir, ofileBase, ".asm"), rmlist);
 				rmlist = append(stringf("%s/%s%s", tempdir, ofileBase, ".lst"), rmlist);
@@ -815,8 +821,9 @@ static void opt(char *arg) {
 	}
 	if (arg[2] == 0)
 		switch (arg[1]) {	/* single-character options */
-		case 'S':
+		case 'S':        // Requested compile to assembly only
 			Sflag++;
+			option(arg); // Update composing the compile stage, use of -S instead of -c
 			return;
 		case 'O':
 			fprintf(stderr, "%s: %s ignored\n", progname, arg);
