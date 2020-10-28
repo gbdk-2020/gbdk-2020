@@ -4,12 +4,6 @@
 
 	.area	_BASE
 
-.macro WAIT_STAT ?lbl
-lbl:	ldh a, (.STAT)
-	and #2 ; Check if in LCD modes 0 or 1
-	jr nz, lbl
-.endm
-
 _set_bkg_1bit_data::
 _set_win_1bit_data::
 	ld d, #0x90

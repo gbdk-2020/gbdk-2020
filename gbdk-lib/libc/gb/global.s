@@ -150,3 +150,11 @@
 
 	;; Main user routine	
 	.globl	_main
+
+	;; Macro definitions
+
+.macro WAIT_STAT ?lbl
+lbl:	ldh a, (.STAT)
+	and #2 ; Check if in LCD modes 0 or 1
+	jr nz, lbl
+.endm

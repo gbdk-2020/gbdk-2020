@@ -81,9 +81,7 @@ _wait_int_handler::
 	POP	HL
 
 	;; we return at least at the beginning of mode 2
-3$:	LDH	A,(.STAT)
-	AND	#0x02
-	JR	NZ, 3$
+	WAIT_STAT
 
 	POP	AF
 	RETI
@@ -266,6 +264,35 @@ _exit::
 	NOP
 	JR	99$		; Wait forever
 
+_enable_interrupts::
+	EI
+	RET
+
+_disable_interrupts::
+	DI
+	RET
+
+_set_interrupts::
+	DI
+	LDA	HL,2(SP)	; Skip return address
+	XOR	A
+	LDH	(.IF),A		; Clear pending interrupts
+	LD	A,(HL)
+	EI			; Enable interrupts
+	LDH	(.IE),A		; interrupts are still disabled here
+	RET
+
+	;; Copy OAM data to OAM RAM
+.start_refresh_OAM:
+	LD	A,#>_shadow_OAM
+	LDH	(.DMA),A	; Put A into DMA registers
+	LD	A,#0x28		; We need to wait 160 ns
+1$:
+	DEC	A
+	JR	NZ,1$
+	RET
+.end_refresh_OAM:
+
 	.org	.MODE_TABLE
 	;; Jump table for modes
 	RET
@@ -420,35 +447,6 @@ _display_off::
 	LDH	A,(.LCDC)
 	AND	#0b01111111
 	LDH	(.LCDC),A	; Turn off screen
-	RET
-
-	;; Copy OAM data to OAM RAM
-.start_refresh_OAM:
-	LD	A,#>_shadow_OAM
-	LDH	(.DMA),A	; Put A into DMA registers
-	LD	A,#0x28		; We need to wait 160 ns
-1$:
-	DEC	A
-	JR	NZ,1$
-	RET
-.end_refresh_OAM:
-
-_enable_interrupts::
-	EI
-	RET
-
-_disable_interrupts::
-	DI
-	RET
-
-_set_interrupts::
-	DI
-	LDA	HL,2(SP)	; Skip return address
-	XOR	A
-	LDH	(.IF),A		; Clear pending interrupts
-	LD	A,(HL)
-	EI			; Enable interrupts
-	LDH	(.IE),A		; interrupts are still disabled here
 	RET
 
 _remove_VBL::

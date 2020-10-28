@@ -47,6 +47,10 @@
 	POP	DE
 	POP	BC
 	POP	HL
+
+	;; we return at least at the beginning of mode 2
+	WAIT_STAT
+
 	POP	AF
 	RETI
 
