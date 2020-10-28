@@ -50,9 +50,7 @@
 	PUSH	HL		; Store origin
 	PUSH	DE		; Store WH
 3$:
-	LDH	A,(.STAT)
-	AND	#0x02
-	JR	NZ,3$
+	WAIT_STAT
 
 	LD	A,(HL+)		; Copy W tiles
 	LD	(BC),A

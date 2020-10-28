@@ -154,7 +154,31 @@
 	;; Macro definitions
 
 .macro WAIT_STAT ?lbl
-lbl:	ldh a, (.STAT)
-	and #2 ; Check if in LCD modes 0 or 1
-	jr nz, lbl
+lbl:	LDH	A, (.STAT)
+	AND	#0x02		; Check if in LCD modes 0 or 1
+	JR 	NZ, lbl
+.endm
+
+.macro ADD_A_REG16 regH regL
+	ADD	A, regL
+	LD	regL, A
+	ADC	A, regH
+	SUB	regL
+	LD	regH, A
+.endm
+
+.macro SIGNED_ADD_A_REG16 regH regL ?lbl
+	; If A is negative, we need to subtract 1 from upper byte of 16-bit value
+	BIT	7, A		; set z if a signed bit is 0
+	JR	Z, lbl		; if z is set jump to positive
+	dec	regH		; if negative decrement upper byte
+lbl:
+	ADD_A_REG16	regH, regL
+.endm
+
+.macro SIGNED_SUB_A_REG16 regH regL ?lbl
+	; negate A then add to 16-bit value
+	CPL
+	INC	A
+	SIGNED_ADD_A_REG16	regH, regL
 .endm

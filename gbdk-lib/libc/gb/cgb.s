@@ -32,10 +32,8 @@ _set_bkg_palette::		; Non-banked
 	LD	A,(HL+)		; rgb_data
 	LD	H,(HL)
 	LD	L,A
-1$:
-	LDH	A,(.STAT)
-	AND	#0x02
-	JR	NZ,1$
+1$:	
+	WAIT_STAT
 
 	LD	A,(HL+)
 	LDH	(C),A
@@ -70,10 +68,9 @@ _set_bkg_palette_entry::	; Banked
 	LD	A,(HL+)		; rgb_data
 	LD	H,(HL)
 	LD	L,A
-1$:
-	LDH	A,(.STAT)
-	AND	#0x02
-	JR	NZ,1$
+
+	WAIT_STAT
+
 	LD	A,L
 	LDH	(C),A
 	LD	A,H

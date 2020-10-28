@@ -6,9 +6,7 @@
 	;; Initialize part (size = DE) of the VRAM at (HL) with B
 .init_vram::
 1$:
-	LDH	A,(.STAT)
-	AND	#0x02
-	JR	NZ,1$
+	WAIT_STAT
 
 	LD	A, B
 	LD	(HL+),A

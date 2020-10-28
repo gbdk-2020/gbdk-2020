@@ -60,9 +60,7 @@ _get_win_data::
 	JR	Z,4$
 	RES	4,H		; Switch to 0x8800
 4$:
-	LDH	A,(.STAT)
-	AND	#0x02
-	JR	NZ,4$
+	WAIT_STAT
 
 	LD	A,(HL+)
 	LD	(BC),A

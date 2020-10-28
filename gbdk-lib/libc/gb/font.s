@@ -84,18 +84,11 @@ font_copy_uncompressed::
 	jr	nz,1$
 	dec	d
 1$:
-	ldh	a,(.STAT)
-	bit	1,a
-	jr	nz,#.-4
+	WAIT_STAT
 
 	ld	a,(bc)
 	ld	(hl+),a
 	inc	bc
-	
-	ldh	a,(.STAT)
-	bit	1,a
-	jr	nz,#.-4
-
 	ld	a,(bc)
 	ld	(hl),a
 	inc	bc
@@ -168,19 +161,13 @@ font_copy_compressed_grey1:
 	xor	c
 	ld	c,a
 font_copy_compressed_grey2:
-	ldh	a,(.STAT)
-	bit	1,a
-	jr	nz,#.-4
+	WAIT_STAT
 
 	ld	(hl),b
 	inc	hl
-
-	ldh	a,(.STAT)
-	bit	1,a
-	jr	nz,#.-4
-
 	ld	(hl),c
 	inc	hl
+
 	ld	a,h		; Take care of the 97FFF -> 8800 wrap around
 	cp	#0x98
 	jr	nz,1$
@@ -420,9 +407,7 @@ set_char_no_encoding:
 	LD      BC,#0x9800
 	ADD     HL,BC
 
-	ldh	a,(.STAT)
-	bit	1,a
-	jr	nz,#.-4
+	WAIT_STAT
 
 	LD      (HL),E
 	POP     HL
@@ -508,9 +493,7 @@ _cls::
 1$:
 	LD	D,#0x20		; D = width
 2$:
-	ldh	a,(.STAT)
-	bit	1,a
-	jr	nz,#.-4
+	WAIT_STAT
 
 	LD	(HL),#.SPACE	; Always clear
 	INC	HL
@@ -636,9 +619,7 @@ _posy::				; Banked
 1$:
 	LD	D,#0x20		; D = width
 2$:
-	LDH	A,(.STAT)
-	AND	#0x02
-	JR	NZ,2$
+	WAIT_STAT
 
 	LD	A,(BC)
 	LD	(HL+),A
@@ -650,9 +631,7 @@ _posy::				; Banked
 
 	LD	D,#0x20
 3$:
-	LDH	A,(.STAT)
-	AND	#0x02
-	JR	NZ,3$
+	WAIT_STAT
 
 	LD	A,#.SPACE
 	LD	(HL+),A
