@@ -139,8 +139,9 @@ a.el {
 }
 
 div.contents {
-  width: 980px;
-  padding: 40px;
+  /* width: 980px; */ /* Don't hardwire width, make it friendly to all devices)
+  /* padding: 40px; */
+  padding: 30px;
   margin-top: -1px;
   margin-left: auto;
   margin-right: auto;
