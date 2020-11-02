@@ -25,6 +25,7 @@ ASSRC =	cgb.s cpy_data.s drawing.s f_ibm_sh.s \
 	mv_spr.s \
 	pad_ex.s \
 	mode.s clock.s \
+	set_t.s \
 	crt0.s
 
 ifeq ($(ASM),asxxxx)

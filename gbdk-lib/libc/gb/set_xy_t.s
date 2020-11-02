@@ -9,94 +9,79 @@
 	PUSH	HL		; Store WH
 	LDH	A,(.LCDC)
 	BIT	6,A
-	JR	NZ,1$
-	LD	HL,#0x9800	; HL = origin
-	JR	.set_xy_tt
-1$:
-	LD	HL,#0x9C00	; HL = origin
-	JR	.set_xy_tt
+	JR	Z,.is98
+	JR	.is9c
 	;; Set background tile table from (BC) at XY = DE of size WH = HL
 	;; WH >= (1,1)
 .set_xy_btt::
 	PUSH	HL		; Store WH
 	LDH	A,(.LCDC)
 	BIT	3,A
-	JR	NZ,1$
-	LD	HL,#0x9800	; HL = origin
+	JR	NZ,.is9c
+.is98:	LD	HL,#0x9800
 	JR	.set_xy_tt
-1$:
-	LD	HL,#0x9C00	; HL = origin
-;	JR	.set_xy_tt
+.is9c:
+	LD	HL,#0x9C00
 
 .set_xy_tt::
 	PUSH	BC		; Store source
 	XOR	A
+	LD	B,A
 	OR	E
 	JR	Z,2$
 
-	LD	BC,#0x20	; One line is 20 tiles
+	LD	C,#0x20		; One line is 20 tiles
+	SRL	E
+	JR	NC,0$
+	ADD	HL,BC
+0$:
+	JR	Z,2$
+	SLA	C
 1$:
-	ADD	HL,BC		; Y coordinate
+	ADD	HL,BC
 	DEC	E
 	JR	NZ,1$
 2$:
-	LD	B,#0x00		; X coordinate
 	LD	C,D
-	ADD	HL,BC
+	ADD	HL,BC		; HL = HL + 0x20 * Y + X
 
 	POP	BC		; BC = source
 	POP	DE		; DE = WH
-	PUSH	HL		; Store origin
 	PUSH	DE		; Store WH
-3$:
-	LDH	A,(.STAT)
-	AND	#0x02
-	JR	NZ,3$
 
-	LD	A,(BC)		; Copy W tiles
+3$:				; Copy W tiles
+	SRL	D
+	JR	NC,4$
+
+	WAIT_STAT
+	LD	A,(BC)
+	LD	(HL+),A
+	INC	BC
+4$:
+	XOR	A
+	OR	D
+	JR 	Z, 6$
+5$:	
+	WAIT_STAT
+	LD	A,(BC)
+	LD	(HL+),A
+	INC	BC
+	LD	A,(BC)
 	LD	(HL+),A
 	INC	BC
 	DEC	D
-	JR	NZ,3$
-	POP	HL		; HL = WH
-	LD	D,H		; Restore D = W
-	POP	HL		; HL = origin
+	JR	NZ,5$
+6$:	
+	POP	AF
+	LD	D,A		; Restore D = W
+	
 	DEC	E
-	JR	Z,4$
 
-	PUSH	BC		; Next line
-	LD	BC,#0x20	; One line is 20 tiles
-	ADD	HL,BC
-	POP	BC
+	RET	Z
 
-	PUSH	HL		; Store current origin
+	LD	A,#0x20
+	SUB	D
+	ADD_A_REG16 H,L
+
 	PUSH	DE		; Store WH
 	JR	3$
-4$:
-	RET
-
-_set_tiles::
-	PUSH	BC
-
-	LDA	HL,11(SP)	; Skip return address and registers
-	LD	A,(HL-)		; BC = src
-	LD	B, A
-	LD	A,(HL-)
-	LD	C, A
-	LD	A,(HL-)		; DE = dst
-	LD	D, A
-	LD	E,(HL)
-	LDA	HL,4(SP)	; Skip return address and registers
-	PUSH	DE		; Store address on stack for set_xy_tt
-	LD	A,(HL+)		; D = x
-	LD	D, A
-	LD	A,(HL+)		; E = y
-	LD	E, A
-	LD	A,(HL+)		; A = w
-	LD	L,(HL)		; L = h
-	LD	H,A		; H = w
-
-	CALL	.set_xy_tt
-
-	POP	BC
-	RET
