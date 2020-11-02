@@ -1142,4 +1142,26 @@ void get_tiles(UINT8 x,
           unsigned char *tiles,
           unsigned char *vram_addr) NONBANKED __preserves_regs(b, c);
 
+
+/* ************************************************************ */
+
+
+/** Initializes window tile table with c
+    @param c   Tile number
+*/
+void init_win(char c) NONBANKED __preserves_regs(b, c);
+
+/** Initializes background tile table with c
+    @param c   Tile number
+*/
+void init_bkg(char c) NONBANKED __preserves_regs(b, c);
+
+/** Fills the VRAM memory region s of size n with c 
+    @param s   Start address
+    @param c   Value to fill with
+    @param n   Size of memory region
+*/
+void vmemset (void *s, char c, size_t n) NONBANKED __preserves_regs(b, c);
+
+
 #endif /* _GB_H */

@@ -1,10 +1,8 @@
 	.include	"global.s"
 
-	;; BANKED:	checked, imperfect
 	.area	_BASE
 
 	;; Set window tile table from BC at XY = DE of size WH = HL
-	;; wh >= (1,1)
 .set_xy_wtt::
 	PUSH	HL		; Store WH
 	LDH	A,(.LCDC)
@@ -12,17 +10,17 @@
 	JR	Z,.is98
 	JR	.is9c
 	;; Set background tile table from (BC) at XY = DE of size WH = HL
-	;; WH >= (1,1)
 .set_xy_btt::
 	PUSH	HL		; Store WH
 	LDH	A,(.LCDC)
 	BIT	3,A
 	JR	NZ,.is9c
-.is98:	LD	HL,#0x9800
+.is98:
+	LD	HL,#0x9800
 	JR	.set_xy_tt
 .is9c:
 	LD	HL,#0x9C00
-
+	;; Set background tile from (BC) at XY = DE, size WH on stack, to vram from address (HL)
 .set_xy_tt::
 	PUSH	BC		; Store source
 	XOR	A
@@ -54,27 +52,26 @@
 	JR	NC,4$
 
 	WAIT_STAT
-	LD	A,(BC)
+	LD	A,(BC)		; transfer one byte
 	LD	(HL+),A
 	INC	BC
 4$:
 	XOR	A
 	OR	D
 	JR 	Z, 6$
-5$:	
+5$:
 	WAIT_STAT
-	LD	A,(BC)
-	LD	(HL+),A
-	INC	BC
-	LD	A,(BC)
-	LD	(HL+),A
-	INC	BC
+	.REPT 2			; transfer two bytes
+		LD	A,(BC)
+		LD	(HL+),A
+		INC	BC
+	.ENDM
 	DEC	D
 	JR	NZ,5$
-6$:	
+6$:
 	POP	AF
 	LD	D,A		; Restore D = W
-	
+
 	DEC	E
 
 	RET	Z
