@@ -29,10 +29,12 @@ TARGETCXXFLAGS =
 GBDKLIBDIR = $(TOPDIR)/gbdk-lib
 # Directory containing the source to gbdk-support
 GBDKSUPPORTDIR = $(TOPDIR)/gbdk-support
+# Directory with docs config and output (via doxygen)
+GBDKDOCSDIR = $(TOPDIR)/docs
 
 # Base setup
 # Extension to add to executables
-EXEEXTENSION = 
+EXEEXTENSION =
 # Host operating system identifier.  The one below should work for
 # most systems.
 HOSTOS = ppc-unknown-linux2.2
@@ -51,6 +53,10 @@ all: native-build
 clean: gbdk-support-clean gbdk-lib-clean
 
 distclean: clean build-dir-clean
+
+docs: doxygen-generate
+
+docsclean: doxygen-clean
 
 # Build rule for michaelh's machine to spin a release
 sapphire-full-build: native-build binary cross-clean cross-linux-mingw32-build
@@ -90,7 +96,7 @@ src: clean
 	tar czf gbdk-$(VER).tar.gz gbdk
 
 # Base rules
-gbdk-build: gbdk-support-build gbdk-lib-build 
+gbdk-build: gbdk-support-build gbdk-lib-build
 
 gbdk-install: $(BUILDDIR)/bin gbdk-support-install gbdk-lib-install sdcc-install
 
@@ -136,7 +142,7 @@ gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
 gbdk-support-clean:
 	@echo Cleaning lcc
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/lcc clean --no-print-directory
-	@echo 
+	@echo
 
 # Rules for gbdk-lib
 gbdk-lib-build: check-SDCCDIR
@@ -210,8 +216,20 @@ binary-tidyup:
 install: native-build
 	mkdir -p $(TARGETDIR)
 	cp -r $(BUILDDIR)/* $(TARGETDIR)
-	
+
 check-SDCCDIR:
 ifndef SDCCDIR
 	$(error SDCCDIR is undefined)
 endif
+
+# First purge doxygen output directory to clear potentially stale output.
+# Next change working dir so "include" is the root doxygen works in.
+# That prevents it from including the path leading up to there in the
+# output, even though it's instructed to only process starting at "include".
+doxygen-generate:
+	rm -rf $(GBDKDOCSDIR)/api; \
+	  cd "$(GBDKLIBDIR)/include"; \
+	  GBDKDOCSDIR="$(GBDKDOCSDIR)" GBDKLIBDIR="$(GBDKLIBDIR)" doxygen "$(GBDKDOCSDIR)/config/gbdk-2020-doxyfile"
+
+doxygen-clean:
+	rm -rf $(GBDKDOCSDIR)/api
