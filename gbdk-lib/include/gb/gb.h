@@ -1145,23 +1145,43 @@ void get_tiles(UINT8 x,
 
 /* ************************************************************ */
 
-
 /** Initializes window tile table with c
     @param c   Tile number
 */
-void init_win(char c) NONBANKED __preserves_regs(b, c);
+void init_win(UINT8 c) NONBANKED __preserves_regs(b, c);
 
 /** Initializes background tile table with c
     @param c   Tile number
 */
-void init_bkg(char c) NONBANKED __preserves_regs(b, c);
+void init_bkg(UINT8 c) NONBANKED __preserves_regs(b, c);
 
 /** Fills the VRAM memory region s of size n with c 
     @param s   Start address
     @param c   Value to fill with
     @param n   Size of memory region
 */
-void vmemset (void *s, char c, size_t n) NONBANKED __preserves_regs(b, c);
+void vmemset (void *s, UINT8 c, size_t n) NONBANKED __preserves_regs(b, c);
 
+/* ************************************************************ */
+
+/** Fills a rectangular region of Tile Map entries for the Background layer with tile.
+
+    @param x      X Start position in Background Map tile coordinates. Range 0 - 31
+    @param y      Y Start position in Background Map tile coordinates. Range 0 - 31
+    @param w      Width of area to set in tiles. Range 0 - 31
+    @param h      Height of area to set in tiles. Range 0 - 31
+    @param tile   Fill value
+*/
+void fill_bkg_rect(UINT8 x, UINT8 y, UINT8 w, UINT8 h, UINT8 tile) NONBANKED __preserves_regs(b, c);
+
+/** Fills a rectangular region of Tile Map entries for the Window layer with tile.
+
+    @param x      X Start position in Window Map tile coordinates. Range 0 - 31
+    @param y      Y Start position in Window Map tile coordinates. Range 0 - 31
+    @param w      Width of area to set in tiles. Range 0 - 31
+    @param h      Height of area to set in tiles. Range 0 - 31
+    @param tile   Fill value
+*/
+void fill_win_rect(UINT8 x, UINT8 y, UINT8 w, UINT8 h, UINT8 tile) NONBANKED __preserves_regs(b, c);
 
 #endif /* _GB_H */
