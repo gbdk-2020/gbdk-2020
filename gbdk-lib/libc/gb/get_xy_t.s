@@ -4,98 +4,84 @@
 	.area	_BASE
 
 	;; Store window tile table into (BC) at xy = DE of size WH = HL
-	;; WH >= (1,1)
 .get_xy_wtt::
-	PUSH	HL		; Store WH
 	PUSH	HL		; Store WH
 	LDH	A,(.LCDC)
 	BIT	6,A
-	JR	NZ,1$
-	LD	HL,#0x9800	; HL = origin
-	JR	.get_xy_tt
-1$:
-	LD	HL,#0x9C00	; HL = origin
-	JR	.get_xy_tt
+	JR	Z,.is98
+	JR	.is9c
 	;; Store background tile table into (BC) at XY = DE of size WH = HL
-	;; WH >= (1,1)
 .get_xy_btt::
 	PUSH	HL		; Store WH
 	LDH	A,(.LCDC)
 	BIT	3,A
-	JR	NZ,1$
-	LD	HL,#0x9800	; HL = origin
+	JR	NZ,.is9c
+.is98:
+	LD	HL,#0x9800
 	JR	.get_xy_tt
-1$:
-	LD	HL,#0x9C00	; HL = origin
-;	JR	.get_xy_tt
-
+.is9c:
+	LD	HL,#0x9C00
+	
+	;; Store background tile table into (BC) at XY = DE, size WH on stack, from vram from address (HL)
 .get_xy_tt::
 	PUSH	BC		; Store source
-	XOR	A
-	OR	E
-	JR	Z,2$
 
-	LD	BC,#0x20	; One line is 20 tiles
-1$:
-	ADD	HL,BC		; Y coordinate
-	DEC	E
-	JR	NZ,1$
-2$:
-	LD	B,#0x00		; X coordinate
-	LD	C,D
-	ADD	HL,BC
+	SWAP	E
+	RLC	E
+	LD	A,E
+	AND	#0x03
+	ADD	H
+	LD	B,A
+	LD	A,#0xE0
+	AND	E
+	ADD	D
+	LD	C,A		; dest BC = HL + 0x20 * Y + X
 
-	POP	BC		; BC = source
+	POP	HL		; HL = source
 	POP	DE		; DE = WH
-	PUSH	HL		; Store origin
-	PUSH	DE		; Store WH
-3$:
+	PUSH	DE		; store WH
+	PUSH	BC		; store dest
+
+3$:				; Copy W tiles
+
 	WAIT_STAT
+	LD	A, (BC)
+	LD	(HL+), A
+	
+	LD	A, C		; inc dest and wrap around
+	AND	#0xE0
+	LD	E, A
+	LD	A, C
+	INC	A
+	AND	#0x1F
+	OR	E
+	LD	C, A
 
-	LD	A,(HL+)		; Copy W tiles
-	LD	(BC),A
-	INC	BC
 	DEC	D
-	JR	NZ,3$
-	POP	HL		; HL = WH
-	LD	D,H		; Restore D = W
-	POP	HL		; HL = origin
+	JR	NZ, 3$
+
+	POP	BC
+	POP	DE
+
 	DEC	E
-	JR	Z,4$
+	RET	Z
 
-	PUSH	BC		; Next line
-	LD	BC,#0x20	; One line is 20 tiles
-	ADD	HL,BC
-	POP	BC
+	PUSH	DE
 
-	PUSH	HL		; Store current origin
-	PUSH	DE		; Store WH
-	JR	3$
-4$:
-	RET
+	LD	A, B		; next row and wrap around
+	AND	#0xF8
+	LD 	E, A
 
-_get_tiles::
-	PUSH	BC
+	LD	A,#0x20
 
-	LDA	HL,11(SP)	; Skip return address and registers
-	LD	A,(HL-)		; DE = src
-	LD	D, A
-	LD	A,(HL-)
-	LD	E, A
-	LD	A,(HL-)		; BC = dst
+	ADD	A, C
+	LD	C, A
+	ADC	A, B
+	SUB	C
+	AND	#0x03
+	OR	E
 	LD	B, A
-	LD	C,(HL)
-	LDA	HL,4(SP)	; Skip return address and registers
-	PUSH	DE		; Store address on stack for set_xy_tt
-	LD	A,(HL+)		; D = x
-	LD	D, A
-	LD	A,(HL+)		; E = y
-	LD	E, A
-	LD	A,(HL+)		; A = w
-	LD	L,(HL)		; L = h
-	LD	H,A		; H = w
 
-	CALL	.get_xy_tt
-
-	POP	BC
-	RET
+	PUSH	BC
+	
+	JR	3$

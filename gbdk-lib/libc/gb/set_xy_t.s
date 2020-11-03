@@ -23,62 +23,63 @@
 	;; Set background tile from (BC) at XY = DE, size WH on stack, to vram from address (HL)
 .set_xy_tt::
 	PUSH	BC		; Store source
-	XOR	A
+
+	SWAP	E
+	RLC	E
+	LD	A,E
+	AND	#0x03
+	ADD	H
 	LD	B,A
-	OR	E
-	JR	Z,2$
+	LD	A,#0xE0
+	AND	E
+	ADD	D
+	LD	C,A		; dest BC = HL + 0x20 * Y + X
 
-	LD	C,#0x20		; One line is 20 tiles
-	SRL	E
-	JR	NC,0$
-	ADD	HL,BC
-0$:
-	JR	Z,2$
-	SLA	C
-1$:
-	ADD	HL,BC
-	DEC	E
-	JR	NZ,1$
-2$:
-	LD	C,D
-	ADD	HL,BC		; HL = HL + 0x20 * Y + X
-
-	POP	BC		; BC = source
+	POP	HL		; HL = source
 	POP	DE		; DE = WH
-	PUSH	DE		; Store WH
+	PUSH	DE		; store WH
+	PUSH	BC		; store dest
 
 3$:				; Copy W tiles
-	SRL	D
-	JR	NC,4$
 
 	WAIT_STAT
-	LD	A,(BC)		; transfer one byte
-	LD	(HL+),A
-	INC	BC
-4$:
-	XOR	A
-	OR	D
-	JR 	Z, 6$
-5$:
-	WAIT_STAT
-	.REPT 2			; transfer two bytes
-		LD	A,(BC)
-		LD	(HL+),A
-		INC	BC
-	.ENDM
+	LD	A, (HL+)
+	LD	(BC), A
+	
+	LD	A, C		; inc dest and wrap around
+	AND	#0xE0
+	LD	E, A
+	LD	A, C
+	INC	A
+	AND	#0x1F
+	OR	E
+	LD	C, A
+
 	DEC	D
-	JR	NZ,5$
-6$:
-	POP	AF
-	LD	D,A		; Restore D = W
+	JR	NZ, 3$
+
+	POP	BC
+	POP	DE
 
 	DEC	E
-
 	RET	Z
 
-	LD	A,#0x20
-	SUB	D
-	ADD_A_REG16 H,L
+	PUSH	DE
 
-	PUSH	DE		; Store WH
+	LD	A, B		; next row and wrap around
+	AND	#0xF8
+	LD 	E, A
+
+	LD	A,#0x20
+
+	ADD	A, C
+	LD	C, A
+	ADC	A, B
+	SUB	C
+	AND	#0x03
+	OR	E
+	LD	B, A
+
+	PUSH	BC
+	
 	JR	3$

@@ -25,7 +25,7 @@ ASSRC =	cgb.s cpy_data.s drawing.s f_ibm_sh.s \
 	mv_spr.s \
 	pad_ex.s \
 	mode.s clock.s \
-	set_t.s init_vram.s \
+	get_t.s set_t.s init_vram.s \
 	fill_rect.s fill_rect_bk.s fill_rect_wi.s \
 	crt0.s
 

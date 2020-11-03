@@ -20,47 +20,66 @@
 .is9c:
 	LD	HL,#0x9C00	; HL = origin
 
-	;; fills rect from HL; HW: stack; Fill: B
+	;; fills rectangle area with tile B at XY = DE, size WH on stack, to vram from address (HL)
 .fill_rect:
-	XOR	A
+	PUSH	BC		; Store source
+
+	SWAP	E
+	RLC	E
+	LD	A,E
+	AND	#0x03
+	ADD	H
+	LD	B,A
+	LD	A,#0xE0
+	AND	E
+	ADD	D
+	LD	C,A		; dest BC = HL + 0x20 * Y + X
+
+	POP	HL		; H = Tile
+	POP	DE		; DE = WH
+	PUSH	DE		; store WH
+	PUSH	BC		; store dest
+
+3$:				; Copy W tiles
+
+	WAIT_STAT
+	LD	A, H
+	LD	(BC), A
+	
+	LD	A, C		; inc dest and wrap around
+	AND	#0xE0
+	LD	E, A
+	LD	A, C
+	INC	A
+	AND	#0x1F
 	OR	E
-	LD	A, B		; save tile in A
-	LD	B, #0
-	JR	Z,2$
+	LD	C, A
 
-	LD	C,#0x20		; One line is 20 tiles
-	SRL	E
-	JR	NC,0$
-	ADD	HL,BC
-0$:
-	JR	Z,2$
-	SLA	C
-1$:
-	ADD	HL,BC
-	DEC	E
-	JR	NZ,1$
-2$:
-	LD	C,D
-	ADD	HL,BC		; HL = HL + 0x20 * Y + X
-
-	POP	BC		; load height and width
-	LD	D, #0
-	LD	E, B
-	LD	B, A		; restore tile to B
-
-	INC	C
-	JR	4$
-3$:
-	PUSH	DE
-	PUSH	HL
-	CALL 	.init_vram
-	POP	HL
-	POP	DE
-
-	LD	A, #0x20	; next row
-	ADD_A_REG16 H, L
-4$:
-	DEC	C
+	DEC	D
 	JR	NZ, 3$
 
-	RET
+	POP	BC
+	POP	DE
+
+	DEC	E
+	RET	Z
+
+	PUSH	DE
+
+	LD	A, B		; next row and wrap around
+	AND	#0xF8
+	LD 	E, A
+
+	LD	A,#0x20
+
+	ADD	A, C
+	LD	C, A
+	ADC	A, B
+	SUB	C
+	AND	#0x03
+	OR	E
+	LD	B, A
+
+	PUSH	BC
+	
+	JR	3$

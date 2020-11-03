@@ -183,17 +183,18 @@ lbl:
 	SIGNED_ADD_A_REG16	regH, regL
 .endm
 
-.macro MUL8_DE_RET_HL reg8 ?lbl1 ?lbl2
-	; Multiply DE by B or C, return result in HL; preserves: BC, DE
+.macro MUL_DE_BY_A_RET_HL ?lbl1 ?lbl2 ?lbl3
+	; Multiply DE by A, return result in HL; preserves: BC
 	LD	HL, #0
-	LD	A, #8
 lbl1:
-	ADD	HL, HL
-	RLC	reg8
+	SRL A
 	JR	NC, lbl2
 	ADD	HL, DE
 lbl2:
-	DEC	A
-	JR	NZ, lbl1
+	JR	Z, lbl3
+	SLA	E
+	RL	D
+	JR	lbl1
+lbl3:
 .endm
 
