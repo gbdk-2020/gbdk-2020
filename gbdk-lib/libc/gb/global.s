@@ -195,5 +195,5 @@ lbl1:
 lbl2:
 	DEC	A
 	JR	NZ, lbl1
-
+.endm
 
