@@ -7,7 +7,7 @@
     They were automatically generated from the header files using Doxygen.
 
 
-    For the rest of the documentation, see <a href="https://gbdev.io/">gbdev.io</a>
+    For the rest of the documentation, see (link to main GBDK docs here)
 
     - - - - - -
     __Historical Information and Links from the original doc authors:__

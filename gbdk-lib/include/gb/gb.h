@@ -120,8 +120,9 @@
  */
 typedef void (*int_handler)(void) NONBANKED;
 
-/** The remove functions will remove any interrupt
-   handler.  A handler of NULL will cause bad things
+/** The remove functions will remove any interrupt handler.
+
+   A handler of NULL will cause bad things
    to happen if the given interrupt is enabled.
 
    Removes the VBL interrupt handler. @see add_VBL()
@@ -138,8 +139,17 @@ void remove_LCD(int_handler h) NONBANKED;
 */
 void remove_TIM(int_handler h) NONBANKED;
 
-/** Removes the SIO interrupt handler.
+/** Removes the Serial Link / SIO interrupt handler.
    @see add_SIO(), @see remove_VBL()
+
+    The default SIO ISR gets installed automatically if
+    any of the standard SIO calls are used. These calls
+    include @ref add_SIO(), @ref remove_SIO(),
+    @ref send_byte(), @ref receive_byte().
+
+    The default SIO ISR cannot be removed once installed.
+    Only secondary chained SIO ISRs (added with @ref add_SIO() )
+    can be removed.
 */
 void remove_SIO(int_handler h) NONBANKED;
 
@@ -149,21 +159,26 @@ void remove_SIO(int_handler h) NONBANKED;
 void remove_JOY(int_handler h) NONBANKED;
 
 /** Adds a V-blank interrupt handler.
-    The handler 'h' will be called whenever a V-blank
-    interrupt occurs.  Up to 4 handlers may be added,
-    with the last added being called last.  If the remove_VBL
-    function is to be called, only three may be added.
-    @see remove_VBL
+
+    @param h  The handler to be called whenever a V-blank
+    interrupt occurs.
+
+    Up to 4 handlers may be added, with the last added being
+    called last.  If the @ref remove_VBL function is to be called,
+    only three may be added.
+
+    Note: The default VBL is installed automatically.
 */
 void add_VBL(int_handler h) NONBANKED;
 
 /** Adds a LCD interrupt handler.
+
     Called when the LCD interrupt occurs, which is normally
     when @ref LY_REG == @ref LYC_REG.
 
     From pan/k0Pa:
     There are various reasons for this interrupt to occur
-    as described by the STAT register ($FF40). One very
+    as described by the @ref STAT_REG register ($FF41). One very
     popular reason is to indicate to the user when the
     video hardware is about to redraw a given LCD line.
     This can be useful for dynamically controlling the
@@ -185,18 +200,20 @@ void add_LCD(int_handler h) NONBANKED;
 */
 void add_TIM(int_handler h) NONBANKED;
 
-/** Adds a serial transmit complete interrupt handler.
+
+/** Adds a Serial Link transmit complete interrupt handler.
 
     From pan/k0Pa:
     This interrupt occurs when a serial transfer has
     completed on the game link port.
 
-    @see send_byte, receive_byte, add_VBL
+    @see send_byte, receive_byte(), add_VBL()
     @see set_interrupts() with SIO_IFLAG
 */
 void add_SIO(int_handler h) NONBANKED;
 
-/** Adds a pad tranisition interrupt handler.
+
+/** Adds a joypad button change interrupt handler.
 
     From pan/k0Pa:
     This interrupt occurs on a transition of any of the
@@ -206,9 +223,12 @@ void add_SIO(int_handler h) NONBANKED;
     or more times for every button press and one or more
     times for every button release.
 
-    @see joypad
+
+
+    @see joypad()
 */
 void add_JOY(int_handler h) NONBANKED;
+
 
 /** Interrupt handler chain terminator that does __not__ wait for .STAT
 
@@ -216,11 +236,29 @@ void add_JOY(int_handler h) NONBANKED;
     chain if you want to change the default interrupt handler
     behaviour that waits for LCD controller mode to become 1 or 0
     before return from the interrupt.
+
+    Example:
+    \code{.c}
+    __critical {
+        add_SIO(nowait_int_handler); // Disable wait on VRAM state before returning from SIO interrupt
+    }
+    \endcode
+    @see wait_int_handler()
 */
 void nowait_int_handler(void) NONBANKED;
 
-/** Interrupt handler chain terminator that waits for .STAT and
-    returns in the BEGINNING of mode0 or mode1 ONLY
+
+/** Default Interrupt handler chain terminator that waits for
+    @see STAT_REG and __only__ returns at the BEGINNING of
+    either Mode 0 or Mode 1.
+
+    Used by default at the end of interrupt chains to help
+    prevent graphical glitches. The glitches are caused when an
+    ISR interrupts a graphics operation in one mode but returns
+    in a different mode for which that graphics operation is not
+    allowed.
+
+    @see nowait_int_handler()
 */
 void wait_int_handler(void) NONBANKED;
 
@@ -256,6 +294,8 @@ extern UINT8 _cpu;
 /** Global Time Counter in VBL periods (60Hz)
 
     Increments once per Frame
+
+    Will wrap around every ~18 minutes (unsigned 16 bits = 65535 / 60 / 60 = 18.2)
 */
 extern volatile UINT16 sys_time;
 
@@ -263,18 +303,18 @@ extern volatile UINT16 sys_time;
 
 /** Serial Link: Send the byte in @ref _io_out out through the serial port
 
-    Make sure to add the ISR and enable interrupts for the
+    Make sure to enable interrupts for the
     Serial Link before trying to transfer data.
-    @see add_SIO()
+    @see add_SIO(), remove_SIO()
     @see set_interrupts() with @ref SIO_IFLAG
 */
 void send_byte(void);
 
 /** Serial Link: Receive a byte from the serial port into @ref _io_in
 
-    Make sure to add the ISR and enable interrupts for the
+    Make sure to enable interrupts for the
     Serial Link before trying to transfer data.
-    @see add_SIO()
+    @see add_SIO(), remove_SIO()
     @see set_interrupts() with @ref SIO_IFLAG
 */
 void receive_byte(void);
@@ -325,7 +365,8 @@ extern volatile UINT8 _io_out;
 */
 __REG _current_bank;
 
-/** Forces MBC1 and compatible to switch the active ROM bank 
+/** Forces MBC1 and compatible to switch the active ROM bank
+    @param b   Bank to switch to
 */
 #define SWITCH_ROM_MBC1(b) \
   _current_bank = (b), *(unsigned char *)0x2000 = (b)
@@ -346,6 +387,7 @@ __REG _current_bank;
   *(unsigned char *)0x6000 = 0x01
 
 /** Forces MBC5 to switch the active ROM bank; only 4M roms are supported, @see SWITCH_ROM_MBC5_8M()
+
     Note the order used here. Writing the other way around on a MBC1 always selects bank 1
 */
 #define SWITCH_ROM_MBC5(b) \
@@ -355,6 +397,7 @@ __REG _current_bank;
 
 /** Forces MBC5 to switch the active ROM bank; active bank number is not tracked by _current_bank if you use this macro
     @see _current_bank
+
     Note the order used here. Writing the other way around on a MBC1 always selects bank 1
 */
 #define SWITCH_ROM_MBC5_8M(b) \
@@ -1145,20 +1188,27 @@ void get_tiles(UINT8 x,
 
 /* ************************************************************ */
 
-/** Initializes window tile table with c
-    @param c   Tile number
+
+/** Initializes the entire Window Tile Map with Tile Number __c__
+    @param c   Tile number to fill with
+
+    Note: This function avoids writes during modes 2 & 3
 */
 void init_win(UINT8 c) NONBANKED __preserves_regs(b, c);
 
-/** Initializes background tile table with c
-    @param c   Tile number
+/** Initializes the entire Background Tile Map with Tile Number __c__
+    @param c   Tile number to fill with
+
+    Note: This function avoids writes during modes 2 & 3
 */
 void init_bkg(UINT8 c) NONBANKED __preserves_regs(b, c);
 
-/** Fills the VRAM memory region s of size n with c 
-    @param s   Start address
-    @param c   Value to fill with
-    @param n   Size of memory region
+/** Fills the VRAM memory region __s__ of size __n__ with Tile Number __c__
+    @param s   Start address in VRAM
+    @param c   Tile number to fill with
+    @param n   Size of memory region (in bytes) to fill
+
+    Note: This function avoids writes during modes 2 & 3
 */
 void vmemset (void *s, UINT8 c, size_t n) NONBANKED __preserves_regs(b, c);
 
