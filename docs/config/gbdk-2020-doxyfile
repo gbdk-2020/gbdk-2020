@@ -58,7 +58,7 @@ PROJECT_LOGO           =
 # entered, it will be relative to the location where doxygen was started. If
 # left blank the current directory will be used.
 
-OUTPUT_DIRECTORY       = $(GBDKDOCS_GBDKPATH)/docs
+OUTPUT_DIRECTORY       = $(GBDKDOCSDIR)
 
 # If the CREATE_SUBDIRS tag is set to YES then doxygen will create 4096 sub-
 # directories (in 2 levels) under the output directory of each output format and
@@ -744,7 +744,7 @@ FILE_VERSION_FILTER    =
 # tag is left empty.
 
 # LAYOUT_FILE            =
-LAYOUT_FILE            = "$(GBDKDOCS_GBDKPATH)/docs/config/github-markdown-theme/doxygen_layout.xml"
+LAYOUT_FILE            = "$(GBDKDOCSDIR)/config/github-markdown-theme/doxygen_layout.xml"
 
 # The CITE_BIB_FILES tag can be used to specify one or more bib files containing
 # the reference definitions. This must be a list of .bib files. The .bib
@@ -832,7 +832,7 @@ WARN_LOGFILE           =
 # spaces. See also FILE_PATTERNS and EXTENSION_MAPPING
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  = $(GBDKDOCS_GBDKPATH)/gbdk-lib/include
+INPUT                  = $(GBDKLIBDIR)/include
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
@@ -1174,7 +1174,7 @@ HTML_FILE_EXTENSION    = .html
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
 # HTML_HEADER            =
-HTML_HEADER        = "$(GBDKDOCS_GBDKPATH)/docs/config/github-markdown-theme/doxygen_header.html"
+HTML_HEADER        = "$(GBDKDOCSDIR)/config/github-markdown-theme/doxygen_header.html"
 
 
 # The HTML_FOOTER tag can be used to specify a user-defined HTML footer for each
@@ -1186,7 +1186,7 @@ HTML_HEADER        = "$(GBDKDOCS_GBDKPATH)/docs/config/github-markdown-theme/dox
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
 #HTML_FOOTER            =
-HTML_FOOTER        = "$(GBDKDOCS_GBDKPATH)/docs/config/github-markdown-theme/doxygen_footer.html"
+HTML_FOOTER        = "$(GBDKDOCSDIR)/config/github-markdown-theme/doxygen_footer.html"
 
 # The HTML_STYLESHEET tag can be used to specify a user-defined cascading style
 # sheet that is used by each HTML page. It can be used to fine-tune the look of
@@ -1214,7 +1214,7 @@ HTML_STYLESHEET        =
 # HTML_EXTRA_STYLESHEET  =
 
 # github-markdown-theme
-HTML_EXTRA_STYLESHEET    = "$(GBDKDOCS_GBDKPATH)/docs/config/github-markdown-theme/doxygen_extra.css"
+HTML_EXTRA_STYLESHEET    = "$(GBDKDOCSDIR)/config/github-markdown-theme/doxygen_extra.css"
 
 # The HTML_EXTRA_FILES tag can be used to specify one or more extra images or
 # other source files which should be copied to the HTML output directory. Note

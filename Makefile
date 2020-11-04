@@ -31,6 +31,7 @@ GBDKLIBDIR = $(TOPDIR)/gbdk-lib
 GBDKSUPPORTDIR = $(TOPDIR)/gbdk-support
 # Directory with docs config and output (via doxygen)
 GBDKDOCSDIR = $(TOPDIR)/docs
+DOXYGENCMD = doxygen
 
 # Base setup
 # Extension to add to executables
@@ -229,7 +230,7 @@ endif
 doxygen-generate:
 	rm -rf $(GBDKDOCSDIR)/api; \
 	  cd "$(GBDKLIBDIR)/include"; \
-	  GBDKDOCSDIR="$(GBDKDOCSDIR)" GBDKLIBDIR="$(GBDKLIBDIR)" doxygen "$(GBDKDOCSDIR)/config/gbdk-2020-doxyfile"
+	  GBDKDOCSDIR="$(GBDKDOCSDIR)" GBDKLIBDIR="$(GBDKLIBDIR)" $(DOXYGENCMD) "$(GBDKDOCSDIR)/config/gbdk-2020-doxyfile"
 
 doxygen-clean:
 	rm -rf $(GBDKDOCSDIR)/api
