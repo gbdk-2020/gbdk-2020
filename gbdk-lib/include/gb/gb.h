@@ -114,7 +114,6 @@
  */
 #define MAXWNDPOSY   0x8FU
 
-/* ************************************************************ */
 
 /** Interrupt handlers
  */
@@ -262,7 +261,7 @@ void nowait_int_handler(void) NONBANKED;
 */
 void wait_int_handler(void) NONBANKED;
 
-/* ************************************************************ */
+
 
 /** Set the current screen mode - one of M_* modes
 
@@ -299,7 +298,7 @@ extern UINT8 _cpu;
 */
 extern volatile UINT16 sys_time;
 
-/* ************************************************************ */
+
 
 /** Serial Link: Send the byte in @ref _io_out out through the serial port
 
@@ -340,43 +339,33 @@ extern volatile UINT8 _io_out;
 /** Serial Link Error */
 #define IO_ERROR	0x04U
 
-/* ************************************************************ */
 
-/* Multiple banks */
-
-/** Switches the upper 16k bank of the 32k rom to bank rombank
-    using the MBC1 controller.
-    By default the upper 16k bank is 1. Make sure the rom you compile
-    has more than just bank 0 and bank 1, a 32k rom.
-
-    At the compile stage this is done with these lcc.exe switches:
-    \li -Wf-bo# where # is the number of the ROM banks
-    \li -Wf-ba# where # is the number of the RAM banks
-
-    At the link stage this is done with these lcc.exe switches:
-    \li -Wl-yt# where # is the type of cartridge. 1 for ROM+MBC1
-    \li -Wl-yo# where # is the number of ROM banks. 2,4,8,16,32
-    \li -Wl-ya# where # is the number of RAM banks. 2,4,8,16,32
-
-    @todo This should probably be moved into a general section about Banking
-*/
 
 /** Tracks current active ROM bank @see SWITCH_ROM_MBC1(), SWITCH_ROM_MBC5()
+    This variable is updated automatically when you call SWITCH_ROM_MBC1 or 
+    SWITCH_ROM_MBC5, or call a BANKED function.
 */
 __REG _current_bank;
 
-/** Forces MBC1 and compatible to switch the active ROM bank
-    @param b   Bank to switch to
+/** Makes MBC1 and other compatible MBCs to switch the active ROM bank
+    @param b   ROM bank to switch to
 */
 #define SWITCH_ROM_MBC1(b) \
   _current_bank = (b), *(unsigned char *)0x2000 = (b)
 
+/** Switches SRAM bank on MBC1 and other compaticle MBCs
+    @param b   SRAM bank to switch to
+*/
 #define SWITCH_RAM_MBC1(b) \
   *(unsigned char *)0x4000 = (b)
 
+/** Enables SRAM on MBC1
+*/
 #define ENABLE_RAM_MBC1 \
   *(unsigned char *)0x0000 = 0x0A
 
+/** Disables SRAM on MBC1
+*/
 #define DISABLE_RAM_MBC1 \
   *(unsigned char *)0x0000 = 0x00
 
@@ -386,7 +375,8 @@ __REG _current_bank;
 #define SWITCH_4_32_MODE_MBC1 \
   *(unsigned char *)0x6000 = 0x01
 
-/** Forces MBC5 to switch the active ROM bank; only 4M roms are supported, @see SWITCH_ROM_MBC5_8M()
+/** Makes MBC5 to switch the active ROM bank; only 4M roms are supported, @see SWITCH_ROM_MBC5_8M()
+    @param b   ROM bank to switch to
 
     Note the order used here. Writing the other way around on a MBC1 always selects bank 1
 */
@@ -395,8 +385,9 @@ __REG _current_bank;
   *(unsigned char *)0x3000 = 0, \
   *(unsigned char *)0x2000 = (b)
 
-/** Forces MBC5 to switch the active ROM bank; active bank number is not tracked by _current_bank if you use this macro
+/** Makes MBC5 to switch the active ROM bank; active bank number is not tracked by _current_bank if you use this macro
     @see _current_bank
+    @param b   ROM bank to switch to
 
     Note the order used here. Writing the other way around on a MBC1 always selects bank 1
 */
@@ -404,16 +395,23 @@ __REG _current_bank;
   *(unsigned char *)0x3000 = ((UINT16)(b) >> 8), \
   *(unsigned char *)0x2000 = (b)
 
+/** Switches SRAM bank on MBC5
+    @param b   SRAM bank to switch to
+*/
 #define SWITCH_RAM_MBC5(b) \
   *(unsigned char *)0x4000 = (b)
 
+/** Enables SRAM on MBC5
+*/
 #define ENABLE_RAM_MBC5 \
   *(unsigned char *)0x0000 = 0x0A
 
+/** Disables SRAM on MBC5
+*/
 #define DISABLE_RAM_MBC5 \
   *(unsigned char *)0x0000 = 0x00
 
-/* ************************************************************ */
+
 
 /** Delays the given number of milliseconds.
     Uses no timers or interrupts, and can be called with
@@ -421,7 +419,7 @@ __REG _current_bank;
  */
 void delay(UINT16 d) NONBANKED;
 
-/* ************************************************************ */
+
 
 /** Reads and returns the current state of the joypad.
     Follows Nintendo's guidelines for reading the pad.
@@ -485,7 +483,7 @@ UINT8 joypad_init(UINT8 npads, joypads_t * joypads);
 */
 void joypad_ex(joypads_t * joypads);
 
-/* ************************************************************ */
+
 
 /** Enables unmasked interrupts
     @see disable_interrupts, set_interrupts
@@ -533,7 +531,6 @@ void wait_vbl_done(void) NONBANKED __preserves_regs(b, c, d, e, h, l);
 */
 void display_off(void) NONBANKED __preserves_regs(b, c, d, e, h, l);
 
-/* ************************************************************ */
 
 
 /** Copies data from somewhere in the lower address space to part of hi-ram.
@@ -545,7 +542,7 @@ void hiramcpy(UINT8 dst,
           const void *src,
           UINT8 n) NONBANKED __preserves_regs(b, c);
 
-/* ************************************************************ */
+
 
 /** Turns the display back on.
     @see display_off, DISPLAY_OFF
@@ -607,7 +604,6 @@ void hiramcpy(UINT8 dst,
 #define SPRITES_8x8 \
   LCDC_REG&=0xFBU
 
-/* ************************************************************ */
 
 
 /** Sets VRAM Tile Pattern data for the Background / Window
@@ -774,7 +770,6 @@ inline void scroll_bkg(INT8 x, INT8 y) {
     SCX_REG+=x, SCY_REG+=y;
 }
 
-/* ************************************************************ */
 
 
 /** Sets VRAM Tile Pattern data for the Window / Background
@@ -907,7 +902,6 @@ inline void scroll_win(INT8 x, INT8 y) {
     WX_REG+=x, WY_REG+=y;
 }
 
-/* ************************************************************ */
 
 
 /** Sets VRAM Tile Pattern data for Sprites
@@ -1095,7 +1089,7 @@ inline void scroll_sprite(UINT8 nb, INT8 x, INT8 y) {
     itm->y+=y, itm->x+=x;
 }
 
-/* ************************************************************ */
+
 
 
 /** Copies Tile Pattern data to an address in VRAM
@@ -1186,7 +1180,6 @@ void get_tiles(UINT8 x,
           unsigned char *vram_addr) NONBANKED __preserves_regs(b, c);
 
 
-/* ************************************************************ */
 
 
 /** Initializes the entire Window Tile Map with Tile Number __c__
@@ -1212,7 +1205,7 @@ void init_bkg(UINT8 c) NONBANKED __preserves_regs(b, c);
 */
 void vmemset (void *s, UINT8 c, size_t n) NONBANKED __preserves_regs(b, c);
 
-/* ************************************************************ */
+
 
 /** Fills a rectangular region of Tile Map entries for the Background layer with tile.
 
