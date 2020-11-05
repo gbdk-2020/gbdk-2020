@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <ctype.h>
 
 #define MAXOP     40
 #define NUMBER    '0'
