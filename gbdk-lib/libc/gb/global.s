@@ -160,9 +160,9 @@ lbl:	LDH	A, (.STAT)
 .endm
 
 .macro ADD_A_REG16 regH regL
-	ADD	A, regL
+	ADD	regL
 	LD	regL, A
-	ADC	A, regH
+	ADC	regH
 	SUB	regL
 	LD	regH, A
 .endm
@@ -187,7 +187,7 @@ lbl:
 	; Multiply DE by A, return result in HL; preserves: BC
 	LD	HL, #0
 lbl1:
-	SRL A
+	SRL	A
 	JR	NC, lbl2
 	ADD	HL, DE
 lbl2:

@@ -72,9 +72,9 @@
 
 	LD	A,#0x20
 
-	ADD	A, C
+	ADD	C
 	LD	C, A
-	ADC	A, B
+	ADC	B
 	SUB	C
 	AND	#0x03
 	OR	E		; restore high bits

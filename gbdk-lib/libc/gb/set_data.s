@@ -28,7 +28,7 @@ _set_sprite_data::
 	swap e ; *16 (size of a tile)
 	ld a, e
 	and #0x0F ; Get high bits
-	add a, d ; Add base offset of target tile "block"
+	add d ; Add base offset of target tile "block"
 	ld d, a
 	ld a, e
 	and #0xF0 ; Get low bits only

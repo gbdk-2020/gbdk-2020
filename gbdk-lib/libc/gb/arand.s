@@ -77,7 +77,7 @@ _arand::			; Banked
 	ADD	HL,DE
 	LD	A,(HL)
 
-	ADD	A,B
+	ADD	B
 	LD	(HL),A		; Store new value
 
 	POP	BC
