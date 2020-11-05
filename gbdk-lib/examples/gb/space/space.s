@@ -2,24 +2,24 @@
 	;;  of the GB (background, window and animated sprite)
 	;; I have used fixed-point values for both the position and
 	;;  speed of objects to get smooth movements
-	;; 
+	;;
 	;; OBJ data		: 0x8000 -> 0x8FFF (unsigned)
 	;; Window data		: 0x8800 -> 0x97FF (signed)
 	;; Background data	: 0x8800 -> 0x97FF (signed)
-	;; 
+	;;
 	;; Tiled 0xFC -> 0xFF are standard tiles (all black -> all white)
-	;; 
+	;;
 	;; Keys:
 	;; Arrow keys		: Change the speed (and direction) of the sprite
 	;; Arrow keys + A	: Change the speed (and direction) of the window
 	;; Arrow keys + B	: Change the speed (and direction) of the background
 	;; START		: Open/close the door
 	;; SELECT		: Basic fading effect
-	;; 
+	;;
 	;; Note that the window is kept in the lower right part of the screen
 	;; since it can't be made transparent
 
-	.include	"../../lib/small/asxxxx/global.s"
+	.include	"../../../lib/small/asxxxx/global.s"
 
 	.globl	.init_vram
 	.globl	.copy_vram

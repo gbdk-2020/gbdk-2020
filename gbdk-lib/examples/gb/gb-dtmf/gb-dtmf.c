@@ -19,7 +19,7 @@
 #include "key_num.c"	/* Sprite pattern for each key pad */
 #include "cursor.c"		/* cursor pattern */
 
-/* 
+/*
 	usage of BG data
 	file name	number of BG	type of matrix	aount
 	-------------------------------------------------
@@ -69,7 +69,7 @@
 */
 /*
 	We have to calculate the frequency as followin formula
-	
+
 	DTMF has two set frequency, we have to decide Row & Column
 	with each digit('0','1','2'...)
 */
@@ -82,9 +82,9 @@
 #define R1 0x44U /*  697Hz,  697Hz */
 #define R2 0x56U /*  770Hz,  770Hz */
 #define R3 0x66U /*  852Hz,  851Hz */
-#define R4 0x75U /*  941Hz,  942Hz */ 
+#define R4 0x75U /*  941Hz,  942Hz */
 
-const unsigned char row[4] = {R1,R2,R3,R4};	/* DTMF frequency strage of Row */	
+const unsigned char row[4] = {R1,R2,R3,R4};	/* DTMF frequency strage of Row */
 const unsigned char col[4] = {C1,C2,C3,C4};	/* DTMF frequency strage of Col */
 
 /* It is possible to set up initial screen by each BG data. */
@@ -116,7 +116,7 @@ const unsigned char dtmf_tile[] = {
 };
 
 /*
-	Button image 
+	Button image
 	Normal buttons are created by 3tiles x 3tiles(24pixels x 24pixels)
 	Dialing button is created by 6tiles x 3tiles(48pixels x 24pixels)
 */
@@ -187,12 +187,12 @@ void init_dial()
 void dialtone(UWORD dtmf_on, UWORD dtmf_off, char str[20])
 {
 	UBYTE i = 0;
-	
+
 	while(str[i]){
 		switch(str[i]){
 		    case '1':
 			  NR13_REG = R1;
-			  NR23_REG = C1; 
+			  NR23_REG = C1;
 			  break;
 		    case '2':
 			  NR13_REG = R1;
@@ -200,72 +200,72 @@ void dialtone(UWORD dtmf_on, UWORD dtmf_off, char str[20])
 			  break;
 		    case '3':
 			  NR13_REG = R1;
-			  NR23_REG = C3;	
+			  NR23_REG = C3;
 			  break;
 		    case 'A':
 		    case 'a':
 			  NR13_REG = R1;
-			  NR23_REG = C4;  
+			  NR23_REG = C4;
 			  break;
 		    case '4':
 			  NR13_REG = R2;
-			  NR23_REG = C1;	
+			  NR23_REG = C1;
 			  break;
 		    case '5':
 			  NR13_REG = R2;
-			  NR23_REG = C2;	
+			  NR23_REG = C2;
 			  break;
 		    case '6':
 			  NR13_REG = R2;
-			  NR23_REG = C3;	
+			  NR23_REG = C3;
 			  break;
 			case 'B':
 			case 'b':
 			  NR13_REG = R2;
-			  NR23_REG = C4;	
+			  NR23_REG = C4;
 			  break;
 			case '7':
 			  NR13_REG = R3;
-			  NR23_REG = C1;	
+			  NR23_REG = C1;
 			  break;
 			case '8':
 			  NR13_REG = R3;
-			  NR23_REG = C2;	
+			  NR23_REG = C2;
 			  break;
 			case '9':
 			  NR13_REG = R3;
-			  NR23_REG = C3;	
+			  NR23_REG = C3;
 			  break;
 			case 'C':
 			case 'c':
 			  NR13_REG = R3;
-			  NR23_REG = C4;	
+			  NR23_REG = C4;
 			  break;
 			case '*':
 			  NR13_REG = R4;
-			  NR23_REG = C1;	
+			  NR23_REG = C1;
 			  break;
 			case '0':
 			  NR13_REG = R4;
-			  NR23_REG = C2;	
+			  NR23_REG = C2;
 			  break;
 			case '#':
 			  NR13_REG = R4;
-			  NR23_REG = C3;	
+			  NR23_REG = C3;
 			  break;
 			case 'D':
 			case 'd':
 			  NR13_REG = R4;
-			  NR23_REG = C4;	
+			  NR23_REG = C4;
 			  break;
 			case ',':
 			  delay(dtmf_on);	/* keep on */
 			  delay(dtmf_off);	/* keep off */
-			 
+
 			default:
 			  NR51_REG = 0x00U;	/* sound off */
 			  goto skip;
-			  
+
 		  }
 		NR24_REG = 0x87U;	/* ch2 tips */
 		NR51_REG = 0x33U;	/* sound on */
@@ -502,13 +502,13 @@ void init_key()
 	move_sprite(22, key_x, key_y);
 }
 
-void init_bkg()
+void init_background()
 {
 	/* Initialize the background */
 	set_bkg_data( 0, 9, frame_lcd);
 	set_bkg_data( 9, 9, break_btn);
 	set_bkg_data(18, 9, press_btn);
-	
+
 	set_bkg_tiles(0, 0, 20, 18, dtmf_tile);
 }
 
@@ -549,13 +549,13 @@ void main()
 	off_time = DTMF_OFF;
 
 	disable_interrupts();
-	
+
 	SPRITES_8x8;   /* sprites are 8x8 */
 
 	init_dial();
-	
-	init_bkg();
-	
+
+	init_background();
+
 	init_key();
 
 	init_cursor();
@@ -594,7 +594,7 @@ void main()
 					/* sound output on */
 					NR51_REG = 0x33U;
 				}
-				
+
 				/* '?' button */
 				/* appear the title during press A button */
 				if(i == 5 && j == 0 && !non_flick){
