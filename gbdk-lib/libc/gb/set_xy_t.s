@@ -70,10 +70,6 @@
 	AND	#0xFC
 	LD 	E, A		; save high bits
 
-	LD	A, B		; make map zero-based 
-	AND	#0x03
-	LD	B, A
-
 	LD	A,#0x20
 
 	ADD	A, C
