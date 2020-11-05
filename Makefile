@@ -29,9 +29,15 @@ TARGETCXXFLAGS =
 GBDKLIBDIR = $(TOPDIR)/gbdk-lib
 # Directory containing the source to gbdk-support
 GBDKSUPPORTDIR = $(TOPDIR)/gbdk-support
+
 # Directory with docs config and output (via doxygen)
 GBDKDOCSDIR = $(TOPDIR)/docs
+
+# Doxygen command and version check info
 DOXYGENCMD = doxygen
+DOXYGEN_VER_REQ = 1.8.17
+DOXYGEN_VER_HAS = $(shell doxygen -v)
+
 
 # Base setup
 # Extension to add to executables
@@ -228,6 +234,9 @@ endif
 # That prevents it from including the path leading up to there in the
 # output, even though it's instructed to only process starting at "include".
 doxygen-generate:
+ifeq ($(shell expr "$(DOXYGEN_VER_HAS)" \< "$(DOXYGEN_VER_REQ)"), 1)
+	$(error Doxygen version $(DOXYGEN_VER_HAS) is too old! Minimum version is $(DOXYGEN_VER_REQ))
+endif
 	rm -rf $(GBDKDOCSDIR)/api; \
 	  cd "$(GBDKLIBDIR)/include"; \
 	  GBDKDOCSDIR="$(GBDKDOCSDIR)" GBDKLIBDIR="$(GBDKLIBDIR)" $(DOXYGENCMD) "$(GBDKDOCSDIR)/config/gbdk-2020-doxyfile"
