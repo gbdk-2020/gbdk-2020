@@ -14,14 +14,18 @@
 #include <rand.h>
 #include <gb/drawing.h>
 #include <stdio.h>
+#include <string.h>
 
-UBYTE accu[80] = {0};
-UBYTE accua[80] = {0};
+UBYTE accu[80];
+UBYTE accua[80];
 
 void main(void)
 {
   UBYTE r, s, t = 0, u = 0;
   UWORD seed;
+
+  memset(accu, 0, sizeof(accu));
+  memset(accua, 0, sizeof(accua));
 
   /* We use the DIV register to get a random initial seed */
   puts("Getting seed");
