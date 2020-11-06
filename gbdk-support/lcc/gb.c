@@ -218,7 +218,7 @@ static void buildArgs(char **args, const char *template)
 	*last = NULL;
 }
 
-char *suffixes[] = { ".c", ".i", ".asm;.s", ".o;.obj", ".ihx.gb", 0 };
+char *suffixes[] = { ".c", ".i", ".asm;.s", ".o;.obj", ".ihx;.gb", 0 };
 char inputs[256] = "";
 
 char *cpp[256];
