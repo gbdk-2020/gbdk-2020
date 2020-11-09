@@ -46,6 +46,7 @@ static struct {
 		{ "comopt",		"--noinvariant --noinduction" },
 		{ "commodel", 	"small" },
 		{ "com",		"%sdccdir%sdcc" },
+		{ "comflag",    "-c"},
 		{ "comdefault",	"-mgbz80 --no-std-crt0 --fsigned-char --use-stdout" },
 		{ "as",		"%sdccdir%sdasgb" },
 		{ "ld",		"%sdccdir%sdldgb" },
@@ -91,7 +92,7 @@ static CLASS classes[] = {
 			"gb",
 			"%cpp% %cppdefault% -DGB=1 -DGAMEBOY=1 -DINT_16_BITS $1 $2 $3",
 			"%includedefault%",
-			"%com% %comdefault% -Wa-pog -DGB=1 -DGAMEBOY=1 -DINT_16_BITS $1 -c $2 -o $3",
+			"%com% %comdefault% -Wa-pog -DGB=1 -DGAMEBOY=1 -DINT_16_BITS $1 %comflag% $2 -o $3",
 			"%as% -pog $1 $3 $2",
 			"%ld% -n -i $1 -k %libdir%%port%/ -l %port%.lib "
 				"-k %libdir%%plat%/ -l %plat%.lib $3 %libdir%%plat%/crt0.o $2",
@@ -251,7 +252,12 @@ int option(char *arg) {
 		setTokenVal("includedir", tail);
 		return 1;
 	}
-	else if ((tail = starts_with(arg, "-m"))) {
+	else if ((tail = starts_with(arg, "-S"))) {
+		// -S is compile to ASM only
+		// When composing the compile stage, swap in of -S instead of default -c
+		setTokenVal("comflag", "-S");
+	}
+    else if ((tail = starts_with(arg, "-m"))) {
 		/* Split it up into a asm/port pair */
 		char *slash = strchr(tail, '/');
 		if (slash) {
