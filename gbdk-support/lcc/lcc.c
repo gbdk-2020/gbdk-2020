@@ -557,6 +557,7 @@ static int filename(char *name, char *base) {
 				rmlist = append(stringf("%s/%s%s", tempdir, ofileBase, ".asm"), rmlist);
 				rmlist = append(stringf("%s/%s%s", tempdir, ofileBase, ".lst"), rmlist);
 				rmlist = append(stringf("%s/%s%s", tempdir, ofileBase, ".sym"), rmlist);
+				rmlist = append(stringf("%s/%s%s", tempdir, ofileBase, ".adb"), rmlist);
 			}
 
 			compose(com, clist, append(name, 0), append(ofile, 0));
