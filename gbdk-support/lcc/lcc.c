@@ -180,25 +180,37 @@ int main(int argc, char *argv[]) {
 		if(!outfile)
 			outfile = concat("a", first(suffixes[4]));
 
-		//file.gb to file.ihx (don't use tmpfile becuase maps and other stuffs are created there)
+		//file.gb to file.ihx (don't use tmpfile because maps and other stuffs are created there)
+
+		// Check to see if output is a .ihx file
+		char * ihx_suffix[1] = {".ihx"};
+		int target_is_ihx = (suffix(outfile, ihx_suffix, 1) == 0);
+
 		char ihxFile[255];
 		int lastP = strrchr(outfile, '.') - outfile;
 		strncpy(ihxFile, outfile, lastP);
 		ihxFile[lastP] = '\0';
 		strcat(ihxFile, ".ihx");
-		append(ihxFile, rmlist);
+
+		// Only remove .ihx if it's not the final target
+		if (!target_is_ihx)
+			append(ihxFile, rmlist);
 
 		Fixllist();
 		compose(ld, llist[0], llist[1], append(ihxFile, 0));
 		if (callsys(av))
 			errcnt++;
 
-		if(errcnt == 0)
+		// No need to makebin (.ihx -> .gb) if .ihx is final target
+		if (!target_is_ihx)
 		{
-			//makebin
-			compose(mkbin, mkbinlist, append(ihxFile, 0), append(outfile, 0));
-			if (callsys(av))
+			if(errcnt == 0)
+			{
+				//makebin
+				compose(mkbin, mkbinlist, append(ihxFile, 0), append(outfile, 0));
+				if (callsys(av))
 				errcnt++;
+			}
 		}
 	}
 	rm(rmlist);
