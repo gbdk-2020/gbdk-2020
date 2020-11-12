@@ -1,4 +1,4 @@
-# Simple Makefile for the lcc frontend.
+# ihxcheck makefile
 
 ifndef TARGETDIR
 TARGETDIR = /opt/gbdk
