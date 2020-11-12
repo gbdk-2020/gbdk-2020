@@ -25,6 +25,7 @@ typedef struct {
 	const char *com;
 	const char *as;
 	const char *ld;
+	const char *ihxcheck;
 	const char *mkbin;
 } CLASS;
 
@@ -53,6 +54,7 @@ static struct {
 		{ "libdir",		"%prefix%lib/%libmodel%/asxxxx/" },
 		{ "libmodel",	"small" },
 		{ "bindir",		"%prefix%bin/" },
+		{ "ihxcheck", "%sdccdir%ihxcheck" },
 		{ "mkbin", "%sdccdir%makebin" }
 };
 
@@ -96,6 +98,7 @@ static CLASS classes[] = {
 			"%as% -pog $1 $3 $2",
 			"%ld% -n -i $1 -k %libdir%%port%/ -l %port%.lib "
 				"-k %libdir%%plat%/ -l %plat%.lib $3 %libdir%%plat%/crt0.o $2",
+			"%ihxcheck% $2 $1",
 			"%mkbin% -Z $1 $2 $3"
 		},
 		{ "z80",
@@ -107,6 +110,7 @@ static CLASS classes[] = {
 			"%as% -pog $1 $3 $2",
 			"%ld% -n -- -i $1 -b_CODE=0x8100 -k%libdir%%port%/ -l%port%.lib "
 				"-k%libdir%%plat%/ -l%plat%.lib $3 %libdir%%plat%/crt0.o $2",
+			"%ihxcheck% $2 $1",
 			"%mkbin% -Z $1 $2 $3"
 		},
 		{ "z80",
@@ -118,6 +122,7 @@ static CLASS classes[] = {
 			"%as% -pog $1 $3 $2",
 			"%ld% -n -- -i $1 -b_DATA=0x8000 -b_CODE=0x200 -k%libdir%%port%/ -l%port%.lib "
 				"-k%libdir%%plat%/ -l%plat%.lib $3 %libdir%%plat%/crt0.o $2",
+			"%ihxcheck% $2 $1",
 			"%mkbin% -Z $1 $2 $3"
 		}
 };
@@ -227,6 +232,7 @@ char *include[256];
 char *com[256] = { "", "", "" };
 char *as[256];
 char *ld[256];
+char *ihxcheck[256];
 char *mkbin[256];
 
 const char *starts_with(const char *s1, const char *s2)
@@ -299,6 +305,7 @@ void finalise(void)
 	buildArgs(com, _class->com);
 	buildArgs(as, _class->as);
 	buildArgs(ld, _class->ld);
+	buildArgs(ihxcheck, _class->ihxcheck);
 	buildArgs(mkbin, _class->mkbin);
 }
 

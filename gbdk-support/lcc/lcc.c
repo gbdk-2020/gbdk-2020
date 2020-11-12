@@ -57,7 +57,7 @@ extern char *tempname(char *);
 
 static void Fixllist();
 
-extern char *cpp[], *include[], *com[], *as[], *ld[], *mkbin[], inputs[], *suffixes[];
+extern char *cpp[], *include[], *com[], *as[], *ld[], *ihxcheck[], *mkbin[], inputs[], *suffixes[];
 extern int option(char *);
 extern void set_gbdk_dir(char*);
 
@@ -68,6 +68,7 @@ static int Eflag;		/* -E specified */
 static int Sflag;		/* -S specified */
 static int cflag;		/* -c specified */
 static int verbose;		/* incremented for each -v */
+static List ihxchecklist;   /* ihxcheck flags */
 static List mkbinlist;		/* loader files, flags */
 static List llist[2];		/* loader files, flags */
 static List alist;		/* assembler flags */
@@ -192,12 +193,17 @@ int main(int argc, char *argv[]) {
 		ihxFile[lastP] = '\0';
 		strcat(ihxFile, ".ihx");
 
-		// Only remove .ihx if it's not the final target
+		// Only remove .ihx from the delete-list if it's not the final target
 		if (!target_is_ihx)
 			append(ihxFile, rmlist);
 
 		Fixllist();
 		compose(ld, llist[0], llist[1], append(ihxFile, 0));
+		if (callsys(av))
+			errcnt++;
+
+		// ihxcheck (test for multiple writes to the same ROM address)
+		compose(ihxcheck, ihxchecklist, append(ihxFile, 0), 0);
 		if (callsys(av))
 			errcnt++;
 
@@ -209,7 +215,7 @@ int main(int argc, char *argv[]) {
 				//makebin
 				compose(mkbin, mkbinlist, append(ihxFile, 0), append(outfile, 0));
 				if (callsys(av))
-				errcnt++;
+					errcnt++;
 			}
 		}
 	}
@@ -661,7 +667,7 @@ static void help(void) {
 "-v	show commands as they are executed; 2nd -v suppresses execution\n",
 "-w	suppress warnings\n",
 "-Woarg	specify system-specific `arg'\n",
-"-W[pfalm]arg	pass `arg' to the preprocessor, compiler, assembler, linker, or makebin\n",
+"-W[pfalim]arg	pass `arg' to the preprocessor, compiler, assembler, linker, ihxcheck, or makebin\n",
 	0 };
 	int i;
 	char *s;
@@ -740,6 +746,9 @@ static void opt(char *arg) {
 			case 'a': /* Assembler */
 				alist = append(&arg[3], alist);
 				return;
+            case 'i': /* ihxcheck arg list */
+                ihxchecklist = append(&arg[3], ihxchecklist);
+                return;
 			case 'l': /* Linker */
 				if(arg[4] == 'y' && (arg[5] == 't' || arg[5] == 'o' || arg[5] == 'a') && (arg[6] != '\0' && arg[6] != ' '))
 					goto makebinoption; //automatically pass -yo -ya -yt options to makebin (backwards compatibility)
