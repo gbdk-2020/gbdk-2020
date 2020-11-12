@@ -6,12 +6,10 @@
 #
 TOPDIR = $(shell pwd)
 
-# Package name, used for tarballs and cvs
+# Package name, used for tarballs
 PKG = gbdk
 # Version, used for tarballs
 VER = 3.00
-# Short version, used for cvs tags
-SHORTVER = 300
 
 # Prefix to add to the standard tools.  Usefull for a standard gcc
 # cross-compile.
@@ -99,7 +97,6 @@ src: clean
 	rm -rf gbdk
 	mkdir -p gbdk
 	cp -r Makefile sdcc gbdk-lib gbdk-support gbdk
-	rm -rf `find gbdk -name CVS`
 	tar czf gbdk-$(VER).tar.gz gbdk
 
 # Base rules
@@ -114,23 +111,6 @@ $(BUILDDIR)/bin:
 
 build-dir-clean:
 	rm -r $(BUILDDIR)
-
-# Setup rules
-CVSFLAGS = -r $(PKG)-$(SHORTVER)
-
-setup-from-local:
-	rm -rf sdcc gbdk-lib gbdk-support
-	ln -s ../sdcc
-	ln -s ../gbdk-lib
-	ln -s ../gbdk-support
-
-setup-from-cvs:
-	cvs -d :pserver:anonymous@cvs.sdcc.sourceforge.net:/cvsroot/sdcc -q co $(CVSFLAGS) sdcc
-	cvs -d :pserver:anonymous@cvs.gbdk.sourceforge.net:/cvsroot/gbdk -q co $(CVSFLAGS) gbdk-lib
-	cvs -d :pserver:anonymous@cvs.gbdk.sourceforge.net:/cvsroot/gbdk -q co $(CVSFLAGS) gbdk-support
-
-# Rules for sdcc
-
 
 # Rules for gbdk-support
 gbdk-support-build:
@@ -207,7 +187,7 @@ else
 endif
 
 # Final binary
-binary: binary-tidyup
+binary:
 ifeq ($(ARCHIVETYPE),zip)
 	rm -f $(TOPDIR)/gbdk-$(VER)-$(TARGETOS).zip
 	cd $(BUILDDIR)/..; zip -9Xrq $(TOPDIR)/gbdk-$(VER)-$(TARGETOS).zip gbdk
@@ -215,9 +195,6 @@ else
 	rm -f $(TOPDIR)/gbdk-$(VER)-$(TARGETOS).tar.gz
 	cd $(BUILDDIR)/..; tar czf $(TOPDIR)/gbdk-$(VER)-$(TARGETOS).tar.gz gbdk
 endif
-
-binary-tidyup:
-	rm -rf `find $(BUILDDIR) -name CVS`
 
 # Install
 install: native-build
