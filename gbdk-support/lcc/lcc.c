@@ -67,6 +67,7 @@ static int errcnt;		/* number of errors */
 static int Eflag;		/* -E specified */
 static int Sflag;		/* -S specified */
 static int cflag;		/* -c specified */
+static int Kflag;		/* -K specified */
 static int verbose;		/* incremented for each -v */
 static List ihxchecklist;   /* ihxcheck flags */
 static List mkbinlist;		/* loader files, flags */
@@ -203,9 +204,11 @@ int main(int argc, char *argv[]) {
 			errcnt++;
 
 		// ihxcheck (test for multiple writes to the same ROM address)
-		compose(ihxcheck, ihxchecklist, append(ihxFile, 0), 0);
-		if (callsys(av))
-			errcnt++;
+		if (!Kflag) {
+			compose(ihxcheck, ihxchecklist, append(ihxFile, 0), 0);
+			if (callsys(av))
+				errcnt++;
+		}
 
 		// No need to makebin (.ihx -> .gb) if .ihx is final target
 		if (!target_is_ihx)
@@ -649,6 +652,7 @@ static void help(void) {
 "-g	produce symbol table information for debuggers\n",
 "-help or -?	print this message\n",
 "-Idir	add `dir' to the beginning of the list of #include directories\n",
+"-K don't run ihxcheck test on linker ihx output\n",
 "-lx	search library `x'\n",
 "-N	do not search the standard directories for #include files\n",
 "-n	emit code to check for dereferencing zero pointers\n",
@@ -803,6 +807,9 @@ static void opt(char *arg) {
 	case 'U':	/* -Uname */
 	case 'I':	/* -Idir */
 		clist = append(arg, clist);
+		return;
+	case 'K':
+		Kflag++;
 		return;
 	case 'B':	/* -Bdir -Bstatic -Bdynamic */
 #ifdef sparc
