@@ -117,6 +117,9 @@ gbdk-support-build:
 	@echo Building lcc
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/lcc TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
 	@echo
+	@echo Building ihxcheck
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/ihxcheck TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
+	@echo
 
 gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
 	@echo Installing lcc
@@ -125,10 +128,17 @@ gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
 	@cp $(GBDKSUPPORTDIR)/ChangeLog $(BUILDDIR)
 	@cp $(GBDKSUPPORTDIR)/README $(BUILDDIR)
 	@echo
+	@echo Installing ihxcheck
+	@cp $(GBDKSUPPORTDIR)/ihxcheck/ihxcheck $(BUILDDIR)/bin/ihxcheck$(EXEEXTENSION)
+	@$(TARGETSTRIP) $(BUILDDIR)/bin/ihxcheck*
+	@echo
 
 gbdk-support-clean:
 	@echo Cleaning lcc
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/lcc clean --no-print-directory
+	@echo
+	@echo Cleaning ihxcheck
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/ihxcheck clean --no-print-directory
 	@echo
 
 # Rules for gbdk-lib
