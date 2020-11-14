@@ -40,11 +40,10 @@ DOXYGEN_VER_HAS = $(shell doxygen -v)
 # Base setup
 # Extension to add to executables
 EXEEXTENSION =
-# Host operating system identifier.  The one below should work for
-# most systems.
-HOSTOS = ppc-unknown-linux2.2
+# Host operating system identifier.
+HOSTOS = $(shell uname -s)
 # Target operating system identifier.  Used in the output zip name.
-TARGETOS = ppc-unknown-linux2.2
+TARGETOS ?= $(HOSTOS)
 
 # Directory that gbdk should finally end up in
 TARGETDIR = /opt/gbdk
