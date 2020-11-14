@@ -896,9 +896,9 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Forces MBC1 and compatible to switch the active ROM bank </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Makes MBC1 and other compatible MBCs to switch the active ROM bank </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">b</td><td>Bank to switch to </td></tr>
+    <tr><td class="paramname">b</td><td>ROM bank to switch to </td></tr>
   </table>
   </dd>
 </dl>
@@ -918,6 +918,12 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Switches SRAM bank on MBC1 and other compaticle MBCs </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">b</td><td>SRAM bank to switch to </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -930,6 +936,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Enables SRAM on MBC1 </p>
 
 </div>
 </div>
@@ -942,6 +949,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Disables SRAM on MBC1 </p>
 
 </div>
 </div>
@@ -985,9 +993,15 @@ Variables</h2></td></tr>
 <b>Value:</b><div class="fragment"><div class="line"><a class="code" href="gb_8h.html#a98b848953a95ce2fff6fda643575d74a">_current_bank</a> = (<a class="code" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>), \</div>
 <div class="line">  *(<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> *)0x3000 = 0, \</div>
 <div class="line">  *(<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> *)0x2000 = (<a class="code" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>)</div>
-<div class="ttc" id="gb_8h_html_a4c2e4adef74067fdbb49005bc73de937"><div class="ttname"><a href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></div><div class="ttdeci">void b</div><div class="ttdef"><b>Definition:</b> gb.h:452</div></div>
-<div class="ttc" id="gb_8h_html_a98b848953a95ce2fff6fda643575d74a"><div class="ttname"><a href="gb_8h.html#a98b848953a95ce2fff6fda643575d74a">_current_bank</a></div><div class="ttdeci">__REG _current_bank</div><div class="ttdef"><b>Definition:</b> gb.h:366</div></div>
-</div><!-- fragment --><p>Forces MBC5 to switch the active ROM bank; only 4M roms are supported, </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a6c15ebc660abd3a978137493ab63ffe9">SWITCH_ROM_MBC5_8M()</a></dd></dl>
+<div class="ttc" id="gb_8h_html_a4c2e4adef74067fdbb49005bc73de937"><div class="ttname"><a href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></div><div class="ttdeci">void b</div><div class="ttdef"><b>Definition:</b> gb.h:450</div></div>
+<div class="ttc" id="gb_8h_html_a98b848953a95ce2fff6fda643575d74a"><div class="ttname"><a href="gb_8h.html#a98b848953a95ce2fff6fda643575d74a">_current_bank</a></div><div class="ttdeci">__REG _current_bank</div><div class="ttdef"><b>Definition:</b> gb.h:348</div></div>
+</div><!-- fragment --><p>Makes MBC5 to switch the active ROM bank; only 4M roms are supported, </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a6c15ebc660abd3a978137493ab63ffe9">SWITCH_ROM_MBC5_8M()</a> </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">b</td><td>ROM bank to switch to</td></tr>
+  </table>
+  </dd>
+</dl>
 <p>Note the order used here. Writing the other way around on a MBC1 always selects bank 1 </p>
 
 </div>
@@ -1008,8 +1022,14 @@ Variables</h2></td></tr>
 <b>Value:</b><div class="fragment"><div class="line">*(<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> *)0x3000 = ((<a class="code" href="asm_2gbz80_2types_8h.html#a805c2c164bdd38d72a30c46e84fb568b">UINT16</a>)(<a class="code" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>) &gt;&gt; 8), \</div>
 <div class="line">  *(<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> *)0x2000 = (<a class="code" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>)</div>
 <div class="ttc" id="asm_2gbz80_2types_8h_html_a805c2c164bdd38d72a30c46e84fb568b"><div class="ttname"><a href="asm_2gbz80_2types_8h.html#a805c2c164bdd38d72a30c46e84fb568b">UINT16</a></div><div class="ttdeci">unsigned int UINT16</div><div class="ttdef"><b>Definition:</b> types.h:27</div></div>
-<div class="ttc" id="gb_8h_html_a4c2e4adef74067fdbb49005bc73de937"><div class="ttname"><a href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></div><div class="ttdeci">void b</div><div class="ttdef"><b>Definition:</b> gb.h:452</div></div>
-</div><!-- fragment --><p>Forces MBC5 to switch the active ROM bank; active bank number is not tracked by _current_bank if you use this macro </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a98b848953a95ce2fff6fda643575d74a">_current_bank</a></dd></dl>
+<div class="ttc" id="gb_8h_html_a4c2e4adef74067fdbb49005bc73de937"><div class="ttname"><a href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></div><div class="ttdeci">void b</div><div class="ttdef"><b>Definition:</b> gb.h:450</div></div>
+</div><!-- fragment --><p>Makes MBC5 to switch the active ROM bank; active bank number is not tracked by _current_bank if you use this macro </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a98b848953a95ce2fff6fda643575d74a">_current_bank</a> </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">b</td><td>ROM bank to switch to</td></tr>
+  </table>
+  </dd>
+</dl>
 <p>Note the order used here. Writing the other way around on a MBC1 always selects bank 1 </p>
 
 </div>
@@ -1027,6 +1047,12 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Switches SRAM bank on MBC5 </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">b</td><td>SRAM bank to switch to </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1039,6 +1065,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Enables SRAM on MBC5 </p>
 
 </div>
 </div>
@@ -1051,6 +1078,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Disables SRAM on MBC5 </p>
 
 </div>
 </div>
@@ -3471,18 +3499,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Switches the upper 16k bank of the 32k rom to bank rombank using the MBC1 controller. By default the upper 16k bank is 1. Make sure the rom you compile has more than just bank 0 and bank 1, a 32k rom.</p>
-<p>At the compile stage this is done with these lcc.exe switches: </p><ul>
-<li>-Wf-bo# where # is the number of the ROM banks </li>
-<li>-Wf-ba# where # is the number of the RAM banks</li>
-</ul>
-<p>At the link stage this is done with these lcc.exe switches: </p><ul>
-<li>-Wl-yt# where # is the type of cartridge. 1 for ROM+MBC1 </li>
-<li>-Wl-yo# where # is the number of ROM banks. 2,4,8,16,32 </li>
-<li>-Wl-ya# where # is the number of RAM banks. 2,4,8,16,32</li>
-</ul>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>This should probably be moved into a general section about Banking </dd></dl>
-<p>Tracks current active ROM bank </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a19558f5bbc9fea767f945001ae9cd13f">SWITCH_ROM_MBC1()</a>, <a class="el" href="gb_8h.html#a92d040284342702026eb19dab59b586e">SWITCH_ROM_MBC5()</a> </dd></dl>
+<p>Tracks current active ROM bank </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a19558f5bbc9fea767f945001ae9cd13f">SWITCH_ROM_MBC1()</a>, <a class="el" href="gb_8h.html#a92d040284342702026eb19dab59b586e">SWITCH_ROM_MBC5()</a> This variable is updated automatically when you call <a class="el" href="gb_8h.html#a19558f5bbc9fea767f945001ae9cd13f">SWITCH_ROM_MBC1</a> or <a class="el" href="gb_8h.html#a92d040284342702026eb19dab59b586e">SWITCH_ROM_MBC5</a>, or call a <a class="el" href="asm_2gbz80_2types_8h.html#aa8480aed89a168ec484727f5ac985cd0">BANKED</a> function. </dd></dl>
 
 </div>
 </div>

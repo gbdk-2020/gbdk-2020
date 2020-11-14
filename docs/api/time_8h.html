@@ -181,7 +181,7 @@ Functions</h2></td></tr>
 <p>The value returned is the CPU time used so far as a <a class="el" href="asm_2gbz80_2types_8h.html#ad666a63cb94701b620ce999f84629d23">clock_t</a>.</p>
 <p>To get the number of seconds used, divide by <a class="el" href="time_8h.html#a3d9fc3c745d0880902fe3ea3d5d5f71e">CLOCKS_PER_SEC</a>.</p>
 <p>This is based on <a class="el" href="gb_8h.html#a320fd91d5aa12ba9d1435ab908420998">sys_time</a>, which will wrap around every ~18 minutes. (unsigned 16 bits = 65535 / 60 / 60 = 18.2)</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000002">Todo:</a></b></dt><dd>: Why is CLOCKS_PER_SEC 100 instead of 60 if <a class="el" href="time_8h.html#aec80425d74a9644112e61b235fc9ffa9">clock()</a> uses <a class="el" href="gb_8h.html#a320fd91d5aa12ba9d1435ab908420998">sys_time</a> which is updated once per VBL? <dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a320fd91d5aa12ba9d1435ab908420998">sys_time</a>, <a class="el" href="time_8h.html#ae7841e681c8c9d59818568d39553642c">time()</a> </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>: Why is CLOCKS_PER_SEC 100 instead of 60 if <a class="el" href="time_8h.html#aec80425d74a9644112e61b235fc9ffa9">clock()</a> uses <a class="el" href="gb_8h.html#a320fd91d5aa12ba9d1435ab908420998">sys_time</a> which is updated once per VBL? <dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a320fd91d5aa12ba9d1435ab908420998">sys_time</a>, <a class="el" href="time_8h.html#ae7841e681c8c9d59818568d39553642c">time()</a> </dd></dl>
 </dd></dl>
 
 </div>
