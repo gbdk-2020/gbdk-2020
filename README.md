@@ -3,7 +3,7 @@
 ## Current release for Linux: [Linux Binaries](https://github.com/Zal0/gbdk-2020/releases/latest/download/gbdk-linux64.tar.gz)
 You don't need the sources, unless you wish to compile GBDK-2020 yourself. Download the current release binaries using the links above.
 
-##[Online documentation](https://zal0.github.io/gbdk-2020/)
+## [Online documentation](https://zal0.github.io/gbdk-2020/)
 
 # gbdk-2020
 [GBDK](http://gbdk.sourceforge.net/) A C compiler, assembler, linker and set of libraries for the Z80 like Nintendo Gameboy.
