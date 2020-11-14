@@ -18,10 +18,7 @@ TOOLSPREFIX =
 TARGETCC = $(TOOLSPREFIX)gcc
 TARGETRANLIB = $(TOOLSPREFIX)ranlib
 TARGETAR = $(TOOLSPREFIX)ar
-TARGETCXX = $(TOOLSPREFIX)g++
 TARGETSTRIP = $(TOOLSPREFIX)strip
-# Add extra flags here.  g++ 2.95.4 requires -fdollars-in-identifiers
-TARGETCXXFLAGS =
 
 # Directory containing the source to gbdk-lib
 GBDKLIBDIR = $(TOPDIR)/gbdk-lib
