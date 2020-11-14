@@ -10,7 +10,7 @@ You don't need the sources, unless you wish to compile GBDK-2020 yourself. Downl
 
 # Current status
 - updated CRT and library that suits better for game development
-- the latest nightlies of **sdcc** (the compiler and toolchain) are used from [sourceforge](http://sdcc.sourceforge.net). At the moment of writing this the last stable version is 4.0 which has linker issues and won't work if you want to use banks. Please use one of the nightlies available [here](http://sdcc.sourceforge.net/snap.php) (we used 11875)
+- the latest nightlies of **sdcc** (the compiler and toolchain) are used from [sourceforge](http://sdcc.sourceforge.net). At the moment of writing this the last stable version is 4.0 which has linker issues and won't work if you want to use banks. Please use one of the nightlies available [here](http://sdcc.sourceforge.net/snap.php) (we used 4.0.4 #11952)
 - The compiler driver **lcc** supports the latest sdcc toolchain.
 
 For full list of changes see the [ChangeLog](https://github.com/Zal0/gbdk-2020/blob/master/gbdk-support/ChangeLog) file
@@ -27,9 +27,7 @@ Most users will only need to download and unzip the latest [release](https://git
 Then go to the examples folder and build them (with make.bat on windows or running make). They are a good starting point.
 
 # Docs
-You can still refer to the documentation of GBDK [html](http://gbdk.sourceforge.net/doc/html/book01.html) or [pdf](http://gbdk.sourceforge.net/doc/gbdk-doc.pdf)
-
-The original [website](http://gbdk.sourceforge.net/) also contains a lot of imformation
+Online documentation is avaliable [HERE](https://zal0.github.io/gbdk-2020/)
 
 For SDCC you can check its [website](http://sdcc.sourceforge.net/) and the [manual](http://sdcc.sourceforge.net/doc/sdccman.pdf)
 
