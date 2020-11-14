@@ -10,5 +10,5 @@ var asm_2types_8h =
     [ "ULWORD", "asm_2types_8h.html#a91374712e986ede0145415318d88fbd8", null ],
     [ "DWORD", "asm_2types_8h.html#ad4ab93994d05960e2f96e83b4c45c1cf", null ],
     [ "UDWORD", "asm_2types_8h.html#a332730c89876a91d3c98a6c9a764e23e", null ],
-    [ "fixed", "asm_2types_8h.html#a388faebd4a4d68f3029c0f17bdf2b5e4", null ]
+    [ "fixed", "asm_2types_8h.html#ab61f8ff6a444351a91fc9a67c8e6145f", null ]
 ];

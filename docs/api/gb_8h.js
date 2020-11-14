@@ -60,7 +60,7 @@ var gb_8h =
     [ "SPRITES_8x16", "gb_8h.html#af91d252f07f4764996154820f970c101", null ],
     [ "SPRITES_8x8", "gb_8h.html#aa87bec0d134136fdb727f52cb773b792", null ],
     [ "int_handler", "gb_8h.html#a9508f919d9482d1d51534ccac212454d", null ],
-    [ "OAM_item_t", "gb_8h.html#a77225717d67c57fd1dc7fdf27fa2f4f4", null ],
+    [ "OAM_item_t", "gb_8h.html#a8e5ea12b86bdfc812448c2f5c4336c03", null ],
     [ "remove_VBL", "gb_8h.html#a3b3171b2e81e23b7d1bc402275a9ac71", null ],
     [ "remove_LCD", "gb_8h.html#a4c5db32641410613d785911bafd09ac7", null ],
     [ "remove_TIM", "gb_8h.html#a1ad25695f4885f15325a82ec935e8579", null ],
