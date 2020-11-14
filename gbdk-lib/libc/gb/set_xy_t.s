@@ -1,102 +1,85 @@
 	.include	"global.s"
 
-	;; BANKED:	checked, imperfect
 	.area	_BASE
 
 	;; Set window tile table from BC at XY = DE of size WH = HL
-	;; wh >= (1,1)
 .set_xy_wtt::
 	PUSH	HL		; Store WH
 	LDH	A,(.LCDC)
 	BIT	6,A
-	JR	NZ,1$
-	LD	HL,#0x9800	; HL = origin
-	JR	.set_xy_tt
-1$:
-	LD	HL,#0x9C00	; HL = origin
-	JR	.set_xy_tt
+	JR	Z,.is98
+	JR	.is9c
 	;; Set background tile table from (BC) at XY = DE of size WH = HL
-	;; WH >= (1,1)
 .set_xy_btt::
 	PUSH	HL		; Store WH
 	LDH	A,(.LCDC)
 	BIT	3,A
-	JR	NZ,1$
-	LD	HL,#0x9800	; HL = origin
+	JR	NZ,.is9c
+.is98:
+	LD	HL,#0x9800
 	JR	.set_xy_tt
-1$:
-	LD	HL,#0x9C00	; HL = origin
-;	JR	.set_xy_tt
-
+.is9c:
+	LD	HL,#0x9C00
+	;; Set background tile from (BC) at XY = DE, size WH on stack, to vram from address (HL)
 .set_xy_tt::
 	PUSH	BC		; Store source
-	XOR	A
-	OR	E
-	JR	Z,2$
 
-	LD	BC,#0x20	; One line is 20 tiles
-1$:
-	ADD	HL,BC		; Y coordinate
-	DEC	E
-	JR	NZ,1$
-2$:
-	LD	B,#0x00		; X coordinate
-	LD	C,D
-	ADD	HL,BC
+	SWAP	E
+	RLC	E
+	LD	A,E
+	AND	#0x03
+	ADD	H
+	LD	B,A
+	LD	A,#0xE0
+	AND	E
+	ADD	D
+	LD	C,A		; dest BC = HL + 0x20 * Y + X
 
-	POP	BC		; BC = source
+	POP	HL		; HL = source
 	POP	DE		; DE = WH
-	PUSH	HL		; Store origin
-	PUSH	DE		; Store WH
-3$:
-	LDH	A,(.STAT)
-	AND	#0x02
-	JR	NZ,3$
+	PUSH	DE		; store WH
+	PUSH	BC		; store dest
 
-	LD	A,(BC)		; Copy W tiles
-	LD	(HL+),A
-	INC	BC
-	DEC	D
-	JR	NZ,3$
-	POP	HL		; HL = WH
-	LD	D,H		; Restore D = W
-	POP	HL		; HL = origin
-	DEC	E
-	JR	Z,4$
+3$:				; Copy W tiles
 
-	PUSH	BC		; Next line
-	LD	BC,#0x20	; One line is 20 tiles
-	ADD	HL,BC
-	POP	BC
-
-	PUSH	HL		; Store current origin
-	PUSH	DE		; Store WH
-	JR	3$
-4$:
-	RET
-
-_set_tiles::
-	PUSH	BC
-
-	LDA	HL,11(SP)	; Skip return address and registers
-	LD	A,(HL-)		; BC = src
-	LD	B, A
-	LD	A,(HL-)
-	LD	C, A
-	LD	A,(HL-)		; DE = dst
-	LD	D, A
-	LD	E,(HL)
-	LDA	HL,4(SP)	; Skip return address and registers
-	PUSH	DE		; Store address on stack for set_xy_tt
-	LD	A,(HL+)		; D = x
-	LD	D, A
-	LD	A,(HL+)		; E = y
+	WAIT_STAT
+	LD	A, (HL+)
+	LD	(BC), A
+	
+	LD	A, C		; inc dest and wrap around
+	AND	#0xE0
 	LD	E, A
-	LD	A,(HL+)		; A = w
-	LD	L,(HL)		; L = h
-	LD	H,A		; H = w
+	LD	A, C
+	INC	A
+	AND	#0x1F
+	OR	E
+	LD	C, A
 
-	CALL	.set_xy_tt
+	DEC	D
+	JR	NZ, 3$
 
 	POP	BC
-	RET
+	POP	DE
+
+	DEC	E
+	RET	Z
+
+	PUSH	DE
+
+	LD	A, B		; next row and wrap around
+	AND	#0xFC
+	LD 	E, A		; save high bits
+
+	LD	A,#0x20
+
+	ADD	C
+	LD	C, A
+	ADC	B
+	SUB	C
+	AND	#0x03
+	OR	E		; restore high bits
+	LD	B, A
+
+	PUSH	BC
+	
+	JR	3$

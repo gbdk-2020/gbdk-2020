@@ -6,7 +6,14 @@
 	.org	0x48		; LCD
 .int_LCD:
 	JP	.int_lcd_handler
-	
+
+	.area	_GSINIT
+
+	XOR	A
+	LD	HL,#.int_0x48
+	LD 	C,#0x08
+	RST	0x28
+
 	.area	_BASE
 
 .int_lcd_handler:
@@ -19,7 +26,8 @@
 	LD	A,(HL+)
 	LD      H,(HL)
 	LD	L,A
-				; don't need to check the first one: if 0, then call an empty handler
+	OR	H
+	JR 	Z, 1$
 	RST     0x20		; .call_hl
 	LD	HL, #.int_0x48 + 2
 	LD	A,(HL+)
@@ -39,6 +47,10 @@
 	POP	DE
 	POP	BC
 	POP	HL
+
+	;; we return at least at the beginning of mode 2
+	WAIT_STAT
+
 	POP	AF
 	RETI
 

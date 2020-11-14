@@ -17,6 +17,11 @@
 
 	.area _CRASH_HEADER(ABS)
 
+	.org	0x00
+	nop
+	nop
+	rst	0x38
+
 	.org	0x38
 	di
 	jp	___HandleCrash

@@ -6,6 +6,10 @@ BINS	= colorbar.gb
 
 all:	$(BINS)
 
+make.bat: Makefile
+	@echo "REM Automatically generated from Makefile" > make.bat
+	@make -sn | sed y/\\//\\\\/ | grep -v make >> make.bat
+
 %.o:	%.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 
@@ -19,8 +23,8 @@ all:	$(BINS)
 	$(CC) -o $@ $<
 
 clean:
-	rm -f *.o *.lst *.map *.gb *.ihx *.sym
+	rm -f *.o *.lst *.map *.gb *.ihx *.sym *.cdb *.adb *.asm
 
 # Link file, and write 0x80 at position 0x143 in header
 colorbar.gb:	colorbar.o
-	$(CC) $(CFLAGS) -Wl-yC -o colorbar.gb colorbar.o
+	$(CC) $(CFLAGS) -Wm-yC -o colorbar.gb colorbar.o

@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include <assert.h>
 #include <ctype.h>
 
@@ -24,7 +25,8 @@ typedef struct {
 	const char *com;
 	const char *as;
 	const char *ld;
-	const char *mkbin; 
+	const char *ihxcheck;
+	const char *mkbin;
 } CLASS;
 
 static struct {
@@ -45,12 +47,14 @@ static struct {
 		{ "comopt",		"--noinvariant --noinduction" },
 		{ "commodel", 	"small" },
 		{ "com",		"%sdccdir%sdcc" },
+		{ "comflag",    "-c"},
 		{ "comdefault",	"-mgbz80 --no-std-crt0 --fsigned-char --use-stdout" },
 		{ "as",		"%sdccdir%sdasgb" },
 		{ "ld",		"%sdccdir%sdldgb" },
 		{ "libdir",		"%prefix%lib/%libmodel%/asxxxx/" },
 		{ "libmodel",	"small" },
 		{ "bindir",		"%prefix%bin/" },
+		{ "ihxcheck", "%sdccdir%ihxcheck" },
 		{ "mkbin", "%sdccdir%makebin" }
 };
 
@@ -90,10 +94,11 @@ static CLASS classes[] = {
 			"gb",
 			"%cpp% %cppdefault% -DGB=1 -DGAMEBOY=1 -DINT_16_BITS $1 $2 $3",
 			"%includedefault%",
-			"%com% %comdefault% -Wa-pog -DGB=1 -DGAMEBOY=1 -DINT_16_BITS $1 -c $2 -o $3",
+			"%com% %comdefault% -Wa-pog -DGB=1 -DGAMEBOY=1 -DINT_16_BITS $1 %comflag% $2 -o $3",
 			"%as% -pog $1 $3 $2",
 			"%ld% -n -i $1 -k %libdir%%port%/ -l %port%.lib "
 				"-k %libdir%%plat%/ -l %plat%.lib $3 %libdir%%plat%/crt0.o $2",
+			"%ihxcheck% $2 $1",
 			"%mkbin% -Z $1 $2 $3"
 		},
 		{ "z80",
@@ -105,6 +110,7 @@ static CLASS classes[] = {
 			"%as% -pog $1 $3 $2",
 			"%ld% -n -- -i $1 -b_CODE=0x8100 -k%libdir%%port%/ -l%port%.lib "
 				"-k%libdir%%plat%/ -l%plat%.lib $3 %libdir%%plat%/crt0.o $2",
+			"%ihxcheck% $2 $1",
 			"%mkbin% -Z $1 $2 $3"
 		},
 		{ "z80",
@@ -116,6 +122,7 @@ static CLASS classes[] = {
 			"%as% -pog $1 $3 $2",
 			"%ld% -n -- -i $1 -b_DATA=0x8000 -b_CODE=0x200 -k%libdir%%port%/ -l%port%.lib "
 				"-k%libdir%%plat%/ -l%plat%.lib $3 %libdir%%plat%/crt0.o $2",
+			"%ihxcheck% $2 $1",
 			"%mkbin% -Z $1 $2 $3"
 		}
 };
@@ -217,7 +224,7 @@ static void buildArgs(char **args, const char *template)
 	*last = NULL;
 }
 
-char *suffixes[] = { ".c", ".i", ".asm;.s", ".o;.obj", ".ihx.gb", 0 };
+char *suffixes[] = { ".c", ".i", ".asm;.s", ".o;.obj", ".ihx;.gb", 0 };
 char inputs[256] = "";
 
 char *cpp[256];
@@ -225,6 +232,7 @@ char *include[256];
 char *com[256] = { "", "", "" };
 char *as[256];
 char *ld[256];
+char *ihxcheck[256];
 char *mkbin[256];
 
 const char *starts_with(const char *s1, const char *s2)
@@ -250,7 +258,12 @@ int option(char *arg) {
 		setTokenVal("includedir", tail);
 		return 1;
 	}
-	else if ((tail = starts_with(arg, "-m"))) {
+	else if ((tail = starts_with(arg, "-S"))) {
+		// -S is compile to ASM only
+		// When composing the compile stage, swap in of -S instead of default -c
+		setTokenVal("comflag", "-S");
+	}
+    else if ((tail = starts_with(arg, "-m"))) {
 		/* Split it up into a asm/port pair */
 		char *slash = strchr(tail, '/');
 		if (slash) {
@@ -292,12 +305,13 @@ void finalise(void)
 	buildArgs(com, _class->com);
 	buildArgs(as, _class->as);
 	buildArgs(ld, _class->ld);
+	buildArgs(ihxcheck, _class->ihxcheck);
 	buildArgs(mkbin, _class->mkbin);
 }
 
 void set_gbdk_dir(char* argv_0)
 {
-	char buf[1024];
+	char buf[1024 - 2]; // Path will get quoted below, so reserve two characters for them
 #ifdef __WIN32__
 	char slash = '\\';
 	if (GetModuleFileName(NULL,buf, sizeof(buf)) == 0)
@@ -306,7 +320,8 @@ void set_gbdk_dir(char* argv_0)
 	}
 #else
 	char slash = '/';
-	strcpy(buf, argv_0);
+	strncpy(buf, argv_0, sizeof(buf));
+	buf[sizeof(buf) - 1] = '\0';
 #endif
 
 	// Strip of the trailing GBDKDIR/bin/lcc.exe and use it as the prefix.
@@ -320,7 +335,7 @@ void set_gbdk_dir(char* argv_0)
 		if (p) {
 			*++p = '\0';
 			char quotedBuf[1024];
-			sprintf(quotedBuf, "\"%s\"", buf);
+			snprintf(quotedBuf, sizeof(quotedBuf), "\"%s\"", buf);
 			setTokenVal("prefix", quotedBuf);
 		}
 	}

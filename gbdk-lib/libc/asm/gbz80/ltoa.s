@@ -58,9 +58,9 @@ _ltoa::
 	lda	HL, 4(SP)
 	ld	E, L
 	ld	D, H		; DE : ulong *
-	
+
 	call 	.ltoa
-	
+
 	pop	BC
 	ret
 
@@ -74,10 +74,11 @@ _ltoa::
 	sub	E
 	ld	D, A
 	
-	ld	A, H
+	ld	A, (DE)
 	add	A, A
 	pop	DE
-	jr	NC, 2$
+	jr	NC, .ultoa
+
 1$:
 	push	DE
 	ld	A, (DE)
@@ -108,8 +109,8 @@ _ltoa::
 	ld	A, #'-'
 	ld	(BC), A
 	inc	BC
-2$:
-	call    .ultoa
+
+	call	.ultoa
 	dec	DE
 	ret
 
@@ -141,7 +142,7 @@ _ltoa::
 	rra
 	lda	HL, 2(SP)
 	rla
-	
+
 	ld	A, (HL)
 	adc	A
 	daa
@@ -167,32 +168,50 @@ _ltoa::
 	jr	NZ, 1$
 
 	pop	BC
-	push    BC
+	push	BC
 
 	ld	DE, #((5 << 8) | '0')
 	lda	HL, 6(SP)
 
+	scf
+	ccf
+
 3$:
+	rl	D
 	ld	A, (HL)
 	swap 	A
 	and	#0x0f
+	bit	0, D
+	jr	NZ, 6$
 	or	A
 	jr	Z, 4$
+6$:
 	add	A, E
 	ld	(BC), A
+	set	0, D
 	inc	BC
 4$:
 	ld	A, (HL-)
 	and	#0x0f
+	bit	0, D
+	jr	NZ, 7$
 	or	A
 	jr	Z, 5$
+7$:	
 	add	A, E
 	ld	(BC), A
-	inc	BC	
+	set	0, D
+	inc	BC
 5$:
+	rr	D
 	dec	D
 	jr	NZ, 3$
-	
+	jr	C, 8$
+
+	ld	A, #'0'		; n == 0
+	ld	(BC), A
+	inc	BC
+8$:
 	xor	A
 	ld	(BC), A		; write trailing #0
 

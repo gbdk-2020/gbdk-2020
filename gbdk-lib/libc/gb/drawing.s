@@ -163,10 +163,7 @@
 
 	;; Is the STAT check required, as we are already in the HBL?
 .lcd::
-1$:
-	LDH	A,(.STAT)
-	BIT	1,A
-	JR	NZ,1$
+	WAIT_STAT
 
 	LDH	A,(.LCDC)
 	AND	#0b11101111	; Set BG Chr to 0x8800
@@ -1314,9 +1311,7 @@ nchgy$:
 	JR	NZ,3$
 	LD	E,#0x00
 3$:
-	LDH	A,(.STAT)
-	BIT	1,A
-	JR	NZ,3$
+	WAIT_STAT
 
 	LD	A,(HL)
 	AND	C
@@ -1352,9 +1347,7 @@ nchgy$:
 	JR      NZ,12$
 	LD      C,#0x00
 12$:
-	LDH     A,(.STAT)
-	BIT     1,A
-	JR      NZ,12$
+	WAIT_STAT
 
 	LD      A,(HL)
 	OR      B
@@ -1384,9 +1377,7 @@ nchgy$:
 	JR      NZ,22$
 	LD      C,#0x00
 22$:
-	LDH     A,(.STAT)
-	BIT     1,A
-	JR      NZ,22$
+	WAIT_STAT
 
 	LD      A,(HL)
 	XOR     B
@@ -1416,9 +1407,7 @@ nchgy$:
 	JR      Z,32$
 	LD      C,#0xFF
 32$:
-	LDH     A,(.STAT)
-	BIT     1,A
-	JR      NZ,32$
+	WAIT_STAT
 
 	LD      A,(HL)
 	AND     B
@@ -1455,10 +1444,7 @@ nchgy$:
 	LD      A,(BC)
 	LD      C,A
 
-gp$:
-	LDH	A,(.STAT)
-	BIT	1,A
-	JR	NZ,gp$
+	WAIT_STAT
 
 	LD	A,(HL+)
 	LD	D,A
@@ -1467,13 +1453,13 @@ gp$:
 	LD	B,#0
 	LD	A,D
 	AND	C
-	JR	Z,npix$
+	JR	Z,1$
 	SET	0,B
-npix$:	LD	A,E
+1$:	LD	A,E
 	AND	C
-	JR	Z,end$
+	JR	Z,2$
 	SET	1,B
-end$:	LD	E,B
+2$:	LD	E,B
 	RET
 
 	;; Write character C
@@ -1532,7 +1518,7 @@ end$:	LD	E,B
 	LD	A,(.fg_colour)
 	LD	C,A
 	.endif
-chrloop$:
+1$:
 	LD	A,(DE)
 	INC	DE
 	PUSH	DE
@@ -1550,42 +1536,40 @@ chrloop$:
 	.else
 	BIT	0,L
 	.endif
-	JR	Z,a0$
+	JR	Z,2$
 	CPL
-a0$:	OR	B
+2$:	OR	B
 	.if	0
 	BIT	2,C
 	.else
 	BIT	0,C
 	.endif
-	JR	NZ,a1$
+	JR	NZ,3$
 	XOR	B
-a1$:	LD	D,A
+3$:	LD	D,A
 	XOR	A
 	.if	0
 	BIT	1,C
 	.else
 	BIT	1,L
 	.endif
-	JR	Z,b0$
+	JR	Z,4$
 	CPL
-b0$:	OR	B
+4$:	OR	B
 	.if	0
 	BIT	3,C
 	.else
 	BIT	1,C
 	.endif
-	JR	NZ,b1$
+	JR	NZ,5$
 	XOR	B
-b1$:	
+5$:	
 	LD	E,A
 	.if	1
 	POP	HL
 	.endif
-chrwait$:
-	LDH	A,(.STAT)
-	BIT	1,A
-	JR	NZ,chrwait$
+
+	WAIT_STAT
 
 	LD	A,D
 	LD	(HL+),A
@@ -1594,7 +1578,7 @@ chrwait$:
 	POP	DE
 	LD	A,L
 	AND	#0x0F
-	JR	NZ,chrloop$
+	JR	NZ,1$
 	RET
 
 	.area	_CODE

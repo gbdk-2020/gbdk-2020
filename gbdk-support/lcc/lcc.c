@@ -12,6 +12,15 @@ static char rcsid[] = "$Id: lcc.c,v 1.6 2001/10/28 18:38:13 michaelh Exp $";
 #include <ctype.h>
 #include <signal.h>
 
+#ifdef _WIN32
+# include <io.h>
+# include <process.h>
+#else
+# include <unistd.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+#endif
+
 #ifndef TEMPDIR
 #define TEMPDIR "/tmp"
 #endif
@@ -27,7 +36,6 @@ List append(char *, List);
 extern char *basepath(char *);
 static int callsys(char *[]);
 extern char *concat(const char *, const char *);
-static int compile(char *, char *);
 static void compose(char *[], List, List, List);
 static void error(char *, char *);
 static char *exists(char *);
@@ -47,11 +55,9 @@ extern char *stringf(const char *, ...);
 extern int suffix(char *, char *[], int);
 extern char *tempname(char *);
 
-extern int access(char *, int);
-//extern int getpid(void);
 static void Fixllist();
 
-extern char *cpp[], *include[], *com[], *as[], *ld[], *mkbin[], inputs[], *suffixes[];
+extern char *cpp[], *include[], *com[], *as[], *ld[], *ihxcheck[], *mkbin[], inputs[], *suffixes[];
 extern int option(char *);
 extern void set_gbdk_dir(char*);
 
@@ -61,7 +67,9 @@ static int errcnt;		/* number of errors */
 static int Eflag;		/* -E specified */
 static int Sflag;		/* -S specified */
 static int cflag;		/* -c specified */
+static int Kflag;		/* -K specified */
 static int verbose;		/* incremented for each -v */
+static List ihxchecklist;   /* ihxcheck flags */
 static List mkbinlist;		/* loader files, flags */
 static List llist[2];		/* loader files, flags */
 static List alist;		/* assembler flags */
@@ -169,29 +177,49 @@ int main(int argc, char *argv[]) {
 				error("can't find `%s'", argv[i]);
 		}
 
-	if (errcnt == 0 && !Eflag && !Sflag && !cflag && llist[1]) {
+    // Perform Link stage unless some conditions prevent it
+	if (errcnt == 0 && !Eflag && !cflag && !Sflag && llist[1]) {
 		if(!outfile)
 			outfile = concat("a", first(suffixes[4]));
 
-		//file.gb to file.ihx (don't use tmpfile becuase maps and other stuffs are created there)
+		//file.gb to file.ihx (don't use tmpfile because maps and other stuffs are created there)
+
+		// Check to see if output is a .ihx file
+		char * ihx_suffix[1] = {".ihx"};
+		int target_is_ihx = (suffix(outfile, ihx_suffix, 1) == 0);
+
 		char ihxFile[255];
 		int lastP = strrchr(outfile, '.') - outfile;
 		strncpy(ihxFile, outfile, lastP);
 		ihxFile[lastP] = '\0';
 		strcat(ihxFile, ".ihx");
-		append(ihxFile, rmlist);
+
+		// Only remove .ihx from the delete-list if it's not the final target
+		if (!target_is_ihx)
+			append(ihxFile, rmlist);
 
 		Fixllist();
 		compose(ld, llist[0], llist[1], append(ihxFile, 0));
 		if (callsys(av))
 			errcnt++;
 
-		if(errcnt == 0)
-		{
-			//makebin
-			compose(mkbin, mkbinlist, append(ihxFile, 0), append(outfile, 0));
+		// ihxcheck (test for multiple writes to the same ROM address)
+		if (!Kflag) {
+			compose(ihxcheck, ihxchecklist, append(ihxFile, 0), 0);
 			if (callsys(av))
 				errcnt++;
+		}
+
+		// No need to makebin (.ihx -> .gb) if .ihx is final target
+		if (!target_is_ihx)
+		{
+			if(errcnt == 0)
+			{
+				//makebin
+				compose(mkbin, mkbinlist, append(ihxFile, 0), append(outfile, 0));
+				if (callsys(av))
+					errcnt++;
+			}
 		}
 	}
 	rm(rmlist);
@@ -202,7 +230,7 @@ int main(int argc, char *argv[]) {
 static void Fixllist()
 {
 	#define BEGINS_WITH(A, B) (A ? strncmp(A, B, sizeof(B) - 1) == 0 : 0)
-	//-g .OAM=0xC000 -g .STACK=0xDEFF -g .refresh_OAM=0xFF80 -b _DATA=0xc0a0 -b _CODE=0x0200 
+	//-g .OAM=0xC000 -g .STACK=0xE000 -g .refresh_OAM=0xFF80 -b _DATA=0xc0a0 -b _CODE=0x0200
 
 	int oamDefFound = 0;
 	int stackDefFound = 0;
@@ -236,7 +264,7 @@ static void Fixllist()
     }
 	if(!stackDefFound){
 		llist[0] = append("-g", llist[0]);
-        llist[0] = append(".STACK=0xDEFF", llist[0]);
+        llist[0] = append(".STACK=0xE000", llist[0]);
     }
 	if(!refreshOAMDefFound) {
         llist[0] = append("-g", llist[0]);
@@ -297,16 +325,12 @@ char *basepath(char *name) {
 	return s;
 }
 
-#ifdef WIN32
-#include <process.h>
-#else
+#ifndef WIN32
 #define _P_WAIT 0
-extern int fork(void);
-extern int wait(int *);
-extern void execv(const char *, char *[]);
 
 static int _spawnvp(int mode, const char *cmdname, char *argv[]) {
-	int pid, n, status;
+	int status;
+	pid_t pid, n;
 
 	switch (pid = fork()) {
 	case -1:
@@ -354,7 +378,7 @@ void fixQuotes(char* str)
 {
 	while(*str != '\"' && *str != '\0')
 		str ++;
-	
+
 	char* src = str;
 	if(*src == '\"')
 	{
@@ -517,8 +541,10 @@ static char *first(char *list) {
 
 	if (s) {
 		char buf[1024];
-		strncpy(buf, list, s - list);
-		buf[s - list] = '\0';
+		size_t len = s - list;
+		if(len >= sizeof(buf)) len = sizeof(buf)-1;
+		strncpy(buf, list, len);
+		buf[len] = '\0';
 		return strsave(buf);
 	}
 	else
@@ -534,24 +560,25 @@ static int filename(char *name, char *base) {
 		base = basepath(name);
 	switch (suffix(name, suffixes, 4)) {
 	case 0:	/* C source files */
-		/*if (Sflag)
-			status = compile(name, outfile ? outfile : concat(base, first(suffixes[3])));
-		else if ((status = compile(name, stemp ? stemp : (stemp = tempname(first(suffixes[3]))))) == 0)
-			return filename(stemp, base);
-		break;*/
 		{
 			char *ofile;
-			if (cflag && outfile)
+			if ((cflag || Sflag) && outfile)
 				ofile = outfile;
 			else if (cflag)
 				ofile = concat(base, first(suffixes[3]));
+			else if (Sflag) {
+				// When compiling to asm only, set outfile as .asm
+				ofile = concat(base, ".asm");
+			}
 			else
 			{
-				ofile = tempname(first(suffixes[3]));
+    			ofile = tempname(first(suffixes[3]));
+
 				char* ofileBase = basepath(ofile);
 				rmlist = append(stringf("%s/%s%s", tempdir, ofileBase, ".asm"), rmlist);
 				rmlist = append(stringf("%s/%s%s", tempdir, ofileBase, ".lst"), rmlist);
 				rmlist = append(stringf("%s/%s%s", tempdir, ofileBase, ".sym"), rmlist);
+				rmlist = append(stringf("%s/%s%s", tempdir, ofileBase, ".adb"), rmlist);
 			}
 
 			compose(com, clist, append(name, 0), append(ofile, 0));
@@ -625,6 +652,7 @@ static void help(void) {
 "-g	produce symbol table information for debuggers\n",
 "-help or -?	print this message\n",
 "-Idir	add `dir' to the beginning of the list of #include directories\n",
+"-K don't run ihxcheck test on linker ihx output\n",
 "-lx	search library `x'\n",
 "-N	do not search the standard directories for #include files\n",
 "-n	emit code to check for dereferencing zero pointers\n",
@@ -643,7 +671,7 @@ static void help(void) {
 "-v	show commands as they are executed; 2nd -v suppresses execution\n",
 "-w	suppress warnings\n",
 "-Woarg	specify system-specific `arg'\n",
-"-W[pfal]arg	pass `arg' to the preprocessor, compiler, assembler, or linker\n",
+"-W[pfalim]arg	pass `arg' to the preprocessor, compiler, assembler, linker, ihxcheck, or makebin\n",
 	0 };
 	int i;
 	char *s;
@@ -722,6 +750,9 @@ static void opt(char *arg) {
 			case 'a': /* Assembler */
 				alist = append(&arg[3], alist);
 				return;
+            case 'i': /* ihxcheck arg list */
+                ihxchecklist = append(&arg[3], ihxchecklist);
+                return;
 			case 'l': /* Linker */
 				if(arg[4] == 'y' && (arg[5] == 't' || arg[5] == 'o' || arg[5] == 'a') && (arg[6] != '\0' && arg[6] != ' '))
 					goto makebinoption; //automatically pass -yo -ya -yt options to makebin (backwards compatibility)
@@ -731,7 +762,7 @@ static void opt(char *arg) {
 					llist[0] = append(tmp, llist[0]);     //splitting the args into 2 works on Win and Linux
 					if(arg[5]){
 						char *tmp2 = malloc(256);
-						sprintf(tmp2, "%s", &arg[5]); 
+						sprintf(tmp2, "%s", &arg[5]);
 						llist[0] = append(tmp2, llist[0]);
 					}
 				}return;
@@ -739,16 +770,19 @@ static void opt(char *arg) {
 			makebinoption:{
 				char *tmp = malloc(256);
 				char *tmp2 = malloc(256);
+				tmp2[0] = '\0'; // Zero out second arg by default
 				if(arg[4] == 'y') {
 					sprintf(tmp, "%c%c%c", arg[3], arg[4], arg[5]); //-yo -ya -yt -yl -yk -yn
-					sprintf(tmp2, "%s", &arg[6]);
+					if (!(arg[5] == 'c' || arg[5] == 'C' || arg[5] == 's' || arg[5] == 'j')) // Don't add secong arg for -yc -yC -ys -yj
+						sprintf(tmp2, "%s", &arg[6]);
 				} else {
 					sprintf(tmp, "%c%c", arg[3], arg[4]); //-s
 					if(arg[5])
 						sprintf(tmp2, "%s", &arg[5]);
 				}
 				mkbinlist = append(tmp, mkbinlist);
-				mkbinlist = append(tmp2, mkbinlist);
+				if (tmp2[0] != '\0')  // Only append second argument if it's populated
+					mkbinlist = append(tmp2, mkbinlist);
 				}return;
 			}
 		fprintf(stderr, "%s: %s ignored\n", progname, arg);
@@ -774,12 +808,15 @@ static void opt(char *arg) {
 	case 'I':	/* -Idir */
 		clist = append(arg, clist);
 		return;
+	case 'K':
+		Kflag++;
+		return;
 	case 'B':	/* -Bdir -Bstatic -Bdynamic */
 #ifdef sparc
 		if (strcmp(arg, "-Bstatic") == 0 || strcmp(arg, "-Bdynamic") == 0)
 			llist[1] = append(arg, llist[1]);
 		else
-#endif	
+#endif
 		{
 			static char *path;
 			if (path)
@@ -809,12 +846,13 @@ static void opt(char *arg) {
 				fprintf(stderr, "%s: %s ignored\n", progname, arg);
 			return;
 		}
-#endif         
+#endif
 	}
 	if (arg[2] == 0)
 		switch (arg[1]) {	/* single-character options */
-		case 'S':
+		case 'S':        // Requested compile to assembly only
 			Sflag++;
+			option(arg); // Update composing the compile stage, use of -S instead of -c
 			return;
 		case 'O':
 			fprintf(stderr, "%s: %s ignored\n", progname, arg);
@@ -880,13 +918,14 @@ static List path2list(const char *path) {
 	while (*path) {
 		char *p, buf[512];
 		if (p = strchr(path, sep)) {
-			assert(p - path < sizeof buf);
-			strncpy(buf, path, p - path);
-			buf[p - path] = '\0';
+			size_t len = p - path;
+			if(len >= sizeof(buf)) len = sizeof(buf)-1;
+			strncpy(buf, path, len);
+			buf[len] = '\0';
 		}
 		else {
-			assert(strlen(path) < sizeof buf);
-			strcpy(buf, path);
+			strncpy(buf, path, sizeof(buf));
+			buf[sizeof(buf)-1] = '\0';
 		}
 		if (!find(buf, list))
 			list = append(strsave(buf), list);
@@ -935,7 +974,7 @@ char *stringf(const char *fmt, ...) {
 	int n;
 
 	va_start(ap, fmt);
-	n = vsprintf(buf, fmt, ap);
+	n = vsnprintf(buf, sizeof(buf), fmt, ap);
 	va_end(ap);
 	return strsave(buf);
 }

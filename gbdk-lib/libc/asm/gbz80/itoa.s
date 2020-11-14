@@ -131,45 +131,51 @@ _itoa::
 	pop	BC
 	push    BC
 
-	ld	DE, #((0x0f << 8) | '0')
+	ld	DE, #'0'
 	lda	HL, 4(SP)
 	
 	ld	A, (HL-)
-	and	D
+	and	#0x0f
 	or	A
 	jr	Z, 3$
 	add	A, E
+	ld	D, #1		; make D nonzero
 	ld	(BC), A
 	inc	BC	
 3$:
 	ld	A, (HL)
 	swap 	A
-	and	D
-	or	A
+	and	#0x0f
+	add	D
 	jr	Z, 4$
+	sub 	D
 	add	A, E
+	ld	D, #1		; make D nonzero
 	ld	(BC), A
 	inc	BC
 4$:
 	ld	A, (HL-)
-	and	D
-	or	A
+	and	#0x0f
+	add	D
 	jr	Z, 5$
+	sub	D
 	add	A, E
+	ld	D, #1		; make D nonzero
 	ld	(BC), A
 	inc	BC	
 5$:
 	ld	A, (HL)
 	swap 	A
-	and	D
-	or	A
+	and	#0x0f
+	add	D
 	jr	Z, 6$
+	sub	D
 	add	A, E
 	ld	(BC), A
 	inc	BC
 6$:
 	ld	A, (HL)
-	and	D
+	and	#0x0f
 	add	A, E
 	ld	(BC), A
 	inc	BC

@@ -79,7 +79,7 @@ signexte:
         sbc     a,a
         ld      d,a
 
-        jp      .mul16
+        jr      .mul16
 
 __muluchar:
         ld      hl,#2
@@ -95,7 +95,7 @@ __muluchar:
         ld      d,a
         ld      b,a
 
-        jp      .mul16
+        jr      .mul16
 
 __mulint:
         ld      hl,#2
@@ -133,7 +133,7 @@ __mulint:
         ;; Optimise for the case when this side has 8 bits of data or
         ;; less.  This is often the case with support address calls.
         or      a
-        jp      NZ,1$
+        jr      NZ,1$
 
         ld      b,#8
         ld      a,c
@@ -143,7 +143,7 @@ __mulint:
         add     hl,hl
         rl      c
         rla                     ;DLE 27/11/98
-        jp      NC,2$
+        jr      NC,2$
         add     hl,de
 2$:
         dec     b

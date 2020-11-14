@@ -36,7 +36,7 @@ _sgb_check::			; Banked
 	PUSH	BC
 	LD	HL,#.MLT_REQ_2
 	CALL	.sgb_transfer
-	CALL	.wait4
+	CALL	.sgb_wait4
 	LDH	A,(.P1)
 	AND	#0x03
 	CP	#0x03
@@ -76,7 +76,7 @@ _sgb_check::			; Banked
 .sgb_mode:
 	LD	HL,#.MLT_REQ_1
 	CALL	.sgb_transfer
-	CALL	.wait4
+	CALL	.sgb_wait4
 	LD	E,#0xFF
 	POP	BC
 	RET
@@ -88,7 +88,7 @@ _sgb_transfer::
 	LD	H,(HL)
 	LD	L,A
 	CALL	.sgb_transfer
-	CALL	.wait4
+	CALL	.sgb_wait4
 	POP	BC
 	RET
 
@@ -141,11 +141,10 @@ _sgb_transfer_nowait::
 
 	POP	BC
 	DEC	B
-	RET	Z
-	CALL	.wait4		; Software wait for about 4 frames
-	JR	1$
+	JR	NZ, 1$
+	RET
 
-.wait4:
+.sgb_wait4::
 	LD	DE,#7000
 1$:
 	NOP			; 1 +
@@ -157,9 +156,9 @@ _sgb_transfer_nowait::
 	JR	NZ,1$		; 3 = 10 cycles
 	RET
 
-.MLT_REQ_1:
-	.byte	.MLT_REQ*8|1,0x00,0x00,0x00,0x00,0x00,0x00,0x00
-	.byte	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
-.MLT_REQ_2:
-	.byte	.MLT_REQ*8|1,0x01,0x00,0x00,0x00,0x00,0x00,0x00
-	.byte	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
+.MLT_REQ_1::
+	.byte	.MLT_REQ*8|1,0x00
+.MLT_REQ_2::
+	.byte	.MLT_REQ*8|1,0x01
+.MLT_REQ_4::
+	.byte	.MLT_REQ*8|1,0x03

@@ -1,0 +1,24 @@
+var searchData=
+[
+  ['_5f_5fassert',['__assert',['../assert_8h.html#ad21a069a92c53643b2e3eaaa73a742fd',1,'assert.h']]],
+  ['_5f_5fbool_5ftrue_5ffalse_5fare_5fdefined',['__bool_true_false_are_defined',['../stdbool_8h.html#a665b0cc9ee2ced31785321d55cde349e',1,'stdbool.h']]],
+  ['_5f_5fcall_5f_5fbanked',['__call__banked',['../far__ptr_8h.html#aa45a2312a2584abb8733a052f66b4a90',1,'far_ptr.h']]],
+  ['_5f_5fcall_5fbanked_5faddr',['__call_banked_addr',['../far__ptr_8h.html#a1344c26ca298a9eadea4bcfea6442ae3',1,'far_ptr.h']]],
+  ['_5f_5fcall_5fbanked_5fbank',['__call_banked_bank',['../far__ptr_8h.html#a6f1c13e2fad9dd04645a000050d9f382',1,'far_ptr.h']]],
+  ['_5f_5fcall_5fbanked_5fptr',['__call_banked_ptr',['../far__ptr_8h.html#a27792b7fc3796a1e1828d4c5812e5b21',1,'far_ptr.h']]],
+  ['_5f_5ffar_5fptr',['__far_ptr',['../union____far__ptr.html',1,'']]],
+  ['_5f_5fgbdk_5fversion',['__GBDK_VERSION',['../gb_8h.html#a459449876dfba6299bf055c882d78334',1,'gb.h']]],
+  ['_5f_5fhandlecrash',['__HandleCrash',['../crash__handler_8h.html#a95aa98ab16e49eac55dcdfe42f4610cc',1,'crash_handler.h']]],
+  ['_5f_5fptrdiff_5ft_5fdefined',['__PTRDIFF_T_DEFINED',['../stddef_8h.html#a9e3909fa823b8c4e3fc624d77fb946bf',1,'stddef.h']]],
+  ['_5f_5freentrant',['__reentrant',['../stdlib_8h.html#a83798998ad669e85a8f75d6490191760',1,'stdlib.h']]],
+  ['_5f_5freg',['__REG',['../hardware_8h.html#a0b42e4dadd74c927e8b801b4f42c0e44',1,'hardware.h']]],
+  ['_5f_5fsetjmp',['__setjmp',['../setjmp_8h.html#a299cf119e588646778caab18b90a41a5',1,'setjmp.h']]],
+  ['_5f_5fsize_5ft_5fdefined',['__SIZE_T_DEFINED',['../stddef_8h.html#a8de3167f7b52ff5a2f538858cb5e32d3',1,'stddef.h']]],
+  ['_5f_5fwchar_5ft_5fdefined',['__WCHAR_T_DEFINED',['../stddef_8h.html#a4aa39aaff620f750e11ece0766b185fd',1,'stddef.h']]],
+  ['_5fcpu',['_cpu',['../gb_8h.html#adbc4b02721d3ab48caf53e0228fd3eb5',1,'gb.h']]],
+  ['_5fcurrent_5fbank',['_current_bank',['../gb_8h.html#a98b848953a95ce2fff6fda643575d74a',1,'gb.h']]],
+  ['_5ffixed',['_fixed',['../union__fixed.html',1,'']]],
+  ['_5fio_5fin',['_io_in',['../gb_8h.html#a7783f5ed79717411d55f62b8ef3f4592',1,'gb.h']]],
+  ['_5fio_5fout',['_io_out',['../gb_8h.html#a29d93722542506d0acb9b23c85ff1c5e',1,'gb.h']]],
+  ['_5fio_5fstatus',['_io_status',['../gb_8h.html#a83d08d752bb2f2406084a9afa7988b98',1,'gb.h']]]
+];

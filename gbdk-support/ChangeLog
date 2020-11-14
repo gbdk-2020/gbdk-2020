@@ -1,3 +1,17 @@
+gbdk3-4.0.1
+    - Updated documentation
+    - IHX is checked for correctness before the makebin stage. That allows to warn about overwriting the same ROM addresses (SDCC toolchain does not check this anymore). 
+    - Library was improved
+        - set_*_tiles() now wrap maps around horizontal and vertical boundaries correctly
+        - new fill_*_rect() functions to clear rectangle areas
+        - runtime initialization code now does not initialize whole WRAM with zeros anymore, that allows BGB to raise exceptions when code tries to read WRAM that was not written before.
+        - enhanced SGB support
+            - joypad_init()/joypad_ex() support for multiple joypads
+            - SGB border example
+        - _current_bank variable is updated when use bank switching macros
+    - Reorganized examples: each example is in separate folder now, that simplifies understanding.
+    - Lcc improvements
+    
 gbdk3-4.0
     - GBDK now requires SDCC 4.0.3 or higher, that has fully working toolchain. Old link-gbz80 linker is not used anymore, sdldgb and makebin are used to link objects and produce binary roms; maccer tool is no longer needed either
         - SDCC 4.0.3 has much better code generator which produces smaller and faster code. Code is twice faster

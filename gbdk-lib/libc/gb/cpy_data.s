@@ -5,9 +5,7 @@
 	;; Copy part (size = DE) of the VRAM from (BC) to (HL)
 .copy_vram::
 1$:
-	LDH	A,(.STAT)
-	AND	#0x02
-	JR	NZ,1$
+	WAIT_STAT
 
 	LD	A,(BC)
 	LD	(HL+),A

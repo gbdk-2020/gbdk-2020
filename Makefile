@@ -6,12 +6,10 @@
 #
 TOPDIR = $(shell pwd)
 
-# Package name, used for tarballs and cvs
+# Package name, used for tarballs
 PKG = gbdk
 # Version, used for tarballs
 VER = 3.00
-# Short version, used for cvs tags
-SHORTVER = 300
 
 # Prefix to add to the standard tools.  Usefull for a standard gcc
 # cross-compile.
@@ -20,19 +18,25 @@ TOOLSPREFIX =
 TARGETCC = $(TOOLSPREFIX)gcc
 TARGETRANLIB = $(TOOLSPREFIX)ranlib
 TARGETAR = $(TOOLSPREFIX)ar
-TARGETCXX = $(TOOLSPREFIX)g++
 TARGETSTRIP = $(TOOLSPREFIX)strip
-# Add extra flags here.  g++ 2.95.4 requires -fdollars-in-identifiers
-TARGETCXXFLAGS =
 
 # Directory containing the source to gbdk-lib
 GBDKLIBDIR = $(TOPDIR)/gbdk-lib
 # Directory containing the source to gbdk-support
 GBDKSUPPORTDIR = $(TOPDIR)/gbdk-support
 
+# Directory with docs config and output (via doxygen)
+GBDKDOCSDIR = $(TOPDIR)/docs
+
+# Doxygen command and version check info
+DOXYGENCMD = doxygen
+DOXYGEN_VER_REQ = 1.8.17
+DOXYGEN_VER_HAS = $(shell doxygen -v)
+
+
 # Base setup
 # Extension to add to executables
-EXEEXTENSION = 
+EXEEXTENSION =
 # Host operating system identifier.  The one below should work for
 # most systems.
 HOSTOS = ppc-unknown-linux2.2
@@ -51,6 +55,10 @@ all: native-build
 clean: gbdk-support-clean gbdk-lib-clean
 
 distclean: clean build-dir-clean
+
+docs: doxygen-generate
+
+docsclean: doxygen-clean
 
 # Build rule for michaelh's machine to spin a release
 sapphire-full-build: native-build binary cross-clean cross-linux-mingw32-build
@@ -86,11 +94,10 @@ src: clean
 	rm -rf gbdk
 	mkdir -p gbdk
 	cp -r Makefile sdcc gbdk-lib gbdk-support gbdk
-	rm -rf `find gbdk -name CVS`
 	tar czf gbdk-$(VER).tar.gz gbdk
 
 # Base rules
-gbdk-build: gbdk-support-build gbdk-lib-build 
+gbdk-build: gbdk-support-build gbdk-lib-build
 
 gbdk-install: $(BUILDDIR)/bin gbdk-support-install gbdk-lib-install sdcc-install
 
@@ -102,27 +109,13 @@ $(BUILDDIR)/bin:
 build-dir-clean:
 	rm -r $(BUILDDIR)
 
-# Setup rules
-CVSFLAGS = -r $(PKG)-$(SHORTVER)
-
-setup-from-local:
-	rm -rf sdcc gbdk-lib gbdk-support
-	ln -s ../sdcc
-	ln -s ../gbdk-lib
-	ln -s ../gbdk-support
-
-setup-from-cvs:
-	cvs -d :pserver:anonymous@cvs.sdcc.sourceforge.net:/cvsroot/sdcc -q co $(CVSFLAGS) sdcc
-	cvs -d :pserver:anonymous@cvs.gbdk.sourceforge.net:/cvsroot/gbdk -q co $(CVSFLAGS) gbdk-lib
-	cvs -d :pserver:anonymous@cvs.gbdk.sourceforge.net:/cvsroot/gbdk -q co $(CVSFLAGS) gbdk-support
-
-# Rules for sdcc
-
-
 # Rules for gbdk-support
 gbdk-support-build:
 	@echo Building lcc
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/lcc TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
+	@echo
+	@echo Building ihxcheck
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/ihxcheck TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
 	@echo
 
 gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
@@ -132,11 +125,18 @@ gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
 	@cp $(GBDKSUPPORTDIR)/ChangeLog $(BUILDDIR)
 	@cp $(GBDKSUPPORTDIR)/README $(BUILDDIR)
 	@echo
+	@echo Installing ihxcheck
+	@cp $(GBDKSUPPORTDIR)/ihxcheck/ihxcheck $(BUILDDIR)/bin/ihxcheck$(EXEEXTENSION)
+	@$(TARGETSTRIP) $(BUILDDIR)/bin/ihxcheck*
+	@echo
 
 gbdk-support-clean:
 	@echo Cleaning lcc
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/lcc clean --no-print-directory
-	@echo 
+	@echo
+	@echo Cleaning ihxcheck
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/ihxcheck clean --no-print-directory
+	@echo
 
 # Rules for gbdk-lib
 gbdk-lib-build: check-SDCCDIR
@@ -194,7 +194,7 @@ else
 endif
 
 # Final binary
-binary: binary-tidyup
+binary:
 ifeq ($(ARCHIVETYPE),zip)
 	rm -f $(TOPDIR)/gbdk-$(VER)-$(TARGETOS).zip
 	cd $(BUILDDIR)/..; zip -9Xrq $(TOPDIR)/gbdk-$(VER)-$(TARGETOS).zip gbdk
@@ -203,15 +203,27 @@ else
 	cd $(BUILDDIR)/..; tar czf $(TOPDIR)/gbdk-$(VER)-$(TARGETOS).tar.gz gbdk
 endif
 
-binary-tidyup:
-	rm -rf `find $(BUILDDIR) -name CVS`
-
 # Install
 install: native-build
 	mkdir -p $(TARGETDIR)
 	cp -r $(BUILDDIR)/* $(TARGETDIR)
-	
+
 check-SDCCDIR:
 ifndef SDCCDIR
 	$(error SDCCDIR is undefined)
 endif
+
+# First purge doxygen output directory to clear potentially stale output.
+# Next change working dir so "include" is the root doxygen works in.
+# That prevents it from including the path leading up to there in the
+# output, even though it's instructed to only process starting at "include".
+doxygen-generate:
+ifeq ($(shell expr "$(DOXYGEN_VER_HAS)" \< "$(DOXYGEN_VER_REQ)"), 1)
+	$(error Doxygen version $(DOXYGEN_VER_HAS) is too old! Minimum version is $(DOXYGEN_VER_REQ))
+endif
+	rm -rf $(GBDKDOCSDIR)/api; \
+	  cd "$(GBDKLIBDIR)/include"; \
+	  GBDKDOCSDIR="$(GBDKDOCSDIR)" GBDKLIBDIR="$(GBDKLIBDIR)" $(DOXYGENCMD) "$(GBDKDOCSDIR)/config/gbdk-2020-doxyfile"
+
+doxygen-clean:
+	rm -rf $(GBDKDOCSDIR)/api

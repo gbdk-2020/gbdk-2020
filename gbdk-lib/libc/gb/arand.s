@@ -17,12 +17,23 @@
 	.globl	_rand
 
 	.area	_BSS
+.start_arand_vars:
+
 .randarr:
 	.ds	55
 .raxj:
 	.ds	0x01
 .raxk:
 	.ds	0x01
+	
+.end_arand_vars:
+
+	.area	_GSINIT
+
+	XOR	A
+	LD	HL,#.start_arand_vars
+	LD 	C,#(.end_arand_vars - .start_arand_vars)
+	RST	0x28
 
 	.area	_CODE
 
@@ -66,7 +77,7 @@ _arand::			; Banked
 	ADD	HL,DE
 	LD	A,(HL)
 
-	ADD	A,B
+	ADD	B
 	LD	(HL),A		; Store new value
 
 	POP	BC
@@ -102,8 +113,6 @@ _initarand::			; Banked
 	LD	H,B
 	LD	L,C
 
-	LD	A, D
-	LD	(HL+),A
 	LD	A, E
 	LD	(HL+),A
 	
