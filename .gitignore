@@ -64,5 +64,8 @@ link/.vs/
 far_fixer/Debug/
 far_fixer/.vs/
 
+# Auto-generated make.bat (from Makefiles)
+make.bat
+
 # Doc generation files
 gbdk-lib/doc/
