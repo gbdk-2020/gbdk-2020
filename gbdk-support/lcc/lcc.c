@@ -406,8 +406,12 @@ static int callsys(char **av) {
 		argc = i + 1;
 		if (argv == NULL)
 			argv = malloc(argc * sizeof *argv);
-		else
-			argv = realloc(argv, argc * sizeof *argv);
+		else {
+			char **argv0 = argv;
+			argv = realloc(argv0, argc * sizeof *argv);
+			if (argv == NULL)
+				free(argv0);
+		}
 		assert(argv);
 	}
 	for (i = 0; status == 0 && av[i] != NULL; ) {
