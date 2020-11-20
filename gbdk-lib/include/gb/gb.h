@@ -277,7 +277,10 @@ void mode(UINT8 m) NONBANKED;
 */
 UINT8 get_mode(void) NONBANKED __preserves_regs(b, c);
 
-/** GB type (GB, PGB, CGB) */
+/** GB CPU type
+
+    @see DMG_TYPE, MGB_TYPE, CGB_TYPE, cpu_fast(), cpu_slow()
+*/
 extern UINT8 _cpu;
 
 /** Hardware Model: Original GB or Super GB. @see _cpu
@@ -342,12 +345,12 @@ extern volatile UINT8 _io_out;
 
 
 /** Tracks current active ROM bank @see SWITCH_ROM_MBC1(), SWITCH_ROM_MBC5()
-    This variable is updated automatically when you call SWITCH_ROM_MBC1 or 
+    This variable is updated automatically when you call SWITCH_ROM_MBC1 or
     SWITCH_ROM_MBC5, or call a BANKED function.
 */
 __REG _current_bank;
 
-/** Makes MBC1 and other compatible MBCs to switch the active ROM bank
+/** Makes MBC1 and other compatible MBCs switch the active ROM bank
     @param b   ROM bank to switch to
 */
 #define SWITCH_ROM_MBC1(b) \
@@ -375,7 +378,7 @@ __REG _current_bank;
 #define SWITCH_4_32_MODE_MBC1 \
   *(unsigned char *)0x6000 = 0x01
 
-/** Makes MBC5 to switch the active ROM bank; only 4M roms are supported, @see SWITCH_ROM_MBC5_8M()
+/** Makes MBC5 switch to the active ROM bank; only 4M roms are supported, @see SWITCH_ROM_MBC5_8M()
     @param b   ROM bank to switch to
 
     Note the order used here. Writing the other way around on a MBC1 always selects bank 1
@@ -470,7 +473,7 @@ typedef struct {
     @param joypads	pointer to joypads_t structure to be initialized
 
     Only required for @ref joypad_ex, not required for calls to regular @ref joypad()
-    Returns number of joypads avaliable
+    @returns number of joypads avaliable
     @see joypad_ex(), joypads_t
 */
 UINT8 joypad_init(UINT8 npads, joypads_t * joypads);
