@@ -114,51 +114,13 @@ _cpu_fast::			; Banked
 
 
 _cgb_compatibility::		; Banked
-
-	WAIT_STAT
-	LD	A,#0x80
-	LDH	(.BCPS),A	; Set default bkg palette
-	OR	#0x7f		; 0xff: White
-	LDH	(.BCPD),A
-	RRA			; 0x7f
-	LDH	(.BCPD),A
-
-	WAIT_STAT
-	LD	A,#0xb5		; Light gray
-	LDH	(.BCPD),A
-	LD	A,#0x56
-	LDH	(.BCPD),A
-	LD	A,#0x4a		; Dark gray
-	LDH	(.BCPD),A
-
-	WAIT_STAT
-	LD	A,#0x29
-	LDH	(.BCPD),A
-	XOR	A		; Black
-	LDH	(.BCPD),A
-	LDH	(.BCPD),A
-
-	WAIT_STAT
-	LD	A,#0x80
-	LDH	(.OCPS),A	; Set default sprite palette
-	OR	#0x7f		; 0xff: White
-	LDH	(.OCPD),A
-	RRA
-	LDH	(.OCPD),A
-
-	WAIT_STAT
-	LD	A,#0xb5		; Light gray
-	LDH	(.OCPD),A
-	LD	A,#0x56
-	LDH	(.OCPD),A
-	LD	A,#0x4a		; Dark gray
-	LDH	(.OCPD),A
-
-	WAIT_STAT
-	LD	A,#0x29
-	LDH	(.OCPD),A
-	XOR	A		; Black
-	LDH	(.OCPD),A
-	LDH	(.OCPD),A
-
+	LD	HL, #1$
+	PUSH	HL
+	LD	HL, #0x0100
+	PUSH 	HL
+	CALL	_set_sprite_palette
+	CALL	_set_bkg_palette
+	ADD	SP, #4
 	RET
+1$:
+	.DW	0xFF7F, 0x56B5, 0x294A, 0x0000
