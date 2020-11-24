@@ -1,7 +1,5 @@
 	.include	"global.s"
 
-	.globl	.copy_vram
-
 	;; BANKED:	checked
 	.area	_BASE
 
@@ -40,22 +38,15 @@ _set_sprite_data::
 	jr z, 1$
 	res 4, d
 1$:
-	.rept 5
-		WAIT_STAT
-		ld a, (hl+)
-		ld (de), a
-		inc e ; inc de
-		ld a, (hl+)
-		ld (de), a
-		inc e ; inc de
-		ld a, (hl+)
-		ld (de), a
-		inc e ; inc de
-	.endm
+	ld b, #16
+3$:
 	WAIT_STAT
 	ld a, (hl+)
 	ld (de), a
-	inc de ; This actually can overflow into the high byte
+	inc de
+	
+	dec b
+	jr nz, 3$
 
 	dec c
 	jr nz, 2$
