@@ -131,11 +131,6 @@ int ihx_parse_and_validate_record(char * p_str, ihx_record * p_rec) {
         sscanf(p_str, "%2x%4x%2x", &p_rec->byte_count, &p_rec->address, &p_rec->type);
         p_str += (2 + 4 + 2);
 
-        // Apply extended linear address (upper 16 bits of address space)
-        // Calculate end address
-        p_rec->address |= g_address_upper;
-        p_rec->address_end = p_rec->address + p_rec->byte_count - 1;
-
 
         // Require expected data byte count to fit within record length (at 2 chars per hex byte)
         calc_length = IHX_REC_LEN_MIN + (p_rec->byte_count * 2);
@@ -149,6 +144,20 @@ int ihx_parse_and_validate_record(char * p_str, ihx_record * p_rec) {
             sscanf(p_str, "%4x", &g_address_upper);
             g_address_upper <<= 16; // Shift into upper 16 bits of address space
         }
+        else if (p_rec->type == IHX_REC_DATA) {
+
+            // Don't process records with zero bytes of length
+            if (p_rec->byte_count == 0) {
+                printf("Warning: IHX: Zero length record starting at %x\n", p_rec->address);
+                return false;
+            }
+
+            // Apply extended linear address (upper 16 bits of address space)
+            // Calculate end address
+            p_rec->address |= g_address_upper;
+            p_rec->address_end = p_rec->address + p_rec->byte_count - 1;
+        }
+
 
         // Read data segment and calculate checsum of data + headers
         checksum_calc = p_rec->byte_count + (p_rec->address & 0xFF) + ((p_rec->address >> 8) & 0xFF) + p_rec->type;
