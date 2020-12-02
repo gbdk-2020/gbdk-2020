@@ -12,7 +12,12 @@ _set_sprite_1bit_data::
 	ld d, #0x80
 .copy_1bit_tiles:
 	push bc
-	lda hl, 4(sp)
+
+	lda hl, 8(sp)
+	ld a, (hl)
+	push af
+
+	lda hl, 6(sp)
 	ld a, (hl+) ; ID of 1st tile
 	ld e, a
 	ld a, (hl+) ; Nb of tiles
@@ -37,18 +42,52 @@ _set_sprite_1bit_data::
 	jr z, 2$
 	res 4, d
 2$:
-	ld b, #16
+	ld b, #8
 3$:
+	pop af
+	push af
+
+	dec a
+	jr z, 4$
+	dec a
+	jr z, 5$
+
+	WAIT_STAT
+	ld a, (hl)
+	ld (de), a
+	inc de
 	WAIT_STAT
 	ld a, (hl+)
 	ld (de), a
 	inc de
-	
+	jr 6$
+4$:
+	WAIT_STAT
+	ld a, (hl+)
+	ld (de), a
+	inc de
+	WAIT_STAT
+	xor a
+	ld (de), a
+	inc de
+	jr 6$
+5$:
+	WAIT_STAT
+	xor a
+	ld (de), a
+	inc de
+	WAIT_STAT
+	ld a, (hl+)
+	ld (de), a
+	inc de
+6$:	
 	dec b
 	jr nz, 3$
 
 	dec c
 	jr nz, 1$
-	
+
+	pop af
+
 	pop bc
 	ret

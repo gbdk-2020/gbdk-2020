@@ -634,19 +634,21 @@ void set_bkg_data(UINT8 first_tile,
     @param first_tile  Index of the first Tile to write
     @param nb_tiles    Number of Tiles to write
     @param data        Pointer to (1bpp) source Tile Pattern data
+    @param color       Color
 
     Similar to @ref set_bkg_data, except source data is 1 bit-per-pixel
     which gets expanded into 2 bits-per-pixel.
 
     For a given bit that represent a pixel:
     \li 0 will be expanded into color 0
-    \li 1 will be expanded into color 3
+    \li 1 will be expanded into color 1, 2 or 3 depending on color argument
 
     @see SHOW_BKG, HIDE_BKG, set_bkg_tiles
 */
 void set_bkg_1bit_data(UINT8 first_tile,
          UINT8 nb_tiles,
-         unsigned char *data) NONBANKED __preserves_regs(b, c);
+         unsigned char *data,
+         UINT8 color) NONBANKED __preserves_regs(b, c);
 
 
 /** Copies from Background / Window VRAM Tile Pattern data into a buffer
