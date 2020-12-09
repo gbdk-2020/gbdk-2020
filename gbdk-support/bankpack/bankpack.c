@@ -12,6 +12,7 @@
 #include "files.h"
 
 bool g_option_verbose = false;
+bool g_option_cartsize = false;
 
 static void display_help(void);
 static int handle_args(int argc, char * argv[]);
@@ -39,6 +40,7 @@ static void display_help(void) {
        "-path=<path> : Write files out to <path> (<path> *MUST* already exist)\n"
        "-sym=<prefix>: Add symbols starting with <prefix> to match + update list.\n"
        "               Default entry is \"___bank_\" (see below)\n"
+       "-cartsize    : Print min required cart size as \"autocartsize:<NNN>\"\n"
        "-v           : Verbose output, show assignments\n"
        "\n"
        "Example: \"bankpack -ext=.rel -path=some/newpath/ file1.o file2.o\"\n"
@@ -93,6 +95,8 @@ static int handle_args(int argc, char * argv[]) {
                 option_set_verbose(true);
             } else if (strstr(argv[i], "-sym=")) {
                 symbol_match_add(argv[i] + 5);
+            } else if (strstr(argv[i], "-cartsize")) {
+                g_option_cartsize = true;
             } else
                 printf("BankPack: Warning: Ignoring unknown option %s\n", argv[i]);
         } else {
@@ -144,8 +148,12 @@ int main( int argc, char *argv[] )  {
             // then rewrite object files as needed
             files_extract();
             files_rewrite();
+
             if (g_option_verbose)
                 banks_show();
+            if (g_option_cartsize)
+                fprintf(stdout,"autocartsize:%d\n",banks_calc_cart_size());
+
             cleanup();
             ret = EXIT_SUCCESS;
         } else

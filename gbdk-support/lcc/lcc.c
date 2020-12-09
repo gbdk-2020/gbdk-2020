@@ -208,7 +208,7 @@ int main(int argc, char *argv[]) {
 		}
 
 		// Call linker
-		// (fixlist dds required default linker vars if not added by user)
+		// (fixlist adds required default linker vars if not added by user)
 		Fixllist();
 		compose(ld, llist[0], llist[1], append(ihxFile, 0));
 		if (callsys(av))
