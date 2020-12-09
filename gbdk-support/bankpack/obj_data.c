@@ -18,6 +18,7 @@
 
 static bool bank_check_mbc1_ok(uint32_t bank_num);
 static void bank_update_assigned_minmax(uint16_t bank_num);
+static void bank_update_all_max(uint16_t bank_num);
 static void bank_add_area(bank_item * p_bank, uint16_t bank_num, area_item * p_area);
 static void bank_check_area_size(area_item * p_area);
 static void banks_assign_area(area_item * p_area);
@@ -36,8 +37,10 @@ list_type symbol_matchlist;
 uint16_t bank_limit_rom_min = BANK_NUM_ROM_MIN;
 uint16_t bank_limit_rom_max = BANK_NUM_ROM_MAX;
 
+
 uint16_t bank_assign_rom_min = BANK_NUM_ROM_MAX;
 uint16_t bank_assign_rom_max = 0;
+uint16_t bank_all_rom_max = 0;
 
 int g_mbc_type = MBC_TYPE_DEFAULT;
 
@@ -148,6 +151,41 @@ void banks_set_mbc(int mbc_type) {
 }
 
 
+
+// From makebin
+//  Byte
+//  0148 - ROM size             -yt<N>
+//  0    - 256Kbit = 32KByte  =   2 banks
+//  1    - 512Kbit = 64KByte  =   4 banks
+//  2    - 1Mbit   = 128KByte =   8 banks
+//  3    - 2Mbit   = 256KByte =  16 banks
+//  4    - 4Mbit   = 512KByte =  32 banks
+//  5    - 8Mbit   = 1MByte   =  64 banks
+//  6    - 16Mbit  = 2MByte   = 128 banks
+//  7    - 16Mbit  = 2MByte   = 256 banks
+//  8    - 16Mbit  = 2MByte   = 512 banks
+//
+//  Not supported by makebin:
+//  $52 - 9Mbit = 1.1MByte = 72 banks
+//  $53 - 10Mbit = 1.2MByte = 80 banks
+//  $54 - 12Mbit = 1.5MByte = 96 banks
+uint32_t banks_calc_cart_size(void) {
+
+    uint32_t req_banks = 1;
+
+    if ((bank_all_rom_max + 1) > BANK_ROM_CALC_MAX) {
+        printf("BankPack: Warning! Can't calc cart size, too many banks: %d (max %d)\n", (bank_all_rom_max + 1), BANK_ROM_CALC_MAX);
+        return (0);
+    }
+
+    // Calculate nearest upper power of 2
+    while (req_banks < (bank_all_rom_max + 1))
+        req_banks *= 2;
+
+    return (req_banks);
+}
+
+
 bool banks_set_min(uint16_t bank_num) {
     if (bank_num < BANK_NUM_ROM_MIN)
         return false;
@@ -252,13 +290,24 @@ int symbols_add(char * symbol_str, uint32_t file_id) {
 }
 
 
-// Track Min/Max assigned banks  used
+// Track Min/Max assigned banks used
 static void bank_update_assigned_minmax(uint16_t bank_num) {
+
     if (bank_num > bank_assign_rom_max)
         bank_assign_rom_max = bank_num;
 
     if (bank_num < bank_assign_rom_min)
         bank_assign_rom_min = bank_num;
+
+    bank_update_all_max(bank_num);
+}
+
+
+// Tracks Max bank for *all* banks used, including fixed banks outside max limits
+static void bank_update_all_max(uint16_t bank_num) {
+
+    if (bank_num > bank_all_rom_max)
+        bank_all_rom_max = bank_num;
 }
 
 
@@ -312,14 +361,19 @@ static void banks_assign_area(area_item * p_area) {
     // Try to assign fixed bank areas to their expected bank.
     // (ignore the area if it's outside the processing range)
     if (p_area->bank_num_in != BANK_NUM_AUTO) {
+        // Update max bank var that tracks regardless of limits
+        // For auto banks this will get updated via bank_add_area()
+        bank_update_all_max(p_area->bank_num_in);
+
         if ((p_area->bank_num_in >= bank_limit_rom_min) &&
             (p_area->bank_num_in <= bank_limit_rom_max)) {
 
             if ((g_mbc_type == MBC_TYPE_MBC1) && (!bank_check_mbc1_ok(p_area->bank_num_in)))
-                printf("BankPack: Warning: Area in fixed bank assigned to MBC1 excluded bank:%d\n", p_area->bank_num_in);
+                printf("BankPack: Warning: Area in fixed bank assigned to MBC1 excluded bank: %d, file: %s\n", p_area->bank_num_in, file_get_name_by_id(p_area->file_id));
 
             bank_add_area(&banks[p_area->bank_num_in], p_area->bank_num_in, p_area);
-        }
+        } else
+            printf("BankPack: Warning: Area in fixed bank %d is outside specified range %d - %d, file: %s\n", p_area->bank_num_in, bank_limit_rom_min, bank_limit_rom_max, file_get_name_by_id(p_area->file_id));
         return;
     }
     else if (p_area->bank_num_in == BANK_NUM_AUTO) {
@@ -418,9 +472,10 @@ int banks_show(void) {
     uint32_t c;
     uint32_t a;
 
-    printf("\n=== Banks assigned: %d -> %d (allowed range %d -> %d) ===\n",
+    printf("\n=== Banks assigned: %d -> %d (allowed range %d -> %d). Max including fixed: %d) ===\n",
             bank_assign_rom_min, bank_assign_rom_max,
-            bank_limit_rom_min,  bank_limit_rom_max);
+            bank_limit_rom_min,  bank_limit_rom_max,
+            bank_all_rom_max);
 
     bank_item * banks = (bank_item *)banklist.p_array;
     area_item * areas = (area_item *)arealist.p_array;

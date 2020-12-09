@@ -42,6 +42,8 @@ int banks_get_mbc_type(void);
 void banks_set_mbc(int);
 void banks_set_mbc_by_rom_byte_149(int);
 
+uint32_t banks_calc_cart_size(void);
+
 bool banks_set_min(uint16_t bank_num);
 bool banks_set_max(uint16_t bank_num);
 
