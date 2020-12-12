@@ -26,9 +26,10 @@ make.bat: Makefile
 # -autobank : turns on auto banking
 # -Wb-v     : prints out assigned bank info
 # -Wl-yo4   : Use 4 ROM banks
-# -Wl-yt1   : Use MBC1 cartridge type
+# -Wl-ya4   : Use 4 RAM banks
+# -Wl-yt19  : Use MBC5 cartridge type
 $(BINS):	$(OBJS)
-	$(CC) $(CFLAGS) -autobank -Wb-v -Wl-yt1 -Wl-yo4 -Wl-yo4 -o $(BINS) $(OBJS)
+	$(CC) $(CFLAGS) -autobank -Wb-v -Wl-yt19 -Wl-yo4 -Wl-ya4 -o $(BINS) $(OBJS)
 #	./romusage autobanks.map -g
 
 clean:
