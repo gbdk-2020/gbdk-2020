@@ -428,7 +428,7 @@ void delay(UINT16 d) NONBANKED;
 */
 UINT8 joypad(void) NONBANKED __preserves_regs(b, c, h, l);
 
-/** Waits until all the buttons given in mask are pressed.
+/** Waits until at least one of the buttons given in mask are pressed.
 
     @param mask Bitmask indicating which buttons to wait for
 
