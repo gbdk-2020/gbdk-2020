@@ -382,7 +382,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Print the string 'str' with no interpretation </p>
+<p>Print the string 'str' with no interpretation </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="drawing_8h.html#a2dee47d4ad7d830605a63bbf5edeeed1">gotogxy()</a> </dd></dl>
 
 </div>
 </div>
@@ -417,7 +417,16 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Print the long number 'number' in radix 'radix'. signed_value should be set to SIGNED or UNSIGNED depending on whether the number is signed or not </p>
+<p>Print 16 bit <b>number</b> in <b>radix</b> (base) in the default font at the current text position.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">number</td><td>number to print </td></tr>
+    <tr><td class="paramname">radix</td><td>radix (base) to print with </td></tr>
+    <tr><td class="paramname">signed_value</td><td>should be set to SIGNED or UNSIGNED depending on whether the number is signed or not</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>The current position is advanced by the numer of characters printed. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="drawing_8h.html#a2dee47d4ad7d830605a63bbf5edeeed1">gotogxy()</a> </dd></dl>
 
 </div>
 </div>
@@ -452,7 +461,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Print the number 'number' as in 'gprintln' </p>
+<p>Print 8 bit <b>number</b> in <b>radix</b> (base) in the default font at the current text position.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="drawing_8h.html#a9869295972fdbad75ecfa9d4bff2ff21">gprintln()</a>, <a class="el" href="drawing_8h.html#a2dee47d4ad7d830605a63bbf5edeeed1">gotogxy()</a> </dd></dl>
 
 </div>
 </div>
@@ -481,7 +491,24 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Print the formatted string 'fmt' with arguments '...' </p>
+<p>Print the string and arguments given by <b>fmt</b> with arguments __...__</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fmt</td><td>The format string as per printf </td></tr>
+    <tr><td class="paramname">...</td><td>params</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Currently supported: </p><ul>
+<li>%c (character) </li>
+<li>%u (int) </li>
+<li>%d (INT8) </li>
+<li>%o (INT8 as octal) </li>
+<li>%x (INT8 as hex) </li>
+<li>%s (string)</li>
+</ul>
+<dl class="section return"><dt>Returns</dt><dd>Returns the number of items printed, or -1 if there was an error. </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="drawing_8h.html#a2dee47d4ad7d830605a63bbf5edeeed1">gotogxy()</a> </dd></dl>
 
 </div>
 </div>
@@ -551,7 +578,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Plot a point in the current drawing mode and colour at (x,y) </p>
+<p>Plot a point in the current drawing mode and colour at <b>x,y</b> </p>
 
 </div>
 </div>
@@ -611,7 +638,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Ditto </p>
+<p>Draw a full screen image at <b>data</b> </p>
 
 </div>
 </div>
@@ -652,7 +679,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Draw a line in the current drawing mode and colour from (x1,y1) to (x2,y2) </p>
+<p>Draw a line in the current drawing mode and colour from <b>x1,y1</b> to <b>x2,y2</b> </p>
 
 </div>
 </div>
@@ -699,7 +726,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Draw a box (rectangle) with corners (x1,y1) and (x2,y2) using fill mode 'style' (one of NOFILL or FILL </p>
+<p>Draw a box (rectangle) with corners <b>x1,y1</b> and <b>x2,y2</b> using fill mode <b>style</b> (one of NOFILL or FILL) </p>
 
 </div>
 </div>
@@ -740,7 +767,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Draw a circle with centre at (x,y) and radius 'radius'. 'style' sets the fill mode </p>
+<p>Draw a circle with centre at <b>x,y</b> and <b>radius</b> using fill mode <b>style</b> (one of NOFILL or FILL) </p>
 
 </div>
 </div>
@@ -769,7 +796,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Returns the current colour of the pixel at (x,y) </p>
+<p>Returns the current colour of the pixel at <b>x,y</b> </p>
 
 </div>
 </div>
@@ -788,7 +815,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Prints the character 'chr' in the default font at the current position </p>
+<p>Prints the character <b>chr</b> in the default font at the current text position.</p>
+<p>The current position is advanced by 1 after the character is printed. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="drawing_8h.html#a2dee47d4ad7d830605a63bbf5edeeed1">gotogxy()</a> </dd></dl>
 
 </div>
 </div>
@@ -817,7 +845,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Sets the current text position to (x,y). Note that x and y have units of cells (8 pixels) </p>
+<p>Sets the current text position to <b>x,y</b>.</p>
+<p>Note: <b>x</b> and <b>y</b> have units of tiles (8 pixels per unit) </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="drawing_8h.html#a57de178908d5dc3e574e666e4d4cb6a7">wrtchr()</a> </dd></dl>
 
 </div>
 </div>
@@ -852,7 +881,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Set the current foreground colour (for pixels), background colour, and draw mode </p>
+<p>Set the current <b>foreground</b> colour (for pixels), <b>background</b> colour, and draw <b>mode</b> </p>
 
 </div>
 </div>

@@ -99,7 +99,11 @@ Functions</h2></td></tr>
 <tr class="memitem:a95aa98ab16e49eac55dcdfe42f4610cc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crash__handler_8h.html#a95aa98ab16e49eac55dcdfe42f4610cc">__HandleCrash</a> ()</td></tr>
 <tr class="separator:a95aa98ab16e49eac55dcdfe42f4610cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>When crash_handler.h is included, a crash dump screen will be displayed if the CPU executes uninitalized memory (with a value of 0xFF, the opcode for RST 38). A handler is installed for RST 38 that calls <a class="el" href="crash__handler_8h.html#a95aa98ab16e49eac55dcdfe42f4610cc">__HandleCrash()</a>.</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="crash__handler_8h.html">gb/crash_handler.h</a>&gt;</span></div>
+</div><!-- fragment --><p>Also see the <code>crash</code> example project included with gbdk. </p>
+</div><h2 class="groupheader">Function Documentation</h2>
 <a id="a95aa98ab16e49eac55dcdfe42f4610cc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a95aa98ab16e49eac55dcdfe42f4610cc">&#9670;&nbsp;</a></span>__HandleCrash()</h2>
 
@@ -114,11 +118,14 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Display the crash dump screen.</p>
+<p>See the intro for this file for more details. </p>
 
 </div>
 </div>
 </div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="acrash__handler_8h_html"><div class="ttname"><a href="crash__handler_8h.html">crash_handler.h</a></div></div>
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

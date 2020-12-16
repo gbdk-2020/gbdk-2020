@@ -158,7 +158,15 @@ Functions</h2></td></tr>
 <tr class="separator:a6b334e5e452d0650aded17199be1514a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Support for Color GameBoy. </p>
+<div class="textblock"><p>Support for the Color GameBoy (CGB).</p>
+<p><b>Enabling CGB features</b></p>
+<p>To unlock and use CGB features and registers you need to change byte 0143h in the cartridge header. Otherwise, the CGB will operate in monochrome "Non CGB" compatibility mode. </p><ul>
+<li>Use a value of <b>80h</b> for games that support CGB and monochrome gameboys <br  />
+ (with Lcc: <b>-Wm-yc</b>, or makebin directly: <b>-yc</b>) </li>
+<li>Use a value of <b>C0h</b> for CGB only games. <br  />
+ (with Lcc: <b>-Wm-yC</b>, or makebin directly: <b>-yC</b>)</li>
+</ul>
+<p>See the Pan Docs for more information CGB features. </p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a4a118ad3ee36468a3fa616977a64864e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4a118ad3ee36468a3fa616977a64864e">&#9670;&nbsp;</a></span>RGB</h2>
@@ -191,7 +199,17 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Macro to create a palette entry out of the color components. </p>
+<p>Macro to create a CGB palette color entry out of the color components.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">r</td><td>Red Component, range 0 - 31 (31 brightest) </td></tr>
+    <tr><td class="paramname">g</td><td>Green Component, range 0 - 31 (31 brightest) </td></tr>
+    <tr><td class="paramname">b</td><td>Blue Component, range 0 - 31 (31 brightest)</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>The resulting format is BGR 15bpp.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="cgb_8h.html#a5744e7df7116e07a69713b494053675e">set_bkg_palette()</a>, <a class="el" href="cgb_8h.html#ace9a3e5d7a44d89906bfe20a722c1d14">set_sprite_palette()</a> </dd></dl>
 
 </div>
 </div>
@@ -508,7 +526,22 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Set bkg palette(s). </p>
+<p>Set CGB background palette(s).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first_palette</td><td>Index of the first palette to write (0-7) </td></tr>
+    <tr><td class="paramname">nb_palettes</td><td>Number of palettes to write (1-8, max depends on first_palette) </td></tr>
+    <tr><td class="paramname">rgb_data</td><td>Pointer to source palette data</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Writes <b>nb_palettes</b> to background palette data starting at <b>first_palette</b>, Palette data is sourced from <b>rgb_data</b>.</p>
+<ul>
+<li>Each Palette is 8 bytes in size: 4 colors x 2 bytes per palette color entry. </li>
+<li>Each color (4 per palette) is packed as BGR 15bpp format (1:5:5:5, MSBit [15] is unused). </li>
+<li>Each component (R, G, B) may have values from 0 - 31 (5 bits), 31 is brightest.</li>
+</ul>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="cgb_8h.html#a4a118ad3ee36468a3fa616977a64864e">RGB()</a>, <a class="el" href="cgb_8h.html#a1d751a36ceb28413e2300e1025378c8d">set_bkg_palette_entry()</a> </dd></dl>
 
 </div>
 </div>
@@ -543,7 +576,22 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Set sprite palette(s). </p>
+<p>Set CGB sprite palette(s).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first_palette</td><td>Index of the first palette to write (0-7) </td></tr>
+    <tr><td class="paramname">nb_palettes</td><td>Number of palettes to write (1-8, max depends on first_palette) </td></tr>
+    <tr><td class="paramname">rgb_data</td><td>Pointer to source palette data</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Writes <b>nb_palettes</b> to sprite palette data starting at <b>first_palette</b>, Palette data is sourced from <b>rgb_data</b>.</p>
+<ul>
+<li>Each Palette is 8 bytes in size: 4 colors x 2 bytes per palette color entry. </li>
+<li>Each color (4 per palette) is packed as BGR 15bpp format (1:5:5:5, MSBit [15] is unused). </li>
+<li>Each component (R, G, B) may have values from 0 - 31 (5 bits), 31 is brightest.</li>
+</ul>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="cgb_8h.html#a4a118ad3ee36468a3fa616977a64864e">RGB()</a>, <a class="el" href="cgb_8h.html#a64f00b81348b63f60bdd2cb7649b09eb">set_sprite_palette_entry()</a> </dd></dl>
 
 </div>
 </div>
@@ -578,7 +626,16 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Set a bkg palette entry. </p>
+<p>Sets a single color in the specified CGB background palette.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">palette</td><td>Index of the palette to modify (0-7) </td></tr>
+    <tr><td class="paramname">entry</td><td>Index of color in palette to modify (0-3) </td></tr>
+    <tr><td class="paramname">rgb_data</td><td>New color data in BGR 15bpp format.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="cgb_8h.html#a5744e7df7116e07a69713b494053675e">set_bkg_palette()</a>, <a class="el" href="cgb_8h.html#a4a118ad3ee36468a3fa616977a64864e">RGB()</a> </dd></dl>
 
 </div>
 </div>
@@ -613,7 +670,16 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Set a sprite palette entry. </p>
+<p>Sets a single color in the specified CGB sprite palette.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">palette</td><td>Index of the palette to modify (0-7) </td></tr>
+    <tr><td class="paramname">entry</td><td>Index of color in palette to modify (0-3) </td></tr>
+    <tr><td class="paramname">rgb_data</td><td>New color data in BGR 15bpp format.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="cgb_8h.html#ace9a3e5d7a44d89906bfe20a722c1d14">set_sprite_palette()</a>, <a class="el" href="cgb_8h.html#a4a118ad3ee36468a3fa616977a64864e">RGB()</a> </dd></dl>
 
 </div>
 </div>
@@ -632,8 +698,13 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Set CPU speed to slow operation. Make sure interrupts are disabled before call.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="cgb_8h.html#a871b5b1aba74ab8764f72b73bc090adb">cpu_fast</a> </dd></dl>
+<p>Set CPU speed to slow (Normal Speed) operation.</p>
+<p>Interrupts are temporarily disabled and then re-enabled during this call.</p>
+<p>In this mode the CGB operates at the same speed as the DMG/Pocket/SGB models.</p>
+<ul>
+<li>You can check to see if <a class="el" href="gb_8h.html#adbc4b02721d3ab48caf53e0228fd3eb5">_cpu</a> == <a class="el" href="gb_8h.html#aee435a3a0dde3dbd7b6112dbb456cde8">CGB_TYPE</a> before using this function.</li>
+</ul>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="cgb_8h.html#a871b5b1aba74ab8764f72b73bc090adb">cpu_fast()</a> </dd></dl>
 
 </div>
 </div>
@@ -652,8 +723,13 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Set CPU speed to fast operation. Make sure interrupts are disabled before call.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="cgb_8h.html#a476d06d0fe64d7c5a1ec05b8ee859a56">cpu_slow</a> </dd></dl>
+<p>Set CPU speed to fast (CGB Double Speed) operation.</p>
+<p>On startup the CGB operates in Normal Speed Mode and can be switched into Double speed mode (faster processing but also higher power consumption). See the Pan Docs for more information about which hardware features operate faster and which remain at Normal Speed.</p>
+<ul>
+<li>Interrupts are temporarily disabled and then re-enabled during this call. </li>
+<li>You can check to see if <a class="el" href="gb_8h.html#adbc4b02721d3ab48caf53e0228fd3eb5">_cpu</a> == <a class="el" href="gb_8h.html#aee435a3a0dde3dbd7b6112dbb456cde8">CGB_TYPE</a> before using this function.</li>
+</ul>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="cgb_8h.html#a476d06d0fe64d7c5a1ec05b8ee859a56">cpu_slow()</a>, <a class="el" href="gb_8h.html#adbc4b02721d3ab48caf53e0228fd3eb5">_cpu</a> </dd></dl>
 
 </div>
 </div>
@@ -672,7 +748,11 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Set defaults compatible with normal GameBoy. </p>
+<p>Set defaults compatible with the normal GameBoy models.</p>
+<p>The default/first CGB palettes for sprites and backgrounds are set to a similar default appearance as on the DMG/Pocket/SGB models. (White, Light Gray, Dark Gray, Black)</p>
+<ul>
+<li>You can check to see if <a class="el" href="gb_8h.html#adbc4b02721d3ab48caf53e0228fd3eb5">_cpu</a> == <a class="el" href="gb_8h.html#aee435a3a0dde3dbd7b6112dbb456cde8">CGB_TYPE</a> before using this function. </li>
+</ul>
 
 </div>
 </div>

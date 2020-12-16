@@ -97,33 +97,15 @@ $(document).ready(function(){initNavTree('bgb__emu_8h.html',''); initResizable()
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a4735a5e7a351c6d58312658694248feb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bgb__emu_8h.html#a4735a5e7a351c6d58312658694248feb">BGB_ADD_DOLLARD</a>(A)&#160;&#160;&#160;<a class="el" href="bgb__emu_8h.html#a8a9124f0ecd2da790b85f661ca7959a8">BGB_ADD_DOLLARD1</a> (A)</td></tr>
-<tr class="separator:a4735a5e7a351c6d58312658694248feb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8a9124f0ecd2da790b85f661ca7959a8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bgb__emu_8h.html#a8a9124f0ecd2da790b85f661ca7959a8">BGB_ADD_DOLLARD1</a>(A)&#160;&#160;&#160;A##00$</td></tr>
-<tr class="separator:a8a9124f0ecd2da790b85f661ca7959a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aabd48c83af8f69ed624bb8a83347fa39"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bgb__emu_8h.html#aabd48c83af8f69ed624bb8a83347fa39">BGB_MESSAGE</a>(message_text)&#160;&#160;&#160;<a class="el" href="bgb__emu_8h.html#a36dfd854275986ddadf4b963eb882a24">BGB_MESSAGE1</a>(<a class="el" href="bgb__emu_8h.html#a4735a5e7a351c6d58312658694248feb">BGB_ADD_DOLLARD</a>(__LINE__), message_text)</td></tr>
+<tr class="memitem:aabd48c83af8f69ed624bb8a83347fa39"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bgb__emu_8h.html#aabd48c83af8f69ed624bb8a83347fa39">BGB_MESSAGE</a>(message_text)&#160;&#160;&#160;BGB_MESSAGE1(BGB_ADD_DOLLARD(__LINE__), message_text)</td></tr>
 <tr class="separator:aabd48c83af8f69ed624bb8a83347fa39"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a36dfd854275986ddadf4b963eb882a24"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bgb__emu_8h.html#a36dfd854275986ddadf4b963eb882a24">BGB_MESSAGE1</a>(lbl,  message_text)</td></tr>
-<tr class="separator:a36dfd854275986ddadf4b963eb882a24"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5e5470127ad67f28a5b8230d8149973a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bgb__emu_8h.html#a5e5470127ad67f28a5b8230d8149973a">BGB_HASH</a>&#160;&#160;&#160;#</td></tr>
-<tr class="separator:a5e5470127ad67f28a5b8230d8149973a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc28ee14659ff5c0844c044c08890631"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bgb__emu_8h.html#abc28ee14659ff5c0844c044c08890631">BGB_ADD_HASH</a>(x)&#160;&#160;&#160;x</td></tr>
-<tr class="separator:abc28ee14659ff5c0844c044c08890631"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5768575de89da2ad02f62b63cd0f2c07"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bgb__emu_8h.html#a5768575de89da2ad02f62b63cd0f2c07">BGB_MAKE_LABEL</a>(a)&#160;&#160;&#160;<a class="el" href="bgb__emu_8h.html#abc28ee14659ff5c0844c044c08890631">BGB_ADD_HASH</a>(<a class="el" href="bgb__emu_8h.html#a5e5470127ad67f28a5b8230d8149973a">BGB_HASH</a>)a</td></tr>
-<tr class="separator:a5768575de89da2ad02f62b63cd0f2c07"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa55fc1a65764d7546ee5e4e3ee0bef90"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bgb__emu_8h.html#aa55fc1a65764d7546ee5e4e3ee0bef90">BGB_MESSAGE_FMT</a>(buf, ...)&#160;&#160;&#160;<a class="el" href="stdio_8h.html#a6c8d9c5b5b6a760b5b2787f0f96b690e">sprintf</a>(buf, __VA_ARGS__);<a class="el" href="bgb__emu_8h.html#acd0aba50147f6cd57ca68e4d1fff6517">BGB_MESSAGE2</a>(<a class="el" href="bgb__emu_8h.html#a4735a5e7a351c6d58312658694248feb">BGB_ADD_DOLLARD</a>(__LINE__), <a class="el" href="bgb__emu_8h.html#a5768575de89da2ad02f62b63cd0f2c07">BGB_MAKE_LABEL</a>(_##buf));</td></tr>
+<tr class="memitem:aa55fc1a65764d7546ee5e4e3ee0bef90"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bgb__emu_8h.html#aa55fc1a65764d7546ee5e4e3ee0bef90">BGB_MESSAGE_FMT</a>(buf, ...)&#160;&#160;&#160;<a class="el" href="stdio_8h.html#a6c8d9c5b5b6a760b5b2787f0f96b690e">sprintf</a>(buf, __VA_ARGS__);BGB_MESSAGE2(BGB_ADD_DOLLARD(__LINE__), BGB_MAKE_LABEL(_##buf));</td></tr>
 <tr class="separator:aa55fc1a65764d7546ee5e4e3ee0bef90"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acd0aba50147f6cd57ca68e4d1fff6517"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bgb__emu_8h.html#acd0aba50147f6cd57ca68e4d1fff6517">BGB_MESSAGE2</a>(lbl,  buf)</td></tr>
-<tr class="separator:acd0aba50147f6cd57ca68e4d1fff6517"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad7b3a715a638350500106da00a50b51b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bgb__emu_8h.html#ad7b3a715a638350500106da00a50b51b">BGB_STR</a>(A)&#160;&#160;&#160;#A</td></tr>
-<tr class="separator:ad7b3a715a638350500106da00a50b51b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a35295a1ce77f382504ed0060c4dca19b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bgb__emu_8h.html#a35295a1ce77f382504ed0060c4dca19b">BGB_CONCAT</a>(A,  B)&#160;&#160;&#160;<a class="el" href="bgb__emu_8h.html#ad7b3a715a638350500106da00a50b51b">BGB_STR</a>(A:B)</td></tr>
-<tr class="separator:a35295a1ce77f382504ed0060c4dca19b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab5b05deda52856c84f274fb28578b6ee"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bgb__emu_8h.html#ab5b05deda52856c84f274fb28578b6ee">BGB_PROFILE_BEGIN</a>(MSG)&#160;&#160;&#160;<a class="el" href="bgb__emu_8h.html#aabd48c83af8f69ed624bb8a83347fa39">BGB_MESSAGE</a>(<a class="el" href="bgb__emu_8h.html#a35295a1ce77f382504ed0060c4dca19b">BGB_CONCAT</a>(MSG,%ZEROCLKS%));</td></tr>
+<tr class="memitem:ab5b05deda52856c84f274fb28578b6ee"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bgb__emu_8h.html#ab5b05deda52856c84f274fb28578b6ee">BGB_PROFILE_BEGIN</a>(MSG)&#160;&#160;&#160;<a class="el" href="bgb__emu_8h.html#aabd48c83af8f69ed624bb8a83347fa39">BGB_MESSAGE</a>(BGB_CONCAT(MSG,%ZEROCLKS%));</td></tr>
 <tr class="separator:ab5b05deda52856c84f274fb28578b6ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab43f94064dc523e99c4aefb440e2c3ed"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bgb__emu_8h.html#ab43f94064dc523e99c4aefb440e2c3ed">BGB_PROFILE_END</a>(MSG)&#160;&#160;&#160;<a class="el" href="bgb__emu_8h.html#aabd48c83af8f69ed624bb8a83347fa39">BGB_MESSAGE</a>(<a class="el" href="bgb__emu_8h.html#a35295a1ce77f382504ed0060c4dca19b">BGB_CONCAT</a>(MSG,%-8+LASTCLKS%));</td></tr>
+<tr class="memitem:ab43f94064dc523e99c4aefb440e2c3ed"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bgb__emu_8h.html#ab43f94064dc523e99c4aefb440e2c3ed">BGB_PROFILE_END</a>(MSG)&#160;&#160;&#160;<a class="el" href="bgb__emu_8h.html#aabd48c83af8f69ed624bb8a83347fa39">BGB_MESSAGE</a>(BGB_CONCAT(MSG,%-8+LASTCLKS%));</td></tr>
 <tr class="separator:ab43f94064dc523e99c4aefb440e2c3ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6afa665bd7d093e7ca2d310cc92b08a9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bgb__emu_8h.html#a6afa665bd7d093e7ca2d310cc92b08a9">BGB_TEXT</a>(MSG)&#160;&#160;&#160;<a class="el" href="bgb__emu_8h.html#aabd48c83af8f69ed624bb8a83347fa39">BGB_MESSAGE</a>(<a class="el" href="bgb__emu_8h.html#ad7b3a715a638350500106da00a50b51b">BGB_STR</a>(MSG))</td></tr>
+<tr class="memitem:a6afa665bd7d093e7ca2d310cc92b08a9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bgb__emu_8h.html#a6afa665bd7d093e7ca2d310cc92b08a9">BGB_TEXT</a>(MSG)&#160;&#160;&#160;<a class="el" href="bgb__emu_8h.html#aabd48c83af8f69ed624bb8a83347fa39">BGB_MESSAGE</a>(BGB_STR(MSG))</td></tr>
 <tr class="separator:a6afa665bd7d093e7ca2d310cc92b08a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
@@ -131,43 +113,11 @@ Functions</h2></td></tr>
 <tr class="memitem:a219a24aebe0bddc535ba4abc81cee30c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bgb__emu_8h.html#a219a24aebe0bddc535ba4abc81cee30c">BGB_profiler_message</a> ()</td></tr>
 <tr class="separator:a219a24aebe0bddc535ba4abc81cee30c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a4735a5e7a351c6d58312658694248feb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4735a5e7a351c6d58312658694248feb">&#9670;&nbsp;</a></span>BGB_ADD_DOLLARD</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define BGB_ADD_DOLLARD</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">A</td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="bgb__emu_8h.html#a8a9124f0ecd2da790b85f661ca7959a8">BGB_ADD_DOLLARD1</a> (A)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a8a9124f0ecd2da790b85f661ca7959a8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8a9124f0ecd2da790b85f661ca7959a8">&#9670;&nbsp;</a></span>BGB_ADD_DOLLARD1</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define BGB_ADD_DOLLARD1</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">A</td><td>)</td>
-          <td>&#160;&#160;&#160;A##00$</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Debug window logging and profiling support for the BGB emulator.</p>
+<p>Also see the <code>bgb_debug</code> example project included with gbdk.</p>
+<p>See the BGB Manual for more information ("expressions, breakpoint conditions, and debug messages") <a href="http://bgb.bircd.org/manual.html#expressions">http://bgb.bircd.org/manual.html#expressions</a> </p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="aabd48c83af8f69ed624bb8a83347fa39"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aabd48c83af8f69ed624bb8a83347fa39">&#9670;&nbsp;</a></span>BGB_MESSAGE</h2>
 
@@ -179,96 +129,24 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">message_text</td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="bgb__emu_8h.html#a36dfd854275986ddadf4b963eb882a24">BGB_MESSAGE1</a>(<a class="el" href="bgb__emu_8h.html#a4735a5e7a351c6d58312658694248feb">BGB_ADD_DOLLARD</a>(__LINE__), message_text)</td>
+          <td>&#160;&#160;&#160;BGB_MESSAGE1(BGB_ADD_DOLLARD(__LINE__), message_text)</td>
         </tr>
       </table>
 </div><div class="memdoc">
-
-</div>
-</div>
-<a id="a36dfd854275986ddadf4b963eb882a24"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a36dfd854275986ddadf4b963eb882a24">&#9670;&nbsp;</a></span>BGB_MESSAGE1</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define BGB_MESSAGE1</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">lbl, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">message_text&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">__asm \</div>
-<div class="line">  ld <a class="code" href="gb_8h.html#a0a3d95ad0ab8ad213016101d2e9c3d3e">d</a>, d \</div>
-<div class="line">  jr lbl \</div>
-<div class="line">  .dw 0x6464 \</div>
-<div class="line">  .dw 0x0000 \</div>
-<div class="line">  .ascii message_text \</div>
-<div class="line">lbl: \</div>
-<div class="line">__endasm</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a5e5470127ad67f28a5b8230d8149973a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5e5470127ad67f28a5b8230d8149973a">&#9670;&nbsp;</a></span>BGB_HASH</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define BGB_HASH&#160;&#160;&#160;#</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="abc28ee14659ff5c0844c044c08890631"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abc28ee14659ff5c0844c044c08890631">&#9670;&nbsp;</a></span>BGB_ADD_HASH</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define BGB_ADD_HASH</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">x</td><td>)</td>
-          <td>&#160;&#160;&#160;x</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a5768575de89da2ad02f62b63cd0f2c07"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5768575de89da2ad02f62b63cd0f2c07">&#9670;&nbsp;</a></span>BGB_MAKE_LABEL</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define BGB_MAKE_LABEL</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">a</td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="bgb__emu_8h.html#abc28ee14659ff5c0844c044c08890631">BGB_ADD_HASH</a>(<a class="el" href="bgb__emu_8h.html#a5e5470127ad67f28a5b8230d8149973a">BGB_HASH</a>)a</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
+<p>Macro to display a message in the BGB emulator debug message window</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">message_text</td><td>Quoted text string to display in the debug message window</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>The following special parameters can be used when bracketed with "%" characters. </p><ul>
+<li>CPU registers: AF, BC, DE, HL, SP, PC, B, C, D, E, H, L, A, ZERO, ZF, Z, CARRY, CY, IME, ALLREGS </li>
+<li>Other state values: ROMBANK, XRAMBANK, SRAMBANK, WRAMBANK, VRAMBANK, TOTALCLKS, LASTCLKS, CLKS2VBLANK</li>
+</ul>
+<p>Example: print a message along with the currently active ROM bank. </p><div class="fragment"><div class="line"><a class="code" href="bgb__emu_8h.html#aabd48c83af8f69ed624bb8a83347fa39">BGB_MESSAGE</a>(<span class="stringliteral">&quot;Current ROM Bank is: %ROMBANK%&quot;</span>);</div>
+</div><!-- fragment --><p>See the BGB Manual for more information ("expressions, breakpoint conditions, and debug messages") <a href="http://bgb.bircd.org/manual.html#expressions">http://bgb.bircd.org/manual.html#expressions</a></p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="bgb__emu_8h.html#ab5b05deda52856c84f274fb28578b6ee">BGB_PROFILE_BEGIN()</a>, <a class="el" href="bgb__emu_8h.html#ab43f94064dc523e99c4aefb440e2c3ed">BGB_PROFILE_END()</a> </dd></dl>
 
 </div>
 </div>
@@ -293,93 +171,23 @@ Functions</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;<a class="el" href="stdio_8h.html#a6c8d9c5b5b6a760b5b2787f0f96b690e">sprintf</a>(buf, __VA_ARGS__);<a class="el" href="bgb__emu_8h.html#acd0aba50147f6cd57ca68e4d1fff6517">BGB_MESSAGE2</a>(<a class="el" href="bgb__emu_8h.html#a4735a5e7a351c6d58312658694248feb">BGB_ADD_DOLLARD</a>(__LINE__), <a class="el" href="bgb__emu_8h.html#a5768575de89da2ad02f62b63cd0f2c07">BGB_MAKE_LABEL</a>(_##buf));</td>
+          <td></td><td>&#160;&#160;&#160;<a class="el" href="stdio_8h.html#a6c8d9c5b5b6a760b5b2787f0f96b690e">sprintf</a>(buf, __VA_ARGS__);BGB_MESSAGE2(BGB_ADD_DOLLARD(__LINE__), BGB_MAKE_LABEL(_##buf));</td>
         </tr>
       </table>
 </div><div class="memdoc">
-
-</div>
-</div>
-<a id="acd0aba50147f6cd57ca68e4d1fff6517"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acd0aba50147f6cd57ca68e4d1fff6517">&#9670;&nbsp;</a></span>BGB_MESSAGE2</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define BGB_MESSAGE2</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">lbl, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">buf&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">__asm \</div>
-<div class="line">  ld <a class="code" href="gb_8h.html#a0a3d95ad0ab8ad213016101d2e9c3d3e">d</a>, d \</div>
-<div class="line">  jr lbl \</div>
-<div class="line">  .dw 0x6464 \</div>
-<div class="line">  .dw 0x0001 \</div>
-<div class="line">  .dw buf \</div>
-<div class="line">  .dw 0 \</div>
-<div class="line">lbl: \</div>
-<div class="line">__endasm</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="ad7b3a715a638350500106da00a50b51b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad7b3a715a638350500106da00a50b51b">&#9670;&nbsp;</a></span>BGB_STR</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define BGB_STR</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">A</td><td>)</td>
-          <td>&#160;&#160;&#160;#A</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a35295a1ce77f382504ed0060c4dca19b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a35295a1ce77f382504ed0060c4dca19b">&#9670;&nbsp;</a></span>BGB_CONCAT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define BGB_CONCAT</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">A, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">B&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td>&#160;&#160;&#160;<a class="el" href="bgb__emu_8h.html#ad7b3a715a638350500106da00a50b51b">BGB_STR</a>(A:B)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
+<p>Macro to display a sprintf formatted message in the BGB emulator debug message window</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">buf</td><td>Pointer to a globally defined char buffer </td></tr>
+    <tr><td class="paramname">...</td><td>VA Args list of sprintf parameters</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>To avoid buffer overflows <b>buf</b> must be large enough to store the entire printed message.</p>
+<p>Example: </p><div class="fragment"><div class="line"><span class="keywordtype">char</span> mybuf[100]; <span class="comment">// should be globally defined</span></div>
+<div class="line"> </div>
+<div class="line"><a class="code" href="bgb__emu_8h.html#aa55fc1a65764d7546ee5e4e3ee0bef90">BGB_MESSAGE_FMT</a>(mybuf, <span class="stringliteral">&quot;An integer:%d, a string: %s&quot;</span>, 12345, <span class="stringliteral">&quot;hello bgb&quot;</span>)</div>
+</div><!-- fragment --><dl class="section see"><dt>See also</dt><dd><a class="el" href="bgb__emu_8h.html#aabd48c83af8f69ed624bb8a83347fa39">BGB_MESSAGE()</a> </dd></dl>
 
 </div>
 </div>
@@ -394,10 +202,19 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">MSG</td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="bgb__emu_8h.html#aabd48c83af8f69ed624bb8a83347fa39">BGB_MESSAGE</a>(<a class="el" href="bgb__emu_8h.html#a35295a1ce77f382504ed0060c4dca19b">BGB_CONCAT</a>(MSG,%ZEROCLKS%));</td>
+          <td>&#160;&#160;&#160;<a class="el" href="bgb__emu_8h.html#aabd48c83af8f69ed624bb8a83347fa39">BGB_MESSAGE</a>(BGB_CONCAT(MSG,%ZEROCLKS%));</td>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Macro to <b>Start</b> a profiling block for the BGB emulator</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">MSG</td><td>Quoted text string to display in the debug message window</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>To complete the profiling block and print the result call <a class="el" href="bgb__emu_8h.html#ab43f94064dc523e99c4aefb440e2c3ed">BGB_PROFILE_END</a>.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="bgb__emu_8h.html#ab43f94064dc523e99c4aefb440e2c3ed">BGB_PROFILE_END()</a>, <a class="el" href="bgb__emu_8h.html#aabd48c83af8f69ed624bb8a83347fa39">BGB_MESSAGE()</a> </dd></dl>
 
 </div>
 </div>
@@ -412,10 +229,22 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">MSG</td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="bgb__emu_8h.html#aabd48c83af8f69ed624bb8a83347fa39">BGB_MESSAGE</a>(<a class="el" href="bgb__emu_8h.html#a35295a1ce77f382504ed0060c4dca19b">BGB_CONCAT</a>(MSG,%-8+LASTCLKS%));</td>
+          <td>&#160;&#160;&#160;<a class="el" href="bgb__emu_8h.html#aabd48c83af8f69ed624bb8a83347fa39">BGB_MESSAGE</a>(BGB_CONCAT(MSG,%-8+LASTCLKS%));</td>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Macro to <b>End</b> a profiling block and print the results in the BGB emulator debug message window</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">MSG</td><td>Quoted text string to display in the debug message window along with the result</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This should only be called after a previous call to <a class="el" href="bgb__emu_8h.html#ab5b05deda52856c84f274fb28578b6ee">BGB_PROFILE_BEGIN()</a></p>
+<p>The results are in BGB clock units, which are "1 nop in [CGB] doublespeed mode".</p>
+<p>So when running in Normal Speed mode (i.e. non-CGB doublespeed) the printed result should be <b>divided by 2</b> to get the actual ellapsed cycle count.</p>
+<p>If running in CB Double Speed mode use the below call instead, it correctly compensates for the speed difference. In this scenario, the result does <b>not need to be divided by 2</b> to get the ellapsed cycle count. </p><div class="fragment"><div class="line"><a class="code" href="bgb__emu_8h.html#aabd48c83af8f69ed624bb8a83347fa39">BGB_MESSAGE</a>(<span class="stringliteral">&quot;NOP TIME: %-4+LASTCLKS%&quot;</span>);</div>
+</div><!-- fragment --><dl class="section see"><dt>See also</dt><dd><a class="el" href="bgb__emu_8h.html#ab5b05deda52856c84f274fb28578b6ee">BGB_PROFILE_BEGIN()</a>, <a class="el" href="bgb__emu_8h.html#aabd48c83af8f69ed624bb8a83347fa39">BGB_MESSAGE()</a> </dd></dl>
 
 </div>
 </div>
@@ -430,7 +259,7 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">MSG</td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="bgb__emu_8h.html#aabd48c83af8f69ed624bb8a83347fa39">BGB_MESSAGE</a>(<a class="el" href="bgb__emu_8h.html#ad7b3a715a638350500106da00a50b51b">BGB_STR</a>(MSG))</td>
+          <td>&#160;&#160;&#160;<a class="el" href="bgb__emu_8h.html#aabd48c83af8f69ed624bb8a83347fa39">BGB_MESSAGE</a>(BGB_STR(MSG))</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -452,12 +281,15 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
+<p>Display preset debug information in the BGB debug messages window.</p>
+<p>This function is equivalent to: </p><div class="fragment"><div class="line"><a class="code" href="bgb__emu_8h.html#aabd48c83af8f69ed624bb8a83347fa39">BGB_MESSAGE</a>(<span class="stringliteral">&quot;PROFILE,%(SP+$0)%,%(SP+$1)%,%A%,%TOTALCLKS%,%ROMBANK%,%WRAMBANK%&quot;</span>);</div>
+</div><!-- fragment --> 
 </div>
 </div>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="agb_8h_html_a0a3d95ad0ab8ad213016101d2e9c3d3e"><div class="ttname"><a href="gb_8h.html#a0a3d95ad0ab8ad213016101d2e9c3d3e">d</a></div><div class="ttdeci">void d</div><div class="ttdef"><b>Definition:</b> gb.h:450</div></div>
+<div class="ttc" id="abgb__emu_8h_html_aabd48c83af8f69ed624bb8a83347fa39"><div class="ttname"><a href="bgb__emu_8h.html#aabd48c83af8f69ed624bb8a83347fa39">BGB_MESSAGE</a></div><div class="ttdeci">#define BGB_MESSAGE(message_text)</div><div class="ttdef"><b>Definition:</b> bgb_emu.h:43</div></div>
+<div class="ttc" id="abgb__emu_8h_html_aa55fc1a65764d7546ee5e4e3ee0bef90"><div class="ttname"><a href="bgb__emu_8h.html#aa55fc1a65764d7546ee5e4e3ee0bef90">BGB_MESSAGE_FMT</a></div><div class="ttdeci">#define BGB_MESSAGE_FMT(buf,...)</div><div class="ttdef"><b>Definition:</b> bgb_emu.h:77</div></div>
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

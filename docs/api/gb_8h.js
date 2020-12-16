@@ -91,7 +91,7 @@ var gb_8h =
     [ "display_off", "gb_8h.html#aed072359b42854fffae4cd29c1f34ea1", null ],
     [ "hiramcpy", "gb_8h.html#afd45c10f4566ca284cdab4044c5645b3", null ],
     [ "set_bkg_data", "gb_8h.html#afaa7bb8881d67d51c646e35dfdb01d40", null ],
-    [ "set_bkg_1bit_data", "gb_8h.html#a27ebc0d484fbf789f8a2172977a8d3b5", null ],
+    [ "set_bkg_1bit_data", "gb_8h.html#a4892b18d0d75bdaa153ef571f337f52b", null ],
     [ "get_bkg_data", "gb_8h.html#a2a236e483749590877d9207e9430e6ce", null ],
     [ "set_bkg_tiles", "gb_8h.html#acf7527c3fce32df7b20d6cc4ec217f0b", null ],
     [ "get_bkg_tiles", "gb_8h.html#a93b0cf6697ab892eda6231d26bf17fc9", null ],
