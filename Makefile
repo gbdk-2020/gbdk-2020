@@ -182,7 +182,7 @@ gbdk-lib-examples-makefile:
 	unix2dos $(BUILDDIR)/examples/gb/make.bat
 
 # Copy SDDC executable files
-SDCC_BINS = as2gbmap makebin packihx sdar sdasgb sdcc sdcdb sdcdb sdcpp sdldgb sdnm sdobjcopy sdranlib sz80
+SDCC_BINS = makebin packihx sdar sdasgb sdcc sdcdb sdcdb sdcpp sdldgb sdnm sdobjcopy sdranlib sz80
 ifeq ($(OS),Windows_NT)
 MINGW64_RUNTIME = \
 	libgcc_s_seh-1.dll \
@@ -214,9 +214,14 @@ install: native-build
 	mkdir -p $(TARGETDIR)
 	cp -r $(BUILDDIR)/* $(TARGETDIR)
 
+# Make sure SDCCDIR is populated
+# Swap WIN/MSDOS slashes to Unix style for MinGW (prevent some errors with cp)
 check-SDCCDIR:
 ifndef SDCCDIR
 	$(error SDCCDIR is undefined)
+endif
+ifeq ($(OS),Windows_NT)
+SDCCDIR := $(subst \,/,$(SDCCDIR))
 endif
 
 # First purge doxygen output directory to clear potentially stale output.
@@ -233,3 +238,4 @@ endif
 
 doxygen-clean:
 	rm -rf $(GBDKDOCSDIR)/api
+
