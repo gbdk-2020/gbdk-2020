@@ -5,29 +5,33 @@ _memset::
 	lda	hl,7(sp)
 	ld	a,(hl-)
 	ld 	d, a
-	or      (hl)
-	ret     z
 	ld	a,(hl-)
 	ld	e, a
+	or	d
+	jr	z,6$
+	
 	dec	hl
 	ld	a,(hl-)
-	push    af
+	push	af
 	ld	a,(hl-)
 	ld	l,(hl)
 	ld	h,a
 	pop	af
-.memset::
-	push    bc
-
-	ld      c,e
-	srl     d
-	rr      e
-	srl     d
-	rr      e
-		
-	inc     d
-	inc     e
-	jr      2$
+	
+	srl	d
+	rr	e
+	jr	nc,4$
+	ld	(hl+),a
+4$:	
+	srl	d
+	rr	e
+	jr	nc,5$
+	ld	(hl+),a
+	ld	(hl+),a
+5$:		
+	inc	d
+	inc	e
+	jr	2$
 1$:	
 	ld	(hl+),a
 	ld	(hl+),a
@@ -38,15 +42,9 @@ _memset::
 	jr	nz,1$
 	dec	d
 	jr	nz,1$
-
-	srl     c
-	jr      nc, 4$
-	ld	(hl+),a
-4$:	
-	srl     c
-	jr      nc, 5$
-	ld	(hl+),a
-	ld	(hl+),a
-5$:
-	pop     bc
+6$:
+	lda	hl,2(sp)
+	ld	a,(hl+)
+	ld	e,a
+	ld	d,(hl)
 	ret
