@@ -2,7 +2,7 @@
  * lcc [ option ]... [ file | -llib ]...
  * front end for the ANSI C compiler
  */
-static char rcsid[] = "$Id: lcc.c,v 1.6 2001/10/28 18:38:13 michaelh Exp $";
+static char rcsid[] = "$Id: lcc.c,v 2.0 " BUILDDATE " " BUILDTIME " gbdk-2020 Exp $";
 
 #include <stdio.h>
 #include <stdarg.h>
@@ -676,7 +676,7 @@ static void help(void) {
 "-P	print ANSI-style declarations for globals\n",
 "-p -pg	emit profiling code; see prof(1) and gprof(1)\n",
 "-S	compile to assembly language\n",
-"-autobank auto-assign banks set to 255 (bankpack)"
+"-autobank auto-assign banks set to 255 (bankpack)\n"
 #ifdef linux
 "-static	specify static libraries (default is dynamic)\n",
 #endif
