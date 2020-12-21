@@ -85,10 +85,11 @@ font_copy_uncompressed::
 	dec	d
 1$:
 	WAIT_STAT
-
 	ld	a,(bc)
 	ld	(hl+),a
 	inc	bc
+
+	WAIT_STAT
 	ld	a,(bc)
 	ld	(hl),a
 	inc	bc
@@ -164,7 +165,7 @@ font_copy_compressed_grey2:
 	WAIT_STAT
 
 	ld	(hl),b
-	inc	hl
+	inc	l		; can't overflow here
 	ld	(hl),c
 	inc	hl
 
@@ -464,11 +465,10 @@ _font_init::
 
 	call	.tmode
 
-	ld	a,#1		; We use the first tile as a space _always_
+	xor	a
 	ld	(font_first_free_tile),a
 
 	; Clear the font table
-	xor	a
 	ld	hl,#font_table
 	ld	b,#sfont_handle_sizeof*.MAX_FONTS
 1$:
@@ -620,10 +620,10 @@ _posy::				; Banked
 	LD	D,#0x20		; D = width
 2$:
 	WAIT_STAT
-
 	LD	A,(BC)
 	LD	(HL+),A
 	INC	BC
+
 	DEC	D
 	JR	NZ,2$
 	DEC	E
@@ -632,11 +632,11 @@ _posy::				; Banked
 	LD	D,#0x20
 3$:
 	WAIT_STAT
-
 	LD	A,#.SPACE
 	LD	(HL+),A
 	DEC	D
 	JR	NZ,3$
+
 	POP	HL
 	POP	DE
 	POP	BC

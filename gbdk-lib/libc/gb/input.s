@@ -584,6 +584,6 @@ _gets::				; Banked
 	.db	0x3B		
 	.ascii	"<=>?"
 	.ascii	"@ABCDEFGHIJKLMNO"
-	.ascii	"PQRSTUVWXYZ[\\]^_"
+	.ascii	"PQRSTUVWXYZ[\]^_"
 	.ascii	"`abcdefghijklmno"
-	.ascii	"pqrstuvwxyz\{\|\}~ "
+	.ascii	"pqrstuvwxyz{|}~ "
