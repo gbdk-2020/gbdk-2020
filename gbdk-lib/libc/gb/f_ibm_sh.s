@@ -2,6 +2,15 @@
 	;; BANKED:	checked, imperfect
 	.area	_BASE
 
+	.globl	font_load
+	;; Perform tricks with banking to shift this font out of
+	;; bank 0.  Doesnt currently work as the encoding table
+	;; must always be visible.
+_font_load_ibm::		; Banked
+	ld	hl,#_font_ibm
+	call	font_load
+	ret
+
 	; 898 bytes giving ' '-'0'-'@'-'A'-'Z'-'???'-'a'-'z'-127
 _font_ibm::
 	.byte	1+4		; 128 character encoding

@@ -364,8 +364,8 @@ font_set::
 	xor	a
 	ld	(font_first_free_tile),a
 
-	.globl	_font_load_ibm_fixed
-	call	_font_load_ibm_fixed
+	.globl	_font_load_ibm
+	call	_font_load_ibm
 3$:
 	pop	af
 	push	bc
@@ -650,8 +650,8 @@ _posy::				; Banked
 
 	.area	_BASE
 
-	.globl	.vbl
-	.globl	.lcd
+	.globl	.drawing_vbl
+	.globl	.drawing_lcd
 	.globl	.int_0x40
 	.globl	.int_0x48
 	.globl	.remove_int
@@ -669,10 +669,10 @@ _posy::				; Banked
 	CALL	.display_off
 
 	;; Remove any interrupts setup by the drawing routine
-	LD	BC,#.vbl
+	LD	BC,#.drawing_vbl
 	LD	HL,#.int_0x40
 	CALL	.remove_int
-	LD	BC,#.lcd
+	LD	BC,#.drawing_lcd
 	LD	HL,#.int_0x48
 	CALL	.remove_int
 1$:
