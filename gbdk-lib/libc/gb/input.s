@@ -89,13 +89,15 @@
 
 	;; Initialize window
 	LD	BC,#.frame_tiles
-	LD	DE,#0x0000	; Place image at (0x00,0x00) tiles
-	LD	HL,#0x140A	; Image size is 0x14 x 0x0A tiles
-	CALL	.set_xy_wtt
+	LD	DE,#0x140A		; 0x140A
+	LD	HL,#0
+	CALL	set_recoded_win_tiles
+
 	LD	BC,#.kbdtable
-	LD	DE,#0x0202	; Place image at (0x02,0x02) tiles
-	LD	HL,#.KBDSIZE	; Image size is 0x10 x 0x06 tiles
-	CALL	.set_xy_wtt
+	LD	DE,#.KBDSIZE
+	LD	HL,#(0x20 * 2 + 2)	; X=2, Y=2
+	CALL	set_recoded_win_tiles
+	
 	XOR	A
 	LD	A,#.MINWNDPOSX
 	LDH	(.WX),A
@@ -130,6 +132,68 @@
 
 	RET
 
+set_recoded_win_tiles::
+	LDH	A,(.LCDC)
+	BIT	6,A
+	JR	Z,2$
+	LD	A,#0x9C
+	JR	3$
+2$:
+	LD	A,#0x98
+3$:
+	ADD	H
+	LD      H,A
+	PUSH    DE
+	PUSH    HL
+4$:	
+	LD	A,(BC)
+	INC	BC
+	PUSH    BC
+	PUSH    HL
+	
+	LD	C,A
+	LD	HL,#(font_current+1)	; font_current+sfont_handle_font
+	LD	A,(HL+)
+	LD	H,(HL)
+	LD	L,A
+	LD	A,(HL+)
+	AND	#3
+	CP	#2			; FONT_NOENCODING
+	JR	Z,5$
+	INC	HL
+	LD	B,#0
+	ADD	HL,BC
+	LD	C,(HL)
+5$:
+	POP     HL
+	
+	WAIT_STAT
+	LD      A,C
+	LD	(HL+),A
+	
+	POP	BC
+	
+	DEC	D
+	JR	NZ,4$
+	
+	POP     HL
+	POP     DE
+	
+	LD	A,L
+	ADD	#0x20
+	LD      L,A
+	ADC	H
+	SUB	L
+	LD      H,A
+	DEC	E
+
+	PUSH    DE
+	PUSH    HL
+	JR      NZ,4$
+
+	ADD	SP,#4
+	RET
+	
 	.area	_CODE
 	;; Prompt the user for a char and return it in A
 .get_char:

@@ -14,10 +14,10 @@ _font_load_ibm::		; Banked
 	; 898 bytes giving ' '-'0'-'@'-'A'-'Z'-'???'-'a'-'z'-127
 _font_ibm::
 	.byte	1+4		; 128 character encoding
-	.byte	128-32		; Tiles required
+	.byte	128-32+6	; Tiles required
 
-	.byte	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0		; All map to space
-	.byte	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+	.byte	0,0,0,0,0,0,0,0,0,0,0,0,0,0,96,97		; All map to space
+	.byte	0,0,0,0,0,0,0,0,0,0,0,0,98,99,100,101
 	.byte	0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15	; 0x20
 	.byte	16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31
 	.byte	32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47 ; 0x40
@@ -121,3 +121,63 @@ _font_ibm::
 	.byte	0x70,0x18,0x18,0x0C,0x18,0x18,0x70,0x00
 	.byte	0x00,0x60,0xF2,0x9E,0x0C,0x00,0x00,0x00
 	.byte	0x10,0x10,0x28,0x28,0x44,0x44,0x82,0xFE
+
+; Character: ? (0E)
+	.db	0b00000000	;         
+	.db	0b00000000	;         
+	.db	0b00000000	;         
+	.db	0b11111111	; oooooooo
+	.db	0b11111111	; oooooooo
+	.db	0b11111111	; oooooooo
+	.db	0b00000000	;         
+	.db	0b00000000	;         
+
+; Character: ? (0F)
+	.db	0b00011100	;    ooo  
+	.db	0b00011100	;    ooo  
+	.db	0b00011100	;    ooo  
+	.db	0b00011100	;    ooo  
+	.db	0b00011100	;    ooo  
+	.db	0b00011100	;    ooo  
+	.db	0b00011100	;    ooo  
+	.db	0b00011100	;    ooo  
+
+; Character: ? (1C)
+	.db	0b00000000	;         
+	.db	0b00000000	;         
+	.db	0b00000000	;         
+	.db	0b00011111	;    ooooo
+	.db	0b00011111	;    ooooo
+	.db	0b00011111	;    ooooo
+	.db	0b00011100	;    ooo  
+	.db	0b00011100	;    ooo  
+
+; Character: ? (1D)
+	.db	0b00000000	;         
+	.db	0b00000000	;         
+	.db	0b00000000	;         
+	.db	0b11111100	; oooooo  
+	.db	0b11111100	; oooooo  
+	.db	0b11111100	; oooooo  
+	.db	0b00011100	;    ooo  
+	.db	0b00011100	;    ooo  
+
+; Character: ? (1E)
+	.db	0b00011100	;    ooo  
+	.db	0b00011100	;    ooo  
+	.db	0b00011100	;    ooo  
+	.db	0b00011111	;    ooooo
+	.db	0b00011111	;    ooooo
+	.db	0b00011111	;    ooooo
+	.db	0b00000000	;         
+	.db	0b00000000	;         
+
+; Character: ? (1F)
+	.db	0b00011100	;    ooo  
+	.db	0b00011100	;    ooo  
+	.db	0b00011100	;    ooo  
+	.db	0b11111100	; oooooo  
+	.db	0b11111100	; oooooo  
+	.db	0b11111100	; oooooo  
+	.db	0b00000000	;         
+	.db	0b00000000	;         

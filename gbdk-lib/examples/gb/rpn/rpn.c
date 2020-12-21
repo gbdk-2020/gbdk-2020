@@ -1,4 +1,3 @@
-#include <gb/font.h>
 #include <stdio.h>
 #include <ctype.h>
 
@@ -67,9 +66,6 @@ void main(void)
 {
   BYTE type;
   WORD op2;
-
-  font_init();
-  font_load(font_ibm_fixed);
 
   puts("RPN Calculator");
   sp = 0;
