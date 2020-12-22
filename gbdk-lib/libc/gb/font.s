@@ -58,12 +58,12 @@ font_table::
 
 	.area	_GSINIT
 
-	XOR	A
-	LD	(#.curx),A
-	LD	(#.cury),A
-	LD	HL,#.start_font_vars
-	LD 	C,#(.end_font_vars - .start_font_vars)
-	RST	0x28
+	xor	a
+	ld	(#.curx),a
+	ld	(#.cury),a
+	ld	hl,#.start_font_vars
+	ld 	c,#(.end_font_vars - .start_font_vars)
+	rst	0x28
 
 	.area   _BASE
 	; Copy uncompressed 16 byte tiles from (BC) to (HL), length = DE*2
@@ -256,15 +256,15 @@ font_copy_current::
 	ld	l,a
 
 	inc	hl		; Points to the 'tiles required' entry
-	ld	e,(hl)
+	ld	a,(hl-)
 	ld	d,#0
-	rl	e		; Multiple DE by 8
+	rla			; Multiple DE by 8
 	rl	d
-	rl	e
+	rla
 	rl	d
-	rl	e
-	rl	d		; DE has the length of the tile data
-	dec	hl
+	rla
+	rl	d		
+	ld	e, a		; DE has the length of the tile data
 
 	ld	a,(hl)		; Get the flags
 	push	af		
@@ -288,12 +288,13 @@ font_copy_current_copy:
 
 	; Find the offset in VRAM for this font
 	ld	a,(font_current+sfont_handle_first_tile)	; First tile used for this font
-	ld	l,a		
-	ld	h,#0
-	add	hl,hl
-	add	hl,hl
-	add	hl,hl
-	add	hl,hl
+	swap	a
+	ld	l,a
+	and	#0x0f
+	ld	h,a
+	ld	a, l
+	and	#0xf0
+	ld	l, a
 
 	ld	a,#0x90		; Tile 0 is at 9000h
 	add	a,h
@@ -332,22 +333,19 @@ font_set::
 2$:
 	pop	af
 1$:
-	CALL    .set_char
-	CALL    .adv_curs
-	RET
+	call    .set_char
+	jp    	.adv_curs
 
 	;; Print a character without interpretation
 .out_char::
-	CALL	.set_char
-	CALL	.adv_curs
-	RET
+	call	.set_char
+	jp	.adv_curs
 
 	;; Delete a character
 .del_char::
-	CALL	.rew_curs
-	LD	A,#.SPACE
-	CALL	.set_char
-	RET
+	call	.rew_curs
+	ld	a,#.SPACE
+	jp	.set_char
 
 	;; Print the character in A
 .set_char:
@@ -445,7 +443,7 @@ _font_load::
 	push	hl
 	pop	de		; Return in DE
 	pop	bc
-	RET
+	ret
 
 _font_set::
 	push	bc
@@ -457,7 +455,7 @@ _font_set::
 	call	font_set
 	pop	bc
 	ld	de,#0		; Always good...
-	RET
+	ret
 
 _font_init::
 	push	bc
