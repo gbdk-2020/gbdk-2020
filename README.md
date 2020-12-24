@@ -3,11 +3,6 @@
 ## Current release for Linux: [Linux Binaries](https://github.com/Zal0/gbdk-2020/releases/latest/download/gbdk-linux64.tar.gz)
 You don't need the sources, unless you wish to compile GBDK-2020 yourself. Download the current release binaries using the links above.
 
-## [Online documentation](https://zal0.github.io/gbdk-2020/)
-
-## Discord server
-For help with using GBDK (and ZGB), discussion and development of gbdk-2020: https://discord.gg/XCbjCvqnUY
-
 # gbdk-2020
 [GBDK](http://gbdk.sourceforge.net/) A C compiler, assembler, linker and set of libraries for the Z80 like Nintendo Gameboy.
 
@@ -32,11 +27,15 @@ Then go to the examples folder and build them (with make.bat on windows or runni
 # Docs
 Online documentation is avaliable [HERE](https://zal0.github.io/gbdk-2020/)
 
+## Discord servers
+* [gbdk/zgb Discord](https://discord.gg/XCbjCvqnUY) - For help with using GBDK (and ZGB), discussion and development of gbdk-2020
+* [gbdev Discord](https://discordapp.com/invite/tKGMPNr) - There is a #gbdk channel and also people with a lot of Game Boy development knowledge
+
 For SDCC you can check its [website](http://sdcc.sourceforge.net/) and the [manual](http://sdcc.sourceforge.net/doc/sdccman.pdf)
 
 [The Game Boy Development Forum](https://gbdev.gg8.se/forums/) is a good place to search for answers. 
 
-There is also a #gbdk channel in the [gbdev Discord community](https://discord.gg/gpBxq85)
+
 
 # Build instructions
 Unless you are interested on recompiling the sources for some reason (like fixing some bugs) **you don't need to build GBDK**
