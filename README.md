@@ -5,6 +5,9 @@ You don't need the sources, unless you wish to compile GBDK-2020 yourself. Downl
 
 ## [Online documentation](https://zal0.github.io/gbdk-2020/)
 
+## Discord server
+For help with using GBDK (and ZGB), discussion and development of gbdk-2020: https://discord.gg/XCbjCvqnUY
+
 # gbdk-2020
 [GBDK](http://gbdk.sourceforge.net/) A C compiler, assembler, linker and set of libraries for the Z80 like Nintendo Gameboy.
 
