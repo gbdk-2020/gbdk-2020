@@ -10,6 +10,7 @@
 #define OBJ_NAME_MAX_STR_LEN 255
 #define AREA_LINE_RECORDS      2 // Bank number, Size
 #define SYMBOL_LINE_RECORDS    2 // Name, DefVal
+#define SYMBOL_REWRITE_RECORDS 2 // Name, DefVal
 
 
 typedef struct bank_item {

@@ -545,31 +545,37 @@ bool symbol_banked_check_rewrite_ok(char * symbol_name, uint32_t file_id) {
 bool symbol_modify_and_write_to_file(char * strline_in, FILE * out_file, uint16_t bank_num, uint32_t file_id) {
 
     uint32_t c;
+    uint32_t bank_in = 0;
     char strmatch[OBJ_NAME_MAX_STR_LEN];
     char symbol_name[OBJ_NAME_MAX_STR_LEN];
     symbol_match_item * sym_match = (symbol_match_item *)symbol_matchlist.p_array;
 
-    // Only rewrite banked symbol entries (include end of line chars)
+    // Only rewrite banked symbol entries
     if (strline_in[0] == 'S') {
         // For lines: S b_<symbol name>... Def0000FF
-        if (sscanf(strline_in,"S b_%" TOSTR(OBJ_NAME_MAX_STR_LEN) "s Def0000FF", symbol_name)) {
-            if (symbol_banked_check_rewrite_ok(symbol_name, file_id))  {
-                fprintf(out_file, "S b_%s Def0000%02x", symbol_name, bank_num);
-                if (strline_in[(strlen(strline_in)-1)] != '\n')
-                    fprintf(out_file, "\n");
-                return true;
+        if (SYMBOL_REWRITE_RECORDS == sscanf(strline_in,"S b_%" TOSTR(OBJ_NAME_MAX_STR_LEN) "s Def%06x", symbol_name, &bank_in)) {
+            if (bank_in == BANK_NUM_AUTO) {
+                if (symbol_banked_check_rewrite_ok(symbol_name, file_id))  {
+                    fprintf(out_file, "S b_%s Def0000%02x", symbol_name, bank_num);
+                    if (strline_in[(strlen(strline_in)-1)] != '\n')
+                        fprintf(out_file, "\n");
+                    return true;
+                }
             }
         } // For lines: S ___bank_<trailing symbol name>... Def0000FF
         else {
             for (c = 0; c < symbol_matchlist.count; c++) {
-                if (snprintf(strmatch, sizeof(strmatch), "S %s%%" TOSTR(OBJ_NAME_MAX_STR_LEN) "s Def0000FF", sym_match[c].name) > sizeof(strmatch))
+                // Prepare a sscanf match test string for the current symbol name
+                if (snprintf(strmatch, sizeof(strmatch), "S %s%%" TOSTR(OBJ_NAME_MAX_STR_LEN) "s Def%%06x", sym_match[c].name) > sizeof(strmatch))
                     printf("BankPack: Warning: truncated symbol match string to:%s\n",strmatch);
 
-                if (sscanf(strline_in, strmatch, symbol_name)) {
-                    fprintf(out_file, "S %s%s Def0000%02x", sym_match[c].name, symbol_name, bank_num);
-                    if (strline_in[(strlen(strline_in)-1)] != '\n')
-                        fprintf(out_file, "\n");
-                    return true;
+                if (SYMBOL_REWRITE_RECORDS == sscanf(strline_in, strmatch, symbol_name, &bank_in)) {
+                    if (bank_in == BANK_NUM_AUTO) {
+                        fprintf(out_file, "S %s%s Def0000%02x", sym_match[c].name, symbol_name, bank_num);
+                        if (strline_in[(strlen(strline_in)-1)] != '\n')
+                            fprintf(out_file, "\n");
+                        return true;
+                    }
                 }
             }
         }
