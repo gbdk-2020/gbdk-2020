@@ -73,7 +73,7 @@ static int verbose;		/* incremented for each -v */
 static List bankpacklist;	/* bankpack flags */
 static List ihxchecklist;	/* ihxcheck flags */
 static List mkbinlist;		/* loader files, flags */
-static List llist[2];		/* loader files, flags */
+static List llist[2];		/* [1] = loader files, [0] = flags */
 static List alist;		/* assembler flags */
 List clist;		/* compiler flags */
 static List plist;		/* preprocessor flags */
@@ -255,12 +255,21 @@ static void Fixllist()
 			b = b->link;
 			if(b->str[1] == 'g' || b->str[1] == 'b')
 			{
-				if(BEGINS_WITH(strchr(b->str, '.'), "_shadow_OAM="))
+				// '-g' and '-b' now have their values separated by a space.
+				// That splits them into two consecutive llist items,
+				// so try advancing to the next item to access it's value.
+				// Example:  b = "-g", next = ".STACK=0xE000"
+				if (b != llist[0])
+					b = b->link;
+				else
+					break; // end of list
+
+				if(BEGINS_WITH(strchr(b->str, '_'), "_shadow_OAM="))
 					oamDefFound = 1;
 				else if(BEGINS_WITH(strchr(b->str, '.'), ".STACK="))
 					stackDefFound = 1;
 				else if(BEGINS_WITH(strchr(b->str, '.'), ".refresh_OAM="))
-					stackDefFound = 1;
+					refreshOAMDefFound = 1;
 				else if(BEGINS_WITH(strchr(b->str, '_'), "_DATA="))
 					dataDefFound = 1;
 				else if(BEGINS_WITH(strchr(b->str, '_'), "_CODE="))
