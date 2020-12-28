@@ -9,5 +9,5 @@ var searchData=
   ['remove_5ftim_741',['remove_TIM',['../gb_8h.html#a1ad25695f4885f15325a82ec935e8579',1,'gb.h']]],
   ['remove_5fvbl_742',['remove_VBL',['../gb_8h.html#a3b3171b2e81e23b7d1bc402275a9ac71',1,'gb.h']]],
   ['reset_743',['reset',['../gb_8h.html#af4a728ba51de424a0bed286ac65d3242',1,'gb.h']]],
-  ['reverse_744',['reverse',['../string_8h.html#af0863b31e4ef29647e8181e60c9bd55e',1,'string.h']]]
+  ['reverse_744',['reverse',['../string_8h.html#af71f9ead43b3760680da8ab1bd3f783b',1,'string.h']]]
 ];

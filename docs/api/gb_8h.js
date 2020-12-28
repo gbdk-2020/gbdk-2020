@@ -122,7 +122,7 @@ var gb_8h =
     [ "vmemset", "gb_8h.html#a8cf949b6e2654b6a8bd9e403a49ee4b3", null ],
     [ "fill_bkg_rect", "gb_8h.html#a1af6b32a1760e56fad768352db7c4530", null ],
     [ "fill_win_rect", "gb_8h.html#a1bfd48083278d723d0c49f487720cdd0", null ],
-    [ "c", "gb_8h.html#a0b3366755f3276b0243c1e0497471b7a", null ],
+    [ "c", "gb_8h.html#a4e1e0e72dd773439e333c84dd762a9c3", null ],
     [ "_cpu", "gb_8h.html#adbc4b02721d3ab48caf53e0228fd3eb5", null ],
     [ "sys_time", "gb_8h.html#a320fd91d5aa12ba9d1435ab908420998", null ],
     [ "_io_status", "gb_8h.html#a83d08d752bb2f2406084a9afa7988b98", null ],

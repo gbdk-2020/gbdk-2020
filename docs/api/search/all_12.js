@@ -11,7 +11,7 @@ var searchData=
   ['remove_5fvbl_350',['remove_VBL',['../gb_8h.html#a3b3171b2e81e23b7d1bc402275a9ac71',1,'gb.h']]],
   ['reset_351',['reset',['../gb_8h.html#af4a728ba51de424a0bed286ac65d3242',1,'gb.h']]],
   ['ret_5fsize_352',['RET_SIZE',['../setjmp_8h.html#a61c5519ad23b4ddbcc77c45352aac913',1,'setjmp.h']]],
-  ['reverse_353',['reverse',['../string_8h.html#af0863b31e4ef29647e8181e60c9bd55e',1,'string.h']]],
+  ['reverse_353',['reverse',['../string_8h.html#af71f9ead43b3760680da8ab1bd3f783b',1,'string.h']]],
   ['rgb_354',['RGB',['../cgb_8h.html#a4a118ad3ee36468a3fa616977a64864e',1,'cgb.h']]],
   ['rgb_5faqua_355',['RGB_AQUA',['../cgb_8h.html#ae4fe0c6cfa46b0c4804425f23bb48f4c',1,'cgb.h']]],
   ['rgb_5fblack_356',['RGB_BLACK',['../cgb_8h.html#ae168f0f9864d4ed4be7807b9783f17f1',1,'cgb.h']]],

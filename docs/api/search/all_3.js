@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['c_62',['c',['../gb_8h.html#a0b3366755f3276b0243c1e0497471b7a',1,'gb.h']]],
+  ['c_62',['c',['../gb_8h.html#a4e1e0e72dd773439e333c84dd762a9c3',1,'c():&#160;gb.h'],['../string_8h.html#a4e1e0e72dd773439e333c84dd762a9c3',1,'c():&#160;string.h']]],
   ['cgb_2eh_63',['cgb.h',['../cgb_8h.html',1,'']]],
   ['cgb_5fcompatibility_64',['cgb_compatibility',['../cgb_8h.html#a6b334e5e452d0650aded17199be1514a',1,'cgb.h']]],
   ['cgb_5ftype_65',['CGB_TYPE',['../gb_8h.html#aee435a3a0dde3dbd7b6112dbb456cde8',1,'gb.h']]],
