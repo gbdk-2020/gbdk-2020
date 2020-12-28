@@ -17,6 +17,8 @@
 #ifndef _CGB_H
 #define _CGB_H
 
+#include <types.h>
+
 /** Macro to create a CGB palette color entry out of the color components.
 
     @param r   Red Component, range 0 - 31 (31 brightest)
