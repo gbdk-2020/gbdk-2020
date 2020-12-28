@@ -66,6 +66,12 @@ font_table::
 	rst	0x28
 
 	.area   _BASE
+
+_font_load_ibm::		; Banked
+	ld	hl,#_font_ibm
+	call	font_load
+	ret
+	
 	; Copy uncompressed 16 byte tiles from (BC) to (HL), length = DE*2
 	; Note: HL must be aligned on a UWORD boundry
 font_copy_uncompressed::
@@ -363,7 +369,6 @@ font_set::
 	xor	a
 	ld	(font_first_free_tile),a
 
-	.globl	_font_load_ibm
 	call	_font_load_ibm
 3$:
 	pop	af
