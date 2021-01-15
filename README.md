@@ -42,7 +42,7 @@ Unless you are interested on recompiling the sources for some reason (like fixin
 
 - **Windows only**: Download and install [mingw](http://www.mingw.org/)
 - Clone, download this repo or just get the source form the [releases](https://github.com/Zal0/gbdk-2020/releases)
-- Download and install [**sdcc nightlies from 4.0.4 #11952 onwards**](http://sdcc.sourceforge.net/snap.php) (SDCC is no longer part of GDDK so you need to download it (just the binaries) in the platform you need)
+- Download and install [**sdcc nightlies from 4.0.7 #12016 onwards**](http://sdcc.sourceforge.net/snap.php) (SDCC is no longer part of GDDK so you need to download it (just the binaries) in the platform you need)
 - On Linux **don't use package managers** The latest release available won't work, you need to compile or download one of the nightlies
 - Create and environment var **SDCCDIR** pointint to the folder where you installed sdcc
 - Open a command prompt or a terminal, go the root directory of the repo and run **make**
