@@ -1,7 +1,5 @@
 	.include	"global.s"
 
-	.globl	.copy_vram
-
 	.area	_BASE
 
 _set_bkg_1bit_data::
@@ -14,7 +12,12 @@ _set_sprite_1bit_data::
 	ld d, #0x80
 .copy_1bit_tiles:
 	push bc
-	lda hl, 4(sp)
+
+	lda hl, 8(sp)
+	ld a, (hl)
+	push af
+
+	lda hl, 6(sp)
 	ld a, (hl+) ; ID of 1st tile
 	ld e, a
 	ld a, (hl+) ; Nb of tiles
@@ -39,35 +42,52 @@ _set_sprite_1bit_data::
 	jr z, 2$
 	res 4, d
 2$:
-	.rept 3		; Repeat this 3 times to copy 12 bytes...
-		WAIT_STAT
-		; We have 16 cycles free to access VRAM, during which we can expand 2 bytes into 4 bytes
-		ld a, (hl+)
-		ld (de), a
-		inc e ; inc de
-		ld (de), a
-		inc e ; inc de
-		ld a, (hl+)
-		ld (de), a
-		inc e ; inc de
-		ld (de), a
-		inc e ; inc de
-	.endm
+	ld b, #8
+3$:
+	pop af
+	push af
+
+	dec a
+	jr z, 4$
+	dec a
+	jr z, 5$
+
 	WAIT_STAT
-	; We have 16 cycles free to access VRAM, during which we can expand 2 bytes into 4 byte
+	ld a, (hl)
+	ld (de), a
+	inc de
+	WAIT_STAT
 	ld a, (hl+)
 	ld (de), a
-	inc e ; inc de
-	ld (de), a
-	inc e ; inc de
+	inc de
+	jr 6$
+4$:
+	WAIT_STAT
 	ld a, (hl+)
 	ld (de), a
-	inc e ; inc de
+	inc de
+	WAIT_STAT
+	xor a
 	ld (de), a
-	inc de ; This actually can overflow into the high byte
+	inc de
+	jr 6$
+5$:
+	WAIT_STAT
+	xor a
+	ld (de), a
+	inc de
+	WAIT_STAT
+	ld a, (hl+)
+	ld (de), a
+	inc de
+6$:	
+	dec b
+	jr nz, 3$
 
 	dec c
 	jr nz, 1$
-	
+
+	pop af
+
 	pop bc
 	ret

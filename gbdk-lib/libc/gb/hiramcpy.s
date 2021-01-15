@@ -4,9 +4,9 @@
 	.area	_BASE
 
 _hiramcpy::
-	LDA	HL,4(SP)	; Skip return address and registers
+	LDA	HL,2(SP)	; Skip return address and registers
 	LD	E,(HL)		; E = dst
-	LDA	HL,7(SP)
+	LDA	HL,5(SP)
 	LD	A,(HL-)
 	LD	D, A		; D = n
 	LD	A,(HL-)		; HL = src

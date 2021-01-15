@@ -58,14 +58,20 @@ font_table::
 
 	.area	_GSINIT
 
-	XOR	A
-	LD	(#.curx),A
-	LD	(#.cury),A
-	LD	HL,#.start_font_vars
-	LD 	C,#(.end_font_vars - .start_font_vars)
-	RST	0x28
+	xor	a
+	ld	(#.curx),a
+	ld	(#.cury),a
+	ld	hl,#.start_font_vars
+	ld 	c,#(.end_font_vars - .start_font_vars)
+	rst	0x28
 
 	.area   _BASE
+
+_font_load_ibm::		; Banked
+	ld	hl,#_font_ibm
+	call	font_load
+	ret
+	
 	; Copy uncompressed 16 byte tiles from (BC) to (HL), length = DE*2
 	; Note: HL must be aligned on a UWORD boundry
 font_copy_uncompressed::
@@ -85,10 +91,11 @@ font_copy_uncompressed::
 	dec	d
 1$:
 	WAIT_STAT
-
 	ld	a,(bc)
 	ld	(hl+),a
 	inc	bc
+
+	WAIT_STAT
 	ld	a,(bc)
 	ld	(hl),a
 	inc	bc
@@ -164,7 +171,7 @@ font_copy_compressed_grey2:
 	WAIT_STAT
 
 	ld	(hl),b
-	inc	hl
+	inc	l		; can't overflow here
 	ld	(hl),c
 	inc	hl
 
@@ -255,15 +262,15 @@ font_copy_current::
 	ld	l,a
 
 	inc	hl		; Points to the 'tiles required' entry
-	ld	e,(hl)
+	ld	a,(hl-)
 	ld	d,#0
-	rl	e		; Multiple DE by 8
+	rla			; Multiple DE by 8
 	rl	d
-	rl	e
+	rla
 	rl	d
-	rl	e
-	rl	d		; DE has the length of the tile data
-	dec	hl
+	rla
+	rl	d		
+	ld	e, a		; DE has the length of the tile data
 
 	ld	a,(hl)		; Get the flags
 	push	af		
@@ -287,12 +294,13 @@ font_copy_current_copy:
 
 	; Find the offset in VRAM for this font
 	ld	a,(font_current+sfont_handle_first_tile)	; First tile used for this font
-	ld	l,a		
-	ld	h,#0
-	add	hl,hl
-	add	hl,hl
-	add	hl,hl
-	add	hl,hl
+	swap	a
+	ld	l,a
+	and	#0x0f
+	ld	h,a
+	ld	a, l
+	and	#0xf0
+	ld	l, a
 
 	ld	a,#0x90		; Tile 0 is at 9000h
 	add	a,h
@@ -331,22 +339,19 @@ font_set::
 2$:
 	pop	af
 1$:
-	CALL    .set_char
-	CALL    .adv_curs
-	RET
+	call    .set_char
+	jp    	.adv_curs
 
 	;; Print a character without interpretation
 .out_char::
-	CALL	.set_char
-	CALL	.adv_curs
-	RET
+	call	.set_char
+	jp	.adv_curs
 
 	;; Delete a character
 .del_char::
-	CALL	.rew_curs
-	LD	A,#.SPACE
-	CALL	.set_char
-	RET
+	call	.rew_curs
+	ld	a,#.SPACE
+	jp	.set_char
 
 	;; Print the character in A
 .set_char:
@@ -364,8 +369,7 @@ font_set::
 	xor	a
 	ld	(font_first_free_tile),a
 
-	.globl	_font_load_ibm_fixed
-	call	_font_load_ibm_fixed
+	call	_font_load_ibm
 3$:
 	pop	af
 	push	bc
@@ -444,7 +448,7 @@ _font_load::
 	push	hl
 	pop	de		; Return in DE
 	pop	bc
-	RET
+	ret
 
 _font_set::
 	push	bc
@@ -456,7 +460,7 @@ _font_set::
 	call	font_set
 	pop	bc
 	ld	de,#0		; Always good...
-	RET
+	ret
 
 _font_init::
 	push	bc
@@ -464,11 +468,10 @@ _font_init::
 
 	call	.tmode
 
-	ld	a,#1		; We use the first tile as a space _always_
+	xor	a
 	ld	(font_first_free_tile),a
 
 	; Clear the font table
-	xor	a
 	ld	hl,#font_table
 	ld	b,#sfont_handle_sizeof*.MAX_FONTS
 1$:
@@ -620,10 +623,10 @@ _posy::				; Banked
 	LD	D,#0x20		; D = width
 2$:
 	WAIT_STAT
-
 	LD	A,(BC)
 	LD	(HL+),A
 	INC	BC
+
 	DEC	D
 	JR	NZ,2$
 	DEC	E
@@ -632,11 +635,11 @@ _posy::				; Banked
 	LD	D,#0x20
 3$:
 	WAIT_STAT
-
 	LD	A,#.SPACE
 	LD	(HL+),A
 	DEC	D
 	JR	NZ,3$
+
 	POP	HL
 	POP	DE
 	POP	BC
@@ -650,8 +653,8 @@ _posy::				; Banked
 
 	.area	_BASE
 
-	.globl	.vbl
-	.globl	.lcd
+	.globl	.drawing_vbl
+	.globl	.drawing_lcd
 	.globl	.int_0x40
 	.globl	.int_0x48
 	.globl	.remove_int
@@ -669,10 +672,10 @@ _posy::				; Banked
 	CALL	.display_off
 
 	;; Remove any interrupts setup by the drawing routine
-	LD	BC,#.vbl
+	LD	BC,#.drawing_vbl
 	LD	HL,#.int_0x40
 	CALL	.remove_int
-	LD	BC,#.lcd
+	LD	BC,#.drawing_lcd
 	LD	HL,#.int_0x48
 	CALL	.remove_int
 1$:

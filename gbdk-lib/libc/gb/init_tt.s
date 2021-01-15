@@ -24,40 +24,30 @@
 	LD	DE,#0x0400	; One whole GB Screen
 
 .init_vram::
+	SRL	D
+	RR	E
+	JR	NC, 1$
+
+	WAIT_STAT
+	LD	A, B
+	LD	(HL+),A
 1$:
-	SRL	D
-	RR	E
-	JR	NC, 2$
-	WAIT_STAT
-	LD	A, B
-	LD	(HL+),A
-2$:
-	SRL	D
-	RR	E
-	JR	NC, 3$
-	WAIT_STAT
-	LD	A, B
-	LD	(HL+),A
-	LD	(HL+),A
-3$:
 	LD	A, D
 	OR	E
 	RET	Z
 	
 	INC	D
 	INC	E
-	JR	5$
-4$:
+	JR	2$
+3$:
 	WAIT_STAT
 	LD	A, B
 	LD	(HL+),A
 	LD	(HL+),A
-	LD	(HL+),A
-	LD	(HL+),A
-5$:
+2$:
 	DEC	E
-	JR	NZ, 4$
+	JR	NZ, 3$
 	DEC	D
-	JR	NZ, 4$
+	JR	NZ, 3$
 	
 	RET

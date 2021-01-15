@@ -97,7 +97,7 @@ $(document).ready(function(){initNavTree('stdio_8h.html',''); initResizable(); }
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a948b7a0779c308ac5502c57e282e6933"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stdio_8h.html#a948b7a0779c308ac5502c57e282e6933">putchar</a> (char <a class="el" href="gb_8h.html#a0b3366755f3276b0243c1e0497471b7a">c</a>)</td></tr>
+<tr class="memitem:a948b7a0779c308ac5502c57e282e6933"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stdio_8h.html#a948b7a0779c308ac5502c57e282e6933">putchar</a> (char <a class="el" href="string_8h.html#a4e1e0e72dd773439e333c84dd762a9c3">c</a>)</td></tr>
 <tr class="separator:a948b7a0779c308ac5502c57e282e6933"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a79c1db3e4a2aaa60d5afa76f7d984d0b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stdio_8h.html#a79c1db3e4a2aaa60d5afa76f7d984d0b">printf</a> (const char *format,...) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
 <tr class="separator:a79c1db3e4a2aaa60d5afa76f7d984d0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -111,7 +111,8 @@ Functions</h2></td></tr>
 <tr class="separator:a326ca91ffb1187c28f9d8ee680094e51"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Basic file/console input output functions. </p>
+<div class="textblock"><p>Basic file/console input output functions.</p>
+<p>Including stdio.h will use a large number of the background tiles for font characters. If stdio.h is not included then that space will be available for use with other tiles instead. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a id="a948b7a0779c308ac5502c57e282e6933"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a948b7a0779c308ac5502c57e282e6933">&#9670;&nbsp;</a></span>putchar()</h2>

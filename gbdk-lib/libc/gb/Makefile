@@ -7,10 +7,12 @@ PORT = gbz80
 
 CSRC = digits.c gprint.c gprintf.c gprintln.c gprintn.c
 
-ASSRC =	cgb.s cpy_data.s drawing.s f_ibm_sh.s \
-	f_italic.s f_min.s f_spect.s get_bk_t.s get_data.s \
+ASSRC =	cgb.s cpy_data.s \
+        drawing.s drawing_isr.s color.s \
+	f_ibm_full.s f_ibm_sh.s f_italic.s f_min.s f_spect.s \
+	get_bk_t.s get_data.s \
 	get_wi_t.s get_xy_t.s global.s \
-	hiramcpy.s ibmfixed.s init_tt.s input.s \
+	hiramcpy.s init_tt.s input.s \
 	pad.s sample.s \
 	serial.s set_bk_t.s \
 	set_data.s set_prop.s set_spr.s set_wi_t.s set_xy_t.s \

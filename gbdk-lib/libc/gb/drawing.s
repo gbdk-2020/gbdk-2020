@@ -10,6 +10,9 @@
 
 	.globl  .init_vram
 	.globl  .copy_vram
+	
+	.globl  .drawing_lcd, .drawing_vbl
+	.globl  .bg_colour, .fg_colour, .draw_mode
 
 	.M_SOLID	=	0x00
 	.M_OR	=	0x01
@@ -40,15 +43,6 @@
 
 	;; Data
 	.area	_BSS
-	;; Foreground drawing colour
-.fg_colour::	
-	.ds	1
-	;; Background drawing colour
-.bg_colour::	
-	.ds	1
-	;; Drawing mode (.SOILD etc)
-.draw_mode:
-	.ds	1
 	;; Fill style
 .style:	
 	.ds	0x01
@@ -93,9 +87,9 @@
 	CALL	.init_vram	; Init the charset at 0x8000
 
 	;; Install interrupt routines
-	LD	BC,#.vbl
+	LD	BC,#.drawing_vbl
 	CALL	.add_VBL
-	LD	BC,#.lcd
+	LD	BC,#.drawing_lcd
 	CALL	.add_LCD
 
 	LD	A,#72		; Set line at which LCD interrupt occurs
@@ -148,26 +142,6 @@
 	LD	(.bg_colour),A
 	
 	EI			; Enable interrupts
-
-	RET
-
-.vbl::
-	LDH	A,(.LCDC)
-	OR	#0b00010000	; Set BG Chr to 0x8000
-	LDH	(.LCDC),A
-
-	LD	A,#72		; Set line at which LCD interrupt occurs
-	LDH	(.LYC),A
-
-	RET
-
-	;; Is the STAT check required, as we are already in the HBL?
-.lcd::
-	WAIT_STAT
-
-	LDH	A,(.LCDC)
-	AND	#0b11101111	; Set BG Chr to 0x8800
-	LDH	(.LCDC),A
 
 	RET
 
@@ -1620,16 +1594,6 @@ _getpix::			; Banked
 	CALL	.getpix
 
 	POP	BC
-	RET
-
-_color::			; Banked
-	LDA	HL,.BANKOV(SP)	; Skip return address and registers
-	LD	A,(HL+)	; A = Foreground
-	LD	(.fg_colour),a
-	LD	A,(HL+)
-	LD	(.bg_colour),a
-	LD	A,(HL)
-	LD	(.draw_mode),a
 	RET
 
 _circle::			; Banked

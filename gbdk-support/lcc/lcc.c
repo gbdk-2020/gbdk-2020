@@ -2,7 +2,7 @@
  * lcc [ option ]... [ file | -llib ]...
  * front end for the ANSI C compiler
  */
-static char rcsid[] = "$Id: lcc.c,v 1.6 2001/10/28 18:38:13 michaelh Exp $";
+static char rcsid[] = "$Id: lcc.c,v 2.0 " BUILDDATE " " BUILDTIME " gbdk-2020 Exp $";
 
 #include <stdio.h>
 #include <stdarg.h>
@@ -57,7 +57,7 @@ extern char *tempname(char *);
 
 static void Fixllist();
 
-extern char *cpp[], *include[], *com[], *as[], *ld[], *ihxcheck[], *mkbin[], inputs[], *suffixes[];
+extern char *cpp[], *include[], *com[], *as[], *bankpack[], *ld[], *ihxcheck[], *mkbin[], inputs[], *suffixes[];
 extern int option(char *);
 extern void set_gbdk_dir(char*);
 
@@ -68,10 +68,12 @@ static int Eflag;		/* -E specified */
 static int Sflag;		/* -S specified */
 static int cflag;		/* -c specified */
 static int Kflag;		/* -K specified */
+static int autobankflag;	/* -K specified */
 static int verbose;		/* incremented for each -v */
-static List ihxchecklist;   /* ihxcheck flags */
+static List bankpacklist;	/* bankpack flags */
+static List ihxchecklist;	/* ihxcheck flags */
 static List mkbinlist;		/* loader files, flags */
-static List llist[2];		/* loader files, flags */
+static List llist[2];		/* [1] = loader files, [0] = flags */
 static List alist;		/* assembler flags */
 List clist;		/* compiler flags */
 static List plist;		/* preprocessor flags */
@@ -198,6 +200,15 @@ int main(int argc, char *argv[]) {
 		if (!target_is_ihx)
 			append(ihxFile, rmlist);
 
+		// if auto bank assignment is enabled, modify obj files before linking
+		if (autobankflag) {
+			compose(bankpack, bankpacklist, llist[1], 0);
+			if (callsys(av))
+				errcnt++;
+		}
+
+		// Call linker
+		// (fixlist adds required default linker vars if not added by user)
 		Fixllist();
 		compose(ld, llist[0], llist[1], append(ihxFile, 0));
 		if (callsys(av))
@@ -244,12 +255,21 @@ static void Fixllist()
 			b = b->link;
 			if(b->str[1] == 'g' || b->str[1] == 'b')
 			{
-				if(BEGINS_WITH(strchr(b->str, '.'), "_shadow_OAM="))
+				// '-g' and '-b' now have their values separated by a space.
+				// That splits them into two consecutive llist items,
+				// so try advancing to the next item to access it's value.
+				// Example:  b = "-g", next = ".STACK=0xE000"
+				if (b != llist[0])
+					b = b->link;
+				else
+					break; // end of list
+
+				if(BEGINS_WITH(strchr(b->str, '_'), "_shadow_OAM="))
 					oamDefFound = 1;
 				else if(BEGINS_WITH(strchr(b->str, '.'), ".STACK="))
 					stackDefFound = 1;
 				else if(BEGINS_WITH(strchr(b->str, '.'), ".refresh_OAM="))
-					stackDefFound = 1;
+					refreshOAMDefFound = 1;
 				else if(BEGINS_WITH(strchr(b->str, '_'), "_DATA="))
 					dataDefFound = 1;
 				else if(BEGINS_WITH(strchr(b->str, '_'), "_CODE="))
@@ -406,8 +426,12 @@ static int callsys(char **av) {
 		argc = i + 1;
 		if (argv == NULL)
 			argv = malloc(argc * sizeof *argv);
-		else
-			argv = realloc(argv, argc * sizeof *argv);
+		else {
+			char **argv0 = argv;
+			argv = realloc(argv0, argc * sizeof *argv);
+			if (argv == NULL)
+				free(argv0);
+		}
 		assert(argv);
 	}
 	for (i = 0; status == 0 && av[i] != NULL; ) {
@@ -661,6 +685,7 @@ static void help(void) {
 "-P	print ANSI-style declarations for globals\n",
 "-p -pg	emit profiling code; see prof(1) and gprof(1)\n",
 "-S	compile to assembly language\n",
+"-autobank auto-assign banks set to 255 (bankpack)\n"
 #ifdef linux
 "-static	specify static libraries (default is dynamic)\n",
 #endif
@@ -671,7 +696,7 @@ static void help(void) {
 "-v	show commands as they are executed; 2nd -v suppresses execution\n",
 "-w	suppress warnings\n",
 "-Woarg	specify system-specific `arg'\n",
-"-W[pfalim]arg	pass `arg' to the preprocessor, compiler, assembler, linker, ihxcheck, or makebin\n",
+"-W[pfablim]arg	pass `arg' to the preprocessor, compiler, assembler, bankpack, linker, ihxcheck, or makebin\n",
 	0 };
 	int i;
 	char *s;
@@ -753,6 +778,9 @@ static void opt(char *arg) {
             case 'i': /* ihxcheck arg list */
                 ihxchecklist = append(&arg[3], ihxchecklist);
                 return;
+            case 'b': /* bankpacklist arg list */
+                bankpacklist = append(&arg[3], bankpacklist);
+                return;
 			case 'l': /* Linker */
 				if(arg[4] == 'y' && (arg[5] == 't' || arg[5] == 'o' || arg[5] == 'a') && (arg[6] != '\0' && arg[6] != ' '))
 					goto makebinoption; //automatically pass -yo -ya -yt options to makebin (backwards compatibility)
@@ -775,6 +803,10 @@ static void opt(char *arg) {
 					sprintf(tmp, "%c%c%c", arg[3], arg[4], arg[5]); //-yo -ya -yt -yl -yk -yn
 					if (!(arg[5] == 'c' || arg[5] == 'C' || arg[5] == 's' || arg[5] == 'j')) // Don't add secong arg for -yc -yC -ys -yj
 						sprintf(tmp2, "%s", &arg[6]);
+
+					// If MBC option is present for makebin (-Wl-yt <n> or -Wm-yt <n>) then make a copy for bankpack to use
+					if (arg[5] == 't')
+						bankpacklist = append(&arg[3], bankpacklist);
 				} else {
 					sprintf(tmp, "%c%c", arg[3], arg[4]); //-s
 					if(arg[5])
@@ -811,6 +843,11 @@ static void opt(char *arg) {
 	case 'K':
 		Kflag++;
 		return;
+	case 'a':
+		if (strcmp(arg, "-autobank") == 0) {
+			autobankflag++;
+			return;
+		}
 	case 'B':	/* -Bdir -Bstatic -Bdynamic */
 #ifdef sparc
 		if (strcmp(arg, "-Bstatic") == 0 || strcmp(arg, "-Bdynamic") == 0)

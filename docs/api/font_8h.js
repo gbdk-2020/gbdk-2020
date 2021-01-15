@@ -11,9 +11,9 @@ var font_8h =
     [ "font_init", "font_8h.html#a61b6448050030c4367eafd836598e515", null ],
     [ "font_load", "font_8h.html#aae1084aacf5cfceb40d9ce8f34a3870a", null ],
     [ "font_set", "font_8h.html#a2f1eb1f81be1a153bc11b1ea368fe614", null ],
-    [ "font_spect", "font_8h.html#a8864dda768d160716fb95cc8c46cb5a9", null ],
-    [ "font_italic", "font_8h.html#a3c28d792899071492568375585a171cf", null ],
-    [ "font_ibm", "font_8h.html#ada456ea6f9f74229a178cef52471d37b", null ],
-    [ "font_min", "font_8h.html#aa7ed899bc52aac6cd5cd7ba4c2a43215", null ],
-    [ "font_ibm_fixed", "font_8h.html#a2d59fb8d9b95354fcc9b4541ce43f276", null ]
+    [ "font_spect", "group__gbdk__fonts.html#ga8864dda768d160716fb95cc8c46cb5a9", null ],
+    [ "font_italic", "group__gbdk__fonts.html#ga3c28d792899071492568375585a171cf", null ],
+    [ "font_ibm", "group__gbdk__fonts.html#gada456ea6f9f74229a178cef52471d37b", null ],
+    [ "font_min", "group__gbdk__fonts.html#gaa7ed899bc52aac6cd5cd7ba4c2a43215", null ],
+    [ "font_ibm_fixed", "group__gbdk__fonts.html#ga2d59fb8d9b95354fcc9b4541ce43f276", null ]
 ];

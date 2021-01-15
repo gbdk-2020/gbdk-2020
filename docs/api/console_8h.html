@@ -103,13 +103,14 @@ Functions</h2></td></tr>
 <tr class="separator:a87f5702d0e74f791414576f7636b4b74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a87894e0e2afb574907e2b11ef26e01cb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="console_8h.html#a87894e0e2afb574907e2b11ef26e01cb">posy</a> (void)</td></tr>
 <tr class="separator:a87894e0e2afb574907e2b11ef26e01cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a39cc3b71f4262838512c8589e755bbd3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="console_8h.html#a39cc3b71f4262838512c8589e755bbd3">setchar</a> (char <a class="el" href="gb_8h.html#a0b3366755f3276b0243c1e0497471b7a">c</a>)</td></tr>
+<tr class="memitem:a39cc3b71f4262838512c8589e755bbd3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="console_8h.html#a39cc3b71f4262838512c8589e755bbd3">setchar</a> (char <a class="el" href="string_8h.html#a4e1e0e72dd773439e333c84dd762a9c3">c</a>)</td></tr>
 <tr class="separator:a39cc3b71f4262838512c8589e755bbd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4826277cc150ddc0f4de4bd464a34909"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="console_8h.html#a4826277cc150ddc0f4de4bd464a34909">cls</a> ()</td></tr>
 <tr class="separator:a4826277cc150ddc0f4de4bd464a34909"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Console functions that work like Turbo C's. Note that the font is 8x8, making the screen 20x18 characters. </p>
+<div class="textblock"><p>Console functions that work like Turbo C's.</p>
+<p>The font is 8x8, making the screen 20x18 characters. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a id="a3cd0543b4adebf0bfb5c93a6d0a6f1a2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3cd0543b4adebf0bfb5c93a6d0a6f1a2">&#9670;&nbsp;</a></span>gotoxy()</h2>
@@ -136,7 +137,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Move the cursor to an absolute position. </p>
+<p>Move the cursor to an absolute position at <b>x, y</b>.</p>
+<p><b>x</b> and <b>y</b> have units of tiles (8 pixels per unit) </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="console_8h.html#a39cc3b71f4262838512c8589e755bbd3">setchar()</a> </dd></dl>
 
 </div>
 </div>
@@ -155,7 +157,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Get the current X position of the cursor. </p>
+<p>Returns the current X position of the cursor.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="console_8h.html#a3cd0543b4adebf0bfb5c93a6d0a6f1a2">gotoxy()</a> </dd></dl>
 
 </div>
 </div>
@@ -174,7 +177,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Get the current Y position of the cursor. </p>
+<p>Returns the current Y position of the cursor.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="console_8h.html#a3cd0543b4adebf0bfb5c93a6d0a6f1a2">gotoxy()</a> </dd></dl>
 
 </div>
 </div>
@@ -193,7 +197,9 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Writes out a single character at the current cursor position. Does not update the cursor or interpret the character. </p>
+<p>Writes out a single character at the current cursor position.</p>
+<p>Does not update the cursor or interpret the character.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="console_8h.html#a3cd0543b4adebf0bfb5c93a6d0a6f1a2">gotoxy()</a> </dd></dl>
 
 </div>
 </div>

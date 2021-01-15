@@ -37,11 +37,10 @@ DOXYGEN_VER_HAS = $(shell doxygen -v)
 # Base setup
 # Extension to add to executables
 EXEEXTENSION =
-# Host operating system identifier.  The one below should work for
-# most systems.
-HOSTOS = ppc-unknown-linux2.2
+# Host operating system identifier.
+HOSTOS = $(shell uname -s)
 # Target operating system identifier.  Used in the output zip name.
-TARGETOS = ppc-unknown-linux2.2
+TARGETOS ?= $(HOSTOS)
 
 # Directory that gbdk should finally end up in
 TARGETDIR = /opt/gbdk
@@ -117,6 +116,9 @@ gbdk-support-build:
 	@echo Building ihxcheck
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/ihxcheck TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
 	@echo
+	@echo Building bankpack
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/bankpack TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
+	@echo
 
 gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
 	@echo Installing lcc
@@ -129,6 +131,10 @@ gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
 	@cp $(GBDKSUPPORTDIR)/ihxcheck/ihxcheck $(BUILDDIR)/bin/ihxcheck$(EXEEXTENSION)
 	@$(TARGETSTRIP) $(BUILDDIR)/bin/ihxcheck*
 	@echo
+	@echo Installing bankpack
+	@cp $(GBDKSUPPORTDIR)/bankpack/bankpack $(BUILDDIR)/bin/bankpack$(EXEEXTENSION)
+	@$(TARGETSTRIP) $(BUILDDIR)/bin/bankpack*
+	@echo
 
 gbdk-support-clean:
 	@echo Cleaning lcc
@@ -136,6 +142,9 @@ gbdk-support-clean:
 	@echo
 	@echo Cleaning ihxcheck
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/ihxcheck clean --no-print-directory
+	@echo
+	@echo Cleaning bankpack
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/bankpack clean --no-print-directory
 	@echo
 
 # Rules for gbdk-lib
@@ -171,27 +180,23 @@ gbdk-lib-examples-makefile:
 	$(MAKE) -C $(BUILDDIR)/examples/gb make.bat
 	unix2dos $(BUILDDIR)/examples/gb/make.bat
 
-#SDDC copy
+# Copy SDDC executable files
+SDCC_BINS = makebin packihx sdar sdasgb sdcc sdcdb sdcdb sdcpp sdldgb sdnm sdobjcopy sdranlib sz80
+ifeq ($(OS),Windows_NT)
+MINGW64_RUNTIME = \
+	libgcc_s_seh-1.dll \
+	libgcc_s_sjlj-1.dll \
+	libstdc++-6.dll \
+	libwinpthread-1.dll \
+	readline5.dll
+SDCC_BINS := $(addsuffix .exe, $(SDCC_BINS)) $(MINGW64_RUNTIME)
+endif
+
 sdcc-install: check-SDCCDIR
 	@echo Installing SDCC
-ifeq ($(OS),Windows_NT)
-		@cp -r $(SDCCDIR)/bin $(BUILDDIR)
-else
-#		@cp $(SDCCDIR)/bin/{as2gbmap,makebin,packihx,sdar,sdasgb,sdcc,sdcdb,sdcdb{,src}.el,sdcpp,sdldgb,sdnm,sdobjcopy,sdranlib,sz80} $(BUILDDIR)/bin/
-		@cp $(SDCCDIR)/bin/as2gbmap $(BUILDDIR)/bin/
-		@cp $(SDCCDIR)/bin/makebin $(BUILDDIR)/bin/
-		@cp $(SDCCDIR)/bin/packihx $(BUILDDIR)/bin/
-		@cp $(SDCCDIR)/bin/sdar $(BUILDDIR)/bin/
-		@cp $(SDCCDIR)/bin/sdasgb $(BUILDDIR)/bin/
-		@cp $(SDCCDIR)/bin/sdcc $(BUILDDIR)/bin/
-		@cp $(SDCCDIR)/bin/sdcdb $(BUILDDIR)/bin/
-		@cp $(SDCCDIR)/bin/sdcpp $(BUILDDIR)/bin/
-		@cp $(SDCCDIR)/bin/sdldgb $(BUILDDIR)/bin/
-		@cp $(SDCCDIR)/bin/sdnm $(BUILDDIR)/bin/
-		@cp $(SDCCDIR)/bin/sdobjcopy $(BUILDDIR)/bin/
-		@cp $(SDCCDIR)/bin/sdranlib $(BUILDDIR)/bin/
-		@cp $(SDCCDIR)/bin/sz80 $(BUILDDIR)/bin/
-endif
+	@for i in $(SDCC_BINS); do \
+	cp $(SDCCDIR)/bin/$$i $(BUILDDIR)/bin/ && echo "-> $$i" ; \
+	done
 
 # Final binary
 binary:
@@ -208,9 +213,14 @@ install: native-build
 	mkdir -p $(TARGETDIR)
 	cp -r $(BUILDDIR)/* $(TARGETDIR)
 
+# Make sure SDCCDIR is populated
+# Swap WIN/MSDOS slashes to Unix style for MinGW (prevent some errors with cp)
 check-SDCCDIR:
 ifndef SDCCDIR
 	$(error SDCCDIR is undefined)
+endif
+ifeq ($(OS),Windows_NT)
+SDCCDIR := $(subst \,/,$(SDCCDIR))
 endif
 
 # First purge doxygen output directory to clear potentially stale output.
@@ -227,3 +237,4 @@ endif
 
 doxygen-clean:
 	rm -rf $(GBDKDOCSDIR)/api
+

@@ -137,7 +137,11 @@ Variables</h2></td></tr>
 <tr class="memitem:a6f1c13e2fad9dd04645a000050d9f382"><td class="memItemLeft" align="right" valign="top">volatile unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="far__ptr_8h.html#a6f1c13e2fad9dd04645a000050d9f382">__call_banked_bank</a></td></tr>
 <tr class="separator:a6f1c13e2fad9dd04645a000050d9f382"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Far pointers include a segment (bank) selector so they are able to point to addresses (functions or data) outside of the current bank (unlike normal pointers which are not bank-aware).</p>
+<p>See the <code>banks_farptr</code> example project included with gbdk.</p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>Add link to a discussion about banking (such as, how to assign code and variables to banks) </dd></dl>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a0c227677a96f9bf7e84a90922f2f8708"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0c227677a96f9bf7e84a90922f2f8708">&#9670;&nbsp;</a></span>TO_FAR_PTR</h2>
 
@@ -163,6 +167,14 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Macro to obtain a far pointer at compile-time </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ofs</td><td>Memory address within the given Segment (Bank) </td></tr>
+    <tr><td class="paramname">seg</td><td>Segment (Bank) number</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A far pointer (type <a class="el" href="far__ptr_8h.html#aea7a313c991baf8e28c1d73cf6595209">FAR_PTR</a>) </dd></dl>
 
 </div>
 </div>
@@ -181,6 +193,13 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Macro to get the Segment (Bank) number of a far pointer </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ptr</td><td>A far pointer (type <a class="el" href="far__ptr_8h.html#aea7a313c991baf8e28c1d73cf6595209">FAR_PTR</a>)</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Segment (Bank) of the far pointer (type unsigned int) </dd></dl>
 
 </div>
 </div>
@@ -199,6 +218,13 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Macro to get the Offset (address) of a far pointer </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ptr</td><td>A far pointer (type <a class="el" href="far__ptr_8h.html#aea7a313c991baf8e28c1d73cf6595209">FAR_PTR</a>)</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Offset (address) of the far pointer (type void *) </dd></dl>
 
 </div>
 </div>
@@ -261,6 +287,26 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Macro to call a function at far pointer <b>ptr</b> of type <b>typ</b> </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ptr</td><td>Far pointer of a function to call (type <a class="el" href="far__ptr_8h.html#aea7a313c991baf8e28c1d73cf6595209">FAR_PTR</a>) </td></tr>
+    <tr><td class="paramname">typ</td><td>Type to cast the function far pointer to. </td></tr>
+    <tr><td class="paramname">...</td><td>VA Args list of parameters for the function</td></tr>
+  </table>
+  </dd>
+</dl>
+<p><b>type</b> should match the definition of the function being called. For example: </p><div class="fragment"><div class="line"><span class="comment">// A function in bank 2</span></div>
+<div class="line"><span class="preprocessor">#pragma bank 2</span></div>
+<div class="line"><span class="keywordtype">int</span> some_function(<span class="keywordtype">int</span> param1, <span class="keywordtype">int</span> param2) __banked {  <span class="keywordflow">return</span> 1; };</div>
+<div class="line"> </div>
+<div class="line">...</div>
+<div class="line"><span class="comment">// Code elsewhere, such as unbanked main()</span></div>
+<div class="line"><span class="comment">// This type declaration should match the above function</span></div>
+<div class="line">typedef int (*some_function_t)(int, int) __banked;</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Using FAR_CALL() with the above as *ptr*, *typ*, and two parameters.</span></div>
+<div class="line">result = <a class="code" href="far__ptr_8h.html#a7f4ab1893ea392f8bf042a3b97de4730">FAR_CALL</a>(some_function, some_function_t, 100, 50);</div>
+</div><!-- fragment --><dl class="section return"><dt>Returns</dt><dd>Value returned by the function (if present) </dd></dl>
 
 </div>
 </div>
@@ -276,6 +322,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Type for storing a FAR_PTR </p>
 
 </div>
 </div>
@@ -322,6 +369,14 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Obtain a far pointer at runtime </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ofs</td><td>Memory address within the given Segment (Bank) </td></tr>
+    <tr><td class="paramname">seg</td><td>Segment (Bank) number</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A far pointer (type <a class="el" href="far__ptr_8h.html#aea7a313c991baf8e28c1d73cf6595209">FAR_PTR</a>) </dd></dl>
 
 </div>
 </div>
@@ -394,6 +449,7 @@ Variables</h2></td></tr>
 </div>
 </div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="afar__ptr_8h_html_a7f4ab1893ea392f8bf042a3b97de4730"><div class="ttname"><a href="far__ptr_8h.html#a7f4ab1893ea392f8bf042a3b97de4730">FAR_CALL</a></div><div class="ttdeci">#define FAR_CALL(ptr, typ,...)</div><div class="ttdef"><b>Definition:</b> far_ptr.h:62</div></div>
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

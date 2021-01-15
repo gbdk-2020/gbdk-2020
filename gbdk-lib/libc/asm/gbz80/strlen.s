@@ -28,7 +28,7 @@
 
 	.module		strlen
 
-	.area	_CODE
+	.area	_BASE
 
 _strlen::
 	lda	HL, 2(SP)

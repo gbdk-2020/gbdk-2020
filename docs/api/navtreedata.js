@@ -27,6 +27,7 @@ var NAVTREE =
   [ "GBDK 2020 API Docs", "index.html", [
     [ "Game Boy Development Kit 2020 API (gbdk-lib) documentation", "index.html", null ],
     [ "Todo List", "todo.html", null ],
+    [ "C modules", "modules.html", "modules" ],
     [ "Data Structures", "annotated.html", [
       [ "Data Structures", "annotated.html", "annotated_dup" ],
       [ "Data Structure Index", "classes.html", null ],
@@ -51,8 +52,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"gb_8h.html#a83d08d752bb2f2406084a9afa7988b98",
-"sgb_8h.html#a740398f9e4d2c4f3ba001388bc785938"
+"gb_8h.html#aa5d64e386a00b373f22ffdc5a152c7ba",
+"sgb_8h.html#a862a450451cfccf138311089b85292fc"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
