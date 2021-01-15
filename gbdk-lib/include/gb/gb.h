@@ -4,7 +4,7 @@
 #ifndef _GB_H
 #define _GB_H
 
-#define __GBDK_VERSION 400
+#define __GBDK_VERSION 402
 
 #include <types.h>
 #include <gb/hardware.h>
