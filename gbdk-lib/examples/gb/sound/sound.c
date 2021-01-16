@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <gb/console.h>
 
-#define ARROW_CHAR 3
+#define ARROW_CHAR '>'
 #define SPACE_CHAR ' '
 
 #define ARROW_X    0
@@ -21,8 +21,8 @@
 
 #define UNSIGNED 0
 
-UBYTE previous_keys;
-BYTE keys;
+UBYTE previous_keys = 0;
+BYTE keys = 0;
 #define UPDATE_KEYS() previous_keys = keys; keys = joypad()
 #define KEY_PRESSED(K) (keys & (K))
 #define KEY_TICKED(K) ((keys & (K)) && !(previous_keys & (K)))
@@ -172,7 +172,7 @@ const struct Params *params_array[] = {
   params_4,
 };
 
-struct Params *params;
+const struct Params *params;
 
 struct SoundReg {
   struct {
@@ -943,12 +943,6 @@ void wait_event(UBYTE mode)
     y = FIRST_Y;
     gotoxy(ARROW_X, y);
     setchar(ARROW_CHAR);
-
-    // Some versions of the GBDK compiler fail to set Y correctly in the
-    // above code when it's also used in calling gotoxy(). Y ends up
-    // being Zero instead of FIRST_Y(2). So re-set it again here to
-    // work around to avoid the compiler optimizaion bug.
-    y = FIRST_Y;
 
     show_register_channel(mode);
 
