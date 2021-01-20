@@ -983,6 +983,9 @@ typedef struct OAM_item_t {
 */
 extern volatile struct OAM_item_t shadow_OAM[];
 
+/** MSB of shadow_OAM address is used by OAM DMA copying routine
+*/
+__REG _shadow_OAM_base;
 
 /** Sets sprite number __nb__ to display tile number __tile__.
 
