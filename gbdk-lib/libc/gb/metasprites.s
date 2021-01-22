@@ -1,14 +1,14 @@
-	.include	"global.s"
+        .include    "global.s"
 
-	.title  "Metasprites"
-	.module	Metasprites
+        .title  "Metasprites"
+        .module Metasprites
 
-	.area   _DATA
+        .area   _DATA
 
 ___current_metasprite:: 
-	.ds	0x02
+        .ds 0x02
 ___current_base_tile::
-	.ds	0x01
+        .ds 0x01
 ___render_shadow_OAM::
         .ds     0x01
 
@@ -17,7 +17,7 @@ ___render_shadow_OAM::
         ld      a, #>_shadow_OAM
         ld      (___render_shadow_OAM), a 
 
-	.area   _CODE
+        .area   _CODE
 
 ; UBYTE __move_metasprite(UINT8 id, UINT8 x, UINT8 y)
 

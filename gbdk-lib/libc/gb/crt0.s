@@ -87,6 +87,7 @@ _wait_int_handler::
 	RETI
 
 	;; VBlank default interrupt routine
+__standard_VBL_handler::
 .std_vbl:
 	LD	HL,#.sys_time
 	INC	(HL)
@@ -94,11 +95,7 @@ _wait_int_handler::
 	INC	HL
 	INC	(HL)
 2$:
-	CALL	.refresh_OAM
-
-	LD	A,#0x01
-	LDH	(.vbl_done),A
-	RET
+	JP	.refresh_OAM
 
 	;; GameBoy Header
 
@@ -288,11 +285,17 @@ _set_interrupts::
 	;; Copy OAM data to OAM RAM
 .start_refresh_OAM:
 	LDH	A,(__shadow_OAM_base)
+	OR	A
+	JR	Z, 2$
+
 	LDH	(.DMA),A	; Put A into DMA registers
 	LD	A,#0x28		; We need to wait 160 ns
 1$:
 	DEC	A
 	JR	NZ,1$
+2$:	
+	INC	A
+	LDH	(.vbl_done),A
 	RET
 .end_refresh_OAM:
 
