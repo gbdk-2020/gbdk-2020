@@ -29,6 +29,7 @@ ASSRC =	cgb.s cpy_data.s \
 	mode.s clock.s \
 	get_t.s set_t.s init_vram.s \
 	fill_rect.s fill_rect_bk.s fill_rect_wi.s \
+	metasprites.s \
 	crt0.s
 
 ifeq ($(ASM),asxxxx)
