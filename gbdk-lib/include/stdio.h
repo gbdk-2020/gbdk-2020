@@ -26,6 +26,9 @@ void putchar(char c);
     Does not return the number of characters printed.
 
     Currently supported:
+    \li \%hx (char as hex)
+    \li \%hu (unsigned char)
+    \li \%hd (signed char)
     \li \%c (character)
     \li \%u (unsigned int)
     \li \%d (signed int)
