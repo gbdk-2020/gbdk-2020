@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['magic_836',['magic',['../structsmalloc__hunk.html#a4463bb598cac05efb9cf024d4d03b6b0',1,'smalloc_hunk']]],
-  ['malloc_5ffirst_837',['malloc_first',['../malloc_8h.html#af62987d0746c3fd2078e3b76d67a485d',1,'malloc.h']]],
-  ['malloc_5fheap_5fstart_838',['malloc_heap_start',['../malloc_8h.html#a1f0de2ad46e0870a290a0541c9181054',1,'malloc.h']]]
+  ['magic_894',['magic',['../structsmalloc__hunk.html#a4463bb598cac05efb9cf024d4d03b6b0',1,'smalloc_hunk']]],
+  ['malloc_5ffirst_895',['malloc_first',['../malloc_8h.html#af62987d0746c3fd2078e3b76d67a485d',1,'malloc.h']]],
+  ['malloc_5fheap_5fstart_896',['malloc_heap_start',['../malloc_8h.html#a1f0de2ad46e0870a290a0541c9181054',1,'malloc.h']]]
 ];

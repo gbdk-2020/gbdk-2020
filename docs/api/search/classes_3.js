@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['oam_5fitem_5ft_606',['OAM_item_t',['../struct_o_a_m__item__t.html',1,'']]]
+  ['metasprite_5fitem_5ft_640',['metasprite_item_t',['../structmetasprite__item__t.html',1,'']]],
+  ['metasprite_5ft_641',['metasprite_t',['../structmetasprite__t.html',1,'']]]
 ];

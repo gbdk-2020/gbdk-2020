@@ -1,4 +1,4 @@
-var dir_9647bd2f7f93513d8a961f20c2db9569 =
+var dir_bdfe001eb73b667f67d57fb851301eb1 =
 [
     [ "bgb_emu.h", "bgb__emu_8h.html", "bgb__emu_8h" ],
     [ "cgb.h", "cgb_8h.html", "cgb_8h" ],
@@ -10,6 +10,7 @@ var dir_9647bd2f7f93513d8a961f20c2db9569 =
     [ "gb.h", "gb_8h.html", "gb_8h" ],
     [ "hardware.h", "hardware_8h.html", "hardware_8h" ],
     [ "malloc.h", "malloc_8h.html", "malloc_8h" ],
+    [ "metasprites.h", "metasprites_8h.html", "metasprites_8h" ],
     [ "sample.h", "sample_8h.html", "sample_8h" ],
     [ "sgb.h", "sgb_8h.html", "sgb_8h" ]
 ];

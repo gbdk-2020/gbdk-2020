@@ -1,4 +1,7 @@
 var searchData=
 [
-  ['todo_20list_1206',['Todo List',['../todo.html',1,'']]]
+  ['gbdk_20releases_1268',['GBDK Releases',['../docs_releases.html',1,'index']]],
+  ['gbdk_20sample_20programs_1269',['GBDK Sample Programs',['../docs_sample_programs.html',1,'index']]],
+  ['gbdk_20toolchain_1270',['GBDK Toolchain',['../docs_toolchain.html',1,'index']]],
+  ['general_20documentation_1271',['General Documentation',['../index.html',1,'']]]
 ];

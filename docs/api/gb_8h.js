@@ -134,5 +134,6 @@ var gb_8h =
     [ "b", "gb_8h.html#a4c2e4adef74067fdbb49005bc73de937", null ],
     [ "d", "gb_8h.html#a0a3d95ad0ab8ad213016101d2e9c3d3e", null ],
     [ "e", "gb_8h.html#aeda4515a31485c9688c4601ac5ce2d79", null ],
-    [ "shadow_OAM", "gb_8h.html#a3619f9cb1e3c92238a033ead79a0c551", null ]
+    [ "shadow_OAM", "gb_8h.html#a3619f9cb1e3c92238a033ead79a0c551", null ],
+    [ "_shadow_OAM_base", "gb_8h.html#a7b662ae4d83f9837bacb9fd580673054", null ]
 ];

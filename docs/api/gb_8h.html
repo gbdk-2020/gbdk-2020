@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>GBDK 2020 API Docs: gb/gb.h File Reference</title>
+<title>GBDK 2020 Docs: gb/gb.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -28,7 +28,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">GBDK 2020 API Docs
+   <div id="projectname">GBDK 2020 Docs
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -386,6 +386,8 @@ Variables</h2></td></tr>
 <tr class="separator:aeda4515a31485c9688c4601ac5ce2d79"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3619f9cb1e3c92238a033ead79a0c551"><td class="memItemLeft" align="right" valign="top">volatile struct <a class="el" href="struct_o_a_m__item__t.html">OAM_item_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a3619f9cb1e3c92238a033ead79a0c551">shadow_OAM</a> []</td></tr>
 <tr class="separator:a3619f9cb1e3c92238a033ead79a0c551"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b662ae4d83f9837bacb9fd580673054"><td class="memItemLeft" align="right" valign="top"><a class="el" href="hardware_8h.html#a0b42e4dadd74c927e8b801b4f42c0e44">__REG</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a7b662ae4d83f9837bacb9fd580673054">_shadow_OAM_base</a></td></tr>
+<tr class="separator:a7b662ae4d83f9837bacb9fd580673054"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Gameboy specific functions. </p>
@@ -3871,6 +3873,21 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Shadow OAM array in WRAM, that is DMA-transferred into the real OAM each VBlank </p>
+
+</div>
+</div>
+<a id="a7b662ae4d83f9837bacb9fd580673054"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b662ae4d83f9837bacb9fd580673054">&#9670;&nbsp;</a></span>_shadow_OAM_base</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="hardware_8h.html#a0b42e4dadd74c927e8b801b4f42c0e44">__REG</a> _shadow_OAM_base</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>MSB of shadow_OAM address is used by OAM DMA copying routine </p>
 
 </div>
 </div>
