@@ -1,11 +1,6 @@
 # GBDK 2020 Documentation
 
-Some intro information here.
 
-Links to other general sections could be here.
+[General docs](api/)
 
-[API documentation](api/)
-
-There could be some links to other resources.
-
-
+[API](api/globals_func.html)
