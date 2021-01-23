@@ -95,7 +95,11 @@ __standard_VBL_handler::
 	INC	HL
 	INC	(HL)
 2$:
-	JP	.refresh_OAM
+	CALL	.refresh_OAM
+	
+	LD	A, #1
+	LDH	(.vbl_done),A
+	RET
 
 	;; GameBoy Header
 
@@ -286,16 +290,13 @@ _set_interrupts::
 .start_refresh_OAM:
 	LDH	A,(__shadow_OAM_base)
 	OR	A
-	JR	Z, 2$
+	RET	Z
 
 	LDH	(.DMA),A	; Put A into DMA registers
 	LD	A,#0x28		; We need to wait 160 ns
 1$:
 	DEC	A
 	JR	NZ,1$
-2$:	
-	INC	A
-	LDH	(.vbl_done),A
 	RET
 .end_refresh_OAM:
 
