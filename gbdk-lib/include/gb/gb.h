@@ -987,6 +987,22 @@ extern volatile struct OAM_item_t shadow_OAM[];
 */
 __REG _shadow_OAM_base;
 
+/** Disable OAM DMA copy each VBlank
+*/
+#define DISABLE_OAM_DMA \
+    _shadow_OAM_base = 0
+
+/** Enable OAM DMA copy each VBlank and set it to transfer default shadow_OAM array
+*/
+#define ENABLE_OAM_DMA \
+    _shadow_OAM_base = (UBYTE)((UWORD)&shadow_OAM >> 8)
+
+/** Enable OAM DMA copy each VBlank and set it to transfer any 256-byte aligned array
+*/
+inline void SET_SHADOW_OAM_ADDRESS(void * address) {
+    _shadow_OAM_base = (UBYTE)((UWORD)address >> 8);
+}
+
 /** Sets sprite number __nb__ to display tile number __tile__.
 
     @param nb    Sprite number, range 0 - 39
