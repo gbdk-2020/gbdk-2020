@@ -1114,6 +1114,14 @@ inline void scroll_sprite(UINT8 nb, INT8 x, INT8 y) {
 }
 
 
+/** Hides sprite number __nb__ by moving it to zero position by Y.
+
+    @param nb  Sprite number, range 0 - 39
+ */
+inline void hide_sprite(UINT8 nb) {
+    shadow_OAM[nb].y = 0;
+}
+
 
 
 /** Copies Tile Pattern data to an address in VRAM
