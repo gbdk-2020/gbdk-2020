@@ -42,23 +42,18 @@ ___move_metasprite::
 
         ld      a, (___render_shadow_OAM)
         ld      d, a
-
-        ld      a, (hl+)
-        inc     a
 1$:
-        dec     a
-        add     a
-        add     a
-        add     e
-        ld      e, a
-
         ld      a, (hl+)    ; dy
+        cp      #0x80
+        jr      z, 2$
         add     b
+        ld      b, a
         ld      (de), a
         inc     e
 
         ld      a, (hl+)    ; dx
         add     c
+        ld      c, a
         ld      (de), a
         inc     e
 
@@ -72,10 +67,9 @@ ___move_metasprite::
         ld      (de), a
         inc     e
 
-        ld      a, (hl+)
-        or      a
-        jr      nz, 1$
+        jr      1$
 
+2$:
         pop     hl
         ld      e,(hl)
 
@@ -96,19 +90,16 @@ ___hide_metasprite::
         ld      l, a
         inc     hl 
 
-        ld      bc, #4
+        ld      bc, #3
 
         ld      a, (___render_shadow_OAM)
         ld      d, a
-
-        ld      a, (hl+)
-        inc     a
 1$:
-        dec     a
-        add     a
-        add     a
-        add     e
-        ld      e, a
+        ld      a, (hl+)
+        cp      #0x80
+        ret     z
+
+        add     hl, bc
 
         xor     a
         ld      (de), a
@@ -117,10 +108,4 @@ ___hide_metasprite::
         inc     e
         inc     e
         inc     e
-        add     hl, bc
-       
-        ld      a, (hl+)
-        or      a
-        jr      nz, 1$
-
-        ret
+        jr      1$
