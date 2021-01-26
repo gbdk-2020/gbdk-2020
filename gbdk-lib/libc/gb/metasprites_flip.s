@@ -26,9 +26,6 @@ ___move_metasprite_hflip::
         ld      a, (hl+)
         ld      h, (hl)
         ld      l, a
-        push    hl
-
-        inc     hl 
 
         ld      a, (___render_shadow_OAM)
         ld      d, a
@@ -61,10 +58,13 @@ ___move_metasprite_hflip::
         inc     e
 
         jr      1$
-
 2$:
-        pop     hl
-        ld      e,(hl)
+        ldhl    sp, #2
+        ld      a, e
+        srl     a
+        srl     a
+        sub     (hl)
+        ld      e, a
 
         ret
 
@@ -83,9 +83,6 @@ ___move_metasprite_vflip::
         ld      a, (hl+)
         ld      h, (hl)
         ld      l, a
-        push    hl
-
-        inc     hl 
 
         ld      a, (___render_shadow_OAM)
         ld      d, a
@@ -118,10 +115,13 @@ ___move_metasprite_vflip::
         inc     e
 
         jr      1$
-
 2$:
-        pop     hl
-        ld      e,(hl)
+        ldhl    sp, #2
+        ld      a, e
+        srl     a
+        srl     a
+        sub     (hl)
+        ld      e, a
 
         ret
 
@@ -140,9 +140,6 @@ ___move_metasprite_hvflip::
         ld      a, (hl+)
         ld      h, (hl)
         ld      l, a
-        push    hl
-
-        inc     hl 
 
         ld      a, (___render_shadow_OAM)
         ld      d, a
@@ -177,9 +174,12 @@ ___move_metasprite_hvflip::
         inc     e
 
         jr      1$
-
 2$:
-        pop     hl
-        ld      e,(hl)
+        ldhl    sp, #2
+        ld      a, e
+        srl     a
+        srl     a
+        sub     (hl)
+        ld      e, a
 
         ret

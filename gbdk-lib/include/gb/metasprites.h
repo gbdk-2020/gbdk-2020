@@ -4,18 +4,10 @@
 /**
  * metasprite item description
  */
-typedef struct metasprite_item_t {
+typedef struct metasprite_t {
     INT8  dy, dx;
     UINT8 dtile;
     UINT8 props;
-} metasprite_item_t;
-
-/**
- * Metasprite description
- */
-typedef struct metasprite_t {
-    UINT8 count;
-    metasprite_item_t items[];
 } metasprite_t;
 
 #define metasprite_end -128 
@@ -38,25 +30,25 @@ static void __hide_metasprite(UINT8 id);
  * @param x absolute x coordinate of the sprite
  * @param y absolute y coordinate of the sprite
  **/
-inline UBYTE move_metasprite(const void * metasprite, UINT8 base_tile, UINT8 base_sprite, UINT8 x, UINT8 y) {
+inline UBYTE move_metasprite(const metasprite_t * metasprite, UINT8 base_tile, UINT8 base_sprite, UINT8 x, UINT8 y) {
     __current_metasprite = metasprite; 
     __current_base_tile = base_tile;
     return __move_metasprite(base_sprite, x, y); 
 }
 
-inline UBYTE move_metasprite_vflip(const void * metasprite, UINT8 base_tile, UINT8 base_sprite, UINT8 x, UINT8 y) {
+inline UBYTE move_metasprite_vflip(const metasprite_t * metasprite, UINT8 base_tile, UINT8 base_sprite, UINT8 x, UINT8 y) {
     __current_metasprite = metasprite; 
     __current_base_tile = base_tile;
     return __move_metasprite_vflip(base_sprite, x, y); 
 }
 
-inline UBYTE move_metasprite_hflip(const void * metasprite, UINT8 base_tile, UINT8 base_sprite, UINT8 x, UINT8 y) {
+inline UBYTE move_metasprite_hflip(const metasprite_t * metasprite, UINT8 base_tile, UINT8 base_sprite, UINT8 x, UINT8 y) {
     __current_metasprite = metasprite; 
     __current_base_tile = base_tile;
     return __move_metasprite_hflip(base_sprite, x, y); 
 }
 
-inline UBYTE move_metasprite_hvflip(const void * metasprite, UINT8 base_tile, UINT8 base_sprite, UINT8 x, UINT8 y) {
+inline UBYTE move_metasprite_hvflip(const metasprite_t * metasprite, UINT8 base_tile, UINT8 base_sprite, UINT8 x, UINT8 y) {
     __current_metasprite = metasprite; 
     __current_base_tile = base_tile;
     return __move_metasprite_hvflip(base_sprite, x, y); 
@@ -67,7 +59,7 @@ inline UBYTE move_metasprite_hvflip(const void * metasprite, UINT8 base_tile, UI
  * @param metasprite metasprite description
  * @param base_sprite start hardware sprite
  **/
-inline void hide_metasprite(const void * metasprite, UINT8 base_sprite) {
+inline void hide_metasprite(const metasprite_t * metasprite, UINT8 base_sprite) {
     __current_metasprite = metasprite; 
     __hide_metasprite(base_sprite);
 }

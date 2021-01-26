@@ -33,52 +33,37 @@ UINT8 sprite_data[] = {
 0x01,0x01,0x01,0x01,0x01,0x01,0x02,0x03,0x03,0x02,0x07,0x04,0x0b,0x0c,0x0f,0x08,0x1f,0x11,0x1e,0x12,0x2a,0x36,0x3c,0x24,0x24,0x3c,0x28,0x38,0x38,0x38,0x00,0x00,
 };
 
-const metasprite_t metasprite0 = {
-    19, 
-    {
-        { 0,   8,  0,  0}, { 0,  8,  2,  0}, { 0,  8,  4,  0}, { 0,  8,  6,  0}, { 0,  8,  8,  0}, { 0,  8,  0, 32}, 
-        {16, -40, 10,  0}, { 0,  8, 12,  0}, { 0,  8, 14,  0}, { 0,  8, 16,  0}, { 0,  8, 16, 32}, { 0,  8, 18,  0}, { 0,  8, 20,  0}, 
-        {16, -48, 22,  0},                   { 0, 16, 24,  0}, { 0,  8, 26,  0}, { 0,  8, 28,  0}, { 0,  8, 30,  0}, { 0,  8, 32,  0}, 
-        {metasprite_end}
-    }
+const metasprite_t metasprite0[] = {
+    { 0,   8,  0,  0}, { 0,  8,  2,  0}, { 0,  8,  4,  0}, { 0,  8,  6,  0}, { 0,  8,  8,  0}, { 0,  8,  0, 32}, 
+    {16, -40, 10,  0}, { 0,  8, 12,  0}, { 0,  8, 14,  0}, { 0,  8, 16,  0}, { 0,  8, 16, 32}, { 0,  8, 18,  0}, { 0,  8, 20,  0}, 
+    {16, -48, 22,  0},                   { 0, 16, 24,  0}, { 0,  8, 26,  0}, { 0,  8, 28,  0}, { 0,  8, 30,  0}, { 0,  8, 32,  0}, 
+    {metasprite_end}
 };
-const metasprite_t metasprite1 = {
-    20, 
-    {
-                          { 0,  8,  0,  0}, { 0,  8,  2,  0}, { 0,  8,  4,  0}, { 0,  8,  6,  0}, { 0,  8,  8,  0}, { 0,  8,  0, 32}, 
-                          {16,-40, 10,  0}, { 0,  8, 12,  0}, { 0,  8, 14,  0}, { 0,  8, 16,  0}, { 0,  8, 16, 32}, { 0,  8, 18,  0}, { 0,  8, 34,  0}, 
-        {16,-56, 36,  0}, { 0,  8, 38,  0},                   { 0, 16, 24,  0}, { 0,  8, 26,  0}, { 0,  8, 28,  0}, { 0,  8, 30,  0}, { 0,  8, 40,  0}, 
-        {metasprite_end}
-    }
+const metasprite_t metasprite1[] = {
+                      { 0,  8,  0,  0}, { 0,  8,  2,  0}, { 0,  8,  4,  0}, { 0,  8,  6,  0}, { 0,  8,  8,  0}, { 0,  8,  0, 32}, 
+                      {16,-40, 10,  0}, { 0,  8, 12,  0}, { 0,  8, 14,  0}, { 0,  8, 16,  0}, { 0,  8, 16, 32}, { 0,  8, 18,  0}, { 0,  8, 34,  0}, 
+    {16,-56, 36,  0}, { 0,  8, 38,  0},                   { 0, 16, 24,  0}, { 0,  8, 26,  0}, { 0,  8, 28,  0}, { 0,  8, 30,  0}, { 0,  8, 40,  0}, 
+    {metasprite_end}
 };
-const metasprite_t metasprite2 = {
-    20, 
-    {
-                          { 0,  8,  0,  0}, { 0,  8,  2,  0}, { 0,  8,  4,  0}, { 0,  8,  6,  0}, { 0,  8,  8,  0}, { 0,  8,  0, 32}, 
-                          {16,-40, 10,  0}, { 0,  8, 12,  0}, { 0,  8, 14,  0}, { 0,  8, 16,  0}, { 0,  8, 16, 32}, { 0,  8, 18,  0}, { 0,  8, 42,  0}, 
-        {16,-56, 44,  0}, { 0,  8, 46,  0},                   { 0, 16, 24,  0}, { 0,  8, 26,  0}, { 0,  8, 28,  0}, { 0,  8, 30,  0}, { 0,  8, 48,  0}, 
-        {metasprite_end}
-    }
+const metasprite_t metasprite2[] = {
+                      { 0,  8,  0,  0}, { 0,  8,  2,  0}, { 0,  8,  4,  0}, { 0,  8,  6,  0}, { 0,  8,  8,  0}, { 0,  8,  0, 32}, 
+                      {16,-40, 10,  0}, { 0,  8, 12,  0}, { 0,  8, 14,  0}, { 0,  8, 16,  0}, { 0,  8, 16, 32}, { 0,  8, 18,  0}, { 0,  8, 42,  0}, 
+    {16,-56, 44,  0}, { 0,  8, 46,  0},                   { 0, 16, 24,  0}, { 0,  8, 26,  0}, { 0,  8, 28,  0}, { 0,  8, 30,  0}, { 0,  8, 48,  0}, 
+    {metasprite_end}
 };
-const metasprite_t metasprite3 = {
-    20, 
-    {
-                          { 0,  8,  0,  0}, { 0,  8,  2,  0}, { 0,  8,  4,  0}, { 0,  8,  6,  0}, { 0,  8,  8,  0}, { 0,  8,  0, 32}, 
-                          {16,-40, 10,  0}, { 0,  8, 12,  0}, { 0,  8, 14,  0}, { 0,  8, 16,  0}, { 0,  8, 16, 32}, { 0,  8, 18,  0}, { 0,  8, 34,  0}, 
-        {16,-56, 50,  0}, { 0,  8, 52,  0},                   { 0, 16, 24,  0}, { 0,  8, 26,  0}, { 0,  8, 28,  0}, { 0,  8, 30,  0}, { 0,  8, 40,  0}, 
-        {metasprite_end}
-    }
+const metasprite_t metasprite3[] = {
+                      { 0,  8,  0,  0}, { 0,  8,  2,  0}, { 0,  8,  4,  0}, { 0,  8,  6,  0}, { 0,  8,  8,  0}, { 0,  8,  0, 32}, 
+                      {16,-40, 10,  0}, { 0,  8, 12,  0}, { 0,  8, 14,  0}, { 0,  8, 16,  0}, { 0,  8, 16, 32}, { 0,  8, 18,  0}, { 0,  8, 34,  0}, 
+    {16,-56, 50,  0}, { 0,  8, 52,  0},                   { 0, 16, 24,  0}, { 0,  8, 26,  0}, { 0,  8, 28,  0}, { 0,  8, 30,  0}, { 0,  8, 40,  0}, 
+    {metasprite_end}
 };
-const metasprite_t metasprite4 = {
-    20, 
-    {
-                          { 0,  8,  0,  0}, { 0,  8,  2,  0}, { 0,  8,  4,  0}, { 0,  8,  6,  0}, { 0,  8,  8,  0}, { 0,  8,  0, 32}, 
-                          {16,-40, 10,  0}, { 0,  8, 12,  0}, { 0,  8, 14,  0}, { 0,  8, 16,  0}, { 0,  8, 16, 32}, { 0,  8, 18,  0}, { 0,  8, 20,  0}, 
-        {16,-56, 54,  0}, { 0,  8, 52,  0},                   { 0, 16, 24,  0}, { 0,  8, 26,  0}, { 0,  8, 28,  0}, { 0,  8, 30,  0}, { 0,  8, 32,  0}, 
-        {metasprite_end}
-    }
+const metasprite_t metasprite4[] = {
+                      { 0,  8,  0,  0}, { 0,  8,  2,  0}, { 0,  8,  4,  0}, { 0,  8,  6,  0}, { 0,  8,  8,  0}, { 0,  8,  0, 32}, 
+                      {16,-40, 10,  0}, { 0,  8, 12,  0}, { 0,  8, 14,  0}, { 0,  8, 16,  0}, { 0,  8, 16, 32}, { 0,  8, 18,  0}, { 0,  8, 20,  0}, 
+    {16,-56, 54,  0}, { 0,  8, 52,  0},                   { 0, 16, 24,  0}, { 0,  8, 26,  0}, { 0,  8, 28,  0}, { 0,  8, 30,  0}, { 0,  8, 32,  0}, 
+    {metasprite_end}
 };
-const metasprite_t * const metasprites[] = { &metasprite0, &metasprite1, &metasprite2, &metasprite3, &metasprite4, &metasprite3, &metasprite2, &metasprite1 };
+const metasprite_t * const metasprites[] = { metasprite0, metasprite1, metasprite2, metasprite3, metasprite4, metasprite3, metasprite2, metasprite1 };
 
 const unsigned char pattern[] = {0x80,0x80,0x40,0x40,0x20,0x20,0x10,0x10,0x08,0x08,0x04,0x04,0x02,0x02,0x01,0x01};
 
@@ -105,7 +90,6 @@ void main(void) {
 
     // load tile data into VRAM
     set_sprite_data(0, sizeof(sprite_data) >> 4, sprite_data);
-//    set_sprite_data(0, sizeof(coin_data) >> 4, coin_data);
 
     // set sprite tile
     set_sprite_tile(0, 0);
@@ -163,21 +147,22 @@ void main(void) {
 
         PosX += SpdX, PosY += SpdY; 
 
-//        move_metasprite(coins[0], 0, 0, PosX >> 4, PosY >> 4);
+        UBYTE hiwater = 0;
 
         // hide or move sprite
-        if (hide) 
-            hide_metasprite(metasprites[idx], 0); 
+        if (hide)
+            hide_metasprite(metasprites[idx], 0);
         else
             switch (rot) {
-                case 0: move_metasprite(metasprites[idx], 0, 0, PosX >> 4, PosY >> 4); break;
-                case 1: move_metasprite_hflip(metasprites[idx], 0, 0, PosX >> 4, PosY >> 4); break;
-                case 2: move_metasprite_hvflip(metasprites[idx], 0, 0, PosX >> 4, PosY >> 4); break;
-                case 3: move_metasprite_vflip(metasprites[idx], 0, 0, PosX >> 4, PosY >> 4); break;
+                case 0: hiwater = move_metasprite(metasprites[idx], 0, 0, PosX >> 4, PosY >> 4); break;
+                case 1: hiwater = move_metasprite_hflip(metasprites[idx], 0, 0, PosX >> 4, PosY >> 4); break;
+                case 2: hiwater = move_metasprite_hvflip(metasprites[idx], 0, 0, PosX >> 4, PosY >> 4); break;
+                case 3: hiwater = move_metasprite_vflip(metasprites[idx], 0, 0, PosX >> 4, PosY >> 4); break;
             };
 
         // hide rest of the hardware sprites, because amount of sprites differ between animation frames
-        for (UBYTE i = metasprites[idx]->count; i < 40; i++) hide_sprite(i);
+        for (UBYTE i = hiwater; i < 40; i++) shadow_OAM[i].y = 0;
+
 
         if (!(PosF & ACC_Y)) {
             if (SpdY >= 0) {
