@@ -110,7 +110,7 @@ bool FindTile(const Tile& t, unsigned char& idx, unsigned char& props)
 	it = find(tiles.begin(), tiles.end(), t);
 	if(it != tiles.end())
 	{
-		idx = it - tiles.begin();
+		idx = (unsigned char)(it - tiles.begin());
 		props = 0;
 		return true;
 	}
@@ -119,7 +119,7 @@ bool FindTile(const Tile& t, unsigned char& idx, unsigned char& props)
 	it = find(tiles.begin(), tiles.end(), tile);
 	if(it != tiles.end())
 	{
-		idx = it - tiles.begin();
+		idx = (unsigned char)(it - tiles.begin());
 		props = 1 << 5;
 		return true;
 	}
@@ -128,7 +128,7 @@ bool FindTile(const Tile& t, unsigned char& idx, unsigned char& props)
 	it = find(tiles.begin(), tiles.end(), tile);
 	if(it != tiles.end())
 	{
-		idx = it - tiles.begin();
+		idx = (unsigned char)(it - tiles.begin());
 		props = (1 << 5) | (1 << 6);
 		return true;
 	}
@@ -137,7 +137,7 @@ bool FindTile(const Tile& t, unsigned char& idx, unsigned char& props)
 	it = find(tiles.begin(), tiles.end(), tile);
 	if(it != tiles.end())
 	{
-		idx = it - tiles.begin();
+		idx = (unsigned char)(it - tiles.begin());
 		props = 1 << 6;
 		return true;
 	}
@@ -231,13 +231,13 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	int slash_pos = output_filename.rfind('/');
-	if(slash_pos == -1)
-		slash_pos = output_filename.rfind('\\');
-	int dot_pos = output_filename.rfind('.');
+	size_t slash_pos = output_filename.find_last_of('/');
+	if(slash_pos == -1u)
+		slash_pos = output_filename.find_last_of('\\');
+	size_t dot_pos = output_filename.find_last_of('.');
 
-	if(slash_pos == -1) slash_pos = 0;
-	if(dot_pos == -1) dot_pos = 0;
+	if(slash_pos == -1u) slash_pos = 0;
+	if(dot_pos == -1u) dot_pos = 0;
 
 	string output_filename_h = output_filename.substr(0, dot_pos) + ".h";
 	string data_name = output_filename.substr(slash_pos + 1, dot_pos - 1 - slash_pos);
