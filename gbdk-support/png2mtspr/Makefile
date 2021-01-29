@@ -3,10 +3,11 @@
  
 CXX = g++
 CXXFLAGS = -Os -Wall -g
-LFLAGS = -g -static
+LFLAGS = -g
 
 ifeq ($(OS),Windows_NT)
 	EXT = .exe
+	LFLAGS += -static 
 endif
  
 # ****************************************************

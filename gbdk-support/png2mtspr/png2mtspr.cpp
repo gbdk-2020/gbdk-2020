@@ -64,10 +64,10 @@ struct MTTile
 {
 	char offset_x;
 	char offset_y;
-	char offset_idx;
+	unsigned char offset_idx;
 	unsigned char props;
 
-	MTTile(unsigned char offset_x, unsigned char offset_y, unsigned char offset_idx, unsigned char props) : offset_x(offset_x), offset_y(offset_y), offset_idx(offset_idx), props(props) {}
+	MTTile(char offset_x, char offset_y, unsigned char offset_idx, unsigned char props) : offset_x(offset_x), offset_y(offset_y), offset_idx(offset_idx), props(props) {}
 	MTTile() : offset_x(0), offset_y(0), offset_idx(0), props(0) {}
 };
 
@@ -178,6 +178,8 @@ void GetMetaSprite(int _x, int _y, int _w, int _h)
 			}
 		}
 	}
+	if(mt_sprite.size() == 0)
+		sprites.pop_back();
 }
 
 int main(int argc, char *argv[])
