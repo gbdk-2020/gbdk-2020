@@ -225,6 +225,10 @@ Macros</h2></td></tr>
 <tr class="separator:af91d252f07f4764996154820f970c101"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa87bec0d134136fdb727f52cb773b792"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#aa87bec0d134136fdb727f52cb773b792">SPRITES_8x8</a>&#160;&#160;&#160;  <a class="el" href="hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>&amp;=0xFBU</td></tr>
 <tr class="separator:aa87bec0d134136fdb727f52cb773b792"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47607089a434dcda7a8583cfca03b604"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a47607089a434dcda7a8583cfca03b604">DISABLE_OAM_DMA</a>&#160;&#160;&#160;    <a class="el" href="gb_8h.html#a7b662ae4d83f9837bacb9fd580673054">_shadow_OAM_base</a> = 0</td></tr>
+<tr class="separator:a47607089a434dcda7a8583cfca03b604"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20895d53fe9caacb08ce8b071d57ce53"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a20895d53fe9caacb08ce8b071d57ce53">ENABLE_OAM_DMA</a>&#160;&#160;&#160;    <a class="el" href="gb_8h.html#a7b662ae4d83f9837bacb9fd580673054">_shadow_OAM_base</a> = (<a class="el" href="asm_2types_8h.html#a280213815420791851f7e59bdc8a3c95">UBYTE</a>)((<a class="el" href="asm_2types_8h.html#a9e551e7c1bd8feb51e8eefd109966f75">UWORD</a>)&amp;<a class="el" href="gb_8h.html#a3619f9cb1e3c92238a033ead79a0c551">shadow_OAM</a> &gt;&gt; 8)</td></tr>
+<tr class="separator:a20895d53fe9caacb08ce8b071d57ce53"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -327,6 +331,8 @@ Functions</h2></td></tr>
 <tr class="separator:adc3c0a38af3e27723c7607b2c923d3d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5ce794b7f0c3361c79c887b500fcaf19"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a5ce794b7f0c3361c79c887b500fcaf19">get_sprite_data</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> first_tile, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> nb_tiles, unsigned char *data) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:a5ce794b7f0c3361c79c887b500fcaf19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e0cdfd6b9a2ae1b7f30384f132d8687"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a7e0cdfd6b9a2ae1b7f30384f132d8687">SET_SHADOW_OAM_ADDRESS</a> (void *address)</td></tr>
+<tr class="separator:a7e0cdfd6b9a2ae1b7f30384f132d8687"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aae19a6086cc17811759b01a6e0a3cda4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#aae19a6086cc17811759b01a6e0a3cda4">set_sprite_tile</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> nb, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> tile)</td></tr>
 <tr class="separator:aae19a6086cc17811759b01a6e0a3cda4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a54ffb7990fd37939bbe1a8b1e663e439"><td class="memItemLeft" align="right" valign="top"><a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a54ffb7990fd37939bbe1a8b1e663e439">get_sprite_tile</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> nb)</td></tr>
@@ -339,6 +345,8 @@ Functions</h2></td></tr>
 <tr class="separator:aae11e78e2a24e467e72893056f319d51"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abf6f5422a3c98cf440736f1491e1aa4c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#abf6f5422a3c98cf440736f1491e1aa4c">scroll_sprite</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> nb, <a class="el" href="asm_2gbz80_2types_8h.html#a7ebe70ceca856797319175e30bcf003d">INT8</a> x, <a class="el" href="asm_2gbz80_2types_8h.html#a7ebe70ceca856797319175e30bcf003d">INT8</a> y)</td></tr>
 <tr class="separator:abf6f5422a3c98cf440736f1491e1aa4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a548f19d30b2ad3edb826d045c7be6bad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a548f19d30b2ad3edb826d045c7be6bad">hide_sprite</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> nb)</td></tr>
+<tr class="separator:a548f19d30b2ad3edb826d045c7be6bad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a95775ef4f212ca897135ff6c8f823c0f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a95775ef4f212ca897135ff6c8f823c0f">set_data</a> (unsigned char *vram_addr, unsigned char *data, <a class="el" href="asm_2gbz80_2types_8h.html#a805c2c164bdd38d72a30c46e84fb568b">UINT16</a> len) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:a95775ef4f212ca897135ff6c8f823c0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4a6bb50835ab2e9294bf17ea32a1e4cd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a4a6bb50835ab2e9294bf17ea32a1e4cd">get_data</a> (unsigned char *data, unsigned char *vram_addr, <a class="el" href="asm_2gbz80_2types_8h.html#a805c2c164bdd38d72a30c46e84fb568b">UINT16</a> len) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
@@ -1300,6 +1308,36 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Sets sprite size to 8x8 pixels, one tile. Clears bit 2 of the LCDC register to 0. </p>
+
+</div>
+</div>
+<a id="a47607089a434dcda7a8583cfca03b604"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47607089a434dcda7a8583cfca03b604">&#9670;&nbsp;</a></span>DISABLE_OAM_DMA</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DISABLE_OAM_DMA&#160;&#160;&#160;    <a class="el" href="gb_8h.html#a7b662ae4d83f9837bacb9fd580673054">_shadow_OAM_base</a> = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Disable OAM DMA copy each VBlank </p>
+
+</div>
+</div>
+<a id="a20895d53fe9caacb08ce8b071d57ce53"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20895d53fe9caacb08ce8b071d57ce53">&#9670;&nbsp;</a></span>ENABLE_OAM_DMA</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ENABLE_OAM_DMA&#160;&#160;&#160;    <a class="el" href="gb_8h.html#a7b662ae4d83f9837bacb9fd580673054">_shadow_OAM_base</a> = (<a class="el" href="asm_2types_8h.html#a280213815420791851f7e59bdc8a3c95">UBYTE</a>)((<a class="el" href="asm_2types_8h.html#a9e551e7c1bd8feb51e8eefd109966f75">UWORD</a>)&amp;<a class="el" href="gb_8h.html#a3619f9cb1e3c92238a033ead79a0c551">shadow_OAM</a> &gt;&gt; 8)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Enable OAM DMA copy each VBlank and set it to transfer default shadow_OAM array </p>
 
 </div>
 </div>
@@ -2901,6 +2939,33 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a7e0cdfd6b9a2ae1b7f30384f132d8687"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e0cdfd6b9a2ae1b7f30384f132d8687">&#9670;&nbsp;</a></span>SET_SHADOW_OAM_ADDRESS()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SET_SHADOW_OAM_ADDRESS </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>address</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Enable OAM DMA copy each VBlank and set it to transfer any 256-byte aligned array </p>
+
+</div>
+</div>
 <a id="aae19a6086cc17811759b01a6e0a3cda4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aae19a6086cc17811759b01a6e0a3cda4">&#9670;&nbsp;</a></span>set_sprite_tile()</h2>
 
@@ -2934,7 +2999,7 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Sets sprite number <b>nb</b> to display tile number <b>tile</b>.</p>
+<p>Sets sprite number <b>nb__in the OAM to display tile number __tile</b>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">nb</td><td>Sprite number, range 0 - 39 </td></tr>
@@ -2976,7 +3041,7 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Returns the tile number of sprite number <b>nb</b>.</p>
+<p>Returns the tile number of sprite number <b>nb</b> in the OAM.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">nb</td><td>Sprite number, range 0 - 39</td></tr>
@@ -3190,6 +3255,39 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#aae11e78e2a24e467e72893056f319d51">move_sprite</a> for more details about the X and Y position </dd></dl>
+
+</div>
+</div>
+<a id="a548f19d30b2ad3edb826d045c7be6bad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a548f19d30b2ad3edb826d045c7be6bad">&#9670;&nbsp;</a></span>hide_sprite()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hide_sprite </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a>&#160;</td>
+          <td class="paramname"><em>nb</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Hides sprite number <b>nb</b> by moving it to zero position by Y.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nb</td><td>Sprite number, range 0 - 39 </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

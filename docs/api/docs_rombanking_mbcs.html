@@ -170,7 +170,7 @@ Banked Functions</h2>
 </ul>
 </dd></dl>
 <p>Limitations:</p><ul>
-<li>SDCC banked calls and far_pointers in GBDK only save one byte for the ROM bank. So, for example, they are limtied to <b>bank 15</b> max for MBC1 and <b>bank 255</b> max for MBC5. This is due to the bank switching for those MBCs requiring a second, additional write to select the upper bits for more banks (banks 16+ in MBC1 and banks 256+ in MBC5).</li>
+<li>SDCC banked calls and far_pointers in GBDK only save one byte for the ROM bank. So, for example, they are limtied to <b>bank 31</b> max for MBC1 and <b>bank 255</b> max for MBC5. This is due to the bank switching for those MBCs requiring a second, additional write to select the upper bits for more banks (banks 32+ in MBC1 and banks 256+ in MBC5).</li>
 </ul>
 <h2><a class="anchor" id="autotoc_md9"></a>
 Const Data (Variables in ROM)</h2>

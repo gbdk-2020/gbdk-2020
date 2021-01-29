@@ -23,6 +23,7 @@ In addition to understanding the C language it's important to learn how the Game
 # Writing optimal C code for the Game Boy and SDCC
 The following guidelines can result in better code for the Game Boy, even though some of the guidance may be contrary to typical advice for general purpose computers that have more resources and speed.
 
+
 ## Variables
 
   - Use 8-bit values as much as possible. They will be much more efficient and compact than 16 and 32 bit types.
@@ -106,6 +107,40 @@ The following guidelines can result in better code for the Game Boy, even though
     The minimum required version of SDCC will depend on the GBDK-2020 release. See @ref docs_releases
 
   - Learn some ASM and inspect the compiler output to understand what the compiler is doing and how your code gets translated. This can help with writing better C code and with debugging.
+
+
+@anchor docs_chars_varargs
+## chars and vararg functions
+
+In standard C when `chars` are passed to a function with variadic arguments (varargs, those delcared with `...` as a parameter), such as @ref printf(), those `chars` get automatically promoted to `ints`. For an 8 bit cpu such as the Game Boy's, this is not as efficient or desireable in most cases. So the default SDCC behavior, which GBDK-2020 expects, is that chars will remain chars and _not_ get promoted to ints when **explicitly cast as chars while calling a varargs function**.
+
+  - They must be explicitly re-cast when passing them to a varargs function, even though they are already declared as chars.
+
+  - Discussion in SDCC manual:  
+    http://sdcc.sourceforge.net/doc/sdccman.pdf#section.1.5  
+    http://sdcc.sourceforge.net/doc/sdccman.pdf#subsection.3.5.10
+
+  - If SDCC is invoked with -std-cxx (--std-c89, --std-c99, --std-c11, etc) then it will conform to standard C behavior and calling functions such as @ref printf() with chars may not work as expected.
+
+For example:
+
+    unsigned char i = 0x5A;
+    
+    // NO:
+    // The char will get promoted to an int, producing incorrect printf output
+    // The output will be: 5A 00
+    printf("%hx %hx", i, i);
+    
+    // YES:
+    // The char will remain a char and printf output will be as expected
+    // The output will be: 5A 5A
+    printf("%hx %hx", (unsigned char)i, (unsigned char)i);
+
+Some functions that accept varargs:
+ - @ref BGB_MESSAGE_FMT, @ref gprintf(), @ref printf(), @ref sprintf()
+
+Also See:
+ - Other cases of char to int promotion: http://sdcc.sourceforge.net/doc/sdccman.pdf#chapter.6
 
 
 #  When C isn't fast enough
