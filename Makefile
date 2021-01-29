@@ -118,6 +118,8 @@ gbdk-support-build:
 	@echo
 	@echo Building bankpack
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/bankpack TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
+	@echo Building png2mtspr
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/png2mtspr
 	@echo
 
 gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
@@ -134,6 +136,9 @@ gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
 	@echo Installing bankpack
 	@cp $(GBDKSUPPORTDIR)/bankpack/bankpack $(BUILDDIR)/bin/bankpack$(EXEEXTENSION)
 	@$(TARGETSTRIP) $(BUILDDIR)/bin/bankpack*
+	@echo Installing png2mtspr
+	@cp $(GBDKSUPPORTDIR)/png2mtspr/png2mtspr$(EXEEXTENSION) $(BUILDDIR)/bin/png2mtspr$(EXEEXTENSION)
+	@$(TARGETSTRIP) $(BUILDDIR)/bin/bankpack*
 	@echo
 
 gbdk-support-clean:
@@ -145,6 +150,8 @@ gbdk-support-clean:
 	@echo
 	@echo Cleaning bankpack
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/bankpack clean --no-print-directory
+	@echo Cleaning png2mtspr
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/png2mtspr clean
 	@echo
 
 # Rules for gbdk-lib

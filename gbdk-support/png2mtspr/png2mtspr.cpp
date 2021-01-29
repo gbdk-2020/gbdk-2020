@@ -231,17 +231,18 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	size_t slash_pos = output_filename.find_last_of('/');
-	if(slash_pos == -1u)
-		slash_pos = output_filename.find_last_of('\\');
-	size_t dot_pos = output_filename.find_last_of('.');
+	int slash_pos = (int)output_filename.find_last_of('/');
+	if(slash_pos == -1)
+		slash_pos = (int)output_filename.find_last_of('\\');
+	int dot_pos = (int)output_filename.find_last_of('.');
 
-	if(slash_pos == -1u) slash_pos = 0;
-	if(dot_pos == -1u) dot_pos = 0;
+	if(slash_pos == -1) slash_pos = -1;
+	if(dot_pos == -1) dot_pos = -1;
 
 	string output_filename_h = output_filename.substr(0, dot_pos) + ".h";
 	string data_name = output_filename.substr(slash_pos + 1, dot_pos - 1 - slash_pos);
 	replace(data_name.begin(), data_name.end(), '-', '_');
+	printf("data_name:%s", data_name.c_str());
 
   //load and decode png
   vector<unsigned char> buffer;
