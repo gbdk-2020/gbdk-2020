@@ -74,8 +74,8 @@ __divuschar:
         ld      d, h
         add     hl,sp
 
-        ld      a,(hl-)
-        ld      e, a
+        ld      e,(hl)
+        dec     hl
         ld      c,(hl)
 
         ld      a,c             ; Sign extend
@@ -95,8 +95,8 @@ __moduschar:
         ld      d, h
         add     hl,sp
 
-        ld      a,(hl-)
-        ld      e, a
+        ld      e,(hl)
+        dec     hl
         ld      c,(hl)
 
         ld      a,c             ; Sign extend
@@ -145,11 +145,12 @@ __divsint:
         ld      hl,#2+3
         add     hl,sp
 
-        ld      a,(hl-)
-        ld      d, a
-        ld      a,(hl-)
-        ld      e, a
-        ld      a,(hl-)
+        ld      d,(hl)
+        dec     hl
+        ld      e,(hl)
+        dec     hl
+        ld      a,(hl)
+        dec     hl
         ld      l,(hl)
         ld      h,a
 
@@ -167,11 +168,12 @@ __modsint:
         ld      hl,#2+3
         add     hl,sp
 
-        ld      a,(hl-)
-        ld      d, a
-        ld      a,(hl-)
-        ld      e, a
-        ld      a,(hl-)
+        ld      d,(hl)
+        dec     hl
+        ld      e,(hl)
+        dec     hl
+        ld      a,(hl)
+        dec     hl
         ld      l,(hl)
         ld      h,a
 
@@ -220,11 +222,12 @@ __divuint:
         ld      hl,#2+3
         add     hl,sp
 
-        ld      a,(hl-)
-        ld      d, a
-        ld      a,(hl-)
-        ld      e, a
-        ld      a,(hl-)
+        ld      d,(hl)
+        dec     hl
+        ld      e,(hl)
+        dec     hl
+        ld      a,(hl)
+        dec     hl
         ld      l,(hl)
         ld      h,a
 
@@ -241,11 +244,12 @@ __moduint:
         ld      hl,#2+3
         add     hl,sp
 
-        ld      a,(hl-)
-        ld      d, a
-        ld      a,(hl-)
-        ld      e, a
-        ld      a,(hl-)
+        ld      d,(hl)
+        dec     hl
+        ld      e,(hl)
+        dec     hl
+        ld      a,(hl)
+        dec     hl
         ld      l,(hl)
         ld      h,a
 
