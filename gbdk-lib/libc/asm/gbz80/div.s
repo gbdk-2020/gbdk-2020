@@ -67,15 +67,15 @@ __modsuchar:
         ld      c,(hl)
         ld      b,#0
 
-        jp    signexte
+        jp      signexte
 
 __divuschar:
         ld      hl,#2+1
         ld      d, h
         add     hl,sp
 
-        ld      e,(hl)
-        dec     hl
+        ld      a,(hl-)
+        ld      e, a
         ld      c,(hl)
 
         ld      a,c             ; Sign extend
@@ -83,20 +83,20 @@ __divuschar:
         sbc     a
         ld      b,a
 
-        call      .div16
+        call    .div16
 
-	ld	e,c
-	ld	d,b
+        ld      e,c
+        ld      d,b
 
-	ret
+        ret
 
 __moduschar:
         ld      hl,#2+1
         ld      d, h
         add     hl,sp
 
-        ld      e,(hl)
-        dec     hl
+        ld      a,(hl-)
+        ld      e, a
         ld      c,(hl)
 
         ld      a,c             ; Sign extend
@@ -145,12 +145,11 @@ __divsint:
         ld      hl,#2+3
         add     hl,sp
 
-        ld      d,(hl)
-        dec     hl
-        ld      e,(hl)
-        dec     hl
-        ld      a,(hl)
-        dec     hl
+        ld      a,(hl-)
+        ld      d, a
+        ld      a,(hl-)
+        ld      e, a
+        ld      a,(hl-)
         ld      l,(hl)
         ld      h,a
 
@@ -168,12 +167,11 @@ __modsint:
         ld      hl,#2+3
         add     hl,sp
 
-        ld      d,(hl)
-        dec     hl
-        ld      e,(hl)
-        dec     hl
-        ld      a,(hl)
-        dec     hl
+        ld      a,(hl-)
+        ld      d, a
+        ld      a,(hl-)
+        ld      e, a
+        ld      a,(hl-)
         ld      l,(hl)
         ld      h,a
 
@@ -222,12 +220,11 @@ __divuint:
         ld      hl,#2+3
         add     hl,sp
 
-        ld      d,(hl)
-        dec     hl
-        ld      e,(hl)
-        dec     hl
-        ld      a,(hl)
-        dec     hl
+        ld      a,(hl-)
+        ld      d, a
+        ld      a,(hl-)
+        ld      e, a
+        ld      a,(hl-)
         ld      l,(hl)
         ld      h,a
 
@@ -244,12 +241,11 @@ __moduint:
         ld      hl,#2+3
         add     hl,sp
 
-        ld      d,(hl)
-        dec     hl
-        ld      e,(hl)
-        dec     hl
-        ld      a,(hl)
-        dec     hl
+        ld      a,(hl-)
+        ld      d, a
+        ld      a,(hl-)
+        ld      e, a
+        ld      a,(hl-)
         ld      l,(hl)
         ld      h,a
 
