@@ -54,8 +54,8 @@ build/
 *.user
 *.opendb
 *.db
+*.suo
 gbdk-support/Debug/
-gbdk-support/
 as/bin
 link/bin
 maccer
