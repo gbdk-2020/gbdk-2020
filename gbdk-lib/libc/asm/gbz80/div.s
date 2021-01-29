@@ -43,8 +43,7 @@
 .globl	__moduint
 
 __divsuchar:
-        ld      hl,#2+1
-        add     hl,sp
+        ldhl    sp,#2+1
 
         ld      e,(hl)
         dec     hl
@@ -59,8 +58,7 @@ __divsuchar:
 	ret
 
 __modsuchar:
-        ld      hl,#2+1
-        add     hl,sp
+        ldhl    sp,#2+1
 
         ld      e,(hl)
         dec     hl
@@ -109,8 +107,7 @@ __moduschar:
         ret
 
 __divschar:
-        ld      hl,#2+1
-        add     hl,sp
+        ldhl    sp,#2+1
 
         ld      e,(hl)
         dec     hl
@@ -126,8 +123,7 @@ __divschar:
         ret
 
 __modschar:
-        ld      hl,#2+1
-        add     hl,sp
+        ldhl    sp,#2+1
 
         ld      e,(hl)
         dec     hl
@@ -142,8 +138,7 @@ __modschar:
         ret
 
 __divsint:
-        ld      hl,#2+3
-        add     hl,sp
+        ldhl    sp,#2+3
 
         ld      a,(hl-)
         ld      d, a
@@ -164,8 +159,7 @@ __divsint:
         ret
 
 __modsint:
-        ld      hl,#2+3
-        add     hl,sp
+        ldhl    sp,#2+3
 
         ld      a,(hl-)
         ld      d, a
@@ -186,8 +180,7 @@ __modsint:
 
         ;; Unsigned
 __divuchar:
-        ld      hl,#2+1
-        add     hl,sp
+        ldhl    sp,#2+1
 
         ld      e,(hl)
         dec     hl
@@ -202,8 +195,7 @@ __divuchar:
         ret
 
 __moduchar:
-        ld      hl,#2+1
-        add     hl,sp
+        ldhl    sp,#2+1
 
         ld      e,(hl)
         dec     hl
@@ -217,8 +209,7 @@ __moduchar:
         ret
 
 __divuint:
-        ld      hl,#2+3
-        add     hl,sp
+        ldhl    sp,#2+3
 
         ld      a,(hl-)
         ld      d, a
@@ -238,8 +229,7 @@ __divuint:
         ret
 
 __moduint:
-        ld      hl,#2+3
-        add     hl,sp
+        ldhl    sp,#2+3
 
         ld      a,(hl-)
         ld      d, a
