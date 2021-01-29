@@ -1,5 +1,8 @@
 #include <vector>
 
+#include <cstddef>
+using namespace std;
+
 /*
 decodePNG: The picoPNG function, decodes a PNG file buffer in memory, into a raw pixel buffer.
 out_image: output parameter, this will contain the raw pixels after decoding.
@@ -260,7 +263,7 @@ int decodePNG(std::vector<unsigned char>& out_image, unsigned long& image_width,
       readPngHeader(&in[0], size); if(error) return;
       size_t pos = 33; //first byte of the first chunk after the header
       std::vector<unsigned char> idat; //the data from idat chunks
-      bool IEND = false, known_type = true;
+      bool IEND = false/*, known_type = true*/;
       info.key_defined = false;
       while(!IEND) //loop through the chunks, ignoring unknown chunks and stopping at IEND chunk. IDAT data is put at the start of the in buffer
       {
@@ -312,7 +315,7 @@ int decodePNG(std::vector<unsigned char>& out_image, unsigned long& image_width,
         {
           if(!(in[pos + 0] & 32)) { error = 69; return; } //error: unknown critical chunk (5th bit of first byte of chunk type is 0)
           pos += (chunkLength + 4); //skip 4 letters and uninterpreted data of unimplemented chunk
-          known_type = false;
+          //known_type = false;
         }
         pos += 4; //step over CRC (which is ignored)
       }
@@ -577,7 +580,6 @@ void loadFile(std::vector<unsigned char>& buffer, const std::string& filename) /
   if(image.size() > 4) std::cout << "width: " << w << " height: " << h << " first pixel: " << std::hex << int(image[0]) << int(image[1]) << int(image[2]) << int(image[3]) << std::endl;
 }
 
-/*
   //this is test code, it displays the pixels of a 1 bit PNG. To use it, set the flag convert_to_rgba32 to false and load a 1-bit PNG image with a small size (so that its ASCII representation can fit in a console window)
   for(int y = 0; y < h; y++)
   {

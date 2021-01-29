@@ -3,6 +3,7 @@
 #include <fstream>
 #include <string>
 #include <algorithm>
+#include <cstring>
 
 using namespace std;
 
@@ -184,12 +185,12 @@ int main(int argc, char *argv[])
 	if(argc < 2)
 	{
 		printf("usage: png2mtspr <file>.png [options]\n");
-		printf("-c ouput file (default: <png file>.c)\n");
-		printf("-sw <width> metasprites width size (default: png width)\n");
+		printf("-c           ouput file (default: <png file>.c)\n");
+		printf("-sw <width>  metasprites width size (default: png width)\n");
 		printf("-sh <height> metasprites height size (default: png height)\n");
-		printf("-spr8x8 use SPRITES_8x8 (default: SPRITES_8x16)\n");
-		printf("-spr8x16 use SPRITES_8x16 (default: SPRITES_8x16)\n");
-		printf("-b <bank> bank (default 0)\n");
+		printf("-spr8x8      use SPRITES_8x8 (default: SPRITES_8x16)\n");
+		printf("-spr8x16     use SPRITES_8x16 (default: SPRITES_8x16)\n");
+		printf("-b <bank>    bank (default 0)\n");
 		return 0;
 	}
 
@@ -230,10 +231,10 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	int slash_pos = output_filename.find_last_of('/');
+	int slash_pos = output_filename.rfind('/');
 	if(slash_pos == -1)
-		slash_pos = output_filename.find_last_of('\\');
-	int dot_pos = output_filename.find_last_of('.');
+		slash_pos = output_filename.rfind('\\');
+	int dot_pos = output_filename.rfind('.');
 
 	if(slash_pos == -1) slash_pos = 0;
 	if(dot_pos == -1) dot_pos = 0;
