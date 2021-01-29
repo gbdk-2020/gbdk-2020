@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="lcc\gb.c" />
-    <ClCompile Include="lcc\lcc.c" />
+    <ClCompile Include="gb.c" />
+    <ClCompile Include="lcc.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{2B573C10-5A15-4E77-8F33-804EABADC75B}</ProjectGuid>
