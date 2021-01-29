@@ -1003,7 +1003,7 @@ inline void SET_SHADOW_OAM_ADDRESS(void * address) {
     _shadow_OAM_base = (UBYTE)((UWORD)address >> 8);
 }
 
-/** Sets sprite number __nb__ to display tile number __tile__.
+/** Sets sprite number __nb__in the OAM to display tile number __tile__.
 
     @param nb    Sprite number, range 0 - 39
     @param tile  Selects a tile (0 - 255) from memory at 8000h - 8FFFh
@@ -1024,7 +1024,7 @@ inline void set_sprite_tile(UINT8 nb, UINT8 tile) {
 }
 
 
-/** Returns the tile number of sprite number __nb__.
+/** Returns the tile number of sprite number __nb__ in the OAM.
 
 @param nb    Sprite number, range 0 - 39
 

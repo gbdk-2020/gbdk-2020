@@ -96,7 +96,7 @@ Banked functions (located in a switchable ROM bank)
   - May use data in any bank: __NO__ (may only use data from currently active banks)
 
 Limitations:
-  - SDCC banked calls and far_pointers in GBDK only save one byte for the ROM bank. So, for example, they are limtied to __bank 15__ max for MBC1 and __bank 255__ max for MBC5. This is due to the bank switching for those MBCs requiring a second, additional write to select the upper bits for more banks (banks 16+ in MBC1 and banks 256+ in MBC5).
+  - SDCC banked calls and far_pointers in GBDK only save one byte for the ROM bank. So, for example, they are limtied to __bank 31__ max for MBC1 and __bank 255__ max for MBC5. This is due to the bank switching for those MBCs requiring a second, additional write to select the upper bits for more banks (banks 32+ in MBC1 and banks 256+ in MBC5).
 
 
 ## Const Data (Variables in ROM)
