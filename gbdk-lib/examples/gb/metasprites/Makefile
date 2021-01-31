@@ -18,6 +18,7 @@ sprite.c: sprite.png
 
 $(BINS): $(CSOURCES)
 	$(CC) $(CFLAGS) -o $(BINS) $(CSOURCES)
+	mv -f sprite.c sprice.pngc
 
 clean:
 	rm -f *.o *.lst *.map *.gb *.ihx *.sym *.cdb *.adb *.asm $(PNGSOURCES:%.png=%.h) $(PNGSOURCES:%.png=%.c)

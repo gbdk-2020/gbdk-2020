@@ -93,10 +93,10 @@ void main(void) {
             hide_metasprite(sprite_metasprites[idx], 0);
         else
             switch (rot) {
-                case 0: hiwater = move_metasprite(sprite_metasprites[idx], 0, 0, PosX >> 4, PosY >> 4); break;
-                case 1: hiwater = move_metasprite_hflip(sprite_metasprites[idx], 0, 0, PosX >> 4, PosY >> 4); break;
-                case 2: hiwater = move_metasprite_hvflip(sprite_metasprites[idx], 0, 0, PosX >> 4, PosY >> 4); break;
-                case 3: hiwater = move_metasprite_vflip(sprite_metasprites[idx], 0, 0, PosX >> 4, PosY >> 4); break;
+                case 0: hiwater = move_metasprite       (sprite_metasprites[idx], 0, 0, (PosX >> 4), (PosY >> 4)); break;
+                case 1: hiwater = move_metasprite_hflip (sprite_metasprites[idx], 0, 0, (PosX >> 4), (PosY >> 4)); break;
+                case 2: hiwater = move_metasprite_hvflip(sprite_metasprites[idx], 0, 0, (PosX >> 4), (PosY >> 4)); break;
+                case 3: hiwater = move_metasprite_vflip (sprite_metasprites[idx], 0, 0, (PosX >> 4), (PosY >> 4)); break;
             };
 
         // hide rest of the hardware sprites, because amount of sprites differ between animation frames

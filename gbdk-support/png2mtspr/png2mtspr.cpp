@@ -145,10 +145,10 @@ bool FindTile(const Tile& t, unsigned char& idx, unsigned char& props)
 	return false;
 }
 
-void GetMetaSprite(int _x, int _y, int _w, int _h)
+void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y)
 {
-	unsigned char last_x = _x;
-	unsigned char last_y = _y;
+	unsigned char last_x = _x + pivot_x - 4;
+	unsigned char last_y = _y + pivot_y - (tile_h == 8 ? 4 : 8);
 
 	sprites.push_back(MetaSprite());
 	MetaSprite& mt_sprite = sprites.back();
@@ -187,18 +187,22 @@ int main(int argc, char *argv[])
 	if(argc < 2)
 	{
 		printf("usage: png2mtspr <file>.png [options]\n");
-		printf("-c           ouput file (default: <png file>.c)\n");
-		printf("-sw <width>  metasprites width size (default: png width)\n");
-		printf("-sh <height> metasprites height size (default: png height)\n");
-		printf("-spr8x8      use SPRITES_8x8 (default: SPRITES_8x16)\n");
-		printf("-spr8x16     use SPRITES_8x16 (default: SPRITES_8x16)\n");
-		printf("-b <bank>    bank (default 0)\n");
+		printf("-c            ouput file (default: <png file>.c)\n");
+		printf("-sw <width>   metasprites width size (default: png width)\n");
+		printf("-sh <height>  metasprites height size (default: png height)\n");
+		printf("-px <x coord> metasprites pivot x coordinate (default: metasprites width / 2)\n");
+		printf("-py <y coord> metasprites pivot y coordinate (default: metasprites height / 2)\n");
+		printf("-spr8x8       use SPRITES_8x8 (default: SPRITES_8x16)\n");
+		printf("-spr8x16      use SPRITES_8x16 (default: SPRITES_8x16)\n");
+		printf("-b <bank>     bank (default 0)\n");
 		return 0;
 	}
 
 	//default params
 	int sprite_w = 0;
 	int sprite_h = 0;
+	int pivot_x = 0xFFFFFF;
+	int pivot_y = 0xFFFFFF;
 	tile_h = 16;
   string output_filename = argv[1];
 	output_filename = output_filename.substr(0, output_filename.size() - 4) + ".c";
@@ -214,6 +218,14 @@ int main(int argc, char *argv[])
 		else if(!strcmp(argv[i], "-sh"))
 		{
 			sprite_h = atoi(argv[++ i]);
+		}
+		if(!strcmp(argv[i], "-px"))
+		{
+			pivot_x = atoi(argv[++ i]);
+		}
+		else if(!strcmp(argv[i], "-py"))
+		{
+			pivot_y = atoi(argv[++ i]);
 		}
 		else if(!strcmp(argv[i], "-spr8x8"))
 		{
@@ -257,13 +269,15 @@ int main(int argc, char *argv[])
 
 	if(sprite_w == 0) sprite_w = image.w;
 	if(sprite_h == 0) sprite_h = image.h;
+	if(pivot_x == 0xFFFFFF) pivot_x = sprite_w / 2;
+	if(pivot_y == 0xFFFFFF) pivot_y = sprite_h / 2;
 
 	//Extract metasprites
 	for(unsigned int y = 0; y < image.h; y += sprite_h)
 	{
 		for(unsigned int x = 0; x < image.w; x += sprite_w)
 		{
-			GetMetaSprite(x, y, sprite_w, sprite_h);
+			GetMetaSprite(x, y, sprite_w, sprite_h, pivot_x, pivot_y);
 		}
 	}
   
