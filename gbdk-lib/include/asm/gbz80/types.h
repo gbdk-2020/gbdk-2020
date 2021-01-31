@@ -32,7 +32,10 @@ typedef signed long     INT32;
  */
 typedef unsigned long 	UINT32;
 
+#ifndef __SIZE_T_DEFINED
+#define __SIZE_T_DEFINED
 typedef int	      	size_t;
+#endif
 
 /** Returned from clock
     @see clock

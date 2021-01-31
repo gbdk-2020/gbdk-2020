@@ -251,8 +251,6 @@ _reset::
 	LD	HL,#.sys_time
 	LD	(HL+),A
 	LD	(HL),A
-;	LD	(_malloc_heap_start+0),A
-;	LD	(_malloc_heap_start+1),A
 
 	LDH	(.NR52),A	; Turn sound off
 
@@ -476,6 +474,3 @@ _add_VBL::
 	CALL	.add_VBL
 	POP	BC
 	RET
-
-	.area	_HEAP
-_malloc_heap_start::
