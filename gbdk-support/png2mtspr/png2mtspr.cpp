@@ -147,8 +147,8 @@ bool FindTile(const Tile& t, unsigned char& idx, unsigned char& props)
 
 void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y)
 {
-	unsigned char last_x = _x + pivot_x;
-	unsigned char last_y = _y + pivot_y;
+	unsigned char last_x = _x + pivot_x - 4;
+	unsigned char last_y = _y + pivot_y - (tile_h == 8 ? 4 : 8);
 
 	sprites.push_back(MetaSprite());
 	MetaSprite& mt_sprite = sprites.back();
