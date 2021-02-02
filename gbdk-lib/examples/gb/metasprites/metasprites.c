@@ -34,7 +34,12 @@ void main(void) {
     set_sprite_tile(0, 0);
 
     // show bkg and sprites
-    SHOW_BKG; SPRITES_8x16; SHOW_SPRITES;
+    SHOW_BKG; SHOW_SPRITES;
+	#if sprite_TILE_H == 16
+		SPRITES_8x16;
+	#else
+		SPRITES_8x8;
+	#endif
 
     // init 2 joypads
     joypad_init(1, &joypads);
