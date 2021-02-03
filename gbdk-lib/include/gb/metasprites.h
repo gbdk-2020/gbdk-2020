@@ -29,6 +29,7 @@ static void __hide_metasprite(UINT8 id);
  * @param base_sprite start hardware sprite
  * @param x absolute x coordinate of the sprite
  * @param y absolute y coordinate of the sprite
+ * @return number of hardware sprites used to draw this metasprite
  **/
 inline UBYTE move_metasprite(const metasprite_t * metasprite, UINT8 base_tile, UINT8 base_sprite, UINT8 x, UINT8 y) {
     __current_metasprite = metasprite; 
@@ -39,19 +40,19 @@ inline UBYTE move_metasprite(const metasprite_t * metasprite, UINT8 base_tile, U
 inline UBYTE move_metasprite_vflip(const metasprite_t * metasprite, UINT8 base_tile, UINT8 base_sprite, UINT8 x, UINT8 y) {
     __current_metasprite = metasprite; 
     __current_base_tile = base_tile;
-    return __move_metasprite_vflip(base_sprite, x, y); 
+    return __move_metasprite_vflip(base_sprite, x - 8, y); 
 }
 
 inline UBYTE move_metasprite_hflip(const metasprite_t * metasprite, UINT8 base_tile, UINT8 base_sprite, UINT8 x, UINT8 y) {
     __current_metasprite = metasprite; 
     __current_base_tile = base_tile;
-    return __move_metasprite_hflip(base_sprite, x, y); 
+    return __move_metasprite_hflip(base_sprite, x, y - ((LCDC_REG & 0x04U) ? 16 : 8) ); 
 }
 
 inline UBYTE move_metasprite_hvflip(const metasprite_t * metasprite, UINT8 base_tile, UINT8 base_sprite, UINT8 x, UINT8 y) {
     __current_metasprite = metasprite; 
     __current_base_tile = base_tile;
-    return __move_metasprite_hvflip(base_sprite, x, y); 
+    return __move_metasprite_hvflip(base_sprite, x - 8, y - ((LCDC_REG & 0x04U) ? 16 : 8)); 
 }
 
 /**
