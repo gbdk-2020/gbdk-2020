@@ -23,6 +23,15 @@ This is a brief list of useful tools and information. It is not meant to be comp
     https://gbdev.io/list.html
 
 
+@anchor links_tutorials
+# Tutorials
+  - @anchor tutorials_gamingmonsters
+    __Gaming Monsters Tutorials__  
+    Several video tutorials and code for making games with GBDK/GBDK-2020.  
+    https://www.youtube.com/playlist?list=PLeEj4c2zF7PaFv5MPYhNAkBGrkx4iPGJo  
+    https://github.com/gingemonster/GamingMonstersGameBoySampleCode
+
+
 @anchor links_graphic
 # Graphics Tools
   - @anchor gbmb
