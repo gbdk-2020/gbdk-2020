@@ -1,11 +1,22 @@
-CC	= ../../../bin/lcc -Wa-l -Wl-m
+CC	= ../../../bin/lcc -Wa-l -Wl-m -v
 
 CFLAGS	= -DGBDK_2_COMPAT
 
 BINS	    = autobanks.gb
 CSOURCES   := $(wildcard *.c)
 ASMSOURCES := $(wildcard *.s)
+
+# Compiling will produce .o files
 OBJS       = $(CSOURCES:%.c=%.o) $(ASMSOURCES:%.c=%.o)
+
+# Process: .c and .s files -> .o -> (bankpack) -> .rel -> (linker) ... -> .gb
+#
+# In this makefile autobanked .o files get saved as .rel files (-Wb-ext=.rel)
+# which will be passed to the linker instead of .o files.
+#
+# This allows correct packing every time, even
+# for source files that don't get re-compiled.
+OBJS_AUTOBANKED = $(CSOURCES:%.c=%.rel) $(ASMSOURCES:%.c=%.rel)
 
 all:	$(BINS)
 
@@ -23,13 +34,14 @@ make.bat: Makefile
 	$(CC) $(CFLAGS) -S -o $@ $<
 
 # Link the compiled object files into a autobanks.gb ROM file
-# -autobank : turns on auto banking
-# -Wb-v     : prints out assigned bank info
-# -Wl-yo4   : Use 4 ROM banks
-# -Wl-ya4   : Use 4 RAM banks
-# -Wl-yt19  : Use MBC5 cartridge type
+# -autobank    : turns on auto banking
+# -Wb-v        : prints out assigned bank info
+# -Wb-ext=.rel : set output extension for autobanked files to .rel
+# -Wl-yo4      : Use 4 ROM banks
+# -Wl-ya4      : Use 4 RAM banks
+# -Wl-yt19     : Use MBC5 cartridge type
 $(BINS):	$(OBJS)
-	$(CC) $(CFLAGS) -autobank -Wb-v -Wl-yt19 -Wl-yo4 -Wl-ya4 -o $(BINS) $(OBJS)
+	$(CC) $(CFLAGS) -autobank -Wb-ext=.rel -Wb-v -Wl-yt19 -Wl-yo4 -Wl-ya4 -o $(BINS) $(OBJS_AUTOBANKED)
 #	./romusage autobanks.map -g
 
 clean:

@@ -123,14 +123,15 @@ Note: You can only do a switch_rom_bank call from unbanked `_CODE` since otherwi
 
 
 ## Bank switching inside an Interrupt Service Routine (ISR)
-If a banked function call is made inside an ISR, then the @ref _current_bank variable should be saved and then restored.
+If a function call is made inside an ISR which changes the bank *without* restoring it, then the @ref _current_bank variable should be saved and then restored.
 
 For example, __instead__ of this code:
 ```
 void vbl_music_isr(void)
 {
-	// some_banked_function() causes the bank to change
-    some_banked_function();
+    // A function which changes the bank and
+    // *doesn't* restore it after changing.
+    some_function();
 }
 ```
 It should be:
@@ -140,8 +141,9 @@ void vbl_music_isr(void)
 	// Save the current bank
     UBYTE _saved_bank = _current_bank;
 
-	// some_banked_function() causes the bank to change
-    some_banked_function();
+	// A function which changes the bank and
+    // *doesn't* restore it after changing.
+    some_function();
 
 	// Now restore the current bank
     SWITCH_ROM_MBC5(_saved_bank);
@@ -182,8 +184,19 @@ Accessing that data: main.c
 
 Features and Notes:
   - Fixed banked source files can be used in the same project as auto-banked source files. The bankpack tool will attempt to pack the auto-banked source files as efficiently as possible around the fixed-bank ones.
-  - Sometimes a `clean rebuild` of a project may be needed to reorganize and sort the banks. This is because an auto-banked source file will remain in the same bank until it is re-compiled (due to changes or due to a `clean build`). An example of when this might happen is a fixed-bank source file growing too large to share a bank with an auto-banked source file that was previously assigned to it. 
+
+Making sure bankpack checks all files:
+  - In order to correctly calculate the bank for all files every time, it is best to use the `-ext=` flag and save the auto-banked output to a different extension (such as `.rel`) and then pass the modified files to the linker. That way all object files will be processed each time the program is compiled.
+
+        Recommended: 
+        .c and .s -> (compiler) .o -> (bankpack) -> .rel -> (linker) ... -> .gb
+
+  - It is important because when bankpack assigns a bank for an autobanked (bank=255) object file (.o) it rewrites the bank and will then no longer see the file as one that needs to be auto-banked. That file will then remain in it's previously assigned bank until a source change causes the compiler to rebuild it to an object file again which resets it's bank to 255.
+
+  - For example consider a fixed-bank source file growing too large to share a bank with an auto-banked source file that was previously assigned to it. To avoid a bank overflow it would be important to have the auto-banked file check every time whether it can share that bank or not.
+
   - See @ref bankpack for more options and settings
+
 
 Limitations:
   - At this time, the constant entries that get rewritten with the assigned bank (const void __at(255) __bank_<name-you-want-to-use-for-that-source-file>;) __cannot__ be used from the source file they are declared in. In that case SDCC converts the bank number before @ref bankpack has a chance to rewrite it. It may be referenced from any other source file, but not it's own.
