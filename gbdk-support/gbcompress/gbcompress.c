@@ -360,14 +360,3 @@ uint32_t gbdecompress_buf(uint8_t * inBuf, uint32_t size_in, uint8_t * outBuf, u
 
     return size_out;
 }
-
-
-// bool store_byte(uint8 data, uint8_t * p_buf, uint32_t * cur_idx, uint32_t size_max) {
-//     // Abort if decompressed output exceeds output buffer size
-//     if (cur_idx >= size_max)
-//         return false;
-
-//     p_buf[cur_idx] = data;
-//     cur_idx++;
-//     return true;
-// }
