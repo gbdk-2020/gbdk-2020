@@ -116,9 +116,11 @@ You may also want to read a tutorial on Makefiles. For example:
 https://makefiletutorial.com/
 https://www.tutorialspoint.com/makefile/index.htm
 
+@anchor build_tools
+# Build Tools
 
 @anchor lcc
-# lcc
+## lcc
 lcc is the compiler driver (front end) for the GBDK/sdcc toolchain.
 It can be used to invoke all the tools needed for building a rom.
 If preferred, the individual tools can be called directly.
@@ -127,19 +129,19 @@ If preferred, the individual tools can be called directly.
 
 
 @anchor sdcc
-# sdcc
+## sdcc
 SDCC C Source compiler
 - Arguments can be passed to it through @ref lcc using `-Wf-<argument>` and `-Wp-<argument>` (pre-processor)
 
 
 @anchor sdasgb
-# sdasgb
+## sdasgb
 SDCC Assembler for the gameboy
 - Arguments can be passed to it through @ref lcc using `-Wa-<argument>`
 
 
 @anchor bankpack
-# bankpack
+## bankpack
 Automatic Bank packer
 
 When enabled, automatically assigns banks for object files where bank has been set to `255`, see @ref rom_autobanking.
@@ -154,7 +156,7 @@ Limitations
 
 
 @anchor sdldgb
-# sdldgb
+## sdldgb
 The SDCC linker for the gameboy.
 
 Links object files (.o) into a .ihx file which can be processed by @ref makebin
@@ -162,7 +164,7 @@ Links object files (.o) into a .ihx file which can be processed by @ref makebin
 
 
 @anchor ihxcheck
-# ihxcheck
+## ihxcheck
 IHX file validator
 
 Checks .ihx files produced by @ref sdldgb for correctness.
@@ -171,9 +173,26 @@ Checks .ihx files produced by @ref sdldgb for correctness.
 
 
 @anchor makebin
-# makebin
+## makebin
 IHX to ROM converter
 
 Converts .ihx files produced by @ref sdldgb into ROM files (.gb, .gbc).
 - Arguments can be passed to it through @ref lcc using `-Wm-<argument>`
 
+
+@anchor gbdk_utilities
+# GBDK Utilities
+
+
+@anchor utility_gbcompress
+## GBCompress
+Compresssion utility
+
+Compresses (and decompresses) binary file data with the gbcompress algorithm (also used in GBTD/GBMB). Decompression support is available in GBDK, see @ref gb_decompress().
+
+
+@anchor png2mtspr
+## PNG to Metasprite
+Tool for converting PNGs into GBDK format MetaSprites
+
+@todo Document png2mtspr
