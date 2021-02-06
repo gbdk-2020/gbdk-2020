@@ -45,4 +45,4 @@ Unless you are interested on recompiling the sources for some reason (like fixin
 - Download and install [**sdcc nightlies from 4.0.7 #12016 onwards**](http://sdcc.sourceforge.net/snap.php) (SDCC is no longer part of GDDK so you need to download it (just the binaries) in the platform you need)
 - On Linux **don't use package managers** The latest release available won't work, you need to compile or download one of the nightlies
 - Create **SDCCDIR** environment variable, that points into the folder, where you installed sdcc
-- Open a command prompt or a terminal, go the root directory of the repo and run **make**
+- Open command prompt or a terminal, go to the root directory of the repo and run **make**

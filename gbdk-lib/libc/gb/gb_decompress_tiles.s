@@ -3,18 +3,14 @@
 ; GB-Decompress tiledata directly to VRAM
 ; Compatible with GBTD
 
-        .area _CODE
+.macro WRAP_VRAM regH, ?loc
+        bit     3, regH
+        jr      z, loc
+        res     4, regH
+loc:
+.endm
 
-_gb_decompress_vram::
-        lda     hl,5(SP)
-        ld      a,(hl-)
-        ld      d,a
-        ld      a,(hl-)
-        ld      e,a
-        ld      a,(hl-)
-        ld      l,(hl)
-        ld      h,a
-        jr      gb_decompress_vram 
+        .area _CODE
 
 _gb_decompress_bkg_data::
 _gb_decompress_win_data::
@@ -38,6 +34,7 @@ _gb_decompress_sprite_data::
         ld      a, e
         and     #0xF0 ; Get low bits only
         ld      e, a
+        WRAP_VRAM d
 
         ld      a, (hl+)
         ld      h, (hl)
@@ -49,7 +46,7 @@ gb_decompress_vram::
 1$:
         ld      a,(hl+) ; load command
         or      a
-        jr      z,9$    ; exit, if last byte
+        jp      z,9$    ; exit, if last byte
         bit     7,a
         jr      nz,5$   ; string functions
         bit     6,a
@@ -63,6 +60,7 @@ gb_decompress_vram::
         ld      a,(hl)
         ld      (de),a
         inc     de
+        WRAP_VRAM d
         dec     b
         jr      nz,2$
         inc     hl
@@ -80,10 +78,12 @@ gb_decompress_vram::
         ld      a,b     ; store word
         ld      (de),a
         inc     de
+        WRAP_VRAM d
         WAIT_STAT
         ld      a,c
         ld      (de),a
         inc     de
+        WRAP_VRAM d
         pop     af
         dec     a
         jr      nz,4$
@@ -107,6 +107,7 @@ gb_decompress_vram::
         ld      a,(hl+)
         ld      (de),a
         inc     de
+        WRAP_VRAM d
         dec     b
         jr      nz,6$
         pop     hl
@@ -122,9 +123,10 @@ gb_decompress_vram::
         ld      a,(hl+)
         ld      (de),a
         inc     de
+        WRAP_VRAM d
         dec     b
         jr      nz,8$
-        jr      1$      ; next command
+        jp      1$      ; next command
 9$:
         pop     bc
         ret

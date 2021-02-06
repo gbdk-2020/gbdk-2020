@@ -20,8 +20,4 @@ void gb_decompress_win_data(UINT8 first_tile, const unsigned char * sour) __pres
  */
 void gb_decompress_sprite_data(UINT8 first_tile, const unsigned char * sour) __preserves_regs(b, c);
 
-/** gb-decompress data from sour into dest (VRAM-safe)
- */
-void gb_decompress_vram(const unsigned char * sour, unsigned char * dest) __preserves_regs(b, c);
-
 #endif
