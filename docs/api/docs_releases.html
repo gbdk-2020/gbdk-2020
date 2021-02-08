@@ -90,9 +90,9 @@ $(document).ready(function(){initNavTree('docs_releases.html',''); initResizable
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p>The GBDK 2020 releases can be found on Github: <a href="https://github.com/Zal0/gbdk-2020/releases">https://github.com/Zal0/gbdk-2020/releases</a></p>
-<h1><a class="anchor" id="autotoc_md55"></a>
+<h1><a class="anchor" id="autotoc_md56"></a>
 GBDK 2020 Release Notes</h1>
-<h2><a class="anchor" id="autotoc_md56"></a>
+<h2><a class="anchor" id="autotoc_md57"></a>
 GBDK 2020 4.0.2</h2>
 <p>2021/01/17</p><ul>
 <li>Includes SDCC snapshot build version 12016 (has a fix for duplicate debug symbols generated from inlined header functions which GBDK 4.0+ uses)</li>
@@ -116,7 +116,7 @@ GBDK 2020 4.0.2</h2>
 </li>
 <li>Examples: Added bgb debug example</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md57"></a>
+<h2><a class="anchor" id="autotoc_md58"></a>
 GBDK 2020 4.0.1</h2>
 <p>2020/11/14</p><ul>
 <li>Updated API documentation</li>
@@ -142,7 +142,7 @@ GBDK 2020 4.0.1</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md58"></a>
+<h2><a class="anchor" id="autotoc_md59"></a>
 GBDK 2020 4.0</h2>
 <p>2020/10/01</p><ul>
 <li>GBDK now requires SDCC 4.0.3 or higher, that has fully working toolchain. Old link-gbz80 linker is not used anymore, sdldgb and makebin are used to link objects and produce binary roms; maccer tool is no longer needed either<ul>
@@ -171,19 +171,19 @@ GBDK 2020 4.0</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md59"></a>
+<h2><a class="anchor" id="autotoc_md60"></a>
 GBDK 2020 3.2</h2>
 <p>2020/06/05</p><ul>
 <li>Fixed OAM initialization that was causing a bad access to VRAM</li>
 <li>Interrupt handlers now wait for lcd controller mode 0 or 1 by default to prevent access to inaccessible VRAM in several functions (like set_bkg_tiles)</li>
 <li>Several optimizations here and there</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md60"></a>
+<h2><a class="anchor" id="autotoc_md61"></a>
 GBDK 2020 3.1.1</h2>
 <p>2020/05/17</p><ul>
 <li>Fixed issues with libgcc_s_dw2-1.dll</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md61"></a>
+<h2><a class="anchor" id="autotoc_md62"></a>
 GBDK 2020 3.1</h2>
 <p>2020/05/16</p><ul>
 <li>Banked functions are working! The patcher is fully integrated in link-gbz80, no extra tools are needed. It is based on Toxa's work<ul>
@@ -201,21 +201,21 @@ GBDK 2020 3.1</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md62"></a>
+<h2><a class="anchor" id="autotoc_md63"></a>
 GBDK 2020 3.0.1</h2>
 <p>2020/04/12</p><ul>
 <li>Updated SDCC to v.4.0</li>
 <li>Updated LCC to work with the new compiler</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md63"></a>
+<h2><a class="anchor" id="autotoc_md64"></a>
 GBDK 2020 3.0</h2>
 <p>2020/04/12</p><ul>
 <li>Initial GBDK 2020 release <br  />
  Updated SDCC to v4.0 The new linker is not working so the old version is still there There is an issue with sdagb compiling drawing.s (the JP in line 32 after ".org .MODE_TABLE+4*.G_MODE" it's writing more than 4 bytes invading some addresses required by input.s:41) Because of this, all .s files in libc have been assembled with the old as-gbz80 and that's why it is still included</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md64"></a>
+<h1><a class="anchor" id="autotoc_md65"></a>
 Historical GBDK Release Notes</h1>
-<h2><a class="anchor" id="autotoc_md65"></a>
+<h2><a class="anchor" id="autotoc_md66"></a>
 GBDK 2.96</h2>
 <p>17 April, 2000 <br  />
  Many changes. <br  />
@@ -225,7 +225,7 @@ GBDK 2.96</h2>
 <li>Added full 32 bit long support.</li>
 <li>Still no floating pt support.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md66"></a>
+<h2><a class="anchor" id="autotoc_md67"></a>
 GBDK 2.95-3</h2>
 <p>19th August, 2000 <br  />
 </p>
@@ -237,7 +237,7 @@ GBDK 2.95-3</h2>
 </ul>
 <p>This is an experimental release for those who feel keen. The main change is a new lexer (the first part in the compilation process which recognises words and symbols like '!=' and 'char' and turns them into a token number) which speeds up compilation of large initialised arrays like tile data by a factor of three. Please report any bugs that show up - this is a big change.</p>
 <p>I have also included a 'minimal' release for win32 users which omits the documentation, library sources, and examples. If this is useful I will keep doing it.</p>
-<h2><a class="anchor" id="autotoc_md67"></a>
+<h2><a class="anchor" id="autotoc_md68"></a>
 GBDK 2.95-2</h2>
 <p>5th August, 2000 <br  />
  Just a small update. From the README:</p>
@@ -247,7 +247,7 @@ GBDK 2.95-2</h2>
 <li>Changed the ways globals are exported, reducing the amount of extra junk linked in.</li>
 <li>Turned on the optimisations in flex. Large constant arrays like tile data should compile a bit faster.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md68"></a>
+<h2><a class="anchor" id="autotoc_md69"></a>
 GBDK 2.95</h2>
 <p>22nd July, 2000</p><ul>
 <li>Fixed 'a &lt;&lt; c' for c = [9..15]</li>
@@ -269,7 +269,7 @@ GBDK 2.95</h2>
 <p>7th July, 2000 <br  />
  Information on float and long support. Someone asked about the state of float/long support recently. Heres my reply:</p>
 <p>long support is partly there, as is float support. The compiler will correctly recognise the long and float keywords, and will generate the code for most basic ops (+, -, &amp;, | etc) for longs correctly and will generate the function calls for floats and hard long operations (*, /, %) correctly. However it wont generate float constants in the correct format, nor will it 'return' a long or float - gbdk doesn't yet support returning types of 4 bytes. Unfortunately its not going to make it into 2.95 as there's too much else to do, but I should be able to complete long support for 2.96</p>
-<h2><a class="anchor" id="autotoc_md69"></a>
+<h2><a class="anchor" id="autotoc_md70"></a>
 GBDK 2.94</h2>
 <p>7th May, 2000 <br  />
  Many fixes - see the README for more.</p>
@@ -286,7 +286,7 @@ GBDK 2.94</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md70"></a>
+<h2><a class="anchor" id="autotoc_md71"></a>
 GBDK 2.93</h2>
 <p>6th April, 2000 <br  />
  From the README</p>
@@ -299,7 +299,7 @@ GBDK 2.93</h2>
 <li>The dscan demo now fully works (with a hack :)</li>
 <li>There is a bug with cached computed values which are later used as pointers. When the value is first used as a BYTE arg, then later as a pointer the pointer fails as the high byte was never computed and is now missing. A temporary fix is to declare something appropriate as 'volatile' to stop the value being cached. See dscan.c/bombs() for an example.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md71"></a>
+<h2><a class="anchor" id="autotoc_md72"></a>
 GBDK 2.92-2 for win32</h2>
 <p>26th March, 2000 <br  />
  This is a maintenance release for win32 which fixes some of the niggly install problems, especially:</p><ul>
@@ -318,7 +318,7 @@ GBDK 2.92-2 for win32</h2>
  Problems with the installer. It seems that the demo of InstallVISE has an unreasonably short time limit. I had planed to use the demo until the license key came through, but there's no sign of the key yet and the 3 day evaluation is up. If anyone knows of a free Windows installer with the ability to modify environment variables, please contact me. I hear that temporarily setting you clock back to the 15th works...</p>
 <p>18th March, 2000 <br  />
  libc5 version available / "Error creating temp file" Thanks to Rodrigo Couto there is now a Linux/libc5 version of gbdk3-2.92 available - follow the download link above. At least it will be there when the main sourceforge site comes back up... Also some people have reported a bug where the compiler reports '*** Error creating temp file'. Try typing "mkdir c: tmp" from a DOS prompt and see if that helps.</p>
-<h2><a class="anchor" id="autotoc_md72"></a>
+<h2><a class="anchor" id="autotoc_md73"></a>
 GBDK 2.92</h2>
 <p>8th March, 2000 <br  />
  Better than 2.91 :). Can now be installed anywhere. All the demos work. See the README for more.</p><ul>
@@ -333,7 +333,7 @@ GBDK 2.92</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md73"></a>
+<h2><a class="anchor" id="autotoc_md74"></a>
 GBDK 2.91</h2>
 <p>27th Feb, 2000 <br  />
  Better than 2.90 and includes Linux, win32 and a source tar ball. Some notes:</p>
@@ -348,11 +348,11 @@ GBDK 2.91</h2>
  Icehawk wrote "I did write some rumble pack routines. Just make sure to remind people to add -Wl-yt0x1C or -Wl-yt0x1D or -Wl-yt0x1E depending on sram and battery usage. Find the routines on my site (as usual). =)"</p>
 <p>18th Oct, 1999 <br  />
  Bug tracking / FAQ up. Try the link on the left to report any bugs with GBDK. It's also the first place to look if your having problems.</p>
-<h2><a class="anchor" id="autotoc_md74"></a>
+<h2><a class="anchor" id="autotoc_md75"></a>
 GBDK 2.1.5</h2>
 <p>17th Oct, 1999 <br  />
 </p>
-<p>The compiler is the same, but some of the libraries have been improved. <a class="el" href="string_8h.html#a23e7549e1468d21419457759150fa767">memset()</a> and <a class="el" href="string_8h.html#a1bb96f23101e1f8c053a36d59a01d3f8">memcpy()</a> are much faster, malloc() is fixed, and a high speed fixed block alternative malloc() was added. </p>
+<p>The compiler is the same, but some of the libraries have been improved. <a class="el" href="string_8h.html#a23e7549e1468d21419457759150fa767">memset()</a> and <a class="el" href="string_8h.html#a1bb96f23101e1f8c053a36d59a01d3f8">memcpy()</a> are much faster, <a class="el" href="stdlib_8h.html#a7ac38fce3243a7dcf448301ee9ffd392">malloc()</a> is fixed, and a high speed fixed block alternative <a class="el" href="stdlib_8h.html#a7ac38fce3243a7dcf448301ee9ffd392">malloc()</a> was added. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->

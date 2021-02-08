@@ -16,7 +16,7 @@ var searchData=
   ['_5f_5freg_13',['__REG',['../hardware_8h.html#a0b42e4dadd74c927e8b801b4f42c0e44',1,'hardware.h']]],
   ['_5f_5frender_5fshadow_5foam_14',['__render_shadow_OAM',['../metasprites_8h.html#a14cb8235744c5f23da62bb2ae745d618',1,'metasprites.h']]],
   ['_5f_5fsetjmp_15',['__setjmp',['../setjmp_8h.html#a299cf119e588646778caab18b90a41a5',1,'setjmp.h']]],
-  ['_5f_5fsize_5ft_5fdefined_16',['__SIZE_T_DEFINED',['../stddef_8h.html#a8de3167f7b52ff5a2f538858cb5e32d3',1,'stddef.h']]],
+  ['_5f_5fsize_5ft_5fdefined_16',['__SIZE_T_DEFINED',['../asm_2gbz80_2types_8h.html#a8de3167f7b52ff5a2f538858cb5e32d3',1,'__SIZE_T_DEFINED():&#160;types.h'],['../stddef_8h.html#a8de3167f7b52ff5a2f538858cb5e32d3',1,'__SIZE_T_DEFINED():&#160;stddef.h']]],
   ['_5f_5fwchar_5ft_5fdefined_17',['__WCHAR_T_DEFINED',['../stddef_8h.html#a4aa39aaff620f750e11ece0766b185fd',1,'stddef.h']]],
   ['_5fcpu_18',['_cpu',['../gb_8h.html#adbc4b02721d3ab48caf53e0228fd3eb5',1,'gb.h']]],
   ['_5fcurrent_5fbank_19',['_current_bank',['../gb_8h.html#a98b848953a95ce2fff6fda643575d74a',1,'gb.h']]],

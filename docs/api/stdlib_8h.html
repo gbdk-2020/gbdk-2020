@@ -121,6 +121,14 @@ Functions</h2></td></tr>
 <tr class="separator:a10784c4be1fa220e438e0a26c2e45bb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b30ca47ee185b69e46c673a475e2f01"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stdlib_8h.html#a2b30ca47ee185b69e46c673a475e2f01">ultoa</a> (unsigned long n, char *s)</td></tr>
 <tr class="separator:a2b30ca47ee185b69e46c673a475e2f01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62b7798461bd461da64c5f9d35feddf7"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stdlib_8h.html#a62b7798461bd461da64c5f9d35feddf7">calloc</a> (<a class="el" href="asm_2gbz80_2types_8h.html#a7619b847aeded8a6d14cbfa212b2cdfb">size_t</a> nmemb, <a class="el" href="asm_2gbz80_2types_8h.html#a7619b847aeded8a6d14cbfa212b2cdfb">size_t</a> size)</td></tr>
+<tr class="separator:a62b7798461bd461da64c5f9d35feddf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ac38fce3243a7dcf448301ee9ffd392"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stdlib_8h.html#a7ac38fce3243a7dcf448301ee9ffd392">malloc</a> (<a class="el" href="asm_2gbz80_2types_8h.html#a7619b847aeded8a6d14cbfa212b2cdfb">size_t</a> size)</td></tr>
+<tr class="separator:a7ac38fce3243a7dcf448301ee9ffd392"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a6b5e8d2f1c37e5b43e4345586075be"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stdlib_8h.html#a1a6b5e8d2f1c37e5b43e4345586075be">realloc</a> (void *ptr, <a class="el" href="asm_2gbz80_2types_8h.html#a7619b847aeded8a6d14cbfa212b2cdfb">size_t</a> size)</td></tr>
+<tr class="separator:a1a6b5e8d2f1c37e5b43e4345586075be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afbedc913aa4651b3c3b4b3aecd9b4711"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stdlib_8h.html#afbedc913aa4651b3c3b4b3aecd9b4711">free</a> (void *ptr)</td></tr>
+<tr class="separator:afbedc913aa4651b3c3b4b3aecd9b4711"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab0ace018fe7dfa1720930d2dce0c45e3"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stdlib_8h.html#ab0ace018fe7dfa1720930d2dce0c45e3">bsearch</a> (const void *key, const void *base, <a class="el" href="asm_2gbz80_2types_8h.html#a7619b847aeded8a6d14cbfa212b2cdfb">size_t</a> nmemb, <a class="el" href="asm_2gbz80_2types_8h.html#a7619b847aeded8a6d14cbfa212b2cdfb">size_t</a> size, int(*compar)(const void *, const void *) <a class="el" href="stdlib_8h.html#a83798998ad669e85a8f75d6490191760">__reentrant</a>)</td></tr>
 <tr class="separator:ab0ace018fe7dfa1720930d2dce0c45e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a02d9d6443b9e613802b2e9c5c71caf59"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stdlib_8h.html#a02d9d6443b9e613802b2e9c5c71caf59">qsort</a> (void *base, <a class="el" href="asm_2gbz80_2types_8h.html#a7619b847aeded8a6d14cbfa212b2cdfb">size_t</a> nmemb, <a class="el" href="asm_2gbz80_2types_8h.html#a7619b847aeded8a6d14cbfa212b2cdfb">size_t</a> size, int(*compar)(const void *, const void *) <a class="el" href="stdlib_8h.html#a83798998ad669e85a8f75d6490191760">__reentrant</a>)</td></tr>
@@ -408,6 +416,99 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <p>Returns: Pointer to converted string </p>
+
+</div>
+</div>
+<a id="a62b7798461bd461da64c5f9d35feddf7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a62b7798461bd461da64c5f9d35feddf7">&#9670;&nbsp;</a></span>calloc()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void* calloc </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="asm_2gbz80_2types_8h.html#a7619b847aeded8a6d14cbfa212b2cdfb">size_t</a>&#160;</td>
+          <td class="paramname"><em>nmemb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="asm_2gbz80_2types_8h.html#a7619b847aeded8a6d14cbfa212b2cdfb">size_t</a>&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Memory allocation functions </p>
+
+</div>
+</div>
+<a id="a7ac38fce3243a7dcf448301ee9ffd392"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ac38fce3243a7dcf448301ee9ffd392">&#9670;&nbsp;</a></span>malloc()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void* malloc </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="asm_2gbz80_2types_8h.html#a7619b847aeded8a6d14cbfa212b2cdfb">size_t</a>&#160;</td>
+          <td class="paramname"><em>size</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1a6b5e8d2f1c37e5b43e4345586075be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a6b5e8d2f1c37e5b43e4345586075be">&#9670;&nbsp;</a></span>realloc()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void* realloc </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>ptr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="asm_2gbz80_2types_8h.html#a7619b847aeded8a6d14cbfa212b2cdfb">size_t</a>&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afbedc913aa4651b3c3b4b3aecd9b4711"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afbedc913aa4651b3c3b4b3aecd9b4711">&#9670;&nbsp;</a></span>free()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void free </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>ptr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>

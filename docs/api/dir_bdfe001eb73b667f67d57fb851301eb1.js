@@ -8,6 +8,7 @@ var dir_bdfe001eb73b667f67d57fb851301eb1 =
     [ "far_ptr.h", "far__ptr_8h.html", "far__ptr_8h" ],
     [ "font.h", "font_8h.html", "font_8h" ],
     [ "gb.h", "gb_8h.html", "gb_8h" ],
+    [ "gbdecompress.h", "gbdecompress_8h.html", "gbdecompress_8h" ],
     [ "hardware.h", "hardware_8h.html", "hardware_8h" ],
     [ "malloc.h", "malloc_8h.html", "malloc_8h" ],
     [ "metasprites.h", "metasprites_8h.html", "metasprites_8h" ],

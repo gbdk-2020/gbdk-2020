@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['xor_1270',['XOR',['../drawing_8h.html#a45cd11034d1a7d86c3a88d36f5e7f1ab',1,'drawing.h']]]
+  ['xor_1290',['XOR',['../drawing_8h.html#a45cd11034d1a7d86c3a88d36f5e7f1ab',1,'drawing.h']]]
 ];

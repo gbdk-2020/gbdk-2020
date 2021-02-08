@@ -189,19 +189,21 @@ Bank switching</h2>
 <p>Note: You can only do a switch_rom_bank call from unbanked <code>_CODE</code> since otherwise you would switch out the code that was executing. Global routines that will be called without an expectation of bank switching should fit within the limited 16k of unbanked <code>_CODE</code>.</p>
 <h2><a class="anchor" id="autotoc_md13"></a>
 Bank switching inside an Interrupt Service Routine (ISR)</h2>
-<p>If a banked function call is made inside an ISR, then the <a class="el" href="gb_8h.html#a98b848953a95ce2fff6fda643575d74a">_current_bank</a> variable should be saved and then restored.</p>
+<p>If a function call is made inside an ISR which changes the bank <em>without</em> restoring it, then the <a class="el" href="gb_8h.html#a98b848953a95ce2fff6fda643575d74a">_current_bank</a> variable should be saved and then restored.</p>
 <p>For example, <b>instead</b> of this code: </p><div class="fragment"><div class="line">void vbl_music_isr(void)</div>
 <div class="line">{</div>
-<div class="line">    // some_banked_function() causes the bank to change</div>
-<div class="line">    some_banked_function();</div>
+<div class="line">    // A function which changes the bank and</div>
+<div class="line">    // *doesn&#39;t* restore it after changing.</div>
+<div class="line">    some_function();</div>
 <div class="line">}</div>
 </div><!-- fragment --><p>It should be: </p><div class="fragment"><div class="line">void vbl_music_isr(void)</div>
 <div class="line">{</div>
 <div class="line">    // Save the current bank</div>
 <div class="line">    UBYTE _saved_bank = _current_bank;</div>
 <div class="line"> </div>
-<div class="line">    // some_banked_function() causes the bank to change</div>
-<div class="line">    some_banked_function();</div>
+<div class="line">    // A function which changes the bank and</div>
+<div class="line">    // *doesn&#39;t* restore it after changing.</div>
+<div class="line">    some_function();</div>
 <div class="line"> </div>
 <div class="line">    // Now restore the current bank</div>
 <div class="line">    SWITCH_ROM_MBC5(_saved_bank);</div>
@@ -228,7 +230,13 @@ Auto-Banking</h1>
   // Do something with my_level_1_map[]
 </pre><p>Features and Notes:</p><ul>
 <li>Fixed banked source files can be used in the same project as auto-banked source files. The bankpack tool will attempt to pack the auto-banked source files as efficiently as possible around the fixed-bank ones.</li>
-<li>Sometimes a <code>clean rebuild</code> of a project may be needed to reorganize and sort the banks. This is because an auto-banked source file will remain in the same bank until it is re-compiled (due to changes or due to a <code>clean build</code>). An example of when this might happen is a fixed-bank source file growing too large to share a bank with an auto-banked source file that was previously assigned to it.</li>
+</ul>
+<p>Making sure bankpack checks all files:</p><ul>
+<li>In order to correctly calculate the bank for all files every time, it is best to use the <code>-ext=</code> flag and save the auto-banked output to a different extension (such as <code>.rel</code>) and then pass the modified files to the linker. That way all object files will be processed each time the program is compiled. <pre class="fragment">Recommended: 
+.c and .s -&gt; (compiler) .o -&gt; (bankpack) -&gt; .rel -&gt; (linker) ... -&gt; .gb
+</pre></li>
+<li>It is important because when bankpack assigns a bank for an autobanked (bank=255) object file (.o) it rewrites the bank and will then no longer see the file as one that needs to be auto-banked. That file will then remain in it's previously assigned bank until a source change causes the compiler to rebuild it to an object file again which resets it's bank to 255.</li>
+<li>For example consider a fixed-bank source file growing too large to share a bank with an auto-banked source file that was previously assigned to it. To avoid a bank overflow it would be important to have the auto-banked file check every time whether it can share that bank or not.</li>
 <li>See <a class="el" href="docs_toolchain.html#bankpack">bankpack</a> for more options and settings</li>
 </ul>
 <p>Limitations:</p><ul>

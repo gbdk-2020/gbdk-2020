@@ -4,6 +4,7 @@ var asm_2gbz80_2types_8h =
     [ "BANKED", "asm_2gbz80_2types_8h.html#aa8480aed89a168ec484727f5ac985cd0", null ],
     [ "CRITICAL", "asm_2gbz80_2types_8h.html#ae0233515480e60d29bcc731469976e02", null ],
     [ "INTERRUPT", "asm_2gbz80_2types_8h.html#ac950c0db046e2f86d15e7ae1f558b017", null ],
+    [ "__SIZE_T_DEFINED", "asm_2gbz80_2types_8h.html#a8de3167f7b52ff5a2f538858cb5e32d3", null ],
     [ "INT8", "asm_2gbz80_2types_8h.html#a7ebe70ceca856797319175e30bcf003d", null ],
     [ "UINT8", "asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a", null ],
     [ "INT16", "asm_2gbz80_2types_8h.html#a18f1c7ce6c452edd933189d52294af8d", null ],
