@@ -106,7 +106,7 @@ static void write_end(void) {
 static int read_uint16_t(uint16_t byte_pos, uint16_t * out_data) {
 
     if ((byte_pos + 2) < Fsize_in) {
-        *out_data = (uint16_t)((FinBuf[byte_pos] << 8) + (uint32_t)FinBuf[byte_pos+1]);
+        *out_data = (uint16_t)((FinBuf[byte_pos] << 8) + (uint16_t)FinBuf[byte_pos+1]);
         return true;
     }
     else return false;
