@@ -46,25 +46,26 @@ void main() {
         set_interrupts(VBL_IFLAG | LCD_IFLAG);
     }
 
-	scroller_vram_addr = set_bkg_tile_xy(20, SCROLL_POS, *scroller_next_char - 0x20);
-	
-	base = (UWORD) scroller_vram_addr & 0xffe0;
-	limit = base + 0x20;
-	
+    scroller_vram_addr = get_bkg_xy_addr(20, SCROLL_POS);
+    set_vram_byte(scroller_vram_addr, *scroller_next_char - 0x20);
+    
+    base = (UWORD) scroller_vram_addr & 0xffe0;
+    limit = base + 0x20;
+    
     while (1) {
-		scroller_x++;
-		if ((scroller_x & 0x07) == 0) {
-			// next letter
-			scroller_next_char++;
-			if (*scroller_next_char == 0) scroller_next_char = scroller_text;
-			
-			// next vram position
-			scroller_vram_addr++;
-			if (scroller_vram_addr == (UBYTE *)limit) scroller_vram_addr = (UBYTE *)base;
-			
-			// put next char
-			set_vram_byte(scroller_vram_addr, *scroller_next_char - 0x20);
-		}
+        scroller_x++;
+        if ((scroller_x & 0x07) == 0) {
+            // next letter
+            scroller_next_char++;
+            if (*scroller_next_char == 0) scroller_next_char = scroller_text;
+            
+            // next vram position
+            scroller_vram_addr++;
+            if (scroller_vram_addr == (UBYTE *)limit) scroller_vram_addr = (UBYTE *)base;
+            
+            // put next char
+            set_vram_byte(scroller_vram_addr, *scroller_next_char - 0x20);
+        }
         wait_vbl_done();        
     }
 }

@@ -27,10 +27,10 @@ _set_bkg_tile_xy::
         bit     3,a
         jr      nz,.is9c
 .is98:
-        ld      de,#0x9800      ; DE = origin
-	jr      .set_tile_xy
+        ld      d,#0x98         ; DE = origin
+        jr      .set_tile_xy
 .is9c:
-        ld      de,#0x9C00      ; DE = origin
+        ld      d,#0x9C         ; DE = origin
 
 .set_tile_xy:
         push    bc
