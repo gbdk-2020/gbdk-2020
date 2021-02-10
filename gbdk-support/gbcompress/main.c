@@ -101,21 +101,24 @@ void cleanup(void) {
 
 static int compress() {
 
-    uint32_t  buf_size = 0;
+    uint32_t  buf_size_in = 0;
+    uint32_t  buf_size_out = 0;
     uint32_t  out_len = 0;
 
-    p_buf_in =  file_read_into_buffer(filename_in, &buf_size);
+    p_buf_in =  file_read_into_buffer(filename_in, &buf_size_in);
 
-    // Allocate buffer of same size for rle output 
-    p_buf_out = malloc(buf_size);
+    // Allocate buffer output buffer same size as input
+    // It can grow more in gbdecompress_buf()
+    buf_size_out = buf_size_in;
+    p_buf_out = malloc(buf_size_out);
 
-    if ((p_buf_out) && (buf_size > 0)) {
-        out_len = gbcompress_buf(p_buf_in, buf_size, 
-                                 p_buf_out, buf_size);
+    if ((p_buf_out) && (buf_size_in > 0)) {
+        out_len = gbcompress_buf(p_buf_in, buf_size_in,
+                                 &p_buf_out, buf_size_out);
         if (out_len > 0)
             if (file_write_from_buffer(filename_out, p_buf_out, out_len)) {
                 if (opt_verbose)
-                    printf("Compressed: %d bytes -> %d bytes (%%%.2f)\n", buf_size, out_len, ((double)out_len / (double)buf_size) * 100);
+                    printf("Compressed: %d bytes -> %d bytes (%%%.2f)\n", buf_size_in, out_len, ((double)out_len / (double)buf_size_in) * 100);
                 return EXIT_SUCCESS;
             }
     }
