@@ -12,9 +12,10 @@ ASSRC =	cgb.s cpy_data.s \
 	f_ibm_full.s f_ibm_sh.s f_italic.s f_min.s f_spect.s \
 	get_bk_t.s get_data.s \
 	get_wi_t.s get_xy_t.s global.s \
+	get_addr.s \
 	hiramcpy.s init_tt.s input.s \
 	pad.s sample.s \
-	serial.s set_bk_t.s \
+	serial.s set_bk_t.s set_tile.s \
 	set_data.s set_prop.s set_spr.s set_wi_t.s set_xy_t.s \
 	set_1bit_data.s \
 	sgb.s font.s delay.s \

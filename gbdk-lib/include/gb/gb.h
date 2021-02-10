@@ -609,6 +609,21 @@ void hiramcpy(UINT8 dst,
 
 
 
+/**
+ * Set byte in vram at given memory location
+ * 
+ * @param addr address to write to
+ * @param v value
+ */
+void set_vram_byte(UBYTE * addr, UINT8 v) __preserves_regs(b, c);
+
+
+/**
+ * Get base address of background map
+ */
+UINT8 * get_bkg_map_addr() __preserves_regs(b, c, h, l);
+
+
 /** Sets VRAM Tile Pattern data for the Background / Window
 
     @param first_tile  Index of the first tile to write
@@ -744,6 +759,17 @@ void get_bkg_tiles(UINT8 x,
           unsigned char *tiles) NONBANKED __preserves_regs(b, c);
 
 
+/**
+ * Set single tile t on background layer at x,y
+ * @param x X-coordinate
+ * @param y Y-coordinate
+ * @param t tile index
+ * @return returns the address of tile, so you may use faster set_vram_byte() later
+ */ 
+UINT8 * set_bkg_tile_xy(UBYTE x, UBYTE y, UBYTE t) __preserves_regs(b, c);
+
+
+
 /** Moves the Background Layer to the position specified in __x__ and __y__ in pixels.
 
     @param x   X axis screen coordinate for Left edge of the Background
@@ -776,6 +802,11 @@ inline void scroll_bkg(INT8 x, INT8 y) {
 }
 
 
+
+/**
+ * Get base address of window map
+ */
+UINT8 * get_win_map_addr() __preserves_regs(b, c, h, l);
 
 /** Sets VRAM Tile Pattern data for the Window / Background
 
@@ -876,6 +907,16 @@ void get_win_tiles(UINT8 x,
           UINT8 w,
           UINT8 h,
           unsigned char *tiles) NONBANKED __preserves_regs(b, c);
+
+
+/**
+ * Set single tile t on window layer at x,y
+ * @param x X-coordinate
+ * @param y Y-coordinate
+ * @param t tile index
+ * @return returns the address of tile, so you may use faster set_vram_byte() later
+ */ 
+UINT8 * set_win_tile_xy(UBYTE x, UBYTE y, UBYTE t) __preserves_regs(b, c);
 
 
 /** Moves the Window to the __x__, __y__ position on the screen.
