@@ -6,6 +6,6 @@
 #define _GBCOMPRESS_H
 
 uint32_t gbcompress_buf(uint8_t * inBuf, uint32_t InSize, uint8_t * outBuf, uint32_t MaxSize);
-uint32_t gbdecompress_buf(uint8_t * inBuf, uint32_t size_in, uint8_t * outBuf, uint32_t size_max);
+uint32_t gbdecompress_buf(uint8_t * inBuf, uint32_t size_in, uint8_t ** outBuf, uint32_t size_max);
 
 #endif // _GBCOMPRESS_H

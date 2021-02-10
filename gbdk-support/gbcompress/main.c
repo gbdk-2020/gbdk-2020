@@ -126,24 +126,24 @@ static int compress() {
 
 static int decompress() {
 
-    uint32_t  buf_size = 0;
+    uint32_t  buf_size_in = 0;
     uint32_t  buf_size_out = 0;
     uint32_t  out_len = 0;
 
-    p_buf_in =  file_read_into_buffer(filename_in, &buf_size);
+    p_buf_in =  file_read_into_buffer(filename_in, &buf_size_in);
 
-    // Allocate buffer of same size for rle output
-    // Todo: replace static buffer allocation with one that grows using realloc
-    buf_size_out = buf_size * 10; 
+    // Allocate buffer output buffer 3x size of input
+    // It can grow more in gbdecompress_buf()
+    buf_size_out = buf_size_in * 3;
     p_buf_out = malloc(buf_size_out);
 
-    if ((p_buf_out) && (buf_size > 0)) {
-        out_len = gbdecompress_buf(p_buf_in, buf_size, 
-                                 p_buf_out, buf_size_out);
+    if ((p_buf_out) && (buf_size_in > 0)) {
+        out_len = gbdecompress_buf(p_buf_in, buf_size_in,
+                                 &p_buf_out, buf_size_out);
         if (out_len > 0)
             if (file_write_from_buffer(filename_out, p_buf_out, out_len)) {
                 if (opt_verbose)
-                    printf("Decompressed: %d bytes -> %d bytes (compression was %%%.2f)\n", buf_size, out_len, ((double)buf_size / (double)out_len) * 100);                
+                    printf("Decompressed: %d bytes -> %d bytes (compression was %%%.2f)\n", buf_size_in, out_len, ((double)buf_size_in / (double)out_len) * 100);
                 return EXIT_SUCCESS;
             }
     }

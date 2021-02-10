@@ -239,13 +239,14 @@ uint32_t gbcompress_buf(uint8_t * inBuf, uint32_t size_in, uint8_t * outBuf, uin
 
 // Decompress buffer inBuf from gbcompress rle encoding and write to outBuf
 // Returns converted length
-uint32_t gbdecompress_buf(uint8_t * inBuf, uint32_t size_in, uint8_t * outBuf, uint32_t size_max) {
+uint32_t gbdecompress_buf(uint8_t * inBuf, uint32_t size_in, uint8_t ** pp_outBuf, uint32_t size_max) {
 
     uint8_t  rle_val[2];
     uint8_t  token;
     uint8_t  rle_toggle;
     uint8_t * p_rle_backref;
     uint8_t * inBuf_end = inBuf + size_in - 1;
+    uint8_t * p_out_buf = *pp_outBuf; // Make a working copy of output buffer pointer
 
     uint32_t rle_len;
     uint32_t rle_offset;
@@ -256,12 +257,14 @@ uint32_t gbdecompress_buf(uint8_t * inBuf, uint32_t size_in, uint8_t * outBuf, u
 
     while (inBuf <= inBuf_end) {
 
-        // Check for EOF token
-        if (*inBuf == EOFMarker)
-            break;
 
         // Load the next RLE token if needed
         if (rle_len == 0) {
+
+            // Check for EOF token
+            if (*inBuf == EOFMarker)
+                break;
+
             // Read a RLE token
             // First byte should always be a token
             token   = (*inBuf) & token_mask;
@@ -307,7 +310,7 @@ uint32_t gbdecompress_buf(uint8_t * inBuf, uint32_t size_in, uint8_t * outBuf, u
                     rle_offset = (rle_offset ^ 0xFFFF) + 1;
 
                     // Assign the string back reference relative to the current buffer pointer
-                    p_rle_backref = outBuf - rle_offset;
+                    p_rle_backref = p_out_buf - rle_offset;
                     break;
 
                 case token_trash: // AKA "Trash Bytes" in GBTD
@@ -315,44 +318,54 @@ uint32_t gbdecompress_buf(uint8_t * inBuf, uint32_t size_in, uint8_t * outBuf, u
                     break;
             }
         }
+        else // implied: if (rle_len > 0) 
+        {
 
-        while (rle_len) {
-
-            // Abort if decompressed output exceeds output buffer size
-            if (size_out >= size_max) {
-                printf("Error: OutBuf too small");
-                exit(EXIT_FAILURE);
+            // Grow output buffer if needed
+            if (size_out == size_max) {
+                uint8_t * p_tmp = *pp_outBuf;
+                size_max = size_max * 2;
+                *pp_outBuf = (void *)realloc(*pp_outBuf, size_max);
+                // If realloc failed, free original buffer before quitting
+                if (!(*pp_outBuf)) {
+                    printf("Error: Failed to reallocate memory for output buffer!\n");
+                    if (p_tmp) free(p_tmp);
+                    exit(EXIT_FAILURE);
+                }
+                // Remap working output pointers based on their offset from the previous one
+                p_out_buf = *pp_outBuf + (p_out_buf - p_tmp);
+                p_rle_backref = *pp_outBuf + (p_rle_backref - p_tmp);
             }
 
             // Copy the decoded byte into VRAM
             switch (token) {
                 case token_byte:
                     // Copy from cached repeating RLE value
-                    *outBuf = rle_val[0];
+                    *p_out_buf = rle_val[0];
                     break;
 
                 case token_word:
                     // Copy from cached repeating RLE value
                     // Toggle between MS/LS bytes input values
-                    *outBuf = rle_val[rle_toggle];
+                    *p_out_buf = rle_val[rle_toggle];
                     rle_toggle ^= 0x01;
                     break;
 
                 case token_str:
                     // Copy byte from the backreferenced VRAM address
                     // Then increment backreference to next VRAM byte
-                    *outBuf = *p_rle_backref;
+                    *p_out_buf = *p_rle_backref;
                     p_rle_backref++;
                     break;
 
                 case token_trash:
                     // Copy directly from encoded input
-                    *outBuf = *inBuf;
+                    *p_out_buf = *inBuf;
                     inBuf++;
                     break;
             }
 
-            outBuf++; // Move to next VRAM byte
+            p_out_buf++; // Move to next output byte
             size_out++;
             rle_len--; // Decrement number of RLE bytes remaining
         }
