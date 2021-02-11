@@ -5,7 +5,7 @@
 #ifndef _GBCOMPRESS_H
 #define _GBCOMPRESS_H
 
-uint32_t gbcompress_buf(uint8_t * inBuf, uint32_t InSize, uint8_t * outBuf, uint32_t MaxSize);
-uint32_t gbdecompress_buf(uint8_t * inBuf, uint32_t size_in, uint8_t * outBuf, uint32_t size_max);
+uint32_t gbcompress_buf(uint8_t * inBuf, uint32_t InSize, uint8_t ** pp_outBuf, uint32_t size_out);
+uint32_t gbdecompress_buf(uint8_t * inBuf, uint32_t size_in, uint8_t ** pp_outBuf, uint32_t size_out);
 
 #endif // _GBCOMPRESS_H
