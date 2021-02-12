@@ -51,12 +51,12 @@ static struct {
 		{ "comflag",    "-c"},
 		{ "comdefault",	"-mgbz80 --no-std-crt0 --fsigned-char --use-stdout" },
 		{ "as",		"%sdccdir%sdasgb" },
-		{ "bankpack", "%sdccdir%bankpack" },
+		{ "bankpack", "%bindir%bankpack" },
 		{ "ld",		"%sdccdir%sdldgb" },
 		{ "libdir",		"%prefix%lib/%libmodel%/asxxxx/" },
 		{ "libmodel",	"small" },
 		{ "bindir",		"%prefix%bin/" },
-		{ "ihxcheck", "%sdccdir%ihxcheck" },
+		{ "ihxcheck", "%bindir%ihxcheck" },
 		{ "mkbin", "%sdccdir%makebin" }
 };
 
@@ -262,6 +262,11 @@ int option(char *arg) {
 	}
 	else if ((tail = starts_with(arg, "--gbdkincludedir="))) {
 		setTokenVal("includedir", tail);
+		return 1;
+	}
+	else if ((tail = starts_with(arg, "--sdccbindir="))) {
+		// Allow to easily run with external SDCC snapshot / release
+		setTokenVal("sdccdir", tail);
 		return 1;
 	}
 	else if ((tail = starts_with(arg, "-S"))) {
