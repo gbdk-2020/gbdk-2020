@@ -26,13 +26,13 @@ _gb_decompress_sprite_data::
         ld      a, (hl+)
         
         ; Compute dest ptr
-        swap    a ; *16 (size of a tile)
+        swap    a       ; *16 (size of a tile)
         ld      e, a
-        and     #0x0F ; Get high bits
-        add     d ; Add base offset of target tile "block"
+        and     #0x0F   ; Get high bits
+        add     d       ; Add base offset of target tile "block"
         ld      d, a
         ld      a, e
-        and     #0xF0 ; Get low bits only
+        and     #0xF0   ; Get low bits only
         ld      e, a
         WRAP_VRAM d
 
@@ -54,39 +54,39 @@ gb_decompress_vram::
         ; RLE byte
         and     #63     ; calc counter
         inc     a
+        ld      c,a
+        ld      a,(hl+)
         ld      b,a
 2$:
         WAIT_STAT
-        ld      a,(hl)
+        ld      a,b
         ld      (de),a
         inc     de
         WRAP_VRAM d
-        dec     b
+        dec     c
         jr      nz,2$
-        inc     hl
         jr      1$      ; next command
+        
 3$:                     ; RLE word
         and     #63
         inc     a
-        ld      b,(hl)  ; load word into bc
-        inc     hl
-        ld      c,(hl)
-        inc     hl
+        ld      c, a
+        ld      a,(hl+)
+        ld      b, a
 4$:
-        push    af
         WAIT_STAT
         ld      a,b     ; store word
         ld      (de),a
         inc     de
         WRAP_VRAM d
         WAIT_STAT
-        ld      a,c
+        ld      a,(hl)
         ld      (de),a
         inc     de
         WRAP_VRAM d
-        pop     af
-        dec     a
+        dec     c
         jr      nz,4$
+        inc     hl      
         jr      1$      ; next command
 5$:
         bit     6,a
@@ -101,15 +101,10 @@ gb_decompress_vram::
         ld      h,d
         ld      l,e
         add     hl,bc
-        ld      b,a
-6$:
-        WAIT_STAT
-        ld      a,(hl+)
-        ld      (de),a
-        inc     de
-        WRAP_VRAM d
-        dec     b
-        jr      nz,6$
+        ld      c,a
+
+        call    10$
+        
         pop     hl
         inc     hl
         inc     hl
@@ -117,16 +112,21 @@ gb_decompress_vram::
 7$:                     ; string copy
         and     #63
         inc     a
-        ld      b,a
-8$:     
+        ld      c,a
+        
+        call    10$
+        
+        jr      1$      ; next command
+9$:
+        pop     bc
+        ret
+
+10$:
         WAIT_STAT               
         ld      a,(hl+)
         ld      (de),a
         inc     de
         WRAP_VRAM d
-        dec     b
-        jr      nz,8$
-        jp      1$      ; next command
-9$:
-        pop     bc
+        dec     c
+        jr      nz,10$
         ret
