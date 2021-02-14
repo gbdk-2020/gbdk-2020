@@ -31,9 +31,18 @@ void __printf(const char *format, emitter_t emitter, char **pData, va_list va)
     char buf[16];
     while (*format) {
         if (*format == '%') {
-            switch (*++format) {
+            format++;
+
+            // 0 Padding is not supported, ignore
+            if (*format == '0') format++;
+
+            // Width Specifier is not supported, ignore 1 digit worth
+            if ((*format >= '1') && (*format <= '9')) format++;
+
+            switch (*format) {
                 case 'h': {
                     switch (*++format) {
+                        case 'X' :
                         case 'x' : {
                             _printhexbyte(va_arg(va, char), emitter, pData);
                             break;
@@ -70,6 +79,7 @@ void __printf(const char *format, emitter_t emitter, char **pData, va_list va)
                     _printbuf(buf, emitter, pData);
                     break;
                 }
+                case 'X':
                 case 'x':
                 {
                     _printhex(va_arg(va, int), emitter, pData);
