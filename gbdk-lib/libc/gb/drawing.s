@@ -33,6 +33,7 @@
 	.area   _DRAW_HEADER (ABS)
 
 	.org	0x70
+.drawing_bits_tbl::
 	.byte	0x80,0x40,0x20,0x10,0x08,0x04,0x02,0x01
 	.byte	0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80
 
@@ -704,6 +705,7 @@ swap$:
 	JR	NC,s1$
 	CPL
 	INC	A
+
 s1$:	LD	(.delta_y),A
 	LD	H,A
 
@@ -712,6 +714,7 @@ s1$:	LD	(.delta_y),A
 	JR	NC,s2$
 	CPL
 	INC	A
+
 s2$:	LD	(.delta_x),A
 
 	SUB	H
@@ -823,7 +826,7 @@ dx1$:
 
 	LD	A,B
 	AND	#7
-	ADD	#0x70	; Table of bits is located at 0x0070
+	ADD	#<.drawing_bits_tbl	; Table of bits is located at 0x0070
 	LD	C,A
 	LD	B,#0x00
 	LD	A,(BC)	; Get start bit
@@ -934,7 +937,7 @@ nadj$:
 	AND	#7	;just look at bottom 3 bits
 	JR	Z,2$
 	PUSH	HL
-	ADD	#0x70	;Table of bits is located at 0x0070
+	ADD	#<.drawing_bits_tbl	;Table of bits is located at 0x0070
 	LD	L,A
 	LD	H,#0x00
 	LD	C,(HL)
@@ -1014,8 +1017,16 @@ y2$:
 	SUB	E
 	JR	Z,y2a$
 	LD	A,#0x00
-	JR	NC,y2a$
-	LD	A,#0xFF
+	
+;	JR	NC,y2a$	; old code; fix draw to up-left below
+;	LD	A,#0xFF 
+
+	LD	L,A	; invert delta if x1 less than x2
+	LD	A,B
+	SUB	D
+	LD	A,L
+	JR	C,y2a$
+	CPL
 
 y2a$:
 	LD	B,D
@@ -1113,7 +1124,7 @@ dy1$:
 
 	LD	A,B
 	AND	#7
-	ADD	#0x70	; Table of bits is located at 0x0070
+	ADD	#<.drawing_bits_tbl	; Table of bits is located at 0x0070
 	LD	C,A
 	LD	B,#0x00
 	LD	A,(BC)	; Get start bit
@@ -1190,7 +1201,7 @@ nchgy$:
 	LD	A,B	;check X
 	AND	#7	;just look at bottom 3 bits
 	PUSH	HL
-	ADD	#0x70	;Table of bits is located at 0x0070
+	ADD	#<.drawing_bits_tbl	;Table of bits is located at 0x0070
 	LD	L,A
 	LD	H,#0x00
 	LD	A,(HL)	;Get mask bit
@@ -1233,7 +1244,7 @@ nchgy$:
 	LD	A,B
 
 	AND     #7
-	ADD     #0x70		; Table of bits is located at 0x0070
+	ADD     #<.drawing_bits_tbl		; Table of bits is located at 0x0070
 	LD      C,A
 	LD      B,#0x00
 	LD      A,(BC)
@@ -1412,7 +1423,7 @@ nchgy$:
 	LD	A,B
 
 	AND     #7
-	ADD     #0x70		; Table of bits is located at 0x0070
+	ADD     #<.drawing_bits_tbl		; Table of bits is located at 0x0070
 	LD      C,A
 	LD      B,#0x00
 	LD      A,(BC)
