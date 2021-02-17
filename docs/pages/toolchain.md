@@ -43,7 +43,10 @@ To see individual arguments and options for a tool, run that tool from the comma
 
 - Why is the compiler so slow, or why did it suddenly get much slower?
   - This may happen if you have large initialized arrays declared without the `const` keyword. It's important to use the const keyword for read-only data. See @ref const_gbtd_gbmb and @ref const_array_data
+    <!-- -->  
 
+- What flags should be enabled for debugging?
+  - You can use the @ref lcc_debug "lcc debug flag"
 
 
 @anchor toolchain_changing_important_addresses 
@@ -140,6 +143,11 @@ It can be used to invoke all the tools needed for building a rom.
 If preferred, the individual tools can be called directly.
 - the `-v` flag can be used to show the exact steps lcc executes for a build
 - lcc can compile, link and generate a binary in a single pass: `lcc -o somerom.gb somesource.c`
+- @anchor lcc_debug
+  lcc now has a `-debug` flag that will turn on the following recommended flags for debugging
+    - `--debug` for sdcc (lcc equiv: `-Wf-debug`)
+    - `-y` enables .cdb output for @ref sdldgb (lcc equiv: `-Wl-y`)
+    - `-j` enables .noi output for @ref sdldgb (lcc equiv: `-Wl-j`)
 
 
 @anchor sdcc
