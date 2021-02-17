@@ -783,8 +783,8 @@ static void opt(char *arg) {
                 bankpacklist = append(&arg[3], bankpacklist);
                 return;
 			case 'l': /* Linker */
-				if(arg[4] == 'y' && (arg[5] == 't' || arg[5] == 'o' || arg[5] == 'a') && (arg[6] != '\0' && arg[6] != ' '))
-					goto makebinoption; //automatically pass -yo -ya -yt options to makebin (backwards compatibility)
+				if(arg[4] == 'y' && (arg[5] == 't' || arg[5] == 'o' || arg[5] == 'a' || arg[5] == 'p') && (arg[6] != '\0' && arg[6] != ' '))
+					goto makebinoption; //automatically pass -yo -ya -yt -yp options to makebin (backwards compatibility)
 				{
 					char *tmp = malloc(256);
 					sprintf(tmp, "%c%c", arg[3], arg[4]); //sdldgb requires spaces between -k and the path
@@ -801,8 +801,8 @@ static void opt(char *arg) {
 				char *tmp2 = malloc(256);
 				tmp2[0] = '\0'; // Zero out second arg by default
 				if(arg[4] == 'y') {
-					sprintf(tmp, "%c%c%c", arg[3], arg[4], arg[5]); //-yo -ya -yt -yl -yk -yn
-					if (!(arg[5] == 'c' || arg[5] == 'C' || arg[5] == 's' || arg[5] == 'j')) // Don't add secong arg for -yc -yC -ys -yj
+					sprintf(tmp, "%c%c%c", arg[3], arg[4], arg[5]); //-yo -ya -yt -yl -yk -yn -yp
+					if (!(arg[5] == 'c' || arg[5] == 'C' || arg[5] == 's'  || arg[5] == 'S' || arg[5] == 'j')) // Don't add second arg for -yc -yC -ys -yS -yj
 						sprintf(tmp2, "%s", &arg[6]);
 
 					// If MBC option is present for makebin (-Wl-yt <n> or -Wm-yt <n>) then make a copy for bankpack to use
