@@ -18,31 +18,15 @@ BINS	    = $(PROJECTNAME).gb
 CSOURCES   := $(wildcard *.c)
 ASMSOURCES := $(wildcard *.s)
 
-# Compiling C files will produce .o files
-OBJS       = $(CSOURCES:%.c=%.o) $(ASMSOURCES:%.c=%.o)
-
 all:	$(BINS)
 
 make.bat: Makefile
 	@echo "REM Automatically generated from Makefile" > make.bat
 	@make -sn | sed y/\\//\\\\/ | grep -v make >> make.bat
 
-# Compile .c files to .o object files
-%.o:	%.c
-	$(LCC) $(CFLAGS) -c -o $@ $<
-
-# Compile .s assembly files to .o object files
-%.o:	%.s
-	$(LCC) $(CFLAGS) -c -o $@ $<
-
-# If needed, compile .c files to .s assembly files
-# (not required if .c is compiled directly to .o)
- %.s:	%.c
-	$(LCC) $(CFLAGS) -S -o $@ $<
-
-# Link
-$(BINS):	$(OBJS)
-	$(LCC) $(CFLAGS) -o $(BINS) $(OBJS)
+# Compile and link all source files in a single call to LCC
+$(BINS):	$(CSOURCES) $(ADMSOURCES)
+	$(LCC) -o $@ $<
 
 clean:
 	rm -f *.o *.lst *.map *.gb *.ihx *.sym *.cdb *.adb *.asm

@@ -1,13 +1,20 @@
 @mainpage General Documentation
 
+@anchor docs_index
+- @subpage docs_getting_started
 - @subpage docs_links_and_tools
 - @subpage docs_using_gbdk
 - @subpage docs_coding_guidelines
 - @subpage docs_rombanking_mbcs
 - @subpage docs_toolchain
-- @subpage docs_sample_programs
+- @subpage docs_example_programs
 - @subpage docs_migrating_versions
 - @subpage docs_releases
+
+
+
+# Introduction
+Welcome to GBDK-2020! The best thing to do is head over to the @ref docs_getting_started "Getting Started" section to get up and running.
 
 
 # About the Documentation
