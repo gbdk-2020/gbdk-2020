@@ -56,6 +56,11 @@ build/
 *.db
 *.suo
 gbdk-support/Debug/
+gbdk-support/bankpack/bankpack
+gbdk-support/gbcompress/gbcompress
+gbdk-support/ihxcheck/ihxcheck
+gbdk-support/lcc/lcc
+gbdk-support/png2mtspr/png2mtspr
 as/bin
 link/bin
 maccer
