@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['sfont_5fhandle_607',['sfont_handle',['../structsfont__handle.html',1,'']]],
-  ['smalloc_5fhunk_608',['smalloc_hunk',['../structsmalloc__hunk.html',1,'']]]
+  ['oam_5fitem_5ft_659',['OAM_item_t',['../struct_o_a_m__item__t.html',1,'']]]
 ];

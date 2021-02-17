@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>GBDK 2020 API Docs: asm/gbz80/types.h Source File</title>
+<title>GBDK 2020 Docs: asm/gbz80/types.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -28,7 +28,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">GBDK 2020 API Docs
+   <div id="projectname">GBDK 2020 Docs
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -109,11 +109,14 @@ $(document).ready(function(){initNavTree('asm_2gbz80_2types_8h_source.html','');
 <div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="asm_2gbz80_2types_8h.html#a516ea33686d40a7f91f5644851ce7b5d">   30</a></span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">signed</span> <span class="keywordtype">long</span>     <a class="code" href="asm_2gbz80_2types_8h.html#a516ea33686d40a7f91f5644851ce7b5d">INT32</a>;</div>
 <div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="asm_2gbz80_2types_8h.html#a0b39d6d754cb24c708b0f2bdbe88130e">   33</a></span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span>   <a class="code" href="asm_2gbz80_2types_8h.html#a0b39d6d754cb24c708b0f2bdbe88130e">UINT32</a>;</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="asm_2gbz80_2types_8h.html#a7619b847aeded8a6d14cbfa212b2cdfb">   35</a></span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">int</span>         <a class="code" href="asm_2gbz80_2types_8h.html#a7619b847aeded8a6d14cbfa212b2cdfb">size_t</a>;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="asm_2gbz80_2types_8h.html#ad666a63cb94701b620ce999f84629d23">   40</a></span>&#160;<span class="keyword">typedef</span> <a class="code" href="asm_2gbz80_2types_8h.html#a805c2c164bdd38d72a30c46e84fb568b">UINT16</a>      <a class="code" href="asm_2gbz80_2types_8h.html#ad666a63cb94701b620ce999f84629d23">clock_t</a>;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#ifndef __SIZE_T_DEFINED</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="asm_2gbz80_2types_8h.html#a8de3167f7b52ff5a2f538858cb5e32d3">   36</a></span>&#160;<span class="preprocessor">#define __SIZE_T_DEFINED</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="asm_2gbz80_2types_8h.html#a7619b847aeded8a6d14cbfa212b2cdfb">   37</a></span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">int</span>         <a class="code" href="asm_2gbz80_2types_8h.html#a7619b847aeded8a6d14cbfa212b2cdfb">size_t</a>;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="asm_2gbz80_2types_8h.html#ad666a63cb94701b620ce999f84629d23">   43</a></span>&#160;<span class="keyword">typedef</span> <a class="code" href="asm_2gbz80_2types_8h.html#a805c2c164bdd38d72a30c46e84fb568b">UINT16</a>      <a class="code" href="asm_2gbz80_2types_8h.html#ad666a63cb94701b620ce999f84629d23">clock_t</a>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aasm_2gbz80_2types_8h_html_ab27e9918b538ce9d8ca692479b375b6a"><div class="ttname"><a href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a></div><div class="ttdeci">unsigned char UINT8</div><div class="ttdef"><b>Definition:</b> types.h:21</div></div>
@@ -121,8 +124,8 @@ $(document).ready(function(){initNavTree('asm_2gbz80_2types_8h_source.html','');
 <div class="ttc" id="aasm_2gbz80_2types_8h_html_a805c2c164bdd38d72a30c46e84fb568b"><div class="ttname"><a href="asm_2gbz80_2types_8h.html#a805c2c164bdd38d72a30c46e84fb568b">UINT16</a></div><div class="ttdeci">unsigned int UINT16</div><div class="ttdef"><b>Definition:</b> types.h:27</div></div>
 <div class="ttc" id="aasm_2gbz80_2types_8h_html_a516ea33686d40a7f91f5644851ce7b5d"><div class="ttname"><a href="asm_2gbz80_2types_8h.html#a516ea33686d40a7f91f5644851ce7b5d">INT32</a></div><div class="ttdeci">signed long INT32</div><div class="ttdef"><b>Definition:</b> types.h:30</div></div>
 <div class="ttc" id="aasm_2gbz80_2types_8h_html_a0b39d6d754cb24c708b0f2bdbe88130e"><div class="ttname"><a href="asm_2gbz80_2types_8h.html#a0b39d6d754cb24c708b0f2bdbe88130e">UINT32</a></div><div class="ttdeci">unsigned long UINT32</div><div class="ttdef"><b>Definition:</b> types.h:33</div></div>
-<div class="ttc" id="aasm_2gbz80_2types_8h_html_ad666a63cb94701b620ce999f84629d23"><div class="ttname"><a href="asm_2gbz80_2types_8h.html#ad666a63cb94701b620ce999f84629d23">clock_t</a></div><div class="ttdeci">UINT16 clock_t</div><div class="ttdef"><b>Definition:</b> types.h:40</div></div>
-<div class="ttc" id="aasm_2gbz80_2types_8h_html_a7619b847aeded8a6d14cbfa212b2cdfb"><div class="ttname"><a href="asm_2gbz80_2types_8h.html#a7619b847aeded8a6d14cbfa212b2cdfb">size_t</a></div><div class="ttdeci">int size_t</div><div class="ttdef"><b>Definition:</b> types.h:35</div></div>
+<div class="ttc" id="aasm_2gbz80_2types_8h_html_ad666a63cb94701b620ce999f84629d23"><div class="ttname"><a href="asm_2gbz80_2types_8h.html#ad666a63cb94701b620ce999f84629d23">clock_t</a></div><div class="ttdeci">UINT16 clock_t</div><div class="ttdef"><b>Definition:</b> types.h:43</div></div>
+<div class="ttc" id="aasm_2gbz80_2types_8h_html_a7619b847aeded8a6d14cbfa212b2cdfb"><div class="ttname"><a href="asm_2gbz80_2types_8h.html#a7619b847aeded8a6d14cbfa212b2cdfb">size_t</a></div><div class="ttdeci">int size_t</div><div class="ttdef"><b>Definition:</b> types.h:37</div></div>
 <div class="ttc" id="aasm_2gbz80_2types_8h_html_a7ebe70ceca856797319175e30bcf003d"><div class="ttname"><a href="asm_2gbz80_2types_8h.html#a7ebe70ceca856797319175e30bcf003d">INT8</a></div><div class="ttdeci">signed char INT8</div><div class="ttdef"><b>Definition:</b> types.h:18</div></div>
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->

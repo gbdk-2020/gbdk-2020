@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['game_20boy_20development_20kit_202020_20api_20_28gbdk_2dlib_29_20documentation_1205',['Game Boy Development Kit 2020 API (gbdk-lib) documentation',['../index.html',1,'']]]
+  ['coding_20guidelines_1302',['Coding Guidelines',['../docs_coding_guidelines.html',1,'index']]]
 ];

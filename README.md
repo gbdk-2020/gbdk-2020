@@ -3,6 +3,9 @@
 ## Current release for Linux: [Linux Binaries](https://github.com/Zal0/gbdk-2020/releases/latest/download/gbdk-linux64.tar.gz)
 You don't need the sources, unless you wish to compile GBDK-2020 yourself. Download the current release binaries using the links above.
 
+# Docs
+Online documentation is avaliable [HERE](https://zal0.github.io/gbdk-2020/docs/api)
+
 # gbdk-2020
 [GBDK](http://gbdk.sourceforge.net/) A C compiler, assembler, linker and set of libraries for the Z80 like Nintendo Gameboy.
 
@@ -24,9 +27,6 @@ Most users will only need to download and unzip the latest [release](https://git
 
 Then go to the examples folder and build them (with make.bat on windows or running make). They are a good starting point.
 
-# Docs
-Online documentation is avaliable [HERE](https://zal0.github.io/gbdk-2020/)
-
 ## Discord servers
 * [gbdk/zgb Discord](https://discord.gg/XCbjCvqnUY) - For help with using GBDK (and ZGB), discussion and development of gbdk-2020
 * [gbdev Discord](https://discordapp.com/invite/tKGMPNr) - There is a #gbdk channel and also people with a lot of Game Boy development knowledge
@@ -44,5 +44,5 @@ Unless you are interested on recompiling the sources for some reason (like fixin
 - Clone, download this repo or just get the source form the [releases](https://github.com/Zal0/gbdk-2020/releases)
 - Download and install [**sdcc nightlies from 4.0.7 #12016 onwards**](http://sdcc.sourceforge.net/snap.php) (SDCC is no longer part of GDDK so you need to download it (just the binaries) in the platform you need)
 - On Linux **don't use package managers** The latest release available won't work, you need to compile or download one of the nightlies
-- Create and environment var **SDCCDIR** pointint to the folder where you installed sdcc
-- Open a command prompt or a terminal, go the root directory of the repo and run **make**
+- Create **SDCCDIR** environment variable, that points into the folder, where you installed sdcc
+- Open command prompt or a terminal, go to the root directory of the repo and run **make**

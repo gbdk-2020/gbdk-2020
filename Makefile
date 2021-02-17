@@ -119,9 +119,12 @@ endif
 	@echo
 	@echo Building ihxcheck
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/ihxcheck TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
-	@echo
 	@echo Building bankpack
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/bankpack TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
+	@echo Building png2mtspr
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/png2mtspr
+	@echo Building gbcompress
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/gbcompress TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
 	@echo
 
 gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
@@ -134,10 +137,15 @@ gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
 	@echo Installing ihxcheck
 	@cp $(GBDKSUPPORTDIR)/ihxcheck/ihxcheck $(BUILDDIR)/bin/ihxcheck$(EXEEXTENSION)
 	@$(TARGETSTRIP) $(BUILDDIR)/bin/ihxcheck*
-	@echo
 	@echo Installing bankpack
 	@cp $(GBDKSUPPORTDIR)/bankpack/bankpack $(BUILDDIR)/bin/bankpack$(EXEEXTENSION)
 	@$(TARGETSTRIP) $(BUILDDIR)/bin/bankpack*
+	@echo Installing png2mtspr
+	@cp $(GBDKSUPPORTDIR)/png2mtspr/png2mtspr$(EXEEXTENSION) $(BUILDDIR)/bin/png2mtspr$(EXEEXTENSION)
+	@$(TARGETSTRIP) $(BUILDDIR)/bin/bankpack*
+	@echo Installing gbcompress
+	@cp $(GBDKSUPPORTDIR)/gbcompress/gbcompress $(BUILDDIR)/bin/gbcompress$(EXEEXTENSION)
+	@$(TARGETSTRIP) $(BUILDDIR)/bin/gbcompress*
 	@echo
 
 gbdk-support-clean:
@@ -146,9 +154,12 @@ gbdk-support-clean:
 	@echo
 	@echo Cleaning ihxcheck
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/ihxcheck clean --no-print-directory
-	@echo
 	@echo Cleaning bankpack
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/bankpack clean --no-print-directory
+	@echo Cleaning png2mtspr
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/png2mtspr clean
+	@echo Cleaning gbcompress
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/gbcompress clean --no-print-directory
 	@echo
 
 # Rules for gbdk-lib
@@ -185,7 +196,7 @@ gbdk-lib-examples-makefile:
 	unix2dos $(BUILDDIR)/examples/gb/make.bat
 
 # Copy SDDC executable files
-SDCC_BINS = makebin packihx sdar sdasgb sdcc sdcdb sdcdb sdcpp sdldgb sdnm sdobjcopy sdranlib sz80
+SDCC_BINS = makebin packihx sdar sdasgb sdcc sdcdb sdcpp sdldgb sdnm sdobjcopy sdranlib sz80
 ifeq ($(OS),Windows_NT)
 MINGW64_RUNTIME = \
 	libgcc_s_seh-1.dll \

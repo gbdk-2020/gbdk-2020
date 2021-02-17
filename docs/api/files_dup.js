@@ -1,7 +1,8 @@
 var files_dup =
 [
-    [ "asm", "dir_4b37c35541aee0eec500a6f5b59dadfa.html", "dir_4b37c35541aee0eec500a6f5b59dadfa" ],
-    [ "gb", "dir_9647bd2f7f93513d8a961f20c2db9569.html", "dir_9647bd2f7f93513d8a961f20c2db9569" ],
+    [ "asm", "dir_9a64cddab8e5f6fe5be80d8f39cb6a1f.html", "dir_9a64cddab8e5f6fe5be80d8f39cb6a1f" ],
+    [ "docs", "dir_49e56c817e5e54854c35e136979f97ca.html", "dir_49e56c817e5e54854c35e136979f97ca" ],
+    [ "gb", "dir_bdfe001eb73b667f67d57fb851301eb1.html", "dir_bdfe001eb73b667f67d57fb851301eb1" ],
     [ "stdarg.h", "stdarg_8h.html", null ],
     [ "types.h", "types_8h.html", "types_8h" ],
     [ "assert.h", "assert_8h.html", "assert_8h" ],

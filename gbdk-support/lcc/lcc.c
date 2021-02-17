@@ -671,6 +671,7 @@ static void help(void) {
 "-Bdir/	use the compiler named `dir/rcc'\n",
 "-c	compile only\n",
 "-dn	set switch statement density to `n'\n",
+"-debug	turn on --debug for compiler, -y (.cdb) and -j (.noi) for linker\n",
 "-Dname -Dname=def	define the preprocessor symbol `name'\n",
 "-E	run only the preprocessor on the named C programs and unsuffixed files\n",
 "-g	produce symbol table information for debuggers\n",
@@ -782,8 +783,8 @@ static void opt(char *arg) {
                 bankpacklist = append(&arg[3], bankpacklist);
                 return;
 			case 'l': /* Linker */
-				if(arg[4] == 'y' && (arg[5] == 't' || arg[5] == 'o' || arg[5] == 'a') && (arg[6] != '\0' && arg[6] != ' '))
-					goto makebinoption; //automatically pass -yo -ya -yt options to makebin (backwards compatibility)
+				if(arg[4] == 'y' && (arg[5] == 't' || arg[5] == 'o' || arg[5] == 'a' || arg[5] == 'p') && (arg[6] != '\0' && arg[6] != ' '))
+					goto makebinoption; //automatically pass -yo -ya -yt -yp options to makebin (backwards compatibility)
 				{
 					char *tmp = malloc(256);
 					sprintf(tmp, "%c%c", arg[3], arg[4]); //sdldgb requires spaces between -k and the path
@@ -800,8 +801,8 @@ static void opt(char *arg) {
 				char *tmp2 = malloc(256);
 				tmp2[0] = '\0'; // Zero out second arg by default
 				if(arg[4] == 'y') {
-					sprintf(tmp, "%c%c%c", arg[3], arg[4], arg[5]); //-yo -ya -yt -yl -yk -yn
-					if (!(arg[5] == 'c' || arg[5] == 'C' || arg[5] == 's' || arg[5] == 'j')) // Don't add secong arg for -yc -yC -ys -yj
+					sprintf(tmp, "%c%c%c", arg[3], arg[4], arg[5]); //-yo -ya -yt -yl -yk -yn -yp
+					if (!(arg[5] == 'c' || arg[5] == 'C' || arg[5] == 's'  || arg[5] == 'S' || arg[5] == 'j')) // Don't add second arg for -yc -yC -ys -yS -yj
 						sprintf(tmp2, "%s", &arg[6]);
 
 					// If MBC option is present for makebin (-Wl-yt <n> or -Wm-yt <n>) then make a copy for bankpack to use
@@ -820,6 +821,14 @@ static void opt(char *arg) {
 		fprintf(stderr, "%s: %s ignored\n", progname, arg);
 		return;
 	case 'd':	/* -dn */
+		if (strcmp(arg, "-debug") == 0) {
+			// Load default debug options
+			clist    = append("--debug", clist);  // Debug for sdcc compiler
+			llist[0] = append("-y", llist[0]);    // Enable .cdb output for sdldgb linker
+			llist[0] = append("-j", llist[0]);    // Enable .noi output
+			return;
+		}
+
 		arg[1] = 's';
 		clist = append(arg, clist);
 		return;

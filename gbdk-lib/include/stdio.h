@@ -26,11 +26,18 @@ void putchar(char c);
     Does not return the number of characters printed.
 
     Currently supported:
+    \li \%hx (char as hex)
+    \li \%hu (unsigned char)
+    \li \%hd (signed char)
     \li \%c (character)
     \li \%u (unsigned int)
     \li \%d (signed int)
     \li \%x (unsigned int as hex)
     \li \%s (string)
+
+    Warning: to correctly pass chars for printing as chars, they *must*
+    be explicitly re-cast as such when calling the function.
+    See @ref docs_chars_varargs for more details.
  */
 void printf(const char *format, ...) NONBANKED;
 

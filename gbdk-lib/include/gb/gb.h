@@ -609,6 +609,21 @@ void hiramcpy(UINT8 dst,
 
 
 
+/**
+ * Set byte in vram at given memory location
+ * 
+ * @param addr address to write to
+ * @param v value
+ */
+void set_vram_byte(UBYTE * addr, UINT8 v) __preserves_regs(b, c);
+
+
+/**
+ * Get address of X,Y tile of background map
+ */
+UINT8 * get_bkg_xy_addr(UINT8 x, UINT8 y) __preserves_regs(b, c);
+
+
 /** Sets VRAM Tile Pattern data for the Background / Window
 
     @param first_tile  Index of the first tile to write
@@ -626,7 +641,7 @@ void hiramcpy(UINT8 dst,
 */
 void set_bkg_data(UINT8 first_tile,
          UINT8 nb_tiles,
-         unsigned char *data) NONBANKED __preserves_regs(b, c);
+         const unsigned char *data) NONBANKED __preserves_regs(b, c);
 
 
 /** Sets VRAM Tile Pattern data for the Background / Window using 1bpp source data
@@ -647,7 +662,7 @@ void set_bkg_data(UINT8 first_tile,
 */
 void set_bkg_1bit_data(UINT8 first_tile,
          UINT8 nb_tiles,
-         unsigned char *data,
+         const unsigned char *data,
          UINT8 color) NONBANKED __preserves_regs(b, c);
 
 
@@ -718,7 +733,7 @@ void set_bkg_tiles(UINT8 x,
           UINT8 y,
           UINT8 w,
           UINT8 h,
-          unsigned char *tiles) NONBANKED __preserves_regs(b, c);
+          const unsigned char *tiles) NONBANKED __preserves_regs(b, c);
 
 
 /** Copies a rectangular region of Background Tile Map entries into a buffer.
@@ -742,6 +757,17 @@ void get_bkg_tiles(UINT8 x,
           UINT8 w,
           UINT8 h,
           unsigned char *tiles) NONBANKED __preserves_regs(b, c);
+
+
+/**
+ * Set single tile t on background layer at x,y
+ * @param x X-coordinate
+ * @param y Y-coordinate
+ * @param t tile index
+ * @return returns the address of tile, so you may use faster set_vram_byte() later
+ */ 
+UINT8 * set_bkg_tile_xy(UBYTE x, UBYTE y, UBYTE t) __preserves_regs(b, c);
+
 
 
 /** Moves the Background Layer to the position specified in __x__ and __y__ in pixels.
@@ -777,6 +803,11 @@ inline void scroll_bkg(INT8 x, INT8 y) {
 
 
 
+/**
+ * Get address of X,Y tile of window map
+ */
+UINT8 * get_win_xy_addr(UINT8 x, UINT8 y) __preserves_regs(b, c);
+
 /** Sets VRAM Tile Pattern data for the Window / Background
 
     @param first_tile  Index of the first tile to write
@@ -792,7 +823,7 @@ inline void scroll_bkg(INT8 x, INT8 y) {
 */
 void set_win_data(UINT8 first_tile,
           UINT8 nb_tiles,
-          unsigned char *data) NONBANKED __preserves_regs(b, c);
+          const unsigned char *data) NONBANKED __preserves_regs(b, c);
 
 
 /** Sets VRAM Tile Pattern data for the Window / Background using 1bpp source data
@@ -808,7 +839,7 @@ void set_win_data(UINT8 first_tile,
 */
 void set_win_1bit_data(UINT8 first_tile,
           UINT8 nb_tiles,
-          unsigned char *data) NONBANKED __preserves_regs(b, c);
+          const unsigned char *data) NONBANKED __preserves_regs(b, c);
 
 
 /** Copies from Window / Background VRAM Tile Pattern data into a buffer
@@ -853,7 +884,7 @@ void set_win_tiles(UINT8 x,
           UINT8 y,
           UINT8 w,
           UINT8 h,
-          unsigned char *tiles) NONBANKED __preserves_regs(b, c);
+          const unsigned char *tiles) NONBANKED __preserves_regs(b, c);
 
 
 /** Copies a rectangular region of Window Tile Map entries into a buffer.
@@ -876,6 +907,16 @@ void get_win_tiles(UINT8 x,
           UINT8 w,
           UINT8 h,
           unsigned char *tiles) NONBANKED __preserves_regs(b, c);
+
+
+/**
+ * Set single tile t on window layer at x,y
+ * @param x X-coordinate
+ * @param y Y-coordinate
+ * @param t tile index
+ * @return returns the address of tile, so you may use faster set_vram_byte() later
+ */ 
+UINT8 * set_win_tile_xy(UBYTE x, UBYTE y, UBYTE t) __preserves_regs(b, c);
 
 
 /** Moves the Window to the __x__, __y__ position on the screen.
@@ -926,7 +967,7 @@ inline void scroll_win(INT8 x, INT8 y) {
 */
 void set_sprite_data(UINT8 first_tile,
           UINT8 nb_tiles,
-          unsigned char *data) NONBANKED __preserves_regs(b, c);
+          const unsigned char *data) NONBANKED __preserves_regs(b, c);
 
 
 /** Sets VRAM Tile Pattern data for Sprites using 1bpp source data
@@ -946,7 +987,7 @@ void set_sprite_data(UINT8 first_tile,
 */
 void set_sprite_1bit_data(UINT8 first_tile,
           UINT8 nb_tiles,
-          unsigned char *data) NONBANKED __preserves_regs(b, c);
+          const unsigned char *data) NONBANKED __preserves_regs(b, c);
 
 
 /** Copies from Sprite VRAM Tile Pattern data into a buffer
@@ -983,8 +1024,27 @@ typedef struct OAM_item_t {
 */
 extern volatile struct OAM_item_t shadow_OAM[];
 
+/** MSB of shadow_OAM address is used by OAM DMA copying routine
+*/
+__REG _shadow_OAM_base;
 
-/** Sets sprite number __nb__ to display tile number __tile__.
+/** Disable OAM DMA copy each VBlank
+*/
+#define DISABLE_OAM_DMA \
+    _shadow_OAM_base = 0
+
+/** Enable OAM DMA copy each VBlank and set it to transfer default shadow_OAM array
+*/
+#define ENABLE_OAM_DMA \
+    _shadow_OAM_base = (UBYTE)((UWORD)&shadow_OAM >> 8)
+
+/** Enable OAM DMA copy each VBlank and set it to transfer any 256-byte aligned array
+*/
+inline void SET_SHADOW_OAM_ADDRESS(void * address) {
+    _shadow_OAM_base = (UBYTE)((UWORD)address >> 8);
+}
+
+/** Sets sprite number __nb__in the OAM to display tile number __tile__.
 
     @param nb    Sprite number, range 0 - 39
     @param tile  Selects a tile (0 - 255) from memory at 8000h - 8FFFh
@@ -1005,7 +1065,7 @@ inline void set_sprite_tile(UINT8 nb, UINT8 tile) {
 }
 
 
-/** Returns the tile number of sprite number __nb__.
+/** Returns the tile number of sprite number __nb__ in the OAM.
 
 @param nb    Sprite number, range 0 - 39
 
@@ -1095,6 +1155,14 @@ inline void scroll_sprite(UINT8 nb, INT8 x, INT8 y) {
 }
 
 
+/** Hides sprite number __nb__ by moving it to zero position by Y.
+
+    @param nb  Sprite number, range 0 - 39
+ */
+inline void hide_sprite(UINT8 nb) {
+    shadow_OAM[nb].y = 0;
+}
+
 
 
 /** Copies Tile Pattern data to an address in VRAM
@@ -1110,7 +1178,7 @@ inline void scroll_sprite(UINT8 nb, INT8 x, INT8 y) {
     \li VBK_REG=1 indicates the second
 */
 void set_data(unsigned char *vram_addr,
-          unsigned char *data,
+          const unsigned char *data,
           UINT16 len) NONBANKED __preserves_regs(b, c);
 
 
@@ -1156,7 +1224,7 @@ void set_tiles(UINT8 x,
           UINT8 w,
           UINT8 h,
           unsigned char *vram_addr,
-          unsigned char *tiles) NONBANKED __preserves_regs(b, c);
+          const unsigned char *tiles) NONBANKED __preserves_regs(b, c);
 
 
 /** Copies a rectangular region of Tile Map entries from a given VRAM Address into a buffer.

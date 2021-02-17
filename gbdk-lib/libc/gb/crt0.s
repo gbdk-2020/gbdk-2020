@@ -87,6 +87,7 @@ _wait_int_handler::
 	RETI
 
 	;; VBlank default interrupt routine
+__standard_VBL_handler::
 .std_vbl:
 	LD	HL,#.sys_time
 	INC	(HL)
@@ -95,8 +96,8 @@ _wait_int_handler::
 	INC	(HL)
 2$:
 	CALL	.refresh_OAM
-
-	LD	A,#0x01
+	
+	LD	A, #1
 	LDH	(.vbl_done),A
 	RET
 
@@ -167,11 +168,14 @@ _reset::
 .code_start::
 	DI			; Disable interrupts
 	LD	D,A		; Store CPU type in D
-	XOR	A
 	;; Initialize the stack
 	LD	SP,#.STACK
 
-	LD	HL,#_shadow_OAM
+	LD	A, #>_shadow_OAM
+	LDH	(__shadow_OAM_base), A
+	LD	H, A
+	XOR	A
+	LD	L, A
 	LD	C, #(40 << 2)	; 40 entries 4 bytes each
 	RST	0x28
 
@@ -247,8 +251,6 @@ _reset::
 	LD	HL,#.sys_time
 	LD	(HL+),A
 	LD	(HL),A
-;	LD	(_malloc_heap_start+0),A
-;	LD	(_malloc_heap_start+1),A
 
 	LDH	(.NR52),A	; Turn sound off
 
@@ -284,7 +286,10 @@ _set_interrupts::
 
 	;; Copy OAM data to OAM RAM
 .start_refresh_OAM:
-	LD	A,#>_shadow_OAM
+	LDH	A,(__shadow_OAM_base)
+	OR	A
+	RET	Z
+
 	LDH	(.DMA),A	; Put A into DMA registers
 	LD	A,#0x28		; We need to wait 160 ns
 1$:
@@ -342,7 +347,8 @@ __current_bank::	; Current bank
 	.ds	0x01
 .vbl_done:
 	.ds	0x01		; Is VBL interrupt finished?
-
+__shadow_OAM_base::
+	.ds	0x01
 	;; Runtime library
 	.area	_GSINIT
 gsinit::
@@ -468,6 +474,3 @@ _add_VBL::
 	CALL	.add_VBL
 	POP	BC
 	RET
-
-	.area	_HEAP
-_malloc_heap_start::
