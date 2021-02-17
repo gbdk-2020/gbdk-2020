@@ -1,7 +1,7 @@
-@page docs_sample_programs GBDK Sample Programs
+@page docs_example_programs GBDK Example Programs
 
 
-GBDK includes several sample programs both in C and in assembly. They are located in the examples directory, and in its subdirectories. They can be built by typing make in the correnponding directory.
+GBDK includes several example programs both in C and in assembly. They are located in the examples directory, and in its subdirectories. They can be built by typing `make` in the correnponding directory.
 
 
 # banks (various projects)
@@ -107,6 +107,5 @@ The space example is an assembly program that demonstrates the use of sprites, w
     Arrow keys + B : Change the speed (and direction) of the background
     START          : Open/close the door
     SELECT         : Basic fading effect
-
 
 

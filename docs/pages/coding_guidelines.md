@@ -3,6 +3,8 @@
 # Learning C / C fundamentals
 Writing games and other programs with GBDK will be much easier with a basic understanding of the C language. In particular, understanding how to use C on "Embedded Platforms" (small computing systems, such as the Game Boy) can help you write better code (smaller, faster, less error prone) and avoid common pitfals.
 
+
+@anchor docs_c_tutorials
 ## General C tutorials
   - https://www.learn-c.org/
   -  https://www.tutorialspoint.com/cprogramming/index.htm
@@ -24,6 +26,17 @@ In addition to understanding the C language it's important to learn how the Game
 The following guidelines can result in better code for the Game Boy, even though some of the guidance may be contrary to typical advice for general purpose computers that have more resources and speed.
 
 
+## Tools
+
+@anchor const_gbtd_gbmb
+### GBTD / GBMB, Arrays and the "const" keyword
+__Important__: The old @ref gbtd_gbmb "GBTD/GBMB" fails to include the `const` keyword when exporting to C source files for GBDK. That causes arrays to be created in RAM instead of ROM, which wastes RAM, uses a lot of ROM to initialize the RAM arrays and slows the compiler down a lot.
+
+__Use of @ref toxa_gbtd_gbmb "toxa's updated GBTD/GBMB" is highly recommended.__
+
+If you wish to use the original tools, you must add the `const` keyword every time the graphics are re-exported to C source files.
+
+
 ## Variables
 
   - Use 8-bit values as much as possible. They will be much more efficient and compact than 16 and 32 bit types.
@@ -35,7 +48,8 @@ The following guidelines can result in better code for the Game Boy, even though
 
   - Global and local static variables are generally more efficient than local non-static variables (which go on the stack and are slower and can result in slower code).
 
-  - `const` keyword: Use const for arrays, structs and variables with read-only (constant) data. It will reduce ROM, RAM and CPU usage significantly. Non-`const` values are loaded from ROM into RAM inefficiently, and there is no benefit in loading them into the limited available RAM if they aren't going to be changed.
+  - @anchor const_array_data
+  `const` keyword: Use const for arrays, structs and variables with read-only (constant) data. It will reduce ROM, RAM and CPU usage significantly. Non-`const` values are loaded from ROM into RAM inefficiently, and there is no benefit in loading them into the limited available RAM if they aren't going to be changed.
 
   - For calculated values that don't change, pre-compute results once and store the result. Using lookup-tables and the like can improve speed and reduce code size. Macros can sometimes help. It may be beneficial to do the calculations with an outside tool and then include the result as C code in a const array.
 

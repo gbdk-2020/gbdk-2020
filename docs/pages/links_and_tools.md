@@ -10,6 +10,15 @@ This is a brief list of useful tools and information. It is not meant to be comp
   http://sdcc.sourceforge.net
 
 
+@anchor links_help_and_community
+# Getting Help
+  - GBDK Discord community:  
+  https://github.com/Zal0/gbdk-2020/#discord-servers
+
+  - Game Boy discussion forum:  
+  https://gbdev.gg8.se/forums/
+
+
 @anchor links_gameboy_docs
 # Game Boy Documentation
   - @anchor Pandocs
@@ -23,7 +32,7 @@ This is a brief list of useful tools and information. It is not meant to be comp
     https://gbdev.io/list.html
 
 
-@anchor links_tutorials
+@anchor links_gbdk_tutorials
 # Tutorials
   - @anchor tutorials_gamingmonsters
     __Gaming Monsters Tutorials__  
@@ -34,12 +43,20 @@ This is a brief list of useful tools and information. It is not meant to be comp
 
 @anchor links_graphic
 # Graphics Tools
-  - @anchor gbmb
+  - @anchor gbtd_gbmb
+    @anchor gbmb
     @anchor gbtd
     __Game Boy Tile Designer and Map Builder (GBTD / GBMB)__  
     Sprite / Tile editor and Map Builder that can export to C that works with GBDK.  
-    https://github.com/untoxa/GBTD_GBMB (updated version with improvements and fixes)  
-    http://www.devrs.com/gb/hmgd/intro.html (original tools)  
+ 
+    - @anchor toxa_gbtd_gbmb
+    __Use this updated version:__ (has const export fixed and other improvments):  
+    https://github.com/untoxa/GBTD_GBMB  
+ 
+    - This older version is __not recommended__:  
+    http://www.devrs.com/gb/hmgd/intro.html (old, original tools)  
+ 
+    - A GIMP plugin for import/export:  
     https://github.com/bbbbbr/gimp-tilemap-gb (GIMP plugin to read/write GBR/GBM files)
 
   - @anchor Tilemap_Studio
