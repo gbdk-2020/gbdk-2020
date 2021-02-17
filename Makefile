@@ -167,8 +167,8 @@ ifndef CROSSCOMPILING
 endif
 
 gbdk-lib-install: gbdk-lib-build
-	@echo Installing Examples and Templates
-	@cp -r $(GBDKLIBDIR)/include $(GBDKLIBDIR)/examples $(GBDKLIBDIR)/templates $(BUILDDIR)
+	@echo Installing Examples
+	@cp -r $(GBDKLIBDIR)/include $(GBDKLIBDIR)/examples $(BUILDDIR)
 	@echo
 	@echo Installing lib
 	@rm -rf $(BUILDDIR)/lib
@@ -180,7 +180,6 @@ gbdk-lib-install: gbdk-lib-build
 	@cp $(GBDKLIBDIR)/libc/gb/global.s $(BUILDDIR)/lib/small/asxxxx/global.s
 	@echo Generating make.bat
 	@$(MAKE) -C $(BUILDDIR)/examples/gb make.bat --no-print-directory
-	@$(MAKE) -C $(BUILDDIR)/templates/gb make.bat --no-print-directory
 	@echo
 
 gbdk-lib-clean:
@@ -191,8 +190,6 @@ gbdk-lib-clean:
 gbdk-lib-examples-makefile:
 	$(MAKE) -C $(BUILDDIR)/examples/gb make.bat
 	unix2dos $(BUILDDIR)/examples/gb/make.bat
-	$(MAKE) -C $(BUILDDIR)/templates/gb/ make.bat
-	unix2dos $(BUILDDIR)/templates/gb/make.bat
 
 # Copy SDDC executable files
 SDCC_BINS = makebin packihx sdar sdasgb sdcc sdcdb sdcpp sdldgb sdnm sdobjcopy sdranlib sz80
