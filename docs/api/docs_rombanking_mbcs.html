@@ -245,7 +245,8 @@ Auto-Banking</h1>
 <h1><a class="anchor" id="autotoc_md16"></a>
 Errors related to banking (overflow, multiple writes to same location)</h1>
 <p>A <em>bank overflow</em> during compile/link time (in <a class="el" href="docs_toolchain.html#makebin">makebin</a>) is when more code and data are allocated to a ROM bank than it has capacity for. The address for any overflowed data will be incorrect and the data is potentially unreachable since it now resides at the start of a different bank instead of the end of the expected bank.</p>
-<p>The current toolchain can only detect and warn (using <a class="el" href="docs_toolchain.html#ihxcheck">ihxcheck</a>) when one bank overflows into another bank that has data at its start. It cannot warn if a bank overflows into an empty one. For more complete detection , you can use the third-party <a class="el" href="docs_links_and_tools.html#romusage">romusage</a> tool.</p>
+<p>See the <a class="el" href="docs_toolchain.html#faq_bank_overflow_errors">FAQ entry about bank overflow errors</a>.</p>
+<p>The current toolchain can only detect and warn (using <a class="el" href="docs_toolchain.html#ihxcheck">ihxcheck</a>) when one bank overflows into another bank that has data at its start. It cannot warn if a bank overflows into an empty one. For more complete detection, you can use the third-party <a class="el" href="docs_links_and_tools.html#romusage">romusage</a> tool.</p>
 <h1><a class="anchor" id="autotoc_md17"></a>
 Bank space usage</h1>
 <p>In order to see how much space is used or remains available in a bank, you can use the third-party <a class="el" href="docs_links_and_tools.html#romusage">romusage</a> tool.</p>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['migrating_20to_20new_20gbdk_20versions_1308',['Migrating to new GBDK Versions',['../docs_migrating_versions.html',1,'index']]]
+  ['migrating_20to_20new_20gbdk_20versions_1312',['Migrating to new GBDK Versions',['../docs_migrating_versions.html',1,'index']]]
 ];
