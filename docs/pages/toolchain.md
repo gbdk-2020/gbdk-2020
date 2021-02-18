@@ -32,6 +32,7 @@ To see individual arguments and options for a tool, run that tool from the comma
   - See @ref setting_mbc_and_rom_ram_banks
     <!-- -->  
 
+@anchor faq_bank_overflow_errors
 - What do these kinds of warnings / errors mean?
   `WARNING: possibly wrote twice at addr 4000 (93->3E)`
   `Warning: Write from one bank spans into the next. 7ff7 -> 8016 (bank 1 -> 2)`

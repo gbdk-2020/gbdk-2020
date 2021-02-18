@@ -205,7 +205,10 @@ Limitations:
 # Errors related to banking (overflow, multiple writes to same location)
 A _bank overflow_ during compile/link time (in @ref makebin) is when more code and data are allocated to a ROM bank than it has capacity for. The address for any overflowed data will be incorrect and the data is potentially unreachable since it now resides at the start of a different bank instead of the end of the expected bank.
 
-The current toolchain can only detect and warn (using @ref ihxcheck) when one bank overflows into another bank that has data at its start. It cannot warn if a bank overflows into an empty one. For more complete detection , you can use the third-party @ref romusage tool.
+See the @ref faq_bank_overflow_errors "FAQ entry about bank overflow errors".
+
+The current toolchain can only detect and warn (using @ref ihxcheck) when one bank overflows into another bank that has data at its start. It cannot warn if a bank overflows into an empty one. For more complete detection, you can use the third-party @ref romusage tool.
+
 
 
 # Bank space usage
