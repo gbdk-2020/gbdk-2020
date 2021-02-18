@@ -13,7 +13,7 @@ LCC = $(GBDK_HOME)bin/lcc
 # LCC = $(LCC) -debug
 
 # You can set the name of the .gb ROM file here
-PROJECTNAME    = "Example"
+PROJECTNAME    = Example
 
 SRCDIR      = src
 OBJDIR      = obj
@@ -23,7 +23,7 @@ CSOURCES    = $(foreach dir,$(SRCDIR),$(notdir $(wildcard $(dir)/*.c))) $(foreac
 ASMSOURCES  = $(foreach dir,$(SRCDIR),$(notdir $(wildcard $(dir)/*.s)))
 OBJS       = $(CSOURCES:%.c=$(OBJDIR)/%.o) $(ASMSOURCES:%.s=$(OBJDIR)/%.o)
 
-all:	$(BINS)
+all:	prepare $(BINS)
 
 make.bat: Makefile
 	@echo "REM Automatically generated from Makefile" > make.bat
@@ -49,6 +49,9 @@ $(OBJDIR)/%.s:	$(SRCDIR)/%.c
 # Link the compiled object files into a .gb ROM file
 $(BINS):	$(OBJS)
 	$(LCC) $(CFLAGS) -o $(BINS) $(OBJS)
+
+prepare:
+	mkdir -p $(OBJDIR)
 
 clean:
 #	rm -f  *.gb *.ihx *.cdb *.adb *.noi *.map
