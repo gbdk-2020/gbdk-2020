@@ -12,10 +12,10 @@
 const uint8_t len_mask    = 0x3F;
 const uint8_t token_mask  = 0xC0;
 
-const uint8_t token_byte  = 0x00;
-const uint8_t token_word  = 0x40;
-const uint8_t token_str   = 0x80;
-const uint8_t token_trash = 0xC0;
+#define token_byte  0x00
+#define token_word  0x40
+#define token_str   0x80
+#define token_trash 0xC0
 
 const uint8_t EOFMarker  = 0x00;
 
