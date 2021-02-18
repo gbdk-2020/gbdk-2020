@@ -6,6 +6,9 @@ You don't need the sources, unless you wish to compile GBDK-2020 yourself. Downl
 # Docs
 Online documentation is avaliable [HERE](https://zal0.github.io/gbdk-2020/docs/api)
 
+A good place to start is the [Getting Started Section](https://zal0.github.io/gbdk-2020/docs/api/docs_getting_started.html)
+
+
 # gbdk-2020
 [GBDK](http://gbdk.sourceforge.net/) A C compiler, assembler, linker and set of libraries for the Z80 like Nintendo Gameboy.
 
