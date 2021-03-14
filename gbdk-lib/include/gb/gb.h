@@ -736,6 +736,9 @@ void set_bkg_tiles(UINT8 x,
           const unsigned char *tiles) NONBANKED __preserves_regs(b, c);
 
 
+void set_bkg_submap(UINT8 x, UINT8 y, UINT8 w, UINT8 h, const unsigned char *map, UINT8 map_w);
+
+
 /** Copies a rectangular region of Background Tile Map entries into a buffer.
 
     @param x      X Start position in Background Map tile coordinates. Range 0 - 31
@@ -885,6 +888,9 @@ void set_win_tiles(UINT8 x,
           UINT8 w,
           UINT8 h,
           const unsigned char *tiles) NONBANKED __preserves_regs(b, c);
+
+
+void set_win_submap(UINT8 x, UINT8 y, UINT8 w, UINT8 h, const unsigned char *map, UINT8 map_w);
 
 
 /** Copies a rectangular region of Window Tile Map entries into a buffer.
