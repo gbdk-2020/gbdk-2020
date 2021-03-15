@@ -26,7 +26,7 @@ void set_camera() {
         if (camera_y < old_camera_y) {
             set_bkg_submap(map_pos_x, map_pos_y, MIN(21u, bigmap_mapWidth-map_pos_x), 1, bigmap_map, bigmap_mapWidth);
         } else {
-            if ((bigmap_mapHeight - 17u) > map_pos_y) set_bkg_submap(map_pos_x, map_pos_y + 18u, MIN(21u, bigmap_mapWidth-map_pos_x), 1, bigmap_map, bigmap_mapWidth);     
+            if ((bigmap_mapHeight - 18u) > map_pos_y) set_bkg_submap(map_pos_x, map_pos_y + 18u, MIN(21u, bigmap_mapWidth-map_pos_x), 1, bigmap_map, bigmap_mapWidth);     
         }
         old_map_pos_y = map_pos_y; 
     }
@@ -36,7 +36,7 @@ void set_camera() {
         if (camera_x < old_camera_x) {
             set_bkg_submap(map_pos_x, map_pos_y, 1, MIN(19u, bigmap_mapHeight - map_pos_y), bigmap_map, bigmap_mapWidth);     
         } else {
-            if ((bigmap_mapWidth - 19u) > map_pos_x) set_bkg_submap(map_pos_x + 20u, map_pos_y, 1, MIN(19u, bigmap_mapHeight - map_pos_y), bigmap_map, bigmap_mapWidth);     
+            if ((bigmap_mapWidth - 20u) > map_pos_x) set_bkg_submap(map_pos_x + 20u, map_pos_y, 1, MIN(19u, bigmap_mapHeight - map_pos_y), bigmap_map, bigmap_mapWidth);     
         }
         old_map_pos_x = map_pos_x;
     }
