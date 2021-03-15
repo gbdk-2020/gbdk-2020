@@ -1,4 +1,4 @@
-@page docs_example_programs GBDK Example Programs
+@page docs_example_programs Example Programs
 
 
 GBDK includes several example programs both in C and in assembly. They are located in the examples directory, and in its subdirectories. They can be built by typing `make` in the correnponding directory.
@@ -52,6 +52,10 @@ The gb-dtmf, written by Osamu Ohashi, is a Dual Tone Multi-Frequency (DTMF) gene
 
 # irq
 Illustrates how to install interrupt handlers.
+
+
+# large map
+Shows how to scroll with maps larger than 32 x 32 tiles using set_bkg_submap(). It fills rows and columns at the edges of the visible viewport (of the hardware Background Map) as it scrolls.
 
 
 # lcd isr wobble
@@ -108,4 +112,7 @@ The space example is an assembly program that demonstrates the use of sprites, w
     START          : Open/close the door
     SELECT         : Basic fading effect
 
+
+# templates
+Two basic template examples are provided as a starting place for writing your GBDK programs.
 

@@ -685,18 +685,26 @@ void get_bkg_data(UINT8 first_tile,
          unsigned char *data) NONBANKED __preserves_regs(b, c);
 
 
-/** Sets a rectangular region of Tile Map entries for the Background layer.
+/** Sets a rectangular region of Background Tile Map.
 
     @param x      X Start position in Background Map tile coordinates. Range 0 - 31
     @param y      Y Start position in Background Map tile coordinates. Range 0 - 31
-    @param w      Width of area to set in tiles. Range 0 - 31
-    @param h      Height of area to set in tiles.   Range 0 - 31
-    @param tiles  Pointer to source Tile Map data
+    @param w      Width of area to set in tiles. Range 1 - 32
+    @param h      Height of area to set in tiles. Range 1 - 32
+    @param tiles  Pointer to source tile map data
 
-    Entries are copied from __tiles__ to the Background Tile Map starting at
+    Entries are copied from map at __tiles__ to the Background Tile Map starting at
     __x__, __y__ writing across for __w__ tiles and down for __h__ tiles.
 
-    One byte per Tile map entry.
+    Use @ref set_bkg_submap() instead when:
+    \li Source map is wider than 32 tiles.
+    \li Writing a width that does not match the source map width __and__ more 
+    than one row high at a time.
+
+    One byte per source tile map entry.
+
+    Writes that exceed coordinate 31 on the x or y axis will wrap around to 
+    the Left and Top edges.
 
     Note: Patterns 128-255 overlap with patterns 128-255 of the sprite Tile Pattern table.
 
@@ -727,7 +735,7 @@ void get_bkg_data(UINT8 first_tile,
               assigned.
 
     @see SHOW_BKG
-    @see set_bkg_data
+    @see set_bkg_data, set_bkg_submap
 */
 void set_bkg_tiles(UINT8 x,
           UINT8 y,
@@ -736,6 +744,34 @@ void set_bkg_tiles(UINT8 x,
           const unsigned char *tiles) NONBANKED __preserves_regs(b, c);
 
 
+/** Sets a rectangular area of the Background Tile Map using a sub-region 
+    from a source tile map. Useful for scrolling implementations of maps 
+    larger than 32 x 32 tiles.
+
+    @param x      X Start position in Background Map tile coordinates. Range 0 - 31
+    @param y      Y Start position in Background Map tile coordinates. Range 0 - 31
+    @param w      Width of area to set in tiles. Range 1 - 255
+    @param h      Height of area to set in tiles. Range 1 - 255
+    @param map    Pointer to source tile map data
+    @param map_w  Width of source tile map in tiles. Range 1 - 255
+
+    Entries are copied from __map__ to the Background Tile Map starting at
+    __x__, __y__ writing across for __w__ tiles and down for __h__ tiles, 
+    using __map_w__ as the rowstride for the source tile map.
+
+    Use this instead of @ref set_bkg_tiles when the source map is wider than
+    32 tiles or when writing a width that does not match the source map width. 
+
+    One byte per source tile map entry.
+
+    Writes that exceed coordinate 31 on the x or y axis will wrap around to 
+    the Left and Top edges.    
+
+    See @ref set_bkg_tiles for setting CGB attribute maps with @ref VBK_REG.
+
+    @see SHOW_BKG
+    @see set_bkg_data, set_bkg_tiles, set_win_submap
+*/
 void set_bkg_submap(UINT8 x, UINT8 y, UINT8 w, UINT8 h, const unsigned char *map, UINT8 map_w);
 
 
@@ -861,18 +897,26 @@ void get_win_data(UINT8 first_tile,
           unsigned char *data) NONBANKED __preserves_regs(b, c);
 
 
-/** Sets a rectangular region of Tile Map entries for the Window layer.
+/** Sets a rectangular region of the Window Tile Map.
 
     @param x      X Start position in Window Map tile coordinates. Range 0 - 31
     @param y      Y Start position in Window Map tile coordinates. Range 0 - 31
-    @param w      Width of area to set in tiles. Range 0 - 31
-    @param h      Height of area to set in tiles.	Range 0 - 31
-    @param tiles   Pointer to source Tile Map data
+    @param w      Width of area to set in tiles. Range 1 - 32
+    @param h      Height of area to set in tiles. Range 1 - 32
+    @param tiles  Pointer to source tile map data
 
-    Entries are copied from __tiles__ to the background Tile Map starting at
+    Entries are copied from map at __tiles__ to the Window Tile Map starting at
     __x__, __y__ writing across for __w__ tiles and down for __h__ tiles.
 
-    One byte per Tile Map entry.
+    Use @ref set_win_submap() instead when:
+    \li Source map is wider than 32 tiles.
+    \li Writing a width that does not match the source map width __and__ more 
+    than one row high at a time.
+
+    One byte per source tile map entry.
+
+    Writes that exceed coordinate 31 on the x or y axis will wrap around to 
+    the Left and Top edges.
 
     Note: Patterns 128-255 overlap with patterns 128-255 of the sprite Tile Pattern table.
 
@@ -880,8 +924,9 @@ void get_win_data(UINT8 first_tile,
     \li VBK_REG=0 Tile Numbers are written
     \li VBK_REG=1 Tile Attributes are written
 
-    @see set_bkg_tiles For more details about GBC Tile Attributes
-    @see SHOW_WIN, HIDE_WIN
+    For more details about GBC Tile Attributes see @ref set_bkg_tiles.
+
+    @see SHOW_WIN, HIDE_WIN, set_win_submap, set_bkg_tiles, set_bkg_data
 */
 void set_win_tiles(UINT8 x,
           UINT8 y,
@@ -890,6 +935,36 @@ void set_win_tiles(UINT8 x,
           const unsigned char *tiles) NONBANKED __preserves_regs(b, c);
 
 
+/** Sets a rectangular area of the Window Tile Map using a sub-region 
+    from a source tile map.
+
+    @param x      X Start position in Window Map tile coordinates. Range 0 - 31
+    @param y      Y Start position in Wimdpw Map tile coordinates. Range 0 - 31
+    @param w      Width of area to set in tiles. Range 1 - 255
+    @param h      Height of area to set in tiles. Range 1 - 255
+    @param map    Pointer to source tile map data
+    @param map_w  Width of source tile map in tiles. Range 1 - 255
+
+    Entries are copied from __map__ to the Window Tile Map starting at
+    __x__, __y__ writing across for __w__ tiles and down for __h__ tiles, 
+    using __map_w__ as the rowstride for the source tile map.
+
+    Use this instead of @ref set_win_tiles when the source map is wider than
+    32 tiles or when writing a width that does not match the source map width. 
+
+    One byte per source tile map entry.
+
+    Writes that exceed coordinate 31 on the x or y axis will wrap around to 
+    the Left and Top edges.
+
+    GBC only: @ref VBK_REG determines whether Tile Numbers or Tile Attributes get set.
+    \li VBK_REG=0 Tile Numbers are written
+    \li VBK_REG=1 Tile Attributes are written
+
+    See @ref set_bkg_tiles for details about CGB attribute maps with @ref VBK_REG.
+
+    @see SHOW_WIN, HIDE_WIN, set_win_tiles, set_bkg_submap, set_bkg_tiles, set_bkg_data
+**/
 void set_win_submap(UINT8 x, UINT8 y, UINT8 w, UINT8 h, const unsigned char *map, UINT8 map_w);
 
 
@@ -1209,15 +1284,15 @@ void get_data(unsigned char *data,
 
     @param x         X Start position in Map tile coordinates. Range 0 - 31
     @param y         Y Start position in Map tile coordinates. Range 0 - 31
-    @param w         Width of area to set in tiles. Range 0 - 31
-    @param h         Height of area to set in tiles.   Range 0 - 31
+    @param w         Width of area to set in tiles. Range 1 - 32
+    @param h         Height of area to set in tiles.   Range 1 - 32
     @param vram_addr Pointer to destination VRAM Address
     @param tiles     Pointer to source Tile Map data
 
     Entries are copied from __tiles__ to Tile Map at address vram_addr starting at
     __x__, __y__ writing across for __w__ tiles and down for __h__ tiles.
 
-    One byte per Tile map entry.
+    One byte per source tile map entry.
 
     There are two 32x32 Tile Maps in VRAM at addresses 9800h-9BFFh and 9C00h-9FFFh.
 
