@@ -40,16 +40,36 @@ Take a look at the @ref docs_coding_guidelines "coding guidelines", even if you 
 If you haven't written programs in C before, check the @ref docs_c_tutorials "C tutorials section".
 
 
-# 5. Try a GBDK Tutorial
+# 5. Hardware and Resources
+If you have a specific project in mind, consider what hardware want to target. It isn't something that has to be decided up front, but it can influence design and implementation.
+
+What size will your game or program be?
+  - 32K Cart (no-MBC required)
+  - Larger than 32K (MBC required)
+  - See more details about @ref docs_rombanking_mbcs "ROM Banking and MBCs".
+
+What hardware will it run on?
+  - Game Boy (& Game Boy Color)
+  - Game Boy Color only
+  - Game Boy & Super Game Boy
+  - See how to @ref faq_gb_type_header_setting "set the compatibility type in the cartridge header". Read more about hardware differences in the @ref Pandocs
+
+
+# 6. Set up C Source debugging
+Tracking down problems in code is easier with a debugger. Emulicious has a @ref Emulicious_debug "debug adapter" that provides C source debugging with GBDK-2020.
+
+
+# 7. Try a GBDK Tutorial
 You might want to start off with a guided GBDK tutorial from the @ref links_gbdk_tutorials "GBDK Tutorials section".
 
   - __Note:__ Tutorials (or parts of them) may be based on the older GBDK from the 2000's before it was updated to be GBDK-2020. The general principals are all the same, but the setup and parts of the @ref docs_toolchain "toolchain" (compiler/etc) may be somewhat different and some links may be outdated (pointing to the old GBDK or old tools).
 
 
-# 6. Read up!
+# 8. Read up!
 - It is strongly encouraged to read more @ref docs_index "GBDK-2020 General Documentation".
 - Learn about the Game Boy hardware by reading through the @ref Pandocs technical reference.
 
 
-# 7. Need help?
-Check out the links for @ref links_help_and_community "online community and support".
+# 9. Need help?
+Check out the links for @ref links_help_and_community "online community and support" and read the @ref docs_faq "FAQ".
+
