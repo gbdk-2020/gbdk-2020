@@ -15,6 +15,12 @@ GBDK 2020 uses the SDCC compiler along with some custom tools to build Game Boy 
 To see individual arguments and options for a tool, run that tool from the command line with either no arguments or with `-h`.
 
 
+# Data Types
+For data types and special C keywords, see @ref file_asm_gbz80_types_h "asm/gbz80/types.h" and @ref file_asm_types_h "asm/types.h".
+
+Also see the SDCC manual (scroll down a little on the linked page): http://sdcc.sourceforge.net/doc/sdccman.pdf#section.1.1
+
+
 @anchor toolchain_changing_important_addresses 
 # Changing Important Addresses
 It is possible to change some of the important addresses used by the toolchain at link time using the -Wl-g XXX=YYY and =Wl-b XXX=YYY flags (where XXX is the name of the data, and YYY is the new address). 

@@ -1,4 +1,5 @@
 /** @file asm/gbz80/types.h
+    @anchor file_asm_gbz80_types_h
     Types definitions for the gb.
 */
 #ifndef ASM_GBZ80_TYPES_INCLUDE
