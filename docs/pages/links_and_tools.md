@@ -41,6 +41,13 @@ This is a brief list of useful tools and information. It is not meant to be comp
     https://github.com/gingemonster/GamingMonstersGameBoySampleCode
 
 
+@anchor link_examples
+# Example code
+  - @anchor examples_gbdk_playground
+    __Simplified GBDK examples__  
+    https://github.com/mrombout/gbdk_playground/commits/master
+
+
 @anchor links_graphic
 # Graphics Tools
   - @anchor gbtd_gbmb

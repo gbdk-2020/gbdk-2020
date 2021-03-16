@@ -4,8 +4,13 @@ This section contains information that may be useful to know or important when u
 
 # GBDK 2020 versions
 
+## Porting to GBDK 2020 4.0.3
+  - No significant changes required
+
 ## Porting to GBDK 2020 4.0.2
- - The default font has been reduced from 256 to 96 characters. Code using special characters may need to be updated.
+ - The default font has been reduced from 256 to 96 characters.
+   - Code using special characters may need to be updated.
+   - The off-by-1 character index offset was removed for fonts. Old fonts with the offset need to be re-adjusted.
 
 ## Porting to GBDK 2020 4.0.1
  - __Important!__ : The `WRAM` memory region is no longer automatically initialized to zeros during startup.

@@ -59,6 +59,8 @@ docs: doxygen-generate
 
 docsclean: doxygen-clean
 
+docsreset: doxygen-reset
+
 # Build rule for michaelh's machine to spin a release
 sapphire-full-build: native-build binary cross-clean cross-linux-mingw32-build
 
@@ -252,4 +254,8 @@ endif
 
 doxygen-clean:
 	rm -rf $(GBDKDOCSDIR)/api
+
+doxygen-reset:
+	rm -rf $(GBDKDOCSDIR)/api
+	git checkout $(GBDKDOCSDIR)/api
 

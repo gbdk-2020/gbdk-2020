@@ -8,6 +8,7 @@
 - @subpage docs_rombanking_mbcs
 - @subpage docs_toolchain
 - @subpage docs_example_programs
+- @subpage docs_faq
 - @subpage docs_migrating_versions
 - @subpage docs_releases
 
