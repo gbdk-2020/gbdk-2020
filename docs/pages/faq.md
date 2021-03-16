@@ -45,5 +45,8 @@
   - The hardware Background map is 32 x 32 tiles. The screen viewport that can be scrolled around that map is 20 x 18 tiles. In order to scroll around within a much larger map, new tiles must be loaded at the edges of the screen viewport in the direction that it is being scrolled. @ref set_bkg_submap can be used to load those rows and columns of tiles from the desired sub-region of the large map.
   - See the "Large Map" example program and @ref set_bkg_submap()
   - Writes that exceed coordinate 31 of the Background tile map on the x or y axis will wrap around to the Left and Top edges.
+    <!-- -->  
 
-
+- When using gbt_player with music in banks, how can the current bank be restored after calling gbt_update()? (since it changes the currently active bank without restoring it).
+  - See @ref banking_current_bank "restoring the current bank"
+    <!-- -->  

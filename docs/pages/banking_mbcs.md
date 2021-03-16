@@ -122,8 +122,9 @@ You can manually switch banks using the @ref SWITCH_ROM_MBC1(), @ref SWITCH_RAM_
 Note: You can only do a switch_rom_bank call from unbanked `_CODE` since otherwise you would switch out the code that was executing. Global routines that will be called without an expectation of bank switching should fit within the limited 16k of unbanked `_CODE`.
 
 
-## Bank switching inside an Interrupt Service Routine (ISR)
-If a function call is made inside an ISR which changes the bank *without* restoring it, then the @ref _current_bank variable should be saved and then restored.
+## Restoring the current bank (after calling functions which change it without restoring)
+@anchor banking_current_bank
+If a function call is made (for example inside an ISR) which changes the bank *without* restoring it, then the @ref _current_bank variable should be saved and then restored.
 
 For example, __instead__ of this code:
 ```
