@@ -39,3 +39,11 @@
 
 - Why are 8 bit numbers not printing correctly with printf()?
   - To correctly pass chars/uint8s for printing, they must be explicitly re-cast as such when calling the function. See docs_chars_varargs for more details. 
+    <!-- -->  
+
+- How can maps larger than 32x32 tiles be scrolled? & Why is the map wrapping around to the left side when setting a map wider than 32 tiles with set_bkg_data()?
+  - The hardware Background map is 32 x 32 tiles. The screen viewport that can be scrolled around that map is 20 x 18 tiles. In order to scroll around within a much larger map, new tiles must be loaded at the edges of the screen viewport in the direction that it is being scrolled. @ref set_bkg_submap can be used to load those rows and columns of tiles from the desired sub-region of the large map.
+  - See the "Large Map" example program and @ref set_bkg_submap()
+  - Writes that exceed coordinate 31 of the Background tile map on the x or y axis will wrap around to the Left and Top edges.
+
+

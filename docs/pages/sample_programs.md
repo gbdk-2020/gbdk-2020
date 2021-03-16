@@ -55,7 +55,7 @@ Illustrates how to install interrupt handlers.
 
 
 # large map
-Shows how to scroll with maps larger than 32 x 32 tiles using set_bkg_submap(). It fills rows and columns at the edges of the visible viewport (of the hardware Background Map) as it scrolls.
+Shows how to scroll with maps larger than 32 x 32 tiles using set_bkg_submap(). It fills rows and columns at the edges of the visible viewport (of the hardware Background Map) as it scrolls from the desired sub-region of the large map.
 
 
 # lcd isr wobble
