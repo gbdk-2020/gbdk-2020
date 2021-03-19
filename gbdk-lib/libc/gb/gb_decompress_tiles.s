@@ -10,6 +10,14 @@
 loc:
 .endm
 
+.macro UNWRAP_VRAM regH, ?loc
+        bit     3, regH
+        jr      nz, loc
+        set     4, regH
+loc:
+.endm
+
+
         .area _CODE
 
 _gb_decompress_bkg_data::
@@ -43,6 +51,7 @@ _gb_decompress_sprite_data::
 ; hl = source; de = dest
 gb_decompress_vram::
         push    bc
+        push    de
 1$:
         ld      a,(hl+) ; load command
         or      a
@@ -95,16 +104,28 @@ gb_decompress_vram::
         and     a,#63
         inc     a
         push    hl
+
         ld      c,(hl)
         inc     hl
         ld      b,(hl)
+
+        ldhl    sp,#3
+        bit     4,(hl)  ; check start address was above 0x9000
+        jr      z, 11$
+
         ld      h,d
         ld      l,e
         add     hl,bc
+        UNWRAP_VRAM h
+        jr      12$
+11$:
+        ld      h,d
+        ld      l,e
+        add     hl,bc
+12$:
         ld      c,a
-
         call    10$
-        
+
         pop     hl
         inc     hl
         inc     hl
@@ -116,15 +137,17 @@ gb_decompress_vram::
         
         call    10$
         
-        jr      1$      ; next command
+        jp      1$      ; next command
 9$:
+        pop     de
         pop     bc
         ret
 
 10$:
-        WAIT_STAT               
+        WAIT_STAT
         ld      a,(hl+)
         ld      (de),a
+        WRAP_VRAM h
         inc     de
         WRAP_VRAM d
         dec     c
