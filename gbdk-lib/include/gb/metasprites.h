@@ -1,3 +1,8 @@
+/** @file gb/metasprites.h
+    
+    Metasprite support
+*/
+
 #ifndef _METASPRITES_H_INCLUDE
 #define _METASPRITES_H_INCLUDE
 
@@ -23,7 +28,7 @@ static UBYTE __move_metasprite_hvflip(UINT8 id, UINT8 x, UINT8 y);
 static void __hide_metasprite(UINT8 id);
 
 /**
- * Moves metasprite to the absolute position x and y, allocating hardware sprites from base_sprite using tiles from bast_tile
+ * Moves metasprite to the absolute position x and y, allocating hardware sprites from base_sprite using tiles from base_tile
  * @param metasprite metasprite description
  * @param base_tile start tile where tiles for that metasprite begin
  * @param base_sprite start hardware sprite
