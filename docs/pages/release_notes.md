@@ -6,6 +6,29 @@ https://github.com/Zal0/gbdk-2020/releases
 
 # GBDK 2020 Release Notes
 
+## GBDK 2020 4.0.3
+  2021/03
+  - Library
+    - Added @ref set_vram_byte()
+    - Added @ref set_bkg_tile_xy() / @ref set_win_tile_xy()
+    - Added @ref get_bkg_xy_addr() / @ref get_win_xy_addr()
+    - Added @ref get_bkg_submap() / @ref get_win_submap()
+    - Added metasprite api support
+    - Added gb_decompress support
+    - Added @ref calloc / @ref malloc / @ref realloc / @ref free and generic @ref memmove
+    - Improved @ref printf(): ignore %0 padding and %1-9 width specifier instead of not printing, support upper case %X
+    - Fixed @ref line(): handle drawing when x1 is less than x2
+  - Examples
+    - Added large_map: showing how to use @ref set_bkg_submap()
+    - Added scroller: showing use of @ref get_bkg_xy_addr(), @ref set_bkg_tile_xy() and @ref set_vram_byte
+    - Added gbdecompress: de-compressing tile data into vram
+    - Added template projects
+    - Fixed build issue with banks_autobank example
+    - Improved sgb_border
+  - Added GBCompress utility
+  - Added png2metaspr utility and metasprites example
+
+
 ## GBDK 2020 4.0.2
   2021/01/17
   - Includes SDCC snapshot build version 12016 (has a fix for duplicate debug symbols generated from inlined header functions which GBDK 4.0+ uses)
