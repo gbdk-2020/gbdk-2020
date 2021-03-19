@@ -6,13 +6,13 @@
 # to match your GBDK root directory (ex: GBDK_HOME = "C:/GBDK/"
 GBDK_HOME = "../../../"
 
-LCC = $(GBDK_HOME)bin/lcc 
+LCC = $(GBDK_HOME)bin/lcc
 
 # You can uncomment the line below to turn on debug output
 # LCC = $(LCC) -debug
 
 # You can set the name of the .gb ROM file here
-PROJECTNAME    = Example
+PROJECTNAME    = gbdecompress
 
 BINS	    = $(PROJECTNAME).gb
 CSOURCES   := $(wildcard *.c)
@@ -25,9 +25,9 @@ make.bat: Makefile
 	@make -sn | sed y/\\//\\\\/ | grep -v make >> make.bat
 
 # Compile and link all source files in a single call to LCC
-$(BINS):	$(CSOURCES) $(ADMSOURCES)
+$(BINS): $(CSOURCES) $(ADMSOURCES)
 	$(LCC) -o $@ $(CSOURCES) $(ADMSOURCES)
 
 clean:
-	rm -f *.o *.lst *.map *.gb *.ihx *.sym *.cdb *.adb *.asm
+	rm -f *.o *.lst *.map *.gb *.ihx *.sym *.cdb *.adb *.asm *.noi
 
