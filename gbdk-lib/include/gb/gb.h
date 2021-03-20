@@ -523,7 +523,7 @@ void reset(void) NONBANKED;
 
     Warning: If the VBL interrupt is disabled, this function will
     never return. If the screen is off this function returns
-    immediatly.
+    immediately.
 */
 void wait_vbl_done(void) NONBANKED __preserves_regs(b, c, d, e, h, l);
 
