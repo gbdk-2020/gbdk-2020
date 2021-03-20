@@ -553,7 +553,7 @@ void hiramcpy(UINT8 dst,
 #define DISPLAY_ON \
   LCDC_REG|=0x80U
 
-/** Turns the display off immediatly.
+/** Turns the display off immediately.
     @see display_off, DISPLAY_ON
 */
 #define DISPLAY_OFF \
