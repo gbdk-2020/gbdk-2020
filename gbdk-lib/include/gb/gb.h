@@ -523,7 +523,7 @@ void reset(void) NONBANKED;
 
     Warning: If the VBL interrupt is disabled, this function will
     never return. If the screen is off this function returns
-    immediatly.
+    immediately.
 */
 void wait_vbl_done(void) NONBANKED __preserves_regs(b, c, d, e, h, l);
 
@@ -553,7 +553,7 @@ void hiramcpy(UINT8 dst,
 #define DISPLAY_ON \
   LCDC_REG|=0x80U
 
-/** Turns the display off immediatly.
+/** Turns the display off immediately.
     @see display_off, DISPLAY_ON
 */
 #define DISPLAY_OFF \
