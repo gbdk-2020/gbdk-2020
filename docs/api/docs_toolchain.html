@@ -90,7 +90,7 @@ $(document).ready(function(){initNavTree('docs_toolchain.html',''); initResizabl
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="toolchain_overview"></a></p>
-<h1><a class="anchor" id="autotoc_md113"></a>
+<h1><a class="anchor" id="autotoc_md69"></a>
 Overview</h1>
 <p>GBDK 2020 uses the SDCC compiler along with some custom tools to build Game Boy ROMs.</p><ul>
 <li>All tools are located under <code>bin/</code></li>
@@ -104,12 +104,12 @@ Overview</h1>
 </li>
 </ul>
 <p>To see individual arguments and options for a tool, run that tool from the command line with either no arguments or with <code>-h</code>.</p>
-<h1><a class="anchor" id="autotoc_md114"></a>
+<h1><a class="anchor" id="autotoc_md70"></a>
 Data Types</h1>
 <p>For data types and special C keywords, see <a class="el" href="asm_2gbz80_2types_8h.html#file_asm_gbz80_types_h">asm/gbz80/types.h</a> and <a class="el" href="asm_2types_8h.html#file_asm_types_h">asm/types.h</a>.</p>
 <p>Also see the SDCC manual (scroll down a little on the linked page): <a href="http://sdcc.sourceforge.net/doc/sdccman.pdf#section.1.1">http://sdcc.sourceforge.net/doc/sdccman.pdf#section.1.1</a></p>
 <p><a class="anchor" id="toolchain_changing_important_addresses"></a> </p>
-<h1><a class="anchor" id="autotoc_md115"></a>
+<h1><a class="anchor" id="autotoc_md71"></a>
 Changing Important Addresses</h1>
 <p>It is possible to change some of the important addresses used by the toolchain at link time using the -Wl-g XXX=YYY and =Wl-b XXX=YYY flags (where XXX is the name of the data, and YYY is the new address).</p>
 <p><a class="el" href="docs_toolchain.html#lcc">lcc</a> will include the following linker defaults for <a class="el" href="docs_toolchain.html#sdldgb">sdldgb</a> if they are not defined by the user.</p>
@@ -141,7 +141,7 @@ Changing Important Addresses</h1>
 </li>
 </ul>
 <p><a class="anchor" id="toolchain_compiling_programs"></a></p>
-<h1><a class="anchor" id="autotoc_md116"></a>
+<h1><a class="anchor" id="autotoc_md72"></a>
 Compiling programs</h1>
 <p>The <a class="el" href="docs_toolchain.html#lcc">lcc</a> program is the front end compiler driver for the actual compiler, assembler and linker. It works out what you want to do based on command line options and the extensions of the files you give it, computes the order in which the various programs must be called and then executes them in order. Some examples are:</p>
 <ul>
@@ -175,10 +175,10 @@ Makefiles</h2>
 <p>You may also want to read a tutorial on Makefiles. For example: <br  />
  <a href="https://makefiletutorial.com/">https://makefiletutorial.com/</a> <a href="https://www.tutorialspoint.com/makefile/index.htm">https://www.tutorialspoint.com/makefile/index.htm</a></p>
 <p><a class="anchor" id="build_tools"></a></p>
-<h1><a class="anchor" id="autotoc_md117"></a>
+<h1><a class="anchor" id="autotoc_md73"></a>
 Build Tools</h1>
 <p><a class="anchor" id="lcc"></a></p>
-<h2><a class="anchor" id="autotoc_md118"></a>
+<h2><a class="anchor" id="autotoc_md74"></a>
 lcc</h2>
 <p>lcc is the compiler driver (front end) for the GBDK/sdcc toolchain. It can be used to invoke all the tools needed for building a rom. If preferred, the individual tools can be called directly.</p><ul>
 <li>the <code>-v</code> flag can be used to show the exact steps lcc executes for a build</li>
@@ -191,19 +191,19 @@ lcc</h2>
 </li>
 </ul>
 <p><a class="anchor" id="sdcc"></a></p>
-<h2><a class="anchor" id="autotoc_md119"></a>
+<h2><a class="anchor" id="autotoc_md75"></a>
 sdcc</h2>
 <p>SDCC C Source compiler</p><ul>
 <li>Arguments can be passed to it through <a class="el" href="docs_toolchain.html#lcc">lcc</a> using <code>-Wf-&lt;argument&gt;</code> and <code>-Wp-&lt;argument&gt;</code> (pre-processor)</li>
 </ul>
 <p><a class="anchor" id="sdasgb"></a></p>
-<h2><a class="anchor" id="autotoc_md120"></a>
+<h2><a class="anchor" id="autotoc_md76"></a>
 sdasgb</h2>
 <p>SDCC Assembler for the gameboy</p><ul>
 <li>Arguments can be passed to it through <a class="el" href="docs_toolchain.html#lcc">lcc</a> using <code>-Wa-&lt;argument&gt;</code></li>
 </ul>
 <p><a class="anchor" id="bankpack"></a></p>
-<h2><a class="anchor" id="autotoc_md121"></a>
+<h2><a class="anchor" id="autotoc_md77"></a>
 bankpack</h2>
 <p>Automatic Bank packer</p>
 <p>When enabled, automatically assigns banks for object files where bank has been set to <code>255</code>, see <a class="el" href="docs_rombanking_mbcs.html#rom_autobanking">rom_autobanking</a>. Unless an alternative output is specified the given object files are updated with the new bank numbers.</p><ul>
@@ -216,14 +216,14 @@ bankpack</h2>
 <li>With data it is easier, because if you access data from the code in the same bank you don’t need to switch the bank (access to <code>__bank_*</code> symbol).</li>
 </ul>
 <p><a class="anchor" id="sdldgb"></a></p>
-<h2><a class="anchor" id="autotoc_md122"></a>
+<h2><a class="anchor" id="autotoc_md78"></a>
 sdldgb</h2>
 <p>The SDCC linker for the gameboy.</p>
 <p>Links object files (.o) into a .ihx file which can be processed by <a class="el" href="docs_toolchain.html#makebin">makebin</a></p><ul>
 <li>Arguments can be passed to it through <a class="el" href="docs_toolchain.html#lcc">lcc</a> using <code>-Wl-&lt;argument&gt;</code></li>
 </ul>
 <p><a class="anchor" id="ihxcheck"></a></p>
-<h2><a class="anchor" id="autotoc_md123"></a>
+<h2><a class="anchor" id="autotoc_md79"></a>
 ihxcheck</h2>
 <p>IHX file validator</p>
 <p>Checks .ihx files produced by <a class="el" href="docs_toolchain.html#sdldgb">sdldgb</a> for correctness.</p><ul>
@@ -231,25 +231,25 @@ ihxcheck</h2>
 <li>Arguments can be passed to it through <a class="el" href="docs_toolchain.html#lcc">lcc</a> using <code>-Wi-&lt;argument&gt;</code></li>
 </ul>
 <p><a class="anchor" id="makebin"></a></p>
-<h2><a class="anchor" id="autotoc_md124"></a>
+<h2><a class="anchor" id="autotoc_md80"></a>
 makebin</h2>
 <p>IHX to ROM converter</p>
 <p>Converts .ihx files produced by <a class="el" href="docs_toolchain.html#sdldgb">sdldgb</a> into ROM files (.gb, .gbc).</p><ul>
 <li>Arguments can be passed to it through <a class="el" href="docs_toolchain.html#lcc">lcc</a> using <code>-Wm-&lt;argument&gt;</code></li>
 </ul>
 <p><a class="anchor" id="gbdk_utilities"></a></p>
-<h1><a class="anchor" id="autotoc_md125"></a>
+<h1><a class="anchor" id="autotoc_md81"></a>
 GBDK Utilities</h1>
 <p><a class="anchor" id="utility_gbcompress"></a></p>
-<h2><a class="anchor" id="autotoc_md126"></a>
+<h2><a class="anchor" id="autotoc_md82"></a>
 GBCompress</h2>
 <p>Compresssion utility</p>
 <p>Compresses (and decompresses) binary file data with the gbcompress algorithm (also used in GBTD/GBMB). Decompression support is available in GBDK, see <a class="el" href="gbdecompress_8h.html#a197fa96ce7ac20d44d0c1a40e38283db">gb_decompress()</a>.</p>
 <p><a class="anchor" id="png2mtspr"></a></p>
-<h2><a class="anchor" id="autotoc_md127"></a>
+<h2><a class="anchor" id="autotoc_md83"></a>
 PNG to Metasprite</h2>
 <p>Tool for converting PNGs into GBDK format MetaSprites</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000007">Todo:</a></b></dt><dd>Document png2mtspr </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000008">Todo:</a></b></dt><dd>Document png2mtspr </dd></dl>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->

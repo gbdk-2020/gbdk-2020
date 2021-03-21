@@ -1,5 +1,10 @@
 var searchData=
 [
-  ['x_657',['x',['../struct_o_a_m__item__t.html#a7a0dc012815fd69a75347136e2a050dc',1,'OAM_item_t']]],
-  ['xor_658',['XOR',['../drawing_8h.html#a45cd11034d1a7d86c3a88d36f5e7f1ab',1,'drawing.h']]]
+  ['va_5farg_635',['va_arg',['../asm_2gbz80_2stdarg_8h.html#af4d89980b2bdeb5b37bbaa323d108bbc',1,'stdarg.h']]],
+  ['va_5fend_636',['va_end',['../asm_2gbz80_2stdarg_8h.html#aa042dbf8cc345b3a522d6f706a78ddbd',1,'stdarg.h']]],
+  ['va_5flist_637',['va_list',['../asm_2gbz80_2stdarg_8h.html#a90f5a53cfeaf133c17cd213633060737',1,'stdarg.h']]],
+  ['va_5fstart_638',['va_start',['../asm_2gbz80_2stdarg_8h.html#aa385efb7a67df5acc5e06cf3bdc8802f',1,'stdarg.h']]],
+  ['vbk_5freg_639',['VBK_REG',['../hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a',1,'hardware.h']]],
+  ['vbl_5fiflag_640',['VBL_IFLAG',['../gb_8h.html#a2ca7720b9a5da9b2173e1f74dba85541',1,'gb.h']]],
+  ['vmemset_641',['vmemset',['../gb_8h.html#a8cf949b6e2654b6a8bd9e403a49ee4b3',1,'gb.h']]]
 ];

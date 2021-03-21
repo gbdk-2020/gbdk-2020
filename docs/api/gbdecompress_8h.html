@@ -137,7 +137,15 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>gb-decompress data from sour into dest </p>
+<p>gb-decompress data from sour into dest</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sour</td><td>Pointer to source gb-compressed data </td></tr>
+    <tr><td class="paramname">dest</td><td>Pointer to destination buffer/address</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="gbdecompress_8h.html#ac3194ad258cca32cc3eb813d24ae1b0c">gb_decompress_bkg_data</a>, <a class="el" href="gbdecompress_8h.html#a487d505119f770cdb138cb300174a719">gb_decompress_win_data</a>, <a class="el" href="gbdecompress_8h.html#a19f6e310adcb6ab4826fa89c305b6865">gb_decompress_sprite_data</a> </dd></dl>
 
 </div>
 </div>
@@ -166,7 +174,16 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>gb-decompress background tiles into VRAM </p>
+<p>gb-decompress background tiles into VRAM</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first_tile</td><td>Index of the first tile to write </td></tr>
+    <tr><td class="paramname">sour</td><td>Pointer to (gb-compressed 2 bpp) source Tile Pattern data.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Note: This function avoids writes during modes 2 &amp; 3</p>
+<dl class="section see"><dt>See also</dt><dd>gb_decompress_bkg, <a class="el" href="gbdecompress_8h.html#a487d505119f770cdb138cb300174a719">gb_decompress_win_data</a>, <a class="el" href="gbdecompress_8h.html#a19f6e310adcb6ab4826fa89c305b6865">gb_decompress_sprite_data</a> </dd></dl>
 
 </div>
 </div>
@@ -195,7 +212,17 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>gb-decompress window tiles into VRAM </p>
+<p>gb-decompress window tiles into VRAM</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first_tile</td><td>Index of the first tile to write </td></tr>
+    <tr><td class="paramname">sour</td><td>Pointer to (gb-compressed 2 bpp) source Tile Pattern data.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This is the same as <a class="el" href="gbdecompress_8h.html#ac3194ad258cca32cc3eb813d24ae1b0c">gb_decompress_bkg_data</a>, since the Window Layer and Background Layer share the same Tile pattern data.</p>
+<p>Note: This function avoids writes during modes 2 &amp; 3</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="gbdecompress_8h.html#a197fa96ce7ac20d44d0c1a40e38283db">gb_decompress</a>, <a class="el" href="gbdecompress_8h.html#ac3194ad258cca32cc3eb813d24ae1b0c">gb_decompress_bkg_data</a>, <a class="el" href="gbdecompress_8h.html#a19f6e310adcb6ab4826fa89c305b6865">gb_decompress_sprite_data</a> </dd></dl>
 
 </div>
 </div>
@@ -224,7 +251,16 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>gb-decompress sprite tiles into VRAM </p>
+<p>gb-decompress sprite tiles into VRAM</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first_tile</td><td>Index of the first tile to write </td></tr>
+    <tr><td class="paramname">sour</td><td>Pointer to source compressed data</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Note: This function avoids writes during modes 2 &amp; 3</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="gbdecompress_8h.html#a197fa96ce7ac20d44d0c1a40e38283db">gb_decompress</a>, <a class="el" href="gbdecompress_8h.html#ac3194ad258cca32cc3eb813d24ae1b0c">gb_decompress_bkg_data</a>, <a class="el" href="gbdecompress_8h.html#a487d505119f770cdb138cb300174a719">gb_decompress_win_data</a> </dd></dl>
 
 </div>
 </div>

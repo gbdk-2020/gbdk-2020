@@ -1,12 +1,13 @@
 var NAVTREEINDEX1 =
 {
-"docs_using_gbdk.html#autotoc_md135":[0,6,1,2],
-"docs_using_gbdk.html#autotoc_md136":[0,6,2],
-"docs_using_gbdk.html#autotoc_md137":[0,6,3],
-"docs_using_gbdk.html#autotoc_md138":[0,6,3,0],
-"docs_using_gbdk.html#autotoc_md139":[0,6,3,1],
-"docs_using_gbdk.html#autotoc_md140":[0,6,4],
-"docs_using_gbdk.html#autotoc_md141":[0,6,4,0],
+"docs_using_gbdk.html#autotoc_md25":[0,6,1,1],
+"docs_using_gbdk.html#autotoc_md26":[0,6,1,2],
+"docs_using_gbdk.html#autotoc_md27":[0,6,2],
+"docs_using_gbdk.html#autotoc_md28":[0,6,3],
+"docs_using_gbdk.html#autotoc_md29":[0,6,3,0],
+"docs_using_gbdk.html#autotoc_md30":[0,6,3,1],
+"docs_using_gbdk.html#autotoc_md31":[0,6,4],
+"docs_using_gbdk.html#autotoc_md32":[0,6,4,0],
 "drawing_8h.html":[4,0,2,4],
 "drawing_8h.html#a08cbc66092284f7da94279f986a0aae9":[4,0,2,4,13],
 "drawing_8h.html#a0fdc56b95bb27e97685c71639dd96209":[4,0,2,4,19],
@@ -248,6 +249,5 @@ var NAVTREEINDEX1 =
 "globals_defs_r.html":[4,1,4,16],
 "globals_defs_s.html":[4,1,4,17],
 "globals_defs_t.html":[4,1,4,18],
-"globals_defs_u.html":[4,1,4,19],
-"globals_defs_v.html":[4,1,4,20]
+"globals_defs_u.html":[4,1,4,19]
 };

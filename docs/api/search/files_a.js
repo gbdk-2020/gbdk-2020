@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['rand_2eh_693',['rand.h',['../rand_8h.html',1,'']]],
-  ['release_5fnotes_2emd_694',['release_notes.md',['../release__notes_8md.html',1,'']]]
+  ['malloc_2eh_694',['malloc.h',['../malloc_8h.html',1,'']]],
+  ['metasprites_2eh_695',['metasprites.h',['../metasprites_8h.html',1,'']]]
 ];
