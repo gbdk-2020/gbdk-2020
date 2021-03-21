@@ -56,9 +56,8 @@ clean: gbdk-support-clean gbdk-lib-clean
 distclean: clean build-dir-clean
 
 docs: doxygen-generate
-
+docspdf: doxygen-generate-with-pdf
 docsclean: doxygen-clean
-
 docsreset: doxygen-reset
 
 # Build rule for michaelh's machine to spin a release
@@ -135,6 +134,7 @@ gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
 	@$(TARGETSTRIP) $(BUILDDIR)/bin/lcc*
 	@cp $(GBDKSUPPORTDIR)/ChangeLog $(BUILDDIR)
 	@cp $(GBDKSUPPORTDIR)/README $(BUILDDIR)
+	@cp $(GBDKDOCSDIR)/gbdk_manual.pdf $(BUILDDIR)
 	@echo
 	@echo Installing ihxcheck
 	@cp $(GBDKSUPPORTDIR)/ihxcheck/ihxcheck $(BUILDDIR)/bin/ihxcheck$(EXEEXTENSION)
@@ -251,6 +251,24 @@ endif
 	rm -rf $(GBDKDOCSDIR)/api; \
 	  cd "$(GBDKLIBDIR)/include"; \
 	  GBDKDOCSDIR="$(GBDKDOCSDIR)" GBDKLIBDIR="$(GBDKLIBDIR)" $(DOXYGENCMD) "$(GBDKDOCSDIR)/config/gbdk-2020-doxyfile"
+	@if [ "$(DOCS_PDF_ON)" = "YES" ]; then\
+		$(MAKE) -C $(GBDKDOCSDIR)/latex;\
+		cp $(GBDKDOCSDIR)/latex/refman.pdf $(GBDKDOCSDIR)/gbdk_manual.pdf;\
+	fi
+	rm -rf $(GBDKDOCSDIR)/latex
+
+# Turn on Latex -> PDF conversion to run run at end of regular docs build
+# (which includes latex output but deletes it at the end).
+#
+# The conversion process requires a Latex install. 
+# For Windows there are various Latex packages to choose from.
+# For Linux this appears to be the minimum:
+#   sudo apt install texlive-latex-base
+#   sudo apt install texlive-latex-recommended
+#   sudo apt install texlive-latex-extra
+#
+doxygen-generate-with-pdf:	DOCS_PDF_ON=YES
+doxygen-generate-with-pdf:	doxygen-generate
 
 doxygen-clean:
 	rm -rf $(GBDKDOCSDIR)/api
