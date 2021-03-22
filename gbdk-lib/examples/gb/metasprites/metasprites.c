@@ -11,6 +11,12 @@ joypads_t joypads;
 #define ACC_X 1
 #define ACC_Y 2
 
+// The metasprite will be built starting with hardware sprite zero (the first)
+#define SPR_NUM_START 0
+
+// Metasprite tiles are loaded into VRAM starting at tile number 0 
+#define TILE_NUM_START 0
+
 // sprite coords
 UINT16 PosX, PosY;
 INT16 SpdX, SpdY;
@@ -24,26 +30,27 @@ void main(void) {
     BGP_REG = OBP0_REG = 0xE4;
     OBP1_REG = 0xE0;
 
+	// Fill the screen background with a single tile pattern
     fill_bkg_rect(0, 0, 20, 18, 0);
     set_bkg_data(0, 1, pattern);
 
-    // load tile data into VRAM
-    set_sprite_data(0, sizeof(sprite_data) >> 4, sprite_data);
-
-    // set sprite tile
-    set_sprite_tile(0, 0);
+    // Load metasprite tile data into VRAM
+    set_sprite_data(TILE_NUM_START, sizeof(sprite_data) >> 4, sprite_data);
 
     // show bkg and sprites
     SHOW_BKG; SHOW_SPRITES;
+
+	// Check what size hardware sprite the metasprite is using (from sprite.h)
 	#if sprite_TILE_H == 16
 		SPRITES_8x16;
 	#else
 		SPRITES_8x8;
 	#endif
 
-    // init 2 joypads
+    // init 1 joypad
     joypad_init(1, &joypads);
  
+    // Set initial position, zero out speed
     PosX = PosY = 64 << 4;
     SpdX = SpdY = 0;
 
@@ -57,69 +64,89 @@ void main(void) {
         // game object
         if (joypads.joy0 & J_UP) {
             SpdY -= 2;
-            if (SpdY < -64) SpdY = -64;
-            PosF |= ACC_Y; 
+            if (SpdY < -32) SpdY = -32;
+            PosF |= ACC_Y;
         } else if (joypads.joy0 & J_DOWN) {
             SpdY += 2;
-            if (SpdY > 64) SpdY = 64;
+            if (SpdY > 32) SpdY = 32;
             PosF |= ACC_Y;
         }
+
         if (joypads.joy0 & J_LEFT) {
             SpdX -= 2;
-            if (SpdX < -64) SpdX = -64;
-            PosF |= ACC_X; 
+            if (SpdX < -32) SpdX = -32;
+            PosF |= ACC_X;
         } else if (joypads.joy0 & J_RIGHT) {
             SpdX += 2;
-            if (SpdX > 64) SpdX = 64;
+            if (SpdX > 32) SpdX = 32;
             PosF |= ACC_X;
         }
+
+
+        // Press A button to show/hide metasprite
         if ((joypads.joy0 & J_A) && (!jitter)) {
             hide = (!hide);
-            jitter = 10;
+            jitter = 20;
         }
+
+        // Press B button to cycle through metasprite animations
         if ((joypads.joy0 & J_B) && (!jitter) && (!hide)) {
             idx++; if (idx >= (sizeof(sprite_metasprites) >> 1)) idx = 0;
             jitter = 10;
         }
+
+        // Press SELECT button to cycle metasprite through Normal/Flip-Y/Flip-XY/Flip-X
         if ((joypads.joy0 & J_SELECT) && (!jitter) && (!hide)) {
             rot++; rot &= 3;
-            jitter = 10;
+            jitter = 20;
         }
 
-        // anti-jitter
+        // Hide/Animate/Flip input throttling
         if (jitter) jitter--;
 
         PosX += SpdX, PosY += SpdY; 
 
         UBYTE hiwater = 0;
+	
+		// NOTE: In a real game it would be better to only call the move_metasprite..()
+        //       functions if something changed (such as movement or rotation). That
+		//	     reduces CPU usage on frames that don't need udpates.
+		//
+		// In this example they are called every frame to simplify the example code
 
-        // hide or move sprite
+        // Hide the metasprite or move it & apply any rotation settings
         if (hide)
-            hide_metasprite(sprite_metasprites[idx], 0);
+            hide_metasprite(sprite_metasprites[idx], SPR_NUM_START);
         else
             switch (rot) {
-                case 0: hiwater = move_metasprite       (sprite_metasprites[idx], 0, 0, (PosX >> 4), (PosY >> 4)); break;
-                case 1: hiwater = move_metasprite_hflip (sprite_metasprites[idx], 0, 0, (PosX >> 4), (PosY >> 4)); break;
-                case 2: hiwater = move_metasprite_hvflip(sprite_metasprites[idx], 0, 0, (PosX >> 4), (PosY >> 4)); break;
-                case 3: hiwater = move_metasprite_vflip (sprite_metasprites[idx], 0, 0, (PosX >> 4), (PosY >> 4)); break;
+                case 0: hiwater = move_metasprite       (sprite_metasprites[idx], TILE_NUM_START, SPR_NUM_START, (PosX >> 4), (PosY >> 4)); break;
+                case 1: hiwater = move_metasprite_hflip (sprite_metasprites[idx], TILE_NUM_START, SPR_NUM_START, (PosX >> 4), (PosY >> 4)); break;
+                case 2: hiwater = move_metasprite_hvflip(sprite_metasprites[idx], TILE_NUM_START, SPR_NUM_START, (PosX >> 4), (PosY >> 4)); break;
+                case 3: hiwater = move_metasprite_vflip (sprite_metasprites[idx], TILE_NUM_START, SPR_NUM_START, (PosX >> 4), (PosY >> 4)); break;
             };
 
-        // hide rest of the hardware sprites, because amount of sprites differ between animation frames
+        // Hide rest of the hardware sprites, because amount of sprites differ between animation frames.
         for (UBYTE i = hiwater; i < 40; i++) shadow_OAM[i].y = 0;
 
-
+        // Y Axis: update velocity (reduce speed) if no U/D button pressed
         if (!(PosF & ACC_Y)) {
-            if (SpdY >= 0) {
-                if (SpdY) SpdY--; 
-            } else SpdY ++;
-        }
-        if (!(PosF & ACC_X)) {
-            if (SpdX >= 0) {
-                if (SpdX) SpdX--; 
-            } else SpdX ++;
+            if (SpdY != 0) {
+                if (SpdY > 0) SpdY--;
+                else SpdY ++;
+            }
         }
 
-        // wait for VBlank to slow down everything
+        // X Axis: update velocity (reduce speed) if no L/R button pressed
+        if (!(PosF & ACC_X)) {
+            if (SpdX != 0) {
+                if (SpdX > 0) SpdX--;
+                else SpdX ++;
+            }
+        }
+
+
+        // wait for VBlank to slow down everything and reduce cpu use when idle
         wait_vbl_done();
     }
 }
+
