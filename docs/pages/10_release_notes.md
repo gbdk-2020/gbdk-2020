@@ -22,12 +22,17 @@ https://github.com/Zal0/gbdk-2020/releases
     - Added large_map: showing how to use @ref set_bkg_submap()
     - Added scroller: showing use of @ref get_bkg_xy_addr(), @ref set_bkg_tile_xy() and @ref set_vram_byte
     - Added gbdecompress: de-compressing tile data into vram
+    - Added metasprites: show creating a large sprite with the new metasprite api
     - Added template projects
     - Fixed build issue with banks_autobank example
     - Improved sgb_border
-  - Added GBCompress utility
-  - Added png2metaspr utility and metasprites example
-
+  - Toolchain / Utilities
+    - Added @ref gbcompress utility
+    - Added @ref png2metaspr metasprite utility
+  - Docs
+    - Added extensive documentation (some of which is imported and updated from the old gbdk docs)
+    - Added PDF version of docs
+ 
 
 ## GBDK 2020 4.0.2
   2021/01/17
