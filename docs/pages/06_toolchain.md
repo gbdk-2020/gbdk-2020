@@ -111,6 +111,9 @@ https://www.tutorialspoint.com/makefile/index.htm
 @anchor lcc
 ## lcc
 lcc is the compiler driver (front end) for the GBDK/sdcc toolchain.
+
+For detailed settings see @ref lcc-settings
+
 It can be used to invoke all the tools needed for building a rom.
 If preferred, the individual tools can be called directly.
 - the `-v` flag can be used to show the exact steps lcc executes for a build
@@ -125,18 +128,25 @@ If preferred, the individual tools can be called directly.
 @anchor sdcc
 ## sdcc
 SDCC C Source compiler
-- Arguments can be passed to it through @ref lcc using `-Wf-<argument>` and `-Wp-<argument>` (pre-processor)
 
+For detailed settings see @ref sdcc-settings
+
+- Arguments can be passed to it through @ref lcc using `-Wf-<argument>` and `-Wp-<argument>` (pre-processor)
 
 @anchor sdasgb
 ## sdasgb
 SDCC Assembler for the gameboy
+
+For detailed settings see @ref sdasgb-settings
+
 - Arguments can be passed to it through @ref lcc using `-Wa-<argument>`
 
 
 @anchor bankpack
 ## bankpack
 Automatic Bank packer
+
+For detailed settings see @ref bankpack-settings
 
 When enabled, automatically assigns banks for object files where bank has been set to `255`, see @ref rom_autobanking.
 Unless an alternative output is specified the given object files are updated with the new bank numbers.
@@ -153,6 +163,8 @@ Limitations
 ## sdldgb
 The SDCC linker for the gameboy.
 
+For detailed settings see @ref sdldgb-settings
+
 Links object files (.o) into a .ihx file which can be processed by @ref makebin
 - Arguments can be passed to it through @ref lcc using `-Wl-<argument>`
 
@@ -160,6 +172,8 @@ Links object files (.o) into a .ihx file which can be processed by @ref makebin
 @anchor ihxcheck
 ## ihxcheck
 IHX file validator
+
+For detailed settings see @ref ihxcheck-settings
 
 Checks .ihx files produced by @ref sdldgb for correctness.
 - It will warn if there are multiple writes to the same ROM address. This may indicate mistakes in the code or ROM bank overflows
@@ -169,6 +183,8 @@ Checks .ihx files produced by @ref sdldgb for correctness.
 @anchor makebin
 ## makebin
 IHX to ROM converter
+
+For detailed settings see @ref makebin-settings
 
 Converts .ihx files produced by @ref sdldgb into ROM files (.gb, .gbc).
 - Arguments can be passed to it through @ref lcc using `-Wm-<argument>`
@@ -182,11 +198,15 @@ Converts .ihx files produced by @ref sdldgb into ROM files (.gb, .gbc).
 ## GBCompress
 Compresssion utility
 
+For detailed settings see @ref gbcompress-settings
+
 Compresses (and decompresses) binary file data with the gbcompress algorithm (also used in GBTD/GBMB). Decompression support is available in GBDK, see @ref gb_decompress().
 
 
-@anchor png2mtspr
+@anchor utility_png2mtspr
 ## PNG to Metasprite
 Tool for converting PNGs into GBDK format MetaSprites
+
+For detailed settings see @ref png2mtspr-settings
 
 @todo Document png2mtspr

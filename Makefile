@@ -59,6 +59,7 @@ docs: doxygen-generate
 docspdf: doxygen-generate-with-pdf
 docsclean: doxygen-clean
 docsreset: doxygen-reset
+docstools: docs-toolchain-generate
 
 # Build rule for michaelh's machine to spin a release
 sapphire-full-build: native-build binary cross-clean cross-linux-mingw32-build
@@ -248,6 +249,7 @@ doxygen-generate:
 ifeq ($(shell expr "$(DOXYGEN_VER_HAS)" \< "$(DOXYGEN_VER_REQ)"), 1)
 	$(error Doxygen version $(DOXYGEN_VER_HAS) is too old! Minimum version is $(DOXYGEN_VER_REQ))
 endif
+#Run Doxygen	
 	rm -rf $(GBDKDOCSDIR)/api; \
 	  cd "$(GBDKLIBDIR)/include"; \
 	  GBDKDOCSDIR="$(GBDKDOCSDIR)" GBDKLIBDIR="$(GBDKLIBDIR)" $(DOXYGENCMD) "$(GBDKDOCSDIR)/config/gbdk-2020-doxyfile"
@@ -269,6 +271,35 @@ endif
 #
 doxygen-generate-with-pdf:	DOCS_PDF_ON=YES
 doxygen-generate-with-pdf:	doxygen-generate
+
+
+# Generate toolchain settings markdown file (if possible)
+# Then run main doxygen build
+docs-toolchain-generate:	TOOLCHAIN_DOCS_FILE=$(GBDKDOCSDIR)/pages/20_toolchain_settings.md
+docs-toolchain-generate:
+ifneq (,$(wildcard $(BUILDDIR)/bin/))
+	echo @page docs_toolchain_settings Toolchain settings > $(TOOLCHAIN_DOCS_FILE)
+	echo \\n\\n@anchor lcc-settings\\n# lcc settings\\n\`\`\` >> $(TOOLCHAIN_DOCS_FILE); \
+	  cd "$(BUILDDIR)/bin/"; \
+	  ./lcc >> $(TOOLCHAIN_DOCS_FILE) 2>&1
+	echo \`\`\`\\n\\n@anchor sdcc-settings\\n# sdcc settings\\n\`\`\` >> $(TOOLCHAIN_DOCS_FILE)
+	$(BUILDDIR)/bin/sdcc -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1
+	echo \`\`\`\\n\\n@anchor sdasgb-settings\\n# sdasgb settings\\n\`\`\` >> $(TOOLCHAIN_DOCS_FILE)
+	$(BUILDDIR)/bin/sdasgb -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true 
+	echo \`\`\`\\n\@anchor bankpack-settings\\n# bankpack settings\\n\`\`\` >> $(TOOLCHAIN_DOCS_FILE)
+	$(BUILDDIR)/bin/bankpack -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true 
+	echo \`\`\`\\n\@anchor sdldgb-settings\\n# sdldgb settings\\n\`\`\` >> $(TOOLCHAIN_DOCS_FILE)
+	$(BUILDDIR)/bin/sdldgb -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true 
+	echo \`\`\`\\n\@anchor ihxcheck-settings\\n# ihxcheck settings\\n\`\`\` >> $(TOOLCHAIN_DOCS_FILE)
+	$(BUILDDIR)/bin/ihxcheck -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true 
+	echo \`\`\`\\n\@anchor makebin-settings\\n# makebin settings\\n\`\`\` >> $(TOOLCHAIN_DOCS_FILE)
+	$(BUILDDIR)/bin/makebin -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1
+	echo \`\`\`\\n\@anchor gbcompress-settings\\n# gbcompress settings\\n\`\`\` >> $(TOOLCHAIN_DOCS_FILE)
+	$(BUILDDIR)/bin/gbcompress -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true 
+	echo \`\`\`\\n\@anchor png2mtspr-settings\\n# png2mtspr settings\\n\`\`\` >> $(TOOLCHAIN_DOCS_FILE)
+	$(BUILDDIR)/bin/png2mtspr >> $(TOOLCHAIN_DOCS_FILE) 2>&1
+	echo \`\`\`\\n\\n >> $(TOOLCHAIN_DOCS_FILE)
+endif
 
 doxygen-clean:
 	rm -rf $(GBDKDOCSDIR)/api

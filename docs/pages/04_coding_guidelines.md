@@ -41,7 +41,7 @@ If you wish to use the original tools, you must add the `const` keyword every ti
 
   - Use 8-bit values as much as possible. They will be much more efficient and compact than 16 and 32 bit types.
 
-  - Prefer unsigned variables to signed ones: The code generated will be generally more efficient, espacially when comparing two values.
+  - Prefer unsigned variables to signed ones: The code generated will be generally more efficient, especially when comparing two values.
 
   - Use explicit types so you always know the size of your variables. `INT8, UINT8, INT16, UINT16, INT32, UINT32` or `BYTE, UBYTE, WORD, UWORD, LWORD, ULWORD`.  
   Types are defined in @ref asm/types.h and @ref asm/gbz80/types.h
@@ -68,9 +68,10 @@ If you wish to use the original tools, you must add the `const` keyword every ti
 
   - When procesing for a given frame is done and it is time to wait before starting the next frame, @ref wait_vbl_done() can be used. It uses HALT to put the CPU into a low power state until processing resumes. The CPU will wake up and resume processing at the end of the current frame when the Vertical Blanking interrupt is triggered.
 
-  - Minimize use of multiplication, modulo and division. These operations have no corresponding CPU instructions (software functions), and hence are time costly. Division by powers of 2 are better, they have specific SDCC optimizations.
-    - Alternatives to modulo:
-      - When using power of 2 you can use bit masks. Example: `(n % 8)` can be achieved with `(n & 0x7)`
+  - Minimize use of multiplication, modulo with non-powers of 2, and division with non-powers of 2. These operations have no corresponding CPU instructions (software functions), and hence are time costly.
+      - SDCC has some optimizations for:
+        - Division by powers of 2. For example `n /= 4u` will be optimized to `n >>= 2`.
+        - Modulo by powers of 2. For example: `(n % 8)` will be optimized to `(n & 0x7)`.
       - If you need decimal numbers to count or display a score, you can use the GBDK BCD ([binary coded decimal](https://en.wikipedia.org/wiki/Binary-coded_decimal)) number functions. See: @ref bcd.h and the `BCD` example project included with GBDK.
 
   - Avoid long lists of function parameters. Passing many parameters can add overhead, especially if the function is called often. When applicable globals and local static vars can be used instead.
@@ -78,6 +79,7 @@ If you wish to use the original tools, you must add the `const` keyword every ti
   - Use inline functions if the function is short. (with the `inline` keyword, such as `inline UINT8 myFunction() { ... }`)
 
   - Do not use recursive functions
+<!-- This entry needs re-work. Signed vs unsigned, current SDCC optimizations...
 
   - Prefer `==` and `!=` comparison operators to `<`, `<=`, `>`, and `>=`. The code will be shorter and quicker.
 
@@ -94,7 +96,7 @@ If you wish to use the original tools, you must add the `const` keyword every ti
   and if possible, even better:
 
         for(i = 10; i != 0; i--)
-
+-->
 
 ## GBDK API/Library
 
