@@ -16,7 +16,7 @@
     to be in the upper left-hand corner as with regular
     hardware sprites.
 
-    Use the @ref png2mtspr utility to convert single
+    Use the @ref utility_png2mtspr tool to convert single
     or multiple frames of graphics into metasprite
     structured data for use with the ...metasprite...()
     functions.

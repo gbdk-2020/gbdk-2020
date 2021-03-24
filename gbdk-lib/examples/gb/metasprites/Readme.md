@@ -1,11 +1,13 @@
 
-Metasprite example
+Metasprite Example
 ==================
 
-* Press A button to show/hide the metasprite
+Demonstrates using the metasprite features to move and animate a large sprite.
+
+* Press A button to show / hide the metasprite
 * Press B button to cycle through the metasprite animations
-* Press SELECT button to cycle the metasprite through Normal/Flip-Y/Flip-XY/Flip-X
-* Up/Down/Left/Right to move the metasprite
+* Press SELECT button to cycle the metasprite through Normal / Flip-Y / Flip-XY / Flip-X
+* Up / Down / Left / Right to move the metasprite
 
 In this example the move_metasprite...() functions are called every
 frame to simplify the example code, regardless of whether the updates

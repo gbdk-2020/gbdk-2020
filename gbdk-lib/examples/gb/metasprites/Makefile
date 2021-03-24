@@ -21,6 +21,9 @@ make.bat: Makefile
 	@make -sn | sed y/\\//\\\\/ | grep -v make >> make.bat
 
 # Use png2mtspr to convert the png into C formatted metasprite data
+# -sh 48   : Sets sprite height to 48 (width remains automatic)
+# -spr8x16 : Use 8x16 hardware sprites
+# -c ...   : Set C output file
 %.c:	%.png
 	$(PNG2MTSPR) $< -sh 48 -spr8x16 -c $@ 
 

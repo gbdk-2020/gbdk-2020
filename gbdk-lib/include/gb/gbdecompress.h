@@ -1,4 +1,4 @@
-/** @file gb/gbcompress.h
+/** @file gb/gbdecompress.h
     
     GB-Compress decompressor
     Compatible with the compression used in GBTD
