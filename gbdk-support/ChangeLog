@@ -1,13 +1,13 @@
 gbdk-4.0.3
     - Updated documentation, including the PDF version
-	- Library was improved
-		- Metasprites support (see example)
-		- GBCompress decompressor included (see example)
-		- Large map scrolling helper functions (see example)
-		- Multiple minor improvements
-	- New tools
-		- png2mtspr converts png images into metasprite structs
-		- gbcompress compression utility, compatible with GBTD/GBMB
+    - Library was improved
+        - Metasprites support (see example)
+        - GBCompress decompressor included (see example)
+        - Large map scrolling helper functions (see example)
+        - Multiple minor improvements
+    - New tools
+        - png2mtspr converts png images into metasprite structs
+        - gbcompress compression utility, compatible with GBTD/GBMB
 
 gbdk-4.0.2
     - Updated documentation
