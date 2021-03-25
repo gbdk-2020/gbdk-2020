@@ -106,7 +106,16 @@ Data Fields</h2></td></tr>
 <tr class="separator:a01b7de72e08ac14c7f28e10121dc13f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>metasprite item description </p>
+<div class="textblock"><p>Metasprite sub-item structure </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dy</td><td>(INT8) Y coordinate of the sprite relative to the metasprite origin (pivot) </td></tr>
+    <tr><td class="paramname">dx</td><td>(INT8) X coordinate of the sprite relative to the metasprite origin (pivot) </td></tr>
+    <tr><td class="paramname">dtile</td><td>(UINT8) Start tile relative to the metasprites own set of tiles </td></tr>
+    <tr><td class="paramname">props</td><td>(UINT8) Property Flags</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Metasprites are built from multiple <a class="el" href="structmetasprite__t.html">metasprite_t</a> items (one for each sub-sprite) and a pool of tiles they reference. If a metasprite has multiple frames then each frame will be built from some number of <a class="el" href="structmetasprite__t.html">metasprite_t</a> items (which may vary based on how many sprites are required for that particular frame). </p>
 </div><h2 class="groupheader">Field Documentation</h2>
 <a id="acc640358a5fc8e92e4d1092819cfe471"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acc640358a5fc8e92e4d1092819cfe471">&#9670;&nbsp;</a></span>dy</h2>

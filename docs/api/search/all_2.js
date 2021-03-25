@@ -1,28 +1,4 @@
 var searchData=
 [
-  ['_5f_5fassert_10',['__assert',['../assert_8h.html#ad21a069a92c53643b2e3eaaa73a742fd',1,'assert.h']]],
-  ['_5f_5fbool_5ftrue_5ffalse_5fare_5fdefined_11',['__bool_true_false_are_defined',['../stdbool_8h.html#a665b0cc9ee2ced31785321d55cde349e',1,'stdbool.h']]],
-  ['_5f_5fcall_5f_5fbanked_12',['__call__banked',['../far__ptr_8h.html#aa45a2312a2584abb8733a052f66b4a90',1,'far_ptr.h']]],
-  ['_5f_5fcall_5fbanked_5faddr_13',['__call_banked_addr',['../far__ptr_8h.html#a1344c26ca298a9eadea4bcfea6442ae3',1,'far_ptr.h']]],
-  ['_5f_5fcall_5fbanked_5fbank_14',['__call_banked_bank',['../far__ptr_8h.html#a6f1c13e2fad9dd04645a000050d9f382',1,'far_ptr.h']]],
-  ['_5f_5fcall_5fbanked_5fptr_15',['__call_banked_ptr',['../far__ptr_8h.html#a27792b7fc3796a1e1828d4c5812e5b21',1,'far_ptr.h']]],
-  ['_5f_5fcurrent_5fbase_5ftile_16',['__current_base_tile',['../metasprites_8h.html#a8b44c9fffa6d4233e725a0e4b9da6e3c',1,'metasprites.h']]],
-  ['_5f_5fcurrent_5fmetasprite_17',['__current_metasprite',['../metasprites_8h.html#aae51f066cc5436457f62351847bfc64b',1,'metasprites.h']]],
-  ['_5f_5ffar_5fptr_18',['__far_ptr',['../union____far__ptr.html',1,'']]],
-  ['_5f_5fgbdk_5fversion_19',['__GBDK_VERSION',['../gb_8h.html#a459449876dfba6299bf055c882d78334',1,'gb.h']]],
-  ['_5f_5fhandlecrash_20',['__HandleCrash',['../crash__handler_8h.html#a95aa98ab16e49eac55dcdfe42f4610cc',1,'crash_handler.h']]],
-  ['_5f_5fptrdiff_5ft_5fdefined_21',['__PTRDIFF_T_DEFINED',['../stddef_8h.html#a9e3909fa823b8c4e3fc624d77fb946bf',1,'stddef.h']]],
-  ['_5f_5freentrant_22',['__reentrant',['../stdlib_8h.html#a83798998ad669e85a8f75d6490191760',1,'stdlib.h']]],
-  ['_5f_5freg_23',['__REG',['../hardware_8h.html#a0b42e4dadd74c927e8b801b4f42c0e44',1,'hardware.h']]],
-  ['_5f_5frender_5fshadow_5foam_24',['__render_shadow_OAM',['../metasprites_8h.html#a14cb8235744c5f23da62bb2ae745d618',1,'metasprites.h']]],
-  ['_5f_5fsetjmp_25',['__setjmp',['../setjmp_8h.html#a299cf119e588646778caab18b90a41a5',1,'setjmp.h']]],
-  ['_5f_5fsize_5ft_5fdefined_26',['__SIZE_T_DEFINED',['../asm_2gbz80_2types_8h.html#a8de3167f7b52ff5a2f538858cb5e32d3',1,'__SIZE_T_DEFINED():&#160;types.h'],['../stddef_8h.html#a8de3167f7b52ff5a2f538858cb5e32d3',1,'__SIZE_T_DEFINED():&#160;stddef.h']]],
-  ['_5f_5fwchar_5ft_5fdefined_27',['__WCHAR_T_DEFINED',['../stddef_8h.html#a4aa39aaff620f750e11ece0766b185fd',1,'stddef.h']]],
-  ['_5fcpu_28',['_cpu',['../gb_8h.html#adbc4b02721d3ab48caf53e0228fd3eb5',1,'gb.h']]],
-  ['_5fcurrent_5fbank_29',['_current_bank',['../gb_8h.html#a98b848953a95ce2fff6fda643575d74a',1,'gb.h']]],
-  ['_5ffixed_30',['_fixed',['../union__fixed.html',1,'']]],
-  ['_5fio_5fin_31',['_io_in',['../gb_8h.html#a7783f5ed79717411d55f62b8ef3f4592',1,'gb.h']]],
-  ['_5fio_5fout_32',['_io_out',['../gb_8h.html#a29d93722542506d0acb9b23c85ff1c5e',1,'gb.h']]],
-  ['_5fio_5fstatus_33',['_io_status',['../gb_8h.html#a83d08d752bb2f2406084a9afa7988b98',1,'gb.h']]],
-  ['_5fshadow_5foam_5fbase_34',['_shadow_OAM_base',['../gb_8h.html#a7b662ae4d83f9837bacb9fd580673054',1,'gb.h']]]
+  ['20_5ftoolchain_5fsettings_2emd_10',['20_toolchain_settings.md',['../20__toolchain__settings_8md.html',1,'']]]
 ];

@@ -136,7 +136,11 @@ Variables</h2></td></tr>
 <tr class="separator:a14cb8235744c5f23da62bb2ae745d618"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Metasprite support </p>
+<div class="textblock"><p>Metasprite support</p>
+<p>A metasprite is a larger sprite made up from a collection of smaller individual hardware sprites. Different frames of the same metasprites can share tile data.</p>
+<p>The api supports metasprites in both <a class="el" href="gb_8h.html#aa87bec0d134136fdb727f52cb773b792">SPRITES_8x8</a> and <a class="el" href="gb_8h.html#af91d252f07f4764996154820f970c101">SPRITES_8x16</a> mode. If 8x16 mode is used then the height of the metasprite must be a multiple of 16.</p>
+<p>The origin (pivot) for the metasprite is not required to be in the upper left-hand corner as with regular hardware sprites.</p>
+<p>Use the <a class="el" href="docs_toolchain.html#utility_png2mtspr">utility_png2mtspr</a> tool to convert single or multiple frames of graphics into metasprite structured data for use with the ...metasprite...() functions. </p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a9f9f390a57460914e27c7604b7d8379a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9f9f390a57460914e27c7604b7d8379a">&#9670;&nbsp;</a></span>metasprite_end</h2>
@@ -164,7 +168,16 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>metasprite item description </p>
+<p>Metasprite sub-item structure </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dy</td><td>(INT8) Y coordinate of the sprite relative to the metasprite origin (pivot) </td></tr>
+    <tr><td class="paramname">dx</td><td>(INT8) X coordinate of the sprite relative to the metasprite origin (pivot) </td></tr>
+    <tr><td class="paramname">dtile</td><td>(UINT8) Start tile relative to the metasprites own set of tiles </td></tr>
+    <tr><td class="paramname">props</td><td>(UINT8) Property Flags</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Metasprites are built from multiple <a class="el" href="structmetasprite__t.html">metasprite_t</a> items (one for each sub-sprite) and a pool of tiles they reference. If a metasprite has multiple frames then each frame will be built from some number of <a class="el" href="structmetasprite__t.html">metasprite_t</a> items (which may vary based on how many sprites are required for that particular frame). </p>
 
 </div>
 </div>
@@ -220,17 +233,24 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Moves metasprite to the absolute position x and y, allocating hardware sprites from base_sprite using tiles from base_tile </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Moves metasprite to the absolute position x and y</p>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">metasprite</td><td>metasprite description </td></tr>
-    <tr><td class="paramname">base_tile</td><td>start tile where tiles for that metasprite begin </td></tr>
-    <tr><td class="paramname">base_sprite</td><td>start hardware sprite </td></tr>
-    <tr><td class="paramname">x</td><td>absolute x coordinate of the sprite </td></tr>
-    <tr><td class="paramname">y</td><td>absolute y coordinate of the sprite </td></tr>
+    <tr><td class="paramname">metasprite</td><td>Pointer to the first struct of the metasprite (for the desired frame) </td></tr>
+    <tr><td class="paramname">base_tile</td><td>Number of the first tile where the metasprite's tiles start </td></tr>
+    <tr><td class="paramname">base_sprite</td><td>Number of the first hardware sprite to be used by the metasprite <br  />
+ </td></tr>
+    <tr><td class="paramname">x</td><td>Absolute x coordinate of the sprite </td></tr>
+    <tr><td class="paramname">y</td><td>Absolute y coordinate of the sprite</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>number of hardware sprites used to draw this metasprite </dd></dl>
+<p>Moves <b>metasprite</b> to the absolute position <b>x</b> and <b>y</b> (with <b>no flip</b> on the X or Y axis). Hardware sprites are allocated starting from <b>base_sprite</b>, using tiles starting from <b>base_tile</b>.</p>
+<p>Sets: </p><ul>
+<li>__current_metasprite = metasprite; </li>
+<li>__current_base_tile = base_tile;</li>
+</ul>
+<dl class="section return"><dt>Returns</dt><dd>Number of hardware sprites used to draw this metasprite </dd></dl>
 
 </div>
 </div>
@@ -285,6 +305,25 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Moves metasprite to the absolute position x and y, <b>flipped on the Y axis</b></p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">metasprite</td><td>Pointer to the first struct of the metasprite (for the desired frame) </td></tr>
+    <tr><td class="paramname">base_tile</td><td>Number of the first tile where the metasprite's tiles start </td></tr>
+    <tr><td class="paramname">base_sprite</td><td>Number of the first hardware sprite to be used by the metasprite <br  />
+ </td></tr>
+    <tr><td class="paramname">x</td><td>Absolute x coordinate of the sprite </td></tr>
+    <tr><td class="paramname">y</td><td>Absolute y coordinate of the sprite</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Same as <a class="el" href="metasprites_8h.html#ab994d938fa79cd7265b51953f5485b14">move_metasprite()</a>, but with the metasprite flipped on the Y axis only.</p>
+<p>Sets: </p><ul>
+<li>__current_metasprite = metasprite; </li>
+<li>__current_base_tile = base_tile;</li>
+</ul>
+<dl class="section return"><dt>Returns</dt><dd>Number of hardware sprites used to draw this metasprite</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="metasprites_8h.html#ab994d938fa79cd7265b51953f5485b14">move_metasprite()</a> </dd></dl>
 
 </div>
 </div>
@@ -339,6 +378,25 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Moves metasprite to the absolute position x and y, <b>flipped on the X axis</b></p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">metasprite</td><td>Pointer to the first struct of the metasprite (for the desired frame) </td></tr>
+    <tr><td class="paramname">base_tile</td><td>Number of the first tile where the metasprite's tiles start </td></tr>
+    <tr><td class="paramname">base_sprite</td><td>Number of the first hardware sprite to be used by the metasprite <br  />
+ </td></tr>
+    <tr><td class="paramname">x</td><td>Absolute x coordinate of the sprite </td></tr>
+    <tr><td class="paramname">y</td><td>Absolute y coordinate of the sprite</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Same as <a class="el" href="metasprites_8h.html#ab994d938fa79cd7265b51953f5485b14">move_metasprite()</a>, but with the metasprite flipped on the X axis only.</p>
+<p>Sets: </p><ul>
+<li>__current_metasprite = metasprite; </li>
+<li>__current_base_tile = base_tile;</li>
+</ul>
+<dl class="section return"><dt>Returns</dt><dd>Number of hardware sprites used to draw this metasprite</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="metasprites_8h.html#ab994d938fa79cd7265b51953f5485b14">move_metasprite()</a> </dd></dl>
 
 </div>
 </div>
@@ -393,6 +451,25 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Moves metasprite to the absolute position x and y, <b>flipped on the X and Y axis</b></p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">metasprite</td><td>Pointer to the first struct of the metasprite (for the desired frame) </td></tr>
+    <tr><td class="paramname">base_tile</td><td>Number of the first tile where the metasprite's tiles start </td></tr>
+    <tr><td class="paramname">base_sprite</td><td>Number of the first hardware sprite to be used by the metasprite <br  />
+ </td></tr>
+    <tr><td class="paramname">x</td><td>Absolute x coordinate of the sprite </td></tr>
+    <tr><td class="paramname">y</td><td>Absolute y coordinate of the sprite</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Same as <a class="el" href="metasprites_8h.html#ab994d938fa79cd7265b51953f5485b14">move_metasprite()</a>, but with the metasprite flipped on both the X and Y axis.</p>
+<p>Sets: </p><ul>
+<li>__current_metasprite = metasprite; </li>
+<li>__current_base_tile = base_tile;</li>
+</ul>
+<dl class="section return"><dt>Returns</dt><dd>Number of hardware sprites used to draw this metasprite</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="metasprites_8h.html#ab994d938fa79cd7265b51953f5485b14">move_metasprite()</a> </dd></dl>
 
 </div>
 </div>
@@ -429,13 +506,17 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Hides metasprite from screen </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Hides a metasprite from the screen</p>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">metasprite</td><td>metasprite description </td></tr>
-    <tr><td class="paramname">base_sprite</td><td>start hardware sprite </td></tr>
+    <tr><td class="paramname">metasprite</td><td>Pointer to first struct of the desired metasprite frame </td></tr>
+    <tr><td class="paramname">base_sprite</td><td>Number of hardware sprite to start with</td></tr>
   </table>
   </dd>
 </dl>
+<p>Sets: </p><ul>
+<li>__current_metasprite = metasprite; </li>
+</ul>
 
 </div>
 </div>

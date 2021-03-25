@@ -1,5 +1,17 @@
 var NAVTREEINDEX1 =
 {
+"docs_toolchain_settings.html#autotoc_md145":[0,14,4],
+"docs_toolchain_settings.html#autotoc_md146":[0,14,5],
+"docs_toolchain_settings.html#autotoc_md147":[0,14,6],
+"docs_toolchain_settings.html#autotoc_md148":[0,14,7],
+"docs_toolchain_settings.html#autotoc_md149":[0,14,8],
+"docs_using_gbdk.html":[0,6],
+"docs_using_gbdk.html#autotoc_md19":[0,6,0],
+"docs_using_gbdk.html#autotoc_md20":[0,6,0,0],
+"docs_using_gbdk.html#autotoc_md21":[0,6,0,1],
+"docs_using_gbdk.html#autotoc_md22":[0,6,0,2],
+"docs_using_gbdk.html#autotoc_md23":[0,6,1],
+"docs_using_gbdk.html#autotoc_md24":[0,6,1,0],
 "docs_using_gbdk.html#autotoc_md25":[0,6,1,1],
 "docs_using_gbdk.html#autotoc_md26":[0,6,1,2],
 "docs_using_gbdk.html#autotoc_md27":[0,6,2],
@@ -237,17 +249,5 @@ var NAVTREEINDEX1 =
 "globals_defs_d.html":[4,1,4,4],
 "globals_defs_e.html":[4,1,4,5],
 "globals_defs_f.html":[4,1,4,6],
-"globals_defs_g.html":[4,1,4,7],
-"globals_defs_h.html":[4,1,4,8],
-"globals_defs_i.html":[4,1,4,9],
-"globals_defs_j.html":[4,1,4,10],
-"globals_defs_l.html":[4,1,4,11],
-"globals_defs_m.html":[4,1,4,12],
-"globals_defs_n.html":[4,1,4,13],
-"globals_defs_o.html":[4,1,4,14],
-"globals_defs_p.html":[4,1,4,15],
-"globals_defs_r.html":[4,1,4,16],
-"globals_defs_s.html":[4,1,4,17],
-"globals_defs_t.html":[4,1,4,18],
-"globals_defs_u.html":[4,1,4,19]
+"globals_defs_g.html":[4,1,4,7]
 };

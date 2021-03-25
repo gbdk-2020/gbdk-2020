@@ -128,7 +128,7 @@ GBTD / GBMB, Arrays and the "const" keyword</h3>
 Variables</h2>
 <ul>
 <li>Use 8-bit values as much as possible. They will be much more efficient and compact than 16 and 32 bit types.</li>
-<li>Prefer unsigned variables to signed ones: The code generated will be generally more efficient, espacially when comparing two values.</li>
+<li>Prefer unsigned variables to signed ones: The code generated will be generally more efficient, especially when comparing two values.</li>
 <li>Use explicit types so you always know the size of your variables. <code>INT8, UINT8, INT16, UINT16, INT32, UINT32</code> or <code>BYTE, UBYTE, WORD, UWORD, LWORD, ULWORD</code>. <br  />
  Types are defined in <a class="el" href="asm_2types_8h.html">asm/types.h</a> and <a class="el" href="asm_2gbz80_2types_8h.html">asm/gbz80/types.h</a></li>
 <li>Global and local static variables are generally more efficient than local non-static variables (which go on the stack and are slower and can result in slower code).</li>
@@ -147,25 +147,20 @@ Variables</h2>
 Code structure</h2>
 <ul>
 <li>When procesing for a given frame is done and it is time to wait before starting the next frame, <a class="el" href="gb_8h.html#adf6ef63efc4bb4950428015c623bca14">wait_vbl_done()</a> can be used. It uses HALT to put the CPU into a low power state until processing resumes. The CPU will wake up and resume processing at the end of the current frame when the Vertical Blanking interrupt is triggered.</li>
-<li>Minimize use of multiplication, modulo and division. These operations have no corresponding CPU instructions (software functions), and hence are time costly. Division by powers of 2 are better, they have specific SDCC optimizations.<ul>
-<li>Alternatives to modulo:<ul>
-<li>When using power of 2 you can use bit masks. Example: <code>(n % 8)</code> can be achieved with <code>(n &amp; 0x7)</code></li>
-<li>If you need decimal numbers to count or display a score, you can use the GBDK BCD (<a href="https://en.wikipedia.org/wiki/Binary-coded_decimal">binary coded decimal</a>) number functions. See: <a class="el" href="bcd_8h.html">bcd.h</a> and the <code>BCD</code> example project included with GBDK.</li>
+<li>Minimize use of multiplication, modulo with non-powers of 2, and division with non-powers of 2. These operations have no corresponding CPU instructions (software functions), and hence are time costly.<ul>
+<li>SDCC has some optimizations for:<ul>
+<li>Division by powers of 2. For example <code>n /= 4u</code> will be optimized to <code>n &gt;&gt;= 2</code>.</li>
+<li>Modulo by powers of 2. For example: <code>(n % 8)</code> will be optimized to <code>(n &amp; 0x7)</code>.</li>
 </ul>
 </li>
+<li>If you need decimal numbers to count or display a score, you can use the GBDK BCD (<a href="https://en.wikipedia.org/wiki/Binary-coded_decimal">binary coded decimal</a>) number functions. See: <a class="el" href="bcd_8h.html">bcd.h</a> and the <code>BCD</code> example project included with GBDK.</li>
 </ul>
 </li>
 <li>Avoid long lists of function parameters. Passing many parameters can add overhead, especially if the function is called often. When applicable globals and local static vars can be used instead.</li>
 <li>Use inline functions if the function is short. (with the <code>inline</code> keyword, such as <code>inline UINT8 myFunction() { ... }</code>)</li>
 <li>Do not use recursive functions</li>
-<li><p class="startli">Prefer <code>==</code> and <code>!=</code> comparison operators to <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, and <code>&gt;=</code>. The code will be shorter and quicker.</p>
-<p class="startli">It is even faster to check if a variable is 0 than if it is equal to some other value, so looping from <em>N down to zero</em> is faster than looping <em>from zero up to N</em>.</p>
-</li>
 </ul>
-<p>For instance: </p><pre class="fragment">  for(i = 0; i &lt; 10; i++)
-</pre><p>is less efficient than: </p><pre class="fragment">  for(i = 0; i != 10; i++)
-</pre><p>and if possible, even better: </p><pre class="fragment">  for(i = 10; i != 0; i--)
-</pre><h2><a class="anchor" id="autotoc_md43"></a>
+<h2><a class="anchor" id="autotoc_md43"></a>
 GBDK API/Library</h2>
 <ul>
 <li>stdio.h: If you have other ways of printing text, avoid including <a class="el" href="stdio_8h.html">stdio.h</a> and using functions such as <a class="el" href="stdio_8h.html#a79c1db3e4a2aaa60d5afa76f7d984d0b">printf()</a>. Including it will use a large number of the background tiles for font characters. If stdio.h is not included then that space will be available for use with other tiles instead.</li>
