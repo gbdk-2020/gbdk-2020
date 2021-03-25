@@ -1,6 +1,4 @@
 @page docs_toolchain_settings Toolchain settings
-
-
 @anchor lcc-settings
 # lcc settings
 ```
@@ -38,7 +36,6 @@
 -Woarg	specify system-specific `arg'
 -W[pfablim]arg	pass `arg' to the preprocessor, compiler, assembler, bankpack, linker, ihxcheck, or makebin
 ```
-
 @anchor sdcc-settings
 # sdcc settings
 ```
@@ -370,7 +367,6 @@ Special options for the stm8 port:
       --constseg            <name> use this name for the const segment
       --out-fmt-elf         Output executable in ELF format
 ```
-
 @anchor sdasgb-settings
 # sdasgb settings
 ```
@@ -445,7 +441,6 @@ S ___bank_<const name> Def0000FF
 @anchor sdldgb-settings
 # sdldgb settings
 ```
-Unknown option -h ignored
 
 sdld Linker V03.00 + NoICE + sdld
 
@@ -481,7 +476,6 @@ Case Sensitivity:
 End:
   -e   or null line terminates input
 
-ASlink >> -h
 ```
 @anchor ihxcheck-settings
 # ihxcheck settings
@@ -547,5 +541,3 @@ usage: png2mtspr <file>.png [options]
 -spr8x16      use SPRITES_8x16 (default: SPRITES_8x16)
 -b <bank>     bank (default 0)
 ```
-
-

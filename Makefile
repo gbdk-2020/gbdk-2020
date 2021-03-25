@@ -274,32 +274,67 @@ doxygen-generate-with-pdf:	doxygen-generate
 
 
 # Generate toolchain settings markdown file (if possible)
-# Then run main doxygen build
 docs-toolchain-generate:	TOOLCHAIN_DOCS_FILE=$(GBDKDOCSDIR)/pages/20_toolchain_settings.md
 docs-toolchain-generate:
 ifneq (,$(wildcard $(BUILDDIR)/bin/))
-	echo @page docs_toolchain_settings Toolchain settings > $(TOOLCHAIN_DOCS_FILE)
-	echo \\n\\n@anchor lcc-settings\\n# lcc settings\\n\`\`\` >> $(TOOLCHAIN_DOCS_FILE); \
+	echo \@page docs_toolchain_settings Toolchain settings > $(TOOLCHAIN_DOCS_FILE)
+# lcc
+	echo \@anchor lcc-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# lcc settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 	  cd "$(BUILDDIR)/bin/"; \
 	  ./lcc >> $(TOOLCHAIN_DOCS_FILE) 2>&1
-	echo \`\`\`\\n\\n@anchor sdcc-settings\\n# sdcc settings\\n\`\`\` >> $(TOOLCHAIN_DOCS_FILE)
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+# sdcc
+	echo \@anchor sdcc-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# sdcc settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 	$(BUILDDIR)/bin/sdcc -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1
-	echo \`\`\`\\n\\n@anchor sdasgb-settings\\n# sdasgb settings\\n\`\`\` >> $(TOOLCHAIN_DOCS_FILE)
+# sdasgb
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+	echo \@anchor sdasgb-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# sdasgb settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 	$(BUILDDIR)/bin/sdasgb -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true 
-	echo \`\`\`\\n\@anchor bankpack-settings\\n# bankpack settings\\n\`\`\` >> $(TOOLCHAIN_DOCS_FILE)
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+# bankpack
+	echo \@anchor bankpack-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# bankpack settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 	$(BUILDDIR)/bin/bankpack -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true 
-	echo \`\`\`\\n\@anchor sdldgb-settings\\n# sdldgb settings\\n\`\`\` >> $(TOOLCHAIN_DOCS_FILE)
-	$(BUILDDIR)/bin/sdldgb -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true 
-	echo \`\`\`\\n\@anchor ihxcheck-settings\\n# ihxcheck settings\\n\`\`\` >> $(TOOLCHAIN_DOCS_FILE)
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+# sdldgb	
+	echo \@anchor sdldgb-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# sdldgb settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+	$(BUILDDIR)/bin/sdldgb >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true 
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+# ihxcheck
+	echo \@anchor ihxcheck-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# ihxcheck settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 	$(BUILDDIR)/bin/ihxcheck -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true 
-	echo \`\`\`\\n\@anchor makebin-settings\\n# makebin settings\\n\`\`\` >> $(TOOLCHAIN_DOCS_FILE)
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+# makebin
+	echo \@anchor makebin-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# makebin settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 	$(BUILDDIR)/bin/makebin -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1
-	echo \`\`\`\\n\@anchor gbcompress-settings\\n# gbcompress settings\\n\`\`\` >> $(TOOLCHAIN_DOCS_FILE)
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+# gbcompress
+	echo \@anchor gbcompress-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# gbcompress settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 	$(BUILDDIR)/bin/gbcompress -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true 
-	echo \`\`\`\\n\@anchor png2mtspr-settings\\n# png2mtspr settings\\n\`\`\` >> $(TOOLCHAIN_DOCS_FILE)
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+# png2mtspr
+	echo \@anchor png2mtspr-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# png2mtspr settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 	$(BUILDDIR)/bin/png2mtspr >> $(TOOLCHAIN_DOCS_FILE) 2>&1
-	echo \`\`\`\\n\\n >> $(TOOLCHAIN_DOCS_FILE)
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE)
 endif
+
 
 doxygen-clean:
 	rm -rf $(GBDKDOCSDIR)/api
