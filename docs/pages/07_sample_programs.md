@@ -50,12 +50,24 @@ A C translation of the space.s assembly program.
 The gb-dtmf, written by Osamu Ohashi, is a Dual Tone Multi-Frequency (DTMF) generator.
 
 
+# gbdecompress
+Demonstrates using gbdecompress to load a compressed tile set into vram.
+
+
 # irq
 Illustrates how to install interrupt handlers.
 
 
 # large map
-Shows how to scroll with maps larger than 32 x 32 tiles using set_bkg_submap(). It fills rows and columns at the edges of the visible viewport (of the hardware Background Map) as it scrolls from the desired sub-region of the large map.
+Shows how to scroll with maps larger than 32 x 32 tiles using set_bkg_submap(). It fills rows and columns at the edges of the visible viewport (of the hardware Background Map) with the desired sub-region of the large map as it scrolls.
+
+
+# metasprites
+Demonstrates using the metasprite features to move and animate a large sprite.
+* Press A button to show / hide the metasprite
+* Press B button to cycle through the metasprite animations
+* Press SELECT button to cycle the metasprite through Normal / Flip-Y / Flip-XY / Flip-X
+* Up / Down / Left / Right to move the metasprite
 
 
 # lcd isr wobble

@@ -12,7 +12,7 @@ https://github.com/Zal0/gbdk-2020/releases
     - Added @ref set_vram_byte()
     - Added @ref set_bkg_tile_xy() / @ref set_win_tile_xy()
     - Added @ref get_bkg_xy_addr() / @ref get_win_xy_addr()
-    - Added @ref get_bkg_submap() / @ref get_win_submap()
+    - Added @ref set_bkg_submap() / @ref set_win_submap()
     - Added metasprite api support
     - Added gb_decompress support
     - Added @ref calloc / @ref malloc / @ref realloc / @ref free and generic @ref memmove
@@ -27,8 +27,8 @@ https://github.com/Zal0/gbdk-2020/releases
     - Fixed build issue with banks_autobank example
     - Improved sgb_border
   - Toolchain / Utilities
-    - Added @ref gbcompress utility
-    - Added @ref png2metaspr metasprite utility
+    - Added @ref utility_gbcompress utility
+    - Added @ref utility_png2mtspr metasprite utility
   - Docs
     - Added extensive documentation (some of which is imported and updated from the old gbdk docs)
     - Added PDF version of docs

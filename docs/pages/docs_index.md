@@ -11,6 +11,7 @@
 - @subpage docs_faq
 - @subpage docs_migrating_versions
 - @subpage docs_releases
+- @subpage docs_toolchain_settings
 
 
 
