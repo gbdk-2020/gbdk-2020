@@ -462,3 +462,11 @@ img {
     font-size:15px !important;
     content:"\2715";
 }
+
+/* Add styling for the <code> tag so it stands out better */
+code {
+    background-color: #def4fd;
+    border-radius: 4px;
+    padding-left: 3px;
+    padding-right: 3px;
+}

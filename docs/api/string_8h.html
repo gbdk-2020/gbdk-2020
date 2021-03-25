@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>GBDK 2020 API Docs: string.h File Reference</title>
+<title>GBDK 2020 Docs: string.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -28,7 +28,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">GBDK 2020 API Docs
+   <div id="projectname">GBDK 2020 Docs
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -104,6 +104,8 @@ Functions</h2></td></tr>
 <tr class="separator:aa89031476b4f6ee827f9163d09d68043"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1bb96f23101e1f8c053a36d59a01d3f8"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string_8h.html#a1bb96f23101e1f8c053a36d59a01d3f8">memcpy</a> (void *dest, const void *src, <a class="el" href="asm_2gbz80_2types_8h.html#a7619b847aeded8a6d14cbfa212b2cdfb">size_t</a> len) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:a1bb96f23101e1f8c053a36d59a01d3f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a802c986820d3866639922b6bc9484f90"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string_8h.html#a802c986820d3866639922b6bc9484f90">memmove</a> (void *dest, const void *src, <a class="el" href="asm_2gbz80_2types_8h.html#a7619b847aeded8a6d14cbfa212b2cdfb">size_t</a> n)</td></tr>
+<tr class="separator:a802c986820d3866639922b6bc9484f90"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a23e7549e1468d21419457759150fa767"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string_8h.html#a23e7549e1468d21419457759150fa767">memset</a> (void *s, int <a class="el" href="string_8h.html#a4e1e0e72dd773439e333c84dd762a9c3">c</a>, <a class="el" href="asm_2gbz80_2types_8h.html#a7619b847aeded8a6d14cbfa212b2cdfb">size_t</a> n) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:a23e7549e1468d21419457759150fa767"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af71f9ead43b3760680da8ab1bd3f783b"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string_8h.html#af71f9ead43b3760680da8ab1bd3f783b">reverse</a> (char *s) __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
@@ -247,6 +249,41 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a802c986820d3866639922b6bc9484f90"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a802c986820d3866639922b6bc9484f90">&#9670;&nbsp;</a></span>memmove()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void* memmove </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>dest</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>src</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="asm_2gbz80_2types_8h.html#a7619b847aeded8a6d14cbfa212b2cdfb">size_t</a>&#160;</td>
+          <td class="paramname"><em>n</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Copies n bytes from memory area src to memory area dest, areas may overlap </p>
 
 </div>
 </div>

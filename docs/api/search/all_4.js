@@ -1,18 +1,18 @@
 var searchData=
 [
-  ['d_81',['d',['../gb_8h.html#a0a3d95ad0ab8ad213016101d2e9c3d3e',1,'gb.h']]],
-  ['debug_82',['debug',['../malloc_8h.html#a0d4cef44ecf687909f2c744d8420f7f0',1,'malloc.h']]],
-  ['delay_83',['delay',['../gb_8h.html#acd271e2c976761568d2f95900a213212',1,'gb.h']]],
-  ['disable_5finterrupts_84',['disable_interrupts',['../gb_8h.html#ad8d2df514d3b5d3d08db3671f0d5af14',1,'gb.h']]],
-  ['disable_5fram_5fmbc1_85',['DISABLE_RAM_MBC1',['../gb_8h.html#a177fadce938422926b186a8e42575d1d',1,'gb.h']]],
-  ['disable_5fram_5fmbc5_86',['DISABLE_RAM_MBC5',['../gb_8h.html#a60191cdfa50ed9b88515f181747eaba2',1,'gb.h']]],
-  ['display_5foff_87',['DISPLAY_OFF',['../gb_8h.html#ad2ec9831813c5e7069917aa4455af682',1,'DISPLAY_OFF():&#160;gb.h'],['../gb_8h.html#aed072359b42854fffae4cd29c1f34ea1',1,'display_off(void) NONBANKED __preserves_regs(b:&#160;gb.h']]],
-  ['display_5fon_88',['DISPLAY_ON',['../gb_8h.html#a5ae6b05b3e1559c97f0d1b2daaaa0ee4',1,'gb.h']]],
-  ['div_5freg_89',['DIV_REG',['../hardware_8h.html#afa1e18e47bf68ce68d7807fff6edf16b',1,'hardware.h']]],
-  ['dkgrey_90',['DKGREY',['../drawing_8h.html#a4dad87d91b9201be3b4ede372f31ae8a',1,'drawing.h']]],
-  ['dma_5freg_91',['DMA_REG',['../hardware_8h.html#ae13ce414d3fe7c98c1434918186dfc81',1,'hardware.h']]],
-  ['dmg_5ftype_92',['DMG_TYPE',['../gb_8h.html#a0031c07799247a6d6c1bfa3decac79d0',1,'gb.h']]],
-  ['draw_5fimage_93',['draw_image',['../drawing_8h.html#ab6a6e4de3149941100edc6c7ed5236cf',1,'drawing.h']]],
-  ['drawing_2eh_94',['drawing.h',['../drawing_8h.html',1,'']]],
-  ['dword_95',['DWORD',['../asm_2types_8h.html#ad4ab93994d05960e2f96e83b4c45c1cf',1,'types.h']]]
+  ['abs_36',['abs',['../stdlib_8h.html#af15d7205d8d10c4820f997ce5c526279',1,'stdlib.h']]],
+  ['add_5fjoy_37',['add_JOY',['../gb_8h.html#a81f1a67549d3a26dcca22367141eb21b',1,'gb.h']]],
+  ['add_5flcd_38',['add_LCD',['../gb_8h.html#a6cc76ea12ac894c4947f85fa1999117c',1,'gb.h']]],
+  ['add_5fsio_39',['add_SIO',['../gb_8h.html#a024fc35ef0ad258d67c8f9dfb0751ee7',1,'gb.h']]],
+  ['add_5ftim_40',['add_TIM',['../gb_8h.html#a411914e5dc5f28ce0afa7cf692a18af1',1,'gb.h']]],
+  ['add_5fvbl_41',['add_VBL',['../gb_8h.html#a2412b9f97cb59acfcb2383eb9f204ddf',1,'gb.h']]],
+  ['and_42',['AND',['../drawing_8h.html#acd1b97556dfbbac61063a63031d2f91d',1,'drawing.h']]],
+  ['arand_43',['arand',['../rand_8h.html#a3b69bdab83b46c324126a7ccdf9db973',1,'rand.h']]],
+  ['assert_44',['assert',['../assert_8h.html#af576bf8ffa22a44e53018c67095ffbf0',1,'assert.h']]],
+  ['assert_2eh_45',['assert.h',['../assert_8h.html',1,'']]],
+  ['atoi_46',['atoi',['../stdlib_8h.html#a30670a60464f77af17dfb353353d6df8',1,'stdlib.h']]],
+  ['atol_47',['atol',['../stdlib_8h.html#a825c37450147a643edbcb1a435518307',1,'stdlib.h']]],
+  ['atomic_5fflag_48',['atomic_flag',['../structatomic__flag.html',1,'']]],
+  ['atomic_5fflag_5fclear_49',['atomic_flag_clear',['../stdatomic_8h.html#a281cc77096d886b0cf2c6ab7dfbe900c',1,'stdatomic.h']]],
+  ['atomic_5fflag_5ftest_5fand_5fset_50',['atomic_flag_test_and_set',['../stdatomic_8h.html#afbdfcef48a9fd85fa85549afbd3abdeb',1,'stdatomic.h']]]
 ];

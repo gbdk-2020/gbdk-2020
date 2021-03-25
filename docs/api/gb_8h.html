@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>GBDK 2020 API Docs: gb/gb.h File Reference</title>
+<title>GBDK 2020 Docs: gb/gb.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -28,7 +28,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">GBDK 2020 API Docs
+   <div id="projectname">GBDK 2020 Docs
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -225,6 +225,10 @@ Macros</h2></td></tr>
 <tr class="separator:af91d252f07f4764996154820f970c101"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa87bec0d134136fdb727f52cb773b792"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#aa87bec0d134136fdb727f52cb773b792">SPRITES_8x8</a>&#160;&#160;&#160;  <a class="el" href="hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>&amp;=0xFBU</td></tr>
 <tr class="separator:aa87bec0d134136fdb727f52cb773b792"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47607089a434dcda7a8583cfca03b604"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a47607089a434dcda7a8583cfca03b604">DISABLE_OAM_DMA</a>&#160;&#160;&#160;    <a class="el" href="gb_8h.html#a7b662ae4d83f9837bacb9fd580673054">_shadow_OAM_base</a> = 0</td></tr>
+<tr class="separator:a47607089a434dcda7a8583cfca03b604"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20895d53fe9caacb08ce8b071d57ce53"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a20895d53fe9caacb08ce8b071d57ce53">ENABLE_OAM_DMA</a>&#160;&#160;&#160;    <a class="el" href="gb_8h.html#a7b662ae4d83f9837bacb9fd580673054">_shadow_OAM_base</a> = (<a class="el" href="asm_2types_8h.html#a280213815420791851f7e59bdc8a3c95">UBYTE</a>)((<a class="el" href="asm_2types_8h.html#a9e551e7c1bd8feb51e8eefd109966f75">UWORD</a>)&amp;<a class="el" href="gb_8h.html#a3619f9cb1e3c92238a033ead79a0c551">shadow_OAM</a> &gt;&gt; 8)</td></tr>
+<tr class="separator:a20895d53fe9caacb08ce8b071d57ce53"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -293,40 +297,56 @@ Functions</h2></td></tr>
 <tr class="separator:aed072359b42854fffae4cd29c1f34ea1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd45c10f4566ca284cdab4044c5645b3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#afd45c10f4566ca284cdab4044c5645b3">hiramcpy</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> dst, const void *src, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> n) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:afd45c10f4566ca284cdab4044c5645b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afaa7bb8881d67d51c646e35dfdb01d40"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#afaa7bb8881d67d51c646e35dfdb01d40">set_bkg_data</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> first_tile, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> nb_tiles, unsigned char *data) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
-<tr class="separator:afaa7bb8881d67d51c646e35dfdb01d40"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4892b18d0d75bdaa153ef571f337f52b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a4892b18d0d75bdaa153ef571f337f52b">set_bkg_1bit_data</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> first_tile, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> nb_tiles, unsigned char *data, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> <a class="el" href="drawing_8h.html#ac9f0e5e503be3fe11f09b28252187c55">color</a>) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
-<tr class="separator:a4892b18d0d75bdaa153ef571f337f52b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afac2db0151b09291638f7a592a3d0e94"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#afac2db0151b09291638f7a592a3d0e94">set_vram_byte</a> (<a class="el" href="asm_2types_8h.html#a280213815420791851f7e59bdc8a3c95">UBYTE</a> *addr, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> v) __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="separator:afac2db0151b09291638f7a592a3d0e94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57ff7363a20c654a39736e33d4d08f60"><td class="memItemLeft" align="right" valign="top"><a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a57ff7363a20c654a39736e33d4d08f60">get_bkg_xy_addr</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> x, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> y) __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="separator:a57ff7363a20c654a39736e33d4d08f60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48579cba9ac2d81ff7214cf3ff25563d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a48579cba9ac2d81ff7214cf3ff25563d">set_bkg_data</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> first_tile, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> nb_tiles, const unsigned char *data) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="separator:a48579cba9ac2d81ff7214cf3ff25563d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3044331abf61612eb333b6f409f5d571"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a3044331abf61612eb333b6f409f5d571">set_bkg_1bit_data</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> first_tile, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> nb_tiles, const unsigned char *data, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> <a class="el" href="drawing_8h.html#ac9f0e5e503be3fe11f09b28252187c55">color</a>) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="separator:a3044331abf61612eb333b6f409f5d571"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2a236e483749590877d9207e9430e6ce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a2a236e483749590877d9207e9430e6ce">get_bkg_data</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> first_tile, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> nb_tiles, unsigned char *data) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:a2a236e483749590877d9207e9430e6ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf7527c3fce32df7b20d6cc4ec217f0b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#acf7527c3fce32df7b20d6cc4ec217f0b">set_bkg_tiles</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> x, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> y, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> w, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> <a class="el" href="gb_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>, unsigned char *tiles) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
-<tr class="separator:acf7527c3fce32df7b20d6cc4ec217f0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7c0f923acfd198ec970bb2e96110f2c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#aa7c0f923acfd198ec970bb2e96110f2c">set_bkg_tiles</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> x, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> y, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> w, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> <a class="el" href="gb_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>, const unsigned char *tiles) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="separator:aa7c0f923acfd198ec970bb2e96110f2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9369a5771b340680f4af3386ac4e19b2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a9369a5771b340680f4af3386ac4e19b2">set_bkg_submap</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> x, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> y, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> w, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> <a class="el" href="gb_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>, const unsigned char *map, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> map_w)</td></tr>
+<tr class="separator:a9369a5771b340680f4af3386ac4e19b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a93b0cf6697ab892eda6231d26bf17fc9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a93b0cf6697ab892eda6231d26bf17fc9">get_bkg_tiles</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> x, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> y, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> w, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> <a class="el" href="gb_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>, unsigned char *tiles) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:a93b0cf6697ab892eda6231d26bf17fc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abda5458df92e4c57b1ca96ab16a17e13"><td class="memItemLeft" align="right" valign="top"><a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#abda5458df92e4c57b1ca96ab16a17e13">set_bkg_tile_xy</a> (<a class="el" href="asm_2types_8h.html#a280213815420791851f7e59bdc8a3c95">UBYTE</a> x, <a class="el" href="asm_2types_8h.html#a280213815420791851f7e59bdc8a3c95">UBYTE</a> y, <a class="el" href="asm_2types_8h.html#a280213815420791851f7e59bdc8a3c95">UBYTE</a> t) __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="separator:abda5458df92e4c57b1ca96ab16a17e13"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6c87db0b71ad17d5b242d18ed3df667b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a6c87db0b71ad17d5b242d18ed3df667b">move_bkg</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> x, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> y)</td></tr>
 <tr class="separator:a6c87db0b71ad17d5b242d18ed3df667b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f00009081050122c11e6625ecaf0584"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a2f00009081050122c11e6625ecaf0584">scroll_bkg</a> (<a class="el" href="asm_2gbz80_2types_8h.html#a7ebe70ceca856797319175e30bcf003d">INT8</a> x, <a class="el" href="asm_2gbz80_2types_8h.html#a7ebe70ceca856797319175e30bcf003d">INT8</a> y)</td></tr>
 <tr class="separator:a2f00009081050122c11e6625ecaf0584"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a015094949fc631921e5e5219320eee87"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a015094949fc631921e5e5219320eee87">set_win_data</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> first_tile, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> nb_tiles, unsigned char *data) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
-<tr class="separator:a015094949fc631921e5e5219320eee87"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8be00b00d16945fbe6c0f5f58a36b76d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a8be00b00d16945fbe6c0f5f58a36b76d">set_win_1bit_data</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> first_tile, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> nb_tiles, unsigned char *data) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
-<tr class="separator:a8be00b00d16945fbe6c0f5f58a36b76d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac2ff7566ff975530a04e6d90e760e26"><td class="memItemLeft" align="right" valign="top"><a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#aac2ff7566ff975530a04e6d90e760e26">get_win_xy_addr</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> x, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> y) __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="separator:aac2ff7566ff975530a04e6d90e760e26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7851349abd442026b49d499d6e43d79"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ae7851349abd442026b49d499d6e43d79">set_win_data</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> first_tile, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> nb_tiles, const unsigned char *data) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="separator:ae7851349abd442026b49d499d6e43d79"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95789b39dedda60b25e5ad4ef5cd778c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a95789b39dedda60b25e5ad4ef5cd778c">set_win_1bit_data</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> first_tile, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> nb_tiles, const unsigned char *data) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="separator:a95789b39dedda60b25e5ad4ef5cd778c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae2a527ffae5cad8083726470c3f30475"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ae2a527ffae5cad8083726470c3f30475">get_win_data</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> first_tile, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> nb_tiles, unsigned char *data) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:ae2a527ffae5cad8083726470c3f30475"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf9d0b393d38385168d207f96acd800c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#aaf9d0b393d38385168d207f96acd800c">set_win_tiles</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> x, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> y, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> w, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> <a class="el" href="gb_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>, unsigned char *tiles) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
-<tr class="separator:aaf9d0b393d38385168d207f96acd800c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1174ffce8b86b8df15c1704284fde687"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a1174ffce8b86b8df15c1704284fde687">set_win_tiles</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> x, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> y, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> w, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> <a class="el" href="gb_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>, const unsigned char *tiles) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="separator:a1174ffce8b86b8df15c1704284fde687"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f7178a952abc675a743686745a90892"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a5f7178a952abc675a743686745a90892">set_win_submap</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> x, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> y, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> w, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> <a class="el" href="gb_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>, const unsigned char *map, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> map_w)</td></tr>
+<tr class="separator:a5f7178a952abc675a743686745a90892"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aebd45a328b90ddda0154d5fb41b8bbc1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#aebd45a328b90ddda0154d5fb41b8bbc1">get_win_tiles</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> x, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> y, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> w, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> <a class="el" href="gb_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>, unsigned char *tiles) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:aebd45a328b90ddda0154d5fb41b8bbc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ed77943cb162dc597a8813d6f0f4a98"><td class="memItemLeft" align="right" valign="top"><a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a2ed77943cb162dc597a8813d6f0f4a98">set_win_tile_xy</a> (<a class="el" href="asm_2types_8h.html#a280213815420791851f7e59bdc8a3c95">UBYTE</a> x, <a class="el" href="asm_2types_8h.html#a280213815420791851f7e59bdc8a3c95">UBYTE</a> y, <a class="el" href="asm_2types_8h.html#a280213815420791851f7e59bdc8a3c95">UBYTE</a> t) __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="separator:a2ed77943cb162dc597a8813d6f0f4a98"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2faff6aef9e272b15a1912a4f911e385"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a2faff6aef9e272b15a1912a4f911e385">move_win</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> x, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> y)</td></tr>
 <tr class="separator:a2faff6aef9e272b15a1912a4f911e385"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7aa0d057d5eeb3e24e61460056750d05"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a7aa0d057d5eeb3e24e61460056750d05">scroll_win</a> (<a class="el" href="asm_2gbz80_2types_8h.html#a7ebe70ceca856797319175e30bcf003d">INT8</a> x, <a class="el" href="asm_2gbz80_2types_8h.html#a7ebe70ceca856797319175e30bcf003d">INT8</a> y)</td></tr>
 <tr class="separator:a7aa0d057d5eeb3e24e61460056750d05"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a65971730b7a58df99fc43be0162226ac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a65971730b7a58df99fc43be0162226ac">set_sprite_data</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> first_tile, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> nb_tiles, unsigned char *data) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
-<tr class="separator:a65971730b7a58df99fc43be0162226ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adc3c0a38af3e27723c7607b2c923d3d6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#adc3c0a38af3e27723c7607b2c923d3d6">set_sprite_1bit_data</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> first_tile, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> nb_tiles, unsigned char *data) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
-<tr class="separator:adc3c0a38af3e27723c7607b2c923d3d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a494532517bd7f26c55a87c96391611d5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a494532517bd7f26c55a87c96391611d5">set_sprite_data</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> first_tile, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> nb_tiles, const unsigned char *data) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="separator:a494532517bd7f26c55a87c96391611d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7261f0405b5e0b888c344f5ee6a698e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#aa7261f0405b5e0b888c344f5ee6a698e">set_sprite_1bit_data</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> first_tile, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> nb_tiles, const unsigned char *data) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="separator:aa7261f0405b5e0b888c344f5ee6a698e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5ce794b7f0c3361c79c887b500fcaf19"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a5ce794b7f0c3361c79c887b500fcaf19">get_sprite_data</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> first_tile, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> nb_tiles, unsigned char *data) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:a5ce794b7f0c3361c79c887b500fcaf19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e0cdfd6b9a2ae1b7f30384f132d8687"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a7e0cdfd6b9a2ae1b7f30384f132d8687">SET_SHADOW_OAM_ADDRESS</a> (void *address)</td></tr>
+<tr class="separator:a7e0cdfd6b9a2ae1b7f30384f132d8687"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aae19a6086cc17811759b01a6e0a3cda4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#aae19a6086cc17811759b01a6e0a3cda4">set_sprite_tile</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> nb, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> tile)</td></tr>
 <tr class="separator:aae19a6086cc17811759b01a6e0a3cda4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a54ffb7990fd37939bbe1a8b1e663e439"><td class="memItemLeft" align="right" valign="top"><a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a54ffb7990fd37939bbe1a8b1e663e439">get_sprite_tile</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> nb)</td></tr>
@@ -339,12 +359,14 @@ Functions</h2></td></tr>
 <tr class="separator:aae11e78e2a24e467e72893056f319d51"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abf6f5422a3c98cf440736f1491e1aa4c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#abf6f5422a3c98cf440736f1491e1aa4c">scroll_sprite</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> nb, <a class="el" href="asm_2gbz80_2types_8h.html#a7ebe70ceca856797319175e30bcf003d">INT8</a> x, <a class="el" href="asm_2gbz80_2types_8h.html#a7ebe70ceca856797319175e30bcf003d">INT8</a> y)</td></tr>
 <tr class="separator:abf6f5422a3c98cf440736f1491e1aa4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a95775ef4f212ca897135ff6c8f823c0f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a95775ef4f212ca897135ff6c8f823c0f">set_data</a> (unsigned char *vram_addr, unsigned char *data, <a class="el" href="asm_2gbz80_2types_8h.html#a805c2c164bdd38d72a30c46e84fb568b">UINT16</a> len) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
-<tr class="separator:a95775ef4f212ca897135ff6c8f823c0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a548f19d30b2ad3edb826d045c7be6bad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a548f19d30b2ad3edb826d045c7be6bad">hide_sprite</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> nb)</td></tr>
+<tr class="separator:a548f19d30b2ad3edb826d045c7be6bad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a326a27330c5f711fcf0b5448cfa07bda"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a326a27330c5f711fcf0b5448cfa07bda">set_data</a> (unsigned char *vram_addr, const unsigned char *data, <a class="el" href="asm_2gbz80_2types_8h.html#a805c2c164bdd38d72a30c46e84fb568b">UINT16</a> len) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="separator:a326a27330c5f711fcf0b5448cfa07bda"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4a6bb50835ab2e9294bf17ea32a1e4cd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a4a6bb50835ab2e9294bf17ea32a1e4cd">get_data</a> (unsigned char *data, unsigned char *vram_addr, <a class="el" href="asm_2gbz80_2types_8h.html#a805c2c164bdd38d72a30c46e84fb568b">UINT16</a> len) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:a4a6bb50835ab2e9294bf17ea32a1e4cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3c955cdccaeca3b016911594afc31aee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a3c955cdccaeca3b016911594afc31aee">set_tiles</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> x, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> y, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> w, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> <a class="el" href="gb_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>, unsigned char *vram_addr, unsigned char *tiles) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
-<tr class="separator:a3c955cdccaeca3b016911594afc31aee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07d12377d67cebb9aafc0622b2054f95"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a07d12377d67cebb9aafc0622b2054f95">set_tiles</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> x, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> y, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> w, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> <a class="el" href="gb_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>, unsigned char *vram_addr, const unsigned char *tiles) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="separator:a07d12377d67cebb9aafc0622b2054f95"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4c3d68eb3ff5ec0995541e691a6e8259"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a4c3d68eb3ff5ec0995541e691a6e8259">get_tiles</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> x, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> y, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> w, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> <a class="el" href="gb_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>, unsigned char *tiles, unsigned char *vram_addr) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:a4c3d68eb3ff5ec0995541e691a6e8259"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b4665e62849b60b579803b076661fe4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a2b4665e62849b60b579803b076661fe4">init_win</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> <a class="el" href="string_8h.html#a4e1e0e72dd773439e333c84dd762a9c3">c</a>) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
@@ -386,6 +408,8 @@ Variables</h2></td></tr>
 <tr class="separator:aeda4515a31485c9688c4601ac5ce2d79"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3619f9cb1e3c92238a033ead79a0c551"><td class="memItemLeft" align="right" valign="top">volatile struct <a class="el" href="struct_o_a_m__item__t.html">OAM_item_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a3619f9cb1e3c92238a033ead79a0c551">shadow_OAM</a> []</td></tr>
 <tr class="separator:a3619f9cb1e3c92238a033ead79a0c551"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b662ae4d83f9837bacb9fd580673054"><td class="memItemLeft" align="right" valign="top"><a class="el" href="hardware_8h.html#a0b42e4dadd74c927e8b801b4f42c0e44">__REG</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a7b662ae4d83f9837bacb9fd580673054">_shadow_OAM_base</a></td></tr>
+<tr class="separator:a7b662ae4d83f9837bacb9fd580673054"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Gameboy specific functions. </p>
@@ -1177,7 +1201,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Turns the display off immediatly. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#aed072359b42854fffae4cd29c1f34ea1">display_off</a>, <a class="el" href="gb_8h.html#a5ae6b05b3e1559c97f0d1b2daaaa0ee4">DISPLAY_ON</a> </dd></dl>
+<p>Turns the display off immediately. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#aed072359b42854fffae4cd29c1f34ea1">display_off</a>, <a class="el" href="gb_8h.html#a5ae6b05b3e1559c97f0d1b2daaaa0ee4">DISPLAY_ON</a> </dd></dl>
 
 </div>
 </div>
@@ -1298,6 +1322,36 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Sets sprite size to 8x8 pixels, one tile. Clears bit 2 of the LCDC register to 0. </p>
+
+</div>
+</div>
+<a id="a47607089a434dcda7a8583cfca03b604"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47607089a434dcda7a8583cfca03b604">&#9670;&nbsp;</a></span>DISABLE_OAM_DMA</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DISABLE_OAM_DMA&#160;&#160;&#160;    <a class="el" href="gb_8h.html#a7b662ae4d83f9837bacb9fd580673054">_shadow_OAM_base</a> = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Disable OAM DMA copy each VBlank </p>
+
+</div>
+</div>
+<a id="a20895d53fe9caacb08ce8b071d57ce53"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20895d53fe9caacb08ce8b071d57ce53">&#9670;&nbsp;</a></span>ENABLE_OAM_DMA</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ENABLE_OAM_DMA&#160;&#160;&#160;    <a class="el" href="gb_8h.html#a7b662ae4d83f9837bacb9fd580673054">_shadow_OAM_base</a> = (<a class="el" href="asm_2types_8h.html#a280213815420791851f7e59bdc8a3c95">UBYTE</a>)((<a class="el" href="asm_2types_8h.html#a9e551e7c1bd8feb51e8eefd109966f75">UWORD</a>)&amp;<a class="el" href="gb_8h.html#a3619f9cb1e3c92238a033ead79a0c551">shadow_OAM</a> &gt;&gt; 8)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Enable OAM DMA copy each VBlank and set it to transfer default shadow_OAM array </p>
 
 </div>
 </div>
@@ -1741,7 +1795,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Waits until all the buttons given in mask are pressed.</p>
+<p>Waits until at least one of the buttons given in mask are pressed.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">mask</td><td>Bitmask indicating which buttons to wait for</td></tr>
@@ -1939,7 +1993,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>HALTs the CPU and waits for the vertical blank interrupt (VBL) to finish.</p>
 <p>This is often used in main loops to idle the CPU at low power until it's time to start the next frame. It's also useful for syncing animation with the screen re-draw.</p>
-<p>Warning: If the VBL interrupt is disabled, this function will never return. If the screen is off this function returns immediatly. </p>
+<p>Warning: If the VBL interrupt is disabled, this function will never return. If the screen is off this function returns immediately. </p>
 
 </div>
 </div>
@@ -2005,8 +2059,73 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="afaa7bb8881d67d51c646e35dfdb01d40"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afaa7bb8881d67d51c646e35dfdb01d40">&#9670;&nbsp;</a></span>set_bkg_data()</h2>
+<a id="afac2db0151b09291638f7a592a3d0e94"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afac2db0151b09291638f7a592a3d0e94">&#9670;&nbsp;</a></span>set_vram_byte()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void set_vram_byte </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="asm_2types_8h.html#a280213815420791851f7e59bdc8a3c95">UBYTE</a> *&#160;</td>
+          <td class="paramname"><em>addr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a>&#160;</td>
+          <td class="paramname"><em>v</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Set byte in vram at given memory location</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">addr</td><td>address to write to </td></tr>
+    <tr><td class="paramname">v</td><td>value </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a57ff7363a20c654a39736e33d4d08f60"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a57ff7363a20c654a39736e33d4d08f60">&#9670;&nbsp;</a></span>get_bkg_xy_addr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a>* get_bkg_xy_addr </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a>&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a>&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get address of X,Y tile of background map </p>
+
+</div>
+</div>
+<a id="a48579cba9ac2d81ff7214cf3ff25563d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48579cba9ac2d81ff7214cf3ff25563d">&#9670;&nbsp;</a></span>set_bkg_data()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2026,7 +2145,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">unsigned char *&#160;</td>
+          <td class="paramtype">const unsigned char *&#160;</td>
           <td class="paramname"><em>data</em>&#160;</td>
         </tr>
         <tr>
@@ -2054,8 +2173,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a4892b18d0d75bdaa153ef571f337f52b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4892b18d0d75bdaa153ef571f337f52b">&#9670;&nbsp;</a></span>set_bkg_1bit_data()</h2>
+<a id="a3044331abf61612eb333b6f409f5d571"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3044331abf61612eb333b6f409f5d571">&#9670;&nbsp;</a></span>set_bkg_1bit_data()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2075,7 +2194,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">unsigned char *&#160;</td>
+          <td class="paramtype">const unsigned char *&#160;</td>
           <td class="paramname"><em>data</em>, </td>
         </tr>
         <tr>
@@ -2101,12 +2220,12 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
-<p>Similar to <a class="el" href="gb_8h.html#afaa7bb8881d67d51c646e35dfdb01d40">set_bkg_data</a>, except source data is 1 bit-per-pixel which gets expanded into 2 bits-per-pixel.</p>
+<p>Similar to <a class="el" href="gb_8h.html#a48579cba9ac2d81ff7214cf3ff25563d">set_bkg_data</a>, except source data is 1 bit-per-pixel which gets expanded into 2 bits-per-pixel.</p>
 <p>For a given bit that represent a pixel: </p><ul>
 <li>0 will be expanded into color 0 </li>
 <li>1 will be expanded into color 1, 2 or 3 depending on color argument</li>
 </ul>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a8e3f36aa68ac036695816757f2a1322c">SHOW_BKG</a>, <a class="el" href="gb_8h.html#a6d25f7c43b1cbbb48b95cda7ab2c3141">HIDE_BKG</a>, <a class="el" href="gb_8h.html#acf7527c3fce32df7b20d6cc4ec217f0b">set_bkg_tiles</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a8e3f36aa68ac036695816757f2a1322c">SHOW_BKG</a>, <a class="el" href="gb_8h.html#a6d25f7c43b1cbbb48b95cda7ab2c3141">HIDE_BKG</a>, <a class="el" href="gb_8h.html#aa7c0f923acfd198ec970bb2e96110f2c">set_bkg_tiles</a> </dd></dl>
 
 </div>
 </div>
@@ -2156,8 +2275,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="acf7527c3fce32df7b20d6cc4ec217f0b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acf7527c3fce32df7b20d6cc4ec217f0b">&#9670;&nbsp;</a></span>set_bkg_tiles()</h2>
+<a id="aa7c0f923acfd198ec970bb2e96110f2c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7c0f923acfd198ec970bb2e96110f2c">&#9670;&nbsp;</a></span>set_bkg_tiles()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2189,7 +2308,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">unsigned char *&#160;</td>
+          <td class="paramtype">const unsigned char *&#160;</td>
           <td class="paramname"><em>tiles</em>&#160;</td>
         </tr>
         <tr>
@@ -2199,19 +2318,24 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Sets a rectangular region of Tile Map entries for the Background layer.</p>
+<p>Sets a rectangular region of Background Tile Map.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">x</td><td>X Start position in Background Map tile coordinates. Range 0 - 31 </td></tr>
     <tr><td class="paramname">y</td><td>Y Start position in Background Map tile coordinates. Range 0 - 31 </td></tr>
-    <tr><td class="paramname">w</td><td>Width of area to set in tiles. Range 0 - 31 </td></tr>
-    <tr><td class="paramname">h</td><td>Height of area to set in tiles. Range 0 - 31 </td></tr>
-    <tr><td class="paramname">tiles</td><td>Pointer to source Tile Map data</td></tr>
+    <tr><td class="paramname">w</td><td>Width of area to set in tiles. Range 1 - 32 </td></tr>
+    <tr><td class="paramname">h</td><td>Height of area to set in tiles. Range 1 - 32 </td></tr>
+    <tr><td class="paramname">tiles</td><td>Pointer to source tile map data</td></tr>
   </table>
   </dd>
 </dl>
-<p>Entries are copied from <b>tiles</b> to the Background Tile Map starting at <b>x</b>, <b>y</b> writing across for <b>w</b> tiles and down for <b>h</b> tiles.</p>
-<p>One byte per Tile map entry.</p>
+<p>Entries are copied from map at <b>tiles</b> to the Background Tile Map starting at <b>x</b>, <b>y</b> writing across for <b>w</b> tiles and down for <b>h</b> tiles.</p>
+<p>Use <a class="el" href="gb_8h.html#a9369a5771b340680f4af3386ac4e19b2">set_bkg_submap()</a> instead when: </p><ul>
+<li>Source map is wider than 32 tiles. </li>
+<li>Writing a width that does not match the source map width <b>and</b> more than one row high at a time.</li>
+</ul>
+<p>One byte per source tile map entry.</p>
+<p>Writes that exceed coordinate 31 on the x or y axis will wrap around to the Left and Top edges.</p>
 <p>Note: Patterns 128-255 overlap with patterns 128-255 of the sprite Tile Pattern table.</p>
 <p>GBC only: <a class="el" href="hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a> determines whether Tile Numbers or Tile Attributes get set. </p><ul>
 <li>VBK_REG=0 Tile Numbers are written </li>
@@ -2238,7 +2362,80 @@ Variables</h2></td></tr>
 </ul>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a8e3f36aa68ac036695816757f2a1322c">SHOW_BKG</a> </dd>
 <dd>
-<a class="el" href="gb_8h.html#afaa7bb8881d67d51c646e35dfdb01d40">set_bkg_data</a> </dd></dl>
+<a class="el" href="gb_8h.html#a48579cba9ac2d81ff7214cf3ff25563d">set_bkg_data</a>, <a class="el" href="gb_8h.html#a9369a5771b340680f4af3386ac4e19b2">set_bkg_submap</a> </dd></dl>
+
+</div>
+</div>
+<a id="a9369a5771b340680f4af3386ac4e19b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9369a5771b340680f4af3386ac4e19b2">&#9670;&nbsp;</a></span>set_bkg_submap()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void set_bkg_submap </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a>&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a>&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a>&#160;</td>
+          <td class="paramname"><em>w</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a>&#160;</td>
+          <td class="paramname"><em>h</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const unsigned char *&#160;</td>
+          <td class="paramname"><em>map</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a>&#160;</td>
+          <td class="paramname"><em>map_w</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Sets a rectangular area of the Background Tile Map using a sub-region from a source tile map. Useful for scrolling implementations of maps larger than 32 x 32 tiles.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>X Start position in Background Map tile coordinates. Range 0 - 31 </td></tr>
+    <tr><td class="paramname">y</td><td>Y Start position in Background Map tile coordinates. Range 0 - 31 </td></tr>
+    <tr><td class="paramname">w</td><td>Width of area to set in tiles. Range 1 - 255 </td></tr>
+    <tr><td class="paramname">h</td><td>Height of area to set in tiles. Range 1 - 255 </td></tr>
+    <tr><td class="paramname">map</td><td>Pointer to source tile map data </td></tr>
+    <tr><td class="paramname">map_w</td><td>Width of source tile map in tiles. Range 1 - 255</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Entries are copied from <b>map</b> to the Background Tile Map starting at <b>x</b>, <b>y</b> writing across for <b>w</b> tiles and down for <b>h</b> tiles, using <b>map_w</b> as the rowstride for the source tile map.</p>
+<p>Use this instead of <a class="el" href="gb_8h.html#aa7c0f923acfd198ec970bb2e96110f2c">set_bkg_tiles</a> when the source map is wider than 32 tiles or when writing a width that does not match the source map width.</p>
+<p>One byte per source tile map entry.</p>
+<p>Writes that exceed coordinate 31 on the x or y axis will wrap around to the Left and Top edges. <br  />
+</p>
+<p>See <a class="el" href="gb_8h.html#aa7c0f923acfd198ec970bb2e96110f2c">set_bkg_tiles</a> for setting CGB attribute maps with <a class="el" href="hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a>.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a8e3f36aa68ac036695816757f2a1322c">SHOW_BKG</a> </dd>
+<dd>
+<a class="el" href="gb_8h.html#a48579cba9ac2d81ff7214cf3ff25563d">set_bkg_data</a>, <a class="el" href="gb_8h.html#aa7c0f923acfd198ec970bb2e96110f2c">set_bkg_tiles</a>, <a class="el" href="gb_8h.html#a5f7178a952abc675a743686745a90892">set_win_submap</a> </dd></dl>
 
 </div>
 </div>
@@ -2299,6 +2496,49 @@ Variables</h2></td></tr>
 <p>Entries are copied into <b>tiles</b> from the Background Tile Map starting at <b>x</b>, <b>y</b> reading across for <b>w</b> tiles and down for <b>h</b> tiles.</p>
 <p>One byte per tile.</p>
 <p>The buffer pointed to by <b>tiles</b> should be at least <b>x</b> x <b>y</b> bytes in size. </p>
+
+</div>
+</div>
+<a id="abda5458df92e4c57b1ca96ab16a17e13"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abda5458df92e4c57b1ca96ab16a17e13">&#9670;&nbsp;</a></span>set_bkg_tile_xy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a>* set_bkg_tile_xy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="asm_2types_8h.html#a280213815420791851f7e59bdc8a3c95">UBYTE</a>&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="asm_2types_8h.html#a280213815420791851f7e59bdc8a3c95">UBYTE</a>&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="asm_2types_8h.html#a280213815420791851f7e59bdc8a3c95">UBYTE</a>&#160;</td>
+          <td class="paramname"><em>t</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Set single tile t on background layer at x,y </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>X-coordinate </td></tr>
+    <tr><td class="paramname">y</td><td>Y-coordinate </td></tr>
+    <tr><td class="paramname">t</td><td>tile index </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>returns the address of tile, so you may use faster <a class="el" href="gb_8h.html#afac2db0151b09291638f7a592a3d0e94">set_vram_byte()</a> later </dd></dl>
 
 </div>
 </div>
@@ -2396,8 +2636,37 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a015094949fc631921e5e5219320eee87"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a015094949fc631921e5e5219320eee87">&#9670;&nbsp;</a></span>set_win_data()</h2>
+<a id="aac2ff7566ff975530a04e6d90e760e26"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac2ff7566ff975530a04e6d90e760e26">&#9670;&nbsp;</a></span>get_win_xy_addr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a>* get_win_xy_addr </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a>&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a>&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get address of X,Y tile of window map </p>
+
+</div>
+</div>
+<a id="ae7851349abd442026b49d499d6e43d79"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7851349abd442026b49d499d6e43d79">&#9670;&nbsp;</a></span>set_win_data()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2417,7 +2686,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">unsigned char *&#160;</td>
+          <td class="paramtype">const unsigned char *&#160;</td>
           <td class="paramname"><em>data</em>&#160;</td>
         </tr>
         <tr>
@@ -2436,17 +2705,17 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
-<p>This is the same as <a class="el" href="gb_8h.html#afaa7bb8881d67d51c646e35dfdb01d40">set_bkg_data</a>, since the Window Layer and Background Layer share the same Tile pattern data.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#afaa7bb8881d67d51c646e35dfdb01d40">set_bkg_data</a> </dd>
+<p>This is the same as <a class="el" href="gb_8h.html#a48579cba9ac2d81ff7214cf3ff25563d">set_bkg_data</a>, since the Window Layer and Background Layer share the same Tile pattern data.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a48579cba9ac2d81ff7214cf3ff25563d">set_bkg_data</a> </dd>
 <dd>
-<a class="el" href="gb_8h.html#aaf9d0b393d38385168d207f96acd800c">set_win_tiles</a> </dd>
+<a class="el" href="gb_8h.html#a1174ffce8b86b8df15c1704284fde687">set_win_tiles</a> </dd>
 <dd>
 <a class="el" href="gb_8h.html#ab19da2ab719bb8897bc0843a84af28f8">SHOW_WIN</a>, <a class="el" href="gb_8h.html#aedb6e32c42d4b1d25ad11adccd7100c3">HIDE_WIN</a> </dd></dl>
 
 </div>
 </div>
-<a id="a8be00b00d16945fbe6c0f5f58a36b76d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8be00b00d16945fbe6c0f5f58a36b76d">&#9670;&nbsp;</a></span>set_win_1bit_data()</h2>
+<a id="a95789b39dedda60b25e5ad4ef5cd778c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95789b39dedda60b25e5ad4ef5cd778c">&#9670;&nbsp;</a></span>set_win_1bit_data()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2466,7 +2735,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">unsigned char *&#160;</td>
+          <td class="paramtype">const unsigned char *&#160;</td>
           <td class="paramname"><em>data</em>&#160;</td>
         </tr>
         <tr>
@@ -2485,8 +2754,8 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
-<p>This is the same as <a class="el" href="gb_8h.html#a4892b18d0d75bdaa153ef571f337f52b">set_bkg_1bit_data</a>, since the Window Layer and Background Layer share the same Tile pattern data.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#afaa7bb8881d67d51c646e35dfdb01d40">set_bkg_data</a>, <a class="el" href="gb_8h.html#a4892b18d0d75bdaa153ef571f337f52b">set_bkg_1bit_data</a>, <a class="el" href="gb_8h.html#a015094949fc631921e5e5219320eee87">set_win_data</a> </dd></dl>
+<p>This is the same as <a class="el" href="gb_8h.html#a3044331abf61612eb333b6f409f5d571">set_bkg_1bit_data</a>, since the Window Layer and Background Layer share the same Tile pattern data.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a48579cba9ac2d81ff7214cf3ff25563d">set_bkg_data</a>, <a class="el" href="gb_8h.html#a3044331abf61612eb333b6f409f5d571">set_bkg_1bit_data</a>, <a class="el" href="gb_8h.html#ae7851349abd442026b49d499d6e43d79">set_win_data</a> </dd></dl>
 
 </div>
 </div>
@@ -2535,8 +2804,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="aaf9d0b393d38385168d207f96acd800c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaf9d0b393d38385168d207f96acd800c">&#9670;&nbsp;</a></span>set_win_tiles()</h2>
+<a id="a1174ffce8b86b8df15c1704284fde687"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1174ffce8b86b8df15c1704284fde687">&#9670;&nbsp;</a></span>set_win_tiles()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2568,7 +2837,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">unsigned char *&#160;</td>
+          <td class="paramtype">const unsigned char *&#160;</td>
           <td class="paramname"><em>tiles</em>&#160;</td>
         </tr>
         <tr>
@@ -2578,27 +2847,105 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Sets a rectangular region of Tile Map entries for the Window layer.</p>
+<p>Sets a rectangular region of the Window Tile Map.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">x</td><td>X Start position in Window Map tile coordinates. Range 0 - 31 </td></tr>
     <tr><td class="paramname">y</td><td>Y Start position in Window Map tile coordinates. Range 0 - 31 </td></tr>
-    <tr><td class="paramname">w</td><td>Width of area to set in tiles. Range 0 - 31 </td></tr>
-    <tr><td class="paramname">h</td><td>Height of area to set in tiles. Range 0 - 31 </td></tr>
-    <tr><td class="paramname">tiles</td><td>Pointer to source Tile Map data</td></tr>
+    <tr><td class="paramname">w</td><td>Width of area to set in tiles. Range 1 - 32 </td></tr>
+    <tr><td class="paramname">h</td><td>Height of area to set in tiles. Range 1 - 32 </td></tr>
+    <tr><td class="paramname">tiles</td><td>Pointer to source tile map data</td></tr>
   </table>
   </dd>
 </dl>
-<p>Entries are copied from <b>tiles</b> to the background Tile Map starting at <b>x</b>, <b>y</b> writing across for <b>w</b> tiles and down for <b>h</b> tiles.</p>
-<p>One byte per Tile Map entry.</p>
+<p>Entries are copied from map at <b>tiles</b> to the Window Tile Map starting at <b>x</b>, <b>y</b> writing across for <b>w</b> tiles and down for <b>h</b> tiles.</p>
+<p>Use <a class="el" href="gb_8h.html#a5f7178a952abc675a743686745a90892">set_win_submap()</a> instead when: </p><ul>
+<li>Source map is wider than 32 tiles. </li>
+<li>Writing a width that does not match the source map width <b>and</b> more than one row high at a time.</li>
+</ul>
+<p>One byte per source tile map entry.</p>
+<p>Writes that exceed coordinate 31 on the x or y axis will wrap around to the Left and Top edges.</p>
 <p>Note: Patterns 128-255 overlap with patterns 128-255 of the sprite Tile Pattern table.</p>
 <p>GBC only: <a class="el" href="hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a> determines whether Tile Numbers or Tile Attributes get set. </p><ul>
 <li>VBK_REG=0 Tile Numbers are written </li>
 <li>VBK_REG=1 Tile Attributes are written</li>
 </ul>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#acf7527c3fce32df7b20d6cc4ec217f0b">set_bkg_tiles</a> For more details about GBC Tile Attributes </dd>
-<dd>
-<a class="el" href="gb_8h.html#ab19da2ab719bb8897bc0843a84af28f8">SHOW_WIN</a>, <a class="el" href="gb_8h.html#aedb6e32c42d4b1d25ad11adccd7100c3">HIDE_WIN</a> </dd></dl>
+<p>For more details about GBC Tile Attributes see <a class="el" href="gb_8h.html#aa7c0f923acfd198ec970bb2e96110f2c">set_bkg_tiles</a>.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#ab19da2ab719bb8897bc0843a84af28f8">SHOW_WIN</a>, <a class="el" href="gb_8h.html#aedb6e32c42d4b1d25ad11adccd7100c3">HIDE_WIN</a>, <a class="el" href="gb_8h.html#a5f7178a952abc675a743686745a90892">set_win_submap</a>, <a class="el" href="gb_8h.html#aa7c0f923acfd198ec970bb2e96110f2c">set_bkg_tiles</a>, <a class="el" href="gb_8h.html#a48579cba9ac2d81ff7214cf3ff25563d">set_bkg_data</a> </dd></dl>
+
+</div>
+</div>
+<a id="a5f7178a952abc675a743686745a90892"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f7178a952abc675a743686745a90892">&#9670;&nbsp;</a></span>set_win_submap()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void set_win_submap </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a>&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a>&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a>&#160;</td>
+          <td class="paramname"><em>w</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a>&#160;</td>
+          <td class="paramname"><em>h</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const unsigned char *&#160;</td>
+          <td class="paramname"><em>map</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a>&#160;</td>
+          <td class="paramname"><em>map_w</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Sets a rectangular area of the Window Tile Map using a sub-region from a source tile map.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>X Start position in Window Map tile coordinates. Range 0 - 31 </td></tr>
+    <tr><td class="paramname">y</td><td>Y Start position in Wimdpw Map tile coordinates. Range 0 - 31 </td></tr>
+    <tr><td class="paramname">w</td><td>Width of area to set in tiles. Range 1 - 255 </td></tr>
+    <tr><td class="paramname">h</td><td>Height of area to set in tiles. Range 1 - 255 </td></tr>
+    <tr><td class="paramname">map</td><td>Pointer to source tile map data </td></tr>
+    <tr><td class="paramname">map_w</td><td>Width of source tile map in tiles. Range 1 - 255</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Entries are copied from <b>map</b> to the Window Tile Map starting at <b>x</b>, <b>y</b> writing across for <b>w</b> tiles and down for <b>h</b> tiles, using <b>map_w</b> as the rowstride for the source tile map.</p>
+<p>Use this instead of <a class="el" href="gb_8h.html#a1174ffce8b86b8df15c1704284fde687">set_win_tiles</a> when the source map is wider than 32 tiles or when writing a width that does not match the source map width.</p>
+<p>One byte per source tile map entry.</p>
+<p>Writes that exceed coordinate 31 on the x or y axis will wrap around to the Left and Top edges.</p>
+<p>GBC only: <a class="el" href="hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a> determines whether Tile Numbers or Tile Attributes get set. </p><ul>
+<li>VBK_REG=0 Tile Numbers are written </li>
+<li>VBK_REG=1 Tile Attributes are written</li>
+</ul>
+<p>See <a class="el" href="gb_8h.html#aa7c0f923acfd198ec970bb2e96110f2c">set_bkg_tiles</a> for details about CGB attribute maps with <a class="el" href="hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a>.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#ab19da2ab719bb8897bc0843a84af28f8">SHOW_WIN</a>, <a class="el" href="gb_8h.html#aedb6e32c42d4b1d25ad11adccd7100c3">HIDE_WIN</a>, <a class="el" href="gb_8h.html#a1174ffce8b86b8df15c1704284fde687">set_win_tiles</a>, <a class="el" href="gb_8h.html#a9369a5771b340680f4af3386ac4e19b2">set_bkg_submap</a>, <a class="el" href="gb_8h.html#aa7c0f923acfd198ec970bb2e96110f2c">set_bkg_tiles</a>, <a class="el" href="gb_8h.html#a48579cba9ac2d81ff7214cf3ff25563d">set_bkg_data</a> </dd></dl>
 
 </div>
 </div>
@@ -2659,6 +3006,49 @@ Variables</h2></td></tr>
 <p>Entries are copied into <b>tiles</b> from the Window Tile Map starting at <b>x</b>, <b>y</b> reading across for <b>w</b> tiles and down for <b>h</b> tiles.</p>
 <p>One byte per tile.</p>
 <p>The buffer pointed to by <b>tiles</b> should be at least <b>x</b> x <b>y</b> bytes in size. </p>
+
+</div>
+</div>
+<a id="a2ed77943cb162dc597a8813d6f0f4a98"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ed77943cb162dc597a8813d6f0f4a98">&#9670;&nbsp;</a></span>set_win_tile_xy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a>* set_win_tile_xy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="asm_2types_8h.html#a280213815420791851f7e59bdc8a3c95">UBYTE</a>&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="asm_2types_8h.html#a280213815420791851f7e59bdc8a3c95">UBYTE</a>&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="asm_2types_8h.html#a280213815420791851f7e59bdc8a3c95">UBYTE</a>&#160;</td>
+          <td class="paramname"><em>t</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Set single tile t on window layer at x,y </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>X-coordinate </td></tr>
+    <tr><td class="paramname">y</td><td>Y-coordinate </td></tr>
+    <tr><td class="paramname">t</td><td>tile index </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>returns the address of tile, so you may use faster <a class="el" href="gb_8h.html#afac2db0151b09291638f7a592a3d0e94">set_vram_byte()</a> later </dd></dl>
 
 </div>
 </div>
@@ -2756,8 +3146,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a65971730b7a58df99fc43be0162226ac"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a65971730b7a58df99fc43be0162226ac">&#9670;&nbsp;</a></span>set_sprite_data()</h2>
+<a id="a494532517bd7f26c55a87c96391611d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a494532517bd7f26c55a87c96391611d5">&#9670;&nbsp;</a></span>set_sprite_data()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2777,7 +3167,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">unsigned char *&#160;</td>
+          <td class="paramtype">const unsigned char *&#160;</td>
           <td class="paramname"><em>data</em>&#160;</td>
         </tr>
         <tr>
@@ -2805,8 +3195,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="adc3c0a38af3e27723c7607b2c923d3d6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adc3c0a38af3e27723c7607b2c923d3d6">&#9670;&nbsp;</a></span>set_sprite_1bit_data()</h2>
+<a id="aa7261f0405b5e0b888c344f5ee6a698e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7261f0405b5e0b888c344f5ee6a698e">&#9670;&nbsp;</a></span>set_sprite_1bit_data()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2826,7 +3216,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">unsigned char *&#160;</td>
+          <td class="paramtype">const unsigned char *&#160;</td>
           <td class="paramname"><em>data</em>&#160;</td>
         </tr>
         <tr>
@@ -2845,7 +3235,7 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
-<p>Similar to <a class="el" href="gb_8h.html#a65971730b7a58df99fc43be0162226ac">set_sprite_data</a>, except source data is 1 bit-per-pixel which gets expanded into 2 bits-per-pixel.</p>
+<p>Similar to <a class="el" href="gb_8h.html#a494532517bd7f26c55a87c96391611d5">set_sprite_data</a>, except source data is 1 bit-per-pixel which gets expanded into 2 bits-per-pixel.</p>
 <p>For a given bit that represent a pixel: </p><ul>
 <li>0 will be expanded into color 0 </li>
 <li>1 will be expanded into color 3</li>
@@ -2899,6 +3289,33 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a7e0cdfd6b9a2ae1b7f30384f132d8687"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e0cdfd6b9a2ae1b7f30384f132d8687">&#9670;&nbsp;</a></span>SET_SHADOW_OAM_ADDRESS()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SET_SHADOW_OAM_ADDRESS </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>address</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Enable OAM DMA copy each VBlank and set it to transfer any 256-byte aligned array </p>
+
+</div>
+</div>
 <a id="aae19a6086cc17811759b01a6e0a3cda4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aae19a6086cc17811759b01a6e0a3cda4">&#9670;&nbsp;</a></span>set_sprite_tile()</h2>
 
@@ -2932,7 +3349,7 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Sets sprite number <b>nb</b> to display tile number <b>tile</b>.</p>
+<p>Sets sprite number <b>nb__in the OAM to display tile number __tile</b>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">nb</td><td>Sprite number, range 0 - 39 </td></tr>
@@ -2974,7 +3391,7 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Returns the tile number of sprite number <b>nb</b>.</p>
+<p>Returns the tile number of sprite number <b>nb</b> in the OAM.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">nb</td><td>Sprite number, range 0 - 39</td></tr>
@@ -3191,8 +3608,41 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a95775ef4f212ca897135ff6c8f823c0f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a95775ef4f212ca897135ff6c8f823c0f">&#9670;&nbsp;</a></span>set_data()</h2>
+<a id="a548f19d30b2ad3edb826d045c7be6bad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a548f19d30b2ad3edb826d045c7be6bad">&#9670;&nbsp;</a></span>hide_sprite()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hide_sprite </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a>&#160;</td>
+          <td class="paramname"><em>nb</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Hides sprite number <b>nb</b> by moving it to zero position by Y.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nb</td><td>Sprite number, range 0 - 39 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a326a27330c5f711fcf0b5448cfa07bda"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a326a27330c5f711fcf0b5448cfa07bda">&#9670;&nbsp;</a></span>set_data()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3206,7 +3656,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">unsigned char *&#160;</td>
+          <td class="paramtype">const unsigned char *&#160;</td>
           <td class="paramname"><em>data</em>, </td>
         </tr>
         <tr>
@@ -3287,8 +3737,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a3c955cdccaeca3b016911594afc31aee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3c955cdccaeca3b016911594afc31aee">&#9670;&nbsp;</a></span>set_tiles()</h2>
+<a id="a07d12377d67cebb9aafc0622b2054f95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07d12377d67cebb9aafc0622b2054f95">&#9670;&nbsp;</a></span>set_tiles()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3326,7 +3776,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">unsigned char *&#160;</td>
+          <td class="paramtype">const unsigned char *&#160;</td>
           <td class="paramname"><em>tiles</em>&#160;</td>
         </tr>
         <tr>
@@ -3341,15 +3791,15 @@ Variables</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">x</td><td>X Start position in Map tile coordinates. Range 0 - 31 </td></tr>
     <tr><td class="paramname">y</td><td>Y Start position in Map tile coordinates. Range 0 - 31 </td></tr>
-    <tr><td class="paramname">w</td><td>Width of area to set in tiles. Range 0 - 31 </td></tr>
-    <tr><td class="paramname">h</td><td>Height of area to set in tiles. Range 0 - 31 </td></tr>
+    <tr><td class="paramname">w</td><td>Width of area to set in tiles. Range 1 - 32 </td></tr>
+    <tr><td class="paramname">h</td><td>Height of area to set in tiles. Range 1 - 32 </td></tr>
     <tr><td class="paramname">vram_addr</td><td>Pointer to destination VRAM Address </td></tr>
     <tr><td class="paramname">tiles</td><td>Pointer to source Tile Map data</td></tr>
   </table>
   </dd>
 </dl>
 <p>Entries are copied from <b>tiles</b> to Tile Map at address vram_addr starting at <b>x</b>, <b>y</b> writing across for <b>w</b> tiles and down for <b>h</b> tiles.</p>
-<p>One byte per Tile map entry.</p>
+<p>One byte per source tile map entry.</p>
 <p>There are two 32x32 Tile Maps in VRAM at addresses 9800h-9BFFh and 9C00h-9FFFh.</p>
 <p>GBC only: <a class="el" href="hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a> determines whether Tile Numbers or Tile Attributes get set. </p><ul>
 <li>VBK_REG=0 Tile Numbers are written </li>
@@ -3874,10 +4324,25 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a7b662ae4d83f9837bacb9fd580673054"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b662ae4d83f9837bacb9fd580673054">&#9670;&nbsp;</a></span>_shadow_OAM_base</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="hardware_8h.html#a0b42e4dadd74c927e8b801b4f42c0e44">__REG</a> _shadow_OAM_base</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>MSB of shadow_OAM address is used by OAM DMA copying routine </p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="agb_8h_html_a98b848953a95ce2fff6fda643575d74a"><div class="ttname"><a href="gb_8h.html#a98b848953a95ce2fff6fda643575d74a">_current_bank</a></div><div class="ttdeci">__REG _current_bank</div><div class="ttdef"><b>Definition:</b> gb.h:351</div></div>
-<div class="ttc" id="aasm_2gbz80_2types_8h_html_a805c2c164bdd38d72a30c46e84fb568b"><div class="ttname"><a href="asm_2gbz80_2types_8h.html#a805c2c164bdd38d72a30c46e84fb568b">UINT16</a></div><div class="ttdeci">unsigned int UINT16</div><div class="ttdef"><b>Definition:</b> types.h:27</div></div>
+<div class="ttc" id="aasm_2gbz80_2types_8h_html_a805c2c164bdd38d72a30c46e84fb568b"><div class="ttname"><a href="asm_2gbz80_2types_8h.html#a805c2c164bdd38d72a30c46e84fb568b">UINT16</a></div><div class="ttdeci">unsigned int UINT16</div><div class="ttdef"><b>Definition:</b> types.h:28</div></div>
 <div class="ttc" id="agb_8h_html_a115eb30ec86f6af039a27918ffe4cf8c"><div class="ttname"><a href="gb_8h.html#a115eb30ec86f6af039a27918ffe4cf8c">nowait_int_handler</a></div><div class="ttdeci">void nowait_int_handler(void) NONBANKED</div></div>
 <div class="ttc" id="agb_8h_html_a024fc35ef0ad258d67c8f9dfb0751ee7"><div class="ttname"><a href="gb_8h.html#a024fc35ef0ad258d67c8f9dfb0751ee7">add_SIO</a></div><div class="ttdeci">void add_SIO(int_handler h) NONBANKED</div></div>
 <div class="ttc" id="agb_8h_html_a4c2e4adef74067fdbb49005bc73de937"><div class="ttname"><a href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></div><div class="ttdeci">void b</div><div class="ttdef"><b>Definition:</b> gb.h:453</div></div>

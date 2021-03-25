@@ -1,14 +1,10 @@
 var searchData=
 [
-  ['h_153',['h',['../union__fixed.html#acd5ac56a5ed6650d5797e89b278a972f',1,'_fixed::h()'],['../gb_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb',1,'h():&#160;gb.h']]],
-  ['hardware_2eh_154',['hardware.h',['../hardware_8h.html',1,'']]],
-  ['hdma1_5freg_155',['HDMA1_REG',['../hardware_8h.html#ab16e97796d675205a027b1b28b52956e',1,'hardware.h']]],
-  ['hdma2_5freg_156',['HDMA2_REG',['../hardware_8h.html#a801400d58ab7d862742e43b49fa68c8d',1,'hardware.h']]],
-  ['hdma3_5freg_157',['HDMA3_REG',['../hardware_8h.html#a57a94790cda8101a29c0d20086770f1b',1,'hardware.h']]],
-  ['hdma4_5freg_158',['HDMA4_REG',['../hardware_8h.html#a3a2e883779980c1c37e780f47da4dd69',1,'hardware.h']]],
-  ['hdma5_5freg_159',['HDMA5_REG',['../hardware_8h.html#a1454ad6d5d04273eae1288af86deadac',1,'hardware.h']]],
-  ['hide_5fbkg_160',['HIDE_BKG',['../gb_8h.html#a6d25f7c43b1cbbb48b95cda7ab2c3141',1,'gb.h']]],
-  ['hide_5fsprites_161',['HIDE_SPRITES',['../gb_8h.html#a69ef98aee664b8abd8d1a3d45f016dda',1,'gb.h']]],
-  ['hide_5fwin_162',['HIDE_WIN',['../gb_8h.html#aedb6e32c42d4b1d25ad11adccd7100c3',1,'gb.h']]],
-  ['hiramcpy_163',['hiramcpy',['../gb_8h.html#afd45c10f4566ca284cdab4044c5645b3',1,'gb.h']]]
+  ['example_20programs_118',['Example Programs',['../docs_example_programs.html',1,'index']]],
+  ['e_119',['e',['../gb_8h.html#aeda4515a31485c9688c4601ac5ce2d79',1,'gb.h']]],
+  ['enable_5finterrupts_120',['enable_interrupts',['../gb_8h.html#a97039b6477537c37f83e74561de78c1b',1,'gb.h']]],
+  ['enable_5foam_5fdma_121',['ENABLE_OAM_DMA',['../gb_8h.html#a20895d53fe9caacb08ce8b071d57ce53',1,'gb.h']]],
+  ['enable_5fram_5fmbc1_122',['ENABLE_RAM_MBC1',['../gb_8h.html#ae202f64307ec00f6970ef9225e54646c',1,'gb.h']]],
+  ['enable_5fram_5fmbc5_123',['ENABLE_RAM_MBC5',['../gb_8h.html#a3f033f00c8d781637f9a665b06750937',1,'gb.h']]],
+  ['exit_124',['exit',['../stdlib_8h.html#ae43e0ef9173e48d70e3b1f99007b420c',1,'stdlib.h']]]
 ];

@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>GBDK 2020 API Docs: stdio.h File Reference</title>
+<title>GBDK 2020 Docs: stdio.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -28,7 +28,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">GBDK 2020 API Docs
+   <div id="projectname">GBDK 2020 Docs
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -167,12 +167,16 @@ Functions</h2></td></tr>
 </dl>
 <p>Does not return the number of characters printed.</p>
 <p>Currently supported: </p><ul>
+<li>%hx (char as hex) </li>
+<li>%hu (unsigned char) </li>
+<li>%hd (signed char) </li>
 <li>%c (character) </li>
 <li>%u (unsigned int) </li>
 <li>%d (signed int) </li>
 <li>%x (unsigned int as hex) </li>
-<li>%s (string) </li>
+<li>%s (string)</li>
 </ul>
+<p>Warning: to correctly pass chars for printing as chars, they <em>must</em> be explicitly re-cast as such when calling the function. See <a class="el" href="docs_coding_guidelines.html#docs_chars_varargs">docs_chars_varargs</a> for more details. </p>
 
 </div>
 </div>

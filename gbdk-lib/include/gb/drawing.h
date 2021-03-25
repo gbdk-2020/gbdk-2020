@@ -5,8 +5,26 @@
     Legendary overhall by Jon Fuge <jonny@q-continuum.demon.co.uk>
     Commenting by Michael Hope
 
-    Note that the standard text printf() and putchar() cannot be used
+    Note: The standard text printf() and putchar() cannot be used
     in APA mode - use gprintf() and wrtchr() instead.
+
+    Note: Using drawing.h will cause it's custom VBL and LCD ISRs
+    (`drawing_vbl` and `drawing_lcd`) to be installed.
+
+    The valid coordinate ranges are from (x,y) 0,0 to 159,143.
+    There is no built-in clipping, so drawing outside valid
+    coordinates will likely produce undesired results (wrapping/etc).
+
+    ----
+
+    __Important note for the drawing API :__
+
+        The Game Boy graphics hardware is not well suited to frame-buffer
+    style graphics such as the kind provided in `drawing.h`.
+    Due to that, __most drawing functions (rectangles, circles, etc) will
+    be slow__ . When possible it's much faster and more efficient
+    to work with the tiles and tile maps that the Game Boy hardware is
+    built around.
 */
 #ifndef __DRAWING_H
 #define __DRAWING_H

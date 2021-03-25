@@ -3,6 +3,7 @@ var string_8h =
     [ "strcpy", "string_8h.html#ad724f30223364304479b0fc714435e78", null ],
     [ "strcmp", "string_8h.html#aa89031476b4f6ee827f9163d09d68043", null ],
     [ "memcpy", "string_8h.html#a1bb96f23101e1f8c053a36d59a01d3f8", null ],
+    [ "memmove", "string_8h.html#a802c986820d3866639922b6bc9484f90", null ],
     [ "memset", "string_8h.html#a23e7549e1468d21419457759150fa767", null ],
     [ "reverse", "string_8h.html#af71f9ead43b3760680da8ab1bd3f783b", null ],
     [ "strcat", "string_8h.html#a13c88f5a8475fd7de5d81553cb29724a", null ],

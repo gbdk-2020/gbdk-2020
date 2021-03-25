@@ -56,8 +56,10 @@ clean: gbdk-support-clean gbdk-lib-clean
 distclean: clean build-dir-clean
 
 docs: doxygen-generate
-
+docspdf: doxygen-generate-with-pdf
 docsclean: doxygen-clean
+docsreset: doxygen-reset
+docstools: docs-toolchain-generate
 
 # Build rule for michaelh's machine to spin a release
 sapphire-full-build: native-build binary cross-clean cross-linux-mingw32-build
@@ -111,13 +113,20 @@ build-dir-clean:
 # Rules for gbdk-support
 gbdk-support-build:
 	@echo Building lcc
+ifdef BINDIR
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/lcc TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ BINDIR=$(BINDIR)/ --no-print-directory
+else
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/lcc TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
+endif
 	@echo
 	@echo Building ihxcheck
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/ihxcheck TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
-	@echo
 	@echo Building bankpack
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/bankpack TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
+	@echo Building png2mtspr
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/png2mtspr
+	@echo Building gbcompress
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/gbcompress TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
 	@echo
 
 gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
@@ -126,14 +135,20 @@ gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
 	@$(TARGETSTRIP) $(BUILDDIR)/bin/lcc*
 	@cp $(GBDKSUPPORTDIR)/ChangeLog $(BUILDDIR)
 	@cp $(GBDKSUPPORTDIR)/README $(BUILDDIR)
+	@cp $(GBDKDOCSDIR)/gbdk_manual.pdf $(BUILDDIR)
 	@echo
 	@echo Installing ihxcheck
 	@cp $(GBDKSUPPORTDIR)/ihxcheck/ihxcheck $(BUILDDIR)/bin/ihxcheck$(EXEEXTENSION)
 	@$(TARGETSTRIP) $(BUILDDIR)/bin/ihxcheck*
-	@echo
 	@echo Installing bankpack
 	@cp $(GBDKSUPPORTDIR)/bankpack/bankpack $(BUILDDIR)/bin/bankpack$(EXEEXTENSION)
 	@$(TARGETSTRIP) $(BUILDDIR)/bin/bankpack*
+	@echo Installing png2mtspr
+	@cp $(GBDKSUPPORTDIR)/png2mtspr/png2mtspr$(EXEEXTENSION) $(BUILDDIR)/bin/png2mtspr$(EXEEXTENSION)
+	@$(TARGETSTRIP) $(BUILDDIR)/bin/bankpack*
+	@echo Installing gbcompress
+	@cp $(GBDKSUPPORTDIR)/gbcompress/gbcompress $(BUILDDIR)/bin/gbcompress$(EXEEXTENSION)
+	@$(TARGETSTRIP) $(BUILDDIR)/bin/gbcompress*
 	@echo
 
 gbdk-support-clean:
@@ -142,9 +157,12 @@ gbdk-support-clean:
 	@echo
 	@echo Cleaning ihxcheck
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/ihxcheck clean --no-print-directory
-	@echo
 	@echo Cleaning bankpack
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/bankpack clean --no-print-directory
+	@echo Cleaning png2mtspr
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/png2mtspr clean
+	@echo Cleaning gbcompress
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/gbcompress clean --no-print-directory
 	@echo
 
 # Rules for gbdk-lib
@@ -181,7 +199,7 @@ gbdk-lib-examples-makefile:
 	unix2dos $(BUILDDIR)/examples/gb/make.bat
 
 # Copy SDDC executable files
-SDCC_BINS = makebin packihx sdar sdasgb sdcc sdcdb sdcdb sdcpp sdldgb sdnm sdobjcopy sdranlib sz80
+SDCC_BINS = makebin packihx sdar sdasgb sdcc sdcdb sdcpp sdldgb sdnm sdobjcopy sdranlib sz80
 ifeq ($(OS),Windows_NT)
 MINGW64_RUNTIME = \
 	libgcc_s_seh-1.dll \
@@ -231,10 +249,97 @@ doxygen-generate:
 ifeq ($(shell expr "$(DOXYGEN_VER_HAS)" \< "$(DOXYGEN_VER_REQ)"), 1)
 	$(error Doxygen version $(DOXYGEN_VER_HAS) is too old! Minimum version is $(DOXYGEN_VER_REQ))
 endif
+#Run Doxygen	
 	rm -rf $(GBDKDOCSDIR)/api; \
 	  cd "$(GBDKLIBDIR)/include"; \
 	  GBDKDOCSDIR="$(GBDKDOCSDIR)" GBDKLIBDIR="$(GBDKLIBDIR)" $(DOXYGENCMD) "$(GBDKDOCSDIR)/config/gbdk-2020-doxyfile"
+	@if [ "$(DOCS_PDF_ON)" = "YES" ]; then\
+		$(MAKE) -C $(GBDKDOCSDIR)/latex;\
+		cp $(GBDKDOCSDIR)/latex/refman.pdf $(GBDKDOCSDIR)/gbdk_manual.pdf;\
+	fi
+	rm -rf $(GBDKDOCSDIR)/latex
+
+# Turn on Latex -> PDF conversion to run run at end of regular docs build
+# (which includes latex output but deletes it at the end).
+#
+# The conversion process requires a Latex install. 
+# For Windows there are various Latex packages to choose from.
+# For Linux this appears to be the minimum:
+#   sudo apt install texlive-latex-base
+#   sudo apt install texlive-latex-recommended
+#   sudo apt install texlive-latex-extra
+#
+doxygen-generate-with-pdf:	DOCS_PDF_ON=YES
+doxygen-generate-with-pdf:	doxygen-generate
+
+
+# Generate toolchain settings markdown file (if possible)
+docs-toolchain-generate:	TOOLCHAIN_DOCS_FILE=$(GBDKDOCSDIR)/pages/20_toolchain_settings.md
+docs-toolchain-generate:
+ifneq (,$(wildcard $(BUILDDIR)/bin/))
+	echo \@page docs_toolchain_settings Toolchain settings > $(TOOLCHAIN_DOCS_FILE)
+# lcc
+	echo \@anchor lcc-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# lcc settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+	  cd "$(BUILDDIR)/bin/"; \
+	  ./lcc >> $(TOOLCHAIN_DOCS_FILE) 2>&1
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+# sdcc
+	echo \@anchor sdcc-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# sdcc settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+	$(BUILDDIR)/bin/sdcc -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1
+# sdasgb
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+	echo \@anchor sdasgb-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# sdasgb settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+	$(BUILDDIR)/bin/sdasgb -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true 
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+# bankpack
+	echo \@anchor bankpack-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# bankpack settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+	$(BUILDDIR)/bin/bankpack -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true 
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+# sdldgb	
+	echo \@anchor sdldgb-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# sdldgb settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+	$(BUILDDIR)/bin/sdldgb >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true 
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+# ihxcheck
+	echo \@anchor ihxcheck-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# ihxcheck settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+	$(BUILDDIR)/bin/ihxcheck -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true 
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+# makebin
+	echo \@anchor makebin-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# makebin settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+	$(BUILDDIR)/bin/makebin -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+# gbcompress
+	echo \@anchor gbcompress-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# gbcompress settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+	$(BUILDDIR)/bin/gbcompress -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true 
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+# png2mtspr
+	echo \@anchor png2mtspr-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# png2mtspr settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+	$(BUILDDIR)/bin/png2mtspr >> $(TOOLCHAIN_DOCS_FILE) 2>&1
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE)
+endif
+
 
 doxygen-clean:
 	rm -rf $(GBDKDOCSDIR)/api
+
+doxygen-reset:
+	rm -rf $(GBDKDOCSDIR)/api
+	git checkout $(GBDKDOCSDIR)/api
 

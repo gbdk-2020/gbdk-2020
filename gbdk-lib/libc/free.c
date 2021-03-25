@@ -1,45 +1,80 @@
-/*
-  free.c
-  
-  Implementation of free()
-*/
-#include <gb/malloc.h>
+/*-------------------------------------------------------------------------
+   free.c - deallocate memory.
+
+   Copyright (C) 2015, Philipp Klaus Krause, pkk@spth.de
+
+   This library is free software; you can redistribute it and/or modify it
+   under the terms of the GNU General Public License as published by the
+   Free Software Foundation; either version 2, or (at your option) any
+   later version.
+
+   This library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License 
+   along with this library; see the file COPYING. If not, write to the
+   Free Software Foundation, 51 Franklin Street, Fifth Floor, Boston,
+   MA 02110-1301, USA.
+
+   As a special exception, if you link this library with other files,
+   some of which are compiled with SDCC, to produce an executable,
+   this library does not by itself cause the resulting executable to
+   be covered by the GNU General Public License. This exception does
+   not however invalidate any other reasons why the executable file
+   might be covered by the GNU General Public License.
+-------------------------------------------------------------------------*/
+
 #include <stdlib.h>
-#include <types.h>
+#include <stddef.h>
 
-/*
-  free
+#if defined(__SDCC_mcs51) || defined(__SDCC_ds390) || defined(__SDCC_ds400)
+#define HEAPSPACE __xdata
+#elif defined(__SDCC_pdk13) || defined(__SDCC_pdk14) || defined(__SDCC_pdk15)
+#define HEAPSPACE __near
+#else
+#define HEAPSPACE
+#endif
 
-  Attempts to free the memory pointed to by 'ptr'
-  Different from the standard free:  returns -1 if already free, or -2 if not part of the malloc list
-*/
-INT8 free( void *ptr)
+typedef struct header HEAPSPACE header_t;
+
+struct header
 {
-    /* Do a relativly safe free by only freeing vaild used hunks */
-    pmmalloc_hunk thisHunk;
-    
-    thisHunk = malloc_first;
-    
-    /* Adjust the pointer to point to the start of the hunk header - makes the comparision easier */
-    ptr = (void *)((UINT8 *)ptr - sizeof(mmalloc_hunk));
-    
-    /* Walk the linked list */
-    while (thisHunk && (thisHunk->magic==MALLOC_MAGIC)) {
-	/* Is this the hunk? */
-	if (thisHunk == ptr) {
-	    debug("free", "Found hunk");
-	    /* Only free it if it's used */
-	    if (thisHunk->status == MALLOC_USED) {
-		thisHunk->status = MALLOC_FREE;
-		return 0;
-	    }
-	    debug("free", "Attempt to free a free hunk");
-	    return -1;
+	header_t *next;
+	header_t *next_free;
+};
+
+extern header_t *HEAPSPACE __sdcc_heap_free;
+
+void free(void *ptr)
+{
+	header_t *h, *next_free, *prev_free;
+	header_t *HEAPSPACE *f;
+
+	if(!ptr)
+		return;
+
+	prev_free = 0;
+	for(h = __sdcc_heap_free, f = &__sdcc_heap_free; h && h < ptr; prev_free = h, f = &(h->next_free), h = h->next_free); // Find adjacent blocks in free list
+	next_free = h;
+
+	h = (void HEAPSPACE *)((char HEAPSPACE *)(ptr) - offsetof(struct header, next_free));
+
+	// Insert into free list.
+	h->next_free = next_free;
+	*f = h;
+
+	if(next_free == h->next) // Merge with next block
+	{
+		h->next_free = h->next->next_free;
+		h->next = h->next->next;
 	}
-	/* walking... */
-	thisHunk = thisHunk->next;
-    };
-    
-    debug("free", "No hunk found");
-    return -2;
+
+	if (prev_free && prev_free->next == h) // Merge with previous block
+	{
+		prev_free->next = h->next;
+		prev_free->next_free = h->next_free;
+	}
 }
+

@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['gb_2eh_619',['gb.h',['../gb_8h.html',1,'']]],
-  ['gbdk_2dlib_2eh_620',['gbdk-lib.h',['../gbdk-lib_8h.html',1,'']]]
+  ['cgb_2eh_684',['cgb.h',['../cgb_8h.html',1,'']]],
+  ['console_2eh_685',['console.h',['../console_8h.html',1,'']]],
+  ['crash_5fhandler_2eh_686',['crash_handler.h',['../crash__handler_8h.html',1,'']]],
+  ['ctype_2eh_687',['ctype.h',['../ctype_8h.html',1,'']]]
 ];
