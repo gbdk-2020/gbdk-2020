@@ -41,12 +41,12 @@ make.bat: Makefile
 #
 # Link the compiled object files into a autobanks.gb ROM file 
 # (called with $(OBJS_AUTOBANKED), which is .rel files)
-# -Wl-yo4      : Use 4 ROM banks
+# -Wl-yoA      : Have makebin automatically calculate required number of ROM banks (otherwise use -Wl-yo4 in this example)
 # -Wl-ya4      : Use 4 RAM banks
 # -Wl-yt19     : Use MBC5 cartridge type
 $(BINS):	$(OBJS)
 	$(BANKPACK) -ext=.rel -v -yt19 $(OBJS)
-	$(LCC) $(CFLAGS) -Wl-yt19 -Wl-yo4 -Wl-ya4 -o $(BINS) $(OBJS_AUTOBANKED)
+	$(LCC) $(CFLAGS) -Wl-yt19 -Wl-yoA -Wl-ya4 -o $(BINS) $(OBJS_AUTOBANKED)
 #	./romusage autobanks.map -g
 
 clean:
