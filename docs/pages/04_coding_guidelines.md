@@ -115,7 +115,7 @@ If you wish to use the original tools, you must add the `const` keyword every ti
 
   - Use the SDCC `--max-allocs-per-node` flag with large values, such as `50000`. `--opt-code-speed` has a much smaller effect.
     - GBDK-2020 (after v4.0.1) compiles the library with `--max-allocs-per-node 50000`, but it must be turned on for your own code.  
-    (example: `lcc ... -Wf--max-allocs-per-mode 50000` or `sdcc ... --max-allocs-per-mode 50000`).
+    (example: `lcc ... -Wf--max-allocs-per-node50000` or `sdcc ... --max-allocs-per-node 50000`).
 
     - The other code/speed flags are `--opt-code-speed` or `--opt-code-size `.
 
