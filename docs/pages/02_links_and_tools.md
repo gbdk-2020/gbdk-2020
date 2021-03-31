@@ -13,7 +13,7 @@ This is a brief list of useful tools and information. It is not meant to be comp
 @anchor links_help_and_community
 # Getting Help
   - GBDK Discord community:  
-  https://github.com/Zal0/gbdk-2020/#discord-servers
+  https://github.com/gbdk-2020/gbdk-2020/#discord-servers
 
   - Game Boy discussion forum:  
   https://gbdev.gg8.se/forums/

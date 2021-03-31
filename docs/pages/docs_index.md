@@ -22,7 +22,7 @@ Welcome to GBDK-2020! The best thing to do is head over to the @ref docs_getting
 # About the Documentation
 This documentation is partially based on material written by the original GBDK authors in 1999 and updated for GBDK-2020. The API docs are automatically generated from the C header files using Doxygen.
 
-GBDK-2020 is an updated version of the original GBDK with a modernized SDCC toolchain and many API improvements and fixes. It can be found at: https://github.com/Zal0/gbdk-2020/.
+GBDK-2020 is an updated version of the original GBDK with a modernized SDCC toolchain and many API improvements and fixes. It can be found at: https://github.com/gbdk-2020/gbdk-2020/.
 
 The original GBDK sources, documentation and website are at: http://gbdk.sourceforge.net/
 

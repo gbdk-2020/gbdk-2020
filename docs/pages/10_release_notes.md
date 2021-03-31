@@ -1,7 +1,7 @@
 @page docs_releases GBDK Releases
 
 The GBDK 2020 releases can be found on Github:
-https://github.com/Zal0/gbdk-2020/releases
+https://github.com/gbdk-2020/gbdk-2020/releases
 
 
 # GBDK 2020 Release Notes
@@ -119,7 +119,7 @@ https://github.com/Zal0/gbdk-2020/releases
   - Fixed examples that were not compiling in the previous version and some improvements in a few of them. Removed all warnings caused by changing to the new SDCC
   - Fixed bug in lcc that was causing some files in the temp folder not being deleted
   - Removed as-gbz80 (the lib is now compiled with sdasgb thanks to this workaround)
-    https://github.com/Zal0/gbdk-2020/commit/d2caafa4a66eb08998a14b258cb66af041a0e5c8
+    https://github.com/gbdk-2020/gbdk-2020/commit/d2caafa4a66eb08998a14b258cb66af041a0e5c8
   - Profile support with bgb emulator
     - Basic support including <gb/bgb_emu.h> and using the macros BGB_PROFILE_BEGIN and BGB_PROFILE_END. More info in this post
       https://gbdev.gg8.se/forums/viewtopic.php?id=703
