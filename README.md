@@ -1,12 +1,12 @@
-## Current release for Windows: [WINDOWS Binaries](https://github.com/Zal0/gbdk-2020/releases/latest/download/gbdk-win.zip)
-## Current release for MacOS: [MacOS Binaries](https://github.com/Zal0/gbdk-2020/releases/latest/download/gbdk-macos.zip)
-## Current release for Linux: [Linux Binaries](https://github.com/Zal0/gbdk-2020/releases/latest/download/gbdk-linux64.tar.gz)
+## Current release for Windows: [WINDOWS Binaries](https://github.com/gbdk-2020/gbdk-2020/releases/latest/download/gbdk-win.zip)
+## Current release for MacOS: [MacOS Binaries](https://github.com/gbdk-2020/gbdk-2020/releases/latest/download/gbdk-macos.zip)
+## Current release for Linux: [Linux Binaries](https://github.com/gbdk-2020/gbdk-2020/releases/latest/download/gbdk-linux64.tar.gz)
 You don't need the sources, unless you wish to compile GBDK-2020 yourself. Download the current release binaries using the links above.
 
 # Docs
-Online documentation is avaliable [HERE](https://zal0.github.io/gbdk-2020/docs/api)
+Online documentation is avaliable [HERE](https://gbdk-2020.github.io/gbdk-2020/docs/api)
 
-A good place to start is the [Getting Started Section](https://zal0.github.io/gbdk-2020/docs/api/docs_getting_started.html)
+A good place to start is the [Getting Started Section](https://gbdk-2020.github.io/gbdk-2020/docs/api/docs_getting_started.html)
 
 
 # gbdk-2020
@@ -17,7 +17,7 @@ A good place to start is the [Getting Started Section](https://zal0.github.io/gb
 - the latest nightlies of **sdcc** (the compiler and toolchain) are used from [sourceforge](http://sdcc.sourceforge.net). At the moment of writing this the last stable version is 4.0 which has linker issues and won't work if you want to use banks. Please use one of the nightlies available [here](http://sdcc.sourceforge.net/snap.php) (we used 4.0.7 #12016)
 - The compiler driver **lcc** supports the latest sdcc toolchain.
 
-For full list of changes see the [ChangeLog](https://github.com/Zal0/gbdk-2020/blob/master/gbdk-support/ChangeLog) file
+For full list of changes see the [ChangeLog](https://github.com/gbdk-2020/gbdk-2020/blob/master/gbdk-support/ChangeLog) file
 
 # Origin
 
@@ -26,7 +26,7 @@ Over the years people have been complaining about all the issues caused by a ver
 The last version in the OLD repo is [2.96](https://sourceforge.net/projects/gbdk/files/gbdk/2.96/) although releases are available until 2.95-3. Version [2.96](https://sourceforge.net/projects/gbdk/files/gbdk/2.96/) is the starting point of this repo
 
 # Usage
-Most users will only need to download and unzip the latest [release](https://github.com/Zal0/gbdk-2020/releases)
+Most users will only need to download and unzip the latest [release](https://github.com/gbdk-2020/gbdk-2020/releases)
 
 Then go to the examples folder and build them (with make.bat on windows or running make). They are a good starting point.
 
@@ -44,7 +44,7 @@ For SDCC you can check its [website](http://sdcc.sourceforge.net/) and the [manu
 Unless you are interested on recompiling the sources for some reason (like fixing some bugs) **you don't need to build GBDK**
 
 - **Windows only**: Download and install [mingw](http://www.mingw.org/)
-- Clone, download this repo or just get the source form the [releases](https://github.com/Zal0/gbdk-2020/releases)
+- Clone, download this repo or just get the source form the [releases](https://github.com/gbdk-2020/gbdk-2020/releases)
 - Download and install [**sdcc nightlies from 4.0.7 #12016 onwards**](http://sdcc.sourceforge.net/snap.php) (SDCC is no longer part of GDDK so you need to download it (just the binaries) in the platform you need)
 - On Linux **don't use package managers** The latest release available won't work, you need to compile or download one of the nightlies
 - Create **SDCCDIR** environment variable, that points into the folder, where you installed sdcc

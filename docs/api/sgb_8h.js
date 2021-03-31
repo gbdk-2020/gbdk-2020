@@ -25,7 +25,7 @@ var sgb_8h =
     [ "SGB_ATTR_SET", "sgb_8h.html#abf8d94c42e97e1ce640340657df70640", null ],
     [ "SGB_MASK_EN", "sgb_8h.html#a20477d5772564b63de2d151e062dd5a7", null ],
     [ "SGB_OBJ_TRN", "sgb_8h.html#a3b76bf1e9ac81da97c533fa3ab12096c", null ],
-    [ "sgb_check", "sgb_8h.html#a641258cc509140ba529ac827f9cb0027", null ],
-    [ "sgb_transfer", "sgb_8h.html#a740398f9e4d2c4f3ba001388bc785938", null ],
-    [ "sgb_transfer_nowait", "sgb_8h.html#af090a5258d1ae3b3470b09b6866c11a0", null ]
+    [ "sgb_check", "sgb_8h.html#af8c1bb504e5e626e7dce578ee43c805b", null ],
+    [ "sgb_transfer", "sgb_8h.html#aefdcea25c8e4b979dd9ff6f9853a5dc5", null ],
+    [ "c", "sgb_8h.html#a0b3366755f3276b0243c1e0497471b7a", null ]
 ];
