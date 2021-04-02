@@ -342,7 +342,7 @@ static bool bank_check_mbc1_ok(uint32_t bank_num) {
 static void bank_check_area_size(area_item * p_area) {
     if (p_area->size > BANK_SIZE_ROM) {
         printf("BankPack: ERROR! Area %s, bank %d, size %d is too large for bank size %d (file %s)\n",
-                p_area->name, p_area->bank_num_in, p_area->size, BANK_SIZE_ROM, file_get_name_by_id(p_area->file_id));
+                p_area->name, p_area->bank_num_in, p_area->size, BANK_SIZE_ROM, file_get_name_in_by_id(p_area->file_id));
         exit(EXIT_FAILURE);
     }
 }
@@ -369,11 +369,11 @@ static void banks_assign_area(area_item * p_area) {
             (p_area->bank_num_in <= bank_limit_rom_max)) {
 
             if ((g_mbc_type == MBC_TYPE_MBC1) && (!bank_check_mbc1_ok(p_area->bank_num_in)))
-                printf("BankPack: Warning: Area in fixed bank assigned to MBC1 excluded bank: %d, file: %s\n", p_area->bank_num_in, file_get_name_by_id(p_area->file_id));
+                printf("BankPack: Warning: Area in fixed bank assigned to MBC1 excluded bank: %d, file: %s\n", p_area->bank_num_in, file_get_name_in_by_id(p_area->file_id));
 
             bank_add_area(&banks[p_area->bank_num_in], p_area->bank_num_in, p_area);
         } else
-            printf("BankPack: Warning: Area in fixed bank %d is outside specified range %d - %d, file: %s\n", p_area->bank_num_in, bank_limit_rom_min, bank_limit_rom_max, file_get_name_by_id(p_area->file_id));
+            printf("BankPack: Warning: Area in fixed bank %d is outside specified range %d - %d, file: %s\n", p_area->bank_num_in, bank_limit_rom_min, bank_limit_rom_max, file_get_name_in_by_id(p_area->file_id));
         return;
     }
     else if (p_area->bank_num_in == BANK_NUM_AUTO) {
@@ -484,12 +484,13 @@ int banks_show(void) {
             printf("Bank %d: size=%5d, free=%5d\n", c, banks[c].size, banks[c].free);
             for (a = 0; a < arealist.count; a++) {
                 if (areas[a].bank_num_out == c) {
-                    printf(" +- Area: name=%8s, size=%5d, bank_in=%3d, bank_out=%3d, file=%s\n",
+                    printf(" +- Area: name=%8s, size=%5d, bank_in=%3d, bank_out=%3d, file=%s -> %s\n",
                         areas[a].name,
                         areas[a].size,
                         areas[a].bank_num_in,
                         areas[a].bank_num_out,
-                        file_get_name_by_id(areas[a].file_id));
+                        file_get_name_in_by_id(areas[a].file_id),
+                        file_get_name_out_by_id(areas[a].file_id));
                 }
             }
         }
