@@ -34,6 +34,7 @@ struct list {		/* circular list nodes: */
 static void *alloc(int);
 List append(char *, List);
 extern char *basepath(char *);
+extern char *path_stripext(char *);
 static int callsys(char *[]);
 extern char *concat(const char *, const char *);
 static void compose(char *[], List, List, List);
@@ -56,6 +57,8 @@ extern int suffix(char *, char *[], int);
 extern char *tempname(char *);
 
 static void Fixllist();
+static void list_rewrite_exts(List, char *, char *);
+static void list_duplicate_to_new_exts(List, char *, char *);
 
 extern char *cpp[], *include[], *com[], *as[], *bankpack[], *ld[], *ihxcheck[], *mkbin[], inputs[], *suffixes[];
 extern int option(char *);
@@ -70,7 +73,7 @@ static int cflag;		/* -c specified */
 static int Kflag;		/* -K specified */
 static int autobankflag;	/* -K specified */
 static int verbose;		/* incremented for each -v */
-static List bankpacklist;	/* bankpack flags */
+static List bankpack_flags;	/* bankpack flags */
 static List ihxchecklist;	/* ihxcheck flags */
 static List mkbinlist;		/* loader files, flags */
 static List llist[2];		/* [1] = loader files, [0] = flags */
@@ -85,6 +88,8 @@ static char **av;		/* argument vector */
 char *tempdir = TEMPDIR;	/* directory for temporary files */
 char *progname;
 static List lccinputs;		/* list of input directories */
+char bankpack_newext[1024] = {'\0'};
+
 
 int main(int argc, char *argv[]) {
 	int i, j, nf;
@@ -202,9 +207,22 @@ int main(int argc, char *argv[]) {
 
 		// if auto bank assignment is enabled, modify obj files before linking
 		if (autobankflag) {
-			compose(bankpack, bankpacklist, llist[1], 0);
-			if (callsys(av))
+			compose(bankpack, bankpack_flags, llist[1], 0);
+
+			if (callsys(av)) {
 				errcnt++;
+			} else {
+				// If bankpack has -ext= flag set to write obj files
+				// out to a new extension then rewrite the
+				// linker list (llist[1]) and delete list (rmlist).
+				// The delete list likely only has temp obj files such
+				// as from a single-pass build: lcc -o out.gb in1.c in2.c
+				if (bankpack_newext[0]) {
+					char * obj_suffix = ".o";
+					list_rewrite_exts(llist[1], obj_suffix, bankpack_newext);
+					list_duplicate_to_new_exts(rmlist, obj_suffix, bankpack_newext);
+				}
+			}
 		}
 
 		// Call linker
@@ -344,6 +362,36 @@ char *basepath(char *name) {
 		s[t - b] = 0;
 	return s;
 }
+
+// path_stripext - return path with extension removed,
+//              e.g. /usr/drh/foo.c => /usr/drh/foo
+char *path_stripext(char *name) {
+	char * copy_str = strsave(name);
+	char * end_str = copy_str + strlen(copy_str);
+
+	// Work from end of string backward,
+	// truncate string at first "." char
+	while (end_str > copy_str) {
+		if (*end_str == '.') {
+			*end_str = '\0';
+			break;
+		}
+		end_str--;
+	}
+	return copy_str;
+}
+
+
+// Check if an extension matches the end of a filename
+int matches_ext(const char * filename, const char * ext)
+{
+	// Only test match if filename is larger than extension
+	// Then check the end of the filename for [ext] length of chars
+	if (strlen(filename) >= strlen(ext))
+		return strncmp(filename + strlen(filename) - strlen(ext), ext, strlen(ext)) == 0;
+	else return 0;
+}
+
 
 #ifndef WIN32
 #define _P_WAIT 0
@@ -776,12 +824,20 @@ static void opt(char *arg) {
 			case 'a': /* Assembler */
 				alist = append(&arg[3], alist);
 				return;
-            case 'i': /* ihxcheck arg list */
-                ihxchecklist = append(&arg[3], ihxchecklist);
-                return;
-            case 'b': /* bankpacklist arg list */
-                bankpacklist = append(&arg[3], bankpacklist);
-                return;
+			case 'i': /* ihxcheck arg list */
+				ihxchecklist = append(&arg[3], ihxchecklist);
+				return;
+			case 'b': /* auto bankpack_flags arg list */
+				bankpack_flags = append(&arg[3], bankpack_flags);
+				// -Wb-ext=[.some-extension]
+				// If bankpack is going to rewrite input object files to a new extension
+				// then save that extension for rewriting the linker list (llist[1])
+				if (strstr(&arg[3], "-ext=") != NULL) {
+					if (arg[8]) {
+						sprintf(bankpack_newext, "%s", &arg[8]);
+					}
+				}
+				return;
 			case 'l': /* Linker */
 				if(arg[4] == 'y' && (arg[5] == 't' || arg[5] == 'o' || arg[5] == 'a' || arg[5] == 'p') && (arg[6] != '\0' && arg[6] != ' '))
 					goto makebinoption; //automatically pass -yo -ya -yt -yp options to makebin (backwards compatibility)
@@ -807,7 +863,7 @@ static void opt(char *arg) {
 
 					// If MBC option is present for makebin (-Wl-yt <n> or -Wm-yt <n>) then make a copy for bankpack to use
 					if (arg[5] == 't')
-						bankpacklist = append(&arg[3], bankpacklist);
+						bankpack_flags = append(&arg[3], bankpack_flags);
 				} else {
 					sprintf(tmp, "%c%c", arg[3], arg[4]); //-s
 					if(arg[5])
@@ -1054,4 +1110,56 @@ char *tempname(char *suffix) {
 		name = replace(name, '/', '\\');
 	rmlist = append(name, rmlist);
 	return name;
+}
+
+
+// Replace extensions for filenames in a list
+static void list_rewrite_exts(List list_in, char * ext_match, char * ext_new)
+{
+	char * filepath_old;
+
+	// Iterate through list and replace file extensions
+	if (list_in) {
+		List list_t = list_in;
+		do {
+			if (list_t->str) {
+				// Check to see if filname has desired extension
+				if (matches_ext(list_t->str, ext_match)) {
+
+					// Save a copy to free after re-assignment
+					filepath_old = list_t->str;
+					// Create a new string with the replaced suffix (stringf() allocs)
+					list_t->str = stringf("%s%s", path_stripext(list_t->str), ext_new);
+					if (verbose > 0) fprintf(stderr,"lcc: rename link obj (from -autobank): %s -> %s\n", filepath_old, list_t->str);
+				}
+			}
+			// Move to next list item, exit if start of list is reached
+			list_t = list_t->link;
+		} while (list_t != list_in);
+	}
+}
+
+
+// Replace extensions for filenames in a list
+static void list_duplicate_to_new_exts(List list_in, char * ext_match, char * ext_new)
+{
+	// List may have entries appended, cache original start
+	List list_start = list_in;
+
+	// Iterate through list and replace file extensions
+	if (list_in) {
+		List list_t = list_in;
+		do {
+			if (list_t->str) {
+				// Check to see if filname has desired extension
+				if (matches_ext(list_t->str, ext_match)) {
+
+					list_in = append(stringf("%s%s", path_stripext(list_t->str), ext_new), list_in);
+					if (verbose > 0) fprintf(stderr,"lcc: add to rmlist (from -autobank): %s -> %s\n", list_t->str, stringf("%s%s", path_stripext(list_t->str), ext_new));
+				}
+			}
+			// Move to next list item, exit if start of list is reached
+			list_t = list_t->link;
+		} while (list_t != list_start);
+	}
 }
