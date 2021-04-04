@@ -1,30 +1,22 @@
-LCC	= ../../../bin/lcc -Wa-l -Wl-m
-BANKPACK  = ../../../bin/bankpack
+LCC	= lcc -Wa-l -Wl-m
 
-# uncomment for lcc verbose output
-# CFLAGS	= -v
+BINS = autobanks.gb
+CSOURCES = $(wildcard src/*.c)
+OBJS = $(addprefix obj/, $(notdir $(CSOURCES:.c=.o)))
 
-BINS	    = autobanks.gb
-CSOURCES   := $(wildcard *.c)
-ASMSOURCES := $(wildcard *.s)
-
-# Compiling will produce .o files
-OBJS       = $(CSOURCES:%.c=%.o) $(ASMSOURCES:%.c=%.o)
-
-all:	$(BINS)
+all: obj $(BINS)
 
 make.bat: Makefile
 	@echo "REM Automatically generated from Makefile" > make.bat
 	@make -sn | sed y/\\//\\\\/ | grep -v make >> make.bat
 
-%.o:	%.c
-	$(LCC) $(CFLAGS) -c -o $@ $<
+obj:
+	mkdir obj
 
-%.o:	%.s
-	$(LCC) $(CFLAGS) -c -o $@ $<
+obj/%.o: src/%.c
+	@echo $(LCC)
+	$(LCC) -c -o $@ $<
 
-%.s:	%.c
-	$(LCC) $(CFLAGS) -S -o $@ $<
 
 # Process: .c and .s files -> .o -> (bankpack) -> .rel -> (linker) ... -> .gb
 #
@@ -34,20 +26,11 @@ make.bat: Makefile
 # -Wl-yoA      : Have makebin automatically calculate required number of ROM banks (otherwise use -Wl-yo4 in this example)
 # -Wl-ya4      : Use 4 RAM banks
 # -Wl-yt19     : Use MBC5 cartridge type
-$(BINS):	$(OBJS)
-	$(LCC) $(CFLAGS) -autobank -Wb-ext=.rel -Wb-v -Wl-yt19 -Wl-yoA -Wl-ya4 -o $(BINS) $(OBJS)
-
-
-# It's also possible to do all the compiling, autobanking and linking in a single call to lcc
-# with none of the other makefile "targets" above. You can try this target out by using "make onepass".
-# Notice that the input files are the .c and .asm sources instead of the compiled object files.
-onepass:
-		$(LCC) $(CFLAGS) -autobank -Wb-ext=.rel -Wb-v -Wl-yt19 -Wl-yoA -Wl-ya4 -o $(BINS) $(CSOURCES) $(ASMSOURCES)
-
+$(BINS): $(OBJS)
+	$(LCC) -autobank -Wb-ext=.rel -Wb-v -Wl-yt19 -Wl-yoA -Wl-ya4 -o $(BINS) $(OBJS)
 
 clean:
-	rm -f *.o *.lst *.map *.gb *.ihx *.sym *.cdb *.adb *.asm *.rel
-
+	rm -f obj/* $(BINS) *.ihx *.map *.noi
 
 # For lcc linker option: -Wl-ytN where N is one of the numbers below
 #
