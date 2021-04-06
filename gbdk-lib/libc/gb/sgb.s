@@ -1,4 +1,4 @@
-	.include        "global.s"
+	.include	"global.s"
 
 	.PAL_01		= 0x00
 	.PAL_23		= 0x01
@@ -32,87 +32,68 @@
 	;;   Set A to 0xFF when running on SGB
 	;;   Clear A when running on DMG
 .sgb_check::
-_sgb_check::			; Banked
+_sgb_check::
 	PUSH	BC
-	LD	HL,#.MLT_REQ_2
+	LD	HL,#.MLT_REQ_4
 	CALL	.sgb_transfer
-	CALL	.sgb_wait4
-	LDH	A,(.P1)
-	AND	#0x03
-	CP	#0x03
-	JR	NZ,.sgb_mode
+	LD	C,#.P1
+	LD	A,#(.P14 | .P15)
+	LDH	(C),A
+	LDH	A,(C)
+	LDH	A,(C)
+	LD	E, #4
+	LDH	A,(C)		; read delayed
+3$:
+	LD	B, A
 
-	LD	A,#0x20		; Controller read (dummy)
-	LDH	(.P1),A
-	LDH	A,(.P1)
-	LDH	A,(.P1)
-	CPL
-	AND	#0x0F
-	SWAP	A
-	LD	B,A
-	LD	A,#0x30
-	LDH	(.P1),A
-	LD	A,#0x10
-	LDH	(.P1),A
-	LDH	A,(.P1)
-	LDH	A,(.P1)
-	LDH	A,(.P1)
-	LDH	A,(.P1)
-	LDH	A,(.P1)
-	LDH	A,(.P1)
-	LD	A,#0x30
-	LDH	(.P1),A
-	LDH	 A,(.P1)
-	AND	#0x03
-	CP	#0x03
-	JR	NZ,.sgb_mode
+	LD	A,#.P15
+	LDH	(C),A
+	LDH	A,(C)
+	LDH	A,(C)
 
-.dmg_mode:
-	XOR	A
-	LD	E,A
+	LD	A,#.P14
+	LDH	(C),A
+	LDH	A,(C)
+	LDH	A,(C)
+
+	LD	A,#(.P14 | .P15)
+	LDH	(C),A
+	LDH	A,(C)
+	LDH	A,(C)
+	LDH	A,(C)
+	LDH	A,(C)		; read delayed
+	CP	B
+	JR	NZ,1$
+	
+	DEC	E
+	JR	NZ,3$
+2$:
+	LD	E,#0
 	POP	BC
 	RET
-
-.sgb_mode:
+1$:
 	LD	HL,#.MLT_REQ_1
 	CALL	.sgb_transfer
-	CALL	.sgb_wait4
-	LD	E,#0xFF
+	LD	E,#1
 	POP	BC
 	RET
 
 _sgb_transfer::
-	PUSH    BC
-	LDA	HL,4(SP)
+	LDHL	SP,#2
 	LD	A,(HL+)
 	LD	H,(HL)
 	LD	L,A
-	CALL	.sgb_transfer
-	CALL	.sgb_wait4
-	POP	BC
-	RET
-
-_sgb_transfer_nowait::
-	PUSH    BC
-	LDA	HL,4(SP)
-	LD	A,(HL+)
-	LD	H,(HL)
-	LD	L,A
-	CALL	.sgb_transfer
-	POP	BC
-	RET
 	
 .sgb_transfer::
+	PUSH    BC
 	LD	A,(HL)		; Top of command data
 	AND	#0x03
-	RET	Z
-	LD	B,A		; Number of translated packet
-	LD	C,#0x00		; Lower part of #FF00
+	JR	Z,6$
 1$:
-	PUSH	BC
-	XOR	A		; Start to write
-	LDH	(C),A
-	LD	A,#0x30
+	PUSH	AF
+	LD	C,#.P1
+	LDH	(C),A		; Send reset
+	LD	A,#(.P14 | .P15)
 	LDH	(C),A
 	LD	B,#0x10		; Set counter to transfer 16 byte
 2$:	LD	E,#0x08		; Set counter to transfer 8 bit
@@ -120,45 +101,50 @@ _sgb_transfer_nowait::
 	LD	D,A
 
 3$:
-	BIT	0,D
-	LD	A,#0x10		; P14 = high, P15 = low  (output "1")
-	JR	NZ,4$
-	LD	A,#0x20		; P14 = low,  P15 = high (output "0")
+	SRL	D
+	LD	A,#.P14		; P14 = high, P15 = low  (output "1")
+	JR	C,4$
+	LD	A,#.P15		; P14 = low,  P15 = high (output "0")
 4$:
 	LDH	(C),A
-	LD	A,#0x30		; P14 = high, P15 = high
+	LDH	A,(C)		; delay
+	LDH	A,(C)
+	LD	A,#(.P14 | .P15); P14 = high, P15 = high
 	LDH	(C),A
-	RR	D		; Shift 1 bit to right
+	LDH	A,(C)		; delay
+	LDH	A,(C)
 	DEC	E
 	JR	NZ,3$
 
 	DEC	B
 	JR	NZ,2$
-	LD	A,#0x20		; 129th bit "0" output
+	
+	LD	A,#.P15		; 129th bit "0" output
 	LDH	(C),A
-	LD	A,#0x30
+	LDH	A,(C)		; delay
+	LDH	A,(C)
+	LD	A,#(.P14 | .P15)
 	LDH	(C),A
 
-	POP	BC
-	DEC	B
-	JR	NZ, 1$
-	RET
-
-.sgb_wait4::
 	LD	DE,#7000
-1$:
-	NOP			; 1 +
-	NOP			; 1 +
-	NOP			; 1 +
+5$:
+	LDH	A,(.P1)		; 3 +
 	DEC	DE		; 2 +
 	LD	A,D		; 1 +
 	OR	E		; 1 +
-	JR	NZ,1$		; 3 = 10 cycles
-	RET
+	JR	NZ,5$		; 3 = 10 cycles
 
+	POP	AF
+	DEC	A
+	JR	NZ, 1$
+6$:
+	POP	BC
+	RET
+	
+	
 .MLT_REQ_1::
-	.byte	.MLT_REQ*8|1,0x00
+	.byte	((.MLT_REQ << 3) | 1), 0x00
 .MLT_REQ_2::
-	.byte	.MLT_REQ*8|1,0x01
+	.byte	((.MLT_REQ << 3) | 1), 0x01
 .MLT_REQ_4::
-	.byte	.MLT_REQ*8|1,0x03
+	.byte	((.MLT_REQ << 3) | 1), 0x03

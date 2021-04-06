@@ -30,14 +30,14 @@ _waitpadup::
 	;;   0x10 - A	    0x01 - Right
 _joypad::
 .jpad::
-	LD	A,#0x20
+	LD	A,#.P15
 	LDH	(.P1),A		; Turn on P15
 
 	LDH	A,(.P1)		; Delay
 	LDH	A,(.P1)
 	AND	#0x0F
 	LD	E,A
-	LD	A,#0x10
+	LD	A,#.P14
 	LDH	(.P1),A		; Turn on P14
 	LDH	A,(.P1)		; Delay
 	LDH	A,(.P1)
@@ -50,7 +50,7 @@ _joypad::
 	OR	E
 	CPL
 	LD	E,A
-	LD	A,#0x30
+	LD	A,#(.P14 | .P15)
 	LDH	(.P1),A		; Turn off P14 and P15 (reset joypad)
 	LD	A,E
 	RET

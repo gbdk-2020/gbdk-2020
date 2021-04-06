@@ -484,7 +484,7 @@ UINT8 joypad_init(UINT8 npads, joypads_t * joypads);
 
     @see joypad_init(), joypads_t
 */
-void joypad_ex(joypads_t * joypads);
+void joypad_ex(joypads_t * joypads) __preserves_regs(b, c);
 
 
 
