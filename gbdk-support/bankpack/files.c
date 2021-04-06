@@ -59,12 +59,23 @@ void files_add(char * filename) {
 }
 
 
-char * file_get_name_by_id(uint32_t file_id) {
+char * file_get_name_in_by_id(uint32_t file_id) {
 
     file_item * files = (file_item *)filelist.p_array;
 
     if ((file_id >= 0) && (file_id < filelist.count))
         return files[file_id].name_in;
+    else
+        return NULL;
+}
+
+
+char * file_get_name_out_by_id(uint32_t file_id) {
+
+    file_item * files = (file_item *)filelist.p_array;
+
+    if ((file_id >= 0) && (file_id < filelist.count))
+        return files[file_id].name_out;
     else
         return NULL;
 }

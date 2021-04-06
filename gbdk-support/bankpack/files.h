@@ -19,7 +19,8 @@ void files_init(void);
 void files_cleanup(void);
 void files_add(char *);
 
-char * file_get_name_by_id(uint32_t);
+char * file_get_name_in_by_id(uint32_t);
+char * file_get_name_out_by_id(uint32_t);
 
 void files_set_out_ext(char *);
 void files_set_out_path(char *);
