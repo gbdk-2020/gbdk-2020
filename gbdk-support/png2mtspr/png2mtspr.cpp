@@ -76,6 +76,7 @@ vector< Tile > tiles;
 vector<	MetaSprite > sprites;
 PNGImage image;
 int tile_h;
+int props_default = 0x00;  // Default Sprite props has no attributes enabled
 
 Tile FlipH(const Tile& tile)
 {
@@ -111,7 +112,7 @@ bool FindTile(const Tile& t, unsigned char& idx, unsigned char& props)
 	if(it != tiles.end())
 	{
 		idx = (unsigned char)(it - tiles.begin());
-		props = 0;
+		props = props_default;
 		return true;
 	}
 	
@@ -120,7 +121,7 @@ bool FindTile(const Tile& t, unsigned char& idx, unsigned char& props)
 	if(it != tiles.end())
 	{
 		idx = (unsigned char)(it - tiles.begin());
-		props = 1 << 5;
+		props = props_default | (1 << 5);
 		return true;
 	}
 
@@ -129,7 +130,7 @@ bool FindTile(const Tile& t, unsigned char& idx, unsigned char& props)
 	if(it != tiles.end())
 	{
 		idx = (unsigned char)(it - tiles.begin());
-		props = (1 << 5) | (1 << 6);
+		props = props_default | (1 << 5) | (1 << 6);
 		return true;
 	}
 
@@ -138,7 +139,7 @@ bool FindTile(const Tile& t, unsigned char& idx, unsigned char& props)
 	if(it != tiles.end())
 	{
 		idx = (unsigned char)(it - tiles.begin());
-		props = 1 << 6;
+		props = props_default | (1 << 6);
 		return true;
 	}
 
@@ -165,7 +166,7 @@ void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y)
 				{
 					tiles.push_back(tile);
 					idx = (unsigned char)tiles.size() - 1;
-					props = 0;
+					props = props_default;
 				}
 
 				if(tile_h == 16)
@@ -190,6 +191,7 @@ int main(int argc, char *argv[])
 		printf("-c            ouput file (default: <png file>.c)\n");
 		printf("-sw <width>   metasprites width size (default: png width)\n");
 		printf("-sh <height>  metasprites height size (default: png height)\n");
+        printf("-sp <props>   set hex default for sprite OAM property bytes (default: 0x00)\n");
 		printf("-px <x coord> metasprites pivot x coordinate (default: metasprites width / 2)\n");
 		printf("-py <y coord> metasprites pivot y coordinate (default: metasprites height / 2)\n");
 		printf("-spr8x8       use SPRITES_8x8 (default: SPRITES_8x16)\n");
@@ -219,6 +221,10 @@ int main(int argc, char *argv[])
 		{
 			sprite_h = atoi(argv[++ i]);
 		}
+        else if(!strcmp(argv[i], "-sp"))
+        {
+            props_default = strtol(argv[++ i], NULL, 16);
+        }
 		if(!strcmp(argv[i], "-px"))
 		{
 			pivot_x = atoi(argv[++ i]);
