@@ -191,7 +191,7 @@ int main(int argc, char *argv[])
 		printf("-c            ouput file (default: <png file>.c)\n");
 		printf("-sw <width>   metasprites width size (default: png width)\n");
 		printf("-sh <height>  metasprites height size (default: png height)\n");
-        printf("-sp <props>   set hex default for sprite OAM property bytes (default: 0x00)\n");
+		printf("-sp <props>   change default for sprite OAM property bytes (in hex) (default: 0x00)\n");
 		printf("-px <x coord> metasprites pivot x coordinate (default: metasprites width / 2)\n");
 		printf("-py <y coord> metasprites pivot y coordinate (default: metasprites height / 2)\n");
 		printf("-spr8x8       use SPRITES_8x8 (default: SPRITES_8x16)\n");
@@ -222,9 +222,9 @@ int main(int argc, char *argv[])
 			sprite_h = atoi(argv[++ i]);
 		}
         else if(!strcmp(argv[i], "-sp"))
-        {
-            props_default = strtol(argv[++ i], NULL, 16);
-        }
+		{
+			props_default = strtol(argv[++ i], NULL, 16);
+		}
 		if(!strcmp(argv[i], "-px"))
 		{
 			pivot_x = atoi(argv[++ i]);

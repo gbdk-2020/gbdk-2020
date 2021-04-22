@@ -535,6 +535,7 @@ usage: png2mtspr <file>.png [options]
 -c            ouput file (default: <png file>.c)
 -sw <width>   metasprites width size (default: png width)
 -sh <height>  metasprites height size (default: png height)
+-sp <props>   change default for sprite OAM property bytes (in hex) (default: 0x00)
 -px <x coord> metasprites pivot x coordinate (default: metasprites width / 2)
 -py <y coord> metasprites pivot y coordinate (default: metasprites height / 2)
 -spr8x8       use SPRITES_8x8 (default: SPRITES_8x16)
