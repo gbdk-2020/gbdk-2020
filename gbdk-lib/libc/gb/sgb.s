@@ -34,7 +34,16 @@
 .sgb_check::
 _sgb_check::
 	PUSH	BC
-	LD	HL,#.MLT_REQ_4
+	ADD	SP, #-0x10
+	LDHL    SP, #0
+	LD	C, #0x10
+	XOR	A
+	RST	0x28
+	LDHL    SP,#0
+	LD	A,#((.MLT_REQ << 3) | 1)
+	LD	(HL+),A
+	LD	A,#0x03
+	LD	(HL-),A
 	CALL	.sgb_transfer
 	LD	C,#.P1
 	LD	A,#(.P14 | .P15)
@@ -69,12 +78,15 @@ _sgb_check::
 	JR	NZ,3$
 2$:
 	LD	E,#0
-	POP	BC
-	RET
+	JR	4$
 1$:
-	LD	HL,#.MLT_REQ_1
+	LDHL    SP,#1
+	LD	A,#0x00
+	LD	(HL-),A
 	CALL	.sgb_transfer
 	LD	E,#1
+4$:
+	ADD	SP,#0x10
 	POP	BC
 	RET
 
@@ -140,11 +152,3 @@ _sgb_transfer::
 6$:
 	POP	BC
 	RET
-	
-	
-.MLT_REQ_1::
-	.byte	((.MLT_REQ << 3) | 1), 0x00
-.MLT_REQ_2::
-	.byte	((.MLT_REQ << 3) | 1), 0x01
-.MLT_REQ_4::
-	.byte	((.MLT_REQ << 3) | 1), 0x03
