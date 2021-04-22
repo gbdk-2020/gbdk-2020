@@ -136,11 +136,21 @@ Variables</h2></td></tr>
 <tr class="separator:a14cb8235744c5f23da62bb2ae745d618"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Metasprite support</p>
+<div class="textblock"><h1><a class="anchor" id="autotoc_md1"></a>
+Metasprite support</h1>
 <p>A metasprite is a larger sprite made up from a collection of smaller individual hardware sprites. Different frames of the same metasprites can share tile data.</p>
 <p>The api supports metasprites in both <a class="el" href="gb_8h.html#aa87bec0d134136fdb727f52cb773b792">SPRITES_8x8</a> and <a class="el" href="gb_8h.html#af91d252f07f4764996154820f970c101">SPRITES_8x16</a> mode. If 8x16 mode is used then the height of the metasprite must be a multiple of 16.</p>
 <p>The origin (pivot) for the metasprite is not required to be in the upper left-hand corner as with regular hardware sprites.</p>
-<p>Use the <a class="el" href="docs_toolchain.html#utility_png2mtspr">utility_png2mtspr</a> tool to convert single or multiple frames of graphics into metasprite structured data for use with the ...metasprite...() functions. </p>
+<p>Use the <a class="el" href="docs_toolchain.html#utility_png2mtspr">utility_png2mtspr</a> tool to convert single or multiple frames of graphics into metasprite structured data for use with the ...metasprite...() functions.</p>
+<p><a class="anchor" id="metasprite_and_sprite_properties"></a></p>
+<h1><a class="anchor" id="autotoc_md2"></a>
+Metasprites and sprite properties (including cgb palette)</h1>
+<p>When the move_metasprite_*() functions are called they update all properties for the affected sprites in the Shadow OAM. This means any existing property flags set for a sprite (CGB palette, BG/WIN priority, Tile VRAM Bank) will get overwritten.</p>
+<p>How to use sprite property flags with metasprites:</p><ul>
+<li>Metsaprite structures can be copied into RAM so their property flags can be modified at runtime.</li>
+<li>The metasprite structures can have the property flags modified before compilation (such as with <code>-sp &lt;props&gt;</code> in the <a class="el" href="docs_toolchain.html#utility_png2mtspr">png2mtspr</a> tool).</li>
+<li>Update properties for the affected sprites after calling a move_metasprite_*() function. </li>
+</ul>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a9f9f390a57460914e27c7604b7d8379a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9f9f390a57460914e27c7604b7d8379a">&#9670;&nbsp;</a></span>metasprite_end</h2>
@@ -250,6 +260,7 @@ Variables</h2></td></tr>
 <li>__current_metasprite = metasprite; </li>
 <li>__current_base_tile = base_tile;</li>
 </ul>
+<p>Note: Overwrites OAM sprite properties (such as CGB Palette), see <a class="el" href="metasprites_8h.html#metasprite_and_sprite_properties">Metasprites and sprite properties</a>.</p>
 <dl class="section return"><dt>Returns</dt><dd>Number of hardware sprites used to draw this metasprite </dd></dl>
 
 </div>
@@ -322,6 +333,7 @@ Variables</h2></td></tr>
 <li>__current_metasprite = metasprite; </li>
 <li>__current_base_tile = base_tile;</li>
 </ul>
+<p>Note: Overwrites OAM sprite properties (such as CGB palette), see <a class="el" href="metasprites_8h.html#metasprite_and_sprite_properties">Metasprites and sprite properties</a>.</p>
 <dl class="section return"><dt>Returns</dt><dd>Number of hardware sprites used to draw this metasprite</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="metasprites_8h.html#ab994d938fa79cd7265b51953f5485b14">move_metasprite()</a> </dd></dl>
 
@@ -395,6 +407,7 @@ Variables</h2></td></tr>
 <li>__current_metasprite = metasprite; </li>
 <li>__current_base_tile = base_tile;</li>
 </ul>
+<p>Note: Overwrites OAM sprite properties (such as CGB palette), see <a class="el" href="metasprites_8h.html#metasprite_and_sprite_properties">Metasprites and sprite properties</a>.</p>
 <dl class="section return"><dt>Returns</dt><dd>Number of hardware sprites used to draw this metasprite</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="metasprites_8h.html#ab994d938fa79cd7265b51953f5485b14">move_metasprite()</a> </dd></dl>
 
@@ -468,6 +481,7 @@ Variables</h2></td></tr>
 <li>__current_metasprite = metasprite; </li>
 <li>__current_base_tile = base_tile;</li>
 </ul>
+<p>Note: Overwrites OAM sprite properties (such as CGB palette), see <a class="el" href="metasprites_8h.html#metasprite_and_sprite_properties">Metasprites and sprite properties</a>.</p>
 <dl class="section return"><dt>Returns</dt><dd>Number of hardware sprites used to draw this metasprite</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="metasprites_8h.html#ab994d938fa79cd7265b51953f5485b14">move_metasprite()</a> </dd></dl>
 
