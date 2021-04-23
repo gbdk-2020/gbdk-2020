@@ -860,8 +860,8 @@ static void opt(char *arg) {
 					sprintf(tmp, "%c%c%c", arg[3], arg[4], arg[5]); //-yo -ya -yt -yl -yk -yn -yp
 					if (!(arg[5] == 'c' || arg[5] == 'C' || arg[5] == 's'  || arg[5] == 'S' || arg[5] == 'j' || arg[5] == 'p')) // Don't add second arg for -yc -yC -ys -yS -yj
 						sprintf(tmp2, "%s", &arg[6]);
-
-					// This flag does erroneously not use space
+					// -yp of SDCC 4.1.0's makebin erroneously does not use a space between flag and it's value
+					// So append trailing values to first arg that would otherwise go in the second arg
 					if (arg[5] == 'p')
 						sprintf(tmp, "%s", &arg[3]);
 
