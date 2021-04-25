@@ -50,6 +50,13 @@ static struct {
 		{ "com",		"%sdccdir%sdcc" },
 		{ "comflag",    "-c"},
 		{ "comdefault",	"-mgbz80 --no-std-crt0 --fsigned-char --use-stdout" },
+		/* asdsgb assembler defaults:
+			-p: disable pagination
+			-o: create object file
+			-g: make undef symbols global
+			-n: defer symbol resolving to link time (autobanking relies on this) [requires sdcc 12238+]
+		*/
+		{ "asdefault",  "-pogn" },
 		{ "as",		"%sdccdir%sdasgb" },
 		{ "bankpack", "%bindir%bankpack" },
 		{ "ld",		"%sdccdir%sdldgb" },
@@ -100,8 +107,8 @@ static CLASS classes[] = {
 			"gb",
 			"%cpp% %cppdefault% -DGB=1 -DGAMEBOY=1 -DINT_16_BITS $1 $2 $3",
 			"%includedefault%",
-			"%com% %comdefault% -Wa-pog -DGB=1 -DGAMEBOY=1 -DINT_16_BITS $1 %comflag% $2 -o $3",
-			"%as% -pog $1 $3 $2",
+			"%com% %comdefault% -Wa%asdefault% -DGB=1 -DGAMEBOY=1 -DINT_16_BITS $1 %comflag% $2 -o $3",
+			"%as% %asdefault% $1 $3 $2",
 			"%bankpack% $1 $2",
 			"%ld% -n -i $1 -k %libdir%%port%/ -l %port%.lib "
 				"-k %libdir%%plat%/ -l %plat%.lib $3 %libdir%%plat%/crt0.o $2",
@@ -114,7 +121,7 @@ static CLASS classes[] = {
 			"%cpp% %cppdefault% $1 $2 $3",
 			"%includedefault%",
 			"%com% %comdefault% $1 $2 $3",
-			"%as% -pog $1 $3 $2",
+			"%as% %asdefault% $1 $3 $2",
 			"%bankpack% $1 $2",
 			"%ld% -n -- -i $1 -b_CODE=0x8100 -k%libdir%%port%/ -l%port%.lib "
 				"-k%libdir%%plat%/ -l%plat%.lib $3 %libdir%%plat%/crt0.o $2",
@@ -127,7 +134,7 @@ static CLASS classes[] = {
 			"%cpp% %cppdefault% $1 $2 $3",
 			"-I%includedir%/gbdk-lib",
 			"%com% %comdefault% $1 $2 $3",
-			"%as% -pog $1 $3 $2",
+			"%as% %asdefault% $1 $3 $2",
 			"%bankpack% $1 $2",
 			"%ld% -n -- -i $1 -b_DATA=0x8000 -b_CODE=0x200 -k%libdir%%port%/ -l%port%.lib "
 				"-k%libdir%%plat%/ -l%plat%.lib $3 %libdir%%plat%/crt0.o $2",
