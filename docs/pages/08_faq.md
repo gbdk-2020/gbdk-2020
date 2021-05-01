@@ -54,3 +54,7 @@
 - How can CGB palettes and other sprite properties be used with metasprites?
   - See @ref metasprite_and_sprite_properties "Metasprites and sprite properties"
     <!-- -->    
+
+- Weird things are happening to my sprite colors when I use png2mtspr and metasprites. What's going on and how does it work?
+  - See @ref utility_png2mtspr for details of how the conversion process works.
+    <!-- -->    
