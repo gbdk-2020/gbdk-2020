@@ -207,6 +207,40 @@ Compresses (and decompresses) binary file data with the gbcompress algorithm (al
 ## PNG to Metasprite
 Tool for converting PNGs into GBDK format MetaSprites
 
-For detailed settings see @ref png2mtspr-settings
+Convert single or multiple frames of graphics into metasprite structured data for use with the ...metasprite...() functions.
 
-@todo Document png2mtspr
+For detailed settings see @ref png2mtspr-settings  
+For working with sprite properties (including cgb palettes), see @ref metasprite_and_sprite_properties  
+For API support see @ref move_metasprite() and related functions in @ref metasprites.h  
+
+### Working with png2mtspr
+  - The origin (pivot) for the metasprite is not required to be in the upper left-hand corner as with regular hardware sprites.
+
+  - The conversion process supports using both SPRITES_8x8 and SPRITES_8x16 mode. If 8x16 mode is used then the height of the metasprite must be a multiple of 16.
+
+  - It will attempt to deduplicate/re-use as many tiles as possible (including ones flipping on the X and Y axis) when building the tile set to be used by the convterted metasprite. This does mean that minor changes to the input graphics may change the numer and order of tiles in the resulting tile set.
+
+  - While the tool supports both indexed and full color images as inputs, it only exports as a fixed 3 color + transparent palette per metasprite.
+    - The input images are first converted to 32 bit RGBA color, then to greyscale (using `255 - ((R * 0.3f) + (G * 0.59f) + (B * 0.11f))`) and then to grouped into the 3 colors based on their brightness.
+    - The brightness mapping is approximately as follows:
+
+              Alpha 100% transparent pixels : Transparent
+              ~78% - ~100% : Lightest/White
+              ~26% - ~77%  : Medium
+                0% - ~25%  : Darkest/Black
+
+    - A fixed palette is used for export, the order of colors will get re-arranged to map onto this fixed palette. It is arranged/assumed as follows (An example would be `OBP0_REG = 0xE4` or `=0xE0`).
+
+              OBP Index 0: Transparent
+              OBP Index 1: Lightest/White
+              OBP Index 2: Medium
+              OBP Index 3: Darkest/Black
+
+    - If you want to assign different colors then you can either change the settings in @ref OBP0_REG / @ref OBP1_REG in your _source code_ or change the colors of your _input image_ to produce different output, but the output of the png2mtspr tool itself cannot be altered (for now).
+
+  For best graphics conversion results:
+    - Input images should only have 3 colors + transparent and which are spaced along the brightness spectrum based on the mapping described above.
+    - For optimal deduplication, try to align the graphics so that tiles used multiple times align on the same 8 pixel boundaries.
+
+  @todo Support indexed color (non-remapped) for source images to bypass the brightness binning and palette mapping.
+
