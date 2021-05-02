@@ -44,7 +44,22 @@ void set_camera() {
     old_camera_x = camera_x, old_camera_y = camera_y;
 }
 
+void interruptLCD() {
+    HIDE_WIN;
+}
+
 void main(){
+    // https://gbdev.gg8.se/forums/viewtopic.php?id=345
+    disable_interrupts();
+    CRITICAL {
+        // OBP0_REG = 0x1B;
+        LYC_REG = 0x08;
+        STAT_REG = 0x40;
+        add_LCD(interruptLCD);
+    }
+    enable_interrupts();
+    set_interrupts(VBL_IFLAG | LCD_IFLAG);
+    
     DISPLAY_OFF;
     SHOW_BKG;
     set_bkg_data(0, 241u, bigmap_tiles);
@@ -61,6 +76,7 @@ void main(){
 
     SCX_REG = camera_x; SCY_REG = camera_y; 
     while (TRUE) {
+        /* Omitted to minimize repro
         joy = joypad();
         // up or down
         if (joy & J_UP) {
@@ -73,7 +89,7 @@ void main(){
                 camera_y++;
                 redraw = TRUE;
             }
-        } 
+        }
         // left or right
         if (joy & J_LEFT) {
             if (camera_x) {
@@ -85,11 +101,15 @@ void main(){
                 camera_x++;
                 redraw = TRUE;
             }
-        } 
+        }
         if (redraw) {
             wait_vbl_done();
             set_camera();
             redraw = FALSE;
         } else wait_vbl_done();
+        */
+
+        wait_vbl_done();
+        SHOW_WIN;
     }
 }
