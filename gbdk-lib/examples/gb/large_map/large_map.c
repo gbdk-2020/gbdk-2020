@@ -44,6 +44,10 @@ void set_camera() {
     old_camera_x = camera_x, old_camera_y = camera_y;
 }
 
+void interruptVBL() {
+    SHOW_WIN;
+}
+
 void interruptLCD() {
     HIDE_WIN;
 }
@@ -56,6 +60,7 @@ void main(){
         LYC_REG = 0x08;
         STAT_REG = 0x40;
         add_LCD(interruptLCD);
+        add_VBL(interruptVBL);
     }
     enable_interrupts();
     set_interrupts(VBL_IFLAG | LCD_IFLAG);
@@ -110,6 +115,5 @@ void main(){
         */
 
         wait_vbl_done();
-        SHOW_WIN;
     }
 }
