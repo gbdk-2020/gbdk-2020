@@ -13,6 +13,7 @@ VER = 3.00
 
 # Prefix to add to the standard tools.  Usefull for a standard gcc
 # cross-compile.
+# TOOLSPREFIX = i686-w64-mingw32-
 TOOLSPREFIX =
 
 TARGETCC = $(TOOLSPREFIX)gcc
