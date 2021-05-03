@@ -1,7 +1,10 @@
 # *****************************************************
 # Variables to control Makefile operation
- 
-CXX = g++
+
+# Might want when doing linux -> win cross build
+# LFLAGS = -s -static
+
+CXX = $(TOOLSPREFIX)g++
 CXXFLAGS = -Os -Wall -g
 LFLAGS = -g
 
