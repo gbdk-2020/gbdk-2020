@@ -1339,8 +1339,8 @@ void set_tiles(UINT8 x,
     @param y         Y Start position in Background Map tile coordinates. Range 0 - 31
     @param w         Width of area to copy in tiles. Range 0 - 31
     @param h         Height of area to copy in tiles. Range 0 - 31
-    @param tiles     Pointer to destination buffer for Tile Map data
     @param vram_addr Pointer to source VRAM Address
+    @param tiles     Pointer to destination buffer for Tile Map data
 
     Entries are copied into __tiles__ from the Background Tile Map starting at
     __x__, __y__ reading across for __w__ tiles and down for __h__ tiles.
@@ -1355,8 +1355,8 @@ void get_tiles(UINT8 x,
           UINT8 y,
           UINT8 w,
           UINT8 h,
-          unsigned char *tiles,
-          unsigned char *vram_addr) NONBANKED __preserves_regs(b, c);
+		  unsigned char *vram_addr,
+          unsigned char *tiles) NONBANKED __preserves_regs(b, c);
 
 
 
