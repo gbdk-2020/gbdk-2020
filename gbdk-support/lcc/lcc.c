@@ -858,8 +858,12 @@ static void opt(char *arg) {
 				tmp2[0] = '\0'; // Zero out second arg by default
 				if(arg[4] == 'y') {
 					sprintf(tmp, "%c%c%c", arg[3], arg[4], arg[5]); //-yo -ya -yt -yl -yk -yn -yp
-					if (!(arg[5] == 'c' || arg[5] == 'C' || arg[5] == 's'  || arg[5] == 'S' || arg[5] == 'j')) // Don't add second arg for -yc -yC -ys -yS -yj
+					if (!(arg[5] == 'c' || arg[5] == 'C' || arg[5] == 's'  || arg[5] == 'S' || arg[5] == 'j' || arg[5] == 'p')) // Don't add second arg for -yc -yC -ys -yS -yj
 						sprintf(tmp2, "%s", &arg[6]);
+					// -yp of SDCC 4.1.0's makebin erroneously does not use a space between flag and it's value
+					// So append trailing values to first arg that would otherwise go in the second arg
+					if (arg[5] == 'p')
+						sprintf(tmp, "%s", &arg[3]);
 
 					// If MBC option is present for makebin (-Wl-yt <n> or -Wm-yt <n>) then make a copy for bankpack to use
 					if (arg[5] == 't')
