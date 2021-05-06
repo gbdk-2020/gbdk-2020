@@ -124,7 +124,7 @@ gb_decompress_vram::
         add     hl,bc
 12$:
         ld      c,a
-        call    10$
+        call    repeat_string
 
         pop     hl
         inc     hl
@@ -135,15 +135,16 @@ gb_decompress_vram::
         inc     a
         ld      c,a
         
-        call    10$
+        call    copy_string
         
         jp      1$      ; next command
 9$:
         pop     de
         pop     bc
         ret
-
-10$:
+        
+repeat_string:
+1$:
         WAIT_STAT
         ld      a,(hl+)
         ld      (de),a
@@ -151,5 +152,16 @@ gb_decompress_vram::
         inc     de
         WRAP_VRAM d
         dec     c
-        jr      nz,10$
+        jr      nz, 1$
+        ret
+
+copy_string:
+1$:
+        WAIT_STAT
+        ld      a,(hl+)
+        ld      (de),a
+        inc     de
+        WRAP_VRAM d
+        dec     c
+        jr      nz, 1$
         ret
