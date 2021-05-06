@@ -29,7 +29,7 @@ static void display_help(void) {
        "\n"
        "Options\n"
        "-h           : Show this help\n"
-       "-yt<hexbyte> : Set MBC type per ROM byte 149 in Hex (see pandocs)\n"
+       "-yt<mbctype> : Set MBC type per ROM byte 149 in Decimal or Hex (0xNN) (see pandocs)\n"
        "-mbc=N       : Similar to -yt, but sets MBC type directly to N instead\n"
        "               of by intepreting ROM byte 149\n"
        "               mbc1 will exclude banks {0x20,0x40,0x60} max=127, \n"
@@ -90,7 +90,7 @@ static int handle_args(int argc, char * argv[]) {
             } else if (strstr(argv[i], "-mbc=")) {
                 banks_set_mbc(atoi(argv[i] + 5));
             } else if (strstr(argv[i], "-yt")) {
-                banks_set_mbc_by_rom_byte_149(strtol(argv[i] + 3, NULL, 16));
+                banks_set_mbc_by_rom_byte_149(strtol(argv[i] + 3, NULL, 0));
             } else if (strstr(argv[i], "-v")) {
                 option_set_verbose(true);
             } else if (strstr(argv[i], "-sym=")) {

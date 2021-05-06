@@ -413,7 +413,7 @@ Use: Read .o files and auto-assign areas with bank=255.
 
 Options
 -h           : Show this help
--yt<hexbyte> : Set MBC type per ROM byte 149 in Hex (see pandocs)
+-yt<mbctype> : Set MBC type per ROM byte 149 in Decimal or Hex (0xNN) (see pandocs)
 -mbc=N       : Similar to -yt, but sets MBC type directly to N instead
                of by intepreting ROM byte 149
                mbc1 will exclude banks {0x20,0x40,0x60} max=127, 
