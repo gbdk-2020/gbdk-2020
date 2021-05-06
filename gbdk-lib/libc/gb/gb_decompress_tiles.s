@@ -97,10 +97,12 @@ gb_decompress_vram::
         jr      nz,4$
         inc     hl      
         jr      1$      ; next command
+
 5$:
         bit     6,a
         jr      nz,7$
-        ; string repeat
+
+6$:                     ; string repeat
         and     a,#63
         inc     a
         push    hl
@@ -124,27 +126,8 @@ gb_decompress_vram::
         add     hl,bc
 12$:
         ld      c,a
-        call    repeat_string
 
-        pop     hl
-        inc     hl
-        inc     hl
-        jr      1$      ; next command
-7$:                     ; string copy
-        and     #63
-        inc     a
-        ld      c,a
-        
-        call    copy_string
-        
-        jp      1$      ; next command
-9$:
-        pop     de
-        pop     bc
-        ret
-        
-repeat_string:
-1$:
+14$:
         WAIT_STAT
         ld      a,(hl+)
         ld      (de),a
@@ -152,16 +135,28 @@ repeat_string:
         inc     de
         WRAP_VRAM d
         dec     c
-        jr      nz, 1$
-        ret
+        jr      nz, 14$
 
-copy_string:
-1$:
+        pop     hl
+        inc     hl
+        inc     hl
+        jp      1$      ; next command
+
+7$:                     ; string copy
+        and     #63
+        inc     a
+        ld      c,a
+15$:
         WAIT_STAT
         ld      a,(hl+)
         ld      (de),a
         inc     de
         WRAP_VRAM d
         dec     c
-        jr      nz, 1$
+        jr      nz, 15$
+
+        jp      1$      ; next command
+9$:
+        pop     de
+        pop     bc
         ret
