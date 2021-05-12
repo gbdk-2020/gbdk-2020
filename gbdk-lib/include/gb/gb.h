@@ -1332,6 +1332,17 @@ void set_tiles(UINT8 x,
           unsigned char *vram_addr,
           const unsigned char *tiles) NONBANKED __preserves_regs(b, c);
 
+/** Sets VRAM Tile Pattern data starting from given base address
+
+    @param first_tile  Index of the first tile to write
+    @param nb_tiles    Number of tiles to write
+    @param data        Pointer to (2 bpp) source Tile Pattern data.
+	@param base        MSB of the destination address in VRAM (usually 0x80 or 0x90 which gives 0x8000 or 0x9000)
+*/
+void set_tile_data(UINT8 first_tile,
+          UINT8 nb_tiles,
+          const unsigned char *data,
+		  UINT8 base) NONBANKED __preserves_regs(b, c);
 
 /** Copies a rectangular region of Tile Map entries from a given VRAM Address into a buffer.
 
