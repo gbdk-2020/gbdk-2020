@@ -19,7 +19,7 @@ var searchData=
   ['get_5fsprite_5fdata_171',['get_sprite_data',['../gb_8h.html#a5ce794b7f0c3361c79c887b500fcaf19',1,'gb.h']]],
   ['get_5fsprite_5fprop_172',['get_sprite_prop',['../gb_8h.html#a4b4feb80407d4f1e80579ed932821035',1,'gb.h']]],
   ['get_5fsprite_5ftile_173',['get_sprite_tile',['../gb_8h.html#a54ffb7990fd37939bbe1a8b1e663e439',1,'gb.h']]],
-  ['get_5ftiles_174',['get_tiles',['../gb_8h.html#a4c3d68eb3ff5ec0995541e691a6e8259',1,'gb.h']]],
+  ['get_5ftiles_174',['get_tiles',['../gb_8h.html#a9fb6ed396416150a46d47ed12fc8b251',1,'gb.h']]],
   ['get_5fvram_5fbyte_175',['get_vram_byte',['../gb_8h.html#a35b5f3f6ba20daff6af91876d2ccc2b0',1,'gb.h']]],
   ['get_5fwin_5fdata_176',['get_win_data',['../gb_8h.html#ae2a527ffae5cad8083726470c3f30475',1,'gb.h']]],
   ['get_5fwin_5ftile_5fxy_177',['get_win_tile_xy',['../gb_8h.html#a5b64bd185bbab708e6b6bd6ed1b9bfc2',1,'gb.h']]],
