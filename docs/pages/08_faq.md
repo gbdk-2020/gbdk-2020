@@ -37,6 +37,10 @@
   - You can use the @ref lcc_debug "lcc debug flag"
     <!-- -->  
 
+- Is it possible to generate a debug symbol file (`.sym`) compatible with the @ref bgb emulator?
+  - Yes, turn on `.noi` output (LCC argument: `-Wl-j` or `-debug` and then use `-Wm-yS` with LCC (or `-yS` with makebin directly).
+    <!-- -->  
+
 - Why are 8 bit numbers not printing correctly with printf()?
   - To correctly pass chars/uint8s for printing, they must be explicitly re-cast as such when calling the function. See docs_chars_varargs for more details. 
     <!-- -->  

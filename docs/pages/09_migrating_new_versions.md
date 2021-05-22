@@ -41,7 +41,7 @@ This section contains information that may be useful to know or important when u
 
 ## Porting to GBDK 2020 3.0.1
  - LCC was upgraded to use SDCC v4.0. Makefile changes may be required
-   - The symbol format changed. To get usable symbols turn on `.noi` output (LCC argument: `-Wl-j`)can be enabled and  you can use @ref noi2sym
+   - The symbol format changed. To get bgb compatible symbols turn on `.noi` output (LCC argument: `-Wl-j` or `-debug`) and use `-Wm-yS`
    - ?? Suggested: With LCC argument: `-Wa-l` (sdasgb:`-a   All user symbols made global`)
    - In SDCC 3.6.0, the default for char changed from signed to unsigned.
      - If you want the old behavior use `--fsigned-char`.

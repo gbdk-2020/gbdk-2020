@@ -1,7 +1,7 @@
 @page docs_links_and_tools Links and Third-Party Tools
 
 
-This is a brief list of useful tools and information. It is not meant to be complete or exhaustive, for a larger list see @ref awesome_gb
+This is a brief list of useful tools and information. It is not meant to be complete or exhaustive, for a larger list see the @ref awesome_gb "Awesome Game Boy Development" list.
 
 @anchor links_sdcc_docs
 # SDCC Compiler Suite User Manual
@@ -27,7 +27,7 @@ This is a brief list of useful tools and information. It is not meant to be comp
     https://gbdev.io/pandocs/
 
   - @anchor awesome_gb
-    __Awesome Game Boy List__  
+    __Awesome Game Boy Development list__  
     A list of Game Boy/Color development resources, tools, docs, related projects and homebrew.  
     https://gbdev.io/list.html
 
@@ -52,19 +52,17 @@ This is a brief list of useful tools and information. It is not meant to be comp
 # Graphics Tools
   - @anchor gbtd_gbmb
     @anchor gbmb
-    @anchor gbtd
+    @anchor gbtd     
+    @anchor toxa_gbtd_gbmb
     __Game Boy Tile Designer and Map Builder (GBTD / GBMB)__  
     Sprite / Tile editor and Map Builder that can export to C that works with GBDK.  
+    This is an updated version with const export fixed and other improvments.  
+    https://github.com/gbdk-2020/GBTD_GBMB
  
-    - @anchor toxa_gbtd_gbmb
-    __Use this updated version:__ (has const export fixed and other improvments):  
-    https://github.com/untoxa/GBTD_GBMB  
- 
-    - This older version is __not recommended__:  
-    http://www.devrs.com/gb/hmgd/intro.html (old, original tools)  
- 
-    - A GIMP plugin for import/export:  
-    https://github.com/bbbbbr/gimp-tilemap-gb (GIMP plugin to read/write GBR/GBM files)
+      - A GIMP plugin to read/write GBR/GBM files and do map conversion:  
+        https://github.com/bbbbbr/gimp-tilemap-gb
+      - Command line version of the above tool that doesn't require GIMP (png2gbtiles):  
+        https://github.com/bbbbbr/gimp-tilemap-gb/tree/master/console
 
   - @anchor Tilemap_Studio
     __Tilemap Studio__  
@@ -114,11 +112,6 @@ This is a brief list of useful tools and information. It is not meant to be comp
     __romusage__  
     Calculate used and free space in banks (ROM/RAM) and warn about errors such as bank overflows.  
     https://github.com/bbbbbr/romusage
-
-  - @anchor noi2sym
-    __noi2sym.py__  
-    Convert .noi files into a symbol format compatible with BGB. Allows BGB to recognize variables and functions based on address.  
-    https://github.com/untoxa/hUGEBuild/blob/master/tools/noi2sym.py
 
   - @anchor src2sym
     __src2sym.pl__  
