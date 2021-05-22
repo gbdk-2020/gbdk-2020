@@ -26,7 +26,7 @@ This section contains information that may be useful to know or important when u
  - The old linker `link-gbz80` has been REMOVED, the linker @ref sdldgb from SDCC is used.
    - Due to the linker change, there are no longer warnings about multiple writes to the same ROM address.
  - GBDK now generates .ihx files, those are converted to a ROM using @ref makebin (lcc can do this automatically in some use cases)
- - Setting ROM bytes directly with `-Wl-yp0x<address>=0x<value>` is no longer supported. Instead use @ref makebin flags. For example, use `-Wm-yC` instead of `-Wl-yp0x143=0xC0`.
+ - Setting ROM bytes directly with `-Wl-yp0x<address>=0x<value>` is no longer supported. Instead use @ref makebin flags. For example, use `-Wm-yC` instead of `-Wl-yp0x143=0xC0`. See @ref faq_gb_type_header_setting.
  - OAM symbol has been renamed to _shadow_OAM, that allows accessing shadow OAM directly from C code
 
 
