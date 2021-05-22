@@ -102,6 +102,7 @@ Demonstration of playing a sound sample.
 A collection of examples showing how to use the Super Game Boy API features.
 
 
+@anchor examples_sound_sample
 # sound
 The sound example is meant for experimenting with the soung generator of the GameBoy (to use on a real GameBoy). The four different sound modes of the GameBoy are available. It also demonstrates the use of bit fields in C (it's a quick hack, so don't expect too much from the code). The following keys are used:
 

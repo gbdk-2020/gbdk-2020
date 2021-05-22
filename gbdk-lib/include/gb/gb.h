@@ -427,6 +427,11 @@ void delay(UINT16 d) NONBANKED;
 /** Reads and returns the current state of the joypad.
     Follows Nintendo's guidelines for reading the pad.
     Return value is an OR of J_*
+
+    When testing for multiple different buttons, it's
+    best to read the joypad state *once* into a variable
+    and then test using that variable.
+
     @see J_START, J_SELECT, J_A, J_B, J_UP, J_DOWN, J_LEFT, J_RIGHT
 */
 UINT8 joypad(void) NONBANKED __preserves_regs(b, c, h, l);

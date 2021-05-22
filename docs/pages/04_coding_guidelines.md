@@ -51,6 +51,13 @@ If you wish to use the original tools, you must add the `const` keyword every ti
   - @anchor const_array_data
   `const` keyword: Use const for arrays, structs and variables with read-only (constant) data. It will reduce ROM, RAM and CPU usage significantly. Non-`const` values are loaded from ROM into RAM inefficiently, and there is no benefit in loading them into the limited available RAM if they aren't going to be changed.
 
+  - Here is how to delcare `const` pointers and variables:
+    - non-const pointer to a const variable: `const UINT8 * some_pointer;`
+    - const pointer to a non-const variable: `UINT8 * const some_pointer;`
+    - const pointer to a const variable: `const UINT8 * const some_pointer;`
+    - https://codeforwin.org/2017/11/constant-pointer-and-pointer-to-constant-in-c.html
+    - https://stackoverflow.com/questions/21476869/constant-pointer-vs-pointer-to-constant
+
   - For calculated values that don't change, pre-compute results once and store the result. Using lookup-tables and the like can improve speed and reduce code size. Macros can sometimes help. It may be beneficial to do the calculations with an outside tool and then include the result as C code in a const array.
 
   - Use an advancing pointer (`someStruct->var = x; someStruct++`) to loop through arrays of structs instead of using indexing each time in the loop `someStruct[i].var = x`.
@@ -65,6 +72,9 @@ If you wish to use the original tools, you must add the `const` keyword every ti
 
 
 ## Code structure
+
+  - Do not `#include` `.c` source files into other `.c` source files. Instead create `.h` header files for them and include those.
+    https://www.tutorialspoint.com/cprogramming/c_header_files.htm
 
   - When procesing for a given frame is done and it is time to wait before starting the next frame, @ref wait_vbl_done() can be used. It uses HALT to put the CPU into a low power state until processing resumes. The CPU will wake up and resume processing at the end of the current frame when the Vertical Blanking interrupt is triggered.
 
