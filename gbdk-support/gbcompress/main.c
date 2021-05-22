@@ -59,12 +59,12 @@ int handle_args(int argc, char * argv[]) {
     for (i = 1; i < (argc - 2); i++ ) {
 
         if (argv[i][0] == '-') {
-            if (strstr(argv[i], "-h")) {
+            if (strstr(argv[i], "-h") == argv[i]) {
                 display_help();
                 return false;  // Don't parse input when -h is used
-            } else if (strstr(argv[i], "-v")) {
+            } else if (strstr(argv[i], "-v") == argv[i]) {
                 opt_verbose = true;
-            } else if (strstr(argv[i], "-d")) {
+            } else if (strstr(argv[i], "-d") == argv[i]) {
                 opt_mode_compress = false;
             } else
                 printf("BankPack: Warning: Ignoring unknown option %s\n", argv[i]);
