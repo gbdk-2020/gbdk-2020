@@ -78,7 +78,7 @@ static uint8_t * str_array_to_buf(char * str_in, uint32_t * p_ret_len) {
         while (str_cur != NULL) {
 
             // Grow buffer if needed
-            if ((*p_ret_len) > buf_size)  {
+            if ((*p_ret_len) >= buf_size)  {
 
                 buf_size += BUF_GROW_SIZE;
                 p_buf_last = p_buf;
@@ -91,8 +91,6 @@ static uint8_t * str_array_to_buf(char * str_in, uint32_t * p_ret_len) {
                     return NULL;
                 }
             }
-
-            // printf("|%s| = %d\n", str_cur, strtol(str_cur, NULL, 0));
 
             // Store current value
             p_buf[ *p_ret_len ] = (uint8_t)strtol(str_cur, &end_ptr, 0);
