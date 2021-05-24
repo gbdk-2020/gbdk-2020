@@ -16,11 +16,11 @@ $(BIN): $(OBJ)
 clean:
 	rm -f *.o $(BIN) *~
 	rm -f tmp.*
+
 # round trip the executable through compression and de-compression as a brief test
 test:
 	rm -f tmp.cmp; rm -f tmp.dcmp
 	cp $(BIN) tmp.in; ./gbcompress -v tmp.in tmp.cmp; ./gbcompress -v -d tmp.cmp tmp.dcmp; diff -s tmp.in tmp.dcmp
 	rm -f tmp.cmp.c; rm -f tmp.dcmp.c; 	rm -f tmp.cmp; rm -f tmp.dcmp
 	cp $(BIN) tmp.in; ./gbcompress -v --cout --varname=some_array tmp.in tmp.cmp.c; ./gbcompress -v -d --cin tmp.cmp.c tmp.dcmp; diff -s tmp.in tmp.dcmp
-	./gbcompress -v --cin --cout tmp.cmp.c tmp.cmp.cmp.c; ./gbcompress -v -d --cin --cout --varname=some_array tmp.cmp.cmp.c tmp.dcmp.c; diff -s tmp.cmp.c tmp.dcmp.c
 	rm tmp.*
