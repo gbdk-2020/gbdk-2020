@@ -7,11 +7,20 @@
 
 #include "files.h"
 
-
 #define STR_FFWD_MATCH_ANY NULL
 
 #define BUF_DEFAULT_SIZE 20000
 #define BUF_GROW_SIZE    10000
+
+
+static uint32_t size_compressed = 0;
+static uint32_t size_decompressed = 0;
+
+
+void c_source_set_sizes(uint32_t size_compressed_in, uint32_t size_decompressed_in) {
+    size_compressed = size_compressed_in;
+    size_decompressed = size_decompressed_in;
+}
 
 
 // Search for a character in a string
@@ -166,7 +175,7 @@ bool file_write_c_output_from_buffer(char * filename, uint8_t * p_buf, uint32_t 
 
     if (file_out) {
 
-        // Start array entry with variable name
+        // Array entry with variable name
         fprintf(file_out, "\n\n%s unsigned char %s[] = {", (var_is_const) ? "const" : "", var_name);
 
         for (i = 0; i < data_len; i++) {
@@ -201,7 +210,10 @@ bool file_write_c_output_from_buffer(char * filename, uint8_t * p_buf, uint32_t 
 
                 if (file_out) {
 
-                    // Start array entry with variable name
+                    fprintf(file_out, "\n\n#define %s_sz_comp %d\n", var_name, size_compressed);
+                    fprintf(file_out, "#define %s_sz_decomp %d\n", var_name, size_decompressed);
+
+                    // array entry with variable name
                     fprintf(file_out, "\n\nextern %s unsigned char %s[];\n\n", (var_is_const) ? "const" : "", var_name);
 
                     fclose(file_out);

@@ -133,8 +133,10 @@ static int compress() {
 
         if (out_len > 0)
 
-            if (opt_c_source_output)
+            if (opt_c_source_output) {
+                c_source_set_sizes(out_len, buf_size_in); // compressed, decompressed
                 result = file_write_c_output_from_buffer(filename_out, p_buf_out, out_len, opt_c_source_output_varname, true);
+            }
             else
                 result = file_write_from_buffer(filename_out, p_buf_out, out_len);
 
@@ -172,8 +174,10 @@ static int decompress() {
                                  &p_buf_out, buf_size_out);
         if (out_len > 0)
 
-            if (opt_c_source_output)
+            if (opt_c_source_output) {
+                c_source_set_sizes(buf_size_in, out_len); // compressed, decompressed
                 result = file_write_c_output_from_buffer(filename_out, p_buf_out, out_len, opt_c_source_output_varname, true);
+            }
             else
                 result = file_write_from_buffer(filename_out, p_buf_out, out_len);
 
