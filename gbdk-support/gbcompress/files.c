@@ -2,9 +2,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
-//#include <string.h>
 #include <stdlib.h>
-//#include <stdint.h>
 
 
 // Read from a file into a buffer (will allocate needed memory)
