@@ -90,6 +90,8 @@ char *tempdir = TEMPDIR;	/* directory for temporary files */
 char *progname;
 static List lccinputs;		/* list of input directories */
 char bankpack_newext[1024] = {'\0'};
+static int ihx_inputs = 0;  // Number of ihx files present in input list
+static char ihxFile[256] = "";
 
 
 int main(int argc, char *argv[]) {
@@ -150,14 +152,28 @@ int main(int argc, char *argv[]) {
 			opt(argv[i]);
 			continue;
 		}
-		else if (*argv[i] != '-' && suffix(argv[i], suffixes, 3) >= 0)
-			nf++;
+		else if (*argv[i] != '-') {
+			// Count number of (.ihx) files
+			if (suffix(argv[i], suffixes, 5) == 4)
+				ihx_inputs++;
+			// Count number of (.c, .i, .asm, .s) files
+			else if (suffix(argv[i], suffixes, 3) >= 0)
+				nf++;
+		}
 		argv[j++] = argv[i];
 	}
+
 	if ((cflag || Sflag) && outfile && nf != 1) {
 		fprintf(stderr, "%s: -o %s ignored\n", progname, outfile);
 		outfile = 0;
 	}
+
+	// When .ihx is an input only ihxcheck and makebin will be called.
+	// Warn that all source files won't be processed
+	if ((ihx_inputs > 0) && (nf > 0)) {
+		fprintf(stderr, "%s: Warning: .ihx file present as input, all other input files ignored\n", progname);
+	}
+
 	argv[j] = 0;
 	finalise();
 	for (i = 0; include[i]; i++)
@@ -185,55 +201,73 @@ int main(int argc, char *argv[]) {
 				error("can't find `%s'", argv[i]);
 		}
 
-    // Perform Link stage unless some conditions prevent it
-	if (errcnt == 0 && !Eflag && !cflag && !Sflag && llist[1]) {
-		if(!outfile)
-			outfile = concat("a", first(suffixes[4]));
 
-		//file.gb to file.ihx (don't use tmpfile because maps and other stuffs are created there)
+	// Perform Link / ihxcheck / makebin stages (unless some conditions prevent it)
+	if (errcnt == 0 && !Eflag && !cflag && !Sflag && 
+		(llist[1] || (ihxFile && ihx_inputs))) {
 
-		// Check to see if output is a .ihx file
-		char * ihx_suffix[1] = {".ihx"};
-		int target_is_ihx = (suffix(outfile, ihx_suffix, 1) == 0);
+		int target_is_ihx = 0;
 
-		char ihxFile[255];
-		int lastP = strrchr(outfile, '.') - outfile;
-		strncpy(ihxFile, outfile, lastP);
-		ihxFile[lastP] = '\0';
-		strcat(ihxFile, ".ihx");
+		// If an .ihx file is persent as input, only convert that
+		// and skip link related stages
+		if (ihx_inputs > 0) {
 
-		// Only remove .ihx from the delete-list if it's not the final target
-		if (!target_is_ihx)
-			append(ihxFile, rmlist);
+			// Only one .ihx can be used for input, warn that others will be ignored
+			if (ihx_inputs > 1)
+				fprintf(stderr, "%s: Warning: Multiple (%d) .ihx files present as input, only one (%s) will be used\n", progname, ihx_inputs, ihxFile);
 
-		// if auto bank assignment is enabled, modify obj files before linking
-		if (autobankflag) {
-			compose(bankpack, bankpack_flags, llist[1], 0);
+			// if outfile is not specified, set it to "a.gb"
+			if(!outfile)
+				outfile = concat("a", suffixes[5]);
+		}
+		else {
+			// if outfile is not specified, set it to "a.ihx"
+			if(!outfile)
+				outfile = concat("a", suffixes[4]);
 
-			if (callsys(av)) {
-				errcnt++;
-			} else {
-				// If bankpack has -ext= flag set to write obj files
-				// out to a new extension then rewrite the
-				// linker list (llist[1]) and delete list (rmlist).
-				// The delete list likely only has temp obj files such
-				// as from a single-pass build: lcc -o out.gb in1.c in2.c
-				if (bankpack_newext[0]) {
-					char * obj_suffix = ".o";
-					list_rewrite_exts(llist[1], obj_suffix, bankpack_newext);
-					list_duplicate_to_new_exts(rmlist, obj_suffix, bankpack_newext);
+			//file.gb to file.ihx (don't use tmpfile because maps and other stuffs are created there)
+			// Check to see if output is a .ihx file
+			target_is_ihx = (suffix(outfile, suffixes, 5) == 4);
+
+			int lastP = strrchr(outfile, '.') - outfile;
+			strncpy(ihxFile, outfile, lastP);
+			ihxFile[lastP] = '\0';
+			strcat(ihxFile, ".ihx");
+
+			// Only remove .ihx from the delete-list if it's not the final target
+			if (!target_is_ihx)
+				append(ihxFile, rmlist);
+
+			// if auto bank assignment is enabled, modify obj files before linking
+			if (autobankflag) {
+				compose(bankpack, bankpack_flags, llist[1], 0);
+
+				if (callsys(av)) {
+					errcnt++;
+				} else {
+					// If bankpack has -ext= flag set to write obj files
+					// out to a new extension then rewrite the
+					// linker list (llist[1]) and delete list (rmlist).
+					// The delete list likely only has temp obj files such
+					// as from a single-pass build: lcc -o out.gb in1.c in2.c
+					if (bankpack_newext[0]) {
+						char * obj_suffix = ".o";
+						list_rewrite_exts(llist[1], obj_suffix, bankpack_newext);
+						list_duplicate_to_new_exts(rmlist, obj_suffix, bankpack_newext);
+					}
 				}
 			}
-		}
 
-		// Call linker
-		// (fixlist adds required default linker vars if not added by user)
-		Fixllist();
-		llist[2] = append(ihxFile, 0);
-		if (!fflag) llist[2] = append(*crt0, llist[2]);
-		compose(ld, llist[0], llist[1], llist[2]);
-		if (callsys(av))
-			errcnt++;
+			// Call linker
+			// (fixlist adds required default linker vars if not added by user)
+			Fixllist();
+			llist[2] = append(ihxFile, 0);
+			if (!fflag) llist[2] = append(*crt0, llist[2]);
+			compose(ld, llist[0], llist[1], llist[2]);
+
+			if (callsys(av))
+				errcnt++;
+		} // end: non-ihx input file handling
 
 		// ihxcheck (test for multiple writes to the same ROM address)
 		if (!Kflag) {
@@ -633,7 +667,7 @@ static int filename(char *name, char *base) {
 
 	if (base == 0)
 		base = basepath(name);
-	switch (suffix(name, suffixes, 4)) {
+	switch (suffix(name, suffixes, 5)) {
 	case 0:	/* C source files */
 		{
 			char *ofile;
@@ -682,6 +716,10 @@ static int filename(char *name, char *base) {
 	case 3:	/* object files */
 		if (!find(name, llist[1]))
 			llist[1] = append(name, llist[1]);
+		break;
+	case 4: // .ihx files
+		// Append .ihx files (there can be only one as input)
+		strncpy(ihxFile, name, sizeof(ihxFile) - 1);
 		break;
 	default:
 		if (Eflag) {
@@ -945,7 +983,7 @@ static void opt(char *arg) {
 				error("-B overwrites earlier option", 0);
 			path = arg + 2;
 			if (strstr(com[1], "win32") != NULL)
-				com[0] = concat(replace(path, '/', '\\'), concat("rcc", first(suffixes[4])));
+				com[0] = concat(replace(path, '/', '\\'), concat("rcc", suffixes[4]));
 			else
 				com[0] = concat(path, "rcc");
 			if (path[0] == 0)
