@@ -71,7 +71,7 @@ static int Eflag;		/* -E specified */
 static int Sflag;		/* -S specified */
 static int cflag;		/* -c specified */
 static int Kflag;		/* -K specified */
-static int fflag;		/* -Wl-f specified */
+static int fflag;		/* -Wl-f specified (use .lk linker file for sdldgb) */
 static int autobankflag;	/* -K specified */
 static int verbose;		/* incremented for each -v */
 static List bankpack_flags;	/* bankpack flags */
@@ -163,6 +163,10 @@ int main(int argc, char *argv[]) {
 		argv[j++] = argv[i];
 	}
 
+	// Ignore -o output request if:
+	// * compile only (-c) *OR* compile to ASM (-S) is specified
+	// * and there are 2 or more source files (.c, .i, .asm, .s) in the input list (what "nf" seems to count)
+	// Instead, it will generate output matching each input filename
 	if ((cflag || Sflag) && outfile && nf != 1) {
 		fprintf(stderr, "%s: -o %s ignored\n", progname, outfile);
 		outfile = 0;
@@ -174,6 +178,7 @@ int main(int argc, char *argv[]) {
 		fprintf(stderr, "%s: Warning: .ihx file present as input, all other input files ignored\n", progname);
 	}
 
+	// Add includes
 	argv[j] = 0;
 	finalise();
 	for (i = 0; include[i]; i++)
@@ -187,14 +192,18 @@ int main(int argc, char *argv[]) {
 	}
 	ilist = 0;
 	for (i = 1; argv[i]; i++)
+		// Process arguments
 		if (*argv[i] == '-')
 			opt(argv[i]);
 		else {
+	// Process filenames
 			char *name = exists(argv[i]);
 			if (name) {
 				if (strcmp(name, argv[i]) != 0
 					|| nf > 1 && suffix(name, suffixes, 3) >= 0)
 					fprintf(stderr, "%s:\n", name);
+				// Send input filename argument to "filename processor"
+				// which will add them to llist[n] in some form most of the time
 				filename(name, 0);
 			}
 			else
@@ -229,6 +238,7 @@ int main(int argc, char *argv[]) {
 			// Check to see if output is a .ihx file
 			target_is_ihx = (suffix(outfile, suffixes, 5) == 4);
 
+			// Build ihx file name from output name
 			int lastP = strrchr(outfile, '.') - outfile;
 			strncpy(ihxFile, outfile, lastP);
 			ihxFile[lastP] = '\0';
@@ -883,16 +893,17 @@ static void opt(char *arg) {
 				if(arg[4] == 'y' && (arg[5] == 't' || arg[5] == 'o' || arg[5] == 'a' || arg[5] == 'p') && (arg[6] != '\0' && arg[6] != ' '))
 					goto makebinoption; //automatically pass -yo -ya -yt -yp options to makebin (backwards compatibility)
 				{
+					// If using .lk linker file for sdldgb (-f file[.lk])
 					if (arg[4] == 'f') {
 						char *tmp = malloc(256);
-						sprintf(tmp, "%c%c", arg[3], arg[4]);  // we pass the list as the very last parameter
+						sprintf(tmp, "%c%c", arg[3], arg[4]);  // create "-f". we pass the list as the very last parameter
 						llist[1] = append(tmp, llist[1]);     
 						if(arg[5]){
 							char *tmp2 = malloc(256);
-							sprintf(tmp2, "%s", &arg[5]);
+							sprintf(tmp2, "%s", &arg[5]);      // Append linker file name to list afer -f
 							llist[1] = append(tmp2, llist[1]);
 						}
-						fflag++;
+						fflag++;  // Set flag to indicate linker file is used
 					} else {
 						char *tmp = malloc(256);
 						sprintf(tmp, "%c%c", arg[3], arg[4]); //sdldgb requires spaces between -k and the path
