@@ -10,6 +10,8 @@
 #include <windows.h>
 #endif
 
+#include "gb.h"
+
 #ifndef GBDKLIBDIR
 #define GBDKLIBDIR "\\gbdk\\"
 #endif
@@ -241,7 +243,16 @@ static void buildArgs(char **args, const char *template)
 	*last = NULL;
 }
 
-char *suffixes[] = { ".c", ".i", ".asm;.s", ".o;.obj", ".ihx", ".gb", 0 };
+char *suffixes[] = {
+    EXT_C,               // 0
+    EXT_I,               // 1
+    EXT_ASM ";" EXT_S,   // 2
+    EXT_O   ";" EXT_OBJ, // 3
+    EXT_IHX,             // 4
+    EXT_GB,              // 5
+    0
+};
+
 char inputs[256] = "";
 
 char *cpp[256];
