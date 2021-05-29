@@ -5,7 +5,7 @@
 
 # If you move this project you can change the directory 
 # to match your GBDK root directory (ex: GBDK_HOME = "C:/GBDK/"
-GBDK_HOME = "../../../"
+GBDK_HOME = ../../../
 
 LCC = $(GBDK_HOME)bin/lcc 
 
@@ -55,7 +55,7 @@ $(OBJDIR)/linkfile.lk:	$(OBJS)
 
 # Link the compiled object files (via linkerfile) into a .gb ROM file
 $(BINS):	$(OBJDIR)/linkfile.lk
-		$(LCC) $(LCCFLAGS) -Wl-yo4 -o $(BINS) -Wl-f$<
+		$(LCC) $(LCCFLAGS) -o $(BINS) -Wl-f$<
 
 prepare:
 	mkdir -p $(OBJDIR)
