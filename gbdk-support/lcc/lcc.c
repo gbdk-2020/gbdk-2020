@@ -60,7 +60,7 @@ static void Fixllist();
 static void list_rewrite_exts(List, char *, char *);
 static void list_duplicate_to_new_exts(List, char *, char *);
 
-extern char *cpp[], *include[], *com[], *as[], *bankpack[], *ld[], *ihxcheck[], *mkbin[], inputs[], *suffixes[], *crt0[];
+extern char *cpp[], *include[], *com[], *as[], *bankpack[], *ld[], *ihxcheck[], *mkbin[], inputs[], *suffixes[];
 extern int option(char *);
 extern void set_gbdk_dir(char*);
 
@@ -71,13 +71,12 @@ static int Eflag;		/* -E specified */
 static int Sflag;		/* -S specified */
 static int cflag;		/* -c specified */
 static int Kflag;		/* -K specified */
-static int fflag;		/* -Wl-f specified (use .lk linker file for sdldgb) */
 static int autobankflag;	/* -K specified */
 static int verbose;		/* incremented for each -v */
 static List bankpack_flags;	/* bankpack flags */
 static List ihxchecklist;	/* ihxcheck flags */
 static List mkbinlist;		/* loader files, flags */
-static List llist[3];		/* [1] = loader files, [0] = flags */
+static List llist[2];		/* [1] = loader files, [0] = flags */
 static List alist;		/* assembler flags */
 List clist;		/* compiler flags */
 static List plist;		/* preprocessor flags */
@@ -267,13 +266,10 @@ int main(int argc, char *argv[]) {
 					}
 				}
 			}
-
-			// Call linker
-			// (fixlist adds required default linker vars if not added by user)
-			Fixllist();
-			llist[2] = append(ihxFile, 0);
-			if (!fflag) llist[2] = append(*crt0, llist[2]);
-			compose(ld, llist[0], llist[1], llist[2]);
+ 			
+			// Call linker (add output ihxfile in compose $3)
+			Fixllist();   // (fixlist adds required default linker vars if not added by user)			
+			compose(ld, llist[0], llist[1], append(ihxFile, 0));
 
 			if (callsys(av))
 				errcnt++;
@@ -780,6 +776,7 @@ static void help(void) {
 "-lx	search library `x'\n",
 "-N	do not search the standard directories for #include files\n",
 "-n	emit code to check for dereferencing zero pointers\n",
+"-nocrt do not auto-include the gbdk crt0.o runtime in linker list\n",
 "-O	is ignored\n",
 "-o file	leave the output in `file'\n",
 "-P	print ANSI-style declarations for globals\n",
@@ -893,25 +890,17 @@ static void opt(char *arg) {
 				if(arg[4] == 'y' && (arg[5] == 't' || arg[5] == 'o' || arg[5] == 'a' || arg[5] == 'p') && (arg[6] != '\0' && arg[6] != ' '))
 					goto makebinoption; //automatically pass -yo -ya -yt -yp options to makebin (backwards compatibility)
 				{
-					// If using .lk linker file for sdldgb (-f file[.lk])
-					if (arg[4] == 'f') {
-						char *tmp = malloc(256);
-						sprintf(tmp, "%c%c", arg[3], arg[4]);  // create "-f". we pass the list as the very last parameter
-						llist[1] = append(tmp, llist[1]);     
-						if(arg[5]){
-							char *tmp2 = malloc(256);
-							sprintf(tmp2, "%s", &arg[5]);      // Append linker file name to list afer -f
-							llist[1] = append(tmp2, llist[1]);
-						}
-						fflag++;  // Set flag to indicate linker file is used
+					// If using linker file for sdldgb (-f file[.lk]). 
+					// Starting at arg[5] should be name of the linkerfile 
+					if ((arg[4] == 'f') && (arg[5])) {
+						llist[1] = append("-f", llist[1]);    // Add -f to file link list 
+						llist[1] = append(&arg[5], llist[1]); // Then add linkerfile as the very next parameter
 					} else {
 						char *tmp = malloc(256);
 						sprintf(tmp, "%c%c", arg[3], arg[4]); //sdldgb requires spaces between -k and the path
 						llist[0] = append(tmp, llist[0]);     //splitting the args into 2 works on Win and Linux
-						if(arg[5]){
-							char *tmp2 = malloc(256);
-							sprintf(tmp2, "%s", &arg[5]);
-							llist[0] = append(tmp2, llist[0]);
+						if (arg[5]) {                            
+							llist[0] = append(&arg[5], llist[0]);  // Add filename separately if present
 						}
 					}
 				}
@@ -980,6 +969,11 @@ static void opt(char *arg) {
 	case 'a':
 		if (strcmp(arg, "-autobank") == 0) {
 			autobankflag++;
+			return;
+		}
+	case 'n':
+		if (strcmp(arg, "-nocrt") == 0) {
+			option(arg);  // Clear crt0 entry in linker compose string
 			return;
 		}
 	case 'B':	/* -Bdir -Bstatic -Bdynamic */
