@@ -21,6 +21,8 @@ static char rcsid[] = "$Id: lcc.c,v 2.0 " BUILDDATE " " BUILDTIME " gbdk-2020 Ex
 # include <sys/wait.h>
 #endif
 
+#include "gb.h"
+
 #ifndef TEMPDIR
 #define TEMPDIR "/tmp"
 #endif
@@ -130,10 +132,12 @@ int main(int argc, char *argv[]) {
 	for (nf = 0, i = j = 1; i < argc; i++) {
 		if (strcmp(argv[i], "-o") == 0) {
 			if (++i < argc) {
-				if (suffix(argv[i], suffixes, 2) >= 0) {
+				// Don't allow output file to have ".c" or ".i" extension (first two in suffixes[])
+				if (suffix(argv[i], suffixes, 2) != SUFX_NOMATCH) {
 					error("-o would overwrite %s", argv[i]);
 					exit(8);
 				}
+				// Valid output file found
 				outfile = argv[i];
 				continue;
 			}
@@ -153,10 +157,10 @@ int main(int argc, char *argv[]) {
 		}
 		else if (*argv[i] != '-') {
 			// Count number of (.ihx) files
-			if (suffix(argv[i], suffixes, 5) == 4)
+			if (suffix(argv[i], (char * []){EXT_IHX}, 1) != SUFX_NOMATCH)
 				ihx_inputs++;
 			// Count number of (.c, .i, .asm, .s) files
-			else if (suffix(argv[i], suffixes, 3) >= 0)
+			else if (suffix(argv[i], suffixes, 3) != SUFX_NOMATCH)
 				nf++;
 		}
 		argv[j++] = argv[i];
@@ -199,7 +203,7 @@ int main(int argc, char *argv[]) {
 			char *name = exists(argv[i]);
 			if (name) {
 				if (strcmp(name, argv[i]) != 0
-					|| nf > 1 && suffix(name, suffixes, 3) >= 0)
+					|| nf > 1 && suffix(name, suffixes, 3) != SUFX_NOMATCH) // Does it match: .c, .i, .asm, .s
 					fprintf(stderr, "%s:\n", name);
 				// Send input filename argument to "filename processor"
 				// which will add them to llist[n] in some form most of the time
@@ -226,16 +230,16 @@ int main(int argc, char *argv[]) {
 
 			// if outfile is not specified, set it to "a.gb"
 			if(!outfile)
-				outfile = concat("a", suffixes[5]);
+				outfile = concat("a", EXT_GB);
 		}
 		else {
 			// if outfile is not specified, set it to "a.ihx"
 			if(!outfile)
-				outfile = concat("a", suffixes[4]);
+				outfile = concat("a", EXT_IHX);
 
 			//file.gb to file.ihx (don't use tmpfile because maps and other stuffs are created there)
 			// Check to see if output is a .ihx file
-			target_is_ihx = (suffix(outfile, suffixes, 5) == 4);
+			target_is_ihx = (suffix(outfile, (char *[]){EXT_IHX}, 1) != SUFX_NOMATCH);
 
 			// Build ihx file name from output name
 			int lastP = strrchr(outfile, '.') - outfile;
@@ -260,9 +264,8 @@ int main(int argc, char *argv[]) {
 					// The delete list likely only has temp obj files such
 					// as from a single-pass build: lcc -o out.gb in1.c in2.c
 					if (bankpack_newext[0]) {
-						char * obj_suffix = ".o";
-						list_rewrite_exts(llist[1], obj_suffix, bankpack_newext);
-						list_duplicate_to_new_exts(rmlist, obj_suffix, bankpack_newext);
+						list_rewrite_exts(llist[1], EXT_O, bankpack_newext);
+						list_duplicate_to_new_exts(rmlist, EXT_O, bankpack_newext);
 					}
 				}
 			}
@@ -673,6 +676,8 @@ static int filename(char *name, char *base) {
 
 	if (base == 0)
 		base = basepath(name);
+
+	// Handle all available suffixes except .gb (last in list)
 	switch (suffix(name, suffixes, 5)) {
 	case 0:	/* C source files */
 		{
@@ -680,17 +685,17 @@ static int filename(char *name, char *base) {
 			if ((cflag || Sflag) && outfile)
 				ofile = outfile;
 			else if (cflag)
-				ofile = concat(base, first(suffixes[3]));
+				ofile = concat(base, EXT_O);
 			else if (Sflag) {
 				// When compiling to asm only, set outfile as .asm
-				ofile = concat(base, ".asm");
+				ofile = concat(base, EXT_ASM);
 			}
 			else
 			{
-    			ofile = tempname(first(suffixes[3]));
+				ofile = tempname(EXT_O);
 
 				char* ofileBase = basepath(ofile);
-				rmlist = append(stringf("%s/%s%s", tempdir, ofileBase, ".asm"), rmlist);
+				rmlist = append(stringf("%s/%s%s", tempdir, ofileBase, EXT_ASM), rmlist);
 				rmlist = append(stringf("%s/%s%s", tempdir, ofileBase, ".lst"), rmlist);
 				rmlist = append(stringf("%s/%s%s", tempdir, ofileBase, ".sym"), rmlist);
 				rmlist = append(stringf("%s/%s%s", tempdir, ofileBase, ".adb"), rmlist);
@@ -710,9 +715,9 @@ static int filename(char *name, char *base) {
 			if (cflag && outfile)
 				ofile = outfile;
 			else if (cflag)
-				ofile = concat(base, first(suffixes[3]));
+				ofile = concat(base, EXT_O);
 			else
-				ofile = tempname(first(suffixes[3]));
+				ofile = tempname(EXT_O);
 			compose(as, alist, append(name, 0), append(ofile, 0));
 			status = callsys(av);
 			if (!find(ofile, llist[1]))
@@ -988,7 +993,7 @@ static void opt(char *arg) {
 				error("-B overwrites earlier option", 0);
 			path = arg + 2;
 			if (strstr(com[1], "win32") != NULL)
-				com[0] = concat(replace(path, '/', '\\'), concat("rcc", suffixes[4]));
+				com[0] = concat(replace(path, '/', '\\'), concat("rcc", EXT_IHX));
 			else
 				com[0] = concat(path, "rcc");
 			if (path[0] == 0)
@@ -1161,7 +1166,7 @@ int suffix(char *name, char *tails[], int n) {
 				return i;
 		}
 	}
-	return -1;
+	return SUFX_NOMATCH;
 }
 
 /* tempname - generate a temporary file name in tempdir with given suffix */
