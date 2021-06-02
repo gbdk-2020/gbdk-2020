@@ -781,7 +781,8 @@ static void help(void) {
 "-lx	search library `x'\n",
 "-N	do not search the standard directories for #include files\n",
 "-n	emit code to check for dereferencing zero pointers\n",
-"-nocrt do not auto-include the gbdk crt0.o runtime in linker list\n",
+"-no-crt do not auto-include the gbdk crt0.o runtime in linker list\n",
+"-no-libs do not auto-include the gbdk libs in linker list\n",
 "-O	is ignored\n",
 "-o file	leave the output in `file'\n",
 "-P	print ANSI-style declarations for globals\n",
@@ -977,8 +978,12 @@ static void opt(char *arg) {
 			return;
 		}
 	case 'n':
-		if (strcmp(arg, "-nocrt") == 0) {
+		if (strcmp(arg, "-no-crt") == 0) {
 			option(arg);  // Clear crt0 entry in linker compose string
+			return;
+		} 
+		else if (strcmp(arg, "-no-libs") == 0) {
+			option(arg);  // Clear libs entry in linker compose string
 			return;
 		}
 	case 'B':	/* -Bdir -Bstatic -Bdynamic */

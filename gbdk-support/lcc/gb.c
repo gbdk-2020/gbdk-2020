@@ -71,7 +71,8 @@ static struct {
 #endif
 		{ "ihxcheck", "%bindir%ihxcheck" },
 		{ "mkbin", "%sdccdir%makebin" },
-		{ "crt0dir", "%libdir%%plat%/crt0.o"}
+		{ "crt0dir", "%libdir%%plat%/crt0.o"},
+		{ "libs_include", "-k %libdir%%port%/ -l %port%.lib -k %libdir%%plat%/ -l %plat%.lib"}
 };
 
 #define NUM_TOKENS	(sizeof(_tokens)/sizeof(_tokens[0]))
@@ -113,8 +114,7 @@ static CLASS classes[] = {
 			"%com% %comdefault% -Wa%asdefault% -DGB=1 -DGAMEBOY=1 -DINT_16_BITS $1 %comflag% $2 -o $3",
 			"%as% %asdefault% $1 $3 $2",
 			"%bankpack% $1 $2",
-			"%ld% -n -i $1 -k %libdir%%port%/ -l %port%.lib "
-				"-k %libdir%%plat%/ -l %plat%.lib $3 %crt0dir% $2",
+			"%ld% -n -i $1 %libs_include% $3 %crt0dir% $2",
 			"%ihxcheck% $2 $1",
 			"%mkbin% -Z $1 $2 $3"
 		},
@@ -126,8 +126,7 @@ static CLASS classes[] = {
 			"%com% %comdefault% $1 $2 $3",
 			"%as% %asdefault% $1 $3 $2",
 			"%bankpack% $1 $2",
-			"%ld% -n -- -i $1 -b_CODE=0x8100 -k%libdir%%port%/ -l%port%.lib "
-				"-k%libdir%%plat%/ -l%plat%.lib $3 %crt0dir% $2",
+			"%ld% -n -- -i $1 -b_CODE=0x8100 %libs_include% $3 %crt0dir% $2",
 			"%ihxcheck% $2 $1",
 			"%mkbin% -Z $1 $2 $3"
 		},
@@ -139,8 +138,7 @@ static CLASS classes[] = {
 			"%com% %comdefault% $1 $2 $3",
 			"%as% %asdefault% $1 $3 $2",
 			"%bankpack% $1 $2",
-			"%ld% -n -- -i $1 -b_DATA=0x8000 -b_CODE=0x200 -k%libdir%%port%/ -l%port%.lib "
-				"-k%libdir%%plat%/ -l%plat%.lib $3 %crt0dir% $2",
+			"%ld% -n -- -i $1 -b_DATA=0x8000 -b_CODE=0x200 %libs_include% $3 %crt0dir% $2",
 			"%ihxcheck% $2 $1",
 			"%mkbin% -Z $1 $2 $3"
 		}
@@ -299,11 +297,15 @@ int option(char *arg) {
 		// When composing the compile stage, swap in of -S instead of default -c
 		setTokenVal("comflag", "-S");
 	}
-	else if ((tail = starts_with(arg, "-nocrt"))) {
+	else if ((tail = starts_with(arg, "-no-crt"))) {
 		// When composing link stage, clear out crt0dir path
 		setTokenVal("crt0dir", "");
 	}
-    else if ((tail = starts_with(arg, "-m"))) {
+	else if ((tail = starts_with(arg, "-no-libs"))) {
+		// When composing link stage, clear out crt0dir path
+		setTokenVal("libs_include", "");
+	}
+	else if ((tail = starts_with(arg, "-m"))) {
 		/* Split it up into a asm/port pair */
 		char *slash = strchr(tail, '/');
 		if (slash) {
