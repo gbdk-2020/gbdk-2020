@@ -243,6 +243,8 @@ static void buildArgs(char **args, const char *template)
 	*last = NULL;
 }
 
+// If order is changed here, file type handling MUST be updated
+// in lcc.c: "switch (suffix(name, suffixes, 5)) {"
 char *suffixes[] = {
     EXT_C,               // 0
     EXT_I,               // 1

@@ -132,11 +132,12 @@ int main(int argc, char *argv[]) {
 	for (nf = 0, i = j = 1; i < argc; i++) {
 		if (strcmp(argv[i], "-o") == 0) {
 			if (++i < argc) {
-				// Check if extension is ".c" or ".i"
+				// Don't allow output file to have ".c" or ".i" extension (first two in suffixes[])
 				if (suffix(argv[i], suffixes, 2) != SUFX_NOMATCH) {
 					error("-o would overwrite %s", argv[i]);
 					exit(8);
 				}
+				// Valid output file found
 				outfile = argv[i];
 				continue;
 			}
