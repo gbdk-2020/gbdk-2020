@@ -306,8 +306,8 @@ int main(int argc, char *argv[])
 	fprintf(file, "#define %s_PIVOT_X %d\n", data_name.c_str(), pivot_x);
 	fprintf(file, "#define %s_PIVOT_Y %d\n", data_name.c_str(), pivot_y);
 	fprintf(file, "\n");
-	fprintf(file, "extern const UINT8 %s_data[%ld];\n", data_name.c_str(), tiles.size() * tile_h * 2);
-	fprintf(file, "extern const metasprite_t* const %s_metasprites[%ld];\n", data_name.c_str(), sprites.size());
+	fprintf(file, "extern const UINT8 %s_data[%d];\n", data_name.c_str(), (int)(tiles.size() * tile_h * 2));
+	fprintf(file, "extern const metasprite_t* const %s_metasprites[%d];\n", data_name.c_str(), (int)sprites.size());
 
 	fclose(file);
 
@@ -326,7 +326,7 @@ int main(int argc, char *argv[])
 	if(bank)
 		fprintf(file, "#pragma bank %d\n\n", bank);
 
-	fprintf(file, "const UINT8 %s_data[%ld] = {\n", data_name.c_str(), tiles.size() * tile_h * 2);
+	fprintf(file, "const UINT8 %s_data[%d] = {\n", data_name.c_str(), (int)(tiles.size() * tile_h * 2));
 	for(vector< Tile >::iterator it = tiles.begin(); it != tiles.end(); ++ it)
 	{
 		for(Tile::iterator it2 = (*it).begin(); it2 != (*it).end(); ++ it2)
@@ -343,7 +343,7 @@ int main(int argc, char *argv[])
 
 	for(vector< MetaSprite >::iterator it = sprites.begin(); it != sprites.end(); ++ it)
 	{
-		fprintf(file, "const metasprite_t %s_metasprite%ld[] = {\n", data_name.c_str(), it - sprites.begin());
+		fprintf(file, "const metasprite_t %s_metasprite%d[] = {\n", data_name.c_str(), (int)(it - sprites.begin()));
 		fprintf(file, "\t");
 		for(MetaSprite::iterator it2 = (*it).begin(); it2 != (*it).end(); ++ it2)
 		{
@@ -353,10 +353,10 @@ int main(int argc, char *argv[])
 		fprintf(file, "};\n\n");
 	}
 
-	fprintf(file, "const metasprite_t* const %s_metasprites[%ld] = {\n\t", data_name.c_str(), sprites.size());
+	fprintf(file, "const metasprite_t* const %s_metasprites[%d] = {\n\t", data_name.c_str(), (int)sprites.size());
 	for(vector< MetaSprite >::iterator it = sprites.begin(); it != sprites.end(); ++ it)
 	{
-		fprintf(file, "%s_metasprite%ld", data_name.c_str(), it - sprites.begin());
+		fprintf(file, "%s_metasprite%d", data_name.c_str(), (int)(it - sprites.begin()));
 		if(it + 1 != sprites.end())
 			fprintf(file, ", ");
 	}
