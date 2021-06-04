@@ -140,7 +140,7 @@ It should be:
 void vbl_music_isr(void)
 {
 	// Save the current bank
-    UBYTE _saved_bank = _current_bank;
+    uint8_t _saved_bank = _current_bank;
 
 	// A function which changes the bank and
     // *doesn't* restore it after changing.
@@ -169,18 +169,18 @@ For a source example see the `banks_autobank` project.
 In the source files you want auto-banked, do the following:
   - Set the bank for the source file to `255`: `#pragma bank 255`
   - Create a constant with no value to store the bank number for the source file: `const void __at(255) __bank_<name-for-a-given-source-file>;`.  
-    This constant can then be used for obtaining that files bank number with `(UINT8)&__bank_<name-for-a-given-source-file`.
+    This constant can then be used for obtaining that files bank number with `(uint8_t)&__bank_<name-for-a-given-source-file`.
 
 Example: level_1_map.c
 
         #pragma bank 255
         const void __at(255) __bank_level_1_map;
 
-        const UINT8 my_level_1_map[] = {... some map data here ...};
+        const uint8_t my_level_1_map[] = {... some map data here ...};
 
 Accessing that data: main.c
 
-      SWITCH_ROM_MBC1( (UINT8)&__bank_level_1_map );
+      SWITCH_ROM_MBC1( (uint8_t)&__bank_level_1_map );
       // Do something with my_level_1_map[]
 
 Features and Notes:
