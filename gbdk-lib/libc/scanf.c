@@ -1,8 +1,9 @@
+#include <stdint.h>
 #include <stdio.h>
 #include <stdarg.h>
 #include <ctype.h>
 
-static UINT8 scan_skip(char *s, UINT8 i)
+static uint8_t scan_skip(char *s, uint8_t i)
 {
 oncemore:
   while(isspace(s[i]))
@@ -15,10 +16,10 @@ oncemore:
   return i;
 }
 
-static UINT8 scan_int(char *s, UINT8 i, UINT8 base, INT8 *nb)
+static uint8_t scan_int(char *s, uint8_t i, uint8_t base, int8_t *nb)
 {
-  INT8 n = 0;
-  UINT8 j, sign = 0;
+  int8_t n = 0;
+  uint8_t j, sign = 0;
 
   switch(s[i])
     {
@@ -45,10 +46,10 @@ static UINT8 scan_int(char *s, UINT8 i, UINT8 base, INT8 *nb)
   return i;
 }
 
-static UINT8 scan_long(char *s, UINT8 i, UINT8 base, INT16 *nb)
+static uint8_t scan_long(char *s, uint8_t i, uint8_t base, int16_t *nb)
 {
-  INT16 n = 0;
-  UINT8 j, sign = 0;
+  int16_t n = 0;
+  uint8_t j, sign = 0;
 
   switch(s[i])
     {
@@ -75,12 +76,12 @@ static UINT8 scan_long(char *s, UINT8 i, UINT8 base, INT16 *nb)
   return i;
 }
 
-INT8 scanf(char *fmt, ...)
+int8_t scanf(char *fmt, ...)
 {
   va_list ap;
   char s[64];
-  UINT8 i = 0;
-  INT8 nb = 0;
+  uint8_t i = 0;
+  int8_t nb = 0;
 
   gets(s);
   va_start(ap, fmt);
@@ -98,20 +99,20 @@ INT8 scanf(char *fmt, ...)
 	/* decimal int */
       case 'u':
 	/* unsigned int */
-	i = scan_int(s, i, 10, va_arg(ap, INT8 *));
+	i = scan_int(s, i, 10, va_arg(ap, int8_t *));
 	break;
       case 'o':
 	/* octal int */
-	i = scan_int(s, i, 8, va_arg(ap, INT8 *));
+	i = scan_int(s, i, 8, va_arg(ap, int8_t *));
 	break;
       case 'x':
 	/* hexadecimal int */
-	i = scan_int(s, i, 16, va_arg(ap, INT8 *));
+	i = scan_int(s, i, 16, va_arg(ap, int8_t *));
 	break;
       case 's':
 	/* string */
 	{
-	  INT8 j = 0;
+	  int8_t j = 0;
 	  char *d = va_arg(ap, char *);
 	  while((d[j++] = s[i++]) != 0)
 	    ;
@@ -124,15 +125,15 @@ INT8 scanf(char *fmt, ...)
 	  /* decimal long */
 	case 'u':
 	  /* unsigned long */
-	  i = scan_long(s, i, 10, va_arg(ap, INT16 *));
+	  i = scan_long(s, i, 10, va_arg(ap, int16_t *));
 	  break;
 	case 'o':
 	  /* octal long */
-	  i = scan_long(s, i, 8, va_arg(ap, INT16 *));
+	  i = scan_long(s, i, 8, va_arg(ap, int16_t *));
 	  break;
 	case 'x':
 	  /* hexadecimal long */
-	  i = scan_long(s, i, 16, va_arg(ap, INT16 *));
+	  i = scan_long(s, i, 16, va_arg(ap, int16_t *));
 	  break;
 	}
 	break;

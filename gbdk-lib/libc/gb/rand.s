@@ -98,7 +98,7 @@ _randw::			; Banked
 
 	;; Note D is the low byte,E the high byte. This is intentional because
 	;; the high byte can be slightly 'more random' than the low byte, and I presume
-	;; most will cast the return value to a UBYTE. As if someone will use this, tha!
+	;; most will cast the return value to a uint8_t. As if someone will use this, tha!
 	RET
 
 	;; This sets the seed value. Call it whenever you like

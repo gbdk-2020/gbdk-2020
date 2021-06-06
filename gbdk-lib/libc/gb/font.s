@@ -73,7 +73,7 @@ _font_load_ibm::		; Banked
 	ret
 	
 	; Copy uncompressed 16 byte tiles from (BC) to (HL), length = DE*2
-	; Note: HL must be aligned on a UWORD boundry
+	; Note: HL must be aligned on a uint16_t boundry
 font_copy_uncompressed::
 	ld	a,d
 	or	e

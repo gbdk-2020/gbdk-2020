@@ -1,9 +1,10 @@
+#include <stdint.h>
 #include <stdlib.h>
 #include <ctype.h>
 
 long atol(const char *s) NONBANKED
 {
-  UINT8 i, sign = 0;
+  uint8_t i, sign = 0;
   long n;
 
   for(i = 0; (s[i] == ' ') || (s[i] == '\n') || (s[i] == '\t'); ++i)

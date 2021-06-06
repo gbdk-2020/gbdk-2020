@@ -1,11 +1,12 @@
+#include <stdint.h>
 #include <stdlib.h>
 #include <types.h>
 #include <ctype.h>
 
 int atoi(const char *s) NONBANKED
 {
-  UINT8 i, sign = 0;
-  INT8 n;
+  uint8_t i, sign = 0;
+  int8_t n;
 
   for(i = 0; (s[i] == ' ') || (s[i] == '\n') || (s[i] == '\t'); ++i)
     ;
