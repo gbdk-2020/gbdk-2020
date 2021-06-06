@@ -3,7 +3,7 @@
 #include <stdarg.h>
 #include <ctype.h>
 
-static uint8_t scan_skip(char *s, uint8_t i)
+static unsigned char scan_skip(char *s, unsigned char i)
 {
 oncemore:
   while(isspace(s[i]))
@@ -16,10 +16,10 @@ oncemore:
   return i;
 }
 
-static uint8_t scan_int(char *s, uint8_t i, uint8_t base, int8_t *nb)
+static unsigned char scan_int(char *s, unsigned char i, unsigned char base, char *nb)
 {
-  int8_t n = 0;
-  uint8_t j, sign = 0;
+  char n = 0;
+  unsigned char j, sign = 0;
 
   switch(s[i])
     {
@@ -46,10 +46,10 @@ static uint8_t scan_int(char *s, uint8_t i, uint8_t base, int8_t *nb)
   return i;
 }
 
-static uint8_t scan_long(char *s, uint8_t i, uint8_t base, int16_t *nb)
+static unsigned char scan_long(char *s, unsigned char i, unsigned char base, int *nb)
 {
-  int16_t n = 0;
-  uint8_t j, sign = 0;
+  int n = 0;
+  unsigned char j, sign = 0;
 
   switch(s[i])
     {
@@ -76,12 +76,12 @@ static uint8_t scan_long(char *s, uint8_t i, uint8_t base, int16_t *nb)
   return i;
 }
 
-int8_t scanf(char *fmt, ...)
+char scanf(char *fmt, ...)
 {
   va_list ap;
   char s[64];
-  uint8_t i = 0;
-  int8_t nb = 0;
+  unsigned char i = 0;
+  char nb = 0;
 
   gets(s);
   va_start(ap, fmt);
@@ -99,20 +99,20 @@ int8_t scanf(char *fmt, ...)
 	/* decimal int */
       case 'u':
 	/* unsigned int */
-	i = scan_int(s, i, 10, va_arg(ap, int8_t *));
+	i = scan_int(s, i, 10, va_arg(ap, char *));
 	break;
       case 'o':
 	/* octal int */
-	i = scan_int(s, i, 8, va_arg(ap, int8_t *));
+	i = scan_int(s, i, 8, va_arg(ap, char *));
 	break;
       case 'x':
 	/* hexadecimal int */
-	i = scan_int(s, i, 16, va_arg(ap, int8_t *));
+	i = scan_int(s, i, 16, va_arg(ap, char *));
 	break;
       case 's':
 	/* string */
 	{
-	  int8_t j = 0;
+	  char j = 0;
 	  char *d = va_arg(ap, char *);
 	  while((d[j++] = s[i++]) != 0)
 	    ;
@@ -125,15 +125,15 @@ int8_t scanf(char *fmt, ...)
 	  /* decimal long */
 	case 'u':
 	  /* unsigned long */
-	  i = scan_long(s, i, 10, va_arg(ap, int16_t *));
+	  i = scan_long(s, i, 10, va_arg(ap, int *));
 	  break;
 	case 'o':
 	  /* octal long */
-	  i = scan_long(s, i, 8, va_arg(ap, int16_t *));
+	  i = scan_long(s, i, 8, va_arg(ap, int *));
 	  break;
 	case 'x':
 	  /* hexadecimal long */
-	  i = scan_long(s, i, 16, va_arg(ap, int16_t *));
+	  i = scan_long(s, i, 16, va_arg(ap, int *));
 	  break;
 	}
 	break;
