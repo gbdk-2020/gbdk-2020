@@ -50,6 +50,6 @@ uint8_t sgb_check(void) __preserves_regs(b, c);
 
     @see sgb_check()
 */
-void sgb_transfer(unsigned char * packet) __preserves_regs(b, c);
+void sgb_transfer(uint8_t * packet) __preserves_regs(b, c);
 
 #endif /* _SGB_H */

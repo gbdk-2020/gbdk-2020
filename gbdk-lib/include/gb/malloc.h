@@ -29,7 +29,7 @@ struct smalloc_hunk {
     uint8_t 		magic;		/* Magic number - indicates valid hunk header */
     pmmalloc_hunk	next;		/* Pointer to the next hunk */
     uint16_t 		size;		/* Size in bytes of this region */
-    int 		status;		/* One of MALLOC_FREE or MALLOC_USED */
+    int16_t 		status;		/* One of MALLOC_FREE or MALLOC_USED */
 };
 
 /** Start of free memory, as defined by the linker */

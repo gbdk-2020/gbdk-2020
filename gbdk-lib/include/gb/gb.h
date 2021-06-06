@@ -355,29 +355,29 @@ __REG _current_bank;
     @param b   ROM bank to switch to
 */
 #define SWITCH_ROM_MBC1(b) \
-  _current_bank = (b), *(unsigned char *)0x2000 = (b)
+  _current_bank = (b), *(uint8_t *)0x2000 = (b)
 
 /** Switches SRAM bank on MBC1 and other compaticle MBCs
     @param b   SRAM bank to switch to
 */
 #define SWITCH_RAM_MBC1(b) \
-  *(unsigned char *)0x4000 = (b)
+  *(uint8_t *)0x4000 = (b)
 
 /** Enables SRAM on MBC1
 */
 #define ENABLE_RAM_MBC1 \
-  *(unsigned char *)0x0000 = 0x0A
+  *(uint8_t *)0x0000 = 0x0A
 
 /** Disables SRAM on MBC1
 */
 #define DISABLE_RAM_MBC1 \
-  *(unsigned char *)0x0000 = 0x00
+  *(uint8_t *)0x0000 = 0x00
 
 #define SWITCH_16_8_MODE_MBC1 \
-  *(unsigned char *)0x6000 = 0x00
+  *(uint8_t *)0x6000 = 0x00
 
 #define SWITCH_4_32_MODE_MBC1 \
-  *(unsigned char *)0x6000 = 0x01
+  *(uint8_t *)0x6000 = 0x01
 
 /** Makes MBC5 switch to the active ROM bank; only 4M roms are supported, @see SWITCH_ROM_MBC5_8M()
     @param b   ROM bank to switch to
@@ -386,8 +386,8 @@ __REG _current_bank;
 */
 #define SWITCH_ROM_MBC5(b) \
   _current_bank = (b), \
-  *(unsigned char *)0x3000 = 0, \
-  *(unsigned char *)0x2000 = (b)
+  *(uint8_t *)0x3000 = 0, \
+  *(uint8_t *)0x2000 = (b)
 
 /** Makes MBC5 to switch the active ROM bank; active bank number is not tracked by _current_bank if you use this macro
     @see _current_bank
@@ -396,24 +396,24 @@ __REG _current_bank;
     Note the order used here. Writing the other way around on a MBC1 always selects bank 1
 */
 #define SWITCH_ROM_MBC5_8M(b) \
-  *(unsigned char *)0x3000 = ((uint16_t)(b) >> 8), \
-  *(unsigned char *)0x2000 = (b)
+  *(uint8_t *)0x3000 = ((uint16_t)(b) >> 8), \
+  *(uint8_t *)0x2000 = (b)
 
 /** Switches SRAM bank on MBC5
     @param b   SRAM bank to switch to
 */
 #define SWITCH_RAM_MBC5(b) \
-  *(unsigned char *)0x4000 = (b)
+  *(uint8_t *)0x4000 = (b)
 
 /** Enables SRAM on MBC5
 */
 #define ENABLE_RAM_MBC5 \
-  *(unsigned char *)0x0000 = 0x0A
+  *(uint8_t *)0x0000 = 0x0A
 
 /** Disables SRAM on MBC5
 */
 #define DISABLE_RAM_MBC5 \
-  *(unsigned char *)0x0000 = 0x00
+  *(uint8_t *)0x0000 = 0x00
 
 
 
@@ -655,7 +655,7 @@ uint8_t * get_bkg_xy_addr(uint8_t x, uint8_t y) __preserves_regs(b, c);
 */
 void set_bkg_data(uint8_t first_tile,
          uint8_t nb_tiles,
-         const unsigned char *data) NONBANKED __preserves_regs(b, c);
+         const uint8_t *data) NONBANKED __preserves_regs(b, c);
 
 
 /** Sets VRAM Tile Pattern data for the Background / Window using 1bpp source data
@@ -676,7 +676,7 @@ void set_bkg_data(uint8_t first_tile,
 */
 void set_bkg_1bit_data(uint8_t first_tile,
          uint8_t nb_tiles,
-         const unsigned char *data,
+         const uint8_t *data,
          uint8_t color) NONBANKED __preserves_regs(b, c);
 
 
@@ -696,7 +696,7 @@ void set_bkg_1bit_data(uint8_t first_tile,
 */
 void get_bkg_data(uint8_t first_tile,
          uint8_t nb_tiles,
-         unsigned char *data) NONBANKED __preserves_regs(b, c);
+         uint8_t *data) NONBANKED __preserves_regs(b, c);
 
 
 /** Sets a rectangular region of Background Tile Map.
@@ -755,7 +755,7 @@ void set_bkg_tiles(uint8_t x,
           uint8_t y,
           uint8_t w,
           uint8_t h,
-          const unsigned char *tiles) NONBANKED __preserves_regs(b, c);
+          const uint8_t *tiles) NONBANKED __preserves_regs(b, c);
 
 
 /** Sets a rectangular area of the Background Tile Map using a sub-region 
@@ -786,7 +786,7 @@ void set_bkg_tiles(uint8_t x,
     @see SHOW_BKG
     @see set_bkg_data, set_bkg_tiles, set_win_submap
 */
-void set_bkg_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const unsigned char *map, uint8_t map_w);
+void set_bkg_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w);
 
 
 /** Copies a rectangular region of Background Tile Map entries into a buffer.
@@ -809,7 +809,7 @@ void get_bkg_tiles(uint8_t x,
           uint8_t y,
           uint8_t w,
           uint8_t h,
-          unsigned char *tiles) NONBANKED __preserves_regs(b, c);
+          uint8_t *tiles) NONBANKED __preserves_regs(b, c);
 
 
 /**
@@ -884,7 +884,7 @@ uint8_t * get_win_xy_addr(uint8_t x, uint8_t y) __preserves_regs(b, c);
 */
 void set_win_data(uint8_t first_tile,
           uint8_t nb_tiles,
-          const unsigned char *data) NONBANKED __preserves_regs(b, c);
+          const uint8_t *data) NONBANKED __preserves_regs(b, c);
 
 
 /** Sets VRAM Tile Pattern data for the Window / Background using 1bpp source data
@@ -900,7 +900,7 @@ void set_win_data(uint8_t first_tile,
 */
 void set_win_1bit_data(uint8_t first_tile,
           uint8_t nb_tiles,
-          const unsigned char *data) NONBANKED __preserves_regs(b, c);
+          const uint8_t *data) NONBANKED __preserves_regs(b, c);
 
 
 /** Copies from Window / Background VRAM Tile Pattern data into a buffer
@@ -916,7 +916,7 @@ void set_win_1bit_data(uint8_t first_tile,
 */
 void get_win_data(uint8_t first_tile,
           uint8_t nb_tiles,
-          unsigned char *data) NONBANKED __preserves_regs(b, c);
+          uint8_t *data) NONBANKED __preserves_regs(b, c);
 
 
 /** Sets a rectangular region of the Window Tile Map.
@@ -954,7 +954,7 @@ void set_win_tiles(uint8_t x,
           uint8_t y,
           uint8_t w,
           uint8_t h,
-          const unsigned char *tiles) NONBANKED __preserves_regs(b, c);
+          const uint8_t *tiles) NONBANKED __preserves_regs(b, c);
 
 
 /** Sets a rectangular area of the Window Tile Map using a sub-region 
@@ -987,7 +987,7 @@ void set_win_tiles(uint8_t x,
 
     @see SHOW_WIN, HIDE_WIN, set_win_tiles, set_bkg_submap, set_bkg_tiles, set_bkg_data
 **/
-void set_win_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const unsigned char *map, uint8_t map_w);
+void set_win_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w);
 
 
 /** Copies a rectangular region of Window Tile Map entries into a buffer.
@@ -1009,7 +1009,7 @@ void get_win_tiles(uint8_t x,
           uint8_t y,
           uint8_t w,
           uint8_t h,
-          unsigned char *tiles) NONBANKED __preserves_regs(b, c);
+          uint8_t *tiles) NONBANKED __preserves_regs(b, c);
 
 
 /**
@@ -1079,7 +1079,7 @@ inline void scroll_win(int8_t x, int8_t y) {
 */
 void set_sprite_data(uint8_t first_tile,
           uint8_t nb_tiles,
-          const unsigned char *data) NONBANKED __preserves_regs(b, c);
+          const uint8_t *data) NONBANKED __preserves_regs(b, c);
 
 
 /** Sets VRAM Tile Pattern data for Sprites using 1bpp source data
@@ -1099,7 +1099,7 @@ void set_sprite_data(uint8_t first_tile,
 */
 void set_sprite_1bit_data(uint8_t first_tile,
           uint8_t nb_tiles,
-          const unsigned char *data) NONBANKED __preserves_regs(b, c);
+          const uint8_t *data) NONBANKED __preserves_regs(b, c);
 
 
 /** Copies from Sprite VRAM Tile Pattern data into a buffer
@@ -1116,7 +1116,7 @@ void set_sprite_1bit_data(uint8_t first_tile,
 */
 void get_sprite_data(uint8_t first_tile,
           uint8_t nb_tiles,
-          unsigned char *data) NONBANKED __preserves_regs(b, c);
+          uint8_t *data) NONBANKED __preserves_regs(b, c);
 
 
 /** Sprite Attributes structure
@@ -1289,8 +1289,8 @@ inline void hide_sprite(uint8_t nb) {
     \li VBK_REG=0 indicates the first bank
     \li VBK_REG=1 indicates the second
 */
-void set_data(unsigned char *vram_addr,
-          const unsigned char *data,
+void set_data(uint8_t *vram_addr,
+          const uint8_t *data,
           uint16_t len) NONBANKED __preserves_regs(b, c);
 
 
@@ -1306,8 +1306,8 @@ void set_data(unsigned char *vram_addr,
     \li VBK_REG=0 indicates the first bank
     \li VBK_REG=1 indicates the second
 */
-void get_data(unsigned char *data,
-          unsigned char *vram_addr,
+void get_data(uint8_t *data,
+          uint8_t *vram_addr,
           uint16_t len) NONBANKED __preserves_regs(b, c);
 
 
@@ -1335,8 +1335,8 @@ void set_tiles(uint8_t x,
           uint8_t y,
           uint8_t w,
           uint8_t h,
-          unsigned char *vram_addr,
-          const unsigned char *tiles) NONBANKED __preserves_regs(b, c);
+          uint8_t *vram_addr,
+          const uint8_t *tiles) NONBANKED __preserves_regs(b, c);
 
 /** Sets VRAM Tile Pattern data starting from given base address
 
@@ -1347,7 +1347,7 @@ void set_tiles(uint8_t x,
 */
 void set_tile_data(uint8_t first_tile,
           uint8_t nb_tiles,
-          const unsigned char *data,
+          const uint8_t *data,
 		  uint8_t base) NONBANKED __preserves_regs(b, c);
 
 /** Copies a rectangular region of Tile Map entries from a given VRAM Address into a buffer.
@@ -1372,8 +1372,8 @@ void get_tiles(uint8_t x,
           uint8_t y,
           uint8_t w,
           uint8_t h,
-		  unsigned char *vram_addr,
-          unsigned char *tiles) NONBANKED __preserves_regs(b, c);
+		  uint8_t *vram_addr,
+          uint8_t *tiles) NONBANKED __preserves_regs(b, c);
 
 
 

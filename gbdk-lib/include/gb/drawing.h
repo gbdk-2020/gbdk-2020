@@ -120,11 +120,11 @@ void
     is saved in dst. Both src and dst may be NULL - saving or copying to screen is
     not performed in this case. */
 void
-	switch_data(uint8_t x, uint8_t y, unsigned char *src, unsigned char *dst) NONBANKED;
+	switch_data(uint8_t x, uint8_t y, uint8_t *src, uint8_t *dst) NONBANKED;
 
 /** Draw a full screen image at __data__ */
 void
-	draw_image(unsigned char *data) NONBANKED;
+	draw_image(uint8_t *data) NONBANKED;
 
 /** Draw a line in the current drawing mode and colour from __x1,y1__ to __x2,y2__ */
 void
