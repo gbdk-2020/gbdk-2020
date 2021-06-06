@@ -1,6 +1,7 @@
 #ifndef __BCD_H_INCLUDE
 #define __BCD_H_INCLUDE
 
+#include <stdint.h>
 #include <asm/types.h>
 
 /** @file bcd.h
@@ -55,6 +56,6 @@ void bcd_sub(BCD * sour, const BCD * value);
     \li It can also be set to the ascii value for character '0'
     so that the buffer is a normal string that can be passed to @ref printf.
 */
-UBYTE bcd2text(const BCD * bcd, UBYTE tile_offset, unsigned char * buffer);
+uint8_t bcd2text(const BCD * bcd, uint8_t tile_offset, unsigned char * buffer);
 
 #endif

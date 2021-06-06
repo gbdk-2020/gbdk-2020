@@ -8,6 +8,7 @@
 #define __SYS_MALLOC_H
 
 #include <types.h>
+#include <stdint.h>
 
 /* The various constants */
 /** The malloc hunk flags
@@ -25,14 +26,14 @@ typedef struct smalloc_hunk	mmalloc_hunk;
 typedef struct smalloc_hunk *	pmmalloc_hunk;
 
 struct smalloc_hunk {
-    UBYTE 		magic;		/* Magic number - indicates valid hunk header */
+    uint8_t 		magic;		/* Magic number - indicates valid hunk header */
     pmmalloc_hunk	next;		/* Pointer to the next hunk */
-    UWORD 		size;		/* Size in bytes of this region */
+    uint16_t 		size;		/* Size in bytes of this region */
     int 		status;		/* One of MALLOC_FREE or MALLOC_USED */
 };
 
 /** Start of free memory, as defined by the linker */
-extern UBYTE malloc_heap_start;
+extern uint8_t malloc_heap_start;
 
 /** First hunk */
 extern pmmalloc_hunk malloc_first;
