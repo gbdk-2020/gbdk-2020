@@ -3,7 +3,7 @@
         ;; BANKED: checked
         .area   _BASE
 
-; void get_tiles(UINT8 x, UINT8 y, UINT8 w, UINT8 h, unsigned char *vram_addr, unsigned char *tiles);
+; void get_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *vram_addr, uint8_t *tiles);
 
 _get_tiles::
         PUSH    BC

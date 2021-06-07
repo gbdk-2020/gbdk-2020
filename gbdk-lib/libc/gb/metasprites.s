@@ -19,7 +19,7 @@ ___render_shadow_OAM::
 
         .area   _CODE
 
-; UBYTE __move_metasprite(UINT8 id, UINT8 x, UINT8 y)
+; uint8_t __move_metasprite(uint8_t id, uint8_t x, uint8_t y)
 
 ___move_metasprite::
         ldhl    sp, #4
@@ -75,7 +75,7 @@ ___move_metasprite::
 
         ret
 
-; void __hide_metasprite(UINT8 id)
+; void __hide_metasprite(uint8_t id)
 
 ___hide_metasprite::
         ldhl    sp, #2

@@ -1,6 +1,7 @@
+#include <stdint.h>
 #include "bcd.h"
 
-void uint2bcd(unsigned int i, BCD * value) __naked
+void uint2bcd(uint16_t i, BCD * value) __naked
 {
     i; value; // suppress warninig: unreferenced function argument
 __asm
@@ -140,7 +141,7 @@ __asm
 __endasm;
 }
 
-UBYTE bcd2text(BCD * bcd, UBYTE tile_offset, unsigned char * buffer) __naked
+uint8_t bcd2text(BCD * bcd, uint8_t tile_offset, uint8_t * buffer) __naked
 {
     bcd; tile_offset; buffer;
 __asm

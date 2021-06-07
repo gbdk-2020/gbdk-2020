@@ -1,18 +1,19 @@
+#include <stdint.h>
 #include <gb/drawing.h>
 
 /* Print a long number in any radix */
 
 extern char *digits;
 
-void gprintln(INT16 number, INT8 radix, INT8 signed_value)
+void gprintln(int16_t number, int8_t radix, int8_t signed_value)
 {
-  UINT16 l;
+  uint16_t l;
 
   if(number < 0 && signed_value) {
     wrtchr('-');
     number = -number;
   }
-  if((l = (UINT16)number / (UINT16)radix) != 0)
+  if((l = (uint16_t)number / (uint16_t)radix) != 0)
     gprintln(l, radix, UNSIGNED);
-  wrtchr(digits[(UINT16)number % (UINT16)radix]);
+  wrtchr(digits[(uint16_t)number % (uint16_t)radix]);
 }

@@ -5,7 +5,7 @@
 	;; BANKED: checked, imperfect
         .area   _BASE
 
-; void set_tiles(UINT8 x, UINT8 y, UINT8 w, UINT8 h, unsigned char *vram_addr, const unsigned char *tiles);
+; void set_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *vram_addr, const uint8_t *tiles);
 
 _set_tiles::
         PUSH    BC
