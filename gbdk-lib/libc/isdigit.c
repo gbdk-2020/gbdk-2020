@@ -1,6 +1,7 @@
 #include <ctype.h>
+#include <stdbool.h>
 
-BOOLEAN isdigit(char c)
+bool isdigit(char c)
 {
   if(c >= '0' && c <= '9')
     return 1;

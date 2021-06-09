@@ -1,6 +1,7 @@
 #include <ctype.h>
+#include <stdbool.h>
 
-BOOLEAN isspace(char c)
+bool isspace(char c)
 {
   if(c == ' ' || c == '\t' || c == '\n')
     return 1;

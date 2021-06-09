@@ -1,6 +1,7 @@
 #include <ctype.h>
+#include <stdbool.h>
 
-BOOLEAN isalpha(char c)
+bool isalpha(char c)
 {
   if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
     return 1;
