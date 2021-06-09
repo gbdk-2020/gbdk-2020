@@ -43,8 +43,8 @@ If you wish to use the original tools, you must add the `const` keyword every ti
 
   - Prefer unsigned variables to signed ones: The code generated will be generally more efficient, especially when comparing two values.
 
-  - Use explicit types so you always know the size of your variables. `int8_t, uint8_t, int16_t, uint16_t, int32_t, uint32_t`.  
-  These are standard types defined in `stdint.h` (`#include <stdint.h>`).
+  - Use explicit types so you always know the size of your variables. `int8_t, uint8_t, int16_t, uint16_t, int32_t, uint32_t` and `bool`.
+  These are standard types defined in `stdint.h` (`#include <stdint.h>`) and `stdbool.h` (`#include <stdbool.h>`).
 
   - Global and local static variables are generally more efficient than local non-static variables (which go on the stack and are slower and can result in slower code).
 

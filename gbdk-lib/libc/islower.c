@@ -1,6 +1,7 @@
 #include <ctype.h>
+#include <stdbool.h>
 
-BOOLEAN islower(char c)
+bool islower(char c)
 {
   if(c >= 'a' && c <= 'z')
     return 1;

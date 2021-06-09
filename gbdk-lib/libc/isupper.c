@@ -1,6 +1,7 @@
 #include <ctype.h>
+#include <stdbool.h>
 
-BOOLEAN isupper(char c)
+bool isupper(char c)
 {
   if(c >= 'A' && c <= 'Z')
     return 1;
