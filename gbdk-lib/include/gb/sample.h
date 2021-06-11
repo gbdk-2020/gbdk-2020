@@ -10,11 +10,11 @@
 #ifndef _SAMPLE_H
 #define _SAMPLE_H
 
+#include <types.h>
 #include <stdint.h>
 
 /** Play the given, appropriatly formatted sample.
  */
-void
-play_sample(uint8_t *start, uint16_t len) NONBANKED;
+void play_sample(uint8_t *start, uint16_t len) NONBANKED;
 
 #endif /* _SAMPLE_H */

@@ -4,13 +4,11 @@
 #ifndef _GB_H
 #define _GB_H
 
-#define __GBDK_VERSION 402
+#define __GBDK_VERSION 404
 
 #include <types.h>
 #include <stdint.h>
 #include <gb/hardware.h>
-#include <gb/sgb.h>
-#include <gb/cgb.h>
 
 /** Joypad bits.
     A logical OR of these is used in the wait_pad and joypad

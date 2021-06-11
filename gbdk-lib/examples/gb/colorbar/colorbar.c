@@ -1,4 +1,5 @@
 #include <gb/gb.h>
+#include <gb/cgb.h>
 #include <stdint.h>
 
 #include "bar_c.h"

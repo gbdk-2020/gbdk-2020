@@ -6,6 +6,7 @@
 #ifndef _SGB_H
 #define _SGB_H
 
+#include <types.h>
 #include <stdint.h>
 
 #define SGB_PAL_01 0x00U    /**< SGB Command: Set SGB Palettes 0 & 1 */

@@ -5,6 +5,7 @@
  ********************************************************************/
 
 #include <gb/gb.h>
+#include <gb/cgb.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <rand.h>
