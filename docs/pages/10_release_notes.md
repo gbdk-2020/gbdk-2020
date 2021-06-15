@@ -6,6 +6,43 @@ https://github.com/gbdk-2020/gbdk-2020/releases
 
 # GBDK 2020 Release Notes
 
+## GBDK 2020 4.0.4
+  2021/06
+  - Library
+    - Support SDCC INITIALIZER area (SDCC ~12207+)
+    - Added @ref get_vram_byte() / @ref get_win_tile_xy() / @ref get_bkg_tile_xy()
+    - Added @ref set_tile_data()
+    - Fixed SGB detection
+    - Fixed broken @ref get_tiles() / @ref set_tiles()
+    - Fixed broken token handling in @ref gb_decompress_sprite_data() / @ref gb_decompress_bkg_data() / @ref gb_decompress_win_data()
+    - Changed all headers to use standard `stdint.h` types (ex: `uint8_t` instead of `UINT8`/`UBYTE`)
+    - Made sample.h, cgb.h and sgb.h independent from gb.h
+  - Examples
+    - Added project using a .lk linkerfile
+    - Changed all examples to use standard stdint.h types
+    - Moved banks_farptr and banks_new examples to "broken" due to SDCC changes
+  - Toolchain / Utilities
+    - png2mtspr
+      - Added option to change default value for sprite property/attributes in (allows CGB palette, BG/WIN priority, etc).
+      - Improved: Turn off suppression of "blank" metasprite frames (composed of entirely transparent sprites)
+      - Fixed endless loop for png files taller than 255 pixels
+    - bankpack
+      - Fixed -yt mbc specifier to also accept Decimal
+      - Improved: bank ID can be used in same file it is declared. Requires SDCC 12238+ with `-n` option to defer symbol resolution to link time.
+    - gbcompress
+      - Added C source input (expirimental) and output
+      - Added size `#defines`
+    - lcc
+      - Added `-no-libs` and `-no-crt` options
+      - Added support for .lk linker files (useful when number of files on lcc command line exceeds max size on windows)
+      - Added support for converting .ihx to .gb
+      - Added rewrite .o files -> .rel for linking when called with `-autobank` and `-Wb-ext=.rel`
+      - Workaround @ref makebin `-Wl-yp` formatting segfault
+  - Docs
+    - Improved @ref utility_png2mtspr documentation
+    - Various doc updates and improvements
+
+
 ## GBDK 2020 4.0.3
   2021/03
   - Library
