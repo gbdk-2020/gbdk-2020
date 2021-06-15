@@ -15,7 +15,7 @@ Check the [Links and Third-Party Tools Section](https://gbdk-2020.github.io/gbdk
 
 # Current status
 - updated CRT and library that suits better for game development
-- the latest nightlies of **sdcc** (the compiler and toolchain) are used from [sourceforge](http://sdcc.sourceforge.net). At the moment of writing this the last stable version is 4.0 which has linker issues and won't work if you want to use banks. Please use one of the nightlies available [here](http://sdcc.sourceforge.net/snap.php) (we used 4.0.7 #12016)
+- the latest nightlies of **sdcc** (the compiler and toolchain) are used from [sourceforge](http://sdcc.sourceforge.net). At the moment of writing this the last stable version is 4.1.0, which is missing features from newer SDCC builds that GBDK-2020 uses. Please use one of the nightlies available [here](http://sdcc.sourceforge.net/snap.php) (we used 4.1.6 #12439)
 - The compiler driver **lcc** supports the latest sdcc toolchain.
 
 For full list of changes see the [ChangeLog](https://github.com/gbdk-2020/gbdk-2020/blob/master/gbdk-support/ChangeLog) file
@@ -46,7 +46,7 @@ Unless you are interested on recompiling the sources for some reason (like fixin
 
 - **Windows only**: Download and install [mingw](http://www.mingw.org/)
 - Clone, download this repo or just get the source form the [releases](https://github.com/gbdk-2020/gbdk-2020/releases)
-- Download and install [**sdcc nightlies from 4.0.7 #12016 onwards**](http://sdcc.sourceforge.net/snap.php) (SDCC is no longer part of GDDK so you need to download it (just the binaries) in the platform you need)
+- Download and install [**sdcc nightlies from 4.1.6 #12439 onwards**](http://sdcc.sourceforge.net/snap.php) (SDCC is no longer part of GDDK so you need to download it (just the binaries) in the platform you need)
 - On Linux **don't use package managers** The latest release available won't work, you need to compile or download one of the nightlies
 - Create **SDCCDIR** environment variable, that points into the folder, where you installed sdcc
 - Open command prompt or a terminal, go to the root directory of the repo and run **make**
