@@ -89,15 +89,15 @@ $(document).ready(function(){initNavTree('docs_using_gbdk.html',''); initResizab
 <div class="title">Using GBDK </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1><a class="anchor" id="autotoc_md19"></a>
+<div class="textblock"><h1><a class="anchor" id="autotoc_md22"></a>
 Interrupts</h1>
 <p>Interrupts allow execution to jump to a different part of your code as soon as an external event occurs - for example the LCD entering the vertical blank period, serial data arriving or the timer reaching its end count. For an example see the irq.c sample project.</p>
-<p>Interrupts in GBDK are handled using the functions <a class="el" href="gb_8h.html#ad8d2df514d3b5d3d08db3671f0d5af14">disable_interrupts()</a>, <a class="el" href="gb_8h.html#a97039b6477537c37f83e74561de78c1b">enable_interrupts()</a>, <a class="el" href="gb_8h.html#ae33fc234393ba50e8f30cbef403ded19">set_interrupts(UBYTE ier)</a> and the interrupt service routine (ISR) linkers <a class="el" href="gb_8h.html#a2412b9f97cb59acfcb2383eb9f204ddf">add_VBL()</a>, <a class="el" href="gb_8h.html#a411914e5dc5f28ce0afa7cf692a18af1">add_TIM</a>, <a class="el" href="gb_8h.html#a6cc76ea12ac894c4947f85fa1999117c">add_LCD</a>, <a class="el" href="gb_8h.html#a024fc35ef0ad258d67c8f9dfb0751ee7">add_SIO</a> and <a class="el" href="gb_8h.html#a81f1a67549d3a26dcca22367141eb21b">add_JOY</a> which add interrupt handlers for the vertical blank, timer, LCD, serial link and joypad interrupts respectively.</p>
+<p>Interrupts in GBDK are handled using the functions <a class="el" href="gb_8h.html#ad8d2df514d3b5d3d08db3671f0d5af14">disable_interrupts()</a>, <a class="el" href="gb_8h.html#a97039b6477537c37f83e74561de78c1b">enable_interrupts()</a>, <a class="el" href="gb_8h.html#a9b132042678afce70ccb2d479f4133f0">set_interrupts(uint8_t ier)</a> and the interrupt service routine (ISR) linkers <a class="el" href="gb_8h.html#a2412b9f97cb59acfcb2383eb9f204ddf">add_VBL()</a>, <a class="el" href="gb_8h.html#a411914e5dc5f28ce0afa7cf692a18af1">add_TIM</a>, <a class="el" href="gb_8h.html#a6cc76ea12ac894c4947f85fa1999117c">add_LCD</a>, <a class="el" href="gb_8h.html#a024fc35ef0ad258d67c8f9dfb0751ee7">add_SIO</a> and <a class="el" href="gb_8h.html#a81f1a67549d3a26dcca22367141eb21b">add_JOY</a> which add interrupt handlers for the vertical blank, timer, LCD, serial link and joypad interrupts respectively.</p>
 <p>Since an interrupt can occur at any time an Interrupt Service Request (ISR) cannot take any arguments or return anything. Its only way of communicating with the greater program is through the global variables. When interacting with those shared ISR global variables from main code outside the interrupt, it is a good idea to wrap them in a <code>critical {}</code> section in case the interrupt occurs and modifies the variable while it is being used.</p>
 <p>Interrupts should be disabled before adding ISRs. To use multiple interrupts, <em>logical OR</em> the relevant IFLAGs together.</p>
 <p>ISRs should be kept as small and short as possible, do not write an ISR so long that the Game Boy hardware spends all of its time servicing interrupts and has no time spare for the main code.</p>
 <p>For more detail on the Game Boy interrupts consider reading about them in the <a class="el" href="docs_links_and_tools.html#Pandocs">Pandocs</a>.</p>
-<h2><a class="anchor" id="autotoc_md20"></a>
+<h2><a class="anchor" id="autotoc_md23"></a>
 Available Interrupts</h2>
 <p>The GameBoy hardware can generate 5 types of interrupts. Custom Interrupt Service Routines (ISRs) can be added in addition to the built-in ones available in GBDK.</p>
 <ul>
@@ -130,48 +130,48 @@ Available Interrupts</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md21"></a>
+<h2><a class="anchor" id="autotoc_md24"></a>
 Adding your own interrupt handler</h2>
 <p>It is possible to install your own interrupt handlers (in C or in assembly) for any of these interrupts. Up to 4 chained handlers may be added, with the last added being called last. If the <a class="el" href="gb_8h.html#a3b3171b2e81e23b7d1bc402275a9ac71">remove_VBL()</a> function is to be called, only three may be added for VBL.</p>
 <p>Interrupt handlers are called in sequence. To install a new interrupt handler, do the following:</p>
 <ol type="1">
 <li>Write a function (say foo()) that takes no parameters, and that returns nothing. Remember that the code executed in an interrupt handler must be short.</li>
 <li>Inside a <code>__critical { ... }</code> section, install your interrupt handling routines using the add_XXX() function, where XXX is the interrupt that you want to handle.</li>
-<li>Enable interrupts for the IRQ you want to handle, using the <a class="el" href="gb_8h.html#ae33fc234393ba50e8f30cbef403ded19">set_interrupts()</a> function. Note that the VBL interrupt is already enabled before the main() function is called. If you want to set the interrupts before main() is called, you must install an initialization routine.</li>
+<li>Enable interrupts for the IRQ you want to handle, using the <a class="el" href="gb_8h.html#a9b132042678afce70ccb2d479f4133f0">set_interrupts()</a> function. Note that the VBL interrupt is already enabled before the main() function is called. If you want to set the interrupts before main() is called, you must install an initialization routine.</li>
 </ol>
 <p>See the <code>irq</code> example project for additional details for a complete example.</p>
-<h2><a class="anchor" id="autotoc_md22"></a>
+<h2><a class="anchor" id="autotoc_md25"></a>
 Returning from Interrupts and STAT mode</h2>
 <p>By default when an Interrupt handler completes and is ready to exit it will check STAT_REG and only return at the BEGINNING of either LCD Mode 0 or Mode 1. This helps prevent graphical glitches caused when an ISR interrupts a graphics operation in one mode but returns in a different mode for which that graphics operation is not allowed.</p>
 <p>You can change this behavior using <a class="el" href="gb_8h.html#a115eb30ec86f6af039a27918ffe4cf8c">nowait_int_handler()</a> which does not check <a class="el" href="hardware_8h.html#ad40ebf3b29add46cdd310a7e0802bc6b">STAT_REG</a> before returning. Also see <a class="el" href="gb_8h.html#af461d38864cfc5720f0d9f4d1113cf07">wait_int_handler()</a>.</p>
-<h1><a class="anchor" id="autotoc_md23"></a>
+<h1><a class="anchor" id="autotoc_md26"></a>
 What GBDK does automatically and behind the scenes</h1>
-<h2><a class="anchor" id="autotoc_md24"></a>
+<h2><a class="anchor" id="autotoc_md27"></a>
 OAM (VRAM Sprite Attribute Table)</h2>
 <p>GBDK sets up a Shadow OAM which gets copied automatically to the hardware OAM by the default V-Blank ISR. The Shadow OAM allows updating sprites without worrying about whether it is safe to write to them or not based on the hardware LCD mode.</p>
-<h2><a class="anchor" id="autotoc_md25"></a>
+<h2><a class="anchor" id="autotoc_md28"></a>
 Font tiles when using stdio.h</h2>
 <p>Including <a class="el" href="stdio_8h.html">stdio.h</a> and using functions such as <a class="el" href="stdio_8h.html#a79c1db3e4a2aaa60d5afa76f7d984d0b">printf()</a> will use a large number of the background tiles for font characters. If stdio.h is not included then that space will be available for use with other tiles instead.</p>
-<h2><a class="anchor" id="autotoc_md26"></a>
+<h2><a class="anchor" id="autotoc_md29"></a>
 Default Interrupt Service Handlers (ISRs)</h2>
 <ul>
-<li>V-Blank: A default V-Blank ISR is installed on startup which copies the Shadow OAM to the hardware OAM and increments the global <a class="el" href="gb_8h.html#a320fd91d5aa12ba9d1435ab908420998">sys_time</a> variable once per frame.</li>
+<li>V-Blank: A default V-Blank ISR is installed on startup which copies the Shadow OAM to the hardware OAM and increments the global <a class="el" href="gb_8h.html#a78d2fd18666afec116f176d46debb4e7">sys_time</a> variable once per frame.</li>
 <li>Serial Link I/O: If any of the GBDK serial link functions are used such as <a class="el" href="gb_8h.html#a1259cf3a23fd2166a9d1a2e93942e30e">send_byte()</a> and <a class="el" href="gb_8h.html#a34d6500215984e8f9a986523a2f2dadd">receive_byte()</a>, the default SIO serial link handler will be installed automatically at compile-time.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md27"></a>
+<h1><a class="anchor" id="autotoc_md30"></a>
 Copying Functions to RAM and HIRAM</h1>
 <p>The <code>ram_function</code> example project included with GBDK demonstrates copying functions to RAM and HIRAM.</p>
-<p>It is possible to copy functions to RAM and HIRAM (using the <a class="el" href="string_8h.html#a1bb96f23101e1f8c053a36d59a01d3f8">memcpy()</a> and <a class="el" href="gb_8h.html#afd45c10f4566ca284cdab4044c5645b3">hiramcpy()</a> functions), and execute them from C. The compiler automatically generates two symbols for the start and the end of each function, named start_X and end_X (where X is the name of the function). This enables to calculate the length of a function when copying it to RAM. Ensure you have enough free space in RAM or HIRAM for copying a function.</p>
+<p>It is possible to copy functions to RAM and HIRAM (using the <a class="el" href="string_8h.html#a1bb96f23101e1f8c053a36d59a01d3f8">memcpy()</a> and <a class="el" href="gb_8h.html#adef803cdd559747ad6f36830e126e48f">hiramcpy()</a> functions), and execute them from C. The compiler automatically generates two symbols for the start and the end of each function, named start_X and end_X (where X is the name of the function). This enables to calculate the length of a function when copying it to RAM. Ensure you have enough free space in RAM or HIRAM for copying a function.</p>
 <p>There are basically two ways for calling a function located in RAM, HIRAM, or ROM:</p>
 <ul>
 <li>Declare a pointer-to-function variable, and set it to the address of the function to call.</li>
 <li>Declare the function as extern, and set its address at link time using the -Wl-gXXX=# flag (where XXX is the name of the function, and # is its address).</li>
 </ul>
 <p>The second approach is slightly more efficient. Both approaches are demonstrated in the <code>ram_function.c</code> example.</p>
-<h1><a class="anchor" id="autotoc_md28"></a>
+<h1><a class="anchor" id="autotoc_md31"></a>
 Mixing C and Assembly</h1>
 <p>You can mix C and assembly (ASM) in two ways as described below. For additional detail see the <a class="el" href="docs_links_and_tools.html#links_sdcc_docs">links_sdcc_docs</a>.</p>
-<h2><a class="anchor" id="autotoc_md29"></a>
+<h2><a class="anchor" id="autotoc_md32"></a>
 Inline ASM within C source files</h2>
 <p>Example: <br  />
  </p><pre class="fragment">   __asm__("nop");
@@ -183,7 +183,7 @@ Inline ASM within C source files</h2>
         (ASM code goes here)
     __endasm;
   }
-</pre><h2><a class="anchor" id="autotoc_md30"></a>
+</pre><h2><a class="anchor" id="autotoc_md33"></a>
 In Separate ASM files</h2>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000003">Todo:</a></b></dt><dd>This is from GBDK 2.x docs, verify it with GBDK-2020 and modern SDCC</dd></dl>
 <p>It is possible to assemble and link files written in ASM alongside files written in C.</p>
@@ -198,13 +198,13 @@ In Separate ASM files</h2>
 <p>Here is an example of how to mix assembly with C:</p>
 <p><code>main.c</code> </p><pre class="fragment">main()
 {
-  WORD i;
-  WORD add(WORD, WORD);
+  int16_t i;
+  int16_t add(int16_t, int16_t);
 
   i = add(1, 3);
 }
 </pre><p><code>add.s</code> </p><pre class="fragment">.globl _add
-_add:         ; WORD add(WORD a, WORD b)
+_add:         ; int16_t add(int16_t a, int16_t b)
               ; There is no register to save:
               ;  BC is not used
               ;  DE is the return register
@@ -223,9 +223,9 @@ LD   D,H
 LD   E,L
               ; There is no register to restore
 RET           ; Return result in DE
-</pre><h1><a class="anchor" id="autotoc_md31"></a>
+</pre><h1><a class="anchor" id="autotoc_md34"></a>
 Known Issues and Limitations</h1>
-<h2><a class="anchor" id="autotoc_md32"></a>
+<h2><a class="anchor" id="autotoc_md35"></a>
 SDCC</h2>
 <ul>
 <li>Const arrays declared with <code>somevar[n] = {x}</code> will <b>NOT</b> get initialized with value <code>x</code>. This may change when the SDCC RLE initializer is fixed. Use memset for now if you need it.</li>

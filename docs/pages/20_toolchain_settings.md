@@ -20,6 +20,8 @@
 -lx	search library `x'
 -N	do not search the standard directories for #include files
 -n	emit code to check for dereferencing zero pointers
+-no-crt do not auto-include the gbdk crt0.o runtime in linker list
+-no-libs do not auto-include the gbdk libs in linker list
 -O	is ignored
 -o file	leave the output in `file'
 -P	print ANSI-style declarations for globals
@@ -39,7 +41,7 @@
 @anchor sdcc-settings
 # sdcc settings
 ```
-SDCC : mcs51/z80/z180/r2k/r2ka/r3ka/gbz80/tlcs90/ez80_z80/z80n/ds390/pic16/pic14/TININative/ds400/hc08/s08/stm8/pdk13/pdk14/pdk15 4.1.0 #12069 (Linux)
+SDCC : mcs51/z80/z180/r2k/r2ka/r3ka/gbz80/tlcs90/ez80_z80/z80n/ds390/pic16/pic14/TININative/ds400/hc08/s08/stm8/pdk13/pdk14/pdk15 4.1.4 #12246 (Linux)
 published under GNU General Public License (GPL)
 Usage : sdcc [options] filename
 Options :-
@@ -168,7 +170,7 @@ Special options for the z80 port:
       --dataseg             <name> use this name for the data segment
       --no-std-crt0         For the z80/gbz80 do not link default crt0.rel
       --reserve-regs-iy     Do not use IY (incompatible with --fomit-frame-pointer)
-      --oldralloc           Use old register allocator
+      --oldralloc           Use old register allocator (deprecated)
       --fno-omit-frame-pointer  Do not omit frame pointer
       --emit-externs        Emit externs list in generated asm
       --legacy-banking      Use legacy method to call banked functions
@@ -183,7 +185,7 @@ Special options for the z180 port:
       --dataseg             <name> use this name for the data segment
       --no-std-crt0         For the z80/gbz80 do not link default crt0.rel
       --reserve-regs-iy     Do not use IY (incompatible with --fomit-frame-pointer)
-      --oldralloc           Use old register allocator
+      --oldralloc           Use old register allocator (deprecated)
       --fno-omit-frame-pointer  Do not omit frame pointer
       --emit-externs        Emit externs list in generated asm
       --legacy-banking      Use legacy method to call banked functions
@@ -198,7 +200,7 @@ Special options for the r2k port:
       --dataseg             <name> use this name for the data segment
       --no-std-crt0         For the z80/gbz80 do not link default crt0.rel
       --reserve-regs-iy     Do not use IY (incompatible with --fomit-frame-pointer)
-      --oldralloc           Use old register allocator
+      --oldralloc           Use old register allocator (deprecated)
       --fno-omit-frame-pointer  Do not omit frame pointer
       --emit-externs        Emit externs list in generated asm
       --legacy-banking      Use legacy method to call banked functions
@@ -213,7 +215,7 @@ Special options for the r2ka port:
       --dataseg             <name> use this name for the data segment
       --no-std-crt0         For the z80/gbz80 do not link default crt0.rel
       --reserve-regs-iy     Do not use IY (incompatible with --fomit-frame-pointer)
-      --oldralloc           Use old register allocator
+      --oldralloc           Use old register allocator (deprecated)
       --fno-omit-frame-pointer  Do not omit frame pointer
       --emit-externs        Emit externs list in generated asm
       --legacy-banking      Use legacy method to call banked functions
@@ -228,7 +230,7 @@ Special options for the r3ka port:
       --dataseg             <name> use this name for the data segment
       --no-std-crt0         For the z80/gbz80 do not link default crt0.rel
       --reserve-regs-iy     Do not use IY (incompatible with --fomit-frame-pointer)
-      --oldralloc           Use old register allocator
+      --oldralloc           Use old register allocator (deprecated)
       --fno-omit-frame-pointer  Do not omit frame pointer
       --emit-externs        Emit externs list in generated asm
       --legacy-banking      Use legacy method to call banked functions
@@ -237,6 +239,7 @@ Special options for the r3ka port:
 Special options for the gbz80 port:
       -bo                   <num> use code bank <num>
       -ba                   <num> use data bank <num>
+      --asm=                Define assembler name (rgbds/asxxxx/isas/z80asm/gas)
       --callee-saves-bc     Force a called function to always save BC
       --codeseg             <name> use this name for the code segment
       --constseg            <name> use this name for the const segment
@@ -253,7 +256,7 @@ Special options for the tlcs90 port:
       --dataseg             <name> use this name for the data segment
       --no-std-crt0         For the z80/gbz80 do not link default crt0.rel
       --reserve-regs-iy     Do not use IY (incompatible with --fomit-frame-pointer)
-      --oldralloc           Use old register allocator
+      --oldralloc           Use old register allocator (deprecated)
       --fno-omit-frame-pointer  Do not omit frame pointer
       --emit-externs        Emit externs list in generated asm
       --legacy-banking      Use legacy method to call banked functions
@@ -268,7 +271,7 @@ Special options for the ez80_z80 port:
       --dataseg             <name> use this name for the data segment
       --no-std-crt0         For the z80/gbz80 do not link default crt0.rel
       --reserve-regs-iy     Do not use IY (incompatible with --fomit-frame-pointer)
-      --oldralloc           Use old register allocator
+      --oldralloc           Use old register allocator (deprecated)
       --fno-omit-frame-pointer  Do not omit frame pointer
       --emit-externs        Emit externs list in generated asm
       --legacy-banking      Use legacy method to call banked functions
@@ -283,7 +286,7 @@ Special options for the z80n port:
       --dataseg             <name> use this name for the data segment
       --no-std-crt0         For the z80/gbz80 do not link default crt0.rel
       --reserve-regs-iy     Do not use IY (incompatible with --fomit-frame-pointer)
-      --oldralloc           Use old register allocator
+      --oldralloc           Use old register allocator (deprecated)
       --fno-omit-frame-pointer  Do not omit frame pointer
       --emit-externs        Emit externs list in generated asm
       --legacy-banking      Use legacy method to call banked functions
@@ -383,6 +386,7 @@ Usage: [-Options] outfile file1 [file2 file3 ...]
   -q   Octal   listing
   -x   Hex     listing (default)
   -g   Undefined symbols made global
+  -n   Don't resolve global assigned value symbols
   -a   All user symbols made global
   -b   Display .define substitutions in listing
   -bb  and display without .define substitutions
@@ -413,7 +417,7 @@ Use: Read .o files and auto-assign areas with bank=255.
 
 Options
 -h           : Show this help
--yt<hexbyte> : Set MBC type per ROM byte 149 in Hex (see pandocs)
+-yt<mbctype> : Set MBC type per ROM byte 149 in Decimal or Hex (0xNN) (see pandocs)
 -mbc=N       : Similar to -yt, but sets MBC type directly to N instead
                of by intepreting ROM byte 149
                mbc1 will exclude banks {0x20,0x40,0x60} max=127, 
@@ -497,7 +501,12 @@ Usage: makebin [options] [<in_file> [<out_file>]]
 Options:
   -p             pack mode: the binary file size will be truncated to the last occupied byte
   -s romsize     size of the binary file (default: rom banks * 16384)
-  -Z             genarate GameBoy format binary file
+  -Z             generate GameBoy format binary file
+  -S             generate Sega Master System format binary file
+SMS format options (applicable only with -S option):
+  -xo n          rom size (0xa-0x2)
+  -xj n          set region code (3-7)
+  -xv n          version number (0-15)
 GameBoy format options (applicable only with -Z option):
   -yo n          number of rom banks (default: 2) (autosize: A)
   -ya n          number of ram banks (default: 0)
@@ -522,9 +531,12 @@ gbcompress [options] infile outfile
 Use: Gbcompress a binary file and write it out.
 
 Options
--h : Show this help screen
--d : Decompress (default is compress)
--v : Verbose output
+-h    : Show this help screen
+-d    : Decompress (default is compress)
+-v    : Verbose output
+-cin  : Read input as .c source format (8 bit char ONLY, uses first array found)
+-cout : Write output in .c / .h source format (8 bit char ONLY) 
+-varname=<NAME> : specify variable name for c source output
 Example: "gbcompress binaryfile.bin compressed.bin"
 Example: "gbcompress -d compressedfile.bin decompressed.bin"
 ```
@@ -535,6 +547,7 @@ usage: png2mtspr <file>.png [options]
 -c            ouput file (default: <png file>.c)
 -sw <width>   metasprites width size (default: png width)
 -sh <height>  metasprites height size (default: png height)
+-sp <props>   change default for sprite OAM property bytes (in hex) (default: 0x00)
 -px <x coord> metasprites pivot x coordinate (default: metasprites width / 2)
 -py <y coord> metasprites pivot y coordinate (default: metasprites height / 2)
 -spr8x8       use SPRITES_8x8 (default: SPRITES_8x16)

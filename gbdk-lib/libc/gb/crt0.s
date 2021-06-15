@@ -57,7 +57,7 @@
 ;	.org	0x70
 	;; space for drawing.s bit table
 
-	.org    0x80
+	.org	0x80
 .int::
 	PUSH	BC
 	PUSH	DE
@@ -106,8 +106,10 @@ __standard_VBL_handler::
 	;; DO NOT CHANGE...
 	.org	0x100
 .header:
-	JP	.code_start
+	JR	.code_start
 
+	;; Nintendo logo
+	.org    0x104
 	.byte	0xCE,0xED,0x66,0x66
 	.byte	0xCC,0x0D,0x00,0x0B
 	.byte	0x03,0x73,0x00,0x83
@@ -181,10 +183,10 @@ _reset::
 
 	;; Clear CRT0 global variables
 	LD	HL,#.start_crt_globals
-	LD 	C,#(.end_crt_globals - .start_crt_globals)
+	LD	C,#(.end_crt_globals - .start_crt_globals)
 	RST	0x28
 
-; 	LD	(.mode),A	; Clearing (.mode) is performed when clearing RAM
+;	LD	(.mode),A	; Clearing (.mode) is performed when clearing RAM
 
 	;; Store CPU type
 	LD	A,D
@@ -315,13 +317,15 @@ _set_interrupts::
 	.area	_CODE_0
 	;; Constant data
 	.area	_LIT
+	.area	_INITIALIZER
 	;; Constant data used to init _DATA
-	.area	_GSINIT
+	.area	_GSINIT	
 	.area	_GSFINAL
-	;; Initialised in ram data
-	.area	_DATA
 	;; Uninitialised ram data
+	.area	_DATA
 	.area	_BSS
+	;; Initialised in ram data
+	.area	_INITIALIZED
 	;; For malloc
 	.area	_HEAP
 
@@ -349,9 +353,41 @@ __current_bank::	; Current bank
 	.ds	0x01		; Is VBL interrupt finished?
 __shadow_OAM_base::
 	.ds	0x01
+
 	;; Runtime library
 	.area	_GSINIT
 gsinit::
+	LD	DE, #l__INITIALIZER
+	LD	A, D
+	OR	E
+	JR	Z, 4$
+	LD	HL, #s__INITIALIZED
+	LD	BC, #s__INITIALIZER
+	
+	SRL	D
+	RR	E
+	JR	NC,3$
+	LD	A,(BC)
+	LD	(HL+),A
+	INC	BC
+3$:
+	INC	D
+	INC	E
+	JR	2$
+1$:
+	LD	A,(BC)
+	LD	(HL+),A
+	INC	BC
+	LD	A,(BC)
+	LD	(HL+),A
+	INC	BC
+2$:
+	DEC	E
+	JR	NZ,1$
+	DEC	D
+	JR	NZ,1$	
+4$:
+
 	.area	_GSFINAL
 	ret
 

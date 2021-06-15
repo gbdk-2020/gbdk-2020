@@ -90,7 +90,7 @@ $(document).ready(function(){initNavTree('docs_toolchain_settings.html',''); ini
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="lcc-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md141"></a>
+<h1><a class="anchor" id="autotoc_md150"></a>
 lcc settings</h1>
 <div class="fragment"><div class="line">./lcc [ option | file ]...</div>
 <div class="line">    except for -l, options are processed left-to-right before files</div>
@@ -110,6 +110,8 @@ lcc settings</h1>
 <div class="line">-lx search library `x&#39;</div>
 <div class="line">-N  do not search the standard directories for #include files</div>
 <div class="line">-n  emit code to check for dereferencing zero pointers</div>
+<div class="line">-no-crt do not auto-include the gbdk crt0.o runtime in linker list</div>
+<div class="line">-no-libs do not auto-include the gbdk libs in linker list</div>
 <div class="line">-O  is ignored</div>
 <div class="line">-o file leave the output in `file&#39;</div>
 <div class="line">-P  print ANSI-style declarations for globals</div>
@@ -126,9 +128,9 @@ lcc settings</h1>
 <div class="line">-Woarg  specify system-specific `arg&#39;</div>
 <div class="line">-W[pfablim]arg  pass `arg&#39; to the preprocessor, compiler, assembler, bankpack, linker, ihxcheck, or makebin</div>
 </div><!-- fragment --><p><a class="anchor" id="sdcc-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md142"></a>
+<h1><a class="anchor" id="autotoc_md151"></a>
 sdcc settings</h1>
-<div class="fragment"><div class="line">SDCC : mcs51/z80/z180/r2k/r2ka/r3ka/gbz80/tlcs90/ez80_z80/z80n/ds390/pic16/pic14/TININative/ds400/hc08/s08/stm8/pdk13/pdk14/pdk15 4.1.0 #12069 (Linux)</div>
+<div class="fragment"><div class="line">SDCC : mcs51/z80/z180/r2k/r2ka/r3ka/gbz80/tlcs90/ez80_z80/z80n/ds390/pic16/pic14/TININative/ds400/hc08/s08/stm8/pdk13/pdk14/pdk15 4.1.4 #12246 (Linux)</div>
 <div class="line">published under GNU General Public License (GPL)</div>
 <div class="line">Usage : sdcc [options] filename</div>
 <div class="line">Options :-</div>
@@ -257,7 +259,7 @@ sdcc settings</h1>
 <div class="line">      --dataseg             &lt;name&gt; use this name for the data segment</div>
 <div class="line">      --no-std-crt0         For the z80/gbz80 do not link default crt0.rel</div>
 <div class="line">      --reserve-regs-iy     Do not use IY (incompatible with --fomit-frame-pointer)</div>
-<div class="line">      --oldralloc           Use old register allocator</div>
+<div class="line">      --oldralloc           Use old register allocator (deprecated)</div>
 <div class="line">      --fno-omit-frame-pointer  Do not omit frame pointer</div>
 <div class="line">      --emit-externs        Emit externs list in generated asm</div>
 <div class="line">      --legacy-banking      Use legacy method to call banked functions</div>
@@ -272,7 +274,7 @@ sdcc settings</h1>
 <div class="line">      --dataseg             &lt;name&gt; use this name for the data segment</div>
 <div class="line">      --no-std-crt0         For the z80/gbz80 do not link default crt0.rel</div>
 <div class="line">      --reserve-regs-iy     Do not use IY (incompatible with --fomit-frame-pointer)</div>
-<div class="line">      --oldralloc           Use old register allocator</div>
+<div class="line">      --oldralloc           Use old register allocator (deprecated)</div>
 <div class="line">      --fno-omit-frame-pointer  Do not omit frame pointer</div>
 <div class="line">      --emit-externs        Emit externs list in generated asm</div>
 <div class="line">      --legacy-banking      Use legacy method to call banked functions</div>
@@ -287,7 +289,7 @@ sdcc settings</h1>
 <div class="line">      --dataseg             &lt;name&gt; use this name for the data segment</div>
 <div class="line">      --no-std-crt0         For the z80/gbz80 do not link default crt0.rel</div>
 <div class="line">      --reserve-regs-iy     Do not use IY (incompatible with --fomit-frame-pointer)</div>
-<div class="line">      --oldralloc           Use old register allocator</div>
+<div class="line">      --oldralloc           Use old register allocator (deprecated)</div>
 <div class="line">      --fno-omit-frame-pointer  Do not omit frame pointer</div>
 <div class="line">      --emit-externs        Emit externs list in generated asm</div>
 <div class="line">      --legacy-banking      Use legacy method to call banked functions</div>
@@ -302,7 +304,7 @@ sdcc settings</h1>
 <div class="line">      --dataseg             &lt;name&gt; use this name for the data segment</div>
 <div class="line">      --no-std-crt0         For the z80/gbz80 do not link default crt0.rel</div>
 <div class="line">      --reserve-regs-iy     Do not use IY (incompatible with --fomit-frame-pointer)</div>
-<div class="line">      --oldralloc           Use old register allocator</div>
+<div class="line">      --oldralloc           Use old register allocator (deprecated)</div>
 <div class="line">      --fno-omit-frame-pointer  Do not omit frame pointer</div>
 <div class="line">      --emit-externs        Emit externs list in generated asm</div>
 <div class="line">      --legacy-banking      Use legacy method to call banked functions</div>
@@ -317,7 +319,7 @@ sdcc settings</h1>
 <div class="line">      --dataseg             &lt;name&gt; use this name for the data segment</div>
 <div class="line">      --no-std-crt0         For the z80/gbz80 do not link default crt0.rel</div>
 <div class="line">      --reserve-regs-iy     Do not use IY (incompatible with --fomit-frame-pointer)</div>
-<div class="line">      --oldralloc           Use old register allocator</div>
+<div class="line">      --oldralloc           Use old register allocator (deprecated)</div>
 <div class="line">      --fno-omit-frame-pointer  Do not omit frame pointer</div>
 <div class="line">      --emit-externs        Emit externs list in generated asm</div>
 <div class="line">      --legacy-banking      Use legacy method to call banked functions</div>
@@ -326,6 +328,7 @@ sdcc settings</h1>
 <div class="line">Special options for the gbz80 port:</div>
 <div class="line">      -bo                   &lt;num&gt; use code bank &lt;num&gt;</div>
 <div class="line">      -ba                   &lt;num&gt; use data bank &lt;num&gt;</div>
+<div class="line">      --asm=                Define assembler name (rgbds/asxxxx/isas/z80asm/gas)</div>
 <div class="line">      --callee-saves-bc     Force a called function to always save BC</div>
 <div class="line">      --codeseg             &lt;name&gt; use this name for the code segment</div>
 <div class="line">      --constseg            &lt;name&gt; use this name for the const segment</div>
@@ -342,7 +345,7 @@ sdcc settings</h1>
 <div class="line">      --dataseg             &lt;name&gt; use this name for the data segment</div>
 <div class="line">      --no-std-crt0         For the z80/gbz80 do not link default crt0.rel</div>
 <div class="line">      --reserve-regs-iy     Do not use IY (incompatible with --fomit-frame-pointer)</div>
-<div class="line">      --oldralloc           Use old register allocator</div>
+<div class="line">      --oldralloc           Use old register allocator (deprecated)</div>
 <div class="line">      --fno-omit-frame-pointer  Do not omit frame pointer</div>
 <div class="line">      --emit-externs        Emit externs list in generated asm</div>
 <div class="line">      --legacy-banking      Use legacy method to call banked functions</div>
@@ -357,7 +360,7 @@ sdcc settings</h1>
 <div class="line">      --dataseg             &lt;name&gt; use this name for the data segment</div>
 <div class="line">      --no-std-crt0         For the z80/gbz80 do not link default crt0.rel</div>
 <div class="line">      --reserve-regs-iy     Do not use IY (incompatible with --fomit-frame-pointer)</div>
-<div class="line">      --oldralloc           Use old register allocator</div>
+<div class="line">      --oldralloc           Use old register allocator (deprecated)</div>
 <div class="line">      --fno-omit-frame-pointer  Do not omit frame pointer</div>
 <div class="line">      --emit-externs        Emit externs list in generated asm</div>
 <div class="line">      --legacy-banking      Use legacy method to call banked functions</div>
@@ -372,7 +375,7 @@ sdcc settings</h1>
 <div class="line">      --dataseg             &lt;name&gt; use this name for the data segment</div>
 <div class="line">      --no-std-crt0         For the z80/gbz80 do not link default crt0.rel</div>
 <div class="line">      --reserve-regs-iy     Do not use IY (incompatible with --fomit-frame-pointer)</div>
-<div class="line">      --oldralloc           Use old register allocator</div>
+<div class="line">      --oldralloc           Use old register allocator (deprecated)</div>
 <div class="line">      --fno-omit-frame-pointer  Do not omit frame pointer</div>
 <div class="line">      --emit-externs        Emit externs list in generated asm</div>
 <div class="line">      --legacy-banking      Use legacy method to call banked functions</div>
@@ -456,7 +459,7 @@ sdcc settings</h1>
 <div class="line">      --constseg            &lt;name&gt; use this name for the const segment</div>
 <div class="line">      --out-fmt-elf         Output executable in ELF format</div>
 </div><!-- fragment --><p><a class="anchor" id="sdasgb-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md143"></a>
+<h1><a class="anchor" id="autotoc_md152"></a>
 sdasgb settings</h1>
 <div class="fragment"><div class="line">sdas Assembler V02.00 + NoICE + SDCC mods  (GameBoy Z80-like CPU)</div>
 <div class="line"> </div>
@@ -470,6 +473,7 @@ sdasgb settings</h1>
 <div class="line">  -q   Octal   listing</div>
 <div class="line">  -x   Hex     listing (default)</div>
 <div class="line">  -g   Undefined symbols made global</div>
+<div class="line">  -n   Don&#39;t resolve global assigned value symbols</div>
 <div class="line">  -a   All user symbols made global</div>
 <div class="line">  -b   Display .define substitutions in listing</div>
 <div class="line">  -bb  and display without .define substitutions</div>
@@ -491,7 +495,7 @@ sdasgb settings</h1>
 <div class="line"> </div>
 <div class="line">removing </div>
 </div><!-- fragment --><p><a class="anchor" id="bankpack-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md144"></a>
+<h1><a class="anchor" id="autotoc_md153"></a>
 bankpack settings</h1>
 <div class="fragment"><div class="line">bankalloc [options] objfile1 objfile2 etc</div>
 <div class="line">Use: Read .o files and auto-assign areas with bank=255.</div>
@@ -499,7 +503,7 @@ bankpack settings</h1>
 <div class="line"> </div>
 <div class="line">Options</div>
 <div class="line">-h           : Show this help</div>
-<div class="line">-yt&lt;hexbyte&gt; : Set MBC type per ROM byte 149 in Hex (see pandocs)</div>
+<div class="line">-yt&lt;mbctype&gt; : Set MBC type per ROM byte 149 in Decimal or Hex (0xNN) (see pandocs)</div>
 <div class="line">-mbc=N       : Similar to -yt, but sets MBC type directly to N instead</div>
 <div class="line">               of by intepreting ROM byte 149</div>
 <div class="line">               mbc1 will exclude banks {0x20,0x40,0x60} max=127, </div>
@@ -524,7 +528,7 @@ bankpack settings</h1>
 <div class="line">S ___bank_&lt;const name&gt; Def0000FF</div>
 <div class="line">    (Above can be made by: const void __at(255) __bank_&lt;const name&gt;;</div>
 </div><!-- fragment --><p><a class="anchor" id="sdldgb-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md145"></a>
+<h1><a class="anchor" id="autotoc_md154"></a>
 sdldgb settings</h1>
 <div class="fragment"><div class="line">sdld Linker V03.00 + NoICE + sdld</div>
 <div class="line"> </div>
@@ -560,7 +564,7 @@ sdldgb settings</h1>
 <div class="line">End:</div>
 <div class="line">  -e   or null line terminates input</div>
 </div><!-- fragment --><p><a class="anchor" id="ihxcheck-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md146"></a>
+<h1><a class="anchor" id="autotoc_md155"></a>
 ihxcheck settings</h1>
 <div class="fragment"><div class="line">ihx_check input_file.ihx [options]</div>
 <div class="line"> </div>
@@ -571,14 +575,19 @@ ihxcheck settings</h1>
 <div class="line">Use: Read a .ihx and warn about overlapped areas.</div>
 <div class="line">Example: &quot;ihx_check build/MyProject.ihx&quot;</div>
 </div><!-- fragment --><p><a class="anchor" id="makebin-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md147"></a>
+<h1><a class="anchor" id="autotoc_md156"></a>
 makebin settings</h1>
 <div class="fragment"><div class="line">makebin: convert a Intel IHX file to binary or GameBoy format binary.</div>
 <div class="line">Usage: makebin [options] [&lt;in_file&gt; [&lt;out_file&gt;]]</div>
 <div class="line">Options:</div>
 <div class="line">  -p             pack mode: the binary file size will be truncated to the last occupied byte</div>
 <div class="line">  -s romsize     size of the binary file (default: rom banks * 16384)</div>
-<div class="line">  -Z             genarate GameBoy format binary file</div>
+<div class="line">  -Z             generate GameBoy format binary file</div>
+<div class="line">  -S             generate Sega Master System format binary file</div>
+<div class="line">SMS format options (applicable only with -S option):</div>
+<div class="line">  -xo n          rom size (0xa-0x2)</div>
+<div class="line">  -xj n          set region code (3-7)</div>
+<div class="line">  -xv n          version number (0-15)</div>
 <div class="line">GameBoy format options (applicable only with -Z option):</div>
 <div class="line">  -yo n          number of rom banks (default: 2) (autosize: A)</div>
 <div class="line">  -ya n          number of ram banks (default: 0)</div>
@@ -596,24 +605,28 @@ makebin settings</h1>
 <div class="line">  &lt;in_file&gt;      optional IHX input file, &#39;-&#39; means stdin. (default: stdin)</div>
 <div class="line">  &lt;out_file&gt;     optional output file, &#39;-&#39; means stdout. (default: stdout)</div>
 </div><!-- fragment --><p><a class="anchor" id="gbcompress-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md148"></a>
+<h1><a class="anchor" id="autotoc_md157"></a>
 gbcompress settings</h1>
 <div class="fragment"><div class="line">gbcompress [options] infile outfile</div>
 <div class="line">Use: Gbcompress a binary file and write it out.</div>
 <div class="line"> </div>
 <div class="line">Options</div>
-<div class="line">-h : Show this help screen</div>
-<div class="line">-d : Decompress (default is compress)</div>
-<div class="line">-v : Verbose output</div>
+<div class="line">-h    : Show this help screen</div>
+<div class="line">-d    : Decompress (default is compress)</div>
+<div class="line">-v    : Verbose output</div>
+<div class="line">-cin  : Read input as .c source format (8 bit char ONLY, uses first array found)</div>
+<div class="line">-cout : Write output in .c / .h source format (8 bit char ONLY) </div>
+<div class="line">-varname=&lt;NAME&gt; : specify variable name for c source output</div>
 <div class="line">Example: &quot;gbcompress binaryfile.bin compressed.bin&quot;</div>
 <div class="line">Example: &quot;gbcompress -d compressedfile.bin decompressed.bin&quot;</div>
 </div><!-- fragment --><p><a class="anchor" id="png2mtspr-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md149"></a>
+<h1><a class="anchor" id="autotoc_md158"></a>
 png2mtspr settings</h1>
 <div class="fragment"><div class="line">usage: png2mtspr &lt;file&gt;.png [options]</div>
 <div class="line">-c            ouput file (default: &lt;png file&gt;.c)</div>
 <div class="line">-sw &lt;width&gt;   metasprites width size (default: png width)</div>
 <div class="line">-sh &lt;height&gt;  metasprites height size (default: png height)</div>
+<div class="line">-sp &lt;props&gt;   change default for sprite OAM property bytes (in hex) (default: 0x00)</div>
 <div class="line">-px &lt;x coord&gt; metasprites pivot x coordinate (default: metasprites width / 2)</div>
 <div class="line">-py &lt;y coord&gt; metasprites pivot y coordinate (default: metasprites height / 2)</div>
 <div class="line">-spr8x8       use SPRITES_8x8 (default: SPRITES_8x16)</div>

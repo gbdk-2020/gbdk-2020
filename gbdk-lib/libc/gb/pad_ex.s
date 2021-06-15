@@ -1,15 +1,31 @@
 	.include	"global.s"
 
+	.MLT_REQ	= 0x11
+
 	.area	_BASE
 
 _joypad_init::	
-	call	_sgb_check
+	call	.sgb_check
 	ld	a, e
+	inc     e
 	or	a
+
 	jr	Z, 1$
 
-	ldhl	sp, #2
-	ld	a, (hl)
+	ldhl	sp, #0x02
+	ld	e, (hl)
+
+	add	sp, #-0x10
+	ldhl	sp, #0
+	ld	c, #0x10
+	xor 	a
+	rst	0x28
+
+	ldhl	sp, #0
+	ld	a, #((.MLT_REQ << 3) | 1)
+	ld	(hl+), a
+
+	ld	a, e
 
 	cp	a, #0x02
 	jr	Z, 3$
@@ -18,25 +34,26 @@ _joypad_init::
 	jr	5$
 
 3$:
-	ld	hl, #.MLT_REQ_2
+	ld	a, #0x01
+	ld	(hl-), a
 	call	.sgb_transfer
-	call	.sgb_wait4
 	ld	e, #0x02
 	jr	2$
 
 4$:
-	ld	hl, #.MLT_REQ_4
+	ld	a, #0x03
+	ld	(hl-), a
 	call	.sgb_transfer
-	call	.sgb_wait4
 	ld	e, #0x04
 	jr	2$
 5$:
-	ld	hl, #.MLT_REQ_1
+	ld	a, #0x00
+	ld	(hl-), a
 	call	.sgb_transfer
-	call	.sgb_wait4
-1$:
 	ld	e, #0x01
 2$:
+	add	sp, #0x10
+1$:
 	ldhl	sp, #3
 	ld	a, (hl+)
 	ld	h, (hl)
@@ -69,15 +86,18 @@ _joypad_ex::
 	push	bc
 	ld	b, a
 1$:
-	ld	a, #0x30
+	ld	a, #(.P14 | .P15)
 	ldh	(#.P1), a
+	ldh	a, (#.P1)
+	ldh	a, (#.P1)
+	ldh	a, (#.P1)
 	ldh	a, (#.P1)
 	and	#0x0f
 	sub	#0x0f
 	cpl
 	inc	a		; A contains joypad number
 
-	and	#3		; buffer overrun protection
+	and	#0x03		; buffer overrun protection
 
 	add	e		; HL = DE + A
 	ld	l, a
@@ -85,13 +105,13 @@ _joypad_ex::
 	sub	l
 	ld	h, a
 
-	ld	a, #0x20
+	ld	a, #.P15
 	ldh	(#.P1), a
 	ldh	a, (#.P1)
 	ldh	a, (#.P1)
 	and	#0x0f
 	ld	c, a
-	ld	a, #0x10
+	ld	a, #.P14
 	ldh	(#.P1), a
 	ldh	a, (#.P1)
 	ldh	a, (#.P1)

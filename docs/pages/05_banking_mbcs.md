@@ -6,15 +6,15 @@
 The standard Game Boy cartridge with no MBC has a fixed 32K bytes of ROM. In order to make cartridges with larger ROM sizes (to store more code and graphics) MBCs can be used. They allow switching between multiple ROM banks that use the same memory region. Only one of the banks can be selected as active at a given time, while all the other banks are inactive (and so, inaccessible).
 
 
-## Unbanked cartridges
-Cartridges with no MBC controller are unbanked, they have 32K bytes of fixed ROM space and no switchable banks. For these cartridges the ROM space between `0000h and 7FFFh` can be treated as a single large bank of 32K bytes, or as two contiguous banks of 16K bytes in Bank 0 at `0000h - 3FFFh` and Bank 1 at `4000h to 7FFFh`.
+## Non-banked cartridges
+Cartridges with no MBC controller are non-banked, they have 32K bytes of fixed ROM space and no switchable banks. For these cartridges the ROM space between `0000h and 7FFFh` can be treated as a single large bank of 32K bytes, or as two contiguous banks of 16K bytes in Bank 0 at `0000h - 3FFFh` and Bank 1 at `4000h to 7FFFh`.
 
 
 ## MBC Banked cartridges (Memory Bank Controllers)
 @anchor MBC
 @anchor MBCS
 Cartridges with MBCs allow the the Game Boy to work with ROMS up to 8MB in size and with RAM up to 128kB. Each bank is 16K Bytes.
-  - Bank 0 of the ROM is located in the region at `0000h - 3FFFh`. It is _usually_ fixed (unbanked) and cannot be switched out for another bank.
+  - Bank 0 of the ROM is located in the region at `0000h - 3FFFh`. It is _usually_ fixed (non-banked) and cannot be switched out for another bank.
   - The higher region at `4000h to 7FFFh` is used for switching between different ROM banks.
 
 See the @ref Pandocs for more details about the individual MBCs and their capabilities.
@@ -38,7 +38,7 @@ Ways to set the ROM bank for a Source file
   - The lcc switch for ROM bank `-Wf-bo<N>`. Example (ROM bank 2): `-Wf-bo2`
   - Using @ref rom_autobanking
 
-Note: You can use the `UNBANKED` keyword to define a function as unbanked if it resides in a source file which has been assigned a bank.
+Note: You can use the `NONBANKED` keyword to define a function as non-banked if it resides in a source file which has been assigned a bank.
 
 
 ## Setting the RAM bank for a Source file
@@ -86,7 +86,7 @@ Banked functions can be called as follows.
   - Using @ref SWITCH_ROM_MBC1() (and related functions for other MBCs) to manually switch in the required bank and then call the function.
 
 
-Unbanked functions (either in fixed Bank 0, or in an Unbanked ROM with no MBC)
+Non-banked functions (either in fixed Bank 0, or in an non-banked ROM with no MBC)
   - May call functions in any bank: __YES__
   - May use data in any bank: __YES__
 
@@ -119,7 +119,7 @@ See @ref FAR_CALL, @ref TO_FAR_PTR and the `banks_farptr` example project.
 ## Bank switching
 You can manually switch banks using the @ref SWITCH_ROM_MBC1(), @ref SWITCH_RAM_MBC1(), and other related macros. See `banks.c` project for an example.
 
-Note: You can only do a switch_rom_bank call from unbanked `_CODE` since otherwise you would switch out the code that was executing. Global routines that will be called without an expectation of bank switching should fit within the limited 16k of unbanked `_CODE`.
+Note: You can only do a switch_rom_bank call from non-banked `_CODE` since otherwise you would switch out the code that was executing. Global routines that will be called without an expectation of bank switching should fit within the limited 16k of non-banked `_CODE`.
 
 
 ## Restoring the current bank (after calling functions which change it without restoring)
@@ -140,7 +140,7 @@ It should be:
 void vbl_music_isr(void)
 {
 	// Save the current bank
-    UBYTE _saved_bank = _current_bank;
+    uint8_t _saved_bank = _current_bank;
 
 	// A function which changes the bank and
     // *doesn't* restore it after changing.
@@ -169,18 +169,18 @@ For a source example see the `banks_autobank` project.
 In the source files you want auto-banked, do the following:
   - Set the bank for the source file to `255`: `#pragma bank 255`
   - Create a constant with no value to store the bank number for the source file: `const void __at(255) __bank_<name-for-a-given-source-file>;`.  
-    This constant can then be used for obtaining that files bank number with `(UINT8)&__bank_<name-for-a-given-source-file`.
+    This constant can then be used for obtaining that files bank number with `(uint8_t)&__bank_<name-for-a-given-source-file`.
 
 Example: level_1_map.c
 
         #pragma bank 255
         const void __at(255) __bank_level_1_map;
 
-        const UINT8 my_level_1_map[] = {... some map data here ...};
+        const uint8_t my_level_1_map[] = {... some map data here ...};
 
 Accessing that data: main.c
 
-      SWITCH_ROM_MBC1( (UINT8)&__bank_level_1_map );
+      SWITCH_ROM_MBC1( (uint8_t)&__bank_level_1_map );
       // Do something with my_level_1_map[]
 
 Features and Notes:

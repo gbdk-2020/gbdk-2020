@@ -1,7 +1,7 @@
 var struct_o_a_m__item__t =
 [
-    [ "y", "struct_o_a_m__item__t.html#a48c4d7253494259403cd4597e8c19ca5", null ],
-    [ "x", "struct_o_a_m__item__t.html#a7a0dc012815fd69a75347136e2a050dc", null ],
-    [ "tile", "struct_o_a_m__item__t.html#abe231d7583c7769e481c66ca8c6e8a10", null ],
-    [ "prop", "struct_o_a_m__item__t.html#a03ef382139bd7cde2008109345e79f19", null ]
+    [ "y", "struct_o_a_m__item__t.html#ad5ad9d3d300858bf0b1cd9e210366a18", null ],
+    [ "x", "struct_o_a_m__item__t.html#a3a13fb7441f8c431d9494cd2441c6c0b", null ],
+    [ "tile", "struct_o_a_m__item__t.html#a6c269ed01269d02bcf7e36e0de3696f6", null ],
+    [ "prop", "struct_o_a_m__item__t.html#a435e018f3bbc0ebaa9eaf96806d386d9", null ]
 ];

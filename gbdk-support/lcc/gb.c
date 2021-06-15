@@ -10,6 +10,8 @@
 #include <windows.h>
 #endif
 
+#include "gb.h"
+
 #ifndef GBDKLIBDIR
 #define GBDKLIBDIR "\\gbdk\\"
 #endif
@@ -50,6 +52,13 @@ static struct {
 		{ "com",		"%sdccdir%sdcc" },
 		{ "comflag",    "-c"},
 		{ "comdefault",	"-mgbz80 --no-std-crt0 --fsigned-char --use-stdout" },
+		/* asdsgb assembler defaults:
+			-p: disable pagination
+			-o: create object file
+			-g: make undef symbols global
+			-n: defer symbol resolving to link time (autobanking relies on this) [requires sdcc 12238+]
+		*/
+		{ "asdefault",  "-pogn" },
 		{ "as",		"%sdccdir%sdasgb" },
 		{ "bankpack", "%bindir%bankpack" },
 		{ "ld",		"%sdccdir%sdldgb" },
@@ -61,7 +70,9 @@ static struct {
 		{ "bindir",		GBDKBINDIR },
 #endif
 		{ "ihxcheck", "%bindir%ihxcheck" },
-		{ "mkbin", "%sdccdir%makebin" }
+		{ "mkbin", "%sdccdir%makebin" },
+		{ "crt0dir", "%libdir%%plat%/crt0.o"},
+		{ "libs_include", "-k %libdir%%port%/ -l %port%.lib -k %libdir%%plat%/ -l %plat%.lib"}
 };
 
 #define NUM_TOKENS	(sizeof(_tokens)/sizeof(_tokens[0]))
@@ -100,11 +111,10 @@ static CLASS classes[] = {
 			"gb",
 			"%cpp% %cppdefault% -DGB=1 -DGAMEBOY=1 -DINT_16_BITS $1 $2 $3",
 			"%includedefault%",
-			"%com% %comdefault% -Wa-pog -DGB=1 -DGAMEBOY=1 -DINT_16_BITS $1 %comflag% $2 -o $3",
-			"%as% -pog $1 $3 $2",
+			"%com% %comdefault% -Wa%asdefault% -DGB=1 -DGAMEBOY=1 -DINT_16_BITS $1 %comflag% $2 -o $3",
+			"%as% %asdefault% $1 $3 $2",
 			"%bankpack% $1 $2",
-			"%ld% -n -i $1 -k %libdir%%port%/ -l %port%.lib "
-				"-k %libdir%%plat%/ -l %plat%.lib $3 %libdir%%plat%/crt0.o $2",
+			"%ld% -n -i $1 %libs_include% $3 %crt0dir% $2",
 			"%ihxcheck% $2 $1",
 			"%mkbin% -Z $1 $2 $3"
 		},
@@ -114,10 +124,9 @@ static CLASS classes[] = {
 			"%cpp% %cppdefault% $1 $2 $3",
 			"%includedefault%",
 			"%com% %comdefault% $1 $2 $3",
-			"%as% -pog $1 $3 $2",
+			"%as% %asdefault% $1 $3 $2",
 			"%bankpack% $1 $2",
-			"%ld% -n -- -i $1 -b_CODE=0x8100 -k%libdir%%port%/ -l%port%.lib "
-				"-k%libdir%%plat%/ -l%plat%.lib $3 %libdir%%plat%/crt0.o $2",
+			"%ld% -n -- -i $1 -b_CODE=0x8100 %libs_include% $3 %crt0dir% $2",
 			"%ihxcheck% $2 $1",
 			"%mkbin% -Z $1 $2 $3"
 		},
@@ -127,10 +136,9 @@ static CLASS classes[] = {
 			"%cpp% %cppdefault% $1 $2 $3",
 			"-I%includedir%/gbdk-lib",
 			"%com% %comdefault% $1 $2 $3",
-			"%as% -pog $1 $3 $2",
+			"%as% %asdefault% $1 $3 $2",
 			"%bankpack% $1 $2",
-			"%ld% -n -- -i $1 -b_DATA=0x8000 -b_CODE=0x200 -k%libdir%%port%/ -l%port%.lib "
-				"-k%libdir%%plat%/ -l%plat%.lib $3 %libdir%%plat%/crt0.o $2",
+			"%ld% -n -- -i $1 -b_DATA=0x8000 -b_CODE=0x200 %libs_include% $3 %crt0dir% $2",
 			"%ihxcheck% $2 $1",
 			"%mkbin% -Z $1 $2 $3"
 		}
@@ -233,7 +241,18 @@ static void buildArgs(char **args, const char *template)
 	*last = NULL;
 }
 
-char *suffixes[] = { ".c", ".i", ".asm;.s", ".o;.obj", ".ihx;.gb", 0 };
+// If order is changed here, file type handling MUST be updated
+// in lcc.c: "switch (suffix(name, suffixes, 5)) {"
+char *suffixes[] = {
+    EXT_C,               // 0
+    EXT_I,               // 1
+    EXT_ASM ";" EXT_S,   // 2
+    EXT_O   ";" EXT_OBJ, // 3
+    EXT_IHX,             // 4
+    EXT_GB,              // 5
+    0
+};
+
 char inputs[256] = "";
 
 char *cpp[256];
@@ -278,7 +297,15 @@ int option(char *arg) {
 		// When composing the compile stage, swap in of -S instead of default -c
 		setTokenVal("comflag", "-S");
 	}
-    else if ((tail = starts_with(arg, "-m"))) {
+	else if ((tail = starts_with(arg, "-no-crt"))) {
+		// When composing link stage, clear out crt0dir path
+		setTokenVal("crt0dir", "");
+	}
+	else if ((tail = starts_with(arg, "-no-libs"))) {
+		// When composing link stage, clear out crt0dir path
+		setTokenVal("libs_include", "");
+	}
+	else if ((tail = starts_with(arg, "-m"))) {
 		/* Split it up into a asm/port pair */
 		char *slash = strchr(tail, '/');
 		if (slash) {

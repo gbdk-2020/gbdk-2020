@@ -43,13 +43,20 @@ If you wish to use the original tools, you must add the `const` keyword every ti
 
   - Prefer unsigned variables to signed ones: The code generated will be generally more efficient, especially when comparing two values.
 
-  - Use explicit types so you always know the size of your variables. `INT8, UINT8, INT16, UINT16, INT32, UINT32` or `BYTE, UBYTE, WORD, UWORD, LWORD, ULWORD`.  
-  Types are defined in @ref asm/types.h and @ref asm/gbz80/types.h
+  - Use explicit types so you always know the size of your variables. `int8_t, uint8_t, int16_t, uint16_t, int32_t, uint32_t` and `bool`.
+  These are standard types defined in `stdint.h` (`#include <stdint.h>`) and `stdbool.h` (`#include <stdbool.h>`).
 
   - Global and local static variables are generally more efficient than local non-static variables (which go on the stack and are slower and can result in slower code).
 
   - @anchor const_array_data
   `const` keyword: Use const for arrays, structs and variables with read-only (constant) data. It will reduce ROM, RAM and CPU usage significantly. Non-`const` values are loaded from ROM into RAM inefficiently, and there is no benefit in loading them into the limited available RAM if they aren't going to be changed.
+
+  - Here is how to delcare `const` pointers and variables:
+    - non-const pointer to a const variable: `const uint8_t * some_pointer;`
+    - const pointer to a non-const variable: `uint8_t * const some_pointer;`
+    - const pointer to a const variable: `const uint8_t * const some_pointer;`
+    - https://codeforwin.org/2017/11/constant-pointer-and-pointer-to-constant-in-c.html
+    - https://stackoverflow.com/questions/21476869/constant-pointer-vs-pointer-to-constant
 
   - For calculated values that don't change, pre-compute results once and store the result. Using lookup-tables and the like can improve speed and reduce code size. Macros can sometimes help. It may be beneficial to do the calculations with an outside tool and then include the result as C code in a const array.
 
@@ -66,6 +73,9 @@ If you wish to use the original tools, you must add the `const` keyword every ti
 
 ## Code structure
 
+  - Do not `#include` `.c` source files into other `.c` source files. Instead create `.h` header files for them and include those.
+    https://www.tutorialspoint.com/cprogramming/c_header_files.htm
+
   - When procesing for a given frame is done and it is time to wait before starting the next frame, @ref wait_vbl_done() can be used. It uses HALT to put the CPU into a low power state until processing resumes. The CPU will wake up and resume processing at the end of the current frame when the Vertical Blanking interrupt is triggered.
 
   - Minimize use of multiplication, modulo with non-powers of 2, and division with non-powers of 2. These operations have no corresponding CPU instructions (software functions), and hence are time costly.
@@ -76,7 +86,7 @@ If you wish to use the original tools, you must add the `const` keyword every ti
 
   - Avoid long lists of function parameters. Passing many parameters can add overhead, especially if the function is called often. When applicable globals and local static vars can be used instead.
 
-  - Use inline functions if the function is short. (with the `inline` keyword, such as `inline UINT8 myFunction() { ... }`)
+  - Use inline functions if the function is short. (with the `inline` keyword, such as `inline uint8_t myFunction() { ... }`)
 
   - Do not use recursive functions
 <!-- This entry needs re-work. Signed vs unsigned, current SDCC optimizations...
@@ -168,7 +178,7 @@ For many applications C is fast enough but in intensive functions are sometimes 
 ## Calling convention
 sdcc in common with almost all C compilers prepends a '_' to any function names. For example the function printf(...) begins at the label _printf::. Note that all functions are declared global.
 
-The parameters to a function are pushed in right to left order with no aligning - so a byte takes up a byte on the stack instead of the more natural word. So for example the function int store_byte( UWORD addr, UBYTE byte) would push 'byte' onto the stack first then addr using a total of three bytes. As the return address is also pushed, the stack would contain:
+The parameters to a function are pushed in right to left order with no aligning - so a byte takes up a byte on the stack instead of the more natural word. So for example the function int store_byte( uint16_t addr, uint8_t byte) would push 'byte' onto the stack first then addr using a total of three bytes. As the return address is also pushed, the stack would contain:
 
       At SP+0 - the return address
 

@@ -29,7 +29,7 @@ static void display_help(void) {
        "\n"
        "Options\n"
        "-h           : Show this help\n"
-       "-yt<hexbyte> : Set MBC type per ROM byte 149 in Hex (see pandocs)\n"
+       "-yt<mbctype> : Set MBC type per ROM byte 149 in Decimal or Hex (0xNN) (see pandocs)\n"
        "-mbc=N       : Similar to -yt, but sets MBC type directly to N instead\n"
        "               of by intepreting ROM byte 149\n"
        "               mbc1 will exclude banks {0x20,0x40,0x60} max=127, \n"
@@ -70,32 +70,32 @@ static int handle_args(int argc, char * argv[]) {
     for (i = 1; i <= (argc -1); i++ ) {
 
         if (argv[i][0] == '-') {
-            if (strstr(argv[i], "-h")) {
+            if (strstr(argv[i], "-h") == argv[i]) {
                 display_help();
                 return false;  // Don't parse input when -h is used
-            } else if (strstr(argv[i], "-min=")) {
+            } else if (strstr(argv[i], "-min=") == argv[i]) {
                 if (!banks_set_min(atoi(argv[i] + 5))) {
                     printf("BankPack: ERROR: Invalid min bank: %s\n", argv[i] + 5);
                     return false;
                 }
-            } else if (strstr(argv[i], "-max=")) {
+            } else if (strstr(argv[i], "-max=") == argv[i]) {
                 if (!banks_set_max(atoi(argv[i] + 5))) {
                     printf("BankPack: ERROR: Invalid max bank: %s\n", argv[i] + 5);
                     return false;
                 }
-            } else if (strstr(argv[i], "-ext=")) {
+            } else if (strstr(argv[i], "-ext=") == argv[i]) {
                 files_set_out_ext(argv[i] + 5);
-            } else if (strstr(argv[i], "-path=")) {
+            } else if (strstr(argv[i], "-path=") == argv[i]) {
                 files_set_out_path(argv[i] + 6);
-            } else if (strstr(argv[i], "-mbc=")) {
+            } else if (strstr(argv[i], "-mbc=") == argv[i]) {
                 banks_set_mbc(atoi(argv[i] + 5));
-            } else if (strstr(argv[i], "-yt")) {
-                banks_set_mbc_by_rom_byte_149(strtol(argv[i] + 3, NULL, 16));
-            } else if (strstr(argv[i], "-v")) {
+            } else if (strstr(argv[i], "-yt") == argv[i]) {
+                banks_set_mbc_by_rom_byte_149(strtol(argv[i] + 3, NULL, 0));
+            } else if (strstr(argv[i], "-v") == argv[i]) {
                 option_set_verbose(true);
-            } else if (strstr(argv[i], "-sym=")) {
+            } else if (strstr(argv[i], "-sym=") == argv[i]) {
                 symbol_match_add(argv[i] + 5);
-            } else if (strstr(argv[i], "-cartsize")) {
+            } else if (strstr(argv[i], "-cartsize") == argv[i]) {
                 g_option_cartsize = true;
             } else
                 printf("BankPack: Warning: Ignoring unknown option %s\n", argv[i]);

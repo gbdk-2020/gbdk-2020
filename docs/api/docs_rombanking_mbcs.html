@@ -89,20 +89,20 @@ $(document).ready(function(){initNavTree('docs_rombanking_mbcs.html',''); initRe
 <div class="title">ROM/RAM Banking and MBCs </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1><a class="anchor" id="autotoc_md50"></a>
+<div class="textblock"><h1><a class="anchor" id="autotoc_md53"></a>
 ROM/RAM Banking and MBCs (Memory Bank Controllers)</h1>
 <p>The standard Game Boy cartridge with no MBC has a fixed 32K bytes of ROM. In order to make cartridges with larger ROM sizes (to store more code and graphics) MBCs can be used. They allow switching between multiple ROM banks that use the same memory region. Only one of the banks can be selected as active at a given time, while all the other banks are inactive (and so, inaccessible).</p>
-<h2><a class="anchor" id="autotoc_md51"></a>
-Unbanked cartridges</h2>
-<p>Cartridges with no MBC controller are unbanked, they have 32K bytes of fixed ROM space and no switchable banks. For these cartridges the ROM space between <code>0000h and 7FFFh</code> can be treated as a single large bank of 32K bytes, or as two contiguous banks of 16K bytes in Bank 0 at <code>0000h - 3FFFh</code> and Bank 1 at <code>4000h to 7FFFh</code>.</p>
-<h2><a class="anchor" id="autotoc_md52"></a>
+<h2><a class="anchor" id="autotoc_md54"></a>
+Non-banked cartridges</h2>
+<p>Cartridges with no MBC controller are non-banked, they have 32K bytes of fixed ROM space and no switchable banks. For these cartridges the ROM space between <code>0000h and 7FFFh</code> can be treated as a single large bank of 32K bytes, or as two contiguous banks of 16K bytes in Bank 0 at <code>0000h - 3FFFh</code> and Bank 1 at <code>4000h to 7FFFh</code>.</p>
+<h2><a class="anchor" id="autotoc_md55"></a>
 MBC Banked cartridges (Memory Bank Controllers)</h2>
 <p><a class="anchor" id="MBC"></a><a class="anchor" id="MBCS"></a>Cartridges with MBCs allow the the Game Boy to work with ROMS up to 8MB in size and with RAM up to 128kB. Each bank is 16K Bytes.</p><ul>
-<li>Bank 0 of the ROM is located in the region at <code>0000h - 3FFFh</code>. It is <em>usually</em> fixed (unbanked) and cannot be switched out for another bank.</li>
+<li>Bank 0 of the ROM is located in the region at <code>0000h - 3FFFh</code>. It is <em>usually</em> fixed (non-banked) and cannot be switched out for another bank.</li>
 <li>The higher region at <code>4000h to 7FFFh</code> is used for switching between different ROM banks.</li>
 </ul>
 <p>See the <a class="el" href="docs_links_and_tools.html#Pandocs">Pandocs</a> for more details about the individual MBCs and their capabilities.</p>
-<h1><a class="anchor" id="autotoc_md53"></a>
+<h1><a class="anchor" id="autotoc_md56"></a>
 Working with Banks</h1>
 <p>To assign code and constant data (such as graphics) to a ROM bank and use it:</p><ul>
 <li>Place the code for your ROM bank in one or several source files.</li>
@@ -110,7 +110,7 @@ Working with Banks</h1>
 <li>Specify the number of banks and MBC type during link time.</li>
 <li>When the program is running and wants to use data or call a function that is in a given bank, manually or automatically set the desired bank to active.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md54"></a>
+<h2><a class="anchor" id="autotoc_md57"></a>
 Setting the ROM bank for a Source file</h2>
 <p>The ROM and RAM bank for a source file can be set in a couple different ways. Multiple different banks cannot be assigned inside the same source file (unless the <code>__addressmod</code> method is used), but multiple source files can share the same bank.</p>
 <p>If no ROM and RAM bank are speciied for a file then the default _CODE, _BSS and _DATA segments are used.</p>
@@ -119,14 +119,14 @@ Setting the ROM bank for a Source file</h2>
 <li>The lcc switch for ROM bank <code>-Wf-bo&lt;N&gt;</code>. Example (ROM bank 2): <code>-Wf-bo2</code></li>
 <li>Using <a class="el" href="docs_rombanking_mbcs.html#rom_autobanking">rom_autobanking</a></li>
 </ul>
-<p>Note: You can use the <code>UNBANKED</code> keyword to define a function as unbanked if it resides in a source file which has been assigned a bank.</p>
-<h2><a class="anchor" id="autotoc_md55"></a>
+<p>Note: You can use the <code>NONBANKED</code> keyword to define a function as non-banked if it resides in a source file which has been assigned a bank.</p>
+<h2><a class="anchor" id="autotoc_md58"></a>
 Setting the RAM bank for a Source file</h2>
 <ul>
 <li>Using the lcc switch for RAM bank <code>-Wf-ba&lt;N&gt;</code>. Example (RAM bank 3): <code>-Wf-bo3</code></li>
 </ul>
 <p><a class="anchor" id="setting_mbc_and_rom_ram_banks"></a></p>
-<h2><a class="anchor" id="autotoc_md56"></a>
+<h2><a class="anchor" id="autotoc_md59"></a>
 Setting the MBC and number of ROM &amp; RAM banks available</h2>
 <p>At the link stage this is done with <a class="el" href="docs_toolchain.html#lcc">lcc</a> using pass-through switches for <a class="el" href="docs_toolchain.html#makebin">makebin</a>.</p><ul>
 <li><code>-Wl-yo&lt;N&gt;</code> where <code>&lt;N&gt;</code> is the number of ROM banks. 2, 4, 8, 16, 32, 64, 128, 256, 512</li>
@@ -152,7 +152,7 @@ Setting the MBC and number of ROM &amp; RAM banks available</h2>
 <div class="line"># F-ROM+MBC3+TIMER+BATT FF - Hudson HuC-1</div>
 <div class="line"># 10-ROM+MBC3+TIMER+RAM+BATT</div>
 <div class="line"># 11-ROM+MBC3</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md57"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md60"></a>
 Banked Functions</h2>
 <p><a class="anchor" id="banked_calls"></a>Banked functions can be called as follows.</p><ul>
 <li>When defined with the <code>BANKED</code> keyword. Example: <code>void my_function() BANKED { do stuff }</code> in a source file which has had it's bank set (see above).</li>
@@ -160,7 +160,7 @@ Banked Functions</h2>
 <li>When defined with an area set up using the <code>__addressmod</code> keyword (See the <code>banks_new</code> example project and the SDCC manual for details)</li>
 <li>Using <a class="el" href="gb_8h.html#a19558f5bbc9fea767f945001ae9cd13f">SWITCH_ROM_MBC1()</a> (and related functions for other MBCs) to manually switch in the required bank and then call the function.</li>
 </ul>
-<p>Unbanked functions (either in fixed Bank 0, or in an Unbanked ROM with no MBC)</p><ul>
+<p>Non-banked functions (either in fixed Bank 0, or in an non-banked ROM with no MBC)</p><ul>
 <li>May call functions in any bank: <b>YES</b></li>
 <li>May use data in any bank: <b>YES</b></li>
 </ul>
@@ -172,22 +172,22 @@ Banked Functions</h2>
 <p>Limitations:</p><ul>
 <li>SDCC banked calls and far_pointers in GBDK only save one byte for the ROM bank. So, for example, they are limtied to <b>bank 31</b> max for MBC1 and <b>bank 255</b> max for MBC5. This is due to the bank switching for those MBCs requiring a second, additional write to select the upper bits for more banks (banks 32+ in MBC1 and banks 256+ in MBC5).</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md58"></a>
+<h2><a class="anchor" id="autotoc_md61"></a>
 Const Data (Variables in ROM)</h2>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000006">Todo:</a></b></dt><dd>Const Data (Variables in ROM)</dd></dl>
-<h2><a class="anchor" id="autotoc_md59"></a>
+<h2><a class="anchor" id="autotoc_md62"></a>
 Variables in RAM</h2>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000007">Todo:</a></b></dt><dd>Variables in RAM</dd></dl>
-<h2><a class="anchor" id="autotoc_md60"></a>
+<h2><a class="anchor" id="autotoc_md63"></a>
 Far Pointers</h2>
 <p><a class="anchor" id="far_pointers"></a>Far pointers include a segment (bank) selector so they are able to point to addresses (functions or data) outside of the current bank (unlike normal pointers which are not bank-aware). A set of macros is provided by GBDK 2020 for working with far pointers.</p>
 <p><b>Warning:</b> Do not call the far pointer function macros from inside interrupt routines (ISRs). The far pointer function macros use a global variable that would not get restored properly if a function called that way was interrupted by another one called the same way. However, they may be called recursively.</p>
 <p>See <a class="el" href="far__ptr_8h.html#a7f4ab1893ea392f8bf042a3b97de4730">FAR_CALL</a>, <a class="el" href="far__ptr_8h.html#a0c227677a96f9bf7e84a90922f2f8708">TO_FAR_PTR</a> and the <code>banks_farptr</code> example project.</p>
-<h2><a class="anchor" id="autotoc_md61"></a>
+<h2><a class="anchor" id="autotoc_md64"></a>
 Bank switching</h2>
 <p>You can manually switch banks using the <a class="el" href="gb_8h.html#a19558f5bbc9fea767f945001ae9cd13f">SWITCH_ROM_MBC1()</a>, <a class="el" href="gb_8h.html#a38ea3e4dfe02b8eae70df27f39d4a951">SWITCH_RAM_MBC1()</a>, and other related macros. See <code>banks.c</code> project for an example.</p>
-<p>Note: You can only do a switch_rom_bank call from unbanked <code>_CODE</code> since otherwise you would switch out the code that was executing. Global routines that will be called without an expectation of bank switching should fit within the limited 16k of unbanked <code>_CODE</code>.</p>
-<h2><a class="anchor" id="autotoc_md62"></a>
+<p>Note: You can only do a switch_rom_bank call from non-banked <code>_CODE</code> since otherwise you would switch out the code that was executing. Global routines that will be called without an expectation of bank switching should fit within the limited 16k of non-banked <code>_CODE</code>.</p>
+<h2><a class="anchor" id="autotoc_md65"></a>
 Restoring the current bank (after calling functions which change it without restoring)</h2>
 <p><a class="anchor" id="banking_current_bank"></a>If a function call is made (for example inside an ISR) which changes the bank <em>without</em> restoring it, then the <a class="el" href="gb_8h.html#a98b848953a95ce2fff6fda643575d74a">_current_bank</a> variable should be saved and then restored.</p>
 <p>For example, <b>instead</b> of this code: </p><div class="fragment"><div class="line">void vbl_music_isr(void)</div>
@@ -199,7 +199,7 @@ Restoring the current bank (after calling functions which change it without rest
 </div><!-- fragment --><p>It should be: </p><div class="fragment"><div class="line">void vbl_music_isr(void)</div>
 <div class="line">{</div>
 <div class="line">    // Save the current bank</div>
-<div class="line">    UBYTE _saved_bank = _current_bank;</div>
+<div class="line">    uint8_t _saved_bank = _current_bank;</div>
 <div class="line"> </div>
 <div class="line">    // A function which changes the bank and</div>
 <div class="line">    // *doesn&#39;t* restore it after changing.</div>
@@ -208,10 +208,10 @@ Restoring the current bank (after calling functions which change it without rest
 <div class="line">    // Now restore the current bank</div>
 <div class="line">    SWITCH_ROM_MBC5(_saved_bank);</div>
 <div class="line">}</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md63"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md66"></a>
 Currently active bank: _current_bank</h2>
 <p>The global variable <a class="el" href="gb_8h.html#a98b848953a95ce2fff6fda643575d74a">_current_bank</a> is updated automatically when calling <a class="el" href="gb_8h.html#a19558f5bbc9fea767f945001ae9cd13f">SWITCH_ROM_MBC1()</a> and <a class="el" href="gb_8h.html#a92d040284342702026eb19dab59b586e">SWITCH_ROM_MBC5</a>, or when a <code>BANKED</code> function is called.</p>
-<h1><a class="anchor" id="autotoc_md64"></a>
+<h1><a class="anchor" id="autotoc_md67"></a>
 Auto-Banking</h1>
 <p><a class="anchor" id="rom_autobanking"></a>A ROM bank auto-assignment feature was added in GBDK 2020 4.0.2.</p>
 <p>Instead of having to manually specify which bank a source file will reside it, the banks can be assigned automatically to make the best use of space. The bank assignment operates on object files, after compiling/assembling and before linking.</p>
@@ -220,13 +220,13 @@ Auto-Banking</h1>
 <p>In the source files you want auto-banked, do the following:</p><ul>
 <li>Set the bank for the source file to <code>255</code>: <code>#pragma bank 255</code></li>
 <li>Create a constant with no value to store the bank number for the source file: <code>const void __at(255) __bank_&lt;name-for-a-given-source-file&gt;;</code>. <br  />
- This constant can then be used for obtaining that files bank number with <code>(UINT8)&amp;__bank_&lt;name-for-a-given-source-file</code>.</li>
+ This constant can then be used for obtaining that files bank number with <code>(uint8_t)&amp;__bank_&lt;name-for-a-given-source-file</code>.</li>
 </ul>
 <p>Example: level_1_map.c </p><pre class="fragment">    #pragma bank 255
     const void __at(255) __bank_level_1_map;
 
-    const UINT8 my_level_1_map[] = {... some map data here ...};
-</pre><p>Accessing that data: main.c </p><pre class="fragment">  SWITCH_ROM_MBC1( (UINT8)&amp;__bank_level_1_map );
+    const uint8_t my_level_1_map[] = {... some map data here ...};
+</pre><p>Accessing that data: main.c </p><pre class="fragment">  SWITCH_ROM_MBC1( (uint8_t)&amp;__bank_level_1_map );
   // Do something with my_level_1_map[]
 </pre><p>Features and Notes:</p><ul>
 <li>Fixed banked source files can be used in the same project as auto-banked source files. The bankpack tool will attempt to pack the auto-banked source files as efficiently as possible around the fixed-bank ones.</li>
@@ -242,20 +242,20 @@ Auto-Banking</h1>
 <p>Limitations:</p><ul>
 <li>At this time, the constant entries that get rewritten with the assigned bank (const void <b>at(255) __bank_&lt;name-you-want-to-use-for-that-source-file&gt;;) __cannot</b> be used from the source file they are declared in. In that case SDCC converts the bank number before <a class="el" href="docs_toolchain.html#bankpack">bankpack</a> has a chance to rewrite it. It may be referenced from any other source file, but not it's own.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md65"></a>
+<h1><a class="anchor" id="autotoc_md68"></a>
 Errors related to banking (overflow, multiple writes to same location)</h1>
 <p>A <em>bank overflow</em> during compile/link time (in <a class="el" href="docs_toolchain.html#makebin">makebin</a>) is when more code and data are allocated to a ROM bank than it has capacity for. The address for any overflowed data will be incorrect and the data is potentially unreachable since it now resides at the start of a different bank instead of the end of the expected bank.</p>
 <p>See the <a class="el" href="docs_faq.html#faq_bank_overflow_errors">FAQ entry about bank overflow errors</a>.</p>
 <p>The current toolchain can only detect and warn (using <a class="el" href="docs_toolchain.html#ihxcheck">ihxcheck</a>) when one bank overflows into another bank that has data at its start. It cannot warn if a bank overflows into an empty one. For more complete detection, you can use the third-party <a class="el" href="docs_links_and_tools.html#romusage">romusage</a> tool.</p>
-<h1><a class="anchor" id="autotoc_md66"></a>
+<h1><a class="anchor" id="autotoc_md69"></a>
 Bank space usage</h1>
 <p>In order to see how much space is used or remains available in a bank, you can use the third-party <a class="el" href="docs_links_and_tools.html#romusage">romusage</a> tool.</p>
-<h2><a class="anchor" id="autotoc_md67"></a>
+<h2><a class="anchor" id="autotoc_md70"></a>
 Other important notes</h2>
 <ul>
 <li>The <a class="el" href="gb_8h.html#a92d040284342702026eb19dab59b586e">SWITCH_ROM_MBC5</a> macro is not interrupt-safe. If using less than 256 banks you may always use SWITCH_ROM_MBC1 - that is faster. Even if you use mbc5 hardware chip in the cart.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md68"></a>
+<h1><a class="anchor" id="autotoc_md71"></a>
 Banking example projects</h1>
 <p>There are several projects in the GBDK 2020 examples folder which demonstrate different ways to use banking.</p><ul>
 <li><code>Banks</code>: A basic banking example</li>

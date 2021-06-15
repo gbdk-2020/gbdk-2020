@@ -21,6 +21,8 @@ static char rcsid[] = "$Id: lcc.c,v 2.0 " BUILDDATE " " BUILDTIME " gbdk-2020 Ex
 # include <sys/wait.h>
 #endif
 
+#include "gb.h"
+
 #ifndef TEMPDIR
 #define TEMPDIR "/tmp"
 #endif
@@ -34,6 +36,7 @@ struct list {		/* circular list nodes: */
 static void *alloc(int);
 List append(char *, List);
 extern char *basepath(char *);
+extern char *path_stripext(char *);
 static int callsys(char *[]);
 extern char *concat(const char *, const char *);
 static void compose(char *[], List, List, List);
@@ -56,6 +59,8 @@ extern int suffix(char *, char *[], int);
 extern char *tempname(char *);
 
 static void Fixllist();
+static void list_rewrite_exts(List, char *, char *);
+static void list_duplicate_to_new_exts(List, char *, char *);
 
 extern char *cpp[], *include[], *com[], *as[], *bankpack[], *ld[], *ihxcheck[], *mkbin[], inputs[], *suffixes[];
 extern int option(char *);
@@ -70,7 +75,7 @@ static int cflag;		/* -c specified */
 static int Kflag;		/* -K specified */
 static int autobankflag;	/* -K specified */
 static int verbose;		/* incremented for each -v */
-static List bankpacklist;	/* bankpack flags */
+static List bankpack_flags;	/* bankpack flags */
 static List ihxchecklist;	/* ihxcheck flags */
 static List mkbinlist;		/* loader files, flags */
 static List llist[2];		/* [1] = loader files, [0] = flags */
@@ -85,6 +90,10 @@ static char **av;		/* argument vector */
 char *tempdir = TEMPDIR;	/* directory for temporary files */
 char *progname;
 static List lccinputs;		/* list of input directories */
+char bankpack_newext[1024] = {'\0'};
+static int ihx_inputs = 0;  // Number of ihx files present in input list
+static char ihxFile[256] = "";
+
 
 int main(int argc, char *argv[]) {
 	int i, j, nf;
@@ -123,10 +132,12 @@ int main(int argc, char *argv[]) {
 	for (nf = 0, i = j = 1; i < argc; i++) {
 		if (strcmp(argv[i], "-o") == 0) {
 			if (++i < argc) {
-				if (suffix(argv[i], suffixes, 2) >= 0) {
+				// Don't allow output file to have ".c" or ".i" extension (first two in suffixes[])
+				if (suffix(argv[i], suffixes, 2) != SUFX_NOMATCH) {
 					error("-o would overwrite %s", argv[i]);
 					exit(8);
 				}
+				// Valid output file found
 				outfile = argv[i];
 				continue;
 			}
@@ -144,14 +155,33 @@ int main(int argc, char *argv[]) {
 			opt(argv[i]);
 			continue;
 		}
-		else if (*argv[i] != '-' && suffix(argv[i], suffixes, 3) >= 0)
-			nf++;
+		else if (*argv[i] != '-') {
+			// Count number of (.ihx) files
+			if (suffix(argv[i], (char * []){EXT_IHX}, 1) != SUFX_NOMATCH)
+				ihx_inputs++;
+			// Count number of (.c, .i, .asm, .s) files
+			else if (suffix(argv[i], suffixes, 3) != SUFX_NOMATCH)
+				nf++;
+		}
 		argv[j++] = argv[i];
 	}
+
+	// Ignore -o output request if:
+	// * compile only (-c) *OR* compile to ASM (-S) is specified
+	// * and there are 2 or more source files (.c, .i, .asm, .s) in the input list (what "nf" seems to count)
+	// Instead, it will generate output matching each input filename
 	if ((cflag || Sflag) && outfile && nf != 1) {
 		fprintf(stderr, "%s: -o %s ignored\n", progname, outfile);
 		outfile = 0;
 	}
+
+	// When .ihx is an input only ihxcheck and makebin will be called.
+	// Warn that all source files won't be processed
+	if ((ihx_inputs > 0) && (nf > 0)) {
+		fprintf(stderr, "%s: Warning: .ihx file present as input, all other input files ignored\n", progname);
+	}
+
+	// Add includes
 	argv[j] = 0;
 	finalise();
 	for (i = 0; include[i]; i++)
@@ -165,54 +195,88 @@ int main(int argc, char *argv[]) {
 	}
 	ilist = 0;
 	for (i = 1; argv[i]; i++)
+		// Process arguments
 		if (*argv[i] == '-')
 			opt(argv[i]);
 		else {
+	// Process filenames
 			char *name = exists(argv[i]);
 			if (name) {
 				if (strcmp(name, argv[i]) != 0
-					|| nf > 1 && suffix(name, suffixes, 3) >= 0)
+					|| nf > 1 && suffix(name, suffixes, 3) != SUFX_NOMATCH) // Does it match: .c, .i, .asm, .s
 					fprintf(stderr, "%s:\n", name);
+				// Send input filename argument to "filename processor"
+				// which will add them to llist[n] in some form most of the time
 				filename(name, 0);
 			}
 			else
 				error("can't find `%s'", argv[i]);
 		}
 
-    // Perform Link stage unless some conditions prevent it
-	if (errcnt == 0 && !Eflag && !cflag && !Sflag && llist[1]) {
-		if(!outfile)
-			outfile = concat("a", first(suffixes[4]));
 
-		//file.gb to file.ihx (don't use tmpfile because maps and other stuffs are created there)
+	// Perform Link / ihxcheck / makebin stages (unless some conditions prevent it)
+	if (errcnt == 0 && !Eflag && !cflag && !Sflag && 
+		(llist[1] || (ihxFile && ihx_inputs))) {
 
-		// Check to see if output is a .ihx file
-		char * ihx_suffix[1] = {".ihx"};
-		int target_is_ihx = (suffix(outfile, ihx_suffix, 1) == 0);
+		int target_is_ihx = 0;
 
-		char ihxFile[255];
-		int lastP = strrchr(outfile, '.') - outfile;
-		strncpy(ihxFile, outfile, lastP);
-		ihxFile[lastP] = '\0';
-		strcat(ihxFile, ".ihx");
+		// If an .ihx file is persent as input, only convert that
+		// and skip link related stages
+		if (ihx_inputs > 0) {
 
-		// Only remove .ihx from the delete-list if it's not the final target
-		if (!target_is_ihx)
-			append(ihxFile, rmlist);
+			// Only one .ihx can be used for input, warn that others will be ignored
+			if (ihx_inputs > 1)
+				fprintf(stderr, "%s: Warning: Multiple (%d) .ihx files present as input, only one (%s) will be used\n", progname, ihx_inputs, ihxFile);
 
-		// if auto bank assignment is enabled, modify obj files before linking
-		if (autobankflag) {
-			compose(bankpack, bankpacklist, llist[1], 0);
+			// if outfile is not specified, set it to "a.gb"
+			if(!outfile)
+				outfile = concat("a", EXT_GB);
+		}
+		else {
+			// if outfile is not specified, set it to "a.ihx"
+			if(!outfile)
+				outfile = concat("a", EXT_IHX);
+
+			//file.gb to file.ihx (don't use tmpfile because maps and other stuffs are created there)
+			// Check to see if output is a .ihx file
+			target_is_ihx = (suffix(outfile, (char *[]){EXT_IHX}, 1) != SUFX_NOMATCH);
+
+			// Build ihx file name from output name
+			int lastP = strrchr(outfile, '.') - outfile;
+			strncpy(ihxFile, outfile, lastP);
+			ihxFile[lastP] = '\0';
+			strcat(ihxFile, ".ihx");
+
+			// Only remove .ihx from the delete-list if it's not the final target
+			if (!target_is_ihx)
+				append(ihxFile, rmlist);
+
+			// if auto bank assignment is enabled, modify obj files before linking
+			if (autobankflag) {
+				compose(bankpack, bankpack_flags, llist[1], 0);
+
+				if (callsys(av)) {
+					errcnt++;
+				} else {
+					// If bankpack has -ext= flag set to write obj files
+					// out to a new extension then rewrite the
+					// linker list (llist[1]) and delete list (rmlist).
+					// The delete list likely only has temp obj files such
+					// as from a single-pass build: lcc -o out.gb in1.c in2.c
+					if (bankpack_newext[0]) {
+						list_rewrite_exts(llist[1], EXT_O, bankpack_newext);
+						list_duplicate_to_new_exts(rmlist, EXT_O, bankpack_newext);
+					}
+				}
+			}
+ 			
+			// Call linker (add output ihxfile in compose $3)
+			Fixllist();   // (fixlist adds required default linker vars if not added by user)			
+			compose(ld, llist[0], llist[1], append(ihxFile, 0));
+
 			if (callsys(av))
 				errcnt++;
-		}
-
-		// Call linker
-		// (fixlist adds required default linker vars if not added by user)
-		Fixllist();
-		compose(ld, llist[0], llist[1], append(ihxFile, 0));
-		if (callsys(av))
-			errcnt++;
+		} // end: non-ihx input file handling
 
 		// ihxcheck (test for multiple writes to the same ROM address)
 		if (!Kflag) {
@@ -344,6 +408,36 @@ char *basepath(char *name) {
 		s[t - b] = 0;
 	return s;
 }
+
+// path_stripext - return path with extension removed,
+//              e.g. /usr/drh/foo.c => /usr/drh/foo
+char *path_stripext(char *name) {
+	char * copy_str = strsave(name);
+	char * end_str = copy_str + strlen(copy_str);
+
+	// Work from end of string backward,
+	// truncate string at first "." char
+	while (end_str > copy_str) {
+		if (*end_str == '.') {
+			*end_str = '\0';
+			break;
+		}
+		end_str--;
+	}
+	return copy_str;
+}
+
+
+// Check if an extension matches the end of a filename
+int matches_ext(const char * filename, const char * ext)
+{
+	// Only test match if filename is larger than extension
+	// Then check the end of the filename for [ext] length of chars
+	if (strlen(filename) >= strlen(ext))
+		return strncmp(filename + strlen(filename) - strlen(ext), ext, strlen(ext)) == 0;
+	else return 0;
+}
+
 
 #ifndef WIN32
 #define _P_WAIT 0
@@ -582,24 +676,26 @@ static int filename(char *name, char *base) {
 
 	if (base == 0)
 		base = basepath(name);
-	switch (suffix(name, suffixes, 4)) {
+
+	// Handle all available suffixes except .gb (last in list)
+	switch (suffix(name, suffixes, 5)) {
 	case 0:	/* C source files */
 		{
 			char *ofile;
 			if ((cflag || Sflag) && outfile)
 				ofile = outfile;
 			else if (cflag)
-				ofile = concat(base, first(suffixes[3]));
+				ofile = concat(base, EXT_O);
 			else if (Sflag) {
 				// When compiling to asm only, set outfile as .asm
-				ofile = concat(base, ".asm");
+				ofile = concat(base, EXT_ASM);
 			}
 			else
 			{
-    			ofile = tempname(first(suffixes[3]));
+				ofile = tempname(EXT_O);
 
 				char* ofileBase = basepath(ofile);
-				rmlist = append(stringf("%s/%s%s", tempdir, ofileBase, ".asm"), rmlist);
+				rmlist = append(stringf("%s/%s%s", tempdir, ofileBase, EXT_ASM), rmlist);
 				rmlist = append(stringf("%s/%s%s", tempdir, ofileBase, ".lst"), rmlist);
 				rmlist = append(stringf("%s/%s%s", tempdir, ofileBase, ".sym"), rmlist);
 				rmlist = append(stringf("%s/%s%s", tempdir, ofileBase, ".adb"), rmlist);
@@ -619,9 +715,9 @@ static int filename(char *name, char *base) {
 			if (cflag && outfile)
 				ofile = outfile;
 			else if (cflag)
-				ofile = concat(base, first(suffixes[3]));
+				ofile = concat(base, EXT_O);
 			else
-				ofile = tempname(first(suffixes[3]));
+				ofile = tempname(EXT_O);
 			compose(as, alist, append(name, 0), append(ofile, 0));
 			status = callsys(av);
 			if (!find(ofile, llist[1]))
@@ -631,6 +727,10 @@ static int filename(char *name, char *base) {
 	case 3:	/* object files */
 		if (!find(name, llist[1]))
 			llist[1] = append(name, llist[1]);
+		break;
+	case 4: // .ihx files
+		// Append .ihx files (there can be only one as input)
+		strncpy(ihxFile, name, sizeof(ihxFile) - 1);
 		break;
 	default:
 		if (Eflag) {
@@ -681,6 +781,8 @@ static void help(void) {
 "-lx	search library `x'\n",
 "-N	do not search the standard directories for #include files\n",
 "-n	emit code to check for dereferencing zero pointers\n",
+"-no-crt do not auto-include the gbdk crt0.o runtime in linker list\n",
+"-no-libs do not auto-include the gbdk libs in linker list\n",
 "-O	is ignored\n",
 "-o file	leave the output in `file'\n",
 "-P	print ANSI-style declarations for globals\n",
@@ -776,25 +878,39 @@ static void opt(char *arg) {
 			case 'a': /* Assembler */
 				alist = append(&arg[3], alist);
 				return;
-            case 'i': /* ihxcheck arg list */
-                ihxchecklist = append(&arg[3], ihxchecklist);
-                return;
-            case 'b': /* bankpacklist arg list */
-                bankpacklist = append(&arg[3], bankpacklist);
-                return;
+			case 'i': /* ihxcheck arg list */
+				ihxchecklist = append(&arg[3], ihxchecklist);
+				return;
+			case 'b': /* auto bankpack_flags arg list */
+				bankpack_flags = append(&arg[3], bankpack_flags);
+				// -Wb-ext=[.some-extension]
+				// If bankpack is going to rewrite input object files to a new extension
+				// then save that extension for rewriting the linker list (llist[1])
+				if (strstr(&arg[3], "-ext=") != NULL) {
+					if (arg[8]) {
+						sprintf(bankpack_newext, "%s", &arg[8]);
+					}
+				}
+				return;
 			case 'l': /* Linker */
 				if(arg[4] == 'y' && (arg[5] == 't' || arg[5] == 'o' || arg[5] == 'a' || arg[5] == 'p') && (arg[6] != '\0' && arg[6] != ' '))
 					goto makebinoption; //automatically pass -yo -ya -yt -yp options to makebin (backwards compatibility)
 				{
-					char *tmp = malloc(256);
-					sprintf(tmp, "%c%c", arg[3], arg[4]); //sdldgb requires spaces between -k and the path
-					llist[0] = append(tmp, llist[0]);     //splitting the args into 2 works on Win and Linux
-					if(arg[5]){
-						char *tmp2 = malloc(256);
-						sprintf(tmp2, "%s", &arg[5]);
-						llist[0] = append(tmp2, llist[0]);
+					// If using linker file for sdldgb (-f file[.lk]). 
+					// Starting at arg[5] should be name of the linkerfile 
+					if ((arg[4] == 'f') && (arg[5])) {
+						llist[1] = append("-f", llist[1]);    // Add -f to file link list 
+						llist[1] = append(&arg[5], llist[1]); // Then add linkerfile as the very next parameter
+					} else {
+						char *tmp = malloc(256);
+						sprintf(tmp, "%c%c", arg[3], arg[4]); //sdldgb requires spaces between -k and the path
+						llist[0] = append(tmp, llist[0]);     //splitting the args into 2 works on Win and Linux
+						if (arg[5]) {                            
+							llist[0] = append(&arg[5], llist[0]);  // Add filename separately if present
+						}
 					}
-				}return;
+				}
+				return;
 			case 'm': /* Makebin */
 			makebinoption:{
 				char *tmp = malloc(256);
@@ -802,12 +918,16 @@ static void opt(char *arg) {
 				tmp2[0] = '\0'; // Zero out second arg by default
 				if(arg[4] == 'y') {
 					sprintf(tmp, "%c%c%c", arg[3], arg[4], arg[5]); //-yo -ya -yt -yl -yk -yn -yp
-					if (!(arg[5] == 'c' || arg[5] == 'C' || arg[5] == 's'  || arg[5] == 'S' || arg[5] == 'j')) // Don't add second arg for -yc -yC -ys -yS -yj
+					if (!(arg[5] == 'c' || arg[5] == 'C' || arg[5] == 's'  || arg[5] == 'S' || arg[5] == 'j' || arg[5] == 'p')) // Don't add second arg for -yc -yC -ys -yS -yj
 						sprintf(tmp2, "%s", &arg[6]);
+					// -yp of SDCC 4.1.0's makebin erroneously does not use a space between flag and it's value
+					// So append trailing values to first arg that would otherwise go in the second arg
+					if (arg[5] == 'p')
+						sprintf(tmp, "%s", &arg[3]);
 
 					// If MBC option is present for makebin (-Wl-yt <n> or -Wm-yt <n>) then make a copy for bankpack to use
 					if (arg[5] == 't')
-						bankpacklist = append(&arg[3], bankpacklist);
+						bankpack_flags = append(&arg[3], bankpack_flags);
 				} else {
 					sprintf(tmp, "%c%c", arg[3], arg[4]); //-s
 					if(arg[5])
@@ -857,6 +977,15 @@ static void opt(char *arg) {
 			autobankflag++;
 			return;
 		}
+	case 'n':
+		if (strcmp(arg, "-no-crt") == 0) {
+			option(arg);  // Clear crt0 entry in linker compose string
+			return;
+		} 
+		else if (strcmp(arg, "-no-libs") == 0) {
+			option(arg);  // Clear libs entry in linker compose string
+			return;
+		}
 	case 'B':	/* -Bdir -Bstatic -Bdynamic */
 #ifdef sparc
 		if (strcmp(arg, "-Bstatic") == 0 || strcmp(arg, "-Bdynamic") == 0)
@@ -869,7 +998,7 @@ static void opt(char *arg) {
 				error("-B overwrites earlier option", 0);
 			path = arg + 2;
 			if (strstr(com[1], "win32") != NULL)
-				com[0] = concat(replace(path, '/', '\\'), concat("rcc", first(suffixes[4])));
+				com[0] = concat(replace(path, '/', '\\'), concat("rcc", EXT_IHX));
 			else
 				com[0] = concat(path, "rcc");
 			if (path[0] == 0)
@@ -1042,7 +1171,7 @@ int suffix(char *name, char *tails[], int n) {
 				return i;
 		}
 	}
-	return -1;
+	return SUFX_NOMATCH;
 }
 
 /* tempname - generate a temporary file name in tempdir with given suffix */
@@ -1054,4 +1183,56 @@ char *tempname(char *suffix) {
 		name = replace(name, '/', '\\');
 	rmlist = append(name, rmlist);
 	return name;
+}
+
+
+// Replace extensions for filenames in a list
+static void list_rewrite_exts(List list_in, char * ext_match, char * ext_new)
+{
+	char * filepath_old;
+
+	// Iterate through list and replace file extensions
+	if (list_in) {
+		List list_t = list_in;
+		do {
+			if (list_t->str) {
+				// Check to see if filname has desired extension
+				if (matches_ext(list_t->str, ext_match)) {
+
+					// Save a copy to free after re-assignment
+					filepath_old = list_t->str;
+					// Create a new string with the replaced suffix (stringf() allocs)
+					list_t->str = stringf("%s%s", path_stripext(list_t->str), ext_new);
+					if (verbose > 0) fprintf(stderr,"lcc: rename link obj (from -autobank): %s -> %s\n", filepath_old, list_t->str);
+				}
+			}
+			// Move to next list item, exit if start of list is reached
+			list_t = list_t->link;
+		} while (list_t != list_in);
+	}
+}
+
+
+// Replace extensions for filenames in a list
+static void list_duplicate_to_new_exts(List list_in, char * ext_match, char * ext_new)
+{
+	// List may have entries appended, cache original start
+	List list_start = list_in;
+
+	// Iterate through list and replace file extensions
+	if (list_in) {
+		List list_t = list_in;
+		do {
+			if (list_t->str) {
+				// Check to see if filname has desired extension
+				if (matches_ext(list_t->str, ext_match)) {
+
+					list_in = append(stringf("%s%s", path_stripext(list_t->str), ext_new), list_in);
+					if (verbose > 0) fprintf(stderr,"lcc: add to rmlist (from -autobank): %s -> %s\n", list_t->str, stringf("%s%s", path_stripext(list_t->str), ext_new));
+				}
+			}
+			// Move to next list item, exit if start of list is reached
+			list_t = list_t->link;
+		} while (list_t != list_start);
+	}
 }

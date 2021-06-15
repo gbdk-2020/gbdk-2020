@@ -50,10 +50,11 @@ int handle_args(int argc, char * argv[]) {
     // Start at first optional argument, argc is zero based
     for (i = 1; i <= (argc -1); i++ ) {
 
-        if (strstr(argv[i], "-h")) {
+        if (strstr(argv[i], "-h") == argv[i]) {
             display_help();
             return false;  // Don't parse input when -h is used
-        } else if (strstr(argv[i], "-e")) {
+
+        } else if (strstr(argv[i], "-e") == argv[i]) {
             set_option_warnings_as_errors(true);
         }
 

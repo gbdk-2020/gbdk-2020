@@ -1,30 +1,32 @@
-	.include        "global.s"
+        .include "global.s"
 
-	;; BANKED:	checked
-	.area	_BASE
+        ;; BANKED: checked
+        .area   _BASE
+
+; void get_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *vram_addr, uint8_t *tiles);
 
 _get_tiles::
-	PUSH	BC
+        PUSH    BC
 
-	LDA	HL,11(SP)	; Skip return address and registers
-	LD	A,(HL-)		; DE = src
-	LD	D, A
-	LD	A,(HL-)
-	LD	E, A
-	LD	A,(HL-)		; BC = dst
-	LD	B, A
-	LD	C,(HL)
-	LDA	HL,4(SP)	; Skip return address and registers
-	PUSH	DE		; Store address on stack for set_xy_tt
-	LD	A,(HL+)		; D = x
-	LD	D, A
-	LD	A,(HL+)		; E = y
-	LD	E, A
-	LD	A,(HL+)		; A = w
-	LD	L,(HL)		; L = h
-	LD	H,A		; H = w
+        LDHL    SP, #7
+        LD      A, (HL-)
+        LD      D, A
+        LD      A, (HL-)
+        LD      E, A
+        PUSH    DE
+        LD      A, (HL-)
+        LD      E, A
+        LD      D, (HL)
+        LDHL    SP, #13
+        LD      A, (HL-)
+        LD      B, A
+        LD      A, (HL-)
+        LD      C, A
+        LD      A, (HL-)
+        LD      L, (HL)
+        LD      H, A
 
-	CALL	.get_xy_tt
+        CALL    L.get_xy_tt      ;; Store background tile table into (BC) at XY = DE, size WH on stack, from vram from address (HL)
 
-	POP	BC
-	RET
+        POP     BC
+        RET

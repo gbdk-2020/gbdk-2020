@@ -4,6 +4,10 @@ This section contains information that may be useful to know or important when u
 
 # GBDK 2020 versions
 
+## Porting to GBDK 2020 4.0.4
+- GBDK now requires SDCC 12238 or higher
+- Made sample.h, cgb.h and sgb.h independent from gb.h
+
 ## Porting to GBDK 2020 4.0.3
   - No significant changes required
 
@@ -26,8 +30,8 @@ This section contains information that may be useful to know or important when u
  - The old linker `link-gbz80` has been REMOVED, the linker @ref sdldgb from SDCC is used.
    - Due to the linker change, there are no longer warnings about multiple writes to the same ROM address.
  - GBDK now generates .ihx files, those are converted to a ROM using @ref makebin (lcc can do this automatically in some use cases)
- - Setting ROM bytes directly with `-Wl-yp0x<address>=0x<value>` is no longer supported. Instead use @ref makebin flags. For example, use `-Wm-yC` instead of `-Wl-yp0x143=0xC0`.
- - OAM symbol has been renamed to _shadow_OAM, that allows accessing shadow OAM directly from C code
+ - Setting ROM bytes directly with `-Wl-yp0x<address>=0x<value>` is no longer supported. Instead use @ref makebin flags. For example, use `-Wm-yC` instead of `-Wl-yp0x143=0xC0`. See @ref faq_gb_type_header_setting.
+ - OAM symbol has been renamed to `_shadow_OAM`, that allows accessing shadow OAM directly from C code
 
 
 ## Porting to GBDK 2020 3.2
@@ -41,7 +45,7 @@ This section contains information that may be useful to know or important when u
 
 ## Porting to GBDK 2020 3.0.1
  - LCC was upgraded to use SDCC v4.0. Makefile changes may be required
-   - The symbol format changed. To get usable symbols turn on `.noi` output (LCC argument: `-Wl-j`)can be enabled and  you can use @ref noi2sym
+   - The symbol format changed. To get bgb compatible symbols turn on `.noi` output (LCC argument: `-Wl-j` or `-debug`) and use `-Wm-yS`
    - ?? Suggested: With LCC argument: `-Wa-l` (sdasgb:`-a   All user symbols made global`)
    - In SDCC 3.6.0, the default for char changed from signed to unsigned.
      - If you want the old behavior use `--fsigned-char`.

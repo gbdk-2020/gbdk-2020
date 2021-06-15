@@ -2,7 +2,7 @@ var searchData=
 [
   ['d_98',['d',['../gb_8h.html#a0a3d95ad0ab8ad213016101d2e9c3d3e',1,'gb.h']]],
   ['debug_99',['debug',['../malloc_8h.html#a0d4cef44ecf687909f2c744d8420f7f0',1,'malloc.h']]],
-  ['delay_100',['delay',['../gb_8h.html#acd271e2c976761568d2f95900a213212',1,'gb.h']]],
+  ['delay_100',['delay',['../gb_8h.html#a163199ca9660b93aa18c3e4734084121',1,'gb.h']]],
   ['disable_5finterrupts_101',['disable_interrupts',['../gb_8h.html#ad8d2df514d3b5d3d08db3671f0d5af14',1,'gb.h']]],
   ['disable_5foam_5fdma_102',['DISABLE_OAM_DMA',['../gb_8h.html#a47607089a434dcda7a8583cfca03b604',1,'gb.h']]],
   ['disable_5fram_5fmbc1_103',['DISABLE_RAM_MBC1',['../gb_8h.html#a177fadce938422926b186a8e42575d1d',1,'gb.h']]],
@@ -14,10 +14,10 @@ var searchData=
   ['dma_5freg_109',['DMA_REG',['../hardware_8h.html#ae13ce414d3fe7c98c1434918186dfc81',1,'hardware.h']]],
   ['dmg_5ftype_110',['DMG_TYPE',['../gb_8h.html#a0031c07799247a6d6c1bfa3decac79d0',1,'gb.h']]],
   ['docs_5findex_2emd_111',['docs_index.md',['../docs__index_8md.html',1,'']]],
-  ['draw_5fimage_112',['draw_image',['../drawing_8h.html#ab6a6e4de3149941100edc6c7ed5236cf',1,'drawing.h']]],
+  ['draw_5fimage_112',['draw_image',['../drawing_8h.html#a16075b2ab6621bfc1694cc1a92e3df2b',1,'drawing.h']]],
   ['drawing_2eh_113',['drawing.h',['../drawing_8h.html',1,'']]],
-  ['dtile_114',['dtile',['../structmetasprite__t.html#a6005af579bbc6ceea5a960ffbf73d83d',1,'metasprite_t']]],
+  ['dtile_114',['dtile',['../structmetasprite__t.html#ad68b2f80c08f2f7fc603c56af2e75a6f',1,'metasprite_t']]],
   ['dword_115',['DWORD',['../asm_2types_8h.html#ad4ab93994d05960e2f96e83b4c45c1cf',1,'types.h']]],
-  ['dx_116',['dx',['../structmetasprite__t.html#a8dd01a7609fe347baf7995ef9eec4369',1,'metasprite_t']]],
-  ['dy_117',['dy',['../structmetasprite__t.html#acc640358a5fc8e92e4d1092819cfe471',1,'metasprite_t']]]
+  ['dx_116',['dx',['../structmetasprite__t.html#a67d2a6fb62059da39b54e975c4fbb324',1,'metasprite_t']]],
+  ['dy_117',['dy',['../structmetasprite__t.html#a2c3fea1f6b3354352823320c69a3e4bb',1,'metasprite_t']]]
 ];

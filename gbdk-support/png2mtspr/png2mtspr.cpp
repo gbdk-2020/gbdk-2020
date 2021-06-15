@@ -76,6 +76,7 @@ vector< Tile > tiles;
 vector<	MetaSprite > sprites;
 PNGImage image;
 int tile_h;
+int props_default = 0x00;  // Default Sprite props has no attributes enabled
 
 Tile FlipH(const Tile& tile)
 {
@@ -111,7 +112,7 @@ bool FindTile(const Tile& t, unsigned char& idx, unsigned char& props)
 	if(it != tiles.end())
 	{
 		idx = (unsigned char)(it - tiles.begin());
-		props = 0;
+		props = props_default;
 		return true;
 	}
 	
@@ -120,7 +121,7 @@ bool FindTile(const Tile& t, unsigned char& idx, unsigned char& props)
 	if(it != tiles.end())
 	{
 		idx = (unsigned char)(it - tiles.begin());
-		props = 1 << 5;
+		props = props_default | (1 << 5);
 		return true;
 	}
 
@@ -129,7 +130,7 @@ bool FindTile(const Tile& t, unsigned char& idx, unsigned char& props)
 	if(it != tiles.end())
 	{
 		idx = (unsigned char)(it - tiles.begin());
-		props = (1 << 5) | (1 << 6);
+		props = props_default | (1 << 5) | (1 << 6);
 		return true;
 	}
 
@@ -138,7 +139,7 @@ bool FindTile(const Tile& t, unsigned char& idx, unsigned char& props)
 	if(it != tiles.end())
 	{
 		idx = (unsigned char)(it - tiles.begin());
-		props = 1 << 6;
+		props = props_default | (1 << 6);
 		return true;
 	}
 
@@ -147,17 +148,17 @@ bool FindTile(const Tile& t, unsigned char& idx, unsigned char& props)
 
 void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y)
 {
-	unsigned char last_x = _x + pivot_x;
-	unsigned char last_y = _y + pivot_y;
+	int last_x = _x + pivot_x;
+	int last_y = _y + pivot_y;
 
 	sprites.push_back(MetaSprite());
 	MetaSprite& mt_sprite = sprites.back();
-	for(unsigned char y = _y; y < _y + _h && y < image.h; y += tile_h)
+	for(int y = _y; y < _y + _h && y < (int)image.h; y += tile_h)
 	{
-		for(unsigned char x = _x; x < _x + _w && x < image.w; x += 8)
+		for(int x = _x; x < _x + _w && x < (int)image.w; x += 8)
 		{
 			Tile tile(tile_h * 2);
-			if(image.ExtractGBTile(x, y, tile_h, tile))
+			if (image.ExtractGBTile(x, y, tile_h, tile))
 			{
 				unsigned char idx;
 				unsigned char props;
@@ -165,7 +166,7 @@ void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y)
 				{
 					tiles.push_back(tile);
 					idx = (unsigned char)tiles.size() - 1;
-					props = 0;
+					props = props_default;
 				}
 
 				if(tile_h == 16)
@@ -178,8 +179,12 @@ void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y)
 			}
 		}
 	}
-	if(mt_sprite.size() == 0)
-		sprites.pop_back();
+	// Changed this code so empty metasprites are no longer dropped
+	//
+	// Metasprite was empty (made entirely of transparent tiles)
+	// if(mt_sprite.size() == 0) {
+	//	sprites.pop_back();
+	// }
 }
 
 int main(int argc, char *argv[])
@@ -190,6 +195,7 @@ int main(int argc, char *argv[])
 		printf("-c            ouput file (default: <png file>.c)\n");
 		printf("-sw <width>   metasprites width size (default: png width)\n");
 		printf("-sh <height>  metasprites height size (default: png height)\n");
+		printf("-sp <props>   change default for sprite OAM property bytes (in hex) (default: 0x00)\n");
 		printf("-px <x coord> metasprites pivot x coordinate (default: metasprites width / 2)\n");
 		printf("-py <y coord> metasprites pivot y coordinate (default: metasprites height / 2)\n");
 		printf("-spr8x8       use SPRITES_8x8 (default: SPRITES_8x16)\n");
@@ -218,6 +224,10 @@ int main(int argc, char *argv[])
 		else if(!strcmp(argv[i], "-sh"))
 		{
 			sprite_h = atoi(argv[++ i]);
+		}
+        else if(!strcmp(argv[i], "-sp"))
+		{
+			props_default = strtol(argv[++ i], NULL, 16);
 		}
 		if(!strcmp(argv[i], "-px"))
 		{
@@ -257,25 +267,26 @@ int main(int argc, char *argv[])
 	string data_name = output_filename.substr(slash_pos + 1, dot_pos - 1 - slash_pos);
 	replace(data_name.begin(), data_name.end(), '-', '_');
 	printf("data_name:%s", data_name.c_str());
+	printf("\n"); // End of output
 
   //load and decode png
   vector<unsigned char> buffer;
   loadFile(buffer, argv[1]);
   if(decodePNG(image.data, image.w, image.h, buffer.empty() ? 0 : &buffer[0], (unsigned long)buffer.size()) != 0) 
 	{
-		printf("Error deconding PNG");
+		printf("Error decoding PNG");
 		return 0;
 	}
 
-	if(sprite_w == 0) sprite_w = image.w;
-	if(sprite_h == 0) sprite_h = image.h;
+	if(sprite_w == 0) sprite_w = (int)image.w;
+	if(sprite_h == 0) sprite_h = (int)image.h;
 	if(pivot_x == 0xFFFFFF) pivot_x = sprite_w / 2;
 	if(pivot_y == 0xFFFFFF) pivot_y = sprite_h / 2;
 
 	//Extract metasprites
-	for(unsigned int y = 0; y < image.h; y += sprite_h)
+	for(int y = 0; y < (int)image.h; y += sprite_h)
 	{
-		for(unsigned int x = 0; x < image.w; x += sprite_w)
+		for(int x = 0; x < (int)image.w; x += sprite_w)
 		{
 			GetMetaSprite(x, y, sprite_w, sprite_h, pivot_x, pivot_y);
 		}
@@ -295,8 +306,8 @@ int main(int argc, char *argv[])
 	fprintf(file, "#define %s_PIVOT_X %d\n", data_name.c_str(), pivot_x);
 	fprintf(file, "#define %s_PIVOT_Y %d\n", data_name.c_str(), pivot_y);
 	fprintf(file, "\n");
-	fprintf(file, "extern const UINT8 %s_data[%d];\n", data_name.c_str(), tiles.size() * tile_h * 2);
-	fprintf(file, "extern const metasprite_t* const %s_metasprites[%d];\n", data_name.c_str(), sprites.size());
+	fprintf(file, "extern const UINT8 %s_data[%d];\n", data_name.c_str(), (int)(tiles.size() * tile_h * 2));
+	fprintf(file, "extern const metasprite_t* const %s_metasprites[%d];\n", data_name.c_str(), (int)sprites.size());
 
 	fclose(file);
 
@@ -315,7 +326,7 @@ int main(int argc, char *argv[])
 	if(bank)
 		fprintf(file, "#pragma bank %d\n\n", bank);
 
-	fprintf(file, "const UINT8 %s_data[%d] = {\n", data_name.c_str(), tiles.size() * tile_h * 2);
+	fprintf(file, "const UINT8 %s_data[%d] = {\n", data_name.c_str(), (int)(tiles.size() * tile_h * 2));
 	for(vector< Tile >::iterator it = tiles.begin(); it != tiles.end(); ++ it)
 	{
 		for(Tile::iterator it2 = (*it).begin(); it2 != (*it).end(); ++ it2)
@@ -332,21 +343,20 @@ int main(int argc, char *argv[])
 
 	for(vector< MetaSprite >::iterator it = sprites.begin(); it != sprites.end(); ++ it)
 	{
-		fprintf(file, "const metasprite_t %s_metasprite%d[] = {\n", data_name.c_str(), it - sprites.begin());
+		fprintf(file, "const metasprite_t %s_metasprite%d[] = {\n", data_name.c_str(), (int)(it - sprites.begin()));
 		fprintf(file, "\t");
 		for(MetaSprite::iterator it2 = (*it).begin(); it2 != (*it).end(); ++ it2)
 		{
 			fprintf(file, "{%d, %d, %d, %d}, ", (*it2).offset_y, (*it2).offset_x, (*it2).offset_idx, (*it2).props);
-			if(it2 + 1 == (*it).end())
-				fprintf(file, "{metasprite_end}\n");
 		}
-		fprintf(file, "};\n\n");	
+		fprintf(file, "{metasprite_end}\n");
+		fprintf(file, "};\n\n");
 	}
 
-	fprintf(file, "const metasprite_t* const %s_metasprites[%d] = {\n\t", data_name.c_str(), sprites.size());
+	fprintf(file, "const metasprite_t* const %s_metasprites[%d] = {\n\t", data_name.c_str(), (int)sprites.size());
 	for(vector< MetaSprite >::iterator it = sprites.begin(); it != sprites.end(); ++ it)
 	{
-		fprintf(file, "%s_metasprite%d", data_name.c_str(), it - sprites.begin());
+		fprintf(file, "%s_metasprite%d", data_name.c_str(), (int)(it - sprites.begin()));
 		if(it + 1 != sprites.end())
 			fprintf(file, ", ");
 	}

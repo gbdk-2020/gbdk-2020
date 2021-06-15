@@ -91,20 +91,22 @@ $(document).ready(function(){initNavTree('sample_8h.html',''); initResizable(); 
 <div class="title">sample.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-
+<div class="textblock"><code>#include &lt;types.h&gt;</code><br />
+<code>#include &lt;<a class="el" href="stdint_8h_source.html">stdint.h</a>&gt;</code><br />
+</div>
 <p><a href="sample_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:acd2b881426ae608c513e5914e7bcd6a6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sample_8h.html#acd2b881426ae608c513e5914e7bcd6a6">play_sample</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> *start, <a class="el" href="asm_2gbz80_2types_8h.html#a805c2c164bdd38d72a30c46e84fb568b">UINT16</a> len) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
-<tr class="separator:acd2b881426ae608c513e5914e7bcd6a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8078ce8a190d19529c135259f33211bd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sample_8h.html#a8078ce8a190d19529c135259f33211bd">play_sample</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *start, <a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> len) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
+<tr class="separator:a8078ce8a190d19529c135259f33211bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Playback raw sound sample with length len from start at 8192Hz rate. len defines the length of the sample in samples/32 or bytes/16. The format of the data is unsigned 4-bit samples, 2 samples per byte, upper 4-bits played before lower 4 bits.</p>
 <p>Adaption for GBDK by Lars Malmborg. Original code by Jeff Frohwein. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="acd2b881426ae608c513e5914e7bcd6a6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acd2b881426ae608c513e5914e7bcd6a6">&#9670;&nbsp;</a></span>play_sample()</h2>
+<a id="a8078ce8a190d19529c135259f33211bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8078ce8a190d19529c135259f33211bd">&#9670;&nbsp;</a></span>play_sample()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -112,13 +114,13 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void play_sample </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *&#160;</td>
           <td class="paramname"><em>start</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="asm_2gbz80_2types_8h.html#a805c2c164bdd38d72a30c46e84fb568b">UINT16</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>&#160;</td>
           <td class="paramname"><em>len</em>&#160;</td>
         </tr>
         <tr>

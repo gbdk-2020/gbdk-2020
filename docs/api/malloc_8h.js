@@ -8,6 +8,6 @@ var malloc_8h =
     [ "pmmalloc_hunk", "malloc_8h.html#ad521838368171a2564658d4e129d7922", null ],
     [ "malloc_gc", "malloc_8h.html#a5381c84316659ee9aee28b781ea72043", null ],
     [ "debug", "malloc_8h.html#a0d4cef44ecf687909f2c744d8420f7f0", null ],
-    [ "malloc_heap_start", "malloc_8h.html#a1f0de2ad46e0870a290a0541c9181054", null ],
+    [ "malloc_heap_start", "malloc_8h.html#a6eca780b16338166df86a9e68aa083a6", null ],
     [ "malloc_first", "malloc_8h.html#af62987d0746c3fd2078e3b76d67a485d", null ]
 ];

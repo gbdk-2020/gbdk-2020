@@ -6,10 +6,10 @@ var far__ptr_8h =
     [ "FAR_OFS", "far__ptr_8h.html#ab79586d8cc3cb926f363f4d0cf7143d5", null ],
     [ "FAR_FUNC", "far__ptr_8h.html#a048cfacb5d37ab758a74f44e86c1dbc6", null ],
     [ "FAR_CALL", "far__ptr_8h.html#a7f4ab1893ea392f8bf042a3b97de4730", null ],
-    [ "FAR_PTR", "far__ptr_8h.html#aea7a313c991baf8e28c1d73cf6595209", null ],
+    [ "FAR_PTR", "far__ptr_8h.html#a7c6f52121dd07af29b477f4e64314842", null ],
     [ "__call__banked", "far__ptr_8h.html#aa45a2312a2584abb8733a052f66b4a90", null ],
-    [ "to_far_ptr", "far__ptr_8h.html#a374dd0c7e00bec635f1dd24d5cbe0d35", null ],
+    [ "to_far_ptr", "far__ptr_8h.html#a8a9dc804d06e0c5c3f96675f68a051bb", null ],
     [ "__call_banked_ptr", "far__ptr_8h.html#a27792b7fc3796a1e1828d4c5812e5b21", null ],
     [ "__call_banked_addr", "far__ptr_8h.html#a1344c26ca298a9eadea4bcfea6442ae3", null ],
-    [ "__call_banked_bank", "far__ptr_8h.html#a6f1c13e2fad9dd04645a000050d9f382", null ]
+    [ "__call_banked_bank", "far__ptr_8h.html#a892433d652420445a9a6aebf1a256623", null ]
 ];

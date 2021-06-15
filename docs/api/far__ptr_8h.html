@@ -105,7 +105,7 @@ Data Structures</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a0c227677a96f9bf7e84a90922f2f8708"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="far__ptr_8h.html#a0c227677a96f9bf7e84a90922f2f8708">TO_FAR_PTR</a>(ofs,  seg)&#160;&#160;&#160;(((<a class="el" href="far__ptr_8h.html#aea7a313c991baf8e28c1d73cf6595209">FAR_PTR</a>)seg &lt;&lt; 16) | (<a class="el" href="far__ptr_8h.html#aea7a313c991baf8e28c1d73cf6595209">FAR_PTR</a>)ofs)</td></tr>
+<tr class="memitem:a0c227677a96f9bf7e84a90922f2f8708"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="far__ptr_8h.html#a0c227677a96f9bf7e84a90922f2f8708">TO_FAR_PTR</a>(ofs,  seg)&#160;&#160;&#160;(((<a class="el" href="far__ptr_8h.html#a7c6f52121dd07af29b477f4e64314842">FAR_PTR</a>)seg &lt;&lt; 16) | (<a class="el" href="far__ptr_8h.html#a7c6f52121dd07af29b477f4e64314842">FAR_PTR</a>)ofs)</td></tr>
 <tr class="separator:a0c227677a96f9bf7e84a90922f2f8708"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5bebc5322a1bba1c60c8d60e9b58be14"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="far__ptr_8h.html#a5bebc5322a1bba1c60c8d60e9b58be14">FAR_SEG</a>(ptr)&#160;&#160;&#160;(((union <a class="el" href="union____far__ptr.html">__far_ptr</a> *)&amp;ptr)-&gt;segofs.seg)</td></tr>
 <tr class="separator:a5bebc5322a1bba1c60c8d60e9b58be14"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -118,24 +118,24 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:aea7a313c991baf8e28c1d73cf6595209"><td class="memItemLeft" align="right" valign="top">typedef unsigned long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="far__ptr_8h.html#aea7a313c991baf8e28c1d73cf6595209">FAR_PTR</a></td></tr>
-<tr class="separator:aea7a313c991baf8e28c1d73cf6595209"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c6f52121dd07af29b477f4e64314842"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="stdint_8h.html#a33594304e786b158f3fb30289278f5af">uint32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="far__ptr_8h.html#a7c6f52121dd07af29b477f4e64314842">FAR_PTR</a></td></tr>
+<tr class="separator:a7c6f52121dd07af29b477f4e64314842"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:aa45a2312a2584abb8733a052f66b4a90"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="far__ptr_8h.html#aa45a2312a2584abb8733a052f66b4a90">__call__banked</a> ()</td></tr>
 <tr class="separator:aa45a2312a2584abb8733a052f66b4a90"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a374dd0c7e00bec635f1dd24d5cbe0d35"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="far__ptr_8h.html#a374dd0c7e00bec635f1dd24d5cbe0d35">to_far_ptr</a> (void *ofs, int seg)</td></tr>
-<tr class="separator:a374dd0c7e00bec635f1dd24d5cbe0d35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a9dc804d06e0c5c3f96675f68a051bb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#a7cf4a942912b990a96c39f9a2b81aa32">int32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="far__ptr_8h.html#a8a9dc804d06e0c5c3f96675f68a051bb">to_far_ptr</a> (void *ofs, <a class="el" href="stdint_8h.html#a66634143db08bebe9b46ab4cb1fc6fd3">int16_t</a> seg)</td></tr>
+<tr class="separator:a8a9dc804d06e0c5c3f96675f68a051bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a27792b7fc3796a1e1828d4c5812e5b21"><td class="memItemLeft" align="right" valign="top">volatile <a class="el" href="far__ptr_8h.html#aea7a313c991baf8e28c1d73cf6595209">FAR_PTR</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="far__ptr_8h.html#a27792b7fc3796a1e1828d4c5812e5b21">__call_banked_ptr</a></td></tr>
+<tr class="memitem:a27792b7fc3796a1e1828d4c5812e5b21"><td class="memItemLeft" align="right" valign="top">volatile <a class="el" href="far__ptr_8h.html#a7c6f52121dd07af29b477f4e64314842">FAR_PTR</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="far__ptr_8h.html#a27792b7fc3796a1e1828d4c5812e5b21">__call_banked_ptr</a></td></tr>
 <tr class="separator:a27792b7fc3796a1e1828d4c5812e5b21"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1344c26ca298a9eadea4bcfea6442ae3"><td class="memItemLeft" align="right" valign="top">volatile void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="far__ptr_8h.html#a1344c26ca298a9eadea4bcfea6442ae3">__call_banked_addr</a></td></tr>
 <tr class="separator:a1344c26ca298a9eadea4bcfea6442ae3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f1c13e2fad9dd04645a000050d9f382"><td class="memItemLeft" align="right" valign="top">volatile unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="far__ptr_8h.html#a6f1c13e2fad9dd04645a000050d9f382">__call_banked_bank</a></td></tr>
-<tr class="separator:a6f1c13e2fad9dd04645a000050d9f382"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a892433d652420445a9a6aebf1a256623"><td class="memItemLeft" align="right" valign="top">volatile <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="far__ptr_8h.html#a892433d652420445a9a6aebf1a256623">__call_banked_bank</a></td></tr>
+<tr class="separator:a892433d652420445a9a6aebf1a256623"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Far pointers include a segment (bank) selector so they are able to point to addresses (functions or data) outside of the current bank (unlike normal pointers which are not bank-aware).</p>
@@ -163,7 +163,7 @@ Variables</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;(((<a class="el" href="far__ptr_8h.html#aea7a313c991baf8e28c1d73cf6595209">FAR_PTR</a>)seg &lt;&lt; 16) | (<a class="el" href="far__ptr_8h.html#aea7a313c991baf8e28c1d73cf6595209">FAR_PTR</a>)ofs)</td>
+          <td></td><td>&#160;&#160;&#160;(((<a class="el" href="far__ptr_8h.html#a7c6f52121dd07af29b477f4e64314842">FAR_PTR</a>)seg &lt;&lt; 16) | (<a class="el" href="far__ptr_8h.html#a7c6f52121dd07af29b477f4e64314842">FAR_PTR</a>)ofs)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -174,7 +174,7 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A far pointer (type <a class="el" href="far__ptr_8h.html#aea7a313c991baf8e28c1d73cf6595209">FAR_PTR</a>) </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A far pointer (type <a class="el" href="far__ptr_8h.html#a7c6f52121dd07af29b477f4e64314842">FAR_PTR</a>) </dd></dl>
 
 </div>
 </div>
@@ -195,11 +195,11 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>Macro to get the Segment (Bank) number of a far pointer </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">ptr</td><td>A far pointer (type <a class="el" href="far__ptr_8h.html#aea7a313c991baf8e28c1d73cf6595209">FAR_PTR</a>)</td></tr>
+    <tr><td class="paramname">ptr</td><td>A far pointer (type <a class="el" href="far__ptr_8h.html#a7c6f52121dd07af29b477f4e64314842">FAR_PTR</a>)</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Segment (Bank) of the far pointer (type unsigned int) </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Segment (Bank) of the far pointer (type uint16_t) </dd></dl>
 
 </div>
 </div>
@@ -220,7 +220,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>Macro to get the Offset (address) of a far pointer </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">ptr</td><td>A far pointer (type <a class="el" href="far__ptr_8h.html#aea7a313c991baf8e28c1d73cf6595209">FAR_PTR</a>)</td></tr>
+    <tr><td class="paramname">ptr</td><td>A far pointer (type <a class="el" href="far__ptr_8h.html#a7c6f52121dd07af29b477f4e64314842">FAR_PTR</a>)</td></tr>
   </table>
   </dd>
 </dl>
@@ -289,7 +289,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>Macro to call a function at far pointer <b>ptr</b> of type <b>typ</b> </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">ptr</td><td>Far pointer of a function to call (type <a class="el" href="far__ptr_8h.html#aea7a313c991baf8e28c1d73cf6595209">FAR_PTR</a>) </td></tr>
+    <tr><td class="paramname">ptr</td><td>Far pointer of a function to call (type <a class="el" href="far__ptr_8h.html#a7c6f52121dd07af29b477f4e64314842">FAR_PTR</a>) </td></tr>
     <tr><td class="paramname">typ</td><td>Type to cast the function far pointer to. </td></tr>
     <tr><td class="paramname">...</td><td>VA Args list of parameters for the function</td></tr>
   </table>
@@ -297,12 +297,12 @@ Variables</h2></td></tr>
 </dl>
 <p><b>type</b> should match the definition of the function being called. For example: </p><div class="fragment"><div class="line"><span class="comment">// A function in bank 2</span></div>
 <div class="line"><span class="preprocessor">#pragma bank 2</span></div>
-<div class="line"><span class="keywordtype">int</span> some_function(<span class="keywordtype">int</span> param1, <span class="keywordtype">int</span> param2) __banked {  <span class="keywordflow">return</span> 1; };</div>
+<div class="line"><a class="code" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> some_function(<a class="code" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> param1, <a class="code" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> param2) __banked {  <span class="keywordflow">return</span> 1; };</div>
 <div class="line"> </div>
 <div class="line">...</div>
 <div class="line"><span class="comment">// Code elsewhere, such as unbanked main()</span></div>
 <div class="line"><span class="comment">// This type declaration should match the above function</span></div>
-<div class="line">typedef int (*some_function_t)(int, int) __banked;</div>
+<div class="line">typedef <a class="code" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> (*some_function_t)(<a class="code" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>, <a class="code" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>) __banked;</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Using FAR_CALL() with the above as *ptr*, *typ*, and two parameters.</span></div>
 <div class="line">result = <a class="code" href="far__ptr_8h.html#a7f4ab1893ea392f8bf042a3b97de4730">FAR_CALL</a>(some_function, some_function_t, 100, 50);</div>
@@ -311,14 +311,14 @@ Variables</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Typedef Documentation</h2>
-<a id="aea7a313c991baf8e28c1d73cf6595209"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aea7a313c991baf8e28c1d73cf6595209">&#9670;&nbsp;</a></span>FAR_PTR</h2>
+<a id="a7c6f52121dd07af29b477f4e64314842"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c6f52121dd07af29b477f4e64314842">&#9670;&nbsp;</a></span>FAR_PTR</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef unsigned long <a class="el" href="far__ptr_8h.html#aea7a313c991baf8e28c1d73cf6595209">FAR_PTR</a></td>
+          <td class="memname">typedef <a class="el" href="stdint_8h.html#a33594304e786b158f3fb30289278f5af">uint32_t</a> <a class="el" href="far__ptr_8h.html#a7c6f52121dd07af29b477f4e64314842">FAR_PTR</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -344,14 +344,14 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a374dd0c7e00bec635f1dd24d5cbe0d35"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a374dd0c7e00bec635f1dd24d5cbe0d35">&#9670;&nbsp;</a></span>to_far_ptr()</h2>
+<a id="a8a9dc804d06e0c5c3f96675f68a051bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a9dc804d06e0c5c3f96675f68a051bb">&#9670;&nbsp;</a></span>to_far_ptr()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">long to_far_ptr </td>
+          <td class="memname"><a class="el" href="stdint_8h.html#a7cf4a942912b990a96c39f9a2b81aa32">int32_t</a> to_far_ptr </td>
           <td>(</td>
           <td class="paramtype">void *&#160;</td>
           <td class="paramname"><em>ofs</em>, </td>
@@ -359,7 +359,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#a66634143db08bebe9b46ab4cb1fc6fd3">int16_t</a>&#160;</td>
           <td class="paramname"><em>seg</em>&#160;</td>
         </tr>
         <tr>
@@ -376,7 +376,7 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A far pointer (type <a class="el" href="far__ptr_8h.html#aea7a313c991baf8e28c1d73cf6595209">FAR_PTR</a>) </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A far pointer (type <a class="el" href="far__ptr_8h.html#a7c6f52121dd07af29b477f4e64314842">FAR_PTR</a>) </dd></dl>
 
 </div>
 </div>
@@ -391,7 +391,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">volatile <a class="el" href="far__ptr_8h.html#aea7a313c991baf8e28c1d73cf6595209">FAR_PTR</a> __call_banked_ptr</td>
+          <td class="memname">volatile <a class="el" href="far__ptr_8h.html#a7c6f52121dd07af29b477f4e64314842">FAR_PTR</a> __call_banked_ptr</td>
         </tr>
       </table>
   </td>
@@ -425,8 +425,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a6f1c13e2fad9dd04645a000050d9f382"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6f1c13e2fad9dd04645a000050d9f382">&#9670;&nbsp;</a></span>__call_banked_bank</h2>
+<a id="a892433d652420445a9a6aebf1a256623"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a892433d652420445a9a6aebf1a256623">&#9670;&nbsp;</a></span>__call_banked_bank</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -435,7 +435,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">volatile unsigned char __call_banked_bank</td>
+          <td class="memname">volatile <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> __call_banked_bank</td>
         </tr>
       </table>
   </td>
@@ -449,6 +449,7 @@ Variables</h2></td></tr>
 </div>
 </div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="astdint_8h_html_adf4d876453337156dde61095e1f20223"><div class="ttname"><a href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a></div><div class="ttdeci">unsigned short int uint16_t</div><div class="ttdef"><b>Definition:</b> stdint.h:52</div></div>
 <div class="ttc" id="afar__ptr_8h_html_a7f4ab1893ea392f8bf042a3b97de4730"><div class="ttname"><a href="far__ptr_8h.html#a7f4ab1893ea392f8bf042a3b97de4730">FAR_CALL</a></div><div class="ttdeci">#define FAR_CALL(ptr, typ,...)</div><div class="ttdef"><b>Definition:</b> far_ptr.h:62</div></div>
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
