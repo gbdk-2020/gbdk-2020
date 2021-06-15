@@ -199,7 +199,7 @@ Restoring the current bank (after calling functions which change it without rest
 </div><!-- fragment --><p>It should be: </p><div class="fragment"><div class="line">void vbl_music_isr(void)</div>
 <div class="line">{</div>
 <div class="line">    // Save the current bank</div>
-<div class="line">    UBYTE _saved_bank = _current_bank;</div>
+<div class="line">    uint8_t _saved_bank = _current_bank;</div>
 <div class="line"> </div>
 <div class="line">    // A function which changes the bank and</div>
 <div class="line">    // *doesn&#39;t* restore it after changing.</div>
@@ -220,13 +220,13 @@ Auto-Banking</h1>
 <p>In the source files you want auto-banked, do the following:</p><ul>
 <li>Set the bank for the source file to <code>255</code>: <code>#pragma bank 255</code></li>
 <li>Create a constant with no value to store the bank number for the source file: <code>const void __at(255) __bank_&lt;name-for-a-given-source-file&gt;;</code>. <br  />
- This constant can then be used for obtaining that files bank number with <code>(UINT8)&amp;__bank_&lt;name-for-a-given-source-file</code>.</li>
+ This constant can then be used for obtaining that files bank number with <code>(uint8_t)&amp;__bank_&lt;name-for-a-given-source-file</code>.</li>
 </ul>
 <p>Example: level_1_map.c </p><pre class="fragment">    #pragma bank 255
     const void __at(255) __bank_level_1_map;
 
-    const UINT8 my_level_1_map[] = {... some map data here ...};
-</pre><p>Accessing that data: main.c </p><pre class="fragment">  SWITCH_ROM_MBC1( (UINT8)&amp;__bank_level_1_map );
+    const uint8_t my_level_1_map[] = {... some map data here ...};
+</pre><p>Accessing that data: main.c </p><pre class="fragment">  SWITCH_ROM_MBC1( (uint8_t)&amp;__bank_level_1_map );
   // Do something with my_level_1_map[]
 </pre><p>Features and Notes:</p><ul>
 <li>Fixed banked source files can be used in the same project as auto-banked source files. The bankpack tool will attempt to pack the auto-banked source files as efficiently as possible around the fixed-bank ones.</li>

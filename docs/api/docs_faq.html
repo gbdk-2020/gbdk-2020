@@ -170,9 +170,9 @@ API / Utilities</h1>
 </li>
 </ul>
 </li>
-<li>How can maps larger than 32x32 tiles be scrolled? &amp; Why is the map wrapping around to the left side when setting a map wider than 32 tiles with <a class="el" href="gb_8h.html#a48579cba9ac2d81ff7214cf3ff25563d">set_bkg_data()</a>?<ul>
-<li>The hardware Background map is 32 x 32 tiles. The screen viewport that can be scrolled around that map is 20 x 18 tiles. In order to scroll around within a much larger map, new tiles must be loaded at the edges of the screen viewport in the direction that it is being scrolled. <a class="el" href="gb_8h.html#a9369a5771b340680f4af3386ac4e19b2">set_bkg_submap</a> can be used to load those rows and columns of tiles from the desired sub-region of the large map.</li>
-<li>See the "Large Map" example program and <a class="el" href="gb_8h.html#a9369a5771b340680f4af3386ac4e19b2">set_bkg_submap()</a></li>
+<li>How can maps larger than 32x32 tiles be scrolled? &amp; Why is the map wrapping around to the left side when setting a map wider than 32 tiles with <a class="el" href="gb_8h.html#ac5ad2687d02b9815986cdac1b3121d15">set_bkg_data()</a>?<ul>
+<li>The hardware Background map is 32 x 32 tiles. The screen viewport that can be scrolled around that map is 20 x 18 tiles. In order to scroll around within a much larger map, new tiles must be loaded at the edges of the screen viewport in the direction that it is being scrolled. <a class="el" href="gb_8h.html#a0cfd261bc7a94b1f6093f423bad30298">set_bkg_submap</a> can be used to load those rows and columns of tiles from the desired sub-region of the large map.</li>
+<li>See the "Large Map" example program and <a class="el" href="gb_8h.html#a0cfd261bc7a94b1f6093f423bad30298">set_bkg_submap()</a></li>
 <li>Writes that exceed coordinate 31 of the Background tile map on the x or y axis will wrap around to the Left and Top edges. <br  />
 </li>
 </ul>

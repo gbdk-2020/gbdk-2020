@@ -3,7 +3,7 @@ var searchData=
   ['w_647',['w',['../union__fixed.html#ab16f9fd51f817308d109b9b35866f310',1,'_fixed']]],
   ['wait_5fint_5fhandler_648',['wait_int_handler',['../gb_8h.html#af461d38864cfc5720f0d9f4d1113cf07',1,'gb.h']]],
   ['wait_5fvbl_5fdone_649',['wait_vbl_done',['../gb_8h.html#adf6ef63efc4bb4950428015c623bca14',1,'gb.h']]],
-  ['waitpad_650',['waitpad',['../gb_8h.html#a393072c2b36f11306510c69aa6efea0f',1,'gb.h']]],
+  ['waitpad_650',['waitpad',['../gb_8h.html#a057979766e52b9f93972dad332a5be5d',1,'gb.h']]],
   ['waitpadup_651',['waitpadup',['../gb_8h.html#ae1f1358e53ec1b153f071d1e16d8ab0e',1,'gb.h']]],
   ['wchar_5fmax_652',['WCHAR_MAX',['../stdint_8h.html#a2a823f3ccf2306cfbaa34d8addf66010',1,'stdint.h']]],
   ['wchar_5fmin_653',['WCHAR_MIN',['../stdint_8h.html#a051084d5ebcabf282d9ca9bb2b891a78',1,'stdint.h']]],

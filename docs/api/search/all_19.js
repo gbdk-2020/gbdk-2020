@@ -6,5 +6,5 @@ var searchData=
   ['va_5fstart_643',['va_start',['../asm_2gbz80_2stdarg_8h.html#aa385efb7a67df5acc5e06cf3bdc8802f',1,'stdarg.h']]],
   ['vbk_5freg_644',['VBK_REG',['../hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a',1,'hardware.h']]],
   ['vbl_5fiflag_645',['VBL_IFLAG',['../gb_8h.html#a2ca7720b9a5da9b2173e1f74dba85541',1,'gb.h']]],
-  ['vmemset_646',['vmemset',['../gb_8h.html#a8cf949b6e2654b6a8bd9e403a49ee4b3',1,'gb.h']]]
+  ['vmemset_646',['vmemset',['../gb_8h.html#a6d63a11b7056285dfc8a390e2c3c67dc',1,'gb.h']]]
 ];

@@ -93,11 +93,17 @@ $(document).ready(function(){initNavTree('docs_migrating_versions.html',''); ini
 <h1><a class="anchor" id="autotoc_md115"></a>
 GBDK 2020 versions</h1>
 <h2><a class="anchor" id="autotoc_md116"></a>
+Porting to GBDK 2020 4.0.4</h2>
+<ul>
+<li>GBDK now requires SDCC 12238 or higher</li>
+<li>Made sample.h, cgb.h and sgb.h independent from gb.h</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md117"></a>
 Porting to GBDK 2020 4.0.3</h2>
 <ul>
 <li>No significant changes required</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md117"></a>
+<h2><a class="anchor" id="autotoc_md118"></a>
 Porting to GBDK 2020 4.0.2</h2>
 <ul>
 <li>The default font has been reduced from 256 to 96 characters.<ul>
@@ -106,7 +112,7 @@ Porting to GBDK 2020 4.0.2</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md118"></a>
+<h2><a class="anchor" id="autotoc_md119"></a>
 Porting to GBDK 2020 4.0.1</h2>
 <ul>
 <li><b>Important!</b> : The <code>WRAM</code> memory region is no longer automatically initialized to zeros during startup.<ul>
@@ -118,7 +124,7 @@ Porting to GBDK 2020 4.0.1</h2>
 <li>In .ihx files, multiple writes to the same ROM address are now warned about using <a class="el" href="docs_toolchain.html#ihxcheck">ihxcheck</a>.</li>
 <li><code>set_*_tiles()</code> now wrap maps around horizontal and vertical boundaries correctly. Code relying on it not wrapping correctly may be affected.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md119"></a>
+<h2><a class="anchor" id="autotoc_md120"></a>
 Porting to GBDK 2020 4.0</h2>
 <ul>
 <li>GBDK now requires SDCC 4.0.3 or higher</li>
@@ -128,24 +134,24 @@ Porting to GBDK 2020 4.0</h2>
 </li>
 <li>GBDK now generates .ihx files, those are converted to a ROM using <a class="el" href="docs_toolchain.html#makebin">makebin</a> (lcc can do this automatically in some use cases)</li>
 <li>Setting ROM bytes directly with <code>-Wl-yp0x&lt;address&gt;=0x&lt;value&gt;</code> is no longer supported. Instead use <a class="el" href="docs_toolchain.html#makebin">makebin</a> flags. For example, use <code>-Wm-yC</code> instead of <code>-Wl-yp0x143=0xC0</code>. See <a class="el" href="docs_faq.html#faq_gb_type_header_setting">faq_gb_type_header_setting</a>.</li>
-<li>OAM symbol has been renamed to _shadow_OAM, that allows accessing shadow OAM directly from C code</li>
+<li>OAM symbol has been renamed to <code>_shadow_OAM</code>, that allows accessing shadow OAM directly from C code</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md120"></a>
+<h2><a class="anchor" id="autotoc_md121"></a>
 Porting to GBDK 2020 3.2</h2>
 <ul>
 <li>No significant changes required</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md121"></a>
+<h2><a class="anchor" id="autotoc_md122"></a>
 Porting to GBDK 2020 3.1.1</h2>
 <ul>
 <li>No significant changes required</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md122"></a>
+<h2><a class="anchor" id="autotoc_md123"></a>
 Porting to GBDK 2020 3.1</h2>
 <ul>
 <li>No significant changes required</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md123"></a>
+<h2><a class="anchor" id="autotoc_md124"></a>
 Porting to GBDK 2020 3.0.1</h2>
 <ul>
 <li>LCC was upgraded to use SDCC v4.0. Makefile changes may be required<ul>
@@ -162,9 +168,9 @@ Porting to GBDK 2020 3.0.1</h2>
 </li>
 </ul>
 <hr  />
-<h1><a class="anchor" id="autotoc_md125"></a>
+<h1><a class="anchor" id="autotoc_md126"></a>
 Historical GBDK versions</h1>
-<h2><a class="anchor" id="autotoc_md126"></a>
+<h2><a class="anchor" id="autotoc_md127"></a>
 GBDK 1.1 to GBDK 2.0</h2>
 <ul>
 <li>Change your int variables to long if they have to be bigger than 255. If they should only contain values between 0 and 255, use an unsigned int.</li>

@@ -4,7 +4,7 @@ var searchData=
   ['nonbanked_341',['NONBANKED',['../asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96',1,'types.h']]],
   ['noreturn_342',['noreturn',['../stdnoreturn_8h.html#a4a453f3a748e55cbdac6fcc79357cfef',1,'stdnoreturn.h']]],
   ['nowait_5fint_5fhandler_343',['nowait_int_handler',['../gb_8h.html#a115eb30ec86f6af039a27918ffe4cf8c',1,'gb.h']]],
-  ['npads_344',['npads',['../structjoypads__t.html#a3e384ae17e19fdb55eea5fc9c9c7201a',1,'joypads_t']]],
+  ['npads_344',['npads',['../structjoypads__t.html#af84e3549a0708ee0e04295e5f853e9f5',1,'joypads_t']]],
   ['nr10_5freg_345',['NR10_REG',['../hardware_8h.html#ad859dc62b1df1584ade0cbb822a3e46f',1,'hardware.h']]],
   ['nr11_5freg_346',['NR11_REG',['../hardware_8h.html#ad53dc7f22b99fce195210a95f2749a72',1,'hardware.h']]],
   ['nr12_5freg_347',['NR12_REG',['../hardware_8h.html#a7accf5feabd95a2d84c72f5915fff837',1,'hardware.h']]],

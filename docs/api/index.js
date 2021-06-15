@@ -1,9 +1,9 @@
 var index =
 [
-    [ "Introduction", "index.html#autotoc_md157", null ],
-    [ "About the Documentation", "index.html#autotoc_md158", null ],
-    [ "About GBDK", "index.html#autotoc_md159", null ],
-    [ "Historical Info and Links", "index.html#autotoc_md160", null ],
+    [ "Introduction", "index.html#autotoc_md159", null ],
+    [ "About the Documentation", "index.html#autotoc_md160", null ],
+    [ "About GBDK", "index.html#autotoc_md161", null ],
+    [ "Historical Info and Links", "index.html#autotoc_md162", null ],
     [ "Getting Started", "docs_getting_started.html", [
       [ "1. Compile Example projects", "docs_getting_started.html#autotoc_md4", null ],
       [ "2. Use a Template", "docs_getting_started.html#autotoc_md5", null ],
@@ -149,53 +149,55 @@ var index =
     ] ],
     [ "Migrating to new GBDK Versions", "docs_migrating_versions.html", [
       [ "GBDK 2020 versions", "docs_migrating_versions.html#autotoc_md115", [
-        [ "Porting to GBDK 2020 4.0.3", "docs_migrating_versions.html#autotoc_md116", null ],
-        [ "Porting to GBDK 2020 4.0.2", "docs_migrating_versions.html#autotoc_md117", null ],
-        [ "Porting to GBDK 2020 4.0.1", "docs_migrating_versions.html#autotoc_md118", null ],
-        [ "Porting to GBDK 2020 4.0", "docs_migrating_versions.html#autotoc_md119", null ],
-        [ "Porting to GBDK 2020 3.2", "docs_migrating_versions.html#autotoc_md120", null ],
-        [ "Porting to GBDK 2020 3.1.1", "docs_migrating_versions.html#autotoc_md121", null ],
-        [ "Porting to GBDK 2020 3.1", "docs_migrating_versions.html#autotoc_md122", null ],
-        [ "Porting to GBDK 2020 3.0.1", "docs_migrating_versions.html#autotoc_md123", null ]
+        [ "Porting to GBDK 2020 4.0.4", "docs_migrating_versions.html#autotoc_md116", null ],
+        [ "Porting to GBDK 2020 4.0.3", "docs_migrating_versions.html#autotoc_md117", null ],
+        [ "Porting to GBDK 2020 4.0.2", "docs_migrating_versions.html#autotoc_md118", null ],
+        [ "Porting to GBDK 2020 4.0.1", "docs_migrating_versions.html#autotoc_md119", null ],
+        [ "Porting to GBDK 2020 4.0", "docs_migrating_versions.html#autotoc_md120", null ],
+        [ "Porting to GBDK 2020 3.2", "docs_migrating_versions.html#autotoc_md121", null ],
+        [ "Porting to GBDK 2020 3.1.1", "docs_migrating_versions.html#autotoc_md122", null ],
+        [ "Porting to GBDK 2020 3.1", "docs_migrating_versions.html#autotoc_md123", null ],
+        [ "Porting to GBDK 2020 3.0.1", "docs_migrating_versions.html#autotoc_md124", null ]
       ] ],
-      [ "Historical GBDK versions", "docs_migrating_versions.html#autotoc_md125", [
-        [ "GBDK 1.1 to GBDK 2.0", "docs_migrating_versions.html#autotoc_md126", null ]
+      [ "Historical GBDK versions", "docs_migrating_versions.html#autotoc_md126", [
+        [ "GBDK 1.1 to GBDK 2.0", "docs_migrating_versions.html#autotoc_md127", null ]
       ] ]
     ] ],
     [ "GBDK Releases", "docs_releases.html", [
-      [ "GBDK 2020 Release Notes", "docs_releases.html#autotoc_md127", [
-        [ "GBDK 2020 4.0.3", "docs_releases.html#autotoc_md128", null ],
-        [ "GBDK 2020 4.0.2", "docs_releases.html#autotoc_md129", null ],
-        [ "GBDK 2020 4.0.1", "docs_releases.html#autotoc_md130", null ],
-        [ "GBDK 2020 4.0", "docs_releases.html#autotoc_md131", null ],
-        [ "GBDK 2020 3.2", "docs_releases.html#autotoc_md132", null ],
-        [ "GBDK 2020 3.1.1", "docs_releases.html#autotoc_md133", null ],
-        [ "GBDK 2020 3.1", "docs_releases.html#autotoc_md134", null ],
-        [ "GBDK 2020 3.0.1", "docs_releases.html#autotoc_md135", null ],
-        [ "GBDK 2020 3.0", "docs_releases.html#autotoc_md136", null ]
+      [ "GBDK 2020 Release Notes", "docs_releases.html#autotoc_md128", [
+        [ "GBDK 2020 4.0.4", "docs_releases.html#autotoc_md129", null ],
+        [ "GBDK 2020 4.0.3", "docs_releases.html#autotoc_md130", null ],
+        [ "GBDK 2020 4.0.2", "docs_releases.html#autotoc_md131", null ],
+        [ "GBDK 2020 4.0.1", "docs_releases.html#autotoc_md132", null ],
+        [ "GBDK 2020 4.0", "docs_releases.html#autotoc_md133", null ],
+        [ "GBDK 2020 3.2", "docs_releases.html#autotoc_md134", null ],
+        [ "GBDK 2020 3.1.1", "docs_releases.html#autotoc_md135", null ],
+        [ "GBDK 2020 3.1", "docs_releases.html#autotoc_md136", null ],
+        [ "GBDK 2020 3.0.1", "docs_releases.html#autotoc_md137", null ],
+        [ "GBDK 2020 3.0", "docs_releases.html#autotoc_md138", null ]
       ] ],
-      [ "Historical GBDK Release Notes", "docs_releases.html#autotoc_md137", [
-        [ "GBDK 2.96", "docs_releases.html#autotoc_md138", null ],
-        [ "GBDK 2.95-3", "docs_releases.html#autotoc_md139", null ],
-        [ "GBDK 2.95-2", "docs_releases.html#autotoc_md140", null ],
-        [ "GBDK 2.95", "docs_releases.html#autotoc_md141", null ],
-        [ "GBDK 2.94", "docs_releases.html#autotoc_md142", null ],
-        [ "GBDK 2.93", "docs_releases.html#autotoc_md143", null ],
-        [ "GBDK 2.92-2 for win32", "docs_releases.html#autotoc_md144", null ],
-        [ "GBDK 2.92", "docs_releases.html#autotoc_md145", null ],
-        [ "GBDK 2.91", "docs_releases.html#autotoc_md146", null ],
-        [ "GBDK 2.1.5", "docs_releases.html#autotoc_md147", null ]
+      [ "Historical GBDK Release Notes", "docs_releases.html#autotoc_md139", [
+        [ "GBDK 2.96", "docs_releases.html#autotoc_md140", null ],
+        [ "GBDK 2.95-3", "docs_releases.html#autotoc_md141", null ],
+        [ "GBDK 2.95-2", "docs_releases.html#autotoc_md142", null ],
+        [ "GBDK 2.95", "docs_releases.html#autotoc_md143", null ],
+        [ "GBDK 2.94", "docs_releases.html#autotoc_md144", null ],
+        [ "GBDK 2.93", "docs_releases.html#autotoc_md145", null ],
+        [ "GBDK 2.92-2 for win32", "docs_releases.html#autotoc_md146", null ],
+        [ "GBDK 2.92", "docs_releases.html#autotoc_md147", null ],
+        [ "GBDK 2.91", "docs_releases.html#autotoc_md148", null ],
+        [ "GBDK 2.1.5", "docs_releases.html#autotoc_md149", null ]
       ] ]
     ] ],
     [ "Toolchain settings", "docs_toolchain_settings.html", [
-      [ "lcc settings", "docs_toolchain_settings.html#autotoc_md148", null ],
-      [ "sdcc settings", "docs_toolchain_settings.html#autotoc_md149", null ],
-      [ "sdasgb settings", "docs_toolchain_settings.html#autotoc_md150", null ],
-      [ "bankpack settings", "docs_toolchain_settings.html#autotoc_md151", null ],
-      [ "sdldgb settings", "docs_toolchain_settings.html#autotoc_md152", null ],
-      [ "ihxcheck settings", "docs_toolchain_settings.html#autotoc_md153", null ],
-      [ "makebin settings", "docs_toolchain_settings.html#autotoc_md154", null ],
-      [ "gbcompress settings", "docs_toolchain_settings.html#autotoc_md155", null ],
-      [ "png2mtspr settings", "docs_toolchain_settings.html#autotoc_md156", null ]
+      [ "lcc settings", "docs_toolchain_settings.html#autotoc_md150", null ],
+      [ "sdcc settings", "docs_toolchain_settings.html#autotoc_md151", null ],
+      [ "sdasgb settings", "docs_toolchain_settings.html#autotoc_md152", null ],
+      [ "bankpack settings", "docs_toolchain_settings.html#autotoc_md153", null ],
+      [ "sdldgb settings", "docs_toolchain_settings.html#autotoc_md154", null ],
+      [ "ihxcheck settings", "docs_toolchain_settings.html#autotoc_md155", null ],
+      [ "makebin settings", "docs_toolchain_settings.html#autotoc_md156", null ],
+      [ "gbcompress settings", "docs_toolchain_settings.html#autotoc_md157", null ],
+      [ "png2mtspr settings", "docs_toolchain_settings.html#autotoc_md158", null ]
     ] ]
 ];

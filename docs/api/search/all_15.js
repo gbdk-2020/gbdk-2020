@@ -1,9 +1,9 @@
 var searchData=
 [
   ['rom_2fram_20banking_20and_20mbcs_395',['ROM/RAM Banking and MBCs',['../docs_rombanking_mbcs.html',1,'index']]],
-  ['rand_396',['rand',['../rand_8h.html#ae311e489ffa4743107bdea8db211e7fe',1,'rand.h']]],
+  ['rand_396',['rand',['../rand_8h.html#a2c1b2cc92ec9f0c0b2fd90876ba5c8ec',1,'rand.h']]],
   ['rand_2eh_397',['rand.h',['../rand_8h.html',1,'']]],
-  ['randw_398',['randw',['../rand_8h.html#aff9512d128c4e1435f2b83116da663b3',1,'rand.h']]],
+  ['randw_398',['randw',['../rand_8h.html#a78fb5ab799d1193062eee3645bae93c2',1,'rand.h']]],
   ['realloc_399',['realloc',['../stdlib_8h.html#a1a6b5e8d2f1c37e5b43e4345586075be',1,'stdlib.h']]],
   ['receive_5fbyte_400',['receive_byte',['../gb_8h.html#a34d6500215984e8f9a986523a2f2dadd',1,'gb.h']]],
   ['remove_5fjoy_401',['remove_JOY',['../gb_8h.html#ae4510032b28f9f4cdaaa96b0b892cf57',1,'gb.h']]],

@@ -129,14 +129,13 @@ Variables</h2>
 <ul>
 <li>Use 8-bit values as much as possible. They will be much more efficient and compact than 16 and 32 bit types.</li>
 <li>Prefer unsigned variables to signed ones: The code generated will be generally more efficient, especially when comparing two values.</li>
-<li>Use explicit types so you always know the size of your variables. <code>INT8, UINT8, INT16, UINT16, INT32, UINT32</code> or <code>BYTE, UBYTE, WORD, UWORD, LWORD, ULWORD</code>. <br  />
- Types are defined in <a class="el" href="asm_2types_8h.html">asm/types.h</a> and <a class="el" href="asm_2gbz80_2types_8h.html">asm/gbz80/types.h</a></li>
+<li>Use explicit types so you always know the size of your variables. <code>int8_t, uint8_t, int16_t, uint16_t, int32_t, uint32_t</code> and <code>bool</code>. These are standard types defined in <code>stdint.h</code> (<code>#include &lt;stdint.h&gt;</code>) and <code>stdbool.h</code> (<code>#include &lt;stdbool.h&gt;</code>).</li>
 <li>Global and local static variables are generally more efficient than local non-static variables (which go on the stack and are slower and can result in slower code).</li>
 <li><a class="anchor" id="const_array_data"></a> <code>const</code> keyword: Use const for arrays, structs and variables with read-only (constant) data. It will reduce ROM, RAM and CPU usage significantly. Non-<code>const</code> values are loaded from ROM into RAM inefficiently, and there is no benefit in loading them into the limited available RAM if they aren't going to be changed.</li>
 <li>Here is how to delcare <code>const</code> pointers and variables:<ul>
-<li>non-const pointer to a const variable: <code>const UINT8 * some_pointer;</code></li>
-<li>const pointer to a non-const variable: <code>UINT8 * const some_pointer;</code></li>
-<li>const pointer to a const variable: <code>const UINT8 * const some_pointer;</code></li>
+<li>non-const pointer to a const variable: <code>const uint8_t * some_pointer;</code></li>
+<li>const pointer to a non-const variable: <code>uint8_t * const some_pointer;</code></li>
+<li>const pointer to a const variable: <code>const uint8_t * const some_pointer;</code></li>
 <li><a href="https://codeforwin.org/2017/11/constant-pointer-and-pointer-to-constant-in-c.html">https://codeforwin.org/2017/11/constant-pointer-and-pointer-to-constant-in-c.html</a></li>
 <li><a href="https://stackoverflow.com/questions/21476869/constant-pointer-vs-pointer-to-constant">https://stackoverflow.com/questions/21476869/constant-pointer-vs-pointer-to-constant</a></li>
 </ul>
@@ -166,7 +165,7 @@ Code structure</h2>
 </ul>
 </li>
 <li>Avoid long lists of function parameters. Passing many parameters can add overhead, especially if the function is called often. When applicable globals and local static vars can be used instead.</li>
-<li>Use inline functions if the function is short. (with the <code>inline</code> keyword, such as <code>inline UINT8 myFunction() { ... }</code>)</li>
+<li>Use inline functions if the function is short. (with the <code>inline</code> keyword, such as <code>inline uint8_t myFunction() { ... }</code>)</li>
 <li>Do not use recursive functions</li>
 </ul>
 <h2><a class="anchor" id="autotoc_md46"></a>
@@ -174,7 +173,7 @@ GBDK API/Library</h2>
 <ul>
 <li>stdio.h: If you have other ways of printing text, avoid including <a class="el" href="stdio_8h.html">stdio.h</a> and using functions such as <a class="el" href="stdio_8h.html#a79c1db3e4a2aaa60d5afa76f7d984d0b">printf()</a>. Including it will use a large number of the background tiles for font characters. If stdio.h is not included then that space will be available for use with other tiles instead.</li>
 <li>drawing.h: The Game Boy graphics hardware is not well suited to frame-buffer style graphics such as the kind provided in <a class="el" href="drawing_8h.html">drawing.h</a>. Due to that, most drawing functions (rectangles, circles, etc) will be slow . When possible it's much faster and more efficient to work with the tiles and tile maps that the Game Boy hardware is built around.</li>
-<li><a class="el" href="gb_8h.html#a393072c2b36f11306510c69aa6efea0f">waitpad()</a> and <a class="el" href="gb_8h.html#ae1f1358e53ec1b153f071d1e16d8ab0e">waitpadup</a> check for input in a loop that doesn't HALT at all, so the CPU will be maxed out until it returns. One alternative is to write a function with a loop that checks input with <a class="el" href="gb_8h.html#a81654fb8ed020754dfaf20e4a98a7784">joypad()</a> and then waits a frame using <a class="el" href="gb_8h.html#adf6ef63efc4bb4950428015c623bca14">wait_vbl_done()</a> (which idles the CPU while waiting) before checking input again.</li>
+<li><a class="el" href="gb_8h.html#a057979766e52b9f93972dad332a5be5d">waitpad()</a> and <a class="el" href="gb_8h.html#ae1f1358e53ec1b153f071d1e16d8ab0e">waitpadup</a> check for input in a loop that doesn't HALT at all, so the CPU will be maxed out until it returns. One alternative is to write a function with a loop that checks input with <a class="el" href="gb_8h.html#ae6e4ae6169648f1bf1fac9785f8f1c71">joypad()</a> and then waits a frame using <a class="el" href="gb_8h.html#adf6ef63efc4bb4950428015c623bca14">wait_vbl_done()</a> (which idles the CPU while waiting) before checking input again.</li>
 </ul>
 <h2><a class="anchor" id="autotoc_md47"></a>
 Toolchain</h2>
@@ -214,7 +213,7 @@ printf("%hx %hx", i, i);
 // The output will be: 5A 5A
 printf("%hx %hx", (unsigned char)i, (unsigned char)i);
 </pre><p>Some functions that accept varargs:</p><ul>
-<li><a class="el" href="bgb__emu_8h.html#aa55fc1a65764d7546ee5e4e3ee0bef90">BGB_MESSAGE_FMT</a>, <a class="el" href="drawing_8h.html#a20f022d3050cc0409b1558c02a3b47c0">gprintf()</a>, <a class="el" href="stdio_8h.html#a79c1db3e4a2aaa60d5afa76f7d984d0b">printf()</a>, <a class="el" href="stdio_8h.html#a6c8d9c5b5b6a760b5b2787f0f96b690e">sprintf()</a></li>
+<li><a class="el" href="bgb__emu_8h.html#aa55fc1a65764d7546ee5e4e3ee0bef90">BGB_MESSAGE_FMT</a>, <a class="el" href="drawing_8h.html#a5f7a0ed309f9526e9be285146559848c">gprintf()</a>, <a class="el" href="stdio_8h.html#a79c1db3e4a2aaa60d5afa76f7d984d0b">printf()</a>, <a class="el" href="stdio_8h.html#a6c8d9c5b5b6a760b5b2787f0f96b690e">sprintf()</a></li>
 </ul>
 <p>Also See:</p><ul>
 <li>Other cases of char to int promotion: <a href="http://sdcc.sourceforge.net/doc/sdccman.pdf#chapter.6">http://sdcc.sourceforge.net/doc/sdccman.pdf#chapter.6</a></li>
@@ -226,7 +225,7 @@ When C isn't fast enough</h1>
 <h2><a class="anchor" id="autotoc_md50"></a>
 Calling convention</h2>
 <p>sdcc in common with almost all C compilers prepends a '_' to any function names. For example the function printf(...) begins at the label _printf::. Note that all functions are declared global.</p>
-<p>The parameters to a function are pushed in right to left order with no aligning - so a byte takes up a byte on the stack instead of the more natural word. So for example the function int store_byte( UWORD addr, UBYTE byte) would push 'byte' onto the stack first then addr using a total of three bytes. As the return address is also pushed, the stack would contain: </p><pre class="fragment">  At SP+0 - the return address
+<p>The parameters to a function are pushed in right to left order with no aligning - so a byte takes up a byte on the stack instead of the more natural word. So for example the function int store_byte( uint16_t addr, uint8_t byte) would push 'byte' onto the stack first then addr using a total of three bytes. As the return address is also pushed, the stack would contain: </p><pre class="fragment">  At SP+0 - the return address
 
   At SP+2 - addr
 

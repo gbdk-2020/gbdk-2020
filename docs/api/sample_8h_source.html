@@ -93,16 +93,19 @@ $(document).ready(function(){initNavTree('sample_8h_source.html',''); initResiza
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#ifndef _SAMPLE_H</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#define _SAMPLE_H</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keywordtype">void</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="sample_8h.html#acd2b881426ae608c513e5914e7bcd6a6">   16</a></span>&#160;<a class="code" href="sample_8h.html#acd2b881426ae608c513e5914e7bcd6a6">play_sample</a>(<a class="code" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> *start, <a class="code" href="asm_2gbz80_2types_8h.html#a805c2c164bdd38d72a30c46e84fb568b">UINT16</a> len) <a class="code" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a>;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* _SAMPLE_H */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;types.h&gt;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="stdint_8h.html">stdint.h</a>&gt;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="sample_8h.html#a8078ce8a190d19529c135259f33211bd">   18</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="sample_8h.html#a8078ce8a190d19529c135259f33211bd">play_sample</a>(<a class="code" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *start, <a class="code" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> len) <a class="code" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a>;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* _SAMPLE_H */</span><span class="preprocessor"></span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aasm_2gbz80_2types_8h_html_ab27e9918b538ce9d8ca692479b375b6a"><div class="ttname"><a href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a></div><div class="ttdeci">unsigned char UINT8</div><div class="ttdef"><b>Definition:</b> types.h:22</div></div>
-<div class="ttc" id="aasm_2gbz80_2types_8h_html_a805c2c164bdd38d72a30c46e84fb568b"><div class="ttname"><a href="asm_2gbz80_2types_8h.html#a805c2c164bdd38d72a30c46e84fb568b">UINT16</a></div><div class="ttdeci">unsigned int UINT16</div><div class="ttdef"><b>Definition:</b> types.h:28</div></div>
+<div class="ttc" id="astdint_8h_html_aba7bc1797add20fe3efdf37ced1182c5"><div class="ttname"><a href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a></div><div class="ttdeci">unsigned char uint8_t</div><div class="ttdef"><b>Definition:</b> stdint.h:51</div></div>
+<div class="ttc" id="astdint_8h_html_adf4d876453337156dde61095e1f20223"><div class="ttname"><a href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a></div><div class="ttdeci">unsigned short int uint16_t</div><div class="ttdef"><b>Definition:</b> stdint.h:52</div></div>
+<div class="ttc" id="astdint_8h_html"><div class="ttname"><a href="stdint_8h.html">stdint.h</a></div></div>
 <div class="ttc" id="aasm_2gbz80_2types_8h_html_a7ed081d8dfb6902784b2fc730bbb7f96"><div class="ttname"><a href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></div><div class="ttdeci">#define NONBANKED</div><div class="ttdef"><b>Definition:</b> types.h:12</div></div>
-<div class="ttc" id="asample_8h_html_acd2b881426ae608c513e5914e7bcd6a6"><div class="ttname"><a href="sample_8h.html#acd2b881426ae608c513e5914e7bcd6a6">play_sample</a></div><div class="ttdeci">void play_sample(UINT8 *start, UINT16 len) NONBANKED</div></div>
+<div class="ttc" id="asample_8h_html_a8078ce8a190d19529c135259f33211bd"><div class="ttname"><a href="sample_8h.html#a8078ce8a190d19529c135259f33211bd">play_sample</a></div><div class="ttdeci">void play_sample(uint8_t *start, uint16_t len) NONBANKED</div></div>
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

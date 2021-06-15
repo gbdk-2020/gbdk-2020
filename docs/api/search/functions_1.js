@@ -6,7 +6,7 @@ var searchData=
   ['add_5fsio_726',['add_SIO',['../gb_8h.html#a024fc35ef0ad258d67c8f9dfb0751ee7',1,'gb.h']]],
   ['add_5ftim_727',['add_TIM',['../gb_8h.html#a411914e5dc5f28ce0afa7cf692a18af1',1,'gb.h']]],
   ['add_5fvbl_728',['add_VBL',['../gb_8h.html#a2412b9f97cb59acfcb2383eb9f204ddf',1,'gb.h']]],
-  ['arand_729',['arand',['../rand_8h.html#a3b69bdab83b46c324126a7ccdf9db973',1,'rand.h']]],
+  ['arand_729',['arand',['../rand_8h.html#ab6b156c085bb1daf9098eba18575bf03',1,'rand.h']]],
   ['atoi_730',['atoi',['../stdlib_8h.html#a30670a60464f77af17dfb353353d6df8',1,'stdlib.h']]],
   ['atol_731',['atol',['../stdlib_8h.html#a825c37450147a643edbcb1a435518307',1,'stdlib.h']]],
   ['atomic_5fflag_5fclear_732',['atomic_flag_clear',['../stdatomic_8h.html#a281cc77096d886b0cf2c6ab7dfbe900c',1,'stdatomic.h']]],

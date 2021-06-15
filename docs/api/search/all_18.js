@@ -8,7 +8,7 @@ var searchData=
   ['uint16_5fc_597',['UINT16_C',['../stdint_8h.html#af525dddf7f072ee85c953107123ff1f6',1,'stdint.h']]],
   ['uint16_5fmax_598',['UINT16_MAX',['../stdint_8h.html#a3ea490c9b3617d4479bd80ef93cd5602',1,'stdint.h']]],
   ['uint16_5ft_599',['uint16_t',['../stdint_8h.html#adf4d876453337156dde61095e1f20223',1,'stdint.h']]],
-  ['uint2bcd_600',['uint2bcd',['../bcd_8h.html#a199d4e29e267c9722768fbcbd7c4cc1d',1,'bcd.h']]],
+  ['uint2bcd_600',['uint2bcd',['../bcd_8h.html#a718f9c42a96e0a1dde983117e08f0e91',1,'bcd.h']]],
   ['uint32_601',['UINT32',['../asm_2gbz80_2types_8h.html#a0b39d6d754cb24c708b0f2bdbe88130e',1,'types.h']]],
   ['uint32_5fc_602',['UINT32_C',['../stdint_8h.html#a87b9ec7df1524edf020b074bbae32d6d',1,'stdint.h']]],
   ['uint32_5fmax_603',['UINT32_MAX',['../stdint_8h.html#ab5eb23180f7cc12b7d6c04a8ec067fdd',1,'stdint.h']]],

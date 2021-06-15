@@ -7,7 +7,7 @@ var searchData=
   ['add_5ftim_40',['add_TIM',['../gb_8h.html#a411914e5dc5f28ce0afa7cf692a18af1',1,'gb.h']]],
   ['add_5fvbl_41',['add_VBL',['../gb_8h.html#a2412b9f97cb59acfcb2383eb9f204ddf',1,'gb.h']]],
   ['and_42',['AND',['../drawing_8h.html#acd1b97556dfbbac61063a63031d2f91d',1,'drawing.h']]],
-  ['arand_43',['arand',['../rand_8h.html#a3b69bdab83b46c324126a7ccdf9db973',1,'rand.h']]],
+  ['arand_43',['arand',['../rand_8h.html#ab6b156c085bb1daf9098eba18575bf03',1,'rand.h']]],
   ['assert_44',['assert',['../assert_8h.html#af576bf8ffa22a44e53018c67095ffbf0',1,'assert.h']]],
   ['assert_2eh_45',['assert.h',['../assert_8h.html',1,'']]],
   ['atoi_46',['atoi',['../stdlib_8h.html#a30670a60464f77af17dfb353353d6df8',1,'stdlib.h']]],

@@ -1,7 +1,7 @@
 var searchData=
 [
   ['next_950',['next',['../structsmalloc__hunk.html#a23342f9c125db8da542769cf53794a1f',1,'smalloc_hunk']]],
-  ['npads_951',['npads',['../structjoypads__t.html#a3e384ae17e19fdb55eea5fc9c9c7201a',1,'joypads_t']]],
+  ['npads_951',['npads',['../structjoypads__t.html#af84e3549a0708ee0e04295e5f853e9f5',1,'joypads_t']]],
   ['nr10_5freg_952',['NR10_REG',['../hardware_8h.html#ad859dc62b1df1584ade0cbb822a3e46f',1,'hardware.h']]],
   ['nr11_5freg_953',['NR11_REG',['../hardware_8h.html#ad53dc7f22b99fce195210a95f2749a72',1,'hardware.h']]],
   ['nr12_5freg_954',['NR12_REG',['../hardware_8h.html#a7accf5feabd95a2d84c72f5915fff837',1,'hardware.h']]],
