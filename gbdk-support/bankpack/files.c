@@ -132,7 +132,7 @@ static char * file_read_to_buffer(char * filename) {
 
 
 // Extract areas from files, then collected assign them to banks
-int files_extract(void) {
+void files_extract(void) {
     uint32_t c;
     char strline_in[OBJ_NAME_MAX_STR_LEN] = "";
     file_item * files = (file_item *)filelist.p_array;
@@ -166,7 +166,7 @@ int files_extract(void) {
 }
 
 
-int files_rewrite(void) {
+void files_rewrite(void) {
 
     uint32_t c;
     char * in_file_buf = NULL;

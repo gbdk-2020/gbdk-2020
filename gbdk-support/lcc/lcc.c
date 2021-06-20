@@ -92,7 +92,7 @@ char *progname;
 static List lccinputs;		/* list of input directories */
 char bankpack_newext[1024] = {'\0'};
 static int ihx_inputs = 0;  // Number of ihx files present in input list
-static char ihxFile[256] = "";
+static char ihxFile[256] = {'\0'};
 
 
 int main(int argc, char *argv[]) {
@@ -116,8 +116,10 @@ int main(int argc, char *argv[]) {
 	else if (getenv("TMPDIR"))
 		tempdir = getenv("TMPDIR");
 	assert(tempdir);
+
+	// Remove trailing slashes
 	i = strlen(tempdir);
-	for (; i > 0 && tempdir[i - 1] == '/' || tempdir[i - 1] == '\\'; i--)
+	for (; (i > 0) && ((tempdir[i - 1] == '/') || (tempdir[i - 1] == '\\')); i--)
 		tempdir[i - 1] = '\0';
 	if (argc <= 1) {
 		help();
@@ -199,11 +201,12 @@ int main(int argc, char *argv[]) {
 		if (*argv[i] == '-')
 			opt(argv[i]);
 		else {
-	// Process filenames
+			// Process filenames
 			char *name = exists(argv[i]);
 			if (name) {
 				if (strcmp(name, argv[i]) != 0
-					|| nf > 1 && suffix(name, suffixes, 3) != SUFX_NOMATCH) // Does it match: .c, .i, .asm, .s
+					|| ((nf > 1) && (suffix(name, suffixes, 3) != SUFX_NOMATCH)) ) // Does it match: .c, .i, .asm, .s
+
 					fprintf(stderr, "%s:\n", name);
 				// Send input filename argument to "filename processor"
 				// which will add them to llist[n] in some form most of the time
@@ -216,7 +219,7 @@ int main(int argc, char *argv[]) {
 
 	// Perform Link / ihxcheck / makebin stages (unless some conditions prevent it)
 	if (errcnt == 0 && !Eflag && !cflag && !Sflag && 
-		(llist[1] || (ihxFile && ihx_inputs))) {
+		(llist[1] || ((ihxFile[0] != '\0') && ihx_inputs))) {
 
 		int target_is_ihx = 0;
 
@@ -598,7 +601,8 @@ static void compose(char *cmd[], List a, List b, List c) {
 		if (s && isdigit(s[1])) {
 			int k = s[1] - '0';
 			assert(k >= 1 && k <= 3);
-			if (b = lists[k - 1]) {
+			b = lists[k - 1];
+			if (b) {
 				b = b->link;
 				av[j] = alloc(strlen(cmd[i]) + strlen(b->str) - 1);
 				strncpy(av[j], cmd[i], s - cmd[i]);
@@ -729,7 +733,7 @@ static int filename(char *name, char *base) {
 			llist[1] = append(name, llist[1]);
 		break;
 	case 4: // .ihx files
-		// Append .ihx files (there can be only one as input)
+		// Apply "name" as .ihx file (there can be only one as input)
 		strncpy(ihxFile, name, sizeof(ihxFile) - 1);
 		break;
 	default:
@@ -749,7 +753,8 @@ static int filename(char *name, char *base) {
 static List find(char *str, List list) {
 	List b;
 
-	if (b = list)
+	b = list;
+	if (b)
 		do {
 			if (strcmp(str, b->str) == 0)
 				return b;
@@ -810,7 +815,7 @@ static void help(void) {
 		if (strncmp("-tempdir", msgs[i], 8) == 0 && tempdir)
 			fprintf(stderr, "; default=%s", tempdir);
 	}
-#define xx(v) if (s = getenv(#v)) fprintf(stderr, #v "=%s\n", s)
+#define xx(v) if ((s = getenv(#v))) fprintf(stderr, #v "=%s\n", s)
 	xx(LCCINPUTS);
 	xx(LCCDIR);
 #ifdef WIN32
@@ -829,7 +834,8 @@ static void initinputs(void) {
 		s = ".";
 	if (s) {
 		lccinputs = path2list(s);
-		if (b = lccinputs)
+		b = lccinputs;
+		if (b)
 			do {
 				b = b->link;
 				if (strcmp(b->str, ".") != 0) {
@@ -1092,7 +1098,8 @@ static List path2list(const char *path) {
 		sep = ';';
 	while (*path) {
 		char *p, buf[512];
-		if (p = strchr(path, sep)) {
+		p = strchr(path, sep);
+		if (p) {
 			size_t len = p - path;
 			if(len >= sizeof(buf)) len = sizeof(buf)-1;
 			strncpy(buf, path, len);
@@ -1160,7 +1167,7 @@ int suffix(char *name, char *tails[], int n) {
 
 	for (i = 0; i < n; i++) {
 		char *s = tails[i], *t;
-		for (; t = strchr(s, ';'); s = t + 1) {
+		for (; (t = strchr(s, ';')); s = t + 1) {
 			int m = t - s;
 			if (len > m && strncmp(&name[len - m], s, m) == 0)
 				return i;

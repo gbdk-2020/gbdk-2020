@@ -55,12 +55,12 @@ int areas_add(char * area_str, uint32_t file_id);
 int symbols_add(char * area_str, uint32_t file_id);
 void symbol_match_add(char *);
 
-int obj_data_process(list_type *);
+void obj_data_process(list_type *);
 
 bool area_modify_and_write_to_file(char * strline_in, FILE * out_file, uint16_t bank_num);
 bool symbol_modify_and_write_to_file(char * strline_in, FILE * out_file, uint16_t bank_num, uint32_t file_id);
 
-int banks_show(void);
+void banks_show(void);
 
 
 #endif // _AREAS_H

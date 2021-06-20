@@ -131,12 +131,12 @@ static int compress() {
     if ((p_buf_in) && (p_buf_out) && (buf_size_in > 0)) {
         out_len = gbcompress_buf(p_buf_in, buf_size_in, &p_buf_out, buf_size_out);
 
-        if (out_len > 0)
+        if (out_len > 0) {
 
             if (opt_c_source_output) {
                 c_source_set_sizes(out_len, buf_size_in); // compressed, decompressed
                 result = file_write_c_output_from_buffer(filename_out, p_buf_out, out_len, opt_c_source_output_varname, true);
-            }
+            } 
             else
                 result = file_write_from_buffer(filename_out, p_buf_out, out_len);
 
@@ -145,7 +145,7 @@ static int compress() {
                     printf("Compressed: %d bytes -> %d bytes (%%%.2f)\n", buf_size_in, out_len, ((double)out_len / (double)buf_size_in) * 100);
                 return EXIT_SUCCESS;
             }
-
+        }
     }
 
     return EXIT_FAILURE;    
@@ -172,20 +172,22 @@ static int decompress() {
     if ((p_buf_in) && (p_buf_out) && (buf_size_in > 0)) {
         out_len = gbdecompress_buf(p_buf_in, buf_size_in,
                                  &p_buf_out, buf_size_out);
-        if (out_len > 0)
+        if (out_len > 0) {
 
             if (opt_c_source_output) {
                 c_source_set_sizes(buf_size_in, out_len); // compressed, decompressed
                 result = file_write_c_output_from_buffer(filename_out, p_buf_out, out_len, opt_c_source_output_varname, true);
             }
-            else
+            else {
                 result = file_write_from_buffer(filename_out, p_buf_out, out_len);
+            }
 
             if (result) {
                 if (opt_verbose)
                     printf("Decompressed: %d bytes -> %d bytes (compression was %%%.2f)\n", buf_size_in, out_len, ((double)buf_size_in / (double)out_len) * 100);
                 return EXIT_SUCCESS;
             }
+        }
     }
 
     return EXIT_FAILURE;

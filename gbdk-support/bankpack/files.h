@@ -25,7 +25,7 @@ char * file_get_name_out_by_id(uint32_t);
 void files_set_out_ext(char *);
 void files_set_out_path(char *);
 
-int  files_extract(void);
-int  files_rewrite(void);
+void files_extract(void);
+void files_rewrite(void);
 
 #endif // _FILES_H

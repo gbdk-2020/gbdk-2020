@@ -4,8 +4,9 @@ ifndef TARGETDIR
 TARGETDIR = /opt/gbdk
 endif
 
-BUILDDATE=$(shell date --utc +%Y/%m/%d)
-BUILDTIME=$(shell date --utc +%H:%M:%S)
+# MacOS date doesn't support '--utc', use '-u'
+BUILDDATE=$(shell date -u +%Y/%m/%d)
+BUILDTIME=$(shell date -u +%H:%M:%S)
 
 CC = $(TOOLSPREFIX)gcc
 CFLAGS = -ggdb -O -Wno-incompatible-pointer-types -DGBDKLIBDIR=\"$(TARGETDIR)\"

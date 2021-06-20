@@ -418,7 +418,7 @@ static void areas_sort(void) {
 // Assigns all areas -> banks, and bank numbers -> files
 // Fixed bank areas are placed first, then auto-banks fill the rest in
 // Only call after all areas have been collected from object files
-int obj_data_process(list_type * p_filelist) {
+void obj_data_process(list_type * p_filelist) {
     uint32_t c, s;
     area_item   * areas   = (area_item *)arealist.p_array;
     symbol_item * symbols = (symbol_item *)symbollist.p_array;
@@ -467,7 +467,7 @@ int obj_data_process(list_type * p_filelist) {
 
 // Display file/area/bank assignment
 // Should be called after obj_data_process()
-int banks_show(void) {
+void banks_show(void) {
 
     uint32_t c;
     uint32_t a;
