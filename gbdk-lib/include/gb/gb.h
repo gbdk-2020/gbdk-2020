@@ -165,6 +165,11 @@ void remove_JOY(int_handler h) NONBANKED;
     called last.  If the @ref remove_VBL function is to be called,
     only three may be added.
 
+    Do not use '__critical' and '__interrupt' attributes for a
+    function added via add_VBL() (or LCD, etc). The attributes 
+    are only required when constructing a bare jump from the 
+    interrupt vector itself.
+
     Note: The default VBL is installed automatically.
 */
 void add_VBL(int_handler h) NONBANKED;
@@ -221,9 +226,7 @@ void add_SIO(int_handler h) NONBANKED;
     or more times for every button press and one or more
     times for every button release.
 
-
-
-    @see joypad()
+    @see joypad(), add_VBL()
 */
 void add_JOY(int_handler h) NONBANKED;
 
@@ -1336,12 +1339,15 @@ void set_tiles(uint8_t x,
           uint8_t *vram_addr,
           const uint8_t *tiles) NONBANKED __preserves_regs(b, c);
 
-/** Sets VRAM Tile Pattern data starting from given base address
+/** Sets VRAM Tile Pattern data starting from given base address 
+    without taking into account the state of LCDC bit 4.
 
     @param first_tile  Index of the first tile to write
     @param nb_tiles    Number of tiles to write
     @param data        Pointer to (2 bpp) source Tile Pattern data.
 	@param base        MSB of the destination address in VRAM (usually 0x80 or 0x90 which gives 0x8000 or 0x9000)
+
+set_tile_data() allows to load tile data not taking into account LCDC bit 4 state    
 */
 void set_tile_data(uint8_t first_tile,
           uint8_t nb_tiles,

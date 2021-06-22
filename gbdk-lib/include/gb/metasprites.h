@@ -72,6 +72,8 @@
     and a pool of tiles they reference. If a metasprite has multiple frames then each
     frame will be built from some number of metasprite_t items (which may vary based
     on how many sprites are required for that particular frame).
+
+    A metasprite frame is terminated with a {metasprite_end} entry.
 */
 typedef struct metasprite_t {
     int8_t  dy, dx;

@@ -48,6 +48,9 @@
     - Yes, turn on `.noi` output (LCC argument: `-Wl-j` or `-debug` and then use `-Wm-yS` with LCC (or `-yS` with makebin directly). <!-- -->   
 
 # API / Utilities
+  - Can I use the `float` type to do floating point math?
+    - There is no support for 'float' in GBDK-2020.
+
   - Why are 8 bit numbers not printing correctly with printf()?
     - To correctly pass chars/uint8s for printing, they must be explicitly re-cast as such when calling the function. See docs_chars_varargs for more details.  <!-- -->  
 
