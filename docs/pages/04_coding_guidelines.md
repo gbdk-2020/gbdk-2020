@@ -76,6 +76,8 @@ If you wish to use the original tools, you must add the `const` keyword every ti
   - Do not `#include` `.c` source files into other `.c` source files. Instead create `.h` header files for them and include those.
     https://www.tutorialspoint.com/cprogramming/c_header_files.htm
 
+  - Instead of using a blocking @ref delay() for things such as sprite animations/etc (which can prevent the rest of the game from continuing) many times it's better to use a counter which performs an action once every N frames. @ref sys_time may be useful in these cases.
+
   - When procesing for a given frame is done and it is time to wait before starting the next frame, @ref wait_vbl_done() can be used. It uses HALT to put the CPU into a low power state until processing resumes. The CPU will wake up and resume processing at the end of the current frame when the Vertical Blanking interrupt is triggered.
 
   - Minimize use of multiplication, modulo with non-powers of 2, and division with non-powers of 2. These operations have no corresponding CPU instructions (software functions), and hence are time costly.
@@ -115,6 +117,8 @@ If you wish to use the original tools, you must add the `const` keyword every ti
   - drawing.h: The Game Boy graphics hardware is not well suited to frame-buffer style graphics such as the kind provided in @ref drawing.h. Due to that, most drawing functions (rectangles, circles, etc) will be slow . When possible it's much faster and more efficient to work with the tiles and tile maps that the Game Boy hardware is built around.
 
   - @ref waitpad() and @ref waitpadup check for input in a loop that doesn't HALT at all, so the CPU will be maxed out until it returns. One alternative is to write a function with a loop that checks input with @ref joypad() and then waits a frame using @ref wait_vbl_done() (which idles the CPU while waiting) before checking input again.
+
+  - @ref joypad(): When testing for multiple different buttons, it's best to read the joypad state *once* into a variable and then test using that variable (instead of making multiple calls).
 
 
 ## Toolchain
