@@ -77,6 +77,27 @@ _ ## VARNAME:: \
 __endasm; \
 } 
 
+/** Creates the reference for retriving the bank number of the object
+    
+    @param VARNAME Variable name to use
+
+    @see BANK() for obtaining the bank number of the included data.
+
+    Use @ref INCBIN_EXTERN() within another source file
+    to make the variable and it's data accesible there.
+*/
+#define BANKREF(VARNAME) void __func_ ## VARNAME() __banked __naked { \
+__asm \
+	_ ## VARNAME = 0x4000 \
+	.globl _ ## VARNAME \
+    ___size_ ## VARNAME = 0 \
+    .globl ___size_ ## VARNAME \
+    .local b___func_ ## VARNAME \
+    ___bank_ ## VARNAME = b___func_ ## VARNAME \
+    .globl ___bank_ ## VARNAME \
+__endasm; \
+} 
+
 #endif // _INCBIN_H
 
 
