@@ -90,7 +90,7 @@ __endasm; \
 __asm \
 	_ ## VARNAME = 0x4000 \
 	.globl _ ## VARNAME \
-    ___size_ ## VARNAME = 0 \
+    ___size_ ## VARNAME = 0x4000 \
     .globl ___size_ ## VARNAME \
     .local b___func_ ## VARNAME \
     ___bank_ ## VARNAME = b___func_ ## VARNAME \
