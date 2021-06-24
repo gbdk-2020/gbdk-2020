@@ -59,5 +59,5 @@ bank_3.o:	bank_3.c
 #      4 RAM banks  : -Wl-ya4
 #
 banks.gb:	banks.o bank_0.o bank_1.o bank_2.o bank_3.o
-	$(CC) -Wl-yt0x19 -Wl-yo4 -Wl-ya4 -o $@ banks.o bank_0.o bank_1.o bank_2.o bank_3.o
+	$(CC) -Wl-yt0x1A -Wl-yo4 -Wl-ya4 -o $@ banks.o bank_0.o bank_1.o bank_2.o bank_3.o
 
