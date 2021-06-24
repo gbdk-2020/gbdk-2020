@@ -50,6 +50,7 @@ Note: You can use the `NONBANKED` keyword to define a function as non-banked if 
 
 At the link stage this is done with @ref lcc using pass-through switches for @ref makebin.
   - `-Wl-yo<N>` where `<N>` is the number of ROM banks. 2, 4, 8, 16, 32, 64, 128, 256, 512
+    - `-Wl-yoA` may be used for automatic bank size.
   - `-Wl-ya<N>` where `<N>` is the number of RAM banks. 2, 4, 8, 16, 32
   - `-Wl-yt<N>` where `<N>` is the type of MBC cartridge (see below).
 
