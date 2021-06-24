@@ -1,8 +1,7 @@
 # Top level Makefile for GBDK that combines the builds for sdcc,
 # gbdk-lib, and gbdk-support
 #
-# 2001  Michael Hope <michaelh@juju.net.nz>
-# $Id: Makefile,v 1.4 2001/11/04 18:43:51 michaelh Exp $
+# GBDK-2020
 #
 TOPDIR = $(shell pwd)
 
@@ -55,6 +54,7 @@ all: native-build
 clean: gbdk-support-clean gbdk-lib-clean
 
 distclean: clean build-dir-clean
+dist-examples-rebuild: gbdk-dist-examples-clean gbdk-dist-examples-build
 
 docs: doxygen-generate
 docspdf: doxygen-generate-with-pdf
@@ -70,7 +70,7 @@ FIXUPMASKS = *.c *.h .bat *.s ChangeLog README
 
 native-build: gbdk-build gbdk-install
 
-cross-clean: sdcc-clean gbdk-support-clean
+cross-clean: gbdk-support-clean
 
 cross-build: gbdk-build gbdk-install cross-cleanup
 
@@ -198,6 +198,13 @@ gbdk-lib-clean:
 gbdk-lib-examples-makefile:
 	$(MAKE) -C $(BUILDDIR)/examples/gb make.bat
 	unix2dos $(BUILDDIR)/examples/gb/make.bat
+
+gbdk-dist-examples-build:
+	$(MAKE) -C $(BUILDDIR)/examples/gb
+
+gbdk-dist-examples-clean:
+	$(MAKE) -C $(BUILDDIR)/examples/gb clean
+
 
 # Copy SDDC executable files
 SDCC_BINS = makebin packihx sdar sdasgb sdcc sdcdb sdcpp sdldgb sdnm sdobjcopy sdranlib sz80
