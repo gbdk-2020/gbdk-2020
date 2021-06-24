@@ -358,21 +358,29 @@ __REG _current_bank;
 #define SWITCH_ROM_MBC1(b) \
   _current_bank = (b), *(uint8_t *)0x2000 = (b)
 
+#define SWITCH_ROM SWITCH_ROM_MBC1
+
 /** Switches SRAM bank on MBC1 and other compaticle MBCs
     @param b   SRAM bank to switch to
 */
 #define SWITCH_RAM_MBC1(b) \
   *(uint8_t *)0x4000 = (b)
 
+#define SWITCH_RAM SWITCH_RAM_MBC1
+
 /** Enables SRAM on MBC1
 */
 #define ENABLE_RAM_MBC1 \
   *(uint8_t *)0x0000 = 0x0A
 
+#define ENABLE_RAM ENABLE_RAM_MBC1
+
 /** Disables SRAM on MBC1
 */
 #define DISABLE_RAM_MBC1 \
   *(uint8_t *)0x0000 = 0x00
+
+#define DISABLE_RAM DISABLE_RAM_MBC1
 
 #define SWITCH_16_8_MODE_MBC1 \
   *(uint8_t *)0x6000 = 0x00

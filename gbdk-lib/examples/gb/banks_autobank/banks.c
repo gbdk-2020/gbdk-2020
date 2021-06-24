@@ -45,16 +45,16 @@ void main(void)
   printf("\n");
 
   // Print the const vars, unbanked first then the banked ones
-  printf("Var0 = %u is unbanked", some_const_var_0);
+  printf("Const0= %u nonbanked\n", some_const_var_0);
 
-  SWITCH_ROM_MBC1( (uint8_t)&__bank_srcfile1 );
-  printf("Var1 = %u in bank %u\n", some_const_var_1, &(__bank_srcfile1));
-  SWITCH_ROM_MBC1( (uint8_t)&__bank_srcfile2 );
-  printf("Var2 = %u in bank %u\n", some_const_var_2, &(__bank_srcfile2));
-  SWITCH_ROM_MBC1( (uint8_t)&__bank_srcfile3 );
-  printf("Var3 = %u in bank %u\n", some_const_var_3, &(__bank_srcfile3));
-  SWITCH_ROM_MBC1( (uint8_t)&__bank_srcfile4 );
-  printf("Var4 = %u in bank %u\n", some_const_var_4, &(__bank_srcfile4));
+  SWITCH_ROM( (uint8_t)&__bank_srcfile1 );
+  printf("Const1= %u in bank %u\n", some_const_var_1, &(__bank_srcfile1));
+  SWITCH_ROM( (uint8_t)&__bank_srcfile2 );
+  printf("Const2= %u in bank %u\n", some_const_var_2, &(__bank_srcfile2));
+  SWITCH_ROM( (uint8_t)&__bank_srcfile3 );
+  printf("Const3= %u in bank %u\n", some_const_var_3, &(__bank_srcfile3));
+  SWITCH_ROM( (uint8_t)&__bank_srcfile4 );
+  printf("Const4= %u in bank %u\n", some_const_var_4, &(__bank_srcfile4));
 
   printf("\n");
   puts("The End...");
