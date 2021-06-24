@@ -45,11 +45,15 @@
     - You can use the @ref lcc_debug "lcc debug flag" <!-- -->  
 
   - Is it possible to generate a debug symbol file (`.sym`) compatible with the @ref bgb emulator?
-    - Yes, turn on `.noi` output (LCC argument: `-Wl-j` or `-debug` and then use `-Wm-yS` with LCC (or `-yS` with makebin directly). <!-- -->   
+    - Yes, turn on `.noi` output (LCC argument: `-Wl-j` or `-debug` and then use `-Wm-yS` with LCC (or `-yS` with makebin directly). <!-- -->  
 
 # API / Utilities
+  - Is there a list of all functions in the API?
+    - [Functions](globals_func.html)
+    - [Variables](globals_vars.html) <!-- -->  
+
   - Can I use the `float` type to do floating point math?
-    - There is no support for 'float' in GBDK-2020.
+    - There is no support for 'float' in GBDK-2020. <!-- -->  
 
   - Why are 8 bit numbers not printing correctly with printf()?
     - To correctly pass chars/uint8s for printing, they must be explicitly re-cast as such when calling the function. See docs_chars_varargs for more details.  <!-- -->  
