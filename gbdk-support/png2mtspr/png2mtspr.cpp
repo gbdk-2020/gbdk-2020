@@ -309,6 +309,10 @@ int main(int argc, char *argv[])
 	fprintf(file, "extern const UINT8 %s_data[%d];\n", data_name.c_str(), (int)(tiles.size() * tile_h * 2));
 	fprintf(file, "extern const metasprite_t* const %s_metasprites[%d];\n", data_name.c_str(), (int)sprites.size());
 
+	if(bank) {
+		fprintf(file, "extern const void __bank_%s_metasprite;\n", data_name.c_str());
+	}
+
 	fclose(file);
 
 	//Output .c FILE
@@ -323,8 +327,10 @@ int main(int argc, char *argv[])
 	fprintf(file, "#include <gb/metasprites.h>\n");
 	fprintf(file, "\n");
 
-	if(bank)
-		fprintf(file, "#pragma bank %d\n\n", bank);
+	if(bank) {
+		fprintf(file, "#pragma bank %d\n", bank);
+		fprintf(file, "const void __at(%d) __bank_%s_metasprite;\n\n", bank, data_name.c_str());
+	}
 
 	fprintf(file, "const UINT8 %s_data[%d] = {\n", data_name.c_str(), (int)(tiles.size() * tile_h * 2));
 	for(vector< Tile >::iterator it = tiles.begin(); it != tiles.end(); ++ it)
