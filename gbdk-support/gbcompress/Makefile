@@ -16,6 +16,7 @@ $(BIN): $(OBJ)
 clean:
 	rm -f *.o $(BIN) *~
 	rm -f tmp.*
+	rm -f *.exe
 
 # round trip the executable through compression and de-compression as a brief test
 test:

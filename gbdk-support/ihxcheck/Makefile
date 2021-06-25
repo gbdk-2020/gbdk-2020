@@ -15,3 +15,5 @@ $(BIN): $(OBJ)
 
 clean:
 	rm -f *.o $(BIN) *~
+	rm -f *.exe
+

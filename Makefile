@@ -12,8 +12,8 @@ VER = 3.00
 
 # Prefix to add to the standard tools.  Usefull for a standard gcc
 # cross-compile.
-# TOOLSPREFIX = i686-w64-mingw32-
 TOOLSPREFIX =
+# TOOLSPREFIX = i686-w64-mingw32-
 
 TARGETCC = $(TOOLSPREFIX)gcc
 TARGETRANLIB = $(TOOLSPREFIX)ranlib
@@ -36,7 +36,8 @@ DOXYGEN_VER_HAS = $(shell doxygen -v)
 
 # Base setup
 # Extension to add to executables
-EXEEXTENSION =
+EXEEXTENSION = 
+# EXEEXTENSION=.exe
 # Host operating system identifier.
 HOSTOS = $(shell uname -s)
 # Target operating system identifier.  Used in the output zip name.
@@ -125,7 +126,7 @@ endif
 	@echo Building bankpack
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/bankpack TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
 	@echo Building png2mtspr
-	@$(MAKE) -C $(GBDKSUPPORTDIR)/png2mtspr
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/png2mtspr TOOLSPREFIX=$(TOOLSPREFIX)
 	@echo Building gbcompress
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/gbcompress TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
 	@echo
@@ -146,7 +147,7 @@ gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
 	@$(TARGETSTRIP) $(BUILDDIR)/bin/bankpack*
 	@echo Installing png2mtspr
 	@cp $(GBDKSUPPORTDIR)/png2mtspr/png2mtspr$(EXEEXTENSION) $(BUILDDIR)/bin/png2mtspr$(EXEEXTENSION)
-	@$(TARGETSTRIP) $(BUILDDIR)/bin/bankpack*
+	@$(TARGETSTRIP) $(BUILDDIR)/bin/png2mtspr*
 	@echo Installing gbcompress
 	@cp $(GBDKSUPPORTDIR)/gbcompress/gbcompress $(BUILDDIR)/bin/gbcompress$(EXEEXTENSION)
 	@$(TARGETSTRIP) $(BUILDDIR)/bin/gbcompress*
