@@ -8,6 +8,12 @@ CXX = $(TOOLSPREFIX)g++
 CXXFLAGS = -Os -Wall -g
 LFLAGS = -g
 
+# Static flag for windows cross and native builds
+ifeq ($(TOOLSPREFIX),i686-w64-mingw32-)
+#   prefix will automatically be .exe for cross build
+	LFLAGS += -static 
+endif
+
 ifeq ($(OS),Windows_NT)
 	EXT = .exe
 	LFLAGS += -static 
@@ -24,7 +30,7 @@ OBJS := $(SRCS:%.cpp=%.o)
  
 $(TARGET): $(OBJS)
 	$(CXX) $(LFLAGS) -o $(TARGET) $(OBJS)
-	strip $@$(EXT)
+#	strip $@$(EXT)
  
 # The main.o target can be written more simply
  
@@ -35,3 +41,4 @@ $(TARGET): $(OBJS)
 	rm -f *.o
 	rm -f *.exe
 	rm -f TARGET
+
