@@ -37,7 +37,9 @@ DOXYGEN_VER_HAS = $(shell doxygen -v)
 # Base setup
 # Extension to add to executables
 EXEEXTENSION = 
-# EXEEXTENSION=.exe
+ifeq ($(TOOLSPREFIX),i686-w64-mingw32-)
+	EXEEXTENSION=.exe
+endif
 # Host operating system identifier.
 HOSTOS = $(shell uname -s)
 # Target operating system identifier.  Used in the output zip name.
@@ -133,23 +135,23 @@ endif
 
 gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
 	@echo Installing lcc
-	@cp $(GBDKSUPPORTDIR)/lcc/lcc $(BUILDDIR)/bin/lcc$(EXEEXTENSION)
+	@cp $(GBDKSUPPORTDIR)/lcc/lcc$(EXEEXTENSION) $(BUILDDIR)/bin/lcc$(EXEEXTENSION)
 	@$(TARGETSTRIP) $(BUILDDIR)/bin/lcc*
 	@cp $(GBDKSUPPORTDIR)/ChangeLog $(BUILDDIR)
 	@cp $(GBDKSUPPORTDIR)/README $(BUILDDIR)
 	@cp $(GBDKDOCSDIR)/gbdk_manual.pdf $(BUILDDIR)
 	@echo
 	@echo Installing ihxcheck
-	@cp $(GBDKSUPPORTDIR)/ihxcheck/ihxcheck $(BUILDDIR)/bin/ihxcheck$(EXEEXTENSION)
+	@cp $(GBDKSUPPORTDIR)/ihxcheck/ihxcheck$(EXEEXTENSION) $(BUILDDIR)/bin/ihxcheck$(EXEEXTENSION)
 	@$(TARGETSTRIP) $(BUILDDIR)/bin/ihxcheck*
 	@echo Installing bankpack
-	@cp $(GBDKSUPPORTDIR)/bankpack/bankpack $(BUILDDIR)/bin/bankpack$(EXEEXTENSION)
+	@cp $(GBDKSUPPORTDIR)/bankpack/bankpack$(EXEEXTENSION) $(BUILDDIR)/bin/bankpack$(EXEEXTENSION)
 	@$(TARGETSTRIP) $(BUILDDIR)/bin/bankpack*
 	@echo Installing png2mtspr
 	@cp $(GBDKSUPPORTDIR)/png2mtspr/png2mtspr$(EXEEXTENSION) $(BUILDDIR)/bin/png2mtspr$(EXEEXTENSION)
 	@$(TARGETSTRIP) $(BUILDDIR)/bin/png2mtspr*
 	@echo Installing gbcompress
-	@cp $(GBDKSUPPORTDIR)/gbcompress/gbcompress $(BUILDDIR)/bin/gbcompress$(EXEEXTENSION)
+	@cp $(GBDKSUPPORTDIR)/gbcompress/gbcompress$(EXEEXTENSION) $(BUILDDIR)/bin/gbcompress$(EXEEXTENSION)
 	@$(TARGETSTRIP) $(BUILDDIR)/bin/gbcompress*
 	@echo
 

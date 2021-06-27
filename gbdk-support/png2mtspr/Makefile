@@ -11,6 +11,7 @@ LFLAGS = -g
 # Static flag for windows cross and native builds
 ifeq ($(TOOLSPREFIX),i686-w64-mingw32-)
 #   prefix will automatically be .exe for cross build
+	EXT = .exe
 	LFLAGS += -static 
 endif
 
@@ -30,7 +31,7 @@ OBJS := $(SRCS:%.cpp=%.o)
  
 $(TARGET): $(OBJS)
 	$(CXX) $(LFLAGS) -o $(TARGET) $(OBJS)
-#	strip $@$(EXT)
+	strip $@$(EXT)
  
 # The main.o target can be written more simply
  
