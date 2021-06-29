@@ -22,7 +22,7 @@ _get_bkg_tile_xy::
         jr      nz,.is9c
 .is98:
         ld      d,#0x98         ; DE = origin
-        jr      .set_tile_xy
+        jr      .get_tile_xy
 .is9c:
         ld      d,#0x9C         ; DE = origin
 
