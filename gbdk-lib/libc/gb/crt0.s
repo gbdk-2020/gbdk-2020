@@ -268,14 +268,6 @@ _exit::
 	NOP
 	JR	99$		; Wait forever
 
-_enable_interrupts::
-	EI
-	RET
-
-_disable_interrupts::
-	DI
-	RET
-
 _set_interrupts::
 	DI
 	LDA	HL,2(SP)	; Skip return address
@@ -317,8 +309,12 @@ _set_interrupts::
 	.area	_CODE_0
 	;; Constant data
 	.area	_LIT
+;	;; since _CODE_1 area base address is pre-defined in the linker from 0x4000, 
+;	;; that moves initializer code and tables out of bank 0
+;	.area   _CODE_1
+	;; Constant data, used to init _DATA
 	.area	_INITIALIZER
-	;; Constant data used to init _DATA
+	;; Code, used to init _DATA
 	.area	_GSINIT	
 	.area	_GSFINAL
 	;; Uninitialised ram data

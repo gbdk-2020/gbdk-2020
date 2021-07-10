@@ -506,7 +506,9 @@ void joypad_ex(joypads_t * joypads) __preserves_regs(b, c);
 /** Enables unmasked interrupts
     @see disable_interrupts, set_interrupts
 */
-void enable_interrupts(void) NONBANKED __preserves_regs(a, b, c, d, e, h, l);
+inline void enable_interrupts(void) __preserves_regs(a, b, c, d, e, h, l) {
+    __asm__("ei");
+}
 
 /** Disables interrupts.
 
@@ -515,7 +517,9 @@ void enable_interrupts(void) NONBANKED __preserves_regs(a, b, c, d, e, h, l);
     them.
     @see enable_interrupts, set_interrupts
 */
-void disable_interrupts(void) NONBANKED __preserves_regs(a, b, c, d, e, h, l);
+inline void disable_interrupts(void) __preserves_regs(a, b, c, d, e, h, l) {
+    __asm__("di");
+}
 
 /** Clears any pending interrupts and sets the interrupt mask
     register IO to flags.
