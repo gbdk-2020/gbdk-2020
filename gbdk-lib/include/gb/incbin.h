@@ -67,7 +67,7 @@ extern const void __bank_ ## VARNAME;
 __asm \
 _ ## VARNAME:: \
 1$: \
-    .incbin #FILEPATH \
+    .incbin FILEPATH \
 2$: \
     ___size_ ## VARNAME = (2$-1$) \
     .globl ___size_ ## VARNAME \

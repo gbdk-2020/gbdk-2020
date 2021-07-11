@@ -3,13 +3,13 @@
 
 #include <gb/incbin.h>
 
-INCBIN(logo_tiles_data, res/gbdk2020.bin) // Variable name to use, Path to file
-INCBIN_EXTERN(logo_tiles_data)            // Extern declarations for binary data
+INCBIN(logo_tiles_data, "res/gbdk2020.bin") // Variable name to use, Path to file
+INCBIN_EXTERN(logo_tiles_data)              // Extern declarations for binary data
 
-INCBIN(logo_map, res/gbdk2020_map.bin)
+INCBIN(logo_map, "res/gbdk2020_map.bin")
 INCBIN_EXTERN(logo_map)
 
-INCBIN(blank_tile_data, res/blanktile.bin)
+INCBIN(blank_tile_data, "res/blanktile.bin")
 INCBIN_EXTERN(blank_tile_data)
 
 
