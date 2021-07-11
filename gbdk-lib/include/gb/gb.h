@@ -93,6 +93,16 @@
  */
 #define JOY_IFLAG    0x10U
 
+
+/* DMG Palettes */
+#define DMG_BLACK     0x03
+#define DMG_DARK_GRAY 0x02
+#define DMG_LITE_GRAY 0x01
+#define DMG_WHITE     0x00
+/** DMG palette helper macro.
+ */
+#define DMG_PALETTE(C0, C1, C2, C3) ((UBYTE)((((C3) & 0x03) << 6) | (((C2) & 0x03) << 4) | (((C1) & 0x03) << 2) | ((C0) & 0x03)))
+
 /* Limits */
 /** Width of the visible screen in pixels.
  */
