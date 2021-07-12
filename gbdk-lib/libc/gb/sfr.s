@@ -1,173 +1,87 @@
-	.area	_SFR (ABS)
+_P1_REG     = 0xFF00    ; Joystick: 1.1.P15.P14.P13.P12.P11.P10
+_SB_REG     = 0xFF01    ; Serial IO data buffer
+_SC_REG     = 0xFF02    ; Serial IO control register
+_DIV_REG    = 0xFF04    ; Divider register
+_TIMA_REG   = 0xFF05    ; Timer counter
+_TMA_REG    = 0xFF06    ; Timer modulo
+_TAC_REG    = 0xFF07    ; Timer control
+_IF_REG     = 0xFF0F    ; Interrupt flags: 0.0.0.JOY.SIO.TIM.LCD.VBL
+_NR10_REG   = 0xFF10    ; Sound register
+_NR11_REG   = 0xFF11    ; Sound register
+_NR12_REG   = 0xFF12    ; Sound register
+_NR13_REG   = 0xFF13    ; Sound register
+_NR14_REG   = 0xFF14    ; Sound register
+_NR21_REG   = 0xFF16    ; Sound register
+_NR22_REG   = 0xFF17    ; Sound register
+_NR23_REG   = 0xFF18    ; Sound register
+_NR24_REG   = 0xFF19    ; Sound register
+_NR30_REG   = 0xFF1A    ; Sound register
+_NR31_REG   = 0xFF1B    ; Sound register
+_NR32_REG   = 0xFF1C    ; Sound register
+_NR33_REG   = 0xFF1D    ; Sound register
+_NR34_REG   = 0xFF1E    ; Sound register
+_NR41_REG   = 0xFF20    ; Sound register
+_NR42_REG   = 0xFF21    ; Sound register
+_NR43_REG   = 0xFF22    ; Sound register
+_NR44_REG   = 0xFF23    ; Sound register
+_NR50_REG   = 0xFF24    ; Sound register
+_NR51_REG   = 0xFF25    ; Sound register
+_NR52_REG   = 0xFF26    ; Sound register
+_PCM_SAMPLE = 0xFF30    ; PCM wave pattern
+_LCDC_REG   = 0xFF40    ; LCD control
+_STAT_REG   = 0xFF41    ; LCD status
+_SCY_REG    = 0xFF42    ; Scroll Y
+_SCX_REG    = 0xFF43    ; Scroll X
+_LY_REG     = 0xFF44    ; LCDC Y-coordinate
+_LYC_REG    = 0xFF45    ; LY compare
+_DMA_REG    = 0xFF46    ; DMA transfer
+_BGP_REG    = 0xFF47    ; BG palette data
+_OBP0_REG   = 0xFF48    ; OBJ palette 0 data
+_OBP1_REG   = 0xFF49    ; OBJ palette 1 data
+_WY_REG     = 0xFF4A    ; Window Y coordinate
+_WX_REG     = 0xFF4B    ; Window X coordinate
+_KEY1_REG   = 0xFF4D    ; CPU speed
+_VBK_REG    = 0xFF4F    ; VRAM bank
+_HDMA1_REG  = 0xFF51    ; DMA control 1
+_HDMA2_REG  = 0xFF52    ; DMA control 2
+_HDMA3_REG  = 0xFF53    ; DMA control 3
+_HDMA4_REG  = 0xFF54    ; DMA control 4
+_HDMA5_REG  = 0xFF55    ; DMA control 5
+_RP_REG     = 0xFF56    ; IR port
+_BCPS_REG   = 0xFF68    ; BG color palette specification
+_BCPD_REG   = 0xFF69    ; BG color palette data
+_OCPS_REG   = 0xFF6A    ; OBJ color palette specification
+_OCPD_REG   = 0xFF6B    ; OBJ color palette data
+_SVBK_REG   = 0xFF70    ; WRAM bank
+_PCM12_REG  = 0xFF76    ; Sound channel 1&2 PCM amplitude (R)
+_PCM34_REG  = 0xFF77    ; Sound channel 3&4 PCM amplitude (R)
+_IE_REG     = 0xFFFF    ; Interrupt enable
 
-	.org	0xFF00
-_P1_REG::	; Joystick: 1.1.P15.P14.P13.P12.P11.P10  
-	.ds	1
-	.org	0xFF01
-_SB_REG::	; Serial IO data buffer 
-	.ds	1
-	.org	0xFF02
-_SC_REG::	; Serial IO control register 
-	.ds	1
-	.org	0xFF04
-_DIV_REG::	; Divider register 
-	.ds	1
-	.org	0xFF05
-_TIMA_REG::	; Timer counter 
-	.ds	1
-	.org	0xFF06
-_TMA_REG::	; Timer modulo 
-	.ds	1
-	.org	0xFF07
-_TAC_REG::	; Timer control 
-	.ds	1
-	.org	0xFF0F
-_IF_REG::	; Interrupt flags: 0.0.0.JOY.SIO.TIM.LCD.VBL  
-	.ds	1
-	.org	0xFF10
-_NR10_REG::	; Sound register 
-	.ds	1
-	.org	0xFF11
-_NR11_REG::	; Sound register 
-	.ds	1
-	.org	0xFF12
-_NR12_REG::	; Sound register 
-	.ds	1
-	.org	0xFF13
-_NR13_REG::	; Sound register 
-	.ds	1
-	.org	0xFF14
-_NR14_REG::	; Sound register 
-	.ds	1
-	.org	0xFF16
-_NR21_REG::	; Sound register 
-	.ds	1
-	.org	0xFF17
-_NR22_REG::	; Sound register 
-	.ds	1
-	.org	0xFF18
-_NR23_REG::	; Sound register 
-	.ds	1
-	.org	0xFF19
-_NR24_REG::	; Sound register 
-	.ds	1
-	.org	0xFF1A
-_NR30_REG::	; Sound register 
-	.ds	1
-	.org	0xFF1B
-_NR31_REG::	; Sound register 
-	.ds	1
-	.org	0xFF1C
-_NR32_REG::	; Sound register 
-	.ds	1
-	.org	0xFF1D
-_NR33_REG::	; Sound register 
-	.ds	1
-	.org	0xFF1E
-_NR34_REG::	; Sound register 
-	.ds	1
-	.org	0xFF20
-_NR41_REG::	; Sound register 
-	.ds	1
-	.org	0xFF21
-_NR42_REG::	; Sound register 
-	.ds	1
-	.org	0xFF22
-_NR43_REG::	; Sound register 
-	.ds	1
-	.org	0xFF23
-_NR44_REG::	; Sound register 
-	.ds	1
-	.org	0xFF24
-_NR50_REG::	; Sound register 
-	.ds	1
-	.org	0xFF25
-_NR51_REG::	; Sound register 
-	.ds	1
-	.org	0xFF26
-_NR52_REG::	; Sound register 
-	.ds	1
-	.org	0xFF40
-_LCDC_REG::	; LCD control 
-	.ds	1
-	.org	0xFF41
-_STAT_REG::	; LCD status 
-	.ds	1
-	.org	0xFF42
-_SCY_REG::	; Scroll Y 
-	.ds	1
-	.org	0xFF43
-_SCX_REG::	; Scroll X 
-	.ds	1
-	.org	0xFF44
-_LY_REG::	; LCDC Y-coordinate 
-	.ds	1
-	.org	0xFF45
-_LYC_REG::	; LY compare 
-	.ds	1
-	.org	0xFF46
-_DMA_REG::	; DMA transfer 
-	.ds	1
-	.org	0xFF47
-_BGP_REG::	; BG palette data 
-	.ds	1
-	.org	0xFF48
-_OBP0_REG::	; OBJ palette 0 data 
-	.ds	1
-	.org	0xFF49
-_OBP1_REG::	; OBJ palette 1 data 
-	.ds	1
-	.org	0xFF4A
-_WY_REG::	; Window Y coordinate 
-	.ds	1
-	.org	0xFF4B
-_WX_REG::	; Window X coordinate 
-	.ds	1
-	.org	0xFF4D
-_KEY1_REG::	; CPU speed 
-	.ds	1
-	.org	0xFF4F
-_VBK_REG::	; VRAM bank 
-	.ds	1
-	.org	0xFF51
-_HDMA1_REG::	; DMA control 1 
-	.ds	1
-	.org	0xFF52
-_HDMA2_REG::	; DMA control 2 
-	.ds	1
-	.org	0xFF53
-_HDMA3_REG::	; DMA control 3 
-	.ds	1
-	.org	0xFF54
-_HDMA4_REG::	; DMA control 4 
-	.ds	1
-	.org	0xFF55
-_HDMA5_REG::	; DMA control 5 
-	.ds	1
-	.org	0xFF56
-_RP_REG::	; IR port 
-	.ds	1
-	.org	0xFF68
-_BCPS_REG::	; BG color palette specification  
-	.ds	1
-	.org	0xFF69
-_BCPD_REG::	; BG color palette data 
-	.ds	1
-	.org	0xFF6A
-_OCPS_REG::	; OBJ color palette specification  
-	.ds	1
-	.org	0xFF6B
-_OCPD_REG::	; OBJ color palette data 
-	.ds	1
-	.org	0xFF70
-_SVBK_REG::	; WRAM bank 
-	.ds	1
-	.org	0xFF76
-_PCM12_REG:: ; Sound channel 1&2 PCM amplitude (R)
-	.ds	1
-	.org	0xFF77
-_PCM34_REG:: ; Sound channel 3&4 PCM amplitude (R)
-	.ds	1
-	.org	0xFFFF
-_IE_REG::	; Interrupt enable 
-	.ds	1
+.globl _P1_REG
+.globl _SB_REG, _SC_REG
+.globl _DIV_REG
+.globl _TIMA_REG, _TMA_REG, _TAC_REG
+.globl _IF_REG
+.globl _NR10_REG, _NR11_REG, _NR12_REG, _NR13_REG, _NR14_REG
+.globl _NR21_REG, _NR22_REG, _NR23_REG, _NR24_REG
+.globl _NR30_REG, _NR31_REG, _NR32_REG, _NR33_REG, _NR34_REG
+.globl _NR41_REG, _NR42_REG, _NR43_REG, _NR44_REG
+.globl _NR50_REG, _NR51_REG, _NR52_REG
+.globl _PCM_SAMPLE
+.globl _LCDC_REG
+.globl _STAT_REG
+.globl _SCY_REG, _SCX_REG
+.globl _LY_REG, _LYC_REG
+.globl _DMA_REG
+.globl _BGP_REG
+.globl _OBP0_REG, _OBP1_REG
+.globl _WY_REG, _WX_REG
+.globl _KEY1_REG
+.globl _VBK_REG
+.globl _HDMA1_REG, _HDMA2_REG, _HDMA3_REG, _HDMA4_REG, _HDMA5_REG
+.globl _RP_REG
+.globl _BCPS_REG, _BCPD_REG
+.globl _OCPS_REG, _OCPD_REG
+.globl _SVBK_REG
+.globl _PCM12_REG, _PCM34_REG
+.globl _IE_REG
