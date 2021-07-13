@@ -3,6 +3,9 @@
 	;; BANKED: checked
 	.area	_BASE
 
+	.globl	.init_wtt, .init_btt, .init_vram
+
+
 	;; Initialize window tile table
 	;; void init_win(char c);
 _init_win::
