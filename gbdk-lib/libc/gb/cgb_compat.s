@@ -1,7 +1,7 @@
 	.include	"global.s"
 
-	.title	"DMG palettes for CGB"
-	.module	CGB_DMG_COMPAT
+	.title	"CGB support"
+	.module	CGB
 
 	.globl	_set_sprite_palette, _set_bkg_palette
 

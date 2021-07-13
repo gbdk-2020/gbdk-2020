@@ -1,7 +1,7 @@
 	.include	"global.s"
 
-	.title	"CGB palette support"
-	.module	CGB_PALETTES
+	.title	"CGB support"
+	.module	CGB
 
 	.area	_CODE
 
