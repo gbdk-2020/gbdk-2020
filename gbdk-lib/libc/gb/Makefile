@@ -31,7 +31,7 @@ ASSRC =	cgb.s cgb_palettes.s cgb_compat.s \
 	mode.s clock.s \
 	get_t.s set_t.s init_vram.s \
 	fill_rect.s fill_rect_bk.s fill_rect_wi.s \
-	metasprites.s metasprites_flip.s \
+	metasprites.s metasprites_flip.s metasprites_hide.s \
 	set_tile_submap.s set_win_tile_submap.s \
 	gb_decompress.s gb_decompress_tiles.s \
 	heap.s \
