@@ -50,8 +50,10 @@ __REG IF_REG;           /** Interrupt flags: 0.0.0.JOY.SIO.TIM.LCD.VBL */
 
 __REG NR10_REG;         /** Sound Channel 1 Sweep */
 #define rAUD1SWEEP NR10_REG
-#define AUD1SWEEP_UP   0b00000000u
-#define AUD1SWEEP_DOWN 0b00001000u
+#define AUD1SWEEP_UP        0b00000000u
+#define AUD1SWEEP_DOWN      0b00001000u
+#define AUD1SWEEP_TIME(x)   ((x) << 4)
+#define AUD1SWEEP_LENGTH(x) (x)
 __REG NR11_REG;         /** Sound Channel 1 Sound length/Wave pattern duty */
 #define rAUD1LEN NR11_REG
 __REG NR12_REG;         /** Sound Channel 1 Volume Envelope */
@@ -87,14 +89,18 @@ __REG NR42_REG;         /** Sound Channel 4 Volume Envelope */
 #define rAUD4ENV NR42_REG
 __REG NR43_REG;         /** Sound Channel 4 Polynomial Counter */
 #define rAUD4POLY NR43_REG
+#define AUD4POLY_WIDTH_15BIT 0x00
+#define AUD4POLY_WIDTH_7BIT  0x08
 __REG NR44_REG;         /** Sound Channel 4 Counter / Consecutive and Inital  */
 #define rAUD4GO NR44_REG
 
 __REG NR50_REG;         /** Sound Channel control / ON-OFF / Volume */
 #define rAUDVOL NR50_REG
 
-#define AUDVOL_VIN_LEFT  0b10000000u
-#define AUDVOL_VIN_RIGHT 0b00001000u
+#define AUDVOL_VOL_LEFT(x)	((x) << 4)
+#define AUDVOL_VOL_RIGHT(x)	((x))
+#define AUDVOL_VIN_LEFT         0b10000000u
+#define AUDVOL_VIN_RIGHT        0b00001000u
 
 __REG NR51_REG;         /** Sound Selection of Sound output terminal */
 #define rAUDTERM NR51_REG
@@ -240,11 +246,13 @@ __REG IE_REG;           /** Interrupt enable */
 #define AUDLEN_DUTY_25   0b01000000u
 #define AUDLEN_DUTY_50   0b10000000u
 #define AUDLEN_DUTY_75   0b11000000u
-
+#define AUDLEN_LENGTH(x) (x)
 
 /* Audio envelope flags */
-#define AUDENV_UP   0b00001000u
-#define AUDENV_DOWN 0b00000000u
+#define AUDENV_VOL(x)    ((x) << 4)
+#define AUDENV_UP        0b00001000u
+#define AUDENV_DOWN      0b00000000u
+#define AUDENV_LENGTH(x) (x)
 
 /* Audio trigger flags */
 #define AUDHIGH_RESTART    0b10000000u
