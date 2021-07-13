@@ -70,6 +70,9 @@
 #define S_PRIORITY   0x80U
 
 /* Interrupt flags */
+/** Disable calling of interrupt service routines
+ */
+#define EMPTY_IFLAG  0x00U
 /** VBlank Interrupt occurs at the start of the vertical blank.
 
     During this period the video ram may be freely accessed.

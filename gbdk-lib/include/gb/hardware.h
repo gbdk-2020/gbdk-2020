@@ -1,6 +1,6 @@
 /** @file gb/hardware.h
     Defines that let the GB's hardware registers be accessed
-    from C.
+    from C.
 
     See the @ref Pandocs for more details on each register.
 */
@@ -9,7 +9,34 @@
 
 #include <types.h>
 
+#define __BYTES extern UBYTE
+#define __BYTE_REG extern volatile UBYTE
 #define __REG extern volatile __sfr
+
+/** Memoty map */
+
+__BYTES _VRAM[];    
+__BYTES _VRAM8000[];
+__BYTES _VRAM8800[];
+__BYTES _VRAM9000[];
+__BYTES _SCRN0[];   
+__BYTES _SCRN1[];   
+__BYTES _SRAM[];    
+__BYTES _RAM[];     
+__BYTES _RAMBANK[]; 
+__BYTES _OAMRAM[];  
+__BYTE_REG _IO[];      
+__BYTE_REG _AUD3WAVERAM[];
+__BYTE_REG _HRAM[];       
+
+/** MBC5 registers */
+
+__BYTE_REG rRAMG; 
+__BYTE_REG rROMB0;
+__BYTE_REG rROMB1;
+__BYTE_REG rRAMB; 
+
+/** IO Registers */
 
 __REG P1_REG;           /** Joystick: 1.1.P15.P14.P13.P12.P11.P10 */
 #define rP1 P1_REG
@@ -120,7 +147,7 @@ __REG NR52_REG;         /** Sound Master on/off */
 #define AUDENA_ON    0b10000000u
 #define AUDENA_OFF   0b00000000u
 
-extern UBYTE PCM_SAMPLE[16];    /** PCM sample */
+__BYTE_REG AUD3WAVE[16];
 
 __REG LCDC_REG;         /** LCD control */
 #define rLCDC LCDC_REG
