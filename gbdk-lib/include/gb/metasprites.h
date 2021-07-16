@@ -95,6 +95,12 @@ static uint8_t __move_metasprite_hflip(uint8_t id, uint8_t x, uint8_t y);
 static uint8_t __move_metasprite_hvflip(uint8_t id, uint8_t x, uint8_t y);
 static void __hide_metasprite(uint8_t id);
 
+/**
+ * Hides all hardware sprites in range from <= X < to
+ * @param from start OAM index
+ * @param to finish OAM index
+ */ 
+void hide_sprites_range(UINT8 from, UINT8 to) __preserves_regs(b, c);
 
 /** Moves metasprite to the absolute position x and y
 
