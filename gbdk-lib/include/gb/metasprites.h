@@ -60,6 +60,7 @@
 #ifndef _METASPRITES_H_INCLUDE
 #define _METASPRITES_H_INCLUDE
 
+#include <gb/hardware.h>
 #include <stdint.h>
 
 /** Metasprite sub-item structure

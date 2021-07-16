@@ -44,7 +44,9 @@ extern const void __bank_ ## VARNAME;
 
     @ref INCBIN(), INCBIN_EXTERN()    
 */
+#ifndef BANK
 #define BANK(VARNAME) ( (uint8_t) & __bank_ ## VARNAME )
+#endif
 
 /** Includes binary data into a C source file
     
@@ -70,27 +72,6 @@ _ ## VARNAME:: \
     .incbin FILEPATH \
 2$: \
     ___size_ ## VARNAME = (2$-1$) \
-    .globl ___size_ ## VARNAME \
-    .local b___func_ ## VARNAME \
-    ___bank_ ## VARNAME = b___func_ ## VARNAME \
-    .globl ___bank_ ## VARNAME \
-__endasm; \
-} 
-
-/** Creates the reference for retriving the bank number of the object
-    
-    @param VARNAME Variable name to use
-
-    @see BANK() for obtaining the bank number of the included data.
-
-    Use @ref INCBIN_EXTERN() within another source file
-    to make the variable and it's data accesible there.
-*/
-#define BANKREF(VARNAME) void __func_ ## VARNAME() __banked __naked { \
-__asm \
-	_ ## VARNAME = 0x4000 \
-	.globl _ ## VARNAME \
-    ___size_ ## VARNAME = 0x4000 \
     .globl ___size_ ## VARNAME \
     .local b___func_ ## VARNAME \
     ___bank_ ## VARNAME = b___func_ ## VARNAME \

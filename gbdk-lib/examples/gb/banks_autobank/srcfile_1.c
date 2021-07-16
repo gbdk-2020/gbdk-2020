@@ -4,18 +4,19 @@
 
 // These two entries are needed to enable auto-banking in the source file
 #pragma bank 255
-const void __at(255) __bank_srcfile1;
 
 
 const uint8_t some_const_var_1 = 1;
+BANKREF(some_const_var_1)
 
 void func_1() BANKED
 {
     printf("Func1 in ROM bank %u\n", _current_bank);
 }
+BANKREF(func_1)
 
 // A big constant array to take up space
-const unsigned char big_const_1[] = {
+static const unsigned char big_const_1[] = {
 
     // 512 
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
@@ -58,4 +59,3 @@ const unsigned char big_const_1[] = {
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
 
 };
-

@@ -364,6 +364,42 @@ extern volatile uint8_t _io_out;
     SWITCH_ROM_MBC5, or call a BANKED function.
 */
 __REG _current_bank;
+#define CURRENT_BANK _current_bank
+
+/** Obtains the __bank number__ of VARNAME
+    
+    @param VARNAME Name of the variable which has a __bank_VARNAME companion symbol which is adjusted by bankpack
+
+*/
+#ifndef BANK
+#define BANK(VARNAME) ( (uint8_t) & __bank_ ## VARNAME )
+#endif
+
+/** Creates the reference for retriving the bank number of the object
+    
+    @param VARNAME Variable name to use, may be existiing identifier
+
+    @see BANK() for obtaining the bank number of the included data.
+
+    Use @ref BANKREF_EXTERN() within another source file
+    to make the variable and it's data accesible there.
+*/
+#define BANKREF(VARNAME) void __func_ ## VARNAME() __banked __naked { \
+__asm \
+    .local b___func_ ## VARNAME \
+    ___bank_ ## VARNAME = b___func_ ## VARNAME \
+    .globl ___bank_ ## VARNAME \
+__endasm; \
+} 
+
+/** Creates extern references for accessing a BANKREF() generated variable.
+
+    @param VARNAME Name of the variable used with BANKREF
+
+    @ref BANKREF(), BANK()
+*/
+#define BANKREF_EXTERN(VARNAME) extern const void __bank_ ## VARNAME;
+
 
 /** Makes MBC1 and other compatible MBCs switch the active ROM bank
     @param b   ROM bank to switch to
