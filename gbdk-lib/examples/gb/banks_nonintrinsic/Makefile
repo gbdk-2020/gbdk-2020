@@ -1,6 +1,6 @@
 CC	= ../../../bin/lcc -Wa-l -Wl-m -Wl-j
 
-BINS	= banks_new.gb
+BINS	= banks_nonintrinsic.gb
 
 
 all:	$(BINS)
@@ -19,14 +19,8 @@ make.bat: Makefile
 	$(CC) -c -o $@ $<
 
 %.gb:	%.o
-	$(CC) -o $@ $<
+	$(CC) -Wl-yt0x1A -Wl-yoA -Wl-ya4 -o $@ $<
 
 clean:
 	rm -f *.o *.lst *.map *.gb *~ *.rel *.cdb *.ihx *.lnk *.sym *.asm *.noi
 
-
-############################################################
-# Multiple banks NEW method example
-
-banks_new.gb: MBC1_RAM_INIT.o banks_new.o
-	$(CC) -Wl-yt2 -Wl-yo4 -Wl-ya4 -o $@ MBC1_RAM_INIT.o banks_new.o

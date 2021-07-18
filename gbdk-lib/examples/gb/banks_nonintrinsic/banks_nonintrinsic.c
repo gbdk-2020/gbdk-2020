@@ -2,23 +2,12 @@
 #include <stdint.h>
 #include <stdio.h>
 
-// this macro is needed when using RAM banks with MBC1
-#define SET_RAM_MBC1_MODE(b) \
-  *(unsigned char *)0x6000 = (b)
-
-// current_bank contains the bank and it's type ROM or RAM
-volatile __sfr __at (0xFC) __current_ram_bank;
-volatile __sfr __at (0xFD) __current_rom_bank;
-#define SET_ROM_BANK(n) ((__current_rom_bank = (n)), SWITCH_ROM_MBC1((n)))
-#define SET_RAM_BANK(n) ((__current_ram_bank = (n)), SWITCH_RAM_MBC1((n)))
-#define SET_BANKS(rom, ram) \
-  (SET_ROM_BANK((rom)), SET_RAM_BANK((ram)))
-#define RESTORE_BANKS \
-  (SWITCH_ROM_MBC1(__current_rom_bank), SWITCH_RAM_MBC1(__current_ram_bank))
-
 // force bank switching macro
-volatile __sfr __at (0xFE) __dummy_variable;
+uint8_t __dummy_variable;
 #define switch_to(x) (__dummy_variable = (char)((x)[0]), (void *)(x))
+
+uint8_t _current_ram_bank = 0;
+#define SWITCH_RAM_BANK(x) (_current_ram_bank = (SWITCH_RAM_MBC1(x), x))
 
 // constant in base ROM
 const char const hello0[] = "hello from CODE\n";
@@ -28,39 +17,40 @@ int  addendum0 = 1;
 
 // constants in ROM banks
 
-void set_ROM_bank1(void) NONBANKED __preserves_regs(b, c, d, e) { SET_ROM_BANK(1); }
-void set_ROM_bank2(void) NONBANKED __preserves_regs(b, c, d, e) { SET_ROM_BANK(2); }
+void set_ROM_bank1(void) NONBANKED __preserves_regs(b, c, d, e) { SWITCH_ROM_MBC1(1); }
+void set_ROM_bank2(void) NONBANKED __preserves_regs(b, c, d, e) { SWITCH_ROM_MBC1(2); }
 
 __addressmod set_ROM_bank1 const CODE_1;
 __addressmod set_ROM_bank2 const CODE_2;
 
-CODE_1 const char const hello1[] = "hello from CODE_1\n";
-CODE_2 const char const hello2[] = "hello from CODE_2\n";
+CODE_1 const char hello1[] = "hello from CODE_1\n";
+CODE_2 const char hello2[] = "hello from CODE_2\n";
 
 // variables in RAM banks
 
-void set_RAM_bank1(void) NONBANKED __preserves_regs(b, c, d, e) { SET_RAM_BANK(1); }
-void set_RAM_bank2(void) NONBANKED __preserves_regs(b, c, d, e) { SET_RAM_BANK(2); }
+void set_RAM_bank1(void) NONBANKED __preserves_regs(b, c, d, e) { SWITCH_RAM_BANK(1); }
+void set_RAM_bank2(void) NONBANKED __preserves_regs(b, c, d, e) { SWITCH_RAM_BANK(2); }
 
 __addressmod set_RAM_bank1 DATA_1;
 __addressmod set_RAM_bank2 DATA_2;
 
 DATA_1 char hello1_ram[20];
-DATA_1 int  addendum1_ram = 2;
+DATA_1 int  addendum1_ram;
 DATA_2 char hello2_ram[20];
-DATA_2 int  addendum2_ram = 4;
-DATA_2 int  addendum3_ram = 8;
+DATA_2 int  addendum2_ram;
+DATA_2 int  addendum3_ram;
 
 // define array of pointers in RAM2 to the variables that are RAM2
 // there is a flaw in compiler that disallows pointers into banks to be in the other banks
 // details: https://sourceforge.net/p/sdcc/bugs/2995/
-DATA_2 int * DATA_2 addendum_ptr[2] = {&addendum2_ram, &addendum3_ram};
+DATA_2 int * const CODE_1 addendum_ptr[2] = {&addendum2_ram, &addendum3_ram};
 
 void main() {
-    // we have already initialized MBC1 in MBC1_RAM_INIT.s
-    
-    // initially set the banks
-    SET_BANKS(1, 1);
+	ENABLE_RAM_MBC5;
+
+	addendum1_ram = 2;
+	addendum2_ram = 4;
+	addendum3_ram = 8;
 
     // say hello
     for (int8_t i = 0; (hello0[i]); i++) putchar(hello0[i]);  
