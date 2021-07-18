@@ -27,8 +27,8 @@ clean:
 # Banks using Far pointers example
 
 bank2code.o:	bank2code.c
-	$(CC) -Wf-bo1 -c -o $@ $<
+	$(CC) -c -o $@ $<
 
 banks_farptr.gb:	banks_farptr.o bank2code.o
-	$(CC) -Wl-yt1 -Wl-yo4 -o $@ bank2code.o banks_farptr.o
+	$(CC) -Wl-yt0x19 -Wl-yoA -o $@ bank2code.o banks_farptr.o
 

@@ -4,12 +4,13 @@
 
 #include <stdio.h>
 
-typedef int (*some_bank2_proc_t)(int, int) __banked;
-
 // functions from bank2code.c
-#define bank2code_bank 2
+BANKREF_EXTERN(some_bank2_proc0)
 extern void some_bank2_proc0() __banked;
+
+BANKREF_EXTERN(some_bank2_proc1)
 extern int some_bank2_proc1(int param1, int param2) __banked;
+typedef int (*some_bank2_proc_t)(int, int) __banked; // define type for some_bank2_proc1() function
 
 // far pointers
 FAR_PTR farptr_var0, farptr_var1, farptr_var2;
@@ -19,9 +20,9 @@ int res;
 
 void run() {
     // compose far pointer at runtime
-	farptr_var0 = to_far_ptr(&some_bank2_proc1, bank2code_bank);
-    farptr_var1 = to_far_ptr(&some_bank2_proc1, bank2code_bank);
-	farptr_var2 = to_far_ptr(&some_bank2_proc0, bank2code_bank);
+	farptr_var0 = to_far_ptr(some_bank2_proc1, BANK(some_bank2_proc1));
+    farptr_var1 = to_far_ptr(some_bank2_proc1, BANK(some_bank2_proc1));
+	farptr_var2 = to_far_ptr(some_bank2_proc0, BANK(some_bank2_proc0));
 
     // output far pointers (must be identical)
     printf("FAR PTR0: %x:%x\n", (int)FAR_SEG(farptr_var0), (int)FAR_OFS(farptr_var0));
