@@ -11,7 +11,7 @@ _set_bkg_data::
 _set_win_data::
         ld d, #0x90
         ldh a, (.LCDC)
-        bit 4, a
+	and #LCDCF_BG8000
         jr z, .copy_tiles
 _set_sprite_data::
         ld d, #0x80

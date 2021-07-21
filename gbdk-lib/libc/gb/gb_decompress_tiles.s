@@ -24,7 +24,7 @@ _gb_decompress_bkg_data::
 _gb_decompress_win_data::
         ld      d, #0x90
         ldh     a, (.LCDC)
-        bit     4, a
+        and     #LCDCF_BG8000
         jr      z, .load_params
 _gb_decompress_sprite_data::
         ld      d, #0x80

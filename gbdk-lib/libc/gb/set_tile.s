@@ -19,12 +19,12 @@ _set_vram_byte::
 
 _set_win_tile_xy::
         ldh     a,(.LCDC)
-        bit     6,a
+        and     #LCDCF_WIN9C00
         jr      z,.is98
         jr      .is9c
 _set_bkg_tile_xy::
         ldh     a,(.LCDC)
-        bit     3,a
+        and     #LCDCF_BG9C00
         jr      nz,.is9c
 .is98:
         ld      d,#0x98         ; DE = origin
