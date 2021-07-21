@@ -45,9 +45,9 @@ ___HandleCrash::
 	ld 	(wCrashIE), a
 	ldh 	a, (.LCDC)
 	ld 	(wCrashLCDC), a
-	ld 	a, #0b10000000	; LCDCF_ON Make sure the LCD is turned on to avoid waiting infinitely
+	ld 	a, #LCDCF_ON	; LCDCF_ON Make sure the LCD is turned on to avoid waiting infinitely
 	ldh 	(.LCDC), a
-	ld 	a, #0b00000001	; IEF_VBLANK
+	ld 	a, #IEF_VBLANK	; IEF_VBLANK
 	ld 	(.IE), a
 	ld 	a, #0		; `xor a` would overwrite flags
 	ld 	(.IF), a	; No point in backing up that register, it's always changing
@@ -250,7 +250,7 @@ ___HandleCrash::
 .banksDone:
 
 	; Start displaying
-	ld	a, #0b10001001		; LCDCF_ON | LCDCF_BG9C00 | LCDCF_BGON
+	ld	a, #(LCDCF_ON | LCDCF_BG9C00 | LCDCF_BGON)
 	ldh	(.LCDC), a
 
 .loop:
