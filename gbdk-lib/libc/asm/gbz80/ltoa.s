@@ -26,197 +26,197 @@
 ;   might be covered by the GNU General Public License.
 ;--------------------------------------------------------------------------
 
-	.module		ltoa
+        .module ltoa
 
-	.area	_CODE
+        .area   _BASE
 
 _ultoa::
-	push    BC
-	
-	lda	HL, 8(SP)
-	ld	A, (HL+)
-	ld	C, A
-	ld	B, (HL)		; BC: dest
+        push    BC
+        
+        lda     HL, 8(SP)
+        ld      A, (HL+)
+        ld      C, A
+        ld      B, (HL)         ; BC: dest
 
-	lda	HL, 4(SP)
-	ld	E, L
-	ld	D, H		; DE : ulong *
-	
-	call 	.ultoa
-	
-	pop	BC
-	ret
+        lda     HL, 4(SP)
+        ld      E, L
+        ld      D, H            ; DE : ulong *
+        
+        call    .ultoa
+        
+        pop     BC
+        ret
 
 _ltoa::
-	push    BC
-	
-	lda	HL, 8(SP)
-	ld	A, (HL+)
-	ld	C, A
-	ld	B, (HL)		; BC: dest
+        push    BC
+        
+        lda     HL, 8(SP)
+        ld      A, (HL+)
+        ld      C, A
+        ld      B, (HL)         ; BC: dest
 
-	lda	HL, 4(SP)
-	ld	E, L
-	ld	D, H		; DE : ulong *
+        lda     HL, 4(SP)
+        ld      E, L
+        ld      D, H            ; DE : ulong *
 
-	call 	.ltoa
+        call    .ltoa
 
-	pop	BC
-	ret
+        pop     BC
+        ret
 
 .ltoa::
-	push    DE
-	
-	ld	A, #3
-	add	E
-	ld	E, A
-	adc	D
-	sub	E
-	ld	D, A
-	
-	ld	A, (DE)
-	add	A, A
-	pop	DE
-	jr	NC, .ultoa
+        push    DE
+        
+        ld      A, #3
+        add     E
+        ld      E, A
+        adc     D
+        sub     E
+        ld      D, A
+        
+        ld      A, (DE)
+        add     A, A
+        pop     DE
+        jr      NC, .ultoa
 
 1$:
-	push	DE
-	ld	A, (DE)
-	cpl
-	add	#1
-	ld	(DE), A
-	inc	DE
+        push    DE
+        ld      A, (DE)
+        cpl
+        add     #1
+        ld      (DE), A
+        inc     DE
 
-	ld	A, (DE)
-	cpl
-	adc	#0
-	ld	(DE), A
-	inc	DE
+        ld      A, (DE)
+        cpl
+        adc     #0
+        ld      (DE), A
+        inc     DE
 
-	ld	A, (DE)
-	cpl
-	adc	#0
-	ld	(DE), A
-	inc	DE
+        ld      A, (DE)
+        cpl
+        adc     #0
+        ld      (DE), A
+        inc     DE
 
-	ld	A, (DE)
-	cpl
-	adc	#0
-	ld	(DE), A
-	
-	pop	DE
-	
-	ld	A, #'-'
-	ld	(BC), A
-	inc	BC
+        ld      A, (DE)
+        cpl
+        adc     #0
+        ld      (DE), A
+        
+        pop     DE
+        
+        ld      A, #'-'
+        ld      (BC), A
+        inc     BC
 
-	call	.ultoa
-	dec	DE
-	ret
+        call    .ultoa
+        dec     DE
+        ret
 
-.ultoa::			; convert unsigned int into ascii
-	add	SP, #-5
-	lda	HL, 4(SP)
-	
-	xor	A		; clear value
-	ld	(HL-), A
-	ld	(HL-), A
-	ld	(HL-), A
-	ld	(HL-), A
-	ld	(HL), A
+.ultoa::                        ; convert unsigned int into ascii
+        add     SP, #-5
+        lda     HL, 4(SP)
+        
+        xor     A               ; clear value
+        ld      (HL-), A
+        ld      (HL-), A
+        ld      (HL-), A
+        ld      (HL-), A
+        ld      (HL), A
 
-	push	BC
-	ld	B, #32
+        push    BC
+        ld      B, #32
 1$:
-	ld	H, D
-	ld	L, E
+        ld      H, D
+        ld      L, E
 
-	sla	(HL)
-	inc	HL
-	rl	(HL)
-	inc	HL
-	rl	(HL)
-	inc	HL
-	rl	(HL)
+        sla     (HL)
+        inc     HL
+        rl      (HL)
+        inc     HL
+        rl      (HL)
+        inc     HL
+        rl      (HL)
 
-	rra
-	lda	HL, 2(SP)
-	rla
+        rra
+        lda     HL, 2(SP)
+        rla
 
-	ld	A, (HL)
-	adc	A
-	daa
-	ld	(HL+), A	; #0
-	ld	A, (HL)
-	adc	A
-	daa
-	ld	(HL+), A	; #1
-	ld	A, (HL)
-	adc	A
-	daa
-	ld	(HL+), A	; #2
-	ld	A, (HL)
-	adc	A
-	daa
-	ld	(HL+), A	; #3
-	ld	A, (HL)
-	adc	A
-	daa
-	ld	(HL), A		; #4
+        ld      A, (HL)
+        adc     A
+        daa
+        ld      (HL+), A        ; #0
+        ld      A, (HL)
+        adc     A
+        daa
+        ld      (HL+), A        ; #1
+        ld      A, (HL)
+        adc     A
+        daa
+        ld      (HL+), A        ; #2
+        ld      A, (HL)
+        adc     A
+        daa
+        ld      (HL+), A        ; #3
+        ld      A, (HL)
+        adc     A
+        daa
+        ld      (HL), A         ; #4
 
-	dec	B
-	jr	NZ, 1$
+        dec     B
+        jr      NZ, 1$
 
-	pop	BC
-	push	BC
+        pop     BC
+        push    BC
 
-	ld	DE, #((5 << 8) | '0')
-	lda	HL, 6(SP)
+        ld      DE, #((5 << 8) | '0')
+        lda     HL, 6(SP)
 
-	scf
-	ccf
+        scf
+        ccf
 
 3$:
-	rl	D
-	ld	A, (HL)
-	swap 	A
-	and	#0x0f
-	bit	0, D
-	jr	NZ, 6$
-	or	A
-	jr	Z, 4$
+        rl      D
+        ld      A, (HL)
+        swap    A
+        and     #0x0f
+        bit     0, D
+        jr      NZ, 6$
+        or      A
+        jr      Z, 4$
 6$:
-	add	A, E
-	ld	(BC), A
-	set	0, D
-	inc	BC
+        add     A, E
+        ld      (BC), A
+        set     0, D
+        inc     BC
 4$:
-	ld	A, (HL-)
-	and	#0x0f
-	bit	0, D
-	jr	NZ, 7$
-	or	A
-	jr	Z, 5$
-7$:	
-	add	A, E
-	ld	(BC), A
-	set	0, D
-	inc	BC
+        ld      A, (HL-)
+        and     #0x0f
+        bit     0, D
+        jr      NZ, 7$
+        or      A
+        jr      Z, 5$
+7$:     
+        add     A, E
+        ld      (BC), A
+        set     0, D
+        inc     BC
 5$:
-	rr	D
-	dec	D
-	jr	NZ, 3$
-	jr	C, 8$
+        rr      D
+        dec     D
+        jr      NZ, 3$
+        jr      C, 8$
 
-	ld	A, #'0'		; n == 0
-	ld	(BC), A
-	inc	BC
+        ld      A, #'0'         ; n == 0
+        ld      (BC), A
+        inc     BC
 8$:
-	xor	A
-	ld	(BC), A		; write trailing #0
+        xor     A
+        ld      (BC), A         ; write trailing #0
 
-	pop	DE
+        pop     DE
 
-	add	sp, #5
+        add     sp, #5
 
-	ret
+        ret

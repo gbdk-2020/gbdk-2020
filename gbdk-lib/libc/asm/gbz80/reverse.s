@@ -26,59 +26,59 @@
 ;   might be covered by the GNU General Public License.
 ;--------------------------------------------------------------------------
 
-	.module		reverse
+        .module reverse
 
-	.area	_BASE
+        .area   _BASE
 
 _reverse::
-	lda	HL, 2(SP)
-	ld	A, (HL+)
-	ld	H, (HL)
-	ld	L, A		; HL: s
-	
-	push    BC
-	ld 	B, H
-	ld	C, L		; BC: s
-	
-	ld	DE, #0
-1$:	ld	A, (HL+)
-	or	A
-	jr	Z, 2$
-	inc	DE
-	jr	1$
+        lda     HL, 2(SP)
+        ld      A, (HL+)
+        ld      H, (HL)
+        ld      L, A            ; HL: s
+        
+        push    BC
+        ld      B, H
+        ld      C, L            ; BC: s
+        
+        ld      DE, #0
+1$:     ld      A, (HL+)
+        or      A
+        jr      Z, 2$
+        inc     DE
+        jr      1$
 
 2$:
-	srl	D
-	rr	E
-	
-	ld	A, E
-	or	D
-	jr	Z, 3$
+        srl     D
+        rr      E
+        
+        ld      A, E
+        or      D
+        jr      Z, 3$
 
-	dec	HL
-	dec	HL
+        dec     HL
+        dec     HL
 
-	inc	D
-	inc	E
-	jr	5$
+        inc     D
+        inc     E
+        jr      5$
 4$:
-	ld	A, (HL)
-	push 	AF
-	ld	A, (BC)
-	ld	(HL-), A
-	pop	AF
-	ld	(BC), A
-	inc	BC
+        ld      A, (HL)
+        push    AF
+        ld      A, (BC)
+        ld      (HL-), A
+        pop     AF
+        ld      (BC), A
+        inc     BC
 5$:
-	dec	E
-	jr	NZ, 4$
-	dec	D
-	jr	NZ, 4$
-	
+        dec     E
+        jr      NZ, 4$
+        dec     D
+        jr      NZ, 4$
+        
 3$:
-	pop	BC
-	lda	HL, 2(SP)
-	ld	E, (HL)
-	inc	HL
-	ld	D, (HL)
-	ret
+        pop     BC
+        lda     HL, 2(SP)
+        ld      E, (HL)
+        inc     HL
+        ld      D, (HL)
+        ret

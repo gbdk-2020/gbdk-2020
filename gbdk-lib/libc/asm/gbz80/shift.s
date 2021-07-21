@@ -1,3 +1,7 @@
+        .module shift
+
+        .area   _BASE
+
         ;;
 __rrulong_rrx_s::                
         ld      hl,#2

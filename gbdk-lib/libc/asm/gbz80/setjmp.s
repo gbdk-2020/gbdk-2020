@@ -26,78 +26,80 @@
 ;   might be covered by the GNU General Public License.
 ;--------------------------------------------------------------------------
 
-	.area   _CODE
+        .module longjmp
 
-	.globl ___setjmp
+        .area   _BASE
+
+        .globl ___setjmp
 
 ___setjmp:
-	pop	bc
-	pop	de
-	push	de
-	push	bc
+        pop     bc
+        pop     de
+        push    de
+        push    bc
 
-	; Store stack pointer.
-	ldhl	sp, #0
-	push	de
-	push	hl
-	pop	de
-	pop	hl
-	ld	(hl), e
-	inc	hl
-	ld	(hl), d
-	inc	hl
+        ; Store stack pointer.
+        ldhl    sp, #0
+        push    de
+        push    hl
+        pop     de
+        pop     hl
+        ld      (hl), e
+        inc     hl
+        ld      (hl), d
+        inc     hl
 
-	; Store return address.
-	ld	(hl), c
-	inc	hl
-	ld	(hl), b
+        ; Store return address.
+        ld      (hl), c
+        inc     hl
+        ld      (hl), b
 
-	; Return 0.
-	xor	a, a
-	ld	e, a
-	ld	d, a
-	ret
+        ; Return 0.
+        xor     a, a
+        ld      e, a
+        ld      d, a
+        ret
 
 .globl _longjmp
 
 _longjmp:
-	pop	af
-	pop	hl
-	pop	de
+        pop     af
+        pop     hl
+        pop     de
 
-	; Ensure that return value is non-zero.
-	ld	a, e
-	or	a, d
-	jr	NZ, 0001$
-	inc	de
+        ; Ensure that return value is non-zero.
+        ld      a, e
+        or      a, d
+        jr      NZ, 0001$
+        inc     de
 0001$:
 
-	; Get stack pointer.
-	ld	c, (hl)
-	inc	hl
-	ld	b, (hl)
-	inc	hl
+        ; Get stack pointer.
+        ld      c, (hl)
+        inc     hl
+        ld      b, (hl)
+        inc     hl
 
-	; Adjust stack pointer.
-	push	hl
-	push	bc
-	pop	hl
-	pop	bc
-	ld	sp, hl
-	push	bc
-	pop	hl
+        ; Adjust stack pointer.
+        push    hl
+        push    bc
+        pop     hl
+        pop     bc
+        ld      sp, hl
+        push    bc
+        pop     hl
 
-	; Get return address.
-	ld	c, (hl)
-	inc	hl
-	ld	b, (hl)
+        ; Get return address.
+        ld      c, (hl)
+        inc     hl
+        ld      b, (hl)
 
-	; Set return address.
-	pop	af
-	push	bc
+        ; Set return address.
+        pop     af
+        push    bc
 
-	; Return value is in de.
+        ; Return value is in de.
 
-	; Jump.
-	ret
+        ; Jump.
+        ret
 

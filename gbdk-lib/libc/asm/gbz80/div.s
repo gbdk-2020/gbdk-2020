@@ -27,20 +27,23 @@
 ;--------------------------------------------------------------------------
 
         ;; Originally from GBDK by Pascal Felber.
-        .area   _CODE
 
-.globl	__divsuchar
-.globl	__modsuchar
-.globl	__divuschar
-.globl	__moduschar
-.globl	__divschar
-.globl	__modschar
-.globl	__divsint
-.globl	__modsint
-.globl	__divuchar
-.globl	__moduchar
-.globl	__divuint
-.globl	__moduint
+        .module div
+
+        .area   _BASE
+
+.globl  __divsuchar
+.globl  __modsuchar
+.globl  __divuschar
+.globl  __moduschar
+.globl  __divschar
+.globl  __modschar
+.globl  __divsint
+.globl  __modsint
+.globl  __divuchar
+.globl  __moduchar
+.globl  __divuint
+.globl  __moduint
 
 __divsuchar:
         ldhl    sp,#2+1
@@ -52,10 +55,10 @@ __divsuchar:
 
         call      signexte
 
-	ld	e,c
-	ld	d,b
+        ld      e,c
+        ld      d,b
 
-	ret
+        ret
 
 __modsuchar:
         ldhl    sp,#2+1
