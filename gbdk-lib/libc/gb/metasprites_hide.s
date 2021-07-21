@@ -3,7 +3,7 @@
         .title  "Metasprites"
         .module Metasprites
 
-	.globl	___current_metasprite, ___render_shadow_OAM
+        .globl  ___current_metasprite, ___render_shadow_OAM
 
         .area   _CODE
 
