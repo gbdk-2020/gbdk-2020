@@ -136,6 +136,11 @@ int main(void)
     // It's equivalent to:
     BGB_MESSAGE("PROFILE,%(SP+$0)%,%(SP+$1)%,%A%,%TOTALCLKS%,%ROMBANK%,%WRAMBANK%");
 
+	uint8_t var0 = 16;
+	int16_t var1 = -10;
+	//
+	BGB_printf("var0: %hd; var1: %d; var0*var1=%d", (uint8_t)var0, var1, var0 * var1);
+
     // The BGB_TEXT() macro will accept a non-quoted string
     BGB_TEXT("The End");
 

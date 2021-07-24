@@ -67,45 +67,6 @@ llbl: \
 .ENDM \
 name ^/message_text/, ^/message_suffix/ \
 __endasm
-
-#define BGB_HASH #
-#define BGB_ADD_HASH(x) x
-#define BGB_MAKE_LABEL(a) BGB_ADD_HASH(BGB_HASH)a
-/// \endcond DOXYGEN_DO_NOT_DOCUMENT
-
-/** Macro to display a sprintf formatted message in the BGB emulator debug message window
-
-    @param buf  Pointer to a globally defined char buffer
-    @param ...  VA Args list of sprintf parameters
-
-    To avoid buffer overflows __buf__ must be large
-    enough to store the entire printed message.
-
-    Example:
-    \code{.c}
-    char mybuf[100]; // should be globally defined
-
-    BGB_MESSAGE_FMT(mybuf, "An integer:%d, a string: %s", 12345, "hello bgb")
-    \endcode
-
-    @see BGB_MESSAGE()
- */
-#define BGB_MESSAGE_FMT(buf, ...) sprintf(buf, __VA_ARGS__);BGB_MESSAGE2(BGB_MACRONAME(__LINE__), BGB_MAKE_LABEL(_##buf));
-/// \cond DOXYGEN_DO_NOT_DOCUMENT
-#define BGB_MESSAGE2(lbl, buf) \
-__asm \
-.MACRO name buf, ?llbl\
-  ld d, d \
-  jr llbl \
-  .dw 0x6464 \
-  .dw 0x0001 \
-  .dw buf \
-  .dw 0 \
-llbl: \
-.ENDM \
-name ^/buf/ \
-__endasm
-
 /// \endcond DOXYGEN_DO_NOT_DOCUMENT
 
 /** Macro to __Start__ a profiling block for the BGB emulator
@@ -156,6 +117,29 @@ __endasm
 
 */
 void BGB_profiler_message();
+
+/** Print the string and arguments given by format to the BGB emulator debug message window
+
+    @param format   The format string as per printf
+
+    Does not return the number of characters printed.
+	Result string MUST BE LESS THAN 64 BYTES LONG, INCLUDING THE TRAILIG ZERO BYTE!
+
+    Currently supported:
+    \li \%hx (char as hex)
+    \li \%hu (unsigned char)
+    \li \%hd (signed char)
+    \li \%c (character)
+    \li \%u (unsigned int)
+    \li \%d (signed int)
+    \li \%x (unsigned int as hex)
+    \li \%s (string)
+
+    Warning: to correctly pass chars for printing as chars, they *must*
+    be explicitly re-cast as such when calling the function.
+    See @ref docs_chars_varargs for more details.
+ */
+void BGB_printf(const char *format, ...) NONBANKED;
 
 static void * __BGB_PROFILER_INIT = &BGB_profiler_message;
 
