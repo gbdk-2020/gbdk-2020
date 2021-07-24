@@ -123,7 +123,7 @@ void BGB_profiler_message();
     @param format   The format string as per printf
 
     Does not return the number of characters printed.
-	Result string MUST BE LESS THAN 64 BYTES LONG, INCLUDING THE TRAILIG ZERO BYTE!
+	Result string MUST BE LESS OR EQUAL THAN 128 BYTES LONG, INCLUDING THE TRAILIG ZERO BYTE!
 
     Currently supported:
     \li \%hx (char as hex)
