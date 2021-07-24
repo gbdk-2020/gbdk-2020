@@ -305,6 +305,8 @@ int main(int argc, char *argv[])
 	fprintf(file, "#define %s_HEIGHT %d\n", data_name.c_str(), sprite_h);
 	fprintf(file, "#define %s_PIVOT_X %d\n", data_name.c_str(), pivot_x);
 	fprintf(file, "#define %s_PIVOT_Y %d\n", data_name.c_str(), pivot_y);
+	fprintf(file, "#define %s_TILE_COUNT %d\n", data_name.c_str(), (int)tiles.size());
+	fprintf(file, "#define %s_METASPRITE_COUNT %d\n", data_name.c_str(), (int)sprites.size());
 	fprintf(file, "\n");
 	fprintf(file, "extern const UINT8 %s_data[%d];\n", data_name.c_str(), (int)(tiles.size() * tile_h * 2));
 	fprintf(file, "extern const metasprite_t* const %s_metasprites[%d];\n", data_name.c_str(), (int)sprites.size());
