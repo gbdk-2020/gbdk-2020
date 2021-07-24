@@ -168,21 +168,27 @@ To turn on auto-banking, use the `-autobank` argument with lcc
 For a source example see the `banks_autobank` project.
 
 In the source files you want auto-banked, do the following:
-  - Set the bank for the source file to `255`: `#pragma bank 255`
-  - Create a constant with no value to store the bank number for the source file: `const void __at(255) __bank_<name-for-a-given-source-file>;`.  
-    This constant can then be used for obtaining that files bank number with `(uint8_t)&__bank_<name-for-a-given-source-file`.
+  - Set the source file to be autobanked `#pragma bank 255` (this sets the temporary bank to `255`, which @ref bankpack then updates when repacking)
+  - Create a reference to store the bank number for that source file: `BANKREF(<some-bank-reference-name>)`.
+    - More than one `BANKREF()` may be created per file, but they should always have unique names.
+
+In the other source files you want to access the banked data from, do the following:
+  - Create an extern so the bank reference in another file is accessible: `BANKREF_EXTERN(<some-bank-reference-name>)`.
+  - Obtain the bank number using  `BANK(<some-bank-reference-name>)`.
 
 Example: level_1_map.c
 
         #pragma bank 255
-        const void __at(255) __bank_level_1_map;
-
-        const uint8_t my_level_1_map[] = {... some map data here ...};
+        BANKREF(level_1_map)
+        ...
+        const uint8_t level_1_map[] = {... some map data here ...};
 
 Accessing that data: main.c
 
-      SWITCH_ROM_MBC1( (uint8_t)&__bank_level_1_map );
-      // Do something with my_level_1_map[]
+      BANKREF_EXTERN(level_1_map)
+      ...
+      SWITCH_ROM_MBC1( BANK(level_1_map) );
+      // Do something with level_1_map[]
 
 Features and Notes:
   - Fixed banked source files can be used in the same project as auto-banked source files. The bankpack tool will attempt to pack the auto-banked source files as efficiently as possible around the fixed-bank ones.
