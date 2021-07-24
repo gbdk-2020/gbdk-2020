@@ -17,7 +17,7 @@
 //
 // See the BGB Manual for more information 
 // ("expressions, breakpoint conditions, and debug messages")
-// http://bgb.bircd.org/manual.html#expressions
+// https://bgb.bircd.org/manual.html#expressions
 
 int main(void)
 {
@@ -99,7 +99,7 @@ int main(void)
             }
         // Elapsed cycle count output is in hex. 
         // Remember to divide by 2 for the result (Normal Speed)
-        BGB_PROFILE_END(NOP TIME);
+        BGB_PROFILE_END(LOOP TIME);
     }
     
 
@@ -113,7 +113,6 @@ int main(void)
 
     // Which Banks are currently active (for MBC based cartridges)
     BGB_MESSAGE("Current  ROM bank: %ROMBANK%");
-    BGB_MESSAGE("Current XRAM bank: %XRAMBANK%");
     BGB_MESSAGE("Current SRAM bank: %SRAMBANK%");
     // These are only banked in the CGB
     BGB_MESSAGE("Current VRAM bank: %VRAMBANK%");
