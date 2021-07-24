@@ -1,6 +1,4 @@
 #include <vector>
-#include <iostream>
-#include <fstream>
 #include <string>
 #include <algorithm>
 #include <cstring>
@@ -258,7 +256,7 @@ int main(int argc, char *argv[])
 	int slash_pos = (int)output_filename.find_last_of('/');
 	if(slash_pos == -1)
 		slash_pos = (int)output_filename.find_last_of('\\');
-	int dot_pos = (int)output_filename.find_last_of('.');
+	int dot_pos = (int)output_filename.find_first_of('.', slash_pos);
 
 	if(slash_pos == -1) slash_pos = -1;
 	if(dot_pos == -1) dot_pos = -1;
