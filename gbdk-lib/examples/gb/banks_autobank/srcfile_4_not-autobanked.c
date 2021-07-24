@@ -17,7 +17,7 @@ void some_4() BANKED
 BANKREF(some_4)
 
 // A big constant array to take up space
-static const unsigned char big_const_4[] = {
+static const unsigned char local_const_4[] = {
 
         // 512
         1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,

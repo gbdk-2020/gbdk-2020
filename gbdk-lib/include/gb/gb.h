@@ -367,19 +367,26 @@ __REG _current_bank;
 #define CURRENT_BANK _current_bank
 
 /** Obtains the __bank number__ of VARNAME
-    
+
     @param VARNAME Name of the variable which has a __bank_VARNAME companion symbol which is adjusted by bankpack
 
+    Use this to obtain the bank number from a bank reference
+    created with @ref BANKREF().
+
+    @see BANKREF_EXTERN(), BANKREF()
 */
 #ifndef BANK
 #define BANK(VARNAME) ( (uint8_t) & __bank_ ## VARNAME )
 #endif
 
-/** Creates the reference for retriving the bank number of the object
-    
-    @param VARNAME Variable name to use, may be existiing identifier
+/** Creates a reference for retrieving the bank number of a variable or function
+
+    @param VARNAME Variable name to use, which may be an existing identifier
 
     @see BANK() for obtaining the bank number of the included data.
+
+    More than one `BANKREF()` may be created per file, but each call should
+    always use a unique VARNAME.
 
     Use @ref BANKREF_EXTERN() within another source file
     to make the variable and it's data accesible there.
@@ -390,13 +397,16 @@ __asm \
     ___bank_ ## VARNAME = b___func_ ## VARNAME \
     .globl ___bank_ ## VARNAME \
 __endasm; \
-} 
+}
 
 /** Creates extern references for accessing a BANKREF() generated variable.
 
-    @param VARNAME Name of the variable used with BANKREF
+    @param VARNAME Name of the variable used with @ref BANKREF()
 
-    @ref BANKREF(), BANK()
+    This makes a @ref BANKREF() reference in another source
+    file accessible in the current file for use with @ref BANK().
+
+    @see BANKREF(), BANK()
 */
 #define BANKREF_EXTERN(VARNAME) extern const void __bank_ ## VARNAME;
 
