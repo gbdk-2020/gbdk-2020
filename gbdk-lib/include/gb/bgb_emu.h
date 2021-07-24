@@ -12,11 +12,6 @@
 #ifndef __BGB_EMU_INCLUDE
 #define __BGB_EMU_INCLUDE
 
-/// \cond DOXYGEN_DO_NOT_DOCUMENT
-#define BGB_ADD_DOLLARD(A) BGB_ADD_DOLLARD1 (A)
-#define BGB_ADD_DOLLARD1(A) A##00$
-/// \endcond DOXYGEN_DO_NOT_DOCUMENT
-
 /** Macro to display a message in the BGB emulator debug message window
 
     @param message_text  Quoted text string to display in the debug message window
@@ -40,16 +35,37 @@
 
     @see BGB_PROFILE_BEGIN(), BGB_PROFILE_END()
  */
-#define BGB_MESSAGE(message_text) BGB_MESSAGE1(BGB_ADD_DOLLARD(__LINE__), message_text)
+#define BGB_MESSAGE(message_text) BGB_MESSAGE1(BGB_MACRONAME(__LINE__), message_text)
 /// \cond DOXYGEN_DO_NOT_DOCUMENT
-#define BGB_MESSAGE1(lbl, message_text) \
+#define BGB_MACRONAME(A) BGB_MACRONAME1(A)
+#define BGB_MACRONAME1(A) BGBLOG##A
+
+#define BGB_MESSAGE1(name, message_text) \
 __asm \
+.MACRO name msg_t, msg_s, ?llbl\
   ld d, d \
-  jr lbl \
+  jr llbl \
   .dw 0x6464 \
   .dw 0x0000 \
-  .ascii message_text \
-lbl: \
+  .ascii msg_t \
+llbl: \
+.ENDM \
+name ^/message_text/ \
+__endasm
+
+#define BGB_MESSAGE_SUFFIX(message_text, message_suffix) BGB_MESSAGE3(BGB_MACRONAME(__LINE__), message_text, message_suffix)
+#define BGB_MESSAGE3(name, message_text, message_suffix) \
+__asm \
+.MACRO name msg_t, msg_s, ?llbl\
+  ld d, d \
+  jr llbl \
+  .dw 0x6464 \
+  .dw 0x0000 \
+  .ascii msg_t \
+  .ascii msg_s \
+llbl: \
+.ENDM \
+name ^/message_text/, ^/message_suffix/ \
 __endasm
 
 #define BGB_HASH #
@@ -74,33 +90,35 @@ __endasm
 
     @see BGB_MESSAGE()
  */
-#define BGB_MESSAGE_FMT(buf, ...) sprintf(buf, __VA_ARGS__);BGB_MESSAGE2(BGB_ADD_DOLLARD(__LINE__), BGB_MAKE_LABEL(_##buf));
+#define BGB_MESSAGE_FMT(buf, ...) sprintf(buf, __VA_ARGS__);BGB_MESSAGE2(BGB_MACRONAME(__LINE__), BGB_MAKE_LABEL(_##buf));
 /// \cond DOXYGEN_DO_NOT_DOCUMENT
 #define BGB_MESSAGE2(lbl, buf) \
 __asm \
+.MACRO name buf, ?llbl\
   ld d, d \
-  jr lbl \
+  jr llbl \
   .dw 0x6464 \
   .dw 0x0001 \
   .dw buf \
   .dw 0 \
-lbl: \
+llbl: \
+.ENDM \
+name ^/buf/ \
 __endasm
 
-#define BGB_STR(A) #A
-#define BGB_CONCAT(A,B) BGB_STR(A:B)
 /// \endcond DOXYGEN_DO_NOT_DOCUMENT
 
 /** Macro to __Start__ a profiling block for the BGB emulator
 
-    @param MSG  Quoted text string to display in the debug message window
+    @param MSG  Quoted text string to display in the
+                debug message window along with the result
 
     To complete the profiling block and print
     the result call @ref BGB_PROFILE_END.
 
     @see BGB_PROFILE_END(), BGB_MESSAGE()
  */
-#define BGB_PROFILE_BEGIN(MSG) BGB_MESSAGE(BGB_CONCAT(MSG,%ZEROCLKS%));
+#define BGB_PROFILE_BEGIN(MSG) BGB_MESSAGE_SUFFIX(MSG, "%ZEROCLKS%");
 /** Macro to __End__ a profiling block and print the results in the BGB  emulator debug message window
 
     @param MSG  Quoted text string to display in the
@@ -126,8 +144,8 @@ __endasm
 
     @see BGB_PROFILE_BEGIN(), BGB_MESSAGE()
  */
-#define BGB_PROFILE_END(MSG) BGB_MESSAGE(BGB_CONCAT(MSG,%-8+LASTCLKS%));
-#define BGB_TEXT(MSG) BGB_MESSAGE(BGB_STR(MSG))
+#define BGB_PROFILE_END(MSG) BGB_MESSAGE_SUFFIX(MSG,"%-8+LASTCLKS%");
+#define BGB_TEXT(MSG) BGB_MESSAGE(MSG)
 
 /** Display preset debug information in the BGB debug messages window.
 
