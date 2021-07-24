@@ -17,7 +17,7 @@
 //
 // See the BGB Manual for more information 
 // ("expressions, breakpoint conditions, and debug messages")
-// http://bgb.bircd.org/manual.html#expressions
+// https://bgb.bircd.org/manual.html#expressions
 
 int main(void)
 {
@@ -75,7 +75,7 @@ int main(void)
         // You should see the message "NOP TIME: 1".
 
         __critical {  // Temporarily turn off interrupts for more accurate measurements
-			BGB_PROFILE_BEGIN("Profile a single NOP instruction at Double Speed");
+			BGB_PROFILE_BEGIN("Profile a single NOP instruction at CGB Double Speed");
                 __asm__("nop");
             // The "-4+" subtracts 4 clocks to compensate for the ones
             // used by the debug message itself (Normal speed uses -8)
@@ -111,7 +111,6 @@ int main(void)
 
     // Which Banks are currently active (for MBC based cartridges)
     BGB_MESSAGE("Current  ROM bank: %ROMBANK%");
-    BGB_MESSAGE("Current XRAM bank: %XRAMBANK%");
     BGB_MESSAGE("Current SRAM bank: %SRAMBANK%");
     // These are only banked in the CGB
     BGB_MESSAGE("Current VRAM bank: %VRAMBANK%");
