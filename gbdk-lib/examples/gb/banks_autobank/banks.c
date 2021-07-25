@@ -3,6 +3,13 @@
 #include <stdio.h>
 
 // Banked const vars from the other source files
+//
+// "BANKREF_EXTERN()" makes a "BANKREF()" reference
+// from another source file accessible for use with "BANK()"
+//
+// The entries below could also be in separate, matching
+// ".h" header files for each banked ".c" source file,
+// instead of here at the start of "banks.c".
 extern const uint8_t some_const_var_1;
 BANKREF_EXTERN(some_const_var_1)
 

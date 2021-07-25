@@ -21,7 +21,7 @@ ASSRC =	cgb.s cgb_palettes.s cgb_compat.s \
 	set_1bit_data.s \
 	sgb.s font.s delay.s \
 	rand.s arand.s \
-	bgb_emu.s \
+	bgb_emu.s bgb_emu_printf.s \
 	nowait.s far_ptr.s \
 	lcd.s joy.s tim.s \
 	crash_handler.s \

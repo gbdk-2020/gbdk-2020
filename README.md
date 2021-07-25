@@ -44,7 +44,7 @@ For SDCC you can check its [website](http://sdcc.sourceforge.net/) and the [manu
 # Build instructions
 Unless you are interested on recompiling the sources for some reason (like fixing some bugs) **you don't need to build GBDK**
 
-- **Windows only**: Download and install [mingw](http://www.mingw.org/)
+- **Windows only**: Download and install [mingw](http://mingw-w64.org/)
 - Clone, download this repo or just get the source form the [releases](https://github.com/gbdk-2020/gbdk-2020/releases)
 - Download and install [**sdcc nightlies from 4.1.6 #12439 onwards**](http://sdcc.sourceforge.net/snap.php) (SDCC is no longer part of GDDK so you need to download it (just the binaries) in the platform you need)
 - On Linux **don't use package managers** The latest release available won't work, you need to compile or download one of the nightlies
