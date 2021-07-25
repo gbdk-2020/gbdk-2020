@@ -215,6 +215,14 @@
         LCDCF_OBJON     = 0b00000010 ; OBJ Display
         LCDCF_BGOFF     = 0b00000000 ; BG Display
         LCDCF_BGON      = 0b00000001 ; BG Display
+        LCDCF_B_ON      = 7
+        LCDCF_B_WIN9C00 = 6
+        LCDCF_B_WINON   = 5
+        LCDCF_B_BG8000  = 4
+        LCDCF_B_BG9C00  = 3
+        LCDCF_B_OBJ16   = 2
+        LCDCF_B_OBJON   = 1
+        LCDCF_B_BGON    = 0
 
         .STAT           = 0x41  ; LCD status
         rSTAT           = 0xFF41
@@ -229,6 +237,14 @@
         STATF_OAM       = 0b00000010 ; OAM-RAM is used by system
         STATF_LCD       = 0b00000011 ; Both OAM and VRAM used by system
         STATF_BUSY      = 0b00000010 ; When set, VRAM access is unsafe
+        STATF_B_LYC     = 6
+        STATF_B_MODE10  = 5
+        STATF_B_MODE01  = 4
+        STATF_B_MODE00  = 3
+        STATF_LYCF      = 2
+        STATF_B_VBL     = 0
+        STATF_B_OAM     = 1
+        STATF_B_BUSY    = 1
 
         .SCY            = 0x42  ; Scroll Y
         rSCY            = 0xFF42

@@ -168,6 +168,14 @@ __REG LCDC_REG;         /** LCD control */
 #define LCDCF_OBJON   0b00000010u
 #define LCDCF_BGOFF   0b00000000u
 #define LCDCF_BGON    0b00000001u
+#define LCDCF_B_ON      7
+#define LCDCF_B_WIN9C00 6
+#define LCDCF_B_WINON   5
+#define LCDCF_B_BG8000  4
+#define LCDCF_B_BG9C00  3
+#define LCDCF_B_OBJ16   2
+#define LCDCF_B_OBJON   1
+#define LCDCF_B_BGON    0
 
 __REG STAT_REG;         /** LCD status */
 #define rSTAT STAT_REG
@@ -182,6 +190,14 @@ __REG STAT_REG;         /** LCD status */
 #define STATF_OAM     0b00000010u
 #define STATF_LCD     0b00000011u
 #define STATF_BUSY    0b00000010u
+#define STATF_B_LYC     6
+#define STATF_B_MODE10  5
+#define STATF_B_MODE01  4
+#define STATF_B_MODE00  3
+#define STATF_B_LYCF    2
+#define STATF_B_VBL     0
+#define STATF_B_OAM     1
+#define STATF_B_BUSY    1
 
 __REG SCY_REG;          /** Scroll Y */
 #define rSCY
