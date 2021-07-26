@@ -51,14 +51,15 @@ static struct {
 		{ "commodel", 	"small" },
 		{ "com",		"%sdccdir%sdcc" },
 		{ "comflag",    "-c"},
-		{ "comdefault",	"-mgbz80 --no-std-crt0 --fsigned-char --use-stdout" },
+		{ "comdefault",	"-mgbz80 --no-std-crt0 --fsigned-char --use-stdout "
+                        " -D__PORT=%port% -D__TARGET=%plat% "},
 		/* asdsgb assembler defaults:
 			-p: disable pagination
 			-o: create object file
 			-g: make undef symbols global
 			-n: defer symbol resolving to link time (autobanking relies on this) [requires sdcc 12238+]
 		*/
-		{ "asdefault",  "-pogn" },
+		{ "asdefault",  "-pogn -I%libdir%%plat%" },
 		{ "as",		"%sdccdir%sdasgb" },
 		{ "bankpack", "%bindir%bankpack" },
 		{ "ld",		"%sdccdir%sdldgb" },
@@ -106,6 +107,7 @@ $2 is the list of objects passed as parameters
 $3 is the output file
 */
 static CLASS classes[] = {
+        // GB
 		{ "gbz80",
 			"gb",
 			"gb",
@@ -118,6 +120,19 @@ static CLASS classes[] = {
 			"%ihxcheck% $2 $1",
 			"%mkbin% -Z $1 $2 $3"
 		},
+        // AP
+        { "gbz80",  // port
+            "ap",   // plat
+            "ap",   // default_plat
+            "%cpp% %cppdefault% -DGB=1 -DGAMEBOY=1 -DINT_16_BITS $1 $2 $3",
+            "%includedefault%",
+            "%com% %comdefault% -Wa%asdefault% -DGB=1 -DGAMEBOY=1 -DINT_16_BITS $1 %comflag% $2 -o $3",
+            "%as% %asdefault% $1 $3 $2",
+            "%bankpack% $1 $2",
+            "%ld% -n -i $1 %libs_include% $3 %crt0dir% $2",
+            "%ihxcheck% $2 $1",
+            "%mkbin% -Z $1 $2 $3"
+        },
 		{ "z80",
 			"afghan",
 			"afghan",
