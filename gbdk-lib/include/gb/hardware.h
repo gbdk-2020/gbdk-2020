@@ -124,8 +124,8 @@ __REG NR44_REG;         /** Sound Channel 4 Counter / Consecutive and Inital  */
 __REG NR50_REG;         /** Sound Channel control / ON-OFF / Volume */
 #define rAUDVOL NR50_REG
 
-#define AUDVOL_VOL_LEFT(x)	((x) << 4)
-#define AUDVOL_VOL_RIGHT(x)	((x))
+#define AUDVOL_VOL_LEFT(x)  ((x) << 4)
+#define AUDVOL_VOL_RIGHT(x) ((x))
 #define AUDVOL_VIN_LEFT         0b10000000
 #define AUDVOL_VIN_RIGHT        0b00001000
 
