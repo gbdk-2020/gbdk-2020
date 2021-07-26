@@ -41,12 +41,12 @@ __BYTE_REG rRAMB;
 __REG P1_REG;           /** Joystick: 1.1.P15.P14.P13.P12.P11.P10 */
 #define rP1 P1_REG
 
-#define P1F_5 0b00100000u
-#define P1F_4 0b00010000u
-#define P1F_3 0b00001000u
-#define P1F_2 0b00000100u
-#define P1F_1 0b00000010u
-#define P1F_0 0b00000001u
+#define P1F_5 0b00100000
+#define P1F_4 0b00010000
+#define P1F_3 0b00001000
+#define P1F_2 0b00000100
+#define P1F_1 0b00000010
+#define P1F_0 0b00000001
 
 #define P1F_GET_DPAD P1F_5
 #define P1F_GET_BTN  P1F_4
@@ -65,20 +65,20 @@ __REG TMA_REG;          /** Timer modulo */
 __REG TAC_REG;          /** Timer control */
 #define rTAC TAC_REG
 
-#define TACF_START  0b00000100u
-#define TACF_STOP   0b00000000u
-#define TACF_4KHZ   0b00000000u
-#define TACF_16KHZ  0b00000011u
-#define TACF_65KHZ  0b00000010u
-#define TACF_262KHZ 0b00000001u
+#define TACF_START  0b00000100
+#define TACF_STOP   0b00000000
+#define TACF_4KHZ   0b00000000
+#define TACF_16KHZ  0b00000011
+#define TACF_65KHZ  0b00000010
+#define TACF_262KHZ 0b00000001
 
 __REG IF_REG;           /** Interrupt flags: 0.0.0.JOY.SIO.TIM.LCD.VBL */
 #define rIF IF_REG
 
 __REG NR10_REG;         /** Sound Channel 1 Sweep */
 #define rAUD1SWEEP NR10_REG
-#define AUD1SWEEP_UP        0b00000000u
-#define AUD1SWEEP_DOWN      0b00001000u
+#define AUD1SWEEP_UP        0b00000000
+#define AUD1SWEEP_DOWN      0b00001000
 #define AUD1SWEEP_TIME(x)   ((x) << 4)
 #define AUD1SWEEP_LENGTH(x) (x)
 __REG NR11_REG;         /** Sound Channel 1 Sound length/Wave pattern duty */
@@ -126,48 +126,48 @@ __REG NR50_REG;         /** Sound Channel control / ON-OFF / Volume */
 
 #define AUDVOL_VOL_LEFT(x)	((x) << 4)
 #define AUDVOL_VOL_RIGHT(x)	((x))
-#define AUDVOL_VIN_LEFT         0b10000000u
-#define AUDVOL_VIN_RIGHT        0b00001000u
+#define AUDVOL_VIN_LEFT         0b10000000
+#define AUDVOL_VIN_RIGHT        0b00001000
 
 __REG NR51_REG;         /** Sound Selection of Sound output terminal */
 #define rAUDTERM NR51_REG
 
-#define AUDTERM_4_LEFT  0b10000000u
-#define AUDTERM_3_LEFT  0b01000000u
-#define AUDTERM_2_LEFT  0b00100000u
-#define AUDTERM_1_LEFT  0b00010000u
-#define AUDTERM_4_RIGHT 0b00001000u
-#define AUDTERM_3_RIGHT 0b00000100u
-#define AUDTERM_2_RIGHT 0b00000010u
-#define AUDTERM_1_RIGHT 0b00000001u
+#define AUDTERM_4_LEFT  0b10000000
+#define AUDTERM_3_LEFT  0b01000000
+#define AUDTERM_2_LEFT  0b00100000
+#define AUDTERM_1_LEFT  0b00010000
+#define AUDTERM_4_RIGHT 0b00001000
+#define AUDTERM_3_RIGHT 0b00000100
+#define AUDTERM_2_RIGHT 0b00000010
+#define AUDTERM_1_RIGHT 0b00000001
 
 __REG NR52_REG;         /** Sound Master on/off */
 #define rAUDENA NR52_REG
 
-#define AUDENA_ON    0b10000000u
-#define AUDENA_OFF   0b00000000u
+#define AUDENA_ON    0b10000000
+#define AUDENA_OFF   0b00000000
 
 __BYTE_REG AUD3WAVE[16];
 
 __REG LCDC_REG;         /** LCD control */
 #define rLCDC LCDC_REG
 
-#define LCDCF_OFF     0b00000000u
-#define LCDCF_ON      0b10000000u
-#define LCDCF_WIN9800 0b00000000u
-#define LCDCF_WIN9C00 0b01000000u
-#define LCDCF_WINOFF  0b00000000u
-#define LCDCF_WINON   0b00100000u
-#define LCDCF_BG8800  0b00000000u
-#define LCDCF_BG8000  0b00010000u
-#define LCDCF_BG9800  0b00000000u
-#define LCDCF_BG9C00  0b00001000u
-#define LCDCF_OBJ8    0b00000000u
-#define LCDCF_OBJ16   0b00000100u
-#define LCDCF_OBJOFF  0b00000000u
-#define LCDCF_OBJON   0b00000010u
-#define LCDCF_BGOFF   0b00000000u
-#define LCDCF_BGON    0b00000001u
+#define LCDCF_OFF     0b00000000
+#define LCDCF_ON      0b10000000
+#define LCDCF_WIN9800 0b00000000
+#define LCDCF_WIN9C00 0b01000000
+#define LCDCF_WINOFF  0b00000000
+#define LCDCF_WINON   0b00100000
+#define LCDCF_BG8800  0b00000000
+#define LCDCF_BG8000  0b00010000
+#define LCDCF_BG9800  0b00000000
+#define LCDCF_BG9C00  0b00001000
+#define LCDCF_OBJ8    0b00000000
+#define LCDCF_OBJ16   0b00000100
+#define LCDCF_OBJOFF  0b00000000
+#define LCDCF_OBJON   0b00000010
+#define LCDCF_BGOFF   0b00000000
+#define LCDCF_BGON    0b00000001
 #define LCDCF_B_ON      7
 #define LCDCF_B_WIN9C00 6
 #define LCDCF_B_WINON   5
@@ -180,16 +180,16 @@ __REG LCDC_REG;         /** LCD control */
 __REG STAT_REG;         /** LCD status */
 #define rSTAT STAT_REG
 
-#define STATF_LYC     0b01000000u
-#define STATF_MODE10  0b00100000u
-#define STATF_MODE01  0b00010000u
-#define STATF_MODE00  0b00001000u
-#define STATF_LYCF    0b00000100u
-#define STATF_HBL     0b00000000u
-#define STATF_VBL     0b00000001u
-#define STATF_OAM     0b00000010u
-#define STATF_LCD     0b00000011u
-#define STATF_BUSY    0b00000010u
+#define STATF_LYC     0b01000000
+#define STATF_MODE10  0b00100000
+#define STATF_MODE01  0b00010000
+#define STATF_MODE00  0b00001000
+#define STATF_LYCF    0b00000100
+#define STATF_HBL     0b00000000
+#define STATF_VBL     0b00000001
+#define STATF_OAM     0b00000010
+#define STATF_LCD     0b00000011
+#define STATF_BUSY    0b00000010
 #define STATF_B_LYC     6
 #define STATF_B_MODE10  5
 #define STATF_B_MODE01  4
@@ -223,8 +223,8 @@ __REG KEY1_REG;         /** CPU speed */
 #define rKEY1 KEY1_REG
 #define rSPD  KEY1_REG
 
-#define KEY1F_DBLSPEED 0b10000000u
-#define KEY1F_PREPARE  0b00000001u
+#define KEY1F_DBLSPEED 0b10000000
+#define KEY1F_PREPARE  0b00000001
 
 __REG VBK_REG;          /** VRAM bank */
 #define rVBK VBK_REG
@@ -239,29 +239,29 @@ __REG HDMA4_REG;        /** DMA control 4 */
 __REG HDMA5_REG;        /** DMA control 5 */
 #define rHDMA5 HDMA5_REG
 
-#define HDMA5F_MODE_GP  0b00000000u
-#define HDMA5F_MODE_HBL 0b10000000u
+#define HDMA5F_MODE_GP  0b00000000
+#define HDMA5F_MODE_HBL 0b10000000
 
-#define HDMA5F_BUSY 0b10000000u
+#define HDMA5F_BUSY 0b10000000
 
 __REG RP_REG;           /** IR port */
 #define rRP RP_REG
 
-#define RPF_ENREAD   0b11000000u
-#define RPF_DATAIN   0b00000010u
-#define RPF_WRITE_HI 0b00000001u
-#define RPF_WRITE_LO 0b00000000u
+#define RPF_ENREAD   0b11000000
+#define RPF_DATAIN   0b00000010
+#define RPF_WRITE_HI 0b00000001
+#define RPF_WRITE_LO 0b00000000
 
 __REG BCPS_REG;         /** BG color palette specification */
 #define rBCPS BCPS_REG
 
-#define BCPSF_AUTOINC 0b10000000u
+#define BCPSF_AUTOINC 0b10000000
 __REG BCPD_REG;         /** BG color palette data */
 #define rBCPD BCPD_REG
 __REG OCPS_REG;         /** OBJ color palette specification */
 #define rOCPS OCPS_REG
 
-#define OCPSF_AUTOINC 0b10000000u
+#define OCPSF_AUTOINC 0b10000000
 __REG OCPD_REG;         /** OBJ color palette data */
 #define rOCPD OCPD_REG
 __REG SVBK_REG;         /** WRAM bank */
@@ -277,40 +277,40 @@ __REG PCM34_REG;        /** Sound channel 3&4 PCM amplitude (R) */
 __REG IE_REG;           /** Interrupt enable */
 #define rIE IE_REG
 
-#define IEF_HILO   0b00010000u
-#define IEF_SERIAL 0b00001000u
-#define IEF_TIMER  0b00000100u
-#define IEF_STAT   0b00000010u
-#define IEF_VBLANK 0b00000001u
+#define IEF_HILO   0b00010000
+#define IEF_SERIAL 0b00001000
+#define IEF_TIMER  0b00000100
+#define IEF_STAT   0b00000010
+#define IEF_VBLANK 0b00000001
 
 
 /* Square wave duty cycle */
-#define AUDLEN_DUTY_12_5 0b00000000u
-#define AUDLEN_DUTY_25   0b01000000u
-#define AUDLEN_DUTY_50   0b10000000u
-#define AUDLEN_DUTY_75   0b11000000u
+#define AUDLEN_DUTY_12_5 0b00000000
+#define AUDLEN_DUTY_25   0b01000000
+#define AUDLEN_DUTY_50   0b10000000
+#define AUDLEN_DUTY_75   0b11000000
 #define AUDLEN_LENGTH(x) (x)
 
 /* Audio envelope flags */
 #define AUDENV_VOL(x)    ((x) << 4)
-#define AUDENV_UP        0b00001000u
-#define AUDENV_DOWN      0b00000000u
+#define AUDENV_UP        0b00001000
+#define AUDENV_DOWN      0b00000000
 #define AUDENV_LENGTH(x) (x)
 
 /* Audio trigger flags */
-#define AUDHIGH_RESTART    0b10000000u
-#define AUDHIGH_LENGTH_ON  0b01000000u
-#define AUDHIGH_LENGTH_OFF 0b00000000u
+#define AUDHIGH_RESTART    0b10000000
+#define AUDHIGH_LENGTH_ON  0b01000000
+#define AUDHIGH_LENGTH_OFF 0b00000000
 
 /* OAM attributes flags */
-#define OAMF_PRI   0b10000000u
-#define OAMF_YFLIP 0b01000000u
-#define OAMF_XFLIP 0b00100000u
-#define OAMF_PAL0  0b00000000u
-#define OAMF_PAL1  0b00010000u
-#define OAMF_BANK0 0b00000000u
-#define OAMF_BANK1 0b00001000u
+#define OAMF_PRI   0b10000000
+#define OAMF_YFLIP 0b01000000
+#define OAMF_XFLIP 0b00100000
+#define OAMF_PAL0  0b00000000
+#define OAMF_PAL1  0b00010000
+#define OAMF_BANK0 0b00000000
+#define OAMF_BANK1 0b00001000
 
-#define OAMF_PALMASK 0b00000111u
+#define OAMF_PALMASK 0b00000111
 
 #endif
