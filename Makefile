@@ -199,7 +199,7 @@ gbdk-lib-install: gbdk-lib-build
 
 gbdk-lib-clean:
 	@echo Cleaning lib
-	@$(MAKE) -C $(GBDKLIBDIR) clean
+	@$(MAKE) -C $(GBDKLIBDIR) PORTS=gbz80 PLATFORMS="gb ap" clean
 	@echo
 
 gbdk-lib-examples-makefile:
