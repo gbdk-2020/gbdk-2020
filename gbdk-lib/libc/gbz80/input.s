@@ -579,7 +579,7 @@ set_recoded_win_tiles::
         POP     BC
         RET
 
-_getchar::                      ; Banked
+_getchar::      
         LD      A,(.mode)
         CP      #.T_MODE_INOUT
         JR      Z,1$
@@ -591,7 +591,7 @@ _getchar::                      ; Banked
         LD      E,A
         RET
 
-_gets::                         ; Banked
+_gets::
         LD      A,(.mode)
         CP      #.T_MODE_INOUT
         JR      Z,1$
@@ -599,7 +599,7 @@ _gets::                         ; Banked
         CALL    .tmode_inout
         POP     BC
 1$:
-        LDA     HL,.BANKOV(SP)  ; Skip return address
+        LDA     HL,2(SP)        ; Skip return address
         LD      A,(HL+)
         LD      H,(HL)          ; HL = s
         LD      L,A

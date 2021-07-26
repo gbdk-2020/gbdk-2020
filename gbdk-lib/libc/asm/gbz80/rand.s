@@ -12,8 +12,6 @@
 ; *                                                                         *
 ; **************************************************************************/
 
-	;; BANKED:	checked
-	
 	;; Why use an algorithm for generating random numbers?
 	;;
 	;; - Given a certain seed value, the same sequence of random numbers is generated
@@ -37,8 +35,6 @@
 	;;   appropriate (shift and xor ?).
 	;;   It's your choice - but if you're doing Monte Carlo physics simulations on the
 	;;   GameBoy, this is a safe bet!
-
-	.include	"global.s"
 
 	.area	_BSS
 .randhi::			; Storage for last random number (or seed)

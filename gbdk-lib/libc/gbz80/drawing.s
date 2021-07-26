@@ -5,7 +5,6 @@
 ;;                      fg_colour, bg_colour, and draw_mode
 ;; Note: some optimisations are available with unneded PUSH DE/POP DE's
 
-        ;; BANKED: checked
         .include        "global.s"
 
         .globl  .init_vram
@@ -1558,8 +1557,8 @@ nchgy$:
         RET
 
         .area   _CODE
-_gotogxy::                      ; Banked
-        LDA     HL,.BANKOV(SP)  ; Skip return address
+_gotogxy::      
+        LDA     HL,2(SP)        ; Skip return address
         LD      A,(HL+)         ; A = x
         LD      (.tx),A
         LD      A,(HL+)         ; A = y
@@ -1567,14 +1566,14 @@ _gotogxy::                      ; Banked
 
         RET
 
-_wrtchr::                       ; Banked
+_wrtchr::       
         PUSH    BC
 
         LD      A,(.mode)
         CP      #.G_MODE
         CALL    NZ,.gmode
 
-        LDA     HL,.BANKOV+2(SP)        ; Skip return address and registers
+        LDA     HL,4(SP)        ; Skip return address and registers
         LD      A,(HL)
         LD      C,A     ; C = Char to print
 
@@ -1584,10 +1583,10 @@ _wrtchr::                       ; Banked
         POP     BC
         RET
 
-_getpix::                       ; Banked
+_getpix::       
         PUSH    BC
 
-        LDA     HL,.BANKOV+2(SP)        ; Skip return address and registers
+        LDA     HL,4(SP)        ; Skip return address and registers
         LD      A,(HL+) ; B = x
         LD      B,A
         LD      A,(HL+) ; C = y
@@ -1598,14 +1597,14 @@ _getpix::                       ; Banked
         POP     BC
         RET
 
-_circle::                       ; Banked
+_circle::       
         PUSH    BC
 
         LD      A,(.mode)
         CP      #.G_MODE
         CALL    NZ,.gmode
 
-        LDA     HL,.BANKOV+2(SP)        ; Skip return address and registers
+        LDA     HL,4(SP)        ; Skip return address and registers
         LD      A,(HL+) ; B = x
         LD      B,A
         LD      A,(HL+) ; C = y
@@ -1620,14 +1619,14 @@ _circle::                       ; Banked
         POP     BC
         RET
 
-_box::                          ; Banked
+_box::          
         PUSH    BC
 
         LD      A,(.mode)
         CP      #.G_MODE
         CALL    NZ,.gmode
 
-        LDA     HL,.BANKOV+2(SP)        ; Skip return address and registers
+        LDA     HL,4(SP)        ; Skip return address and registers
         LD      A,(HL+) ; B = x1
         LD      (.x_s),A
         LD      A,(HL+) ; C = y1
@@ -1642,14 +1641,14 @@ _box::                          ; Banked
         POP     BC
         RET
 
-_line::                         ; Banked
+_line::         
         PUSH    BC
 
         LD      A,(.mode)
         CP      #.G_MODE
         CALL    NZ,.gmode
 
-        LDA     HL,.BANKOV+2(SP)        ; Skip return address and registers
+        LDA     HL,4(SP)        ; Skip return address and registers
         LD      A,(HL+) ; B = x1
         LD      B,A
         LD      A,(HL+) ; C = y1
@@ -1664,14 +1663,14 @@ _line::                         ; Banked
         POP     BC
         RET
 
-_plot_point::                   ; Banked
+_plot_point::  
         PUSH    BC
 
         LD      A,(.mode)
         CP      #.G_MODE
         CALL    NZ,.gmode
 
-        LDA     HL,.BANKOV+2(SP)        ; Skip return address and registers
+        LDA     HL,4(SP)        ; Skip return address and registers
         LD      A,(HL+) ; B = x
         LD      B,A
         LD      A,(HL+) ; C = y
@@ -1683,14 +1682,14 @@ _plot_point::                   ; Banked
         RET
 
         ;; Old, compatible version of plot()
-_plot::                         ; Banked
+_plot::
         PUSH    BC
 
         LD      A,(.mode)
         CP      #.G_MODE
         CALL    NZ,.gmode
 
-        LDA     HL,.BANKOV+2(SP)        ; Skip return address and registers
+        LDA     HL,4(SP)        ; Skip return address and registers
         LD      A,(HL+)         ; B = x
         LD      B,A
         LD      A,(HL+)         ; C = y

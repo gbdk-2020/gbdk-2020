@@ -67,7 +67,7 @@ font_table::
 
         .area   _BASE
 
-_font_load_ibm::                ; Banked
+_font_load_ibm::
         ld      hl,#_font_ibm
         call    font_load
         ret
@@ -418,17 +418,17 @@ set_char_no_encoding:
         RET
 
         .area   _CODE
-_putchar::                      ; Banked
+_putchar::      
         PUSH    BC
-        LDA     HL,.BANKOV+2(SP); Skip return address
+        LDA     HL,4(SP)        ; Skip return address
         LD      A,(HL)          ; A = c
         CALL    .put_char
         POP     BC
         RET
 
-_setchar::                      ; Banked
+_setchar::      
         PUSH    BC
-        LDA     HL,.BANKOV+2(SP); Skip return address
+        LDA     HL,4(SP)        ; Skip return address
         LD      A,(HL)          ; A = c
         CALL    .set_char
         POP     BC
@@ -508,8 +508,8 @@ _cls::
 
         .area   _CODE
         ; Support routines
-_gotoxy::                       ; Banked
-        lda     hl,.BANKOV(sp)
+_gotoxy::       
+        lda     hl,2(sp)
         ld      a,(hl+)
         ld      (.curx),a
         ld      a,(hl)
@@ -517,7 +517,7 @@ _gotoxy::                       ; Banked
         ret
 
 _posx::
-        LD      A,(.mode)       ; Banked
+        LD      A,(.mode)
         AND     #.T_MODE
         JR      NZ,1$
         PUSH    BC
@@ -528,7 +528,7 @@ _posx::
         LD      E,A
         RET
 
-_posy::                         ; Banked
+_posy::         
         LD      A,(.mode)
         AND     #.T_MODE
         JR      NZ,1$

@@ -173,7 +173,7 @@ gbdk-support-clean:
 gbdk-lib-build: check-SDCCDIR
 ifndef CROSSCOMPILING
 	@echo Building lib
-	@$(MAKE) -C $(GBDKLIBDIR)/libc PORTS=gbz80 PLATFORMS=gb --no-print-directory
+	@$(MAKE) -C $(GBDKLIBDIR)/libc PORTS=gbz80 PLATFORMS="gb ap" --no-print-directory
 	@echo
 endif
 
@@ -183,12 +183,16 @@ gbdk-lib-install: gbdk-lib-build
 	@echo
 	@echo Installing lib
 	@rm -rf $(BUILDDIR)/lib
-	mkdir -p $(BUILDDIR)/lib/small/asxxxx/gb/
 	mkdir -p $(BUILDDIR)/lib/small/asxxxx/gbz80/
+	@cp $(GBDKLIBDIR)/build/small/asxxxx/gbz80/gbz80.lib $(BUILDDIR)/lib/small/asxxxx/gbz80/gbz80.lib
+	mkdir -p $(BUILDDIR)/lib/small/asxxxx/gb/
 	@cp $(GBDKLIBDIR)/build/small/asxxxx/gb/crt0.o $(BUILDDIR)/lib/small/asxxxx/gb/crt0.o
 	@cp $(GBDKLIBDIR)/build/small/asxxxx/gb/gb.lib $(BUILDDIR)/lib/small/asxxxx/gb/gb.lib
-	@cp $(GBDKLIBDIR)/build/small/asxxxx/gbz80/gbz80.lib $(BUILDDIR)/lib/small/asxxxx/gbz80/gbz80.lib
-	@cp $(GBDKLIBDIR)/libc/gb/global.s $(BUILDDIR)/lib/small/asxxxx/global.s
+	@cp $(GBDKLIBDIR)/libc/gb/global.s $(BUILDDIR)/lib/small/asxxxx/gb/global.s
+	mkdir -p $(BUILDDIR)/lib/small/asxxxx/ap/
+	@cp $(GBDKLIBDIR)/build/small/asxxxx/ap/crt0.o $(BUILDDIR)/lib/small/asxxxx/ap/crt0.o
+	@cp $(GBDKLIBDIR)/build/small/asxxxx/ap/ap.lib $(BUILDDIR)/lib/small/asxxxx/ap/ap.lib
+	@cp $(GBDKLIBDIR)/libc/ap/global.s $(BUILDDIR)/lib/small/asxxxx/ap/global.s
 	@echo Generating make.bat
 	@$(MAKE) -C $(BUILDDIR)/examples/gb make.bat --no-print-directory
 	@echo

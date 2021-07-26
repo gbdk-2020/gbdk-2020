@@ -13,9 +13,9 @@
 	.ds	1
 
 	.area _BASE
-_color::			; Banked
-	LDA	HL,.BANKOV(SP)	; Skip return address and registers
-	LD	A,(HL+)	; A = Foreground
+_color::			
+	LDA	HL,2(SP)	; Skip return address and registers
+	LD	A,(HL+)	        ; A = Foreground
 	LD	(.fg_colour),a
 	LD	A,(HL+)
 	LD	(.bg_colour),a

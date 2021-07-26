@@ -10,9 +10,6 @@
 ; *                                                                         *
 ; **************************************************************************/
 
-	;; BANKED: checked
-	.include	"global.s"
-
 	.globl	.initrand
 	.globl	_rand
 
@@ -98,7 +95,7 @@ _arand::			; Banked
 	;;   all
 	;;
 _initarand::			; Banked
-	LDA	HL,.BANKOV(SP)
+	LDA	HL,2(SP)
 	CALL	.initrand
 
 	PUSH	BC

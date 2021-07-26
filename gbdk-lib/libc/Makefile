@@ -7,7 +7,7 @@ ifeq ($(PORTS),)
 endif
 
 ifeq ($(PLATFORMS),)
-	PLATFORMS = gb
+	PLATFORMS = gb ap
 endif
 
 TOPDIR = ..
