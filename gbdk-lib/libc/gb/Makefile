@@ -5,35 +5,35 @@ TOPDIR = ../..
 THIS = gb
 PORT = gbz80
 
-CSRC = ../gbz80/digits.c ../gbz80/gprint.c ../gbz80/gprintf.c ../gbz80/gprintln.c ../gbz80/gprintn.c
+CSRC = digits.c gprint.c gprintf.c gprintln.c gprintn.c
 
-ASSRC =	../gbz80/cgb.s ../gbz80/cgb_palettes.s ../gbz80/cgb_compat.s \
-	../gbz80/cpy_data.s \
-	../gbz80/drawing.s ../gbz80/drawing_isr.s ../gbz80/color.s \
-	../gbz80/f_ibm_full.s ../gbz80/f_ibm_sh.s ../gbz80/f_italic.s ../gbz80/f_min.s ../gbz80/f_spect.s \
-	../gbz80/get_bk_t.s ../gbz80/get_data.s ../gbz80/get_tile.s \
-	../gbz80/get_wi_t.s ../gbz80/get_xy_t.s \
-	../gbz80/get_addr.s \
-	../gbz80/hiramcpy.s ../gbz80/init_tt.s ../gbz80/input.s \
-	../gbz80/pad.s ../gbz80/sample.s \
-	../gbz80/serial.s ../gbz80/set_bk_t.s ../gbz80/set_tile.s \
-	../gbz80/set_data.s ../gbz80/set_prop.s ../gbz80/set_spr.s ../gbz80/set_wi_t.s ../gbz80/set_xy_t.s \
-	../gbz80/set_1bit_data.s \
-	../gbz80/sgb.s ../gbz80/font.s ../gbz80/delay.s \
-	../gbz80/bgb_emu.s ../gbz80/bgb_emu_printf.s \
-	../gbz80/nowait.s ../gbz80/far_ptr.s \
-	../gbz80/lcd.s ../gbz80/joy.s ../gbz80/tim.s \
-	../gbz80/crash_handler.s \
-	../gbz80/___sdcc_bcall_ehl.s ../gbz80/___sdcc_bcall.s \
-	../gbz80/mv_spr.s \
-	../gbz80/pad_ex.s \
-	../gbz80/mode.s ../gbz80/clock.s \
-	../gbz80/get_t.s ../gbz80/set_t.s ../gbz80/init_vram.s \
-	../gbz80/fill_rect.s ../gbz80/fill_rect_bk.s ../gbz80/fill_rect_wi.s \
-	../gbz80/metasprites.s ../gbz80/metasprites_flip.s ../gbz80/metasprites_hide.s ../gbz80/metasprites_hide_spr.s \
-	../gbz80/set_tile_submap.s ../gbz80/set_win_tile_submap.s \
-	../gbz80/gb_decompress.s ../gbz80/gb_decompress_tiles.s \
-	../gbz80/heap.s \
+ASSRC =	cgb.s cgb_palettes.s cgb_compat.s \
+	cpy_data.s \
+	drawing.s drawing_isr.s color.s \
+	f_ibm_full.s f_ibm_sh.s f_italic.s f_min.s f_spect.s \
+	get_bk_t.s get_data.s get_tile.s \
+	get_wi_t.s get_xy_t.s \
+	get_addr.s \
+	hiramcpy.s init_tt.s input.s \
+	pad.s sample.s \
+	serial.s set_bk_t.s set_tile.s \
+	set_data.s set_prop.s set_spr.s set_wi_t.s set_xy_t.s \
+	set_1bit_data.s \
+	sgb.s font.s delay.s \
+	bgb_emu.s bgb_emu_printf.s \
+	nowait.s far_ptr.s \
+	lcd.s joy.s tim.s \
+	crash_handler.s \
+	___sdcc_bcall_ehl.s ___sdcc_bcall.s \
+	mv_spr.s \
+	pad_ex.s \
+	mode.s clock.s \
+	get_t.s set_t.s init_vram.s \
+	fill_rect.s fill_rect_bk.s fill_rect_wi.s \
+	metasprites.s metasprites_flip.s metasprites_hide.s metasprites_hide_spr.s \
+	set_tile_submap.s set_win_tile_submap.s \
+	gb_decompress.s gb_decompress_tiles.s \
+	heap.s \
 	crt0.s
 
 ifeq ($(ASM),asxxxx)
