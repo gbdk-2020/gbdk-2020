@@ -152,6 +152,32 @@ __BYTE_REG AUD3WAVE[16];
 __REG LCDC_REG;         /** LCD control */
 #define rLCDC LCDC_REG
 
+#if (__TARGET == AP)
+#define LCDCF_OFF       0b00000000
+#define LCDCF_ON        0b00000001
+#define LCDCF_WIN9800   0b00000000
+#define LCDCF_WIN9C00   0b00000010
+#define LCDCF_WINOFF    0b00000000
+#define LCDCF_WINON     0b00000100
+#define LCDCF_BG8800    0b00000000
+#define LCDCF_BG8000    0b00001000
+#define LCDCF_BG9800    0b00000000
+#define LCDCF_BG9C00    0b00010000
+#define LCDCF_OBJ8      0b00000000
+#define LCDCF_OBJ16     0b00100000
+#define LCDCF_OBJOFF    0b00000000
+#define LCDCF_OBJON     0b01000000
+#define LCDCF_BGOFF     0b00000000
+#define LCDCF_BGON      0b10000000
+#define LCDCF_B_ON      0
+#define LCDCF_B_WIN9C00 1
+#define LCDCF_B_WINON   2
+#define LCDCF_B_BG8000  3
+#define LCDCF_B_BG9C00  4
+#define LCDCF_B_OBJ16   5
+#define LCDCF_B_OBJON   6
+#define LCDCF_B_BGON    7
+#else
 #define LCDCF_OFF     0b00000000
 #define LCDCF_ON      0b10000000
 #define LCDCF_WIN9800 0b00000000
@@ -176,10 +202,31 @@ __REG LCDC_REG;         /** LCD control */
 #define LCDCF_B_OBJ16   2
 #define LCDCF_B_OBJON   1
 #define LCDCF_B_BGON    0
+#endif
 
 __REG STAT_REG;         /** LCD status */
 #define rSTAT STAT_REG
 
+#if (__TARGET == AP)
+#define STATF_LYC       0b00000010
+#define STATF_MODE10    0b00000100
+#define STATF_MODE01    0b00001000
+#define STATF_MODE00    0b00010000
+#define STATF_LYCF      0b00100000
+#define STATF_HBL       0b00000000
+#define STATF_VBL       0b10000000
+#define STATF_OAM       0b01000000
+#define STATF_LCD       0b11000000
+#define STATF_BUSY      0b01000000
+#define STATF_B_LYC     1
+#define STATF_B_MODE10  2
+#define STATF_B_MODE01  3
+#define STATF_B_MODE00  4
+#define STATF_B_LYCF    5
+#define STATF_B_VBL     7
+#define STATF_B_OAM     6
+#define STATF_B_BUSY    6
+#else
 #define STATF_LYC     0b01000000
 #define STATF_MODE10  0b00100000
 #define STATF_MODE01  0b00010000
@@ -198,6 +245,7 @@ __REG STAT_REG;         /** LCD status */
 #define STATF_B_VBL     0
 #define STATF_B_OAM     1
 #define STATF_B_BUSY    1
+#endif
 
 __REG SCY_REG;          /** Scroll Y */
 #define rSCY
