@@ -50,19 +50,21 @@ static struct {
 		{ "comopt",		"--noinvariant --noinduction" },
 		{ "commodel", 	"small" },
 		{ "com",		"%sdccdir%sdcc" },
-		{ "comflag",    "-c"},
+		{ "comflag",	"-c"},
 		{ "comdefault",	"-mgbz80 --no-std-crt0 --fsigned-char --use-stdout "
-                        " -D__PORT=%port% -D__TARGET=%plat% "},
+					    " -D__PORT=%port% -D__TARGET=%plat% "},
 		/* asdsgb assembler defaults:
 			-p: disable pagination
 			-o: create object file
 			-g: make undef symbols global
 			-n: defer symbol resolving to link time (autobanking relies on this) [requires sdcc 12238+]
 		*/
-		{ "asdefault",  "-pogn -I%libdir%%plat%" },
-		{ "as",		"%sdccdir%sdasgb" },
+		{ "asdefault",	"-pogn -I%libdir%%plat%" },
+		{ "as_gb",		"%sdccdir%sdasgb" },
+		{ "as_z80",		"%sdccdir%sdasz80" },
 		{ "bankpack", "%bindir%bankpack" },
-		{ "ld",		"%sdccdir%sdldgb" },
+		{ "ld_gb",		"%sdccdir%sdldgb" },
+		{ "ld_z80",		"%sdccdir%sdldz80" },
 		{ "libdir",		"%prefix%lib/%libmodel%/asxxxx/" },
 		{ "libmodel",	"small" },
 #ifndef GBDKBINDIR
@@ -107,53 +109,55 @@ $2 is the list of objects passed as parameters
 $3 is the output file
 */
 static CLASS classes[] = {
-        // GB
-		{ "gbz80",
-			"gb",
-			"gb",
+		// GB
+		{ "gbz80",	// port
+			"gb",	// plat
+			"gb",	// default_plat
 			"%cpp% %cppdefault% -DGB=1 -DGAMEBOY=1 -DINT_16_BITS $1 $2 $3",
 			"%includedefault%",
 			"%com% %comdefault% -Wa%asdefault% -DGB=1 -DGAMEBOY=1 -DINT_16_BITS $1 %comflag% $2 -o $3",
-			"%as% %asdefault% $1 $3 $2",
+			"%as_gb% %asdefault% $1 $3 $2",
 			"%bankpack% $1 $2",
-			"%ld% -n -i $1 %libs_include% $3 %crt0dir% $2",
+			"%ld_gb% -n -i $1 %libs_include% $3 %crt0dir% $2",
 			"%ihxcheck% $2 $1",
 			"%mkbin% -Z $1 $2 $3"
 		},
-        // AP
-        { "gbz80",  // port
-            "ap",   // plat
-            "ap",   // default_plat
-            "%cpp% %cppdefault% -DGB=1 -DGAMEBOY=1 -DINT_16_BITS $1 $2 $3",
-            "%includedefault%",
-            "%com% %comdefault% -Wa%asdefault% -DGB=1 -DGAMEBOY=1 -DINT_16_BITS $1 %comflag% $2 -o $3",
-            "%as% %asdefault% $1 $3 $2",
-            "%bankpack% $1 $2",
-            "%ld% -n -i $1 %libs_include% $3 %crt0dir% $2",
-            "%ihxcheck% $2 $1",
-            "%mkbin% -Z $1 $2 $3"
-        },
-		{ "z80",
-			"afghan",
-			"afghan",
-			"%cpp% %cppdefault% $1 $2 $3",
+		// AP
+		{ "gbz80",	// port
+			"ap",	// plat
+			"ap",	// default_plat
+			"%cpp% %cppdefault% -DGB=1 -DGAMEBOY=1 -DINT_16_BITS $1 $2 $3",
 			"%includedefault%",
-			"%com% %comdefault% $1 $2 $3",
-			"%as% %asdefault% $1 $3 $2",
+			"%com% %comdefault% -Wa%asdefault% -DGB=1 -DGAMEBOY=1 -DINT_16_BITS $1 %comflag% $2 -o $3",
+			"%as_gb% %asdefault% $1 $3 $2",
 			"%bankpack% $1 $2",
-			"%ld% -n -- -i $1 -b_CODE=0x8100 %libs_include% $3 %crt0dir% $2",
+			"%ld_gb% -n -i $1 %libs_include% $3 %crt0dir% $2",
 			"%ihxcheck% $2 $1",
 			"%mkbin% -Z $1 $2 $3"
 		},
-		{ "z80",
-			NULL,
-			"consolez80",
-			"%cpp% %cppdefault% $1 $2 $3",
-			"-I%includedir%/gbdk-lib",
-			"%com% %comdefault% $1 $2 $3",
-			"%as% %asdefault% $1 $3 $2",
+		// SMS
+		{ "z80",	// port
+			"sms",	// plat
+			"sms",	// default_plat
+			"%cpp% %cppdefault% -DINT_16_BITS $1 $2 $3",
+			"%includedefault%",
+			"%com% %comdefault% -Wa%asdefault% -DINT_16_BITS $1 %comflag% $2 -o $3",
+			"%as_z80% %asdefault% $1 $3 $2",
 			"%bankpack% $1 $2",
-			"%ld% -n -- -i $1 -b_DATA=0x8000 -b_CODE=0x200 %libs_include% $3 %crt0dir% $2",
+			"%ld_z80% -n -i $1 %libs_include% $3 %crt0dir% $2",
+			"%ihxcheck% $2 $1",
+			"%mkbin% -Z $1 $2 $3"
+		},
+		// GG
+		{ "z80",	// port
+			"gg",	// plat
+			"gg",	// default_plat
+			"%cpp% %cppdefault% -DINT_16_BITS $1 $2 $3",
+			"%includedefault%",
+			"%com% %comdefault% -Wa%asdefault% -DINT_16_BITS $1 %comflag% $2 -o $3",
+			"%as_z80% %asdefault% $1 $3 $2",
+			"%bankpack% $1 $2",
+			"%ld_z80% -n -i $1 %libs_include% $3 %crt0dir% $2",
 			"%ihxcheck% $2 $1",
 			"%mkbin% -Z $1 $2 $3"
 		}
