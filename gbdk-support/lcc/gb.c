@@ -322,15 +322,15 @@ int option(char *arg) {
 	}
 	else if ((tail = starts_with(arg, "-m"))) {
 		/* Split it up into a asm/port pair */
-		char *slash = strchr(tail, '/');
+		char *slash = strchr(tail, ':');
 		if (slash) {
 			*slash++ = '\0';
 			setTokenVal("plat", slash);
 		}
 		setTokenVal("port", tail);
 		if (!setClass(tail, slash)) {
-			*(slash - 1) = '/';
-			fprintf(stderr, "%s: unrecognised port/platform from %s\n", progname, arg);
+			*(slash - 1) = ':';
+			fprintf(stderr, "%s: unrecognised port:platform from %s\n", progname, arg);
 			exit(-1);
 		}
 		return 1;
