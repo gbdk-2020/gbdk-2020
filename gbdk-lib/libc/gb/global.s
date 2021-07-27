@@ -241,7 +241,7 @@
         STATF_B_MODE10  = 5
         STATF_B_MODE01  = 4
         STATF_B_MODE00  = 3
-        STATF_LYCF      = 2
+        STATF_B_LYCF    = 2
         STATF_B_VBL     = 0
         STATF_B_OAM     = 1
         STATF_B_BUSY    = 1

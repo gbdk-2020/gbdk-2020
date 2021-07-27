@@ -88,7 +88,7 @@
         LD      A,#72           ; Set line at which LCD interrupt occurs
         LDH     (.LYC),A
 
-        LD      A,#(STATF_LYC | STATF_LYCF)
+        LD      A,#STATF_LYC
         LDH     (.STAT),A
 
         LDH     A,(.IE)
@@ -1557,7 +1557,7 @@ nchgy$:
         RET
 
         .area   _CODE
-_gotogxy::      
+_gotogxy::
         LDA     HL,2(SP)        ; Skip return address
         LD      A,(HL+)         ; A = x
         LD      (.tx),A
@@ -1566,7 +1566,7 @@ _gotogxy::
 
         RET
 
-_wrtchr::       
+_wrtchr::
         PUSH    BC
 
         LD      A,(.mode)
@@ -1583,7 +1583,7 @@ _wrtchr::
         POP     BC
         RET
 
-_getpix::       
+_getpix::
         PUSH    BC
 
         LDA     HL,4(SP)        ; Skip return address and registers
@@ -1597,7 +1597,7 @@ _getpix::
         POP     BC
         RET
 
-_circle::       
+_circle::
         PUSH    BC
 
         LD      A,(.mode)
@@ -1619,7 +1619,7 @@ _circle::
         POP     BC
         RET
 
-_box::          
+_box::
         PUSH    BC
 
         LD      A,(.mode)
@@ -1641,7 +1641,7 @@ _box::
         POP     BC
         RET
 
-_line::         
+_line::
         PUSH    BC
 
         LD      A,(.mode)
@@ -1663,7 +1663,7 @@ _line::
         POP     BC
         RET
 
-_plot_point::  
+_plot_point::
         PUSH    BC
 
         LD      A,(.mode)

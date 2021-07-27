@@ -579,7 +579,7 @@ set_recoded_win_tiles::
         POP     BC
         RET
 
-_getchar::      
+_getchar::
         LD      A,(.mode)
         CP      #.T_MODE_INOUT
         JR      Z,1$

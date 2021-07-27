@@ -17,7 +17,7 @@
 	WAIT_STAT
 
 	LDH	A,(.LCDC)
-	AND	#~LCDCF_BG8000	; Set BG Chr to 0x8800
+	AND	#(LCDCF_BG8000 ^ 0xFF)  ; Set BG Chr to 0x8800
 	LDH	(.LCDC),A
 
 	RET

@@ -52,7 +52,7 @@ _set_bkg_palette_entry::	; Banked
 	LD	C,#.BCPS
 
 .set_palette_entry::
-	LDA	HL,.BANKOV+2(SP); Skip return address and registers
+	LDA	HL,4(SP); Skip return address and registers
 	LD	A,(HL+)		; first_palette
 	ADD	A		; A *= 4
 	ADD	A

@@ -418,7 +418,7 @@ set_char_no_encoding:
         RET
 
         .area   _CODE
-_putchar::      
+_putchar::
         PUSH    BC
         LDA     HL,4(SP)        ; Skip return address
         LD      A,(HL)          ; A = c
@@ -426,7 +426,7 @@ _putchar::
         POP     BC
         RET
 
-_setchar::      
+_setchar::
         PUSH    BC
         LDA     HL,4(SP)        ; Skip return address
         LD      A,(HL)          ; A = c
@@ -508,7 +508,7 @@ _cls::
 
         .area   _CODE
         ; Support routines
-_gotoxy::       
+_gotoxy::
         lda     hl,2(sp)
         ld      a,(hl+)
         ld      (.curx),a
@@ -528,7 +528,7 @@ _posx::
         LD      E,A
         RET
 
-_posy::         
+_posy::
         LD      A,(.mode)
         AND     #.T_MODE
         JR      NZ,1$
