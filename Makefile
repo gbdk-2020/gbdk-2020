@@ -188,11 +188,11 @@ gbdk-lib-install: gbdk-lib-build
 	mkdir -p $(BUILDDIR)/lib/small/asxxxx/gb/
 	@cp $(GBDKLIBDIR)/build/small/asxxxx/gb/crt0.o $(BUILDDIR)/lib/small/asxxxx/gb/crt0.o
 	@cp $(GBDKLIBDIR)/build/small/asxxxx/gb/gb.lib $(BUILDDIR)/lib/small/asxxxx/gb/gb.lib
-	@cp $(GBDKLIBDIR)/libc/gb/global.s $(BUILDDIR)/lib/small/asxxxx/gb/global.s
+	@cp $(GBDKLIBDIR)/libc/targets/gbz80/gb/global.s $(BUILDDIR)/lib/small/asxxxx/gb/global.s
 	mkdir -p $(BUILDDIR)/lib/small/asxxxx/ap/
 	@cp $(GBDKLIBDIR)/build/small/asxxxx/ap/crt0.o $(BUILDDIR)/lib/small/asxxxx/ap/crt0.o
 	@cp $(GBDKLIBDIR)/build/small/asxxxx/ap/ap.lib $(BUILDDIR)/lib/small/asxxxx/ap/ap.lib
-	@cp $(GBDKLIBDIR)/libc/ap/global.s $(BUILDDIR)/lib/small/asxxxx/ap/global.s
+	@cp $(GBDKLIBDIR)/libc/targets/gbz80/ap/global.s $(BUILDDIR)/lib/small/asxxxx/ap/global.s
 	@echo Generating make.bat
 	@$(MAKE) -C $(BUILDDIR)/examples/gb make.bat --no-print-directory
 	@$(MAKE) -C $(BUILDDIR)/examples/ap make.bat --no-print-directory

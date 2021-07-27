@@ -1,6 +1,6 @@
 # GB specific Makefile
 
-TOPDIR = ../..
+TOPDIR = ../../../..
 
 THIS = ap
 PORT = gbz80
@@ -49,4 +49,4 @@ include $(TOPDIR)/Makefile.common
 
 AS = $(AS_GBZ80)
 
-include ../Makefile.platform
+include ../../../Makefile.platform

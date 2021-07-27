@@ -5,13 +5,13 @@ $(LIB): pre $(OBJ)
 
 pre: set-model build-dir
 
-$(BUILD)/%.o: ../$(PORT)/%.c
+$(BUILD)/%.o: ../%.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 $(BUILD)/%.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-$(BUILD)/%.o: ../$(PORT)/%.s
+$(BUILD)/%.o: ../%.s
 	$(AS) -plosgff $@ $<
 
 $(BUILD)/%.o: %.s
