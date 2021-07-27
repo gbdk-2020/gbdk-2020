@@ -33,7 +33,7 @@ ports:
 	for i in $(PORTS); do make port THIS=$$i PORT=$$i; done
 
 platforms:
-	for j in $(PORTS); do for i in $(PLATFORMS); do make -C targets/$$j/$$i platform THIS=$$i; done done
+	for j in $(PORTS); do for i in $(PLATFORMS); do if [ -d "targets/$$j/$$i" ]; then make -C targets/$$j/$$i platform THIS=$$i; fi done done
 
 # Make all the std libs
 # Make all the port specific libs
