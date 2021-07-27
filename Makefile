@@ -195,6 +195,7 @@ gbdk-lib-install: gbdk-lib-build
 	@cp $(GBDKLIBDIR)/libc/ap/global.s $(BUILDDIR)/lib/small/asxxxx/ap/global.s
 	@echo Generating make.bat
 	@$(MAKE) -C $(BUILDDIR)/examples/gb make.bat --no-print-directory
+	@$(MAKE) -C $(BUILDDIR)/examples/ap make.bat --no-print-directory
 	@echo
 
 gbdk-lib-clean:
