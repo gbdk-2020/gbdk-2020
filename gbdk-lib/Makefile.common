@@ -8,7 +8,7 @@ MODEL =	small
 endif
 
 ifndef PORTS
-PORTS = gbz80
+PORTS = gbz80 z80
 endif
 ifndef PLATFORMS
 PLATFORMS = gb ap

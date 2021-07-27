@@ -173,7 +173,7 @@ gbdk-support-clean:
 gbdk-lib-build: check-SDCCDIR
 ifndef CROSSCOMPILING
 	@echo Building lib
-	@$(MAKE) -C $(GBDKLIBDIR)/libc PORTS=gbz80 PLATFORMS="gb ap" --no-print-directory
+	@$(MAKE) -C $(GBDKLIBDIR)/libc PORTS="gbz80 z80" PLATFORMS="gb ap" --no-print-directory
 	@echo
 endif
 
