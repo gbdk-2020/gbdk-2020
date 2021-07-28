@@ -17,6 +17,9 @@
 #endif
 
 extern char *progname;
+extern char * strsave(const char *);
+
+#define ARRAY_LEN(A) (sizeof(A) / sizeof(A[0]))
 
 typedef struct {
 	const char *port;
@@ -325,18 +328,30 @@ int option(char *arg) {
 		setTokenVal("libs_include", "");
 	}
 	else if ((tail = starts_with(arg, "-m"))) {
-		/* Split it up into a asm/port pair */
-		char *slash = strchr(tail, ':');
-		if (slash) {
-			*slash++ = '\0';
-			setTokenVal("plat", slash);
+		char word_count = 0;
+		char * p_str = strtok( strsave(tail),":"); // Copy arg str so it doesn't get unmodified by strtok()
+		char * words[3]; // +1 in size of expected number of entries to detect excess
+
+		// Split string into words separated by ':' chars (expecting PORT and PLAT)
+		while (p_str != NULL) {
+			words[word_count++] = p_str;
+			p_str = strtok(NULL, ":");
+			if (word_count >= ARRAY_LEN(words)) break;
 		}
-		setTokenVal("port", tail);
-		if (!setClass(tail, slash)) {
-			*(slash - 1) = ':';
-			fprintf(stderr, "%s: unrecognised port:platform from %s\n", progname, arg);
+
+		// Requires both PORT and PLAT, must match a valid setClass entry.
+		if (word_count == 2) {
+			setTokenVal("port", words[0]);
+			setTokenVal("plat", words[1]);
+			if (!setClass(words[0], words[1])) {
+				fprintf(stderr, "Error: %s: unrecognised PORT:PLATFORM from %s:%s\n", progname, words[0], words[1]);
+				exit(-1);
+			}
+		} else {
+			fprintf(stderr, "Error: -m requires both/only PORT and PLATFORM values (ex: -mgbz80:gb) : %s\n", arg);
 			exit(-1);
 		}
+
 		return 1;
 	}
 	else if ((tail = starts_with(arg, "--model-"))) {
