@@ -173,7 +173,7 @@ gbdk-support-clean:
 gbdk-lib-build: check-SDCCDIR
 ifndef CROSSCOMPILING
 	@echo Building lib
-	@$(MAKE) -C $(GBDKLIBDIR)/libc PORTS=gbz80 PLATFORMS="gb ap" --no-print-directory
+	@$(MAKE) -C $(GBDKLIBDIR)/libc PORTS="gbz80 z80" PLATFORMS="gb ap" --no-print-directory
 	@echo
 endif
 
@@ -215,7 +215,7 @@ gbdk-dist-examples-clean:
 
 
 # Copy SDDC executable files
-SDCC_BINS = makebin packihx sdar sdasgb sdcc sdcdb sdcpp sdldgb sdnm sdobjcopy sdranlib sz80
+SDCC_BINS = makebin packihx sdar sdasgb sdcc sdcdb sdcpp sdldgb sdnm sdobjcopy sdranlib sz80 sdasz80 sdldz80
 ifeq ($(OS),Windows_NT)
 MINGW64_RUNTIME = \
 	libgcc_s_seh-1.dll \

@@ -20,7 +20,6 @@ CSRC =	atoi.c atol.c isalpha.c isdigit.c \
 	__assert.c \
 	_modulong.c _modslong.c _divulong.c _divslong.c _mullong.c \
 	bsearch.c qsort.c atomic_flag_clear.c \
-	bcd.c \
 	_memmove.c free.c malloc.c realloc.c calloc.c
 
 include $(TOPDIR)/Makefile.common
@@ -49,6 +48,6 @@ ports-clean:
 	for i in $(PORTS); do make -C asm/$$i clean THIS=$$i; done
 
 platform-clean:
-	for i in $(PLATFORMS); do make -C $$i clean PLAT=$$i; done
+	for j in $(PORTS); do for i in $(PLATFORMS); do if [ -d "targets/$$j/$$i" ]; then make -C $$i clean PLAT=$$i; fi done done
 
 include Makefile.rules
