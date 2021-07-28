@@ -1,7 +1,7 @@
 CC	= ../../../bin/lcc
 
 all:
-	$(CC) -mgbz80/ap -Wl-j -Wm-yS -Wm-ys -o border.gb border.c sgb_border.c border_data.c
+	$(CC) -mgbz80:ap -Wl-j -Wm-yS -Wm-ys -o border.gb border.c sgb_border.c border_data.c
 
 make.bat: Makefile
 	@echo "REM Automatically generated from Makefile" > make.bat

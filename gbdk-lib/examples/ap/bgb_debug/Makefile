@@ -1,4 +1,4 @@
-CC	= ../../../bin/lcc -mgbz80/ap -Wl-j -Wm-yS -Wm-yc
+CC	= ../../../bin/lcc -mgbz80:ap -Wl-j -Wm-yS -Wm-yc
 
 BINS	= bgb_debug.gb
 

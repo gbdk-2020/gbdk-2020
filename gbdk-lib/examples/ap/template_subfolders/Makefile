@@ -9,7 +9,7 @@ GBDK_HOME = ../../../
 
 LCC = $(GBDK_HOME)bin/lcc 
 
-LCCFLAGS = -mgbz80/ap
+LCCFLAGS = -mgbz80:ap
 # You can set flags for LCC here
 # For example, you can uncomment the line below to turn on debug output
 # LCCFLAGS += -debug

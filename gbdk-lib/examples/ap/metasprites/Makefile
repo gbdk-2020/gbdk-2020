@@ -1,7 +1,7 @@
 LCC	= ../../../bin/lcc
 PNG2MTSPR = ../../../bin/png2mtspr
 
-CFLAGS	= -mgbz80/ap -Wl-j -Wm-yS
+CFLAGS	= -mgbz80:ap -Wl-j -Wm-yS
 
 # Output name for compiled ROM
 BINS	   = metasprites.gb

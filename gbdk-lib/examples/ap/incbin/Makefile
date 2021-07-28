@@ -11,7 +11,7 @@ LCC = $(GBDK_HOME)bin/lcc
 
 # You can set flags for LCC here
 # For example, you can uncomment the line below to turn on debug output
-LCCFLAGS = -mgbz80/ap -Wl-j -Wm-yS
+LCCFLAGS = -mgbz80:ap -Wl-j -Wm-yS
 
 # You can set the name of the .gb ROM file here
 PROJECTNAME    = Example
