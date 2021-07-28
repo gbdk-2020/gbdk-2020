@@ -223,7 +223,7 @@ int main(int argc, char *argv[]) {
 
 
 	// Perform Link / ihxcheck / makebin stages (unless some conditions prevent it)
-	if (errcnt == 0 && !Eflag && !cflag && !Sflag && 
+	if (errcnt == 0 && !Eflag && !cflag && !Sflag &&
 		(llist[1] || ((ihxFile[0] != '\0') && ihx_inputs))) {
 
 		int target_is_ihx = 0;
@@ -909,16 +909,16 @@ static void opt(char *arg) {
 				if(arg[4] == 'y' && (arg[5] == 't' || arg[5] == 'o' || arg[5] == 'a' || arg[5] == 'p') && (arg[6] != '\0' && arg[6] != ' '))
 					goto makebinoption; //automatically pass -yo -ya -yt -yp options to makebin (backwards compatibility)
 				{
-					// If using linker file for sdldgb (-f file[.lk]). 
-					// Starting at arg[5] should be name of the linkerfile 
+					// If using linker file for sdldgb (-f file[.lk]).
+					// Starting at arg[5] should be name of the linkerfile
 					if ((arg[4] == 'f') && (arg[5])) {
-						llist[1] = append("-f", llist[1]);    // Add -f to file link list 
+						llist[1] = append("-f", llist[1]);    // Add -f to file link list
 						llist[1] = append(&arg[5], llist[1]); // Then add linkerfile as the very next parameter
 					} else {
 						char *tmp = malloc(256);
 						sprintf(tmp, "%c%c", arg[3], arg[4]); //sdldgb requires spaces between -k and the path
 						llist[0] = append(tmp, llist[0]);     //splitting the args into 2 works on Win and Linux
-						if (arg[5]) {                            
+						if (arg[5]) {
 							llist[0] = append(&arg[5], llist[0]);  // Add filename separately if present
 						}
 					}
@@ -994,7 +994,7 @@ static void opt(char *arg) {
 		if (strcmp(arg, "-no-crt") == 0) {
 			option(arg);  // Clear crt0 entry in linker compose string
 			return;
-		} 
+		}
 		else if (strcmp(arg, "-no-libs") == 0) {
 			option(arg);  // Clear libs entry in linker compose string
 			return;

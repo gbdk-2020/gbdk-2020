@@ -13,7 +13,7 @@
 #define EXT_OBJ  ".obj"
 #define EXT_IHX  ".ihx"
 #define EXT_GB   ".gb"
-#define EXT_AP   ".ap"
+#define EXT_AP   ".pocket"
 #define EXT_SMS  ".sms"
 #define EXT_GG   ".gg"
 
