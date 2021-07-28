@@ -14,13 +14,13 @@ LCCFLAGS = -mgbz80:ap
 # For example, you can uncomment the line below to turn on debug output
 # LCCFLAGS += -debug
 
-# You can set the name of the .gb ROM file here
+# You can set the name of the .ap ROM file here
 PROJECTNAME    = Example
 
 SRCDIR      = src
 OBJDIR      = obj
 RESDIR      = res
-BINS	    = $(OBJDIR)/$(PROJECTNAME).gb
+BINS	    = $(OBJDIR)/$(PROJECTNAME).ap
 CSOURCES    = $(foreach dir,$(SRCDIR),$(notdir $(wildcard $(dir)/*.c))) $(foreach dir,$(RESDIR),$(notdir $(wildcard $(dir)/*.c)))
 ASMSOURCES  = $(foreach dir,$(SRCDIR),$(notdir $(wildcard $(dir)/*.s)))
 OBJS       = $(CSOURCES:%.c=$(OBJDIR)/%.o) $(ASMSOURCES:%.s=$(OBJDIR)/%.o)
@@ -48,7 +48,7 @@ $(OBJDIR)/%.o:	$(SRCDIR)/%.s
 $(OBJDIR)/%.s:	$(SRCDIR)/%.c
 	$(LCC) $(LCCFLAGS) -S -o $@ $<
 
-# Link the compiled object files into a .gb ROM file
+# Link the compiled object files into a .ap ROM file
 $(BINS):	$(OBJS)
 	$(LCC) $(LCCFLAGS) -o $(BINS) $(OBJS)
 
@@ -56,6 +56,6 @@ prepare:
 	mkdir -p $(OBJDIR)
 
 clean:
-#	rm -f  *.gb *.ihx *.cdb *.adb *.noi *.map
+#	rm -f  *.ap *.ihx *.cdb *.adb *.noi *.map
 	rm -f  $(OBJDIR)/*.*
 

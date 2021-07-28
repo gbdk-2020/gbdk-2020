@@ -1,6 +1,6 @@
 CC	= ../../../bin/lcc -mgbz80:ap -Wl-j -Wm-yS
 
-BINS	= bcd.gb
+BINS	= bcd.ap
 
 all:	$(BINS)
 
@@ -9,9 +9,9 @@ make.bat: Makefile
 	@make -sn | sed y/\\//\\\\/ | grep -v make >> make.bat
 
 # Compile and link single file in one pass
-%.gb:	%.c
+%.ap:	%.c
 	$(CC) -o $@ $<
 
 clean:
-	rm -f *.o *.lst *.map *.gb *~ *.rel *.cdb *.ihx *.lnk *.sym *.asm *.noi
+	rm -f *.o *.lst *.map *.ap *~ *.rel *.cdb *.ihx *.lnk *.sym *.asm *.noi
 

@@ -4,7 +4,7 @@ PNG2MTSPR = ../../../bin/png2mtspr
 CFLAGS	= -mgbz80:ap -Wl-j -Wm-yS
 
 # Output name for compiled ROM
-BINS	   = metasprites.gb
+BINS	   = metasprites.ap
 
 # Add entries here to have them converted into metasprites
 PNGSOURCES   = sprite.png
@@ -33,4 +33,4 @@ $(BINS): $(CSOURCES) $(PNG_CSOURCES)
 
 
 clean:
-	rm -f *.o *.lst *.map *.gb *.ihx *.sym *.cdb *.adb *.asm $(PNG_CHEADERS) $(PNG_CSOURCES)
+	rm -f *.o *.lst *.map *.ap *.ihx *.sym *.cdb *.adb *.asm $(PNG_CHEADERS) $(PNG_CSOURCES)

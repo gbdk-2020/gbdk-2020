@@ -1,6 +1,6 @@
 CC	= ../../../bin/lcc -mgbz80:ap -Wl-j -Wm-yS
 
-BINS	= banks.gb \
+BINS	= banks.ap \
 
 all:	$(BINS)
 
@@ -17,11 +17,11 @@ make.bat: Makefile
 %.o:	%.s
 	$(CC) -c -o $@ $<
 
-%.gb:	%.o
+%.ap:	%.o
 	$(CC) -o $@ $<
 
 clean:
-	rm -f *.o *.lst *.map *.gb *~ *.rel *.cdb *.ihx *.lnk *.sym *.asm *.noi
+	rm -f *.o *.lst *.map *.ap *~ *.rel *.cdb *.ihx *.lnk *.sym *.asm *.noi
 
 ############################################################
 # Multiple bank example
@@ -58,6 +58,6 @@ bank_3.o:	bank_3.c
 #      4 ROM banks  : -Wl-yo4
 #      4 RAM banks  : -Wl-ya4
 #
-banks.gb:	banks.o bank_0.o bank_1.o bank_2.o bank_3.o
+banks.ap:	banks.o bank_0.o bank_1.o bank_2.o bank_3.o
 	$(CC) -Wl-yt0x1A -Wl-yo4 -Wl-ya4 -o $@ banks.o bank_0.o bank_1.o bank_2.o bank_3.o
 

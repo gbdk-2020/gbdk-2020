@@ -1,6 +1,6 @@
 CC	= ../../../bin/lcc -mgbz80:ap -Wl-j -Wm-yS
 
-BINS	= banks_farptr.gb \
+BINS	= banks_farptr.ap \
 
 all:	$(BINS)
 
@@ -17,11 +17,11 @@ make.bat: Makefile
 %.o:	%.s
 	$(CC) -c -o $@ $<
 
-%.gb:	%.o
+%.ap:	%.o
 	$(CC) -o $@ $<
 
 clean:
-	rm -f *.o *.lst *.map *.gb *~ *.rel *.cdb *.ihx *.lnk *.sym *.asm *.noi
+	rm -f *.o *.lst *.map *.ap *~ *.rel *.cdb *.ihx *.lnk *.sym *.asm *.noi
 
 ############################################################
 # Banks using Far pointers example
@@ -29,6 +29,6 @@ clean:
 bank2code.o:	bank2code.c
 	$(CC) -c -o $@ $<
 
-banks_farptr.gb:	banks_farptr.o bank2code.o
+banks_farptr.ap:	banks_farptr.o bank2code.o
 	$(CC) -Wl-yt0x19 -Wl-yoA -o $@ bank2code.o banks_farptr.o
 

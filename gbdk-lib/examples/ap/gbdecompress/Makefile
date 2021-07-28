@@ -11,10 +11,10 @@ LCC = $(GBDK_HOME)bin/lcc -mgbz80:ap -Wl-j -Wm-yS
 # You can uncomment the line below to turn on debug output
 # LCC = $(LCC) -debug
 
-# You can set the name of the .gb ROM file here
+# You can set the name of the .ap ROM file here
 PROJECTNAME    = gbdecompress
 
-BINS	    = $(PROJECTNAME).gb
+BINS	    = $(PROJECTNAME).ap
 CSOURCES   := $(wildcard *.c)
 ASMSOURCES := $(wildcard *.s)
 
@@ -29,5 +29,5 @@ $(BINS): $(CSOURCES) $(ASMSOURCES)
 	$(LCC) -o $@ $(CSOURCES) $(ASMSOURCES)
 
 clean:
-	rm -f *.o *.lst *.map *.gb *.ihx *.sym *.cdb *.adb *.asm *.noi
+	rm -f *.o *.lst *.map *.ap *.ihx *.sym *.cdb *.adb *.asm *.noi
 
