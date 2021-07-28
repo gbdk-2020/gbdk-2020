@@ -31,7 +31,7 @@
         .area   _BASE
 
 ; void uint2bcd(uint16_t i, BCD * value) __naked
-uint2bcd::
+_uint2bcd::
             lda     HL, 2(SP)
             ld      A, (HL+)        ; DE: uint
             ld      E, A
