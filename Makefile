@@ -10,6 +10,9 @@ PKG = gbdk
 # Version, used for tarballs
 VER = 3.00
 
+PORTS=gbz80 z80
+PLATFORMS=gb ap
+
 # Prefix to add to the standard tools.  Usefull for a standard gcc
 # cross-compile.
 TOOLSPREFIX =
@@ -173,34 +176,58 @@ gbdk-support-clean:
 gbdk-lib-build: check-SDCCDIR
 ifndef CROSSCOMPILING
 	@echo Building lib
-	@$(MAKE) -C $(GBDKLIBDIR)/libc PORTS="gbz80 z80" PLATFORMS="gb ap" --no-print-directory
+	@$(MAKE) -C $(GBDKLIBDIR)/libc PORTS="$(PORTS)" PLATFORMS="$(PLATFORMS)" --no-print-directory
 	@echo
 endif
 
+
 gbdk-lib-install: gbdk-lib-build
+gbdk-lib-install: gbdk-lib-install-prepare
+gbdk-lib-install: gbdk-lib-install-examples
+gbdk-lib-install: gbdk-lib-install-ports
+gbdk-lib-install: gbdk-lib-install-platforms
+
+gbdk-lib-install-prepare:
+	@rm -rf $(BUILDDIR)/lib
+
+gbdk-lib-install-ports:
+	@for port in $(PORTS); do \
+		echo Installing lib for port: $$port; \
+		mkdir -p $(BUILDDIR)/lib/small/asxxxx/$$port/; \
+		cp $(GBDKLIBDIR)/build/small/asxxxx/$$port/$$port.lib $(BUILDDIR)/lib/small/asxxxx/$$port/$$port.lib; \
+	done
+	@echo
+
+# The inner loop copies global.s for platforms from relevant port/platform.
+# When doing that it expects a given platform to never be present in
+# multiple ports since the copy destination is not port specific (lacks /$$port/ )
+gbdk-lib-install-platforms:
+	@for plat in $(PLATFORMS); do \
+		echo Installing lib for platform: $$plat; \
+		mkdir -p $(BUILDDIR)/lib/small/asxxxx/$$plat; \
+		cp $(GBDKLIBDIR)/build/small/asxxxx/$$plat/crt0.o $(BUILDDIR)/lib/small/asxxxx/$$plat/crt0.o; \
+		cp $(GBDKLIBDIR)/build/small/asxxxx/$$plat/$$plat.lib $(BUILDDIR)/lib/small/asxxxx/$$plat/$$plat.lib; \
+		for port in $(PORTS); do \
+			if [ -d "$(GBDKLIBDIR)/libc/targets/$$port/$$plat" ]; then \
+				cp $(GBDKLIBDIR)/libc/targets/$$port/$$plat/global.s $(BUILDDIR)/lib/small/asxxxx/$$plat/global.s; \
+			fi \
+		done \
+	done
+	@echo
+
+
+gbdk-lib-install-examples:
 	@echo Installing Examples
 	@cp -r $(GBDKLIBDIR)/include $(GBDKLIBDIR)/examples $(BUILDDIR)
-	@echo
-	@echo Installing lib
-	@rm -rf $(BUILDDIR)/lib
-	mkdir -p $(BUILDDIR)/lib/small/asxxxx/gbz80/
-	@cp $(GBDKLIBDIR)/build/small/asxxxx/gbz80/gbz80.lib $(BUILDDIR)/lib/small/asxxxx/gbz80/gbz80.lib
-	mkdir -p $(BUILDDIR)/lib/small/asxxxx/gb/
-	@cp $(GBDKLIBDIR)/build/small/asxxxx/gb/crt0.o $(BUILDDIR)/lib/small/asxxxx/gb/crt0.o
-	@cp $(GBDKLIBDIR)/build/small/asxxxx/gb/gb.lib $(BUILDDIR)/lib/small/asxxxx/gb/gb.lib
-	@cp $(GBDKLIBDIR)/libc/targets/gbz80/gb/global.s $(BUILDDIR)/lib/small/asxxxx/gb/global.s
-	mkdir -p $(BUILDDIR)/lib/small/asxxxx/ap/
-	@cp $(GBDKLIBDIR)/build/small/asxxxx/ap/crt0.o $(BUILDDIR)/lib/small/asxxxx/ap/crt0.o
-	@cp $(GBDKLIBDIR)/build/small/asxxxx/ap/ap.lib $(BUILDDIR)/lib/small/asxxxx/ap/ap.lib
-	@cp $(GBDKLIBDIR)/libc/targets/gbz80/ap/global.s $(BUILDDIR)/lib/small/asxxxx/ap/global.s
-	@echo Generating make.bat
+	@echo Generating Examples make.bat
 	@$(MAKE) -C $(BUILDDIR)/examples/gb make.bat --no-print-directory
 	@$(MAKE) -C $(BUILDDIR)/examples/ap make.bat --no-print-directory
 	@echo
 
+
 gbdk-lib-clean:
 	@echo Cleaning lib
-	@$(MAKE) -C $(GBDKLIBDIR) PORTS=gbz80 PLATFORMS="gb ap" clean
+	@$(MAKE) -C $(GBDKLIBDIR) PORTS="$(PORTS)" PLATFORMS="$(PLATFORMS)" clean
 	@echo
 
 gbdk-lib-examples-makefile:
