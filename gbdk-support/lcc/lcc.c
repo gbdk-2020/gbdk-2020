@@ -62,7 +62,8 @@ static void Fixllist();
 static void list_rewrite_exts(List, char *, char *);
 static void list_duplicate_to_new_exts(List, char *, char *);
 
-extern char *cpp[], *include[], *com[], *as[], *bankpack[], *ld[], *ihxcheck[], *mkbin[], inputs[], *suffixes[];
+// These get populated from _class using finalise() in gb.c
+extern char *cpp[], *include[], *com[], *as[], *bankpack[], *ld[], *ihxcheck[], *mkbin[], inputs[], *suffixes[], *rom_extension;
 extern int option(char *);
 extern void set_gbdk_dir(char*);
 
@@ -185,7 +186,11 @@ int main(int argc, char *argv[]) {
 
 	// Add includes
 	argv[j] = 0;
+
+	// This copies settings from port:platform "class" structure
+	// into command strings used for compose()
 	finalise();
+
 	for (i = 0; include[i]; i++)
 		clist = append(include[i], clist);
 	if (ilist) {
@@ -223,25 +228,21 @@ int main(int argc, char *argv[]) {
 
 		int target_is_ihx = 0;
 
-		// If an .ihx file is persent as input, only convert that
-		// and skip link related stages
+		// if outfile is not specified, set it to default rom extension for active port:platform
+		if(!outfile)
+			outfile = concat("a", rom_extension);
+
+		// If an .ihx file is present as input skip link related stages
 		if (ihx_inputs > 0) {
 
 			// Only one .ihx can be used for input, warn that others will be ignored
 			if (ihx_inputs > 1)
 				fprintf(stderr, "%s: Warning: Multiple (%d) .ihx files present as input, only one (%s) will be used\n", progname, ihx_inputs, ihxFile);
-
-			// if outfile is not specified, set it to "a.gb"
-			if(!outfile)
-				outfile = concat("a", EXT_GB);
 		}
 		else {
-			// if outfile is not specified, set it to "a.ihx"
-			if(!outfile)
-				outfile = concat("a", EXT_IHX);
 
 			//file.gb to file.ihx (don't use tmpfile because maps and other stuffs are created there)
-			// Check to see if output is a .ihx file
+			// Check to see if output target is a .ihx file
 			target_is_ihx = (suffix(outfile, (char *[]){EXT_IHX}, 1) != SUFX_NOMATCH);
 
 			// Build ihx file name from output name
@@ -256,7 +257,12 @@ int main(int argc, char *argv[]) {
 
 			// if auto bank assignment is enabled, modify obj files before linking
 			if (autobankflag) {
-				compose(bankpack, bankpack_flags, llist[1], 0);
+
+				// bankpack will be populated if supported by active port:platform
+				if (bankpack[0][0] != '\0')
+					compose(bankpack, bankpack_flags, llist[1], 0);
+				else
+					fprintf(stderr, "Warning: bankpack enabled but not supported by active port:platform\n");
 
 				if (callsys(av)) {
 					errcnt++;
@@ -272,9 +278,9 @@ int main(int argc, char *argv[]) {
 					}
 				}
 			}
- 			
+
 			// Call linker (add output ihxfile in compose $3)
-			Fixllist();   // (fixlist adds required default linker vars if not added by user)			
+			Fixllist();   // (fixlist adds required default linker vars if not added by user)
 			compose(ld, llist[0], llist[1], append(ihxFile, 0));
 
 			if (callsys(av))
@@ -288,7 +294,7 @@ int main(int argc, char *argv[]) {
 				errcnt++;
 		}
 
-		// No need to makebin (.ihx -> .gb) if .ihx is final target
+		// No need to makebin (.ihx -> .gb [or other rom_extension]) if .ihx is final target
 		if (!target_is_ihx)
 		{
 			if(errcnt == 0)
