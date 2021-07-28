@@ -152,7 +152,7 @@ __BYTE_REG AUD3WAVE[16];
 __REG LCDC_REG;         /** LCD control */
 #define rLCDC LCDC_REG
 
-#if (__TARGET==ap)
+#ifdef __TARGET_ap
 #define LCDCF_OFF       0b00000000
 #define LCDCF_ON        0b00000001
 #define LCDCF_WIN9800   0b00000000
@@ -207,7 +207,7 @@ __REG LCDC_REG;         /** LCD control */
 __REG STAT_REG;         /** LCD status */
 #define rSTAT STAT_REG
 
-#if (__TARGET==ap)
+#ifdef __TARGET_ap
 #define STATF_LYC       0b00000010
 #define STATF_MODE10    0b00000100
 #define STATF_MODE01    0b00001000

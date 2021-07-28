@@ -55,7 +55,7 @@ static struct {
 		{ "com",		"%sdccdir%sdcc" },
 		{ "comflag",	"-c"},
 		{ "comdefault",	"-mgbz80 --no-std-crt0 --fsigned-char --use-stdout "
-					    " -D__PORT=%port% -D__TARGET=%plat% "},
+					    " -D__PORT_%port% -D__TARGET_%plat% "},
 		/* asdsgb assembler defaults:
 			-p: disable pagination
 			-o: create object file
