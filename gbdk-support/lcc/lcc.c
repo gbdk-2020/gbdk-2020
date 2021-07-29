@@ -246,10 +246,7 @@ int main(int argc, char *argv[]) {
 			target_is_ihx = (suffix(outfile, (char *[]){EXT_IHX}, 1) != SUFX_NOMATCH);
 
 			// Build ihx file name from output name
-			int lastP = strrchr(outfile, '.') - outfile;
-			strncpy(ihxFile, outfile, lastP);
-			ihxFile[lastP] = '\0';
-			strcat(ihxFile, ".ihx");
+			sprintf(ihxFile, "%s%s", path_stripext(outfile), EXT_IHX);
 
 			// Only remove .ihx from the delete-list if it's not the final target
 			if (!target_is_ihx)
@@ -418,7 +415,7 @@ char *basepath(char *name) {
 	return s;
 }
 
-// path_stripext - return path with extension removed,
+// path_stripext - return a new string of path [name] with extension removed,
 //              e.g. /usr/drh/foo.c => /usr/drh/foo
 char *path_stripext(char *name) {
 	char * copy_str = strsave(name);
