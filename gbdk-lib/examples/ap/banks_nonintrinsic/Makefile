@@ -1,6 +1,6 @@
 CC	= ../../../bin/lcc -mgbz80:ap -Wl-j -Wm-yS
 
-BINS	= banks_nonintrinsic.ap
+BINS	= banks_nonintrinsic.pocket
 
 
 all:	$(BINS)
@@ -18,9 +18,9 @@ make.bat: Makefile
 %.o:	%.s
 	$(CC) -c -o $@ $<
 
-%.ap:	%.o
+%.pocket:	%.o
 	$(CC) -Wl-yt0x1A -Wl-yoA -Wl-ya4 -o $@ $<
 
 clean:
-	rm -f *.o *.lst *.map *.ap *~ *.rel *.cdb *.ihx *.lnk *.sym *.asm *.noi
+	rm -f *.o *.lst *.map *.pocket *~ *.rel *.cdb *.ihx *.lnk *.sym *.asm *.noi
 

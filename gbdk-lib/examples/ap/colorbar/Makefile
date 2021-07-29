@@ -2,7 +2,7 @@ CC	= ../../../bin/lcc -mgbz80:ap -Wl-j -Wm-yS
 
 # CFLAGS	=
 
-BINS	= colorbar.ap
+BINS	= colorbar.pocket
 
 all:	$(BINS)
 
@@ -19,12 +19,12 @@ make.bat: Makefile
 %.s:	%.c
 	$(CC) $(CFLAGS) -S -o $@ $<
 
-%.ap:	%.o
+%.pocket:	%.o
 	$(CC) -o $@ $<
 
 clean:
-	rm -f *.o *.lst *.map *.ap *.ihx *.sym *.cdb *.adb *.asm
+	rm -f *.o *.lst *.map *.pocket *.ihx *.sym *.cdb *.adb *.asm
 
 # Link file, and write 0x80 at position 0x143 in header
-colorbar.ap:	colorbar.o
-	$(CC) $(CFLAGS) -Wm-yC -o colorbar.ap colorbar.o
+colorbar.pocket:	colorbar.o
+	$(CC) $(CFLAGS) -Wm-yC -o colorbar.pocket colorbar.o

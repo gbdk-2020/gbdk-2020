@@ -1,7 +1,7 @@
 GBDK	= ../../..
 CC	= $(GBDK)/bin/lcc -mgbz80:ap -Wl-j -Wm-yS
 
-BINS	= space.ap
+BINS	= space.pocket
 
 all:	$(BINS)
 
@@ -10,9 +10,9 @@ make.bat: Makefile
 	@make -sn | sed y/\\//\\\\/ | grep -v make >> make.bat
 
 # Compile and link single file in one pass
-%.ap:	%.s
+%.pocket:	%.s
 	$(CC) -o $@ $<
 
 clean:
-	rm -f *.o *.lst *.map *.ap *~ *.rel *.cdb *.ihx *.lnk *.sym *.asm *.noi
+	rm -f *.o *.lst *.map *.pocket *~ *.rel *.cdb *.ihx *.lnk *.sym *.asm *.noi
 

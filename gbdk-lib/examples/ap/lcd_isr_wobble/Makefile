@@ -1,6 +1,6 @@
 CC	= ../../../bin/lcc -mgbz80:ap -Wl-j -Wm-yS
 
-BINS	= lcd_isr_wobble.ap
+BINS	= lcd_isr_wobble.pocket
 
 all:	$(BINS)
 
@@ -9,9 +9,9 @@ make.bat: Makefile
 	@make -sn | sed y/\\//\\\\/ | grep -v make >> make.bat
 
 # Compile and link single file in one pass
-%.ap:	%.c
+%.pocket:	%.c
 	$(CC) -o $@ $<
 
 clean:
-	rm -f *.o *.lst *.map *.ap *~ *.rel *.cdb *.ihx *.lnk *.sym *.asm *.noi
+	rm -f *.o *.lst *.map *.pocket *~ *.rel *.cdb *.ihx *.lnk *.sym *.asm *.noi
 

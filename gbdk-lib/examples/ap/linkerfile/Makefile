@@ -15,13 +15,13 @@ LCCFLAGS = -mgbz80:ap
 # LCCFLAGS += -debug
 # LCCFLAGS += -v
 
-# You can set the name of the .ap ROM file here
+# You can set the name of the .pocket ROM file here
 PROJECTNAME    = Example
 
 SRCDIR      = src
 OBJDIR      = obj
 RESDIR      = res
-BINS	    = $(OBJDIR)/$(PROJECTNAME).ap
+BINS	    = $(OBJDIR)/$(PROJECTNAME).pocket
 CSOURCES    = $(foreach dir,$(SRCDIR),$(notdir $(wildcard $(dir)/*.c))) $(foreach dir,$(RESDIR),$(notdir $(wildcard $(dir)/*.c)))
 ASMSOURCES  = $(foreach dir,$(SRCDIR),$(notdir $(wildcard $(dir)/*.s)))
 OBJS       = $(CSOURCES:%.c=$(OBJDIR)/%.o) $(ASMSOURCES:%.s=$(OBJDIR)/%.o)
@@ -54,7 +54,7 @@ $(OBJDIR)/linkfile.lk:	$(OBJS)
 	rm -f $(OBJDIR)/linkfile.lk
 	$(foreach O,$(OBJS),echo $O >>$@)
 
-# Link the compiled object files (via linkerfile) into a .ap ROM file
+# Link the compiled object files (via linkerfile) into a .pocket ROM file
 $(BINS):	$(OBJDIR)/linkfile.lk
 		$(LCC) $(LCCFLAGS) -o $(BINS) -Wl-f$<
 
@@ -63,6 +63,6 @@ prepare:
 	mkdir -p $(RESDIR)
 
 clean:
-#	rm -f  *.ap *.ihx *.cdb *.adb *.noi *.map
+#	rm -f  *.pocket *.ihx *.cdb *.adb *.noi *.map
 	rm -f  $(OBJDIR)/*.*
 

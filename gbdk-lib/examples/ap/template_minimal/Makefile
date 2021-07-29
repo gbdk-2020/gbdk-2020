@@ -11,10 +11,10 @@ LCC = $(GBDK_HOME)bin/lcc -mgbz80:ap
 # You can uncomment the line below to turn on debug output
 # LCC = $(LCC) -debug
 
-# You can set the name of the .ap ROM file here
+# You can set the name of the .pocket ROM file here
 PROJECTNAME    = Example
 
-BINS	    = $(PROJECTNAME).ap
+BINS	    = $(PROJECTNAME).pocket
 CSOURCES   := $(wildcard *.c)
 ASMSOURCES := $(wildcard *.s)
 
@@ -29,5 +29,5 @@ $(BINS):	$(CSOURCES) $(ASMSOURCES)
 	$(LCC) -o $@ $(CSOURCES) $(ASMSOURCES)
 
 clean:
-	rm -f *.o *.lst *.map *.ap *.ihx *.sym *.cdb *.adb *.asm
+	rm -f *.o *.lst *.map *.pocket *.ihx *.sym *.cdb *.adb *.asm
 

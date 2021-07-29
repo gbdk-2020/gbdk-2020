@@ -4,7 +4,7 @@ BANKPACK  = ../../../bin/bankpack
 # uncomment for lcc verbose output
 # CFLAGS	= -v
 
-BINS	    = autobanks.ap
+BINS	    = autobanks.pocket
 CSOURCES   := $(wildcard *.c)
 ASMSOURCES := $(wildcard *.s)
 
@@ -26,7 +26,7 @@ make.bat: Makefile
 %.s:	%.c
 	$(LCC) $(CFLAGS) -S -o $@ $<
 
-# Process: .c and .s files -> .o -> (bankpack) -> .rel -> (linker) ... -> .ap
+# Process: .c and .s files -> .o -> (bankpack) -> .rel -> (linker) ... -> .pocket
 #
 # -autobank    : Tells lcc to call bankpack for the compiled object (.o) files before linking
 # -Wb-ext=.rel : Set output extension for autobanked files to .rel
@@ -46,7 +46,7 @@ onepass:
 
 
 clean:
-	rm -f *.o *.lst *.map *.ap *.ihx *.sym *.cdb *.adb *.asm *.rel *.sav
+	rm -f *.o *.lst *.map *.pocket *.ihx *.sym *.cdb *.adb *.asm *.rel *.sav
 
 
 # For lcc linker option: -Wl-ytN where N is one of the numbers below
