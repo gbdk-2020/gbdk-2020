@@ -4,9 +4,9 @@
         __RGBDS__       = 0
 
         _VRAM           = 0x8000 ; $8000->$9FFF
-        _VRAM8000       = _VRAM
-        _VRAM8800       = _VRAM+0x800
-        _VRAM9000       = _VRAM+0x1000
+        _VRAM8000       = 0x8000
+        _VRAM8800       = 0x8800
+        _VRAM9000       = 0x9000
         _SCRN0          = 0x9800 ; $9800->$9BFF
         _SCRN1          = 0x9C00 ; $9C00->$9FFF
         _SRAM           = 0xA000 ; $A000->$BFFF
@@ -62,9 +62,9 @@
         P1F_1           = 0b00000010 ; P11 in port
         P1F_0           = 0b00000001 ; P10 in port
         
-        P1F_GET_DPAD    = P1F_5
-        P1F_GET_BTN     = P1F_4
-        P1F_GET_NONE    = P1F_4 | P1F_5
+        P1F_GET_DPAD    = 0b00100000
+        P1F_GET_BTN     = 0b00010000
+        P1F_GET_NONE    = 0b00110000
 
         .SB             = 0x01  ; Serial IO data buffer
         rSB             = 0xFF01
@@ -96,89 +96,89 @@
         
         .NR10           = 0x10  ; Sound register
         rNR10           = 0xFF10
-        rAUD1SWEEP      = rNR10
+        rAUD1SWEEP      = 0xFF10
 
         AUD1SWEEP_UP    = 0b00000000
         AUD1SWEEP_DOWN  = 0b00001000
 
         .NR11           = 0x11  ; Sound register
         rNR11           = 0xFF11
-        rAUD1LEN        = rNR11
+        rAUD1LEN        = 0xFF11
 
         .NR12           = 0x12  ; Sound register
         rNR12           = 0xFF12
-        rAUD1ENV        = rNR12
+        rAUD1ENV        = 0xFF12
         
         .NR13           = 0x13  ; Sound register
         rNR13           = 0xFF13
-        rAUD1LOW        = rNR13
+        rAUD1LOW        = 0xFF13
 
         .NR14           = 0x14  ; Sound register
         rNR14           = 0xFF14
-        rAUD1HIGH       = rNR14
+        rAUD1HIGH       = 0xFF14
 
         .NR21           = 0x16  ; Sound register
         rNR21           = 0xFF16
-        rAUD2LEN        = rNR21
+        rAUD2LEN        = 0xFF16
 
         .NR22           = 0x17  ; Sound register
         rNR22           = 0xFF17
-        rAUD2ENV        = rNR22
+        rAUD2ENV        = 0xFF17
 
         .NR23           = 0x18  ; Sound register
         rNR23           = 0xFF18
-        rAUD2LOW        = rNR23
+        rAUD2LOW        = 0xFF18
 
         .NR24           = 0x19  ; Sound register
         rNR24           = 0xFF19
-        rAUD2HIGH       = rNR24
+        rAUD2HIGH       = 0xFF19
 
         .NR30           = 0x1A  ; Sound register
         rNR30           = 0xFF1A
-        rAUD3ENA        = rNR30
+        rAUD3ENA        = 0xFF1A
 
         .NR31           = 0x1B  ; Sound register
         rNR31           = 0xFF1B
-        rAUD3LEN        = rNR31
+        rAUD3LEN        = 0xFF1B
 
         .NR32           = 0x1C  ; Sound register
         rNR32           = 0xFF1C
-        rAUD3LEVEL      = rNR32
+        rAUD3LEVEL      = 0xFF1C
 
         .NR33           = 0x1D  ; Sound register
         rNR33           = 0xFF1D
-        rAUD3LOW        = rNR33
+        rAUD3LOW        = 0xFF1D
 
         .NR34           = 0x1E  ; Sound register
         rNR34           = 0xFF1E
-        rAUD3HIGH       = rNR34
+        rAUD3HIGH       = 0xFF1E
 
         .NR41           = 0x20  ; Sound register
         rNR41           = 0xFF20
-        rAUD4LEN        = rNR41
+        rAUD4LEN        = 0xFF20
 
         .NR42           = 0x21  ; Sound register
         rNR42           = 0xFF21
-        rAUD4ENV        = rNR42
+        rAUD4ENV        = 0xFF21
 
         .NR43           = 0x22  ; Sound register
         rNR43           = 0xFF22
-        rAUD4POLY       = rNR43
+        rAUD4POLY       = 0xFF22
 
         .NR44           = 0x23  ; Sound register
         rNR44           = 0xFF23
-        rAUD4GO         = rNR44
+        rAUD4GO         = 0xFF23
 
         .NR50           = 0x24  ; Sound register
         rNR50           = 0xFF24
-        rAUDVOL         = rNR50
+        rAUDVOL         = 0xFF24
 
         AUDVOL_VIN_LEFT  = 0b10000000 ; SO2
         AUDVOL_VIN_RIGHT = 0b00001000 ; SO1
 
         .NR51           = 0x25  ; Sound register
         rNR51           = 0xFF25
-        rAUDTERM        = rNR51
+        rAUDTERM        = 0xFF25
 
         AUDTERM_4_LEFT  = 0b10000000
         AUDTERM_3_LEFT  = 0b01000000
@@ -191,7 +191,7 @@
 
         .NR52           = 0x26  ; Sound register
         rNR52           = 0xFF26
-        rAUDENA         = rNR52
+        rAUDENA         = 0xFF26
 
         AUDENA_ON       = 0b10000000
         AUDENA_OFF      = 0b00000000  ; sets all audio regs to 0!
@@ -278,7 +278,7 @@
 
         .KEY1           = 0x4D  ; CPU speed
         rKEY1           = 0xFF4D
-        rSPD            = rKEY1
+        rSPD            = 0xFF4D
 
         KEY1F_DBLSPEED  = 0b10000000 ; 0=Normal Speed, 1=Double Speed (R)
         KEY1F_PREPARE   = 0b00000001 ; 0=No, 1=Prepare (R/W)
@@ -332,7 +332,7 @@
         
         .SVBK           = 0x70  ; WRAM bank
         rSVBK           = 0xFF70
-        rSMBK           = rSVBK
+        rSMBK           = 0xFF70
 
         rPCM12          = 0xFF76
         

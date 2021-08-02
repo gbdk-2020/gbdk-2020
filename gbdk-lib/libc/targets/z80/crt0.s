@@ -67,28 +67,60 @@ set_bank::                      ; set current code bank num to A
         ld (#.MAP_FRAME1),hl    ; [.MAP_FRAME1]=$01, [.MAP_FRAME2]=$02
 
         ;; Initialise global variables
-        call gsinit
-;        call _SMS_init
-        ei                              ; re-enable interrupts before going to main()
+        call .gsinit
+
+        ;; Initialize VDP
+        ld c, #.VDP_CMD
+        ld b, #(3$ - 2$)
+        ld hl,#(3$ - 1)
+0$:
+        outd
+
+        ld a, b
+        or #.VDP_REG_MASK
+        out (c), a
+            
+        ld a, b
+        or a
+        jr nz, 0$
+
+        ;; detect PAL/NTSC
+        
+        ld c, #.VDP_VCOUNTER
+4$:     in a, (c)
+        cp #0x80
+        jr nz, 4$
+5$:     ld b, a
+        in a, (c)
+        cp b
+        jr nc, 5$
+
+        ld a, b
+        cp #0xE8
+        ld a, #.SYSTEM_NTSC
+        jr c, 6$
+        ld a, #.SYSTEM_PAL
+6$:
+        ld (#__SYSTEM), a
+
+        ei                      ; re-enable interrupts before going to main()
         call _main
 1$:
         halt
         jr 1$
 
-_OUTI128::                              ; _OUTI128 label points to a block of 128 OUTI and a RET
-        .rept 64
-        outi
-        .endm
-_OUTI64::                               ; _OUTI64 label points to a block of 64 OUTI and a RET
-        .rept 32
-        outi
-        .endm
-_OUTI32::                               ; _OUTI32 label points to a block of 32 OUTI and a RET
-        .rept 32
-        outi
-        .endm
-_outi_block::                           ; _outi_block label points to END of OUTI block
-        ret
+2$:     .db .R0_DEFAULT
+        .db #(.R1_DEFAULT | .R1_IE)     ; VBLANK
+        .db .R2_MAP_0x3800
+        .db 0xFF 
+        .db 0xFF
+        .db .R5_SAT_0x3F00
+        .db .R6_DATA_0x2000
+        .db #(0 | .R7_COLOR_MASK)
+        .db 0                   ; SCX
+        .db 0                   ; SCY
+        .db .R10_INT_OFF
+3$:
 
         ;; Ordering of segments for the linker.
         .area   _HOME
@@ -105,7 +137,7 @@ _outi_block::                           ; _outi_block label points to END of OUT
 
         .area   _CODE
         .area   _GSINIT
-gsinit::
+.gsinit::
         ld bc, #l__INITIALIZER
         ld a, b
         or a, c
@@ -123,5 +155,7 @@ gsinit::
 
 __BIOS::
         .ds     0x01            ; GB type (GB, PGB, CGB)
+__SYSTEM::
+        .ds     0x01            ; PAL/NTSC
 
 .end_crt_globals:

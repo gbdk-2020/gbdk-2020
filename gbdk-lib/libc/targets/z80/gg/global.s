@@ -18,14 +18,82 @@
         .JOY_P1_LATCH   = 0b00000010
         .JOY_P2_LATCH   = 0b00001000
 
-        .VCOUNTER       = 0x7E
-        .PSG            = 0x7F
-        .HCOUNTER       = 0x7F
+        .VDP_VCOUNTER   = 0x7E
+        .VDP_PSG        = 0x7F
+        .VDP_HCOUNTER   = 0x7F
 
         .VDP_DATA       = 0xBE
         .VDP_CMD        = 0xBF
         .VDP_STAT       = 0xBF
+     
+        .VDP_REG_MASK   = 0b10000000
+        .VDP_R0         = 0b10000000
+
+        .R0_VSCRL       = 0b00000000
+        .R0_VSCRL_INH   = 0b10000000
+        .R0_HSCRL       = 0b00000000
+        .R0_HSCRL_INH   = 0b01000000
+        .R0_NO_LCB      = 0b00000000
+        .R0_LCB         = 0b00100000
+        .R0_IE1_OFF     = 0b00000000
+        .R0_IE1         = 0b00010000
+        .R0_SS_OFF      = 0b00000000
+        .R0_SS          = 0b00001000
+        .R0_DEFAULT     = 0b00000110
+        .R0_ES_OFF      = 0b00000000
+        .R0_ES_OFF      = 0b00000001
+
+        .VDP_R1         = 0b10000001
+
+        .R1_DEFAULT     = 0b10000000
+        .R1_DISP_OFF    = 0b00000000
+        .R1_DISP_ON     = 0b01000000
+        .R1_IE_OFF      = 0b00000000
+        .R1_IE          = 0b00100000
+        .R1_SPR_8X8     = 0b00000000
+        .R1_SPR_8X16    = 0b00000010
+
+        .VDP_R2         = 0b10000010
+
+        .R2_MAP_0x3800  = 0xFF
+        .R2_MAP_0x3000  = 0xFD
+        .R2_MAP_0x2800  = 0xFB
+        .R2_MAP_0x2000  = 0xF9
+        .R2_MAP_0x1800  = 0xF7
+        .R2_MAP_0x1000  = 0xF5
+        .R2_MAP_0x0800  = 0xF3
+        .R2_MAP_0x0000  = 0xF1
+
+        .VDP_R3         = 0b10000011
+        .VDP_R4         = 0b10000100
+        .VDP_R5         = 0b10000101
         
+        .R5_SAT_0x3F00  = 0xFF
+        .R5_SAT_MASK    = 0b10000001
+     
+        .VDP_R6         = 0b10000110
+        
+        .R6_BANK0       = 0xFB
+        .R6_DATA_0x0000 = 0xFB
+        .R6_BANK1       = 0xFF
+        .R6_DATA_0x2000 = 0xFF
+     
+        .VDP_R7         = 0b10000111
+        .VDP_RBORDER    = 0b10000111
+        
+        .R7_COLOR_MASK  = 0b11110000
+     
+        .VDP_R8         = 0b10001000
+        .VDP_RSCX       = 0b10001000
+        
+        .VDP_R9         = 0b10001001
+        .VDP_RSCY       = 0b10001001
+     
+        .VDP_R10        = 0b10001010
+        
+        .R10_INT_OFF    = 0xFF
+        .R10_INT_EVERY  = 0x00
+     
         .JOY_PORT1      = 0xDC
         
         .JOY_P1_UP      = 0b00000001
@@ -66,6 +134,9 @@
         .MAP_FRAME2     = 0xffff
 
         .BIOS           = 0xC000
+        
+        .SYSTEM_PAL     = 0x00
+        .SYSTEM_NTSC    = 0x01
         
         ;; Interrupt routines 
         .globl _INT_ISR
