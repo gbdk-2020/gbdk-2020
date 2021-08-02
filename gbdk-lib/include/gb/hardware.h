@@ -1,6 +1,6 @@
 /** @file gb/hardware.h
     Defines that let the GB's hardware registers be accessed
-    from C.
+    from C.
 
     See the @ref Pandocs for more details on each register.
 */

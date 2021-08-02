@@ -11,30 +11,30 @@
 
 ;        .org    0x08            ; --profile handler 
 
-        .org    0x10            ; write HL to VDP Control Port
-_SMS_READ_VDP_DATA::
-        ld c, #.VDP_STAT        ; set VDP Control Port
+;        .org    0x10            ; empty
+
+        .org    0x18            ; RST 0x18 - write HL to VDP Data Port
+.SMS_WRITE_VDP_DATA::
+        ld a,l                  ; (respecting VRAM time costraints)
+        di
+        out (#.VDP_DATA),a      ; 11
+        ld a,h                  ; 4
+        jp .finalize_vdpdata    ; 10
+
+        .org    0x20            ; RST 0x20 == call HL
+.call_hl::
+        JP      (HL)
+
+       .org    0x28             ; write HL to VDP Control Port
+.SMS_WRITE_VDP_CMD::
+        ld c, #.VDP_CMD         ; set VDP Control Port
         di                      ; make it interrupt SAFE
         out (c),l
         ei
         out (c),h
         ret
 
-        .org    0x18            ; RST 0x18 - write HL to VDP Data Port
-_SMS_WRITE_VDP_DATA::
-        ld a,l                  ; (respecting VRAM time costraints)
-        di
-        out (#.VDP_DATA),a      ; 11
-        ld a,h                  ; 4
-        jp .finalize_vdp        ; 10
-
-        .org    0x20            ; RST 0x20 == call HL
-.call_hl::
-        JP      (HL)
-
-;       .org    0x28            ; empty
-
-;       .org    0x30            ; empty
+;       .org    0x30            ; unusable: just ret from previous handler
 
         .org    0x38            ; handle IRQ
         jp _INT_ISR
@@ -42,7 +42,7 @@ _SMS_WRITE_VDP_DATA::
         .org    0x66            ; handle NMI
         jp _NMI_ISR
 
-.finalize_vdp:
+.finalize_vdpdata:
         ei                      ; 4 = 29 (VRAM SAFE)
         out (#.VDP_DATA),a
         ret
@@ -65,8 +65,6 @@ set_bank::                      ; set current code bank num to A
         ld (#.RAM_CONTROL),hl   ; [.RAM_CONTROL]=$00, [.MAP_FRAME0]=$00
         ld hl,#0x0201
         ld (#.MAP_FRAME1),hl    ; [.MAP_FRAME1]=$01, [.MAP_FRAME2]=$02
-
-        ld (_SMS_Port3EBIOSvalue),a     ; restore contents of $c000 to SMS_Port3EBIOSvalue var
 
         ;; Initialise global variables
         call gsinit

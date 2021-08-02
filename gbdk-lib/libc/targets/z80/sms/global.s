@@ -1,10 +1,3 @@
-        .globl  .STACK
-        
-        .globl _INT_ISR
-        .globl _NMI_ISR
-
-        .BIOS           = 0xC000
-
         .MEMORY_CTL     = 0x3E
 
         .MEMCTL_JOYON   = 0b00000000
@@ -31,7 +24,7 @@
 
         .VDP_DATA       = 0xBE
         .VDP_CMD        = 0xBF
-        .VDP_STATUS     = 0xBF
+        .VDP_STAT       = 0xBF
         
         .JOY_PORT1      = 0xDC
         
@@ -71,4 +64,31 @@
         .MAP_FRAME0     = 0xfffd
         .MAP_FRAME1     = 0xfffe
         .MAP_FRAME2     = 0xffff
+
+        .BIOS           = 0xC000
         
+        ;; Interrupt routines 
+        .globl _INT_ISR
+        .globl _NMI_ISR
+
+        ;; Symbols defined at link time
+        .globl  .STACK
+        .globl  _shadow_OAM     ; temporary
+        .globl  .refresh_OAM    ; temporary
+        
+        ;; Main user routine    
+        .globl  _main
+
+        ;; Macro definitions
+
+.macro SMS_WRITE_VDP_DATA
+        rst 0x18
+.endm
+
+.macro CALL_HL
+        rst 0x20
+.endm
+
+.macro SMS_WRITE_VDP_CMD
+        rst 0x28
+.endm
