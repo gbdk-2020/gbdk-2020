@@ -9,8 +9,15 @@ make.bat: Makefile
 	@make -sn | sed y/\\//\\\\/ | grep -v make >> make.bat
 
 # Compile and link single file in one pass
-%.gg:	%.c
+
+%.asm:	%.c
+	$(CC) -c -o $@ $<
+
+%.o:	%.asm
 	$(CC) -o $@ $<
+
+%.gg:	%.o
+	$(CC) -Wm-yS -o $@ $<
 
 clean:
 	rm -f *.o *.lst *.map *.gg *~ *.rel *.cdb *.ihx *.lnk *.sym *.asm *.noi

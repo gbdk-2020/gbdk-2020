@@ -23,7 +23,7 @@
 
         .org    0x20            ; RST 0x20 == call HL
 .call_hl::
-        JP      (HL)
+        jp      (HL)
 
        .org    0x28             ; write HL to VDP Control Port
 .SMS_WRITE_VDP_CMD::
@@ -71,9 +71,9 @@ set_bank::                      ; set current code bank num to A
 
         ;; Initialize VDP
         ld c, #.VDP_CMD
-        ld b, #(3$ - 2$)
-        ld hl,#(3$ - 1)
-0$:
+        ld b, #(.shadow_VDP_end - .shadow_VDP)
+        ld hl,#(.shadow_VDP_end - 1)
+1$:
         outd
 
         ld a, b
@@ -82,45 +82,32 @@ set_bank::                      ; set current code bank num to A
             
         ld a, b
         or a
-        jr nz, 0$
+        jr nz, 1$
 
         ;; detect PAL/NTSC
         
         ld c, #.VDP_VCOUNTER
-4$:     in a, (c)
+2$:     in a, (c)
         cp #0x80
-        jr nz, 4$
-5$:     ld b, a
+        jr nz, 2$
+3$:     ld b, a
         in a, (c)
         cp b
-        jr nc, 5$
+        jr nc, 3$
 
         ld a, b
         cp #0xE8
         ld a, #.SYSTEM_NTSC
-        jr c, 6$
+        jr c, 4$
         ld a, #.SYSTEM_PAL
-6$:
+4$:
         ld (#__SYSTEM), a
 
         ei                      ; re-enable interrupts before going to main()
         call _main
-1$:
+10$:
         halt
-        jr 1$
-
-2$:     .db .R0_DEFAULT
-        .db #(.R1_DEFAULT | .R1_IE)     ; VBLANK
-        .db .R2_MAP_0x3800
-        .db 0xFF 
-        .db 0xFF
-        .db .R5_SAT_0x3F00
-        .db .R6_DATA_0x2000
-        .db #(0 | .R7_COLOR_MASK)
-        .db 0                   ; SCX
-        .db 0                   ; SCY
-        .db .R10_INT_OFF
-3$:
+        jr 10$
 
         ;; Ordering of segments for the linker.
         .area   _HOME
@@ -159,3 +146,47 @@ __SYSTEM::
         .ds     0x01            ; PAL/NTSC
 
 .end_crt_globals:
+
+        .area _INITIALIZED
+.shadow_VDP:
+_shadow_VDP_R0::
+        .ds     0x01
+_shadow_VDP_R1::
+        .ds     0x01
+_shadow_VDP_R2::
+        .ds     0x01
+_shadow_VDP_R3::
+        .ds     0x01
+_shadow_VDP_R4::
+        .ds     0x01
+_shadow_VDP_R5::
+        .ds     0x01
+_shadow_VDP_R6::
+        .ds     0x01
+_shadow_VDP_R7::
+_shadow_VDP_RBORDER::
+        .ds     0x01
+_shadow_VDP_R8::
+_shadow_VDP_RSCX::
+        .ds     0x01
+_shadow_VDP_R9::
+_shadow_VDP_RSCY::
+        .ds     0x01
+_shadow_VDP_R10::
+        .ds     0x01
+.shadow_VDP_end::   
+    
+        .area _INITIALIZER
+
+        .db .R0_DEFAULT
+        .db #(.R1_DEFAULT | .R1_IE)     ; VBLANK
+        .db .R2_MAP_0x3800
+        .db 0xFF 
+        .db 0xFF
+        .db .R5_SAT_0x3F00
+        .db .R6_DATA_0x2000
+        .db #(0 | .R7_COLOR_MASK)
+        .db 0                   ; SCX
+        .db 0                   ; SCY
+        .db .R10_INT_OFF
+        

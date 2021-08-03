@@ -4,7 +4,7 @@
 #ifndef _GB_H
 #define _GB_H
 
-#define __GBDK_VERSION 404
+#define __GBDK_VERSION 405
 
 #include <types.h>
 #include <stdint.h>
