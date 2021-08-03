@@ -2,6 +2,7 @@
 #include <string>
 #include <algorithm>
 #include <cstring>
+#include "lodepng.h"
 
 using namespace std;
 
@@ -15,29 +16,20 @@ typedef vector< unsigned char > Tile;
 struct PNGImage
 {
 	vector< unsigned char > data;
-	unsigned long w;
-	unsigned long h;
+	unsigned int w;
+	unsigned int h;
 
-	unsigned char* GetColor(int x, int y)
-	{
-		return &data[(w * y + x) * 4];
-	}
+	lodepng::State state;
 
 	unsigned char GetGBColor(int x, int y)
 	{
-		unsigned char* color = GetColor(x, y);
-		if(color[3] == 0) //alpha == 0
-			return 0;
-		float col = 255 - ((color[0] * 0.3f) + (color[1] * 0.59f) + (color[2] * 0.11f));
-		unsigned char ret = ((unsigned char) col) >> 6;
-		if(ret < 2)
-			return ret < 1 ? 1 : 2;
-		else
-			return ret;
+		return data[w * y + x] % 4;
 	}
 
 	bool ExtractGBTile(int x, int y, int tile_h, Tile& tile)
 	{
+		int palette = data[w * y + x] >> 2;
+
 		bool all_zero = true;
 		for(int j = 0; j < tile_h; ++ j)
 		{
@@ -167,6 +159,9 @@ void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y)
 					props = props_default;
 				}
 
+				unsigned char pal_idx = image.data[y * image.w + x] >> 2;
+				props |= pal_idx;
+
 				if(tile_h == 16)
 					idx *= 2;
 
@@ -177,6 +172,7 @@ void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y)
 			}
 		}
 	}
+
 	// Changed this code so empty metasprites are no longer dropped
 	//
 	// Metasprite was empty (made entirely of transparent tiles)
@@ -270,23 +266,36 @@ int main(int argc, char *argv[])
 		slash_pos = (int)output_filename.find_last_of('\\');
 	int dot_pos = (int)output_filename.find_first_of('.', slash_pos);
 
-	if(slash_pos == -1) slash_pos = -1;
-	if(dot_pos == -1) dot_pos = -1;
-
 	string output_filename_h = output_filename.substr(0, dot_pos) + ".h";
 	string data_name = output_filename.substr(slash_pos + 1, dot_pos - 1 - slash_pos);
 	replace(data_name.begin(), data_name.end(), '-', '_');
-	printf("data_name:%s", data_name.c_str());
-	printf("\n"); // End of output
+	printf("data_name:%s\n", data_name.c_str());
 
   //load and decode png
-  vector<unsigned char> buffer;
-  loadFile(buffer, argv[1]);
-  if(decodePNG(image.data, image.w, image.h, buffer.empty() ? 0 : &buffer[0], (unsigned long)buffer.size()) != 0) 
+	vector<unsigned char> buffer;
+	lodepng::State state;
+	image.state.info_raw.colortype = LCT_PALETTE;
+  image.state.info_raw.bitdepth = 8;
+	image.state.decoder.color_convert = false;
+  lodepng::load_file(buffer, argv[1]);
+  unsigned error = lodepng::decode(image.data, image.w, image.h, image.state, buffer);
+	if(error)
 	{
-		printf("Error decoding PNG");
-		return 0;
+		printf("decoder error %s\n", lodepng_error_text(error));
+		return 1;
 	}
+
+	if(image.state.info_raw.colortype != LCT_PALETTE)
+	{
+		printf("error %s: Only png8 is supported", argv[1]);
+		return 1;
+	}
+
+	/*if(image.state.info_raw.palettesize > 32)
+	{
+		printf("error %s: Found %d colors", argv[1], image.state.info_raw.palettesize);
+		return 1;
+	}*/
 
 	if(sprite_w == 0) sprite_w = (int)image.w;
 	if(sprite_h == 0) sprite_h = (int)image.h;
@@ -337,11 +346,29 @@ int main(int argc, char *argv[])
 
 	fprintf(file, "#include <gb/gb.h>\n");
 	fprintf(file, "#include <gb/metasprites.h>\n");
+	fprintf(file, "#include <gb/cgb.h>\n");
 	fprintf(file, "\n");
 
 	fprintf(file, "const void __at(%d) __bank_%s;\n\n", bank, data_name.c_str());
 
+	fprintf(file, "const UINT16 %s_palettes[%d] = {\n", data_name.c_str(), image.state.info_raw.palettesize);
+	for(int i = 0; i < image.state.info_raw.palettesize / 4; ++i)
+	{
+		if(i != 0)
+			fprintf(file, ",\n");
+		fprintf(file, "\t");
 
+		unsigned char* pal_ptr = &image.state.info_raw.palette[i * 16];
+		for(int c = 0; c < 4; ++ c, pal_ptr += 4)
+		{
+			fprintf(file, "RGB(%d, %d, %d)", pal_ptr[0] >> 3, pal_ptr[1] >> 3, pal_ptr[2] >> 3);
+			if(c != 3)
+				fprintf(file, ", ");
+		}
+	}
+	fprintf(file, "\n};\n");
+
+	fprintf(file, "\n");
 	fprintf(file, "const UINT8 %s_data[%d] = {\n", data_name.c_str(), (int)(tiles.size() * tile_h * 2));
 	for(vector< Tile >::iterator it = tiles.begin(); it != tiles.end(); ++ it)
 	{
@@ -385,7 +412,8 @@ int main(int argc, char *argv[])
 	fprintf(file, "\t%d, //height\n", pivot_h);
 	fprintf(file, "\t%d, //num_tiles\n", tiles.size() * (tile_h >> 3));
 	fprintf(file, "\t%s_data, //data\n", data_name.c_str());
-	fprintf(file, "\t%d, //CGB palette\n", 0);
+	fprintf(file, "\t%d, //num palettes\n", image.state.info_raw.palettesize >> 2);
+	fprintf(file, "\t%s_palettes, //CGB palette\n", data_name.c_str());
 	fprintf(file, "\t%d, //num sprites\n", sprites.size());
 	fprintf(file, "\t%s_metasprites, //metasprites\n", data_name.c_str());
 	fprintf(file, "};\n");
