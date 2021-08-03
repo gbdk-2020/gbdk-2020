@@ -118,7 +118,7 @@ uint8_t joypad(void) NONBANKED __preserves_regs(b, c, d, e, h, iyh, iyl);
 
 /** Waits until at least one of the buttons given in mask are pressed.
 */
-uint8_t waitpad(uint8_t mask) NONBANKED __preserves_regs(b, c, iyh, iyl);
+uint8_t waitpad(uint8_t mask) NONBANKED __preserves_regs(b, c, d, e, iyh, iyl);
 
 /** Waits for the directional pad and all buttons to be released.
 
