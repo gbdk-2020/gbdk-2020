@@ -9,7 +9,8 @@ _vmemcpy::
         pop de          ; pop ret address
         pop hl          ; dst
         set 6, h
-        SMS_WRITE_VDP_CMD
+        
+        SMS_WRITE_VDP_CMD h, l
         
         pop hl          ; src
         pop bc          ; size
@@ -20,13 +21,19 @@ _vmemcpy::
         ld b, c         ; LO(size)
         
         inc a
-        inc b
-        
+
         ld c, #.VDP_DATA
+
+        rlc b
+        rrc b           ; check b is zero
+        jr  z, 2$ 
+        
+        inc b
+                
 1$:
         outi
         jp  nz, 1$      ; 10 = 26 (VRAM safe)
-
+2$:
         dec a
         jp  nz, 1$
         

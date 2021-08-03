@@ -9,7 +9,6 @@ CSRC =
 
 ASSRC =	outi.s vmemcpy.s \
 	int.s nmi.s \
-	sfr.s \
 	crt0.s
 
 CRT0 =	crt0.s

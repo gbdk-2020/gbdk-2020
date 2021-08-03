@@ -13,28 +13,15 @@
 
 ;        .org    0x10            ; empty
 
-        .org    0x18            ; RST 0x18 - write HL to VDP Data Port
-.SMS_WRITE_VDP_DATA::
-        ld a,l                  ; (respecting VRAM time costraints)
-        di
-        out (#.VDP_DATA),a      ; 11
-        ld a,h                  ; 4
-        jp .finalize_vdpdata    ; 10
+;        .org    0x18            ; empty
 
         .org    0x20            ; RST 0x20 == call HL
 .call_hl::
         jp      (HL)
 
-       .org    0x28             ; write HL to VDP Control Port
-.SMS_WRITE_VDP_CMD::
-        ld c, #.VDP_CMD         ; set VDP Control Port
-        di                      ; make it interrupt SAFE
-        out (c),l
-        ei
-        out (c),h
-        ret
+;       .org    0x28             ; empty
 
-;       .org    0x30            ; unusable: just ret from previous handler
+;       .org    0x30             ; empty
 
         .org    0x38            ; handle IRQ
         jp _INT_ISR
@@ -42,11 +29,7 @@
         .org    0x66            ; handle NMI
         jp _NMI_ISR
 
-.finalize_vdpdata:
-        ei                      ; 4 = 29 (VRAM SAFE)
-        out (#.VDP_DATA),a
-        ret
-
+        .org    0x80
 
 get_bank::                      ; get current code bank num into A
         ld a,(#.MAP_FRAME1)     ; (read current page from mapper)

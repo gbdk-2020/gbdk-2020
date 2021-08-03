@@ -10,7 +10,7 @@
 #include <stdint.h>
 #include <sms/hardware.h>
 
-#define __WRITE_VDP_REG(REG, v) shadow_##REG=(v);__critical{VDP_CMD=(v),VDP_CMD=REG;}
+#define __WRITE_VDP_REG(REG, v) shadow_##REG=(v);__critical{VDP_CMD=(shadow_##REG),VDP_CMD=REG;}
 #define __READ_VDP_REG(REG) shadow_##REG
 
 void vmemcpy (uint16_t dst, const void *src, uint16_t size) __z88dk_callee __preserves_regs(iyh, iyl);

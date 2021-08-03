@@ -26,6 +26,10 @@
         .VDP_CMD        = 0xBF
         .VDP_STAT       = 0xBF
      
+        .STATF_INT_VBL  = 0b10000000
+        .STATF_9_SPR    = 0b01000000
+        .STATF_SPR_COLL = 0b00100000
+     
         .VDP_REG_MASK   = 0b10000000
         .VDP_R0         = 0b10000000
 
@@ -152,14 +156,30 @@
 
         ;; Macro definitions
 
-.macro SMS_WRITE_VDP_DATA
-        rst 0x18
+.macro SMS_WRITE_VDP_DATA regH regL ?lbl
+        ld a, i
+        ld a, regL
+        di
+        out (#.VDP_DATA), a     ; 11
+        ld a, regH              ; 4
+        jp po, lbl              ; 7/12
+        ei                      ; 4 (total: 26/27)
+lbl:
+        out (#.VDP_DATA), a
+.endm
+
+.macro SMS_WRITE_VDP_CMD regH regL ?lbl
+        ld a, i
+        ld a, regL
+        di
+        out (#.VDP_CMD), a
+        ld a, regH
+        out (#.VDP_CMD), a
+        jp po, lbl
+        ei
+lbl:        
 .endm
 
 .macro CALL_HL
         rst 0x20
-.endm
-
-.macro SMS_WRITE_VDP_CMD
-        rst 0x28
 .endm
