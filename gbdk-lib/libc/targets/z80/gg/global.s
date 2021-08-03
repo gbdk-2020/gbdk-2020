@@ -174,10 +174,10 @@ lbl:
         di
         out (#.VDP_CMD), a
         ld a, regH
-        out (#.VDP_CMD), a
         jp po, lbl
         ei
 lbl:        
+        out (#.VDP_CMD), a
 .endm
 
 .macro CALL_HL

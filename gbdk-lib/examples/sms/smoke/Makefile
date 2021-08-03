@@ -17,7 +17,7 @@ make.bat: Makefile
 	$(CC) -o $@ $<
 
 %.sms:	%.o
-	$(CC) -o $@ $<
+	$(CC) -Wm-yS -o $@ $<
 
 clean:
 	rm -f *.o *.lst *.map *.sms *~ *.rel *.cdb *.ihx *.lnk *.sym *.asm *.noi

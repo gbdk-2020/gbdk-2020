@@ -44,7 +44,7 @@ static volatile __sfr __at(0xBF) VDP_STATUS;
 
 #define VDP_REG_MASK   0b10000000
 #define VDP_R0         0b10000000
-__BYTE_REG shadow_VDP_R0;
+extern UBYTE shadow_VDP_R0;
 
 #define R0_VSCRL       0b00000000
 #define R0_VSCRL_INH   0b10000000
@@ -61,7 +61,7 @@ __BYTE_REG shadow_VDP_R0;
 #define R0_ES          0b00000001
 
 #define VDP_R1         0b10000001
-__BYTE_REG shadow_VDP_R1;
+extern UBYTE shadow_VDP_R1;
 
 #define R1_DEFAULT     0b10000000
 #define R1_DISP_OFF    0b00000000
@@ -72,7 +72,7 @@ __BYTE_REG shadow_VDP_R1;
 #define R1_SPR_8X16    0b00000010
 
 #define VDP_R2         0b10000010
-__BYTE_REG shadow_VDP_R2;
+extern UBYTE shadow_VDP_R2;
 
 #define R2_MAP_0x3800  0xFF
 #define R2_MAP_0x3000  0xFD
@@ -84,17 +84,17 @@ __BYTE_REG shadow_VDP_R2;
 #define R2_MAP_0x0000  0xF1
 
 #define VDP_R3         0b10000011
-__BYTE_REG shadow_VDP_R3;
+extern UBYTE shadow_VDP_R3;
 #define VDP_R4         0b10000100
-__BYTE_REG shadow_VDP_R4;
+extern UBYTE shadow_VDP_R4;
 #define VDP_R5         0b10000101
-__BYTE_REG shadow_VDP_R5;
+extern UBYTE shadow_VDP_R5;
         
 #define R5_SAT_0x3F00  0xFF
 #define R5_SAT_MASK    0b10000001
      
 #define VDP_R6         0b10000110
-__BYTE_REG shadow_VDP_R6;
+extern UBYTE shadow_VDP_R6;
         
 #define R6_BANK0       0xFB
 #define R6_DATA_0x0000 0xFB
@@ -102,24 +102,24 @@ __BYTE_REG shadow_VDP_R6;
 #define R6_DATA_0x2000 0xFF
      
 #define VDP_R7         0b10000111
-__BYTE_REG shadow_VDP_R7;
+extern UBYTE shadow_VDP_R7;
 #define VDP_RBORDER    0b10000111
-__BYTE_REG shadow_VDP_RBORDER;
+extern UBYTE shadow_VDP_RBORDER;
         
 #define R7_COLOR_MASK  0b11110000
      
 #define VDP_R8         0b10001000
-__BYTE_REG shadow_VDP_R8;
+extern UBYTE shadow_VDP_R8;
 #define VDP_RSCX       0b10001000
-__BYTE_REG shadow_VDP_RSCX;
+extern UBYTE shadow_VDP_RSCX;
         
 #define VDP_R9         0b10001001
-__BYTE_REG shadow_VDP_R9;
+extern UBYTE shadow_VDP_R9;
 #define VDP_RSCY       0b10001001
-__BYTE_REG shadow_VDP_RSCY;
+extern UBYTE shadow_VDP_RSCY;
      
 #define VDP_R10        0b10001010
-__BYTE_REG shadow_VDP_R10;
+extern UBYTE shadow_VDP_R10;
         
 #define R10_INT_OFF    0xFF
 #define R10_INT_EVERY  0x00

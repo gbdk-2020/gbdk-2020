@@ -120,14 +120,30 @@ set_bank::                      ; set current code bank num to A
         .area   _GSFINAL
         ret
 
-        .area   _BSS
-.start_crt_globals:
+        .area   _HOME
+        ;; Wait for VBL interrupt to be finished
+.wait_vbl_done::
+_wait_vbl_done::
+        ld  a, (_shadow_VDP_R1)
+        and #.R1_DISP_ON
+        ret z
+        
+        xor a
+        ld (.vbl_done), a
+1$:
+        halt
+        ld a, (.vbl_done)
+        or a
+        jr z, 1$
+        ret
 
+        .area   _BSS
+        
+.start_crt_globals:
 __BIOS::
         .ds     0x01            ; GB type (GB, PGB, CGB)
 __SYSTEM::
         .ds     0x01            ; PAL/NTSC
-
 .end_crt_globals:
 
         .area _INITIALIZED
@@ -158,6 +174,12 @@ _shadow_VDP_RSCY::
 _shadow_VDP_R10::
         .ds     0x01
 .shadow_VDP_end::   
+
+.sys_time::
+_sys_time::
+        .ds     0x02
+.vbl_done::
+        .ds     0x01
     
         .area _INITIALIZER
 
@@ -172,4 +194,5 @@ _shadow_VDP_R10::
         .db 0                   ; SCX
         .db 0                   ; SCY
         .db .R10_INT_OFF
-        
+        .dw 0x0000              ; .sys_time
+        .db 0                   ; .vbl_done
