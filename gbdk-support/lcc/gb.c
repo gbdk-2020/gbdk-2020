@@ -41,7 +41,7 @@ static struct {
 	const char *val;
 } _tokens[] = {
 		// expandable string tokens used in "CLASS" command strings
-		{ "port",		"gbz80" },
+		{ "port",		"gbz80" },  // if default class is ever changed from Game Boy, this default (and plat) may need to be changed to match
 		{ "plat",		"gb" },
 		{ "sdccdir", "%bindir%"},
 		{ "cpp",		"%sdccdir%sdcpp" },
@@ -56,7 +56,7 @@ static struct {
 		{ "commodel", 	"small" },
 		{ "com",		"%sdccdir%sdcc" },
 		{ "comflag",	"-c"},
-		{ "comdefault",	"--no-std-crt0 --fsigned-char --use-stdout "
+		{ "comdefault",	"-m%port% --no-std-crt0 --fsigned-char --use-stdout "
 					    " -D__PORT_%port% -D__TARGET_%plat% "},
 		/* asdsgb assembler defaults:
 			-p: disable pagination
@@ -121,7 +121,7 @@ static CLASS classes[] = {
 			EXT_GB,		// ROM file extension
 			"%cpp% %cppdefault% -DGB=1 -DGAMEBOY=1 -DINT_16_BITS $1 $2 $3",
 			"%includedefault%",
-			"%com% -mgbz80 %comdefault% -Wa%asdefault% -DGB=1 -DGAMEBOY=1 -DINT_16_BITS $1 %comflag% $2 -o $3",
+			"%com% %comdefault% -Wa%asdefault% -DGB=1 -DGAMEBOY=1 -DINT_16_BITS $1 %comflag% $2 -o $3",
 			"%as_gb% %asdefault% $1 $3 $2",
 			"%bankpack% $1 $2",
 			"%ld_gb% -n -i $1 %libs_include% $3 %crt0dir% $2",
@@ -135,7 +135,7 @@ static CLASS classes[] = {
 			EXT_AP,		// ROM file extension
 			"%cpp% %cppdefault% -DGB=1 -DGAMEBOY=1 -DINT_16_BITS $1 $2 $3",
 			"%includedefault%",
-			"%com% -mgbz80 %comdefault% -Wa%asdefault% -DGB=1 -DGAMEBOY=1 -DINT_16_BITS $1 %comflag% $2 -o $3",
+			"%com% %comdefault% -Wa%asdefault% -DGB=1 -DGAMEBOY=1 -DINT_16_BITS $1 %comflag% $2 -o $3",
 			"%as_gb% %asdefault% $1 $3 $2",
 			"%bankpack% $1 $2",
 			"%ld_gb% -n -i $1 %libs_include% $3 %crt0dir% $2",
@@ -149,7 +149,7 @@ static CLASS classes[] = {
 			EXT_SMS,	// ROM file extension
 			"%cpp% %cppdefault% -DINT_16_BITS $1 $2 $3",
 			"%includedefault%",
-			"%com% -mz80 %comdefault% -Wa%asdefault% -DINT_16_BITS $1 %comflag% $2 -o $3",
+			"%com% %comdefault% -Wa%asdefault% -DINT_16_BITS $1 %comflag% $2 -o $3",
 			"%as_z80% %asdefault% $1 $3 $2",
 			"",			// bankpack command: turned off for this port:platform
 			"%ld_z80% -n -i $1 %libs_include% $3 %crt0dir% $2",
@@ -163,7 +163,7 @@ static CLASS classes[] = {
 			EXT_GG,		// ROM file extension
 			"%cpp% %cppdefault% -DINT_16_BITS $1 $2 $3",
 			"%includedefault%",
-			"%com% -mz80 %comdefault% -Wa%asdefault% -DINT_16_BITS $1 %comflag% $2 -o $3",
+			"%com% %comdefault% -Wa%asdefault% -DINT_16_BITS $1 %comflag% $2 -o $3",
 			"%as_z80% %asdefault% $1 $3 $2",
 			"",			// bankpack command: turned off for this port:platform
 			"%ld_z80% -n -i $1 %libs_include% $3 %crt0dir% $2",
