@@ -97,6 +97,15 @@
         
         .R10_INT_OFF    = 0xFF
         .R10_INT_EVERY  = 0x00
+
+        .UP             = 0b00000001
+        .DOWN           = 0b00000010
+        .LEFT           = 0b00000100
+        .RIGHT          = 0b00001000
+        .A              = 0b00010000
+        .B              = 0b00100000
+        .SELECT         = 0b01000000    ; map to RESET
+        .START          = 0b01000000    ; map to RESET
      
         .JOY_PORT1      = 0xDC
         

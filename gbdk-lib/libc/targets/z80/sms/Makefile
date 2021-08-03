@@ -8,6 +8,7 @@ PORT = z80
 CSRC = 
 
 ASSRC =	outi.s vmemcpy.s \
+	pad.s \
 	int.s nmi.s \
 	crt0.s
 

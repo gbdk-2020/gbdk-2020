@@ -10,6 +10,28 @@
 #include <stdint.h>
 #include <sms/hardware.h>
 
+/** Joypad bits.
+    A logical OR of these is used in the wait_pad and joypad
+    functions.  For example, to see if the B button is pressed
+    try
+
+    uint8_t keys;
+    keys = joypad();
+    if (keys & J_B) {
+    	...
+    }
+
+    @see joypad
+ */
+#define	J_START      0b01000000
+#define	J_SELECT     0b01000000
+#define	J_B          0b00100000
+#define	J_A          0b00010000
+#define	J_DOWN       0b00000010
+#define	J_UP         0b00000001
+#define	J_LEFT       0b00000100
+#define	J_RIGHT      0b00001000
+
 #define __WRITE_VDP_REG(REG, v) shadow_##REG=(v);__critical{VDP_CMD=(shadow_##REG),VDP_CMD=REG;}
 #define __READ_VDP_REG(REG) shadow_##REG
 
@@ -89,6 +111,21 @@ inline void display_off(void) {
 */
 #define DISPLAY_OFF \
 	display_off();
+
+/** Reads and returns the current state of the joypad.
+*/
+uint8_t joypad(void) NONBANKED __preserves_regs(b, c, d, e, h, iyh, iyl);
+
+/** Waits until at least one of the buttons given in mask are pressed.
+*/
+uint8_t waitpad(uint8_t mask) NONBANKED __preserves_regs(b, c, iyh, iyl);
+
+/** Waits for the directional pad and all buttons to be released.
+
+    Note: Checks in a loop that doesn't HALT at all, so the CPU
+    will be maxed out until this call returns.
+*/
+void waitpadup(void) NONBANKED __preserves_regs(b, c, d, e, h, l, iyh, iyl);
 
 
 #endif /* _SMS_H */
