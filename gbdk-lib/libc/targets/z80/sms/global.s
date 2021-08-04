@@ -18,6 +18,8 @@
         .JOY_P1_LATCH   = 0b00000010
         .JOY_P2_LATCH   = 0b00001000
 
+        .VDP_VRAM       = 0x4000
+
         .VDP_VCOUNTER   = 0x7E
         .VDP_PSG        = 0x7F
         .VDP_HCOUNTER   = 0x7F
@@ -190,5 +192,5 @@ lbl:
 .endm
 
 .macro CALL_HL
-        rst 0x20
+        rst 0x30
 .endm

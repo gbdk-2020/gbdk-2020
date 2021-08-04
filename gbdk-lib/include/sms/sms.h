@@ -35,7 +35,8 @@
 #define __WRITE_VDP_REG(REG, v) shadow_##REG=(v);__critical{VDP_CMD=(shadow_##REG),VDP_CMD=REG;}
 #define __READ_VDP_REG(REG) shadow_##REG
 
-void WRITE_VDP_REG(UBYTE value, UBYTE reg) __z88dk_callee __preserves_regs(iyh, iyl);
+void WRITE_VDP_CMD(uint16_t cmd) __z88dk_fastcall __preserves_regs(b, c, d, e, iyh, iyl);
+void WRITE_VDP_DATA(uint16_t data) __z88dk_fastcall __preserves_regs(b, c, d, e, iyh, iyl);
 
 /** Interrupt handlers
  */
@@ -44,31 +45,34 @@ typedef void (*int_handler)(void) NONBANKED;
 /** Removes the VBL interrupt handler. 
     @see add_VBL()
 */
-void remove_VBL(int_handler h) NONBANKED __z88dk_callee __preserves_regs(iyh, iyl);
+void remove_VBL(int_handler h) __z88dk_fastcall __preserves_regs(iyh, iyl);
 
 /** Removes the LCD interrupt handler.
     @see add_LCD(), remove_VBL()
 */
-void remove_LCD(int_handler h) NONBANKED __z88dk_callee __preserves_regs(b, c, iyh, iyl);
+void remove_LCD(int_handler h) __z88dk_fastcall __preserves_regs(b, c, iyh, iyl);
 
-void remove_TIM(int_handler h) NONBANKED;
-void remove_SIO(int_handler h) NONBANKED;
-void remove_JOY(int_handler h) NONBANKED;
+void remove_TIM(int_handler h);
+void remove_SIO(int_handler h);
+void remove_JOY(int_handler h);
 
 /** Adds a V-blank interrupt handler.
 */
-void add_VBL(int_handler h) NONBANKED __z88dk_callee __preserves_regs(d, e, iyh, iyl);
+void add_VBL(int_handler h) __z88dk_fastcall __preserves_regs(d, e, iyh, iyl);
 
 /** Adds a LCD interrupt handler.
 */
-void add_LCD(int_handler h) NONBANKED __z88dk_callee __preserves_regs(b, c, iyh, iyl);
+void add_LCD(int_handler h) __z88dk_fastcall __preserves_regs(b, c, iyh, iyl);
 
-void add_TIM(int_handler h) NONBANKED;
-void add_SIO(int_handler h) NONBANKED;
-void add_JOY(int_handler h) NONBANKED;
+void add_TIM(int_handler h);
+void add_SIO(int_handler h);
+void add_JOY(int_handler h);
 
 
-void vmemcpy (uint16_t dst, const void *src, uint16_t size) __z88dk_callee __preserves_regs(iyh, iyl);
+void vmemcpy(uint16_t dst, const void *src, uint16_t size) __z88dk_callee __preserves_regs(iyh, iyl);
+
+void set_bkg_data(uint8_t start, uint8_t ntiles, const void *src) __z88dk_callee __preserves_regs(iyh,iyl);
+void set_bkg_2bpp_data(uint8_t start, uint8_t ntiles, const void *src) __z88dk_callee __preserves_regs(iyh,iyl);
 
 inline void move_bkg(uint8_t x, uint8_t y) {
 	__WRITE_VDP_REG(VDP_RSCX, x);
@@ -90,7 +94,7 @@ inline void scroll_bkg(int8_t x, int8_t y) {
     never return. If the screen is off this function returns
     immediately.
 */
-void wait_vbl_done(void) NONBANKED __preserves_regs(b, c, d, e, h, l, iyh, iyl);
+void wait_vbl_done(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);
 
 /** Turns the display off.
 
@@ -114,18 +118,18 @@ inline void display_off(void) {
 
 /** Reads and returns the current state of the joypad.
 */
-uint8_t joypad(void) NONBANKED __preserves_regs(b, c, d, e, h, iyh, iyl);
+uint8_t joypad(void) __preserves_regs(b, c, d, e, h, iyh, iyl);
 
 /** Waits until at least one of the buttons given in mask are pressed.
 */
-uint8_t waitpad(uint8_t mask) NONBANKED __preserves_regs(b, c, d, e, iyh, iyl);
+uint8_t waitpad(uint8_t mask) __z88dk_fastcall __preserves_regs(b, c, d, e, iyh, iyl);
 
 /** Waits for the directional pad and all buttons to be released.
 
     Note: Checks in a loop that doesn't HALT at all, so the CPU
     will be maxed out until this call returns.
 */
-void waitpadup(void) NONBANKED __preserves_regs(b, c, d, e, h, l, iyh, iyl);
+void waitpadup(void) __preserves_regs(b, c, d, e, iyh, iyl);
 
 
 #endif /* _SMS_H */

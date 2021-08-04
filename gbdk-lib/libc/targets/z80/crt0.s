@@ -11,17 +11,25 @@
 
 ;        .org    0x08            ; --profile handler 
 
-;        .org    0x10            ; empty
+        .org    0x10            ; RST 0x10: SMS_WRITE_VDP_CMD
 
-;        .org    0x18            ; empty
+_WRITE_VDP_CMD::        
+        SMS_WRITE_VDP_CMD h, l
+        ret
 
-        .org    0x20            ; RST 0x20 == call HL
+;        .org    0x18            ; unusable
+
+        .org    0x20            ; RST 0x20: SMS_WRITE_VDP_DATA
+
+_WRITE_VDP_DATA::        
+        SMS_WRITE_VDP_DATA h, l
+        ret
+
+;       .org    0x28             ; unusable
+
+        .org    0x30            ; RST 0x30: call HL
 .call_hl::
         jp      (HL)
-
-;       .org    0x28             ; empty
-
-;       .org    0x30             ; empty
 
         .org    0x38            ; handle IRQ
         jp _INT_ISR

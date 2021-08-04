@@ -61,32 +61,23 @@ _INT_ISR::
         ei
         reti        
         
-; void add_LCD (int_handler h) __z88dk_callee __preserves_regs(b, c, iyh, iyl);
+; void add_LCD (int_handler h) __z88dk_fastcall __preserves_regs(b, c, iyh, iyl);
 _add_LCD::
-        pop de
-        pop hl
-        push de
-            
 .add_LCD::
         ld (.HBLANK_HANDLER0), hl
         ret
         
-; void remove_LCD (int_handler h) __z88dk_callee __preserves_regs(b, c, iyh, iyl);
+; void remove_LCD (int_handler h) __z88dk_fastcall __preserves_regs(b, c, iyh, iyl);
 _remove_LCD::
-        pop de
-        pop hl
-        push de
-
 .remove_LCD::
         ld hl, #.empty_function 
         ld (.HBLANK_HANDLER0), hl
         ret
    
-; void add_VBL(int_handler h) __z88dk_callee __preserves_regs(d, e, iyh, iyl);
+; void add_VBL(int_handler h) __z88dk_fastcall __preserves_regs(d, e, iyh, iyl);
 _add_VBL::
-        pop hl
-        pop bc
-        push hl
+        ld b, h
+        ld c, l
 
 .add_VBL::
         ld hl, #.VBLANK_HANDLER0 
@@ -106,11 +97,10 @@ _add_VBL::
         ld (hl), c        
         ret
 
-; void remove_VBL(int_handler h) __z88dk_callee __preserves_regs(iyh, iyl);
+; void remove_VBL(int_handler h) __z88dk_fastcall __preserves_regs(iyh, iyl);
 _remove_VBL::
-        pop hl
-        pop bc
-        push hl
+        ld b, h
+        ld c, l
 
         ;; Remove interrupt routine in BC from the VBL interrupt list
         ;; falldown to .remove_int

@@ -10,11 +10,8 @@ make.bat: Makefile
 
 # Compile and link single file in one pass
 
-%.asm:	%.c
+%.o:	%.c
 	$(CC) -c -o $@ $<
-
-%.o:	%.asm
-	$(CC) -o $@ $<
 
 %.sms:	%.o
 	$(CC) -Wm-yS -o $@ $<
