@@ -39,13 +39,6 @@ _WRITE_VDP_DATA::
 
         .org    0x80
 
-get_bank::                      ; get current code bank num into A
-        ld a,(#.MAP_FRAME1)     ; (read current page from mapper)
-        ret
-set_bank::                      ; set current code bank num to A
-        ld (#.MAP_FRAME1),a     ; (restore caller page)
-        ret
-
 .init::
         ld sp, #.STACK          ; set stack pointer at end of RAM
 

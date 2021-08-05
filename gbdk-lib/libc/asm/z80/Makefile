@@ -13,7 +13,7 @@ ASSRC = __strreverse.s strcpy.s strlen.s \
 	memcpy.s memmove.s \
 	setjmp.s \
 	abs.s \
-	__sdcc_bcall.s __sdcc_call_hl.s __sdcc_call_iy.s \
+	__sdcc_call_hl.s __sdcc_call_iy.s \
 	atomic_flag_test_and_set.s __sdcc_critical.s \
 	crtenter.s 
 
