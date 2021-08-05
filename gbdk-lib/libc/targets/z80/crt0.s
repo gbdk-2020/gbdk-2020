@@ -96,7 +96,7 @@ _WRITE_VDP_DATA::
         call _set_bkg_palette
         ld hl, #.CRT_DEFAULT_PALETTE
         push hl
-        ld hl, #0x0100
+        ld hl, #0x0101
         push hl
         call _set_sprite_palette
 

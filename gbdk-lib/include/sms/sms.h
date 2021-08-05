@@ -68,12 +68,6 @@ void add_TIM(int_handler h);
 void add_SIO(int_handler h);
 void add_JOY(int_handler h);
 
-
-void vmemcpy(uint16_t dst, const void *src, uint16_t size) __z88dk_callee __preserves_regs(iyh, iyl);
-
-void set_bkg_data(uint8_t start, uint8_t ntiles, const void *src) __z88dk_callee __preserves_regs(iyh,iyl);
-void set_bkg_2bpp_data(uint8_t start, uint8_t ntiles, const void *src) __z88dk_callee __preserves_regs(iyh,iyl);
-
 inline void move_bkg(uint8_t x, uint8_t y) {
 	__WRITE_VDP_REG(VDP_RSCX, x);
 	__WRITE_VDP_REG(VDP_RSCY, y);
@@ -240,5 +234,12 @@ void set_sprite_palette_entry(uint8_t palette, uint8_t entry, uint16_t rgb_data)
 void set_bkg_palette(uint8_t first_palette, uint8_t nb_palettes, uint16_t *rgb_data) __z88dk_callee;
 void set_sprite_palette(uint8_t first_palette, uint8_t nb_palettes, uint16_t *rgb_data) __z88dk_callee;
 
+void set_bkg_data(uint16_t start, uint16_t ntiles, const void *src) __z88dk_callee __preserves_regs(iyh,iyl);
+void set_sprite_data(uint16_t start, uint16_t ntiles, const void *src) __z88dk_callee __preserves_regs(iyh,iyl);
+
+void set_bkg_2bpp_data(uint16_t start, uint16_t ntiles, const void *src) __z88dk_callee __preserves_regs(iyh,iyl);
+void set_sprite_2bpp_data(uint16_t start, uint16_t ntiles, const void *src) __z88dk_callee __preserves_regs(iyh,iyl);
+
+void vmemcpy(uint16_t dst, const void *src, uint16_t size) __z88dk_callee __preserves_regs(iyh, iyl);
 
 #endif /* _SMS_H */

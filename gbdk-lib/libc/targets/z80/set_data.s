@@ -4,14 +4,13 @@
         .module VRAMUtils
         .area   _HOME
 
-; void set_bkg_data(uint8_t start, uint8_t ntiles, const void *src) __z88dk_callee __preserves_regs(iyh,iyl);
+; void set_sprite_data(uint16_t start, uint16_t ntiles, const void *src) __z88dk_callee __preserves_regs(iyh,iyl);
+; void set_bkg_data(uint16_t start, uint16_t ntiles, const void *src) __z88dk_callee __preserves_regs(iyh,iyl);
+_set_sprite_data::
 _set_bkg_data::
         pop de          ; pop ret address
         pop hl
-        
-        ld a, h
-        ld h, #0
-        
+                
         add hl, hl
         add hl, hl
         add hl, hl
@@ -23,15 +22,18 @@ _set_bkg_data::
                 
         set 6, h
        
-        ld c, a
-       
         SMS_WRITE_VDP_CMD h, l
-        
+
+        pop bc        
         pop hl
+        push de
+                
+        ld e, c
+        ld d, b
         
-        ld a, c
         ld c, #.VDP_DATA
-        inc a        
+        inc d
+        inc e        
         jr 2$
             
 1$:
@@ -40,9 +42,10 @@ _set_bkg_data::
         outi
         jr nz, 3$
 2$:
-        dec a
+        dec e
         jr  nz, 1$
+
+        dec d
+        jr nz, 1$
         
-        ld h, d
-        ld l, e
-        jp (hl)
+        ret
