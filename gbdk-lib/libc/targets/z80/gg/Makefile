@@ -9,6 +9,7 @@ CSRC =
 
 ASSRC =	outi.s vmemcpy.s \
 	set_data.s set_2bpp_data.s \
+	palette.s \
 	pad.s pad_ex.s \
 	int.s nmi.s \
 	__sdcc_bcall.s \

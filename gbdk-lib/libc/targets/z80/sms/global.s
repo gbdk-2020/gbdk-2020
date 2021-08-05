@@ -19,6 +19,7 @@
         .JOY_P2_LATCH   = 0b00001000
 
         .VDP_VRAM       = 0x4000
+        .VDP_CRAM       = 0xC000
 
         .VDP_VCOUNTER   = 0x7E
         .VDP_PSG        = 0x7F
