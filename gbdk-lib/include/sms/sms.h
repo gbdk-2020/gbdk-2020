@@ -189,5 +189,38 @@ uint8_t waitpad(uint8_t mask) __z88dk_fastcall __preserves_regs(b, c, d, e, iyh,
 */
 void waitpadup(void) __preserves_regs(b, c, d, e, iyh, iyl);
 
+/** Multiplayer joypad structure.
+
+    Must be initialized with @ref joypad_init() first then it
+    may be used to poll all avaliable joypads with @ref joypad_ex()
+*/
+typedef struct {
+    uint8_t npads;
+    union {
+        struct {
+            uint8_t joy0, joy1, joy2, joy3;
+        };
+        uint8_t joypads[4];
+    };
+} joypads_t;
+
+/** Initializes joypads_t structure for polling multiple joypads
+    @param npads	number of joypads requested (1, 2 or 4)
+    @param joypads	pointer to joypads_t structure to be initialized
+
+    Only required for @ref joypad_ex, not required for calls to regular @ref joypad()
+    @returns number of joypads avaliable
+    @see joypad_ex(), joypads_t
+*/
+uint8_t joypad_init(uint8_t npads, joypads_t * joypads) __z88dk_callee;
+
+/** Polls all avaliable joypads
+    @param joypads	pointer to joypads_t structure to be filled with joypad statuses,
+    	   must be previously initialized with joypad_init()
+
+    @see joypad_init(), joypads_t
+*/
+void joypad_ex(joypads_t * joypads) __z88dk_fastcall __preserves_regs(iyh, iyl);
+
 
 #endif /* _SMS_H */

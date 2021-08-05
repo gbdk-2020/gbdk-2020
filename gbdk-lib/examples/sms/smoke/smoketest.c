@@ -8,7 +8,7 @@ extern const unsigned int earth_data_size;
 
 uint16_t banked_func(uint8_t be, uint8_t ef) __banked;
 
-uint8_t joy;
+joypads_t joy;
 void main() {
     DISPLAY_ON;
     move_bkg(14, 36);
@@ -21,16 +21,30 @@ void main() {
     }
 
 
+    joypad_init(2, &joy);
+
     while(TRUE) {
-        joy = joypad();
-        if (joy & J_LEFT) {
+        joypad_ex(&joy);
+
+        if (joy.joy0 & J_LEFT) {
             scroll_bkg(-1, 0);
-        } else if (joy & J_RIGHT) {
+        } else if (joy.joy0 & J_RIGHT) {
             scroll_bkg(1, 0);
         }
-        if (joy & J_UP) {
+        if (joy.joy0 & J_UP) {
             scroll_bkg(0, -1);
-        } else if (joy & J_DOWN) {
+        } else if (joy.joy0 & J_DOWN) {
+            scroll_bkg(0, 1);
+        }
+
+        if (joy.joy1 & J_LEFT) {
+            scroll_bkg(-1, 0);
+        } else if (joy.joy1 & J_RIGHT) {
+            scroll_bkg(1, 0);
+        }
+        if (joy.joy1 & J_UP) {
+            scroll_bkg(0, -1);
+        } else if (joy.joy1 & J_DOWN) {
             scroll_bkg(0, 1);
         }
         
