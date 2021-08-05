@@ -1,4 +1,4 @@
-CC	= ../../../bin/lcc -mgbz80:ap -Wl-j -Wm-yS
+CC	= ../../../bin/lcc -mgbz80:ap -Wm-yc -Wl-j -Wm-yS
 
 BINS	= dscan.pocket
 
@@ -22,7 +22,3 @@ make.bat: Makefile
 
 clean:
 	rm -f *.o *.lst *.map *.pocket *.ihx *.sym *.cdb *.adb *.asm
-
-# Link file, and write 0x80 at position 0x143 in header
-dscan.pocket:	dscan.o
-	$(CC) -Wm-yc -o $@ $<
