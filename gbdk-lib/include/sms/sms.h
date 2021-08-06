@@ -265,4 +265,6 @@ void set_sprite_2bpp_data(uint16_t start, uint16_t ntiles, const void *src) __z8
 
 void vmemcpy(uint16_t dst, const void *src, uint16_t size) __z88dk_callee __preserves_regs(iyh, iyl);
 
+void set_bkg_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles) __z88dk_callee __preserves_regs(iyh, iyl);
+
 #endif /* _SMS_H */
