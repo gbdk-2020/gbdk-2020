@@ -165,7 +165,30 @@ __endasm; \
     @param b   ROM bank to switch to
 */
 
-#define SWITCH_ROM(b) MAP_FRAME1 = (b)
+#define SWITCH_ROM(b) MAP_FRAME1=(b)
+#define SWITCH_ROM1 SWITCH_ROM
+
+/** Makes switch the active ROM bank in frame 2
+    @param b   ROM bank to switch to
+*/
+
+#define SWITCH_ROM2(b) MAP_FRAME2=(b)
+
+/** Switches RAM bank
+    @param b   SRAM bank to switch to
+*/
+
+#define SWITCH_RAM (((b)&1)?RAM_CONTROL|=RAMCTL_BANK:RAM_CONTROL&=(~RAMCTL_BANK))
+
+/** Enables RAM
+*/
+
+#define ENABLE_RAM RAM_CONTROL|=RAMCTL_RAM
+
+/** Disables RAM
+*/
+
+#define DISABLE_RAM RAM_CONTROL&=(~RAMCTL_RAM)
 
 
 /** Reads and returns the current state of the joypad.
