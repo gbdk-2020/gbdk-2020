@@ -75,3 +75,6 @@ make.bat
 
 # Doc generation files
 gbdk-lib/doc/
+
+# VS.Code folder
+.vscode
