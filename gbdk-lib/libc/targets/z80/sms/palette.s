@@ -6,10 +6,8 @@
         .module CRAMUtils
         .area   _HOME
 
-; void set_sprite_palette_entry(uint8_t palette, uint8_t entry, uint16_t rgb_data) __z88dk_callee;
-; void set_bkg_palette_entry(uint8_t palette, uint8_t entry, uint16_t rgb_data) __z88dk_callee;
-_set_sprite_palette_entry::
-_set_bkg_palette_entry::
+; void set_palette_entry(uint8_t palette, uint8_t entry, uint16_t rgb_data) __z88dk_callee;
+_set_palette_entry::
         pop de
         pop bc
         ld hl, #.VDP_CRAM
@@ -38,10 +36,8 @@ _set_bkg_palette_entry::
         ld l, e
         jp (hl)
 
-; void set_sprite_palette(uint8_t first_palette, uint8_t nb_palettes, uint16_t *rgb_data) __z88dk_callee;
-; void set_bkg_palette(uint8_t first_palette, uint8_t nb_palettes, uint16_t *rgb_data) __z88dk_callee;
-_set_sprite_palette::
-_set_bkg_palette::
+; void set_palette(uint8_t first_palette, uint8_t nb_palettes, uint16_t *rgb_data) __z88dk_callee;
+_set_palette::
         pop de
         pop bc
         ld hl, #.VDP_CRAM

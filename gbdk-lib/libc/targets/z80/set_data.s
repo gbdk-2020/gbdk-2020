@@ -4,10 +4,8 @@
         .module VRAMUtils
         .area   _HOME
 
-; void set_sprite_data(uint16_t start, uint16_t ntiles, const void *src) __z88dk_callee __preserves_regs(iyh,iyl);
-; void set_bkg_data(uint16_t start, uint16_t ntiles, const void *src) __z88dk_callee __preserves_regs(iyh,iyl);
-_set_sprite_data::
-_set_bkg_data::
+; void set_tile_data(uint16_t start, uint16_t ntiles, const void *src) __z88dk_callee __preserves_regs(iyh,iyl);
+_set_tile_data::
         pop de          ; pop ret address
         pop hl
                 

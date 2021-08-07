@@ -6,7 +6,7 @@ extern const unsigned char earth_data[];
 BANKREF_EXTERN(earth_data_size)
 extern const unsigned int earth_data_size;
 
-const uint16_t tilemap[] = {2, 4, 6, 8, 3, 5, 7, 9};
+const uint8_t tilemap[] = {2, 4, 6, 8, 3, 5, 7, 9};
 
 uint16_t banked_func(uint8_t be, uint8_t ef) __banked;
 

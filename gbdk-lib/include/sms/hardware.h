@@ -166,4 +166,6 @@ static volatile UBYTE __at(0xffff) MAP_FRAME2;
 #define SYSTEM_PAL     = 0x00
 #define SYSTEM_NTSC    = 0x01
 
+static volatile UBYTE VDP_ATTR_SHIFT;
+
 #endif

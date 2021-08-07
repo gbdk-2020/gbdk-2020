@@ -4,7 +4,7 @@
         .module Runtime
         .area   _HEADER (ABS)
         
-        .globl  .CRT_DEFAULT_PALETTE, _set_bkg_palette, _set_sprite_palette
+        .globl  .CRT_DEFAULT_PALETTE, _set_palette
 
         .org    0x00            ; Reset 00h
         di                      ; disable interrupt
@@ -93,12 +93,12 @@ _WRITE_VDP_DATA::
         push hl
         ld hl, #0x0100
         push hl
-        call _set_bkg_palette
+        call _set_palette
         ld hl, #.CRT_DEFAULT_PALETTE
         push hl
         ld hl, #0x0101
         push hl
-        call _set_sprite_palette
+        call _set_palette
 
         ei                      ; re-enable interrupts before going to main()
         call _main
@@ -194,6 +194,9 @@ _sys_time::
         .ds     0x02
 .vbl_done::
         .ds     0x01
+_VDP_ATTR_SHIFT::
+.vdp_shift::
+        .ds     0x01
     
         .area _INITIALIZER
 
@@ -210,3 +213,4 @@ _sys_time::
         .db .R10_INT_OFF
         .dw 0x0000              ; .sys_time
         .db 0                   ; .vbl_done
+        .db 0                   ; _VDP_ATTR_SHIFT

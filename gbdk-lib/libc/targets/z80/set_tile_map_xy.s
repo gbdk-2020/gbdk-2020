@@ -5,12 +5,12 @@
         .area   _HOME
 
         ;; Set background tile table from (BC) at XY = DE of size WH = HL
-.set_xy_btt::
+.set_tile_map_xy::
         push hl
         ld hl, #.VDP_TILEMAP
 
         ;; Set background tile from (BC) at YX = DE, size WH on stack, to VRAM from address (HL)
-.set_xy_tt::
+.set_tile_map_xy_tt::
         push bc         ; Store source
 
         ld a, d
