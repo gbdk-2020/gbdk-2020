@@ -1,4 +1,4 @@
-CC	= ../../../bin/lcc -mz80:gg -Wl-asms -Wm-yoA -Wa-l -Wl-m -Wl-j
+CC	= ../../../bin/lcc -mz80:gg -Wm-yoA -Wa-l -Wl-m -Wl-j
 
 BINS	= smoketest.gg
 
