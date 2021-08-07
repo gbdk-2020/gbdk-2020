@@ -9,7 +9,7 @@
         push hl
         ld hl, #.VDP_TILEMAP
 
-        ;; Set background tile from (BC) at YX = DE, size HW on stack, to VRAM from address (HL)
+        ;; Set background tile from (BC) at YX = DE, size WH on stack, to VRAM from address (HL)
 .set_xy_tt::
         push bc         ; Store source
 
@@ -30,9 +30,15 @@
         add e
         ld c, a         ; dest BC = HL + ((0x20 * Y) * 2) + (X * 2)
 
-        pop hl          ; HL = source
+        ld a, b
+        cp #>(.VDP_TILEMAP+0x0700)
+        jr c, 5$
+        ld b, #>.VDP_TILEMAP
+5$:
 
+        pop hl          ; HL = source
         pop de          ; DE = HW
+        sla e
         push de         ; store HW
         push bc         ; store dest
 
@@ -40,7 +46,6 @@
         SMS_WRITE_VDP_CMD b, c
         ld c, #.VDP_DATA
         ld b, e
-        sla b
 2$:                     ; copy W tiles
         outi
         jr 3$
@@ -60,11 +65,12 @@
         ld c, a
         adc b
         sub c
-
-;        cp #0x7f
-;        jr nc, 4$
-;        ld a, #0x78
-;4$:        
         ld b, a
+
+        cp #>(.VDP_TILEMAP+0x0700)
+        jr c, 4$
+        ld b, #>.VDP_TILEMAP
+4$:        
+
         push bc
         jr 1$
