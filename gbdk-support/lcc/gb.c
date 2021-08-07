@@ -151,7 +151,7 @@ static CLASS classes[] = {
 			"%includedefault%",
 			"%com% %comdefault% -Wa%asdefault% -DINT_16_BITS $1 %comflag% $2 -o $3",
 			"%as_z80% %asdefault% $1 $3 $2",
-			"",			// bankpack command: turned off for this port:platform
+			"%bankpack% $1 $2",
 			"%ld_z80% -n -i $1 %libs_include% $3 %crt0dir% $2",
 			"%ihxcheck% $2 $1",
 			"%mkbin% -S $1 $2 $3"
@@ -165,7 +165,7 @@ static CLASS classes[] = {
 			"%includedefault%",
 			"%com% %comdefault% -Wa%asdefault% -DINT_16_BITS $1 %comflag% $2 -o $3",
 			"%as_z80% %asdefault% $1 $3 $2",
-			"",			// bankpack command: turned off for this port:platform
+			"%bankpack% $1 $2",
 			"%ld_z80% -n -i $1 %libs_include% $3 %crt0dir% $2",
 			"%ihxcheck% $2 $1",
 			"%mkbin% -S $1 $2 $3"
