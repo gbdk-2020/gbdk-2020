@@ -172,13 +172,6 @@ void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y)
 			}
 		}
 	}
-
-	// Changed this code so empty metasprites are no longer dropped
-	//
-	// Metasprite was empty (made entirely of transparent tiles)
-	// if(mt_sprite.size() == 0) {
-	//	sprites.pop_back();
-	// }
 }
 
 int main(int argc, char *argv[])
@@ -269,7 +262,6 @@ int main(int argc, char *argv[])
 	string output_filename_h = output_filename.substr(0, dot_pos) + ".h";
 	string data_name = output_filename.substr(slash_pos + 1, dot_pos - 1 - slash_pos);
 	replace(data_name.begin(), data_name.end(), '-', '_');
-	printf("data_name:%s\n", data_name.c_str());
 
   //load and decode png
 	vector<unsigned char> buffer;
@@ -352,7 +344,7 @@ int main(int argc, char *argv[])
 	fprintf(file, "const void __at(%d) __bank_%s;\n\n", bank, data_name.c_str());
 
 	fprintf(file, "const UINT16 %s_palettes[%d] = {\n", data_name.c_str(), image.state.info_raw.palettesize);
-	for(int i = 0; i < image.state.info_raw.palettesize / 4; ++i)
+	for(size_t i = 0; i < image.state.info_raw.palettesize / 4; ++i)
 	{
 		if(i != 0)
 			fprintf(file, ",\n");
