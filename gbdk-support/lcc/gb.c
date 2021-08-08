@@ -19,8 +19,6 @@
 extern char *progname;
 extern char * strsave(const char *);
 
-#define ARRAY_LEN(A) (sizeof(A) / sizeof(A[0]))
-
 typedef struct {
 	const char *port;
 	const char *plat;
@@ -83,12 +81,10 @@ static struct {
 		{ "libs_include", "-k %libdir%%port%/ -l %port%.lib -k %libdir%%plat%/ -l %plat%.lib"}
 };
 
-#define NUM_TOKENS	(sizeof(_tokens)/sizeof(_tokens[0]))
-
 static char *getTokenVal(const char *key)
 {
 	int i;
-	for (i = 0; i < NUM_TOKENS; i++) {
+	for (i = 0; i < ARRAY_LEN(_tokens); i++) {
 		if (!strcmp(_tokens[i].name, key))
 			return strdup(_tokens[i].val);
 	}
