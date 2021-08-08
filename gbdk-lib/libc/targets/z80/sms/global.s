@@ -21,6 +21,9 @@
         .VDP_VRAM       = 0x4000
         .VDP_TILEMAP    = 0x7800
         .VDP_CRAM       = 0xC000
+        .VDP_SAT        = 0x7F00
+
+        .VDP_SAT_TERM   = 0xD0
 
         .VDP_VCOUNTER   = 0x7E
         .VDP_PSG        = 0x7F

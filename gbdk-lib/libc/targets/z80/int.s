@@ -4,6 +4,7 @@
         .module INTHandler
 
         .globl  .sys_time, .vbl_done
+        .globl  .OUTI128, .OUTI64, __shadow_OAM_base
 
         .area   _HOME
 
@@ -27,6 +28,31 @@ _INT_ISR::
         ld a, #1
         ld (.vbl_done), a
 
+        ;; transfer shadow OAM
+        ld a, #__shadow_OAM_base
+        or a
+        jr z, 1$
+        ld h, a
+        xor a
+        ld l, a
+        
+        ld c, #.VDP_CMD
+        ld a, #<.VDP_SAT
+        out (c), a
+        ld a, #>.VDP_SAT
+        out (c), a
+        dec c                   ; c == .VDP_DATA
+        call .OUTI64
+        inc c                   ; c == .VDP_CMD
+        ld a, #<(.VDP_SAT + 128)
+        out (c), a
+        ld a, #>(.VDP_SAT + 128)
+        out (c), a
+        dec c                   ; c == .VDP_DATA
+        call .OUTI128
+1$:
+
+        ;; call user-defined VBlank handlers
         ld hl, (.VBLANK_HANDLER0)
         ld a, h
         or l

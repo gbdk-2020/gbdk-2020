@@ -47,6 +47,14 @@ _WRITE_VDP_DATA::
         ld a, (#.BIOS)
         ld (#__BIOS), a         ; save BIOS value
 
+        ld hl, #_shadow_OAM
+        ld de, #(_shadow_OAM + 1)
+        ld bc, #(192 - 1)
+        ld (hl), #0
+        ldir
+        ld hl, #_shadow_OAM
+        ld (hl), #.VDP_SAT_TERM 
+
         ld hl,#0x0000           ; initialize mappers
         ld (#.RAM_CONTROL),hl   ; [.RAM_CONTROL]=$00, [.MAP_FRAME0]=$00
         ld hl,#0x0201
@@ -197,6 +205,8 @@ _sys_time::
 _VDP_ATTR_SHIFT::
 .vdp_shift::
         .ds     0x01
+__shadow_OAM_base::
+        .ds     0x01
     
         .area _INITIALIZER
 
@@ -214,3 +224,4 @@ _VDP_ATTR_SHIFT::
         .dw 0x0000              ; .sys_time
         .db 0                   ; .vbl_done
         .db 0                   ; _VDP_ATTR_SHIFT
+        .db #>_shadow_OAM       ; __shadow_OAM_base
