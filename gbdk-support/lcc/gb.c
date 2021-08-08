@@ -95,7 +95,7 @@ static char *getTokenVal(const char *key)
 static void setTokenVal(const char *key, const char *val)
 {
 	int i;
-	for (i = 0; i < NUM_TOKENS; i++) {
+	for (i = 0; i < ARRAY_LEN(_tokens); i++) {
 		if (!strcmp(_tokens[i].name, key)) {
 			_tokens[i].val = strdup(val);
 			return;
