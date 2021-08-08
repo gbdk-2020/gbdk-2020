@@ -2,6 +2,7 @@
 #include <string>
 #include <algorithm>
 #include <cstring>
+#include <set>
 #include "lodepng.h"
 
 using namespace std;
@@ -15,11 +16,12 @@ typedef vector< unsigned char > Tile;
 
 struct PNGImage
 {
-	vector< unsigned char > data;
+	vector< unsigned char > data; //data in indexed format
 	unsigned int w;
 	unsigned int h;
 
-	lodepng::State state;
+	size_t palettesize; //number of palette colors
+	unsigned char* palette; //palette colors in RGBA (1 color == 4 bytes)
 
 	unsigned char GetGBColor(int x, int y)
 	{
@@ -174,22 +176,91 @@ void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y)
 	}
 }
 
+//Functor to compare entries in SetPal
+struct CmpIntColor {
+  bool operator() (unsigned int const& c1, unsigned int const& c2) const
+  {
+    unsigned char* c1_ptr = (unsigned char*)&c1;
+		unsigned char* c2_ptr = (unsigned char*)&c2;
+
+		//Compare alpha first, transparent color is considered smaller
+		if(c1_ptr[0] != c2_ptr[0])
+		{
+			return c1_ptr[0] < c2_ptr[0];
+		}
+		else
+		{
+			unsigned int lum_1 = (unsigned int)(c1_ptr[3] * 0.299f + c1_ptr[2] * 0.587f + c1_ptr[1] * 0.114f);
+			unsigned int lum_2 = (unsigned int)(c2_ptr[3] * 0.299f + c2_ptr[2] * 0.587f + c2_ptr[1] * 0.114f);
+			return lum_1 > lum_2;
+		}
+  }
+};
+
+//This set will keep colors in the palette ordered based on their grayscale values to ensure they look good on DMG
+//This assumes the palette used in DMG will be 00 01 10 11
+typedef set< unsigned int, CmpIntColor > SetPal;
+
+SetPal GetPaletteColors(const PNGImage& image, int x, int y, int w, int h)
+{
+	SetPal ret;
+	for(int j = y; j < (y + h); ++ j)
+	{
+		for(int i = x; i < (x + w); ++ i)
+		{
+			const unsigned char* color = &image.data[(j * image.w + i) * 4];
+			int color_int = (color[0] << 24) | (color[1] << 16) | (color[2] << 8) | color[3];
+			ret.insert(color_int);
+		}
+	}
+
+	for(SetPal::iterator it = ret.begin(); it != ret.end(); ++it)
+	{
+		if(it != ret.begin() && ((0xFF & *it) != 0xFF)) //ret.begin() should be the only one transparent
+			printf("Warning: found more than one transparent color on x:%d,y:%d,w:%d,h:%d\n", x, y, w, h);
+	}
+
+	return ret;
+}
+
+void Export(const PNGImage& image, const char* path)
+{
+	lodepng::State state;
+	state.info_png.color.colortype = LCT_PALETTE; 
+	state.info_png.color.bitdepth = 8;
+	state.info_raw.colortype = LCT_PALETTE;
+	state.info_raw.bitdepth = 8;
+	state.encoder.auto_convert = 0; //we specify ourselves exactly what output PNG color mode we want
+
+#define ADD_PALETTE(R, G, B, A) lodepng_palette_add(&state.info_png.color, R, G, B, A); lodepng_palette_add(&state.info_raw, R, G, B, A)
+	for(size_t p = 0; p < image.palettesize; ++ p)
+	{
+		unsigned char* c = &image.palette[p * 4];
+		ADD_PALETTE(c[0], c[1], c[2], c[3]);
+	}
+				
+	std::vector<unsigned char> buffer;
+	lodepng::encode(buffer, image.data, image.w, image.h, state);
+	lodepng::save_file(buffer, path);
+}
+
 int main(int argc, char *argv[])
 {
 	if(argc < 2)
 	{
 		printf("usage: png2mtspr <file>.png [options]\n");
-		printf("-c            ouput file (default: <png file>.c)\n");
-		printf("-sw <width>   metasprites width size (default: png width)\n");
-		printf("-sh <height>  metasprites height size (default: png height)\n");
-		printf("-sp <props>   change default for sprite OAM property bytes (in hex) (default: 0x00)\n");
-		printf("-px <x coord> metasprites pivot x coordinate (default: metasprites width / 2)\n");
-		printf("-py <y coord> metasprites pivot y coordinate (default: metasprites height / 2)\n");
-		printf("-pw <width>   metasprites collision rect widht (default: metasprites width)\n");
-		printf("-ph <height>  metasprites collision rect height (default: metasprites height)\n");
-		printf("-spr8x8       use SPRITES_8x8 (default: SPRITES_8x16)\n");
-		printf("-spr8x16      use SPRITES_8x16 (default: SPRITES_8x16)\n");
-		printf("-b <bank>     bank (default 0)\n");
+		printf("-c                  ouput file (default: <png file>.c)\n");
+		printf("-sw <width>         metasprites width size (default: png width)\n");
+		printf("-sh <height>        metasprites height size (default: png height)\n");
+		printf("-sp <props>         change default for sprite OAM property bytes (in hex) (default: 0x00)\n");
+		printf("-px <x coord>       metasprites pivot x coordinate (default: metasprites width / 2)\n");
+		printf("-py <y coord>       metasprites pivot y coordinate (default: metasprites height / 2)\n");
+		printf("-pw <width>         metasprites collision rect widht (default: metasprites width)\n");
+		printf("-ph <height>        metasprites collision rect height (default: metasprites height)\n");
+		printf("-spr8x8             use SPRITES_8x8 (default: SPRITES_8x16)\n");
+		printf("-spr8x16            use SPRITES_8x16 (default: SPRITES_8x16)\n");
+		printf("-b <bank>           bank (default 0)\n");
+		printf("-keep_palette_order use png palette\n");
 		return 0;
 	}
 
@@ -204,6 +275,7 @@ int main(int argc, char *argv[])
   string output_filename = argv[1];
 	output_filename = output_filename.substr(0, output_filename.size() - 4) + ".c";
 	int bank = 0;
+	bool keep_palette_order = false;
 
 	//Parse argv
 	for(int i = 2; i < argc; ++i)
@@ -252,6 +324,10 @@ int main(int argc, char *argv[])
 		{
 			bank = atoi(argv[++ i]);
 		}
+		else if(!strcmp(argv[i], "-keep_palette_order"))
+		{
+			keep_palette_order = true;
+		}
 	}
 
 	int slash_pos = (int)output_filename.find_last_of('/');
@@ -265,29 +341,120 @@ int main(int argc, char *argv[])
 
   //load and decode png
 	vector<unsigned char> buffer;
+	lodepng::load_file(buffer, argv[1]);
 	lodepng::State state;
-	image.state.info_raw.colortype = LCT_PALETTE;
-  image.state.info_raw.bitdepth = 8;
-	image.state.decoder.color_convert = false;
-  lodepng::load_file(buffer, argv[1]);
-  unsigned error = lodepng::decode(image.data, image.w, image.h, image.state, buffer);
-	if(error)
+	if(keep_palette_order)
 	{
-		printf("decoder error %s\n", lodepng_error_text(error));
-		return 1;
-	}
+		//Calling with keep_palette_order means
+		//-The image is png8
+		//-Each 4 colors define a gbc palette, the first one is the transparent one
+		//-Each rectangle with dimension(8, tile_h) in the image has colors from one of those palettes
+		state.info_raw.colortype = LCT_PALETTE;
+		state.info_raw.bitdepth = 8;
+		state.decoder.color_convert = false;
+		unsigned error = lodepng::decode(image.data, image.w, image.h, state, buffer);
+		if(error)
+		{
+			printf("decoder error %s\n", lodepng_error_text(error));
+			return 1;
+		}
 
-	if(image.state.info_raw.colortype != LCT_PALETTE)
-	{
-		printf("error %s: Only png8 is supported", argv[1]);
-		return 1;
-	}
+		if(state.info_raw.colortype != LCT_PALETTE)
+		{
+			printf("error: keep_palette_order only works with png8");
+			return 1;
+		}
 
-	/*if(image.state.info_raw.palettesize > 32)
+		image.palettesize = state.info_raw.palettesize;
+		image.palette = state.info_raw.palette;
+	}
+	else
 	{
-		printf("error %s: Found %d colors", argv[1], image.state.info_raw.palettesize);
-		return 1;
-	}*/
+		PNGImage image32;
+		unsigned error = lodepng::decode(image32.data, image32.w, image32.h, state, buffer); //decode as 32 bit
+		if(error)
+		{
+			printf("decoder error %s\n", lodepng_error_text(error));
+			return 1;
+		}
+
+		int* palettes_per_tile = new int[(image32.w / 8) * (image32.h /tile_h)];
+		vector< SetPal > palettes;
+		for(unsigned int y = 0; y < image32.h; y += tile_h)
+		{
+			for(unsigned int x = 0; x < image32.w; x += 8)
+			{
+				//Get palette colors on (x, y, 8, tile_h)
+				SetPal pal = GetPaletteColors(image32, x, y, 8, tile_h);
+				if(pal.size() > 4)
+				{
+					printf("Error: more than 4 colors found on (%d, %d, %d, %d)\n", x, y, 8, tile_h);
+					return 1;
+				}
+
+				//Check if it matches any palettes or create a new one
+				size_t i;
+				for(i = 0; i < palettes.size(); ++i)
+				{
+					//Try to merge this palette wit any of the palettes (checking if they are equal is not enough since the palettes can have less than 4 colors)
+					SetPal merged(palettes[i]);
+					merged.insert(pal.begin(), pal.end());
+					if(merged.size() <= 4)
+					{
+						if(palettes[i].size() <= 4)
+							palettes[i] = merged; //Increase colors with this palette (it has less than 4 colors)
+						break; //Found palette
+					}
+				}
+
+				if(i == palettes.size())
+				{
+					//Palette not found, add a new one
+					if(palettes.size() == 8)
+					{
+						printf("Error: more than 8 palettes found\n");
+						return 1;
+					}
+
+					palettes.push_back(pal);
+				}
+
+				palettes_per_tile[(y / tile_h) * (image32.w / 8) + (x / 8)] = i;
+			}
+		}
+		
+		//Create the indexed image
+		image.data.clear();
+		image.w = image32.w;
+		image.h = image32.h;
+		
+		image.palettesize = palettes.size() * 4;
+		image.palette = new unsigned char[palettes.size() * 4 * 4]; //4 color * 4 bytes each
+		for(size_t p = 0; p < palettes.size(); ++ p)
+		{
+			int *color_ptr = (int*)&image.palette[p * 16];
+			for(SetPal::iterator it = palettes[p].begin(); it != palettes[p].end(); ++ it, color_ptr ++)
+			{
+				unsigned char* c = (unsigned char*)&(*it);
+				*color_ptr = (c[0] << 24) | (c[1] << 16) | (c[2] << 8) | c[3];
+			}
+		}
+
+		for(size_t y = 0; y < image32.h; ++ y)
+		{
+			for(size_t x = 0; x < image32.w; ++x)
+			{
+				unsigned char* c32ptr = &image32.data[(image32.w * y + x) * 4];
+				int color32 = (c32ptr[0] << 24) | (c32ptr[1] << 16) | (c32ptr[2] << 8) | c32ptr[3];
+				unsigned char palette = palettes_per_tile[(y / tile_h) * (image32.w / 8) + (x / 8)];
+				unsigned char index = std::distance(palettes[palette].begin(), palettes[palette].find(color32));
+				image.data.push_back((palette << 2) + index);
+			}
+		}
+
+		//Test: output png to see how it looks
+		//Export(image, "temp.png");
+	}
 
 	if(sprite_w == 0) sprite_w = (int)image.w;
 	if(sprite_h == 0) sprite_h = (int)image.h;
@@ -343,14 +510,14 @@ int main(int argc, char *argv[])
 
 	fprintf(file, "const void __at(%d) __bank_%s;\n\n", bank, data_name.c_str());
 
-	fprintf(file, "const UINT16 %s_palettes[%d] = {\n", data_name.c_str(), image.state.info_raw.palettesize);
-	for(size_t i = 0; i < image.state.info_raw.palettesize / 4; ++i)
+	fprintf(file, "const UINT16 %s_palettes[%d] = {\n", data_name.c_str(), image.palettesize);
+	for(size_t i = 0; i < image.palettesize / 4; ++i)
 	{
 		if(i != 0)
 			fprintf(file, ",\n");
 		fprintf(file, "\t");
 
-		unsigned char* pal_ptr = &image.state.info_raw.palette[i * 16];
+		unsigned char* pal_ptr = &image.palette[i * 16];
 		for(int c = 0; c < 4; ++ c, pal_ptr += 4)
 		{
 			fprintf(file, "RGB(%d, %d, %d)", pal_ptr[0] >> 3, pal_ptr[1] >> 3, pal_ptr[2] >> 3);
@@ -404,7 +571,7 @@ int main(int argc, char *argv[])
 	fprintf(file, "\t%d, //height\n", pivot_h);
 	fprintf(file, "\t%d, //num_tiles\n", tiles.size() * (tile_h >> 3));
 	fprintf(file, "\t%s_data, //data\n", data_name.c_str());
-	fprintf(file, "\t%d, //num palettes\n", image.state.info_raw.palettesize >> 2);
+	fprintf(file, "\t%d, //num palettes\n", image.palettesize >> 2);
 	fprintf(file, "\t%s_palettes, //CGB palette\n", data_name.c_str());
 	fprintf(file, "\t%d, //num sprites\n", sprites.size());
 	fprintf(file, "\t%s_metasprites, //metasprites\n", data_name.c_str());
