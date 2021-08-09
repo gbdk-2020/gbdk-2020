@@ -9,7 +9,11 @@ extern const unsigned int earth_data_size;
 const uint8_t tilemap[] = {2, 4, 6, 8, 3, 5, 7, 9};
 
 uint16_t banked_func(uint8_t be, uint8_t ef) __banked;
-uint8_t x = 8, y = 0, anim = 0, tick = 0;
+
+int16_t x = 8 << 4, y = 0;
+int8_t xspd = 0, yspd  = 0;
+
+uint8_t anim = 0, tick = 0;
 
 joypads_t joy;
 void main() {
@@ -34,17 +38,29 @@ void main() {
     while(TRUE) {
         joypad_ex(&joy);
 
-        if (joy.joy0 & J_LEFT) {
-            if (x > 8) x--; 
+        if (joy.joy0 & J_LEFT) {            
+            if (xspd > -32) xspd -= 2; 
         } else if (joy.joy0 & J_RIGHT) {
-            if (x < (30 * 8)) x++; 
+            if (xspd < 32) xspd += 2;
+        } else {
+            if (xspd < 0) xspd++; else if (xspd > 0) xspd--;            
         }
+        
         if (joy.joy0 & J_UP) {
-            if (y) y--; 
+            if (yspd > -32) yspd -= 2; 
         } else if (joy.joy0 & J_DOWN) {
-            if (y < ((22 * 8) - 1)) y++; 
+            if (yspd < 32) yspd += 2;
+        } else {
+            if (yspd < 0) yspd++; else if (yspd > 0) yspd--;
         }
 
+        x += xspd;
+        if (x < (8 << 4)) x = 8 << 4; else if (x > (30 * 8) << 4) x = (30 * 8) << 4;
+
+        
+        y += yspd;
+        if (y < 0) y = 0; else if (y > (22 * 8) << 4) y = (22 * 8) << 4;
+        
         tick++; tick &= 7;
         if (!tick) {
             anim++; if (anim == 7) anim = 0;
@@ -52,8 +68,8 @@ void main() {
             set_sprite_tile(1, (anim << 2) + 2);
         }
 
-        move_sprite(0, x, y);
-        move_sprite(1, x + 8, y);
+        move_sprite(0, x >> 4, y >> 4);
+        move_sprite(1, (x >> 4) + 8, y >> 4);
 
         if (joy.joy1 & J_LEFT) {
             scroll_bkg(-1, 0);
