@@ -42,7 +42,11 @@
         push de         ; store HW
         push bc         ; store dest
 
+        ld a, #0x01
+        ld (__shadow_OAM_OFF), a        ; switch OFF copy shadow SAT
+
 1$:                     ; copy H rows
+        set 6, b
         SMS_WRITE_VDP_CMD b, c
         ld c, #.VDP_DATA
         ld b, e
@@ -56,7 +60,7 @@
         pop bc
         pop de
         dec d
-        ret z
+        jr z, 6$
 
         push de
 
@@ -71,6 +75,9 @@
         jr c, 4$
         ld b, #>.VDP_TILEMAP
 4$:        
-
         push bc
         jr 1$
+6$:
+        xor a
+        ld (__shadow_OAM_OFF), a        ; switch ON copy shadow SAT
+        ret

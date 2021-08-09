@@ -18,12 +18,12 @@ _set_tile_2bpp_data::
         ld bc, #.VDP_VRAM
         add hl, bc
                 
-        set 6, h
-       
-        ld c, a
-       
+        ld a, #0x01
+        ld (__shadow_OAM_OFF), a        ; switch OFF copy shadow SAT
+
+        set 6, h       
         SMS_WRITE_VDP_CMD h, l
-        
+
         pop bc
         pop hl
         push de
@@ -61,5 +61,8 @@ _set_tile_2bpp_data::
 
         dec d
         jr  nz, 1$
-        
+
+        xor a
+        ld (__shadow_OAM_OFF), a        ; switch ON copy shadow SAT
+
         ret

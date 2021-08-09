@@ -164,8 +164,8 @@
 
         ;; Symbols defined at link time
         .globl  .STACK
-        .globl  _shadow_OAM     ; temporary
-        .globl  .refresh_OAM    ; temporary
+        .globl  _shadow_OAM
+        .globl  __shadow_OAM_OFF
         
         ;; Main user routine    
         .globl  _main

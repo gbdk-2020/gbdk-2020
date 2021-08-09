@@ -18,8 +18,10 @@ _set_tile_data::
         ld bc, #.VDP_VRAM
         add hl, bc
                 
-        set 6, h
-       
+        ld a, #0x01
+        ld (__shadow_OAM_OFF), a        ; switch OFF copy shadow SAT
+
+        set 6, h       
         SMS_WRITE_VDP_CMD h, l
 
         pop bc        
@@ -46,4 +48,7 @@ _set_tile_data::
         dec d
         jr nz, 1$
         
+        xor a
+        ld (__shadow_OAM_OFF), a        ; switch ON copy shadow SAT
+
         ret

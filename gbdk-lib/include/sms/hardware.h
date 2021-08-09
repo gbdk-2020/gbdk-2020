@@ -163,9 +163,11 @@ static volatile UBYTE __at(0xfffd) MAP_FRAME0;
 static volatile UBYTE __at(0xfffe) MAP_FRAME1; 
 static volatile UBYTE __at(0xffff) MAP_FRAME2; 
         
-#define SYSTEM_PAL     = 0x00
-#define SYSTEM_NTSC    = 0x01
+#define SYSTEM_PAL     0x00
+#define SYSTEM_NTSC    0x01
 
 static volatile UBYTE VDP_ATTR_SHIFT;
+
+#define VDP_SAT_TERM   0xD0
 
 #endif

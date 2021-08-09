@@ -255,17 +255,17 @@ void joypad_ex(joypads_t * joypads) __z88dk_fastcall __preserves_regs(iyh, iyl);
 #endif
 
 #define set_bkg_palette_entry set_palette_entry
-#define set_sprite_palette_entry set_palette_entry
+#define set_sprite_palette_entry(palette,entry,rgb_data) set_palette_entry(1,entry,rgb_data)
 void set_palette_entry(uint8_t palette, uint8_t entry, uint16_t rgb_data) __z88dk_callee __preserves_regs(iyh, iyl);
 #define set_bkg_palette set_palette
-#define set_sprite_palette set_palette
+#define set_sprite_palette(first_palette,nb_palettes,rgb_data) set_palette(1,1,rgb_data)
 void set_palette(uint8_t first_palette, uint8_t nb_palettes, uint16_t *rgb_data) __z88dk_callee;
 
 #define set_bkg_data set_tile_data
-#define set_sprite_data set_tile_data
+#define set_sprite_data(start,ntiles,src) set_tile_data((uint8_t)(start)+0x100,(uint8_t)(ntiles),src)
 void set_tile_data(uint16_t start, uint16_t ntiles, const void *src) __z88dk_callee __preserves_regs(iyh,iyl);
 #define set_bkg_2bpp_data set_tile_2bpp_data
-#define set_sprite_2bpp_data set_tile_2bpp_data
+#define set_sprite_2bpp_data(start,ntiles,src) set_tile_2bpp_data((uint8_t)(start)+0x100,(uint8_t)(ntiles),src)
 void set_tile_2bpp_data(uint16_t start, uint16_t ntiles, const void *src) __z88dk_callee __preserves_regs(iyh,iyl);
 
 void vmemcpy(uint16_t dst, const void *src, uint16_t size) __z88dk_callee __preserves_regs(iyh, iyl);
@@ -274,5 +274,121 @@ void set_tile_map(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *til
 #define set_bkg_tiles set_tile_map_compat
 #define set_win_tiles set_tile_map_compat
 void set_tile_map_compat(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles) __z88dk_callee __preserves_regs(iyh, iyl);
+
+/** Sprite Attributes structure
+    @param x     X Coordinate of the sprite on screen
+    @param y     Y Coordinate of the sprite on screen
+    @param tile  Sprite tile number (see @ref set_sprite_tile)
+*/
+typedef struct OAM_item_t {
+    uint8_t y;     //< Y Coordinate of the sprite on screen
+    uint8_t _pad[63];
+    uint8_t x;     //< X Coordinate of the sprite on screen
+    uint8_t tile;  //< Sprite tile number
+} OAM_item_t;
+
+
+/** Shadow OAM array in WRAM, that is transferred into the real OAM each VBlank
+*/
+extern volatile uint8_t shadow_OAM[];
+
+/** MSB of shadow_OAM address is used by OAM copying routine
+*/
+extern volatile uint8_t _shadow_OAM_base;
+
+/** Flag for disabling of OAM copying routine
+*/
+extern volatile uint8_t _shadow_OAM_OFF;
+
+/** Disable OAM copy each VBlank (note: there is no real DMA, this name is for compatibility with GB library)
+*/
+#define DISABLE_OAM_DMA \
+    _shadow_OAM_OFF = 1
+
+/** Enable OAM DMA copy each VBlank and set it to transfer default shadow_OAM array
+*/
+#define ENABLE_OAM_DMA \
+    _shadow_OAM_OFF = 0
+
+/** Enable OAM DMA copy each VBlank and set it to transfer any 256-byte aligned array
+*/
+inline void SET_SHADOW_OAM_ADDRESS(void * address) {
+    _shadow_OAM_base = (uint8_t)((uint16_t)address >> 8);
+}
+
+/** Sets sprite number __nb__in the OAM to display tile number __tile__.
+
+    @param nb    Sprite number, range 0 - 39
+    @param tile  Selects a tile (0 - 255) from memory at 8000h - 8FFFh
+                 \n In CGB Mode this could be either in VRAM Bank
+                 \n 0 or 1, depending on Bit 3 of the OAM Attribute Flag
+                 \n (see @ref set_sprite_prop)
+
+    In 8x16 mode:
+    \li The sprite will also display the next tile (__tile__ + 1)
+        directly below (y + 8) the first tile.
+    \li The lower bit of the tile number is ignored:
+        the upper 8x8 tile is (__tile__ & 0xFE), and
+        the lower 8x8 tile is (__tile__ | 0x01).
+    \li See: @ref SPRITES_8x16
+*/
+inline void set_sprite_tile(uint8_t nb, uint8_t tile) {
+    ((OAM_item_t *)(&shadow_OAM + nb))->tile=tile;
+}
+
+
+/** Returns the tile number of sprite number __nb__ in the OAM.
+
+@param nb    Sprite number, range 0 - 39
+
+@see set_sprite_tile for more details
+*/
+inline uint8_t get_sprite_tile(uint8_t nb) {
+    return ((OAM_item_t *)(&shadow_OAM + nb))->tile;
+}
+
+/** Moves sprite number __nb__ to the __x__, __y__ position on the screen.
+
+    @param nb  Sprite number, range 0 - 39
+    @param x   X Position. Specifies the sprites horizontal position on the screen (minus 8).
+               \n An offscreen value (X=0 or X>=168) hides the sprite, but the sprite
+               still affects the priority ordering - a better way to hide a sprite is to set
+               its Y-coordinate offscreen.
+    @param y   Y Position. Specifies the sprites vertical position on the screen (minus 16).
+               \n An offscreen value (for example, Y=0 or Y>=160) hides the sprite.
+
+    Moving the sprite to 0,0 (or similar off-screen location) will hide it.
+*/
+inline void move_sprite(uint8_t nb, uint8_t x, uint8_t y) {
+    OAM_item_t * itm = (OAM_item_t *)(&shadow_OAM + nb);
+    itm->y=(y<VDP_SAT_TERM)?y:0xC0, itm->x=x;
+}
+
+
+/** Moves sprite number __nb__ relative to its current position.
+
+    @param nb  Sprite number, range 0 - 39
+    @param x   Number of pixels to move the sprite on the __X axis__
+               \n Range: -128 - 127
+    @param y   Number of pixels to move the sprite on the __Y axis__
+               \n Range: -128 - 127
+
+    @see move_sprite for more details about the X and Y position
+ */
+inline void scroll_sprite(uint8_t nb, int8_t x, int8_t y) {
+    OAM_item_t * itm = (OAM_item_t *)(&shadow_OAM + nb);
+    uint8_t new_y = itm->y+=y;
+    itm->y=(new_y<VDP_SAT_TERM)?new_y:0xC0, itm->x+=x;
+}
+
+
+/** Hides sprite number __nb__ by moving it to zero position by Y.
+
+    @param nb  Sprite number, range 0 - 39
+ */
+inline void hide_sprite(uint8_t nb) {
+    ((OAM_item_t *)(&shadow_OAM + nb))->y = 0;
+}
+
 
 #endif /* _SMS_H */

@@ -18,6 +18,7 @@ _set_palette_entry::
         ld c, b
         ld b, #0
         add hl, bc
+        set 6, h
         pop bc
 
         ld a, i
@@ -48,8 +49,13 @@ _set_palette::
         ld c, #0x10
 1$:
         add hl, bc
+        set 6, h
 
         ld c, a
+
+        ld a, #0x01
+        ld (__shadow_OAM_OFF), a        ; switch OFF copy shadow SAT
+
         ld a, i
         di
         ld a, l
@@ -74,6 +80,9 @@ _set_palette::
         dec a
         jr nz, 5$
 3$:        
+        xor a
+        ld (__shadow_OAM_OFF), a        ; switch ON copy shadow SAT
+
         ld h, d
         ld l, e
         jp (hl)

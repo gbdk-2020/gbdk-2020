@@ -49,11 +49,12 @@ _WRITE_VDP_DATA::
 
         ld hl, #_shadow_OAM
         ld de, #(_shadow_OAM + 1)
-        ld bc, #(192 - 1)
-        ld (hl), #0
+        ld bc, #64
+        ld (hl), #0xc0
         ldir
-        ld hl, #_shadow_OAM
-        ld (hl), #.VDP_SAT_TERM 
+        ld (hl), #0
+        ld bc, #(128 - 1)
+        ldir
 
         ld hl,#0x0000           ; initialize mappers
         ld (#.RAM_CONTROL),hl   ; [.RAM_CONTROL]=$00, [.MAP_FRAME0]=$00
@@ -207,6 +208,8 @@ _VDP_ATTR_SHIFT::
         .ds     0x01
 __shadow_OAM_base::
         .ds     0x01
+__shadow_OAM_OFF::
+        .ds     0x01
     
         .area _INITIALIZER
 
@@ -225,3 +228,4 @@ __shadow_OAM_base::
         .db 0                   ; .vbl_done
         .db 0                   ; _VDP_ATTR_SHIFT
         .db #>_shadow_OAM       ; __shadow_OAM_base
+        .db 0                   ; __shadow_OAM_OFF

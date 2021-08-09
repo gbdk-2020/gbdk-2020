@@ -22,7 +22,7 @@ make.bat: Makefile
 	$(CC) -c -o $@ $<
 
 $(BINS):	$(OBJS)
-	$(CC) -Wl-b_DATA=0xc0c0 -Wm-yS -o $@ $^
+	$(CC) -Wm-yS -o $@ $^
 	rm -f *.map *.noi *.ihx *.lst
 
 clean:

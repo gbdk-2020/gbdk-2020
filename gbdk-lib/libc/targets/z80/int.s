@@ -18,7 +18,7 @@ _INT_ISR::
 
         in a, (.VDP_STAT)
         and #.STATF_INT_VBL
-        jr z, 1$
+        jr z, 0$
         ;; handle VBlank
         
         ld hl, (.sys_time)
@@ -29,28 +29,28 @@ _INT_ISR::
         ld (.vbl_done), a
 
         ;; transfer shadow OAM
-        ld a, #__shadow_OAM_base
+        ld a, (__shadow_OAM_OFF)        ; check transfer is OFF
         or a
-        jr z, 1$
-        ld h, a
-        xor a
-        ld l, a
-        
+        jr nz, 1$
+        ld hl, #__shadow_OAM_base
+        ld h, (hl)
+        ld l, a                 ; a == 0 here
+
         ld c, #.VDP_CMD
         ld a, #<.VDP_SAT
         out (c), a
-        ld a, #>.VDP_SAT
+        ld a, #>(.VDP_SAT | 0x40)
         out (c), a
         dec c                   ; c == .VDP_DATA
         call .OUTI64
         inc c                   ; c == .VDP_CMD
-        ld a, #<(.VDP_SAT + 128)
+        ld a, #<(.VDP_SAT + 0x80)
         out (c), a
-        ld a, #>(.VDP_SAT + 128)
+        ld a, #>(.VDP_SAT + 0x80)
         out (c), a
         dec c                   ; c == .VDP_DATA
         call .OUTI128
-1$:
+0$:
 
         ;; call user-defined VBlank handlers
         ld hl, (.VBLANK_HANDLER0)
