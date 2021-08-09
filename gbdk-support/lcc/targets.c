@@ -11,20 +11,20 @@
 
 // Game Boy / AP
 arg_entry llist0_defaults_gb[] = {
-    {searchkey: "_shadow_OAM=",  addflag: "-g", addvalue: "_shadow_OAM=0xC000",  found: false},
-    {searchkey: ".STACK=",       addflag: "-g", addvalue: ".STACK=0xE000",       found: false},
-    {searchkey: ".refresh_OAM=", addflag: "-g", addvalue: ".refresh_OAM=0xFF80", found: false},
-    {searchkey: "_DATA=",        addflag: "-b", addvalue: "_DATA=0xC0A0",        found: false},
-    {searchkey: "_CODE=",        addflag: "-b", addvalue: "_CODE=0x0200",        found: false},
+    {.searchkey= "_shadow_OAM=", .addflag= "-g",.addvalue= "_shadow_OAM=0xC000", .found= false},
+    {.searchkey= ".STACK=",      .addflag= "-g",.addvalue= ".STACK=0xE000",      .found= false},
+    {.searchkey= ".refresh_OAM=",.addflag= "-g",.addvalue= ".refresh_OAM=0xFF80",.found= false},
+    {.searchkey= "_DATA=",       .addflag= "-b",.addvalue= "_DATA=0xC0A0",       .found= false},
+    {.searchkey= "_CODE=",       .addflag= "-b",.addvalue= "_CODE=0x0200",       .found= false},
 };
 
 // SMS / GG
 arg_entry llist0_defaults_sms[] = {
-    {searchkey: ".STACK=",       addflag: "-g", addvalue: ".STACK=0xFFFC",       found: false},
-    {searchkey: "_DATA=",        addflag: "-b", addvalue: "_DATA=0xC000",        found: false},
-    {searchkey: "_CODE=",        addflag: "-b", addvalue: "_CODE=0x0200",        found: false},
+    {.searchkey= "_shadow_OAM=", .addflag= "-g",.addvalue= "_shadow_OAM=0xC000", .found= false},
+    {.searchkey= ".STACK=",      .addflag= "-g",.addvalue= ".STACK=0xDFF0",      .found= false},
+    {.searchkey= "_DATA=",       .addflag= "-b",.addvalue= "_DATA=0xC0C0",       .found= false},
+    {.searchkey= "_CODE=",       .addflag= "-b",.addvalue= "_CODE=0x0200",       .found= false},
 };
-
 
 
 // Port/Platform specific settings
