@@ -50,7 +50,6 @@
         ld (__shadow_OAM_OFF), a        ; switch OFF copy shadow SAT
 
 1$:                     ; copy H rows
-        set 6, b
         SMS_WRITE_VDP_CMD b, c
         ld c, #.VDP_DATA
         ld b, e

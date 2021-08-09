@@ -112,6 +112,37 @@ inline void display_off(void) {
 #define DISPLAY_OFF \
 	display_off();
 
+/** Blanks leftmost column, so it is not garbaged when you use horizontal scroll
+    @see SHOW_LEFT_COLUMN
+*/
+#define HIDE_LEFT_COLUMN \
+	__WRITE_VDP_REG(VDP_R0, __READ_VDP_REG(VDP_R0) |= R0_LCB)
+
+/** Shows leftmost column
+    @see HIDE_LEFT_COLUMN
+*/
+#define SHOW_LEFT_COLUMN \
+	__WRITE_VDP_REG(VDP_R0, __READ_VDP_REG(VDP_R0) &= (~R0_LCB))
+
+/** Turns on the sprites layer.
+    Not yet implemented
+*/
+#define SHOW_SPRITES
+
+/** Turns off the sprites layer.
+    Not yet implemented
+*/
+#define HIDE_SPRITES
+
+/** Sets sprite size to 8x16 pixels, two tiles one above the other.
+*/
+#define SPRITES_8x16 \
+	__WRITE_VDP_REG(VDP_R1, __READ_VDP_REG(VDP_R1) |= R1_SPR_8X16)
+
+/** Sets sprite size to 8x8 pixels, one tile.
+*/
+#define SPRITES_8x8 \
+	__WRITE_VDP_REG(VDP_R1, __READ_VDP_REG(VDP_R1) &= (~R1_SPR_8X16))
 
 /** Tracks current active ROM bank in frame 1
 */
@@ -275,19 +306,6 @@ void set_tile_map(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *til
 #define set_win_tiles set_tile_map_compat
 void set_tile_map_compat(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles) __z88dk_callee __preserves_regs(iyh, iyl);
 
-/** Sprite Attributes structure
-    @param x     X Coordinate of the sprite on screen
-    @param y     Y Coordinate of the sprite on screen
-    @param tile  Sprite tile number (see @ref set_sprite_tile)
-*/
-typedef struct OAM_item_t {
-    uint8_t y;     //< Y Coordinate of the sprite on screen
-    uint8_t _pad[63];
-    uint8_t x;     //< X Coordinate of the sprite on screen
-    uint8_t tile;  //< Sprite tile number
-} OAM_item_t;
-
-
 /** Shadow OAM array in WRAM, that is transferred into the real OAM each VBlank
 */
 extern volatile uint8_t shadow_OAM[];
@@ -333,7 +351,7 @@ inline void SET_SHADOW_OAM_ADDRESS(void * address) {
     \li See: @ref SPRITES_8x16
 */
 inline void set_sprite_tile(uint8_t nb, uint8_t tile) {
-    ((OAM_item_t *)(&shadow_OAM + nb))->tile=tile;
+    shadow_OAM[0x41+(nb << 1)] = tile;
 }
 
 
@@ -344,7 +362,7 @@ inline void set_sprite_tile(uint8_t nb, uint8_t tile) {
 @see set_sprite_tile for more details
 */
 inline uint8_t get_sprite_tile(uint8_t nb) {
-    return ((OAM_item_t *)(&shadow_OAM + nb))->tile;
+    return shadow_OAM[0x41+(nb << 1)];
 }
 
 /** Moves sprite number __nb__ to the __x__, __y__ position on the screen.
@@ -360,8 +378,8 @@ inline uint8_t get_sprite_tile(uint8_t nb) {
     Moving the sprite to 0,0 (or similar off-screen location) will hide it.
 */
 inline void move_sprite(uint8_t nb, uint8_t x, uint8_t y) {
-    OAM_item_t * itm = (OAM_item_t *)(&shadow_OAM + nb);
-    itm->y=(y<VDP_SAT_TERM)?y:0xC0, itm->x=x;
+    shadow_OAM[nb] = (y < VDP_SAT_TERM) ? y : 0xC0; 
+    shadow_OAM[0x40+(nb << 1)] = x;
 }
 
 
@@ -376,9 +394,9 @@ inline void move_sprite(uint8_t nb, uint8_t x, uint8_t y) {
     @see move_sprite for more details about the X and Y position
  */
 inline void scroll_sprite(uint8_t nb, int8_t x, int8_t y) {
-    OAM_item_t * itm = (OAM_item_t *)(&shadow_OAM + nb);
-    uint8_t new_y = itm->y+=y;
-    itm->y=(new_y<VDP_SAT_TERM)?new_y:0xC0, itm->x+=x;
+    uint8_t new_y = shadow_OAM[nb] + y;
+    shadow_OAM[nb] = (new_y < VDP_SAT_TERM) ? new_y : 0xC0; 
+    shadow_OAM[0x40+(nb << 1)] = x;
 }
 
 
@@ -387,7 +405,7 @@ inline void scroll_sprite(uint8_t nb, int8_t x, int8_t y) {
     @param nb  Sprite number, range 0 - 39
  */
 inline void hide_sprite(uint8_t nb) {
-    ((OAM_item_t *)(&shadow_OAM + nb))->y = 0;
+    shadow_OAM[nb] = 0xC0;
 }
 
 

@@ -19,7 +19,6 @@ _set_palette_entry::
         ld c, b
         ld b, #0
         add hl, bc
-        set 6, h
         pop bc
 
         ld a, i
@@ -53,7 +52,6 @@ _set_palette::
         ld c, #0x20
 1$:
         add hl, bc
-        set 6, h
         
         ld c, a
 

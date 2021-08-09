@@ -8,7 +8,6 @@
 _vmemcpy::
         pop de          ; pop ret address
         pop hl          ; dst
-        set 6, h
         
         SMS_WRITE_VDP_CMD h, l
         

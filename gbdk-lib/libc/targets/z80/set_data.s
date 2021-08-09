@@ -21,7 +21,6 @@ _set_tile_data::
         ld a, #0x01
         ld (__shadow_OAM_OFF), a        ; switch OFF copy shadow SAT
 
-        set 6, h       
         SMS_WRITE_VDP_CMD h, l
 
         pop bc        
