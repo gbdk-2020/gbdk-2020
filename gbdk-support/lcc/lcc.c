@@ -1,4 +1,4 @@
- /*
+/*
  * lcc [ option ]... [ file | -llib ]...
  * front end for the ANSI C compiler
  */
@@ -330,6 +330,7 @@ static bool arg_has_searchkey(char * arg, char * searchkey) {
 
 
 // Adds linker default required vars if not present (defined by user)
+// Uses data from targets.c for per port/platform defaults
 static void Fixllist()
 {
 	int c;
@@ -365,7 +366,7 @@ static void Fixllist()
 		if (llist0_defaults[c].found == false) {
 			// Add the entry to the linker llist[0], flag first then value
 			llist[0] = append(llist0_defaults[c].addflag,  llist[0]);
-	        llist[0] = append(llist0_defaults[c].addvalue, llist[0]);
+			llist[0] = append(llist0_defaults[c].addvalue, llist[0]);
 		}
 }
 
