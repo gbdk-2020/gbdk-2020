@@ -7,6 +7,7 @@ static char rcsid[] = "$Id: lcc.c,v 2.0 " BUILDDATE " " BUILDTIME " gbdk-2020 Ex
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 #include <assert.h>
 #include <ctype.h>
@@ -22,6 +23,7 @@ static char rcsid[] = "$Id: lcc.c,v 2.0 " BUILDDATE " " BUILDTIME " gbdk-2020 Ex
 #endif
 
 #include "gb.h"
+#include "targets.h"
 
 #ifndef TEMPDIR
 #define TEMPDIR "/tmp"
@@ -58,12 +60,18 @@ extern char *stringf(const char *, ...);
 extern int suffix(char *, char *[], int);
 extern char *tempname(char *);
 
+static bool arg_has_searchkey(char *, char *);
+
+// Adds linker default required vars if not present (defined by user)
 static void Fixllist();
 static void list_rewrite_exts(List, char *, char *);
 static void list_duplicate_to_new_exts(List, char *, char *);
 
 // These get populated from _class using finalise() in gb.c
 extern char *cpp[], *include[], *com[], *as[], *bankpack[], *ld[], *ihxcheck[], *mkbin[], inputs[], *suffixes[], *rom_extension;
+extern arg_entry *llist0_defaults;
+extern int llist0_defaults_len;
+
 extern int option(char *);
 extern void set_gbdk_dir(char*);
 
@@ -277,7 +285,7 @@ int main(int argc, char *argv[]) {
 			}
 
 			// Call linker (add output ihxfile in compose $3)
-			Fixllist();   // (fixlist adds required default linker vars if not added by user)
+			Fixllist();   // Fixlist adds required default linker vars if not added by user
 			compose(ld, llist[0], llist[1], append(ihxFile, 0));
 
 			if (callsys(av))
@@ -307,22 +315,32 @@ int main(int argc, char *argv[]) {
 	return errcnt ? EXIT_FAILURE : EXIT_SUCCESS;
 }
 
-/* Adds linker default needed vars if not defined by user */
+
+
+// Check whether string "arg" has "searchkey" at the first possible
+// occurrence of searchkey's starting character in arg (typically "." or "_")
+static bool arg_has_searchkey(char * arg, char * searchkey) {
+	char * str_start = strchr(arg, searchkey[0]);
+
+	if (str_start)
+		return (strncmp(str_start, searchkey, strlen(searchkey)) == 0);
+	else
+		return false;
+}
+
+
+// Adds linker default required vars if not present (defined by user)
+// Uses data from targets.c for per port/platform defaults
 static void Fixllist()
 {
-	#define BEGINS_WITH(A, B) (A ? strncmp(A, B, sizeof(B) - 1) == 0 : 0)
-	//-g .OAM=0xC000 -g .STACK=0xE000 -g .refresh_OAM=0xFF80 -b _DATA=0xc0a0 -b _CODE=0x0200
+	int c;
 
-	int oamDefFound = 0;
-	int stackDefFound = 0;
-	int refreshOAMDefFound = 0;
-	int dataDefFound = 0;
-	int codeDefFound = 0;
-
+	// Iterate through linker list entries
 	if(llist[0]) {
 		List b = llist[0];
 		do {
 			b = b->link;
+			// Only -g and -b settings are supported at this time
 			if(b->str[1] == 'g' || b->str[1] == 'b')
 			{
 				// '-g' and '-b' now have their values separated by a space.
@@ -334,41 +352,24 @@ static void Fixllist()
 				else
 					break; // end of list
 
-				if(BEGINS_WITH(strchr(b->str, '_'), "_shadow_OAM="))
-					oamDefFound = 1;
-				else if(BEGINS_WITH(strchr(b->str, '.'), ".STACK="))
-					stackDefFound = 1;
-				else if(BEGINS_WITH(strchr(b->str, '.'), ".refresh_OAM="))
-					refreshOAMDefFound = 1;
-				else if(BEGINS_WITH(strchr(b->str, '_'), "_DATA="))
-					dataDefFound = 1;
-				else if(BEGINS_WITH(strchr(b->str, '_'), "_CODE="))
-					codeDefFound = 1;
+				// Check current linker arg to see if any default settings are present
+				// If they do, flag them as present so they don't need to be added later
+				for (c = 0; c < llist0_defaults_len; c++)
+					if (arg_has_searchkey(b->str, llist0_defaults[c].searchkey))
+						llist0_defaults[c].found = true;
 			}
 		} while (b != llist[0]);
 	}
 
-	if(!oamDefFound) {
-		llist[0] = append("-g", llist[0]);
-        llist[0] = append("_shadow_OAM=0xC000", llist[0]);
-    }
-	if(!stackDefFound){
-		llist[0] = append("-g", llist[0]);
-        llist[0] = append(".STACK=0xE000", llist[0]);
-    }
-	if(!refreshOAMDefFound) {
-        llist[0] = append("-g", llist[0]);
-		llist[0] = append(".refresh_OAM=0xFF80", llist[0]);
-    }
-	if(!dataDefFound) {
-		llist[0] = append("-b", llist[0]);
-        llist[0] = append("_DATA=0xc0a0", llist[0]);
-    }
-	if(!codeDefFound) {
-		llist[0] = append("-b", llist[0]);
-        llist[0] = append("_CODE=0x0200", llist[0]);
-    }
+	// Add required default settings to the linker list if they weren't found
+	for (c = 0; c < llist0_defaults_len; c++)
+		if (llist0_defaults[c].found == false) {
+			// Add the entry to the linker llist[0], flag first then value
+			llist[0] = append(llist0_defaults[c].addflag,  llist[0]);
+			llist[0] = append(llist0_defaults[c].addvalue, llist[0]);
+		}
 }
+
 
 /* alloc - allocate n bytes or die */
 static void *alloc(int n) {

@@ -11,6 +11,7 @@
 #endif
 
 #include "gb.h"
+#include "targets.h"
 
 #ifndef GBDKLIBDIR
 #define GBDKLIBDIR "\\gbdk\\"
@@ -19,22 +20,8 @@
 extern char *progname;
 extern char * strsave(const char *);
 
-#define ARRAY_LEN(A) (sizeof(A) / sizeof(A[0]))
-
-typedef struct {
-	const char *port;
-	const char *plat;
-	const char *default_plat;
-	const char *rom_extension;
-	const char *cpp;
-	const char *include;
-	const char *com;
-	const char *as;
-	const char *bankpack;
-	const char *ld;
-	const char *ihxcheck;
-	const char *mkbin;
-} CLASS;
+// Set default class as the first entry in classes (Game Boy)
+static CLASS *_class = &classes[0];
 
 static struct {
 	const char *name;
@@ -83,12 +70,10 @@ static struct {
 		{ "libs_include", "-k %libdir%%port%/ -l %port%.lib -k %libdir%%plat%/ -l %plat%.lib"}
 };
 
-#define NUM_TOKENS	(sizeof(_tokens)/sizeof(_tokens[0]))
-
 static char *getTokenVal(const char *key)
 {
 	int i;
-	for (i = 0; i < NUM_TOKENS; i++) {
+	for (i = 0; i < ARRAY_LEN(_tokens); i++) {
 		if (!strcmp(_tokens[i].name, key))
 			return strdup(_tokens[i].val);
 	}
@@ -99,7 +84,7 @@ static char *getTokenVal(const char *key)
 static void setTokenVal(const char *key, const char *val)
 {
 	int i;
-	for (i = 0; i < NUM_TOKENS; i++) {
+	for (i = 0; i < ARRAY_LEN(_tokens); i++) {
 		if (!strcmp(_tokens[i].name, key)) {
 			_tokens[i].val = strdup(val);
 			return;
@@ -108,78 +93,11 @@ static void setTokenVal(const char *key, const char *val)
 	assert(0);
 }
 
-/*
-$1 are extra parameters passed using -W
-$2 is the list of objects passed as parameters
-$3 is the output file
-*/
-static CLASS classes[] = {
-		// GB
-		{ "gbz80",		// port
-			"gb",		// plat
-			"gb",		// default_plat
-			EXT_GB,		// ROM file extension
-			"%cpp% %cppdefault% -DGB=1 -DGAMEBOY=1 -DINT_16_BITS $1 $2 $3",
-			"%includedefault%",
-			"%com% %comdefault% -Wa%asdefault% -DGB=1 -DGAMEBOY=1 -DINT_16_BITS $1 %comflag% $2 -o $3",
-			"%as_gb% %asdefault% $1 $3 $2",
-			"%bankpack% $1 $2",
-			"%ld_gb% -n -i $1 %libs_include% $3 %crt0dir% $2",
-			"%ihxcheck% $2 $1",
-			"%mkbin% -Z $1 $2 $3"
-		},
-		// AP
-		{ "gbz80",		// port
-			"ap",		// plat
-			"ap",		// default_plat
-			EXT_AP,		// ROM file extension
-			"%cpp% %cppdefault% -DGB=1 -DGAMEBOY=1 -DINT_16_BITS $1 $2 $3",
-			"%includedefault%",
-			"%com% %comdefault% -Wa%asdefault% -DGB=1 -DGAMEBOY=1 -DINT_16_BITS $1 %comflag% $2 -o $3",
-			"%as_gb% %asdefault% $1 $3 $2",
-			"%bankpack% $1 $2",
-			"%ld_gb% -n -i $1 %libs_include% $3 %crt0dir% $2",
-			"%ihxcheck% $2 $1",
-			"%mkbin% -Z $1 $2 $3"
-		},
-		// SMS
-		{ "z80",		// port
-			"sms",		// plat
-			"sms",		// default_plat
-			EXT_SMS,	// ROM file extension
-			"%cpp% %cppdefault% -DINT_16_BITS $1 $2 $3",
-			"%includedefault%",
-			"%com% %comdefault% -Wa%asdefault% -DINT_16_BITS $1 %comflag% $2 -o $3",
-			"%as_z80% %asdefault% $1 $3 $2",
-			"%bankpack% -plat=sms $1 $2",
-			"%ld_z80% -a sms -n -i $1 %libs_include% $3 %crt0dir% $2",
-			"%ihxcheck% $2 $1",
-			"%mkbin% -S $1 $2 $3"
-		},
-		// GG
-		{ "z80",		// port
-			"gg",		// plat
-			"gg",		// default_plat
-			EXT_GG,		// ROM file extension
-			"%cpp% %cppdefault% -DINT_16_BITS $1 $2 $3",
-			"%includedefault%",
-			"%com% %comdefault% -Wa%asdefault% -DINT_16_BITS $1 %comflag% $2 -o $3",
-			"%as_z80% %asdefault% $1 $3 $2",
-			"%bankpack% -plat=sms $1 $2",
-			"%ld_z80% -a sms -n -i $1 %libs_include% $3 %crt0dir% $2",
-			"%ihxcheck% $2 $1",
-			"%mkbin% -S $1 $2 $3"
-		}
-};
-
-static CLASS *_class = &classes[0];
-
-#define NUM_CLASSES 	(sizeof(classes)/sizeof(classes[0]))
-
+// Sets the local _class to a given Port/Platform from classes[]
 static int setClass(const char *port, const char *plat)
 {
 	int i;
-	for (i = 0; i < NUM_CLASSES; i++) {
+	for (i = 0; i < classes_count; i++) {
 		if (!strcmp(classes[i].port, port)) {
 			if (plat && classes[i].plat && !strcmp(classes[i].plat, plat)) {
 				_class = classes + i;
@@ -292,6 +210,9 @@ char *ld[256];
 char *bankpack[256];
 char *mkbin[256];
 char *rom_extension;
+arg_entry *llist0_defaults;
+int llist0_defaults_len = 0;
+
 
 const char *starts_with(const char *s1, const char *s2)
 {
@@ -378,6 +299,8 @@ int option(char *arg) {
 	return 0;
 }
 
+// Build the port/platform specific toolchain command strings
+// and apply any related settings
 void finalise(void)
 {
 	if (!_class->plat) {
@@ -392,6 +315,8 @@ void finalise(void)
 	buildArgs(ihxcheck, _class->ihxcheck);
 	buildArgs(mkbin, _class->mkbin);
 	rom_extension = strdup(_class->rom_extension);
+	llist0_defaults = _class->llist0_defaults;
+	llist0_defaults_len = _class->llist0_defaults_len;
 }
 
 void set_gbdk_dir(char* argv_0)
