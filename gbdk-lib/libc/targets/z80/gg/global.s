@@ -149,7 +149,7 @@
         .RAMCTL_RO      = 0b00010000
         .RAMCTL_PROT    = 0b10000000
         
-        .3D_GLASSES     = 0xfff8
+        .GLASSES_3D     = 0xfff8
 
         .MAP_FRAME0     = 0xfffd
         .MAP_FRAME1     = 0xfffe

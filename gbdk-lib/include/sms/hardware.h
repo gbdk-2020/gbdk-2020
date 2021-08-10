@@ -159,7 +159,7 @@ static volatile UBYTE __at(0xfffc) RAM_CONTROL;
 #define RAMCTL_RO      0b00010000
 #define RAMCTL_PROT    0b10000000
         
-static volatile UBYTE __at(0xfff8) 3D_GLASSES;
+static volatile UBYTE __at(0xfff8) GLASSES_3D;
 
 static volatile UBYTE __at(0xfffd) MAP_FRAME0; 
 static volatile UBYTE __at(0xfffe) MAP_FRAME1; 
