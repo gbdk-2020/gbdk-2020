@@ -18,7 +18,7 @@ _INT_ISR::
 
         in a, (.VDP_STAT)
         and #.STATF_INT_VBL
-        jr z, 0$
+        jp z, 0$
         ;; handle VBlank
         
         ld hl, (.sys_time)
@@ -31,7 +31,7 @@ _INT_ISR::
         ;; transfer shadow OAM
         ld a, (__shadow_OAM_OFF)        ; check transfer is OFF
         or a
-        jr nz, 1$
+        jp nz, 0$
         ld hl, #__shadow_OAM_base
         ld h, (hl)
         ld l, a                 ; a == 0 here
@@ -56,21 +56,21 @@ _INT_ISR::
         ld hl, (.VBLANK_HANDLER0)
         ld a, h
         or l
-        jr z, 2$
+        jp z, 2$
         CALL_HL
 
         ld hl, (.VBLANK_HANDLER1)
         ld a, h
         or l
-        jr z, 2$
+        jp z, 2$
         CALL_HL
 
         ld hl, (.VBLANK_HANDLER2)
         ld a, h
         or l
-        jr z, 2$
+        jp z, 2$
         CALL_HL
-        jr 2$
+        jp 2$
 
         ;; handle HBlank
 1$:             
