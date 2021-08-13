@@ -158,14 +158,17 @@ __standard_VBL_handler::
         ;; soft reset: falldown to .code_start
 .reset::
 _reset::
-        LD      A,(__cpu)
+        LD      A, (__is_GBA)
+        LD      B, A
+        LD      A, (__cpu)
 
         ;; Initialization code
 .code_start::
         DI                      ; Disable interrupts
-        LD      D,A             ; Store CPU type in D
+        LD      D, A            ; Store CPU type in D
+        LD      E, B
         ;; Initialize the stack
-        LD      SP,#.STACK
+        LD      SP, #.STACK
 
         LD      A, #>_shadow_OAM
         LDH     (__shadow_OAM_base), A
@@ -183,8 +186,15 @@ _reset::
 ;       LD      (.mode),A       ; Clearing (.mode) is performed when clearing RAM
 
         ;; Store CPU type
-        LD      A,D
-        LD      (__cpu),A
+        LD      A, D
+        LD      (__cpu), A
+        CP      #.CGB_TYPE
+        JR      NZ, 1$
+        XOR     A
+        SRL     E
+        RLA
+        LD      (__is_GBA), A
+1$:
 
         ;; Turn the screen off
         CALL    .display_off
@@ -313,6 +323,8 @@ _set_interrupts::
 
 __cpu::
         .ds     0x01            ; GB type (GB, PGB, CGB)
+__is_GBA::
+        .ds     0x01            ; detect GBA
 .mode::
         .ds     0x01            ; Current mode
 .sys_time::
