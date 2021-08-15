@@ -684,8 +684,6 @@ int main(int argc, char *argv[])
 		fprintf(file, "\n");
 		fprintf(file, "#include \"TilesInfo.h\"\n");
 		fprintf(file, "const struct TilesInfo %s_tiles_info = {\n", data_name.c_str());
-		fprintf(file, "\t%d, //tile width\n", 8);
-		fprintf(file, "\t%d, //tile height\n", 8);
 		fprintf(file, "\t%d, //num tiles\n", tiles.size());
 		fprintf(file, "\t%s_data, //tiles\n", data_name.c_str());
 		fprintf(file, "\t%d, //num palettes\n", image.palettesize);
