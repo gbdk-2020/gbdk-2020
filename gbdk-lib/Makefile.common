@@ -8,10 +8,10 @@ MODEL =	small
 endif
 
 ifndef PORTS
-PORTS = gbz80
+PORTS = gbz80 z80
 endif
 ifndef PLATFORMS
-PLATFORMS = gb
+PLATFORMS = gb ap gg sms
 endif
 
 ifndef SDCCLIB
@@ -32,7 +32,7 @@ endif
 
 CLEANSPEC = *.o *.cdb *.sym *.lst *~ *.asm
 
-CFLAGS = -I$(TOPDIR)/include -DSDCC_z80 -D__gbz80
+CFLAGS = -I$(TOPDIR)/include -DSDCC_z80 -D__PORT_$(PORT) -D__TARGET_$(THIS)
 CFLAGS += -m$(PORT) -DGBDK=1
 CFLAGS += --max-allocs-per-node 50000
 CC = 	$(SCC)

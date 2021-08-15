@@ -4,7 +4,7 @@
 #ifndef _GB_H
 #define _GB_H
 
-#define __GBDK_VERSION 404
+#define __GBDK_VERSION 405
 
 #include <types.h>
 #include <stdint.h>
@@ -307,6 +307,19 @@ extern uint8_t _cpu;
 /** Hardware Model: Color GB. @see _cpu
 */
 #define CGB_TYPE 0x11
+
+/** GBA detection
+
+    @see GBA_DETECTED, GBA_NOT_DETECTED, _cpu
+*/
+extern uint8_t _is_GBA;
+
+/** Hardware Model: DMG, CGB or MGB. @see _cpu
+*/
+#define GBA_NOT_DETECTED 0x00
+/** Hardware Model: GBA. @see _cpu
+*/
+#define GBA_DETECTED 0x01
 
 /** Global Time Counter in VBL periods (60Hz)
 

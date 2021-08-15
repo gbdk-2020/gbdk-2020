@@ -52,6 +52,7 @@ void files_add(char * filename) {
     if (snprintf(newfile.name_in, sizeof(newfile.name_in), "%s", filename) > sizeof(newfile.name_in))
         printf("Warning: truncated input filename to:%s\n",newfile.name_in);
 
+    newfile.name_out[0] = '\0';
     newfile.rewrite_needed = false;
     newfile.bank_num = BANK_NUM_UNASSIGNED;
 
@@ -66,7 +67,7 @@ char * file_get_name_in_by_id(uint32_t file_id) {
     if ((file_id >= 0) && (file_id < filelist.count))
         return files[file_id].name_in;
     else
-        return NULL;
+        return (char *)"\0";
 }
 
 
@@ -77,7 +78,7 @@ char * file_get_name_out_by_id(uint32_t file_id) {
     if ((file_id >= 0) && (file_id < filelist.count))
         return files[file_id].name_out;
     else
-        return NULL;
+        return (char *)"\0";
 }
 
 

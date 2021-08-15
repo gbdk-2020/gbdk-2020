@@ -43,6 +43,27 @@ uint16_t bank_assign_rom_max = 0;
 uint16_t bank_all_rom_max = 0;
 
 int g_mbc_type = MBC_TYPE_DEFAULT;
+int g_platform = PLATFORM_DEFAULT;
+
+
+int banks_get_platform(void) {
+    return g_platform;
+}
+
+void banks_set_platform(char * platform_str) {
+
+    if (strcmp(platform_str, PLATFORM_STR_GB) == 0)
+        g_platform = PLATFORM_GB;
+    else if (strcmp(platform_str, PLATFORM_STR_AP) == 0)
+        g_platform = PLATFORM_GB;  // AP uses GB platform
+    else if (strcmp(platform_str, PLATFORM_STR_SMS) == 0)
+        g_platform = PLATFORM_SMS;
+    else if (strcmp(platform_str, PLATFORM_STR_GG) == 0)
+        g_platform = PLATFORM_SMS; // GG uses SMS platform
+    else
+        printf("BankPack: Warning: Invalid platform option %s\n", platform_str);
+}
+
 
 
 int banks_get_mbc_type(void) {
@@ -215,6 +236,7 @@ void obj_data_init(void) {
     // Pre-populate bank list with max number of of banks
     // to allow handling fixed-bank (non-autobank) areas
     newbank.size = newbank.free = BANK_SIZE_ROM;
+    newbank.type = BANK_TYPE_UNSET;
     for (c=0; c < BANK_ROM_TOTAL; c++)
         list_additem(&banklist, &newbank);
 
@@ -249,20 +271,30 @@ int areas_add(char * area_str, uint32_t file_id) {
 
     area_item newarea;
 
-    // Only match areas which are banked ("_CODE_" vs "_CODE")
-     if (AREA_LINE_RECORDS == sscanf(area_str,"A _CODE_%3d size %4x flags %*4x addr %*4x",
+    // Only match areas which are banked ("_CODE_" vs "_CODE") and ("_LIT_")
+    if (AREA_LINE_RECORDS == sscanf(area_str,"A _CODE _%3d size %4x flags %*4x addr %*4x",
                                     &newarea.bank_num_in, &newarea.size)) {
-
-        // Only process areas with (size > 0)
-        if (newarea.size > 0) {
-            sprintf(newarea.name, "_CODE_"); // Hardwired to _CODE_ for now
-            newarea.file_id = file_id;
-            newarea.bank_num_out = BANK_NUM_UNASSIGNED;
-            list_additem(&arealist, &newarea);
-            return true;
-        }
+        newarea.type = BANK_TYPE_DEFAULT;
     }
-    return false;
+    else if (AREA_LINE_RECORDS == sscanf(area_str,"A _LIT_%3d size %4x flags %*4x addr %*4x",
+                                        &newarea.bank_num_in, &newarea.size)) {
+        newarea.type = BANK_TYPE_LIT_EXCLUSIVE;
+    }
+    else
+        return false;
+
+    // Only process areas with (size > 0)
+    if (newarea.size > 0) {
+        if (newarea.type == BANK_TYPE_LIT_EXCLUSIVE)
+            sprintf(newarea.name, "_LIT_");  // Hardwired to _LIT_ for now
+        else
+            sprintf(newarea.name, "_CODE_"); // Hardwired to _CODE_ for now
+        newarea.file_id = file_id;
+        newarea.bank_num_out = BANK_NUM_UNASSIGNED;
+        list_additem(&arealist, &newarea);
+        return true;
+    } else
+        return false;
 }
 
 
@@ -315,9 +347,12 @@ static void bank_update_all_max(uint16_t bank_num) {
 // It should only error out when there isn't enough
 // room with a fixed-bank area (non-autobank)
 static void bank_add_area(bank_item * p_bank, uint16_t bank_num, area_item * p_area) {
+
     // Make sure there is room, then update free space and assign outbound bank number
+    // Copy type from area - some platforms (sms) don't allow mixing of area types in the same bank
     if (p_area->size <= p_bank->free) {
             p_bank->free -= p_area->size;
+            p_bank->type = p_area->type;
             p_area->bank_num_out = bank_num;
             bank_update_assigned_minmax(bank_num);
     } else {
@@ -348,12 +383,39 @@ static void bank_check_area_size(area_item * p_area) {
 }
 
 
+// Display a error message about bank mixing
+static void bank_report_mixed_area_error(bank_item * p_bank, uint16_t bank_num, area_item * p_area) {
+
+    printf("BankPack: ERROR! Bank %d already assigned different area type.\n"
+           "  Can't mix _CODE_ and _LIT_ areas in the same bank for this platform.\n"
+           "  Area %s, bank %d, file:%s\n",
+           p_area->bank_num_in, p_area->name, bank_num, file_get_name_in_by_id(p_area->file_id));
+
+    if (g_option_verbose)
+        banks_show();
+}
+
+
+// Checks whether mixing area types in the same bankshould be rejected
+static bool bank_check_mixed_area_types_ok(bank_item * p_bank, uint16_t bank_num, area_item * p_area) {
+
+    // Don't allow mixing of _CODE_ and _LIT_ for sms/gg ports
+    // If one type has already been assigned to the bank, lock others out
+    if ((g_platform == PLATFORM_SMS) &&
+        (p_bank->type != BANK_TYPE_UNSET) &&
+        (p_area->type != p_bank->type))
+        return false;
+    else
+        return true;
+}
+
+
 // Find an bank for a given area using First Fit Decreasing (FFD)
 // All possible banks (0-255) were pre-created and initialized [in obj_data_init()],
 // so there is no need to add when using a fresh bank
 static void banks_assign_area(area_item * p_area) {
 
-    uint16_t c;
+    uint16_t bank_num;
     bank_item * banks = (bank_item *)banklist.p_array;
 
     bank_check_area_size(p_area);
@@ -361,31 +423,43 @@ static void banks_assign_area(area_item * p_area) {
     // Try to assign fixed bank areas to their expected bank.
     // (ignore the area if it's outside the processing range)
     if (p_area->bank_num_in != BANK_NUM_AUTO) {
+
+        bank_num = p_area->bank_num_in;
+
         // Update max bank var that tracks regardless of limits
         // For auto banks this will get updated via bank_add_area()
-        bank_update_all_max(p_area->bank_num_in);
+        bank_update_all_max(bank_num);
 
-        if ((p_area->bank_num_in >= bank_limit_rom_min) &&
-            (p_area->bank_num_in <= bank_limit_rom_max)) {
+        if ((bank_num >= bank_limit_rom_min) &&
+            (bank_num <= bank_limit_rom_max)) {
 
-            if ((g_mbc_type == MBC_TYPE_MBC1) && (!bank_check_mbc1_ok(p_area->bank_num_in)))
-                printf("BankPack: Warning: Area in fixed bank assigned to MBC1 excluded bank: %d, file: %s\n", p_area->bank_num_in, file_get_name_in_by_id(p_area->file_id));
+            if ((g_mbc_type == MBC_TYPE_MBC1) && (!bank_check_mbc1_ok(bank_num)))
+                printf("BankPack: Warning: Area in fixed bank assigned to MBC1 excluded bank: %d, file: %s\n", bank_num, file_get_name_in_by_id(p_area->file_id));
 
-            bank_add_area(&banks[p_area->bank_num_in], p_area->bank_num_in, p_area);
+            if (!bank_check_mixed_area_types_ok(&banks[bank_num], bank_num, p_area)) {
+                bank_report_mixed_area_error(&banks[bank_num], bank_num, p_area);
+                exit(EXIT_FAILURE);
+            }
+
+            bank_add_area(&banks[bank_num], bank_num, p_area);
         } else
-            printf("BankPack: Warning: Area in fixed bank %d is outside specified range %d - %d, file: %s\n", p_area->bank_num_in, bank_limit_rom_min, bank_limit_rom_max, file_get_name_in_by_id(p_area->file_id));
+            printf("BankPack: Warning: Area in fixed bank %d is outside specified range %d - %d, file: %s\n", bank_num, bank_limit_rom_min, bank_limit_rom_max, file_get_name_in_by_id(p_area->file_id));
+
         return;
     }
     else if (p_area->bank_num_in == BANK_NUM_AUTO) {
         // Try to assign area to first allowed bank with enough free space
         // Bank array index maps directly to bank numbers, so [2] will be _CODE_2
-        for (c = bank_limit_rom_min; c <= bank_limit_rom_max ; c++) {
+        for (bank_num = bank_limit_rom_min; bank_num <= bank_limit_rom_max ; bank_num++) {
             // Check for MBC bank restrictions
-            if ((g_mbc_type != MBC_TYPE_MBC1) || (bank_check_mbc1_ok(c))) {
-                // If there is enough space in current bank, assign it and reduce free space
-                if (p_area->size <= banks[c].free) {
-                    bank_add_area(&banks[c], c, p_area);
-                    return;
+            if ((g_mbc_type != MBC_TYPE_MBC1) || (bank_check_mbc1_ok(bank_num))) {
+                // Check for allowed area mixing if needed
+                if (bank_check_mixed_area_types_ok(&banks[bank_num], bank_num, p_area)) {
+                    // If there is enough space in current bank, assign it and reduce free space
+                    if (p_area->size <= banks[bank_num].free) {
+                        bank_add_area(&banks[bank_num], bank_num, p_area);
+                        return;
+                    }
                 }
             }
         }
@@ -510,6 +584,13 @@ bool area_modify_and_write_to_file(char * strline_in, FILE * out_file, uint16_t 
         // For lines: A _CODE_255 ...
         if (strstr(strline_in, "A _CODE_255")) {
             fprintf(out_file, "A _CODE_%d %s", bank_num, strstr(strline_in, "size"));
+            // Add trailing \n if missing (may be, due to using strtok() to split the string)
+            if (strline_in[(strlen(strline_in)-1)] != '\n')
+                fprintf(out_file, "\n");
+            return true;
+        }
+        else if (strstr(strline_in, "A _LIT_255")) {
+            fprintf(out_file, "A _LIT_%d %s", bank_num, strstr(strline_in, "size"));
             // Add trailing \n if missing (may be, due to using strtok() to split the string)
             if (strline_in[(strlen(strline_in)-1)] != '\n')
                 fprintf(out_file, "\n");

@@ -7,6 +7,7 @@ static char rcsid[] = "$Id: lcc.c,v 2.0 " BUILDDATE " " BUILDTIME " gbdk-2020 Ex
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 #include <assert.h>
 #include <ctype.h>
@@ -22,6 +23,7 @@ static char rcsid[] = "$Id: lcc.c,v 2.0 " BUILDDATE " " BUILDTIME " gbdk-2020 Ex
 #endif
 
 #include "gb.h"
+#include "targets.h"
 
 #ifndef TEMPDIR
 #define TEMPDIR "/tmp"
@@ -58,11 +60,18 @@ extern char *stringf(const char *, ...);
 extern int suffix(char *, char *[], int);
 extern char *tempname(char *);
 
+static bool arg_has_searchkey(char *, char *);
+
+// Adds linker default required vars if not present (defined by user)
 static void Fixllist();
 static void list_rewrite_exts(List, char *, char *);
 static void list_duplicate_to_new_exts(List, char *, char *);
 
-extern char *cpp[], *include[], *com[], *as[], *bankpack[], *ld[], *ihxcheck[], *mkbin[], inputs[], *suffixes[];
+// These get populated from _class using finalise() in gb.c
+extern char *cpp[], *include[], *com[], *as[], *bankpack[], *ld[], *ihxcheck[], *mkbin[], inputs[], *suffixes[], *rom_extension;
+extern arg_entry *llist0_defaults;
+extern int llist0_defaults_len;
+
 extern int option(char *);
 extern void set_gbdk_dir(char*);
 
@@ -185,7 +194,11 @@ int main(int argc, char *argv[]) {
 
 	// Add includes
 	argv[j] = 0;
+
+	// This copies settings from port:platform "class" structure
+	// into command strings used for compose()
 	finalise();
+
 	for (i = 0; include[i]; i++)
 		clist = append(include[i], clist);
 	if (ilist) {
@@ -218,37 +231,30 @@ int main(int argc, char *argv[]) {
 
 
 	// Perform Link / ihxcheck / makebin stages (unless some conditions prevent it)
-	if (errcnt == 0 && !Eflag && !cflag && !Sflag && 
+	if (errcnt == 0 && !Eflag && !cflag && !Sflag &&
 		(llist[1] || ((ihxFile[0] != '\0') && ihx_inputs))) {
 
 		int target_is_ihx = 0;
 
-		// If an .ihx file is persent as input, only convert that
-		// and skip link related stages
+		// if outfile is not specified, set it to default rom extension for active port:platform
+		if(!outfile)
+			outfile = concat("a", rom_extension);
+
+		// If an .ihx file is present as input skip link related stages
 		if (ihx_inputs > 0) {
 
 			// Only one .ihx can be used for input, warn that others will be ignored
 			if (ihx_inputs > 1)
 				fprintf(stderr, "%s: Warning: Multiple (%d) .ihx files present as input, only one (%s) will be used\n", progname, ihx_inputs, ihxFile);
-
-			// if outfile is not specified, set it to "a.gb"
-			if(!outfile)
-				outfile = concat("a", EXT_GB);
 		}
 		else {
-			// if outfile is not specified, set it to "a.ihx"
-			if(!outfile)
-				outfile = concat("a", EXT_IHX);
 
 			//file.gb to file.ihx (don't use tmpfile because maps and other stuffs are created there)
-			// Check to see if output is a .ihx file
+			// Check to see if output target is a .ihx file
 			target_is_ihx = (suffix(outfile, (char *[]){EXT_IHX}, 1) != SUFX_NOMATCH);
 
 			// Build ihx file name from output name
-			int lastP = strrchr(outfile, '.') - outfile;
-			strncpy(ihxFile, outfile, lastP);
-			ihxFile[lastP] = '\0';
-			strcat(ihxFile, ".ihx");
+			sprintf(ihxFile, "%s%s", path_stripext(outfile), EXT_IHX);
 
 			// Only remove .ihx from the delete-list if it's not the final target
 			if (!target_is_ihx)
@@ -256,7 +262,12 @@ int main(int argc, char *argv[]) {
 
 			// if auto bank assignment is enabled, modify obj files before linking
 			if (autobankflag) {
-				compose(bankpack, bankpack_flags, llist[1], 0);
+
+				// bankpack will be populated if supported by active port:platform
+				if (bankpack[0][0] != '\0')
+					compose(bankpack, bankpack_flags, llist[1], 0);
+				else
+					fprintf(stderr, "Warning: bankpack enabled but not supported by active port:platform\n");
 
 				if (callsys(av)) {
 					errcnt++;
@@ -272,9 +283,9 @@ int main(int argc, char *argv[]) {
 					}
 				}
 			}
- 			
+
 			// Call linker (add output ihxfile in compose $3)
-			Fixllist();   // (fixlist adds required default linker vars if not added by user)			
+			Fixllist();   // Fixlist adds required default linker vars if not added by user
 			compose(ld, llist[0], llist[1], append(ihxFile, 0));
 
 			if (callsys(av))
@@ -288,7 +299,7 @@ int main(int argc, char *argv[]) {
 				errcnt++;
 		}
 
-		// No need to makebin (.ihx -> .gb) if .ihx is final target
+		// No need to makebin (.ihx -> .gb [or other rom_extension]) if .ihx is final target
 		if (!target_is_ihx)
 		{
 			if(errcnt == 0)
@@ -304,22 +315,32 @@ int main(int argc, char *argv[]) {
 	return errcnt ? EXIT_FAILURE : EXIT_SUCCESS;
 }
 
-/* Adds linker default needed vars if not defined by user */
+
+
+// Check whether string "arg" has "searchkey" at the first possible
+// occurrence of searchkey's starting character in arg (typically "." or "_")
+static bool arg_has_searchkey(char * arg, char * searchkey) {
+	char * str_start = strchr(arg, searchkey[0]);
+
+	if (str_start)
+		return (strncmp(str_start, searchkey, strlen(searchkey)) == 0);
+	else
+		return false;
+}
+
+
+// Adds linker default required vars if not present (defined by user)
+// Uses data from targets.c for per port/platform defaults
 static void Fixllist()
 {
-	#define BEGINS_WITH(A, B) (A ? strncmp(A, B, sizeof(B) - 1) == 0 : 0)
-	//-g .OAM=0xC000 -g .STACK=0xE000 -g .refresh_OAM=0xFF80 -b _DATA=0xc0a0 -b _CODE=0x0200
+	int c;
 
-	int oamDefFound = 0;
-	int stackDefFound = 0;
-	int refreshOAMDefFound = 0;
-	int dataDefFound = 0;
-	int codeDefFound = 0;
-
+	// Iterate through linker list entries
 	if(llist[0]) {
 		List b = llist[0];
 		do {
 			b = b->link;
+			// Only -g and -b settings are supported at this time
 			if(b->str[1] == 'g' || b->str[1] == 'b')
 			{
 				// '-g' and '-b' now have their values separated by a space.
@@ -331,41 +352,24 @@ static void Fixllist()
 				else
 					break; // end of list
 
-				if(BEGINS_WITH(strchr(b->str, '_'), "_shadow_OAM="))
-					oamDefFound = 1;
-				else if(BEGINS_WITH(strchr(b->str, '.'), ".STACK="))
-					stackDefFound = 1;
-				else if(BEGINS_WITH(strchr(b->str, '.'), ".refresh_OAM="))
-					refreshOAMDefFound = 1;
-				else if(BEGINS_WITH(strchr(b->str, '_'), "_DATA="))
-					dataDefFound = 1;
-				else if(BEGINS_WITH(strchr(b->str, '_'), "_CODE="))
-					codeDefFound = 1;
+				// Check current linker arg to see if any default settings are present
+				// If they do, flag them as present so they don't need to be added later
+				for (c = 0; c < llist0_defaults_len; c++)
+					if (arg_has_searchkey(b->str, llist0_defaults[c].searchkey))
+						llist0_defaults[c].found = true;
 			}
 		} while (b != llist[0]);
 	}
 
-	if(!oamDefFound) {
-		llist[0] = append("-g", llist[0]);
-        llist[0] = append("_shadow_OAM=0xC000", llist[0]);
-    }
-	if(!stackDefFound){
-		llist[0] = append("-g", llist[0]);
-        llist[0] = append(".STACK=0xE000", llist[0]);
-    }
-	if(!refreshOAMDefFound) {
-        llist[0] = append("-g", llist[0]);
-		llist[0] = append(".refresh_OAM=0xFF80", llist[0]);
-    }
-	if(!dataDefFound) {
-		llist[0] = append("-b", llist[0]);
-        llist[0] = append("_DATA=0xc0a0", llist[0]);
-    }
-	if(!codeDefFound) {
-		llist[0] = append("-b", llist[0]);
-        llist[0] = append("_CODE=0x0200", llist[0]);
-    }
+	// Add required default settings to the linker list if they weren't found
+	for (c = 0; c < llist0_defaults_len; c++)
+		if (llist0_defaults[c].found == false) {
+			// Add the entry to the linker llist[0], flag first then value
+			llist[0] = append(llist0_defaults[c].addflag,  llist[0]);
+			llist[0] = append(llist0_defaults[c].addvalue, llist[0]);
+		}
 }
+
 
 /* alloc - allocate n bytes or die */
 static void *alloc(int n) {
@@ -412,7 +416,7 @@ char *basepath(char *name) {
 	return s;
 }
 
-// path_stripext - return path with extension removed,
+// path_stripext - return a new string of path [name] with extension removed,
 //              e.g. /usr/drh/foo.c => /usr/drh/foo
 char *path_stripext(char *name) {
 	char * copy_str = strsave(name);
@@ -784,6 +788,7 @@ static void help(void) {
 "-Idir	add `dir' to the beginning of the list of #include directories\n",
 "-K don't run ihxcheck test on linker ihx output\n",
 "-lx	search library `x'\n",
+"-m	select port and platform: \"-m[port]:[plat]\" ports:mgbz80,z80 plats:ap,gb,sms,gg\n",
 "-N	do not search the standard directories for #include files\n",
 "-n	emit code to check for dereferencing zero pointers\n",
 "-no-crt do not auto-include the gbdk crt0.o runtime in linker list\n",
@@ -902,16 +907,16 @@ static void opt(char *arg) {
 				if(arg[4] == 'y' && (arg[5] == 't' || arg[5] == 'o' || arg[5] == 'a' || arg[5] == 'p') && (arg[6] != '\0' && arg[6] != ' '))
 					goto makebinoption; //automatically pass -yo -ya -yt -yp options to makebin (backwards compatibility)
 				{
-					// If using linker file for sdldgb (-f file[.lk]). 
-					// Starting at arg[5] should be name of the linkerfile 
+					// If using linker file for sdldgb (-f file[.lk]).
+					// Starting at arg[5] should be name of the linkerfile
 					if ((arg[4] == 'f') && (arg[5])) {
-						llist[1] = append("-f", llist[1]);    // Add -f to file link list 
+						llist[1] = append("-f", llist[1]);    // Add -f to file link list
 						llist[1] = append(&arg[5], llist[1]); // Then add linkerfile as the very next parameter
 					} else {
 						char *tmp = malloc(256);
 						sprintf(tmp, "%c%c", arg[3], arg[4]); //sdldgb requires spaces between -k and the path
 						llist[0] = append(tmp, llist[0]);     //splitting the args into 2 works on Win and Linux
-						if (arg[5]) {                            
+						if (arg[5]) {
 							llist[0] = append(&arg[5], llist[0]);  // Add filename separately if present
 						}
 					}
@@ -987,7 +992,7 @@ static void opt(char *arg) {
 		if (strcmp(arg, "-no-crt") == 0) {
 			option(arg);  // Clear crt0 entry in linker compose string
 			return;
-		} 
+		}
 		else if (strcmp(arg, "-no-libs") == 0) {
 			option(arg);  // Clear libs entry in linker compose string
 			return;
