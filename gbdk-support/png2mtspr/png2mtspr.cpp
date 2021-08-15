@@ -12,7 +12,27 @@ void loadFile(vector<unsigned char>& buffer, const std::string& filename);
 
 #define BIT(VALUE, INDEX) (1 & ((VALUE) >> (INDEX)))
 
-typedef vector< unsigned char > Tile;
+bool export_as_map = false;
+bool use_map_attributes = false;
+
+struct Tile
+{
+	vector< unsigned char > data;
+	unsigned char pal;
+
+	Tile(size_t size = 0) : data(size), pal(0) {}
+	bool operator==(const Tile& t) const 
+	{
+		return data == t.data && pal == t.pal;
+	}
+	
+	const Tile& operator=(const Tile& t) 
+	{
+		data = t.data; 
+		pal = t.pal; 
+		return *this;
+	}
+};
 
 struct PNGImage
 {
@@ -30,13 +50,13 @@ struct PNGImage
 
 	bool ExtractGBTile(int x, int y, int tile_h, Tile& tile)
 	{
-		int palette = data[w * y + x] >> 2;
+		tile.pal = (export_as_map && !use_map_attributes) ? data[w * y + x] >> 2 : 0; //Set the palette to 0 when pals are not stored in tiles to allow tiles to be equal even when their palettes are different
 
 		bool all_zero = true;
 		for(int j = 0; j < tile_h; ++ j)
 		{
-			unsigned char& l = tile[j * 2];
-			unsigned char& h = tile[j * 2 + 1];
+			unsigned char& l = tile.data[j * 2];
+			unsigned char& h = tile.data[j * 2 + 1];
 			l = h = 0;
 
 			for(int i = 0; i < 8; ++i)
@@ -66,6 +86,8 @@ struct MTTile
 typedef vector< MTTile > MetaSprite;
 vector< Tile > tiles;
 vector<	MetaSprite > sprites;
+unsigned char* map = 0;
+unsigned char* map_attributes = 0;
 PNGImage image;
 int tile_h;
 int props_default = 0x00;  // Default Sprite props has no attributes enabled
@@ -73,26 +95,28 @@ int props_default = 0x00;  // Default Sprite props has no attributes enabled
 Tile FlipH(const Tile& tile)
 {
 	Tile ret;
-	for(unsigned int i = 0; i < tile.size(); i += 2)
+	for(unsigned int i = 0; i < tile.data.size(); i += 2)
 	{
-		ret.push_back(tile[tile.size() - 1 - i - 1]);
-		ret.push_back(tile[tile.size() - 1 - i]);
+		ret.data.push_back(tile.data[tile.data.size() - 1 - i - 1]);
+		ret.data.push_back(tile.data[tile.data.size() - 1 - i]);
 	}
+	ret.pal = tile.pal;
 	return ret;
 }
 
 Tile FlipV(const Tile& tile)
 {
 	Tile ret;
-	for(unsigned int i = 0; i < tile.size(); ++i)
+	ret.pal = tile.pal;
+	for(unsigned int i = 0; i < tile.data.size(); ++i)
 	{
-		const unsigned char& c0 = tile[i];
+		const unsigned char& c0 = tile.data[i];
 		unsigned char c1 = 0;
 		for(int j = 0; j < 8; ++j)
 		{
 			c1 |= BIT(c0, 7 - j) << j;
 		}
-		ret.push_back(c1);
+		ret.data.push_back(c1);
 	}
 	return ret;
 }
@@ -107,32 +131,35 @@ bool FindTile(const Tile& t, unsigned char& idx, unsigned char& props)
 		props = props_default;
 		return true;
 	}
-	
-	Tile tile = FlipV(t);
-	it = find(tiles.begin(), tiles.end(), tile);
-	if(it != tiles.end())
-	{
-		idx = (unsigned char)(it - tiles.begin());
-		props = props_default | (1 << 5);
-		return true;
-	}
 
-	tile = FlipH(tile);
-	it = find(tiles.begin(), tiles.end(), tile);
-	if(it != tiles.end())
+	if(!export_as_map || use_map_attributes) //Skip tile mirrors if not using attributes
 	{
-		idx = (unsigned char)(it - tiles.begin());
-		props = props_default | (1 << 5) | (1 << 6);
-		return true;
-	}
+		Tile tile = FlipV(t);
+		it = find(tiles.begin(), tiles.end(), tile);
+		if(it != tiles.end())
+		{
+			idx = (unsigned char)(it - tiles.begin());
+			props = props_default | (1 << 5);
+			return true;
+		}
 
-	tile = FlipV(tile);
-	it = find(tiles.begin(), tiles.end(), tile);
-	if(it != tiles.end())
-	{
-		idx = (unsigned char)(it - tiles.begin());
-		props = props_default | (1 << 6);
-		return true;
+		tile = FlipH(tile);
+		it = find(tiles.begin(), tiles.end(), tile);
+		if(it != tiles.end())
+		{
+			idx = (unsigned char)(it - tiles.begin());
+			props = props_default | (1 << 5) | (1 << 6);
+			return true;
+		}
+
+		tile = FlipV(tile);
+		it = find(tiles.begin(), tiles.end(), tile);
+		if(it != tiles.end())
+		{
+			idx = (unsigned char)(it - tiles.begin());
+			props = props_default | (1 << 6);
+			return true;
+		}
 	}
 
 	return false;
@@ -154,6 +181,7 @@ void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y)
 			{
 				unsigned char idx;
 				unsigned char props;
+				unsigned char pal_idx = image.data[y * image.w + x] >> 2; //We can pick the palette from the first pixel of this tile
 				if(!FindTile(tile, idx, props))
 				{
 					tiles.push_back(tile);
@@ -161,7 +189,6 @@ void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y)
 					props = props_default;
 				}
 
-				unsigned char pal_idx = image.data[y * image.w + x] >> 2;
 				props |= pal_idx;
 
 				if(tile_h == 16)
@@ -171,6 +198,35 @@ void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y)
 				
 				last_x = x;
 				last_y = y;
+			}
+		}
+	}
+}
+
+void GetMap()
+{
+	for(int y = 0; y < (int)image.h; y += 8)
+	{
+		for(int x = 0; x < (int)image.w; x += 8)
+		{
+			Tile tile(8 * 2);
+			image.ExtractGBTile(x, y, 8, tile);
+			
+			unsigned char idx;
+			unsigned char props;
+			if(!FindTile(tile, idx, props))
+			{
+				tiles.push_back(tile);
+				idx = (unsigned char)tiles.size() - 1;
+				props = props_default;
+			}
+
+			map[(y / 8) * (image.w / 8) + (x / 8)] = idx;
+			if(map_attributes)
+			{
+				unsigned char pal_idx = image.data[y * image.w + x] >> 2; //We can pick the palette from the first pixel of this tile
+				props |= pal_idx;
+				map_attributes[(y / 8) * (image.w / 8) + (x / 8)] = props;
 			}
 		}
 	}
@@ -261,6 +317,8 @@ int main(int argc, char *argv[])
 		printf("-spr8x16            use SPRITES_8x16 (default: SPRITES_8x16)\n");
 		printf("-b <bank>           bank (default 0)\n");
 		printf("-keep_palette_order use png palette\n");
+		printf("-map                Export as map (tileset + bg)\n");
+		printf("-use_map_attributes Use CGB BG Map attributes (default: palettes are stored for each tile in a separate array) ");
 		return 0;
 	}
 
@@ -328,8 +386,19 @@ int main(int argc, char *argv[])
 		{
 			keep_palette_order = true;
 		}
+		else if(!strcmp(argv[i], "-map"))
+		{
+			export_as_map = true;
+		}
+		else if(!strcmp(argv[i], "-use_map_attributes"))
+		{
+			use_map_attributes = true;
+		}
 	}
 
+	if(export_as_map)
+		tile_h = 8; //Force tiles_h to 8 on maps
+	
 	int slash_pos = (int)output_filename.find_last_of('/');
 	if(slash_pos == -1)
 		slash_pos = (int)output_filename.find_last_of('\\');
@@ -347,8 +416,8 @@ int main(int argc, char *argv[])
 	{
 		//Calling with keep_palette_order means
 		//-The image is png8
-		//-Each 4 colors define a gbc palette, the first one is the transparent one
-		//-Each rectangle with dimension(8, tile_h) in the image has colors from one of those palettes
+		//-Each 4 colors define a gbc palette, the first color is the transparent one
+		//-Each rectangle with dimension(8, tile_h) in the image has colors from one of those palettes only
 		state.info_raw.colortype = LCT_PALETTE;
 		state.info_raw.bitdepth = 8;
 		state.decoder.color_convert = false;
@@ -433,6 +502,9 @@ int main(int argc, char *argv[])
 		for(size_t p = 0; p < palettes.size(); ++ p)
 		{
 			int *color_ptr = (int*)&image.palette[p * 16];
+
+			//TODO: if palettes[p].size() != 4 we should probably try to fill the gaps based on grayscale values 
+
 			for(SetPal::iterator it = palettes[p].begin(); it != palettes[p].end(); ++ it, color_ptr ++)
 			{
 				unsigned char* c = (unsigned char*)&(*it);
@@ -463,12 +535,23 @@ int main(int argc, char *argv[])
 	if(pivot_w == 0xFFFFFF) pivot_w = sprite_w;
 	if(pivot_h == 0xFFFFFF) pivot_h = sprite_h;
 
-	//Extract metasprites
-	for(int y = 0; y < (int)image.h; y += sprite_h)
+	if(export_as_map)
 	{
-		for(int x = 0; x < (int)image.w; x += sprite_w)
+		//Extract map
+		map = new unsigned char[(image.w * image.h) >> 3];
+		if(use_map_attributes)
+			map_attributes = new unsigned char[(image.w * image.h) >> 3];;
+		GetMap();
+	}
+	else
+	{
+		//Extract metasprites
+		for(int y = 0; y < (int)image.h; y += sprite_h)
 		{
-			GetMetaSprite(x, y, sprite_w, sprite_h, pivot_x, pivot_y);
+			for(int x = 0; x < (int)image.w; x += sprite_w)
+			{
+				GetMetaSprite(x, y, sprite_w, sprite_h, pivot_x, pivot_y);
+			}
 		}
 	}
   
@@ -485,7 +568,7 @@ int main(int argc, char *argv[])
 	fprintf(file, "\n");
 	fprintf(file, "#include \"MetaSpriteInfo.h\"\n");
 	fprintf(file, "extern const void __bank_%s;\n", data_name.c_str());
-	fprintf(file, "extern struct MetaSpritenfo %s;\n", data_name.c_str());
+	fprintf(file, "extern struct MetaSpriteInfo %s;\n", data_name.c_str());
 	fprintf(file, "\n");
 	fprintf(file, "#endif");
 	
@@ -531,10 +614,12 @@ int main(int argc, char *argv[])
 	fprintf(file, "const UINT8 %s_data[%d] = {\n", data_name.c_str(), (int)(tiles.size() * tile_h * 2));
 	for(vector< Tile >::iterator it = tiles.begin(); it != tiles.end(); ++ it)
 	{
-		for(Tile::iterator it2 = (*it).begin(); it2 != (*it).end(); ++ it2)
+		fprintf(file, "\t");
+
+		for(vector< unsigned char >::iterator it2 = (*it).data.begin(); it2 != (*it).data.end(); ++ it2)
 		{
 			fprintf(file, "0x%02x", (*it2));
-			if((it + 1) != tiles.end() || (it2 + 1) != (*it).end())
+			if((it + 1) != tiles.end() || (it2 + 1) != (*it).data.end())
 				fprintf(file, ",");
 		}
 
@@ -543,39 +628,121 @@ int main(int argc, char *argv[])
 	}
 	fprintf(file, "};\n\n");
 
-	for(vector< MetaSprite >::iterator it = sprites.begin(); it != sprites.end(); ++ it)
+	if(!export_as_map)
 	{
-		fprintf(file, "const metasprite_t %s_metasprite%d[] = {\n", data_name.c_str(), (int)(it - sprites.begin()));
-		fprintf(file, "\t");
-		for(MetaSprite::iterator it2 = (*it).begin(); it2 != (*it).end(); ++ it2)
+		for(vector< MetaSprite >::iterator it = sprites.begin(); it != sprites.end(); ++ it)
 		{
-			fprintf(file, "{%d, %d, %d, %d}, ", (*it2).offset_y, (*it2).offset_x, (*it2).offset_idx, (*it2).props);
+			fprintf(file, "const metasprite_t %s_metasprite%d[] = {\n", data_name.c_str(), (int)(it - sprites.begin()));
+			fprintf(file, "\t");
+			for(MetaSprite::iterator it2 = (*it).begin(); it2 != (*it).end(); ++ it2)
+			{
+				fprintf(file, "{%d, %d, %d, %d}, ", (*it2).offset_y, (*it2).offset_x, (*it2).offset_idx, (*it2).props);
+			}
+			fprintf(file, "{metasprite_end}\n");
+			fprintf(file, "};\n\n");
 		}
-		fprintf(file, "{metasprite_end}\n");
-		fprintf(file, "};\n\n");
-	}
 
-	fprintf(file, "const metasprite_t* const %s_metasprites[%d] = {\n\t", data_name.c_str(), (int)sprites.size());
-	for(vector< MetaSprite >::iterator it = sprites.begin(); it != sprites.end(); ++ it)
+		fprintf(file, "const metasprite_t* const %s_metasprites[%d] = {\n\t", data_name.c_str(), (int)sprites.size());
+		for(vector< MetaSprite >::iterator it = sprites.begin(); it != sprites.end(); ++ it)
+		{
+			fprintf(file, "%s_metasprite%d", data_name.c_str(), (int)(it - sprites.begin()));
+			if(it + 1 != sprites.end())
+				fprintf(file, ", ");
+		}
+		fprintf(file, "\n};\n");
+
+		fprintf(file, "\n");
+		fprintf(file, "#include \"MetaSpriteInfo.h\"\n");
+		fprintf(file, "const struct MetaSpriteInfo %s = {\n", data_name.c_str());
+		fprintf(file, "\t%d, //width\n", pivot_w);
+		fprintf(file, "\t%d, //height\n", pivot_h);
+		fprintf(file, "\t%d, //num_tiles\n", tiles.size() * (tile_h >> 3));
+		fprintf(file, "\t%s_data, //data\n", data_name.c_str());
+		fprintf(file, "\t%d, //num palettes\n", image.palettesize >> 2);
+		fprintf(file, "\t%s_palettes, //CGB palette\n", data_name.c_str());
+		fprintf(file, "\t%d, //num sprites\n", sprites.size());
+		fprintf(file, "\t%s_metasprites, //metasprites\n", data_name.c_str());
+		fprintf(file, "};\n");
+	}
+	else
 	{
-		fprintf(file, "%s_metasprite%d", data_name.c_str(), (int)(it - sprites.begin()));
-		if(it + 1 != sprites.end())
-			fprintf(file, ", ");
+		//Export tiles pals (if any)
+		if(!use_map_attributes)
+		{
+			fprintf(file, "\n");
+			fprintf(file, "const UINT8 %s_tile_pals[%d] = {\n\t", data_name.c_str(), (int)tiles.size());
+			for(vector< Tile >::iterator it = tiles.begin(); it != tiles.end(); ++ it)
+			{
+				if(it != tiles.begin())
+					fprintf(file, ", ");
+				fprintf(file, "%d", it->pal);
+			}
+			fprintf(file, "\n};\n");
+		}
+
+		//Export Tiles Info
+		fprintf(file, "\n");
+		fprintf(file, "#include \"TilesInfo.h\"\n");
+		fprintf(file, "const struct TilesInfo %s_tiles_info = {\n", data_name.c_str());
+		fprintf(file, "\t%d, //tile width\n", 8);
+		fprintf(file, "\t%d, //tile height\n", 8);
+		fprintf(file, "\t%d, //num tiles\n", tiles.size());
+		fprintf(file, "\t%s_data, //tiles\n", data_name.c_str());
+		fprintf(file, "\t%d, //num palettes\n", image.palettesize);
+		fprintf(file, "\t%s_palettes, //palettes\n", data_name.c_str());
+		if(!use_map_attributes)
+			fprintf(file, "\t%s_tile_pals, //tile palettes\n", data_name.c_str());
+		else
+			fprintf(file, "\t0 //tile palettes\n");
+		fprintf(file, "};\n");
+
+		//Export map
+		fprintf(file, "\n");
+		fprintf(file, "const unsigned char %s_map[] = {\n", data_name.c_str());
+		unsigned char* m = map;
+		for(size_t y = 0; y < image.h; y += 8)
+		{
+			fprintf(file, "\t");
+			for(size_t x = 0; x < image.w; x += 8, m ++)
+			{
+				fprintf(file, "0x%02x,", *m);
+			}
+			fprintf(file, "\n");
+		}
+		fprintf(file, "};\n");
+
+		//Export map attributes (if any)
+		if(map_attributes)
+		{
+			fprintf(file, "\n");
+			fprintf(file, "const unsigned char %s_map_attributes[] = {\n", data_name.c_str());
+			unsigned char* m = map_attributes;
+			for(size_t y = 0; y < image.h; y += 8)
+			{
+				fprintf(file, "\t");
+				for(size_t x = 0; x < image.w; x += 8, m ++)
+				{
+					fprintf(file, "0x%02x,", *m);
+				}
+				fprintf(file, "\n");
+			}
+			fprintf(file, "};\n");
+		}
+
+		//Export Map Info
+		fprintf(file, "\n");
+		fprintf(file, "#include \"MapInfo.h\"\n");
+		fprintf(file, "const struct MapInfo %s = {\n", data_name.c_str());
+		fprintf(file, "\t%s_map, //map\n", data_name.c_str());
+		fprintf(file, "\t%d, //with\n", image.w >> 3);
+		fprintf(file, "\t%d, //height\n", image.h >> 3);
+		if(map_attributes)
+			fprintf(file, "\t%s_map_attributes, //map attributes\n", data_name.c_str());
+		else
+			fprintf(file, "\t%s, //map attributes\n", "0");
+		fprintf(file, "\t%d, //tiles bank\n", bank);
+		fprintf(file, "\t&%s_tiles_info, //tiles info\n", data_name.c_str());
+		fprintf(file, "};\n");
 	}
-	fprintf(file, "\n};\n");
-
-	fprintf(file, "\n");
-	fprintf(file, "#include \"MetaSpriteInfo.h\"\n");
-	fprintf(file, "const struct MetaSpriteInfo %s = {\n", data_name.c_str());
-	fprintf(file, "\t%d, //width\n", pivot_w);
-	fprintf(file, "\t%d, //height\n", pivot_h);
-	fprintf(file, "\t%d, //num_tiles\n", tiles.size() * (tile_h >> 3));
-	fprintf(file, "\t%s_data, //data\n", data_name.c_str());
-	fprintf(file, "\t%d, //num palettes\n", image.palettesize >> 2);
-	fprintf(file, "\t%s_palettes, //CGB palette\n", data_name.c_str());
-	fprintf(file, "\t%d, //num sprites\n", sprites.size());
-	fprintf(file, "\t%s_metasprites, //metasprites\n", data_name.c_str());
-	fprintf(file, "};\n");
-
 	fclose(file);
 }
