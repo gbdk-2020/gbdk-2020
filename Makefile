@@ -219,10 +219,13 @@ gbdk-lib-install-platforms:
 gbdk-lib-install-examples:
 	@echo Installing Examples
 	@cp -r $(GBDKLIBDIR)/include $(GBDKLIBDIR)/examples $(BUILDDIR)
-	@echo Generating Examples make.bat
-	@$(MAKE) -C $(BUILDDIR)/examples/gb make.bat --no-print-directory
-	@$(MAKE) -C $(BUILDDIR)/examples/ap make.bat --no-print-directory
-	@echo
+	@for plat in $(PLATFORMS); do \
+		if [ -d "$(BUILDDIR)/examples/$$plat" ]; then \
+			echo Generating Examples make.bat for $$plat; \
+			$(MAKE) -C $(BUILDDIR)/examples/$$plat make.bat --no-print-directory; \
+			echo; \
+		fi \
+	done
 
 
 gbdk-lib-clean:
