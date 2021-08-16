@@ -26,7 +26,7 @@ There are template projects included in the @ref docs_example_programs "GBDK exa
 
 1. Copy one of the template folders to a new folder name
 
-2. If you moved the folder out of the GBDK examples then you __must__ update the `GBDK` path variable and/or the path to `LCC` in the `Makefile` or `make.bat` so that it will still build correctly.
+2. If you moved the folder out of the GBDK examples then you __must__ update the `GBDK` path variable and/or the path to `LCC` in the `Makefile` or `compile.bat` so that it will still build correctly.
 
 3. Type `make` on the command line in that folder to verify it still builds.
 

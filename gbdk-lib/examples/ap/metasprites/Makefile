@@ -16,9 +16,9 @@ CSOURCES    = $(filter-out $(PNGSOURCES:%.png=%.c), $(wildcard *.c))
 
 all: $(BINS)
 
-make.bat: Makefile
-	@echo "REM Automatically generated from Makefile" > make.bat
-	@make -sn | sed y/\\//\\\\/ | grep -v make >> make.bat
+compile.bat: Makefile
+	@echo "REM Automatically generated from Makefile" > compile.bat
+	@make -sn | sed y/\\//\\\\/ | grep -v make >> compile.bat
 
 # Use png2mtspr to convert the png into C formatted metasprite data
 # -sh 48   : Sets sprite height to 48 (width remains automatic)
