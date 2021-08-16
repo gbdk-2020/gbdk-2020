@@ -48,6 +48,6 @@ ports-clean:
 	for i in $(PORTS); do make -C asm/$$i clean THIS=$$i; done
 
 platform-clean:
-	for j in $(PORTS); do for i in $(PLATFORMS); do if [ -d "targets/$$j/$$i" ]; then make -C $$i clean PLAT=$$i; fi done done
+	for j in $(PORTS); do for i in $(PLATFORMS); do if [ -d "targets/$$j/$$i" ]; then make -C targets/$$j/$$i clean THIS=$$i; fi done done
 
 include Makefile.rules
