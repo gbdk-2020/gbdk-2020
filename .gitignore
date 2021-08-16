@@ -70,8 +70,9 @@ far_fixer/Debug/
 far_fixer/.vs/
 [Dd]ebug/
 
-# Auto-generated make.bat (from Makefiles)
+# Auto-generated make.bat and compile.bat (from Makefiles)
 make.bat
+compile.bat
 
 # Doc generation files
 gbdk-lib/doc/
