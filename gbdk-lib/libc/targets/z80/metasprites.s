@@ -39,7 +39,7 @@ ___move_metasprite::
         ld      a, (hl)         ; dy
         inc     hl
         cp      #0x80
-        jr      z, 2$
+        jp      z, 2$
         add     b        
         ld      b, a
         cp      #0xD0
@@ -70,7 +70,7 @@ ___move_metasprite::
         pop     de
         inc     e
 
-        jr      1$
+        jp      1$
 2$:
         pop     hl
         pop     bc
