@@ -6,16 +6,16 @@
         .area   _DATA
 
 ___current_metasprite:: 
-        .ds 0x02
+        .ds     0x02
 ___current_base_tile::
-        .ds 0x01
-___render_shadow_OAM::
         .ds     0x01
 
-        .area   _GSINIT
-
-        ld      a, #>_shadow_OAM
-        ld      (___render_shadow_OAM), a 
+        .area   _INITIALIZED
+___render_shadow_OAM::
+        .ds     0x01
+        
+        .area   _INITIALIZER
+        .db     #>_shadow_OAM
 
         .area   _CODE
 
