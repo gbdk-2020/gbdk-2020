@@ -17,7 +17,7 @@ ___move_metasprite_hflip::
         ld      b, a
         ld      a, (hl-)
         ld      c, a
-        ld      a, (hl-)
+        ld      a, (hl)
         add     a
         add     a
         ld      e, a
@@ -74,7 +74,7 @@ ___move_metasprite_vflip::
         ld      b, a
         ld      a, (hl-)
         ld      c, a
-        ld      a, (hl-)
+        ld      a, (hl)
         add     a
         add     a
         ld      e, a
@@ -131,7 +131,7 @@ ___move_metasprite_hvflip::
         ld      b, a
         ld      a, (hl-)
         ld      c, a
-        ld      a, (hl-)
+        ld      a, (hl)
         add     a
         add     a
         ld      e, a
