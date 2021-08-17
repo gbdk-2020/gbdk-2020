@@ -18,7 +18,7 @@ _INT_ISR::
 
         in a, (.VDP_STAT)
         and #.STATF_INT_VBL
-        jp z, 0$
+        jp z, 2$
         ;; handle VBlank
         
         ld hl, (.sys_time)
@@ -31,7 +31,7 @@ _INT_ISR::
         ;; transfer shadow OAM
         ld a, (__shadow_OAM_OFF)        ; check transfer is OFF
         or a
-        jp nz, 0$
+        jp nz, 1$
         ld hl, #__shadow_OAM_base
         ld h, (hl)
         ld l, a                 ; a == 0 here
@@ -50,34 +50,34 @@ _INT_ISR::
         out (c), a
         dec c                   ; c == .VDP_DATA
         call .OUTI128
-0$:
+1$:
 
         ;; call user-defined VBlank handlers
         ld hl, (.VBLANK_HANDLER0)
         ld a, h
         or l
-        jp z, 2$
+        jp z, 3$
         CALL_HL
 
         ld hl, (.VBLANK_HANDLER1)
         ld a, h
         or l
-        jp z, 2$
+        jp z, 3$
         CALL_HL
 
         ld hl, (.VBLANK_HANDLER2)
         ld a, h
         or l
-        jp z, 2$
+        jp z, 3$
         CALL_HL
-        jp 2$
+        jp 3$
 
         ;; handle HBlank
-1$:             
+2$:             
         ld hl, (.HBLANK_HANDLER0)
         CALL_HL
 
-2$:
+3$:
         pop ix
         pop iy
         pop hl
@@ -87,19 +87,17 @@ _INT_ISR::
         ei
         reti        
         
+; void remove_LCD (int_handler h) __z88dk_fastcall __preserves_regs(b, c, iyh, iyl);
+_remove_LCD::
+.remove_LCD::
+        ld hl, #.empty_function 
+
 ; void add_LCD (int_handler h) __z88dk_fastcall __preserves_regs(b, c, iyh, iyl);
 _add_LCD::
 .add_LCD::
         ld (.HBLANK_HANDLER0), hl
         ret
-        
-; void remove_LCD (int_handler h) __z88dk_fastcall __preserves_regs(b, c, iyh, iyl);
-_remove_LCD::
-.remove_LCD::
-        ld hl, #.empty_function 
-        ld (.HBLANK_HANDLER0), hl
-        ret
-   
+           
 ; void add_VBL(int_handler h) __z88dk_fastcall __preserves_regs(d, e, iyh, iyl);
 _add_VBL::
         ld b, h
