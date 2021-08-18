@@ -26,7 +26,7 @@ ___hide_metasprite::
 
         ld      a, #0x40
         cp      e
-        ret     nc
+        ret     c
 
         add     hl, bc
 
