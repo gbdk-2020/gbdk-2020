@@ -44,6 +44,7 @@ uint16_t bank_all_rom_max = 0;
 
 int g_mbc_type = MBC_TYPE_DEFAULT;
 int g_platform = PLATFORM_DEFAULT;
+bool g_opt_random_assign = false;
 
 
 int banks_get_platform(void) {
@@ -145,30 +146,35 @@ void banks_set_mbc_by_rom_byte_149(int mbc_type_rom_byte) {
 
 // Set MBC type directly
 void banks_set_mbc(int mbc_type) {
+
+    uint16_t mbc_bank_limit_rom_max;
+
     switch (mbc_type) {
         case MBC_TYPE_NONE:
             g_mbc_type = MBC_TYPE_NONE;
             break;
         case MBC_TYPE_MBC1:
             g_mbc_type = mbc_type;
-            bank_limit_rom_max = BANK_NUM_ROM_MAX_MBC1;
+            mbc_bank_limit_rom_max = BANK_NUM_ROM_MAX_MBC1;
             break;
         case MBC_TYPE_MBC2:
             g_mbc_type = mbc_type;
-            bank_limit_rom_max = BANK_NUM_ROM_MAX_MBC2;
+            mbc_bank_limit_rom_max = BANK_NUM_ROM_MAX_MBC2;
             break;
         case MBC_TYPE_MBC3:
             g_mbc_type = mbc_type;
-            bank_limit_rom_max = BANK_NUM_ROM_MAX_MBC3;
+            mbc_bank_limit_rom_max = BANK_NUM_ROM_MAX_MBC3;
             break;
         case MBC_TYPE_MBC5:
             g_mbc_type = mbc_type;
-            bank_limit_rom_max = BANK_NUM_ROM_MAX_MBC5;
+            mbc_bank_limit_rom_max = BANK_NUM_ROM_MAX_MBC5;
             break;
         default:
             printf("BankPack: Warning: unrecognized MBC option -mbc%d!\n", mbc_type);
             break;
     }
+    if (mbc_bank_limit_rom_max < bank_limit_rom_max)
+        bank_limit_rom_max = mbc_bank_limit_rom_max;
 }
 
 
@@ -224,6 +230,12 @@ bool banks_set_max(uint16_t bank_num) {
 }
 
 
+void banks_set_random(bool is_random) {
+    g_opt_random_assign = is_random;
+}
+
+
+
 void obj_data_init(void) {
     int c;
     bank_item newbank;
@@ -237,6 +249,7 @@ void obj_data_init(void) {
     // to allow handling fixed-bank (non-autobank) areas
     newbank.size = newbank.free = BANK_SIZE_ROM;
     newbank.type = BANK_TYPE_UNSET;
+    newbank.item_count = 0;
     for (c=0; c < BANK_ROM_TOTAL; c++)
         list_additem(&banklist, &newbank);
 
@@ -353,6 +366,7 @@ static void bank_add_area(bank_item * p_bank, uint16_t bank_num, area_item * p_a
     if (p_area->size <= p_bank->free) {
             p_bank->free -= p_area->size;
             p_bank->type = p_area->type;
+            p_bank->item_count++;
             p_area->bank_num_out = bank_num;
             bank_update_assigned_minmax(bank_num);
     } else {
@@ -410,13 +424,79 @@ static bool bank_check_mixed_area_types_ok(bank_item * p_bank, uint16_t bank_num
 }
 
 
-// Find an bank for a given area using First Fit Decreasing (FFD)
+// Verify that a bank is available for an area
+// Checks: Size, MBC Availability, Mixed area restrictions
+static bool bank_check_ok_for_area(uint16_t bank_num, area_item * p_area, bank_item * banks) {
+
+    // Check for MBC bank restrictions
+    if ((g_mbc_type != MBC_TYPE_MBC1) || (bank_check_mbc1_ok(bank_num))) {
+        // Check for allowed area mixing if needed
+        if (bank_check_mixed_area_types_ok(&banks[bank_num], bank_num, p_area)) {
+            // Make sure there is enough space for the area
+            if (p_area->size <= banks[bank_num].free) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+
+// Assign areas randomly and distributed as sparsely as possible
+static bool banks_assign_area_random(area_item * p_area, bank_item * banks) {
+
+    uint16_t bank_num;
+    uint16_t item_count_min = BANK_ITEM_COUNT_MAX;
+    uint16_t list_of_banks[BANK_ROM_TOTAL];
+    uint16_t list_count = 0;
+
+    // Find lowest number of areas per bank among banks which have sufficient space for the area
+    for (bank_num = bank_limit_rom_min; bank_num <= bank_limit_rom_max; bank_num++)
+        if ((banks[bank_num].item_count < item_count_min) && bank_check_ok_for_area(bank_num, p_area, banks))
+            item_count_min = banks[bank_num].item_count;
+
+    // Now make a list of suitable banks below that threshold
+    for (bank_num = bank_limit_rom_min; bank_num <= bank_limit_rom_max; bank_num++)
+        if ((banks[bank_num].item_count <= item_count_min) && bank_check_ok_for_area(bank_num, p_area, banks))
+            list_of_banks[list_count++] = bank_num;
+
+    if (list_count > 0) {
+        // Choose a random bank from the selected banks and add the area to it
+        bank_num = list_of_banks[ rand() % list_count ];
+        bank_add_area(&banks[bank_num], bank_num, p_area);
+        
+        return true;
+    } else
+        return false; // Fail if no banks were available
+}
+
+
+// Assign areas linearly, trying to fill up lowest banks first
+static bool banks_assign_area_linear(area_item * p_area, bank_item * banks) {
+
+    uint16_t bank_num;
+
+    // Try to assign area to first allowed bank with enough free space
+    // Bank array index maps directly to bank numbers, so [2] will be _CODE_2
+    for (bank_num = bank_limit_rom_min; bank_num <= bank_limit_rom_max; bank_num++) {
+        if (bank_check_ok_for_area(bank_num, p_area, banks)) {
+            bank_add_area(&banks[bank_num], bank_num, p_area);
+            return true;
+        }
+    }
+    return false; // Fail if no banks were available
+}
+
+
+// Find a bank for a given area using First Fit Decreasing (FFD)
 // All possible banks (0-255) were pre-created and initialized [in obj_data_init()],
 // so there is no need to add when using a fresh bank
 static void banks_assign_area(area_item * p_area) {
 
     uint16_t bank_num;
     bank_item * banks = (bank_item *)banklist.p_array;
+    bool result;
 
     bank_check_area_size(p_area);
 
@@ -448,21 +528,14 @@ static void banks_assign_area(area_item * p_area) {
         return;
     }
     else if (p_area->bank_num_in == BANK_NUM_AUTO) {
-        // Try to assign area to first allowed bank with enough free space
-        // Bank array index maps directly to bank numbers, so [2] will be _CODE_2
-        for (bank_num = bank_limit_rom_min; bank_num <= bank_limit_rom_max ; bank_num++) {
-            // Check for MBC bank restrictions
-            if ((g_mbc_type != MBC_TYPE_MBC1) || (bank_check_mbc1_ok(bank_num))) {
-                // Check for allowed area mixing if needed
-                if (bank_check_mixed_area_types_ok(&banks[bank_num], bank_num, p_area)) {
-                    // If there is enough space in current bank, assign it and reduce free space
-                    if (p_area->size <= banks[bank_num].free) {
-                        bank_add_area(&banks[bank_num], bank_num, p_area);
-                        return;
-                    }
-                }
-            }
-        }
+
+        if (g_opt_random_assign)
+            result = banks_assign_area_random(p_area, banks);
+        else
+            result = banks_assign_area_linear(p_area, banks);
+
+        if (result) // Success
+            return;
     }
 
     if (g_option_verbose)
