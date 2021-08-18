@@ -5,8 +5,8 @@
 #ifndef ASM_Z80_TYPES_INCLUDE
 #define ASM_Z80_TYPES_INCLUDE
 
-#if SDCC_PORT!=z80
-#error gbz80 only.
+#ifndef __PORT_z80
+  #error z80 only.
 #endif
 
 #define NONBANKED		__nonbanked

@@ -4,12 +4,14 @@
 #ifndef ASM_TYPES_INCLUDE
 #define ASM_TYPES_INCLUDE
 
-#if SDCC_PORT == gbz80
-#include <asm/gbz80/types.h>
-#elif SDCC_PORT == z80
-#include <asm/z80/types.h>
+#ifdef __PORT_gbz80
+  #include <asm/gbz80/types.h>
 #else
-#error Unrecognised port
+  #ifdef __PORT_z80
+    #include <asm/z80/types.h>
+  #else
+    #error Unrecognised port
+  #endif
 #endif
 
 #ifndef NONBANKED

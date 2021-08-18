@@ -4,13 +4,16 @@
 #ifndef GBDK_LIB_INCLUDE
 #define GBDK_LIB_INCLUDE
 
-#if SDCC_PORT==gbz80
-#include <asm/gbz80/provides.h>
-#elif SDCC_PORT==z80
-#include <asm/z80/provides.h>
+#ifdef __PORT_gbz80
+  #include <asm/gbz80/provides.h>
 #else
-#error Unrecognised port.
+  #ifdef __PORT_z80
+    #include <asm/z80/provides.h>
+  #else
+    #error Unrecognised port
+  #endif
 #endif
+
 
 #ifndef USE_C_MEMCPY
 #define USE_C_MEMCPY		1
