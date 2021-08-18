@@ -15,7 +15,7 @@ _hide_sprites_range::
         push hl
 
         ld  a, d
-        cp  #64
+        cp  #(64+1)
         ret nc
 
         sub e
