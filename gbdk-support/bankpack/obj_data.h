@@ -30,6 +30,7 @@ typedef struct bank_item {
     uint32_t size;
     uint32_t free;
     uint32_t type;
+    uint16_t item_count;
 } bank_item;
 
 
@@ -64,6 +65,8 @@ uint32_t banks_calc_cart_size(void);
 
 bool banks_set_min(uint16_t bank_num);
 bool banks_set_max(uint16_t bank_num);
+
+void banks_set_random(bool is_random);
 
 void obj_data_init(void);
 void obj_data_cleanup(void);
