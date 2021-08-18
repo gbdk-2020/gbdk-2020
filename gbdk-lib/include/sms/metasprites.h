@@ -34,7 +34,7 @@
 #ifndef _METASPRITES_H_INCLUDE
 #define _METASPRITES_H_INCLUDE
 
-#include <gb/hardware.h>
+#include <sms/hardware.h>
 #include <stdint.h>
 
 /** Metasprite sub-item structure
@@ -89,9 +89,6 @@ void hide_sprites_range(UINT8 from, UINT8 to) __z88dk_callee __preserves_regs(iy
     Sets:
     \li __current_metasprite = metasprite; 
     \li __current_base_tile = base_tile;
-
-    Note: Overwrites OAM sprite properties (such as CGB Palette), see
-          @ref metasprite_and_sprite_properties "Metasprites and sprite properties".
 
     @return Number of hardware sprites used to draw this metasprite
  */
