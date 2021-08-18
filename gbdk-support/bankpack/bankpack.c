@@ -8,6 +8,8 @@
 // #include <unistd.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <time.h>
+
 #include "obj_data.h"
 #include "files.h"
 
@@ -42,6 +44,7 @@ static void display_help(void) {
        "               Default entry is \"___bank_\" (see below)\n"
        "-cartsize    : Print min required cart size as \"autocartsize:<NNN>\"\n"
        "-plat=<plat> : Select platform specific behavior (default:gb) (gb,sms)\n"
+       "-random      : Distribute banks randomly for testing (honors -min/-max)\n"
        "-v           : Verbose output, show assignments\n"
        "\n"
        "Example: \"bankpack -ext=.rel -path=some/newpath/ file1.o file2.o\"\n"
@@ -100,6 +103,8 @@ static int handle_args(int argc, char * argv[]) {
                 g_option_cartsize = true;
             } else if (strstr(argv[i], "-plat=") == argv[i]) {
                 banks_set_platform(argv[i] + 6);
+            } else if (strstr(argv[i], "-random") == argv[i]) {
+                banks_set_random(true);
             } else
                 printf("BankPack: Warning: Ignoring unknown option %s\n", argv[i]);
         } else {
@@ -123,6 +128,7 @@ static int matches_extension(char * filename, char * extension) {
 
 
 static void init(void) {
+    srand( time(0) );
     files_init();
     obj_data_init();
 }
