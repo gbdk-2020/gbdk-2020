@@ -105,7 +105,7 @@ Tile FlipV(const Tile& tile)
 	return ret;
 }
 
-bool FindTile(const Tile& t, unsigned char& idx, unsigned char& props)
+bool FindTile(const Tile& t, unsigned char& idx, unsigned char& props, bool tryflip)
 {
 	vector< Tile >::iterator it;
 	it = find(tiles.begin(), tiles.end(), t);
@@ -116,6 +116,8 @@ bool FindTile(const Tile& t, unsigned char& idx, unsigned char& props)
 		return true;
 	}
 	
+    if (!tryflip) return false;
+    
 	Tile tile = FlipV(t);
 	it = find(tiles.begin(), tiles.end(), tile);
 	if(it != tiles.end())
@@ -146,7 +148,7 @@ bool FindTile(const Tile& t, unsigned char& idx, unsigned char& props)
 	return false;
 }
 
-void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y)
+void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y, bool tryflip)
 {
 	int last_x = _x + pivot_x;
 	int last_y = _y + pivot_y;
@@ -162,7 +164,7 @@ void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y)
 			{
 				unsigned char idx;
 				unsigned char props;
-				if(!FindTile(tile, idx, props))
+				if(!FindTile(tile, idx, props, tryflip))
 				{
 					tiles.push_back(tile);
 					idx = (unsigned char)tiles.size() - 1;
@@ -202,6 +204,7 @@ int main(int argc, char *argv[])
 		printf("-spr8x16      use SPRITES_8x16 (default: SPRITES_8x16)\n");
 		printf("-b <bank>     bank (default 0)\n");
         printf("-plat <plat>  platform (default gb)\n");
+        printf("-noflip       disable flipping");
 		return 0;
 	}
 
@@ -215,6 +218,7 @@ int main(int argc, char *argv[])
     string plat = "gb";
 	output_filename = output_filename.substr(0, output_filename.size() - 4) + ".c";
 	int bank = 0;
+    bool tryflip = true;
 
 	//Parse argv
 	for(int i = 2; i < argc; ++i)
@@ -259,6 +263,10 @@ int main(int argc, char *argv[])
 		{
 			plat = argv[++ i];
 		}
+		else if(!strcmp(argv[i], "-noflip"))
+		{
+			tryflip = false;
+		}
 	}
 
 	int slash_pos = (int)output_filename.find_last_of('/');
@@ -275,10 +283,10 @@ int main(int argc, char *argv[])
 	printf("data_name:%s", data_name.c_str());
 	printf("\n"); // End of output
 
-  //load and decode png
-  vector<unsigned char> buffer;
-  loadFile(buffer, argv[1]);
-  if(decodePNG(image.data, image.w, image.h, buffer.empty() ? 0 : &buffer[0], (unsigned long)buffer.size()) != 0) 
+    //load and decode png
+    vector<unsigned char> buffer;
+    loadFile(buffer, argv[1]);
+    if(decodePNG(image.data, image.w, image.h, buffer.empty() ? 0 : &buffer[0], (unsigned long)buffer.size()) != 0) 
 	{
 		printf("Error decoding PNG");
 		return 0;
@@ -294,7 +302,7 @@ int main(int argc, char *argv[])
 	{
 		for(int x = 0; x < (int)image.w; x += sprite_w)
 		{
-			GetMetaSprite(x, y, sprite_w, sprite_h, pivot_x, pivot_y);
+			GetMetaSprite(x, y, sprite_w, sprite_h, pivot_x, pivot_y, tryflip);
 		}
 	}
   

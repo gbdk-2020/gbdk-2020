@@ -27,7 +27,14 @@ uint8_t idx, rot;
 
 // main funxction
 void main(void) {
-	// Fill the screen background with a single tile pattern
+    // Set compatible palette
+    for (uint8_t i = 0; i != 2; i++) {
+        set_palette_entry(i, 0, RGB8(255, 255, 255));
+        set_palette_entry(i, 1, RGB8(128, 128, 128));
+        set_palette_entry(i, 2, RGB8( 64,  64,  64));
+        set_palette_entry(i, 3, RGB8(  0,   0,   0));
+    }
+    // Fill the screen background with a single tile pattern
 //    fill_bkg_rect(0, 0, 20, 18, 0);
     set_bkg_2bpp_data(0, 1, pattern);
 
