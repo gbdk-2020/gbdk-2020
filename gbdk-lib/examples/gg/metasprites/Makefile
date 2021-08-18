@@ -25,7 +25,7 @@ compile.bat: Makefile
 # -spr8x16 : Use 8x16 hardware sprites
 # -c ...   : Set C output file
 %.c:	%.png
-	$(PNG2MTSPR) $< -sh 48 -spr8x16 -noflip -plat sms -c $@ 
+	$(PNG2MTSPR) $< -sh 48 -spr8x16 -noflip -c $@ 
 
 # Compile all C sources, including converted png metasprites
 $(BINS): $(CSOURCES) $(PNG_CSOURCES)

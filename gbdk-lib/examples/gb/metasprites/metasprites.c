@@ -1,7 +1,7 @@
-#include <gb/gb.h>
 #include <stdint.h>
-#include <gb/sgb.h>
-#include <gb/metasprites.h>
+
+#include <gbdk/platform.h>
+#include <gbdk/metasprites.h>
 
 #include "sprite.h"
 

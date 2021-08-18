@@ -1,5 +1,5 @@
-#include <sms/sms.h>
-#include <sms/metasprites.h>
+#include <gbdk/platform.h>
+#include <gbdk/metasprites.h>
 
 #include <stdint.h>
 
@@ -56,7 +56,7 @@ void main(void) {
     joypad_init(1, &joypads);
  
     // Set initial position, zero out speed
-    PosX = PosY = 64 << 4;
+    PosX = PosY = 128 << 4;
     SpdX = SpdY = 0;
 
     hide = 0; jitter = 0; idx = 0; rot = 0;
