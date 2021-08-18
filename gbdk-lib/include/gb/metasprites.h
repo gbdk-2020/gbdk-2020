@@ -83,6 +83,8 @@ typedef struct metasprite_t {
 } metasprite_t;
 
 #define metasprite_end -128 
+#define METASPR_ITEM(dy,dx,dt,a) {(dy),(dx),(dt),(a)}
+#define METASPR_TERM {metasprite_end}
 
 extern const void * __current_metasprite;
 extern uint8_t __current_base_tile;
