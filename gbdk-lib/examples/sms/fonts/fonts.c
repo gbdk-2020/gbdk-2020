@@ -8,14 +8,18 @@
 
 #include <gbdk/platform.h>
 #include <gbdk/font.h>
+
 #include <gbdk/console.h>
 
-#include <gb/drawing.h>
+#define WHITE 3 
+#define DKGREY 1
 
 void main(void)
 {
     font_t ibm_font, italic_font, min_font;
     int i;
+
+    DISPLAY_ON;
 
     /* First, init the font system */
     font_init();
@@ -25,7 +29,7 @@ void main(void)
     italic_font = font_load(font_italic);   /* 93 tiles */
     
     /* Load this one with dk grey background and white foreground */
-    font_color(WHITE, DKGREY, SOLID);
+    font_color(WHITE, DKGREY);
     
     min_font = font_load(font_min);
 

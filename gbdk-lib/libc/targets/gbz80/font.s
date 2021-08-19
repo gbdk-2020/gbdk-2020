@@ -478,7 +478,7 @@ _font_init::
         jr      nz,1$
         ld      a,#3
         ld      (.fg_colour),a
-        ld      a,#0
+        xor     a
         ld      (.bg_colour),a
 
         call    .cls

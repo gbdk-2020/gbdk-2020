@@ -19,7 +19,7 @@ ASSRC =	cgb.s cgb_palettes.s cgb_compat.s \
 	serial.s set_bk_t.s set_tile.s \
 	set_data.s set_prop.s set_spr.s set_wi_t.s set_xy_t.s \
 	set_1bit_data.s \
-	sgb.s font.s delay.s \
+	sgb.s font.s font_color.s delay.s \
 	bgb_emu.s bgb_emu_printf.s \
 	nowait.s far_ptr.s \
 	lcd.s joy.s tim.s \

@@ -34,11 +34,43 @@
 #define	J_LEFT       0b00000100
 #define	J_RIGHT      0b00001000
 
+/** Screen modes.
+    Normally used by internal functions only.
+    @see mode()
+ */
+#define	M_TEXT_OUT   0x02U
+#define	M_TEXT_INOUT 0x03U
+/** Set this in addition to the others to disable scrolling
+
+    If scrolling is disabled, the cursor returns to (0,0)
+    @see mode()
+*/
+#define M_NO_SCROLL  0x04U
+/** Set this to disable interpretation
+    @see mode()
+*/
+#define M_NO_INTERP  0x08U
+
+// VDP helper macros
 #define __WRITE_VDP_REG(REG, v) shadow_##REG=(v);__critical{VDP_CMD=(shadow_##REG),VDP_CMD=REG;}
 #define __READ_VDP_REG(REG) shadow_##REG
 
 void WRITE_VDP_CMD(uint16_t cmd) __z88dk_fastcall __preserves_regs(b, c, d, e, iyh, iyl);
 void WRITE_VDP_DATA(uint16_t data) __z88dk_fastcall __preserves_regs(b, c, d, e, iyh, iyl);
+
+/** Set the current screen mode - one of M_* modes
+
+    Normally used by internal functions only.
+
+    @see M_TEXT_OUT, M_TEXT_INOUT, M_NO_SCROLL, M_NO_INTERP
+*/
+void mode(uint8_t m) NONBANKED;
+
+/** Returns the current mode
+
+    @see M_TEXT_OUT, M_TEXT_INOUT, M_NO_SCROLL, M_NO_INTERP
+*/
+uint8_t get_mode(void) NONBANKED;
 
 /** Interrupt handlers
  */

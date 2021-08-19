@@ -41,4 +41,5 @@ void setchar(char c);
 */
 void cls();
 
+
 #endif /* _CONSOLE_H */

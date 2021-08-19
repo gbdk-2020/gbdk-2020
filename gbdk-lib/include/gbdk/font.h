@@ -6,7 +6,6 @@
 #ifndef __FONT_H
 #define __FONT_H
 
-#include <gb/gb.h>
 #include <stdint.h>
 
 /** Various flags in the font header.
@@ -71,5 +70,8 @@ struct sfont_handle {
     uint8_t first_tile;		/**< First tile used for font */
     void *font;			/**< Pointer to the base of the font */
 };
+
+/** Set the current __foreground__ colour (for pixels), __background__ colour */
+void font_color(uint8_t forecolor, uint8_t backcolor);
 
 #endif /* __FONT_H */

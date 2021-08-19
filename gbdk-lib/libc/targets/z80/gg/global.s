@@ -159,7 +159,18 @@
         
         .SYSTEM_PAL     = 0x00
         .SYSTEM_NTSC    = 0x01
-        
+
+        ;; GBDK library screen modes
+
+        .T_MODE         = 0x02  ; Text mode (bit 2)
+        .T_MODE_OUT     = 0x02  ; Text mode output only
+        .T_MODE_INOUT   = 0x03  ; Text mode with input
+        .M_NO_SCROLL    = 0x04  ; Disables scrolling of the screen in text mode
+        .M_NO_INTERP    = 0x08  ; Disables special character interpretation
+
+        ;; Global variables
+        .globl  .mode
+
         ;; Interrupt routines 
         .globl _INT_ISR
         .globl _NMI_ISR

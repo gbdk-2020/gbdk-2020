@@ -28,12 +28,12 @@
 
 	.area   _CODE
 
-	.globl ___ltoa
-	.globl ___ultoa
+	.globl _ltoa
+	.globl _ultoa
 ;
 ;void __itoa(long value, char *string, unsigned char radix);
 ;
-___ltoa::
+_ltoa::
 	push	ix
 	ld	ix, #0
 	add	ix, sp
@@ -71,7 +71,7 @@ ___ltoa::
 ;
 ;void __uitoa(unsigned int value, char *string, unsigned char radix);
 ;
-___ultoa::
+_ultoa::
 	push	ix
 	ld	ix, #0
 	add	ix, sp

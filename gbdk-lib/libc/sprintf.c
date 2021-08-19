@@ -48,13 +48,13 @@ void __printf(const char *format, emitter_t emitter, char **pData, va_list va)
                         }
                         case 'u':
                         {
-                            utoa((unsigned char)va_arg(va, char), buf);
+                            uitoa((unsigned char)va_arg(va, char), buf, 10);
                             _printbuf(buf, emitter, pData);
                             break;
                         }
                         case 'd':
                         {
-                            itoa((signed char)va_arg(va, char), buf);
+                            itoa((signed char)va_arg(va, char), buf, 10);
                             _printbuf(buf, emitter, pData);
                             break;
                         }
@@ -68,13 +68,13 @@ void __printf(const char *format, emitter_t emitter, char **pData, va_list va)
                 }
                 case 'u':
                 {
-                    utoa(va_arg(va, int), buf);
+                    uitoa(va_arg(va, int), buf, 10);
                     _printbuf(buf, emitter, pData);
                     break;
                 }
                 case 'd':
                 {
-                    itoa(va_arg(va, int), buf);
+                    itoa(va_arg(va, int), buf, 10);
                     _printbuf(buf, emitter, pData);
                     break;
                 }

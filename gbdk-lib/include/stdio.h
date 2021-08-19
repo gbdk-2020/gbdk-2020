@@ -11,12 +11,12 @@
 
 #include <types.h>
 
-#if STRICT_ANSI
-void putchar(int c);
-#else
-/** Write the character __c__ to stdout.
-*/
+#if defined(__PORT_gbz80)
 void putchar(char c);
+#elif defined(__PORT_z80)
+void putchar(char c) __z88dk_fastcall;
+#else
+    #error Unrecognised port
 #endif
 
 /** Print the string and arguments given by format to stdout.

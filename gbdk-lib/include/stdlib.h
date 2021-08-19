@@ -69,7 +69,7 @@ long atol(const char *s);
 
     Returns:    Pointer to converted string
  */
-char *itoa(int n, char *s);
+char *itoa(int n, char *s, unsigned char radix);
 
 /** Converts an unsigned int into a base 10 ASCII string.
     @param n    Unsigned Int to convert to a string
@@ -77,7 +77,7 @@ char *itoa(int n, char *s);
 
     Returns:    Pointer to converted string
  */
-char *utoa(unsigned int n, char *s);
+char *uitoa(unsigned int n, char *s, unsigned char radix);
 
 /** Converts a long into a base 10 ASCII string.
     @param n    Long int to convert to a string
@@ -85,7 +85,7 @@ char *utoa(unsigned int n, char *s);
 
     Returns:    Pointer to converted string
  */
-char *ltoa(long n, char *s);
+char *ltoa(long n, char *s, unsigned char radix);
 
 /** Converts an unsigned long into a base 10 ASCII string.
     @param n    Unsigned Long Int to convert to a string
@@ -93,7 +93,7 @@ char *ltoa(long n, char *s);
 
     Returns:    Pointer to converted string
  */
-char *ultoa(unsigned long n, char *s);
+char *ultoa(unsigned long n, char *s, unsigned char radix);
 
 
 /** Memory allocation functions 
