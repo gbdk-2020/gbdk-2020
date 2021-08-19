@@ -9,8 +9,11 @@
 
 _set_tiles::
         PUSH    BC
-
-        LDHL    SP, #7
+        CALL    1$
+        POP     BC
+        RET
+1$:
+        LDHL    SP, #9
         LD      A, (HL-)
         LD      D, A
         LD      A, (HL-)
@@ -19,7 +22,7 @@ _set_tiles::
         LD      A, (HL-)
         LD      E, A
         LD      D, (HL)
-        LDHL    SP, #13
+        LDHL    SP, #15
         LD      A, (HL-)
         LD      B, A
         LD      A, (HL-)
@@ -28,7 +31,4 @@ _set_tiles::
         LD      L, (HL)
         LD      H, A
 
-        CALL    .set_xy_tt      ;; Set background tile from (BC) at XY = DE, size WH on stack, to vram from address (HL)
-
-        POP     BC
-        RET
+        JP      .set_xy_tt      ;; Set background tile from (BC) at XY = DE, size WH on stack, to vram from address (HL)
