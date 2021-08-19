@@ -2,7 +2,7 @@
 
         .globl  .set_xy_tt
 
-	;; BANKED: checked, imperfect
+        ;; BANKED: checked, imperfect
         .area   _BASE
 
 ; void set_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *vram_addr, const uint8_t *tiles);

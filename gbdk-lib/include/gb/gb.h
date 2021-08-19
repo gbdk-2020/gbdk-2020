@@ -1362,7 +1362,7 @@ inline void hide_sprite(uint8_t nb) {
 
 
 
-/** Copies Tile Pattern data to an address in VRAM
+/** Copies arbitrary data to an address in VRAM
 
     @param vram_addr Pointer to destination VRAM Address
     @param data      Pointer to source buffer
@@ -1379,7 +1379,7 @@ void set_data(uint8_t *vram_addr,
           uint16_t len) NONBANKED __preserves_regs(b, c);
 
 
-/** Copies Tile Pattern data from an address in VRAM into a buffer
+/** Copies arbitrary data from an address in VRAM into a buffer
 
     @param vram_addr Pointer to source VRAM Address
     @param data      Pointer to destination buffer
@@ -1394,6 +1394,23 @@ void set_data(uint8_t *vram_addr,
 void get_data(uint8_t *data,
           uint8_t *vram_addr,
           uint16_t len) NONBANKED __preserves_regs(b, c);
+
+/** Copies arbitrary data from an address in VRAM into a buffer
+
+    @param dest      Pointer to destination buffer (may be in VRAM)
+    @param sour      Pointer to source buffer (may be in VRAM)
+    @param len       Number of bytes to copy
+
+    Copies __len__ bytes from or to VRAM starting at __sour__ into a buffer or to VRAM at __dest__.
+
+    GBC only: @ref VBK_REG determines which bank of Background tile patterns are written to.
+    \li VBK_REG=0 indicates the first bank
+    \li VBK_REG=1 indicates the second
+*/
+void vmemcpy(uint8_t *dest,
+          uint8_t *sour,
+          uint16_t len) NONBANKED __preserves_regs(b, c);
+
 
 
 /** Sets a rectangular region of Tile Map entries at a given VRAM Address.
