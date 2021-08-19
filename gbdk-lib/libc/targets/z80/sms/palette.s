@@ -51,8 +51,7 @@ _set_palette::
 
         ld c, a
 
-        ld a, #0x01
-        ld (__shadow_OAM_OFF), a        ; switch OFF copy shadow SAT
+        DISABLE_VBLANK_COPY             ; switch OFF copy shadow SAT
 
         ld a, i
         di
@@ -78,8 +77,7 @@ _set_palette::
         dec a
         jr nz, 5$
 3$:        
-        xor a
-        ld (__shadow_OAM_OFF), a        ; switch ON copy shadow SAT
+        ENABLE_VBLANK_COPY              ; switch ON copy shadow SAT
 
         ld h, d
         ld l, e

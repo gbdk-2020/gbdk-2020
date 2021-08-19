@@ -149,6 +149,8 @@
         .RAMCTL_RO      = 0b00010000
         .RAMCTL_PROT    = 0b10000000
         
+        .GLASSES_3D     = 0xfff8
+
         .MAP_FRAME0     = 0xfffd
         .MAP_FRAME1     = 0xfffe
         .MAP_FRAME2     = 0xffff
@@ -198,4 +200,14 @@ lbl:
 
 .macro CALL_HL
         rst 0x30
+.endm
+
+.macro DISABLE_VBLANK_COPY
+        ld a, #1
+        ld (__shadow_OAM_OFF), a
+.endm
+
+.macro ENABLE_VBLANK_COPY
+        xor a
+        ld (__shadow_OAM_OFF), a
 .endm

@@ -42,8 +42,7 @@
         push de         ; store HW
         push bc         ; store dest
 
-        ld a, #0x01
-        ld (__shadow_OAM_OFF), a        ; switch OFF copy shadow SAT
+        DISABLE_VBLANK_COPY        ; switch OFF copy shadow SAT
 
 1$:                     ; copy H rows
         SMS_WRITE_VDP_CMD b, c
@@ -77,6 +76,5 @@
         push bc
         jr 1$
 6$:
-        xor a
-        ld (__shadow_OAM_OFF), a        ; switch ON copy shadow SAT
+        ENABLE_VBLANK_COPY         ; switch ON copy shadow SAT
         ret

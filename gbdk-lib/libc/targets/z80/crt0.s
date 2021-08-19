@@ -117,7 +117,10 @@ _WRITE_VDP_DATA::
 
         ;; Ordering of segments for the linker.
         .area   _HOME
+        .area   _BASE
         .area   _CODE
+        .area   _CODE_0
+        .area   _LIT
         .area   _INITIALIZER
         .area   _GSINIT
         .area   _GSFINAL

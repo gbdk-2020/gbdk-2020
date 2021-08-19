@@ -8,33 +8,32 @@
 _set_tile_data::
         pop de          ; pop ret address
         pop hl
-                
+
         add hl, hl
         add hl, hl
         add hl, hl
         add hl, hl
         add hl, hl
-        
+
         ld bc, #.VDP_VRAM
         add hl, bc
-                
-        ld a, #0x01
-        ld (__shadow_OAM_OFF), a        ; switch OFF copy shadow SAT
+
+        DISABLE_VBLANK_COPY        ; switch OFF copy shadow SAT
 
         SMS_WRITE_VDP_CMD h, l
 
-        pop bc        
+        pop bc
         pop hl
         push de
-                
+
         ld e, c
         ld d, b
         
         ld c, #.VDP_DATA
         inc d
-        inc e        
+        inc e
         jr 2$
-            
+
 1$:
         ld b, #32
 3$:        
@@ -47,7 +46,6 @@ _set_tile_data::
         dec d
         jr nz, 1$
         
-        xor a
-        ld (__shadow_OAM_OFF), a        ; switch ON copy shadow SAT
+        ENABLE_VBLANK_COPY         ; switch ON copy shadow SAT
 
         ret

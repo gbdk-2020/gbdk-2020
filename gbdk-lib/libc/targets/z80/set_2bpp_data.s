@@ -18,8 +18,7 @@ _set_tile_2bpp_data::
         ld bc, #.VDP_VRAM
         add hl, bc
                 
-        ld a, #0x01
-        ld (__shadow_OAM_OFF), a        ; switch OFF copy shadow SAT
+        DISABLE_VBLANK_COPY        ; switch OFF copy shadow SAT
 
         SMS_WRITE_VDP_CMD h, l
 
@@ -28,11 +27,11 @@ _set_tile_2bpp_data::
         push de
         
         ld e, c
-        ld d, b        
+        ld d, b
         
         ld c, #.VDP_DATA
         inc d
-        inc e                
+        inc e
         xor a
         jr 2$
             
@@ -61,7 +60,6 @@ _set_tile_2bpp_data::
         dec d
         jr  nz, 1$
 
-        xor a
-        ld (__shadow_OAM_OFF), a        ; switch ON copy shadow SAT
+        ENABLE_VBLANK_COPY        ; switch ON copy shadow SAT
 
         ret

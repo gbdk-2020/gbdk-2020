@@ -201,3 +201,13 @@ lbl:
 .macro CALL_HL
         rst 0x30
 .endm
+
+.macro DISABLE_VBLANK_COPY
+        ld a, #1
+        ld (__shadow_OAM_OFF), a
+.endm
+
+.macro ENABLE_VBLANK_COPY
+        xor a
+        ld (__shadow_OAM_OFF), a
+.endm
