@@ -1,7 +1,7 @@
 #include <gb/gb.h>
 #include <stdint.h>
 
-#include <gb/incbin.h>
+#include <gbdk/incbin.h>
 
 INCBIN(logo_tiles_data, "res/gbdk2020.bin") // Variable name to use, Path to file
 INCBIN_EXTERN(logo_tiles_data)              // Extern declarations for binary data
