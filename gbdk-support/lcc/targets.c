@@ -23,7 +23,7 @@ arg_entry llist0_defaults_sms[] = {
     {.searchkey= "_shadow_OAM=", .addflag= "-g",.addvalue= "_shadow_OAM=0xC000", .found= false},
     {.searchkey= ".STACK=",      .addflag= "-g",.addvalue= ".STACK=0xDFF0",      .found= false},
     {.searchkey= "_DATA=",       .addflag= "-b",.addvalue= "_DATA=0xC0C0",       .found= false},
-    {.searchkey= "_CODE=",       .addflag= "-b",.addvalue= "_CODE=0x0200",       .found= false},
+    {.searchkey= "_CODE=",       .addflag= "-b",.addvalue= "_CODE=0x0100",       .found= false},
 };
 
 
