@@ -219,7 +219,7 @@ __shadow_OAM_OFF::
         .area _INITIALIZER
 
         .db .R0_DEFAULT
-        .db #(.R1_DEFAULT | .R1_IE)     ; VBLANK
+        .db #(.R1_DEFAULT | .R1_DISP_ON | .R1_IE)     ; VBLANK
         .db .R2_MAP_0x3800
         .db 0xFF 
         .db 0xFF
