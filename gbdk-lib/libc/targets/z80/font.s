@@ -44,6 +44,14 @@ font_first_free_tile:
         ; Table containing descriptors for all of the fonts
 font_table:
         .ds     (sfont_handle_sizeof*.MAX_FONTS)
+plane0:
+        .ds     1
+plane1:
+        .ds     1
+plane2:
+        .ds     1
+plane3:
+        .ds     1
 .end_font_vars:
 
         .area   _GSINIT
@@ -196,43 +204,60 @@ load_font_tiles:
         jp z, 2$
         ; font_copy_compressed
 
-        ld c, #.VDP_DATA
-        inc d
         inc e
-        xor a
         jr 7$
-            
+
 8$:
-        ld b, #8
-9$:        
-        outi
-        jr 10$
-10$:
-        nop
-        out (c), a
-        jr 11$
-11$:
-        nop
-        out (c), a
-        jr 12$
-12$:
-        nop
-        nop
-        out (c), a
-        nop
+        ld d, #8
+9$:
+        ld b, (hl)
+        inc hl
+
+        push hl
+        ld c, #8
+21$:
+        rlc b
+        ld a, (.bg_colour)
+        jr nc, 20$
+        ld a, (.fg_colour)
+20$:
+        ld hl, #plane0
+        .rept 3
+                rra
+                rl (hl)
+                inc hl
+        .endm
+        rra
+        rl (hl)
+        dec c
+        jr nz, 21$
+        pop hl
+
+        ld a, (plane0)
+        out (.VDP_DATA), a
+        jr 22$
+22$:
+        ld a, (plane1)
+        out (.VDP_DATA), a
+        jr 23$
+23$:
+        ld a, (plane2)
+        out (.VDP_DATA), a
+        jr 24$
+24$:
+        ld a, (plane3)
+        out (.VDP_DATA), a
+
+        dec d
         jr nz, 9$
 7$:
         dec e
-        jr  nz, 8$
-
-        dec d
         jr  nz, 8$
 
         jp 6$      
 2$:
         ; font_copy_uncompressed
         ld c, #.VDP_DATA
-        inc d
         inc e
         jr 5$
 3$:
@@ -243,9 +268,6 @@ load_font_tiles:
 5$:
         dec e
         jp  nz, 3$
-
-        dec d
-        jp nz, 3$
 
 6$:     
         ENABLE_VBLANK_COPY         ; switch ON copy shadow SAT

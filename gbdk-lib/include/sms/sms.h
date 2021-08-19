@@ -156,6 +156,26 @@ inline void display_off(void) {
 #define SHOW_LEFT_COLUMN \
 	__WRITE_VDP_REG(VDP_R0, __READ_VDP_REG(VDP_R0) &= (~R0_LCB))
 
+/** Turns on the background layer.
+    Not yet implemented
+*/
+#define SHOW_BKG
+
+/** Turns off the background layer.
+    Not yet implemented
+*/
+#define HIDE_BKG 
+
+/** Turns on the window layer
+    Not yet implemented
+*/
+#define SHOW_WIN 
+
+/** Turns off the window layer.
+    Not yet implemented
+*/
+#define HIDE_WIN
+
 /** Turns on the sprites layer.
     Not yet implemented
 */
