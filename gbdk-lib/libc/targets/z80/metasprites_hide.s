@@ -11,7 +11,7 @@
 ; void __hide_metasprite(uint8_t id) __z88dk_fastcall __preserves_regs(iyh,iyl);
 
 ___hide_metasprite::
-        ld      e, a
+        ld      e, l
 
         ld      hl, (___current_metasprite)
 

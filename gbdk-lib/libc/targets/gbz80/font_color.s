@@ -1,6 +1,6 @@
 	.include        "global.s"
 
-	.globl .fg_colour, .bg_colour::	
+	.globl .fg_colour, .bg_colour
 
 	.area _BASE
 _font_color::

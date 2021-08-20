@@ -11,13 +11,11 @@
 
 #include <types.h>
 
-#if defined(__PORT_gbz80)
-void putchar(char c);
-#elif defined(__PORT_z80)
-void putchar(char c) __z88dk_fastcall;
-#else
-    #error Unrecognised port
-#endif
+/** Print char to stdout.
+    @param c            Character to print
+ */
+
+void putchar(char c) NONBANKED;
 
 /** Print the string and arguments given by format to stdout.
 

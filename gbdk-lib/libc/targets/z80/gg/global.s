@@ -168,6 +168,19 @@
         .M_NO_SCROLL    = 0x04  ; Disables scrolling of the screen in text mode
         .M_NO_INTERP    = 0x08  ; Disables special character interpretation
 
+        ;; Screen dimentions in tiles
+
+        .SCREEN_X_OFS   = 6
+        .SCREEN_Y_OFS   = 3
+        .SCREEN_WIDTH   = 20
+        .SCREEN_HEIGHT  = 18
+        .VDP_MAP_HEIGHT = 28 
+        .VDP_MAP_WIDTH  = 32 
+
+        ; characters
+        .CR             = 0x0A
+        .SPACE          = 0x00
+
         ;; Global variables
         .globl  .mode
 
@@ -207,6 +220,20 @@ lbl:
         ei
 lbl:        
         out (#.VDP_CMD), a
+.endm
+
+.macro VDP_DELAY ?lbl
+        nop
+        jr lbl
+lbl:
+.endm
+
+.macro WRITE_VDP_CMD_HL
+        rst 0x10
+.endm
+
+.macro WRITE_VDP_DATA_HL
+        rst 0x20
 .endm
 
 .macro CALL_HL

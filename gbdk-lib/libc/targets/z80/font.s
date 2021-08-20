@@ -4,6 +4,8 @@
         .module FontUtils
 
         .globl  .memset_small
+        .globl  _cls
+        .globl  _font_ibm
 
         ; Structure offsets
         sfont_handle_sizeof     = 3
@@ -18,25 +20,18 @@
         ; Other bits
         FONT_BCOMPRESSED        = 2
         
-        .CR                     = 0x0A          ; Unix
-        .SPACE                  = 0x00
-
         ; Maximum number of fonts
         .MAX_FONTS              = 6
 
         .area   _BSS
         ; The current font
 .start_font_vars:
-.curx::
-        .ds     1
-.cury::
-        .ds     1
 .fg_colour::
         .ds     1
 .bg_colour::
         .ds     1
 
-font_current:
+font_current::
         .ds     sfont_handle_sizeof
         ; Cached copy of the first free tile
 font_first_free_tile:
@@ -79,6 +74,8 @@ _font_init::
         xor a
         ld (.bg_colour), a
 
+        call _cls
+
         ret
 
 _font_set::
@@ -103,6 +100,10 @@ _font_color::
         inc hl
         ld (hl), d
         ret
+
+font_load_ibm::
+        ld hl, #_font_ibm
+        jp font_load
 
 _font_load::
         pop de
@@ -195,7 +196,7 @@ load_font_tiles:
         ld h, a                 ; HL = destination in VRAM
 
         DISABLE_VBLANK_COPY     ; switch OFF copy shadow SAT
-        SMS_WRITE_VDP_CMD h, l
+        WRITE_VDP_CMD_HL
         ld h, b
         ld l, c
 
@@ -235,16 +236,13 @@ load_font_tiles:
 
         ld a, (plane0)
         out (.VDP_DATA), a
-        jr 22$
-22$:
+        VDP_DELAY
         ld a, (plane1)
         out (.VDP_DATA), a
-        jr 23$
-23$:
+        VDP_DELAY
         ld a, (plane2)
         out (.VDP_DATA), a
-        jr 24$
-24$:
+        VDP_DELAY
         ld a, (plane3)
         out (.VDP_DATA), a
 
@@ -272,76 +270,4 @@ load_font_tiles:
 6$:     
         ENABLE_VBLANK_COPY         ; switch ON copy shadow SAT
 
-        ret
-
-_putchar::
-        ld e, a
-
-        cp #.CR
-        jr nz, 0$
-
-        xor a
-        ld (.curx), a
-        jp 2$
-0$:
-        ld hl, (font_current+sfont_handle_font)
-        ld a, (hl)
-        and     #3
-        cp #FONT_NOENCODING
-        jr z, 4$
-        inc hl
-        inc hl
-        ld d, #0
-        add hl, de
-        ld e, (hl)
-4$:
-        ld a, (font_current)
-        add a, e
-        ld e, a
-
-        ld a, (.cury)
-        ld l, a
-        ld h, #0
-        add hl, hl
-        add hl, hl
-        add hl, hl
-        add hl, hl
-        add hl, hl
-        add hl, hl
-        ld a, (.curx)
-        add a
-        add l
-        ld l, a
-        adc h
-        sub l
-        ld h, a
-
-        ld bc, #.VDP_TILEMAP
-        add hl, bc
-
-        DISABLE_VBLANK_COPY     ; switch OFF copy shadow SAT
-        SMS_WRITE_VDP_CMD h, l
-
-        ld a, e
-        out (.VDP_DATA), a
-        jr 1$
-1$:
-        xor a
-        out (.VDP_DATA), a
-
-        ENABLE_VBLANK_COPY         ; switch ON copy shadow SAT
-
-        ld a, (.curx)
-        inc a
-        and #0x1f
-        ld (.curx), a
-        ret nz
-2$:
-        ld a, (.cury)
-        inc a
-        cp #28
-        jr c, 3$
-        xor a
-3$:
-        ld (.cury), a
         ret

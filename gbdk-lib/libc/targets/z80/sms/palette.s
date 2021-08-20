@@ -84,10 +84,10 @@ _set_palette::
         jp (hl)
 
 .CRT_DEFAULT_PALETTE::
-        .db 0b00000000
-        .db 0b00010101
-        .db 0b00101010
         .db 0b00111111
+        .db 0b00101010
+        .db 0b00010101
+        .db 0b00000000
         .db 0b00000010
         .db 0b00001000
         .db 0b00100000
