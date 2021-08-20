@@ -1,11 +1,11 @@
 #pragma bank 2
 
-#include <gb/gb.h>
+#include <gbdk/platform.h>
 #include <stdint.h>
 #include <stdio.h>
 
 static int local_bank2_proc(int param1, int param2) {
-    printf("  sum: %d (bank=%d)\n", param1 + param2, (int)_current_bank);
+    printf("  sum: %d (bank=%d)\n", param1 + param2, (int)CURRENT_BANK);
     return (param1 + param2) << 1;
 }
 

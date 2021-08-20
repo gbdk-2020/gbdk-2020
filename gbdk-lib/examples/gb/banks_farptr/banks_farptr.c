@@ -1,8 +1,7 @@
-#include <gb/gb.h>
 #include <stdint.h>
-#include <gb/far_ptr.h>
-
 #include <stdio.h>
+#include <gbdk/platform.h>
+#include <gbdk/far_ptr.h>
 
 // functions from bank2code.c
 BANKREF_EXTERN(some_bank2_proc0)
@@ -20,9 +19,9 @@ int res;
 
 void run() {
     // compose far pointer at runtime
-	farptr_var0 = to_far_ptr(some_bank2_proc1, BANK(some_bank2_proc1));
+    farptr_var0 = to_far_ptr(some_bank2_proc1, BANK(some_bank2_proc1));
     farptr_var1 = to_far_ptr(some_bank2_proc1, BANK(some_bank2_proc1));
-	farptr_var2 = to_far_ptr(some_bank2_proc0, BANK(some_bank2_proc0));
+    farptr_var2 = to_far_ptr(some_bank2_proc0, BANK(some_bank2_proc0));
 
     // output far pointers (must be identical)
     printf("FAR PTR0: %x:%x\n", (int)FAR_SEG(farptr_var0), (int)FAR_OFS(farptr_var0));
@@ -42,8 +41,8 @@ void run() {
 }
 
 void main() {
-    ENABLE_RAM_MBC1;
-    printf("START (bank=%d)\n", (int)_current_bank);
+    ENABLE_RAM;
+    printf("START (bank=%d)\n", (int)CURRENT_BANK);
     run();
-    printf("DONE! (bank=%d)\n", (int)_current_bank);
+    printf("DONE! (bank=%d)\n", (int)CURRENT_BANK);
 }

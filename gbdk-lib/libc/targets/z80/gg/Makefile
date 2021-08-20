@@ -20,6 +20,7 @@ ASSRC =	outi.s vmemcpy.s \
 	int.s nmi.s \
 	mode.s \
 	memset_small.s \
+	far_ptr.s \
 	__sdcc_bcall.s \
 	crt0.s
 
