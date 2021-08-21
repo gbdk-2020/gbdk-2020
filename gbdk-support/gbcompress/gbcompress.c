@@ -35,7 +35,7 @@ static void check_write_size(uint8_t len) {
     if ((FoutIndex + len) >= Fsize_out) {
         uint8_t * p_tmp = *pp_FoutBuf;
 
-        // Reallocate to twice as larege
+        // Reallocate to twice as large
         Fsize_out = Fsize_out * 2;
         *pp_FoutBuf = (void *)realloc(*pp_FoutBuf, Fsize_out);
 

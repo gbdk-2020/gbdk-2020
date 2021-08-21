@@ -111,7 +111,7 @@ void main(void) {
 	
 		// NOTE: In a real game it would be better to only call the move_metasprite..()
         //       functions if something changed (such as movement or rotation). That
-		//	     reduces CPU usage on frames that don't need udpates.
+		//	     reduces CPU usage on frames that don't need updates.
 		//
 		// In this example they are called every frame to simplify the example code
 
