@@ -42,7 +42,7 @@ GBDK is freeware. Most of the tooling code is under the GPL. The runtime librari
 
 # Historical Info and Links
 
-The following is from the original GBDK documenation.
+The following is from the original GBDK documentation.
 
 Thanks to quang for many of the comments to the gb functions.  Some
 of the comments are ripped directly from the Linux Programmers
