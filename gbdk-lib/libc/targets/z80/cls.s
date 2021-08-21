@@ -10,21 +10,17 @@ _cls::
         ld hl, #(.VDP_TILEMAP + ((.SCREEN_Y_OFS * .VDP_MAP_WIDTH) * 2))
         WRITE_VDP_CMD_HL
 
+        ld hl, #.SPACE
         ld bc, #(.SCREEN_HEIGHT * .VDP_MAP_WIDTH)
         inc b
         inc c
         jr 1$
 2$:
-        ld a, #.SPACE
-        out (.VDP_DATA), a
-        VDP_DELAY
-        xor a
-        out (.VDP_DATA), a
+        WRITE_VDP_DATA_HL
 1$:
         dec c
         jr nz, 2$
-        dec b
-        jr nz, 2$ 
+        djnz 2$ 
 
         ENABLE_VBLANK_COPY         ; switch ON copy shadow SAT
         ret

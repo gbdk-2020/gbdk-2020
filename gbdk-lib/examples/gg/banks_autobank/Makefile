@@ -1,4 +1,4 @@
-LCC	= ../../../bin/lcc -mz80:gg -Wa-l -Wl-m
+LCC	= ../../../bin/lcc -mz80:gg -Wl-j -Wm-yS
 BANKPACK  = ../../../bin/bankpack
 
 # uncomment for lcc verbose output

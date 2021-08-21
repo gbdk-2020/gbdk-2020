@@ -18,6 +18,8 @@ _scroll_viewport::
 2$:
         res 6, h
         WRITE_VDP_CMD_HL
+        nop
+        nop
         in a, (.VDP_DATA)
         ld e, a
 
@@ -30,6 +32,7 @@ _scroll_viewport::
 
         set 6, h
         WRITE_VDP_CMD_HL
+        nop
         ld a, e
         out (.VDP_DATA), a
 
@@ -43,22 +46,16 @@ _scroll_viewport::
 1$:
         dec c
         jr nz, 2$
-        dec b
-        jr nz, 2$ 
+        djnz 2$ 
 
         ld hl, #(.VDP_TILEMAP + ((.SCREEN_Y_OFS + .SCREEN_HEIGHT - 1) * .VDP_MAP_WIDTH * 2))
         WRITE_VDP_CMD_HL
 
-        ld c, #.VDP_MAP_WIDTH
+        ld hl, #.SPACE
+        ld b, #.VDP_MAP_WIDTH
 3$:
-        ld a, #.SPACE
-        out (.VDP_DATA), a
-        VDP_DELAY
-        xor a
-        out (.VDP_DATA), a
-
-        dec c
-        jr nz, 3$
+        WRITE_VDP_DATA_HL
+        djnz 3$
 
         ENABLE_VBLANK_COPY         ; switch ON copy shadow SAT
         ret

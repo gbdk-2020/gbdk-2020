@@ -1,4 +1,4 @@
-CC	= ../../../bin/lcc -mz80:sms -Wm-yoA -Wa-l -Wl-j
+CC	= ../../../bin/lcc -mz80:sms -Wm-yoA -Wl-j
 
 BINS	= fonts.sms
 

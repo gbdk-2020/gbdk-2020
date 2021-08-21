@@ -1,4 +1,4 @@
-CC	= ../../../bin/lcc -mz80:gg -Wm-yoA -Wa-l -Wl-j
+CC	= ../../../bin/lcc -mz80:gg -Wm-yoA -Wl-j
 
 BINS	= banks_farptr.gg
 

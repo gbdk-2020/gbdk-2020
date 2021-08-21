@@ -4,14 +4,12 @@
 #ifndef GBDK_LIB_INCLUDE
 #define GBDK_LIB_INCLUDE
 
-#ifdef __PORT_gbz80
+#if defined(__PORT_gbz80)
   #include <asm/gbz80/provides.h>
+#elif defined(__PORT_z80)
+  #include <asm/z80/provides.h>
 #else
-  #ifdef __PORT_z80
-    #include <asm/z80/provides.h>
-  #else
-    #error Unrecognised port
-  #endif
+  #error Unrecognized port
 #endif
 
 
