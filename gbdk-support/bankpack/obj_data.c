@@ -361,19 +361,31 @@ static void bank_update_all_max(uint16_t bank_num) {
 // room with a fixed-bank area (non-autobank)
 static void bank_add_area(bank_item * p_bank, uint16_t bank_num, area_item * p_area) {
 
-    // Make sure there is room, then update free space and assign outbound bank number
-    // Copy type from area - some platforms (sms) don't allow mixing of area types in the same bank
-    if (p_area->size <= p_bank->free) {
-            p_bank->free -= p_area->size;
-            p_bank->type = p_area->type;
-            p_bank->item_count++;
-            p_area->bank_num_out = bank_num;
-            bank_update_assigned_minmax(bank_num);
-    } else {
-        printf("BankPack: ERROR! Area %s, bank %d, size %d is too large for assigned bank %d (free %d)\n",
-                p_area->name, p_area->bank_num_in, p_area->size, bank_num, p_bank->free);
-        exit(EXIT_FAILURE);
-    }
+    // Make sure there is room and then update free space
+    if (p_area->size > p_bank->free) {
+
+        // Trying to add an auto-bank area to a full bank should be prevented by previous tests, but just in case
+        if (p_area->bank_num_in == BANK_NUM_AUTO) {
+            printf("BankPack: ERROR! Auto-banked Area %s, bank %d, size %d won't fit in assigned bank %d (free %d)\n",
+                    p_area->name, p_area->bank_num_in, p_area->size, bank_num, p_bank->free);
+            exit(EXIT_FAILURE);
+        } else {
+            // Only warn for fixed bank areas. Don't exit and add the area anyway
+            printf("BankPack: Warning: Fixed-bank Area %s, bank %d, size %d won't fit in assigned bank %d (free %d)\n",
+                    p_area->name, p_area->bank_num_in, p_area->size, bank_num, p_bank->free);
+        }
+
+        // Force bank space to zero, subtracting at this point would overflow
+        p_bank->free = 0;
+    } else
+        p_bank->free -= p_area->size;
+
+    // Copy bank type from area: some platforms (sms) don't allow mixing of area types in the same bank
+    // Assign outbound bank number for the area
+    p_bank->type = p_area->type;
+    p_bank->item_count++;
+    p_area->bank_num_out = bank_num;
+    bank_update_assigned_minmax(bank_num);
 }
 
 
@@ -465,7 +477,7 @@ static bool banks_assign_area_random(area_item * p_area, bank_item * banks) {
         // Choose a random bank from the selected banks and add the area to it
         bank_num = list_of_banks[ rand() % list_count ];
         bank_add_area(&banks[bank_num], bank_num, p_area);
-        
+
         return true;
     } else
         return false; // Fail if no banks were available
@@ -522,8 +534,9 @@ static void banks_assign_area(area_item * p_area) {
             }
 
             bank_add_area(&banks[bank_num], bank_num, p_area);
-        } else
-            printf("BankPack: Warning: Area in fixed bank %d is outside specified range %d - %d, file: %s\n", bank_num, bank_limit_rom_min, bank_limit_rom_max, file_get_name_in_by_id(p_area->file_id));
+        }
+        //else
+        //    printf("BankPack: Notice: Ignoring Area in fixed bank %d outside specified range %d - %d, file: %s\n", bank_num, bank_limit_rom_min, bank_limit_rom_max, file_get_name_in_by_id(p_area->file_id));
 
         return;
     }
@@ -546,14 +559,20 @@ static void banks_assign_area(area_item * p_area) {
 }
 
 
+#define QSORT_A_FIRST -1
+#define QSORT_A_SAME   0
+#define QSORT_A_AFTER  1
+
 // qsort compare rule function for sorting areas
 static int area_item_compare(const void* a, const void* b) {
 
     // sort by bank [asc] (fixed vs auto-bank), then by size [desc]
     if (((area_item *)a)->bank_num_in != ((area_item *)b)->bank_num_in)
-        return  (((area_item *)a)->bank_num_in > ((area_item *)b)->bank_num_in);
+        return  (((area_item *)a)->bank_num_in < ((area_item *)b)->bank_num_in) ? QSORT_A_FIRST : QSORT_A_AFTER;
+    else if (((area_item *)a)->size != ((area_item *)b)->size)
+        return (((area_item *)a)->size > ((area_item *)b)->size) ? QSORT_A_FIRST : QSORT_A_AFTER;
     else
-        return (((area_item *)a)->size < ((area_item *)b)->size);
+        return QSORT_A_SAME;
 }
 
 static void areas_sort(void) {
