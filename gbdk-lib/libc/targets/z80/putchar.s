@@ -4,6 +4,7 @@
         .module putchar
 
         .globl  font_current, font_set, font_load_ibm
+        .globl  _cls
         .globl  .scroll_viewport
 
         ; Structure offsets
@@ -54,6 +55,7 @@ _putchar::
         or l
         ret z 
         call font_set
+        call _cls
         pop de
         ld hl, (font_current+sfont_handle_font)
 6$:
