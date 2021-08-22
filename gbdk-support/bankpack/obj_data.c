@@ -559,14 +559,20 @@ static void banks_assign_area(area_item * p_area) {
 }
 
 
+#define QSORT_A_FIRST -1
+#define QSORT_A_SAME   0
+#define QSORT_A_AFTER  1
+
 // qsort compare rule function for sorting areas
 static int area_item_compare(const void* a, const void* b) {
 
     // sort by bank [asc] (fixed vs auto-bank), then by size [desc]
     if (((area_item *)a)->bank_num_in != ((area_item *)b)->bank_num_in)
-        return  (((area_item *)a)->bank_num_in > ((area_item *)b)->bank_num_in);
+        return  (((area_item *)a)->bank_num_in < ((area_item *)b)->bank_num_in) ? QSORT_A_FIRST : QSORT_A_AFTER;
+    else if (((area_item *)a)->size != ((area_item *)b)->size)
+        return (((area_item *)a)->size > ((area_item *)b)->size) ? QSORT_A_FIRST : QSORT_A_AFTER;
     else
-        return (((area_item *)a)->size < ((area_item *)b)->size);
+        return QSORT_A_SAME;
 }
 
 static void areas_sort(void) {
