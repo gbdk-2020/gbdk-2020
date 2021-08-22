@@ -351,6 +351,15 @@ void set_tile_data(uint16_t start, uint16_t ntiles, const void *src) __z88dk_cal
 #define set_sprite_2bpp_data(start,ntiles,src) set_tile_2bpp_data((uint8_t)(start)+0x100,(uint8_t)(ntiles),src)
 void set_tile_2bpp_data(uint16_t start, uint16_t ntiles, const void *src) __z88dk_callee __preserves_regs(iyh,iyl);
 
+/** Copies arbitrary data to an address in VRAM
+
+    @param dst       destination VRAM Address
+    @param src       Pointer to source buffer
+    @param size      Number of bytes to copy
+
+    Copies __size__ bytes from a buffer at _src__ to VRAM starting at __dst__.
+*/
+void set_data(uint16_t dst, const void *src, uint16_t size) __z88dk_callee __preserves_regs(iyh, iyl);
 void vmemcpy(uint16_t dst, const void *src, uint16_t size) __z88dk_callee __preserves_regs(iyh, iyl);
 
 void set_tile_map(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles) __z88dk_callee __preserves_regs(iyh, iyl);
@@ -370,17 +379,17 @@ extern volatile uint8_t _shadow_OAM_base;
 */
 extern volatile uint8_t _shadow_OAM_OFF;
 
-/** Disable OAM copy each VBlank (note: there is no real DMA, this name is for compatibility with GB library)
+/** Disable shadow OAM to VRAM copy on each VBlank
 */
-#define DISABLE_OAM_DMA \
+#define DISABLE_VBL_TRANSFER \
     _shadow_OAM_OFF = 1
 
-/** Enable OAM DMA copy each VBlank and set it to transfer default shadow_OAM array
+/** Enable shadow OAM to VRAM copy on each VBlank
 */
-#define ENABLE_OAM_DMA \
+#define ENABLE_VBL_TRANSFER \
     _shadow_OAM_OFF = 0
 
-/** Enable OAM DMA copy each VBlank and set it to transfer any 256-byte aligned array
+/** Sets address of 256-byte aligned array of shadow OAM to be transferred on each VBlank
 */
 inline void SET_SHADOW_OAM_ADDRESS(void * address) {
     _shadow_OAM_base = (uint8_t)((uint16_t)address >> 8);

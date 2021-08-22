@@ -7,7 +7,7 @@
 
         .area   _HOME
 
-_scroll_viewport::
+.scroll_viewport::
         DISABLE_VBLANK_COPY     ; switch OFF copy shadow SAT
         ld hl, #(.VDP_TILEMAP + ((.SCREEN_Y_OFS + 1) * .VDP_MAP_WIDTH * 2))
 

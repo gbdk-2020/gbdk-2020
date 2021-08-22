@@ -4,7 +4,7 @@
         .module putchar
 
         .globl  font_current, font_set, font_load_ibm
-        .globl  _scroll_viewport
+        .globl  .scroll_viewport
 
         ; Structure offsets
         sfont_handle_sizeof     = 3
@@ -118,7 +118,7 @@ _putchar::
         ld a, #(.SCREEN_Y_OFS + .SCREEN_HEIGHT - 1)
         ld (.cury), a
 
-        call _scroll_viewport
+        call .scroll_viewport
         ret
 3$:
         ld (.cury), a

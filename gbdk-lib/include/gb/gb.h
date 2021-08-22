@@ -1225,15 +1225,19 @@ extern volatile struct OAM_item_t shadow_OAM[];
 */
 __REG _shadow_OAM_base;
 
-/** Disable OAM DMA copy each VBlank
-*/
 #define DISABLE_OAM_DMA \
     _shadow_OAM_base = 0
 
-/** Enable OAM DMA copy each VBlank and set it to transfer default shadow_OAM array
+/** Disable OAM DMA copy each VBlank
 */
+#define DISABLE_VBL_TRANSFER DISABLE_OAM_DMA
+
 #define ENABLE_OAM_DMA \
     _shadow_OAM_base = (uint8_t)((uint16_t)&shadow_OAM >> 8)
+
+/** Enable OAM DMA copy each VBlank and set it to transfer default shadow_OAM array
+*/
+#define ENABLE_VBL_TRANSFER ENABLE_OAM_DMA
 
 /** Enable OAM DMA copy each VBlank and set it to transfer any 256-byte aligned array
 */
