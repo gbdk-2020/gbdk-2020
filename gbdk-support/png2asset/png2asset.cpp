@@ -545,9 +545,9 @@ int main(int argc, char *argv[])
 	if(export_as_map)
 	{
 		//Extract map
-		map = new unsigned char[(image.w * image.h) >> 3];
+		map = new unsigned char[(image.w * image.h) / 64];
 		if(use_map_attributes)
-			map_attributes = new unsigned char[(image.w * image.h) >> 3];;
+			map_attributes = new unsigned char[(image.w * image.h) / 64];;
 		GetMap();
 	}
 	else
@@ -590,6 +590,7 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
+		fprintf(file, "#define %s_TILE_H %d\n", data_name.c_str(), tile_h);
 		fprintf(file, "#define %s_WIDTH %d\n",  data_name.c_str(), sprite_w);
 		fprintf(file, "#define %s_HEIGHT %d\n", data_name.c_str(), sprite_h);
 		if(export_as_map)
@@ -608,7 +609,6 @@ int main(int argc, char *argv[])
 		}
 		else
 		{
-			fprintf(file, "#define %s_TILE_H %d\n", data_name.c_str(), tile_h);
 			fprintf(file, "#define %s_PIVOT_X %d\n", data_name.c_str(), pivot_x);
 			fprintf(file, "#define %s_PIVOT_Y %d\n", data_name.c_str(), pivot_y);
 			fprintf(file, "#define %s_PIVOT_W %d\n", data_name.c_str(), pivot_w);
@@ -616,15 +616,15 @@ int main(int argc, char *argv[])
 		}
 		fprintf(file, "\n");
 		fprintf(file, "extern const UINT16 %s_palettes[%d];\n", data_name.c_str(), image.palettesize);
-		fprintf(file, "extern const UINT8 %s_data[%d];\n", data_name.c_str(), (int)(tiles.size() * tile_h * 2));
+		fprintf(file, "extern const UINT8 %s_tiles[%d];\n", data_name.c_str(), (int)(tiles.size() * tile_h * 2));
 		
 		fprintf(file, "\n");
 		if(export_as_map)
 		{
-			fprintf(file, "extern const unsigned char %s_map[];\n", data_name.c_str());
+			fprintf(file, "extern const unsigned char %s_map[%d];\n", data_name.c_str(), image.w * image.h / 64);
 
 			if(map_attributes)
-				fprintf(file, "extern const unsigned char* %s_map_attributes[];\n", data_name.c_str());
+				fprintf(file, "extern const unsigned char* %s_map_attributes[%d];\n", data_name.c_str(), image.w * image.h / 64);
 			else
 				fprintf(file, "extern const unsigned char* %s_tile_pals[%d];\n", data_name.c_str(), (int)tiles.size());
 		}
@@ -675,7 +675,7 @@ int main(int argc, char *argv[])
 	fprintf(file, "\n};\n");
 
 	fprintf(file, "\n");
-	fprintf(file, "const UINT8 %s_data[%d] = {\n", data_name.c_str(), (int)(tiles.size() * tile_h * 2));
+	fprintf(file, "const UINT8 %s_tiles[%d] = {\n", data_name.c_str(), (int)(tiles.size() * tile_h * 2));
 	for(vector< Tile >::iterator it = tiles.begin(); it != tiles.end(); ++ it)
 	{
 		fprintf(file, "\t");
@@ -723,7 +723,7 @@ int main(int argc, char *argv[])
 			fprintf(file, "\t%d, //width\n", pivot_w);
 			fprintf(file, "\t%d, //height\n", pivot_h);
 			fprintf(file, "\t%d, //num_tiles\n", tiles.size() * (tile_h >> 3));
-			fprintf(file, "\t%s_data, //data\n", data_name.c_str());
+			fprintf(file, "\t%s_tiles, //tiles\n", data_name.c_str());
 			fprintf(file, "\t%d, //num palettes\n", image.palettesize >> 2);
 			fprintf(file, "\t%s_palettes, //CGB palette\n", data_name.c_str());
 			fprintf(file, "\t%d, //num sprites\n", sprites.size());
@@ -754,7 +754,7 @@ int main(int argc, char *argv[])
 			fprintf(file, "#include \"TilesInfo.h\"\n");
 			fprintf(file, "const struct TilesInfo %s_tiles_info = {\n", data_name.c_str());
 			fprintf(file, "\t%d, //num tiles\n", tiles.size());
-			fprintf(file, "\t%s_data, //tiles\n", data_name.c_str());
+			fprintf(file, "\t%s_tiles, //tiles\n", data_name.c_str());
 			fprintf(file, "\t%d, //num palettes\n", image.palettesize);
 			fprintf(file, "\t%s_palettes, //palettes\n", data_name.c_str());
 			if(!use_map_attributes)
@@ -766,7 +766,7 @@ int main(int argc, char *argv[])
 
 		//Export map
 		fprintf(file, "\n");
-		fprintf(file, "const unsigned char %s_map[] = {\n", data_name.c_str());
+		fprintf(file, "const unsigned char %s_map[%d] = {\n", data_name.c_str(), image.w * image.h / 64);
 		unsigned char* m = map;
 		for(size_t y = 0; y < image.h; y += 8)
 		{
@@ -783,7 +783,7 @@ int main(int argc, char *argv[])
 		if(map_attributes)
 		{
 			fprintf(file, "\n");
-			fprintf(file, "const unsigned char %s_map_attributes[] = {\n", data_name.c_str());
+			fprintf(file, "const unsigned char %s_map_attributes[%d] = {\n", data_name.c_str(), image.w * image.h / 64);
 			unsigned char* m = map_attributes;
 			for(size_t y = 0; y < image.h; y += 8)
 			{
