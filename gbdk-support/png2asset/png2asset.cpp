@@ -823,7 +823,8 @@ int main(int argc, char *argv[])
 				fprintf(file, "\t%s_map_attributes, //map attributes\n", data_name.c_str());
 			else
 				fprintf(file, "\t%s, //map attributes\n", "0");
-			fprintf(file, "\t(uint8_t)&__bank_%s, //tiles bank\n", data_name.c_str());
+			//fprintf(file, "\tBANK(%s), //tiles bank\n", data_name.c_str());
+			fprintf(file, "\t255, //tiles bank\n", data_name.c_str());
 			fprintf(file, "\t&%s_tiles_info, //tiles info\n", data_name.c_str());
 			fprintf(file, "};\n");
 		}
