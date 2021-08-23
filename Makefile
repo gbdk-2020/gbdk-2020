@@ -130,8 +130,8 @@ endif
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/ihxcheck TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
 	@echo Building bankpack
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/bankpack TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
-	@echo Building png2mtspr
-	@$(MAKE) -C $(GBDKSUPPORTDIR)/png2mtspr TOOLSPREFIX=$(TOOLSPREFIX)
+	@echo Building png2asset
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/png2asset TOOLSPREFIX=$(TOOLSPREFIX)
 	@echo Building gbcompress
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/gbcompress TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
 	@echo
@@ -150,9 +150,9 @@ gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
 	@echo Installing bankpack
 	@cp $(GBDKSUPPORTDIR)/bankpack/bankpack$(EXEEXTENSION) $(BUILDDIR)/bin/bankpack$(EXEEXTENSION)
 	@$(TARGETSTRIP) $(BUILDDIR)/bin/bankpack*
-	@echo Installing png2mtspr
-	@cp $(GBDKSUPPORTDIR)/png2mtspr/png2mtspr$(EXEEXTENSION) $(BUILDDIR)/bin/png2mtspr$(EXEEXTENSION)
-	@$(TARGETSTRIP) $(BUILDDIR)/bin/png2mtspr*
+	@echo Installing png2asset
+	@cp $(GBDKSUPPORTDIR)/png2asset/png2asset$(EXEEXTENSION) $(BUILDDIR)/bin/png2asset$(EXEEXTENSION)
+	@$(TARGETSTRIP) $(BUILDDIR)/bin/png2asset*
 	@echo Installing gbcompress
 	@cp $(GBDKSUPPORTDIR)/gbcompress/gbcompress$(EXEEXTENSION) $(BUILDDIR)/bin/gbcompress$(EXEEXTENSION)
 	@$(TARGETSTRIP) $(BUILDDIR)/bin/gbcompress*
@@ -166,8 +166,8 @@ gbdk-support-clean:
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/ihxcheck clean --no-print-directory
 	@echo Cleaning bankpack
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/bankpack clean --no-print-directory
-	@echo Cleaning png2mtspr
-	@$(MAKE) -C $(GBDKSUPPORTDIR)/png2mtspr clean
+	@echo Cleaning png2asset
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/png2asset clean
 	@echo Cleaning gbcompress
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/gbcompress clean --no-print-directory
 	@echo
@@ -373,11 +373,11 @@ ifneq (,$(wildcard $(BUILDDIR)/bin/))
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 	$(BUILDDIR)/bin/gbcompress -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true 
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
-# png2mtspr
-	echo \@anchor png2mtspr-settings >> $(TOOLCHAIN_DOCS_FILE);
-	echo \# png2mtspr settings >> $(TOOLCHAIN_DOCS_FILE);
+# png2asset
+	echo \@anchor png2asset-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# png2asset settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
-	$(BUILDDIR)/bin/png2mtspr >> $(TOOLCHAIN_DOCS_FILE) 2>&1
+	$(BUILDDIR)/bin/png2asset >> $(TOOLCHAIN_DOCS_FILE) 2>&1
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE)
 endif
 
