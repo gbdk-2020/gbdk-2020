@@ -32,7 +32,7 @@ void main(void) {
     set_bkg_2bpp_data(0, 1, pattern);
 
     // Load metasprite tile data into VRAM
-    set_sprite_2bpp_data(TILE_NUM_START, sizeof(sprite_data) >> 4, sprite_data);
+    set_sprite_2bpp_data(TILE_NUM_START, sizeof(sprite_tiles) >> 4, sprite_tiles);
 
     // show bkg and sprites
     SHOW_SPRITES;
