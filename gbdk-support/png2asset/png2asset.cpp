@@ -765,6 +765,7 @@ int main(int argc, char *argv[])
 			//Export Tiles Info
 			fprintf(file, "\n");
 			fprintf(file, "#include \"TilesInfo.h\"\n");
+			fprintf(file, "BANKREF(%s_tiles_info)\n", data_name.c_str());
 			fprintf(file, "const struct TilesInfo %s_tiles_info = {\n", data_name.c_str());
 			fprintf(file, "\t%d, //num tiles\n", tiles.size());
 			fprintf(file, "\t%s_tiles, //tiles\n", data_name.c_str());
@@ -815,6 +816,7 @@ int main(int argc, char *argv[])
 			//Export Map Info
 			fprintf(file, "\n");
 			fprintf(file, "#include \"MapInfo.h\"\n");
+			fprintf(file, "BANKREF_EXTERN(%s_tiles_info)\n", data_name.c_str());
 			fprintf(file, "const struct MapInfo %s = {\n", data_name.c_str());
 			fprintf(file, "\t%s_map, //map\n", data_name.c_str());
 			fprintf(file, "\t%d, //with\n", image.w >> 3);
@@ -823,8 +825,7 @@ int main(int argc, char *argv[])
 				fprintf(file, "\t%s_map_attributes, //map attributes\n", data_name.c_str());
 			else
 				fprintf(file, "\t%s, //map attributes\n", "0");
-			//fprintf(file, "\tBANK(%s), //tiles bank\n", data_name.c_str());
-			fprintf(file, "\t255, //tiles bank\n", data_name.c_str());
+			fprintf(file, "\tBANK(%s_tiles_info), //tiles bank\n", data_name.c_str());
 			fprintf(file, "\t&%s_tiles_info, //tiles info\n", data_name.c_str());
 			fprintf(file, "};\n");
 		}
