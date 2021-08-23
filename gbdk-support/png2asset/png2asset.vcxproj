@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6BA57070-30F6-442A-9DDA-32876359CB99}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>png2mtspr</RootNamespace>
+    <RootNamespace>png2asset</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -94,7 +94,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(TargetPath) $(ZGB_PATH)\..\env\gbdk\bin</Command>
+      <Command>copy $(TargetPath) $(ZGB_PATH)\..\env\gbdk\bin
+copy $(TargetPath) C:\Users\Zalo\Desktop\gb\gbdk-2020\build\gbdk\bin</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -146,10 +147,13 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>copy $(TargetPath) $(ZGB_PATH)\..\env\gbdk\bin</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="lodepng.cpp" />
-    <ClCompile Include="png2mtspr.cpp" />
+    <ClCompile Include="png2asset.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lodepng.h" />

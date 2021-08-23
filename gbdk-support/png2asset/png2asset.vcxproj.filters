@@ -7,7 +7,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="png2mtspr.cpp">
+    <ClCompile Include="png2asset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="lodepng.cpp">

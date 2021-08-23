@@ -23,10 +23,10 @@ endif
 # ****************************************************
 # Targets needed to bring the executable up to date
  
-TARGET = png2mtspr
+TARGET = png2asset
 
 
-SRCS := picopng.cpp png2mtspr.cpp
+SRCS := lodepng.cpp png2asset.cpp
 OBJS := $(SRCS:%.cpp=%.o)
  
 $(TARGET): $(OBJS)
