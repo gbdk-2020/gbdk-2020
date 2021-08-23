@@ -13,6 +13,11 @@
 #define EXT_OBJ  ".obj"
 #define EXT_IHX  ".ihx"
 #define EXT_GB   ".gb"
+#define EXT_AP   ".pocket"
+#define EXT_SMS  ".sms"
+#define EXT_GG   ".gg"
+
+#define ARRAY_LEN(A) (sizeof(A) / sizeof(A[0]))
 
 #endif // _LCC_GB_H
 

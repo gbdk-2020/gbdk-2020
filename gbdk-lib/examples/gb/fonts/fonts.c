@@ -5,8 +5,11 @@
 */
 
 #include <stdio.h>
-#include <gb/font.h>
-#include <gb/console.h>
+
+#include <gbdk/platform.h>
+#include <gbdk/font.h>
+#include <gbdk/console.h>
+
 #include <gb/drawing.h>
 
 void main(void)

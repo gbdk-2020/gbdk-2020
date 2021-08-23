@@ -12,10 +12,25 @@
 #define SYMBOL_LINE_RECORDS    2 // Name, DefVal
 #define SYMBOL_REWRITE_RECORDS 2 // Name, DefVal
 
+#define PLATFORM_GB                 0
+#define PLATFORM_SMS                1
+#define PLATFORM_DEFAULT            PLATFORM_GB
+
+#define PLATFORM_STR_GB             "gb"
+#define PLATFORM_STR_AP             "ap"    // Uses PLATFORM_GB
+#define PLATFORM_STR_SMS            "sms"
+#define PLATFORM_STR_GG             "gg"    // Uses PLATFORM_SMS
+
+#define BANK_TYPE_UNSET             0
+#define BANK_TYPE_DEFAULT           1
+#define BANK_TYPE_LIT_EXCLUSIVE     2
+
 
 typedef struct bank_item {
     uint32_t size;
     uint32_t free;
+    uint32_t type;
+    uint16_t item_count;
 } bank_item;
 
 
@@ -25,6 +40,7 @@ typedef struct area_item {
     uint32_t size;         // uint32_t to avoid mingw sscanf() buffer overflow
     uint32_t bank_num_in;  // uint32_t to avoid mingw sscanf() buffer overflow
     uint32_t bank_num_out; // uint32_t to avoid mingw sscanf() buffer overflow
+    uint32_t type;
 } area_item;
 
 typedef struct symbol_item {
@@ -39,6 +55,8 @@ typedef struct symbol_match_item {
     char     name[OBJ_NAME_MAX_STR_LEN];
 } symbol_match_item;
 
+void banks_set_platform(char * platform_str);
+int banks_get_platform(void);
 int banks_get_mbc_type(void);
 void banks_set_mbc(int);
 void banks_set_mbc_by_rom_byte_149(int);
@@ -47,6 +65,8 @@ uint32_t banks_calc_cart_size(void);
 
 bool banks_set_min(uint16_t bank_num);
 bool banks_set_max(uint16_t bank_num);
+
+void banks_set_random(bool is_random);
 
 void obj_data_init(void);
 void obj_data_cleanup(void);

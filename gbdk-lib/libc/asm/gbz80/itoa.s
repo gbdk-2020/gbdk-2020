@@ -30,7 +30,7 @@
 
         .area   _BASE
 
-_utoa::
+_uitoa::
         push    BC
         lda     HL, 4(SP)
         ld      A, (HL+)

@@ -11,13 +11,11 @@
 
 #include <types.h>
 
-#if STRICT_ANSI
-void putchar(int c);
-#else
-/** Write the character __c__ to stdout.
-*/
-void putchar(char c);
-#endif
+/** Print char to stdout.
+    @param c            Character to print
+ */
+
+void putchar(char c) NONBANKED;
 
 /** Print the string and arguments given by format to stdout.
 

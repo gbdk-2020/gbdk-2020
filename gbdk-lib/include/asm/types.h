@@ -4,12 +4,14 @@
 #ifndef ASM_TYPES_INCLUDE
 #define ASM_TYPES_INCLUDE
 
-#if SDCC_PORT == gbz80
-#include <asm/gbz80/types.h>
-#elif SDCC_PORT == z80
-#include <asm/z80/types.h>
+#ifdef __PORT_gbz80
+  #include <asm/gbz80/types.h>
 #else
-#error Unrecognised port
+  #ifdef __PORT_z80
+    #include <asm/z80/types.h>
+  #else
+    #error Unrecognised port
+  #endif
 #endif
 
 #ifndef NONBANKED
@@ -57,8 +59,17 @@ typedef INT32	   	DWORD;
 /** Unsigned 32 bit */
 typedef UINT32	   	UDWORD;
 
-/** Useful definition for fixed point values */
+/** Useful definition for working with 8 bit + 8 bit fixed point values
+
+    Use `.w` to access the variable as unsigned 16 bit type.
+
+    Use `.b.h` and `.b.l` (or just `.h` and `.l`) to directly access it's high and low unsigned 8 bit values.
+ */
 typedef union _fixed {
+  struct {
+    UBYTE l;
+    UBYTE h;
+  };
   struct {
     UBYTE l;
     UBYTE h;

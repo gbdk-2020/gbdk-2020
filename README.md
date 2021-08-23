@@ -29,7 +29,7 @@ The last version in the OLD repo is [2.96](https://sourceforge.net/projects/gbdk
 # Usage
 Most users will only need to download and unzip the latest [release](https://github.com/gbdk-2020/gbdk-2020/releases)
 
-Then go to the examples folder and build them (with make.bat on windows or running make). They are a good starting point.
+Then go to the examples folder and build them (with compile.bat on windows or running make). They are a good starting point.
 
 ## Discord servers
 * [gbdk/zgb Discord](https://discord.gg/XCbjCvqnUY) - For help with using GBDK (and ZGB), discussion and development of gbdk-2020
