@@ -87,7 +87,12 @@ static int verbose;		/* incremented for each -v */
 static List bankpack_flags;	/* bankpack flags */
 static List ihxchecklist;	/* ihxcheck flags */
 static List mkbinlist;		/* loader files, flags */
-static List llist[2];		/* [1] = loader files, [0] = flags */
+
+// Index entries for llist[]
+#define L_ARGS 0
+#define L_FILES 1
+static List llist[2];       /* [1] = linker object file list, [0] = linker flags */
+
 static List alist;		/* assembler flags */
 List clist;		/* compiler flags */
 static List plist;		/* preprocessor flags */
@@ -232,7 +237,7 @@ int main(int argc, char *argv[]) {
 
 	// Perform Link / ihxcheck / makebin stages (unless some conditions prevent it)
 	if (errcnt == 0 && !Eflag && !cflag && !Sflag &&
-		(llist[1] || ((ihxFile[0] != '\0') && ihx_inputs))) {
+		(llist[L_FILES] || ((ihxFile[0] != '\0') && ihx_inputs))) {
 
 		int target_is_ihx = 0;
 
@@ -265,7 +270,7 @@ int main(int argc, char *argv[]) {
 
 				// bankpack will be populated if supported by active port:platform
 				if (bankpack[0][0] != '\0')
-					compose(bankpack, bankpack_flags, llist[1], 0);
+					compose(bankpack, bankpack_flags, llist[L_FILES], 0);
 				else
 					fprintf(stderr, "Warning: bankpack enabled but not supported by active port:platform\n");
 
@@ -274,11 +279,11 @@ int main(int argc, char *argv[]) {
 				} else {
 					// If bankpack has -ext= flag set to write obj files
 					// out to a new extension then rewrite the
-					// linker list (llist[1]) and delete list (rmlist).
+					// linker list (llist[L_FILES]) and delete list (rmlist).
 					// The delete list likely only has temp obj files such
 					// as from a single-pass build: lcc -o out.gb in1.c in2.c
 					if (bankpack_newext[0]) {
-						list_rewrite_exts(llist[1], EXT_O, bankpack_newext);
+						list_rewrite_exts(llist[L_FILES], EXT_O, bankpack_newext);
 						list_duplicate_to_new_exts(rmlist, EXT_O, bankpack_newext);
 					}
 				}
@@ -286,7 +291,7 @@ int main(int argc, char *argv[]) {
 
 			// Call linker (add output ihxfile in compose $3)
 			Fixllist();   // Fixlist adds required default linker vars if not added by user
-			compose(ld, llist[0], llist[1], append(ihxFile, 0));
+			compose(ld, llist[L_ARGS], llist[L_FILES], append(ihxFile, 0));
 
 			if (callsys(av))
 				errcnt++;
@@ -336,8 +341,8 @@ static void Fixllist()
 	int c;
 
 	// Iterate through linker list entries
-	if(llist[0]) {
-		List b = llist[0];
+	if(llist[L_ARGS]) {
+		List b = llist[L_ARGS];
 		do {
 			b = b->link;
 			// Only -g and -b settings are supported at this time
@@ -347,7 +352,7 @@ static void Fixllist()
 				// That splits them into two consecutive llist items,
 				// so try advancing to the next item to access it's value.
 				// Example:  b = "-g", next = ".STACK=0xE000"
-				if (b != llist[0])
+				if (b != llist[L_ARGS])
 					b = b->link;
 				else
 					break; // end of list
@@ -358,15 +363,15 @@ static void Fixllist()
 					if (arg_has_searchkey(b->str, llist0_defaults[c].searchkey))
 						llist0_defaults[c].found = true;
 			}
-		} while (b != llist[0]);
+		} while (b != llist[L_ARGS]);
 	}
 
 	// Add required default settings to the linker list if they weren't found
 	for (c = 0; c < llist0_defaults_len; c++)
 		if (llist0_defaults[c].found == false) {
-			// Add the entry to the linker llist[0], flag first then value
-			llist[0] = append(llist0_defaults[c].addflag,  llist[0]);
-			llist[0] = append(llist0_defaults[c].addvalue, llist[0]);
+			// Add the entry to the linker llist[L_ARGS], flag first then value
+			llist[L_ARGS] = append(llist0_defaults[c].addflag,  llist[L_ARGS]);
+			llist[L_ARGS] = append(llist0_defaults[c].addvalue, llist[L_ARGS]);
 		}
 }
 
@@ -711,8 +716,8 @@ static int filename(char *name, char *base) {
 
 			compose(com, clist, append(name, 0), append(ofile, 0));
 			status = callsys(av);
-			if (!find(ofile, llist[1]))
-				llist[1] = append(ofile, llist[1]);
+			if (!find(ofile, llist[L_FILES]))
+				llist[L_FILES] = append(ofile, llist[L_FILES]);
 		}
 		break;
 	case 2:	/* assembly language files */
@@ -728,13 +733,13 @@ static int filename(char *name, char *base) {
 				ofile = tempname(EXT_O);
 			compose(as, alist, append(name, 0), append(ofile, 0));
 			status = callsys(av);
-			if (!find(ofile, llist[1]))
-				llist[1] = append(ofile, llist[1]);
+			if (!find(ofile, llist[L_FILES]))
+				llist[L_FILES] = append(ofile, llist[L_FILES]);
 		}
 		break;
 	case 3:	/* object files */
-		if (!find(name, llist[1]))
-			llist[1] = append(name, llist[1]);
+		if (!find(name, llist[L_FILES]))
+			llist[L_FILES] = append(name, llist[L_FILES]);
 		break;
 	case 4: // .ihx files
 		// Apply "name" as .ihx file (there can be only one as input)
@@ -745,7 +750,7 @@ static int filename(char *name, char *base) {
 			compose(cpp, plist, append(name, 0), 0);
 			status = callsys(av);
 		}
-		llist[1] = append(name, llist[1]);
+		llist[L_FILES] = append(name, llist[L_FILES]);
 		break;
 	}
 	if (status)
@@ -846,7 +851,7 @@ static void initinputs(void) {
 				if (strcmp(b->str, ".") != 0) {
 					ilist = append(concat("-I", b->str), ilist);
 					if (strstr(com[1], "win32") == NULL)
-						llist[0] = append(concat("-L", b->str), llist[0]);
+						llist[L_ARGS] = append(concat("-L", b->str), llist[L_ARGS]);
 				}
 				else
 					b->str = "";
@@ -896,7 +901,7 @@ static void opt(char *arg) {
 				bankpack_flags = append(&arg[3], bankpack_flags);
 				// -Wb-ext=[.some-extension]
 				// If bankpack is going to rewrite input object files to a new extension
-				// then save that extension for rewriting the linker list (llist[1])
+				// then save that extension for rewriting the linker list (llist[L_FILES])
 				if (strstr(&arg[3], "-ext=") != NULL) {
 					if (arg[8]) {
 						sprintf(bankpack_newext, "%s", &arg[8]);
@@ -910,14 +915,14 @@ static void opt(char *arg) {
 					// If using linker file for sdldgb (-f file[.lk]).
 					// Starting at arg[5] should be name of the linkerfile
 					if ((arg[4] == 'f') && (arg[5])) {
-						llist[1] = append("-f", llist[1]);    // Add -f to file link list
-						llist[1] = append(&arg[5], llist[1]); // Then add linkerfile as the very next parameter
+						llist[L_FILES] = append("-f", llist[L_FILES]);    // Add -f to file link list
+						llist[L_FILES] = append(&arg[5], llist[L_FILES]); // Then add linkerfile as the very next parameter
 					} else {
 						char *tmp = malloc(256);
 						sprintf(tmp, "%c%c", arg[3], arg[4]); //sdldgb requires spaces between -k and the path
-						llist[0] = append(tmp, llist[0]);     //splitting the args into 2 works on Win and Linux
+						llist[L_ARGS] = append(tmp, llist[L_ARGS]);     //splitting the args into 2 works on Win and Linux
 						if (arg[5]) {
-							llist[0] = append(&arg[5], llist[0]);  // Add filename separately if present
+							llist[L_ARGS] = append(&arg[5], llist[L_ARGS]);  // Add filename separately if present
 						}
 					}
 				}
@@ -955,8 +960,8 @@ static void opt(char *arg) {
 		if (strcmp(arg, "-debug") == 0) {
 			// Load default debug options
 			clist    = append("--debug", clist);  // Debug for sdcc compiler
-			llist[0] = append("-y", llist[0]);    // Enable .cdb output for sdldgb linker
-			llist[0] = append("-j", llist[0]);    // Enable .noi output
+			llist[L_ARGS] = append("-y", llist[L_ARGS]);    // Enable .cdb output for sdldgb linker
+			llist[L_ARGS] = append("-j", llist[L_ARGS]);    // Enable .noi output
 			return;
 		}
 
@@ -1000,7 +1005,7 @@ static void opt(char *arg) {
 	case 'B':	/* -Bdir -Bstatic -Bdynamic */
 #ifdef sparc
 		if (strcmp(arg, "-Bstatic") == 0 || strcmp(arg, "-Bdynamic") == 0)
-			llist[1] = append(arg, llist[1]);
+			llist[L_FILES] = append(arg, llist[L_FILES]);
 		else
 #endif
 		{
@@ -1055,7 +1060,7 @@ static void opt(char *arg) {
 		case 'G':
 			if (option(arg)) {
 				clist = append("-g3", clist);
-				llist[0] = append("-N", llist[0]);
+				llist[L_ARGS] = append("-N", llist[L_ARGS]);
 			}
 			else
 				fprintf(stderr, "%s: %s ignored\n", progname, arg);
@@ -1089,7 +1094,7 @@ static void opt(char *arg) {
 	if (cflag || Sflag || Eflag)
 		fprintf(stderr, "%s: %s ignored\n", progname, arg);
 	else
-		llist[1] = append(arg, llist[1]);
+		llist[L_FILES] = append(arg, llist[L_FILES]);
 }
 
 /* path2list - convert a colon- or semicolon-separated list to a list */
