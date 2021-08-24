@@ -22,6 +22,7 @@ list_type filelist;
 
 char g_out_ext[MAX_FILE_STR];
 char g_out_path[MAX_FILE_STR];
+char g_out_linkerfile_name[MAX_FILE_STR] = {'\0'};
 
 void files_set_out_ext(char * ext_str) {
     if (snprintf(g_out_ext, sizeof(g_out_ext), "%s", ext_str) > sizeof(g_out_ext))
@@ -42,6 +43,68 @@ void files_init(void) {
 
 void files_cleanup(void) {
     list_cleanup(&filelist);
+}
+
+
+// Reads a list of object files from a linkerfile
+// (one filename per line) and adds them
+void files_read_linkerfile(char * filename_in) {
+    char strline_in[MAX_FILE_STR] = "";
+
+    FILE * in_file;
+
+    // Open each object file and try to process all the lines
+    in_file = fopen(filename_in, "r");
+    if (in_file) {
+
+        // Read one line at a time into \0 terminated string
+        // Skip empty lines
+        // Strip newlines and carraige returns from end of filename
+        while ( fgets(strline_in, sizeof(strline_in), in_file) != NULL) {
+            if ((strline_in[0] != '\n') || (strline_in[0] != '\r')) {
+                strline_in[strcspn(strline_in, "\r\n")] = '\0';
+                files_add(strline_in);
+            }
+        }
+        fclose(in_file);
+
+    } // end: if valid file
+    else {
+        printf("BankPack: ERROR: failed to open input linkerfile: %s\n", filename_in);
+        exit(EXIT_FAILURE);
+    }
+}
+
+
+void files_set_linkerfile_outname(char * filename) {
+
+    if (snprintf(g_out_linkerfile_name, sizeof(g_out_linkerfile_name), "%s", filename) > sizeof(g_out_linkerfile_name))
+        printf("Warning: truncated output linkerfile name to:%s\n",g_out_linkerfile_name);
+}
+
+
+// Writes a list of loaded object filenames to
+// a linkerfile (one filename per line)
+void files_write_linkerfile(void) {
+    uint32_t c;
+    file_item * files = (file_item *)filelist.p_array;
+    FILE * out_file;
+
+    // Open the linkerfile output and write all object filenames
+    out_file = fopen(g_out_linkerfile_name, "w");
+    if (out_file) {
+
+        // Process stored file names
+        for (c = 0; c < filelist.count; c++)
+            fprintf(out_file, "%s\n", files[c].name_out);
+
+        fclose(out_file);
+
+    } // end: if valid file
+    else {
+        printf("BankPack: ERROR: failed to open output linkerfile: %s\n", g_out_linkerfile_name);
+        exit(EXIT_FAILURE);
+    }
 }
 
 
@@ -174,6 +237,10 @@ void files_rewrite(void) {
     char * strline_in  = NULL;
     FILE * out_file    = NULL;
     file_item * files  = (file_item *)filelist.p_array;
+
+    // If linkerfile output is enabled, write it
+    if (g_out_linkerfile_name[0] != '\0')
+        files_write_linkerfile();
 
     // Process stored file names - (including unchanged ones since output may get new extensions or path)
     for (c = 0; c < filelist.count; c++) {
