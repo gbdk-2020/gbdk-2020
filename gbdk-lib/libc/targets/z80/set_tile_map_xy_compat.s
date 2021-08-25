@@ -71,12 +71,13 @@
         SMS_WRITE_VDP_CMD ixh, ixl
         dec e
         jp nz, 2$
+        jp 7$
 3$:
         inc ixl
         inc ixl
         dec e
         jp nz, 2$
-
+7$:
         pop ix
         pop de
 
