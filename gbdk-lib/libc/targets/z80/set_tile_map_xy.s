@@ -17,12 +17,8 @@
         push bc                 ; Store source
 
         ld a, d
-        rlca 
-        rlca 
-        rlca 
-        rlca 
-        rlca 
-        rlca 
+        rrca                    ; rrca(2) == rlca(6)
+        rrca
         ld d, a
         and #0x07
         add h
