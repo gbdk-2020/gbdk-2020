@@ -14,7 +14,7 @@ CFLAGS += -DBUILDDATE=\"$(BUILDDATE)\" -DBUILDTIME=\"$(BUILDTIME)\"
 ifdef BINDIR
 CFLAGS += -DGBDKBINDIR=\"$(BINDIR)\"
 endif
-OBJ = lcc.o gb.o targets.o
+OBJ = lcc.o gb.o targets.o list.o
 BIN = lcc
 
 all: $(BIN)

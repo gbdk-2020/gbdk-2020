@@ -23,20 +23,14 @@ static char rcsid[] = "$Id: lcc.c,v 2.0 " BUILDDATE " " BUILDTIME " gbdk-2020 Ex
 #endif
 
 #include "gb.h"
+#include "list.h"
 #include "targets.h"
 
 #ifndef TEMPDIR
 #define TEMPDIR "/tmp"
 #endif
 
-typedef struct list *List;
-struct list {		/* circular list nodes: */
-	char *str;		/* option or file name */
-	List link;		/* next list element */
-};
-
-static void *alloc(int);
-List append(char *, List);
+void *alloc(int);
 extern char *basepath(char *);
 extern char *path_stripext(char *);
 static int callsys(char *[]);
@@ -46,12 +40,10 @@ static void error(char *, char *);
 static char *exists(char *);
 static char *first(char *);
 static int filename(char *, char *);
-static List find(char *, List);
 static void help(void);
 static void initinputs(void);
 static void interrupt(int);
 static void opt(char *);
-static List path2list(const char *);
 extern int main(int, char *[]);
 extern char *replace(const char *, int, int);
 static void rm(List);
@@ -64,8 +56,9 @@ static bool arg_has_searchkey(char *, char *);
 
 // Adds linker default required vars if not present (defined by user)
 static void Fixllist();
-static void list_rewrite_exts(List, char *, char *);
-static void list_duplicate_to_new_exts(List, char *, char *);
+
+static void handle_autobanking(void);
+
 
 // These get populated from _class using finalise() in gb.c
 extern char *cpp[], *include[], *com[], *as[], *bankpack[], *ld[], *ihxcheck[], *mkbin[], inputs[], *suffixes[], *rom_extension;
@@ -83,7 +76,7 @@ static int Sflag;		/* -S specified */
 static int cflag;		/* -c specified */
 static int Kflag;		/* -K specified */
 static int autobankflag;	/* -K specified */
-static int verbose;		/* incremented for each -v */
+int verbose;		/* incremented for each -v */
 static List bankpack_flags;	/* bankpack flags */
 static List ihxchecklist;	/* ihxcheck flags */
 static List mkbinlist;		/* loader files, flags */
@@ -91,7 +84,8 @@ static List mkbinlist;		/* loader files, flags */
 // Index entries for llist[]
 #define L_ARGS 0
 #define L_FILES 1
-static List llist[2];       /* [1] = linker object file list, [0] = linker flags */
+#define L_LKFILES 2
+static List llist[3];       /* [2] = .lkfiles, [1] = linker object file list, [0] = linker flags */
 
 static List alist;		/* assembler flags */
 List clist;		/* compiler flags */
@@ -237,7 +231,7 @@ int main(int argc, char *argv[]) {
 
 	// Perform Link / ihxcheck / makebin stages (unless some conditions prevent it)
 	if (errcnt == 0 && !Eflag && !cflag && !Sflag &&
-		(llist[L_FILES] || ((ihxFile[0] != '\0') && ihx_inputs))) {
+		(llist[L_FILES] || llist[L_LKFILES] || ((ihxFile[0] != '\0') && ihx_inputs))) {
 
 		int target_is_ihx = 0;
 
@@ -265,30 +259,13 @@ int main(int argc, char *argv[]) {
 			if (!target_is_ihx)
 				append(ihxFile, rmlist);
 
-			// if auto bank assignment is enabled, modify obj files before linking
-			if (autobankflag) {
+			// If auto bank assignment is enabled, modify obj files before linking
+			// Will alter: llist[L_FILES] and llist[L_LKFILES]
+			if (autobankflag)
+				handle_autobanking();
 
-				// bankpack will be populated if supported by active port:platform
-				if (bankpack[0][0] != '\0')
-					compose(bankpack, bankpack_flags, llist[L_FILES], 0);
-				else
-					fprintf(stderr, "Warning: bankpack enabled but not supported by active port:platform\n");
-
-				if (callsys(av)) {
-					errcnt++;
-				} else {
-					// If bankpack has -ext= flag set to write obj files
-					// out to a new extension then rewrite the
-					// linker list (llist[L_FILES]) and delete list (rmlist).
-					// The delete list likely only has temp obj files such
-					// as from a single-pass build: lcc -o out.gb in1.c in2.c
-					if (bankpack_newext[0]) {
-						list_rewrite_exts(llist[L_FILES], EXT_O, bankpack_newext);
-						list_duplicate_to_new_exts(rmlist, EXT_O, bankpack_newext);
-					}
-				}
-			}
-
+			// Copy any pending linkerfiles into the linker list (with "-f" as preceding arg)
+			llist[L_FILES] = list_add_to_another(llist[L_FILES], llist[L_LKFILES], NULL, "-f");
 			// Call linker (add output ihxfile in compose $3)
 			Fixllist();   // Fixlist adds required default linker vars if not added by user
 			compose(ld, llist[L_ARGS], llist[L_FILES], append(ihxFile, 0));
@@ -317,6 +294,8 @@ int main(int argc, char *argv[]) {
 		}
 	}
 	rm(rmlist);
+    if (verbose > 0)
+        fprintf(stderr, "\n");
 	return errcnt ? EXIT_FAILURE : EXIT_SUCCESS;
 }
 
@@ -377,7 +356,7 @@ static void Fixllist()
 
 
 /* alloc - allocate n bytes or die */
-static void *alloc(int n) {
+void *alloc(int n) {
 	static char *avail, *limit;
 
 	n = (n + sizeof(char *) - 1)&~(sizeof(char *) - 1);
@@ -390,19 +369,6 @@ static void *alloc(int n) {
 	return avail - n;
 }
 
-/* append - append a node with string str onto list, return new list */
-List append(char *str, List list) {
-	List p = alloc(sizeof *p);
-
-	p->str = str;
-	if (list) {
-		p->link = list->link;
-		list->link = p;
-	}
-	else
-		p->link = p;
-	return p;
-}
 
 /* basepath - return base name for name, e.g. /usr/drh/foo.c => foo */
 char *basepath(char *name) {
@@ -758,19 +724,6 @@ static int filename(char *name, char *base) {
 	return status;
 }
 
-/* find - find 1st occurrence of str in list, return list node or 0 */
-static List find(char *str, List list) {
-	List b;
-
-	b = list;
-	if (b)
-		do {
-			if (strcmp(str, b->str) == 0)
-				return b;
-		} while ((b = b->link) != list);
-		return 0;
-}
-
 /* help - print help message */
 static void help(void) {
 	static char *msgs[] = {
@@ -915,12 +868,12 @@ static void opt(char *arg) {
 					// If using linker file for sdldgb (-f file[.lk]).
 					// Starting at arg[5] should be name of the linkerfile
 					if ((arg[4] == 'f') && (arg[5])) {
-						llist[L_FILES] = append("-f", llist[L_FILES]);    // Add -f to file link list
-						llist[L_FILES] = append(&arg[5], llist[L_FILES]); // Then add linkerfile as the very next parameter
+						// Items in llist[L_LKFILES] get added to llist[L_FILES] right before the linker is called.
+						// That avoids sending to bankpack with the "-f" flag mixed in with the names of the .o object files.
+						llist[L_LKFILES] = append(stringf(&arg[5]), llist[L_LKFILES]);
 					} else {
-						char *tmp = malloc(256);
-						sprintf(tmp, "%c%c", arg[3], arg[4]); //sdldgb requires spaces between -k and the path
-						llist[L_ARGS] = append(tmp, llist[L_ARGS]);     //splitting the args into 2 works on Win and Linux
+						//sdldgb requires spaces between -k and the path
+						llist[L_ARGS] = append(stringf("%c%c", arg[3], arg[4]), llist[L_ARGS]);     //splitting the args into 2 works on Win and Linux
 						if (arg[5]) {
 							llist[L_ARGS] = append(&arg[5], llist[L_ARGS]);  // Add filename separately if present
 						}
@@ -1097,36 +1050,6 @@ static void opt(char *arg) {
 		llist[L_FILES] = append(arg, llist[L_FILES]);
 }
 
-/* path2list - convert a colon- or semicolon-separated list to a list */
-static List path2list(const char *path) {
-	List list = NULL;
-	char sep = ':';
-
-	if (path == NULL)
-		return NULL;
-	if (strchr(path, ';'))
-		sep = ';';
-	while (*path) {
-		char *p, buf[512];
-		p = strchr(path, sep);
-		if (p) {
-			size_t len = p - path;
-			if(len >= sizeof(buf)) len = sizeof(buf)-1;
-			strncpy(buf, path, len);
-			buf[len] = '\0';
-		}
-		else {
-			strncpy(buf, path, sizeof(buf));
-			buf[sizeof(buf)-1] = '\0';
-		}
-		if (!find(buf, list))
-			list = append(strsave(buf), list);
-		if (p == 0)
-			break;
-		path = p + 1;
-	}
-	return list;
-}
 
 /* replace - copy str, then replace occurrences of from with to, return the copy */
 char *replace(const char *str, int from, int to) {
@@ -1203,53 +1126,35 @@ char *tempname(char *suffix) {
 }
 
 
-// Replace extensions for filenames in a list
-static void list_rewrite_exts(List list_in, char * ext_match, char * ext_new)
-{
-	char * filepath_old;
+// Performs the autobanking stage
+//
+// Should be called prior to doing compose() for the linker
+//
+static void handle_autobanking(void) {
 
-	// Iterate through list and replace file extensions
-	if (list_in) {
-		List list_t = list_in;
-		do {
-			if (list_t->str) {
-				// Check to see if filname has desired extension
-				if (matches_ext(list_t->str, ext_match)) {
+    // bankpack will be populated if supported by active port:platform
+    if (bankpack[0][0] != '\0') {
 
-					// Save a copy to free after re-assignment
-					filepath_old = list_t->str;
-					// Create a new string with the replaced suffix (stringf() allocs)
-					list_t->str = stringf("%s%s", path_stripext(list_t->str), ext_new);
-					if (verbose > 0) fprintf(stderr,"lcc: rename link obj (from -autobank): %s -> %s\n", filepath_old, list_t->str);
-				}
-			}
-			// Move to next list item, exit if start of list is reached
-			list_t = list_t->link;
-		} while (list_t != list_in);
-	}
-}
+        char * bankpack_linkerfile_name = tempname(EXT_LK);
+        rmlist = append(bankpack_linkerfile_name, rmlist); // Delete the linkerfile when done
+        // Always use a linkerfile when using bankpack through lcc
+        // Writes all input object files out to [bankpack_linkerfile_name]
+        bankpack_flags = append(stringf("%s%s","-lkout=", bankpack_linkerfile_name), bankpack_flags);
 
+        // Add linkerfile entries (usually *.lk) to the bankpack arg list if any are present
+        bankpack_flags = list_add_to_another(bankpack_flags, llist[L_LKFILES], "-lkin=", NULL);
 
-// Replace extensions for filenames in a list
-static void list_duplicate_to_new_exts(List list_in, char * ext_match, char * ext_new)
-{
-	// List may have entries appended, cache original start
-	List list_start = list_in;
+        // Prepare the bankpack command line, then execute it
+        compose(bankpack, bankpack_flags, llist[L_FILES], 0);
+        if (callsys(av))
+            errcnt++;
 
-	// Iterate through list and replace file extensions
-	if (list_in) {
-		List list_t = list_in;
-		do {
-			if (list_t->str) {
-				// Check to see if filname has desired extension
-				if (matches_ext(list_t->str, ext_match)) {
-
-					list_in = append(stringf("%s%s", path_stripext(list_t->str), ext_new), list_in);
-					if (verbose > 0) fprintf(stderr,"lcc: add to rmlist (from -autobank): %s -> %s\n", list_t->str, stringf("%s%s", path_stripext(list_t->str), ext_new));
-				}
-			}
-			// Move to next list item, exit if start of list is reached
-			list_t = list_t->link;
-		} while (list_t != list_start);
-	}
+        // Clear out the objects file and linkerfiles from their lists
+        // Then replace them with the filename passed to bankpack for "-lkout="
+        llist[L_FILES]   = list_remove_all(llist[L_FILES]);
+        llist[L_LKFILES] = list_remove_all(llist[L_LKFILES]);
+        llist[L_LKFILES] = append(stringf("%s", bankpack_linkerfile_name), llist[L_LKFILES]);
+    }
+    else
+        fprintf(stderr, "Warning: bankpack enabled but not supported by active port:platform\n");
 }
