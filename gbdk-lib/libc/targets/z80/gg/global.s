@@ -272,3 +272,26 @@ lbl2:
         jp lbl1
 lbl3:
 .endm
+
+.macro DIV_PART divident divisor ?lbl
+        rl divident 
+        rla
+        sub divisor
+        jr  nc, lbl
+        add divisor
+lbl:
+.endm
+.macro FAST_DIV8 divident divisor
+        ; returns modulus in A
+        .rept 8                
+                DIV_PART divident divisor
+        .endm
+        ld a, divident
+        cpl
+.endm
+.macro FAST_MOD8 divident divisor
+        ; returns modulus in A
+        .rept 8                
+                DIV_PART divident divisor
+        .endm
+.endm

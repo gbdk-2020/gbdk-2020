@@ -103,12 +103,12 @@ void add_SIO(int_handler h);
 void add_JOY(int_handler h);
 
 inline void move_bkg(uint8_t x, uint8_t y) {
-	__WRITE_VDP_REG(VDP_RSCX, x);
+	__WRITE_VDP_REG(VDP_RSCX, -x);
 	__WRITE_VDP_REG(VDP_RSCY, y);
 }
 
 inline void scroll_bkg(int8_t x, int8_t y) {
-	__WRITE_VDP_REG(VDP_RSCX, __READ_VDP_REG(VDP_RSCX) + x);
+	__WRITE_VDP_REG(VDP_RSCX, __READ_VDP_REG(VDP_RSCX) - x);
 	__WRITE_VDP_REG(VDP_RSCY, __READ_VDP_REG(VDP_RSCY) + y);
 }
 
@@ -368,7 +368,6 @@ void set_tile_map(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *til
 void set_tile_map_compat(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles) __z88dk_callee __preserves_regs(iyh, iyl);
 
 void set_tile_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t map_w, const uint8_t *map) __z88dk_callee __preserves_regs(iyh, iyl);
-
 void set_tile_submap_compat(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t map_w, const uint8_t *map) __z88dk_callee __preserves_regs(iyh, iyl);
 inline void set_bkg_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w) {
     set_tile_submap_compat(x, y, w, h, map_w, map);

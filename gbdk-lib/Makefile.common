@@ -35,6 +35,7 @@ CLEANSPEC = *.o *.cdb *.sym *.lst *~ *.asm
 CFLAGS = -I$(TOPDIR)/include -DSDCC_z80 -D__PORT_$(PORT) -D__TARGET_$(THIS)
 CFLAGS += -m$(PORT) -DGBDK=1
 CFLAGS += --max-allocs-per-node 50000
+CFLAGS += --fsigned-char
 CC = 	$(SCC)
 BUILD = $(TOPDIR)/build/$(MODEL)/$(ASM)/$(THIS)
 LIB = 	$(BUILD)/$(THIS).lib

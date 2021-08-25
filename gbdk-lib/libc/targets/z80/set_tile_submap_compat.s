@@ -7,7 +7,7 @@
 
         .area   _BSS
 
-.image_tile_width::
+.image_tile_width_compat::
         .ds     0x01
 
         .area   _HOME
@@ -21,7 +21,7 @@ _set_tile_submap_compat::
         dec sp
         pop af
         sub e
-        ld (.image_tile_width), a ; .image_tile_width contains corrected width
+        ld (.image_tile_width_compat), a ; .image_tile_width_compat contains corrected width
 
         ex (sp), hl             ; HL = data
         ex de, hl               ; HL = WH, DE = data
@@ -45,8 +45,15 @@ _set_tile_submap_compat::
 
         ld a, b
         ld b, d
+
+        add #.SCREEN_Y_OFS
         ld d, a
+        xor a
+        FAST_MOD8 d #28
+        ld d, a
+
         ld a, c
+        add #.SCREEN_X_OFS
         and #0x1f
         ld c, e
         ld e, a                 ; BC = data, DE = YX
@@ -129,7 +136,7 @@ _set_tile_submap_compat::
 
         push de
 
-        ld a, (.image_tile_width)
+        ld a, (.image_tile_width_compat)
         ADD_A_REG16 h, l
 
         ld bc, #0x40
