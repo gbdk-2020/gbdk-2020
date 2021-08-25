@@ -367,6 +367,16 @@ void set_tile_map(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *til
 #define set_win_tiles set_tile_map_compat
 void set_tile_map_compat(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles) __z88dk_callee __preserves_regs(iyh, iyl);
 
+void set_tile_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t map_w, const uint8_t *map) __z88dk_callee __preserves_regs(iyh, iyl);
+
+void set_tile_submap_compat(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t map_w, const uint8_t *map) __z88dk_callee __preserves_regs(iyh, iyl);
+inline void set_bkg_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w) {
+    set_tile_submap_compat(x, y, w, h, map_w, map);
+}
+inline void set_win_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w) {
+    set_tile_submap_compat(x, y, w, h, map_w, map);
+}
+
 /** Shadow OAM array in WRAM, that is transferred into the real OAM each VBlank
 */
 extern volatile uint8_t shadow_OAM[];

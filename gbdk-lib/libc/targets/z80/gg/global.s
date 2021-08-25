@@ -249,3 +249,26 @@ lbl:
         xor a
         ld (__shadow_OAM_OFF), a
 .endm
+
+.macro ADD_A_REG16 regH regL
+        add regL
+        ld regL, a
+        adc regH
+        sub regL
+        ld regH, a
+.endm
+
+.macro MUL_DE_BY_A_RET_HL ?lbl1 ?lbl2 ?lbl3
+        ; Multiply DE by A, return result in HL; preserves: BC
+        ld hl, #0
+lbl1:
+        srl a
+        jp nc, lbl2
+        add hl, de
+lbl2:
+        jp z, lbl3
+        sla e
+        rl d
+        jp lbl1
+lbl3:
+.endm
