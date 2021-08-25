@@ -109,7 +109,8 @@ inline void move_bkg(uint8_t x, uint8_t y) {
 
 inline void scroll_bkg(int8_t x, int8_t y) {
 	__WRITE_VDP_REG(VDP_RSCX, __READ_VDP_REG(VDP_RSCX) - x);
-	__WRITE_VDP_REG(VDP_RSCY, __READ_VDP_REG(VDP_RSCY) + y);
+    int16_t tmp = __READ_VDP_REG(VDP_RSCY) + y;
+	__WRITE_VDP_REG(VDP_RSCY, (tmp < 0) ? 224 + tmp : tmp % 224u);
 }
 
 /** HALTs the CPU and waits for the vertical blank interrupt (VBL) to finish.

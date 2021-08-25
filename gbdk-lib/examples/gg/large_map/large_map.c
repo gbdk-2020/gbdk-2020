@@ -21,7 +21,7 @@ uint8_t redraw;
 
 void set_camera() {
     // update hardware scroll position
-    move_bkg(camera_x, camera_y < (8 * 28) ? camera_y: (camera_y - (8 * 28)));
+    move_bkg(camera_x, camera_y % 224);
     // up or down
     map_pos_y = (uint8_t)(camera_y >> 3u);
     if (map_pos_y != old_map_pos_y) { 
@@ -58,7 +58,7 @@ void main(){
 
     redraw = FALSE;
 
-    move_bkg(camera_x, camera_y);
+    move_bkg(camera_x, camera_y % 224);
     while (TRUE) {
         joy = joypad();
         // up or down
