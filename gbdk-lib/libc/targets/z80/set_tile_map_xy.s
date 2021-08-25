@@ -2,6 +2,9 @@
 
         .title  "VRAM utilities"
         .module VRAMUtils
+
+        .ez80
+
         .area   _HOME
 
         ;; Set background tile table from (BC) at XY = DE of size WH = HL
@@ -11,7 +14,7 @@
 
         ;; Set background tile from (BC) at YX = DE, size WH on stack, to VRAM from address (HL)
 .set_tile_map_xy_tt::
-        push bc         ; Store source
+        push bc                 ; Store source
 
         ld a, d
         rlca 
@@ -28,53 +31,71 @@
         and d
         sla e
         add e
-        ld c, a         ; dest BC = HL + ((0x20 * Y) * 2) + (X * 2)
+        ld c, a                 ; dest BC = HL + ((0x20 * Y) * 2) + (X * 2)
 
         ld a, b
         cp #>(.VDP_TILEMAP+0x0700)
         jr c, 5$
         ld b, #>.VDP_TILEMAP
 5$:
+        pop hl                  ; HL = source
+        pop de                  ; DE = HW
+        push ix                 ; save IX
+        push de                 ; store HW
 
-        pop hl          ; HL = source
-        pop de          ; DE = HW
-        sla e
-        push de         ; store HW
-        push bc         ; store dest
+        ld ixh, b
+        ld ixl, c
+        push ix                 ; store dest
 
-        DISABLE_VBLANK_COPY        ; switch OFF copy shadow SAT
+        DISABLE_VBLANK_COPY     ; switch OFF copy shadow SAT
 
-1$:                     ; copy H rows
-        SMS_WRITE_VDP_CMD b, c
+1$:                             ; copy H rows
+        SMS_WRITE_VDP_CMD ixh, ixl
         ld c, #.VDP_DATA
-        ld b, e
-2$:                     ; copy W tiles
+2$:                             ; copy W tiles
         outi
-        jr 3$
-3$:
+        VDP_DELAY
         outi
-        jr nz, 2$
 
-        pop bc
+        ld a, ixl
+        and #0x3F
+        inc a
+        inc a
+        bit 6, a
+        jp z, 3$
+        and #0x3F
+        ld b, a
+        ld a, ixl
+        and #0xC0
+        or b
+        ld ixl, a
+        SMS_WRITE_VDP_CMD ixh, ixl
+        dec e
+        jp nz, 2$
+3$:
+        inc ixl
+        inc ixl
+        dec e
+        jp nz, 2$
+
+        pop ix
         pop de
+
         dec d
         jr z, 6$
 
         push de
 
-        ld a, #0x40
-        add c
-        ld c, a
-        adc b
-        sub c
-        ld b, a
-
+        ld bc, #0x40
+        add ix, bc
+        ld a, ixh
         cp #>(.VDP_TILEMAP+0x0700)
-        jr c, 4$
-        ld b, #>.VDP_TILEMAP
+        jp c, 4$
+        ld ixh, #>.VDP_TILEMAP
 4$:        
-        push bc
-        jr 1$
+        push ix
+        jp 1$
 6$:
-        ENABLE_VBLANK_COPY         ; switch ON copy shadow SAT
+        ENABLE_VBLANK_COPY      ; switch ON copy shadow SAT
+        pop ix                  ; restore IX
         ret
