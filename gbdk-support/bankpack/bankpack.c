@@ -31,6 +31,8 @@ static void display_help(void) {
        "\n"
        "Options\n"
        "-h           : Show this help\n"
+       "-lkin=<file> : Load object files specified in linker file <file>\n"
+       "-lkout=<file>: Write list of object files out to linker file <file>\n"
        "-yt<mbctype> : Set MBC type per ROM byte 149 in Decimal or Hex (0xNN) (see pandocs)\n"
        "-mbc=N       : Similar to -yt, but sets MBC type directly to N instead\n"
        "               of by intepreting ROM byte 149\n"
@@ -105,6 +107,10 @@ static int handle_args(int argc, char * argv[]) {
                 banks_set_platform(argv[i] + 6);
             } else if (strstr(argv[i], "-random") == argv[i]) {
                 banks_set_random(true);
+            } else if (strstr(argv[i], "-lkin=") == argv[i]) {
+                files_read_linkerfile(argv[i] + strlen("-lkin="));
+            } else if (strstr(argv[i], "-lkout=") == argv[i]) {
+                files_set_linkerfile_outname(argv[i] + strlen("-lkout="));
             } else
                 printf("BankPack: Warning: Ignoring unknown option %s\n", argv[i]);
         } else {

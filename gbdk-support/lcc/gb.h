@@ -12,6 +12,9 @@
 #define EXT_O    ".o"
 #define EXT_OBJ  ".obj"
 #define EXT_IHX  ".ihx"
+#define EXT_LK   ".lk"
+
+// ROM file extensions
 #define EXT_GB   ".gb"
 #define EXT_AP   ".pocket"
 #define EXT_SMS  ".sms"
