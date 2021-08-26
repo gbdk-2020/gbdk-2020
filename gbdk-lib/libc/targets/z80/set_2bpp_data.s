@@ -70,22 +70,33 @@ _set_tile_2bpp_data::
 
         push de                 ; save palette
 
-        or a
-        jr z, 4$
-
-3$:
-        srl d
-        rr e
-        srl d
-        rr e
-        srl d
-        rr e
-        srl d
-        rr e
+        inc a
         dec a
-        jr nz, 3$
-4$:
+        jr nz, 10$
+        ; zero
         ld a, e
+        jr 13$
+10$:
+        dec a
+        jr nz, 11$
+        ; one
+        ld a, e
+        jr 14$
+11$:
+        dec a
+        jr nz, 12$
+        ; two
+        ld a, d
+        jr 13$
+12$:
+        ;three
+        ld a, d
+14$:
+        rra
+        rra
+        rra
+        rra
+13$:
         and #0x0F
 
         rra
@@ -116,7 +127,6 @@ _set_tile_2bpp_data::
 
         dec ixh
         jr nz, 6$
-
 2$:
         ex (sp), hl
 

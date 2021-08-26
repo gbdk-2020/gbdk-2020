@@ -356,10 +356,10 @@ inline void set_2bpp_palette(uint16_t palette) {
 }
 void set_tile_2bpp_data(uint16_t start, uint16_t ntiles, const void *src, uint16_t palette) __z88dk_callee __preserves_regs(iyh,iyl);
 inline void set_bkg_2bpp_data(uint16_t start, uint16_t ntiles, const void *src) {
-    set_tile_2bpp_data(start, ntiles, src, _current_2bpp_palette);
+    set_tile_2bpp_data(start, (ntiles)?ntiles:256, src, _current_2bpp_palette);
 }
 inline void set_sprite_2bpp_data(uint16_t start, uint16_t ntiles, const void *src) {
-    set_tile_2bpp_data((uint8_t)(start) + 0x100u, ntiles, src, _current_2bpp_palette);
+    set_tile_2bpp_data((uint8_t)(start) + 0x100u, (ntiles)?ntiles:256, src, _current_2bpp_palette);
 }
 
 /** Copies arbitrary data to an address in VRAM
