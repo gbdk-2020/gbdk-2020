@@ -722,6 +722,11 @@ uint8_t get_vram_byte(uint8_t * addr) __preserves_regs(b, c);
  */
 uint8_t * get_bkg_xy_addr(uint8_t x, uint8_t y) __preserves_regs(b, c);
 
+/** Sets palette for 2bpp color translation for GG/SMS, does nothing on GB
+ */
+inline void set_2bpp_palette(uint16_t palette) {
+    palette;
+}
 
 /** Sets VRAM Tile Pattern data for the Background / Window
 
@@ -741,7 +746,7 @@ uint8_t * get_bkg_xy_addr(uint8_t x, uint8_t y) __preserves_regs(b, c);
 void set_bkg_data(uint8_t first_tile,
          uint8_t nb_tiles,
          const uint8_t *data) NONBANKED __preserves_regs(b, c);
-
+#define set_bkg_2bpp_data set_bkg_data
 
 /** Sets VRAM Tile Pattern data for the Background / Window using 1bpp source data
 
@@ -763,7 +768,7 @@ void set_bkg_1bit_data(uint8_t first_tile,
          uint8_t nb_tiles,
          const uint8_t *data,
          uint8_t color) NONBANKED __preserves_regs(b, c);
-
+#define set_bkg_1bpp_data set_bkg_1bit_data
 
 /** Copies from Background / Window VRAM Tile Pattern data into a buffer
 
@@ -1165,7 +1170,7 @@ inline void scroll_win(int8_t x, int8_t y) {
 void set_sprite_data(uint8_t first_tile,
           uint8_t nb_tiles,
           const uint8_t *data) NONBANKED __preserves_regs(b, c);
-
+#define set_sprite_2bpp_data set_sprite_data
 
 /** Sets VRAM Tile Pattern data for Sprites using 1bpp source data
 
@@ -1185,7 +1190,7 @@ void set_sprite_data(uint8_t first_tile,
 void set_sprite_1bit_data(uint8_t first_tile,
           uint8_t nb_tiles,
           const uint8_t *data) NONBANKED __preserves_regs(b, c);
-
+#define set_sprite_1bpp_data set_sprite_1bit_data
 
 /** Copies from Sprite VRAM Tile Pattern data into a buffer
 

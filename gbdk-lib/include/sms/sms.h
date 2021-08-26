@@ -339,6 +339,7 @@ void joypad_ex(joypads_t * joypads) __z88dk_fastcall __preserves_regs(iyh, iyl);
 #endif
 
 inline void cgb_compatibility() {}
+inline void cpu_fast() {}
 
 #define set_bkg_palette_entry set_palette_entry
 #define set_sprite_palette_entry(palette,entry,rgb_data) set_palette_entry(1,entry,rgb_data)
@@ -365,6 +366,12 @@ inline void set_bkg_data(uint16_t start, uint16_t ntiles, const void *src) {
     set_tile_2bpp_data(start, ntiles, src, _current_2bpp_palette);
 }
 inline void set_sprite_data(uint16_t start, uint16_t ntiles, const void *src) {
+    set_tile_2bpp_data((uint8_t)(start) + 0x100u, ntiles, src, _current_2bpp_palette);
+}
+inline void set_bkg_2bpp_data(uint16_t start, uint16_t ntiles, const void *src) {
+    set_tile_2bpp_data(start, ntiles, src, _current_2bpp_palette);
+}
+inline void set_sprite_2bpp_data(uint16_t start, uint16_t ntiles, const void *src) {
     set_tile_2bpp_data((uint8_t)(start) + 0x100u, ntiles, src, _current_2bpp_palette);
 }
 
