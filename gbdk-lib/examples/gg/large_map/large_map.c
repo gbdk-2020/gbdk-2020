@@ -49,7 +49,7 @@ void set_camera() {
 void main(){
     DISPLAY_OFF;
     set_2bpp_palette(COMPAT_PALETTE(11,5,4,3));
-    set_bkg_2bpp_data(0, 241u, bigmap_tiles);
+    set_bkg_data(0, 241u, bigmap_tiles);
 
     map_pos_x = map_pos_y = 0; 
     old_map_pos_x = old_map_pos_y = 255;

@@ -29,8 +29,8 @@
 #define	J_SELECT     0b01000000
 #define	J_B          0b00100000
 #define	J_A          0b00010000
-#define	J_DOWN       0b00000010
 #define	J_UP         0b00000001
+#define	J_DOWN       0b00000010
 #define	J_LEFT       0b00000100
 #define	J_RIGHT      0b00001000
 
@@ -264,7 +264,7 @@ __endasm; \
     @param b   SRAM bank to switch to
 */
 
-#define SWITCH_RAM (((b)&1)?RAM_CONTROL|=RAMCTL_BANK:RAM_CONTROL&=(~RAMCTL_BANK))
+#define SWITCH_RAM(b) RAM_CONTROL=((b)&1)?RAM_CONTROL|RAMCTL_BANK:RAM_CONTROL&(~RAMCTL_BANK)
 
 /** Enables RAM
 */
@@ -338,6 +338,8 @@ void joypad_ex(joypads_t * joypads) __z88dk_fastcall __preserves_regs(iyh, iyl);
 #endif
 #endif
 
+inline void cgb_compatibility() {}
+
 #define set_bkg_palette_entry set_palette_entry
 #define set_sprite_palette_entry(palette,entry,rgb_data) set_palette_entry(1,entry,rgb_data)
 void set_palette_entry(uint8_t palette, uint8_t entry, uint16_t rgb_data) __z88dk_callee __preserves_regs(iyh, iyl);
@@ -345,9 +347,13 @@ void set_palette_entry(uint8_t palette, uint8_t entry, uint16_t rgb_data) __z88d
 #define set_sprite_palette(first_palette,nb_palettes,rgb_data) set_palette(1,1,rgb_data)
 void set_palette(uint8_t first_palette, uint8_t nb_palettes, uint16_t *rgb_data) __z88dk_callee;
 
-#define set_bkg_data set_tile_data
-#define set_sprite_data(start,ntiles,src) set_tile_data((uint8_t)(start)+0x100,(uint8_t)(ntiles),src)
 void set_tile_data(uint16_t start, uint16_t ntiles, const void *src) __z88dk_callee __preserves_regs(iyh,iyl);
+inline void set_bkg_4bpp_data(uint16_t start, uint16_t ntiles, const void *src) {
+    set_tile_data(start, ntiles, src);
+}
+inline void set_sprite_4bpp_data(uint16_t start, uint16_t ntiles, const void *src) {
+    set_tile_data((uint8_t)(start) + 0x100u, ntiles, src);
+}
 
 #define COMPAT_PALETTE(C0,C1,C2,C3) (((C3) << 12) | ((C2) << 8) | ((C1) << 4) | (C0))
 extern uint16_t _current_2bpp_palette;
@@ -355,11 +361,11 @@ inline void set_2bpp_palette(uint16_t palette) {
     _current_2bpp_palette = palette;
 }
 void set_tile_2bpp_data(uint16_t start, uint16_t ntiles, const void *src, uint16_t palette) __z88dk_callee __preserves_regs(iyh,iyl);
-inline void set_bkg_2bpp_data(uint16_t start, uint16_t ntiles, const void *src) {
-    set_tile_2bpp_data(start, (ntiles)?ntiles:256, src, _current_2bpp_palette);
+inline void set_bkg_data(uint16_t start, uint16_t ntiles, const void *src) {
+    set_tile_2bpp_data(start, ntiles, src, _current_2bpp_palette);
 }
-inline void set_sprite_2bpp_data(uint16_t start, uint16_t ntiles, const void *src) {
-    set_tile_2bpp_data((uint8_t)(start) + 0x100u, (ntiles)?ntiles:256, src, _current_2bpp_palette);
+inline void set_sprite_data(uint16_t start, uint16_t ntiles, const void *src) {
+    set_tile_2bpp_data((uint8_t)(start) + 0x100u, ntiles, src, _current_2bpp_palette);
 }
 
 /** Copies arbitrary data to an address in VRAM
@@ -408,6 +414,10 @@ extern volatile uint8_t _shadow_OAM_OFF;
 */
 #define ENABLE_VBL_TRANSFER \
     _shadow_OAM_OFF = 0
+
+/** Amount of hardware sprites in OAM
+*/
+#define MAX_HARDWARE_SPRITES 64
 
 /** Sets address of 256-byte aligned array of shadow OAM to be transferred on each VBlank
 */

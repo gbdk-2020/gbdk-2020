@@ -26,8 +26,8 @@ void main() {
 
     SWITCH_ROM(BANK(earth_data));
     if (banked_func(0xBE, 0xEF) == 0xBEEF) {
-        set_bkg_2bpp_data(2, earth_data_size >> 4, earth_data);
-        set_sprite_2bpp_data(0, earth_data_size >> 4, earth_data);
+        set_bkg_data(2, earth_data_size >> 4, earth_data);
+        set_sprite_data(0, earth_data_size >> 4, earth_data);
         set_sprite_tile(0, 0);
         set_sprite_tile(1, 2);
     }
