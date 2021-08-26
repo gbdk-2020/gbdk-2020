@@ -2,7 +2,7 @@
 # Platform specific flags for compiling (only populate if they're both present)
 ifneq ($(strip $(PORT)),)
 ifneq ($(strip $(PLAT)),)
-override CFLAGS += -m$(PORT):$(PLAT) -D_PLAT_$(PLAT)
+CFLAGS += -m$(PORT):$(PLAT) -D_PLAT_$(PLAT)
 endif
 endif
 
@@ -16,20 +16,19 @@ clean-target:
 gb-clean:
 	${MAKE} clean-target EXT=gb
 gb:
-	${MAKE} build-target LCCFLAGS=-Wl-yt0x1B PORT=gbz80 PLAT=gb EXT=gb
+	${MAKE} build-target PORT=gbz80 PLAT=gb EXT=gb
 
-# GB & GBC:      -Wm-yc
-# GBC Exclusive: -Wm-yC
+
 gbc-clean:
 	${MAKE} clean-target EXT=gbc
 gbc:
-	${MAKE} build-target LCCFLAGS="-Wl-yt0x1B -Wm-yC" PORT=gbz80 PLAT=gb EXT=gbc
+	${MAKE} build-target PORT=gbz80 PLAT=gb EXT=gbc
 
 
 pocket-clean:
 	${MAKE} clean-target EXT=pocket
 pocket:
-	${MAKE} build-target LCCFLAGS=-Wl-yt0x1B PORT=gbz80 PLAT=ap EXT=pocket
+	${MAKE} build-target PORT=gbz80 PLAT=ap EXT=pocket
 
 
 sms-clean:
