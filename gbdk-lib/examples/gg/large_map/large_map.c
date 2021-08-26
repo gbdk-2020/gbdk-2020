@@ -47,6 +47,8 @@ void set_camera() {
 }
 
 void main(){
+    DISPLAY_OFF;
+    set_2bpp_palette(COMPAT_PALETTE(11,5,4,3));
     set_bkg_2bpp_data(0, 241u, bigmap_tiles);
 
     map_pos_x = map_pos_y = 0; 
@@ -59,6 +61,7 @@ void main(){
     redraw = FALSE;
 
     move_bkg(camera_x, camera_y % 224);
+    DISPLAY_ON;
     while (TRUE) {
         joy = joypad();
         // up or down

@@ -2,11 +2,21 @@
 
         .title  "VRAM utilities"
         .module VRAMUtils
+
+        .ez80
+
+        .area   _INITIALIZED
+__current_2bpp_palette::
+        .ds     0x02
+
+        .area   _INITIALIZER
+        .dw     0b0011001000010000
+
         .area   _HOME
 
-; void set_tile_2bpp_data(uint16_t start, uint16_t ntiles, const void *src) __z88dk_callee __preserves_regs(iyh,iyl);
+; void set_tile_2bpp_data(uint16_t start, uint16_t ntiles, const void *src, uint16_t palette) __z88dk_callee __preserves_regs(iyh,iyl);
 _set_tile_2bpp_data::
-        pop de          ; pop ret address
+        pop de                  ; pop ret address
         pop hl
                 
         add hl, hl
@@ -18,47 +28,109 @@ _set_tile_2bpp_data::
         ld bc, #.VDP_VRAM
         add hl, bc
                 
-        DISABLE_VBLANK_COPY        ; switch OFF copy shadow SAT
+        DISABLE_VBLANK_COPY     ; switch OFF copy shadow SAT
 
         SMS_WRITE_VDP_CMD h, l
 
-        pop bc
-        pop hl
-        push de
-        
-        ld e, c
-        ld d, b
-        
-        ld c, #.VDP_DATA
-        inc d
-        inc e
-        xor a
+        ex de, hl               ; hl = ret
+
+        pop bc                  ; bc = ntiles
+        pop de                  ; de = src
+        ex (sp), hl             ; hl = palette
+
+        ex de, hl
+
+        inc b
+        inc c
+        push ix
+        push iy
+        ld iy, #-4
+        add iy, sp
+        ld sp, iy        
+        push bc
         jr 2$
-            
+        
 1$:
-        ld b, #16
-3$:        
-        outi
-        jr 4$
-4$:
-        outi
-        jr 5$
-5$:
-        nop
-        out (c), a
-        jr 6$
+        ex (sp), hl
+
+        ld ixh, #8
 6$:
-        nop
-        nop
-        out (c), a
-        nop
+        ld c, (hl)
+        inc hl
+        ld b, (hl)
+        inc hl
+
+        ld ixl, #8
+5$:
+        xor a
+        srl b
+        rla
+        srl c
+        rla
+
+        push de                 ; save palette
+
+        or a
+        jr z, 4$
+
+3$:
+        srl d
+        rr e
+        srl d
+        rr e
+        srl d
+        rr e
+        srl d
+        rr e
+        dec a
         jr nz, 3$
+4$:
+        ld a, e
+        and #0x0F
+
+        rra
+        rr 0 (iy)
+        rra
+        rr 1 (iy)
+        rra
+        rr 2 (iy)
+        rra
+        rr 3 (iy)
+
+        pop de                  ; restore palette
+
+        dec ixl
+        jr nz, 5$
+
+        ld a, 0 (iy)
+        out (.VDP_DATA), a
+        VDP_DELAY
+        ld a, 1 (iy)
+        out (.VDP_DATA), a
+        VDP_DELAY
+        ld a, 2 (iy)
+        out (.VDP_DATA), a
+        VDP_DELAY
+        ld a, 3 (iy)
+        out (.VDP_DATA), a
+
+        dec ixh
+        jr nz, 6$
+
 2$:
-        dec e
+        ex (sp), hl
+
+        dec l
         jr  nz, 1$
 
-        dec d
+        dec h
         jr  nz, 1$
+
+        ld iy, #6
+        add iy, sp
+        ld sp, iy
+        pop iy
+        pop ix
 
         ENABLE_VBLANK_COPY        ; switch ON copy shadow SAT
 

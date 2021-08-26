@@ -348,9 +348,19 @@ void set_palette(uint8_t first_palette, uint8_t nb_palettes, uint16_t *rgb_data)
 #define set_bkg_data set_tile_data
 #define set_sprite_data(start,ntiles,src) set_tile_data((uint8_t)(start)+0x100,(uint8_t)(ntiles),src)
 void set_tile_data(uint16_t start, uint16_t ntiles, const void *src) __z88dk_callee __preserves_regs(iyh,iyl);
-#define set_bkg_2bpp_data set_tile_2bpp_data
-#define set_sprite_2bpp_data(start,ntiles,src) set_tile_2bpp_data((uint8_t)(start)+0x100,(uint8_t)(ntiles),src)
-void set_tile_2bpp_data(uint16_t start, uint16_t ntiles, const void *src) __z88dk_callee __preserves_regs(iyh,iyl);
+
+#define COMPAT_PALETTE(C0,C1,C2,C3) (((C3) << 12) | ((C2) << 8) | ((C1) << 4) | (C0))
+extern uint16_t _current_2bpp_palette;
+inline void set_2bpp_palette(uint16_t palette) {
+    _current_2bpp_palette = palette;
+}
+void set_tile_2bpp_data(uint16_t start, uint16_t ntiles, const void *src, uint16_t palette) __z88dk_callee __preserves_regs(iyh,iyl);
+inline void set_bkg_2bpp_data(uint16_t start, uint16_t ntiles, const void *src) {
+    set_tile_2bpp_data(start, ntiles, src, _current_2bpp_palette);
+}
+inline void set_sprite_2bpp_data(uint16_t start, uint16_t ntiles, const void *src) {
+    set_tile_2bpp_data((uint8_t)(start) + 0x100u, ntiles, src, _current_2bpp_palette);
+}
 
 /** Copies arbitrary data to an address in VRAM
 
