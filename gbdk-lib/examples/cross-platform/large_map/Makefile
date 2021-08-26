@@ -1,21 +1,28 @@
-# Note: "override" ensures that appending to the variables still works if the variable was set from the command line
-#
-# If you move this project you can change the directory 
+# If you move this project you can change the directory
 # to match your GBDK root directory (ex: GBDK_HOME = "C:/GBDK/"
 GBDK_HOME = ../../../
-LCC = $(GBDK_HOME)bin/lcc 
+LCC = $(GBDK_HOME)bin/lcc
 
-# Set platforms to build here (spaced separated). Possible are: gb gbc pocket sms gg
-# These are found in the separate Makefile.targets
+# Set platforms to build here, spaced separated. (These are in the separate Makefile.targets)
+# They can also be built/cleaned individually: "make gg" and "make gg-clean"
+# Possible are: gb gbc pocket sms gg
 TARGETS=gb gg
 
-# MBC + Autobanking related flags
-override LCCFLAGS += -Wl-j -Wm-yoA -Wm-ya4 -autobank -Wb-ext=.rel -Wb-v
-# override LCCFLAGS += -debug # Uncomment to enable debug output
-# override LCCFLAGS += -v     # Uncomment for lcc verbose output
+# Configure platform specific LCC flags here:
+LCCFLAGS_gb      = -Wl-yt0x1B # Set an MBC for banking (1B-ROM+MBC5+RAM+BATT)
+LCCFLAGS_pocket  = -Wl-yt0x1B # Usually the same as required for .gb
+LCCFLAGS_gbc     = -Wl-yt0x1B -Wm-yc # Same as .gb with: -Wm-yc (gb & gbc) or Wm-yC (gbc exclusive)
+LCCFLAGS_sms     =
+LCCFLAGS_gg      =
+
+LCCFLAGS += $(LCCFLAGS_$(EXT)) # This adds the current platform specific LCC Flags
+
+LCCFLAGS += -Wl-j -Wm-yoA -Wm-ya4 -autobank -Wb-ext=.rel -Wb-v # MBC + Autobanking related flags
+# LCCFLAGS += -debug # Uncomment to enable debug output
+# LCCFLAGS += -v     # Uncomment for lcc verbose output
 
 # You can set the name of the ROM file here
-PROJECTNAME = Example
+PROJECTNAME = large-map
 
 # EXT?=gb # Only sets extension to default (game boy .gb) if not populated
 SRCDIR      = src
@@ -50,9 +57,7 @@ $(OBJDIR)/%.s:	$(SRCDIR)/%.c
 	$(LCC) $(CFLAGS) -S -o $@ $<
 
 # Link the compiled object files into a .gb ROM file
-# Then copy the ROM into a binary directory
 $(BINS):	$(OBJS)
-	@echo $(LCCFLAGS)
 	$(LCC) $(LCCFLAGS) $(CFLAGS) -o $(BINDIR)/$(PROJECTNAME).$(EXT) $(OBJS)
 
 clean:
@@ -60,9 +65,6 @@ clean:
 	@for target in $(TARGETS); do \
 		$(MAKE) $$target-clean; \
 	done
-
-cleanbin:
-	rm -f  $(BINDIR)/*.*
 
 # Include available build targets
 include Makefile.targets
