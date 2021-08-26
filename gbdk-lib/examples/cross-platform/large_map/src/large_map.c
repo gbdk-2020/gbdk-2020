@@ -8,6 +8,12 @@
 #define camera_max_y ((bigmap_mapHeight - 18) * 8) 
 #define camera_max_x ((bigmap_mapWidth - 20) * 8) 
 
+#if defined(_PLAT_gg) || defined(_PLAT_sms)
+  #define WRAP_SCROLL_Y(y) ((y) % 224u)
+#else
+  #define WRAP_SCROLL_Y(y) y
+#endif
+
 #define MIN(A,B) ((A)<(B)?(A):(B))
 
 uint8_t joy;
@@ -21,7 +27,7 @@ uint8_t redraw;
 
 void set_camera() {
     // update hardware scroll position
-    move_bkg(camera_x, camera_y % 224);
+    move_bkg(camera_x, WRAP_SCROLL_Y(camera_y));
     // up or down
     map_pos_y = (uint8_t)(camera_y >> 3u);
     if (map_pos_y != old_map_pos_y) { 
@@ -60,7 +66,8 @@ void main(){
 
     redraw = FALSE;
 
-    move_bkg(camera_x, camera_y % 224);
+    move_bkg(camera_x, WRAP_SCROLL_Y(camera_y));
+    SHOW_BKG;
     DISPLAY_ON;
     while (TRUE) {
         joy = joypad();
