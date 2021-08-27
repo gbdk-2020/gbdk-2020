@@ -914,7 +914,7 @@ void get_bkg_tiles(uint8_t x,
  * @return returns the address of tile, so you may use faster set_vram_byte() later
  */ 
 uint8_t * set_bkg_tile_xy(uint8_t x, uint8_t y, uint8_t t) __preserves_regs(b, c);
-
+#define set_tile_xy set_bkg_tile_xy
 
 /**
  * Get single tile t on background layer at x,y

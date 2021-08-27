@@ -511,5 +511,32 @@ inline void hide_sprite(uint8_t nb) {
     shadow_OAM[nb] = 0xC0;
 }
 
+/**
+ * Set byte in vram at given memory location
+ * 
+ * @param addr address to write to
+ * @param v value
+ */
+void set_vram_byte(uint8_t * addr, uint8_t v) __z88dk_callee __preserves_regs(iyh, iyl);
+
+/**
+ * Set single tile t with attributes on background layer at x,y
+ * @param x X-coordinate
+ * @param y Y-coordinate
+ * @param t tile index
+ * @return returns the address of tile, so you may use faster set_vram_byte() later
+ */ 
+uint8_t * set_attributed_tile_xy(uint8_t x, uint8_t y, uint16_t t) __z88dk_callee __preserves_regs(iyh, iyl);
+
+/**
+ * Set single tile t on background layer at x,y
+ * @param x X-coordinate
+ * @param y Y-coordinate
+ * @param t tile index
+ * @return returns the address of tile, so you may use faster set_vram_byte() later
+ */ 
+uint8_t * set_tile_xy(uint8_t x, uint8_t y, uint8_t t) __z88dk_callee __preserves_regs(iyh, iyl);
+#define set_bkg_tile_xy set_tile_xy
+#define set_win_tile_xy set_tile_xy
 
 #endif /* _SMS_H */

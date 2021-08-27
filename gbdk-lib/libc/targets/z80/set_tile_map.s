@@ -1,5 +1,8 @@
         .include        "global.s"
 
+        .title  "VRAM utilities"
+        .module VRAMUtils
+
         .globl  .set_tile_map_xy
 
         .area   _HOME
