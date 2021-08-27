@@ -3,7 +3,10 @@
 
 #include <stdint.h>
 
-#include "../res/sprite.h"
+// During build, png2asset metasprite conversion will write output to: obj/<platform ext>/res/
+//  Makefile adds part of that path as an include when compiling. Example: -Iobj/gb
+#include <res/sprite.h>
+
 
 const unsigned char pattern[] = {0x80,0x80,0x40,0x40,0x20,0x20,0x10,0x10,0x08,0x08,0x04,0x04,0x02,0x02,0x01,0x01};
 
