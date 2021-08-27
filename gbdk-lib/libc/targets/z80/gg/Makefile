@@ -11,6 +11,7 @@ ASSRC =	outi.s vmemcpy.s \
 	set_data.s set_2bpp_data.s \
 	set_tile_map.s set_tile_map_xy.s set_tile_map_compat.s set_tile_map_xy_compat.s \
 	set_tile_submap.s set_tile_submap_compat.s \
+	coords_to_address.s \
 	set_tile.s \
 	fill_rect.s fill_rect_xy.s fill_rect_compat.s fill_rect_xy_compat.s \
 	metasprites.s metasprites_hide.s metasprites_hide_spr.s \

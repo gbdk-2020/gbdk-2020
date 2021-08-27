@@ -326,16 +326,16 @@ uint8_t joypad_init(uint8_t npads, joypads_t * joypads) __z88dk_callee;
 void joypad_ex(joypads_t * joypads) __z88dk_fastcall __preserves_regs(iyh, iyl);
 
 
-#ifdef __TARGET_sms
+#if defined(__TARGET_sms)
 #define RGB(r,g,b)        ((r)|((g)<<2)|((b)<<4))
 #define RGB8(r,g,b)       (((r)>>6)|(((g)>>6)<<2)|(((b)>>6)<<4))
 #define RGBHTML(RGB24bit) (((RGB24bit)>>22)|((((RGB24bit)&0xFFFF)>>14)<<2)|((((RGB24bit)&0xFF)>>6)<<4))
-#else
-#ifdef __TARGET_gg
+#elif defined(__TARGET_gg)
 #define RGB(r,g,b)        ((r)|((g)<<4)|((b)<<8))
 #define RGB8(r,g,b)       (((r)>>4)|(((g)>>4)<<4)|(((b)>>4)<<8))
 #define RGBHTML(RGB24bit) (((RGB24bit)>>20)|((((RGB24bit)&0xFFFF)>>12)<<4)|((((RGB24bit)&0xFF)>>4)<<8))
-#endif
+#else
+#error Unrecognized port
 #endif
 
 inline void cgb_compatibility() {}
@@ -538,5 +538,11 @@ uint8_t * set_attributed_tile_xy(uint8_t x, uint8_t y, uint16_t t) __z88dk_calle
 uint8_t * set_tile_xy(uint8_t x, uint8_t y, uint8_t t) __z88dk_callee __preserves_regs(iyh, iyl);
 #define set_bkg_tile_xy set_tile_xy
 #define set_win_tile_xy set_tile_xy
+
+/**
+ * Get address of X,Y tile of background map
+ */
+uint8_t * get_bkg_xy_addr(uint8_t x, uint8_t y) __z88dk_callee __preserves_regs(iyh, iyl);
+#define get_win_xy_addr get_bkg_xy_addr
 
 #endif /* _SMS_H */

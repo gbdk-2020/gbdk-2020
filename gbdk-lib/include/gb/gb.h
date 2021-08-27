@@ -650,6 +650,14 @@ void hiramcpy(uint8_t dst,
 #define DISPLAY_OFF \
   display_off();
 
+/** Does nothing for GB
+ */
+#define HIDE_LEFT_COLUMN 
+
+/** Does nothing for GB
+ */
+#define SHOW_LEFT_COLUMN 
+
 /** Turns on the background layer.
     Sets bit 0 of the LCDC register to 1.
 */
