@@ -34,21 +34,23 @@ _INT_ISR::
         jp nz, 1$
         ld hl, #__shadow_OAM_base
         ld h, (hl)
-        ld l, a                 ; a == 0 here
+        ld l, a                         ; a == 0 here
+        or h
+        jp z, 1$
 
         ld c, #.VDP_CMD
         ld a, #<.VDP_SAT
         out (c), a
         ld a, #>.VDP_SAT
         out (c), a
-        dec c                   ; c == .VDP_DATA
+        dec c                           ; c == .VDP_DATA
         call .OUTI64
-        inc c                   ; c == .VDP_CMD
+        inc c                           ; c == .VDP_CMD
         ld a, #<(.VDP_SAT + 0x80)
         out (c), a
         ld a, #>(.VDP_SAT + 0x80)
         out (c), a
-        dec c                   ; c == .VDP_DATA
+        dec c                           ; c == .VDP_DATA
         call .OUTI128
 1$:
 

@@ -415,12 +415,12 @@ extern volatile uint8_t _shadow_OAM_OFF;
 /** Disable shadow OAM to VRAM copy on each VBlank
 */
 #define DISABLE_VBL_TRANSFER \
-    _shadow_OAM_OFF = 1
+    _shadow_OAM_base = 0
 
 /** Enable shadow OAM to VRAM copy on each VBlank
 */
 #define ENABLE_VBL_TRANSFER \
-    _shadow_OAM_OFF = 0
+    _shadow_OAM_base = (uint8_t)((uint16_t)&shadow_OAM >> 8)
 
 /** Amount of hardware sprites in OAM
 */
