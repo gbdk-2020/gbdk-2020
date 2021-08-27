@@ -849,6 +849,7 @@ void set_bkg_tiles(uint8_t x,
           uint8_t w,
           uint8_t h,
           const uint8_t *tiles) NONBANKED __preserves_regs(b, c);
+#define set_tile_map set_bkg_tiles
 
 
 /** Sets a rectangular area of the Background Tile Map using a sub-region 
@@ -880,7 +881,7 @@ void set_bkg_tiles(uint8_t x,
     @see set_bkg_data, set_bkg_tiles, set_win_submap
 */
 void set_bkg_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w);
-
+#define set_tile_submap set_bkg_submap
 
 /** Copies a rectangular region of Background Tile Map entries into a buffer.
 
@@ -1533,6 +1534,7 @@ void vmemset (void *s, uint8_t c, size_t n) NONBANKED __preserves_regs(b, c);
     @param tile   Fill value
 */
 void fill_bkg_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t tile) NONBANKED __preserves_regs(b, c);
+#define fill_rect fill_bkg_rect
 
 /** Fills a rectangular region of Tile Map entries for the Window layer with tile.
 
