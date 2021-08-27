@@ -400,6 +400,12 @@ inline void set_win_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uin
     set_tile_submap_compat(x, y, w, h, map_w, map);
 }
 
+void fill_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint16_t tile) __z88dk_callee __preserves_regs(iyh, iyl);
+
+void fill_rect_compat(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint16_t tile) __z88dk_callee __preserves_regs(iyh, iyl);
+#define fill_bkg_rect fill_rect_compat
+#define fill_win_rect fill_rect_compat
+
 /** Shadow OAM array in WRAM, that is transferred into the real OAM each VBlank
 */
 extern volatile uint8_t shadow_OAM[];
