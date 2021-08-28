@@ -5,9 +5,10 @@ TOPDIR = ../../../..
 THIS = gg
 PORT = z80
 
-CSRC = 
+CSRC =
 
-ASSRC =	outi.s vmemcpy.s \
+ASSRC =	set_interrupts.s \
+	outi.s vmemcpy.s \
 	set_data.s set_2bpp_data.s \
 	set_tile_map.s set_tile_map_xy.s set_tile_map_compat.s set_tile_map_xy_compat.s \
 	set_tile_submap.s set_tile_submap_compat.s \

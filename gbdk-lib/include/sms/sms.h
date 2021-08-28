@@ -72,6 +72,62 @@ void mode(uint8_t m) NONBANKED;
 */
 uint8_t get_mode(void) NONBANKED;
 
+/* Interrupt flags */
+/** Disable calling of interrupt service routines
+ */
+#define EMPTY_IFLAG  0x00U
+/** VBlank Interrupt occurs at the start of the vertical blank.
+
+    During this period the video ram may be freely accessed.
+    @see set_interrupts(), @see add_VBL
+ */
+#define VBL_IFLAG    0x01U
+/** LCD Interrupt when triggered by the STAT register.
+    @see set_interrupts(), @see add_LCD
+*/
+#define LCD_IFLAG    0x02U
+/** Does nothing on SMS/GG
+ */
+#define TIM_IFLAG    0x04U
+/** Does nothing on SMS/GG
+ */
+#define SIO_IFLAG    0x08U
+/** Does nothing on SMS/GG
+ */
+#define JOY_IFLAG    0x10U
+
+void set_interrupts(uint8_t flags) __z88dk_fastcall;
+
+/* Limits */
+#if defined(__TARGET_sms)
+/** Width of the visible screen in pixels.
+ */
+#define SCREENWIDTH  256U
+/** Height of the visible screen in pixels.
+ */
+#define SCREENHEIGHT 192U
+#elif defined(__TARGET_gg)
+/** Width of the visible screen in pixels.
+ */
+#define SCREENWIDTH  160U
+/** Height of the visible screen in pixels.
+ */
+#define SCREENHEIGHT 144U
+#endif
+/** The Minimum X position of the Window Layer (Left edge of screen) @see move_win()
+ */
+#define MINWNDPOSX   0x00U
+/** The Minimum Y position of the Window Layer (Top edge of screen) @see move_win()
+ */
+#define MINWNDPOSY   0x00U
+/** The Maximum X position of the Window Layer (Right edge of screen) @see move_win()
+ */
+#define MAXWNDPOSX   0x00U
+/** The Maximum Y position of the Window Layer (Bottom edge of screen) @see move_win()
+ */
+#define MAXWNDPOSY   0x00U
+
+
 /** Interrupt handlers
  */
 typedef void (*int_handler)(void) NONBANKED;

@@ -177,6 +177,11 @@
         .VDP_MAP_HEIGHT = 28
         .VDP_MAP_WIDTH  = 32 
 
+        ;; Interrupt flags
+
+        .VBL_IFLAG      = 0x01
+        .LCD_IFLAG      = 0x02
+
         ; characters
         .CR             = 0x0A
         .SPACE          = 0x00
