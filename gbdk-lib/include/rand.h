@@ -24,22 +24,25 @@
     again to re-initialize with the same or a different seed.
     @see rand(), randw()
 */
-void
-initrand(uint16_t seed) NONBANKED; /* Non-banked as called from asm in arand.s */
+#if defined(__PORT_gbz80)
+void initrand(uint16_t seed);
+#elif defined(__PORT_z80)
+void initrand(uint16_t seed) __z88dk_fastcall;
+#else
+#error Unrecognized port
+#endif
 
 /** Returns a random byte (8 bit) value.
 
     @ref initrand() should be used to initialize the random number generator before using rand()
  */
-int8_t
-rand(void);
+int8_t rand(void);
 
 /** Returns a random word (16 bit) value.
 
     @ref initrand() should be used to initialize the random number generator before using rand()
  */
-uint16_t
-randw(void);
+uint16_t randw(void);
 
 /** Random generator using the linear lagged additive method
 
@@ -50,14 +53,18 @@ randw(void);
 
     @see initrand() for suggestions about seed values, arand()
 */
-void
-initarand(uint16_t seed);
+#if defined(__PORT_gbz80)
+void initarand(uint16_t seed);
+#elif defined(__PORT_z80)
+void initarand(uint16_t seed) __z88dk_fastcall;
+#else
+#error Unrecognized port
+#endif
 
 /** Returns a random number generated with the linear lagged additive method.
 
     @ref initarand() should be used to initialize the random number generator before using arand()
  */
-int8_t
-arand(void);
+int8_t arand(void);
 
 #endif
