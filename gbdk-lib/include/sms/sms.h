@@ -197,6 +197,14 @@ inline void display_off(void) {
 #define SPRITES_8x8 \
 	__WRITE_VDP_REG(VDP_R1, __READ_VDP_REG(VDP_R1) &= (~R1_SPR_8X16))
 
+/** Global Time Counter in VBL periods (60Hz)
+
+    Increments once per Frame
+
+    Will wrap around every ~18 minutes (unsigned 16 bits = 65535 / 60 / 60 = 18.2)
+*/
+extern volatile uint16_t sys_time;
+
 /** Tracks current active ROM bank in frame 1
 */
 #define _current_bank MAP_FRAME1
