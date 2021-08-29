@@ -144,9 +144,9 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aec5c352285ef0fb0d5a1a1d35f6e7877"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cgb_8h.html#aec5c352285ef0fb0d5a1a1d35f6e7877">set_bkg_palette</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_palette, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_palettes, <a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> *rgb_data) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
+<tr class="memitem:aec5c352285ef0fb0d5a1a1d35f6e7877"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cgb_8h.html#aec5c352285ef0fb0d5a1a1d35f6e7877">set_bkg_palette</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_palette, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_palettes, <a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> *rgb_data) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
 <tr class="separator:aec5c352285ef0fb0d5a1a1d35f6e7877"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f0430a99cd9df4496b3c04f49aa3f6d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cgb_8h.html#a2f0430a99cd9df4496b3c04f49aa3f6d">set_sprite_palette</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_palette, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_palettes, <a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> *rgb_data) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
+<tr class="memitem:a2f0430a99cd9df4496b3c04f49aa3f6d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cgb_8h.html#a2f0430a99cd9df4496b3c04f49aa3f6d">set_sprite_palette</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_palette, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_palettes, <a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> *rgb_data) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
 <tr class="separator:a2f0430a99cd9df4496b3c04f49aa3f6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9e90b3a0f765485234e7b4416ea194e2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cgb_8h.html#a9e90b3a0f765485234e7b4416ea194e2">set_bkg_palette_entry</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> palette, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> entry, <a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> rgb_data)</td></tr>
 <tr class="separator:a9e90b3a0f765485234e7b4416ea194e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -715,6 +715,9 @@ Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void cpu_fast </td>
@@ -724,6 +727,11 @@ Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 <p>Set CPU speed to fast (CGB Double Speed) operation.</p>
 <p>On startup the CGB operates in Normal Speed Mode and can be switched into Double speed mode (faster processing but also higher power consumption). See the Pan Docs for more information about which hardware features operate faster and which remain at Normal Speed.</p>
@@ -740,6 +748,9 @@ Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void cgb_compatibility </td>
@@ -749,6 +760,11 @@ Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 <p>Set defaults compatible with the normal GameBoy models.</p>
 <p>The default/first CGB palettes for sprites and backgrounds are set to a similar default appearance as on the DMG/Pocket/SGB models. (White, Light Gray, Dark Gray, Black)</p>

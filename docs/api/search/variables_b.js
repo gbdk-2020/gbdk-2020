@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['magic_947',['magic',['../structsmalloc__hunk.html#a792a3db775b88e1df1cb003122a0e6e0',1,'smalloc_hunk']]],
-  ['malloc_5ffirst_948',['malloc_first',['../malloc_8h.html#af62987d0746c3fd2078e3b76d67a485d',1,'malloc.h']]],
-  ['malloc_5fheap_5fstart_949',['malloc_heap_start',['../malloc_8h.html#a6eca780b16338166df86a9e68aa083a6',1,'malloc.h']]]
+  ['l_1352',['l',['../union__fixed.html#ac44ac5f62ed7369c444b6f13d9e1d9bc',1,'_fixed::l()'],['../gb_8h.html#af79b920bcb642bba2e652874c4f7eeff',1,'l():&#160;gb.h'],['../sms_8h.html#af79b920bcb642bba2e652874c4f7eeff',1,'l():&#160;sms.h']]],
+  ['lcdc_5freg_1353',['LCDC_REG',['../gb_2hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b',1,'hardware.h']]],
+  ['ly_5freg_1354',['LY_REG',['../gb_2hardware_8h.html#aeb643bd4eac2e6e410cae2fae677c0a7',1,'hardware.h']]],
+  ['lyc_5freg_1355',['LYC_REG',['../gb_2hardware_8h.html#a591084a506c33266b7d6cc3b4b8936ae',1,'hardware.h']]]
 ];

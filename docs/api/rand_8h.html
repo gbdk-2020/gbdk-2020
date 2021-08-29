@@ -98,14 +98,10 @@ $(document).ready(function(){initNavTree('rand_8h.html',''); initResizable(); })
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a3121ebb7e98dfcedbf4969b63f142bbb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rand_8h.html#a3121ebb7e98dfcedbf4969b63f142bbb">initrand</a> (<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> seed) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
-<tr class="separator:a3121ebb7e98dfcedbf4969b63f142bbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2c1b2cc92ec9f0c0b2fd90876ba5c8ec"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aef44329758059c91c76d334e8fc09700">int8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rand_8h.html#a2c1b2cc92ec9f0c0b2fd90876ba5c8ec">rand</a> (void)</td></tr>
 <tr class="separator:a2c1b2cc92ec9f0c0b2fd90876ba5c8ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a78fb5ab799d1193062eee3645bae93c2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rand_8h.html#a78fb5ab799d1193062eee3645bae93c2">randw</a> (void)</td></tr>
 <tr class="separator:a78fb5ab799d1193062eee3645bae93c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae54bd9c3d48dfab0754499a3a7ba8a30"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rand_8h.html#ae54bd9c3d48dfab0754499a3a7ba8a30">initarand</a> (<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> seed)</td></tr>
-<tr class="separator:ae54bd9c3d48dfab0754499a3a7ba8a30"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab6b156c085bb1daf9098eba18575bf03"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aef44329758059c91c76d334e8fc09700">int8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rand_8h.html#ab6b156c085bb1daf9098eba18575bf03">arand</a> (void)</td></tr>
 <tr class="separator:ab6b156c085bb1daf9098eba18575bf03"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -113,34 +109,6 @@ Functions</h2></td></tr>
 <div class="textblock"><p>Random generator using the linear congruential method</p>
 <dl class="section author"><dt>Author</dt><dd>Luc Van den Borre </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="a3121ebb7e98dfcedbf4969b63f142bbb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3121ebb7e98dfcedbf4969b63f142bbb">&#9670;&nbsp;</a></span>initrand()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void initrand </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>&#160;</td>
-          <td class="paramname"><em>seed</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Initalise the pseudo-random number generator.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">seed</td><td>The value for initializing the random number generator.</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>The seed should be different each time, otherwise the same pseudo-random sequence will be generated.</p>
-<p>The DIV Register (<a class="el" href="hardware_8h.html#afa1e18e47bf68ce68d7807fff6edf16b">DIV_REG</a>) is sometimes used as a seed, particularly if read at some variable point in time (such as when the player presses a button).</p>
-<p>Only needs to be called once to initialize, buy may be called again to re-initialize with the same or a different seed. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="rand_8h.html#a2c1b2cc92ec9f0c0b2fd90876ba5c8ec">rand()</a>, <a class="el" href="rand_8h.html#a78fb5ab799d1193062eee3645bae93c2">randw()</a> </dd></dl>
-
-</div>
-</div>
 <a id="a2c1b2cc92ec9f0c0b2fd90876ba5c8ec"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2c1b2cc92ec9f0c0b2fd90876ba5c8ec">&#9670;&nbsp;</a></span>rand()</h2>
 
@@ -156,8 +124,17 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Returns a random byte (8 bit) value.</p>
-<p><a class="el" href="rand_8h.html#a3121ebb7e98dfcedbf4969b63f142bbb">initrand()</a> should be used to initialize the random number generator before using <a class="el" href="rand_8h.html#a2c1b2cc92ec9f0c0b2fd90876ba5c8ec">rand()</a> </p>
+<p>Initalise the pseudo-random number generator.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">seed</td><td>The value for initializing the random number generator.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>The seed should be different each time, otherwise the same pseudo-random sequence will be generated.</p>
+<p>The DIV Register (<a class="el" href="gb_2hardware_8h.html#afa1e18e47bf68ce68d7807fff6edf16b">DIV_REG</a>) is sometimes used as a seed, particularly if read at some variable point in time (such as when the player presses a button).</p>
+<p>Only needs to be called once to initialize, buy may be called again to re-initialize with the same or a different seed. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="rand_8h.html#a2c1b2cc92ec9f0c0b2fd90876ba5c8ec">rand()</a>, <a class="el" href="rand_8h.html#a78fb5ab799d1193062eee3645bae93c2">randw()</a> Returns a random byte (8 bit) value.</dd></dl>
+<p>initrand() should be used to initialize the random number generator before using <a class="el" href="rand_8h.html#a2c1b2cc92ec9f0c0b2fd90876ba5c8ec">rand()</a> </p>
 
 </div>
 </div>
@@ -177,34 +154,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Returns a random word (16 bit) value.</p>
-<p><a class="el" href="rand_8h.html#a3121ebb7e98dfcedbf4969b63f142bbb">initrand()</a> should be used to initialize the random number generator before using <a class="el" href="rand_8h.html#a2c1b2cc92ec9f0c0b2fd90876ba5c8ec">rand()</a> </p>
-
-</div>
-</div>
-<a id="ae54bd9c3d48dfab0754499a3a7ba8a30"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae54bd9c3d48dfab0754499a3a7ba8a30">&#9670;&nbsp;</a></span>initarand()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void initarand </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>&#160;</td>
-          <td class="paramname"><em>seed</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Random generator using the linear lagged additive method</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">seed</td><td>The value for initializing the random number generator.</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>Note: <a class="el" href="rand_8h.html#ae54bd9c3d48dfab0754499a3a7ba8a30">initarand()</a> calls <a class="el" href="rand_8h.html#a3121ebb7e98dfcedbf4969b63f142bbb">initrand()</a> with the same seed value, and uses <a class="el" href="rand_8h.html#a2c1b2cc92ec9f0c0b2fd90876ba5c8ec">rand()</a> to initialize the random generator.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="rand_8h.html#a3121ebb7e98dfcedbf4969b63f142bbb">initrand()</a> for suggestions about seed values, <a class="el" href="rand_8h.html#ab6b156c085bb1daf9098eba18575bf03">arand()</a> </dd></dl>
+<p>initrand() should be used to initialize the random number generator before using <a class="el" href="rand_8h.html#a2c1b2cc92ec9f0c0b2fd90876ba5c8ec">rand()</a> </p>
 
 </div>
 </div>
@@ -223,8 +173,16 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Returns a random number generated with the linear lagged additive method.</p>
-<p><a class="el" href="rand_8h.html#ae54bd9c3d48dfab0754499a3a7ba8a30">initarand()</a> should be used to initialize the random number generator before using <a class="el" href="rand_8h.html#ab6b156c085bb1daf9098eba18575bf03">arand()</a> </p>
+<p>Random generator using the linear lagged additive method</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">seed</td><td>The value for initializing the random number generator.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Note: initarand() calls initrand() with the same seed value, and uses <a class="el" href="rand_8h.html#a2c1b2cc92ec9f0c0b2fd90876ba5c8ec">rand()</a> to initialize the random generator.</p>
+<dl class="section see"><dt>See also</dt><dd>initrand() for suggestions about seed values, <a class="el" href="rand_8h.html#ab6b156c085bb1daf9098eba18575bf03">arand()</a> Returns a random number generated with the linear lagged additive method.</dd></dl>
+<p>initarand() should be used to initialize the random number generator before using <a class="el" href="rand_8h.html#ab6b156c085bb1daf9098eba18575bf03">arand()</a> </p>
 
 </div>
 </div>

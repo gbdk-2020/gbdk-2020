@@ -1,4 +1,7 @@
 var searchData=
 [
-  ['c_912',['c',['../gb_8h.html#a4e1e0e72dd773439e333c84dd762a9c3',1,'c():&#160;gb.h'],['../gbdecompress_8h.html#a0b3366755f3276b0243c1e0497471b7a',1,'c():&#160;gbdecompress.h'],['../sgb_8h.html#a0b3366755f3276b0243c1e0497471b7a',1,'c():&#160;sgb.h'],['../string_8h.html#a4e1e0e72dd773439e333c84dd762a9c3',1,'c():&#160;string.h']]]
+  ['b_1314',['b',['../union__fixed.html#ac0efdf5ee7302ad64dbc51cabc3659d3',1,'_fixed::b()'],['../gb_8h.html#a4c2e4adef74067fdbb49005bc73de937',1,'b():&#160;gb.h']]],
+  ['bcpd_5freg_1315',['BCPD_REG',['../gb_2hardware_8h.html#a1fc8ff37ffe1c431364e1ef7c3961b30',1,'hardware.h']]],
+  ['bcps_5freg_1316',['BCPS_REG',['../gb_2hardware_8h.html#a28fa1ca08ef1c8ed97280bc5e60bdd99',1,'hardware.h']]],
+  ['bgp_5freg_1317',['BGP_REG',['../gb_2hardware_8h.html#af577ba87ec3d13d7415e4c4a53cdf997',1,'hardware.h']]]
 ];

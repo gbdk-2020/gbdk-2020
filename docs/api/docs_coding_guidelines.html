@@ -89,42 +89,42 @@ $(document).ready(function(){initNavTree('docs_coding_guidelines.html',''); init
 <div class="title">Coding Guidelines </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1><a class="anchor" id="autotoc_md36"></a>
+<div class="textblock"><h1><a class="anchor" id="autotoc_md40"></a>
 Learning C / C fundamentals</h1>
 <p>Writing games and other programs with GBDK will be much easier with a basic understanding of the C language. In particular, understanding how to use C on "Embedded Platforms" (small computing systems, such as the Game Boy) can help you write better code (smaller, faster, less error prone) and avoid common pitfals.</p>
 <p><a class="anchor" id="docs_c_tutorials"></a></p>
-<h2><a class="anchor" id="autotoc_md37"></a>
+<h2><a class="anchor" id="autotoc_md41"></a>
 General C tutorials</h2>
 <ul>
 <li><a href="https://www.learn-c.org/">https://www.learn-c.org/</a></li>
 <li><a href="https://www.tutorialspoint.com/cprogramming/index.htm">https://www.tutorialspoint.com/cprogramming/index.htm</a></li>
 </ul>
-<h2><a class="anchor" id="autotoc_md38"></a>
+<h2><a class="anchor" id="autotoc_md42"></a>
 Embedded C introductions</h2>
 <ul>
 <li><a href="http://dsp-book.narod.ru/CPES.pdf">http://dsp-book.narod.ru/CPES.pdf</a></li>
 <li><a href="https://www.phaedsys.com/principals/bytecraft/bytecraftdata/bcfirststeps.pdf">https://www.phaedsys.com/principals/bytecraft/bytecraftdata/bcfirststeps.pdf</a></li>
 </ul>
-<h2><a class="anchor" id="autotoc_md39"></a>
+<h2><a class="anchor" id="autotoc_md43"></a>
 Game Boy games in C</h2>
 <ul>
 <li><a href="https://gbdev.io/list.html#c">https://gbdev.io/list.html#c</a></li>
 </ul>
-<h1><a class="anchor" id="autotoc_md40"></a>
+<h1><a class="anchor" id="autotoc_md44"></a>
 Understanding the hardware</h1>
 <p>In addition to understanding the C language it's important to learn how the Game Boy hardware works. What it is capable of doing, what it isn't able to do, and what resources are available to work with. A good way to do this is by reading the <a class="el" href="docs_links_and_tools.html#Pandocs">Pandocs</a> and checking out the <a class="el" href="docs_links_and_tools.html#awesome_gb">awesome_gb</a> list.</p>
-<h1><a class="anchor" id="autotoc_md41"></a>
+<h1><a class="anchor" id="autotoc_md45"></a>
 Writing optimal C code for the Game Boy and SDCC</h1>
 <p>The following guidelines can result in better code for the Game Boy, even though some of the guidance may be contrary to typical advice for general purpose computers that have more resources and speed.</p>
-<h2><a class="anchor" id="autotoc_md42"></a>
+<h2><a class="anchor" id="autotoc_md46"></a>
 Tools</h2>
 <p><a class="anchor" id="const_gbtd_gbmb"></a></p>
-<h3><a class="anchor" id="autotoc_md43"></a>
+<h3><a class="anchor" id="autotoc_md47"></a>
 GBTD / GBMB, Arrays and the "const" keyword</h3>
 <p><b>Important</b>: The old <a class="el" href="docs_links_and_tools.html#gbtd_gbmb">GBTD/GBMB</a> fails to include the <code>const</code> keyword when exporting to C source files for GBDK. That causes arrays to be created in RAM instead of ROM, which wastes RAM, uses a lot of ROM to initialize the RAM arrays and slows the compiler down a lot.</p>
 <p>__Use of <a class="el" href="docs_links_and_tools.html#toxa_gbtd_gbmb">toxa's updated GBTD/GBMB</a> is highly recommended.__</p>
 <p>If you wish to use the original tools, you must add the <code>const</code> keyword every time the graphics are re-exported to C source files.</p>
-<h2><a class="anchor" id="autotoc_md44"></a>
+<h2><a class="anchor" id="autotoc_md48"></a>
 Variables</h2>
 <ul>
 <li>Use 8-bit values as much as possible. They will be much more efficient and compact than 16 and 32 bit types.</li>
@@ -150,11 +150,12 @@ Variables</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md45"></a>
+<h2><a class="anchor" id="autotoc_md49"></a>
 Code structure</h2>
 <ul>
 <li>Do not <code>#include</code> <code>.c</code> source files into other <code>.c</code> source files. Instead create <code>.h</code> header files for them and include those. <a href="https://www.tutorialspoint.com/cprogramming/c_header_files.htm">https://www.tutorialspoint.com/cprogramming/c_header_files.htm</a></li>
-<li>When procesing for a given frame is done and it is time to wait before starting the next frame, <a class="el" href="gb_8h.html#adf6ef63efc4bb4950428015c623bca14">wait_vbl_done()</a> can be used. It uses HALT to put the CPU into a low power state until processing resumes. The CPU will wake up and resume processing at the end of the current frame when the Vertical Blanking interrupt is triggered.</li>
+<li>Instead of using a blocking <a class="el" href="gb_8h.html#a163199ca9660b93aa18c3e4734084121">delay()</a> for things such as sprite animations/etc (which can prevent the rest of the game from continuing) many times it's better to use a counter which performs an action once every N frames. <a class="el" href="sms_8h.html#a78d2fd18666afec116f176d46debb4e7">sys_time</a> may be useful in these cases.</li>
+<li>When processing for a given frame is done and it is time to wait before starting the next frame, <a class="el" href="gb_8h.html#adf6ef63efc4bb4950428015c623bca14">wait_vbl_done()</a> can be used. It uses HALT to put the CPU into a low power state until processing resumes. The CPU will wake up and resume processing at the end of the current frame when the Vertical Blanking interrupt is triggered.</li>
 <li>Minimize use of multiplication, modulo with non-powers of 2, and division with non-powers of 2. These operations have no corresponding CPU instructions (software functions), and hence are time costly.<ul>
 <li>SDCC has some optimizations for:<ul>
 <li>Division by powers of 2. For example <code>n /= 4u</code> will be optimized to <code>n &gt;&gt;= 2</code>.</li>
@@ -168,14 +169,15 @@ Code structure</h2>
 <li>Use inline functions if the function is short. (with the <code>inline</code> keyword, such as <code>inline uint8_t myFunction() { ... }</code>)</li>
 <li>Do not use recursive functions</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md46"></a>
+<h2><a class="anchor" id="autotoc_md50"></a>
 GBDK API/Library</h2>
 <ul>
 <li>stdio.h: If you have other ways of printing text, avoid including <a class="el" href="stdio_8h.html">stdio.h</a> and using functions such as <a class="el" href="stdio_8h.html#a79c1db3e4a2aaa60d5afa76f7d984d0b">printf()</a>. Including it will use a large number of the background tiles for font characters. If stdio.h is not included then that space will be available for use with other tiles instead.</li>
 <li>drawing.h: The Game Boy graphics hardware is not well suited to frame-buffer style graphics such as the kind provided in <a class="el" href="drawing_8h.html">drawing.h</a>. Due to that, most drawing functions (rectangles, circles, etc) will be slow . When possible it's much faster and more efficient to work with the tiles and tile maps that the Game Boy hardware is built around.</li>
-<li><a class="el" href="gb_8h.html#a057979766e52b9f93972dad332a5be5d">waitpad()</a> and <a class="el" href="gb_8h.html#ae1f1358e53ec1b153f071d1e16d8ab0e">waitpadup</a> check for input in a loop that doesn't HALT at all, so the CPU will be maxed out until it returns. One alternative is to write a function with a loop that checks input with <a class="el" href="gb_8h.html#ae6e4ae6169648f1bf1fac9785f8f1c71">joypad()</a> and then waits a frame using <a class="el" href="gb_8h.html#adf6ef63efc4bb4950428015c623bca14">wait_vbl_done()</a> (which idles the CPU while waiting) before checking input again.</li>
+<li><a class="el" href="gb_8h.html#a057979766e52b9f93972dad332a5be5d">waitpad()</a> and <a class="el" href="sms_8h.html#a173b90d3fa8d8dc3f7614924f4cc7179">waitpadup</a> check for input in a loop that doesn't HALT at all, so the CPU will be maxed out until it returns. One alternative is to write a function with a loop that checks input with <a class="el" href="gb_8h.html#ae6e4ae6169648f1bf1fac9785f8f1c71">joypad()</a> and then waits a frame using <a class="el" href="gb_8h.html#adf6ef63efc4bb4950428015c623bca14">wait_vbl_done()</a> (which idles the CPU while waiting) before checking input again.</li>
+<li><a class="el" href="gb_8h.html#ae6e4ae6169648f1bf1fac9785f8f1c71">joypad()</a>: When testing for multiple different buttons, it's best to read the joypad state <em>once</em> into a variable and then test using that variable (instead of making multiple calls).</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md47"></a>
+<h2><a class="anchor" id="autotoc_md51"></a>
 Toolchain</h2>
 <ul>
 <li>See SDCC optimizations: <a href="http://sdcc.sourceforge.net/doc/sdccman.pdf#section.8.1">http://sdcc.sourceforge.net/doc/sdccman.pdf#section.8.1</a></li>
@@ -191,7 +193,7 @@ Toolchain</h2>
 <li>Learn some ASM and inspect the compiler output to understand what the compiler is doing and how your code gets translated. This can help with writing better C code and with debugging.</li>
 </ul>
 <p><a class="anchor" id="docs_chars_varargs"></a></p>
-<h2><a class="anchor" id="autotoc_md48"></a>
+<h2><a class="anchor" id="autotoc_md52"></a>
 chars and vararg functions</h2>
 <p>In standard C when <code>chars</code> are passed to a function with variadic arguments (varargs, those delcared with <code>...</code> as a parameter), such as <a class="el" href="stdio_8h.html#a79c1db3e4a2aaa60d5afa76f7d984d0b">printf()</a>, those <code>chars</code> get automatically promoted to <code>ints</code>. For an 8 bit cpu such as the Game Boy's, this is not as efficient or desireable in most cases. So the default SDCC behavior, which GBDK-2020 expects, is that chars will remain chars and <em>not</em> get promoted to ints when <b>explicitly cast as chars while calling a varargs function</b>.</p>
 <ul>
@@ -213,16 +215,16 @@ printf("%hx %hx", i, i);
 // The output will be: 5A 5A
 printf("%hx %hx", (unsigned char)i, (unsigned char)i);
 </pre><p>Some functions that accept varargs:</p><ul>
-<li><a class="el" href="bgb__emu_8h.html#aa55fc1a65764d7546ee5e4e3ee0bef90">BGB_MESSAGE_FMT</a>, <a class="el" href="drawing_8h.html#a5f7a0ed309f9526e9be285146559848c">gprintf()</a>, <a class="el" href="stdio_8h.html#a79c1db3e4a2aaa60d5afa76f7d984d0b">printf()</a>, <a class="el" href="stdio_8h.html#a6c8d9c5b5b6a760b5b2787f0f96b690e">sprintf()</a></li>
+<li>BGB_MESSAGE_FMT, <a class="el" href="drawing_8h.html#a5f7a0ed309f9526e9be285146559848c">gprintf()</a>, <a class="el" href="stdio_8h.html#a79c1db3e4a2aaa60d5afa76f7d984d0b">printf()</a>, <a class="el" href="stdio_8h.html#a6c8d9c5b5b6a760b5b2787f0f96b690e">sprintf()</a></li>
 </ul>
 <p>Also See:</p><ul>
 <li>Other cases of char to int promotion: <a href="http://sdcc.sourceforge.net/doc/sdccman.pdf#chapter.6">http://sdcc.sourceforge.net/doc/sdccman.pdf#chapter.6</a></li>
 </ul>
-<h1><a class="anchor" id="autotoc_md49"></a>
+<h1><a class="anchor" id="autotoc_md53"></a>
 When C isn't fast enough</h1>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000004">Todo:</a></b></dt><dd>Update and verify this section for the modernized SDCC and toolchain</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000003">Todo:</a></b></dt><dd>Update and verify this section for the modernized SDCC and toolchain</dd></dl>
 <p>For many applications C is fast enough but in intensive functions are sometimes better written in assembler. This section deals with interfacing your core C program with fast assembly sub routines.</p>
-<h2><a class="anchor" id="autotoc_md50"></a>
+<h2><a class="anchor" id="autotoc_md54"></a>
 Calling convention</h2>
 <p>sdcc in common with almost all C compilers prepends a '_' to any function names. For example the function printf(...) begins at the label _printf::. Note that all functions are declared global.</p>
 <p>The parameters to a function are pushed in right to left order with no aligning - so a byte takes up a byte on the stack instead of the more natural word. So for example the function int store_byte( uint16_t addr, uint8_t byte) would push 'byte' onto the stack first then addr using a total of three bytes. As the return address is also pushed, the stack would contain: </p><pre class="fragment">  At SP+0 - the return address
@@ -232,11 +234,11 @@ Calling convention</h2>
   At SP+4 - byte 
 </pre><p>Note that the arguments that are pushed first are highest in the stack due to how the Game Boy's stack grows downwards.</p>
 <p>The function returns in DE.</p>
-<h2><a class="anchor" id="autotoc_md51"></a>
+<h2><a class="anchor" id="autotoc_md55"></a>
 Variables and registers</h2>
 <p>C normally expects registers to be preserved across a function call. However in the case above as DE is used as the return value and HL is used for anything, only BC needs to be preserved.</p>
 <p>Getting at C variables is slightly tricky due to how local variables are allocated on the stack. However you shouldn't be using the local variables of a calling function in any case. Global variables can be accessed by name by adding an underscore.</p>
-<h2><a class="anchor" id="autotoc_md52"></a>
+<h2><a class="anchor" id="autotoc_md56"></a>
 Segments</h2>
 <p>The use of segments for code, data and variables is more noticeable in assembler. GBDK and SDCC define a number of default segments - <code>_CODE</code>, <code>_DATA</code> and <code>_BSS</code>. Two extra segments <code>_HEADER</code> and <code>_HEAP</code> exist for the Game Boy header and malloc heap respectively.</p>
 <p>The order these segments are linked together is determined by crt0.s and is currently <code>_CODE</code> in ROM, then <code>_DATA</code>, <code>_BSS</code>, <code>_HEAP</code> in WRAM, with <code>STACK</code> at the top of WRAM. <code>_HEAP</code> is placed after <code>_BSS</code> so that all spare memory is available for the malloc routines. To place code in other than the first two banks, use the segments <code>_CODE_x</code> where x is the 16kB bank number.</p>

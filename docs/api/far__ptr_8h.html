@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>GBDK 2020 Docs: gb/far_ptr.h File Reference</title>
+<title>GBDK 2020 Docs: gbdk/far_ptr.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -125,8 +125,8 @@ Typedefs</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:aa45a2312a2584abb8733a052f66b4a90"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="far__ptr_8h.html#aa45a2312a2584abb8733a052f66b4a90">__call__banked</a> ()</td></tr>
 <tr class="separator:aa45a2312a2584abb8733a052f66b4a90"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8a9dc804d06e0c5c3f96675f68a051bb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#a7cf4a942912b990a96c39f9a2b81aa32">int32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="far__ptr_8h.html#a8a9dc804d06e0c5c3f96675f68a051bb">to_far_ptr</a> (void *ofs, <a class="el" href="stdint_8h.html#a66634143db08bebe9b46ab4cb1fc6fd3">int16_t</a> seg)</td></tr>
-<tr class="separator:a8a9dc804d06e0c5c3f96675f68a051bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5987288bdbbd891b56754122a2d53d3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#a33594304e786b158f3fb30289278f5af">uint32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="far__ptr_8h.html#ad5987288bdbbd891b56754122a2d53d3">to_far_ptr</a> (void *ofs, <a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> seg)</td></tr>
+<tr class="separator:ad5987288bdbbd891b56754122a2d53d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -137,11 +137,7 @@ Variables</h2></td></tr>
 <tr class="memitem:a892433d652420445a9a6aebf1a256623"><td class="memItemLeft" align="right" valign="top">volatile <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="far__ptr_8h.html#a892433d652420445a9a6aebf1a256623">__call_banked_bank</a></td></tr>
 <tr class="separator:a892433d652420445a9a6aebf1a256623"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Far pointers include a segment (bank) selector so they are able to point to addresses (functions or data) outside of the current bank (unlike normal pointers which are not bank-aware).</p>
-<p>See the <code>banks_farptr</code> example project included with gbdk.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>Add link to a discussion about banking (such as, how to assign code and variables to banks) </dd></dl>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a0c227677a96f9bf7e84a90922f2f8708"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0c227677a96f9bf7e84a90922f2f8708">&#9670;&nbsp;</a></span>TO_FAR_PTR</h2>
 
@@ -344,14 +340,14 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a8a9dc804d06e0c5c3f96675f68a051bb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8a9dc804d06e0c5c3f96675f68a051bb">&#9670;&nbsp;</a></span>to_far_ptr()</h2>
+<a id="ad5987288bdbbd891b56754122a2d53d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad5987288bdbbd891b56754122a2d53d3">&#9670;&nbsp;</a></span>to_far_ptr()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#a7cf4a942912b990a96c39f9a2b81aa32">int32_t</a> to_far_ptr </td>
+          <td class="memname"><a class="el" href="stdint_8h.html#a33594304e786b158f3fb30289278f5af">uint32_t</a> to_far_ptr </td>
           <td>(</td>
           <td class="paramtype">void *&#160;</td>
           <td class="paramname"><em>ofs</em>, </td>
@@ -359,7 +355,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="stdint_8h.html#a66634143db08bebe9b46ab4cb1fc6fd3">int16_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>&#160;</td>
           <td class="paramname"><em>seg</em>&#160;</td>
         </tr>
         <tr>

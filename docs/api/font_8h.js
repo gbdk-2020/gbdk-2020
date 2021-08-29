@@ -11,6 +11,7 @@ var font_8h =
     [ "font_init", "font_8h.html#a61b6448050030c4367eafd836598e515", null ],
     [ "font_load", "font_8h.html#aae1084aacf5cfceb40d9ce8f34a3870a", null ],
     [ "font_set", "font_8h.html#a2f1eb1f81be1a153bc11b1ea368fe614", null ],
+    [ "font_color", "font_8h.html#aec11443bfc2d74122df806587d00abe8", null ],
     [ "font_spect", "group__gbdk__fonts.html#ga1b59bbd85c12436eeef52d4c32c7345d", null ],
     [ "font_italic", "group__gbdk__fonts.html#ga17e825a65ba38f34a658fe0a2c99d8d4", null ],
     [ "font_ibm", "group__gbdk__fonts.html#ga6dcb04fed78fc39b95171988b776e6bb", null ],

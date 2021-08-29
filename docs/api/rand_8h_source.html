@@ -96,34 +96,38 @@ $(document).ready(function(){initNavTree('rand_8h_source.html',''); initResizabl
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="types_8h.html">types.h</a>&gt;</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="stdint_8h.html">stdint.h</a>&gt;</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keywordtype">void</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="rand_8h.html#a3121ebb7e98dfcedbf4969b63f142bbb">   28</a></span>&#160;<a class="code" href="rand_8h.html#a3121ebb7e98dfcedbf4969b63f142bbb">initrand</a>(<a class="code" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> seed) <a class="code" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a>; <span class="comment">/* Non-banked as called from asm in arand.s */</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<a class="code" href="stdint_8h.html#aef44329758059c91c76d334e8fc09700">int8_t</a></div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="rand_8h.html#a2c1b2cc92ec9f0c0b2fd90876ba5c8ec">   35</a></span>&#160;<a class="code" href="rand_8h.html#a2c1b2cc92ec9f0c0b2fd90876ba5c8ec">rand</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<a class="code" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a></div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="rand_8h.html#a78fb5ab799d1193062eee3645bae93c2">   42</a></span>&#160;<a class="code" href="rand_8h.html#a78fb5ab799d1193062eee3645bae93c2">randw</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keywordtype">void</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="rand_8h.html#ae54bd9c3d48dfab0754499a3a7ba8a30">   54</a></span>&#160;<a class="code" href="rand_8h.html#ae54bd9c3d48dfab0754499a3a7ba8a30">initarand</a>(<a class="code" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> seed);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<a class="code" href="stdint_8h.html#aef44329758059c91c76d334e8fc09700">int8_t</a></div>
-<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="rand_8h.html#ab6b156c085bb1daf9098eba18575bf03">   61</a></span>&#160;<a class="code" href="rand_8h.html#ab6b156c085bb1daf9098eba18575bf03">arand</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#if defined(__PORT_gbz80)</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keywordtype">void</span> initrand(<a class="code" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> seed);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#elif defined(__PORT_z80)</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keywordtype">void</span> initrand(<a class="code" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> seed) __z88dk_fastcall;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#error Unrecognized port</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="rand_8h.html#a2c1b2cc92ec9f0c0b2fd90876ba5c8ec">   39</a></span>&#160;<a class="code" href="stdint_8h.html#aef44329758059c91c76d334e8fc09700">int8_t</a> <a class="code" href="rand_8h.html#a2c1b2cc92ec9f0c0b2fd90876ba5c8ec">rand</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="rand_8h.html#a78fb5ab799d1193062eee3645bae93c2">   45</a></span>&#160;<a class="code" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> <a class="code" href="rand_8h.html#a78fb5ab799d1193062eee3645bae93c2">randw</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#if defined(__PORT_gbz80)</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keywordtype">void</span> initarand(<a class="code" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> seed);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor">#elif defined(__PORT_z80)</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keywordtype">void</span> initarand(<a class="code" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> seed) __z88dk_fastcall;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">#error Unrecognized port</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="rand_8h.html#ab6b156c085bb1daf9098eba18575bf03">   68</a></span>&#160;<a class="code" href="stdint_8h.html#aef44329758059c91c76d334e8fc09700">int8_t</a> <a class="code" href="rand_8h.html#ab6b156c085bb1daf9098eba18575bf03">arand</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="astdint_8h_html_aef44329758059c91c76d334e8fc09700"><div class="ttname"><a href="stdint_8h.html#aef44329758059c91c76d334e8fc09700">int8_t</a></div><div class="ttdeci">signed char int8_t</div><div class="ttdef"><b>Definition:</b> stdint.h:43</div></div>
 <div class="ttc" id="arand_8h_html_a78fb5ab799d1193062eee3645bae93c2"><div class="ttname"><a href="rand_8h.html#a78fb5ab799d1193062eee3645bae93c2">randw</a></div><div class="ttdeci">uint16_t randw(void)</div></div>
 <div class="ttc" id="atypes_8h_html"><div class="ttname"><a href="types_8h.html">types.h</a></div></div>
 <div class="ttc" id="astdint_8h_html_adf4d876453337156dde61095e1f20223"><div class="ttname"><a href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a></div><div class="ttdeci">unsigned short int uint16_t</div><div class="ttdef"><b>Definition:</b> stdint.h:52</div></div>
-<div class="ttc" id="arand_8h_html_a3121ebb7e98dfcedbf4969b63f142bbb"><div class="ttname"><a href="rand_8h.html#a3121ebb7e98dfcedbf4969b63f142bbb">initrand</a></div><div class="ttdeci">void initrand(uint16_t seed) NONBANKED</div></div>
 <div class="ttc" id="astdint_8h_html"><div class="ttname"><a href="stdint_8h.html">stdint.h</a></div></div>
 <div class="ttc" id="arand_8h_html_a2c1b2cc92ec9f0c0b2fd90876ba5c8ec"><div class="ttname"><a href="rand_8h.html#a2c1b2cc92ec9f0c0b2fd90876ba5c8ec">rand</a></div><div class="ttdeci">int8_t rand(void)</div></div>
-<div class="ttc" id="aasm_2gbz80_2types_8h_html_a7ed081d8dfb6902784b2fc730bbb7f96"><div class="ttname"><a href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></div><div class="ttdeci">#define NONBANKED</div><div class="ttdef"><b>Definition:</b> types.h:12</div></div>
 <div class="ttc" id="arand_8h_html_ab6b156c085bb1daf9098eba18575bf03"><div class="ttname"><a href="rand_8h.html#ab6b156c085bb1daf9098eba18575bf03">arand</a></div><div class="ttdeci">int8_t arand(void)</div></div>
-<div class="ttc" id="arand_8h_html_ae54bd9c3d48dfab0754499a3a7ba8a30"><div class="ttname"><a href="rand_8h.html#ae54bd9c3d48dfab0754499a3a7ba8a30">initarand</a></div><div class="ttdeci">void initarand(uint16_t seed)</div></div>
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

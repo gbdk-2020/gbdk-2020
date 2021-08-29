@@ -97,7 +97,7 @@ $(document).ready(function(){initNavTree('gb_8h.html',''); initResizable(); });
 <div class="contents">
 <div class="textblock"><code>#include &lt;types.h&gt;</code><br />
 <code>#include &lt;<a class="el" href="stdint_8h_source.html">stdint.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="hardware_8h_source.html">gb/hardware.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="gb_2hardware_8h_source.html">gb/hardware.h</a>&gt;</code><br />
 </div>
 <p><a href="gb_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -110,7 +110,7 @@ Data Structures</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a459449876dfba6299bf055c882d78334"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a459449876dfba6299bf055c882d78334">__GBDK_VERSION</a>&#160;&#160;&#160;404</td></tr>
+<tr class="memitem:a459449876dfba6299bf055c882d78334"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a459449876dfba6299bf055c882d78334">__GBDK_VERSION</a>&#160;&#160;&#160;405</td></tr>
 <tr class="separator:a459449876dfba6299bf055c882d78334"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab769c6e20778298be8bc3321476ceb53"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ab769c6e20778298be8bc3321476ceb53">J_START</a>&#160;&#160;&#160;0x80U</td></tr>
 <tr class="separator:ab769c6e20778298be8bc3321476ceb53"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -146,6 +146,8 @@ Macros</h2></td></tr>
 <tr class="separator:a4bbb9cd6c38b2317de5256d1d889c63b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9506d04c2ec7d2442a52054f67d2b32f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a9506d04c2ec7d2442a52054f67d2b32f">S_PRIORITY</a>&#160;&#160;&#160;0x80U</td></tr>
 <tr class="separator:a9506d04c2ec7d2442a52054f67d2b32f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa027abe630d44039f238034bcb2d2f36"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#aa027abe630d44039f238034bcb2d2f36">EMPTY_IFLAG</a>&#160;&#160;&#160;0x00U</td></tr>
+<tr class="separator:aa027abe630d44039f238034bcb2d2f36"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2ca7720b9a5da9b2173e1f74dba85541"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a2ca7720b9a5da9b2173e1f74dba85541">VBL_IFLAG</a>&#160;&#160;&#160;0x01U</td></tr>
 <tr class="separator:a2ca7720b9a5da9b2173e1f74dba85541"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a61a9e2910380de6abb34df14ef634eb4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a61a9e2910380de6abb34df14ef634eb4">LCD_IFLAG</a>&#160;&#160;&#160;0x02U</td></tr>
@@ -156,6 +158,16 @@ Macros</h2></td></tr>
 <tr class="separator:ad90564458646c5646b3880b93db3443e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f829cf27d6e3e24c875e9b82dfcb280"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a2f829cf27d6e3e24c875e9b82dfcb280">JOY_IFLAG</a>&#160;&#160;&#160;0x10U</td></tr>
 <tr class="separator:a2f829cf27d6e3e24c875e9b82dfcb280"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab311e53739c992294ae07ca506a924ad"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ab311e53739c992294ae07ca506a924ad">DMG_BLACK</a>&#160;&#160;&#160;0x03</td></tr>
+<tr class="separator:ab311e53739c992294ae07ca506a924ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45d13a674e169dd83df7e1f46513ccba"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a45d13a674e169dd83df7e1f46513ccba">DMG_DARK_GRAY</a>&#160;&#160;&#160;0x02</td></tr>
+<tr class="separator:a45d13a674e169dd83df7e1f46513ccba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ccd6732d3bdf390cc0943e8567341f3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a8ccd6732d3bdf390cc0943e8567341f3">DMG_LITE_GRAY</a>&#160;&#160;&#160;0x01</td></tr>
+<tr class="separator:a8ccd6732d3bdf390cc0943e8567341f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11cedc2ee58acfbbfc48dfb2b9a551b3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a11cedc2ee58acfbbfc48dfb2b9a551b3">DMG_WHITE</a>&#160;&#160;&#160;0x00</td></tr>
+<tr class="separator:a11cedc2ee58acfbbfc48dfb2b9a551b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9727caafc483ba6ec65e9344b033d684"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a9727caafc483ba6ec65e9344b033d684">DMG_PALETTE</a>(C0,  C1,  C2,  C3)&#160;&#160;&#160;((<a class="el" href="asm_2types_8h.html#a280213815420791851f7e59bdc8a3c95">UBYTE</a>)((((C3) &amp; 0x03) &lt;&lt; 6) | (((C2) &amp; 0x03) &lt;&lt; 4) | (((C1) &amp; 0x03) &lt;&lt; 2) | ((C0) &amp; 0x03)))</td></tr>
+<tr class="separator:a9727caafc483ba6ec65e9344b033d684"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ada0cc738d27aad251151e69cb8d250e1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ada0cc738d27aad251151e69cb8d250e1">SCREENWIDTH</a>&#160;&#160;&#160;0xA0U</td></tr>
 <tr class="separator:ada0cc738d27aad251151e69cb8d250e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae189e98d0ef9263c37869ce1ff3710a5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ae189e98d0ef9263c37869ce1ff3710a5">SCREENHEIGHT</a>&#160;&#160;&#160;0x90U</td></tr>
@@ -174,6 +186,10 @@ Macros</h2></td></tr>
 <tr class="separator:ae996ed4fd8bb6b308b9c8708a91df06b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aee435a3a0dde3dbd7b6112dbb456cde8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#aee435a3a0dde3dbd7b6112dbb456cde8">CGB_TYPE</a>&#160;&#160;&#160;0x11</td></tr>
 <tr class="separator:aee435a3a0dde3dbd7b6112dbb456cde8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa311f84dd9fce6e136ba4881e7b0d98d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#aa311f84dd9fce6e136ba4881e7b0d98d">GBA_NOT_DETECTED</a>&#160;&#160;&#160;0x00</td></tr>
+<tr class="separator:aa311f84dd9fce6e136ba4881e7b0d98d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ccf5d0f34fb0af0b6e73b9df0ccd745"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a6ccf5d0f34fb0af0b6e73b9df0ccd745">GBA_DETECTED</a>&#160;&#160;&#160;0x01</td></tr>
+<tr class="separator:a6ccf5d0f34fb0af0b6e73b9df0ccd745"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a268cc6c704e16f3fa02dd1cf0e17070a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a268cc6c704e16f3fa02dd1cf0e17070a">IO_IDLE</a>&#160;&#160;&#160;0x00U</td></tr>
 <tr class="separator:a268cc6c704e16f3fa02dd1cf0e17070a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab69a3f7cd2c6b5eb4f518aefee099007"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ab69a3f7cd2c6b5eb4f518aefee099007">IO_SENDING</a>&#160;&#160;&#160;0x01U</td></tr>
@@ -182,14 +198,30 @@ Macros</h2></td></tr>
 <tr class="separator:aee03efddee0f2f6fbcaec789301aaa9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5d4c9c7b61a0326a939f9109f96d7423"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a5d4c9c7b61a0326a939f9109f96d7423">IO_ERROR</a>&#160;&#160;&#160;0x04U</td></tr>
 <tr class="separator:a5d4c9c7b61a0326a939f9109f96d7423"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae042588f20bf5a2349c8ad8716245233"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ae042588f20bf5a2349c8ad8716245233">CURRENT_BANK</a>&#160;&#160;&#160;<a class="el" href="gb_8h.html#a98b848953a95ce2fff6fda643575d74a">_current_bank</a></td></tr>
+<tr class="separator:ae042588f20bf5a2349c8ad8716245233"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42705001e2b9897f5167b67fb36c69dd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a42705001e2b9897f5167b67fb36c69dd">BANK</a>(VARNAME)&#160;&#160;&#160;( (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>) &amp; __bank_ ## VARNAME )</td></tr>
+<tr class="separator:a42705001e2b9897f5167b67fb36c69dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a086293f2afb4c7945460a4496b20aea3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a086293f2afb4c7945460a4496b20aea3">BANKREF</a>(VARNAME)</td></tr>
+<tr class="separator:a086293f2afb4c7945460a4496b20aea3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a261bba55a07b802baf99346feadd9852"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a261bba55a07b802baf99346feadd9852">BANKREF_EXTERN</a>(VARNAME)&#160;&#160;&#160;extern const void __bank_ ## VARNAME;</td></tr>
+<tr class="separator:a261bba55a07b802baf99346feadd9852"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a19558f5bbc9fea767f945001ae9cd13f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a19558f5bbc9fea767f945001ae9cd13f">SWITCH_ROM_MBC1</a>(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>)&#160;&#160;&#160;  <a class="el" href="gb_8h.html#a98b848953a95ce2fff6fda643575d74a">_current_bank</a> = (<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>), *(<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *)0x2000 = (<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>)</td></tr>
 <tr class="separator:a19558f5bbc9fea767f945001ae9cd13f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e22a3b60368bb5f3705d625ac2d09cc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a1e22a3b60368bb5f3705d625ac2d09cc">SWITCH_ROM</a>&#160;&#160;&#160;<a class="el" href="gb_8h.html#a19558f5bbc9fea767f945001ae9cd13f">SWITCH_ROM_MBC1</a></td></tr>
+<tr class="separator:a1e22a3b60368bb5f3705d625ac2d09cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a38ea3e4dfe02b8eae70df27f39d4a951"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a38ea3e4dfe02b8eae70df27f39d4a951">SWITCH_RAM_MBC1</a>(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>)&#160;&#160;&#160;  *(<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *)0x4000 = (<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>)</td></tr>
 <tr class="separator:a38ea3e4dfe02b8eae70df27f39d4a951"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e40dcc763efd953181c7400642a9f69"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a6e40dcc763efd953181c7400642a9f69">SWITCH_RAM</a>&#160;&#160;&#160;<a class="el" href="gb_8h.html#a38ea3e4dfe02b8eae70df27f39d4a951">SWITCH_RAM_MBC1</a></td></tr>
+<tr class="separator:a6e40dcc763efd953181c7400642a9f69"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae202f64307ec00f6970ef9225e54646c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ae202f64307ec00f6970ef9225e54646c">ENABLE_RAM_MBC1</a>&#160;&#160;&#160;  *(<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *)0x0000 = 0x0A</td></tr>
 <tr class="separator:ae202f64307ec00f6970ef9225e54646c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e9c88657beaac946231a4801481b97f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a0e9c88657beaac946231a4801481b97f">ENABLE_RAM</a>&#160;&#160;&#160;<a class="el" href="gb_8h.html#ae202f64307ec00f6970ef9225e54646c">ENABLE_RAM_MBC1</a></td></tr>
+<tr class="separator:a0e9c88657beaac946231a4801481b97f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a177fadce938422926b186a8e42575d1d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a177fadce938422926b186a8e42575d1d">DISABLE_RAM_MBC1</a>&#160;&#160;&#160;  *(<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *)0x0000 = 0x00</td></tr>
 <tr class="separator:a177fadce938422926b186a8e42575d1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a649d27b5587de16a66176e03a1b8ebd5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a649d27b5587de16a66176e03a1b8ebd5">DISABLE_RAM</a>&#160;&#160;&#160;<a class="el" href="gb_8h.html#a177fadce938422926b186a8e42575d1d">DISABLE_RAM_MBC1</a></td></tr>
+<tr class="separator:a649d27b5587de16a66176e03a1b8ebd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0c689c5a814f1c347c4d98f28ed6c7d6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a0c689c5a814f1c347c4d98f28ed6c7d6">SWITCH_16_8_MODE_MBC1</a>&#160;&#160;&#160;  *(<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *)0x6000 = 0x00</td></tr>
 <tr class="separator:a0c689c5a814f1c347c4d98f28ed6c7d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa5d64e386a00b373f22ffdc5a152c7ba"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#aa5d64e386a00b373f22ffdc5a152c7ba">SWITCH_4_32_MODE_MBC1</a>&#160;&#160;&#160;  *(<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *)0x6000 = 0x01</td></tr>
@@ -204,97 +236,125 @@ Macros</h2></td></tr>
 <tr class="separator:a3f033f00c8d781637f9a665b06750937"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a60191cdfa50ed9b88515f181747eaba2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a60191cdfa50ed9b88515f181747eaba2">DISABLE_RAM_MBC5</a>&#160;&#160;&#160;  *(<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *)0x0000 = 0x00</td></tr>
 <tr class="separator:a60191cdfa50ed9b88515f181747eaba2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5ae6b05b3e1559c97f0d1b2daaaa0ee4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a5ae6b05b3e1559c97f0d1b2daaaa0ee4">DISPLAY_ON</a>&#160;&#160;&#160;  <a class="el" href="hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>|=0x80U</td></tr>
+<tr class="memitem:a5ae6b05b3e1559c97f0d1b2daaaa0ee4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a5ae6b05b3e1559c97f0d1b2daaaa0ee4">DISPLAY_ON</a>&#160;&#160;&#160;  <a class="el" href="gb_2hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>|=<a class="el" href="gb_2hardware_8h.html#a1491fc03ed7f02e7309cc7b0c48b6c8a">LCDCF_ON</a></td></tr>
 <tr class="separator:a5ae6b05b3e1559c97f0d1b2daaaa0ee4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad2ec9831813c5e7069917aa4455af682"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ad2ec9831813c5e7069917aa4455af682">DISPLAY_OFF</a>&#160;&#160;&#160;  <a class="el" href="gb_8h.html#aed072359b42854fffae4cd29c1f34ea1">display_off</a>();</td></tr>
+<tr class="memitem:ad2ec9831813c5e7069917aa4455af682"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ad2ec9831813c5e7069917aa4455af682">DISPLAY_OFF</a>&#160;&#160;&#160;  <a class="el" href="sms_8h.html#afe5714734a8fea7b1617ba377b3c0a06">display_off</a>();</td></tr>
 <tr class="separator:ad2ec9831813c5e7069917aa4455af682"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8e3f36aa68ac036695816757f2a1322c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a8e3f36aa68ac036695816757f2a1322c">SHOW_BKG</a>&#160;&#160;&#160;  <a class="el" href="hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>|=0x01U</td></tr>
+<tr class="memitem:a0659212acd317ccdebc0ecf435df330f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a0659212acd317ccdebc0ecf435df330f">HIDE_LEFT_COLUMN</a></td></tr>
+<tr class="separator:a0659212acd317ccdebc0ecf435df330f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5497c2255a9474d397446710189eacbe"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a5497c2255a9474d397446710189eacbe">SHOW_LEFT_COLUMN</a></td></tr>
+<tr class="separator:a5497c2255a9474d397446710189eacbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e3f36aa68ac036695816757f2a1322c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a8e3f36aa68ac036695816757f2a1322c">SHOW_BKG</a>&#160;&#160;&#160;  <a class="el" href="gb_2hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>|=<a class="el" href="gb_2hardware_8h.html#a97ab19d938f05bffbcb4221824c3bfce">LCDCF_BGON</a></td></tr>
 <tr class="separator:a8e3f36aa68ac036695816757f2a1322c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d25f7c43b1cbbb48b95cda7ab2c3141"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a6d25f7c43b1cbbb48b95cda7ab2c3141">HIDE_BKG</a>&#160;&#160;&#160;  <a class="el" href="hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>&amp;=0xFEU</td></tr>
+<tr class="memitem:a6d25f7c43b1cbbb48b95cda7ab2c3141"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a6d25f7c43b1cbbb48b95cda7ab2c3141">HIDE_BKG</a>&#160;&#160;&#160;  <a class="el" href="gb_2hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>&amp;=~<a class="el" href="gb_2hardware_8h.html#a97ab19d938f05bffbcb4221824c3bfce">LCDCF_BGON</a></td></tr>
 <tr class="separator:a6d25f7c43b1cbbb48b95cda7ab2c3141"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab19da2ab719bb8897bc0843a84af28f8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ab19da2ab719bb8897bc0843a84af28f8">SHOW_WIN</a>&#160;&#160;&#160;  <a class="el" href="hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>|=0x20U</td></tr>
+<tr class="memitem:ab19da2ab719bb8897bc0843a84af28f8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ab19da2ab719bb8897bc0843a84af28f8">SHOW_WIN</a>&#160;&#160;&#160;  <a class="el" href="gb_2hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>|=<a class="el" href="gb_2hardware_8h.html#a13a5f08b9aae68f8fa57a8aa7705b732">LCDCF_WINON</a></td></tr>
 <tr class="separator:ab19da2ab719bb8897bc0843a84af28f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aedb6e32c42d4b1d25ad11adccd7100c3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#aedb6e32c42d4b1d25ad11adccd7100c3">HIDE_WIN</a>&#160;&#160;&#160;  <a class="el" href="hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>&amp;=0xDFU</td></tr>
+<tr class="memitem:aedb6e32c42d4b1d25ad11adccd7100c3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#aedb6e32c42d4b1d25ad11adccd7100c3">HIDE_WIN</a>&#160;&#160;&#160;  <a class="el" href="gb_2hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>&amp;=~<a class="el" href="gb_2hardware_8h.html#a13a5f08b9aae68f8fa57a8aa7705b732">LCDCF_WINON</a></td></tr>
 <tr class="separator:aedb6e32c42d4b1d25ad11adccd7100c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a495bc9f405f916f02ad5d97e6e730134"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a495bc9f405f916f02ad5d97e6e730134">SHOW_SPRITES</a>&#160;&#160;&#160;  <a class="el" href="hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>|=0x02U</td></tr>
+<tr class="memitem:a495bc9f405f916f02ad5d97e6e730134"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a495bc9f405f916f02ad5d97e6e730134">SHOW_SPRITES</a>&#160;&#160;&#160;  <a class="el" href="gb_2hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>|=<a class="el" href="gb_2hardware_8h.html#a6aef42158c90e8025b8341cdea2e3918">LCDCF_OBJON</a></td></tr>
 <tr class="separator:a495bc9f405f916f02ad5d97e6e730134"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a69ef98aee664b8abd8d1a3d45f016dda"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a69ef98aee664b8abd8d1a3d45f016dda">HIDE_SPRITES</a>&#160;&#160;&#160;  <a class="el" href="hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>&amp;=0xFDU</td></tr>
+<tr class="memitem:a69ef98aee664b8abd8d1a3d45f016dda"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a69ef98aee664b8abd8d1a3d45f016dda">HIDE_SPRITES</a>&#160;&#160;&#160;  <a class="el" href="gb_2hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>&amp;=~<a class="el" href="gb_2hardware_8h.html#a6aef42158c90e8025b8341cdea2e3918">LCDCF_OBJON</a></td></tr>
 <tr class="separator:a69ef98aee664b8abd8d1a3d45f016dda"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af91d252f07f4764996154820f970c101"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#af91d252f07f4764996154820f970c101">SPRITES_8x16</a>&#160;&#160;&#160;  <a class="el" href="hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>|=0x04U</td></tr>
+<tr class="memitem:af91d252f07f4764996154820f970c101"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#af91d252f07f4764996154820f970c101">SPRITES_8x16</a>&#160;&#160;&#160;  <a class="el" href="gb_2hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>|=<a class="el" href="gb_2hardware_8h.html#a14eddd3d53d8e649f1754bd455b4863d">LCDCF_OBJ16</a></td></tr>
 <tr class="separator:af91d252f07f4764996154820f970c101"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa87bec0d134136fdb727f52cb773b792"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#aa87bec0d134136fdb727f52cb773b792">SPRITES_8x8</a>&#160;&#160;&#160;  <a class="el" href="hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>&amp;=0xFBU</td></tr>
+<tr class="memitem:aa87bec0d134136fdb727f52cb773b792"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#aa87bec0d134136fdb727f52cb773b792">SPRITES_8x8</a>&#160;&#160;&#160;  <a class="el" href="gb_2hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>&amp;=~<a class="el" href="gb_2hardware_8h.html#a14eddd3d53d8e649f1754bd455b4863d">LCDCF_OBJ16</a></td></tr>
 <tr class="separator:aa87bec0d134136fdb727f52cb773b792"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a47607089a434dcda7a8583cfca03b604"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a47607089a434dcda7a8583cfca03b604">DISABLE_OAM_DMA</a>&#160;&#160;&#160;    <a class="el" href="gb_8h.html#a7b662ae4d83f9837bacb9fd580673054">_shadow_OAM_base</a> = 0</td></tr>
+<tr class="memitem:a67f80e65620470b55a4950e2966eb868"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a67f80e65620470b55a4950e2966eb868">COMPAT_PALETTE</a>(C0,  C1,  C2,  C3)&#160;&#160;&#160;(((C3) &lt;&lt; 6) | ((C2) &lt;&lt; 4) | ((C1) &lt;&lt; 2) | (C0))</td></tr>
+<tr class="separator:a67f80e65620470b55a4950e2966eb868"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab94bfec130df50d9cb808142f94603a5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ab94bfec130df50d9cb808142f94603a5">set_bkg_2bpp_data</a>&#160;&#160;&#160;<a class="el" href="sms_8h.html#a8130306da1177f4fef89e699f8e2add4">set_bkg_data</a></td></tr>
+<tr class="separator:ab94bfec130df50d9cb808142f94603a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ac527a7933555e52988f425527de599"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a0ac527a7933555e52988f425527de599">set_bkg_1bpp_data</a>&#160;&#160;&#160;<a class="el" href="gb_8h.html#abfc6a45a8b4b212ec9cde372a16e3d6e">set_bkg_1bit_data</a></td></tr>
+<tr class="separator:a0ac527a7933555e52988f425527de599"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55f82ff980398dd97036fd936ebd727e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a55f82ff980398dd97036fd936ebd727e">set_tile_map</a>&#160;&#160;&#160;<a class="el" href="gb_8h.html#ad1ec25843468eb57c54e0ebdcf532659">set_bkg_tiles</a></td></tr>
+<tr class="separator:a55f82ff980398dd97036fd936ebd727e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb5d0970167b81401113812773c90838"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#adb5d0970167b81401113812773c90838">set_tile_submap</a>&#160;&#160;&#160;<a class="el" href="sms_8h.html#a0cfd261bc7a94b1f6093f423bad30298">set_bkg_submap</a></td></tr>
+<tr class="separator:adb5d0970167b81401113812773c90838"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b235c526c517fb02d20cdea780ee2c5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a3b235c526c517fb02d20cdea780ee2c5">set_tile_xy</a>&#160;&#160;&#160;<a class="el" href="gb_8h.html#a54481c53f28bc5fcfff05be28f16e976">set_bkg_tile_xy</a></td></tr>
+<tr class="separator:a3b235c526c517fb02d20cdea780ee2c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43b4f0ba65856deef626c0d9e7e41ed4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a43b4f0ba65856deef626c0d9e7e41ed4">set_sprite_2bpp_data</a>&#160;&#160;&#160;<a class="el" href="sms_8h.html#a216a3e3d320ee4d8cf4845600487ae39">set_sprite_data</a></td></tr>
+<tr class="separator:a43b4f0ba65856deef626c0d9e7e41ed4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff8c24b33a29c5bb0c30f5bd039eba0f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#aff8c24b33a29c5bb0c30f5bd039eba0f">set_sprite_1bpp_data</a>&#160;&#160;&#160;<a class="el" href="gb_8h.html#ad3a2c7e0bfbc9905bd06b162127d13d9">set_sprite_1bit_data</a></td></tr>
+<tr class="separator:aff8c24b33a29c5bb0c30f5bd039eba0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47607089a434dcda7a8583cfca03b604"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a47607089a434dcda7a8583cfca03b604">DISABLE_OAM_DMA</a>&#160;&#160;&#160;    <a class="el" href="sms_8h.html#a5435fd985412934e96a490e103c6bc49">_shadow_OAM_base</a> = 0</td></tr>
 <tr class="separator:a47607089a434dcda7a8583cfca03b604"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a20895d53fe9caacb08ce8b071d57ce53"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a20895d53fe9caacb08ce8b071d57ce53">ENABLE_OAM_DMA</a>&#160;&#160;&#160;    <a class="el" href="gb_8h.html#a7b662ae4d83f9837bacb9fd580673054">_shadow_OAM_base</a> = (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>)((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)&amp;<a class="el" href="gb_8h.html#a3619f9cb1e3c92238a033ead79a0c551">shadow_OAM</a> &gt;&gt; 8)</td></tr>
+<tr class="memitem:abfd70bf31185a4900680977c9fb5a5ec"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#abfd70bf31185a4900680977c9fb5a5ec">DISABLE_VBL_TRANSFER</a>&#160;&#160;&#160;<a class="el" href="gb_8h.html#a47607089a434dcda7a8583cfca03b604">DISABLE_OAM_DMA</a></td></tr>
+<tr class="separator:abfd70bf31185a4900680977c9fb5a5ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20895d53fe9caacb08ce8b071d57ce53"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a20895d53fe9caacb08ce8b071d57ce53">ENABLE_OAM_DMA</a>&#160;&#160;&#160;    <a class="el" href="sms_8h.html#a5435fd985412934e96a490e103c6bc49">_shadow_OAM_base</a> = (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>)((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)&amp;<a class="el" href="sms_8h.html#af02f9e73bd894cc25e03aedb0a10a91d">shadow_OAM</a> &gt;&gt; 8)</td></tr>
 <tr class="separator:a20895d53fe9caacb08ce8b071d57ce53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77d516c9d3f86f100eddea5e0d133a76"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a77d516c9d3f86f100eddea5e0d133a76">ENABLE_VBL_TRANSFER</a>&#160;&#160;&#160;<a class="el" href="gb_8h.html#a20895d53fe9caacb08ce8b071d57ce53">ENABLE_OAM_DMA</a></td></tr>
+<tr class="separator:a77d516c9d3f86f100eddea5e0d133a76"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b77608c87a9aef65a03531482b2163b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a8b77608c87a9aef65a03531482b2163b">MAX_HARDWARE_SPRITES</a>&#160;&#160;&#160;40</td></tr>
+<tr class="separator:a8b77608c87a9aef65a03531482b2163b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47865835d7d007d71b4bc8ae5cefb73a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a47865835d7d007d71b4bc8ae5cefb73a">fill_rect</a>&#160;&#160;&#160;<a class="el" href="gb_8h.html#a1b03711e1c95023571add37a455d5f72">fill_bkg_rect</a></td></tr>
+<tr class="separator:a47865835d7d007d71b4bc8ae5cefb73a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:a9508f919d9482d1d51534ccac212454d"><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a>) (void) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
+<tr class="memitem:a9508f919d9482d1d51534ccac212454d"><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a>) (void) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
 <tr class="separator:a9508f919d9482d1d51534ccac212454d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e5ea12b86bdfc812448c2f5c4336c03"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="struct_o_a_m__item__t.html">OAM_item_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a8e5ea12b86bdfc812448c2f5c4336c03">OAM_item_t</a></td></tr>
 <tr class="separator:a8e5ea12b86bdfc812448c2f5c4336c03"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a3b3171b2e81e23b7d1bc402275a9ac71"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a3b3171b2e81e23b7d1bc402275a9ac71">remove_VBL</a> (<a class="el" href="gb_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a> <a class="el" href="gb_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
+<tr class="memitem:a3b3171b2e81e23b7d1bc402275a9ac71"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a3b3171b2e81e23b7d1bc402275a9ac71">remove_VBL</a> (<a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
 <tr class="separator:a3b3171b2e81e23b7d1bc402275a9ac71"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4c5db32641410613d785911bafd09ac7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a4c5db32641410613d785911bafd09ac7">remove_LCD</a> (<a class="el" href="gb_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a> <a class="el" href="gb_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
+<tr class="memitem:a4c5db32641410613d785911bafd09ac7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a4c5db32641410613d785911bafd09ac7">remove_LCD</a> (<a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
 <tr class="separator:a4c5db32641410613d785911bafd09ac7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1ad25695f4885f15325a82ec935e8579"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a1ad25695f4885f15325a82ec935e8579">remove_TIM</a> (<a class="el" href="gb_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a> <a class="el" href="gb_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
+<tr class="memitem:a1ad25695f4885f15325a82ec935e8579"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a1ad25695f4885f15325a82ec935e8579">remove_TIM</a> (<a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
 <tr class="separator:a1ad25695f4885f15325a82ec935e8579"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a18857adb60025a986dbb44ee289b7a7c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a18857adb60025a986dbb44ee289b7a7c">remove_SIO</a> (<a class="el" href="gb_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a> <a class="el" href="gb_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
+<tr class="memitem:a18857adb60025a986dbb44ee289b7a7c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a18857adb60025a986dbb44ee289b7a7c">remove_SIO</a> (<a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
 <tr class="separator:a18857adb60025a986dbb44ee289b7a7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae4510032b28f9f4cdaaa96b0b892cf57"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ae4510032b28f9f4cdaaa96b0b892cf57">remove_JOY</a> (<a class="el" href="gb_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a> <a class="el" href="gb_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
+<tr class="memitem:ae4510032b28f9f4cdaaa96b0b892cf57"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ae4510032b28f9f4cdaaa96b0b892cf57">remove_JOY</a> (<a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
 <tr class="separator:ae4510032b28f9f4cdaaa96b0b892cf57"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2412b9f97cb59acfcb2383eb9f204ddf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a2412b9f97cb59acfcb2383eb9f204ddf">add_VBL</a> (<a class="el" href="gb_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a> <a class="el" href="gb_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
+<tr class="memitem:a2412b9f97cb59acfcb2383eb9f204ddf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a2412b9f97cb59acfcb2383eb9f204ddf">add_VBL</a> (<a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
 <tr class="separator:a2412b9f97cb59acfcb2383eb9f204ddf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6cc76ea12ac894c4947f85fa1999117c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a6cc76ea12ac894c4947f85fa1999117c">add_LCD</a> (<a class="el" href="gb_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a> <a class="el" href="gb_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
+<tr class="memitem:a6cc76ea12ac894c4947f85fa1999117c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a6cc76ea12ac894c4947f85fa1999117c">add_LCD</a> (<a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
 <tr class="separator:a6cc76ea12ac894c4947f85fa1999117c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a411914e5dc5f28ce0afa7cf692a18af1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a411914e5dc5f28ce0afa7cf692a18af1">add_TIM</a> (<a class="el" href="gb_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a> <a class="el" href="gb_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
+<tr class="memitem:a411914e5dc5f28ce0afa7cf692a18af1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a411914e5dc5f28ce0afa7cf692a18af1">add_TIM</a> (<a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
 <tr class="separator:a411914e5dc5f28ce0afa7cf692a18af1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a024fc35ef0ad258d67c8f9dfb0751ee7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a024fc35ef0ad258d67c8f9dfb0751ee7">add_SIO</a> (<a class="el" href="gb_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a> <a class="el" href="gb_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
+<tr class="memitem:a024fc35ef0ad258d67c8f9dfb0751ee7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a024fc35ef0ad258d67c8f9dfb0751ee7">add_SIO</a> (<a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
 <tr class="separator:a024fc35ef0ad258d67c8f9dfb0751ee7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a81f1a67549d3a26dcca22367141eb21b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a81f1a67549d3a26dcca22367141eb21b">add_JOY</a> (<a class="el" href="gb_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a> <a class="el" href="gb_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
+<tr class="memitem:a81f1a67549d3a26dcca22367141eb21b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a81f1a67549d3a26dcca22367141eb21b">add_JOY</a> (<a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
 <tr class="separator:a81f1a67549d3a26dcca22367141eb21b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a115eb30ec86f6af039a27918ffe4cf8c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a115eb30ec86f6af039a27918ffe4cf8c">nowait_int_handler</a> (void) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
+<tr class="memitem:a115eb30ec86f6af039a27918ffe4cf8c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a115eb30ec86f6af039a27918ffe4cf8c">nowait_int_handler</a> (void) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
 <tr class="separator:a115eb30ec86f6af039a27918ffe4cf8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af461d38864cfc5720f0d9f4d1113cf07"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#af461d38864cfc5720f0d9f4d1113cf07">wait_int_handler</a> (void) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
+<tr class="memitem:af461d38864cfc5720f0d9f4d1113cf07"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#af461d38864cfc5720f0d9f4d1113cf07">wait_int_handler</a> (void) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
 <tr class="separator:af461d38864cfc5720f0d9f4d1113cf07"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa48d749c9b381d1c30fb864eda3eee9b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#aa48d749c9b381d1c30fb864eda3eee9b">mode</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> m) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
+<tr class="memitem:aa48d749c9b381d1c30fb864eda3eee9b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#aa48d749c9b381d1c30fb864eda3eee9b">mode</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> m) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
 <tr class="separator:aa48d749c9b381d1c30fb864eda3eee9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3604bdce0d51550cf87a7595f60d7218"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a3604bdce0d51550cf87a7595f60d7218">get_mode</a> (void) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="memitem:a3604bdce0d51550cf87a7595f60d7218"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a3604bdce0d51550cf87a7595f60d7218">get_mode</a> (void) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:a3604bdce0d51550cf87a7595f60d7218"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1259cf3a23fd2166a9d1a2e93942e30e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a1259cf3a23fd2166a9d1a2e93942e30e">send_byte</a> (void)</td></tr>
 <tr class="separator:a1259cf3a23fd2166a9d1a2e93942e30e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a34d6500215984e8f9a986523a2f2dadd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a34d6500215984e8f9a986523a2f2dadd">receive_byte</a> (void)</td></tr>
 <tr class="separator:a34d6500215984e8f9a986523a2f2dadd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a163199ca9660b93aa18c3e4734084121"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a163199ca9660b93aa18c3e4734084121">delay</a> (<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> <a class="el" href="gb_8h.html#a0a3d95ad0ab8ad213016101d2e9c3d3e">d</a>) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
+<tr class="memitem:a163199ca9660b93aa18c3e4734084121"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a163199ca9660b93aa18c3e4734084121">delay</a> (<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> <a class="el" href="sms_8h.html#a0a3d95ad0ab8ad213016101d2e9c3d3e">d</a>) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
 <tr class="separator:a163199ca9660b93aa18c3e4734084121"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae6e4ae6169648f1bf1fac9785f8f1c71"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ae6e4ae6169648f1bf1fac9785f8f1c71">joypad</a> (void) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="memitem:ae6e4ae6169648f1bf1fac9785f8f1c71"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ae6e4ae6169648f1bf1fac9785f8f1c71">joypad</a> (void) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:ae6e4ae6169648f1bf1fac9785f8f1c71"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a057979766e52b9f93972dad332a5be5d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a057979766e52b9f93972dad332a5be5d">waitpad</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> mask) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="memitem:a057979766e52b9f93972dad332a5be5d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a057979766e52b9f93972dad332a5be5d">waitpad</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> mask) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:a057979766e52b9f93972dad332a5be5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae1f1358e53ec1b153f071d1e16d8ab0e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ae1f1358e53ec1b153f071d1e16d8ab0e">waitpadup</a> (void) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(a</td></tr>
+<tr class="memitem:ae1f1358e53ec1b153f071d1e16d8ab0e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ae1f1358e53ec1b153f071d1e16d8ab0e">waitpadup</a> (void) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(a</td></tr>
 <tr class="separator:ae1f1358e53ec1b153f071d1e16d8ab0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a714bbced6a4c47ae9f82f81ef3b5b357"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a714bbced6a4c47ae9f82f81ef3b5b357">joypad_init</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> npads, <a class="el" href="structjoypads__t.html">joypads_t</a> *joypads)</td></tr>
 <tr class="separator:a714bbced6a4c47ae9f82f81ef3b5b357"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1db30aa7479be2276312f3c981553906"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a1db30aa7479be2276312f3c981553906">joypad_ex</a> (<a class="el" href="structjoypads__t.html">joypads_t</a> *joypads) __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:a1db30aa7479be2276312f3c981553906"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a97039b6477537c37f83e74561de78c1b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a97039b6477537c37f83e74561de78c1b">enable_interrupts</a> (void) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(a</td></tr>
-<tr class="separator:a97039b6477537c37f83e74561de78c1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad8d2df514d3b5d3d08db3671f0d5af14"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ad8d2df514d3b5d3d08db3671f0d5af14">disable_interrupts</a> (void) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(a</td></tr>
-<tr class="separator:ad8d2df514d3b5d3d08db3671f0d5af14"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b132042678afce70ccb2d479f4133f0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a9b132042678afce70ccb2d479f4133f0">set_interrupts</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> flags) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="memitem:add66104772d2d3af28975c79d7c2982f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#add66104772d2d3af28975c79d7c2982f">enable_interrupts</a> (void) __preserves_regs(a</td></tr>
+<tr class="separator:add66104772d2d3af28975c79d7c2982f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add2672a8369169878271399583106216"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#add2672a8369169878271399583106216">disable_interrupts</a> (void) __preserves_regs(a</td></tr>
+<tr class="separator:add2672a8369169878271399583106216"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b132042678afce70ccb2d479f4133f0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a9b132042678afce70ccb2d479f4133f0">set_interrupts</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> flags) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:a9b132042678afce70ccb2d479f4133f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af4a728ba51de424a0bed286ac65d3242"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#af4a728ba51de424a0bed286ac65d3242">reset</a> (void) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
+<tr class="memitem:af4a728ba51de424a0bed286ac65d3242"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#af4a728ba51de424a0bed286ac65d3242">reset</a> (void) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
 <tr class="separator:af4a728ba51de424a0bed286ac65d3242"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf6ef63efc4bb4950428015c623bca14"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#adf6ef63efc4bb4950428015c623bca14">wait_vbl_done</a> (void) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="memitem:adf6ef63efc4bb4950428015c623bca14"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#adf6ef63efc4bb4950428015c623bca14">wait_vbl_done</a> (void) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:adf6ef63efc4bb4950428015c623bca14"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aed072359b42854fffae4cd29c1f34ea1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#aed072359b42854fffae4cd29c1f34ea1">display_off</a> (void) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="memitem:aed072359b42854fffae4cd29c1f34ea1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#aed072359b42854fffae4cd29c1f34ea1">display_off</a> (void) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:aed072359b42854fffae4cd29c1f34ea1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adef803cdd559747ad6f36830e126e48f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#adef803cdd559747ad6f36830e126e48f">hiramcpy</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> dst, const void *src, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> n) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="memitem:adef803cdd559747ad6f36830e126e48f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#adef803cdd559747ad6f36830e126e48f">hiramcpy</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> dst, const void *src, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> n) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:adef803cdd559747ad6f36830e126e48f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa8e85b82c4d347edb91c0cd2fb6c8393"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#aa8e85b82c4d347edb91c0cd2fb6c8393">set_vram_byte</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *addr, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> v) __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:aa8e85b82c4d347edb91c0cd2fb6c8393"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -302,17 +362,19 @@ Functions</h2></td></tr>
 <tr class="separator:af1e1dffd53a01380c4bb1d491d0e08e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ca73b01888393cf2d13e7ceebd7da0b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a8ca73b01888393cf2d13e7ceebd7da0b">get_bkg_xy_addr</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y) __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:a8ca73b01888393cf2d13e7ceebd7da0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac5ad2687d02b9815986cdac1b3121d15"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ac5ad2687d02b9815986cdac1b3121d15">set_bkg_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="memitem:aa224c9bac27c7fd268e62bdf33338a84"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#aa224c9bac27c7fd268e62bdf33338a84">set_2bpp_palette</a> (<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> palette)</td></tr>
+<tr class="separator:aa224c9bac27c7fd268e62bdf33338a84"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5ad2687d02b9815986cdac1b3121d15"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ac5ad2687d02b9815986cdac1b3121d15">set_bkg_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:ac5ad2687d02b9815986cdac1b3121d15"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abfc6a45a8b4b212ec9cde372a16e3d6e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#abfc6a45a8b4b212ec9cde372a16e3d6e">set_bkg_1bit_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="drawing_8h.html#af36897dea18be4c65b69767be47b98e4">color</a>) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="memitem:abfc6a45a8b4b212ec9cde372a16e3d6e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#abfc6a45a8b4b212ec9cde372a16e3d6e">set_bkg_1bit_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="drawing_8h.html#af36897dea18be4c65b69767be47b98e4">color</a>) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:abfc6a45a8b4b212ec9cde372a16e3d6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a63eddde1631a683fcf362e64b0595dae"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a63eddde1631a683fcf362e64b0595dae">get_bkg_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="memitem:a63eddde1631a683fcf362e64b0595dae"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a63eddde1631a683fcf362e64b0595dae">get_bkg_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:a63eddde1631a683fcf362e64b0595dae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad1ec25843468eb57c54e0ebdcf532659"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ad1ec25843468eb57c54e0ebdcf532659">set_bkg_tiles</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="gb_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *tiles) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="memitem:ad1ec25843468eb57c54e0ebdcf532659"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ad1ec25843468eb57c54e0ebdcf532659">set_bkg_tiles</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *tiles) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:ad1ec25843468eb57c54e0ebdcf532659"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0cfd261bc7a94b1f6093f423bad30298"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a0cfd261bc7a94b1f6093f423bad30298">set_bkg_submap</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="gb_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *map, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> map_w)</td></tr>
+<tr class="memitem:a0cfd261bc7a94b1f6093f423bad30298"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a0cfd261bc7a94b1f6093f423bad30298">set_bkg_submap</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *map, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> map_w)</td></tr>
 <tr class="separator:a0cfd261bc7a94b1f6093f423bad30298"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a93d486a41f2f5859d7e3b0724bc1ce63"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a93d486a41f2f5859d7e3b0724bc1ce63">get_bkg_tiles</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="gb_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *tiles) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="memitem:a93d486a41f2f5859d7e3b0724bc1ce63"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a93d486a41f2f5859d7e3b0724bc1ce63">get_bkg_tiles</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *tiles) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:a93d486a41f2f5859d7e3b0724bc1ce63"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a54481c53f28bc5fcfff05be28f16e976"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a54481c53f28bc5fcfff05be28f16e976">set_bkg_tile_xy</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> t) __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:a54481c53f28bc5fcfff05be28f16e976"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -324,17 +386,17 @@ Functions</h2></td></tr>
 <tr class="separator:a1f583f7a880daa6145ca78b086a209d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a56e2c5e58303d0f909f26f5d6f7de7b8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a56e2c5e58303d0f909f26f5d6f7de7b8">get_win_xy_addr</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y) __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:a56e2c5e58303d0f909f26f5d6f7de7b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab4454beccf306245a5085aafc38079be"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ab4454beccf306245a5085aafc38079be">set_win_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="memitem:ab4454beccf306245a5085aafc38079be"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ab4454beccf306245a5085aafc38079be">set_win_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:ab4454beccf306245a5085aafc38079be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a83bc12932f49f2a9e225e4acd377c882"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a83bc12932f49f2a9e225e4acd377c882">set_win_1bit_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="memitem:a83bc12932f49f2a9e225e4acd377c882"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a83bc12932f49f2a9e225e4acd377c882">set_win_1bit_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:a83bc12932f49f2a9e225e4acd377c882"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a03ceca65a8640bfb767886199fd8eea8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a03ceca65a8640bfb767886199fd8eea8">get_win_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="memitem:a03ceca65a8640bfb767886199fd8eea8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a03ceca65a8640bfb767886199fd8eea8">get_win_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:a03ceca65a8640bfb767886199fd8eea8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac0ef9581f691c213f9aec7a4434dfcab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ac0ef9581f691c213f9aec7a4434dfcab">set_win_tiles</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="gb_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *tiles) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="memitem:ac0ef9581f691c213f9aec7a4434dfcab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ac0ef9581f691c213f9aec7a4434dfcab">set_win_tiles</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *tiles) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:ac0ef9581f691c213f9aec7a4434dfcab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abb50a392ca0d0419a080413287ee5d79"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#abb50a392ca0d0419a080413287ee5d79">set_win_submap</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="gb_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *map, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> map_w)</td></tr>
+<tr class="memitem:abb50a392ca0d0419a080413287ee5d79"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#abb50a392ca0d0419a080413287ee5d79">set_win_submap</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *map, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> map_w)</td></tr>
 <tr class="separator:abb50a392ca0d0419a080413287ee5d79"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab46fb4fb6dfd6123d0aa186c1c7a542f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ab46fb4fb6dfd6123d0aa186c1c7a542f">get_win_tiles</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="gb_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *tiles) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="memitem:ab46fb4fb6dfd6123d0aa186c1c7a542f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ab46fb4fb6dfd6123d0aa186c1c7a542f">get_win_tiles</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *tiles) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:ab46fb4fb6dfd6123d0aa186c1c7a542f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3bf7b60dd4dee0e196c601606a462ef0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a3bf7b60dd4dee0e196c601606a462ef0">set_win_tile_xy</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> t) __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:a3bf7b60dd4dee0e196c601606a462ef0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -344,11 +406,11 @@ Functions</h2></td></tr>
 <tr class="separator:aeef17768c494bcd6b67f7591329f7ff5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a12c2b5ac249d01caf1561cbbf3962044"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a12c2b5ac249d01caf1561cbbf3962044">scroll_win</a> (<a class="el" href="stdint_8h.html#aef44329758059c91c76d334e8fc09700">int8_t</a> x, <a class="el" href="stdint_8h.html#aef44329758059c91c76d334e8fc09700">int8_t</a> y)</td></tr>
 <tr class="separator:a12c2b5ac249d01caf1561cbbf3962044"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a47132bf7f387c2518c507a0b868cbf4c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a47132bf7f387c2518c507a0b868cbf4c">set_sprite_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="memitem:a47132bf7f387c2518c507a0b868cbf4c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a47132bf7f387c2518c507a0b868cbf4c">set_sprite_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:a47132bf7f387c2518c507a0b868cbf4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3a2c7e0bfbc9905bd06b162127d13d9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ad3a2c7e0bfbc9905bd06b162127d13d9">set_sprite_1bit_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="memitem:ad3a2c7e0bfbc9905bd06b162127d13d9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ad3a2c7e0bfbc9905bd06b162127d13d9">set_sprite_1bit_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:ad3a2c7e0bfbc9905bd06b162127d13d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a94bc1276702dbe1b44df2214506f1549"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a94bc1276702dbe1b44df2214506f1549">get_sprite_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="memitem:a94bc1276702dbe1b44df2214506f1549"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a94bc1276702dbe1b44df2214506f1549">get_sprite_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:a94bc1276702dbe1b44df2214506f1549"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7e0cdfd6b9a2ae1b7f30384f132d8687"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a7e0cdfd6b9a2ae1b7f30384f132d8687">SET_SHADOW_OAM_ADDRESS</a> (void *address)</td></tr>
 <tr class="separator:a7e0cdfd6b9a2ae1b7f30384f132d8687"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -366,33 +428,37 @@ Functions</h2></td></tr>
 <tr class="separator:a6c59aa9a4f9ea42bed6ca6940b2741fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad22c51635d052399bbbe1777999c794d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ad22c51635d052399bbbe1777999c794d">hide_sprite</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb)</td></tr>
 <tr class="separator:ad22c51635d052399bbbe1777999c794d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac65cf20df1886ea11c61c1665d308d31"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ac65cf20df1886ea11c61c1665d308d31">set_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *vram_addr, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data, <a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> len) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="memitem:ac65cf20df1886ea11c61c1665d308d31"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ac65cf20df1886ea11c61c1665d308d31">set_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *vram_addr, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data, <a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> len) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:ac65cf20df1886ea11c61c1665d308d31"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb2f2155c7aac6bee02bb7377921394f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#aeb2f2155c7aac6bee02bb7377921394f">get_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *vram_addr, <a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> len) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="memitem:aeb2f2155c7aac6bee02bb7377921394f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#aeb2f2155c7aac6bee02bb7377921394f">get_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *vram_addr, <a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> len) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:aeb2f2155c7aac6bee02bb7377921394f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac7f4eb7e61237f4ce3b60580ff89ff5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#aac7f4eb7e61237f4ce3b60580ff89ff5">set_tiles</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="gb_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *vram_addr, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *tiles) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="memitem:a4dccf6232263a3b533115e75d63b4e9d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a4dccf6232263a3b533115e75d63b4e9d">vmemcpy</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *dest, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *sour, <a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> len) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="separator:a4dccf6232263a3b533115e75d63b4e9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac7f4eb7e61237f4ce3b60580ff89ff5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#aac7f4eb7e61237f4ce3b60580ff89ff5">set_tiles</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *vram_addr, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *tiles) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:aac7f4eb7e61237f4ce3b60580ff89ff5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a845a29ae3a4ab2ba3533aae20bbc526b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a845a29ae3a4ab2ba3533aae20bbc526b">set_tile_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> base) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="memitem:a845a29ae3a4ab2ba3533aae20bbc526b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a845a29ae3a4ab2ba3533aae20bbc526b">set_tile_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> base) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:a845a29ae3a4ab2ba3533aae20bbc526b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a033e99ac99d6328db0dc75b4afc495"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a2a033e99ac99d6328db0dc75b4afc495">get_tiles</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="gb_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *vram_addr, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *tiles) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="memitem:a2a033e99ac99d6328db0dc75b4afc495"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a2a033e99ac99d6328db0dc75b4afc495">get_tiles</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *vram_addr, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *tiles) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:a2a033e99ac99d6328db0dc75b4afc495"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a68d88347d6f7b781432bb4861a952c87"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a68d88347d6f7b781432bb4861a952c87">init_win</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="string_8h.html#a4e1e0e72dd773439e333c84dd762a9c3">c</a>) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="memitem:a68d88347d6f7b781432bb4861a952c87"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a68d88347d6f7b781432bb4861a952c87">init_win</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#a0b3366755f3276b0243c1e0497471b7a">c</a>) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:a68d88347d6f7b781432bb4861a952c87"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a04fa62cde2d341240a671c7af2d459e1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a04fa62cde2d341240a671c7af2d459e1">init_bkg</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="string_8h.html#a4e1e0e72dd773439e333c84dd762a9c3">c</a>) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="memitem:a04fa62cde2d341240a671c7af2d459e1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a04fa62cde2d341240a671c7af2d459e1">init_bkg</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#a0b3366755f3276b0243c1e0497471b7a">c</a>) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:a04fa62cde2d341240a671c7af2d459e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d63a11b7056285dfc8a390e2c3c67dc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a6d63a11b7056285dfc8a390e2c3c67dc">vmemset</a> (void *s, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="string_8h.html#a4e1e0e72dd773439e333c84dd762a9c3">c</a>, <a class="el" href="asm_2gbz80_2types_8h.html#a7619b847aeded8a6d14cbfa212b2cdfb">size_t</a> n) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="memitem:a6d63a11b7056285dfc8a390e2c3c67dc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a6d63a11b7056285dfc8a390e2c3c67dc">vmemset</a> (void *s, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#a0b3366755f3276b0243c1e0497471b7a">c</a>, <a class="el" href="asm_2gbz80_2types_8h.html#a7619b847aeded8a6d14cbfa212b2cdfb">size_t</a> n) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:a6d63a11b7056285dfc8a390e2c3c67dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1b03711e1c95023571add37a455d5f72"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a1b03711e1c95023571add37a455d5f72">fill_bkg_rect</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="gb_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> tile) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="memitem:a1b03711e1c95023571add37a455d5f72"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a1b03711e1c95023571add37a455d5f72">fill_bkg_rect</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> tile) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:a1b03711e1c95023571add37a455d5f72"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2120d5fbe208b26c4264111ab8e0bfa3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a2120d5fbe208b26c4264111ab8e0bfa3">fill_win_rect</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="gb_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> tile) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="memitem:a2120d5fbe208b26c4264111ab8e0bfa3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a2120d5fbe208b26c4264111ab8e0bfa3">fill_win_rect</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> tile) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:a2120d5fbe208b26c4264111ab8e0bfa3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a4e1e0e72dd773439e333c84dd762a9c3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a4e1e0e72dd773439e333c84dd762a9c3">c</a></td></tr>
-<tr class="separator:a4e1e0e72dd773439e333c84dd762a9c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b3366755f3276b0243c1e0497471b7a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a0b3366755f3276b0243c1e0497471b7a">c</a></td></tr>
+<tr class="separator:a0b3366755f3276b0243c1e0497471b7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a874b9bd95b0a05d6a6072feabc879e45"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a874b9bd95b0a05d6a6072feabc879e45">_cpu</a></td></tr>
 <tr class="separator:a874b9bd95b0a05d6a6072feabc879e45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a539b7b45b1c2d6b2051553665c76fd36"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a539b7b45b1c2d6b2051553665c76fd36">_is_GBA</a></td></tr>
+<tr class="separator:a539b7b45b1c2d6b2051553665c76fd36"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a78d2fd18666afec116f176d46debb4e7"><td class="memItemLeft" align="right" valign="top">volatile <a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a78d2fd18666afec116f176d46debb4e7">sys_time</a></td></tr>
 <tr class="separator:a78d2fd18666afec116f176d46debb4e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2e3415ce2f7fb63427618bd9b9cb6635"><td class="memItemLeft" align="right" valign="top">volatile <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a2e3415ce2f7fb63427618bd9b9cb6635">_io_status</a></td></tr>
@@ -401,10 +467,10 @@ Variables</h2></td></tr>
 <tr class="separator:a02f3a1585ae654444e628c1aa98ef0cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acae13736da20f9fc53e8d38934aa2119"><td class="memItemLeft" align="right" valign="top">volatile <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#acae13736da20f9fc53e8d38934aa2119">_io_out</a></td></tr>
 <tr class="separator:acae13736da20f9fc53e8d38934aa2119"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a98b848953a95ce2fff6fda643575d74a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="hardware_8h.html#a0b42e4dadd74c927e8b801b4f42c0e44">__REG</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a98b848953a95ce2fff6fda643575d74a">_current_bank</a></td></tr>
+<tr class="memitem:a98b848953a95ce2fff6fda643575d74a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="gb_2hardware_8h.html#a0b42e4dadd74c927e8b801b4f42c0e44">__REG</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a98b848953a95ce2fff6fda643575d74a">_current_bank</a></td></tr>
 <tr class="separator:a98b848953a95ce2fff6fda643575d74a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba4fa6f13f80e53daeb0caa7b1ec8afb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a></td></tr>
-<tr class="separator:aba4fa6f13f80e53daeb0caa7b1ec8afb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f1dfeb2f802fe99f37fe91867b84456"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a></td></tr>
+<tr class="separator:a1f1dfeb2f802fe99f37fe91867b84456"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af79b920bcb642bba2e652874c4f7eeff"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#af79b920bcb642bba2e652874c4f7eeff">l</a></td></tr>
 <tr class="separator:af79b920bcb642bba2e652874c4f7eeff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4c2e4adef74067fdbb49005bc73de937"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
@@ -415,7 +481,7 @@ Variables</h2></td></tr>
 <tr class="separator:aeda4515a31485c9688c4601ac5ce2d79"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3619f9cb1e3c92238a033ead79a0c551"><td class="memItemLeft" align="right" valign="top">volatile struct <a class="el" href="struct_o_a_m__item__t.html">OAM_item_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a3619f9cb1e3c92238a033ead79a0c551">shadow_OAM</a> []</td></tr>
 <tr class="separator:a3619f9cb1e3c92238a033ead79a0c551"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7b662ae4d83f9837bacb9fd580673054"><td class="memItemLeft" align="right" valign="top"><a class="el" href="hardware_8h.html#a0b42e4dadd74c927e8b801b4f42c0e44">__REG</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a7b662ae4d83f9837bacb9fd580673054">_shadow_OAM_base</a></td></tr>
+<tr class="memitem:a7b662ae4d83f9837bacb9fd580673054"><td class="memItemLeft" align="right" valign="top"><a class="el" href="gb_2hardware_8h.html#a0b42e4dadd74c927e8b801b4f42c0e44">__REG</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a7b662ae4d83f9837bacb9fd580673054">_shadow_OAM_base</a></td></tr>
 <tr class="separator:a7b662ae4d83f9837bacb9fd580673054"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -428,7 +494,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define __GBDK_VERSION&#160;&#160;&#160;404</td>
+          <td class="memname">#define __GBDK_VERSION&#160;&#160;&#160;405</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -684,6 +750,21 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="aa027abe630d44039f238034bcb2d2f36"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa027abe630d44039f238034bcb2d2f36">&#9670;&nbsp;</a></span>EMPTY_IFLAG</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EMPTY_IFLAG&#160;&#160;&#160;0x00U</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Disable calling of interrupt service routines </p>
+
+</div>
+</div>
 <a id="a2ca7720b9a5da9b2173e1f74dba85541"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2ca7720b9a5da9b2173e1f74dba85541">&#9670;&nbsp;</a></span>VBL_IFLAG</h2>
 
@@ -730,7 +811,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Timer Interrupt when the timer <a class="el" href="hardware_8h.html#a9d295bb437953de5ebcb3c12d65743aa">TIMA_REG</a> overflows. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a9b132042678afce70ccb2d479f4133f0">set_interrupts()</a>, </dd>
+<p>Timer Interrupt when the timer <a class="el" href="gb_2hardware_8h.html#a9d295bb437953de5ebcb3c12d65743aa">TIMA_REG</a> overflows. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a9b132042678afce70ccb2d479f4133f0">set_interrupts()</a>, </dd>
 <dd>
 <a class="el" href="gb_8h.html#a411914e5dc5f28ce0afa7cf692a18af1">add_TIM</a> </dd></dl>
 
@@ -767,6 +848,103 @@ Variables</h2></td></tr>
 <p>Joypad Interrupt occurs on a transition of the keypad. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a9b132042678afce70ccb2d479f4133f0">set_interrupts()</a>, </dd>
 <dd>
 <a class="el" href="gb_8h.html#a81f1a67549d3a26dcca22367141eb21b">add_JOY</a> </dd></dl>
+
+</div>
+</div>
+<a id="ab311e53739c992294ae07ca506a924ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab311e53739c992294ae07ca506a924ad">&#9670;&nbsp;</a></span>DMG_BLACK</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DMG_BLACK&#160;&#160;&#160;0x03</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a45d13a674e169dd83df7e1f46513ccba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45d13a674e169dd83df7e1f46513ccba">&#9670;&nbsp;</a></span>DMG_DARK_GRAY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DMG_DARK_GRAY&#160;&#160;&#160;0x02</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8ccd6732d3bdf390cc0943e8567341f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ccd6732d3bdf390cc0943e8567341f3">&#9670;&nbsp;</a></span>DMG_LITE_GRAY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DMG_LITE_GRAY&#160;&#160;&#160;0x01</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a11cedc2ee58acfbbfc48dfb2b9a551b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11cedc2ee58acfbbfc48dfb2b9a551b3">&#9670;&nbsp;</a></span>DMG_WHITE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DMG_WHITE&#160;&#160;&#160;0x00</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9727caafc483ba6ec65e9344b033d684"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9727caafc483ba6ec65e9344b033d684">&#9670;&nbsp;</a></span>DMG_PALETTE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DMG_PALETTE</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">C0, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">C1, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">C2, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">C3&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;((<a class="el" href="asm_2types_8h.html#a280213815420791851f7e59bdc8a3c95">UBYTE</a>)((((C3) &amp; 0x03) &lt;&lt; 6) | (((C2) &amp; 0x03) &lt;&lt; 4) | (((C1) &amp; 0x03) &lt;&lt; 2) | ((C0) &amp; 0x03)))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>DMG palette helper macro. </p>
 
 </div>
 </div>
@@ -905,6 +1083,36 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="aa311f84dd9fce6e136ba4881e7b0d98d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa311f84dd9fce6e136ba4881e7b0d98d">&#9670;&nbsp;</a></span>GBA_NOT_DETECTED</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define GBA_NOT_DETECTED&#160;&#160;&#160;0x00</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Hardware Model: DMG, CGB or MGB. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a874b9bd95b0a05d6a6072feabc879e45">_cpu</a> </dd></dl>
+
+</div>
+</div>
+<a id="a6ccf5d0f34fb0af0b6e73b9df0ccd745"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ccf5d0f34fb0af0b6e73b9df0ccd745">&#9670;&nbsp;</a></span>GBA_DETECTED</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define GBA_DETECTED&#160;&#160;&#160;0x01</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Hardware Model: GBA. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a874b9bd95b0a05d6a6072feabc879e45">_cpu</a> </dd></dl>
+
+</div>
+</div>
 <a id="a268cc6c704e16f3fa02dd1cf0e17070a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a268cc6c704e16f3fa02dd1cf0e17070a">&#9670;&nbsp;</a></span>IO_IDLE</h2>
 
@@ -965,6 +1173,109 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="ae042588f20bf5a2349c8ad8716245233"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae042588f20bf5a2349c8ad8716245233">&#9670;&nbsp;</a></span>CURRENT_BANK</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CURRENT_BANK&#160;&#160;&#160;<a class="el" href="gb_8h.html#a98b848953a95ce2fff6fda643575d74a">_current_bank</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a42705001e2b9897f5167b67fb36c69dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42705001e2b9897f5167b67fb36c69dd">&#9670;&nbsp;</a></span>BANK</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BANK</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">VARNAME</td><td>)</td>
+          <td>&#160;&#160;&#160;( (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>) &amp; __bank_ ## VARNAME )</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Obtains the <b>bank number</b> of VARNAME</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">VARNAME</td><td>Name of the variable which has a __bank_VARNAME companion symbol which is adjusted by bankpack</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Use this to obtain the bank number from a bank reference created with <a class="el" href="gb_8h.html#a086293f2afb4c7945460a4496b20aea3">BANKREF()</a>.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a261bba55a07b802baf99346feadd9852">BANKREF_EXTERN()</a>, <a class="el" href="gb_8h.html#a086293f2afb4c7945460a4496b20aea3">BANKREF()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a086293f2afb4c7945460a4496b20aea3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a086293f2afb4c7945460a4496b20aea3">&#9670;&nbsp;</a></span>BANKREF</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BANKREF</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">VARNAME</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line"><span class="keywordtype">void</span> __func_ ## VARNAME() __banked __naked { \</div>
+<div class="line">__asm \</div>
+<div class="line">    .local b___func_ ## VARNAME \</div>
+<div class="line">    ___bank_ ## VARNAME = b___func_ ## VARNAME \</div>
+<div class="line">    .globl ___bank_ ## VARNAME \</div>
+<div class="line">__endasm; \</div>
+<div class="line">}</div>
+</div><!-- fragment --><p>Creates a reference for retrieving the bank number of a variable or function</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">VARNAME</td><td>Variable name to use, which may be an existing identifier</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a42705001e2b9897f5167b67fb36c69dd">BANK()</a> for obtaining the bank number of the included data.</dd></dl>
+<p>More than one <code><a class="el" href="gb_8h.html#a086293f2afb4c7945460a4496b20aea3">BANKREF()</a></code> may be created per file, but each call should always use a unique VARNAME.</p>
+<p>Use <a class="el" href="gb_8h.html#a261bba55a07b802baf99346feadd9852">BANKREF_EXTERN()</a> within another source file to make the variable and it's data accesible there. </p>
+
+</div>
+</div>
+<a id="a261bba55a07b802baf99346feadd9852"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a261bba55a07b802baf99346feadd9852">&#9670;&nbsp;</a></span>BANKREF_EXTERN</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BANKREF_EXTERN</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">VARNAME</td><td>)</td>
+          <td>&#160;&#160;&#160;extern const void __bank_ ## VARNAME;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Creates extern references for accessing a <a class="el" href="gb_8h.html#a086293f2afb4c7945460a4496b20aea3">BANKREF()</a> generated variable.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">VARNAME</td><td>Name of the variable used with <a class="el" href="gb_8h.html#a086293f2afb4c7945460a4496b20aea3">BANKREF()</a></td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This makes a <a class="el" href="gb_8h.html#a086293f2afb4c7945460a4496b20aea3">BANKREF()</a> reference in another source file accessible in the current file for use with <a class="el" href="gb_8h.html#a42705001e2b9897f5167b67fb36c69dd">BANK()</a>.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a086293f2afb4c7945460a4496b20aea3">BANKREF()</a>, <a class="el" href="gb_8h.html#a42705001e2b9897f5167b67fb36c69dd">BANK()</a> </dd></dl>
+
+</div>
+</div>
 <a id="a19558f5bbc9fea767f945001ae9cd13f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a19558f5bbc9fea767f945001ae9cd13f">&#9670;&nbsp;</a></span>SWITCH_ROM_MBC1</h2>
 
@@ -986,6 +1297,20 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a1e22a3b60368bb5f3705d625ac2d09cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e22a3b60368bb5f3705d625ac2d09cc">&#9670;&nbsp;</a></span>SWITCH_ROM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SWITCH_ROM&#160;&#160;&#160;<a class="el" href="gb_8h.html#a19558f5bbc9fea767f945001ae9cd13f">SWITCH_ROM_MBC1</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -1013,6 +1338,20 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a6e40dcc763efd953181c7400642a9f69"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e40dcc763efd953181c7400642a9f69">&#9670;&nbsp;</a></span>SWITCH_RAM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SWITCH_RAM&#160;&#160;&#160;<a class="el" href="gb_8h.html#a38ea3e4dfe02b8eae70df27f39d4a951">SWITCH_RAM_MBC1</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ae202f64307ec00f6970ef9225e54646c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae202f64307ec00f6970ef9225e54646c">&#9670;&nbsp;</a></span>ENABLE_RAM_MBC1</h2>
 
@@ -1028,6 +1367,20 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a0e9c88657beaac946231a4801481b97f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e9c88657beaac946231a4801481b97f">&#9670;&nbsp;</a></span>ENABLE_RAM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ENABLE_RAM&#160;&#160;&#160;<a class="el" href="gb_8h.html#ae202f64307ec00f6970ef9225e54646c">ENABLE_RAM_MBC1</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a177fadce938422926b186a8e42575d1d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a177fadce938422926b186a8e42575d1d">&#9670;&nbsp;</a></span>DISABLE_RAM_MBC1</h2>
 
@@ -1040,6 +1393,20 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Disables SRAM on MBC1 </p>
+
+</div>
+</div>
+<a id="a649d27b5587de16a66176e03a1b8ebd5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a649d27b5587de16a66176e03a1b8ebd5">&#9670;&nbsp;</a></span>DISABLE_RAM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DISABLE_RAM&#160;&#160;&#160;<a class="el" href="gb_8h.html#a177fadce938422926b186a8e42575d1d">DISABLE_RAM_MBC1</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -1189,7 +1556,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define DISPLAY_ON&#160;&#160;&#160;  <a class="el" href="hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>|=0x80U</td>
+          <td class="memname">#define DISPLAY_ON&#160;&#160;&#160;  <a class="el" href="gb_2hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>|=<a class="el" href="gb_2hardware_8h.html#a1491fc03ed7f02e7309cc7b0c48b6c8a">LCDCF_ON</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1204,11 +1571,41 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define DISPLAY_OFF&#160;&#160;&#160;  <a class="el" href="gb_8h.html#aed072359b42854fffae4cd29c1f34ea1">display_off</a>();</td>
+          <td class="memname">#define DISPLAY_OFF&#160;&#160;&#160;  <a class="el" href="sms_8h.html#afe5714734a8fea7b1617ba377b3c0a06">display_off</a>();</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p>Turns the display off immediately. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#aed072359b42854fffae4cd29c1f34ea1">display_off</a>, <a class="el" href="gb_8h.html#a5ae6b05b3e1559c97f0d1b2daaaa0ee4">DISPLAY_ON</a> </dd></dl>
+
+</div>
+</div>
+<a id="a0659212acd317ccdebc0ecf435df330f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0659212acd317ccdebc0ecf435df330f">&#9670;&nbsp;</a></span>HIDE_LEFT_COLUMN</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define HIDE_LEFT_COLUMN</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Does nothing for GB </p>
+
+</div>
+</div>
+<a id="a5497c2255a9474d397446710189eacbe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5497c2255a9474d397446710189eacbe">&#9670;&nbsp;</a></span>SHOW_LEFT_COLUMN</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SHOW_LEFT_COLUMN</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Does nothing for GB </p>
 
 </div>
 </div>
@@ -1219,7 +1616,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define SHOW_BKG&#160;&#160;&#160;  <a class="el" href="hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>|=0x01U</td>
+          <td class="memname">#define SHOW_BKG&#160;&#160;&#160;  <a class="el" href="gb_2hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>|=<a class="el" href="gb_2hardware_8h.html#a97ab19d938f05bffbcb4221824c3bfce">LCDCF_BGON</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1234,7 +1631,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define HIDE_BKG&#160;&#160;&#160;  <a class="el" href="hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>&amp;=0xFEU</td>
+          <td class="memname">#define HIDE_BKG&#160;&#160;&#160;  <a class="el" href="gb_2hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>&amp;=~<a class="el" href="gb_2hardware_8h.html#a97ab19d938f05bffbcb4221824c3bfce">LCDCF_BGON</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1249,7 +1646,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define SHOW_WIN&#160;&#160;&#160;  <a class="el" href="hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>|=0x20U</td>
+          <td class="memname">#define SHOW_WIN&#160;&#160;&#160;  <a class="el" href="gb_2hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>|=<a class="el" href="gb_2hardware_8h.html#a13a5f08b9aae68f8fa57a8aa7705b732">LCDCF_WINON</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1264,7 +1661,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define HIDE_WIN&#160;&#160;&#160;  <a class="el" href="hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>&amp;=0xDFU</td>
+          <td class="memname">#define HIDE_WIN&#160;&#160;&#160;  <a class="el" href="gb_2hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>&amp;=~<a class="el" href="gb_2hardware_8h.html#a13a5f08b9aae68f8fa57a8aa7705b732">LCDCF_WINON</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1279,7 +1676,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define SHOW_SPRITES&#160;&#160;&#160;  <a class="el" href="hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>|=0x02U</td>
+          <td class="memname">#define SHOW_SPRITES&#160;&#160;&#160;  <a class="el" href="gb_2hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>|=<a class="el" href="gb_2hardware_8h.html#a6aef42158c90e8025b8341cdea2e3918">LCDCF_OBJON</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1294,7 +1691,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define HIDE_SPRITES&#160;&#160;&#160;  <a class="el" href="hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>&amp;=0xFDU</td>
+          <td class="memname">#define HIDE_SPRITES&#160;&#160;&#160;  <a class="el" href="gb_2hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>&amp;=~<a class="el" href="gb_2hardware_8h.html#a6aef42158c90e8025b8341cdea2e3918">LCDCF_OBJON</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1309,7 +1706,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define SPRITES_8x16&#160;&#160;&#160;  <a class="el" href="hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>|=0x04U</td>
+          <td class="memname">#define SPRITES_8x16&#160;&#160;&#160;  <a class="el" href="gb_2hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>|=<a class="el" href="gb_2hardware_8h.html#a14eddd3d53d8e649f1754bd455b4863d">LCDCF_OBJ16</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1324,11 +1721,149 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define SPRITES_8x8&#160;&#160;&#160;  <a class="el" href="hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>&amp;=0xFBU</td>
+          <td class="memname">#define SPRITES_8x8&#160;&#160;&#160;  <a class="el" href="gb_2hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a>&amp;=~<a class="el" href="gb_2hardware_8h.html#a14eddd3d53d8e649f1754bd455b4863d">LCDCF_OBJ16</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p>Sets sprite size to 8x8 pixels, one tile. Clears bit 2 of the LCDC register to 0. </p>
+
+</div>
+</div>
+<a id="a67f80e65620470b55a4950e2966eb868"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67f80e65620470b55a4950e2966eb868">&#9670;&nbsp;</a></span>COMPAT_PALETTE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define COMPAT_PALETTE</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">C0, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">C1, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">C2, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">C3&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;(((C3) &lt;&lt; 6) | ((C2) &lt;&lt; 4) | ((C1) &lt;&lt; 2) | (C0))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab94bfec130df50d9cb808142f94603a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab94bfec130df50d9cb808142f94603a5">&#9670;&nbsp;</a></span>set_bkg_2bpp_data</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define set_bkg_2bpp_data&#160;&#160;&#160;<a class="el" href="sms_8h.html#a8130306da1177f4fef89e699f8e2add4">set_bkg_data</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0ac527a7933555e52988f425527de599"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ac527a7933555e52988f425527de599">&#9670;&nbsp;</a></span>set_bkg_1bpp_data</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define set_bkg_1bpp_data&#160;&#160;&#160;<a class="el" href="gb_8h.html#abfc6a45a8b4b212ec9cde372a16e3d6e">set_bkg_1bit_data</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a55f82ff980398dd97036fd936ebd727e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55f82ff980398dd97036fd936ebd727e">&#9670;&nbsp;</a></span>set_tile_map</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define set_tile_map&#160;&#160;&#160;<a class="el" href="gb_8h.html#ad1ec25843468eb57c54e0ebdcf532659">set_bkg_tiles</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="adb5d0970167b81401113812773c90838"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb5d0970167b81401113812773c90838">&#9670;&nbsp;</a></span>set_tile_submap</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define set_tile_submap&#160;&#160;&#160;<a class="el" href="sms_8h.html#a0cfd261bc7a94b1f6093f423bad30298">set_bkg_submap</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3b235c526c517fb02d20cdea780ee2c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b235c526c517fb02d20cdea780ee2c5">&#9670;&nbsp;</a></span>set_tile_xy</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define set_tile_xy&#160;&#160;&#160;<a class="el" href="gb_8h.html#a54481c53f28bc5fcfff05be28f16e976">set_bkg_tile_xy</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a43b4f0ba65856deef626c0d9e7e41ed4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a43b4f0ba65856deef626c0d9e7e41ed4">&#9670;&nbsp;</a></span>set_sprite_2bpp_data</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define set_sprite_2bpp_data&#160;&#160;&#160;<a class="el" href="sms_8h.html#a216a3e3d320ee4d8cf4845600487ae39">set_sprite_data</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aff8c24b33a29c5bb0c30f5bd039eba0f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff8c24b33a29c5bb0c30f5bd039eba0f">&#9670;&nbsp;</a></span>set_sprite_1bpp_data</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define set_sprite_1bpp_data&#160;&#160;&#160;<a class="el" href="gb_8h.html#ad3a2c7e0bfbc9905bd06b162127d13d9">set_sprite_1bit_data</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -1339,7 +1874,21 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define DISABLE_OAM_DMA&#160;&#160;&#160;    <a class="el" href="gb_8h.html#a7b662ae4d83f9837bacb9fd580673054">_shadow_OAM_base</a> = 0</td>
+          <td class="memname">#define DISABLE_OAM_DMA&#160;&#160;&#160;    <a class="el" href="sms_8h.html#a5435fd985412934e96a490e103c6bc49">_shadow_OAM_base</a> = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abfd70bf31185a4900680977c9fb5a5ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abfd70bf31185a4900680977c9fb5a5ec">&#9670;&nbsp;</a></span>DISABLE_VBL_TRANSFER</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DISABLE_VBL_TRANSFER&#160;&#160;&#160;<a class="el" href="gb_8h.html#a47607089a434dcda7a8583cfca03b604">DISABLE_OAM_DMA</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1354,11 +1903,54 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define ENABLE_OAM_DMA&#160;&#160;&#160;    <a class="el" href="gb_8h.html#a7b662ae4d83f9837bacb9fd580673054">_shadow_OAM_base</a> = (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>)((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)&amp;<a class="el" href="gb_8h.html#a3619f9cb1e3c92238a033ead79a0c551">shadow_OAM</a> &gt;&gt; 8)</td>
+          <td class="memname">#define ENABLE_OAM_DMA&#160;&#160;&#160;    <a class="el" href="sms_8h.html#a5435fd985412934e96a490e103c6bc49">_shadow_OAM_base</a> = (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>)((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)&amp;<a class="el" href="sms_8h.html#af02f9e73bd894cc25e03aedb0a10a91d">shadow_OAM</a> &gt;&gt; 8)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a77d516c9d3f86f100eddea5e0d133a76"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a77d516c9d3f86f100eddea5e0d133a76">&#9670;&nbsp;</a></span>ENABLE_VBL_TRANSFER</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ENABLE_VBL_TRANSFER&#160;&#160;&#160;<a class="el" href="gb_8h.html#a20895d53fe9caacb08ce8b071d57ce53">ENABLE_OAM_DMA</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p>Enable OAM DMA copy each VBlank and set it to transfer default shadow_OAM array </p>
+
+</div>
+</div>
+<a id="a8b77608c87a9aef65a03531482b2163b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b77608c87a9aef65a03531482b2163b">&#9670;&nbsp;</a></span>MAX_HARDWARE_SPRITES</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MAX_HARDWARE_SPRITES&#160;&#160;&#160;40</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Amount of hardware sprites in OAM </p>
+
+</div>
+</div>
+<a id="a47865835d7d007d71b4bc8ae5cefb73a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47865835d7d007d71b4bc8ae5cefb73a">&#9670;&nbsp;</a></span>fill_rect</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define fill_rect&#160;&#160;&#160;<a class="el" href="gb_8h.html#a1b03711e1c95023571add37a455d5f72">fill_bkg_rect</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -1370,7 +1962,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef void(* int_handler) (void) <a class="el" href="asm_2gbz80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td>
+          <td class="memname">typedef void(* int_handler) (void) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1393,7 +1985,7 @@ Variables</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">x</td><td>X Coordinate of the sprite on screen </td></tr>
     <tr><td class="paramname">y</td><td>Y Coordinate of the sprite on screen </td></tr>
-    <tr><td class="paramname">tile</td><td>Sprite tile number (see <a class="el" href="gb_8h.html#a05bf0b9f1328de7b568a19a2a428bcfe">set_sprite_tile</a>) </td></tr>
+    <tr><td class="paramname">tile</td><td>Sprite tile number (see <a class="el" href="sms_8h.html#a05bf0b9f1328de7b568a19a2a428bcfe">set_sprite_tile</a>) </td></tr>
     <tr><td class="paramname">prop</td><td>OAM Property Flags (see <a class="el" href="gb_8h.html#a99ea3252469e3614e977cce2aa1d06f7">set_sprite_prop</a>) </td></tr>
   </table>
   </dd>
@@ -1411,7 +2003,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">void remove_VBL </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="gb_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a>&#160;</td>
           <td class="paramname"><em>h</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1419,7 +2011,8 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>The remove functions will remove any interrupt handler.</p>
 <p>A handler of NULL will cause bad things to happen if the given interrupt is enabled.</p>
-<p>Removes the VBL interrupt handler. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a2412b9f97cb59acfcb2383eb9f204ddf">add_VBL()</a> </dd></dl>
+<p>Removes the VBL interrupt handler. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="sms_8h.html#a1828aeec4b83ef499e18ca1a5ad3b6a6">add_VBL()</a></dd></dl>
+<p>Removes the VBL interrupt handler. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="sms_8h.html#a1828aeec4b83ef499e18ca1a5ad3b6a6">add_VBL()</a> </dd></dl>
 
 </div>
 </div>
@@ -1432,7 +2025,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">void remove_LCD </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="gb_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a>&#160;</td>
           <td class="paramname"><em>h</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1451,7 +2044,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">void remove_TIM </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="gb_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a>&#160;</td>
           <td class="paramname"><em>h</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1470,7 +2063,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">void remove_SIO </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="gb_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a>&#160;</td>
           <td class="paramname"><em>h</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1493,7 +2086,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">void remove_JOY </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="gb_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a>&#160;</td>
           <td class="paramname"><em>h</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1512,7 +2105,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">void add_VBL </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="gb_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a>&#160;</td>
           <td class="paramname"><em>h</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1525,8 +2118,10 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
-<p>Up to 4 handlers may be added, with the last added being called last. If the <a class="el" href="gb_8h.html#a3b3171b2e81e23b7d1bc402275a9ac71">remove_VBL</a> function is to be called, only three may be added.</p>
-<p>Note: The default VBL is installed automatically. </p>
+<p>Up to 4 handlers may be added, with the last added being called last. If the <a class="el" href="sms_8h.html#a9eeb134cad80f309ce86ab101a9e0026">remove_VBL</a> function is to be called, only three may be added.</p>
+<p>Do not use '__critical' and '__interrupt' attributes for a function added via <a class="el" href="sms_8h.html#a1828aeec4b83ef499e18ca1a5ad3b6a6">add_VBL()</a> (or LCD, etc). The attributes are only required when constructing a bare jump from the interrupt vector itself.</p>
+<p>Note: The default VBL is installed automatically.</p>
+<p>Adds a V-blank interrupt handler. </p>
 
 </div>
 </div>
@@ -1539,16 +2134,17 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">void add_LCD </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="gb_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a>&#160;</td>
           <td class="paramname"><em>h</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p>Adds a LCD interrupt handler.</p>
-<p>Called when the LCD interrupt occurs, which is normally when <a class="el" href="hardware_8h.html#aeb643bd4eac2e6e410cae2fae677c0a7">LY_REG</a> == <a class="el" href="hardware_8h.html#a591084a506c33266b7d6cc3b4b8936ae">LYC_REG</a>.</p>
-<p>From pan/k0Pa: There are various reasons for this interrupt to occur as described by the <a class="el" href="hardware_8h.html#ad40ebf3b29add46cdd310a7e0802bc6b">STAT_REG</a> register ($FF41). One very popular reason is to indicate to the user when the video hardware is about to redraw a given LCD line. This can be useful for dynamically controlling the <a class="el" href="hardware_8h.html#a86cc170585319565195f2c163250be1f">SCX_REG</a> / <a class="el" href="hardware_8h.html#a244b162cf13bbcb4fe842d7e298b39c2">SCY_REG</a> registers ($FF43/$FF42) to perform special video effects.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a2412b9f97cb59acfcb2383eb9f204ddf">add_VBL</a> </dd></dl>
+<p>Called when the LCD interrupt occurs, which is normally when <a class="el" href="gb_2hardware_8h.html#aeb643bd4eac2e6e410cae2fae677c0a7">LY_REG</a> == <a class="el" href="gb_2hardware_8h.html#a591084a506c33266b7d6cc3b4b8936ae">LYC_REG</a>.</p>
+<p>From pan/k0Pa: There are various reasons for this interrupt to occur as described by the <a class="el" href="gb_2hardware_8h.html#ad40ebf3b29add46cdd310a7e0802bc6b">STAT_REG</a> register ($FF41). One very popular reason is to indicate to the user when the video hardware is about to redraw a given LCD line. This can be useful for dynamically controlling the <a class="el" href="gb_2hardware_8h.html#a86cc170585319565195f2c163250be1f">SCX_REG</a> / <a class="el" href="gb_2hardware_8h.html#a244b162cf13bbcb4fe842d7e298b39c2">SCY_REG</a> registers ($FF43/$FF42) to perform special video effects.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="sms_8h.html#a1828aeec4b83ef499e18ca1a5ad3b6a6">add_VBL</a></dd></dl>
+<p>Adds a LCD interrupt handler. </p>
 
 </div>
 </div>
@@ -1561,14 +2157,14 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">void add_TIM </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="gb_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a>&#160;</td>
           <td class="paramname"><em>h</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p>Adds a timer interrupt handler.</p>
-<p>From pan/k0Pa: This interrupt occurs when the <a class="el" href="hardware_8h.html#a9d295bb437953de5ebcb3c12d65743aa">TIMA_REG</a> register ($FF05) changes from $FF to $00.</p>
+<p>From pan/k0Pa: This interrupt occurs when the <a class="el" href="gb_2hardware_8h.html#a9d295bb437953de5ebcb3c12d65743aa">TIMA_REG</a> register ($FF05) changes from $FF to $00.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a2412b9f97cb59acfcb2383eb9f204ddf">add_VBL</a> </dd>
 <dd>
 <a class="el" href="gb_8h.html#a9b132042678afce70ccb2d479f4133f0">set_interrupts()</a> with <a class="el" href="gb_8h.html#a604256210ec5b90b68185e1a18efab49">TIM_IFLAG</a> </dd></dl>
@@ -1584,7 +2180,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">void add_SIO </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="gb_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a>&#160;</td>
           <td class="paramname"><em>h</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1607,7 +2203,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">void add_JOY </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="gb_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a>&#160;</td>
           <td class="paramname"><em>h</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1615,7 +2211,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>Adds a joypad button change interrupt handler.</p>
 <p>From pan/k0Pa: This interrupt occurs on a transition of any of the keypad input lines from high to low. Due to the fact that keypad "bounce" is virtually always present, software should expect this interrupt to occur one or more times for every button press and one or more times for every button release.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#ae6e4ae6169648f1bf1fac9785f8f1c71">joypad()</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#ae6e4ae6169648f1bf1fac9785f8f1c71">joypad()</a>, <a class="el" href="gb_8h.html#a2412b9f97cb59acfcb2383eb9f204ddf">add_VBL()</a> </dd></dl>
 
 </div>
 </div>
@@ -1658,7 +2254,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Default Interrupt handler chain terminator that waits for </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="hardware_8h.html#ad40ebf3b29add46cdd310a7e0802bc6b">STAT_REG</a> and <b>only</b> returns at the BEGINNING of either Mode 0 or Mode 1.</dd></dl>
+<p>Default Interrupt handler chain terminator that waits for </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_2hardware_8h.html#ad40ebf3b29add46cdd310a7e0802bc6b">STAT_REG</a> and <b>only</b> returns at the BEGINNING of either Mode 0 or Mode 1.</dd></dl>
 <p>Used by default at the end of interrupt chains to help prevent graphical glitches. The glitches are caused when an ISR interrupts a graphics operation in one mode but returns in a different mode for which that graphics operation is not allowed.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a115eb30ec86f6af039a27918ffe4cf8c">nowait_int_handler()</a> </dd></dl>
 
@@ -1723,7 +2319,7 @@ Variables</h2></td></tr>
 <p>Serial Link: Send the byte in <a class="el" href="gb_8h.html#acae13736da20f9fc53e8d38934aa2119">_io_out</a> out through the serial port</p>
 <p>Make sure to enable interrupts for the Serial Link before trying to transfer data. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a024fc35ef0ad258d67c8f9dfb0751ee7">add_SIO()</a>, <a class="el" href="gb_8h.html#a18857adb60025a986dbb44ee289b7a7c">remove_SIO()</a> </dd>
 <dd>
-<a class="el" href="gb_8h.html#a9b132042678afce70ccb2d479f4133f0">set_interrupts()</a> with <a class="el" href="gb_8h.html#ad90564458646c5646b3880b93db3443e">SIO_IFLAG</a> </dd></dl>
+<a class="el" href="gb_8h.html#a9b132042678afce70ccb2d479f4133f0">set_interrupts()</a> with <a class="el" href="sms_8h.html#ad90564458646c5646b3880b93db3443e">SIO_IFLAG</a> </dd></dl>
 
 </div>
 </div>
@@ -1745,7 +2341,7 @@ Variables</h2></td></tr>
 <p>Serial Link: Receive a byte from the serial port into <a class="el" href="gb_8h.html#a02f3a1585ae654444e628c1aa98ef0cf">_io_in</a></p>
 <p>Make sure to enable interrupts for the Serial Link before trying to transfer data. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a024fc35ef0ad258d67c8f9dfb0751ee7">add_SIO()</a>, <a class="el" href="gb_8h.html#a18857adb60025a986dbb44ee289b7a7c">remove_SIO()</a> </dd>
 <dd>
-<a class="el" href="gb_8h.html#a9b132042678afce70ccb2d479f4133f0">set_interrupts()</a> with <a class="el" href="gb_8h.html#ad90564458646c5646b3880b93db3443e">SIO_IFLAG</a> </dd></dl>
+<a class="el" href="gb_8h.html#a9b132042678afce70ccb2d479f4133f0">set_interrupts()</a> with <a class="el" href="sms_8h.html#ad90564458646c5646b3880b93db3443e">SIO_IFLAG</a> </dd></dl>
 
 </div>
 </div>
@@ -1870,7 +2466,7 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
-<p>Only required for <a class="el" href="gb_8h.html#a1db30aa7479be2276312f3c981553906">joypad_ex</a>, not required for calls to regular <a class="el" href="gb_8h.html#ae6e4ae6169648f1bf1fac9785f8f1c71">joypad()</a> </p><dl class="section return"><dt>Returns</dt><dd>number of joypads avaliable </dd></dl>
+<p>Only required for <a class="el" href="sms_8h.html#aec8e36355bb7381000606b1871db5977">joypad_ex</a>, not required for calls to regular <a class="el" href="gb_8h.html#ae6e4ae6169648f1bf1fac9785f8f1c71">joypad()</a> </p><dl class="section return"><dt>Returns</dt><dd>number of joypads avaliable </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a1db30aa7479be2276312f3c981553906">joypad_ex()</a>, <a class="el" href="structjoypads__t.html">joypads_t</a> </dd></dl>
 
 </div>
@@ -1900,11 +2496,14 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a97039b6477537c37f83e74561de78c1b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a97039b6477537c37f83e74561de78c1b">&#9670;&nbsp;</a></span>enable_interrupts()</h2>
+<a id="add66104772d2d3af28975c79d7c2982f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add66104772d2d3af28975c79d7c2982f">&#9670;&nbsp;</a></span>enable_interrupts()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void enable_interrupts </td>
@@ -1914,16 +2513,24 @@ Variables</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-<p>Enables unmasked interrupts </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#ad8d2df514d3b5d3d08db3671f0d5af14">disable_interrupts</a>, <a class="el" href="gb_8h.html#a9b132042678afce70ccb2d479f4133f0">set_interrupts</a> </dd></dl>
+<p>Enables unmasked interrupts </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#add2672a8369169878271399583106216">disable_interrupts</a>, <a class="el" href="gb_8h.html#a9b132042678afce70ccb2d479f4133f0">set_interrupts</a> </dd></dl>
 
 </div>
 </div>
-<a id="ad8d2df514d3b5d3d08db3671f0d5af14"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad8d2df514d3b5d3d08db3671f0d5af14">&#9670;&nbsp;</a></span>disable_interrupts()</h2>
+<a id="add2672a8369169878271399583106216"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add2672a8369169878271399583106216">&#9670;&nbsp;</a></span>disable_interrupts()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void disable_interrupts </td>
@@ -1933,9 +2540,14 @@ Variables</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 <p>Disables interrupts.</p>
-<p>This function may be called as many times as you like; however the first call to enable_interrupts will re-enable them. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a97039b6477537c37f83e74561de78c1b">enable_interrupts</a>, <a class="el" href="gb_8h.html#a9b132042678afce70ccb2d479f4133f0">set_interrupts</a> </dd></dl>
+<p>This function may be called as many times as you like; however the first call to enable_interrupts will re-enable them. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#add66104772d2d3af28975c79d7c2982f">enable_interrupts</a>, <a class="el" href="gb_8h.html#a9b132042678afce70ccb2d479f4133f0">set_interrupts</a> </dd></dl>
 
 </div>
 </div>
@@ -1960,7 +2572,7 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a97039b6477537c37f83e74561de78c1b">enable_interrupts()</a>, <a class="el" href="gb_8h.html#ad8d2df514d3b5d3d08db3671f0d5af14">disable_interrupts()</a> </dd>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#add66104772d2d3af28975c79d7c2982f">enable_interrupts()</a>, <a class="el" href="gb_8h.html#add2672a8369169878271399583106216">disable_interrupts()</a> </dd>
 <dd>
 <a class="el" href="gb_8h.html#a2ca7720b9a5da9b2173e1f74dba85541">VBL_IFLAG</a>, <a class="el" href="gb_8h.html#a61a9e2910380de6abb34df14ef634eb4">LCD_IFLAG</a>, <a class="el" href="gb_8h.html#a604256210ec5b90b68185e1a18efab49">TIM_IFLAG</a>, <a class="el" href="gb_8h.html#ad90564458646c5646b3880b93db3443e">SIO_IFLAG</a>, <a class="el" href="gb_8h.html#a2f829cf27d6e3e24c875e9b82dfcb280">JOY_IFLAG</a> </dd></dl>
 
@@ -2159,6 +2771,33 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="aa224c9bac27c7fd268e62bdf33338a84"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa224c9bac27c7fd268e62bdf33338a84">&#9670;&nbsp;</a></span>set_2bpp_palette()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void set_2bpp_palette </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>&#160;</td>
+          <td class="paramname"><em>palette</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Sets palette for 2bpp color translation for GG/SMS, does nothing on GB </p>
+
+</div>
+</div>
 <a id="ac5ad2687d02b9815986cdac1b3121d15"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac5ad2687d02b9815986cdac1b3121d15">&#9670;&nbsp;</a></span>set_bkg_data()</h2>
 
@@ -2201,7 +2840,7 @@ Variables</h2></td></tr>
 </dl>
 <p>Writes <b>nb_tiles</b> tiles to VRAM starting at <b>first_tile</b>, tile data is sourced from <b>data</b>. Each Tile is 16 bytes in size (8x8 pixels, 2 bits-per-pixel).</p>
 <p>Note: Sprite Tiles 128-255 share the same memory region as Background Tiles 128-255.</p>
-<p>GBC only: <a class="el" href="hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a> determines which bank of Background tile patterns are written to. </p><ul>
+<p>GBC only: <a class="el" href="gb_2hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a> determines which bank of Background tile patterns are written to. </p><ul>
 <li>VBK_REG=0 indicates the first bank </li>
 <li>VBK_REG=1 indicates the second </li>
 </ul>
@@ -2255,7 +2894,7 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
-<p>Similar to <a class="el" href="gb_8h.html#ac5ad2687d02b9815986cdac1b3121d15">set_bkg_data</a>, except source data is 1 bit-per-pixel which gets expanded into 2 bits-per-pixel.</p>
+<p>Similar to <a class="el" href="sms_8h.html#a8130306da1177f4fef89e699f8e2add4">set_bkg_data</a>, except source data is 1 bit-per-pixel which gets expanded into 2 bits-per-pixel.</p>
 <p>For a given bit that represent a pixel: </p><ul>
 <li>0 will be expanded into color 0 </li>
 <li>1 will be expanded into color 1, 2 or 3 depending on color argument</li>
@@ -2372,7 +3011,7 @@ Variables</h2></td></tr>
 <p>One byte per source tile map entry.</p>
 <p>Writes that exceed coordinate 31 on the x or y axis will wrap around to the Left and Top edges.</p>
 <p>Note: Patterns 128-255 overlap with patterns 128-255 of the sprite Tile Pattern table.</p>
-<p>GBC only: <a class="el" href="hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a> determines whether Tile Numbers or Tile Attributes get set. </p><ul>
+<p>GBC only: <a class="el" href="gb_2hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a> determines whether Tile Numbers or Tile Attributes get set. </p><ul>
 <li>VBK_REG=0 Tile Numbers are written </li>
 <li>VBK_REG=1 Tile Attributes are written</li>
 </ul>
@@ -2380,7 +3019,7 @@ Variables</h2></td></tr>
 <li>Bit 7 - Priority flag. When this is set, it puts the tile above the sprites with colour 0 being transparent. <br  />
  0: Below sprites <br  />
  1: Above sprites <br  />
- Note: <a class="el" href="gb_8h.html#a8e3f36aa68ac036695816757f2a1322c">SHOW_BKG</a> needs to be set for these priorities to take place. </li>
+ Note: <a class="el" href="sms_8h.html#a8e3f36aa68ac036695816757f2a1322c">SHOW_BKG</a> needs to be set for these priorities to take place. </li>
 <li>Bit 6 - Vertical flip. Dictates which way up the tile is drawn vertically. <br  />
  0: Normal <br  />
  1: Flipped Vertically </li>
@@ -2406,6 +3045,9 @@ Variables</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void set_bkg_submap </td>
@@ -2449,6 +3091,11 @@ Variables</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 <p>Sets a rectangular area of the Background Tile Map using a sub-region from a source tile map. Useful for scrolling implementations of maps larger than 32 x 32 tiles.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -2467,7 +3114,7 @@ Variables</h2></td></tr>
 <p>One byte per source tile map entry.</p>
 <p>Writes that exceed coordinate 31 on the x or y axis will wrap around to the Left and Top edges. <br  />
 </p>
-<p>See <a class="el" href="gb_8h.html#ad1ec25843468eb57c54e0ebdcf532659">set_bkg_tiles</a> for setting CGB attribute maps with <a class="el" href="hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a>.</p>
+<p>See <a class="el" href="gb_8h.html#ad1ec25843468eb57c54e0ebdcf532659">set_bkg_tiles</a> for setting CGB attribute maps with <a class="el" href="gb_2hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a>.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a8e3f36aa68ac036695816757f2a1322c">SHOW_BKG</a> </dd>
 <dd>
 <a class="el" href="gb_8h.html#ac5ad2687d02b9815986cdac1b3121d15">set_bkg_data</a>, <a class="el" href="gb_8h.html#ad1ec25843468eb57c54e0ebdcf532659">set_bkg_tiles</a>, <a class="el" href="gb_8h.html#abb50a392ca0d0419a080413287ee5d79">set_win_submap</a> </dd></dl>
@@ -2776,7 +3423,7 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
-<p>This is the same as <a class="el" href="gb_8h.html#ac5ad2687d02b9815986cdac1b3121d15">set_bkg_data</a>, since the Window Layer and Background Layer share the same Tile pattern data.</p>
+<p>This is the same as <a class="el" href="sms_8h.html#a8130306da1177f4fef89e699f8e2add4">set_bkg_data</a>, since the Window Layer and Background Layer share the same Tile pattern data.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#ac5ad2687d02b9815986cdac1b3121d15">set_bkg_data</a> </dd>
 <dd>
 <a class="el" href="gb_8h.html#ac0ef9581f691c213f9aec7a4434dfcab">set_win_tiles</a> </dd>
@@ -2937,7 +3584,7 @@ Variables</h2></td></tr>
 <p>One byte per source tile map entry.</p>
 <p>Writes that exceed coordinate 31 on the x or y axis will wrap around to the Left and Top edges.</p>
 <p>Note: Patterns 128-255 overlap with patterns 128-255 of the sprite Tile Pattern table.</p>
-<p>GBC only: <a class="el" href="hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a> determines whether Tile Numbers or Tile Attributes get set. </p><ul>
+<p>GBC only: <a class="el" href="gb_2hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a> determines whether Tile Numbers or Tile Attributes get set. </p><ul>
 <li>VBK_REG=0 Tile Numbers are written </li>
 <li>VBK_REG=1 Tile Attributes are written</li>
 </ul>
@@ -2951,6 +3598,9 @@ Variables</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void set_win_submap </td>
@@ -2994,6 +3644,11 @@ Variables</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 <p>Sets a rectangular area of the Window Tile Map using a sub-region from a source tile map.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -3011,11 +3666,11 @@ Variables</h2></td></tr>
 <p>Use this instead of <a class="el" href="gb_8h.html#ac0ef9581f691c213f9aec7a4434dfcab">set_win_tiles</a> when the source map is wider than 32 tiles or when writing a width that does not match the source map width.</p>
 <p>One byte per source tile map entry.</p>
 <p>Writes that exceed coordinate 31 on the x or y axis will wrap around to the Left and Top edges.</p>
-<p>GBC only: <a class="el" href="hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a> determines whether Tile Numbers or Tile Attributes get set. </p><ul>
+<p>GBC only: <a class="el" href="gb_2hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a> determines whether Tile Numbers or Tile Attributes get set. </p><ul>
 <li>VBK_REG=0 Tile Numbers are written </li>
 <li>VBK_REG=1 Tile Attributes are written</li>
 </ul>
-<p>See <a class="el" href="gb_8h.html#ad1ec25843468eb57c54e0ebdcf532659">set_bkg_tiles</a> for details about CGB attribute maps with <a class="el" href="hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a>.</p>
+<p>See <a class="el" href="gb_8h.html#ad1ec25843468eb57c54e0ebdcf532659">set_bkg_tiles</a> for details about CGB attribute maps with <a class="el" href="gb_2hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a>.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#ab19da2ab719bb8897bc0843a84af28f8">SHOW_WIN</a>, <a class="el" href="gb_8h.html#aedb6e32c42d4b1d25ad11adccd7100c3">HIDE_WIN</a>, <a class="el" href="gb_8h.html#ac0ef9581f691c213f9aec7a4434dfcab">set_win_tiles</a>, <a class="el" href="gb_8h.html#a0cfd261bc7a94b1f6093f423bad30298">set_bkg_submap</a>, <a class="el" href="gb_8h.html#ad1ec25843468eb57c54e0ebdcf532659">set_bkg_tiles</a>, <a class="el" href="gb_8h.html#ac5ad2687d02b9815986cdac1b3121d15">set_bkg_data</a> </dd></dl>
 
 </div>
@@ -3295,7 +3950,7 @@ Variables</h2></td></tr>
 </dl>
 <p>Writes <b>nb_tiles</b> tiles to VRAM starting at <b>first_tile</b>, tile data is sourced from <b>data</b>. Each Tile is 16 bytes in size (8x8 pixels, 2 bits-per-pixel).</p>
 <p>Note: Sprite Tiles 128-255 share the same memory region as Background Tiles 128-255.</p>
-<p>GBC only: <a class="el" href="hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a> determines which bank of Background tile patterns are written to. </p><ul>
+<p>GBC only: <a class="el" href="gb_2hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a> determines which bank of Background tile patterns are written to. </p><ul>
 <li>VBK_REG=0 indicates the first bank </li>
 <li>VBK_REG=1 indicates the second </li>
 </ul>
@@ -3342,7 +3997,7 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
-<p>Similar to <a class="el" href="gb_8h.html#a47132bf7f387c2518c507a0b868cbf4c">set_sprite_data</a>, except source data is 1 bit-per-pixel which gets expanded into 2 bits-per-pixel.</p>
+<p>Similar to <a class="el" href="sms_8h.html#a216a3e3d320ee4d8cf4845600487ae39">set_sprite_data</a>, except source data is 1 bit-per-pixel which gets expanded into 2 bits-per-pixel.</p>
 <p>For a given bit that represent a pixel: </p><ul>
 <li>0 will be expanded into color 0 </li>
 <li>1 will be expanded into color 3</li>
@@ -3470,7 +4125,7 @@ Variables</h2></td></tr>
 <p>In 8x16 mode: </p><ul>
 <li>The sprite will also display the next tile (<b>tile</b> + 1) directly below (y + 8) the first tile. </li>
 <li>The lower bit of the tile number is ignored: the upper 8x8 tile is (<b>tile</b> &amp; 0xFE), and the lower 8x8 tile is (<b>tile</b> | 0x01). </li>
-<li>See: <a class="el" href="gb_8h.html#af91d252f07f4764996154820f970c101">SPRITES_8x16</a> </li>
+<li>See: <a class="el" href="sms_8h.html#af91d252f07f4764996154820f970c101">SPRITES_8x16</a> </li>
 </ul>
 
 </div>
@@ -3779,7 +4434,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Copies Tile Pattern data to an address in VRAM</p>
+<p>Copies arbitrary data to an address in VRAM</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">vram_addr</td><td>Pointer to destination VRAM Address </td></tr>
@@ -3789,7 +4444,7 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <p>Copies <b>len</b> bytes from a buffer at <b>data</b> to VRAM starting at <b>vram_addr</b>.</p>
-<p>GBC only: <a class="el" href="hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a> determines which bank of Background tile patterns are written to. </p><ul>
+<p>GBC only: <a class="el" href="gb_2hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a> determines which bank of Background tile patterns are written to. </p><ul>
 <li>VBK_REG=0 indicates the first bank </li>
 <li>VBK_REG=1 indicates the second </li>
 </ul>
@@ -3827,7 +4482,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Copies Tile Pattern data from an address in VRAM into a buffer</p>
+<p>Copies arbitrary data from an address in VRAM into a buffer</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">vram_addr</td><td>Pointer to source VRAM Address </td></tr>
@@ -3837,7 +4492,55 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <p>Copies <b>len</b> bytes from VRAM starting at <b>vram_addr</b> into a buffer at <b>data</b>.</p>
-<p>GBC only: <a class="el" href="hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a> determines which bank of Background tile patterns are written to. </p><ul>
+<p>GBC only: <a class="el" href="gb_2hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a> determines which bank of Background tile patterns are written to. </p><ul>
+<li>VBK_REG=0 indicates the first bank </li>
+<li>VBK_REG=1 indicates the second </li>
+</ul>
+
+</div>
+</div>
+<a id="a4dccf6232263a3b533115e75d63b4e9d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4dccf6232263a3b533115e75d63b4e9d">&#9670;&nbsp;</a></span>vmemcpy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void vmemcpy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *&#160;</td>
+          <td class="paramname"><em>dest</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *&#160;</td>
+          <td class="paramname"><em>sour</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>&#160;</td>
+          <td class="paramname"><em>len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Copies arbitrary data from an address in VRAM into a buffer</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dest</td><td>Pointer to destination buffer (may be in VRAM) </td></tr>
+    <tr><td class="paramname">sour</td><td>Pointer to source buffer (may be in VRAM) </td></tr>
+    <tr><td class="paramname">len</td><td>Number of bytes to copy</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Copies <b>len</b> bytes from or to VRAM starting at <b>sour</b> into a buffer or to VRAM at <b>dest</b>.</p>
+<p>GBC only: <a class="el" href="gb_2hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a> determines which bank of Background tile patterns are written to. </p><ul>
 <li>VBK_REG=0 indicates the first bank </li>
 <li>VBK_REG=1 indicates the second </li>
 </ul>
@@ -3908,7 +4611,7 @@ Variables</h2></td></tr>
 <p>Entries are copied from <b>tiles</b> to Tile Map at address vram_addr starting at <b>x</b>, <b>y</b> writing across for <b>w</b> tiles and down for <b>h</b> tiles.</p>
 <p>One byte per source tile map entry.</p>
 <p>There are two 32x32 Tile Maps in VRAM at addresses 9800h-9BFFh and 9C00h-9FFFh.</p>
-<p>GBC only: <a class="el" href="hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a> determines whether Tile Numbers or Tile Attributes get set. </p><ul>
+<p>GBC only: <a class="el" href="gb_2hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a> determines whether Tile Numbers or Tile Attributes get set. </p><ul>
 <li>VBK_REG=0 Tile Numbers are written </li>
 <li>VBK_REG=1 Tile Attributes are written </li>
 </ul>
@@ -3952,16 +4655,18 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Sets VRAM Tile Pattern data starting from given base address</p>
+<p>Sets VRAM Tile Pattern data starting from given base address without taking into account the state of LCDC bit 4.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">first_tile</td><td>Index of the first tile to write </td></tr>
     <tr><td class="paramname">nb_tiles</td><td>Number of tiles to write </td></tr>
     <tr><td class="paramname">data</td><td>Pointer to (2 bpp) source Tile Pattern data. </td></tr>
-    <tr><td class="paramname">base</td><td>MSB of the destination address in VRAM (usually 0x80 or 0x90 which gives 0x8000 or 0x9000) </td></tr>
+    <tr><td class="paramname">base</td><td>MSB of the destination address in VRAM (usually 0x80 or 0x90 which gives 0x8000 or 0x9000)</td></tr>
   </table>
   </dd>
 </dl>
+<p><a class="el" href="gb_8h.html#a845a29ae3a4ab2ba3533aae20bbc526b">set_tile_data()</a> allows to load tile data not taking into account LCDC bit 4 state <br  />
+ </p>
 
 </div>
 </div>
@@ -4241,14 +4946,14 @@ Variables</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a id="a4e1e0e72dd773439e333c84dd762a9c3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4e1e0e72dd773439e333c84dd762a9c3">&#9670;&nbsp;</a></span>c</h2>
+<a id="a0b3366755f3276b0243c1e0497471b7a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b3366755f3276b0243c1e0497471b7a">&#9670;&nbsp;</a></span>c</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int c</td>
+          <td class="memname">void c</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -4276,6 +4981,30 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>GB CPU type</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a0031c07799247a6d6c1bfa3decac79d0">DMG_TYPE</a>, <a class="el" href="gb_8h.html#ae996ed4fd8bb6b308b9c8708a91df06b">MGB_TYPE</a>, <a class="el" href="gb_8h.html#aee435a3a0dde3dbd7b6112dbb456cde8">CGB_TYPE</a>, <a class="el" href="cgb_8h.html#a871b5b1aba74ab8764f72b73bc090adb">cpu_fast()</a>, <a class="el" href="cgb_8h.html#a476d06d0fe64d7c5a1ec05b8ee859a56">cpu_slow()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a539b7b45b1c2d6b2051553665c76fd36"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a539b7b45b1c2d6b2051553665c76fd36">&#9670;&nbsp;</a></span>_is_GBA</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> _is_GBA</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>GBA detection</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a6ccf5d0f34fb0af0b6e73b9df0ccd745">GBA_DETECTED</a>, <a class="el" href="gb_8h.html#aa311f84dd9fce6e136ba4881e7b0d98d">GBA_NOT_DETECTED</a>, <a class="el" href="gb_8h.html#a874b9bd95b0a05d6a6072feabc879e45">_cpu</a> </dd></dl>
 
 </div>
 </div>
@@ -4380,22 +5109,22 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="hardware_8h.html#a0b42e4dadd74c927e8b801b4f42c0e44">__REG</a> _current_bank</td>
+          <td class="memname"><a class="el" href="gb_2hardware_8h.html#a0b42e4dadd74c927e8b801b4f42c0e44">__REG</a> _current_bank</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Tracks current active ROM bank </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a19558f5bbc9fea767f945001ae9cd13f">SWITCH_ROM_MBC1()</a>, <a class="el" href="gb_8h.html#a92d040284342702026eb19dab59b586e">SWITCH_ROM_MBC5()</a> This variable is updated automatically when you call <a class="el" href="gb_8h.html#a19558f5bbc9fea767f945001ae9cd13f">SWITCH_ROM_MBC1</a> or <a class="el" href="gb_8h.html#a92d040284342702026eb19dab59b586e">SWITCH_ROM_MBC5</a>, or call a <a class="el" href="asm_2gbz80_2types_8h.html#aa8480aed89a168ec484727f5ac985cd0">BANKED</a> function. </dd></dl>
+<p>Tracks current active ROM bank </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a19558f5bbc9fea767f945001ae9cd13f">SWITCH_ROM_MBC1()</a>, <a class="el" href="gb_8h.html#a92d040284342702026eb19dab59b586e">SWITCH_ROM_MBC5()</a> This variable is updated automatically when you call <a class="el" href="gb_8h.html#a19558f5bbc9fea767f945001ae9cd13f">SWITCH_ROM_MBC1</a> or <a class="el" href="gb_8h.html#a92d040284342702026eb19dab59b586e">SWITCH_ROM_MBC5</a>, or call a <a class="el" href="asm_2z80_2types_8h.html#aa8480aed89a168ec484727f5ac985cd0">BANKED</a> function. </dd></dl>
 
 </div>
 </div>
-<a id="aba4fa6f13f80e53daeb0caa7b1ec8afb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aba4fa6f13f80e53daeb0caa7b1ec8afb">&#9670;&nbsp;</a></span>h</h2>
+<a id="a1f1dfeb2f802fe99f37fe91867b84456"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f1dfeb2f802fe99f37fe91867b84456">&#9670;&nbsp;</a></span>h</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void h</td>
+          <td class="memname"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> h</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -4413,7 +5142,9 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
+<b>Initial value:</b><div class="fragment"><div class="line">{</div>
+<div class="line">    __asm__(<span class="stringliteral">&quot;ei&quot;</span>)</div>
+</div><!-- fragment -->
 </div>
 </div>
 <a id="a4c2e4adef74067fdbb49005bc73de937"></a>
@@ -4488,7 +5219,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="hardware_8h.html#a0b42e4dadd74c927e8b801b4f42c0e44">__REG</a> _shadow_OAM_base</td>
+          <td class="memname"><a class="el" href="gb_2hardware_8h.html#a0b42e4dadd74c927e8b801b4f42c0e44">__REG</a> _shadow_OAM_base</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -4499,11 +5230,11 @@ Variables</h2></td></tr>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="astdint_8h_html_aba7bc1797add20fe3efdf37ced1182c5"><div class="ttname"><a href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a></div><div class="ttdeci">unsigned char uint8_t</div><div class="ttdef"><b>Definition:</b> stdint.h:51</div></div>
-<div class="ttc" id="agb_8h_html_a98b848953a95ce2fff6fda643575d74a"><div class="ttname"><a href="gb_8h.html#a98b848953a95ce2fff6fda643575d74a">_current_bank</a></div><div class="ttdeci">__REG _current_bank</div><div class="ttdef"><b>Definition:</b> gb.h:350</div></div>
+<div class="ttc" id="agb_8h_html_a98b848953a95ce2fff6fda643575d74a"><div class="ttname"><a href="gb_8h.html#a98b848953a95ce2fff6fda643575d74a">_current_bank</a></div><div class="ttdeci">__REG _current_bank</div><div class="ttdef"><b>Definition:</b> gb.h:379</div></div>
 <div class="ttc" id="astdint_8h_html_adf4d876453337156dde61095e1f20223"><div class="ttname"><a href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a></div><div class="ttdeci">unsigned short int uint16_t</div><div class="ttdef"><b>Definition:</b> stdint.h:52</div></div>
 <div class="ttc" id="agb_8h_html_a115eb30ec86f6af039a27918ffe4cf8c"><div class="ttname"><a href="gb_8h.html#a115eb30ec86f6af039a27918ffe4cf8c">nowait_int_handler</a></div><div class="ttdeci">void nowait_int_handler(void) NONBANKED</div></div>
 <div class="ttc" id="agb_8h_html_a024fc35ef0ad258d67c8f9dfb0751ee7"><div class="ttname"><a href="gb_8h.html#a024fc35ef0ad258d67c8f9dfb0751ee7">add_SIO</a></div><div class="ttdeci">void add_SIO(int_handler h) NONBANKED</div></div>
-<div class="ttc" id="agb_8h_html_a4c2e4adef74067fdbb49005bc73de937"><div class="ttname"><a href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></div><div class="ttdeci">void b</div><div class="ttdef"><b>Definition:</b> gb.h:457</div></div>
+<div class="ttc" id="agb_8h_html_a4c2e4adef74067fdbb49005bc73de937"><div class="ttname"><a href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></div><div class="ttdeci">void b</div><div class="ttdef"><b>Definition:</b> gb.h:540</div></div>
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
