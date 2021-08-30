@@ -101,6 +101,12 @@ __standard_VBL_handler::
         LDH     (.vbl_done),A
         RET
 
+_refresh_OAM::
+        LD      HL, #((.refresh_OAM_DMA - .start_refresh_OAM) + .refresh_OAM)
+        WAIT_STAT
+        LD      A, #>_shadow_OAM
+        JP      (HL)
+
         ;; GameBoy Header
 
         ;; DO NOT CHANGE...
@@ -281,7 +287,7 @@ _set_interrupts::
         LDH     A,(__shadow_OAM_base)
         OR      A
         RET     Z
-
+.refresh_OAM_DMA:
         LDH     (.DMA),A        ; Put A into DMA registers
         LD      A,#0x28         ; We need to wait 160 ns
 1$:

@@ -27,4 +27,4 @@ _fill_rect_compat::
         ld c, e
         ld e, a         ; BC = data, DE = YX
 
-        jp .set_tile_map_xy_compat
+        jp .fill_rect_xy_compat

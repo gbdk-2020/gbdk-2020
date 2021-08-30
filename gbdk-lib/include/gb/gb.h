@@ -625,6 +625,9 @@ void wait_vbl_done(void) NONBANKED __preserves_regs(b, c, d, e, h, l);
 */
 void display_off(void) NONBANKED __preserves_regs(b, c, d, e, h, l);
 
+/** Copies data from shadow OAM to OAM
+ */
+void refresh_OAM() NONBANKED; 
 
 
 /** Copies data from somewhere in the lower address space to part of hi-ram.
@@ -635,7 +638,6 @@ void display_off(void) NONBANKED __preserves_regs(b, c, d, e, h, l);
 void hiramcpy(uint8_t dst,
           const void *src,
           uint8_t n) NONBANKED __preserves_regs(b, c);
-
 
 
 /** Turns the display back on.

@@ -201,6 +201,10 @@ inline void display_off(void) {
 #define DISPLAY_OFF \
 	display_off();
 
+/** Copies data from shadow OAM to OAM
+ */
+void refresh_OAM();
+
 /** Blanks leftmost column, so it is not garbaged when you use horizontal scroll
     @see SHOW_LEFT_COLUMN
 */

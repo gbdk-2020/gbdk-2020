@@ -31,8 +31,9 @@ uint8_t idx;
 // main funxction
 void main(void) {
     DISPLAY_OFF;
+
     // Fill the screen background with a single tile pattern
-    fill_bkg_rect(0, 0, 20, 18, 0);
+    fill_bkg_rect(0, 0, DEVICE_SCREEN_WIDTH, DEVICE_SCREEN_HEIGHT, 0);
 
     // set tile data for background
     set_bkg_data(0, 1, pattern);
