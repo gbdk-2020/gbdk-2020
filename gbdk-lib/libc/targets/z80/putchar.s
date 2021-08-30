@@ -50,12 +50,12 @@ _putchar::
         jr nz, 6$
         
         push de
+        call _cls
         call font_load_ibm
         ld a, h
         or l
         ret z 
         call font_set
-        call _cls
         pop de
         ld hl, (font_current+sfont_handle_font)
 6$:
