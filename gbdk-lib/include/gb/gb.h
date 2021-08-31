@@ -321,6 +321,10 @@ extern uint8_t _is_GBA;
 */
 #define GBA_DETECTED 0x01
 
+/** Macro returns TRUE if device supports color
+ */
+#define DEVICE_SUPPORTS_COLOR (_cpu == CGB_TYPE)
+
 /** Global Time Counter in VBL periods (60Hz)
 
     Increments once per Frame

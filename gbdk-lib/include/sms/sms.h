@@ -257,6 +257,11 @@ void refresh_OAM();
 #define SPRITES_8x8 \
 	__WRITE_VDP_REG(VDP_R1, __READ_VDP_REG(VDP_R1) &= (~R1_SPR_8X16))
 
+/** Macro returns TRUE if device supports color
+ *  (it always does on SMS/GG)
+ */
+#define DEVICE_SUPPORTS_COLOR (TRUE)
+
 /** Global Time Counter in VBL periods (60Hz)
 
     Increments once per Frame
