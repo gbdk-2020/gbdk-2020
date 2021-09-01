@@ -46,7 +46,7 @@ void bank_fixed(void) NONBANKED
 
 void main(void)
 {
-  cgb_compatibility();
+  set_default_palette();
   printf("Program Start...\n\n");
 
   // Call the functions, unbanked first then the banked ones

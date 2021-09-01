@@ -7,7 +7,8 @@
 
 	.area	_CODE
         
-_cgb_compatibility::		; Banked
+_cgb_compatibility::
+_set_default_palette::
 	LD	HL, #1$
 	PUSH	HL
 	LD	HL, #0x0100

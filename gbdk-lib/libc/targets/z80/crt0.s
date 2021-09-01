@@ -4,7 +4,7 @@
         .module Runtime
         .area   _HEADER (ABS)
         
-        .globl  .CRT_DEFAULT_PALETTE, _set_palette
+        .globl  _set_default_palette
 
         .org    0x00            ; Reset 00h
         di                      ; disable interrupt
@@ -98,16 +98,7 @@ _WRITE_VDP_DATA::
 4$:
         ld (#__SYSTEM), a
 
-        ld hl, #.CRT_DEFAULT_PALETTE
-        push hl
-        ld hl, #0x0100
-        push hl
-        call _set_palette
-        ld hl, #.CRT_DEFAULT_PALETTE
-        push hl
-        ld hl, #0x0101
-        push hl
-        call _set_palette
+        call _set_default_palette
 
         ei                      ; re-enable interrupts before going to main()
         call _main

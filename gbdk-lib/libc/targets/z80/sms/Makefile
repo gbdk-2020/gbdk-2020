@@ -21,7 +21,7 @@ ASSRC =	set_interrupts.s \
 	font.s \
 	putchar.s \
 	scroll.s cls.s gotoxy.s \
-	palette.s \
+	palette.s set_palette.s \
 	pad.s pad_ex.s \
 	int.s nmi.s \
 	mode.s \

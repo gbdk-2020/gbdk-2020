@@ -411,7 +411,7 @@ void joypad_ex(joypads_t * joypads) __z88dk_fastcall __preserves_regs(iyh, iyl);
 #error Unrecognized port
 #endif
 
-inline void cgb_compatibility() {}
+void set_default_palette(void);
 inline void cpu_fast() {}
 
 #define set_bkg_palette_entry set_palette_entry

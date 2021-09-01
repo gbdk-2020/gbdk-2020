@@ -150,13 +150,17 @@ void cpu_slow(void);
 */
 void cpu_fast(void);
 
-/** Set defaults compatible with the normal GameBoy models.
+/** Set palette, compatible with the DMG/GBP.
 
     The default/first CGB palettes for sprites and backgrounds are
     set to a similar default appearance as on the DMG/Pocket/SGB models.
     (White, Light Gray, Dark Gray, Black)
 
     \li You can check to see if @ref _cpu == @ref CGB_TYPE before using this function.
+ */
+void set_default_palette(void);
+
+/** This function is obsolete
  */
 void cgb_compatibility(void);
 
