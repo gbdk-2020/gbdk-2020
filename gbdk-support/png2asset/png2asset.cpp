@@ -628,8 +628,8 @@ int main(int argc, char *argv[])
 		fprintf(file, "\n");
 		fprintf(file, "BANKREF_EXTERN(%s)\n", data_name.c_str());
 		fprintf(file, "\n");
-		fprintf(file, "extern const uint16_t %s_palettes[%d];\n", data_name.c_str(), image.palettesize);
-		fprintf(file, "extern const uint8_t %s_tiles[%d];\n", data_name.c_str(), (int)(tiles.size() * tile_h * 2));
+		fprintf(file, "extern const uint16_t %s_palettes[%d];\n", data_name.c_str(), (unsigned int)image.palettesize);
+		fprintf(file, "extern const uint8_t %s_tiles[%d];\n", data_name.c_str(), (unsigned int)(tiles.size() * tile_h * 2));
 		
 		fprintf(file, "\n");
 		if(export_as_map)
@@ -639,11 +639,11 @@ int main(int argc, char *argv[])
 			if(map_attributes)
 				fprintf(file, "extern const unsigned char* %s_map_attributes[%d];\n", data_name.c_str(), image.w * image.h / 64);
 			else
-				fprintf(file, "extern const unsigned char* %s_tile_pals[%d];\n", data_name.c_str(), (int)tiles.size());
+				fprintf(file, "extern const unsigned char* %s_tile_pals[%d];\n", data_name.c_str(), (unsigned int)tiles.size());
 		}
 		else
 		{
-			fprintf(file, "extern const metasprite_t* const %s_metasprites[%d];\n", data_name.c_str(), (int)sprites.size());
+			fprintf(file, "extern const metasprite_t* const %s_metasprites[%d];\n", data_name.c_str(), (unsigned int)sprites.size());
 		}
 	}
 	fprintf(file, "\n");
@@ -670,7 +670,7 @@ int main(int argc, char *argv[])
 
 	fprintf(file, "BANKREF(%s)\n\n", data_name.c_str());
 
-	fprintf(file, "const uint16_t %s_palettes[%d] = {\n", data_name.c_str(), image.palettesize);
+	fprintf(file, "const uint16_t %s_palettes[%d] = {\n", data_name.c_str(), (unsigned int)image.palettesize);
 	for(size_t i = 0; i < image.palettesize / 4; ++i)
 	{
 		if(i != 0)
@@ -688,7 +688,7 @@ int main(int argc, char *argv[])
 	fprintf(file, "\n};\n");
 
 	fprintf(file, "\n");
-	fprintf(file, "const uint8_t %s_tiles[%d] = {\n", data_name.c_str(), (int)(tiles.size() * tile_h * 2));
+	fprintf(file, "const uint8_t %s_tiles[%d] = {\n", data_name.c_str(), (unsigned int)(tiles.size() * tile_h * 2));
 	for(vector< Tile >::iterator it = tiles.begin(); it != tiles.end(); ++ it)
 	{
 		fprintf(file, "\t");
@@ -719,7 +719,7 @@ int main(int argc, char *argv[])
 			fprintf(file, "};\n\n");
 		}
 
-		fprintf(file, "const metasprite_t* const %s_metasprites[%d] = {\n\t", data_name.c_str(), (int)sprites.size());
+		fprintf(file, "const metasprite_t* const %s_metasprites[%d] = {\n\t", data_name.c_str(), (unsigned int)sprites.size());
 		for(vector< MetaSprite >::iterator it = sprites.begin(); it != sprites.end(); ++ it)
 		{
 			fprintf(file, "%s_metasprite%d", data_name.c_str(), (int)(it - sprites.begin()));
@@ -735,11 +735,11 @@ int main(int argc, char *argv[])
 			fprintf(file, "const struct MetaSpriteInfo %s = {\n", data_name.c_str());
 			fprintf(file, "\t%d, //width\n", pivot_w);
 			fprintf(file, "\t%d, //height\n", pivot_h);
-			fprintf(file, "\t%d, //num_tiles\n", tiles.size() * (tile_h >> 3));
+			fprintf(file, "\t%d, //num_tiles\n", (unsigned int)tiles.size() * (tile_h >> 3));
 			fprintf(file, "\t%s_tiles, //tiles\n", data_name.c_str());
-			fprintf(file, "\t%d, //num palettes\n", image.palettesize >> 2);
+			fprintf(file, "\t%d, //num palettes\n", (unsigned int)image.palettesize >> 2);
 			fprintf(file, "\t%s_palettes, //CGB palette\n", data_name.c_str());
-			fprintf(file, "\t%d, //num sprites\n", sprites.size());
+			fprintf(file, "\t%d, //num sprites\n", (unsigned int)sprites.size());
 			fprintf(file, "\t%s_metasprites, //metasprites\n", data_name.c_str());
 			fprintf(file, "};\n");
 		}
@@ -750,7 +750,7 @@ int main(int argc, char *argv[])
 		if(!use_map_attributes)
 		{
 			fprintf(file, "\n");
-			fprintf(file, "const uint8_t %s_tile_pals[%d] = {\n\t", data_name.c_str(), (int)tiles.size());
+			fprintf(file, "const uint8_t %s_tile_pals[%d] = {\n\t", data_name.c_str(), (unsigned int)tiles.size());
 			for(vector< Tile >::iterator it = tiles.begin(); it != tiles.end(); ++ it)
 			{
 				if(it != tiles.begin())
@@ -767,9 +767,9 @@ int main(int argc, char *argv[])
 			fprintf(file, "#include \"TilesInfo.h\"\n");
 			fprintf(file, "BANKREF(%s_tiles_info)\n", data_name.c_str());
 			fprintf(file, "const struct TilesInfo %s_tiles_info = {\n", data_name.c_str());
-			fprintf(file, "\t%d, //num tiles\n", tiles.size());
+			fprintf(file, "\t%d, //num tiles\n", (unsigned int)tiles.size());
 			fprintf(file, "\t%s_tiles, //tiles\n", data_name.c_str());
-			fprintf(file, "\t%d, //num palettes\n", image.palettesize);
+			fprintf(file, "\t%d, //num palettes\n", (unsigned int)image.palettesize);
 			fprintf(file, "\t%s_palettes, //palettes\n", data_name.c_str());
 			if(!use_map_attributes)
 				fprintf(file, "\t%s_tile_pals, //tile palettes\n", data_name.c_str());
