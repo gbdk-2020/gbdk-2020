@@ -1,7 +1,7 @@
 /** Note that this example is a bit old.  Try BANKED and NONBANKED
     as in banked/
  */
-#include <gb/gb.h>
+#include <gbdk/platform.h>
 #include <stdint.h>
 #include <stdio.h>
 
