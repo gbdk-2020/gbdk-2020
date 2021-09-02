@@ -37,9 +37,9 @@ void main(void)
   var_0 = 2;
   SWITCH_RAM(1);
   var_1 = 3;
-  SWITCH_RAM(2);
+  SWITCH_RAM(0);
   var_2 = 4;
-  SWITCH_RAM(3);
+  SWITCH_RAM(1);
   var_3 = 5;
 
   bank_fixed();
@@ -52,9 +52,9 @@ void main(void)
   printf("Var_0 is %u\n", var_0);
   SWITCH_RAM(1);
   printf("Var_1 is %u\n", var_1);
-  SWITCH_RAM(2);
+  SWITCH_RAM(0);
   printf("Var_2 is %u\n", var_2);
-  SWITCH_RAM(3);
+  SWITCH_RAM(1);
   printf("Var_3 is %u\n", var_3);
 
   puts("The End...");

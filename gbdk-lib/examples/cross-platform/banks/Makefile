@@ -24,7 +24,7 @@ LCCFLAGS += -Wl-j -Wm-yoA -Wm-ya4 -autobank -Wb-ext=.rel -Wb-v # MBC + Autobanki
 # LCCFLAGS += -v     # Uncomment for lcc verbose output
 
 # You can set the name of the ROM file here
-PROJECTNAME = banks_farptr
+PROJECTNAME = banks
 
 # EXT?=gb # Only sets extension to default (game boy .gb) if not populated
 SRCDIR      = src
