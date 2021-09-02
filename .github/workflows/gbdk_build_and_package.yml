@@ -32,9 +32,9 @@ jobs:
       - name: Linux Depends
         if: matrix.name == 'Linux-x64'
         run: |
-          # curl -Lo sdcc.tar.bz2 'https://github.com/bbbbbr/gbdk-2020/releases/download/sdcc_12539/sdcc-snapshot-amd64-unknown-linux2.5-20210711-12539.tar.bz2'
+          # curl -Lo sdcc.tar.bz2 https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-12539-official/sdcc-snapshot-amd64-unknown-linux2.5-20210711-12539.tar.bz2
           # Use patched sms/gg z80 build:
-          curl -Lo sdcc.tar.bz2 https://github.com/bbbbbr/gbdk2020-sdcc/releases/download/sdcc-12539-patched/sdcc-amd64-linux2.5-20210711-12539--sms-gg-patched.tar.bz2
+          curl -Lo sdcc.tar.bz2 https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-12539-patched/sdcc-amd64-linux2.5-20210711-12539--sms-gg-patched.tar.bz2
           bunzip2 sdcc.tar.bz2
           tar xvf sdcc.tar
 
@@ -42,16 +42,18 @@ jobs:
         if: matrix.name == 'MacOS-x64'
         run: |
           # Note: patched sms/gg z80 build not available for macOS
-          curl -Lo sdcc.tar.bz2 'https://github.com/bbbbbr/gbdk-2020/releases/download/sdcc_12539/sdcc-snapshot-x86_64-apple-macosx-20210718-12548.tar.bz2'
+          curl -Lo sdcc.tar.bz2 https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-12539-official/sdcc-snapshot-x86_64-apple-macosx-20210718-12548.tar.bz2
+          # Use patched sms/gg z80 build:
+          curl -Lo sdcc.tar.bz2 https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-12539-patched/sdcc-x86_64-apple-macosx-20210718-12548--sms-gg-patched.tar.bz2
           bunzip2 sdcc.tar.bz2
           tar xvf sdcc.tar
 
       - name: Windows-x64 Depends
         if: matrix.name == 'Windows-x64'
         run: |
-          # curl -Lo sdcc.zip 'https://github.com/bbbbbr/gbdk-2020/releases/download/sdcc_12539/sdcc-snapshot-x86_64-w64-mingw32-20210711-12539.zip'
+          # curl -Lo sdcc.zip https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-12539-official/sdcc-snapshot-x86_64-w64-mingw32-20210711-12539.zip
           # Use patched sms/gg z80 build:
-          curl -Lo sdcc.zip https://github.com/bbbbbr/gbdk2020-sdcc/releases/download/sdcc-12539-patched/sdcc-x86_64-w64-mingw32-20210711-12539--sms-gg-patched.zip
+          curl -Lo sdcc.zip https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-12539-patched/sdcc-x86_64-w64-mingw32-20210711-12539--sms-gg-patched.zip
           7z x sdcc.zip
 
       - name: Windows Depends MSYS2/MinGW64
