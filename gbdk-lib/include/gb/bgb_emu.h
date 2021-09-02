@@ -42,7 +42,7 @@
 
 #define BGB_MESSAGE1(name, message_text) \
 __asm \
-.MACRO name msg_t, msg_s, ?llbl\
+.MACRO name msg_t, ?llbl\
   ld d, d \
   jr llbl \
   .dw 0x6464 \
