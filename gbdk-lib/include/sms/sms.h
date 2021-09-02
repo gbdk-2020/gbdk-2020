@@ -4,10 +4,9 @@
 #ifndef _SMS_H
 #define _SMS_H
 
-#define __GBDK_VERSION 405
-
 #include <types.h>
 #include <stdint.h>
+#include <gbdk/version.h>
 #include <sms/hardware.h>
 
 #define VBK_REG VDP_ATTR_SHIFT
