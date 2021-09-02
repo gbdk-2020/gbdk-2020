@@ -1,4 +1,4 @@
-name: GBDK Build and Package
+name: GBDK Build Examples
 
 on:
   # Allows you to run this workflow manually from the Actions tab
@@ -98,6 +98,14 @@ jobs:
           export SDCCDIR=`pwd`/sdcc
           cd gbdk-2020
           make
+          # Now build the examples for all platforms
+          cd build
+          cd gbdk
+          cd examples
+          make
+          cd ..
+          cd ..
+          cd ..
           cd ..
 
       - name: Build GBDK-2020 Windows
@@ -107,35 +115,13 @@ jobs:
           set SDCCDIR=%CD%\sdcc
           cd gbdk-2020
           msys2 -c 'make'
-          cd ..
-
-      # ==== Packaging ====
-      - name: Package build Linux/MacOS
-        if: (matrix.name == 'Linux-x64') || (matrix.name == 'MacOS-x64')
-        shell: bash
-        run: |
-          cd gbdk-2020
-          mkdir package
+          # Now build the examples for all platforms
           cd build
-          tar czf ../package/${{ env.BUILD_PACKAGE_FILENAME }} gbdk
+          cd gbdk
+          cd examples
+          msys2 -c 'make'
+          cd ..
+          cd ..
           cd ..
           cd ..
 
-      - name: Package build Windows
-        if: matrix.name == 'Windows-x64'
-        shell: cmd
-        run: |
-          cd gbdk-2020
-          mkdir package
-          cd build
-          7z a ../package/${{ env.BUILD_PACKAGE_FILENAME }} gbdk
-          cd ..
-          cd ..
-
-      - name: Store build
-        if: (matrix.name == 'Linux-64') || (matrix.name == 'MacOS-64') || ('Windows-x64')
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ matrix.name }} build
-          path: gbdk-2020/package/${{ env.BUILD_PACKAGE_FILENAME }}
-          # retention-days: 14
