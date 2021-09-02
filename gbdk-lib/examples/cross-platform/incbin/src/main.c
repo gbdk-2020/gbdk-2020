@@ -1,4 +1,4 @@
-#include <gb/gb.h>
+#include <gbdk/platform.h>
 #include <stdint.h>
 
 #include <gbdk/incbin.h>
@@ -28,16 +28,16 @@ INCBIN_EXTERN(blank_tile_data)
 void init_gfx() {
     // Load a single clear background tile at location 0x80 and clear/fill the map with it
     set_bkg_data(0x80u, 1u, blank_tile_data); // The first 0x80u here is the tile ID
-	fill_bkg_rect(0u, 0u, 20u, 18u, 0x80u);   // The last 0x80u here is the tile ID 
+    fill_bkg_rect(0u, 0u, DEVICE_SCREEN_WIDTH, DEVICE_SCREEN_HEIGHT, 0x80u);   // The last 0x80u here is the tile ID 
 
     // Load logo background tiles and map
-	// They start at 0u
+    // They start at 0u
     set_bkg_data(0u, SIZE(logo_tiles_data) / TILE_BYTES, logo_tiles_data);
-	set_bkg_tiles(LOGO_MAP_X, LOGO_MAP_Y,
+    set_bkg_tiles(LOGO_MAP_X, LOGO_MAP_Y,
                   LOGO_MAP_WIDTH, LOGO_MAP_HEIGHT, 
                   logo_map);
 
-	// Turn the background map on to make it visible
+    // Turn the background map on to make it visible
     SHOW_BKG;
 }
 
@@ -45,14 +45,14 @@ void init_gfx() {
 
 void main(void)
 {
-	init_gfx();
+    init_gfx();
 
     // Loop forever
     while(1) {
 
-		// Game main loop processing goes here
+        // Game main loop processing goes here
 
-		// Done processing, yield CPU and wait for start of next frame
+        // Done processing, yield CPU and wait for start of next frame
         wait_vbl_done();
     }
 }
