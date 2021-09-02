@@ -179,8 +179,8 @@ void remove_JOY(int_handler h) NONBANKED;
     only three may be added.
 
     Do not use '__critical' and '__interrupt' attributes for a
-    function added via add_VBL() (or LCD, etc). The attributes 
-    are only required when constructing a bare jump from the 
+    function added via add_VBL() (or LCD, etc). The attributes
+    are only required when constructing a bare jump from the
     interrupt vector itself.
 
     Note: The default VBL is installed automatically.
@@ -631,7 +631,7 @@ void display_off(void) NONBANKED __preserves_regs(b, c, d, e, h, l);
 
 /** Copies data from shadow OAM to OAM
  */
-void refresh_OAM() NONBANKED; 
+void refresh_OAM() NONBANKED;
 
 
 /** Copies data from somewhere in the lower address space to part of hi-ram.
@@ -658,11 +658,11 @@ void hiramcpy(uint8_t dst,
 
 /** Does nothing for GB
  */
-#define HIDE_LEFT_COLUMN 
+#define HIDE_LEFT_COLUMN
 
 /** Does nothing for GB
  */
-#define SHOW_LEFT_COLUMN 
+#define SHOW_LEFT_COLUMN
 
 /** Turns on the background layer.
     Sets bit 0 of the LCDC register to 1.
@@ -716,7 +716,7 @@ void hiramcpy(uint8_t dst,
 
 /**
  * Set byte in vram at given memory location
- * 
+ *
  * @param addr address to write to
  * @param v value
  */
@@ -724,7 +724,7 @@ void set_vram_byte(uint8_t * addr, uint8_t v) __preserves_regs(b, c);
 
 /**
  * Get byte from vram at given memory location
- * 
+ *
  * @param addr address to read from
  * @return read value
  */
@@ -819,12 +819,12 @@ void get_bkg_data(uint8_t first_tile,
 
     Use @ref set_bkg_submap() instead when:
     \li Source map is wider than 32 tiles.
-    \li Writing a width that does not match the source map width __and__ more 
+    \li Writing a width that does not match the source map width __and__ more
     than one row high at a time.
 
     One byte per source tile map entry.
 
-    Writes that exceed coordinate 31 on the x or y axis will wrap around to 
+    Writes that exceed coordinate 31 on the x or y axis will wrap around to
     the Left and Top edges.
 
     Note: Patterns 128-255 overlap with patterns 128-255 of the sprite Tile Pattern table.
@@ -866,8 +866,8 @@ void set_bkg_tiles(uint8_t x,
 #define set_tile_map set_bkg_tiles
 
 
-/** Sets a rectangular area of the Background Tile Map using a sub-region 
-    from a source tile map. Useful for scrolling implementations of maps 
+/** Sets a rectangular area of the Background Tile Map using a sub-region
+    from a source tile map. Useful for scrolling implementations of maps
     larger than 32 x 32 tiles.
 
     @param x      X Start position in Background Map tile coordinates. Range 0 - 31
@@ -878,16 +878,16 @@ void set_bkg_tiles(uint8_t x,
     @param map_w  Width of source tile map in tiles. Range 1 - 255
 
     Entries are copied from __map__ to the Background Tile Map starting at
-    __x__, __y__ writing across for __w__ tiles and down for __h__ tiles, 
+    __x__, __y__ writing across for __w__ tiles and down for __h__ tiles,
     using __map_w__ as the rowstride for the source tile map.
 
     Use this instead of @ref set_bkg_tiles when the source map is wider than
-    32 tiles or when writing a width that does not match the source map width. 
+    32 tiles or when writing a width that does not match the source map width.
 
     One byte per source tile map entry.
 
-    Writes that exceed coordinate 31 on the x or y axis will wrap around to 
-    the Left and Top edges.    
+    Writes that exceed coordinate 31 on the x or y axis will wrap around to
+    the Left and Top edges.
 
     See @ref set_bkg_tiles for setting CGB attribute maps with @ref VBK_REG.
 
@@ -926,7 +926,7 @@ void get_bkg_tiles(uint8_t x,
  * @param y Y-coordinate
  * @param t tile index
  * @return returns the address of tile, so you may use faster set_vram_byte() later
- */ 
+ */
 uint8_t * set_bkg_tile_xy(uint8_t x, uint8_t y, uint8_t t) __preserves_regs(b, c);
 #define set_tile_xy set_bkg_tile_xy
 
@@ -935,7 +935,7 @@ uint8_t * set_bkg_tile_xy(uint8_t x, uint8_t y, uint8_t t) __preserves_regs(b, c
  * @param x X-coordinate
  * @param y Y-coordinate
  * @return returns tile index
- */ 
+ */
 uint8_t get_bkg_tile_xy(uint8_t x, uint8_t y) __preserves_regs(b, c);
 
 
@@ -1040,12 +1040,12 @@ void get_win_data(uint8_t first_tile,
 
     Use @ref set_win_submap() instead when:
     \li Source map is wider than 32 tiles.
-    \li Writing a width that does not match the source map width __and__ more 
+    \li Writing a width that does not match the source map width __and__ more
     than one row high at a time.
 
     One byte per source tile map entry.
 
-    Writes that exceed coordinate 31 on the x or y axis will wrap around to 
+    Writes that exceed coordinate 31 on the x or y axis will wrap around to
     the Left and Top edges.
 
     Note: Patterns 128-255 overlap with patterns 128-255 of the sprite Tile Pattern table.
@@ -1065,7 +1065,7 @@ void set_win_tiles(uint8_t x,
           const uint8_t *tiles) NONBANKED __preserves_regs(b, c);
 
 
-/** Sets a rectangular area of the Window Tile Map using a sub-region 
+/** Sets a rectangular area of the Window Tile Map using a sub-region
     from a source tile map.
 
     @param x      X Start position in Window Map tile coordinates. Range 0 - 31
@@ -1076,15 +1076,15 @@ void set_win_tiles(uint8_t x,
     @param map_w  Width of source tile map in tiles. Range 1 - 255
 
     Entries are copied from __map__ to the Window Tile Map starting at
-    __x__, __y__ writing across for __w__ tiles and down for __h__ tiles, 
+    __x__, __y__ writing across for __w__ tiles and down for __h__ tiles,
     using __map_w__ as the rowstride for the source tile map.
 
     Use this instead of @ref set_win_tiles when the source map is wider than
-    32 tiles or when writing a width that does not match the source map width. 
+    32 tiles or when writing a width that does not match the source map width.
 
     One byte per source tile map entry.
 
-    Writes that exceed coordinate 31 on the x or y axis will wrap around to 
+    Writes that exceed coordinate 31 on the x or y axis will wrap around to
     the Left and Top edges.
 
     GBC only: @ref VBK_REG determines whether Tile Numbers or Tile Attributes get set.
@@ -1126,7 +1126,7 @@ void get_win_tiles(uint8_t x,
  * @param y Y-coordinate
  * @param t tile index
  * @return returns the address of tile, so you may use faster set_vram_byte() later
- */ 
+ */
 uint8_t * set_win_tile_xy(uint8_t x, uint8_t y, uint8_t t) __preserves_regs(b, c);
 
 
@@ -1135,7 +1135,7 @@ uint8_t * set_win_tile_xy(uint8_t x, uint8_t y, uint8_t t) __preserves_regs(b, c
  * @param x X-coordinate
  * @param y Y-coordinate
  * @return returns the tile index
- */ 
+ */
 uint8_t get_win_tile_xy(uint8_t x, uint8_t y) __preserves_regs(b, c);
 
 
@@ -1471,7 +1471,7 @@ void set_tiles(uint8_t x,
           uint8_t *vram_addr,
           const uint8_t *tiles) NONBANKED __preserves_regs(b, c);
 
-/** Sets VRAM Tile Pattern data starting from given base address 
+/** Sets VRAM Tile Pattern data starting from given base address
     without taking into account the state of LCDC bit 4.
 
     @param first_tile  Index of the first tile to write
@@ -1479,7 +1479,7 @@ void set_tiles(uint8_t x,
     @param data        Pointer to (2 bpp) source Tile Pattern data.
 	@param base        MSB of the destination address in VRAM (usually 0x80 or 0x90 which gives 0x8000 or 0x9000)
 
-set_tile_data() allows to load tile data not taking into account LCDC bit 4 state    
+set_tile_data() allows to load tile data not taking into account LCDC bit 4 state
 */
 void set_tile_data(uint8_t first_tile,
           uint8_t nb_tiles,

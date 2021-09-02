@@ -12,7 +12,7 @@
         .MEMCTL_ROMOFF  = 0b01000000
         .MEMCTL_EXTON   = 0b00000000
         .MEMCTL_EXTOFF  = 0b10000000
-        
+
         .JOY_CTL        = 0x3F
 
         .JOY_P1_LATCH   = 0b00000010
@@ -32,11 +32,11 @@
         .VDP_DATA       = 0xBE
         .VDP_CMD        = 0xBF
         .VDP_STAT       = 0xBF
-     
+
         .STATF_INT_VBL  = 0b10000000
         .STATF_9_SPR    = 0b01000000
         .STATF_SPR_COLL = 0b00100000
-     
+
         .VDP_REG_MASK   = 0b10000000
         .VDP_R0         = 0b10000000
 
@@ -78,34 +78,34 @@
         .VDP_R3         = 0b10000011
         .VDP_R4         = 0b10000100
         .VDP_R5         = 0b10000101
-        
+
         .R5_SAT_0x3F00  = 0xFF
         .R5_SAT_MASK    = 0b10000001
-     
+
         .VDP_R6         = 0b10000110
-        
+
         .R6_BANK0       = 0xFB
         .R6_DATA_0x0000 = 0xFB
         .R6_BANK1       = 0xFF
         .R6_DATA_0x2000 = 0xFF
-     
+
         .VDP_R7         = 0b10000111
         .VDP_RBORDER    = 0b10000111
-        
+
         .R7_COLOR_MASK  = 0b11110000
-     
+
         .VDP_R8         = 0b10001000
         .VDP_RSCX       = 0b10001000
-        
+
         .VDP_R9         = 0b10001001
         .VDP_RSCY       = 0b10001001
-     
+
         .VDP_R10        = 0b10001010
-        
+
         .R10_INT_OFF    = 0xFF
         .R10_INT_EVERY  = 0x00
 
-        .JOYPAD_COUNT   = 2             ; let's support 2-joypad mods 
+        .JOYPAD_COUNT   = 1
 
         .UP             = 0b00000001
         .DOWN           = 0b00000010
@@ -115,9 +115,9 @@
         .B              = 0b00100000
         .SELECT         = 0b01000000    ; map to RESET
         .START          = 0b01000000    ; map to RESET
-     
+
         .JOY_PORT1      = 0xDC
-        
+
         .JOY_P1_UP      = 0b00000001
         .JOY_P1_DOWN    = 0b00000010
         .JOY_P1_LEFT    = 0b00000100
@@ -127,9 +127,9 @@
         .JOY_P1_SW2     = 0b00100000
         .JOY_P2_UP      = 0b01000000
         .JOY_P2_DOWN    = 0b10000000
-        
+
         .JOY_PORT2      = 0xDD
-        
+
         .JOY_P2_LEFT    = 0b00000001
         .JOY_P2_RIGHT   = 0b00000010
         .JOY_P2_SW1     = 0b00000100
@@ -138,19 +138,19 @@
         .JOY_RESET      = 0b00010000
         .JOY_P1_LIGHT   = 0b01000000
         .JOY_P2_LIGHT   = 0b10000000
-  
+
         .FMADDRESS      = 0xF0
         .FMDATA         = 0xF1
         .AUDIOCTRL      = 0xF2
 
         .RAM_CONTROL    = 0xfffc
-        
+
         .RAMCTL_BANK    = 0b00000100
         .RAMCTL_ROM     = 0b00000000
         .RAMCTL_RAM     = 0b00001000
         .RAMCTL_RO      = 0b00010000
         .RAMCTL_PROT    = 0b10000000
-        
+
         .GLASSES_3D     = 0xfff8
 
         .MAP_FRAME0     = 0xfffd
@@ -158,7 +158,7 @@
         .MAP_FRAME2     = 0xffff
 
         .BIOS           = 0xC000
-        
+
         .SYSTEM_PAL     = 0x00
         .SYSTEM_NTSC    = 0x01
 
@@ -176,8 +176,8 @@
         .SCREEN_Y_OFS   = 3
         .SCREEN_WIDTH   = 20
         .SCREEN_HEIGHT  = 18
-        .VDP_MAP_HEIGHT = 28 
-        .VDP_MAP_WIDTH  = 32 
+        .VDP_MAP_HEIGHT = 28
+        .VDP_MAP_WIDTH  = 32
 
         ;; Interrupt flags
 
@@ -191,7 +191,7 @@
         ;; Global variables
         .globl  .mode
 
-        ;; Interrupt routines 
+        ;; Interrupt routines
         .globl _INT_ISR
         .globl _NMI_ISR
 
@@ -199,8 +199,8 @@
         .globl  .STACK
         .globl  _shadow_OAM
         .globl  __shadow_OAM_OFF
-        
-        ;; Main user routine    
+
+        ;; Main user routine
         .globl  _main
 
         ;; Macro definitions
@@ -225,7 +225,7 @@ lbl:
         ld a, regH
         jp po, lbl
         ei
-lbl:        
+lbl:
         out (#.VDP_CMD), a
 .endm
 
@@ -281,7 +281,7 @@ lbl3:
 .endm
 
 .macro DIV_PART divident divisor ?lbl
-        rl divident 
+        rl divident
         rla
         sub divisor
         jr  nc, lbl
@@ -290,7 +290,7 @@ lbl:
 .endm
 .macro FAST_DIV8 divident divisor
         ; returns modulus in A
-        .rept 8                
+        .rept 8
                 DIV_PART divident divisor
         .endm
         ld a, divident
@@ -298,7 +298,7 @@ lbl:
 .endm
 .macro FAST_MOD8 divident divisor
         ; returns modulus in A
-        .rept 8                
+        .rept 8
                 DIV_PART divident divisor
         .endm
 .endm

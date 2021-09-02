@@ -132,7 +132,7 @@ void set_interrupts(uint8_t flags) __z88dk_fastcall;
  */
 typedef void (*int_handler)(void) NONBANKED;
 
-/** Removes the VBL interrupt handler. 
+/** Removes the VBL interrupt handler.
     @see add_VBL()
 */
 void remove_VBL(int_handler h) __z88dk_fastcall __preserves_regs(iyh, iyl);
@@ -225,12 +225,12 @@ void refresh_OAM();
 /** Turns off the background layer.
     Not yet implemented
 */
-#define HIDE_BKG 
+#define HIDE_BKG
 
 /** Turns on the window layer
     Not yet implemented
 */
-#define SHOW_WIN 
+#define SHOW_WIN
 
 /** Turns off the window layer.
     Not yet implemented
@@ -554,7 +554,7 @@ inline uint8_t get_sprite_tile(uint8_t nb) {
     Moving the sprite to 0,0 (or similar off-screen location) will hide it.
 */
 inline void move_sprite(uint8_t nb, uint8_t x, uint8_t y) {
-    shadow_OAM[nb] = (y < VDP_SAT_TERM) ? y : 0xC0; 
+    shadow_OAM[nb] = (y < VDP_SAT_TERM) ? y : 0xC0;
     shadow_OAM[0x40+(nb << 1)] = x;
 }
 
@@ -571,7 +571,7 @@ inline void move_sprite(uint8_t nb, uint8_t x, uint8_t y) {
  */
 inline void scroll_sprite(uint8_t nb, int8_t x, int8_t y) {
     uint8_t new_y = shadow_OAM[nb] + y;
-    shadow_OAM[nb] = (new_y < VDP_SAT_TERM) ? new_y : 0xC0; 
+    shadow_OAM[nb] = (new_y < VDP_SAT_TERM) ? new_y : 0xC0;
     shadow_OAM[0x40+(nb << 1)] = x;
 }
 
@@ -586,7 +586,7 @@ inline void hide_sprite(uint8_t nb) {
 
 /**
  * Set byte in vram at given memory location
- * 
+ *
  * @param addr address to write to
  * @param v value
  */
@@ -598,7 +598,7 @@ void set_vram_byte(uint8_t * addr, uint8_t v) __z88dk_callee __preserves_regs(iy
  * @param y Y-coordinate
  * @param t tile index
  * @return returns the address of tile, so you may use faster set_vram_byte() later
- */ 
+ */
 uint8_t * set_attributed_tile_xy(uint8_t x, uint8_t y, uint16_t t) __z88dk_callee __preserves_regs(iyh, iyl);
 
 /**
@@ -607,7 +607,7 @@ uint8_t * set_attributed_tile_xy(uint8_t x, uint8_t y, uint16_t t) __z88dk_calle
  * @param y Y-coordinate
  * @param t tile index
  * @return returns the address of tile, so you may use faster set_vram_byte() later
- */ 
+ */
 uint8_t * set_tile_xy(uint8_t x, uint8_t y, uint8_t t) __z88dk_callee __preserves_regs(iyh, iyl);
 #define set_bkg_tile_xy set_tile_xy
 #define set_win_tile_xy set_tile_xy

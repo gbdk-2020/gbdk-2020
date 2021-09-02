@@ -15,26 +15,26 @@
 
 /** Memoty map */
 
-__BYTES _VRAM[];    
+__BYTES _VRAM[];
 __BYTES _VRAM8000[];
 __BYTES _VRAM8800[];
 __BYTES _VRAM9000[];
-__BYTES _SCRN0[];   
-__BYTES _SCRN1[];   
-__BYTES _SRAM[];    
-__BYTES _RAM[];     
-__BYTES _RAMBANK[]; 
-__BYTES _OAMRAM[];  
-__BYTE_REG _IO[];      
+__BYTES _SCRN0[];
+__BYTES _SCRN1[];
+__BYTES _SRAM[];
+__BYTES _RAM[];
+__BYTES _RAMBANK[];
+__BYTES _OAMRAM[];
+__BYTE_REG _IO[];
 __BYTE_REG _AUD3WAVERAM[];
-__BYTE_REG _HRAM[];       
+__BYTE_REG _HRAM[];
 
 /** MBC5 registers */
 
-__BYTE_REG rRAMG; 
+__BYTE_REG rRAMG;
 __BYTE_REG rROMB0;
 __BYTE_REG rROMB1;
-__BYTE_REG rRAMB; 
+__BYTE_REG rRAMB;
 
 /** IO Registers */
 

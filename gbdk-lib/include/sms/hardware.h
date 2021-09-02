@@ -89,38 +89,38 @@ extern UBYTE shadow_VDP_R3;
 extern UBYTE shadow_VDP_R4;
 #define VDP_R5         0b10000101
 extern UBYTE shadow_VDP_R5;
-        
+
 #define R5_SAT_0x3F00  0xFF
 #define R5_SAT_MASK    0b10000001
-     
+
 #define VDP_R6         0b10000110
 extern UBYTE shadow_VDP_R6;
-        
+
 #define R6_BANK0       0xFB
 #define R6_DATA_0x0000 0xFB
 #define R6_BANK1       0xFF
 #define R6_DATA_0x2000 0xFF
-     
+
 #define VDP_R7         0b10000111
 extern UBYTE shadow_VDP_R7;
 #define VDP_RBORDER    0b10000111
 extern UBYTE shadow_VDP_RBORDER;
-        
+
 #define R7_COLOR_MASK  0b11110000
-     
+
 #define VDP_R8         0b10001000
 extern UBYTE shadow_VDP_R8;
 #define VDP_RSCX       0b10001000
 extern UBYTE shadow_VDP_RSCX;
-        
+
 #define VDP_R9         0b10001001
 extern UBYTE shadow_VDP_R9;
 #define VDP_RSCY       0b10001001
 extern UBYTE shadow_VDP_RSCY;
-     
+
 #define VDP_R10        0b10001010
 extern UBYTE shadow_VDP_R10;
-        
+
 #define R10_INT_OFF    0xFF
 #define R10_INT_EVERY  0x00
 
@@ -151,19 +151,19 @@ static volatile __sfr __at(0xF0) FMADDRESS;
 static volatile __sfr __at(0xF1) FMDATA;
 static volatile __sfr __at(0xF2) AUDIOCTRL;
 
-static volatile UBYTE __at(0xfffc) RAM_CONTROL; 
-        
+static volatile UBYTE __at(0xfffc) RAM_CONTROL;
+
 #define RAMCTL_BANK    0b00000100
 #define RAMCTL_ROM     0b00000000
 #define RAMCTL_RAM     0b00001000
 #define RAMCTL_RO      0b00010000
 #define RAMCTL_PROT    0b10000000
-        
+
 static volatile UBYTE __at(0xfff8) GLASSES_3D;
 
-static volatile UBYTE __at(0xfffd) MAP_FRAME0; 
-static volatile UBYTE __at(0xfffe) MAP_FRAME1; 
-static volatile UBYTE __at(0xffff) MAP_FRAME2; 
+static volatile UBYTE __at(0xfffd) MAP_FRAME0;
+static volatile UBYTE __at(0xfffe) MAP_FRAME1;
+static volatile UBYTE __at(0xffff) MAP_FRAME2;
 
 extern const UBYTE _BIOS;
 
