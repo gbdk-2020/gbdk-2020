@@ -105,6 +105,8 @@
         .R10_INT_OFF    = 0xFF
         .R10_INT_EVERY  = 0x00
 
+        .JOYPAD_COUNT   = 2             ; let's support 2-joypad mods 
+
         .UP             = 0b00000001
         .DOWN           = 0b00000010
         .LEFT           = 0b00000100

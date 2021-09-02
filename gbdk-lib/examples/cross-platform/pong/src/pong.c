@@ -1,5 +1,4 @@
-#include <gb/gb.h>
-#include <gb/sgb.h>
+#include <gbdk/platform.h>
 #include <gbdk/console.h>
 
 #include <stdint.h>
@@ -36,8 +35,8 @@ uint16_t player1_score, player2_score;
 // player constraints
 #define YMIN 28
 #define YMAX 100
-#define PLAYER1_X 16
-#define PLAYER2_X (uint8_t)((20 * 8) - 8)
+#define PLAYER1_X DEVICE_SPRITE_OFFSET_X
+#define PLAYER2_X (uint8_t)(DEVICE_SPRITE_OFFSET_X + (DEVICE_SCREEN_WIDTH * 8) - 8)
 
 // coordinates and speeds of ball
 uint8_t ballX, ballY;
@@ -51,7 +50,7 @@ const unsigned char HUD[] = " p1: %d   p2: %d";
 // main funxction
 void main(void) {
     // init palettes
-    BGP_REG = OBP0_REG = OBP1_REG = 0xE4;
+//    BGP_REG = OBP0_REG = OBP1_REG = 0xE4;
 
     // load tile data into VRAM
     set_sprite_data(0, 4, sprite_data);
@@ -68,7 +67,7 @@ void main(void) {
 
     // init 2 joypads
     if (joypad_init(2, &joypads) != 2) {
-        printf(" This program must\n  be executed  on\n   Super GameBoy");
+        printf("Device must support\nat least two joypads");
         return;
     }
  
@@ -122,7 +121,7 @@ void main(void) {
                 spd_ballX = -spd_ballX;
         }
         // check player1 or 2 wins, update scores, start from center
-        if (ballX < PLAYER1_X) {
+        if (ballX <= PLAYER1_X) {
             // player2 wins
             ballX = INITBALLX, ballY = INITBALLY;
             spd_ballX = -spd_ballX;

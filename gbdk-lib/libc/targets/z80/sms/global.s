@@ -114,6 +114,8 @@
         .SELECT         = 0b01000000    ; map to RESET
         .START          = 0b01000000    ; map to RESET
      
+        .JOYPAD_COUNT   = 2
+
         .JOY_PORT1      = 0xDC
         
         .JOY_P1_UP      = 0b00000001

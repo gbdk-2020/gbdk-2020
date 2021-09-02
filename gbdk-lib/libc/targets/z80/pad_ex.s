@@ -9,7 +9,15 @@ _joypad_init::
         ld hl, #2
         add hl, sp
         ld a, (hl)
-        and #3
+        or a
+        jr nz, 1$
+        ld a, #1
+        jr 2$
+1$:
+        cp #(.JOYPAD_COUNT + 1)
+        jr c, 2$
+        ld a, #.JOYPAD_COUNT
+2$:
         inc hl
         ld e, (hl)
         inc hl

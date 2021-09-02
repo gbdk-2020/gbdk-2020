@@ -368,5 +368,8 @@ __REG IE_REG;           /** Interrupt enable */
 #define DEVICE_SCREEN_BUFFER_WIDTH 32
 #define DEVICE_SCREEN_BUFFER_HEIGHT 32
 #define DEVICE_SCREEN_MAP_ENTRY_SIZE 1
+#define DEVICE_SPRITE_OFFSET_X 8
+#define DEVICE_SPRITE_OFFSET_Y 16
+
 
 #endif
