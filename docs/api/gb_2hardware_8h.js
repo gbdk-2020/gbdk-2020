@@ -182,6 +182,8 @@ var gb_2hardware_8h =
     [ "DEVICE_SCREEN_BUFFER_WIDTH", "gb_2hardware_8h.html#a491dc081eae8c81e7ca88075ab806291", null ],
     [ "DEVICE_SCREEN_BUFFER_HEIGHT", "gb_2hardware_8h.html#a81fb56b6778772f829dab4c534e7749e", null ],
     [ "DEVICE_SCREEN_MAP_ENTRY_SIZE", "gb_2hardware_8h.html#a4d682ed7a6158c5ba10afec739b17a8a", null ],
+    [ "DEVICE_SPRITE_OFFSET_X", "gb_2hardware_8h.html#a01284c0903831b6943bad296e5258d42", null ],
+    [ "DEVICE_SPRITE_OFFSET_Y", "gb_2hardware_8h.html#afc0253e27a88a023d65bc973e84da8a3", null ],
     [ "_VRAM", "gb_2hardware_8h.html#aea9200b29be90b58417787720cdf750b", null ],
     [ "_VRAM8000", "gb_2hardware_8h.html#a73c94166161c33c61d63b3e4b5209cd0", null ],
     [ "_VRAM8800", "gb_2hardware_8h.html#af763563b6123ef29d73931f616969049", null ],

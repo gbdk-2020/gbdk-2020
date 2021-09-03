@@ -97,6 +97,7 @@ $(document).ready(function(){initNavTree('gb_8h.html',''); initResizable(); });
 <div class="contents">
 <div class="textblock"><code>#include &lt;types.h&gt;</code><br />
 <code>#include &lt;<a class="el" href="stdint_8h_source.html">stdint.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="version_8h_source.html">gbdk/version.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="gb_2hardware_8h_source.html">gb/hardware.h</a>&gt;</code><br />
 </div>
 <p><a href="gb_8h_source.html">Go to the source code of this file.</a></p>
@@ -110,8 +111,6 @@ Data Structures</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a459449876dfba6299bf055c882d78334"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a459449876dfba6299bf055c882d78334">__GBDK_VERSION</a>&#160;&#160;&#160;405</td></tr>
-<tr class="separator:a459449876dfba6299bf055c882d78334"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab769c6e20778298be8bc3321476ceb53"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ab769c6e20778298be8bc3321476ceb53">J_START</a>&#160;&#160;&#160;0x80U</td></tr>
 <tr class="separator:ab769c6e20778298be8bc3321476ceb53"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab416a9d96d1582490828f4bac78a8b5b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ab416a9d96d1582490828f4bac78a8b5b">J_SELECT</a>&#160;&#160;&#160;0x40U</td></tr>
@@ -190,6 +189,8 @@ Macros</h2></td></tr>
 <tr class="separator:aa311f84dd9fce6e136ba4881e7b0d98d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ccf5d0f34fb0af0b6e73b9df0ccd745"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a6ccf5d0f34fb0af0b6e73b9df0ccd745">GBA_DETECTED</a>&#160;&#160;&#160;0x01</td></tr>
 <tr class="separator:a6ccf5d0f34fb0af0b6e73b9df0ccd745"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a231ec05679809190782e61c6e8aaaba4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a231ec05679809190782e61c6e8aaaba4">DEVICE_SUPPORTS_COLOR</a>&#160;&#160;&#160;(<a class="el" href="gb_8h.html#a874b9bd95b0a05d6a6072feabc879e45">_cpu</a> == <a class="el" href="gb_8h.html#aee435a3a0dde3dbd7b6112dbb456cde8">CGB_TYPE</a>)</td></tr>
+<tr class="separator:a231ec05679809190782e61c6e8aaaba4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a268cc6c704e16f3fa02dd1cf0e17070a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a268cc6c704e16f3fa02dd1cf0e17070a">IO_IDLE</a>&#160;&#160;&#160;0x00U</td></tr>
 <tr class="separator:a268cc6c704e16f3fa02dd1cf0e17070a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab69a3f7cd2c6b5eb4f518aefee099007"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ab69a3f7cd2c6b5eb4f518aefee099007">IO_SENDING</a>&#160;&#160;&#160;0x01U</td></tr>
@@ -354,6 +355,8 @@ Functions</h2></td></tr>
 <tr class="separator:adf6ef63efc4bb4950428015c623bca14"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aed072359b42854fffae4cd29c1f34ea1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#aed072359b42854fffae4cd29c1f34ea1">display_off</a> (void) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:aed072359b42854fffae4cd29c1f34ea1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb1dcc9caf644e44c049464b9ebcfdc4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#acb1dcc9caf644e44c049464b9ebcfdc4">refresh_OAM</a> () <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
+<tr class="separator:acb1dcc9caf644e44c049464b9ebcfdc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adef803cdd559747ad6f36830e126e48f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#adef803cdd559747ad6f36830e126e48f">hiramcpy</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> dst, const void *src, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> n) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:adef803cdd559747ad6f36830e126e48f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa8e85b82c4d347edb91c0cd2fb6c8393"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#aa8e85b82c4d347edb91c0cd2fb6c8393">set_vram_byte</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *addr, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> v) __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
@@ -487,20 +490,6 @@ Variables</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Gameboy specific functions. </p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a459449876dfba6299bf055c882d78334"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a459449876dfba6299bf055c882d78334">&#9670;&nbsp;</a></span>__GBDK_VERSION</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define __GBDK_VERSION&#160;&#160;&#160;405</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="ab769c6e20778298be8bc3321476ceb53"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab769c6e20778298be8bc3321476ceb53">&#9670;&nbsp;</a></span>J_START</h2>
 
@@ -1110,6 +1099,21 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Hardware Model: GBA. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a874b9bd95b0a05d6a6072feabc879e45">_cpu</a> </dd></dl>
+
+</div>
+</div>
+<a id="a231ec05679809190782e61c6e8aaaba4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a231ec05679809190782e61c6e8aaaba4">&#9670;&nbsp;</a></span>DEVICE_SUPPORTS_COLOR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DEVICE_SUPPORTS_COLOR&#160;&#160;&#160;(<a class="el" href="gb_8h.html#a874b9bd95b0a05d6a6072feabc879e45">_cpu</a> == <a class="el" href="gb_8h.html#aee435a3a0dde3dbd7b6112dbb456cde8">CGB_TYPE</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Macro returns TRUE if device supports color </p>
 
 </div>
 </div>
@@ -2638,6 +2642,24 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="acb1dcc9caf644e44c049464b9ebcfdc4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb1dcc9caf644e44c049464b9ebcfdc4">&#9670;&nbsp;</a></span>refresh_OAM()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void refresh_OAM </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Copies data from shadow OAM to OAM </p>
+
+</div>
+</div>
 <a id="adef803cdd559747ad6f36830e126e48f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adef803cdd559747ad6f36830e126e48f">&#9670;&nbsp;</a></span>hiramcpy()</h2>
 
@@ -3112,8 +3134,7 @@ Variables</h2></td></tr>
 <p>Entries are copied from <b>map</b> to the Background Tile Map starting at <b>x</b>, <b>y</b> writing across for <b>w</b> tiles and down for <b>h</b> tiles, using <b>map_w</b> as the rowstride for the source tile map.</p>
 <p>Use this instead of <a class="el" href="gb_8h.html#ad1ec25843468eb57c54e0ebdcf532659">set_bkg_tiles</a> when the source map is wider than 32 tiles or when writing a width that does not match the source map width.</p>
 <p>One byte per source tile map entry.</p>
-<p>Writes that exceed coordinate 31 on the x or y axis will wrap around to the Left and Top edges. <br  />
-</p>
+<p>Writes that exceed coordinate 31 on the x or y axis will wrap around to the Left and Top edges.</p>
 <p>See <a class="el" href="gb_8h.html#ad1ec25843468eb57c54e0ebdcf532659">set_bkg_tiles</a> for setting CGB attribute maps with <a class="el" href="gb_2hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a>.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a8e3f36aa68ac036695816757f2a1322c">SHOW_BKG</a> </dd>
 <dd>
@@ -4665,8 +4686,7 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
-<p><a class="el" href="gb_8h.html#a845a29ae3a4ab2ba3533aae20bbc526b">set_tile_data()</a> allows to load tile data not taking into account LCDC bit 4 state <br  />
- </p>
+<p><a class="el" href="gb_8h.html#a845a29ae3a4ab2ba3533aae20bbc526b">set_tile_data()</a> allows to load tile data not taking into account LCDC bit 4 state </p>
 
 </div>
 </div>
@@ -5230,11 +5250,11 @@ Variables</h2></td></tr>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="astdint_8h_html_aba7bc1797add20fe3efdf37ced1182c5"><div class="ttname"><a href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a></div><div class="ttdeci">unsigned char uint8_t</div><div class="ttdef"><b>Definition:</b> stdint.h:51</div></div>
-<div class="ttc" id="agb_8h_html_a98b848953a95ce2fff6fda643575d74a"><div class="ttname"><a href="gb_8h.html#a98b848953a95ce2fff6fda643575d74a">_current_bank</a></div><div class="ttdeci">__REG _current_bank</div><div class="ttdef"><b>Definition:</b> gb.h:379</div></div>
+<div class="ttc" id="agb_8h_html_a98b848953a95ce2fff6fda643575d74a"><div class="ttname"><a href="gb_8h.html#a98b848953a95ce2fff6fda643575d74a">_current_bank</a></div><div class="ttdeci">__REG _current_bank</div><div class="ttdef"><b>Definition:</b> gb.h:382</div></div>
 <div class="ttc" id="astdint_8h_html_adf4d876453337156dde61095e1f20223"><div class="ttname"><a href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a></div><div class="ttdeci">unsigned short int uint16_t</div><div class="ttdef"><b>Definition:</b> stdint.h:52</div></div>
 <div class="ttc" id="agb_8h_html_a115eb30ec86f6af039a27918ffe4cf8c"><div class="ttname"><a href="gb_8h.html#a115eb30ec86f6af039a27918ffe4cf8c">nowait_int_handler</a></div><div class="ttdeci">void nowait_int_handler(void) NONBANKED</div></div>
 <div class="ttc" id="agb_8h_html_a024fc35ef0ad258d67c8f9dfb0751ee7"><div class="ttname"><a href="gb_8h.html#a024fc35ef0ad258d67c8f9dfb0751ee7">add_SIO</a></div><div class="ttdeci">void add_SIO(int_handler h) NONBANKED</div></div>
-<div class="ttc" id="agb_8h_html_a4c2e4adef74067fdbb49005bc73de937"><div class="ttname"><a href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></div><div class="ttdeci">void b</div><div class="ttdef"><b>Definition:</b> gb.h:540</div></div>
+<div class="ttc" id="agb_8h_html_a4c2e4adef74067fdbb49005bc73de937"><div class="ttname"><a href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></div><div class="ttdeci">void b</div><div class="ttdef"><b>Definition:</b> gb.h:543</div></div>
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

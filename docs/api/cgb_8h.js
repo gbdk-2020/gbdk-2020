@@ -1,6 +1,8 @@
 var cgb_8h =
 [
     [ "RGB", "cgb_8h.html#a4a118ad3ee36468a3fa616977a64864e", null ],
+    [ "RGB8", "cgb_8h.html#a7d2ed0f10b2b74123a544327bbfd7564", null ],
+    [ "RGBHTML", "cgb_8h.html#ab5a6e450fcf10402278fe585a421dbbd", null ],
     [ "RGB_RED", "cgb_8h.html#aa039288455af8a3812a35aa1e7b903e4", null ],
     [ "RGB_DARKRED", "cgb_8h.html#ae29b6947ac7dca7db513e59f1cfcbf51", null ],
     [ "RGB_GREEN", "cgb_8h.html#ab6c97468034c02fe204fd37036d9be15", null ],
@@ -27,5 +29,6 @@ var cgb_8h =
     [ "set_sprite_palette_entry", "cgb_8h.html#a6f4e37ea7767881169d20baf6b0735ec", null ],
     [ "cpu_slow", "cgb_8h.html#a476d06d0fe64d7c5a1ec05b8ee859a56", null ],
     [ "cpu_fast", "cgb_8h.html#a871b5b1aba74ab8764f72b73bc090adb", null ],
+    [ "set_default_palette", "cgb_8h.html#a2a89f4110072dbe76805e7b07299788d", null ],
     [ "cgb_compatibility", "cgb_8h.html#a6b334e5e452d0650aded17199be1514a", null ]
 ];

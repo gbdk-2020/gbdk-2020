@@ -99,8 +99,12 @@ $(document).ready(function(){initNavTree('cgb_8h.html',''); initResizable(); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a4a118ad3ee36468a3fa616977a64864e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cgb_8h.html#a4a118ad3ee36468a3fa616977a64864e">RGB</a>(r,  g,  <a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>)&#160;&#160;&#160;  ((((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>) &amp; 0x1f) &lt;&lt; 10) | (((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)(g) &amp; 0x1f) &lt;&lt; 5) | (((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)(r) &amp; 0x1f) &lt;&lt; 0))</td></tr>
+<tr class="memitem:a4a118ad3ee36468a3fa616977a64864e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cgb_8h.html#a4a118ad3ee36468a3fa616977a64864e">RGB</a>(r,  g,  <a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>)&#160;&#160;&#160;((((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>) &amp; 0x1f) &lt;&lt; 10) | (((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)(g) &amp; 0x1f) &lt;&lt; 5) | (((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)(r) &amp; 0x1f) &lt;&lt; 0))</td></tr>
 <tr class="separator:a4a118ad3ee36468a3fa616977a64864e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d2ed0f10b2b74123a544327bbfd7564"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cgb_8h.html#a7d2ed0f10b2b74123a544327bbfd7564">RGB8</a>(r,  g,  <a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>)&#160;&#160;&#160;((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)((r) &gt;&gt; 3) | ((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)((g) &gt;&gt; 3) &lt;&lt; 5) | ((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)((<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>) &gt;&gt; 3) &lt;&lt; 10))</td></tr>
+<tr class="separator:a7d2ed0f10b2b74123a544327bbfd7564"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5a6e450fcf10402278fe585a421dbbd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cgb_8h.html#ab5a6e450fcf10402278fe585a421dbbd">RGBHTML</a>(RGB24bit)&#160;&#160;&#160;(<a class="el" href="cgb_8h.html#a7d2ed0f10b2b74123a544327bbfd7564">RGB8</a>((((RGB24bit) &gt;&gt; 16) &amp; 0xFF), (((RGB24bit) &gt;&gt; 8) &amp; 0xFF), ((RGB24bit) &amp; 0xFF)))</td></tr>
+<tr class="separator:ab5a6e450fcf10402278fe585a421dbbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa039288455af8a3812a35aa1e7b903e4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cgb_8h.html#aa039288455af8a3812a35aa1e7b903e4">RGB_RED</a>&#160;&#160;&#160;<a class="el" href="cgb_8h.html#a4a118ad3ee36468a3fa616977a64864e">RGB</a>(31,  0,  0)</td></tr>
 <tr class="separator:aa039288455af8a3812a35aa1e7b903e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae29b6947ac7dca7db513e59f1cfcbf51"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cgb_8h.html#ae29b6947ac7dca7db513e59f1cfcbf51">RGB_DARKRED</a>&#160;&#160;&#160;<a class="el" href="cgb_8h.html#a4a118ad3ee36468a3fa616977a64864e">RGB</a>(15,  0,  0)</td></tr>
@@ -121,7 +125,7 @@ Macros</h2></td></tr>
 <tr class="separator:a2ce30ac984869b55594447722b9d0579"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae4fe0c6cfa46b0c4804425f23bb48f4c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cgb_8h.html#ae4fe0c6cfa46b0c4804425f23bb48f4c">RGB_AQUA</a>&#160;&#160;&#160;<a class="el" href="cgb_8h.html#a4a118ad3ee36468a3fa616977a64864e">RGB</a>(28,  5, 22)</td></tr>
 <tr class="separator:ae4fe0c6cfa46b0c4804425f23bb48f4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a59fb596d3d65cfc4d3cb7e5044b8b10a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cgb_8h.html#a59fb596d3d65cfc4d3cb7e5044b8b10a">RGB_PINK</a>&#160;&#160;&#160;<a class="el" href="cgb_8h.html#a4a118ad3ee36468a3fa616977a64864e">RGB</a>(11,  0, 31)</td></tr>
+<tr class="memitem:a59fb596d3d65cfc4d3cb7e5044b8b10a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cgb_8h.html#a59fb596d3d65cfc4d3cb7e5044b8b10a">RGB_PINK</a>&#160;&#160;&#160;<a class="el" href="cgb_8h.html#a4a118ad3ee36468a3fa616977a64864e">RGB</a>(31,  0, 31)</td></tr>
 <tr class="separator:a59fb596d3d65cfc4d3cb7e5044b8b10a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9d5a5f880df6bd4b64e6546839d41101"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cgb_8h.html#a9d5a5f880df6bd4b64e6546839d41101">RGB_PURPLE</a>&#160;&#160;&#160;<a class="el" href="cgb_8h.html#a4a118ad3ee36468a3fa616977a64864e">RGB</a>(21,  0, 21)</td></tr>
 <tr class="separator:a9d5a5f880df6bd4b64e6546839d41101"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -156,6 +160,8 @@ Functions</h2></td></tr>
 <tr class="separator:a476d06d0fe64d7c5a1ec05b8ee859a56"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a871b5b1aba74ab8764f72b73bc090adb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cgb_8h.html#a871b5b1aba74ab8764f72b73bc090adb">cpu_fast</a> (void)</td></tr>
 <tr class="separator:a871b5b1aba74ab8764f72b73bc090adb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a89f4110072dbe76805e7b07299788d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cgb_8h.html#a2a89f4110072dbe76805e7b07299788d">set_default_palette</a> (void)</td></tr>
+<tr class="separator:a2a89f4110072dbe76805e7b07299788d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6b334e5e452d0650aded17199be1514a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cgb_8h.html#a6b334e5e452d0650aded17199be1514a">cgb_compatibility</a> (void)</td></tr>
 <tr class="separator:a6b334e5e452d0650aded17199be1514a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -197,7 +203,7 @@ Functions</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;  ((((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>) &amp; 0x1f) &lt;&lt; 10) | (((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)(g) &amp; 0x1f) &lt;&lt; 5) | (((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)(r) &amp; 0x1f) &lt;&lt; 0))</td>
+          <td></td><td>&#160;&#160;&#160;((((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>) &amp; 0x1f) &lt;&lt; 10) | (((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)(g) &amp; 0x1f) &lt;&lt; 5) | (((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)(r) &amp; 0x1f) &lt;&lt; 0))</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -212,6 +218,58 @@ Functions</h2></td></tr>
 </dl>
 <p>The resulting format is BGR 15bpp.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="cgb_8h.html#aec5c352285ef0fb0d5a1a1d35f6e7877">set_bkg_palette()</a>, <a class="el" href="cgb_8h.html#a2f0430a99cd9df4496b3c04f49aa3f6d">set_sprite_palette()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a7d2ed0f10b2b74123a544327bbfd7564"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d2ed0f10b2b74123a544327bbfd7564">&#9670;&nbsp;</a></span>RGB8</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define RGB8</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">r, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">g, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)((r) &gt;&gt; 3) | ((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)((g) &gt;&gt; 3) &lt;&lt; 5) | ((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)((<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>) &gt;&gt; 3) &lt;&lt; 10))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab5a6e450fcf10402278fe585a421dbbd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5a6e450fcf10402278fe585a421dbbd">&#9670;&nbsp;</a></span>RGBHTML</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define RGBHTML</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">RGB24bit</td><td>)</td>
+          <td>&#160;&#160;&#160;(<a class="el" href="cgb_8h.html#a7d2ed0f10b2b74123a544327bbfd7564">RGB8</a>((((RGB24bit) &gt;&gt; 16) &amp; 0xFF), (((RGB24bit) &gt;&gt; 8) &amp; 0xFF), ((RGB24bit) &amp; 0xFF)))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -363,7 +421,7 @@ Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define RGB_PINK&#160;&#160;&#160;<a class="el" href="cgb_8h.html#a4a118ad3ee36468a3fa616977a64864e">RGB</a>(11,  0, 31)</td>
+          <td class="memname">#define RGB_PINK&#160;&#160;&#160;<a class="el" href="cgb_8h.html#a4a118ad3ee36468a3fa616977a64864e">RGB</a>(31,  0, 31)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -743,14 +801,34 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a2a89f4110072dbe76805e7b07299788d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a89f4110072dbe76805e7b07299788d">&#9670;&nbsp;</a></span>set_default_palette()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void set_default_palette </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Set palette, compatible with the DMG/GBP.</p>
+<p>The default/first CGB palettes for sprites and backgrounds are set to a similar default appearance as on the DMG/Pocket/SGB models. (White, Light Gray, Dark Gray, Black)</p>
+<ul>
+<li>You can check to see if <a class="el" href="gb_8h.html#a874b9bd95b0a05d6a6072feabc879e45">_cpu</a> == <a class="el" href="gb_8h.html#aee435a3a0dde3dbd7b6112dbb456cde8">CGB_TYPE</a> before using this function. </li>
+</ul>
+
+</div>
+</div>
 <a id="a6b334e5e452d0650aded17199be1514a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6b334e5e452d0650aded17199be1514a">&#9670;&nbsp;</a></span>cgb_compatibility()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void cgb_compatibility </td>
@@ -760,17 +838,8 @@ Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-<p>Set defaults compatible with the normal GameBoy models.</p>
-<p>The default/first CGB palettes for sprites and backgrounds are set to a similar default appearance as on the DMG/Pocket/SGB models. (White, Light Gray, Dark Gray, Black)</p>
-<ul>
-<li>You can check to see if <a class="el" href="gb_8h.html#a874b9bd95b0a05d6a6072feabc879e45">_cpu</a> == <a class="el" href="gb_8h.html#aee435a3a0dde3dbd7b6112dbb456cde8">CGB_TYPE</a> before using this function. </li>
-</ul>
+<p>This function is obsolete </p>
 
 </div>
 </div>

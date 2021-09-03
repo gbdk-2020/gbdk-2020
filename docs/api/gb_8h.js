@@ -2,7 +2,6 @@ var gb_8h =
 [
     [ "joypads_t", "structjoypads__t.html", "structjoypads__t" ],
     [ "OAM_item_t", "struct_o_a_m__item__t.html", "struct_o_a_m__item__t" ],
-    [ "__GBDK_VERSION", "gb_8h.html#a459449876dfba6299bf055c882d78334", null ],
     [ "J_START", "gb_8h.html#ab769c6e20778298be8bc3321476ceb53", null ],
     [ "J_SELECT", "gb_8h.html#ab416a9d96d1582490828f4bac78a8b5b", null ],
     [ "J_B", "gb_8h.html#ae47e59a309120f9420993f26816b5e6d", null ],
@@ -42,6 +41,7 @@ var gb_8h =
     [ "CGB_TYPE", "gb_8h.html#aee435a3a0dde3dbd7b6112dbb456cde8", null ],
     [ "GBA_NOT_DETECTED", "gb_8h.html#aa311f84dd9fce6e136ba4881e7b0d98d", null ],
     [ "GBA_DETECTED", "gb_8h.html#a6ccf5d0f34fb0af0b6e73b9df0ccd745", null ],
+    [ "DEVICE_SUPPORTS_COLOR", "gb_8h.html#a231ec05679809190782e61c6e8aaaba4", null ],
     [ "IO_IDLE", "gb_8h.html#a268cc6c704e16f3fa02dd1cf0e17070a", null ],
     [ "IO_SENDING", "gb_8h.html#ab69a3f7cd2c6b5eb4f518aefee099007", null ],
     [ "IO_RECEIVING", "gb_8h.html#aee03efddee0f2f6fbcaec789301aaa9b", null ],
@@ -121,6 +121,7 @@ var gb_8h =
     [ "reset", "gb_8h.html#af4a728ba51de424a0bed286ac65d3242", null ],
     [ "wait_vbl_done", "gb_8h.html#adf6ef63efc4bb4950428015c623bca14", null ],
     [ "display_off", "gb_8h.html#aed072359b42854fffae4cd29c1f34ea1", null ],
+    [ "refresh_OAM", "gb_8h.html#acb1dcc9caf644e44c049464b9ebcfdc4", null ],
     [ "hiramcpy", "gb_8h.html#adef803cdd559747ad6f36830e126e48f", null ],
     [ "set_vram_byte", "gb_8h.html#aa8e85b82c4d347edb91c0cd2fb6c8393", null ],
     [ "get_vram_byte", "gb_8h.html#af1e1dffd53a01380c4bb1d491d0e08e8", null ],
