@@ -1,4 +1,4 @@
-gbdk-4.0.3
+gbdk-4.0.4
     - Updated documentation
     - Library was improved
         - Switch to standard types declared in stdint.h and stdbool.h
