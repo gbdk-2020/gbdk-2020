@@ -46,7 +46,7 @@
 #define RGB_DARKYELLOW RGB(21, 21,  0)
 #define RGB_CYAN       RGB( 0, 31, 31)
 #define RGB_AQUA       RGB(28,  5, 22)
-#define RGB_PINK       RGB(11,  0, 31)
+#define RGB_PINK       RGB(31,  0, 31)
 #define RGB_PURPLE     RGB(21,  0, 21)
 #define RGB_BLACK      RGB( 0,  0,  0)
 #define RGB_DARKGRAY   RGB(10, 10, 10)

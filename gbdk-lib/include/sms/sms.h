@@ -399,13 +399,60 @@ void joypad_ex(joypads_t * joypads) __z88dk_fastcall __preserves_regs(iyh, iyl);
 
 
 #if defined(__TARGET_sms)
+
 #define RGB(r,g,b)        ((r)|((g)<<2)|((b)<<4))
 #define RGB8(r,g,b)       (((r)>>6)|(((g)>>6)<<2)|(((b)>>6)<<4))
 #define RGBHTML(RGB24bit) (((RGB24bit)>>22)|((((RGB24bit)&0xFFFF)>>14)<<2)|((((RGB24bit)&0xFF)>>6)<<4))
+
+/** Common colors based on the EGA default palette.
+ */
+#define RGB_RED        RGB( 3,  0,  0)
+#define RGB_DARKRED    RGB( 2,  0,  0)
+#define RGB_GREEN      RGB( 0,  3,  0)
+#define RGB_DARKGREEN  RGB( 0,  2,  0)
+#define RGB_BLUE       RGB( 0,  0,  3)
+#define RGB_DARKBLUE   RGB( 0,  0,  2)
+#define RGB_YELLOW     RGB( 3,  3,  0)
+#define RGB_DARKYELLOW RGB( 2,  2,  0)
+#define RGB_CYAN       RGB( 0,  3,  3)
+#define RGB_AQUA       RGB( 3,  1,  2)
+#define RGB_PINK       RGB( 3,  0,  3)
+#define RGB_PURPLE     RGB( 2,  0,  2)
+#define RGB_BLACK      RGB( 0,  0,  0)
+#define RGB_DARKGRAY   RGB( 1,  1,  1)
+#define RGB_LIGHTGRAY  RGB( 2,  2,  2)
+#define RGB_WHITE      RGB( 3,  3,  3)
+
 #elif defined(__TARGET_gg)
+
 #define RGB(r,g,b)        ((r)|((g)<<4)|((b)<<8))
 #define RGB8(r,g,b)       (((r)>>4)|(((g)>>4)<<4)|(((b)>>4)<<8))
 #define RGBHTML(RGB24bit) (((RGB24bit)>>20)|((((RGB24bit)&0xFFFF)>>12)<<4)|((((RGB24bit)&0xFF)>>4)<<8))
+
+/** Common colors based on the EGA default palette.
+ */
+#define RGB_RED        RGB(15,  0,  0)
+#define RGB_DARKRED    RGB( 7,  0,  0)
+#define RGB_GREEN      RGB( 0, 15,  0)
+#define RGB_DARKGREEN  RGB( 0,  7,  0)
+#define RGB_BLUE       RGB( 0,  0, 15)
+#define RGB_DARKBLUE   RGB( 0,  0,  7)
+#define RGB_YELLOW     RGB(15, 15,  0)
+#define RGB_DARKYELLOW RGB( 7,  7,  0)
+#define RGB_CYAN       RGB( 0, 15, 15)
+#define RGB_AQUA       RGB(14,  2, 11)
+#define RGB_PINK       RGB(15,  0, 15)
+#define RGB_PURPLE     RGB(10,  0, 10)
+#define RGB_BLACK      RGB( 0,  0,  0)
+#define RGB_DARKGRAY   RGB( 5,  5,  5)
+#define RGB_LIGHTGRAY  RGB(10, 10, 10)
+#define RGB_WHITE      RGB(15, 15, 15)
+
+#define RGB_LIGHTFLESH RGB(15, 10,  7)
+#define RGB_BROWN      RGB( 5,  5,  0)
+#define RGB_ORANGE     RGB(15, 10,  0)
+#define RGB_TEAL       RGB( 7,  7,  0)
+
 #else
 #error Unrecognized port
 #endif
