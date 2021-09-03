@@ -58,9 +58,6 @@ font_table::
 
         .area   _GSINIT
 
-        xor     a
-        ld      (#.curx),a
-        ld      (#.cury),a
         ld      hl,#.start_font_vars
         ld      c,#(.end_font_vars - .start_font_vars)
         rst     0x28
@@ -481,12 +478,16 @@ _font_init::
         xor     a
         ld      (.bg_colour),a
 
-        call    .cls
+        call    .cls_no_reset_pos
         pop     bc
         ret
         
 _cls::
 .cls::  
+        XOR     A
+        LD      (.curx), A
+        LD      (.cury), A
+.cls_no_reset_pos:
         PUSH    DE
         PUSH    HL
         LD      HL,#0x9800
@@ -643,11 +644,15 @@ _posy::
         POP     BC
         RET
 
-        .area   _BSS
+        .area   _INITIALIZED
 .curx::                         ; Cursor position
         .ds     0x01
 .cury::
         .ds     0x01
+
+        .area   _INITIALIZER
+        .db     0x00            ; .curx
+        .db     0x00            ; .cury
 
         .area   _BASE
 
@@ -692,12 +697,8 @@ _posy::
 
         ;; Text mode (out only)
 .tmode_out::
-        XOR     A
-        LD      (.curx),A
-        LD      (.cury),A
-
         ;; Clear screen
-        CALL    .cls
+        CALL    .cls_no_reset_pos
 
         LD      A,#.T_MODE
         LD      (.mode),A
