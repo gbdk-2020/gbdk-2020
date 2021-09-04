@@ -162,7 +162,7 @@
         .SYSTEM_PAL     = 0x00
         .SYSTEM_NTSC    = 0x01
 
-        .CPU_CLOCK      = 3574000
+        .CPU_CLOCK      = 3579545
 
         ;; GBDK library screen modes
 
