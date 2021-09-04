@@ -503,7 +503,7 @@ __endasm; \
 
 /** Delays the given number of milliseconds.
     Uses no timers or interrupts, and can be called with
-    interrupts disabled (why nobody knows :)
+    interrupts disabled
  */
 void delay(uint16_t d) NONBANKED;
 

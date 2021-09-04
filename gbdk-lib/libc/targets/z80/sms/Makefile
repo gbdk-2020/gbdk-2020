@@ -25,6 +25,7 @@ ASSRC =	set_interrupts.s \
 	pad.s pad_ex.s \
 	int.s nmi.s \
 	mode.s \
+	delay.s \
 	memset_small.s \
 	far_ptr.s \
 	__sdcc_bcall.s \

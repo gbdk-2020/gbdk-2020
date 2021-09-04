@@ -349,6 +349,13 @@ __endasm; \
 #define DISABLE_RAM RAM_CONTROL&=(~RAMCTL_RAM)
 
 
+/** Delays the given number of milliseconds.
+    Uses no timers or interrupts, and can be called with
+    interrupts disabled
+ */
+void delay(uint16_t d) __z88dk_fastcall;
+
+
 /** Reads and returns the current state of the joypad.
 */
 uint8_t joypad(void) __preserves_regs(b, c, d, e, h, iyh, iyl);
