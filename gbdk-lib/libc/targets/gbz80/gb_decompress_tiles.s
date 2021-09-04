@@ -1,7 +1,10 @@
-        .include        "global.s"
-
 ; GB-Decompress tiledata directly to VRAM
 ; Compatible with GBTD
+
+        .include        "global.s"
+
+        .title  "GB Decompress"
+        .module GBDecompress
 
 .macro WRAP_VRAM regH, ?loc
         bit     3, regH

@@ -16,9 +16,9 @@
 
     @see gb_decompress_bkg_data, gb_decompress_win_data, gb_decompress_sprite_data
  */
-uint16_t gb_decompress(const uint8_t * sour, uint8_t * dest) __preserves_regs(b, c);
+uint16_t gb_decompress(const uint8_t * sour, uint8_t * dest) __z88dk_callee __preserves_regs(b, c);
 
-
+#if 0
 /** gb-decompress background tiles into VRAM
 
     @param first_tile  Index of the first tile to write
@@ -28,7 +28,7 @@ uint16_t gb_decompress(const uint8_t * sour, uint8_t * dest) __preserves_regs(b,
 
     @see gb_decompress_bkg, gb_decompress_win_data, gb_decompress_sprite_data
 */
-void gb_decompress_bkg_data(uint8_t first_tile, const uint8_t * sour) __preserves_regs(b, c);
+void gb_decompress_bkg_data(uint8_t first_tile, const uint8_t * sour) __z88dk_callee __preserves_regs(b, c);
 
 
 /** gb-decompress window tiles into VRAM
@@ -43,7 +43,7 @@ void gb_decompress_bkg_data(uint8_t first_tile, const uint8_t * sour) __preserve
 
     @see gb_decompress, gb_decompress_bkg_data, gb_decompress_sprite_data
  */
-void gb_decompress_win_data(uint8_t first_tile, const uint8_t * sour) __preserves_regs(b, c);
+void gb_decompress_win_data(uint8_t first_tile, const uint8_t * sour) __z88dk_callee __preserves_regs(b, c);
 
 
 /** gb-decompress sprite tiles into VRAM
@@ -55,6 +55,7 @@ void gb_decompress_win_data(uint8_t first_tile, const uint8_t * sour) __preserve
 
     @see gb_decompress, gb_decompress_bkg_data, gb_decompress_win_data
  */
-void gb_decompress_sprite_data(uint8_t first_tile, const uint8_t * sour) __preserves_regs(b, c);
+void gb_decompress_sprite_data(uint8_t first_tile, const uint8_t * sour) __z88dk_callee __preserves_regs(b, c);
+#endif
 
 #endif

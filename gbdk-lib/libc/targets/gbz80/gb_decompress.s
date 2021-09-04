@@ -1,6 +1,11 @@
 ; GB-Deompress routine
 ; Compatible with GBTD
 
+        .include        "global.s"
+
+        .title  "GB Decompress"
+        .module GBDecompress
+
         .area _CODE
 
 _gb_decompress::
@@ -16,6 +21,7 @@ _gb_decompress::
 ; hl = source; de = dest
 gb_decompress::
         push    bc
+        push    de
 1$:
         ld      a,(hl+) ; load command
         or      a
@@ -90,5 +96,13 @@ gb_decompress::
         jr      nz,8$
         jr      1$      ; next command
 9$:
+        pop     hl
+        ld      a, e
+        sub     l
+        ld      e, a
+        ld      a, d
+        sbc     h
+        ld      d, a
         pop     bc
+        
         ret

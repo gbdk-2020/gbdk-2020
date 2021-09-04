@@ -1,12 +1,10 @@
-#ifndef __PLATFORM_H_INCLUDE
-#define __PLATFORM_H_INCLUDE
+#ifndef __GB_DECOMPRESS_H_INCLUDE
+#define __GB_DECOMPRESS_H_INCLUDE
 
 #if defined(__TARGET_gb) || defined(__TARGET_ap)
-  #include <gb/gb.h>
-  #include <gb/cgb.h>
-  #include <gb/sgb.h>
+  #include <gb/gbdecompress.h>
 #elif defined(__TARGET_sms) || defined(__TARGET_gg)
-  #include <sms/sms.h>
+  #include <sms/gbdecompress.h>
 #else
   #error Unrecognized port
 #endif
