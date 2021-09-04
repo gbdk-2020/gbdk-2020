@@ -26,7 +26,21 @@ typedef struct isr_vector_t {
     @param FUNC ISR function
 */
 #define ISR_VECTOR(ADDR, FUNC) \
-static const isr_vector_t __at((ADDR)) __ISR_ ## ADDR = {0xc3, (void *)&(FUNC) };
+static const isr_vector_t __at((ADDR)) __ISR_ ## ADDR = {0xc3, (void *)&(FUNC)};
+
+typedef struct isr_nested_vector_t {
+    uint8_t opcode[2];
+    void * func;
+} isr_vector_t;
+
+/** Creates the interrupt vector at the given address for the raw interrupt service routrine allowing nested inteerupts
+    
+    @param ADDR address of the vector
+
+    @param FUNC ISR function
+*/
+#define ISR_NESTED_VECTOR(ADDR, FUNC) \
+static const isr_nested_vector_t __at((ADDR)) __ISR_ ## ADDR = {{0xfb, 0xc3}, (void *)&(FUNC)};
 
 
 #endif // _ISR_H_INCLUDE_
