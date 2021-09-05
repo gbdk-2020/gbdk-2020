@@ -10,6 +10,9 @@
 #include <gb/hardware.h>
 
 #define NINTENDO
+#ifdef SEGA
+#undef SEGA
+#endif
 
 /** Joypad bits.
     A logical OR of these is used in the wait_pad and joypad

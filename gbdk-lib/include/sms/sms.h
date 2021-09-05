@@ -10,6 +10,9 @@
 #include <sms/hardware.h>
 
 #define SEGA
+#ifdef NINTENDO
+#undef NINTENDO
+#endif
 
 #define VBK_REG VDP_ATTR_SHIFT
 

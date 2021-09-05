@@ -8,9 +8,9 @@
 #define camera_max_y ((bigmap_mapHeight - 18) * 8) 
 #define camera_max_x ((bigmap_mapWidth - 20) * 8) 
 
-#if defined(_PLAT_gg) || defined(_PLAT_sms)
+#if defined(SEGA)
   #define WRAP_SCROLL_Y(y) ((y) % 224u)
-#else
+#elif defined(NINTENDO)
   #define WRAP_SCROLL_Y(y) y
 #endif
 

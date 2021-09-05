@@ -11,7 +11,7 @@ const uint8_t * scanline_offsets = scanline_offsets_tbl;
 
 uint8_t scroller_x = 0;
 void scanline_isr() {
-#if defined(__TARGET_gb) || defined(__TARGET_ap)
+#if defined(NINTENDO)
     switch (LYC_REG) {
         case 0: 
             SCX_REG = 0;
@@ -25,7 +25,7 @@ void scanline_isr() {
             SCX_REG = LYC_REG = 0;
             break;
     }
-#elif defined(__TARGET_sms) || defined(__TARGET_gg)
+#elif defined(SEGA)
     if (VCOUNTER == (SCROLL_POS_PIX_START - 8)) {
         while (VCOUNTER != SCROLL_POS_PIX_START);
         VDP_CMD = -scroller_x; VDP_CMD = VDP_RSCX;
@@ -50,11 +50,11 @@ void main() {
 
     CRITICAL {
         add_LCD(scanline_isr);
-#if defined(__TARGET_gb) || defined(__TARGET_ap)
+#if defined(NINTENDO)
         STAT_REG |= STATF_LYC; LYC_REG = 0;
 #endif
     }
-#if defined(__TARGET_sms) || defined(__TARGET_gg)
+#if defined(SEGA)
     __WRITE_VDP_REG(VDP_R10, 0x07);
 #endif
     set_interrupts(VBL_IFLAG | LCD_IFLAG);
