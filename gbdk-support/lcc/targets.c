@@ -76,7 +76,7 @@ CLASS classes[] = {
         "%bankpack% -plat=sms $1 $2",
         "%ld_z80% -a sms -n -i $1 %libs_include% $3 %crt0dir% $2",
         "%ihxcheck% $2 $1",
-        "%mkbin% -S $1 $2 $3",
+        "%mkbin% -S -xj 4 $1 $2 $3",
         llist0_defaults_sms, ARRAY_LEN(llist0_defaults_sms),
     },
     // GG
