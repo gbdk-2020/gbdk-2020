@@ -18,44 +18,4 @@
  */
 uint16_t gb_decompress(const uint8_t * sour, uint8_t * dest) __z88dk_callee __preserves_regs(b, c);
 
-#if 0
-/** gb-decompress background tiles into VRAM
-
-    @param first_tile  Index of the first tile to write
-    @param sour        Pointer to (gb-compressed 2 bpp) source Tile Pattern data.
-
-    Note: This function avoids writes during modes 2 & 3
-
-    @see gb_decompress_bkg, gb_decompress_win_data, gb_decompress_sprite_data
-*/
-void gb_decompress_bkg_data(uint8_t first_tile, const uint8_t * sour) __z88dk_callee __preserves_regs(b, c);
-
-
-/** gb-decompress window tiles into VRAM
-
-    @param first_tile  Index of the first tile to write
-    @param sour        Pointer to (gb-compressed 2 bpp) source Tile Pattern data.
-
-    This is the same as @ref gb_decompress_bkg_data, since the Window Layer and
-    Background Layer share the same Tile pattern data.
-
-    Note: This function avoids writes during modes 2 & 3
-
-    @see gb_decompress, gb_decompress_bkg_data, gb_decompress_sprite_data
- */
-void gb_decompress_win_data(uint8_t first_tile, const uint8_t * sour) __z88dk_callee __preserves_regs(b, c);
-
-
-/** gb-decompress sprite tiles into VRAM
-
-    @param first_tile  Index of the first tile to write
-    @param sour        Pointer to source compressed data
-
-    Note: This function avoids writes during modes 2 & 3
-
-    @see gb_decompress, gb_decompress_bkg_data, gb_decompress_win_data
- */
-void gb_decompress_sprite_data(uint8_t first_tile, const uint8_t * sour) __z88dk_callee __preserves_regs(b, c);
-#endif
-
 #endif
