@@ -9,6 +9,8 @@
 #include <gbdk/version.h>
 #include <gb/hardware.h>
 
+#define NINTENDO
+
 /** Joypad bits.
     A logical OR of these is used in the wait_pad and joypad
     functions.  For example, to see if the B button is pressed

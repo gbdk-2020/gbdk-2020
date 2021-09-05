@@ -9,6 +9,8 @@
 #include <gbdk/version.h>
 #include <sms/hardware.h>
 
+#define SEGA
+
 #define VBK_REG VDP_ATTR_SHIFT
 
 /** Joypad bits.
