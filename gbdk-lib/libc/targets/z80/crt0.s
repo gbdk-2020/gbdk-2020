@@ -98,6 +98,21 @@ _WRITE_VDP_DATA::
 4$:
         ld (#__SYSTEM), a
 
+        ld a, #<.VDP_VRAM
+        out (#.VDP_CMD), a
+        ld a, #>.VDP_VRAM
+        out (#.VDP_CMD), a
+        xor a
+        ld bc, #0x4101
+        jr 6$
+5$:
+        out (.VDP_DATA), a
+6$:
+        dec c
+        jr nz, 5$
+        dec b
+        jr nz, 5$
+
         call _set_default_palette
 
         ei                      ; re-enable interrupts before going to main()

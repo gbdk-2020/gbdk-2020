@@ -4,7 +4,6 @@
         .module FontUtils
 
         .globl  .memset_small
-        .globl  _cls
         .globl  _font_ibm
 
         ; Structure offsets
@@ -68,13 +67,6 @@ _font_init::
         ld hl, #font_table
         ld c, #(sfont_handle_sizeof*.MAX_FONTS)
         call .memset_small
-
-        ld a, #3
-        ld (.fg_colour), a
-        xor a
-        ld (.bg_colour), a
-
-        call _cls
 
         ret
 
