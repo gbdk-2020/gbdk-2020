@@ -19,10 +19,12 @@ _memset::
         or c
         ret z
 
+        push hl
         ld d, h
         ld e, l
         inc de
 
         ldir
+        pop hl
         ret
 
