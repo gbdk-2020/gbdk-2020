@@ -51,7 +51,7 @@ void *memmove (void *dest, const void *src, size_t n);
     @param c         char value to fill with (truncated from int)
     @param n         Number of bytes to fill
 */
-void *memset (void *s, int c, size_t n) NONBANKED;
+void *memset (void *s, int c, size_t n) __z88dk_callee;
 
 /** Reverses the characters in a string
 
