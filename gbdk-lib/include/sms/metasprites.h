@@ -16,14 +16,14 @@
     to be in the upper left-hand corner as with regular
     hardware sprites.
 
-    Use the @ref utility_png2mtspr tool to convert single
+    Use the @ref utility_png2asset tool to convert single
     or multiple frames of graphics into metasprite
     structured data for use with the ...metasprite...()
     functions.
 
     # Metasprites composed of variable numbers of sprites
 
-    When using png2mtspr, it's common for the output of
+    When using png2asset, it's common for the output of
     different frames to be composed of different numbers
     of hardware sprites (since it's trying to create each
     frame as efficiently as possible). Due to that, it's

@@ -6,6 +6,37 @@ https://github.com/gbdk-2020/gbdk-2020/releases
 
 # GBDK 2020 Release Notes
 
+## GBDK 2020 4.0.5
+  2021/09
+  - Overall
+    - Added support for new consoles
+      - Analogue Pocket (`ap`)
+      - Sega Master System (`sms`) and Game Gear (`gg`)
+    - The windows make.bat files were renamed to compile.bat
+  - Library
+  - Examples
+    - Added cross-platorm examples (build multiple targets: gb, ap, sms, gg)
+  - Toolchain / Utilities
+    - @ref utility_png2asset "png2asset"
+      - @ref utility_png2asset "png2asset" is the new name for the `png2mtspr` utility
+      - Added collision rectangle width and height (`-pw`, `-ph`)
+      - Added option to use the palette from the source png (`-keep_palette_order`)
+      - Added option to disable tile flip (`-noflip`)
+      - Added export as map: tileset + bg (`-map`)
+      - Added option to use CGB BG Map attributes (`-use_map_attributes`)
+      - Added option to group the exported info into structs (`-use_structs`)
+    - @ref lcc
+      - Use `-m` to select target port and platform: "-m[port]:[plat]" ports:`gbz80,z80` plats:`ap,gb,sms,gg`
+      - Changed default output format when not specified from `.ihx` to `.gb` (or other active rom extension)
+      - 
+    - @ref bankpack
+      - Added linkerfile input and output: `-lkin=<file>`, `-lkout=<file>`
+      - Added selector for platform specific behavior `plat=<plat>` (Default:gb, Avaialble:`gb,sms`). sms/gg targets prohibits packing `LIT_N` areas in the same banks as `CODE_N` areas
+      - Added randomization for auto-banks (`-random`) for debugging and testing
+
+  - Docs
+  
+
 ## GBDK 2020 4.0.4
   2021/06
   - Library
@@ -39,7 +70,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
       - Added rewrite .o files -> .rel for linking when called with `-autobank` and `-Wb-ext=.rel`
       - Workaround @ref makebin `-Wl-yp` formatting segfault
   - Docs
-    - Improved @ref utility_png2mtspr documentation
+    - Improved utility_png2mtspr documentation
     - Various doc updates and improvements
 
 
@@ -65,7 +96,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
     - Improved sgb_border
   - Toolchain / Utilities
     - Added @ref utility_gbcompress utility
-    - Added @ref utility_png2mtspr metasprite utility
+    - Added utility_png2mtspr metasprite utility
   - Docs
     - Added extensive documentation (some of which is imported and updated from the old gbdk docs)
     - Added PDF version of docs

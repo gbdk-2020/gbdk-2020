@@ -6,6 +6,7 @@
 - @subpage docs_using_gbdk
 - @subpage docs_coding_guidelines
 - @subpage docs_rombanking_mbcs
+- @subpage docs_supported_consoles
 - @subpage docs_toolchain
 - @subpage docs_example_programs
 - @subpage docs_faq
