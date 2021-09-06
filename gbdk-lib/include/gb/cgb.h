@@ -58,6 +58,8 @@
 #define RGB_ORANGE     RGB(30, 20,  0)
 #define RGB_TEAL       RGB(15, 15,  0)
 
+typedef uint16_t palette_entry_t;
+
 /** Set CGB background palette(s).
 
     @param first_palette  Index of the first palette to write (0-7)
@@ -76,7 +78,7 @@
 void
 set_bkg_palette(uint8_t first_palette,
                 uint8_t nb_palettes,
-                uint16_t *rgb_data) NONBANKED;
+                palette_entry_t *rgb_data) NONBANKED;
 
 /** Set CGB sprite palette(s).
 
@@ -96,7 +98,7 @@ set_bkg_palette(uint8_t first_palette,
 void
 set_sprite_palette(uint8_t first_palette,
                    uint8_t nb_palettes,
-                   uint16_t *rgb_data) NONBANKED;
+                   palette_entry_t *rgb_data) NONBANKED;
 
 /** Sets a single color in the specified CGB background palette.
 

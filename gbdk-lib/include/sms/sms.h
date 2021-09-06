@@ -13,6 +13,12 @@
 #ifdef NINTENDO
 #undef NINTENDO
 #endif
+#if defined(__TARGET_sms)
+#define MASTERSYSTEM
+#elif defined(__TARGET_gg)
+#define GAMEGEAR
+#endif
+
 
 #define VBK_REG VDP_ATTR_SHIFT
 
@@ -435,6 +441,8 @@ void joypad_ex(joypads_t * joypads) __z88dk_fastcall __preserves_regs(iyh, iyl);
 #define RGB_LIGHTGRAY  RGB( 2,  2,  2)
 #define RGB_WHITE      RGB( 3,  3,  3)
 
+typedef uint8_t palette_entry_t;
+
 #elif defined(__TARGET_gg)
 
 #define RGB(r,g,b)        ((r)|((g)<<4)|((b)<<8))
@@ -465,6 +473,8 @@ void joypad_ex(joypads_t * joypads) __z88dk_fastcall __preserves_regs(iyh, iyl);
 #define RGB_ORANGE     RGB(15, 10,  0)
 #define RGB_TEAL       RGB( 7,  7,  0)
 
+typedef uint16_t palette_entry_t;
+
 #else
 #error Unrecognized port
 #endif
@@ -477,7 +487,7 @@ inline void cpu_fast() {}
 void set_palette_entry(uint8_t palette, uint8_t entry, uint16_t rgb_data) __z88dk_callee __preserves_regs(iyh, iyl);
 #define set_bkg_palette set_palette
 #define set_sprite_palette(first_palette,nb_palettes,rgb_data) set_palette(1,1,rgb_data)
-void set_palette(uint8_t first_palette, uint8_t nb_palettes, uint16_t *rgb_data) __z88dk_callee;
+void set_palette(uint8_t first_palette, uint8_t nb_palettes, palette_entry_t *rgb_data) __z88dk_callee;
 
 void set_tile_data(uint16_t start, uint16_t ntiles, const void *src) __z88dk_callee __preserves_regs(iyh,iyl);
 inline void set_bkg_4bpp_data(uint16_t start, uint16_t ntiles, const void *src) {

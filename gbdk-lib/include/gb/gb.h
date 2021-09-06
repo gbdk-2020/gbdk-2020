@@ -13,6 +13,12 @@
 #ifdef SEGA
 #undef SEGA
 #endif
+#if defined(__TARGET_ap)
+#define ANALOGUEPOCKET
+#elif defined(__TARGET_gb)
+#define GAMEBOY
+#endif
+
 
 /** Joypad bits.
     A logical OR of these is used in the wait_pad and joypad
