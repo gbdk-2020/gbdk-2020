@@ -26,36 +26,38 @@
 ;   might be covered by the GNU General Public License.
 ;--------------------------------------------------------------------------
 
-	.area   _CODE
+        .area   _CODE
 
-	.globl ___strreverse
-	.globl ___strreverse_reg
+        .globl ___strreverse
+        .globl ___strreverse_reg
 ;
-;void __reverse(char *beg, char *end);
+;char * __reverse(char *beg, char *end);
 ;
 ___strreverse::
-	pop	bc
-	pop	de
-	pop	hl
-	push	hl
-	push	de
-	push	bc
-;
+        pop     bc
+        pop     de
+        pop     hl
+        push    hl
+        push    de
+        push    bc
+
 ;in: HL - pointer to end of string (null symbol), DE - pointer to start of string
 ;
 ___strreverse_reg::
-	jr	110$
+        jr      110$
 100$:
-	add	hl, de
-	ld	a, (de)
-	ld	c, (hl)
-	ld	(hl), a
-	ld	a, c
-	ld	(de), a
-	inc	de
+        add     hl, de
+        ld      a, (de)
+        ld      c, (hl)
+        ld      (hl), a
+        ld      a, c
+        ld      (de), a
+        inc     de
 110$:
-	dec	hl
-	or	a, a
-	sbc	hl, de
-	jr	NC, 100$
-	ret
+        dec     hl
+        or      a, a
+        sbc     hl, de
+        jr      NC, 100$
+		add		hl, de
+		inc     hl
+        ret

@@ -418,9 +418,9 @@ void joypad_ex(joypads_t * joypads) __z88dk_fastcall __preserves_regs(iyh, iyl);
 
 #if defined(__TARGET_sms)
 
-#define RGB(r,g,b)        ((r)|((g)<<2)|((b)<<4))
-#define RGB8(r,g,b)       (((r)>>6)|(((g)>>6)<<2)|(((b)>>6)<<4))
-#define RGBHTML(RGB24bit) (((RGB24bit)>>22)|((((RGB24bit)&0xFFFF)>>14)<<2)|((((RGB24bit)&0xFF)>>6)<<4))
+#define RGB(r,g,b)        ((r) | ((g) << 2) | ((b) << 4))
+#define RGB8(r,g,b)       (((r) >> 6) | (((g) >> 6) << 2) | (((b) >> 6) << 4))
+#define RGBHTML(RGB24bit) (((RGB24bit) >> 22) | ((((RGB24bit) & 0xFFFF) >> 14) << 2) | ((((RGB24bit) & 0xFF) >> 6) << 4))
 
 /** Common colors based on the EGA default palette.
  */
@@ -445,9 +445,9 @@ typedef uint8_t palette_entry_t;
 
 #elif defined(__TARGET_gg)
 
-#define RGB(r,g,b)        ((r)|((g)<<4)|((b)<<8))
-#define RGB8(r,g,b)       (((r)>>4)|(((g)>>4)<<4)|(((b)>>4)<<8))
-#define RGBHTML(RGB24bit) (((RGB24bit)>>20)|((((RGB24bit)&0xFFFF)>>12)<<4)|((((RGB24bit)&0xFF)>>4)<<8))
+#define RGB(r,g,b)        ((uint16_t)(r) | (uint16_t)((g) << 4) | (uint16_t)((b) << 8))
+#define RGB8(r,g,b)       ((uint16_t)((r) >> 4) | ((uint16_t)((g) >> 4) << 4) | ((uint16_t)((b) >> 4) << 8))
+#define RGBHTML(RGB24bit) (((RGB24bit) >> 20) | ((((RGB24bit) & 0xFFFF) >> 12) << 4)|((((RGB24bit) & 0xFF) >> 4) << 8))
 
 /** Common colors based on the EGA default palette.
  */
@@ -497,7 +497,7 @@ inline void set_sprite_4bpp_data(uint16_t start, uint16_t ntiles, const void *sr
     set_tile_data((uint8_t)(start) + 0x100u, ntiles, src);
 }
 
-#define COMPAT_PALETTE(C0,C1,C2,C3) (((C3) << 12) | ((C2) << 8) | ((C1) << 4) | (C0))
+#define COMPAT_PALETTE(C0,C1,C2,C3) (((uint16_t)(C3) << 12) | ((uint16_t)(C2) << 8) | ((uint16_t)(C1) << 4) | (uint16_t)(C0))
 extern uint16_t _current_2bpp_palette;
 inline void set_2bpp_palette(uint16_t palette) {
     _current_2bpp_palette = palette;
