@@ -78,14 +78,34 @@ The following MBC settings are available when using the makebin MBC switch.
 ```
 
 
-## Banked Functions
+## Getting Bank Numbers
+The bank number for a banked function, variable or source file can be stored and retrieved using the following macros:
+  - @ref BANKREF(): Create a reference for retrieving the bank number of a variable or function
+  - @ref BANK(): Retrieve a bank number using a reference created with @ref BANKREF()
+  - @ref BANKREF_EXTERN() - Make a @ref BANKREF() reference residing in another source
+    file accessible in the current file for use with @ref BANK().
+
+
+## Banking and Functions
+
+@anchor banked_keywords
+### BANKED/NONBANKED keywords
+- `BANKED`: 
+  - The function will use banked sdcc calls
+  - Placed in the bank selected by it's source file (or compiler switches)
+- `NONBANKED`:
+  - Placed in the non-banked lower 16K region (bank 0), regardless of the bank selected by it's source file.
+- `<not-specified>`:
+  - The function does not use sdcc banked calls (`near` instead of `far`)
+  - Placed in the bank selected by it's source file (or compiler switches)
+
 @anchor banked_calls
+### Banked Function Calls
 Banked functions can be called as follows.
   - When defined with the `BANKED` keyword. Example: `void my_function() BANKED { do stuff }` in a source file which has had it's bank set (see above).
   - Using @ref far_pointers
   - When defined with an area set up using the `__addressmod` keyword (See the `banks_new` example project and the SDCC manual for details)
   - Using @ref SWITCH_ROM_MBC1() (and related functions for other MBCs) to manually switch in the required bank and then call the function.
-
 
 Non-banked functions (either in fixed Bank 0, or in an non-banked ROM with no MBC)
   - May call functions in any bank: __YES__
@@ -140,21 +160,21 @@ It should be:
 ```
 void vbl_music_isr(void)
 {
-	// Save the current bank
+    // Save the current bank
     uint8_t _saved_bank = _current_bank;
 
-	// A function which changes the bank and
+    // A function which changes the bank and
     // *doesn't* restore it after changing.
     some_function();
 
-	// Now restore the current bank
+    // Now restore the current bank
     SWITCH_ROM_MBC5(_saved_bank);
 }
 ```
 
-
 ## Currently active bank: _current_bank
 The global variable @ref _current_bank is updated automatically when calling @ref SWITCH_ROM_MBC1() and @ref SWITCH_ROM_MBC5, or when a `BANKED` function is called.
+
 
 
 # Auto-Banking
@@ -205,9 +225,6 @@ Making sure bankpack checks all files:
 
   - See @ref bankpack for more options and settings
 
-
-Limitations:
-  - At this time, the constant entries that get rewritten with the assigned bank (const void __at(255) __bank_<name-you-want-to-use-for-that-source-file>;) __cannot__ be used from the source file they are declared in. In that case SDCC converts the bank number before @ref bankpack has a chance to rewrite it. It may be referenced from any other source file, but not it's own.
 
 
 # Errors related to banking (overflow, multiple writes to same location)

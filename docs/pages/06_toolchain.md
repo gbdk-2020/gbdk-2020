@@ -203,17 +203,17 @@ For detailed settings see @ref gbcompress-settings
 Compresses (and decompresses) binary file data with the gbcompress algorithm (also used in GBTD/GBMB). Decompression support is available in GBDK, see @ref gb_decompress().
 
 
-@anchor utility_png2mtspr
-## PNG to Metasprite
+@anchor utility_png2asset
+## PNG to Asset
 Tool for converting PNGs into GBDK format MetaSprites
 
 Convert single or multiple frames of graphics into metasprite structured data for use with the ...metasprite...() functions.
 
-For detailed settings see @ref png2mtspr-settings  
+For detailed settings see @ref png2asset-settings  
 For working with sprite properties (including cgb palettes), see @ref metasprite_and_sprite_properties  
 For API support see @ref move_metasprite() and related functions in @ref metasprites.h  
 
-### Working with png2mtspr
+### Working with png2asset
   - The origin (pivot) for the metasprite is not required to be in the upper left-hand corner as with regular hardware sprites.
 
   - The conversion process supports using both SPRITES_8x8 and SPRITES_8x16 mode. If 8x16 mode is used then the height of the metasprite must be a multiple of 16.
@@ -236,7 +236,7 @@ For API support see @ref move_metasprite() and related functions in @ref metaspr
               OBP Index 2: Medium
               OBP Index 3: Darkest/Black
 
-    - If you want to assign different colors then you can either change the settings in @ref OBP0_REG / @ref OBP1_REG in your _source code_ or change the colors of your _input image_ to produce different output, but the output of the png2mtspr tool itself cannot be altered (for now).
+    - If you want to assign different colors then you can either change the settings in @ref OBP0_REG / @ref OBP1_REG in your _source code_ or change the colors of your _input image_ to produce different output, but the output of the png2asset tool itself cannot be altered (for now).
 
   For best graphics conversion results:
     - Input images should only have 3 colors + transparent and which are spaced along the brightness spectrum based on the mapping described above.

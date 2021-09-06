@@ -4,6 +4,11 @@ This section contains information that may be useful to know or important when u
 
 # GBDK 2020 versions
 
+## Porting to GBDK 2020 4.0.5
+- GBDK now requires SDCC 12259 or higher with GBDK-2020 patches
+- @ref utility_png2asset is the new name for the `png2mtspr` utility
+- @ref lcc : Changed default output format when not specified from `.ihx` to `.gb` (or other active rom extension)
+
 ## Porting to GBDK 2020 4.0.4
 - GBDK now requires SDCC 12238 or higher
 - Made sample.h, cgb.h and sgb.h independent from gb.h
