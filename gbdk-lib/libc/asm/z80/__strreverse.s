@@ -44,6 +44,7 @@ ___strreverse::
 ;in: HL - pointer to end of string (null symbol), DE - pointer to start of string
 ;
 ___strreverse_reg::
+        push    de
         jr      110$
 100$:
         add     hl, de
@@ -58,6 +59,5 @@ ___strreverse_reg::
         or      a, a
         sbc     hl, de
         jr      NC, 100$
-		add		hl, de
-		inc     hl
+        pop     hl
         ret
