@@ -29,13 +29,14 @@ The original GBDK sources, documentation and website are at: http://gbdk.sourcef
 
 
 # About GBDK
-The GameBoy Developer's Kit (GBDK, GBDK-2020) is used to develop games and programs for the Nintendo Game Boy system in C and assembly. GBDK includes a set of libraries for the most common requirements and generates image files for use with a real GameBoy or with emulators.
+The GameBoy Developer's Kit (GBDK, GBDK-2020) is used to develop games and programs for the Nintendo Game Boy (and some other consoles) in C and assembly. GBDK includes a set of libraries for the most common requirements and generates image files for use with a real GameBoy or emulators.
 
 GBDK features:
  - C and ASM toolchain based on SDCC with some support utilities
  - A set of libraries with source code
  - Example programs in ASM and in C
  - Support for multiple ROM bank images
+ - Support for multiple consoles: Game Boy, Analogue Pocket, Master System and Game Gear
 
 GBDK is freeware. Most of the tooling code is under the GPL. The runtime libraries should be under the LGPL. Please consider mentioning GBDK in the credits of projects made with it.
 
@@ -43,7 +44,12 @@ GBDK is freeware. Most of the tooling code is under the GPL. The runtime librari
 
 # Historical Info and Links
 
-The following is from the original GBDK documentation.
+Original work on GBDK (pre-2020) was by:
+
+Pascal Felber, Lars Malmborg, Michael Hope (and others)
+
+
+The following is from the original GBDK documentation:
 
 Thanks to quang for many of the comments to the gb functions.  Some
 of the comments are ripped directly from the Linux Programmers
