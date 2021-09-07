@@ -20,7 +20,7 @@
 
     An entry is created for the variable and it's size variable.
 
-    @ref INCBIN(), SIZE()
+    @ref INCBIN(), INCBIN_SIZE()
 */
 #define INCBIN_EXTERN(VARNAME)  extern const uint8_t VARNAME[]; \
 extern const void __size_ ## VARNAME; \
@@ -34,7 +34,7 @@ extern const void __bank_ ## VARNAME;
 
     @ref INCBIN(), INCBIN_EXTERN()    
 */
-#define SIZE(VARNAME) ( (uint16_t) & __size_ ## VARNAME )
+#define INCBIN_SIZE(VARNAME) ( (uint16_t) & __size_ ## VARNAME )
 
 /** Obtains the __bank number__ of the INCBIN() generated data
     
@@ -59,7 +59,7 @@ extern const void __bank_ ## VARNAME;
 
     The variable name is not modified and can be used as-is.
 
-    @see SIZE() for obtaining the size of the included data.
+    @see INCBIN_SIZE() for obtaining the size of the included data.
     @see BANK() for obtaining the bank number of the included data.
 
     Use @ref INCBIN_EXTERN() within another source file
