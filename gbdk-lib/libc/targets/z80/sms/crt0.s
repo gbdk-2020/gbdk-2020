@@ -80,7 +80,6 @@ _WRITE_VDP_DATA::
         jr nz, 1$
 
         ;; detect PAL/NTSC
-        
         ld c, #.VDP_VCOUNTER
 2$:     in a, (c)
         cp #0x80
@@ -98,6 +97,7 @@ _WRITE_VDP_DATA::
 4$:
         ld (#__SYSTEM), a
 
+        ;; clear VRAM
         ld a, #<.VDP_VRAM
         out (#.VDP_CMD), a
         ld a, #>.VDP_VRAM
