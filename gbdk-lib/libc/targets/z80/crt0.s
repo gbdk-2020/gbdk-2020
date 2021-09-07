@@ -115,6 +115,8 @@ _WRITE_VDP_DATA::
 
         call _set_default_palette
 
+        in a, (.VDP_STAT)       ; cancel pending VDP interrupts
+
         ei                      ; re-enable interrupts before going to main()
         call _main
 10$:
