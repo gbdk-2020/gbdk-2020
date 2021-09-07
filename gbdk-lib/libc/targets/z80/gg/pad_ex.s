@@ -45,9 +45,9 @@ _joypad_init::
 ;void joypad_ex(joypads_t * joypads) __z88dk_fastcall;
 
 _joypad_ex::
-        in a, (.GG_P0)
+        in a, (.GG_STATE)
         cpl
-        and #0b10000000
+        and #.GGSTATE_STT
         ld b, a
         ld c, #.JOY_PORT1
         in e, (c)
@@ -65,7 +65,7 @@ _joypad_ex::
         ld e, a
         ld a, d
         cpl
-        and #0b01111111
+        and #0b00111111
         ld d, a
         
         inc hl

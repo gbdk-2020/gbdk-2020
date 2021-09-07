@@ -22,7 +22,7 @@ LCCFLAGS += -Wl-j -Wm-yS -Wm-yoA -Wm-ya4 -autobank -Wb-ext=.rel -Wb-v # MBC + Au
 # LCCFLAGS += -v     # Uncomment for lcc verbose output
 
 # You can set the name of the ROM file here
-PROJECTNAME = example
+PROJECTNAME = scroller
 
 # EXT?=gb # Only sets extension to default (game boy .gb) if not populated
 SRCDIR      = src

@@ -11,9 +11,9 @@ _joypad::
         cpl
         and #0b00111111
         ld l, a
-        in a, (.GG_P0)
+        in a, (.GG_STATE)
         cpl
-        and #0b10000000
+        and #.GGSTATE_STT
         or l
         ld l, a
         ret
