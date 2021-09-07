@@ -1,3 +1,11 @@
+        .GG_P0          = 0x00
+        .GG_P1          = 0x01
+        .GG_P2          = 0x02
+        .GG_P3          = 0x03
+        .GG_P4          = 0x04
+        .GG_P5          = 0x05
+        .GG_P6          = 0x06
+
         .MEMORY_CTL     = 0x3E
 
         .MEMCTL_JOYON   = 0b00000000
@@ -113,8 +121,8 @@
         .RIGHT          = 0b00001000
         .A              = 0b00010000
         .B              = 0b00100000
-        .SELECT         = 0b01000000    ; map to RESET
-        .START          = 0b01000000    ; map to RESET
+        .SELECT         = 0b00100000    ; map to B
+        .START          = 0b10000000    ; Game Gear Start button
 
         .JOY_PORT1      = 0xDC
 

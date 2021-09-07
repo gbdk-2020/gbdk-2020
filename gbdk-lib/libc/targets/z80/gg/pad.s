@@ -7,9 +7,14 @@
 	;; Get Keypad Button Status
 _joypad::
 .jpad::
-        in a, (#.JOY_PORT1)
+        in a, (.JOY_PORT1)
         cpl
         and #0b00111111
+        ld l, a
+        in a, (.GG_P0)
+        cpl
+        and #0b10000000
+        or l
         ld l, a
         ret
 

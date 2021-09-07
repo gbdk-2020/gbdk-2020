@@ -111,8 +111,8 @@
         .RIGHT          = 0b00001000
         .A              = 0b00010000
         .B              = 0b00100000
-        .SELECT         = 0b01000000    ; map to RESET
-        .START          = 0b01000000    ; map to RESET
+        .SELECT         = 0b00100000    ; map to B
+        .START          = 0b00010000    ; map to A
 
         .JOYPAD_COUNT   = 2
 

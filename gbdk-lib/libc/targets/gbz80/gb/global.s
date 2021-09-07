@@ -27,14 +27,14 @@
         rRAMB           = 0x4000 ; $4000->$5fff - Bit 3 enables rumble (if present)
 
         ;;  Keypad
-        .START          = 0x80
-        .SELECT         = 0x40
-        .B              = 0x20
-        .A              = 0x10
-        .DOWN           = 0x08
         .UP             = 0x04
+        .DOWN           = 0x08
         .LEFT           = 0x02
         .RIGHT          = 0x01
+        .A              = 0x10
+        .B              = 0x20
+        .SELECT         = 0x40
+        .START          = 0x80
 
         .P14            = 0x10
         .P15            = 0x20
