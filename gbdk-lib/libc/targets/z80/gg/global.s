@@ -273,6 +273,10 @@ lbl:
 lbl:
 .endm
 
+.macro VDP_CANCEL_INT
+        in a, (.VDP_STAT)       ; cancel pending VDP interrupts
+.endm
+
 .macro WRITE_VDP_CMD_HL
         rst 0x10
 .endm
