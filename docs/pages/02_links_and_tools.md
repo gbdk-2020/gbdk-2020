@@ -40,6 +40,10 @@ This is a brief list of useful tools and information. It is not meant to be comp
     https://www.youtube.com/playlist?list=PLeEj4c2zF7PaFv5MPYhNAkBGrkx4iPGJo  
     https://github.com/gingemonster/GamingMonstersGameBoySampleCode
 
+  - @anchor tutorials_typorter
+    __Pocket Leage Tutortial__  
+    https://blog.ty-porter.dev/development/2021/04/04/writing-a-gameboy-game-in-2021-pt-0.html
+
 
 @anchor link_examples
 # Example code
@@ -112,6 +116,12 @@ This is a brief list of useful tools and information. It is not meant to be comp
     __romusage__  
     Calculate used and free space in banks (ROM/RAM) and warn about errors such as bank overflows.  
     https://github.com/bbbbbr/romusage
+
+  - @anchor bgb_symbol_conversion
+    __noi file to sym conversion for bgb__  
+    Debug information in .noi files can be converted to a symbol format that @ref bgb "BGB" recognizes using:
+    - @ref lcc : `-Wm-yS` (with `--debug`, or `-Wl-j` to create the .noi)
+    - directly with @ref makebin : `-yS` (with `-j` passed to the linker)
 
   - @anchor src2sym
     __src2sym.pl__  

@@ -3,6 +3,9 @@
 ## Current release for Linux: [Linux Binaries](https://github.com/gbdk-2020/gbdk-2020/releases/latest/download/gbdk-linux64.tar.gz)
 You don't need the sources, unless you wish to compile GBDK-2020 yourself. Download the current release binaries using the links above.
 
+Upgrading to a new version? Check the [Migration notes](https://gbdk-2020.github.io/gbdk-2020/docs/api/docs_migrating_versions.html).
+
+
 # Docs
 Online documentation is avaliable [HERE](https://gbdk-2020.github.io/gbdk-2020/docs/api)
 

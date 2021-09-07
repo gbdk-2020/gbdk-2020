@@ -54,7 +54,7 @@
 
   - Can I use the `float` type to do floating point math?
     - There is no support for 'float' in GBDK-2020.
-    - Instead consider various kinds of `fixed point` math (including the @ref fixed type included in GBDK) <!-- -->  
+    - Instead consider some form of `fixed point` math (including the @ref fixed_point_type "fixed" type included in GBDK) <!-- -->  
 
   - Why are 8 bit numbers not printing correctly with printf()?
     - To correctly pass chars/uint8s for printing, they must be explicitly re-cast as such when calling the function. See docs_chars_varargs for more details.  <!-- -->  

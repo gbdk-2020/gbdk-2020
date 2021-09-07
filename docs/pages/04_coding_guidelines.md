@@ -39,6 +39,11 @@ If you wish to use the original tools, you must add the `const` keyword every ti
 
 ## Variables
 
+  - Initialize all variables before reading from them (typically at declaration).
+    - In other standard C environments global variables will get initialized to zero.
+    - The GBDK-2020 runtime __does not__ do this for you (wram does not get initialized to zero). Your code must explicitly initialize them instead.
+    - It is recommended to turn on "non-initalized RAM" exceptions (and others) in emulators which support them to help find and avoid bugs related to this.
+
   - Use 8-bit values as much as possible. They will be much more efficient and compact than 16 and 32 bit types.
 
   - Prefer unsigned variables to signed ones: The code generated will be generally more efficient, especially when comparing two values.
@@ -69,6 +74,18 @@ If you wish to use the original tools, you must add the `const` keyword every ti
     - `L` specifies that the constant is long.
 
     - NOTE: In SDCC 3.6.0, the default for char changed from signed to unsigned. The manual says to use `--fsigned-char` for the old behavior, this option flag is included by default when compiling through @ref lcc. 
+
+    @anchor fixed_point_type
+  - A fixed point type (`fixed`) is included with GBDK when precision greater than whole numbers is required for 8 bit range values (since floating point is not included in GBDK). For example:
+    
+        fixed player[2];
+        ...
+        // Modify player position using it's 16 bit representation
+        player[0].w += player_speed_x;
+        player[1].w += player_speed_y;
+        ...
+        // Use only the upper 8 bits for setting the sprite position
+        move_sprite(0, player[0].h ,player[1].h);
 
 
 ## Code structure
