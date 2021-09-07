@@ -8,14 +8,24 @@ https://github.com/gbdk-2020/gbdk-2020/releases
 
 ## GBDK 2020 4.0.5
   2021/09
+  - Known Issues
+    - The `bgb_debug` example has a compile error on macOS.
+      - The compiler has a bug on macOS where long strings used with macros cause a crash. @ref bgb_emu.h can still be used with shorter strings.
   - Overall
     - Added support for new consoles
       - Analogue Pocket (`ap`)
       - Sega Master System (`sms`) and Game Gear (`gg`)
     - The windows make.bat files were renamed to compile.bat
   - Library
+    - Added new register flag constants and names. For example:
+      - @ref rLCDC is a new alias for @ref LCDC_REG
+      - @ref LCDCF_WINON, @ref LCDCF_WINOFF, @ref LCDCF_B_WINON
+    - Added @ref BANK(), @ref BANKREF(), @ref BANKREF_EXTERN()
+    - Added @ref INCBIN(), @ref BANK(), @ref INCBIN_SIZE(), @ref INCBIN_EXTERN()
+    - Updated bgb debug output. Added @ref BGB_printf()
   - Examples
-    - Added cross-platorm examples (build multiple targets: gb, ap, sms, gg)
+    - Added cross-platform examples (builds for multiple consoles: gb, ap, sms, gg)
+    - Improved `bgb_debug` example
   - Toolchain / Utilities
     - @ref utility_png2asset "png2asset"
       - @ref utility_png2asset "png2asset" is the new name for the `png2mtspr` utility
