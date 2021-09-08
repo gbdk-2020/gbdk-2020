@@ -411,7 +411,7 @@ loadfont:
 	.ascii	" "
 
 
-	.area _BSS
+	.area _DATA
 
 wCrashA: 
 	.ds	1		; We need at least one working register, and A allows accessing memory

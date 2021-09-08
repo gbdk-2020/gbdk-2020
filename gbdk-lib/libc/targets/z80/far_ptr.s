@@ -55,7 +55,7 @@ _to_far_ptr::
         push bc
         ret
 
-        .area   _BSS
+        .area   _DATA
         
 ___call_banked_ptr::
 ___call_banked_addr::

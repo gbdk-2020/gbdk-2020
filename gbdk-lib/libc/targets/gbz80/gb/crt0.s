@@ -107,6 +107,23 @@ _refresh_OAM::
         LD      A, #>_shadow_OAM
         JP      (HL)
 
+.clear_WRAM:
+        PUSH    DE
+        XOR     A
+        LD      BC, #l__DATA
+        LD      HL, #s__DATA
+        CALL    .memset_simple
+
+        LD      A, #>_shadow_OAM
+        LDH     (__shadow_OAM_base), A
+        LD      H, A
+        XOR     A
+        LD      L, A
+        LD      C, #(40 << 2)   ; 40 entries 4 bytes each
+        RST     0x28
+        POP     DE
+        RET
+        
         ;; GameBoy Header
 
         ;; DO NOT CHANGE...
@@ -182,18 +199,7 @@ _reset::
         ;; Initialize the stack
         LD      SP, #.STACK
 
-        LD      A, #>_shadow_OAM
-        LDH     (__shadow_OAM_base), A
-        LD      H, A
-        XOR     A
-        LD      L, A
-        LD      C, #(40 << 2)   ; 40 entries 4 bytes each
-        RST     0x28
-
-        ;; Clear CRT0 global variables
-        LD      HL,#.start_crt_globals
-        LD      C,#(.end_crt_globals - .start_crt_globals)
-        RST     0x28
+        CALL    .clear_WRAM
 
 ;       LD      (.mode),A       ; Clearing (.mode) is performed when clearing RAM
 
@@ -329,7 +335,7 @@ _set_interrupts::
         ;; For malloc
         .area   _HEAP
 
-        .area   _BSS
+        .area   _DATA
 .start_crt_globals:
 
 __cpu::
@@ -359,41 +365,59 @@ __shadow_OAM_base::
         ;; Runtime library
         .area   _GSINIT
 gsinit::
-        LD      DE, #l__INITIALIZER
-        LD      A, D
-        OR      E
-        JR      Z, 4$
-        LD      HL, #s__INITIALIZED
-        LD      BC, #s__INITIALIZER
-        
-        SRL     D
-        RR      E
-        JR      NC,3$
-        LD      A,(BC)
-        LD      (HL+),A
-        INC     BC
-3$:
-        INC     D
-        INC     E
-        JR      2$
-1$:
-        LD      A,(BC)
-        LD      (HL+),A
-        INC     BC
-        LD      A,(BC)
-        LD      (HL+),A
-        INC     BC
-2$:
-        DEC     E
-        JR      NZ,1$
-        DEC     D
-        JR      NZ,1$   
-4$:
+        ;; initialize static storage variables
+        LD      BC, #l__INITIALIZER
+        LD      HL, #s__INITIALIZER
+        LD      DE, #s__INITIALIZED
+        call    .memcpy_simple         
 
         .area   _GSFINAL
         ret
 
         .area   _HOME
+
+        ;; fills memory at HL of length BC with A, clobbers DE
+.memset_simple::
+        LD      E, A
+        LD      A, B
+        OR      C
+        RET     Z
+        LD      (HL), E
+        DEC     BC
+        LD      D, H
+        LD      E, L
+        INC     DE
+
+        ;; copies BC bytes from HL into DE
+.memcpy_simple::
+        LD      A, B
+        OR      C
+        RET     Z
+
+        SRL     B
+        RR      C
+        JR      NC,3$
+        LD      A, (HL+)
+        LD      (DE), A
+        INC     DE
+3$:
+        INC     B
+        INC     C
+        JR      2$
+1$:
+        LD      A, (HL+)
+        LD      (DE), A
+        INC     DE
+        LD      A, (HL+)
+        LD      (DE), A
+        INC     DE
+2$:
+        DEC     C
+        JR      NZ,1$
+        DEC     B
+        JR      NZ,1$   
+4$:
+        RET
 
         ;; Remove interrupt routine in BC from the VBL interrupt list
         ;; falldown to .remove_int

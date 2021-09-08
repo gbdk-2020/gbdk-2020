@@ -1,7 +1,7 @@
 	.include        "global.s"
 
 	;; Data
-	.area	_BSS
+	.area	_DATA
 	;; Foreground drawing colour
 .fg_colour::	
 	.ds	1

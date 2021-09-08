@@ -5,7 +5,7 @@
 
         .ez80
 
-        .area   _BSS
+        .area   _DATA
 
 .image_tile_width_compat::
         .ds     0x01

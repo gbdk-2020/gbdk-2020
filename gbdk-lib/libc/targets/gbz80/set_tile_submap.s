@@ -1,6 +1,6 @@
         .include        "global.s"
 
-        .area   _BSS
+        .area   _DATA
 
 .image_tile_width::
         .ds     0x01

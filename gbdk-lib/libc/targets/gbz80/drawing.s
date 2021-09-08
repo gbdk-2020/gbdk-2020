@@ -35,7 +35,7 @@
         .module Drawing1
 
         ;; Data
-        .area   _BSS
+        .area   _DATA
         ;; Fill style
 .style: 
         .ds     0x01

@@ -13,8 +13,7 @@
 	.globl	.initrand
 	.globl	_rand
 
-	.area	_BSS
-.start_arand_vars:
+	.area	_DATA
 
 .randarr:
 	.ds	55
@@ -22,15 +21,6 @@
 	.ds	0x01
 .raxk:
 	.ds	0x01
-	
-.end_arand_vars:
-
-	.area	_GSINIT
-
-	XOR	A
-	LD	HL,#.start_arand_vars
-	LD 	C,#(.end_arand_vars - .start_arand_vars)
-	RST	0x28
 
 	.area	_CODE
 

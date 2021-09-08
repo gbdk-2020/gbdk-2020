@@ -42,9 +42,8 @@
         .globl  .fg_colour
         .globl  .bg_colour
 
-        .area   _BSS
+        .area   _DATA
         ; The current font
-.start_font_vars:
 
 font_current::
         .ds     sfont_handle_sizeof
@@ -54,13 +53,6 @@ font_first_free_tile::
         ; Table containing descriptors for all of the fonts
 font_table::
         .ds     sfont_handle_sizeof*.MAX_FONTS
-.end_font_vars:
-
-        .area   _GSINIT
-
-        ld      hl,#.start_font_vars
-        ld      c,#(.end_font_vars - .start_font_vars)
-        rst     0x28
 
         .area   _BASE
 

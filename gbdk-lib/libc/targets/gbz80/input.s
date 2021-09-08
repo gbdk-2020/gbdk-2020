@@ -43,7 +43,7 @@
 
         .module Terminal
 
-        .area   _BSS
+        .area   _DATA
 
 .msx:                           ; Mouse position
         .ds     0x01

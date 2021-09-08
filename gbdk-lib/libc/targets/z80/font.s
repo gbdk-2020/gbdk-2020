@@ -22,14 +22,8 @@
         ; Maximum number of fonts
         .MAX_FONTS              = 6
 
-        .area   _BSS
+        .area   _DATA
         ; The current font
-.start_font_vars:
-.fg_colour::
-        .ds     1
-.bg_colour::
-        .ds     1
-
 font_current::
         .ds     sfont_handle_sizeof
         ; Cached copy of the first free tile
@@ -46,16 +40,18 @@ plane2:
         .ds     1
 plane3:
         .ds     1
-.end_font_vars:
 
-        .area   _GSINIT
+        .area   _INITIALIZED
+        ; The current font
+.fg_colour::
+        .ds     1
+.bg_colour::
+        .ds     1
 
-        xor a
-        ld hl,#.start_font_vars
-        ld c,#(.end_font_vars-.start_font_vars)
-        call .memset_small
-        ld a, #3
-        ld (.fg_colour), a
+        .area   _INITIALIZER
+
+        .db     0x03    ; .fg_colour
+        .db     0x00    ; .bg_color
 
         .area   _HOME
 

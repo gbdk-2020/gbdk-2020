@@ -11,13 +11,6 @@
 	LD	HL,#.int_0x60
 	JP	.int
 
-	.area	_GSINIT
-
-	XOR	A
-	LD	HL,#.int_0x60
-	LD 	C,#0x08
-	RST	0x28
-
 	.area	_BASE
 
 _add_JOY::
@@ -48,7 +41,7 @@ _remove_JOY::
 	LD	HL,#.int_0x60
 	JP	.remove_int
 
-	.area	_BSS
+	.area	_DATA
 
 .int_0x60::
 	.blkw	0x08

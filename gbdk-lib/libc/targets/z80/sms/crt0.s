@@ -45,6 +45,14 @@ _WRITE_VDP_DATA::
         ld sp, #.STACK          ; set stack pointer at end of RAM
 
         ld a, (#.BIOS)
+        push af
+
+        xor a
+        ld bc, #l__DATA
+        ld hl, #s__DATA
+        call .memset_simple     ; initialize veriables in RAM with zero
+
+        pop af
         ld (#__BIOS), a         ; save BIOS value
 
         ld hl, #_shadow_OAM
@@ -97,21 +105,7 @@ _WRITE_VDP_DATA::
 4$:
         ld (#__SYSTEM), a
 
-        ;; clear VRAM
-        ld a, #<.VDP_VRAM
-        out (#.VDP_CMD), a
-        ld a, #>.VDP_VRAM
-        out (#.VDP_CMD), a
-        xor a
-        ld bc, #0x4101
-        jr 6$
-5$:
-        out (.VDP_DATA), a
-6$:
-        dec c
-        jr nz, 5$
-        dec b
-        jr nz, 5$
+        call .clear_VRAM
 
         call _set_default_palette
 
@@ -142,19 +136,54 @@ _WRITE_VDP_DATA::
         .area   _CODE
         .area   _GSINIT
 .gsinit::
+        ;; initialize static storage variables
         ld bc, #l__INITIALIZER
-        ld a, b
-        or a, c
-        jr Z, 1$
-        ld de, #s__INITIALIZED
         ld hl, #s__INITIALIZER
-        ldir
-1$:
+        ld de, #s__INITIALIZED
+        call .memcpy_simple
 
         .area   _GSFINAL
         ret
 
         .area   _HOME
+
+.clear_VRAM:
+        ld a, #<.VDP_VRAM
+        out (#.VDP_CMD), a
+        ld a, #>.VDP_VRAM
+        out (#.VDP_CMD), a
+        xor a
+        ld bc, #0x4101
+        jr 6$
+5$:
+        out (.VDP_DATA), a
+6$:
+        dec c
+        jr nz, 5$
+        dec b
+        jr nz, 5$
+        ret
+
+        ;; fills memory at HL of length BC with A, clobbers DE
+.memset_simple::
+        ld e, a        
+        ld a, c
+        or b
+        ret z
+        ld (hl), e
+        dec bc
+        ld d, h
+        ld e, l
+        inc de
+        
+        ;; copies BC bytes from HL into DE
+.memcpy_simple::
+        ld a, c
+        or b
+        ret z
+        ldir
+        ret
+
         ;; Wait for VBL interrupt to be finished
 .wait_vbl_done::
 _wait_vbl_done::
@@ -171,7 +200,7 @@ _wait_vbl_done::
         jr z, 1$
         ret
 
-        .area   _BSS
+        .area   _DATA
         
 .start_crt_globals:
 __BIOS::

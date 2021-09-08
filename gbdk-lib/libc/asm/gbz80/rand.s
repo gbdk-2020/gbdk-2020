@@ -36,7 +36,7 @@
 	;;   It's your choice - but if you're doing Monte Carlo physics simulations on the
 	;;   GameBoy, this is a safe bet!
 
-	.area	_BSS
+	.area	_DATA
 .randhi::			; Storage for last random number (or seed)
 	.ds	0x01
 .randlo::

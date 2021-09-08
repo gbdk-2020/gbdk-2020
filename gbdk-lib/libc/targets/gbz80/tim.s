@@ -11,13 +11,6 @@
 	LD	HL,#.int_0x50
 	JP	.int
 
-	.area	_GSINIT
-
-	XOR	A
-	LD	HL,#.int_0x50
-	LD 	C,#0x08
-	RST	0x28
-
 	.area	_BASE
 
 _add_TIM::
@@ -48,7 +41,7 @@ _remove_TIM::
 	LD	HL,#.int_0x50
 	JP	.remove_int
 
-	.area	_BSS
+	.area	_DATA
 
 .int_0x50::
 	.blkw	0x08

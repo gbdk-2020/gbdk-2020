@@ -1,6 +1,6 @@
         .module Random
 
-        .area   _BSS
+        .area   _DATA
 
 .randval:
         .ds     0x02
