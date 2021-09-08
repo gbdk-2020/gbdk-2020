@@ -286,7 +286,11 @@ void nowait_int_handler(void) NONBANKED;
 */
 void wait_int_handler(void) NONBANKED;
 
-
+/** Cancel pending interrupts
+ */
+inline uint8_t cancel_pending_interrupts() {
+    return IF_REG = 0;
+}
 
 /** Set the current screen mode - one of M_* modes
 

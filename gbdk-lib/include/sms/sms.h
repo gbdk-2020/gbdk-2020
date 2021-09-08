@@ -169,9 +169,23 @@ void add_VBL(int_handler h) __z88dk_fastcall __preserves_regs(d, e, iyh, iyl);
 */
 void add_LCD(int_handler h) __z88dk_fastcall __preserves_regs(b, c, iyh, iyl);
 
+/** Does nothing on SMS/GG
+ */
 void add_TIM(int_handler h);
+
+/** Does nothing on SMS/GG
+ */
 void add_SIO(int_handler h);
+
+/** Does nothing on SMS/GG
+ */
 void add_JOY(int_handler h);
+
+/** Cancel pending interrupts
+ */
+inline uint8_t cancel_pending_interrupts() {
+    return VDP_STATUS;
+}
 
 inline void move_bkg(uint8_t x, uint8_t y) {
 	__WRITE_VDP_REG(VDP_RSCX, -x);
