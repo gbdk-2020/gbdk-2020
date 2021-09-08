@@ -6,6 +6,7 @@
         .globl  .memset_small
         .globl  _font_ibm
         .globl  __current_1bpp_colors, .fg_colour, .bg_colour
+        .globl  _set_tile_data, _set_tile_1bpp_data
 
         ; Structure offsets
         sfont_handle_sizeof     = 3
@@ -71,6 +72,9 @@ _font_color::
         pop de
         ex (sp), hl
         push de
+        ld a, h
+        ld h, l
+        ld l, a
         ld (__current_1bpp_colors), hl
         ret
 
@@ -152,95 +156,26 @@ load_font_tiles:
         inc hl
         inc hl                  ; Points to the start of the encoding table
         add hl, bc           
-        ld c, l
-        ld b, h                 ; BC points to the start of the tile data               
 
-        ; Find the offset in VRAM for this font
-        ld a,(font_current+sfont_handle_first_tile)        ; First tile used for this font
-        ld l, a
-        ld h, #0
-        add hl, hl
-        add hl, hl
-        add hl, hl
-        add hl, hl
-        add hl, hl
-        ld a, #>.VDP_VRAM
-        add h
-        ld h, a                 ; HL = destination in VRAM
-
-        DISABLE_VBLANK_COPY     ; switch OFF copy shadow SAT
-        WRITE_VDP_CMD_HL
-        ld h, b
-        ld l, c
+        ld a,(font_current+sfont_handle_first_tile)
+        ld c, a
+        ld b, #0
 
         pop af                  ; Recover flags
         bit FONT_BCOMPRESSED, a ; Is this font compressed?
         jp z, 2$
-        ; font_copy_compressed
-
-        inc e
-        jr 7$
-
-8$:
-        ld d, #8
-9$:
-        ld b, (hl)
-        inc hl
 
         push hl
-        ld c, #8
-21$:
-        rlc b
-        ld a, (.bg_colour)
-        jr nc, 20$
-        ld a, (.fg_colour)
-20$:
-        ld hl, #plane0
-        .rept 3
-                rra
-                rl (hl)
-                inc hl
-        .endm
-        rra
-        rl (hl)
-        dec c
-        jr nz, 21$
-        pop hl
-
-        ld a, (plane0)
-        out (.VDP_DATA), a
-        VDP_DELAY
-        ld a, (plane1)
-        out (.VDP_DATA), a
-        VDP_DELAY
-        ld a, (plane2)
-        out (.VDP_DATA), a
-        VDP_DELAY
-        ld a, (plane3)
-        out (.VDP_DATA), a
-
-        dec d
-        jr nz, 9$
-7$:
-        dec e
-        jr  nz, 8$
-
-        jp 6$      
+        ld hl, (__current_1bpp_colors)
+        ex (sp), hl
+        push hl
+        push de
+        push bc
+        call _set_tile_1bpp_data
+        ret 
 2$:
-        ; font_copy_uncompressed
-        ld c, #.VDP_DATA
-        inc e
-        jr 5$
-3$:
-        ld b, #32
-4$:        
-        outi
-        jr nz, 4$
-5$:
-        dec e
-        jp  nz, 3$
-
-6$:     
-        ENABLE_VBLANK_COPY         ; switch ON copy shadow SAT
-
+        push hl
+        push de
+        push bc 
+        call _set_tile_data
         ret
