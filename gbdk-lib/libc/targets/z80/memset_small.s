@@ -9,6 +9,6 @@
 1$:
         ld (hl), a
         inc hl
-        dec b
+        dec c
         jp nz, 1$
         ret

@@ -5,6 +5,7 @@
 
         .globl  .memset_small
         .globl  _font_ibm
+        .globl  .fg_colour, .bg_colour
 
         ; Structure offsets
         sfont_handle_sizeof     = 3
@@ -40,18 +41,6 @@ plane2:
         .ds     1
 plane3:
         .ds     1
-
-        .area   _INITIALIZED
-        ; The current font
-.fg_colour::
-        .ds     1
-.bg_colour::
-        .ds     1
-
-        .area   _INITIALIZER
-
-        .db     0x03    ; .fg_colour
-        .db     0x00    ; .bg_color
 
         .area   _HOME
 

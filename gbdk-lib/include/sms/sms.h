@@ -535,6 +535,21 @@ inline void set_sprite_2bpp_data(uint16_t start, uint16_t ntiles, const void *sr
     set_tile_2bpp_data((uint8_t)(start) + 0x100u, ntiles, src, _current_2bpp_palette);
 }
 
+extern uint16_t _current_1bpp_colors;
+inline void set_1bpp_colors(uint8_t fgcolor, uint8_t bgcolor) {
+    _current_1bpp_colors = ((uint16_t)fgcolor << 8) | bgcolor;
+}
+void set_tile_1bpp_data(uint16_t start, uint16_t ntiles, const void *src, uint16_t colors) __z88dk_callee __preserves_regs(iyh,iyl);
+inline void set_bkg_1bpp_data(uint16_t start, uint16_t ntiles, const void *src) {
+    set_tile_1bpp_data(start, ntiles, src, _current_1bpp_colors);
+}
+#define set_bkg_1bit_data set_bkg_1bpp_data
+inline void set_sprite_1bpp_data(uint16_t start, uint16_t ntiles, const void *src) {
+    set_tile_1bpp_data((uint8_t)(start) + 0x100u, ntiles, src, _current_1bpp_colors);
+}
+#define set_sprite_1bit_data set_sprite_1bpp_data
+
+
 /** Copies arbitrary data to an address in VRAM
 
     @param dst       destination VRAM Address
