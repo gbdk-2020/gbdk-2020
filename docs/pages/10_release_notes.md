@@ -17,6 +17,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
       - Sega Master System (`sms`) and Game Gear (`gg`)
     - The windows make.bat files were renamed to compile.bat
   - Library
+    - Variables in static storage are now initialized to zero per C standard (but remaining WRAM is not cleared)
     - Added new register flag constants and names. For example:
       - @ref rLCDC is a new alias for @ref LCDC_REG
       - @ref LCDCF_WINON, @ref LCDCF_WINOFF, @ref LCDCF_B_WINON

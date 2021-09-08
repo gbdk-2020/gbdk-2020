@@ -773,6 +773,8 @@ inline void set_2bpp_palette(uint16_t palette) {
     GBC only: @ref VBK_REG determines which bank of Background tile patterns are written to.
     \li VBK_REG=0 indicates the first bank
     \li VBK_REG=1 indicates the second
+
+    @see set_win_data, set_tile_data
 */
 void set_bkg_data(uint8_t first_tile,
          uint8_t nb_tiles,
@@ -813,7 +815,7 @@ void set_bkg_1bit_data(uint8_t first_tile,
     Each Tile is 16 bytes, so the buffer pointed to by __data__
     should be at least __nb_tiles__ x 16 bytes in size.
 
-    @see get_win_data
+    @see get_win_data, get_data
 */
 void get_bkg_data(uint8_t first_tile,
          uint8_t nb_tiles,
@@ -870,7 +872,7 @@ void get_bkg_data(uint8_t first_tile,
               assigned.
 
     @see SHOW_BKG
-    @see set_bkg_data, set_bkg_submap
+    @see set_bkg_data, set_bkg_submap, set_win_tiles, set_tiles
 */
 void set_bkg_tiles(uint8_t x,
           uint8_t y,
@@ -906,7 +908,7 @@ void set_bkg_tiles(uint8_t x,
     See @ref set_bkg_tiles for setting CGB attribute maps with @ref VBK_REG.
 
     @see SHOW_BKG
-    @see set_bkg_data, set_bkg_tiles, set_win_submap
+    @see set_bkg_data, set_bkg_tiles, set_win_submap, set_tiles
 */
 void set_bkg_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w);
 #define set_tile_submap set_bkg_submap
@@ -926,6 +928,8 @@ void set_bkg_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *m
     One byte per tile.
 
     The buffer pointed to by __tiles__ should be at least __x__ x __y__ bytes in size.
+
+    @see get_win_tiles, get_bkg_tile_xy, get_tiles, get_vram_byte
 */
 void get_bkg_tiles(uint8_t x,
           uint8_t y,
@@ -1001,7 +1005,7 @@ uint8_t * get_win_xy_addr(uint8_t x, uint8_t y) __preserves_regs(b, c);
     Background Layer share the same Tile pattern data.
 
     @see set_bkg_data
-    @see set_win_tiles
+    @see set_win_tiles, set_bkg_data, set_data
     @see SHOW_WIN, HIDE_WIN
 */
 void set_win_data(uint8_t first_tile,
@@ -1034,7 +1038,7 @@ void set_win_1bit_data(uint8_t first_tile,
     This is the same as @ref get_bkg_data, since the Window Layer and
     Background Layer share the same Tile pattern data.
 
-    @see get_bkg_data
+    @see get_bkg_data, get_data
 */
 void get_win_data(uint8_t first_tile,
           uint8_t nb_tiles,
@@ -1070,7 +1074,7 @@ void get_win_data(uint8_t first_tile,
 
     For more details about GBC Tile Attributes see @ref set_bkg_tiles.
 
-    @see SHOW_WIN, HIDE_WIN, set_win_submap, set_bkg_tiles, set_bkg_data
+    @see SHOW_WIN, HIDE_WIN, set_win_submap, set_bkg_tiles, set_bkg_data, set_tiles
 */
 void set_win_tiles(uint8_t x,
           uint8_t y,
@@ -1107,7 +1111,7 @@ void set_win_tiles(uint8_t x,
 
     See @ref set_bkg_tiles for details about CGB attribute maps with @ref VBK_REG.
 
-    @see SHOW_WIN, HIDE_WIN, set_win_tiles, set_bkg_submap, set_bkg_tiles, set_bkg_data
+    @see SHOW_WIN, HIDE_WIN, set_win_tiles, set_bkg_submap, set_bkg_tiles, set_bkg_data, set_tiles
 **/
 void set_win_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w);
 
@@ -1126,6 +1130,8 @@ void set_win_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *m
     One byte per tile.
 
     The buffer pointed to by __tiles__ should be at least __x__ x __y__ bytes in size.
+
+    @see get_bkg_tiles, get_bkg_tile_xy, get_tiles, get_vram_byte
 */
 void get_win_tiles(uint8_t x,
           uint8_t y,
@@ -1408,6 +1414,7 @@ inline void hide_sprite(uint8_t nb) {
 
 
 /** Copies arbitrary data to an address in VRAM
+    without taking into account the state of LCDC bit 4.
 
     @param vram_addr Pointer to destination VRAM Address
     @param data      Pointer to source buffer
@@ -1418,6 +1425,8 @@ inline void hide_sprite(uint8_t nb) {
     GBC only: @ref VBK_REG determines which bank of Background tile patterns are written to.
     \li VBK_REG=0 indicates the first bank
     \li VBK_REG=1 indicates the second
+
+    @see set_bkg_data, set_win_data, set_tile_data
 */
 void set_data(uint8_t *vram_addr,
           const uint8_t *data,
@@ -1425,6 +1434,7 @@ void set_data(uint8_t *vram_addr,
 
 
 /** Copies arbitrary data from an address in VRAM into a buffer
+    without taking into account the state of LCDC bit 4.
 
     @param vram_addr Pointer to source VRAM Address
     @param data      Pointer to destination buffer
@@ -1435,6 +1445,8 @@ void set_data(uint8_t *vram_addr,
     GBC only: @ref VBK_REG determines which bank of Background tile patterns are written to.
     \li VBK_REG=0 indicates the first bank
     \li VBK_REG=1 indicates the second
+
+    @see get_bkg_data, get_win_data
 */
 void get_data(uint8_t *data,
           uint8_t *vram_addr,
@@ -1458,7 +1470,8 @@ void vmemcpy(uint8_t *dest,
 
 
 
-/** Sets a rectangular region of Tile Map entries at a given VRAM Address.
+/** Sets a rectangular region of Tile Map entries at a given VRAM Address
+    without taking into account the state of LCDC bit 4.
 
     @param x         X Start position in Map tile coordinates. Range 0 - 31
     @param y         Y Start position in Map tile coordinates. Range 0 - 31
@@ -1477,6 +1490,8 @@ void vmemcpy(uint8_t *dest,
     GBC only: @ref VBK_REG determines whether Tile Numbers or Tile Attributes get set.
     \li VBK_REG=0 Tile Numbers are written
     \li VBK_REG=1 Tile Attributes are written
+
+    @see set_bkg_tiles, set_win_tiles
 */
 void set_tiles(uint8_t x,
           uint8_t y,
@@ -1493,14 +1508,15 @@ void set_tiles(uint8_t x,
     @param data        Pointer to (2 bpp) source Tile Pattern data.
 	@param base        MSB of the destination address in VRAM (usually 0x80 or 0x90 which gives 0x8000 or 0x9000)
 
-set_tile_data() allows to load tile data not taking into account LCDC bit 4 state
+    @see set_bkg_data, set_win_data, set_data
 */
 void set_tile_data(uint8_t first_tile,
           uint8_t nb_tiles,
           const uint8_t *data,
 		  uint8_t base) NONBANKED __preserves_regs(b, c);
 
-/** Copies a rectangular region of Tile Map entries from a given VRAM Address into a buffer.
+/** Copies a rectangular region of Tile Map entries from a given VRAM Address into a buffer
+    without taking into account the state of LCDC bit 4.
 
     @param x         X Start position in Background Map tile coordinates. Range 0 - 31
     @param y         Y Start position in Background Map tile coordinates. Range 0 - 31
@@ -1517,6 +1533,8 @@ void set_tile_data(uint8_t first_tile,
     There are two 32x32 Tile Maps in VRAM at addresses 9800h - 9BFFh and 9C00h - 9FFFh.
 
     The buffer pointed to by __tiles__ should be at least __x__ x __y__ bytes in size.
+
+    @see get_bkg_tiles, get_win_tiles
 */
 void get_tiles(uint8_t x,
           uint8_t y,
