@@ -5,7 +5,7 @@
 
         .globl  .memset_small
         .globl  _font_ibm
-        .globl  .fg_colour, .bg_colour
+        .globl  __current_1bpp_colors, .fg_colour, .bg_colour
 
         ; Structure offsets
         sfont_handle_sizeof     = 3
@@ -68,14 +68,10 @@ font_set::
         ret
 
 _font_color::
-        pop hl
         pop de
+        ex (sp), hl
         push de
-        push hl
-        ld hl, #.fg_colour
-        ld (hl), e
-        inc hl
-        ld (hl), d
+        ld (__current_1bpp_colors), hl
         ret
 
 font_load_ibm::
