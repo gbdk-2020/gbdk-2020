@@ -39,9 +39,10 @@ When compiling directly with @ref sdcc use: `-m<port>`, `-D__PORT_<port>` and `-
     - port:`z80`, plat:`gg`
 
 
-# Platform constants
+# Cross-Platform Constants
 There are several constant \#defines that can be used to help select console specific code during compile time (with `#ifdef`, `#ifndef`) .
 
+## Console Identifiers
   - When `<gb/gb.h>` is included (either directly or through `<gbdk/platform.h>`)
     - When building for Game Boy:
       - `NINTENDO` will be \#defined
@@ -57,6 +58,16 @@ There are several constant \#defines that can be used to help select console spe
     - When building for Game Gear
       - `SEGA` will be \#defined
       - `GAMEGEAR` will be \#defined
+
+## Console Hardware Properties
+Constants that describe properties of the console hardware are listed below. Their values will change to reflect the current console target that is being built.
+
+  - @ref DEVICE_SCREEN_X_OFFSET, @ref DEVICE_SCREEN_Y_OFFSET
+  - @ref DEVICE_SCREEN_WIDTH, @ref DEVICE_SCREEN_HEIGHT
+  - @ref DEVICE_SCREEN_BUFFER_WIDTH, @ref DEVICE_SCREEN_BUFFER_HEIGHT
+  - @ref DEVICE_SCREEN_MAP_ENTRY_SIZE
+  - @ref DEVICE_SPRITE_PX_OFFSET_X, @ref DEVICE_SPRITE_PX_OFFSET_Y
+  - @ref DEVICE_SCREEN_PX_WIDTH, @ref DEVICE_SCREEN_PX_HEIGHT
 
 
 # Using <gbdk/...> headers
