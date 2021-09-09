@@ -30,7 +30,6 @@ When compiling directly with @ref sdcc use: `-m<port>`, `-D__PORT_<port>` and `-
   - Analogue Pocket
     - @ref lcc : `-mgbz80:ap`
     - port:`gbz80`, plat:`ap`
-    - Note: The Analogue Pocket is functionally identical to the Game Boy / Color, but has a couple altered register flag / address definitions and a different boot logo.
 
   - Sega Master System
     - @ref lcc : `-mz80:sms`
@@ -84,3 +83,16 @@ and
 GBDK includes an number of cross platform example projects. These projects show how to write code that can be compiled and run on multiple different consoles (for example Game Boy and Game Gear) with, in some cases, minimal differences. 
 
 They also show how to build for multiple target consoles with a single build command and `Makefile`. The `Makefile.targets` allows selecting different `port` and `plat` settings when calling the build stages.
+
+# Porting from the Game Boy to the Analogue Pocket
+The Analogue Pocket is (for practical purposes) functionally identical to the Game Boy / Color, but has a couple altered register flag and address definitions and a different boot logo. In order for software to be ported to the Analogue Pocket, or to run on both, the following practices should be used.
+
+## Boot logo
+As long as the target console is @ref docs_consoles_compiling "set during build time" then the correct boot logo will be automatically selected.
+
+## Registers and Flags
+Change these hardwired registers and register flags to use API defined ones.
+   - LCDC register: @ref LCDC_REG or @ref rLCDC
+   - STAT register: @ref STAT_REG or @ref rSTAT
+   - LCDC flags: -> LCDCF_... (example: @ref LCDCF_ON)
+   - STAT flags: -> STATF_... (example: @ref STATF_LYC)

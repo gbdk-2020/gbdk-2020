@@ -105,7 +105,7 @@ Banked functions can be called as follows.
   - When defined with the `BANKED` keyword. Example: `void my_function() BANKED { do stuff }` in a source file which has had it's bank set (see above).
   - Using @ref far_pointers
   - When defined with an area set up using the `__addressmod` keyword (See the `banks_new` example project and the SDCC manual for details)
-  - Using @ref SWITCH_ROM_MBC1() (and related functions for other MBCs) to manually switch in the required bank and then call the function.
+  - Using @ref SWITCH_ROM() (and related functions for other MBCs) to manually switch in the required bank and then call the function.
 
 Non-banked functions (either in fixed Bank 0, or in an non-banked ROM with no MBC)
   - May call functions in any bank: __YES__
@@ -138,7 +138,7 @@ See @ref FAR_CALL, @ref TO_FAR_PTR and the `banks_farptr` example project.
 
 
 ## Bank switching
-You can manually switch banks using the @ref SWITCH_ROM_MBC1(), @ref SWITCH_RAM_MBC1(), and other related macros. See `banks.c` project for an example.
+You can manually switch banks using the @ref SWITCH_ROM(), @ref SWITCH_RAM(), and other related macros. See `banks.c` project for an example.
 
 Note: You can only do a switch_rom_bank call from non-banked `_CODE` since otherwise you would switch out the code that was executing. Global routines that will be called without an expectation of bank switching should fit within the limited 16k of non-banked `_CODE`.
 
@@ -168,12 +168,12 @@ void vbl_music_isr(void)
     some_function();
 
     // Now restore the current bank
-    SWITCH_ROM_MBC5(_saved_bank);
+    SWITCH_ROM(_saved_bank);
 }
 ```
 
 ## Currently active bank: _current_bank
-The global variable @ref _current_bank is updated automatically when calling @ref SWITCH_ROM_MBC1() and @ref SWITCH_ROM_MBC5, or when a `BANKED` function is called.
+The global variable @ref _current_bank is updated automatically when calling @ref SWITCH_ROM(), @ref SWITCH_ROM_MBC1() and @ref SWITCH_ROM_MBC5, or when a `BANKED` function is called.
 
 
 
@@ -207,7 +207,7 @@ Accessing that data: main.c
 
       BANKREF_EXTERN(level_1_map)
       ...
-      SWITCH_ROM_MBC1( BANK(level_1_map) );
+      SWITCH_ROM( BANK(level_1_map) );
       // Do something with level_1_map[]
 
 Features and Notes:
@@ -241,7 +241,7 @@ In order to see how much space is used or remains available in a bank, you can u
 
 
 ## Other important notes
-  - The @ref SWITCH_ROM_MBC5 macro is not interrupt-safe. If using less than 256 banks you may always use SWITCH_ROM_MBC1 - that is faster. Even if you use mbc5 hardware chip in the cart.
+  - The @ref SWITCH_ROM_MBC5 macro is not interrupt-safe. If using less than 256 banks you may always use SWITCH_ROM - that is faster. Even if you use mbc5 hardware chip in the cart.
 
 
 # Banking example projects

@@ -448,6 +448,11 @@ __endasm; \
 #define SWITCH_ROM_MBC1(b) \
   _current_bank = (b), *(uint8_t *)0x2000 = (b)
 
+/** Makes MBC1, MBC5 (4M ROMs) and other compatible MBCs switch the active ROM bank
+    @param b   ROM bank to switch to (max 255)
+
+    @see SWITCH_ROM_MBC1, SWITCH_ROM_MBC5
+*/
 #define SWITCH_ROM SWITCH_ROM_MBC1
 
 /** Switches SRAM bank on MBC1 and other compaticle MBCs
@@ -456,6 +461,11 @@ __endasm; \
 #define SWITCH_RAM_MBC1(b) \
   *(uint8_t *)0x4000 = (b)
 
+/** Switches SRAM bank on MBC1 and other compaticle MBCs
+    @param b   SRAM bank to switch to
+
+    @see SWITCH_RAM_MBC1, SWITCH_RAM_MBC5
+*/
 #define SWITCH_RAM SWITCH_RAM_MBC1
 
 /** Enables SRAM on MBC1
