@@ -66,10 +66,18 @@
 */
 #define M_NO_INTERP  0x08U
 
-#define S_PALETTE    0x10U
-#define S_FLIPX      0x20U
-#define S_FLIPY      0x40U
-#define S_PRIORITY   0x80U
+/** If set the background tile will be flipped horizontally.
+ */
+#define S_FLIPX      0x02U
+/** If set the background tile will be flipped vertically.
+ */
+#define S_FLIPY      0x04U
+/** If set the background tile palette.
+ */
+#define S_PALETTE    0x08U
+/** If set the background tile priority.
+ */
+#define S_PRIORITY   0x10U
 
 // VDP helper macros
 #define __WRITE_VDP_REG(REG, v) shadow_##REG=(v);__critical{VDP_CMD=(shadow_##REG),VDP_CMD=REG;}
