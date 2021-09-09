@@ -64,9 +64,6 @@ _font_color::
         pop de
         ex (sp), hl
         push de
-        ld a, h
-        ld h, l
-        ld l, a
         ld (__current_1bpp_colors), hl
         ret
 

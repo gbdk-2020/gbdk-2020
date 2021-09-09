@@ -60,10 +60,10 @@ _set_tile_1bpp_data::
         srl c
 
         jr c, 10$
-        ld a, ixl
+        ld a, ixh
         jr 11$
 10$:
-        ld a, ixh
+        ld a, ixl
 11$:
         rra
         rr 0 (iy)
