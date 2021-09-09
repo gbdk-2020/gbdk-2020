@@ -4,6 +4,10 @@
 #include <stdio.h>
 #include <gbdk/console.h>
 
+// A simple sub-pixel / fixed point example
+// Postion values are calculated as 16 bit numbers and their
+// lower 4 bits are dropped when applying them to the sprite
+
 UINT8 sprite_data[] = { 
     0x3C,0x3C,0x42,0x7E,0x99,0xFF,0xA9,0xFF,0x89,0xFF,0x89,0xFF,0x42,0x7E,0x3C,0x3C,
     0x3C,0x3C,0x42,0x7E,0xB9,0xFF,0x89,0xFF,0x91,0xFF,0xB9,0xFF,0x42,0x7E,0x3C,0x3C,
@@ -71,7 +75,8 @@ void main(void) {
 
         PosX += SpdX, PosY += SpdY; 
 
-        // translate to pixels and move sprite
+        // Translate to pixels and move sprite
+        // Downshift by 4 bits to use the whole number values
         move_sprite(0, PosX >> 4, PosY >> 4);
 
         // decelerate 
@@ -82,7 +87,7 @@ void main(void) {
             if (SpdX) SpdX--; 
         } else SpdX ++;
 
-        // wait for VBlank to slow down everything
+        // Done processing, yield CPU and wait for start of next frame (VBlank)
         wait_vbl_done();
     }
 }
