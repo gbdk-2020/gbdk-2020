@@ -1364,7 +1364,7 @@ inline uint8_t get_sprite_tile(uint8_t nb) {
     \li Bit 0 - GBC only. Bits 0-2 indicate which of the 7 OBJ colour palettes the
               sprite is assigned.
 */
-inline void set_sprite_prop(uint8_t nb, uint8_t prop){
+inline void set_sprite_prop(uint8_t nb, uint8_t prop) {
     shadow_OAM[nb].prop=prop;
 }
 
@@ -1374,7 +1374,7 @@ inline void set_sprite_prop(uint8_t nb, uint8_t prop){
     @param nb    Sprite number, range 0 - 39
     @see set_sprite_prop for property bitfield settings
 */
-inline uint8_t get_sprite_prop(uint8_t nb){
+inline uint8_t get_sprite_prop(uint8_t nb) {
     return shadow_OAM[nb].prop;
 }
 

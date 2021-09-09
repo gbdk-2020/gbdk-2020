@@ -66,6 +66,11 @@
 */
 #define M_NO_INTERP  0x08U
 
+#define S_PALETTE    0x10U
+#define S_FLIPX      0x20U
+#define S_FLIPY      0x40U
+#define S_PRIORITY   0x80U
+
 // VDP helper macros
 #define __WRITE_VDP_REG(REG, v) shadow_##REG=(v);__critical{VDP_CMD=(shadow_##REG),VDP_CMD=REG;}
 #define __READ_VDP_REG(REG) shadow_##REG
@@ -632,6 +637,15 @@ inline void set_sprite_tile(uint8_t nb, uint8_t tile) {
 */
 inline uint8_t get_sprite_tile(uint8_t nb) {
     return shadow_OAM[0x41+(nb << 1)];
+}
+
+inline void set_sprite_prop(uint8_t nb, uint8_t prop) {
+    nb; prop;
+}
+
+inline uint8_t get_sprite_prop(uint8_t nb) {
+    nb;
+    return 0;
 }
 
 /** Moves sprite number __nb__ to the __x__, __y__ position on the screen.
