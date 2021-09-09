@@ -1,7 +1,6 @@
 	.include	"global.s"
 
-	;; BANKED:	checked
-	.area	_BASE
+	.area	_HOME
 
 _hiramcpy::
 	LDA	HL,2(SP)	; Skip return address and registers

@@ -11,7 +11,7 @@
 	LD	HL,#.int_0x50
 	JP	.int
 
-	.area	_BASE
+	.area	_HOME
 
 _add_TIM::
 	PUSH	BC

@@ -7,7 +7,7 @@
 .int_LCD:
 	JP	.int_lcd_handler
 
-	.area	_BASE
+	.area	_HOME
 
 .int_lcd_handler:
 	PUSH	AF

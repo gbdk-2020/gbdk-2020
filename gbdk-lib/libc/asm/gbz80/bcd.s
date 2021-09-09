@@ -28,7 +28,7 @@
 
         .module bcd
 
-        .area   _BASE
+        .area   _HOME
 
 ; void uint2bcd(uint16_t i, BCD * value) __naked
 _uint2bcd::

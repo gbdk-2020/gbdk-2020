@@ -28,7 +28,7 @@
 
         .module reverse
 
-        .area   _BASE
+        .area   _HOME
 
 _reverse::
         lda     HL, 2(SP)

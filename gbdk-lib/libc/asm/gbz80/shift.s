@@ -1,6 +1,6 @@
         .module shift
 
-        .area   _BASE
+        .area   _HOME
 
         ;;
 __rrulong_rrx_s::                

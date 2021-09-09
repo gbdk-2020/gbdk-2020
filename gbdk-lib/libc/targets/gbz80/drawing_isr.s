@@ -1,6 +1,6 @@
 	.include        "global.s"
 
-	.area _BASE
+	.area _HOME
 
 .drawing_vbl::
 	LDH	A,(.LCDC)

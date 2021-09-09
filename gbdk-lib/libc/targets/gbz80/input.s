@@ -2,7 +2,6 @@
 
         ;; Note that while gets uses a pointer, the pointer had better
         ;; be in non-banked RAM else bad things will happen.
-        ;; BANKED:      checked, imperfect
         
         .globl  .copy_vram
         .globl  .set_xy_wtt
@@ -58,7 +57,7 @@
 .string_len:                    ; Used length of input buffer
         .ds     0x01
 
-        .area   _BASE
+        .area   _HOME
 
         ;; Enter text mode with input
 .tmode_inout::
@@ -188,7 +187,6 @@ set_recoded_win_tiles::
         ADD     SP,#4
         RET
         
-        .area   _CODE
         ;; Prompt the user for a char and return it in A
 .get_char:
         PUSH    BC
@@ -608,8 +606,6 @@ _gets::
         POP     DE
         RET
 
-        ;; PENDING: this is unfortunate.  Refed from .tmode_inout
-        .area   _BASE
 .tp1:
 
 .pointers:
@@ -632,13 +628,9 @@ _gets::
         .byte   0x1E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x1F
 
 .kbdtable:
-        ;; This is unfortunate.  astorgb and rgbasm cant interpert:
-        ;;      .ascii  " !\"#$%&'()*+,-./"
-        ;; so we have to use the hex form here.
         .db     0x20,0x21,0x22,0x23,0x24,0x25,0x26,0x27
         .db     0x28,0x29,0x2A,0x2B,0x2C,0x2D,0x2E,0x2F
         .ascii  "0123456789:"
-        ;; astorgb recognises the embedded ; as a comment :)
         .db     0x3B            
         .ascii  "<=>?"
         .ascii  "@ABCDEFGHIJKLMNO"

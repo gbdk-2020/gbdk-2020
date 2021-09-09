@@ -28,7 +28,7 @@
 
         .module ltoa
 
-        .area   _BASE
+        .area   _HOME
 
 _ultoa::
         push    BC

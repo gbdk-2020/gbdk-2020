@@ -28,7 +28,7 @@
 
         .module atomic
 
-        .area   _BASE
+        .area   _HOME
 
         .globl _atomic_flag_test_and_set
 

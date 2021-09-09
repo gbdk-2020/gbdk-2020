@@ -1,6 +1,6 @@
 	.include	"global.s"
 
-	.area	_BASE
+	.area	_HOME
 
 _set_bkg_1bit_data::
 _set_win_1bit_data::

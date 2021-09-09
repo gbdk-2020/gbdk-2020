@@ -1,6 +1,6 @@
         .include        "global.s"
 
-        .area   _BASE
+        .area   _HOME
 
         ;; Set window tile table from BC at XY = DE of size WH = HL
 .set_xy_wtt::

@@ -1,6 +1,6 @@
         .module memset
 
-        .area   _BASE
+        .area   _HOME
 
 ; void *memset (void *s, int c, size_t n)
 _memset::

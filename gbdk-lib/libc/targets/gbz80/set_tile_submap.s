@@ -5,7 +5,7 @@
 .image_tile_width::
         .ds     0x01
 
-        .area   _BASE
+        .area   _HOME
 
 _set_bkg_submap::
         ldhl    sp, #2

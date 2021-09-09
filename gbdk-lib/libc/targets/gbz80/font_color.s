@@ -2,7 +2,7 @@
 
 	.globl .fg_colour, .bg_colour
 
-	.area _BASE
+	.area _HOME
 _font_color::
 	LDA	HL,2(SP)	; Skip return address and registers
 	LD	A,(HL+)	        ; A = Foreground

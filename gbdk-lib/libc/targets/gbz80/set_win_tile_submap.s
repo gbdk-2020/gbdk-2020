@@ -2,7 +2,7 @@
 
         .globl .image_tile_width, .set_xy_win_submap
 
-        .area   _BASE
+        .area   _HOME
 
 _set_win_submap::
         ldhl    sp, #2

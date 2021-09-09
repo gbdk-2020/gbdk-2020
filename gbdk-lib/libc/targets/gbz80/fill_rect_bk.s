@@ -1,6 +1,6 @@
 	.include	"global.s"
 
-	.area	_BASE
+	.area	_HOME
 
 _fill_bkg_rect::
 	PUSH	BC

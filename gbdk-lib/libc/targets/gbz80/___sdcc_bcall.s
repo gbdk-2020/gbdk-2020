@@ -1,6 +1,6 @@
 	.include	"global.s"
 
-	.area _BASE
+	.area _HOME
 
 ___sdcc_bcall::
 banked_call::			; Performs a long call.

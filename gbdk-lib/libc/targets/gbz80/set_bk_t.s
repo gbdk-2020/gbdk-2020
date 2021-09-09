@@ -1,8 +1,8 @@
 	.include	"global.s"
 
 	.globl	.set_xy_btt
-	;; BANKED:	checked
-	.area	_BASE
+
+	.area	_HOME
 
 _set_bkg_tiles::
 	PUSH	BC

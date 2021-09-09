@@ -1,7 +1,6 @@
         .include        "global.s"
 
-        ;; BANKED:      checked
-        .area   _BASE
+        .area   _HOME
 
         ;; Store window tile table into (BC) at xy = DE of size WH = HL
 .get_xy_wtt::

@@ -30,7 +30,7 @@
 
         .module mul
 
-        .area   _BASE
+        .area   _HOME
 
 .globl  __mulsuchar
 .globl  __muluschar

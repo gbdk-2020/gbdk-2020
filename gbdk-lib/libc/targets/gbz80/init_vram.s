@@ -1,7 +1,6 @@
 	.include	"global.s"
 
-	;; BANKED: checked
-	.area	_BASE
+	.area	_HOME
 
 	.globl	.init_wtt, .init_btt, .init_vram
 

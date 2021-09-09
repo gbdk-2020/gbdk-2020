@@ -1,6 +1,6 @@
         .module abs
 
-        .area   _BASE
+        .area   _HOME
 
 ; int abs(int)
 _abs::

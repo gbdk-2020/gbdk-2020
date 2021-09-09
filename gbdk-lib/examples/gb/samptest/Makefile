@@ -16,7 +16,7 @@ compile.bat: Makefile
 	$(CC) -c -o $@ $<
 
 %.gb:	%.o sample.o
-	$(CC) -o $@ $<
+	$(CC) -o $@ $< sample.o
 
 clean:
 	rm -f *.o *.lst *.map *.gb *~ *.rel *.cdb *.ihx *.lnk *.sym *.asm *.noi

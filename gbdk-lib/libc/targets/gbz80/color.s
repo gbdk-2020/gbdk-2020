@@ -12,7 +12,7 @@
 .draw_mode::
 	.ds	1
 
-	.area _BASE
+	.area _HOME
 _color::			
 	LDA	HL,2(SP)	; Skip return address and registers
 	LD	A,(HL+)	        ; A = Foreground

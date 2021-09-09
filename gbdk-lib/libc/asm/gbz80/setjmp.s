@@ -28,7 +28,7 @@
 
         .module longjmp
 
-        .area   _BASE
+        .area   _HOME
 
         .globl ___setjmp
 

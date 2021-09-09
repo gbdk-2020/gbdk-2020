@@ -15,7 +15,7 @@ ASSRC =	cgb.s cgb_palettes.s cgb_compat.s \
 	get_wi_t.s get_xy_t.s \
 	get_addr.s \
 	hiramcpy.s init_tt.s input.s \
-	pad.s sample.s \
+	pad.s \
 	serial.s set_bk_t.s set_tile.s \
 	set_data.s set_prop.s set_spr.s set_wi_t.s set_xy_t.s \
 	set_1bit_data.s \

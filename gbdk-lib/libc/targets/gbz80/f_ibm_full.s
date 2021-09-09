@@ -1,6 +1,6 @@
 ; font: font
-	;; BANKED: checked
-	.area	_BASE
+
+	.area	_HOME
 
 	.globl	font_load
 	;; Perform tricks with banking to shift this font out of

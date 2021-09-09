@@ -1,7 +1,6 @@
         .include        "global.s"
 
-        ;; BANKED:      checked
-        .area   _BASE
+        .area   _HOME
 
 _set_tile_data::
         ldhl sp, #6

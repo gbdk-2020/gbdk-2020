@@ -1,7 +1,6 @@
         .include        "global.s"
 
-        ;; BANKED: checked
-        .area   _BASE
+        .area   _HOME
 
         ;; Initialize window tile table with B
 .init_wtt::

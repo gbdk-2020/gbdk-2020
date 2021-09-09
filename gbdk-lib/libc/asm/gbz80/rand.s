@@ -42,7 +42,7 @@
 .randlo::
 	.ds	0x01
 
-	.area	_CODE
+	.area	_HOME
 
 	;; Random number generator using the linear congruential method
 	;;  X(n+1) = (a*X(n)+c) mod m
@@ -105,8 +105,8 @@ _randw::			; Banked
 	;; Registers used:
 	;;   A, HL (need not be saved) and DE (return register)
 	;;
-	.area	_BASE
-_initrand::			; Non banked
+
+_initrand::
 	LDA	HL,2(SP)
 .initrand::
 	LD	A,(HL+)

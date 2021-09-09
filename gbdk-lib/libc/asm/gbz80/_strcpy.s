@@ -1,6 +1,6 @@
         .module strcpy
 
-        .area   _BASE
+        .area   _HOME
 
 ; char *strcpy(char *dest, const char *source)
 _strcpy::

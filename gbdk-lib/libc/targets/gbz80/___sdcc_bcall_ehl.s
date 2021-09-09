@@ -1,6 +1,6 @@
 	.include	"global.s"
 
-	.area _BASE
+	.area _HOME
 
 ___sdcc_bcall_ehl::			; Performs a long call.
 ldh a,(__current_bank)

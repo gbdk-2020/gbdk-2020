@@ -1,6 +1,6 @@
         .module memcpy
 
-        .area   _BASE
+        .area   _HOME
 
 ; void *memcpy(void *dest, const void *source, int count)
 ___memcpy::

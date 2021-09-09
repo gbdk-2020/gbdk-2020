@@ -34,7 +34,7 @@
 	LD	A,#0x80
 	LDH	(.SC),A		; Use external clock
 
-	.area	_BASE
+	.area	_HOME
 
 _add_SIO::
 	PUSH	BC

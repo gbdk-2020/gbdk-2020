@@ -1,6 +1,6 @@
         .include        "global.s"
 
-        .area   _BASE
+        .area   _HOME
 
 .fill_rect_wtt::
         PUSH    HL

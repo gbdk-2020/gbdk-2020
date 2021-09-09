@@ -37,10 +37,21 @@
 
         .module font.ms
 
-        ; Globals from drawing.s
-        ; FIXME: Hmmm... check the linkage of these
-        .globl  .fg_colour
-        .globl  .bg_colour
+        .globl  .fg_colour, .bg_colour
+
+        .globl  .drawing_vbl, .drawing_lcd
+        .globl  .int_0x40, .int_0x48
+        .globl  .remove_int
+
+        .area   _INITIALIZED
+.curx::                         ; Cursor position
+        .ds     0x01
+.cury::
+        .ds     0x01
+
+        .area   _INITIALIZER
+        .db     0x00            ; .curx
+        .db     0x00            ; .cury
 
         .area   _DATA
         ; The current font
@@ -54,7 +65,7 @@ font_first_free_tile::
 font_table::
         .ds     sfont_handle_sizeof*.MAX_FONTS
 
-        .area   _BASE
+        .area   _HOME
 
 _font_load_ibm::
         ld      hl,#_font_ibm
@@ -406,7 +417,6 @@ set_char_no_encoding:
         POP     BC
         RET
 
-        .area   _CODE
 _putchar::
         PUSH    BC
         LDA     HL,4(SP)        ; Skip return address
@@ -423,7 +433,6 @@ _setchar::
         POP     BC
         RET
 
-        .area   _BASE
 _font_load::
         push    bc
         LDA     HL,4(SP)        ; Skip return address and bc
@@ -499,7 +508,6 @@ _cls::
         POP     DE
         RET
 
-        .area   _CODE
         ; Support routines
 _gotoxy::
         lda     hl,2(sp)
@@ -533,7 +541,6 @@ _posy::
         LD      E,A
         RET
 
-        .area   _BASE
         ;; Rewind the cursor
 .rew_curs:
         PUSH    HL
@@ -635,24 +642,6 @@ _posy::
         POP     DE
         POP     BC
         RET
-
-        .area   _INITIALIZED
-.curx::                         ; Cursor position
-        .ds     0x01
-.cury::
-        .ds     0x01
-
-        .area   _INITIALIZER
-        .db     0x00            ; .curx
-        .db     0x00            ; .cury
-
-        .area   _BASE
-
-        .globl  .drawing_vbl
-        .globl  .drawing_lcd
-        .globl  .int_0x40
-        .globl  .int_0x48
-        .globl  .remove_int
 
         ;; Enter text mode
 .tmode::

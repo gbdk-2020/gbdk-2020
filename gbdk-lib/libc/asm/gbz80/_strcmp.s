@@ -1,6 +1,6 @@
         .module strcmp
 
-        .area   _BASE
+        .area   _HOME
 
 ; int strcmp(const char *s1, const char *s2) 
 _strcmp::

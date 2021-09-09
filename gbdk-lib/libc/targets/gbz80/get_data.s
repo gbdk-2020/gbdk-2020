@@ -2,8 +2,7 @@
 
         .globl  .copy_vram
 
-        ;; BANKED:      checked
-        .area   _BASE
+        .area   _HOME
 
 _get_bkg_data::
 _get_win_data::

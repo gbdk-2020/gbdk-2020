@@ -29,7 +29,7 @@
 
         .module rledecompress
 
-        .area   _BASE
+        .area   _HOME
 
         ;; Special RLE decoder used for initing global data
         ;; input: DE - destination address

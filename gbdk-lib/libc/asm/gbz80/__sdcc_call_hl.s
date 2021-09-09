@@ -28,7 +28,7 @@
 
         .module call_hl
 
-        .area   _BASE
+        .area   _HOME
 
         .globl  ___sdcc_call_hl
 

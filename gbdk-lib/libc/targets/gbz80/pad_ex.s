@@ -2,7 +2,7 @@
 
 	.MLT_REQ	= 0x11
 
-	.area	_BASE
+	.area	_HOME
 
 _joypad_init::	
 	call	.sgb_check

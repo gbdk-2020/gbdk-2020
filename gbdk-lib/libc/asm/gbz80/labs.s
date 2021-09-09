@@ -28,7 +28,7 @@
 
         .module labs
 
-        .area   _BASE
+        .area   _HOME
 
 ;long labs(long num)
 _labs::

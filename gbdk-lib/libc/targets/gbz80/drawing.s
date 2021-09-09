@@ -34,8 +34,8 @@
 
         .module Drawing1
 
-        ;; Data
         .area   _DATA
+
         ;; Fill style
 .style: 
         .ds     0x01
@@ -61,7 +61,8 @@
 .ty:    
         .ds     1
         
-        .area   _BASE
+        .area   _HOME
+
         ;; Enter graphic mode
 .gmode::
         DI                      ; Disable interrupts
@@ -188,7 +189,6 @@
 2$:
         RET
 
-        .area   _CODE
         ;; Advance the cursor
 .adv_gcurs::
         PUSH    HL
@@ -1556,7 +1556,6 @@ nchgy$:
         JR      NZ,1$
         RET
 
-        .area   _CODE
 _gotogxy::
         LDA     HL,2(SP)        ; Skip return address
         LD      A,(HL+)         ; A = x
@@ -1704,7 +1703,6 @@ _plot::
         POP     BC
         RET
 
-        .area   _BASE
 _switch_data::                  ; Non Banked as pointer
         PUSH    BC
 
@@ -1748,7 +1746,6 @@ _draw_image::                   ; Non banked as pointer
         POP     BC
         RET
 
-        .area   _BASE
 .y_table::
         .word   0x8100,0x8102,0x8104,0x8106,0x8108,0x810A,0x810C,0x810E
         .word   0x8240,0x8242,0x8244,0x8246,0x8248,0x824A,0x824C,0x824E

@@ -28,7 +28,7 @@
 
         .module itoa
 
-        .area   _BASE
+        .area   _HOME
 
 _uitoa::
         push    BC

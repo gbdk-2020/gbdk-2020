@@ -11,7 +11,7 @@
 	LD	HL,#.int_0x60
 	JP	.int
 
-	.area	_BASE
+	.area	_HOME
 
 _add_JOY::
 	PUSH	BC

@@ -1,7 +1,6 @@
 	.include	"global.s"
 
-	;; BANKED:	checked
-	.area	_BASE
+	.area	_HOME
 
 	;; Wait until all buttons have been released
 .padup::

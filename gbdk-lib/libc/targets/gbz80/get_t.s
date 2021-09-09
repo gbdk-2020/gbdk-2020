@@ -1,7 +1,6 @@
         .include "global.s"
 
-        ;; BANKED: checked
-        .area   _BASE
+        .area   _HOME
 
 ; void get_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *vram_addr, uint8_t *tiles);
 

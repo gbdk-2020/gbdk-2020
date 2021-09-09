@@ -1,7 +1,6 @@
 	.include	"global.s"
 
-	;; BANKED:	checked, imperfect
-	.area	_BASE
+	.area	_HOME
 
 	;; Set sprite number C to tile D
 .set_sprite_tile::

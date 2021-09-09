@@ -30,7 +30,7 @@
 
         .module div
 
-        .area   _BASE
+        .area   _HOME
 
 .globl  __divsuchar
 .globl  __modsuchar

@@ -1,6 +1,6 @@
 ; font: italic
-	;; BANKED:	checked,imperfect
-	.area	_BASE
+
+	.area	_HOME
 _font_italic::
 	.db	1+4	; 128 char encoding, compressed
 	.db	93	; Number of tiles
