@@ -32,9 +32,9 @@ void init_gfx() {
 
     // Load logo background tiles and map
 	// They start at 0u
-    set_bkg_data(0u, SIZE(logo_tiles_data) / TILE_BYTES, logo_tiles_data);
+    set_bkg_data(0u, INCBIN_SIZE(logo_tiles_data) / TILE_BYTES, logo_tiles_data);
 	set_bkg_tiles(LOGO_MAP_X, LOGO_MAP_Y,
-                  LOGO_MAP_WIDTH, LOGO_MAP_HEIGHT, 
+                  LOGO_MAP_WIDTH, LOGO_MAP_HEIGHT,
                   logo_map);
 
 	// Turn the background map on to make it visible
