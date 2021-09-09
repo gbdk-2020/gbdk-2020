@@ -119,10 +119,10 @@
 /* Limits */
 /** Width of the visible screen in pixels.
  */
-#define SCREENWIDTH  0xA0U
+#define SCREENWIDTH  DEVICE_SCREEN_PX_WIDTH
 /** Height of the visible screen in pixels.
  */
-#define SCREENHEIGHT 0x90U
+#define SCREENHEIGHT DEVICE_SCREEN_PX_HEIGHT
 /** The Minimum X position of the Window Layer (Left edge of screen) @see move_win()
  */
 #define MINWNDPOSX   0x07U

@@ -35,8 +35,8 @@ uint16_t player1_score, player2_score;
 // player constraints
 #define YMIN 28
 #define YMAX 100
-#define PLAYER1_X DEVICE_SPRITE_OFFSET_X
-#define PLAYER2_X (uint8_t)(DEVICE_SPRITE_OFFSET_X + (DEVICE_SCREEN_WIDTH * 8) - 8)
+#define PLAYER1_X DEVICE_SPRITE_PX_OFFSET_X
+#define PLAYER2_X (uint8_t)(DEVICE_SPRITE_PX_OFFSET_X + DEVICE_SCREEN_PX_WIDTH - 8)
 
 // coordinates and speeds of ball
 uint8_t ballX, ballY;

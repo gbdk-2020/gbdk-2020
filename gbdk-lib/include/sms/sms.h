@@ -114,21 +114,12 @@ uint8_t get_mode(void) NONBANKED;
 void set_interrupts(uint8_t flags) __z88dk_fastcall;
 
 /* Limits */
-#if defined(__TARGET_sms)
 /** Width of the visible screen in pixels.
  */
-#define SCREENWIDTH  256U
+#define SCREENWIDTH  DEVICE_SCREEN_PX_WIDTH
 /** Height of the visible screen in pixels.
  */
-#define SCREENHEIGHT 192U
-#elif defined(__TARGET_gg)
-/** Width of the visible screen in pixels.
- */
-#define SCREENWIDTH  160U
-/** Height of the visible screen in pixels.
- */
-#define SCREENHEIGHT 144U
-#endif
+#define SCREENHEIGHT DEVICE_SCREEN_PX_HEIGHT
 /** The Minimum X position of the Window Layer (Left edge of screen) @see move_win()
  */
 #define MINWNDPOSX   0x00U

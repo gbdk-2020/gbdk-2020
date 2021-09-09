@@ -34,14 +34,6 @@ font_first_free_tile:
         ; Table containing descriptors for all of the fonts
 font_table:
         .ds     (sfont_handle_sizeof*.MAX_FONTS)
-plane0:
-        .ds     1
-plane1:
-        .ds     1
-plane2:
-        .ds     1
-plane3:
-        .ds     1
 
         .area   _HOME
 
