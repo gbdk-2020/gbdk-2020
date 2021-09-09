@@ -54,6 +54,8 @@ If you want to use your own Interrupt Dispatcher instead of the GBDK chained dis
   - Exception: the VBL dispatcher will always be linked in at compile time.
   - For the SIO interrupt, also do not make any standard SIO calls to avoid having it's dispatcher installed.
 
+Then @ref ISR_VECTOR() or @ref ISR_NESTED_VECTOR() can be used to easily install a custom ISR handler.
+
 ## Returning from Interrupts and STAT mode
 By default when an Interrupt handler completes and is ready to exit it will check STAT_REG and only return at the BEGINNING of either LCD Mode 0 or Mode 1. This helps prevent graphical glitches caused when an ISR interrupts a graphics operation in one mode but returns in a different mode for which that graphics operation is not allowed.
 
