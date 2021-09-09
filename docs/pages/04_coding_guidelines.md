@@ -70,7 +70,11 @@ If you wish to use the original tools, you must add the `const` keyword every ti
     - NOTE: In SDCC 3.6.0, the default for char changed from signed to unsigned. The manual says to use `--fsigned-char` for the old behavior, this option flag is included by default when compiling through @ref lcc. 
 
     @anchor fixed_point_type
-  - A fixed point type (`fixed`) is included with GBDK when precision greater than whole numbers is required for 8 bit range values (since floating point is not included in GBDK). For example:
+  - A fixed point type (`fixed`) is included with GBDK when precision greater than whole numbers is required for 8 bit range values (since floating point is not included in GBDK).
+
+  See the "Simple Physics" sub-pixel example project.
+
+  Code example:
     
         fixed player[2];
         ...

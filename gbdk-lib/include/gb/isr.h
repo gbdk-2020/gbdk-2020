@@ -12,10 +12,10 @@
 #include <stdint.h>
 
 // #define VECTOR_VBL     0x40 // you can not define raw vector for VBlank interrupt
-#define VECTOR_STAT    0x48  /** Address for the STAT interrupt vector */
-#define VECTOR_TIMER   0x50  /** Address for the TIMER interrupt vector */
-#define VECTOR_SERIAL  0x58  /** Address for the SERIAL interrupt vector */
-#define VECTOR_JOYPAD  0x60  /** Address for the JOYPAD interrupt vector */
+#define VECTOR_STAT    0x48  /**< Address for the STAT interrupt vector */
+#define VECTOR_TIMER   0x50  /**< Address for the TIMER interrupt vector */
+#define VECTOR_SERIAL  0x58  /**< Address for the SERIAL interrupt vector */
+#define VECTOR_JOYPAD  0x60  /**< Address for the JOYPAD interrupt vector */
 
 typedef struct isr_vector_t {
     uint8_t opcode;

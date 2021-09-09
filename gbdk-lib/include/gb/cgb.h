@@ -20,18 +20,42 @@
 #include <types.h>
 #include <stdint.h>
 
-/** Macro to create a CGB palette color entry out of the color components.
+/** Macro to create a CGB palette color entry out of 5-bit color components.
 
-    @param r   Red Component, range 0 - 31 (31 brightest)
-    @param g   Green Component, range 0 - 31 (31 brightest)
-    @param b   Blue Component, range 0 - 31 (31 brightest)
+    @param r   5-bit Red Component, range 0 - 31 (31 brightest)
+    @param g   5-bit Green Component, range 0 - 31 (31 brightest)
+    @param b   5-bit Blue Component, range 0 - 31 (31 brightest)
 
-    The resulting format is BGR 15bpp.
+    The resulting format is bitpacked BGR-555 in a uint16_t.
 
-    @see set_bkg_palette(), set_sprite_palette()
+    @see set_bkg_palette(), set_sprite_palette(), RGB8(), RGBHTML()
  */
 #define RGB(r, g, b) ((((uint16_t)(b) & 0x1f) << 10) | (((uint16_t)(g) & 0x1f) << 5) | (((uint16_t)(r) & 0x1f) << 0))
+
+/** Macro to create a CGB palette color entry out of 8-bit color components.
+
+    @param r   8-bit Red Component, range 0 - 255 (255 brightest)
+    @param g   8-bit Green Component, range 0 - 255 (255 brightest)
+    @param b   8-bit Blue Component, range 0 - 255 (255 brightest)
+
+    The resulting format is bitpacked BGR-555 in a uint16_t.
+
+    The lowest 3 bits of each color component are dropped during conversion.
+
+    @see set_bkg_palette(), set_sprite_palette(), RGB(), RGBHTML()
+ */
 #define RGB8(r, g, b) ((uint16_t)((r) >> 3) | ((uint16_t)((g) >> 3) << 5) | ((uint16_t)((b) >> 3) << 10))
+
+/** Macro to convert a 24 Bit RGB color to a CGB palette color entry.
+
+    @param RGB24bit   Bit packed RGB-888 color (0-255 for each color component).
+
+    The resulting format is bitpacked BGR-555 in a uint16_t.
+
+    The lowest 3 bits of each color component are dropped during conversion.
+
+    @see set_bkg_palette(), set_sprite_palette(), RGB(), RGB8()
+ */
 #define RGBHTML(RGB24bit) (RGB8((((RGB24bit) >> 16) & 0xFF), (((RGB24bit) >> 8) & 0xFF), ((RGB24bit) & 0xFF)))
 
 /** Common colors based on the EGA default palette.
@@ -58,7 +82,7 @@
 #define RGB_ORANGE     RGB(30, 20,  0)
 #define RGB_TEAL       RGB(15, 15,  0)
 
-typedef uint16_t palette_entry_t;
+typedef uint16_t palette_entry_t;   /**< 16 bit color entry */
 
 /** Set CGB background palette(s).
 
@@ -70,7 +94,7 @@ typedef uint16_t palette_entry_t;
     at __first_palette__, Palette data is sourced from __rgb_data__.
 
     \li Each Palette is 8 bytes in size: 4 colors x 2 bytes per palette color entry.
-    \li Each color (4 per palette) is packed as BGR 15bpp format (1:5:5:5, MSBit [15] is unused).
+    \li Each color (4 per palette) is packed as BGR-555 format (1:5:5:5, MSBit [15] is unused).
     \li Each component (R, G, B) may have values from 0 - 31 (5 bits), 31 is brightest.
 
     @see RGB(), set_bkg_palette_entry()
@@ -90,7 +114,7 @@ set_bkg_palette(uint8_t first_palette,
     at __first_palette__, Palette data is sourced from __rgb_data__.
 
     \li Each Palette is 8 bytes in size: 4 colors x 2 bytes per palette color entry.
-    \li Each color (4 per palette) is packed as BGR 15bpp format (1:5:5:5, MSBit [15] is unused).
+    \li Each color (4 per palette) is packed as BGR-555 format (1:5:5:5, MSBit [15] is unused).
     \li Each component (R, G, B) may have values from 0 - 31 (5 bits), 31 is brightest.
 
     @see RGB(), set_sprite_palette_entry()
