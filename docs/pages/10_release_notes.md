@@ -26,7 +26,10 @@ https://github.com/gbdk-2020/gbdk-2020/releases
     - Updated bgb debug output. Added @ref BGB_printf()
   - Examples
     - Added cross-platform examples (builds for multiple consoles: gb, ap, sms, gg)
-    - Improved `bgb_debug` example
+    - Added sms, gg, pocket examples
+    - Added incbin example
+    - Added simple physics sub-pixel / fixed point math example
+    - Bug fixes and updates for existing examples
   - Toolchain / Utilities
     - @ref utility_png2asset "png2asset"
       - @ref utility_png2asset "png2asset" is the new name for the `png2mtspr` utility
