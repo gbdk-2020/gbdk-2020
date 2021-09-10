@@ -20,7 +20,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
     - Added @ref INCBIN(), @ref BANK(), @ref INCBIN_SIZE(), @ref INCBIN_EXTERN()
     - Added generic @ref SWITCH_ROM() and @ref SWITCH_RAM()
     - Added @ref BGB_printf() and updated bgb debug output.
-    - Changed @ref itoa(), @ref utoa(), @ref ltoa(), @ref ultoa() to now require a radix value (base) argument to be passed. On the Game Boy and Analogue Pocket the parameter is required but not utilized.
+    - Changed @ref itoa(), @ref uitoa(), @ref ltoa(), @ref ultoa() to now require a radix value (base) argument to be passed. On the Game Boy and Analogue Pocket the parameter is required but not utilized.
   - Examples
     - Added cross-platform examples (build for multiple consoles: gb, ap, sms, gg)
     - Added sms, gg, pocket(ap) examples

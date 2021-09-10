@@ -1,7 +1,7 @@
-/** @file gb/incbin.h
-    
+/** @file gbdk/incbin.h
+
     Allows binary data from other files to be included
-    into a C source file. 
+    into a C source file.
 
     It is implemented using asm .incbin and macros.
 
@@ -27,34 +27,34 @@ extern const void __size_ ## VARNAME; \
 extern const void __bank_ ## VARNAME;
 
 /** Obtains the __size in bytes__ of the INCBIN() generated data
-    
+
     @param VARNAME Name of the variable used with INCBIN
 
     Requires @ref INCBIN_EXTERN() to have been called earlier in the source file
 
-    @ref INCBIN(), INCBIN_EXTERN()    
+    @ref INCBIN(), INCBIN_EXTERN()
 */
 #define INCBIN_SIZE(VARNAME) ( (uint16_t) & __size_ ## VARNAME )
 
 /** Obtains the __bank number__ of the INCBIN() generated data
-    
+
     @param VARNAME Name of the variable used with INCBIN
 
     Requires @ref INCBIN_EXTERN() to have been called earlier in the source file
 
-    @ref INCBIN(), INCBIN_EXTERN()    
+    @ref INCBIN(), INCBIN_EXTERN()
 */
 #ifndef BANK
 #define BANK(VARNAME) ( (uint8_t) & __bank_ ## VARNAME )
 #endif
 
 /** Includes binary data into a C source file
-    
+
     @param VARNAME Variable name to use
     @param FILEPATH Path to the file which will be binary included into the C source file
 
-    __filepath__ is relative to the working directory of the tool 
-    that is calling it (often a makefile's working directory), __NOT__ 
+    __filepath__ is relative to the working directory of the tool
+    that is calling it (often a makefile's working directory), __NOT__
     to the file it's being included into.
 
     The variable name is not modified and can be used as-is.
@@ -77,7 +77,7 @@ _ ## VARNAME:: \
     ___bank_ ## VARNAME = b___func_ ## VARNAME \
     .globl ___bank_ ## VARNAME \
 __endasm; \
-} 
+}
 
 #endif // _INCBIN_H
 

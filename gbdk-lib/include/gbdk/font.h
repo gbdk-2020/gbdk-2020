@@ -1,4 +1,4 @@
-/** @file gb/font.h
+/** @file gbdk/font.h
     Multiple font support for the GameBoy
     Michael Hope, 1999
     michaelh@earthling.net

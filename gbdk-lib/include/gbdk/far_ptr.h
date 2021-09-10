@@ -1,4 +1,4 @@
-/** @file gb/far_ptr.h
+/** @file gbdk/far_ptr.h
 
     Far pointers include a segment (bank) selector so they are
     able to point to addresses (functions or data) outside
