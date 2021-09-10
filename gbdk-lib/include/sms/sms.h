@@ -512,12 +512,12 @@ void set_palette_entry(uint8_t palette, uint8_t entry, uint16_t rgb_data) __z88d
 #define set_sprite_palette(first_palette,nb_palettes,rgb_data) set_palette(1,1,rgb_data)
 void set_palette(uint8_t first_palette, uint8_t nb_palettes, palette_entry_t *rgb_data) __z88dk_callee;
 
-void set_tile_data(uint16_t start, uint16_t ntiles, const void *src) __z88dk_callee __preserves_regs(iyh,iyl);
+void set_native_tile_data(uint16_t start, uint16_t ntiles, const void *src) __z88dk_callee __preserves_regs(iyh,iyl);
 inline void set_bkg_4bpp_data(uint16_t start, uint16_t ntiles, const void *src) {
-    set_tile_data(start, ntiles, src);
+    set_native_tile_data(start, ntiles, src);
 }
 inline void set_sprite_4bpp_data(uint16_t start, uint16_t ntiles, const void *src) {
-    set_tile_data((uint8_t)(start) + 0x100u, ntiles, src);
+    set_native_tile_data((uint8_t)(start) + 0x100u, ntiles, src);
 }
 
 #define COMPAT_PALETTE(C0,C1,C2,C3) (((uint16_t)(C3) << 12) | ((uint16_t)(C2) << 8) | ((uint16_t)(C1) << 4) | (uint16_t)(C0))

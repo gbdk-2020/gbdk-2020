@@ -6,7 +6,7 @@
         .globl  .memset_small
         .globl  _font_ibm
         .globl  __current_1bpp_colors, .fg_colour, .bg_colour
-        .globl  _set_tile_data, _set_tile_1bpp_data
+        .globl  _set_native_tile_data, _set_tile_1bpp_data
 
         ; Structure offsets
         sfont_handle_sizeof     = 3
@@ -166,5 +166,5 @@ load_font_tiles:
         push hl
         push de
         push bc 
-        call _set_tile_data
+        call _set_native_tile_data
         ret

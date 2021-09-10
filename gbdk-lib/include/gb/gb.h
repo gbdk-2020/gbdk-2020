@@ -777,7 +777,6 @@ uint8_t get_vram_byte(uint8_t * addr) __preserves_regs(b, c);
  */
 uint8_t * get_bkg_xy_addr(uint8_t x, uint8_t y) __preserves_regs(b, c);
 
-
 #define COMPAT_PALETTE(C0,C1,C2,C3) (((C3) << 6) | ((C2) << 4) | ((C1) << 2) | (C0))
 
 /** Sets palette for 2bpp color translation for GG/SMS, does nothing on GB
@@ -1571,6 +1570,15 @@ void get_tiles(uint8_t x,
           uint8_t *tiles) NONBANKED __preserves_regs(b, c);
 
 
+/** Sets VRAM Tile Pattern data in the native format
+ */
+inline void set_native_tile_data(uint16_t first_tile, uint8_t nb_tiles, const uint8_t *data) {
+    if (first_tile < 256) {
+        set_bkg_data(first_tile, nb_tiles, data);
+    } else {
+        set_sprite_data(first_tile - 256, nb_tiles, data);
+    }
+}
 
 
 /** Initializes the entire Window Tile Map with Tile Number __c__
