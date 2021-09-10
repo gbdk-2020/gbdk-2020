@@ -8,14 +8,9 @@ https://github.com/gbdk-2020/gbdk-2020/releases
 
 ## GBDK 2020 4.0.5
   2021/09
-  - Known Issues
-    - The `bgb_debug` example has a compile error on macOS.
-      - The compiler has a bug on macOS where long strings used with macros cause a crash. @ref bgb_emu.h can still be used with shorter strings.
-  - Overall
-    - Added support for new consoles
-      - Analogue Pocket (`ap`)
-      - Sega Master System (`sms`) and Game Gear (`gg`)
-    - The windows make.bat files were renamed to compile.bat
+  - Added support for new consoles. See @ref docs_supported_consoles
+    - Analogue Pocket (`ap`)
+    - Sega Master System (`sms`) and Game Gear (`gg`)
   - Library
     - Variables in static storage are now initialized to zero per C standard (but remaining WRAM is not cleared)
     - Added new register flag constants and names. For example:
@@ -23,12 +18,15 @@ https://github.com/gbdk-2020/gbdk-2020/releases
       - @ref LCDCF_WINON, @ref LCDCF_WINOFF, @ref LCDCF_B_WINON
     - Added @ref BANK(), @ref BANKREF(), @ref BANKREF_EXTERN()
     - Added @ref INCBIN(), @ref BANK(), @ref INCBIN_SIZE(), @ref INCBIN_EXTERN()
-    - Updated bgb debug output. Added @ref BGB_printf()
+    - Added generic @ref SWITCH_ROM() and @ref SWITCH_RAM()
+    - Added @ref BGB_printf() and updated bgb debug output.
+    - Changed @ref itoa(), @ref utoa(), @ref ltoa(), @ref ultoa() to now require a radix value (base) argument to be passed. On the Game Boy and Analogue Pocket the parameter is required but not utilized.
   - Examples
-    - Added cross-platform examples (builds for multiple consoles: gb, ap, sms, gg)
-    - Added sms, gg, pocket examples
+    - Added cross-platform examples (build for multiple consoles: gb, ap, sms, gg)
+    - Added sms, gg, pocket(ap) examples
     - Added incbin example
     - Added simple physics sub-pixel / fixed point math example
+    - Changed windows make.bat files to compile.bat
     - Bug fixes and updates for existing examples
   - Toolchain / Utilities
     - @ref utility_png2asset "png2asset"
@@ -42,13 +40,18 @@ https://github.com/gbdk-2020/gbdk-2020/releases
     - @ref lcc
       - Use `-m` to select target port and platform: "-m[port]:[plat]" ports:`gbz80,z80` plats:`ap,gb,sms,gg`
       - Changed default output format when not specified from `.ihx` to `.gb` (or other active rom extension)
-      - 
+      - Changed lcc to always use the linkerfile `-lkout=` option when calling bankpack
+      - Fixed name generation crash when outfile lacks extension
     - @ref bankpack
       - Added linkerfile input and output: `-lkin=<file>`, `-lkout=<file>`
       - Added selector for platform specific behavior `plat=<plat>` (Default:gb, Avaialble:`gb,sms`). sms/gg targets prohibits packing `LIT_N` areas in the same banks as `CODE_N` areas
       - Added randomization for auto-banks (`-random`) for debugging and testing
-
+    - @ref utility_gbcompress
+      - Added C source array format output (--cout) (optional variable name argument --varname=)
+      - Added C source array format input (--cin) (experimental)
   - Docs
+    - Added @ref docs_supported_consoles section
+    - Various doc updates and improvements
   
 
 ## GBDK 2020 4.0.4

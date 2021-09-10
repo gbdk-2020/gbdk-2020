@@ -9,7 +9,9 @@ This section contains information that may be useful to know or important when u
 - @ref utility_png2asset is the new name for the `png2mtspr` utility
 - @ref lcc : Changed default output format when not specified from `.ihx` to `.gb` (or other active rom extension)
 - The `_BSS` area is deprecated (use `_DATA` instead)
+- The `_BASE` area is renamed to `_HOME`
 - Variables in static storage are now initialized to zero per C standard (but remaining WRAM is not cleared)
+- @ref itoa(), @ref utoa(), @ref ltoa(), @ref ultoa() all now require a radix value (base) argument to be passed. On the Game Boy and Analogue Pocket the parameter is required but not utilized.
 
 ## Porting to GBDK 2020 4.0.4
 - GBDK now requires SDCC 12238 or higher
