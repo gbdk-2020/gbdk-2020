@@ -178,30 +178,30 @@ __REG LCDC_REG;         /** LCD control */
 #define LCDCF_B_OBJON   6
 #define LCDCF_B_BGON    7
 #else
-#define LCDCF_OFF     0b00000000
-#define LCDCF_ON      0b10000000
-#define LCDCF_WIN9800 0b00000000
-#define LCDCF_WIN9C00 0b01000000
-#define LCDCF_WINOFF  0b00000000
-#define LCDCF_WINON   0b00100000
-#define LCDCF_BG8800  0b00000000
-#define LCDCF_BG8000  0b00010000
-#define LCDCF_BG9800  0b00000000
-#define LCDCF_BG9C00  0b00001000
-#define LCDCF_OBJ8    0b00000000
-#define LCDCF_OBJ16   0b00000100
-#define LCDCF_OBJOFF  0b00000000
-#define LCDCF_OBJON   0b00000010
-#define LCDCF_BGOFF   0b00000000
-#define LCDCF_BGON    0b00000001
-#define LCDCF_B_ON      7
-#define LCDCF_B_WIN9C00 6
-#define LCDCF_B_WINON   5
-#define LCDCF_B_BG8000  4
-#define LCDCF_B_BG9C00  3
-#define LCDCF_B_OBJ16   2
-#define LCDCF_B_OBJON   1
-#define LCDCF_B_BGON    0
+#define LCDCF_OFF     0b00000000 /**< LCD Control: Off */
+#define LCDCF_ON      0b10000000 /**< LCD Control: On */
+#define LCDCF_WIN9800 0b00000000 /**< Window Tile Map: Use 9800 Region */
+#define LCDCF_WIN9C00 0b01000000 /**< Window Tile Map: Use 9C00 Region */
+#define LCDCF_WINOFF  0b00000000 /**< Window Display: Hidden */
+#define LCDCF_WINON   0b00100000 /**< Window Display: Visible */
+#define LCDCF_BG8800  0b00000000 /**< BG & Window Tile Data: Use 8800 Region */
+#define LCDCF_BG8000  0b00010000 /**< BG & Window Tile Data: Use 8000 Region */
+#define LCDCF_BG9800  0b00000000 /**< BG Tile Map: use 9800 Region */
+#define LCDCF_BG9C00  0b00001000 /**< BG Tile Map: use 9C00 Region */
+#define LCDCF_OBJ8    0b00000000 /**< Sprites Size: 8x8 pixels */
+#define LCDCF_OBJ16   0b00000100 /**< Sprites Size: 8x16 pixels */
+#define LCDCF_OBJOFF  0b00000000 /**< Sprites Display: Hidden */
+#define LCDCF_OBJON   0b00000010 /**< Sprites Display: Visible */
+#define LCDCF_BGOFF   0b00000000 /**< Background Display: Hidden */
+#define LCDCF_BGON    0b00000001 /**< Background Display: Visible */
+#define LCDCF_B_ON      7        /**< Bit for LCD On/Off Select */
+#define LCDCF_B_WIN9C00 6        /**< Bit for Window Tile Map Region Select */
+#define LCDCF_B_WINON   5        /**< Bit for Window Display On/Off Control */
+#define LCDCF_B_BG8000  4        /**< Bit for BG & Window Tile Data Region Select */
+#define LCDCF_B_BG9C00  3        /**< Bit for BG Tile Map Region Select */
+#define LCDCF_B_OBJ16   2        /**< Bit for Sprites Size Select */
+#define LCDCF_B_OBJON   1        /**< Bit for Sprites Display Visible/Hidden Select */
+#define LCDCF_B_BGON    0        /**< Bit for Background Display Visible/Hidden Select */
 #endif
 
 __REG STAT_REG;         /** LCD status */
@@ -227,24 +227,24 @@ __REG STAT_REG;         /** LCD status */
 #define STATF_B_OAM     6
 #define STATF_B_BUSY    6
 #else
-#define STATF_LYC     0b01000000
-#define STATF_MODE10  0b00100000
-#define STATF_MODE01  0b00010000
-#define STATF_MODE00  0b00001000
-#define STATF_LYCF    0b00000100
-#define STATF_HBL     0b00000000
-#define STATF_VBL     0b00000001
-#define STATF_OAM     0b00000010
-#define STATF_LCD     0b00000011
-#define STATF_BUSY    0b00000010
-#define STATF_B_LYC     6
-#define STATF_B_MODE10  5
-#define STATF_B_MODE01  4
-#define STATF_B_MODE00  3
-#define STATF_B_LYCF    2
-#define STATF_B_VBL     0
-#define STATF_B_OAM     1
-#define STATF_B_BUSY    1
+#define STATF_LYC     0b01000000  /**< STAT Interrupt: LYC=LY Coincidence Source Enable */
+#define STATF_MODE10  0b00100000  /**< STAT Interrupt: Mode 2 OAM Source Enable */
+#define STATF_MODE01  0b00010000  /**< STAT Interrupt: Mode 1 VBlank Source Enable */
+#define STATF_MODE00  0b00001000  /**< STAT Interrupt: Mode 0 HBlank Source Enable  */
+#define STATF_LYCF    0b00000100  /**< LYC=LY Coincidence Status Flag, Set when LY contains the same value as LYC */
+#define STATF_HBL     0b00000000  /**< Current LCD Mode is: 0, in H-Blank */
+#define STATF_VBL     0b00000001  /**< Current LCD Mode is: 1, in V-Blank */
+#define STATF_OAM     0b00000010  /**< Current LCD Mode is: 2, in OAM-RAM is used by system (Searching OAM) */
+#define STATF_LCD     0b00000011  /**< Current LCD Mode is: 3, both OAM and VRAM used by system (Transferring Data to LCD Controller) */
+#define STATF_BUSY    0b00000010  /**< When set, VRAM access is unsafe */
+#define STATF_B_LYC     6         /**< Bit for STAT Interrupt: LYC=LY Coincidence Source Enable */
+#define STATF_B_MODE10  5         /**< Bit for STAT Interrupt: Mode 2 OAM Source Enable */
+#define STATF_B_MODE01  4         /**< Bit for STAT Interrupt: Mode 1 VBlank Source Enable */
+#define STATF_B_MODE00  3         /**< Bit for STAT Interrupt: Mode 0 HBlank Source Enable  */
+#define STATF_B_LYCF    2         /**< Bit for LYC=LY Coincidence Status Flag */
+#define STATF_B_VBL     0         /**< */
+#define STATF_B_OAM     1         /**< */
+#define STATF_B_BUSY    1         /**< Bit for when VRAM access is unsafe */
 #endif
 
 __REG SCY_REG;          /** Scroll Y */
@@ -351,15 +351,24 @@ __REG IE_REG;           /** Interrupt enable */
 #define AUDHIGH_LENGTH_OFF 0b00000000
 
 /* OAM attributes flags */
-#define OAMF_PRI   0b10000000
-#define OAMF_YFLIP 0b01000000
-#define OAMF_XFLIP 0b00100000
-#define OAMF_PAL0  0b00000000
-#define OAMF_PAL1  0b00010000
-#define OAMF_BANK0 0b00000000
-#define OAMF_BANK1 0b00001000
+#define OAMF_PRI      0b10000000  /**< BG and Window over Sprite Enabled */
+#define OAMF_YFLIP    0b01000000  /**< Sprite Y axis flip: Vertically mirrored */
+#define OAMF_XFLIP    0b00100000  /**< Sprite X axis flip: Horizontally mirrored */
+#define OAMF_PAL0     0b00000000  /**< Sprite Palette number: use OBP0 (Non-CGB Mode Only) */
+#define OAMF_PAL1     0b00010000  /**< Sprite Palette number: use OBP1 (Non-CGB Mode Only) */
+#define OAMF_BANK0    0b00000000  /**< Sprite Tile VRAM-Bank: Use Bank 0 (CGB Mode Only) */
+#define OAMF_BANK1    0b00001000  /**< Sprite Tile VRAM-Bank: Use Bank 1 (CGB Mode Only) */
 
-#define OAMF_PALMASK 0b00000111
+#define OAMF_CGB_PAL0 0b00000000  /**< Sprite CGB Palette number: use OCP0 (CGB Mode Only) */
+#define OAMF_CGB_PAL1 0b00000001  /**< Sprite CGB Palette number: use OCP1 (CGB Mode Only) */
+#define OAMF_CGB_PAL2 0b00000010  /**< Sprite CGB Palette number: use OCP2 (CGB Mode Only) */
+#define OAMF_CGB_PAL3 0b00000011  /**< Sprite CGB Palette number: use OCP3 (CGB Mode Only) */
+#define OAMF_CGB_PAL4 0b00000100  /**< Sprite CGB Palette number: use OCP4 (CGB Mode Only) */
+#define OAMF_CGB_PAL5 0b00000101  /**< Sprite CGB Palette number: use OCP5 (CGB Mode Only) */
+#define OAMF_CGB_PAL6 0b00000110  /**< Sprite CGB Palette number: use OCP6 (CGB Mode Only) */
+#define OAMF_CGB_PAL7 0b00000111  /**< Sprite CGB Palette number: use OCP7 (CGB Mode Only) */
+
+#define OAMF_PALMASK 0b00000111   /**< Mask for Sprite CGB Palette number (CGB Mode Only) */
 
 #define DEVICE_SCREEN_X_OFFSET 0        /**< Offset of visible screen (in tile units) from left edge of hardware map */
 #define DEVICE_SCREEN_Y_OFFSET 0        /**< Offset of visible screen (in tile units) from top edge of hardware map */
