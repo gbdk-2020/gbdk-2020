@@ -139,7 +139,7 @@ void BGB_profiler_message();
     be explicitly re-cast as such when calling the function.
     See @ref docs_chars_varargs for more details.
  */
-void BGB_printf(const char *format, ...) NONBANKED;
+void BGB_printf(const char *format, ...);
 
 static void * __BGB_PROFILER_INIT = &BGB_profiler_message;
 
