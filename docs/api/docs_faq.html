@@ -90,7 +90,7 @@ $(document).ready(function(){initNavTree('docs_faq.html',''); initResizable(); }
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="toolchain_faq"></a></p>
-<h1><a class="anchor" id="autotoc_md115"></a>
+<h1><a class="anchor" id="autotoc_md133"></a>
 General</h1>
 <ul>
 <li>How can sound effects be made?<ul>
@@ -100,7 +100,7 @@ General</h1>
 </ul>
 </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md116"></a>
+<h1><a class="anchor" id="autotoc_md134"></a>
 ROM Header Settings</h1>
 <ul>
 <li>How do I set the ROM's title?<ul>
@@ -127,7 +127,7 @@ ROM Header Settings</h1>
 </ul>
 </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md117"></a>
+<h1><a class="anchor" id="autotoc_md135"></a>
 Errors / Compiling / Toolchain</h1>
 <p><a class="anchor" id="faq_bank_overflow_errors"></a></p><ul>
 <li>What do these kinds of warnings / errors mean? <code>WARNING: possibly wrote twice at addr 4000 (93-&gt;3E)</code> <code>Warning: Write from one bank spans into the next. 7ff7 -&gt; 8016 (bank 1 -&gt; 2)</code><ul>
@@ -162,7 +162,7 @@ Errors / Compiling / Toolchain</h1>
 </ul>
 </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md118"></a>
+<h1><a class="anchor" id="autotoc_md136"></a>
 API / Utilities</h1>
 <ul>
 <li>Is there a list of all functions in the API?<ul>
@@ -172,7 +172,8 @@ API / Utilities</h1>
 </ul>
 </li>
 <li>Can I use the <code>float</code> type to do floating point math?<ul>
-<li>There is no support for 'float' in GBDK-2020. <br  />
+<li>There is no support for 'float' in GBDK-2020.</li>
+<li>Instead consider some form of <code>fixed point</code> math (including the <a class="el" href="docs_coding_guidelines.html#fixed_point_type">fixed</a> type included in GBDK) <br  />
 </li>
 </ul>
 </li>
@@ -198,8 +199,8 @@ API / Utilities</h1>
 </li>
 </ul>
 </li>
-<li>Weird things are happening to my sprite colors when I use png2mtspr and metasprites. What's going on and how does it work?<ul>
-<li>See <a class="el" href="docs_toolchain.html#utility_png2mtspr">utility_png2mtspr</a> for details of how the conversion process works. </li>
+<li>Weird things are happening to my sprite colors when I use png2asset and metasprites. What's going on and how does it work?<ul>
+<li>See <a class="el" href="docs_toolchain.html#utility_png2asset">utility_png2asset</a> for details of how the conversion process works. </li>
 </ul>
 </li>
 </ul>

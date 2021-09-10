@@ -126,6 +126,8 @@ Tutorials</h1>
  Several video tutorials and code for making games with GBDK/GBDK-2020. <br  />
  <a href="https://www.youtube.com/playlist?list=PLeEj4c2zF7PaFv5MPYhNAkBGrkx4iPGJo">https://www.youtube.com/playlist?list=PLeEj4c2zF7PaFv5MPYhNAkBGrkx4iPGJo</a> <br  />
  <a href="https://github.com/gingemonster/GamingMonstersGameBoySampleCode">https://github.com/gingemonster/GamingMonstersGameBoySampleCode</a></li>
+<li><a class="anchor" id="tutorials_typorter"></a> <b>Pocket Leage Tutortial</b> <br  />
+ <a href="https://blog.ty-porter.dev/development/2021/04/04/writing-a-gameboy-game-in-2021-pt-0.html">https://blog.ty-porter.dev/development/2021/04/04/writing-a-gameboy-game-in-2021-pt-0.html</a></li>
 </ul>
 <p><a class="anchor" id="link_examples"></a></p>
 <h1><a class="anchor" id="autotoc_md20"></a>
@@ -188,6 +190,12 @@ Debugging tools</h1>
 <li><a class="anchor" id="romusage"></a> <b>romusage</b> <br  />
  Calculate used and free space in banks (ROM/RAM) and warn about errors such as bank overflows. <br  />
  <a href="https://github.com/bbbbbr/romusage">https://github.com/bbbbbr/romusage</a></li>
+<li><a class="anchor" id="bgb_symbol_conversion"></a> <b>noi file to sym conversion for bgb</b> <br  />
+ Debug information in .noi files can be converted to a symbol format that <a class="el" href="docs_links_and_tools.html#bgb">BGB</a> recognizes using:<ul>
+<li><a class="el" href="docs_toolchain.html#lcc">lcc</a> : <code>-Wm-yS</code> (with <code>--debug</code>, or <code>-Wl-j</code> to create the .noi)</li>
+<li>directly with <a class="el" href="docs_toolchain.html#makebin">makebin</a> : <code>-yS</code> (with <code>-j</code> passed to the linker)</li>
+</ul>
+</li>
 <li><a class="anchor" id="src2sym"></a> <b>src2sym.pl</b> <br  />
  Add line-by-line C source code to the main symbol file in a BGB compatible format. This allows for C source-like debugging in BGB in a limited way. <a href="https://gbdev.gg8.se/forums/viewtopic.php?id=710">https://gbdev.gg8.se/forums/viewtopic.php?id=710</a></li>
 </ul>

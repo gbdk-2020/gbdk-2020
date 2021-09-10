@@ -99,14 +99,18 @@ $(document).ready(function(){initNavTree('incbin_8h.html',''); initResizable(); 
 Macros</h2></td></tr>
 <tr class="memitem:a51ab79f8ee37368158b1887b65ef97ec"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="incbin_8h.html#a51ab79f8ee37368158b1887b65ef97ec">INCBIN_EXTERN</a>(VARNAME)</td></tr>
 <tr class="separator:a51ab79f8ee37368158b1887b65ef97ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a37d962e404780762509e176236f9897b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="incbin_8h.html#a37d962e404780762509e176236f9897b">SIZE</a>(VARNAME)&#160;&#160;&#160;( (<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>) &amp; __size_ ## VARNAME )</td></tr>
-<tr class="separator:a37d962e404780762509e176236f9897b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeacb5370285c0d4308d0fe5f29da8d15"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="incbin_8h.html#aeacb5370285c0d4308d0fe5f29da8d15">INCBIN_SIZE</a>(VARNAME)&#160;&#160;&#160;( (<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>) &amp; __size_ ## VARNAME )</td></tr>
+<tr class="separator:aeacb5370285c0d4308d0fe5f29da8d15"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a42705001e2b9897f5167b67fb36c69dd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="incbin_8h.html#a42705001e2b9897f5167b67fb36c69dd">BANK</a>(VARNAME)&#160;&#160;&#160;( (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>) &amp; __bank_ ## VARNAME )</td></tr>
 <tr class="separator:a42705001e2b9897f5167b67fb36c69dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af34047ed60abd6453f819c2a5230cd2b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="incbin_8h.html#af34047ed60abd6453f819c2a5230cd2b">INCBIN</a>(VARNAME,  FILEPATH)</td></tr>
 <tr class="separator:af34047ed60abd6453f819c2a5230cd2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Allows binary data from other files to be included into a C source file.</p>
+<p>It is implemented using asm .incbin and macros.</p>
+<p>See the <code>incbin</code> example project for a demo of how to use it. </p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a51ab79f8ee37368158b1887b65ef97ec"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a51ab79f8ee37368158b1887b65ef97ec">&#9670;&nbsp;</a></span>INCBIN_EXTERN</h2>
 
@@ -133,18 +137,18 @@ Macros</h2></td></tr>
   </dd>
 </dl>
 <p>An entry is created for the variable and it's size variable.</p>
-<p><a class="el" href="incbin_8h.html#af34047ed60abd6453f819c2a5230cd2b">INCBIN()</a>, <a class="el" href="incbin_8h.html#a37d962e404780762509e176236f9897b">SIZE()</a> </p>
+<p><a class="el" href="incbin_8h.html#af34047ed60abd6453f819c2a5230cd2b">INCBIN()</a>, <a class="el" href="incbin_8h.html#aeacb5370285c0d4308d0fe5f29da8d15">INCBIN_SIZE()</a> </p>
 
 </div>
 </div>
-<a id="a37d962e404780762509e176236f9897b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a37d962e404780762509e176236f9897b">&#9670;&nbsp;</a></span>SIZE</h2>
+<a id="aeacb5370285c0d4308d0fe5f29da8d15"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeacb5370285c0d4308d0fe5f29da8d15">&#9670;&nbsp;</a></span>INCBIN_SIZE</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define SIZE</td>
+          <td class="memname">#define INCBIN_SIZE</td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">VARNAME</td><td>)</td>
@@ -160,8 +164,7 @@ Macros</h2></td></tr>
   </dd>
 </dl>
 <p>Requires <a class="el" href="incbin_8h.html#a51ab79f8ee37368158b1887b65ef97ec">INCBIN_EXTERN()</a> to have been called earlier in the source file</p>
-<p><a class="el" href="incbin_8h.html#af34047ed60abd6453f819c2a5230cd2b">INCBIN()</a>, <a class="el" href="incbin_8h.html#a51ab79f8ee37368158b1887b65ef97ec">INCBIN_EXTERN()</a> <br  />
- </p>
+<p><a class="el" href="incbin_8h.html#af34047ed60abd6453f819c2a5230cd2b">INCBIN()</a>, <a class="el" href="incbin_8h.html#a51ab79f8ee37368158b1887b65ef97ec">INCBIN_EXTERN()</a> </p>
 
 </div>
 </div>
@@ -188,8 +191,7 @@ Macros</h2></td></tr>
   </dd>
 </dl>
 <p>Requires <a class="el" href="incbin_8h.html#a51ab79f8ee37368158b1887b65ef97ec">INCBIN_EXTERN()</a> to have been called earlier in the source file</p>
-<p><a class="el" href="incbin_8h.html#af34047ed60abd6453f819c2a5230cd2b">INCBIN()</a>, <a class="el" href="incbin_8h.html#a51ab79f8ee37368158b1887b65ef97ec">INCBIN_EXTERN()</a> <br  />
- </p>
+<p><a class="el" href="incbin_8h.html#af34047ed60abd6453f819c2a5230cd2b">INCBIN()</a>, <a class="el" href="incbin_8h.html#a51ab79f8ee37368158b1887b65ef97ec">INCBIN_EXTERN()</a> </p>
 
 </div>
 </div>
@@ -241,7 +243,7 @@ Macros</h2></td></tr>
 </dl>
 <p><b>filepath</b> is relative to the working directory of the tool that is calling it (often a makefile's working directory), <b>NOT</b> to the file it's being included into.</p>
 <p>The variable name is not modified and can be used as-is.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="incbin_8h.html#a37d962e404780762509e176236f9897b">SIZE()</a> for obtaining the size of the included data. </dd>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="incbin_8h.html#aeacb5370285c0d4308d0fe5f29da8d15">INCBIN_SIZE()</a> for obtaining the size of the included data. </dd>
 <dd>
 <a class="el" href="incbin_8h.html#a42705001e2b9897f5167b67fb36c69dd">BANK()</a> for obtaining the bank number of the included data.</dd></dl>
 <p>Use <a class="el" href="incbin_8h.html#a51ab79f8ee37368158b1887b65ef97ec">INCBIN_EXTERN()</a> within another source file to make the variable and it's data accesible there. </p>

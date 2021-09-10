@@ -100,7 +100,7 @@ $(document).ready(function(){initNavTree('incbin_8h_source.html',''); initResiza
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">extern const void __size_ ## VARNAME; \</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">extern const void __bank_ ## VARNAME;</span></div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="incbin_8h.html#a37d962e404780762509e176236f9897b">   37</a></span>&#160;<span class="preprocessor">#define SIZE(VARNAME) ( (uint16_t) &amp; __size_ ## VARNAME )</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="incbin_8h.html#aeacb5370285c0d4308d0fe5f29da8d15">   37</a></span>&#160;<span class="preprocessor">#define INCBIN_SIZE(VARNAME) ( (uint16_t) &amp; __size_ ## VARNAME )</span></div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#ifndef BANK</span></div>
 <div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="incbin_8h.html#a42705001e2b9897f5167b67fb36c69dd">   48</a></span>&#160;<span class="preprocessor">#define BANK(VARNAME) ( (uint8_t) &amp; __bank_ ## VARNAME )</span></div>
@@ -118,7 +118,7 @@ $(document).ready(function(){initNavTree('incbin_8h_source.html',''); initResiza
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="preprocessor">    ___bank_ ## VARNAME = b___func_ ## VARNAME \</span></div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor">    .globl ___bank_ ## VARNAME \</span></div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="preprocessor">__endasm; \</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor">} </span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor">}</span></div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor">#endif // _INCBIN_H</span></div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>

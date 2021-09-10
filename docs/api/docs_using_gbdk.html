@@ -141,24 +141,31 @@ Adding your own interrupt handler</h2>
 </ol>
 <p>See the <code>irq</code> example project for additional details for a complete example.</p>
 <h2><a class="anchor" id="autotoc_md29"></a>
+Using your own Interrupt Dispatcher</h2>
+<p>If you want to use your own Interrupt Dispatcher instead of the GBDK chained dispatcher (for improved performance), then don't call the <code>add_...()</code> function for the respective interrupt and it's dispatcher won't be installed.</p><ul>
+<li>Exception: the VBL dispatcher will always be linked in at compile time.</li>
+<li>For the SIO interrupt, also do not make any standard SIO calls to avoid having it's dispatcher installed.</li>
+</ul>
+<p>Then <a class="el" href="isr_8h.html#a73769fed9338af86fdb7df35d7b82620">ISR_VECTOR()</a> or <a class="el" href="isr_8h.html#a78f9ef588aaf221023e48899898d566b">ISR_NESTED_VECTOR()</a> can be used to easily install a custom ISR handler.</p>
+<h2><a class="anchor" id="autotoc_md30"></a>
 Returning from Interrupts and STAT mode</h2>
 <p>By default when an Interrupt handler completes and is ready to exit it will check STAT_REG and only return at the BEGINNING of either LCD Mode 0 or Mode 1. This helps prevent graphical glitches caused when an ISR interrupts a graphics operation in one mode but returns in a different mode for which that graphics operation is not allowed.</p>
 <p>You can change this behavior using <a class="el" href="gb_8h.html#a115eb30ec86f6af039a27918ffe4cf8c">nowait_int_handler()</a> which does not check <a class="el" href="gb_2hardware_8h.html#ad40ebf3b29add46cdd310a7e0802bc6b">STAT_REG</a> before returning. Also see <a class="el" href="gb_8h.html#af461d38864cfc5720f0d9f4d1113cf07">wait_int_handler()</a>.</p>
-<h1><a class="anchor" id="autotoc_md30"></a>
+<h1><a class="anchor" id="autotoc_md31"></a>
 What GBDK does automatically and behind the scenes</h1>
-<h2><a class="anchor" id="autotoc_md31"></a>
+<h2><a class="anchor" id="autotoc_md32"></a>
 OAM (VRAM Sprite Attribute Table)</h2>
 <p>GBDK sets up a Shadow OAM which gets copied automatically to the hardware OAM by the default V-Blank ISR. The Shadow OAM allows updating sprites without worrying about whether it is safe to write to them or not based on the hardware LCD mode.</p>
-<h2><a class="anchor" id="autotoc_md32"></a>
+<h2><a class="anchor" id="autotoc_md33"></a>
 Font tiles when using stdio.h</h2>
 <p>Including <a class="el" href="stdio_8h.html">stdio.h</a> and using functions such as <a class="el" href="stdio_8h.html#a79c1db3e4a2aaa60d5afa76f7d984d0b">printf()</a> will use a large number of the background tiles for font characters. If stdio.h is not included then that space will be available for use with other tiles instead.</p>
-<h2><a class="anchor" id="autotoc_md33"></a>
+<h2><a class="anchor" id="autotoc_md34"></a>
 Default Interrupt Service Handlers (ISRs)</h2>
 <ul>
 <li>V-Blank: A default V-Blank ISR is installed on startup which copies the Shadow OAM to the hardware OAM and increments the global <a class="el" href="sms_8h.html#a78d2fd18666afec116f176d46debb4e7">sys_time</a> variable once per frame.</li>
 <li>Serial Link I/O: If any of the GBDK serial link functions are used such as <a class="el" href="gb_8h.html#a1259cf3a23fd2166a9d1a2e93942e30e">send_byte()</a> and <a class="el" href="gb_8h.html#a34d6500215984e8f9a986523a2f2dadd">receive_byte()</a>, the default SIO serial link handler will be installed automatically at compile-time.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md34"></a>
+<h1><a class="anchor" id="autotoc_md35"></a>
 Copying Functions to RAM and HIRAM</h1>
 <p>The <code>ram_function</code> example project included with GBDK demonstrates copying functions to RAM and HIRAM.</p>
 <p>It is possible to copy functions to RAM and HIRAM (using the <a class="el" href="asm_2gbz80_2string_8h.html#a1bb96f23101e1f8c053a36d59a01d3f8">memcpy()</a> and <a class="el" href="gb_8h.html#adef803cdd559747ad6f36830e126e48f">hiramcpy()</a> functions), and execute them from C. The compiler automatically generates two symbols for the start and the end of each function, named start_X and end_X (where X is the name of the function). This enables to calculate the length of a function when copying it to RAM. Ensure you have enough free space in RAM or HIRAM for copying a function.</p>
@@ -168,10 +175,10 @@ Copying Functions to RAM and HIRAM</h1>
 <li>Declare the function as extern, and set its address at link time using the -Wl-gXXX=# flag (where XXX is the name of the function, and # is its address).</li>
 </ul>
 <p>The second approach is slightly more efficient. Both approaches are demonstrated in the <code>ram_function.c</code> example.</p>
-<h1><a class="anchor" id="autotoc_md35"></a>
+<h1><a class="anchor" id="autotoc_md36"></a>
 Mixing C and Assembly</h1>
 <p>You can mix C and assembly (ASM) in two ways as described below. For additional detail see the <a class="el" href="docs_links_and_tools.html#links_sdcc_docs">links_sdcc_docs</a>.</p>
-<h2><a class="anchor" id="autotoc_md36"></a>
+<h2><a class="anchor" id="autotoc_md37"></a>
 Inline ASM within C source files</h2>
 <p>Example: <br  />
  </p><pre class="fragment">   __asm__("nop");
@@ -183,7 +190,7 @@ Inline ASM within C source files</h2>
         (ASM code goes here)
     __endasm;
   }
-</pre><h2><a class="anchor" id="autotoc_md37"></a>
+</pre><h2><a class="anchor" id="autotoc_md38"></a>
 In Separate ASM files</h2>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000002">Todo:</a></b></dt><dd>This is from GBDK 2.x docs, verify it with GBDK-2020 and modern SDCC</dd></dl>
 <p>It is possible to assemble and link files written in ASM alongside files written in C.</p>
@@ -223,9 +230,13 @@ LD   D,H
 LD   E,L
               ; There is no register to restore
 RET           ; Return result in DE
-</pre><h1><a class="anchor" id="autotoc_md38"></a>
+</pre><h1><a class="anchor" id="autotoc_md39"></a>
+Including binary files in C source with incbin</h1>
+<p>Data from binary files can be included in C source files as a const array using the <a class="el" href="incbin_8h.html#af34047ed60abd6453f819c2a5230cd2b">INCBIN()</a> macro.</p>
+<p>See the <code>incbin</code> example project for a demo of how to use it.</p>
+<h1><a class="anchor" id="autotoc_md40"></a>
 Known Issues and Limitations</h1>
-<h2><a class="anchor" id="autotoc_md39"></a>
+<h2><a class="anchor" id="autotoc_md41"></a>
 SDCC</h2>
 <ul>
 <li>Const arrays declared with <code>somevar[n] = {x}</code> will <b>NOT</b> get initialized with value <code>x</code>. This may change when the SDCC RLE initializer is fixed. Use memset for now if you need it.</li>

@@ -137,7 +137,11 @@ Variables</h2></td></tr>
 <tr class="memitem:a892433d652420445a9a6aebf1a256623"><td class="memItemLeft" align="right" valign="top">volatile <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="far__ptr_8h.html#a892433d652420445a9a6aebf1a256623">__call_banked_bank</a></td></tr>
 <tr class="separator:a892433d652420445a9a6aebf1a256623"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Far pointers include a segment (bank) selector so they are able to point to addresses (functions or data) outside of the current bank (unlike normal pointers which are not bank-aware).</p>
+<p>See the <code>banks_farptr</code> example project included with gbdk.</p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>Add link to a discussion about banking (such as, how to assign code and variables to banks) </dd></dl>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a0c227677a96f9bf7e84a90922f2f8708"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0c227677a96f9bf7e84a90922f2f8708">&#9670;&nbsp;</a></span>TO_FAR_PTR</h2>
 

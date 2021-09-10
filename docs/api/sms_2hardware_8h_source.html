@@ -272,8 +272,8 @@ $(document).ready(function(){initNavTree('sms_2hardware_8h_source.html',''); ini
 <div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_BUFFER_WIDTH 32</span></div>
 <div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_BUFFER_HEIGHT 28</span></div>
 <div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_MAP_ENTRY_SIZE 2</span></div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;<span class="preprocessor">#define DEVICE_SPRITE_OFFSET_X 0</span></div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;<span class="preprocessor">#define DEVICE_SPRITE_OFFSET_Y 0</span></div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;<span class="preprocessor">#define DEVICE_SPRITE_PX_OFFSET_X 0</span></div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;<span class="preprocessor">#define DEVICE_SPRITE_PX_OFFSET_Y -1</span></div>
 <div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;<span class="preprocessor">#elif defined(__TARGET_gg)</span></div>
 <div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_X_OFFSET 6</span></div>
 <div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_Y_OFFSET 3</span></div>
@@ -282,13 +282,15 @@ $(document).ready(function(){initNavTree('sms_2hardware_8h_source.html',''); ini
 <div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_BUFFER_WIDTH 32</span></div>
 <div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_BUFFER_HEIGHT 28</span></div>
 <div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_MAP_ENTRY_SIZE 2</span></div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;<span class="preprocessor">#define DEVICE_SPRITE_OFFSET_X 48</span></div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;<span class="preprocessor">#define DEVICE_SPRITE_OFFSET_Y 24</span></div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;<span class="preprocessor">#define DEVICE_SPRITE_PX_OFFSET_X 48</span></div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;<span class="preprocessor">#define DEVICE_SPRITE_PX_OFFSET_Y 23</span></div>
 <div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;<span class="preprocessor">#else</span></div>
 <div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;<span class="preprocessor">#error Unrecognized port</span></div>
 <div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160; </div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00202"></a><span class="lineno"><a class="line" href="sms_2hardware_8h.html#ad14c51cdfb347c34c364f54e67dc978d">  202</a></span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_PX_WIDTH (DEVICE_SCREEN_WIDTH * 8)</span></div>
+<div class="line"><a name="l00203"></a><span class="lineno"><a class="line" href="sms_2hardware_8h.html#a7bd450aa268b881257089cf8cd6697ec">  203</a></span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_PX_HEIGHT (DEVICE_SCREEN_HEIGHT * 8)</span></div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160; </div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="asms_2hardware_8h_html_af310a900e3b4b5b5032f4ffd6fa309b0"><div class="ttname"><a href="sms_2hardware_8h.html#af310a900e3b4b5b5032f4ffd6fa309b0">shadow_VDP_R10</a></div><div class="ttdeci">UBYTE shadow_VDP_R10</div></div>

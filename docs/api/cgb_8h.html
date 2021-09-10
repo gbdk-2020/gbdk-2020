@@ -87,6 +87,7 @@ $(document).ready(function(){initNavTree('cgb_8h.html',''); initResizable(); });
 <div class="header">
   <div class="summary">
 <a href="#define-members">Macros</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">cgb.h File Reference</div>  </div>
@@ -146,12 +147,17 @@ Macros</h2></td></tr>
 <tr class="memitem:a9c8c3710151b2258ea8269850498703f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cgb_8h.html#a9c8c3710151b2258ea8269850498703f">RGB_TEAL</a>&#160;&#160;&#160;<a class="el" href="cgb_8h.html#a4a118ad3ee36468a3fa616977a64864e">RGB</a>(15, 15,  0)</td></tr>
 <tr class="separator:a9c8c3710151b2258ea8269850498703f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a9478e1add68f638c7b35f5718a9083cb"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cgb_8h.html#a9478e1add68f638c7b35f5718a9083cb">palette_entry_t</a></td></tr>
+<tr class="separator:a9478e1add68f638c7b35f5718a9083cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aec5c352285ef0fb0d5a1a1d35f6e7877"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cgb_8h.html#aec5c352285ef0fb0d5a1a1d35f6e7877">set_bkg_palette</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_palette, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_palettes, <a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> *rgb_data) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
-<tr class="separator:aec5c352285ef0fb0d5a1a1d35f6e7877"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f0430a99cd9df4496b3c04f49aa3f6d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cgb_8h.html#a2f0430a99cd9df4496b3c04f49aa3f6d">set_sprite_palette</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_palette, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_palettes, <a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> *rgb_data) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
-<tr class="separator:a2f0430a99cd9df4496b3c04f49aa3f6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37685af82ef1c056f6f1b41b2cc816df"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cgb_8h.html#a37685af82ef1c056f6f1b41b2cc816df">set_bkg_palette</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_palette, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_palettes, <a class="el" href="cgb_8h.html#a9478e1add68f638c7b35f5718a9083cb">palette_entry_t</a> *rgb_data) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
+<tr class="separator:a37685af82ef1c056f6f1b41b2cc816df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad58d509c44c4c82f6fe382a36b0169ef"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cgb_8h.html#ad58d509c44c4c82f6fe382a36b0169ef">set_sprite_palette</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_palette, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_palettes, <a class="el" href="cgb_8h.html#a9478e1add68f638c7b35f5718a9083cb">palette_entry_t</a> *rgb_data) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
+<tr class="separator:ad58d509c44c4c82f6fe382a36b0169ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9e90b3a0f765485234e7b4416ea194e2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cgb_8h.html#a9e90b3a0f765485234e7b4416ea194e2">set_bkg_palette_entry</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> palette, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> entry, <a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> rgb_data)</td></tr>
 <tr class="separator:a9e90b3a0f765485234e7b4416ea194e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f4e37ea7767881169d20baf6b0735ec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cgb_8h.html#a6f4e37ea7767881169d20baf6b0735ec">set_sprite_palette_entry</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> palette, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> entry, <a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> rgb_data)</td></tr>
@@ -207,17 +213,17 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Macro to create a CGB palette color entry out of the color components.</p>
+<p>Macro to create a CGB palette color entry out of 5-bit color components.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">r</td><td>Red Component, range 0 - 31 (31 brightest) </td></tr>
-    <tr><td class="paramname">g</td><td>Green Component, range 0 - 31 (31 brightest) </td></tr>
-    <tr><td class="paramname">b</td><td>Blue Component, range 0 - 31 (31 brightest)</td></tr>
+    <tr><td class="paramname">r</td><td>5-bit Red Component, range 0 - 31 (31 brightest) </td></tr>
+    <tr><td class="paramname">g</td><td>5-bit Green Component, range 0 - 31 (31 brightest) </td></tr>
+    <tr><td class="paramname">b</td><td>5-bit Blue Component, range 0 - 31 (31 brightest)</td></tr>
   </table>
   </dd>
 </dl>
-<p>The resulting format is BGR 15bpp.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="cgb_8h.html#aec5c352285ef0fb0d5a1a1d35f6e7877">set_bkg_palette()</a>, <a class="el" href="cgb_8h.html#a2f0430a99cd9df4496b3c04f49aa3f6d">set_sprite_palette()</a> </dd></dl>
+<p>The resulting format is bitpacked BGR-555 in a uint16_t.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="cgb_8h.html#a37685af82ef1c056f6f1b41b2cc816df">set_bkg_palette()</a>, <a class="el" href="cgb_8h.html#ad58d509c44c4c82f6fe382a36b0169ef">set_sprite_palette()</a>, <a class="el" href="cgb_8h.html#a7d2ed0f10b2b74123a544327bbfd7564">RGB8()</a>, <a class="el" href="cgb_8h.html#ab5a6e450fcf10402278fe585a421dbbd">RGBHTML()</a> </dd></dl>
 
 </div>
 </div>
@@ -252,6 +258,18 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Macro to create a CGB palette color entry out of 8-bit color components.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">r</td><td>8-bit Red Component, range 0 - 255 (255 brightest) </td></tr>
+    <tr><td class="paramname">g</td><td>8-bit Green Component, range 0 - 255 (255 brightest) </td></tr>
+    <tr><td class="paramname">b</td><td>8-bit Blue Component, range 0 - 255 (255 brightest)</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>The resulting format is bitpacked BGR-555 in a uint16_t.</p>
+<p>The lowest 3 bits of each color component are dropped during conversion.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="cgb_8h.html#a37685af82ef1c056f6f1b41b2cc816df">set_bkg_palette()</a>, <a class="el" href="cgb_8h.html#ad58d509c44c4c82f6fe382a36b0169ef">set_sprite_palette()</a>, <a class="el" href="cgb_8h.html#a4a118ad3ee36468a3fa616977a64864e">RGB()</a>, <a class="el" href="cgb_8h.html#ab5a6e450fcf10402278fe585a421dbbd">RGBHTML()</a> </dd></dl>
 
 </div>
 </div>
@@ -270,6 +288,16 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Macro to convert a 24 Bit RGB color to a CGB palette color entry.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">RGB24bit</td><td>Bit packed RGB-888 color (0-255 for each color component).</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>The resulting format is bitpacked BGR-555 in a uint16_t.</p>
+<p>The lowest 3 bits of each color component are dropped during conversion.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="cgb_8h.html#a37685af82ef1c056f6f1b41b2cc816df">set_bkg_palette()</a>, <a class="el" href="cgb_8h.html#ad58d509c44c4c82f6fe382a36b0169ef">set_sprite_palette()</a>, <a class="el" href="cgb_8h.html#a4a118ad3ee36468a3fa616977a64864e">RGB()</a>, <a class="el" href="cgb_8h.html#a7d2ed0f10b2b74123a544327bbfd7564">RGB8()</a> </dd></dl>
 
 </div>
 </div>
@@ -554,9 +582,25 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="a9478e1add68f638c7b35f5718a9083cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9478e1add68f638c7b35f5718a9083cb">&#9670;&nbsp;</a></span>palette_entry_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> <a class="el" href="cgb_8h.html#a9478e1add68f638c7b35f5718a9083cb">palette_entry_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>16 bit color entry </p>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="aec5c352285ef0fb0d5a1a1d35f6e7877"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aec5c352285ef0fb0d5a1a1d35f6e7877">&#9670;&nbsp;</a></span>set_bkg_palette()</h2>
+<a id="a37685af82ef1c056f6f1b41b2cc816df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37685af82ef1c056f6f1b41b2cc816df">&#9670;&nbsp;</a></span>set_bkg_palette()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -576,7 +620,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="cgb_8h.html#a9478e1add68f638c7b35f5718a9083cb">palette_entry_t</a> *&#160;</td>
           <td class="paramname"><em>rgb_data</em>&#160;</td>
         </tr>
         <tr>
@@ -598,15 +642,15 @@ Functions</h2></td></tr>
 <p>Writes <b>nb_palettes</b> to background palette data starting at <b>first_palette</b>, Palette data is sourced from <b>rgb_data</b>.</p>
 <ul>
 <li>Each Palette is 8 bytes in size: 4 colors x 2 bytes per palette color entry. </li>
-<li>Each color (4 per palette) is packed as BGR 15bpp format (1:5:5:5, MSBit [15] is unused). </li>
+<li>Each color (4 per palette) is packed as BGR-555 format (1:5:5:5, MSBit [15] is unused). </li>
 <li>Each component (R, G, B) may have values from 0 - 31 (5 bits), 31 is brightest.</li>
 </ul>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="cgb_8h.html#a4a118ad3ee36468a3fa616977a64864e">RGB()</a>, <a class="el" href="cgb_8h.html#a9e90b3a0f765485234e7b4416ea194e2">set_bkg_palette_entry()</a> </dd></dl>
 
 </div>
 </div>
-<a id="a2f0430a99cd9df4496b3c04f49aa3f6d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2f0430a99cd9df4496b3c04f49aa3f6d">&#9670;&nbsp;</a></span>set_sprite_palette()</h2>
+<a id="ad58d509c44c4c82f6fe382a36b0169ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad58d509c44c4c82f6fe382a36b0169ef">&#9670;&nbsp;</a></span>set_sprite_palette()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -626,7 +670,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="cgb_8h.html#a9478e1add68f638c7b35f5718a9083cb">palette_entry_t</a> *&#160;</td>
           <td class="paramname"><em>rgb_data</em>&#160;</td>
         </tr>
         <tr>
@@ -648,7 +692,7 @@ Functions</h2></td></tr>
 <p>Writes <b>nb_palettes</b> to sprite palette data starting at <b>first_palette</b>, Palette data is sourced from <b>rgb_data</b>.</p>
 <ul>
 <li>Each Palette is 8 bytes in size: 4 colors x 2 bytes per palette color entry. </li>
-<li>Each color (4 per palette) is packed as BGR 15bpp format (1:5:5:5, MSBit [15] is unused). </li>
+<li>Each color (4 per palette) is packed as BGR-555 format (1:5:5:5, MSBit [15] is unused). </li>
 <li>Each component (R, G, B) may have values from 0 - 31 (5 bits), 31 is brightest.</li>
 </ul>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="cgb_8h.html#a4a118ad3ee36468a3fa616977a64864e">RGB()</a>, <a class="el" href="cgb_8h.html#a6f4e37ea7767881169d20baf6b0735ec">set_sprite_palette_entry()</a> </dd></dl>
@@ -695,7 +739,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="cgb_8h.html#aec5c352285ef0fb0d5a1a1d35f6e7877">set_bkg_palette()</a>, <a class="el" href="cgb_8h.html#a4a118ad3ee36468a3fa616977a64864e">RGB()</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="cgb_8h.html#a37685af82ef1c056f6f1b41b2cc816df">set_bkg_palette()</a>, <a class="el" href="cgb_8h.html#a4a118ad3ee36468a3fa616977a64864e">RGB()</a> </dd></dl>
 
 </div>
 </div>
@@ -739,7 +783,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="cgb_8h.html#a2f0430a99cd9df4496b3c04f49aa3f6d">set_sprite_palette()</a>, <a class="el" href="cgb_8h.html#a4a118ad3ee36468a3fa616977a64864e">RGB()</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="cgb_8h.html#ad58d509c44c4c82f6fe382a36b0169ef">set_sprite_palette()</a>, <a class="el" href="cgb_8h.html#a4a118ad3ee36468a3fa616977a64864e">RGB()</a> </dd></dl>
 
 </div>
 </div>
