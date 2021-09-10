@@ -1,4 +1,4 @@
-/** @file gb/console.h
+/** @file gbdk/console.h
     Console functions that work like Turbo C's.
 
     The font is 8x8, making the screen 20x18 characters.

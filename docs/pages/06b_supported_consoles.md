@@ -1,4 +1,4 @@
-@page docs_supported_consoles Supported Consoles & Cross Compile
+@page docs_supported_consoles Supported Consoles & Cross Compiling
   
 @anchor docs_consoles_supproted_list
 # Consoles Supported by GBDK

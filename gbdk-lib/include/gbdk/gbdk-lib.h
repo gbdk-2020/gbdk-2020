@@ -1,4 +1,4 @@
-/** @file gbdk-lib.h
+/** @file gbdk/gbdk-lib.h
     Settings for the greater library system.
 */
 #ifndef GBDK_LIB_INCLUDE

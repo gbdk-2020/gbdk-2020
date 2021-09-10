@@ -2169,7 +2169,10 @@ INCLUDE_FILE_PATTERNS  =
 # recursively expanded use the := operator instead of the = operator.
 # This tag requires that the tag ENABLE_PREPROCESSING is set to YES.
 
-PREDEFINED             =
+# Defining __PORT_gbz80 fixes some functions that would get missed in
+# headers that are shared by multiple platforms. Use the Game Boy
+# versions by default
+PREDEFINED             = __PORT_gbz80
 
 # If the MACRO_EXPANSION and EXPAND_ONLY_PREDEF tags are set to YES then this
 # tag can be used to specify a list of macro names that should be expanded. The
