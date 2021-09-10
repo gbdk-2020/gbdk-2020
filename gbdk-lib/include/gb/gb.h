@@ -112,7 +112,24 @@
 #define DMG_DARK_GRAY 0x02
 #define DMG_LITE_GRAY 0x01
 #define DMG_WHITE     0x00
-/** DMG palette helper macro.
+/** Macro to create a DMG palette from 4 colors
+
+    @param C0    Color for Index 0
+    @param C1    Color for Index 1
+    @param C2    Color for Index 2
+    @param C3    Color for Index 3
+
+    The resulting format is four greyscale colors
+    packed into a single unsigned byte.
+
+    Example:
+    \code{.c}
+    REG_BGP = DMG_PALETTE(DMG_BLACK, DMG_DARK_GRAY, DMG_LITE_GRAY, DMG_WHITE);
+    \endcode
+
+    @see REG_OBP0, REG_OBP1, REG_BGP
+    @see DMG_BLACK, DMG_DARK_GRAY, DMG_LITE_GRAY, DMG_WHITE
+
  */
 #define DMG_PALETTE(C0, C1, C2, C3) ((UBYTE)((((C3) & 0x03) << 6) | (((C2) & 0x03) << 4) | (((C1) & 0x03) << 2) | ((C0) & 0x03)))
 
@@ -308,7 +325,7 @@ uint8_t get_mode(void) NONBANKED __preserves_regs(b, c);
 
 /** GB CPU type
 
-    @see DMG_TYPE, MGB_TYPE, CGB_TYPE, cpu_fast(), cpu_slow()
+    @see DMG_TYPE, MGB_TYPE, CGB_TYPE, cpu_fast(), cpu_slow(), _is_GBA
 */
 extern uint8_t _cpu;
 
@@ -328,10 +345,10 @@ extern uint8_t _cpu;
 */
 extern uint8_t _is_GBA;
 
-/** Hardware Model: DMG, CGB or MGB. @see _cpu
+/** Hardware Model: DMG, CGB or MGB. @see _cpu, _is_GBA
 */
 #define GBA_NOT_DETECTED 0x00
-/** Hardware Model: GBA. @see _cpu
+/** Hardware Model: GBA. @see _cpu, _is_GBA
 */
 #define GBA_DETECTED 0x01
 
