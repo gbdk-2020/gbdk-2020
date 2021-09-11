@@ -14,10 +14,11 @@ A good place to start is the [Getting Started Section](https://gbdk-2020.github.
 Check the [Links and Third-Party Tools Section](https://gbdk-2020.github.io/gbdk-2020/docs/api/docs_links_and_tools.html) for a list of recommended emulators, graphics tools, music drivers and more.
 
 # gbdk-2020
-[GBDK](http://gbdk.sourceforge.net/) A C compiler, assembler, linker and set of libraries.
+GBDK is a cross-platform development kit for sm83 and z80 based consoles. It includes libraries, toolchain utilities and the [SDCC](http://sdcc.sourceforge.net/) C compiler suite.
 
 __Supported Consoles:__
 - Nintendo Gameboy
+- Analogue Pocket
 - Sega Master System & Game Gear
 
 # Current status
@@ -40,13 +41,15 @@ Then go to the examples folder and build them (with compile.bat on windows or ru
 
 ## Discord servers
 * [gbdk/zgb Discord](https://discord.gg/XCbjCvqnUY) - For help with using GBDK (and ZGB), discussion and development of gbdk-2020
+
 * [gbdev Discord](https://discordapp.com/invite/tKGMPNr) - There is a #gbdk channel and also people with a lot of Game Boy development knowledge
+* [SMS Power! Discord](https://discord.gg/h5xrKUK) - Additional SMS & Game Gear discussion and resources.
+
+## Forums
+- [The Game Boy Development Forum](https://gbdev.gg8.se/forums/) - A good place to search for Game Boy related answers. 
+- [SMS Power! Forum](https://www.smspower.org/) - Additional SMS & Game Gear discussion and resources.
 
 For SDCC you can check its [website](http://sdcc.sourceforge.net/) and the [manual](http://sdcc.sourceforge.net/doc/sdccman.pdf)
-
-[The Game Boy Development Forum](https://gbdev.gg8.se/forums/) is a good place to search for answers. 
-
-
 
 # Build instructions
 Unless you are interested on recompiling the sources for some reason (like fixing some bugs) **you don't need to build GBDK**
