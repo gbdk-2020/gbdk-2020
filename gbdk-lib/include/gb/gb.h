@@ -205,7 +205,7 @@ void remove_JOY(int_handler h) NONBANKED;
     called last.  If the @ref remove_VBL function is to be called,
     only three may be added.
 
-    Do not use '__critical' and '__interrupt' attributes for a
+    Do not use @ref CRITICAL and @ref INTERRUPT attributes for a
     function added via add_VBL() (or LCD, etc). The attributes
     are only required when constructing a bare jump from the
     interrupt vector itself.
@@ -280,7 +280,7 @@ void add_JOY(int_handler h) NONBANKED;
 
     Example:
     \code{.c}
-    __critical {
+    CRITICAL {
         add_SIO(nowait_int_handler); // Disable wait on VRAM state before returning from SIO interrupt
     }
     \endcode
@@ -621,18 +621,28 @@ void joypad_ex(joypads_t * joypads) __preserves_regs(b, c);
 
 
 /** Enables unmasked interrupts
-    @see disable_interrupts, set_interrupts
+
+    @note Use @ref CRITICAL {...} instead for creating a block of
+          of code which should execute with interrupts  temporarily
+          turned off.
+
+    @see disable_interrupts, set_interrupts, CRITICAL
 */
 inline void enable_interrupts(void) __preserves_regs(a, b, c, d, e, h, l) {
     __asm__("ei");
 }
 
-/** Disables interrupts.
+/** Disables interrupts
+
+    @note Use @ref CRITICAL {...} instead for creating a block of
+          of code which should execute with interrupts  temporarily
+          turned off.
 
     This function may be called as many times as you like;
-    however the first call to enable_interrupts will re-enable
+    however the first call to @ref enable_interrupts will re-enable
     them.
-    @see enable_interrupts, set_interrupts
+
+    @see enable_interrupts, set_interrupts, CRITICAL
 */
 inline void disable_interrupts(void) __preserves_regs(a, b, c, d, e, h, l) {
     __asm__("di");
