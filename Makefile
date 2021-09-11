@@ -140,8 +140,8 @@ gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
 	@echo Installing lcc
 	@cp $(GBDKSUPPORTDIR)/lcc/lcc$(EXEEXTENSION) $(BUILDDIR)/bin/lcc$(EXEEXTENSION)
 	@$(TARGETSTRIP) $(BUILDDIR)/bin/lcc*
-	@cp $(GBDKSUPPORTDIR)/ChangeLog $(BUILDDIR)
-	@cp $(GBDKSUPPORTDIR)/README $(BUILDDIR)
+	@cp $(GBDKDOCSDIR)/ChangeLog $(BUILDDIR)
+	@cp $(GBDKDOCSDIR)/README $(BUILDDIR)
 	@cp $(GBDKDOCSDIR)/gbdk_manual.pdf $(BUILDDIR)
 	@echo
 	@echo Installing ihxcheck
