@@ -44,9 +44,9 @@ GBDK is freeware. Most of the tooling code is under the GPL. The runtime librari
 
 # Historical Info and Links
 
-Original work on GBDK (pre-2020) was by:
+Work on the original GBDK (pre-2020) was by:
 
-Pascal Felber, Lars Malmborg, Michael Hope (and others)
+Pascal Felber, Lars Malmborg, Michael Hope, David Galloway (djmips), and others.
 
 
 The following is from the original GBDK documentation:
