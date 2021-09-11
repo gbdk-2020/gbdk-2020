@@ -154,10 +154,6 @@ Unless an alternative output is specified the given object files are updated wit
 - Must be called after compiling/assembling and before linking
 - Arguments can be passed to it through @ref lcc using `-Wb-<argument>`
 
-Limitations
-- `__banked` functions cannot be called from within the same source file they are declared in.
-- With data it is easier, because if you access data from the code in the same bank you don’t need to switch the bank (access to `__bank_*` symbol).
-
 
 @anchor sdldgb
 ## sdldgb
