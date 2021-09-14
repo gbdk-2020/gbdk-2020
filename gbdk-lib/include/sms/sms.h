@@ -98,7 +98,7 @@ void mode(uint8_t m) OLDCALL;
 
     @see M_TEXT_OUT, M_TEXT_INOUT, M_NO_SCROLL, M_NO_INTERP
 */
-uint8_t get_mode();
+uint8_t get_mode() OLDCALL;
 
 /* Interrupt flags */
 /** Disable calling of interrupt service routines
@@ -392,7 +392,7 @@ void delay(uint16_t d) __z88dk_fastcall;
 
 /** Reads and returns the current state of the joypad.
 */
-uint8_t joypad() __preserves_regs(b, c, d, e, h, iyh, iyl);
+uint8_t joypad() OLDCALL __preserves_regs(b, c, d, e, h, iyh, iyl);
 
 /** Waits until at least one of the buttons given in mask are pressed.
 */

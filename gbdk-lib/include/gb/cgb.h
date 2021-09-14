@@ -99,8 +99,7 @@ typedef uint16_t palette_entry_t;   /**< 16 bit color entry */
 
     @see RGB(), set_bkg_palette_entry()
  */
-void
-set_bkg_palette(uint8_t first_palette, uint8_t nb_palettes, palette_entry_t *rgb_data) OLDCALL;
+void set_bkg_palette(uint8_t first_palette, uint8_t nb_palettes, palette_entry_t *rgb_data) OLDCALL;
 
 /** Set CGB sprite palette(s).
 
@@ -117,8 +116,7 @@ set_bkg_palette(uint8_t first_palette, uint8_t nb_palettes, palette_entry_t *rgb
 
     @see RGB(), set_sprite_palette_entry()
  */
-void
-set_sprite_palette(uint8_t first_palette, uint8_t nb_palettes, palette_entry_t *rgb_data) OLDCALL;
+void set_sprite_palette(uint8_t first_palette, uint8_t nb_palettes, palette_entry_t *rgb_data) OLDCALL;
 
 /** Sets a single color in the specified CGB background palette.
 
@@ -129,8 +127,7 @@ set_sprite_palette(uint8_t first_palette, uint8_t nb_palettes, palette_entry_t *
     @see set_bkg_palette(), RGB()
  */
 
-void
-set_bkg_palette_entry(uint8_t palette, uint8_t entry, uint16_t rgb_data) OLDCALL;
+void set_bkg_palette_entry(uint8_t palette, uint8_t entry, uint16_t rgb_data) OLDCALL;
 
 /** Sets a single color in the specified CGB sprite palette.
 
@@ -140,8 +137,7 @@ set_bkg_palette_entry(uint8_t palette, uint8_t entry, uint16_t rgb_data) OLDCALL
 
     @see set_sprite_palette(), RGB()
  */
-void
-set_sprite_palette_entry(uint8_t palette, uint8_t entry, uint16_t rgb_data) OLDCALL;
+void set_sprite_palette_entry(uint8_t palette, uint8_t entry, uint16_t rgb_data) OLDCALL;
 
 /** Set CPU speed to slow (Normal Speed) operation.
 

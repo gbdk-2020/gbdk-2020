@@ -20,13 +20,13 @@ void gotoxy(uint8_t x, uint8_t y) OLDCALL;
 
     @see gotoxy()
  */
-uint8_t posx();
+uint8_t posx() OLDCALL;
 
 /** Returns the current Y position of the cursor.
 
     @see gotoxy()
  */
-uint8_t posy();
+uint8_t posy() OLDCALL;
 
 /** Writes out a single character at the current cursor
     position.

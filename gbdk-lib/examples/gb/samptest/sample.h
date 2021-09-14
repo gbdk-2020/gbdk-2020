@@ -15,6 +15,6 @@
 
 /** Play the given, appropriatly formatted sample.
  */
-void play_sample(uint8_t *start, uint16_t len) NONBANKED;
+void play_sample(uint8_t *start, uint16_t len) OLDCALL;
 
 #endif /* _SAMPLE_H */

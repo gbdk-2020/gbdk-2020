@@ -321,7 +321,7 @@ void mode(uint8_t m) OLDCALL;
 
     @see M_DRAWING, M_TEXT_OUT, M_TEXT_INOUT, M_NO_SCROLL, M_NO_INTERP
 */
-uint8_t get_mode() __preserves_regs(b, c);
+uint8_t get_mode() OLDCALL __preserves_regs(b, c);
 
 /** GB CPU type
 
@@ -561,7 +561,7 @@ void delay(uint16_t d) OLDCALL;
 
     @see J_START, J_SELECT, J_A, J_B, J_UP, J_DOWN, J_LEFT, J_RIGHT
 */
-uint8_t joypad() __preserves_regs(b, c, h, l);
+uint8_t joypad() OLDCALL __preserves_regs(b, c, h, l);
 
 /** Waits until at least one of the buttons given in mask are pressed.
 

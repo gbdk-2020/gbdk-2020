@@ -1,8 +1,9 @@
+#include <types.h>
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>
 
-typedef void (*emitter_t)(char, char **);
+typedef void (*emitter_t)(char, char **) OLDCALL;
 
 static const char _hex[] = "0123456789ABCDEF";
 
@@ -97,7 +98,7 @@ void __printf(const char *format, emitter_t emitter, char **pData, va_list va)
     }
 }
 
-static void _sprintf_emitter(char c, char ** pData)
+static void _sprintf_emitter(char c, char ** pData) OLDCALL
 {
     **pData = c;
     (*pData)++;

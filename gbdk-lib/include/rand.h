@@ -34,13 +34,13 @@ void initrand(uint16_t seed) __z88dk_fastcall;
 
     @ref initrand() should be used to initialize the random number generator before using rand()
  */
-int8_t rand();
+int8_t rand() OLDCALL;
 
 /** Returns a random word (16 bit) value.
 
     @ref initrand() should be used to initialize the random number generator before using rand()
  */
-uint16_t randw();
+uint16_t randw() OLDCALL;
 
 /** Random generator using the linear lagged additive method
 
@@ -61,6 +61,6 @@ void initarand(uint16_t seed) __z88dk_fastcall;
 
     @ref initarand() should be used to initialize the random number generator before using arand()
  */
-int8_t arand();
+int8_t arand() OLDCALL;
 
 #endif
