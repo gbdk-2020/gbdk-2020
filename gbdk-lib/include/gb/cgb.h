@@ -82,7 +82,7 @@
 #define RGB_ORANGE     RGB(30, 20,  0)
 #define RGB_TEAL       RGB(15, 15,  0)
 
-typedef uint16_t palette_entry_t;   /**< 16 bit color entry */
+typedef uint16_t palette_item_t;   /**< 16 bit color entry */
 
 /** Set CGB background palette(s).
 
@@ -99,7 +99,7 @@ typedef uint16_t palette_entry_t;   /**< 16 bit color entry */
 
     @see RGB(), set_bkg_palette_entry()
  */
-void set_bkg_palette(uint8_t first_palette, uint8_t nb_palettes, palette_entry_t *rgb_data) OLDCALL;
+void set_bkg_palette(uint8_t first_palette, uint8_t nb_palettes, palette_item_t *rgb_data) OLDCALL;
 
 /** Set CGB sprite palette(s).
 
@@ -116,7 +116,7 @@ void set_bkg_palette(uint8_t first_palette, uint8_t nb_palettes, palette_entry_t
 
     @see RGB(), set_sprite_palette_entry()
  */
-void set_sprite_palette(uint8_t first_palette, uint8_t nb_palettes, palette_entry_t *rgb_data) OLDCALL;
+void set_sprite_palette(uint8_t first_palette, uint8_t nb_palettes, palette_item_t *rgb_data) OLDCALL;
 
 /** Sets a single color in the specified CGB background palette.
 

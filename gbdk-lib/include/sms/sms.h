@@ -464,7 +464,7 @@ void joypad_ex(joypads_t * joypads) __z88dk_fastcall __preserves_regs(iyh, iyl);
 #define RGB_LIGHTGRAY  RGB( 2,  2,  2)
 #define RGB_WHITE      RGB( 3,  3,  3)
 
-typedef uint8_t palette_entry_t;
+typedef uint8_t palette_item_t;
 
 #elif defined(__TARGET_gg)
 
@@ -496,7 +496,7 @@ typedef uint8_t palette_entry_t;
 #define RGB_ORANGE     RGB(15, 10,  0)
 #define RGB_TEAL       RGB( 7,  7,  0)
 
-typedef uint16_t palette_entry_t;
+typedef uint16_t palette_item_t;
 
 #else
 #error Unrecognized port
@@ -508,7 +508,7 @@ inline void cpu_fast() {}
 void set_palette_entry(uint8_t palette, uint8_t entry, uint16_t rgb_data) __z88dk_callee __preserves_regs(iyh, iyl);
 #define set_bkg_palette_entry set_palette_entry
 #define set_sprite_palette_entry(palette,entry,rgb_data) set_palette_entry(1,entry,rgb_data)
-void set_palette(uint8_t first_palette, uint8_t nb_palettes, palette_entry_t *rgb_data) __z88dk_callee;
+void set_palette(uint8_t first_palette, uint8_t nb_palettes, palette_item_t *rgb_data) __z88dk_callee;
 #define set_bkg_palette set_palette
 #define set_sprite_palette(first_palette,nb_palettes,rgb_data) set_palette(1,1,rgb_data)
 
