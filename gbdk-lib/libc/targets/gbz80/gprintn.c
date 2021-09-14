@@ -5,7 +5,7 @@
 
 extern char *digits;
 
-void gprintn(int8_t number, int8_t radix, int8_t signed_value)
+void gprintn(int8_t number, int8_t radix, int8_t signed_value) NONBANKED
 {
   uint8_t i;
 

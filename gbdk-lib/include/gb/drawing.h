@@ -69,7 +69,7 @@
 /** Print the string 'str' with no interpretation
     @see gotogxy()
 */
-void gprint(char *str) OLDCALL;
+void gprint(char *str) NONBANKED;
 
 /** Print 16 bit __number__ in  __radix__ (base) in the default font at the current text position.
 
@@ -80,13 +80,13 @@ void gprint(char *str) OLDCALL;
     The current position is advanced by the numer of characters printed.
     @see gotogxy()
 */
-void gprintln(int16_t number, int8_t radix, int8_t signed_value) OLDCALL;
+void gprintln(int16_t number, int8_t radix, int8_t signed_value) NONBANKED;
 
 /** Print 8 bit __number__ in  __radix__ (base) in the default font at the current text position.
 
     @see gprintln(), gotogxy()
 */
-void gprintn(int8_t number, int8_t radix, int8_t signed_value) OLDCALL;
+void gprintn(int8_t number, int8_t radix, int8_t signed_value) NONBANKED;
 
 /** Print the string and arguments given by __fmt__ with arguments __...__
 
@@ -104,7 +104,7 @@ void gprintn(int8_t number, int8_t radix, int8_t signed_value) OLDCALL;
     @return Returns the number of items printed, or -1 if there was an error.
     @see gotogxy()
 */
-int8_t gprintf(char *fmt,...) OLDCALL;
+int8_t gprintf(char *fmt,...) NONBANKED;
 
 /** Old style plot - try @ref plot_point() */
 void plot(uint8_t x, uint8_t y, uint8_t colour, uint8_t mode) OLDCALL;

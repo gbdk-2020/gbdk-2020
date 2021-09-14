@@ -52,7 +52,7 @@ long labs(long num) OLDCALL;
 
     Returns: Int value of string
  */
-int atoi(const char *s) OLDCALL;
+int atoi(const char *s);
 
 
 /** Converts an ASCII string to a long.
@@ -61,7 +61,7 @@ int atoi(const char *s) OLDCALL;
 
     Returns: Long int value of string
  */
-long atol(const char *s) OLDCALL;
+long atol(const char *s);
 
 /** Converts an int into a base 10 ASCII string.
     @param n      Int to convert to a string
