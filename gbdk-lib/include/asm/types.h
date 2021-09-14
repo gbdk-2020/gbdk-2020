@@ -14,6 +14,12 @@
   #endif
 #endif
 
+#if __SDCC_REVISION >= 12608
+#define OLDCALL __sdcccall(0)
+#else
+#define OLDCALL
+#endif
+
 #ifndef NONBANKED
 #define NONBANKED
 #endif

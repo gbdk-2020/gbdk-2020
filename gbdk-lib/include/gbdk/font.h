@@ -6,6 +6,7 @@
 #ifndef __FONT_H
 #define __FONT_H
 
+#include <types.h>
 #include <stdint.h>
 
 /** Various flags in the font header.
@@ -39,7 +40,7 @@ extern uint8_t font_ibm_fixed[];
 /** Initializes the font system.
     Should be called before other font functions.
  */
-void	font_init(void) NONBANKED;
+void font_init();
 
 /** Load a font and set it as the current font.
     @param font   Pointer to a font to load (usually a gbdk font)
@@ -47,7 +48,7 @@ void	font_init(void) NONBANKED;
     @return       Handle to the loaded font, which can be used with @ref font_set()
     @see font_init(), font_set(), gbdk_fonts
  */
-font_t	font_load( void *font ) NONBANKED;
+font_t font_load(void *font) OLDCALL;
 
 /** Set the current font.
     @param font_handle   handle of a font returned by @ref font_load()
@@ -55,7 +56,7 @@ font_t	font_load( void *font ) NONBANKED;
     @return		The previously used font handle.
     @see font_init(), font_load()
 */
-font_t	font_set( font_t font_handle ) NONBANKED;
+font_t font_set(font_t font_handle) OLDCALL;
 
 /* Use mode() and color() to set the font modes and colours */
 
@@ -72,6 +73,6 @@ struct sfont_handle {
 };
 
 /** Set the current __foreground__ colour (for pixels), __background__ colour */
-void font_color(uint8_t forecolor, uint8_t backcolor);
+void font_color(uint8_t forecolor, uint8_t backcolor) OLDCALL;
 
 #endif /* __FONT_H */

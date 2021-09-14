@@ -61,6 +61,7 @@
 #define _METASPRITES_H_INCLUDE
 
 #include <gb/hardware.h>
+#include <types.h>
 #include <stdint.h>
 
 /** Metasprite sub-item structure
@@ -91,10 +92,10 @@ extern uint8_t __current_base_tile;
 extern uint8_t __render_shadow_OAM;
 
 
-static uint8_t __move_metasprite(uint8_t id, uint8_t x, uint8_t y);
-static uint8_t __move_metasprite_vflip(uint8_t id, uint8_t x, uint8_t y);
-static uint8_t __move_metasprite_hflip(uint8_t id, uint8_t x, uint8_t y);
-static uint8_t __move_metasprite_hvflip(uint8_t id, uint8_t x, uint8_t y);
+static uint8_t __move_metasprite(uint8_t id, uint8_t x, uint8_t y) OLDCALL;
+static uint8_t __move_metasprite_vflip(uint8_t id, uint8_t x, uint8_t y) OLDCALL;
+static uint8_t __move_metasprite_hflip(uint8_t id, uint8_t x, uint8_t y) OLDCALL;
+static uint8_t __move_metasprite_hvflip(uint8_t id, uint8_t x, uint8_t y) OLDCALL;
 static void __hide_metasprite(uint8_t id);
 
 /**
@@ -102,7 +103,7 @@ static void __hide_metasprite(uint8_t id);
  * @param from start OAM index
  * @param to finish OAM index
  */ 
-void hide_sprites_range(UINT8 from, UINT8 to) __preserves_regs(b, c);
+void hide_sprites_range(UINT8 from, UINT8 to) OLDCALL __preserves_regs(b, c);
 
 /** Moves metasprite to the absolute position x and y
 

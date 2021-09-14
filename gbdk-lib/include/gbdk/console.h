@@ -14,19 +14,19 @@
     __x__ and __y__ have units of tiles (8 pixels per unit)
     @see setchar()
  */
-void gotoxy(uint8_t x, uint8_t y);
+void gotoxy(uint8_t x, uint8_t y) OLDCALL;
 
 /** Returns the current X position of the cursor.
 
     @see gotoxy()
  */
-uint8_t posx(void);
+uint8_t posx();
 
 /** Returns the current Y position of the cursor.
 
     @see gotoxy()
  */
-uint8_t posy(void);
+uint8_t posy();
 
 /** Writes out a single character at the current cursor
     position.
@@ -35,7 +35,7 @@ uint8_t posy(void);
 
     @see gotoxy()
 */
-void setchar(char c);
+void setchar(char c) OLDCALL;
 
 /** Clears the screen
 */

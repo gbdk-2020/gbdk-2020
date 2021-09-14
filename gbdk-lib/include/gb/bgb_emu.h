@@ -12,6 +12,8 @@
 #ifndef __BGB_EMU_INCLUDE
 #define __BGB_EMU_INCLUDE
 
+#include <types.h>
+
 /** Macro to display a message in the BGB emulator debug message window
 
     @param message_text  Quoted text string to display in the debug message window
@@ -139,7 +141,7 @@ void BGB_profiler_message();
     be explicitly re-cast as such when calling the function.
     See @ref docs_chars_varargs for more details.
  */
-void BGB_printf(const char *format, ...);
+void BGB_printf(const char *format, ...) OLDCALL;
 
 static void * __BGB_PROFILER_INIT = &BGB_profiler_message;
 

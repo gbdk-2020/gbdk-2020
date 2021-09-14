@@ -25,24 +25,22 @@
     @see rand(), randw()
 */
 #if defined(__PORT_gbz80)
-void initrand(uint16_t seed);
+void initrand(uint16_t seed) OLDCALL;
 #elif defined(__PORT_z80)
 void initrand(uint16_t seed) __z88dk_fastcall;
-#else
-#error Unrecognized port
 #endif
 
 /** Returns a random byte (8 bit) value.
 
     @ref initrand() should be used to initialize the random number generator before using rand()
  */
-int8_t rand(void);
+int8_t rand();
 
 /** Returns a random word (16 bit) value.
 
     @ref initrand() should be used to initialize the random number generator before using rand()
  */
-uint16_t randw(void);
+uint16_t randw();
 
 /** Random generator using the linear lagged additive method
 
@@ -54,17 +52,15 @@ uint16_t randw(void);
     @see initrand() for suggestions about seed values, arand()
 */
 #if defined(__PORT_gbz80)
-void initarand(uint16_t seed);
+void initarand(uint16_t seed) OLDCALL;
 #elif defined(__PORT_z80)
 void initarand(uint16_t seed) __z88dk_fastcall;
-#else
-#error Unrecognized port
 #endif
 
 /** Returns a random number generated with the linear lagged additive method.
 
     @ref initarand() should be used to initialize the random number generator before using arand()
  */
-int8_t arand(void);
+int8_t arand();
 
 #endif

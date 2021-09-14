@@ -1,8 +1,8 @@
 #ifndef __BCD_H_INCLUDE
 #define __BCD_H_INCLUDE
 
+#include <types.h>
 #include <stdint.h>
-#include <asm/types.h>
 
 /** @file bcd.h
     Support for working with BCD (Binary Coded Decimal)
@@ -25,19 +25,19 @@ typedef uint32_t BCD;
     @param i      Numeric value to convert
     @param value  Pointer to a BCD variable to store the converted result
 */
-void uint2bcd(uint16_t i, BCD * value);
+void uint2bcd(uint16_t i, BCD * value) OLDCALL;
 
 /** Adds two numbers in BCD format: __sour__ += __value__
     @param sour   Pointer to a BCD value to add to (and where the result is stored)
     @param value  Pointer to the BCD value to add to __sour__
 */
-void bcd_add(BCD * sour, const BCD * value);
+void bcd_add(BCD * sour, const BCD * value) OLDCALL;
 
 /** Subtracts two numbers in BCD format: __sour__ -= __value__
     @param sour   Pointer to a BCD value to subtract from (and where the result is stored)
     @param value  Pointer to the BCD value to subtract from __sour__
 */
-void bcd_sub(BCD * sour, const BCD * value);
+void bcd_sub(BCD * sour, const BCD * value) OLDCALL;
 
 /** Convert a BCD number into an asciiz (null terminated) string and return the length
     @param bcd          Pointer to BCD value to convert
@@ -56,6 +56,6 @@ void bcd_sub(BCD * sour, const BCD * value);
     \li It can also be set to the ascii value for character '0'
     so that the buffer is a normal string that can be passed to @ref printf.
 */
-uint8_t bcd2text(const BCD * bcd, uint8_t tile_offset, uint8_t * buffer);
+uint8_t bcd2text(const BCD * bcd, uint8_t tile_offset, uint8_t * buffer) OLDCALL;
 
 #endif

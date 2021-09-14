@@ -13,6 +13,9 @@
 #ifndef __FAR_PTR_H_INCLUDE
 #define __FAR_PTR_H_INCLUDE
 
+#include <types.h>
+#include <stdint.h>
+
 /** Macro to obtain a far pointer at compile-time
     @param ofs    Memory address within the given Segment (Bank)
     @param seg    Segment (Bank) number
@@ -91,6 +94,6 @@ void __call__banked();
 
     @returns A far pointer (type @ref FAR_PTR)
 */
-uint32_t to_far_ptr(void* ofs, uint16_t seg);
+uint32_t to_far_ptr(void* ofs, uint16_t seg) OLDCALL;
 
 #endif

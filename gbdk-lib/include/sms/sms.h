@@ -92,13 +92,13 @@ void WRITE_VDP_DATA(uint16_t data) __z88dk_fastcall __preserves_regs(b, c, d, e,
 
     @see M_TEXT_OUT, M_TEXT_INOUT, M_NO_SCROLL, M_NO_INTERP
 */
-void mode(uint8_t m) NONBANKED;
+void mode(uint8_t m) OLDCALL;
 
 /** Returns the current mode
 
     @see M_TEXT_OUT, M_TEXT_INOUT, M_NO_SCROLL, M_NO_INTERP
 */
-uint8_t get_mode(void) NONBANKED;
+uint8_t get_mode();
 
 /* Interrupt flags */
 /** Disable calling of interrupt service routines
@@ -161,9 +161,9 @@ void remove_VBL(int_handler h) __z88dk_fastcall __preserves_regs(iyh, iyl);
 */
 void remove_LCD(int_handler h) __z88dk_fastcall __preserves_regs(b, c, iyh, iyl);
 
-void remove_TIM(int_handler h);
-void remove_SIO(int_handler h);
-void remove_JOY(int_handler h);
+void remove_TIM(int_handler h) __z88dk_fastcall;
+void remove_SIO(int_handler h) __z88dk_fastcall;
+void remove_JOY(int_handler h) __z88dk_fastcall;
 
 /** Adds a V-blank interrupt handler.
 */
@@ -175,15 +175,15 @@ void add_LCD(int_handler h) __z88dk_fastcall __preserves_regs(b, c, iyh, iyl);
 
 /** Does nothing on SMS/GG
  */
-void add_TIM(int_handler h);
+void add_TIM(int_handler h) __z88dk_fastcall;
 
 /** Does nothing on SMS/GG
  */
-void add_SIO(int_handler h);
+void add_SIO(int_handler h) __z88dk_fastcall;
 
 /** Does nothing on SMS/GG
  */
-void add_JOY(int_handler h);
+void add_JOY(int_handler h) __z88dk_fastcall;
 
 /** Cancel pending interrupts
  */
@@ -212,13 +212,13 @@ inline void scroll_bkg(int8_t x, int8_t y) {
     never return. If the screen is off this function returns
     immediately.
 */
-void wait_vbl_done(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);
+void wait_vbl_done() __preserves_regs(b, c, d, e, h, l, iyh, iyl);
 
 /** Turns the display off.
 
     @see DISPLAY_ON
 */
-inline void display_off(void) {
+inline void display_off() {
 	__WRITE_VDP_REG(VDP_R1, __READ_VDP_REG(VDP_R1) &= (~R1_DISP_ON));
 }
 
@@ -392,7 +392,7 @@ void delay(uint16_t d) __z88dk_fastcall;
 
 /** Reads and returns the current state of the joypad.
 */
-uint8_t joypad(void) __preserves_regs(b, c, d, e, h, iyh, iyl);
+uint8_t joypad() __preserves_regs(b, c, d, e, h, iyh, iyl);
 
 /** Waits until at least one of the buttons given in mask are pressed.
 */
@@ -403,7 +403,7 @@ uint8_t waitpad(uint8_t mask) __z88dk_fastcall __preserves_regs(b, c, d, e, iyh,
     Note: Checks in a loop that doesn't HALT at all, so the CPU
     will be maxed out until this call returns.
 */
-void waitpadup(void) __preserves_regs(b, c, d, e, iyh, iyl);
+void waitpadup() __preserves_regs(b, c, d, e, iyh, iyl);
 
 /** Multiplayer joypad structure.
 
@@ -502,15 +502,15 @@ typedef uint16_t palette_entry_t;
 #error Unrecognized port
 #endif
 
-void set_default_palette(void);
+void set_default_palette();
 inline void cpu_fast() {}
 
+void set_palette_entry(uint8_t palette, uint8_t entry, uint16_t rgb_data) __z88dk_callee __preserves_regs(iyh, iyl);
 #define set_bkg_palette_entry set_palette_entry
 #define set_sprite_palette_entry(palette,entry,rgb_data) set_palette_entry(1,entry,rgb_data)
-void set_palette_entry(uint8_t palette, uint8_t entry, uint16_t rgb_data) __z88dk_callee __preserves_regs(iyh, iyl);
+void set_palette(uint8_t first_palette, uint8_t nb_palettes, palette_entry_t *rgb_data) __z88dk_callee;
 #define set_bkg_palette set_palette
 #define set_sprite_palette(first_palette,nb_palettes,rgb_data) set_palette(1,1,rgb_data)
-void set_palette(uint8_t first_palette, uint8_t nb_palettes, palette_entry_t *rgb_data) __z88dk_callee;
 
 void set_native_tile_data(uint16_t start, uint16_t ntiles, const void *src) __z88dk_callee __preserves_regs(iyh,iyl);
 inline void set_bkg_4bpp_data(uint16_t start, uint16_t ntiles, const void *src) {

@@ -17,7 +17,7 @@
 
     @return 			A pointer to dest
 */
-char *strcpy(char *dest, const char *src) NONBANKED __preserves_regs(b, c);
+char *strcpy(char *dest, const char *src) OLDCALL __preserves_regs(b, c);
 
 /** Compares strings
 
@@ -29,7 +29,7 @@ char *strcpy(char *dest, const char *src) NONBANKED __preserves_regs(b, c);
     \li 0 if __s1__ == __s2__
     \li < 0 if __s1__ < __s2__
 */
-int strcmp(const char *s1, const char *s2) NONBANKED __preserves_regs(b, c);
+int strcmp(const char *s1, const char *s2) OLDCALL __preserves_regs(b, c);
 
 /** Copies n bytes from memory area src to memory area dest.
 
@@ -39,7 +39,7 @@ int strcmp(const char *s1, const char *s2) NONBANKED __preserves_regs(b, c);
     @param src			Buffer to copy from
     @param len			Number of Bytes to copy
 */
-void *memcpy(void *dest, const void *src, size_t len) NONBANKED __preserves_regs(b, c);
+void *memcpy(void *dest, const void *src, size_t len) OLDCALL __preserves_regs(b, c);
 
 /** Copies n bytes from memory area src to memory area dest, areas may overlap
  */
@@ -51,7 +51,7 @@ void *memmove (void *dest, const void *src, size_t n);
     @param c         char value to fill with (truncated from int)
     @param n         Number of bytes to fill
 */
-void *memset (void *s, int c, size_t n) NONBANKED __preserves_regs(b, c);
+void *memset (void *s, int c, size_t n) OLDCALL __preserves_regs(b, c);
 
 /** Reverses the characters in a string
 
@@ -63,7 +63,7 @@ void *memset (void *s, int c, size_t n) NONBANKED __preserves_regs(b, c);
 
     Returns: Pointer to __s__
 */
-char *reverse(char *s) __preserves_regs(b, c);
+char *reverse(char *s) OLDCALL __preserves_regs(b, c);
 
 /** Concatenate Strings. Appends string __s2__ to the end of string __s1__
 
@@ -76,7 +76,7 @@ char *reverse(char *s) __preserves_regs(b, c);
 
     Returns: Pointer to __s1__
 */
-char *strcat(char *s1, const char *s2) NONBANKED;
+char *strcat(char *s1, const char *s2);
 
 /** Calculates the length of a string
 
@@ -84,7 +84,7 @@ char *strcat(char *s1, const char *s2) NONBANKED;
 
     Returns: Length of string not including the terminating `\0' character.
 */
-int strlen(const char *s) NONBANKED __preserves_regs(b, c);
+int strlen(const char *s) OLDCALL __preserves_regs(b, c);
 
 /**Concatenate at most __n__ characters from string __s2__ onto the end of __s1__.
 
@@ -96,7 +96,7 @@ int strlen(const char *s) NONBANKED __preserves_regs(b, c);
 
     Returns: Pointer to __s1__
 */
-char *strncat(char *s1, const char *s2, int n) NONBANKED;
+char *strncat(char *s1, const char *s2, int n);
 
 /** Compare strings (at most n characters):
 
@@ -109,7 +109,7 @@ char *strncat(char *s1, const char *s2, int n) NONBANKED;
     \li 0 if __s1__ == __s2__
     \li < 0 if __s1__ < __s2__
 */
-int strncmp(const char *s1, const char *s2, int n) NONBANKED;
+int strncmp(const char *s1, const char *s2, int n);
 
 /** Copy __n__ characters from string __s2__ to __s1__
 
@@ -126,6 +126,6 @@ int strncmp(const char *s1, const char *s2, int n) NONBANKED;
 
     Returns: Pointer to __s1__
 */
-char *strncpy(char *s1, const char *s2, int n) NONBANKED;
+char *strncpy(char *s1, const char *s2, int n);
 
 #endif

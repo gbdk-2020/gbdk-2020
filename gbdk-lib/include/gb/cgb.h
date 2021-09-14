@@ -100,9 +100,7 @@ typedef uint16_t palette_entry_t;   /**< 16 bit color entry */
     @see RGB(), set_bkg_palette_entry()
  */
 void
-set_bkg_palette(uint8_t first_palette,
-                uint8_t nb_palettes,
-                palette_entry_t *rgb_data) NONBANKED;
+set_bkg_palette(uint8_t first_palette, uint8_t nb_palettes, palette_entry_t *rgb_data) OLDCALL;
 
 /** Set CGB sprite palette(s).
 
@@ -120,9 +118,7 @@ set_bkg_palette(uint8_t first_palette,
     @see RGB(), set_sprite_palette_entry()
  */
 void
-set_sprite_palette(uint8_t first_palette,
-                   uint8_t nb_palettes,
-                   palette_entry_t *rgb_data) NONBANKED;
+set_sprite_palette(uint8_t first_palette, uint8_t nb_palettes, palette_entry_t *rgb_data) OLDCALL;
 
 /** Sets a single color in the specified CGB background palette.
 
@@ -134,9 +130,7 @@ set_sprite_palette(uint8_t first_palette,
  */
 
 void
-set_bkg_palette_entry(uint8_t palette,
-                      uint8_t entry,
-                      uint16_t rgb_data);
+set_bkg_palette_entry(uint8_t palette, uint8_t entry, uint16_t rgb_data) OLDCALL;
 
 /** Sets a single color in the specified CGB sprite palette.
 
@@ -147,9 +141,7 @@ set_bkg_palette_entry(uint8_t palette,
     @see set_sprite_palette(), RGB()
  */
 void
-set_sprite_palette_entry(uint8_t palette,
-                         uint8_t entry,
-                         uint16_t rgb_data);
+set_sprite_palette_entry(uint8_t palette, uint8_t entry, uint16_t rgb_data) OLDCALL;
 
 /** Set CPU speed to slow (Normal Speed) operation.
 
@@ -161,7 +153,7 @@ set_sprite_palette_entry(uint8_t palette,
 
     @see cpu_fast()
  */
-void cpu_slow(void);
+void cpu_slow();
 
 /** Set CPU speed to fast (CGB Double Speed) operation.
 
@@ -175,7 +167,7 @@ void cpu_slow(void);
 
     @see cpu_slow(), _cpu
 */
-void cpu_fast(void);
+void cpu_fast();
 
 /** Set palette, compatible with the DMG/GBP.
 
@@ -185,10 +177,10 @@ void cpu_fast(void);
 
     \li You can check to see if @ref _cpu == @ref CGB_TYPE before using this function.
  */
-void set_default_palette(void);
+void set_default_palette();
 
 /** This function is obsolete
  */
-void cgb_compatibility(void);
+void cgb_compatibility();
 
 #endif /* _CGB_H */
