@@ -43,11 +43,9 @@ all: $(TARGETS)
 
 # Compile .c files in "src/" to .o object files
 $(OBJDIR)/%.o:	$(SRCDIR)/%.c
-	$(eval BOFLAG = $(shell if [[ $< =~ ".c([0-9]+)." ]]; then echo $${BASH_REMATCH[1]}; fi))
-	$(eval BOFLAG = $(if $(BOFLAG),-Wf-bo$(BOFLAG),))
-	$(eval BAFLAG = $(shell if [[ $< =~ ".d([0-9]+)." ]]; then echo $${BASH_REMATCH[1]}; fi))
-	$(eval BAFLAG = $(if $(BAFLAG),-Wf-ba$(BAFLAG),))
-	$(LCC) $(CFLAGS) $(BOFLAG) $(BAFLAG) -c -o $@ $<
+	$(eval BOFLAG = $(shell echo "$<" | sed -n 's/.*\.bo\([0-9]\+\).*/\-Wf-bo\1/p'))
+	$(eval BAFLAG = $(shell echo "$<" | sed -n 's/.*\.ba\([0-9]\+\).*/\-Wf-ba\1/p'))
+	$(LCC) -v $(CFLAGS) $(BOFLAG) $(BAFLAG) -c -o $@ $<
 
 # Compile .c files in "res/" to .o object files
 $(OBJDIR)/%.o:	$(RESDIR)/%.c
