@@ -145,4 +145,8 @@ void BGB_printf(const char *format, ...) OLDCALL;
 
 static void * __BGB_PROFILER_INIT = &BGB_profiler_message;
 
+/** BGB will break into debugger when encounters this line
+ */
+#define BGB_BREAKPOINT __asm__("ld b, b");
+
 #endif
