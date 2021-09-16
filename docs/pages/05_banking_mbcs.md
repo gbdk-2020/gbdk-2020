@@ -90,10 +90,10 @@ The bank number for a banked function, variable or source file can be stored and
 
 @anchor banked_keywords
 ### BANKED/NONBANKED keywords
-- @ref BANKED:
+- `BANKED`:
   - The function will use banked sdcc calls
   - Placed in the bank selected by it's source file (or compiler switches)
-- @ref NONBANKED:
+- `NONBANKED`:
   - Placed in the non-banked lower 16K region (bank 0), regardless of the bank selected by it's source file.
 - `<not-specified>`:
   - The function does not use sdcc banked calls (`near` instead of `far`)
