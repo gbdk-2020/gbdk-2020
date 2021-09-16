@@ -1,13 +1,13 @@
 @page docs_supported_consoles Supported Consoles & Cross Compiling
   
-@anchor docs_consoles_supproted_list
+@anchor docs_consoles_supported_list
 # Consoles Supported by GBDK
-As of version `4.0.5` GBDK includes support for other consoles in addition to the Game Boy. 
+As of version `4.0.5` GBDK includes support for other consoles in addition to the Game Boy.
 
-  - Nintendo Game Boy / Game Boy Color
-  - Analogue Pocket
-  - Sega Master System
-  - Sega Game Gear
+  - Nintendo Game Boy / Game Boy Color (GB/GBC)
+  - Analogue Pocket (AP)
+  - Sega Master System (SMS)
+  - Sega Game Gear (GG)
 
 While the GBDK API has many convenience functions that work the same or similar across different consoles, it's important to keep their different capabilities in mind when writing code intended to run on more than one. Some (but not all) of the differences are screen sizes, color abilities, memory layouts, processor type (z80 vs gbz80/sm83) and speed.
 
@@ -95,15 +95,93 @@ GBDK includes an number of cross platform example projects. These projects show 
 
 They also show how to build for multiple target consoles with a single build command and `Makefile`. The `Makefile.targets` allows selecting different `port` and `plat` settings when calling the build stages.
 
-# Porting from the Game Boy to the Analogue Pocket
-The Analogue Pocket is (for practical purposes) functionally identical to the Game Boy / Color, but has a couple altered register flag and address definitions and a different boot logo. In order for software to be ported to the Analogue Pocket, or to run on both, the following practices should be used.
-
-## Boot logo
-As long as the target console is @ref docs_consoles_compiling "set during build time" then the correct boot logo will be automatically selected.
+# Porting From Game Boy to Analogue Pocket
+The Analogue Pocket is (for practical purposes) functionally identical to the Game Boy / Color, but has a couple altered register flag and address definitions and a different boot logo. In order for software to be easily ported to the Analogue Pocket, or to run on both, use the following practices.
 
 ## Registers and Flags
-Change these hardwired registers and register flags to use API defined ones.
+Use API defined registers and register flags instead of hardwired ones
    - LCDC register: @ref LCDC_REG or @ref rLCDC
    - STAT register: @ref STAT_REG or @ref rSTAT
    - LCDC flags: -> LCDCF_... (example: @ref LCDCF_ON)
    - STAT flags: -> STATF_... (example: @ref STATF_LYC)
+
+## Boot logo
+As long as the target console is @ref docs_consoles_compiling "set during build time" then the correct boot logo will be automatically selected.
+
+
+# Porting From Game Boy to SMS/GG
+
+## Tile Data and Tile Map loading
+
+### Tile and Map Data in 2bpp Game Boy Format
+- @ref set_bkg_data() and @ref set_sprite_data() will load 2bpp tile data in "game boy" format on both GB and SMS/GG.
+- On the SMS/GG @ref set_2bpp_palette() sets 4 colors that will be used when loading 2bpp assets with set_bkg_data(). This allows GB assets to be easily colorized without changing the asset format. There is some performance penalty for using the conversion.
+- @ref set_bkg_tiles() loads 1-byte-per-tile tilemaps both for the GB and SMS/GG
+
+### Tile and Map Data in Native Format
+Use the following api calls when assets are avaialble in the native format for each platform.
+
+@ref set_native_tile_data()
+  - GB/AP: loads 2bpp tiles data
+  - SMS/GG: loads 4bpp tile data
+
+@ref set_tile_map()
+  - GB/AP: loads 1-byte-per-tile tilemaps
+  - SMS/GG: loads 2-byte-per-tile tilemaps
+
+### Emulated Game Boy Color map attributes on the SMS/Game Gear
+On the Game Boy Color, @ref VBK_REG is used to select between the regular background tile map and the background attribute tile map (for setting tile color palette and other properties).
+
+This behavior is emulated for the SMS/GG when using @ref set_bkg_tiles() and @ref VBK_REG. It allows writing a 1-byte tile map separately from a 1-byte attributes map.
+
+@note Tile map attributes on SMS/Game Gear use different control bits than the Game Boy Color, so a modified attribute map must be used.
+
+# Hardware Comparison
+The specs below reflect the typical configuration of hardware when used with GBDK and is not meant as a complete list of their capabilities.
+
+GB/AP
+- Sprites:
+  - 256 tiles (upper 128 are shared with background) (amount is doubled in CGB mode)
+  - tile flipping/mirroring: yes
+  - 10 per line
+  - 2 x 4 color palette (color 0 transparent). 8 x 4 color palettes in CGB mode
+- Background: 256 tiles (typical setup: upper 128 are shared with sprites) (amount is doubled in CGB mode)
+  - tile flipping/mirroring: no (yes in CGB mode)
+  - 1 x 4 color palette. 8 x 4 color palettes in CGB mode
+- Window "layer": available
+- Screen: 160 x 144
+- Hardware Map: 256 x 256
+
+
+SMS/GG
+- Sprites:
+  - 256 tiles (a bit less in the default setup)
+  - tile flipping/mirroring: no
+  - 8 per line
+  - 1 x 16 color palette (color 0 transparent)
+- Background: 512 tiles (upper 256 are shared with sprites)
+  - tile flipping/mirroring: yes
+  - 2 x 16 color palettes
+- Window "layer": not available
+- SMS
+  - Screen: 256 x 192
+  - Hardware Map: 256 x 224
+- GG
+  - Screen: 160 x 144
+  - Hardware Map: 256 x 224
+
+
+@anchor docs_consoles_safe_display_controller_access
+## Safe VRAM / Display Controller Access
+
+GB/AP
+- VRAM / Display Controller (PPU)
+  - VRAM and some other display data / registers should only be written to when the @ref STATF_B_BUSY bit of @ref STAT_REG is off. Most GBDK API calls manage this automatically.
+
+SMS/GG
+- Display Controller (VDP)
+  - Writing to the VDP should not be interrupted while an operation is already in progress (since that will interfere with the internal data pointer causing data to be written to the wrong location).
+  - Recommended approach: Avoid writing to the VDP (tiles, map, scrolling, colors, etc) during an interrupt routine (ISR).
+  - Alternative, not recommended: Make sure writes to the VDP during an ISR are only performed when the @ref _shadow_OAM_OFF flag indicates it is safe to do so.
+
+

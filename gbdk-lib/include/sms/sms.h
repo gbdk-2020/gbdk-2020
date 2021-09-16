@@ -593,6 +593,28 @@ extern volatile uint8_t shadow_OAM[];
 extern volatile uint8_t _shadow_OAM_base;
 
 /** Flag for disabling of OAM copying routine
+
+    Values:
+    \li 1: OAM copy routine is disabled (non-isr VDP operation may be in progress)
+    \li 0: OAM copy routine is enabled
+
+    This flag is modified by all sms/gg GBDK API calls that write to the VDP.
+    It is set to DISABLED when they start and ENABLED when they complete.
+
+    @note It is recommended to avoid writing to the Video Display Processor
+    (VDP) during an interrupt service routine (ISR) since it can corrupt
+    the VDP pointer of an VDP operation already in progress.
+
+    If it is necessary, this flag can be used during an ISR to determine
+    whether a VDP operation is already in progress. If the value is `1`
+    then avoid writing to the VDP (tiles, map, scrolling, colors, etc).
+
+    \code{.c}
+    // at the beginning of and ISR that would write to the VDP
+    if (_shadow_OAM_OFF) return;
+    \endcode
+
+    @see @ref docs_consoles_safe_display_controller_access
 */
 extern volatile uint8_t _shadow_OAM_OFF;
 
