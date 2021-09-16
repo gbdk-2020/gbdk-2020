@@ -1525,6 +1525,18 @@ void get_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *vram_addr, u
 
 
 /** Sets VRAM Tile Pattern data in the native format
+
+    @param first_tile  Index of the first tile to write (0 - 511)
+    @param nb_tiles    Number of tiles to write
+    @param data        Pointer to source Tile Pattern data.
+
+    When `first_tile` is larger than 256 on the GB/AP, it
+    will write to sprite data instead of background data.
+
+    The bit depth of the source Tile Pattern data depends
+    on which console is being used:
+    \li Game Boy/Analogue Pocket: loads 2bpp tiles data
+    \li SMS/GG: loads 4bpp tile data
  */
 inline void set_native_tile_data(uint16_t first_tile, uint8_t nb_tiles, const uint8_t *data) {
     if (first_tile < 256) {

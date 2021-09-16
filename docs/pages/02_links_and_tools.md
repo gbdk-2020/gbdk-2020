@@ -32,6 +32,14 @@ This is a brief list of useful tools and information. It is not meant to be comp
     https://gbdev.io/list.html
 
 
+@anchor links_sms_gg_docs
+# Sega Master System / Game Gear Documentation
+  - @anchor smspower
+    __SMS Power!__  
+    Community site with technical documentation, reviews and other content related to the Sega 8-bit systems.
+    https://www.smspower.org/
+
+
 @anchor links_gbdk_tutorials
 # Tutorials
   - @anchor tutorials_gamingmonsters
