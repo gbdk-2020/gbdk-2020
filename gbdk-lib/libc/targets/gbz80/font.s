@@ -42,6 +42,7 @@
         .globl  .drawing_vbl, .drawing_lcd
         .globl  .int_0x40, .int_0x48
         .globl  .remove_int
+        .globl  _set_bkg_1bpp_data, _set_bkg_data
 
         .area   _INITIALIZED
 .curx::                         ; Cursor position
@@ -70,122 +71,6 @@ font_table::
 _font_load_ibm::
         ld      hl,#_font_ibm
         call    font_load
-        ret
-        
-        ; Copy uncompressed 16 byte tiles from (BC) to (HL), length = DE*2
-        ; Note: HL must be aligned on a uint16_t boundry
-font_copy_uncompressed::
-        ld      a,d
-        or      e
-        ret     z
-
-        ld      a,h
-        cp      #0x98
-        jr      c,4$
-        sub     #0x98-0x88
-        ld      h,a
-4$:
-        xor     a
-        cp      e               ; Special for when e=0 you will get another loop
-        jr      nz,1$
-        dec     d
-1$:
-        WAIT_STAT
-        ld      a,(bc)
-        ld      (hl+),a
-        inc     bc
-
-        WAIT_STAT
-        ld      a,(bc)
-        ld      (hl),a
-        inc     bc
-
-        inc     l
-        jr      nz,2$
-        inc     h
-        ld      a,h             ; Special wrap-around
-        cp      #0x98
-        jr      nz,2$
-        ld      h,#0x88
-2$:
-        dec     e
-        jr      nz,1$
-        dec     d
-        bit     7,d             ; -1?
-        jr      z,1$
-        ret
-
-        ; Copy a set of compressed (8 bytes/cell) tiles to VRAM
-        ; Sets the foreground and background colours based on the current
-        ; font colours
-        ; Entry:
-        ;       From (BC) to (HL), length (DE) where DE = #cells * 8
-        ;       Uses the current fg_colour and bg_colour fields
-font_copy_compressed::
-        ld      a,d
-        or      e
-        ret     z               ; Do nothing
-
-        ld      a,h
-        cp      #0x98           ; Take care of the 97FF -> 8800 wrap around
-        jr      c,font_copy_compressed_loop
-        sub     #0x98-0x88
-        ld      h,a
-font_copy_compressed_loop:
-        push    de
-        ld      a,(bc)
-        ld      e,a
-        inc     bc
-        push    bc
-
-        ld      bc,#0
-                                ; Do the background colour first
-        ld      a,(.bg_colour)
-        bit     0,a
-        jr      z,font_copy_compressed_bg_grey1
-        ld      b,#0xFF
-font_copy_compressed_bg_grey1:
-        bit     1,a
-        jr      z,font_copy_compressed_bg_grey2
-        ld      c,#0xFF
-font_copy_compressed_bg_grey2:
-        ; BC contains the background colour
-        ; Compute what xoring we need to do to get the correct fg colour
-        ld      d,a
-        ld      a,(.fg_colour)
-        xor     d
-        ld      d,a
-
-        bit     0,d
-        jr      z,font_copy_compressed_grey1
-        ld      a,e
-        xor     b
-        ld      b,a
-font_copy_compressed_grey1:
-        bit     1,d
-        jr      z,font_copy_compressed_grey2
-        ld      a,e
-        xor     c
-        ld      c,a
-font_copy_compressed_grey2:
-        WAIT_STAT
-
-        ld      (hl),b
-        inc     l               ; can't overflow here
-        ld      (hl),c
-        inc     hl
-
-        ld      a,h             ; Take care of the 97FFF -> 8800 wrap around
-        cp      #0x98
-        jr      nz,1$
-        ld      h,#0x88
-1$:
-        pop     bc
-        pop     de
-        dec     de
-        ld      a,d
-        or      e
-        jr      nz,font_copy_compressed_loop
         ret
         
 ; Load the font HL
@@ -259,56 +144,42 @@ font_copy_current::
         ld      h,(hl)
         ld      l,a
 
-        inc     hl              ; Points to the 'tiles required' entry
-        ld      a,(hl-)
-        ld      d,#0
-        rla                     ; Multiple DE by 8
-        rl      d
-        rla
-        rl      d
-        rla
-        rl      d               
-        ld      e, a            ; DE has the length of the tile data
+        ld      a, (hl+)
+        ld      e, a
+        ld      a, (hl+)
+        ld      d, a
 
-        ld      a,(hl)          ; Get the flags
-        push    af              
-        and     #3                      ; Only lower 2 bits set encoding table size
-
-        ld      bc,#128
-        cp      #FONT_128ENCODING       ; 0 for 256 char encoding table, 1 for 128 char
-        jr      z,font_copy_current_copy
-
-        ld      bc,#0
+        ld      a, e
+        ld      c, #128
+        and     #3
+        cp      #FONT_128ENCODING
+        jr      z, 1$
         cp      #FONT_NOENCODING
-        jr      z,font_copy_current_copy
-
-        ld      bc,#256                 ; Must be 256 element encoding
-font_copy_current_copy:
-        inc     hl
-        inc     hl              ; Points to the start of the encoding table
-        add     hl,bc           
-        ld      c,l
-        ld      b,h             ; BC points to the start of the tile data               
-
-        ; Find the offset in VRAM for this font
-        ld      a,(font_current+sfont_handle_first_tile)        ; First tile used for this font
-        swap    a
-        ld      l,a
-        and     #0x0f
-        ld      h,a
-        ld      a, l
-        and     #0xf0
+        jr      z, 2$
+        inc     h
+        jr      2$
+1$:
+        ld      a, c
+        add     l
         ld      l, a
-
-        ld      a,#0x90         ; Tile 0 is at 9000h
-        add     a,h
-        ld      h,a
-                                ; Is this font compressed?
-        pop     af              ; Recover flags
-        bit     FONT_BCOMPRESSED,a
-                                ; Do the jump in a mildly different way
-        jp      z,font_copy_uncompressed
-        jp      font_copy_compressed
+        adc     h
+        sub     l
+        ld      h, a
+2$:
+        push    hl
+        ld      c, e
+        ld      a, (font_current+sfont_handle_first_tile)
+        ld      e, a
+        push    de
+        bit     FONT_BCOMPRESSED, c
+        jr      nz, 3$
+        call    _set_bkg_data
+        jr      4$
+3$:
+        call    _set_bkg_1bpp_data
+4$:
+        add     sp, #4
+        ret
 
         ; Set the current font to HL
 font_set::

@@ -37,18 +37,10 @@
 #define GRAPHICS_WIDTH	160
 #define GRAPHICS_HEIGHT 144
 
-/** Possible drawing modes */
-#if ORIGINAL
-	#define	SOLID	0x10		/* Overwrites the existing pixels */
-	#define	OR	0x20		/* Performs a logical OR */
-	#define	XOR	0x40		/* Performs a logical XOR */
-	#define	AND	0x80		/* Performs a logical AND */
-#else
-	#define	SOLID	0x00		/* Overwrites the existing pixels */
-	#define	OR	0x01		/* Performs a logical OR */
-	#define	XOR	0x02		/* Performs a logical XOR */
-	#define	AND	0x03		/* Performs a logical AND */
-#endif
+#define	SOLID   0x00	    /* Overwrites the existing pixels */
+#define	OR	    0x01        /* Performs a logical OR */
+#define	XOR	    0x02		/* Performs a logical XOR */
+#define	AND	    0x03		/* Performs a logical AND */
 
 /** Possible drawing colours */
 #define	WHITE	0

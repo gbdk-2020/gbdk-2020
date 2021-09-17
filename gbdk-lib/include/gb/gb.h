@@ -793,6 +793,12 @@ inline void set_2bpp_palette(uint16_t palette) {
     palette;
 }
 
+extern uint16_t _current_1bpp_colors;
+void set_1bpp_colors_ex(uint8_t fgcolor, uint8_t bgcolor, uint8_t mode) OLDCALL;
+inline void set_1bpp_colors(uint8_t fgcolor, uint8_t bgcolor) {
+    set_1bpp_colors_ex(fgcolor, bgcolor, 0);
+}
+
 /** Sets VRAM Tile Pattern data for the Background / Window
 
     @param first_tile  Index of the first tile to write
@@ -818,7 +824,6 @@ void set_bkg_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) OLD
     @param first_tile  Index of the first Tile to write
     @param nb_tiles    Number of Tiles to write
     @param data        Pointer to (1bpp) source Tile Pattern data
-    @param color       Color
 
     Similar to @ref set_bkg_data, except source data is 1 bit-per-pixel
     which gets expanded into 2 bits-per-pixel.
@@ -829,7 +834,7 @@ void set_bkg_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) OLD
 
     @see SHOW_BKG, HIDE_BKG, set_bkg_tiles
 */
-void set_bkg_1bpp_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data, uint8_t color) OLDCALL __preserves_regs(b, c);
+void set_bkg_1bpp_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) OLDCALL __preserves_regs(b, c);
 
 /** Copies from Background / Window VRAM Tile Pattern data into a buffer
 
