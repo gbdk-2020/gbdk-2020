@@ -829,8 +829,7 @@ void set_bkg_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) OLD
 
     @see SHOW_BKG, HIDE_BKG, set_bkg_tiles
 */
-void set_bkg_1bit_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data, uint8_t color) OLDCALL __preserves_regs(b, c);
-#define set_bkg_1bpp_data set_bkg_1bit_data
+void set_bkg_1bpp_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data, uint8_t color) OLDCALL __preserves_regs(b, c);
 
 /** Copies from Background / Window VRAM Tile Pattern data into a buffer
 
@@ -1036,12 +1035,12 @@ void set_win_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) OLD
     @param nb_tiles    Number of tiles to write
     @param data        Pointer to (1bpp) source Tile Pattern data
 
-    This is the same as @ref set_bkg_1bit_data, since the Window Layer and
+    This is the same as @ref set_bkg_1bpp_data, since the Window Layer and
     Background Layer share the same Tile pattern data.
 
-    @see set_bkg_data, set_bkg_1bit_data, set_win_data
+    @see set_bkg_data, set_bkg_1bpp_data, set_win_data
 */
-void set_win_1bit_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) OLDCALL __preserves_regs(b, c);
+void set_win_1bpp_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) OLDCALL __preserves_regs(b, c);
 
 
 /** Copies from Window / Background VRAM Tile Pattern data into a buffer
@@ -1228,8 +1227,7 @@ void set_sprite_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) 
 
     @see SHOW_SPRITES, HIDE_SPRITES, set_sprite_tile
 */
-void set_sprite_1bit_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) OLDCALL __preserves_regs(b, c);
-#define set_sprite_1bpp_data set_sprite_1bit_data
+void set_sprite_1bpp_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) OLDCALL __preserves_regs(b, c);
 
 /** Copies from Sprite VRAM Tile Pattern data into a buffer
 
