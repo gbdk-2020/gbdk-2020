@@ -12,7 +12,7 @@ This section contains information that may be useful to know or important when u
 - The `_BASE` area is renamed to `_HOME`
 - Variables in static storage are now initialized to zero per C standard (but remaining WRAM is not cleared)
 - @ref itoa(), @ref uitoa(), @ref ltoa(), @ref ultoa() all now require a radix value (base) argument to be passed. On the Game Boy and Analogue Pocket the parameter is required but not utilized.
-- @ref set_bkg_1bit_data has been renamed to @ref set_bkg_1bpp_data
+- set_bkg_1bit_data has been renamed to @ref set_bkg_1bpp_data
 
 ## Porting to GBDK 2020 4.0.4
 - GBDK now requires SDCC 12238 or higher
