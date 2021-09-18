@@ -38,9 +38,9 @@ CLASS classes[] = {
         "gb",       // plat
         "gb",       // default_plat
         EXT_GB,     // ROM file extension
-        "%cpp% %cppdefault% -DGB=1 -DINT_16_BITS $1 $2 $3",
+        "%cpp% %cppdefault% -DINT_16_BITS $1 $2 $3",
         "%includedefault%",
-        "%com% %comdefault% -Wa%asdefault% -DGB=1 -DINT_16_BITS $1 %comflag% $2 -o $3",
+        "%com% %comdefault% -Wa%asdefault% -DINT_16_BITS $1 %comflag% $2 -o $3",
         "%as_gb% %asdefault% $1 $3 $2",
         "%bankpack% $1 $2",
         "%ld_gb% -n -i $1 %libs_include% $3 %crt0dir% $2",
@@ -53,9 +53,9 @@ CLASS classes[] = {
         "ap",       // plat
         "ap",       // default_plat
         EXT_AP,     // ROM file extension
-        "%cpp% %cppdefault% -DGB=1 -DINT_16_BITS $1 $2 $3",
+        "%cpp% %cppdefault% -DINT_16_BITS $1 $2 $3",
         "%includedefault%",
-        "%com% %comdefault% -Wa%asdefault% -DGB=1 -DINT_16_BITS $1 %comflag% $2 -o $3",
+        "%com% %comdefault% -Wa%asdefault% -DINT_16_BITS $1 %comflag% $2 -o $3",
         "%as_gb% %asdefault% $1 $3 $2",
         "%bankpack% $1 $2",
         "%ld_gb% -n -i $1 %libs_include% $3 %crt0dir% $2",

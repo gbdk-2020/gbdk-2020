@@ -32,8 +32,7 @@ static struct {
 		{ "plat",		"gb" },
 		{ "sdccdir", "%bindir%"},
 		{ "cpp",		"%sdccdir%sdcpp" },
-		{ "cppdefault", 	"-Wall -DSDCC=1 -DSDCC_PORT=%port% "
-			"-DSDCC_PLAT=%plat% -D%cppmodel%"
+		{ "cppdefault", 	"-Wall -DSDCC_PORT=%port% -DSDCC_PLAT=%plat% -D%cppmodel%"
 		},
 		{ "cppmodel",	"SDCC_MODEL_SMALL" },
 		{ "includedefault",	"-I%includedir%" },
@@ -43,8 +42,7 @@ static struct {
 		{ "commodel", 	"small" },
 		{ "com",		"%sdccdir%sdcc" },
 		{ "comflag",	"-c"},
-		{ "comdefault",	"-m%port% --no-std-crt0 --fsigned-char --use-stdout "
-					    " -D__PORT_%port% -D__TARGET_%plat% "},
+		{ "comdefault",	"-m%port% --no-std-crt0 --fsigned-char --use-stdout -D__PORT_%port% -D__TARGET_%plat% "},
 		/* asdsgb assembler defaults:
 			-p: disable pagination
 			-o: create object file

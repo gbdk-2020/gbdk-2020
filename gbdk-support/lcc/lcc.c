@@ -133,7 +133,7 @@ int main(int argc, char *argv[]) {
 		help();
 		exit(0);
 	}
-	clist = append("-D__LCC__", 0);
+//	clist = append("-D__LCC__", 0);
 	initinputs();
 	if (getenv("GBDKDIR"))
 		option(stringf("--prefix=%s", getenv("GBDKDIR")));
