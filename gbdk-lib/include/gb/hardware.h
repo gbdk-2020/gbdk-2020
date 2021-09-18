@@ -72,6 +72,15 @@ __REG TAC_REG;          /**< Timer control */
 #define TACF_65KHZ  0b00000010
 #define TACF_262KHZ 0b00000001
 
+#define SIOF_CLOCK_EXT  0b00000000 /**< Serial IO: Use External clock */
+#define SIOF_CLOCK_INT  0b00000001 /**< Serial IO: Use Internal clock */
+#define SIOF_SPEED_1X   0b00000000 /**< Serial IO: If internal clock then 8KHz mode, 1KB/s (16Khz in CGB high-speed mode, 2KB/s) */
+#define SIOF_SPEED_32X  0b00000010 /**< Serial IO: **CGB-Mode ONLY** If internal clock then 256KHz mode, 32KB/s (512KHz in CGB high-speed mode, 64KB/s) */
+#define SIOF_XFER_START 0b10000000 /**< Serial IO: Start Transfer. Automatically cleared at the end of transfer */
+#define SIOF_B_CLOCK      0
+#define SIOF_B_SPEED      1
+#define SIOF_B_XFER_START 7
+
 __REG IF_REG;           /**< Interrupt flags: 0.0.0.JOY.SIO.TIM.LCD.VBL */
 #define rIF IF_REG
 
@@ -274,7 +283,7 @@ __REG KEY1_REG;         /**< CPU speed */
 #define KEY1F_DBLSPEED 0b10000000
 #define KEY1F_PREPARE  0b00000001
 
-__REG VBK_REG;          /**< VRAM bank */
+__REG VBK_REG;          /**< VRAM bank select */
 #define rVBK VBK_REG
 __REG HDMA1_REG;        /**< DMA control 1 */
 #define rHDMA1 HDMA1_REG
