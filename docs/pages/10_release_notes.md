@@ -13,13 +13,14 @@ https://github.com/gbdk-2020/gbdk-2020/releases
     - Sega Master System (`sms`) and Game Gear (`gg`)
   - Library
     - Variables in static storage are now initialized to zero per C standard (but remaining WRAM is not cleared)
-    - Added new register flag constants and names. For example:
+    - Added many new register flag constants and names. For example:
       - @ref rLCDC is a new alias for @ref LCDC_REG
       - @ref LCDCF_WINON, @ref LCDCF_WINOFF, @ref LCDCF_B_WINON
     - Added @ref BANK(), @ref BANKREF(), @ref BANKREF_EXTERN()
     - Added @ref INCBIN(), @ref BANK(), @ref INCBIN_SIZE(), @ref INCBIN_EXTERN()
     - Added generic @ref SWITCH_ROM() and @ref SWITCH_RAM()
     - Added @ref BGB_printf() and updated bgb debug output.
+    - Added @ref set_native_tile_data(), @ref set_tile_map(), @ref set_1bpp_colors, @ref set_bkg_1bpp_data, @ref set_sprite_1bpp_data, @ref set_2bpp_palette, @ref set_bkg_2bpp_data, @ref set_sprite_2bpp_data, @ref set_tile_2bpp_data (sms/gg only), @ref set_bkg_4bpp_data (sms/gg only), @ref set_sprite_4bpp_data (sms/gg only)
     - Changed @ref itoa(), @ref uitoa(), @ref ltoa(), @ref ultoa() to now require a radix value (base) argument to be passed. On the Game Boy and Analogue Pocket the parameter is required but not utilized.
   - Examples
     - Added cross-platform examples (build for multiple consoles: gb, ap, sms, gg)

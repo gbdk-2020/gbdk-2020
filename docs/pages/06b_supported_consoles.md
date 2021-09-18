@@ -129,6 +129,13 @@ Use the following api calls when assets are avaialble in the native format for e
   - GB/AP: loads 1-byte-per-tile tilemaps
   - SMS/GG: loads 2-byte-per-tile tilemaps
 
+There are also bit-depth specific API calls:
+- 1bpp: @ref set_1bpp_colors, @ref set_bkg_1bpp_data, @ref set_sprite_1bpp_data
+- 2bpp: @ref set_2bpp_palette, @ref set_bkg_2bpp_data, @ref set_sprite_2bpp_data, @ref set_tile_2bpp_data (sms/gg only)
+- 2bpp: @ref set_bkg_4bpp_data (sms/gg only), @ref set_sprite_4bpp_data (sms/gg only)
+
+
+
 ### Emulated Game Boy Color map attributes on the SMS/Game Gear
 On the Game Boy Color, @ref VBK_REG is used to select between the regular background tile map and the background attribute tile map (for setting tile color palette and other properties).
 
@@ -143,7 +150,7 @@ GB/AP
 - Sprites:
   - 256 tiles (upper 128 are shared with background) (amount is doubled in CGB mode)
   - tile flipping/mirroring: yes
-  - 10 per line
+  - 40 total, max 10 per line
   - 2 x 4 color palette (color 0 transparent). 8 x 4 color palettes in CGB mode
 - Background: 256 tiles (typical setup: upper 128 are shared with sprites) (amount is doubled in CGB mode)
   - tile flipping/mirroring: no (yes in CGB mode)
@@ -157,7 +164,7 @@ SMS/GG
 - Sprites:
   - 256 tiles (a bit less in the default setup)
   - tile flipping/mirroring: no
-  - 8 per line
+  - 64 total, max 8 per line
   - 1 x 16 color palette (color 0 transparent)
 - Background: 512 tiles (upper 256 are shared with sprites)
   - tile flipping/mirroring: yes
@@ -182,6 +189,6 @@ SMS/GG
 - Display Controller (VDP)
   - Writing to the VDP should not be interrupted while an operation is already in progress (since that will interfere with the internal data pointer causing data to be written to the wrong location).
   - Recommended approach: Avoid writing to the VDP (tiles, map, scrolling, colors, etc) during an interrupt routine (ISR).
-  - Alternative, not recommended: Make sure writes to the VDP during an ISR are only performed when the @ref _shadow_OAM_OFF flag indicates it is safe to do so.
+  - Alternative (requires careful implementation): Make sure writes to the VDP during an ISR are only performed when the @ref _shadow_OAM_OFF flag indicates it is safe to do so.
 
 
