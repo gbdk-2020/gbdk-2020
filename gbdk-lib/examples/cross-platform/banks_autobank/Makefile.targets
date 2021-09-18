@@ -2,7 +2,7 @@
 # Platform specific flags for compiling (only populate if they're both present)
 ifneq ($(strip $(PORT)),)
 ifneq ($(strip $(PLAT)),)
-CFLAGS += -m$(PORT):$(PLAT) -D_PLAT_$(PLAT)
+CFLAGS += -m$(PORT):$(PLAT)
 endif
 endif
 
