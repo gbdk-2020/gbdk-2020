@@ -155,6 +155,8 @@ Linker options:
 Special options for the z80 port:
       --callee-saves-bc     Force a called function to always save BC
       --portmode=           Determine PORT I/O mode (z80/z180)
+      -bo                   <num> use code bank <num>
+      -ba                   <num> use data bank <num>
       --asm=                Define assembler name (rgbds/asxxxx/isas/z80asm/gas)
       --codeseg             <name> use this name for the code segment
       --constseg            <name> use this name for the const segment
@@ -180,6 +182,44 @@ Special options for the gbz80 port:
 ```
 @anchor sdasgb-settings
 # sdasgb settings
+```
+
+sdas Assembler V02.00 + NoICE + SDCC mods  (GameBoy Z80-like CPU)
+
+
+Copyright (C) 2012  Alan R. Baldwin
+This program comes with ABSOLUTELY NO WARRANTY.
+
+Usage: [-Options] file
+Usage: [-Options] outfile file1 [file2 file3 ...]
+  -d   Decimal listing
+  -q   Octal   listing
+  -x   Hex     listing (default)
+  -g   Undefined symbols made global
+  -n   Don't resolve global assigned value symbols
+  -a   All user symbols made global
+  -b   Display .define substitutions in listing
+  -bb  and display without .define substitutions
+  -c   Disable instruction cycle count in listing
+  -j   Enable NoICE Debug Symbols
+  -y   Enable SDCC  Debug Symbols
+  -l   Create list   file/outfile[.lst]
+  -o   Create object file/outfile[.rel]
+  -s   Create symbol file/outfile[.sym]
+  -p   Disable automatic listing pagination
+  -u   Disable .list/.nlist processing
+  -w   Wide listing format for symbol table
+  -z   Disable case sensitivity for symbols
+  -f   Flag relocatable references by  `   in listing file
+  -ff  Flag relocatable references by mode in listing file
+  -I   Add the named directory to the include file
+       search path.  This option may be used more than once.
+       Directories are searched in the order given.
+
+removing 
+```
+@anchor sdasz80-settings
+# sdasz80 settings
 ```
 
 sdas Assembler V02.00 + NoICE + SDCC mods  (GameBoy Z80-like CPU)
@@ -256,6 +296,46 @@ S ___bank_<const name> Def0000FF
 ```
 @anchor sdldgb-settings
 # sdldgb settings
+```
+
+sdld Linker V03.00 + NoICE + sdld
+
+Usage: [-Options] [-Option with arg] file
+Usage: [-Options] [-Option with arg] outfile file1 [file2 ...]
+Startup:
+  -p   Echo commands to stdout (default)
+  -n   No echo of commands to stdout
+Alternates to Command Line Input:
+  -c                   ASlink >> prompt input
+  -f   file[.lk]       Command File input
+Libraries:
+  -k   Library path specification, one per -k
+  -l   Library file specification, one per -l
+Relocation:
+  -b   area base address = expression
+  -g   global symbol = expression
+  -a   (platform) Select platform specific virtual address translation
+Map format:
+  -m   Map output generated as (out)file[.map]
+  -w   Wide listing format for map file
+  -x   Hexadecimal (default)
+  -d   Decimal
+  -q   Octal
+Output:
+  -i   Intel Hex as (out)file[.ihx]
+  -s   Motorola S Record as (out)file[.s19]
+  -j   NoICE Debug output as (out)file[.noi]
+  -y   SDCDB Debug output as (out)file[.cdb]
+List:
+  -u   Update listing file(s) with link data as file(s)[.rst]
+Case Sensitivity:
+  -z   Disable Case Sensitivity for Symbols
+End:
+  -e   or null line terminates input
+
+```
+@anchor sdldz80-settings
+# sdldz80 settings
 ```
 
 sdld Linker V03.00 + NoICE + sdld

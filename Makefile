@@ -336,10 +336,16 @@ ifneq (,$(wildcard $(BUILDDIR)/bin/))
 	echo \# sdcc settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 	$(BUILDDIR)/bin/sdcc -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);	
 # sdasgb
-	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 	echo \@anchor sdasgb-settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \# sdasgb settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+	$(BUILDDIR)/bin/sdasgb -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true 
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+# sdasz80
+	echo \@anchor sdasz80-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# sdasz80 settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 	$(BUILDDIR)/bin/sdasgb -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true 
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
@@ -349,9 +355,15 @@ ifneq (,$(wildcard $(BUILDDIR)/bin/))
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 	$(BUILDDIR)/bin/bankpack -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true 
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
-# sdldgb	
+# sdldgb
 	echo \@anchor sdldgb-settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \# sdldgb settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+	$(BUILDDIR)/bin/sdldgb >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true 
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+# sdldz80
+	echo \@anchor sdldz80-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# sdldz80 settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 	$(BUILDDIR)/bin/sdldgb >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true 
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
