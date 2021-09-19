@@ -8,6 +8,10 @@ https://github.com/gbdk-2020/gbdk-2020/releases
 
 ## GBDK 2020 4.0.5
   2021/09
+  - Includes SDCC version 12539 with GBDK-2020 patches for Z80
+  - Known Issues
+    - SDCC: `z80instructionSize() failed to parse line node, assuming 999 bytes`
+      - This is a known issue with the SDCC Peephole Optimizer parsing and can be ignored.
   - Added support for new consoles. See @ref docs_supported_consoles
     - Analogue Pocket (`ap`)
     - Sega Master System (`sms`) and Game Gear (`gg`)

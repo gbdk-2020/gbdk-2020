@@ -23,6 +23,10 @@
     - See @ref setting_mbc_and_rom_ram_banks <!-- -->  
 
 # Errors / Compiling / Toolchain
+  @anchor faq_sdcc_peephole_instruction_error
+  - What does `z80instructionSize() failed to parse line node, assuming 999 bytes` mean?
+    - This is a known issue with SDCC Peephole Optimizer parsing and can be ignored. A bug report has been filed for it. <!-- -->  
+
   @anchor faq_bank_overflow_errors
   - What do these kinds of warnings / errors mean?
     `WARNING: possibly wrote twice at addr 4000 (93->3E)`
