@@ -20,7 +20,19 @@ When compiling and building through @ref lcc use the `-m<port>:<plat>` flag to s
 
 
 ## sdcc
-When compiling directly with @ref sdcc use: `-m<port>`, `-D__PORT_<port>` and `-D__TARGET_<plat> `
+When building directly with the sdcc toolchain, the following must be specified manually
+(when using @ref lcc it will populate these automatically based on `-m<port>:<plat>`).
+
+When compiling with @ref sdcc-settings "sdcc":
+  - `-m<port>`, `-D__PORT_<port>` and `-D__TARGET_<plat> `
+
+When assembling with @ref sdasgb-settings "sdasgb" (for GB/AP) and @ref sdasz80-settings "sdasz80" (for SMS/GG):
+  - Select the appropriate include path: `-I<gbdk-path>lib/small/asxxxx/<plat>`
+
+When linking with @ref sdldgb-settings "sdldgb" (for GB/AP) and @ref sdldz80-settings "sdldz80" (for SMS/GG):
+  - Select the appropriate include paths: `-k <gbdk-path>lib/small/asxxxx/<port>`, `-k <gbdk-path>lib/small/asxxxx/<plat>`
+  - Include the appropriate library files `-l <port>.lib`, `-l <plat>.lib`
+  - The crt will be under `  <gbdk-path>lib/small/asxxxx/<plat>/crt0.o`
 
 
 ## Console Port and Platform Settings
