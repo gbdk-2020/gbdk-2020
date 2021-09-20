@@ -5,18 +5,20 @@ This section contains information that may be useful to know or important when u
 # GBDK 2020 versions
 
 ## Porting to GBDK 2020 4.0.5
-- GBDK now requires SDCC 12259 or higher with GBDK-2020 patches
-- @ref utility_png2asset is the new name for the `png2mtspr` utility
-- @ref lcc : Changed default output format when not specified from `.ihx` to `.gb` (or other active rom extension)
-- The `_BSS` area is deprecated (use `_DATA` instead)
-- The `_BASE` area is renamed to `_HOME`
-- Variables in static storage are now initialized to zero per C standard (but remaining WRAM is not cleared)
-- @ref itoa(), @ref uitoa(), @ref ltoa(), @ref ultoa() all now require a radix value (base) argument to be passed. On the Game Boy and Analogue Pocket the parameter is required but not utilized.
-- set_bkg_1bit_data has been renamed to @ref set_bkg_1bpp_data
+  - GBDK now requires SDCC 12259 or higher with GBDK-2020 patches
+  - @ref utility_png2asset "png2asset" is the new name for the `png2mtspr` utility
+  - @ref lcc : Changed default output format when not specified from `.ihx` to `.gb` (or other active rom extension)
+  - The `_BSS` area is deprecated (use `_DATA` instead)
+  - The `_BASE` area is renamed to `_HOME`
+  - Variables in static storage are now initialized to zero per C standard (but remaining WRAM is not cleared)
+  - @ref itoa(), @ref uitoa(), @ref ltoa(), @ref ultoa() all now require a radix value (base) argument to be passed. On the Game Boy and Analogue Pocket the parameter is required but not utilized.
+  - set_bkg_1bit_data has been renamed to @ref set_bkg_1bpp_data
+  - The following header files which are now cross platform were moved from `gb/` to `gbdk/`: `bcd.h`, `console.h`, `far_ptr.h`, `font.h`, `gbdecompress.h`, `gbdk-lib.h`, `incbin.h`, `metasprites.h`, `platform.h`, `version.h`
+    - When including them use `#include <gbdk/...>` instead of `#include <gb/>`
 
 ## Porting to GBDK 2020 4.0.4
-- GBDK now requires SDCC 12238 or higher
-- Made sample.h, cgb.h and sgb.h independent from gb.h
+  - GBDK now requires SDCC 12238 or higher
+  - Made sample.h, cgb.h and sgb.h independent from gb.h
 
 ## Porting to GBDK 2020 4.0.3
   - No significant changes required

@@ -204,7 +204,6 @@ Compresses (and decompresses) binary file data with the gbcompress algorithm (al
 Tool for converting PNGs into GBDK format MetaSprites and Tile Maps
 
 - Convert single or multiple frames of graphics into metasprite structured data for use with the ...metasprite...() functions.
-
 - When `-map` is used, converts images into Tile Maps and matching Tile Sets
 
 For detailed settings see @ref png2asset-settings  
@@ -212,7 +211,7 @@ For working with sprite properties (including cgb palettes), see @ref metasprite
 For API support see @ref move_metasprite() and related functions in @ref metasprites.h  
 
 ### Working with png2asset
-    - The origin (pivot) for the metasprite is not required to be in the upper left-hand corner as with regular hardware sprites. See `-px` and `-py`.
+  - The origin (pivot) for the metasprite is not required to be in the upper left-hand corner as with regular hardware sprites. See `-px` and `-py`.
 
   - The conversion process supports using both SPRITES_8x8 (`-spr8x8`) and SPRITES_8x16 mode (`-spr8x16`). If 8x16 mode is used then the height of the metasprite must be a multiple of 16.
 
@@ -240,6 +239,7 @@ Using this image a tileset will be created
   - Duplicated tiles will be removed
   - Tiles will be matched without mirror, using vertical mirror, horizontal mirror or both (use `-noflip` to turn off matching mirrored tiles)
   - The palette won't be taken into account for matching, only the pixel color order, meaning there will be a match between tiles using different palettes but looking identical on grayscale
+
 
 #### Maps
 Passing `-map` the png can be converted to a map that can be used in both the background and the window. In this case, png2asset will generate:
