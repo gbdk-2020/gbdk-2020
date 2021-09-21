@@ -29,6 +29,7 @@ ASSRC =	set_interrupts.s \
 	memset_small.s \
 	far_ptr.s \
 	gb_decompress.s \
+	rle_decompress.s \
 	heap.s \
 	__sdcc_bcall.s \
 	crt0.s

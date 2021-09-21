@@ -33,6 +33,7 @@ ASSRC =	cgb.s cgb_palettes.s cgb_compat.s \
 	metasprites.s metasprites_flip.s metasprites_hide.s metasprites_hide_spr.s \
 	set_tile_submap.s set_win_tile_submap.s \
 	gb_decompress.s gb_decompress_tiles.s \
+	rle_decompress.s \
 	heap.s \
 	crt0.s
 
