@@ -98,14 +98,12 @@ void __printf(const char *format, emitter_t emitter, char **pData, va_list va)
     }
 }
 
-static void _sprintf_emitter(char c, char ** pData) OLDCALL
-{
+static void _sprintf_emitter(char c, char ** pData) OLDCALL {
     **pData = c;
     (*pData)++;
 }
 
-void sprintf(char *into, const char *format, ...)
-{
+void sprintf(char *into, const char *format, ...) OLDCALL {
     va_list va;
     va_start(va, format);
 

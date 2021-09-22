@@ -131,7 +131,7 @@
     @see DMG_BLACK, DMG_DARK_GRAY, DMG_LITE_GRAY, DMG_WHITE
 
  */
-#define DMG_PALETTE(C0, C1, C2, C3) ((UBYTE)((((C3) & 0x03) << 6) | (((C2) & 0x03) << 4) | (((C1) & 0x03) << 2) | ((C0) & 0x03)))
+#define DMG_PALETTE(C0, C1, C2, C3) ((uint8_t)((((C3) & 0x03) << 6) | (((C2) & 0x03) << 4) | (((C1) & 0x03) << 2) | ((C0) & 0x03)))
 
 /* Limits */
 /** Width of the visible screen in pixels.
@@ -785,7 +785,7 @@ uint8_t get_vram_byte(uint8_t * addr) OLDCALL __preserves_regs(b, c);
  */
 uint8_t * get_bkg_xy_addr(uint8_t x, uint8_t y) OLDCALL __preserves_regs(b, c);
 
-#define COMPAT_PALETTE(C0,C1,C2,C3) (((C3) << 6) | ((C2) << 4) | ((C1) << 2) | (C0))
+#define COMPAT_PALETTE(C0,C1,C2,C3) ((uint8_t)(((C3) << 6) | ((C2) << 4) | ((C1) << 2) | (C0)))
 
 /** Sets palette for 2bpp color translation for GG/SMS, does nothing on GB
  */
