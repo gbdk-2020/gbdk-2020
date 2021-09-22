@@ -581,6 +581,7 @@ int main(int argc, char *argv[])
 	fprintf(file, "\n");
 	fprintf(file, "#include <stdint.h>\n");
 	fprintf(file, "#include <gbdk/platform.h>\n");
+	fprintf(file, "#include <gbdk/metasprites.h>\n");
 	fprintf(file, "\n");
 	if(use_structs)
 	{
