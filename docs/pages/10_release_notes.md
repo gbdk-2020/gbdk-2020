@@ -12,10 +12,13 @@ https://github.com/gbdk-2020/gbdk-2020/releases
   - Known Issues
     - SDCC: `z80instructionSize() failed to parse line node, assuming 999 bytes`
       - This is a known issue with the SDCC Peephole Optimizer parsing and can be ignored.
+    - `-bo<n>` and `-ba<n>` are not supported by the Windows build of @ref sdcc
   - Added support for new consoles. See @ref docs_supported_consoles
     - Analogue Pocket (`ap`)
     - Sega Master System (`sms`) and Game Gear (`gg`)
   - Library
+    - Fixed error when calling get_bkg_tile_xy: `?ASlink-Warning-Undefined Global '.set_tile_xy' referenced by module `
+?ASlink-Warning-Byte PCR relocation error for symbol  .set_tile_xy
     - Variables in static storage are now initialized to zero per C standard (but remaining WRAM is not cleared)
     - Added many new register flag constants and names. For example:
       - @ref rLCDC is a new alias for @ref LCDC_REG
