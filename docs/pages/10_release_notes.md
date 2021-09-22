@@ -207,7 +207,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
   - Banked functions are working! The patcher is fully integrated in link-gbz80, no extra tools are needed. It is based on Toxa's work
     - Check this post for more info
     - Check the examples/gb/banked code for basic usage
-  - Behavior enabled by USE_SFR_FOR_REG is on by default now (no need to specify it, it isn't a tested #ifdef anymore). check here why:
+  - Behavior formerly enabled by USE_SFR_FOR_REG is on by default now (no need to specify it, it isn't a tested `#ifdef` anymore). check here why:
     https://gbdev.gg8.se/forums/viewtopic.php?id=697
   - Fixed examples that were not compiling in the previous version and some improvements in a few of them. Removed all warnings caused by changing to the new SDCC
   - Fixed bug in lcc that was causing some files in the temp folder not being deleted

@@ -53,7 +53,7 @@ This section contains information that may be useful to know or important when u
   - No significant changes required
 
 ## Porting to GBDK 2020 3.1
-  - Behavior enabled by USE_SFR_FOR_REG is on by default now (no need to specify it, it isn't a tested #ifdef anymore). check here why:
+  - Behavior formerly enabled by USE_SFR_FOR_REG is on by default now (no need to specify it, it isn't a tested `#ifdef` anymore). check here why:
     https://gbdev.gg8.se/forums/viewtopic.php?id=697
 
 ## Porting to GBDK 2020 3.0.1
