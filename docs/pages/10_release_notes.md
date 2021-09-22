@@ -13,6 +13,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
     - SDCC: `z80instructionSize() failed to parse line node, assuming 999 bytes`
       - This is a known issue with the SDCC Peephole Optimizer parsing and can be ignored.
     - `-bo<n>` and `-ba<n>` are not supported by the Windows build of @ref sdcc
+    - On macOS the cross platform `banks` example has problems parsing the filename based ROM and RAM bank assignments into `-bo<n>` and `-ba<n>`
   - Added support for new consoles. See @ref docs_supported_consoles
     - Analogue Pocket (`ap`)
     - Sega Master System (`sms`) and Game Gear (`gg`)
