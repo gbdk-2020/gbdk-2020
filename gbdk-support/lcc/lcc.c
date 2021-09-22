@@ -738,7 +738,7 @@ static void help(void) {
 "-Bdir/	use the compiler named `dir/rcc'\n",
 "-c	compile only\n",
 "-dn	set switch statement density to `n'\n",
-"-debug	turn on --debug for compiler, -y (.cdb) and -j (.noi) for linker\n",
+"-debug	Turns on --debug for compiler, -y (.cdb) and -j (.noi) for linker\n",
 "-Dname -Dname=def	define the preprocessor symbol `name'\n",
 "-E	run only the preprocessor on the named C programs and unsuffixed files\n",
 "-g	produce symbol table information for debuggers\n",

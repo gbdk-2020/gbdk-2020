@@ -12,10 +12,13 @@ https://github.com/gbdk-2020/gbdk-2020/releases
   - Known Issues
     - SDCC: `z80instructionSize() failed to parse line node, assuming 999 bytes`
       - This is a known issue with the SDCC Peephole Optimizer parsing and can be ignored.
+    - `-bo<n>` and `-ba<n>` are not supported by the Windows build of @ref sdcc
   - Added support for new consoles. See @ref docs_supported_consoles
     - Analogue Pocket (`ap`)
     - Sega Master System (`sms`) and Game Gear (`gg`)
   - Library
+    - Fixed error when calling get_bkg_tile_xy: `?ASlink-Warning-Undefined Global '.set_tile_xy' referenced by module `
+?ASlink-Warning-Byte PCR relocation error for symbol  .set_tile_xy
     - Variables in static storage are now initialized to zero per C standard (but remaining WRAM is not cleared)
     - Added many new register flag constants and names. For example:
       - @ref rLCDC is a new alias for @ref LCDC_REG
@@ -204,7 +207,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
   - Banked functions are working! The patcher is fully integrated in link-gbz80, no extra tools are needed. It is based on Toxa's work
     - Check this post for more info
     - Check the examples/gb/banked code for basic usage
-  - USE_SFR_FOR_REG is the default now check here why
+  - Behavior formerly enabled by USE_SFR_FOR_REG is on by default now (no need to specify it, it isn't a tested `#ifdef` anymore). check here why:
     https://gbdev.gg8.se/forums/viewtopic.php?id=697
   - Fixed examples that were not compiling in the previous version and some improvements in a few of them. Removed all warnings caused by changing to the new SDCC
   - Fixed bug in lcc that was causing some files in the temp folder not being deleted
