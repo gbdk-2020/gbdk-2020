@@ -10,7 +10,7 @@
 -Bdir/	use the compiler named `dir/rcc'
 -c	compile only
 -dn	set switch statement density to `n'
--debug	turn on --debug for compiler, -y (.cdb) and -j (.noi) for linker
+-debug	Turns on --debug for compiler, -y (.cdb) and -j (.noi) for linker
 -Dname -Dname=def	define the preprocessor symbol `name'
 -E	run only the preprocessor on the named C programs and unsuffixed files
 -g	produce symbol table information for debuggers
@@ -422,17 +422,22 @@ Arguments:
 # gbcompress settings
 ```
 gbcompress [options] infile outfile
-Use: Gbcompress a binary file and write it out.
+Use: compress a binary file and write it out.
 
 Options
 -h    : Show this help screen
 -d    : Decompress (default is compress)
 -v    : Verbose output
--cin  : Read input as .c source format (8 bit char ONLY, uses first array found)
--cout : Write output in .c / .h source format (8 bit char ONLY) 
--varname=<NAME> : specify variable name for c source output
+--cin  : Read input as .c source format (8 bit char ONLY, uses first array found)
+--cout : Write output in .c / .h source format (8 bit char ONLY) 
+--varname=<NAME> : specify variable name for c source output
+--alg=<type>     : specify compression type. 'rle', 'gb' (default)
 Example: "gbcompress binaryfile.bin compressed.bin"
 Example: "gbcompress -d compressedfile.bin decompressed.bin"
+Example: "gbcompress --alg=rle binaryfile.bin compressed.bin"
+
+The default compression (gb) is the type used by gbtd/gbmb
+The rle compression is Amiga IFF style
 ```
 @anchor png2asset-settings
 # png2asset settings
