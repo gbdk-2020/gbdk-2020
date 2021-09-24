@@ -198,6 +198,8 @@ For detailed settings see @ref gbcompress-settings
 
 Compresses (and decompresses) binary file data with the gbcompress algorithm (also used in GBTD/GBMB). Decompression support is available in GBDK, see @ref gb_decompress().
 
+Can also compress (and decompress) using block style rle encoding with the `--alg=rle` flag. Decompression support is available in GBDK, see @ref rle_decompress().
+
 
 @anchor utility_png2asset
 ## png2asset
