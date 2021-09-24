@@ -224,7 +224,7 @@ Typedefs</h2></td></tr>
   </dd>
 </dl>
 <p>This cannot be used with the VBLANK interrupt.</p>
-<p>Do not use this in combination with interrupt installers that rely on the default GBDK ISR dispatcher such as <a class="el" href="gb_8h.html#a411914e5dc5f28ce0afa7cf692a18af1">add_TIM()</a>, <a class="el" href="gb_8h.html#a1ad25695f4885f15325a82ec935e8579">remove_TIM()</a> (and the same for all other interrupts).</p>
+<p>Do not use this in combination with interrupt installers that rely on the default GBDK ISR dispatcher such as <a class="el" href="gb_8h.html#a028d1a2e820951bb4f103d6469975ffb">add_TIM()</a>, <a class="el" href="gb_8h.html#a142f6c7755fce8b1148faf658d8ec147">remove_TIM()</a> (and the same for all other interrupts).</p>
 <p>Example: </p><div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="isr_8h.html">gb/isr.h</a>&gt;</span></div>
 <div class="line"> </div>
 <div class="line"><span class="keywordtype">void</span> TimerISR() __critical __interrupt {</div>

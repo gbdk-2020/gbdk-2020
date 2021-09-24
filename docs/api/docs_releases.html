@@ -90,19 +90,30 @@ $(document).ready(function(){initNavTree('docs_releases.html',''); initResizable
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p>The GBDK 2020 releases can be found on Github: <a href="https://github.com/gbdk-2020/gbdk-2020/releases">https://github.com/gbdk-2020/gbdk-2020/releases</a></p>
-<h1><a class="anchor" id="autotoc_md151"></a>
+<h1><a class="anchor" id="autotoc_md163"></a>
 GBDK 2020 Release Notes</h1>
-<h2><a class="anchor" id="autotoc_md152"></a>
+<h2><a class="anchor" id="autotoc_md164"></a>
 GBDK 2020 4.0.5</h2>
 <p>2021/09</p><ul>
+<li>Includes SDCC version 12539 with GBDK-2020 patches for Z80</li>
+<li>Known Issues<ul>
+<li>SDCC: <code>z80instructionSize() failed to parse line node, assuming 999 bytes</code><ul>
+<li>This is a known issue with the SDCC Peephole Optimizer parsing and can be ignored.</li>
+</ul>
+</li>
+<li><code>-bo&lt;n&gt;</code> and <code>-ba&lt;n&gt;</code> are not supported by the Windows build of <a class="el" href="docs_toolchain.html#sdcc">sdcc</a></li>
+<li>On macOS the cross platform <code>banks</code> example has problems parsing the filename based ROM and RAM bank assignments into <code>-bo&lt;n&gt;</code> and <code>-ba&lt;n&gt;</code></li>
+</ul>
+</li>
 <li>Added support for new consoles. See <a class="el" href="docs_supported_consoles.html">Supported Consoles &amp; Cross Compiling</a><ul>
 <li>Analogue Pocket (<code>ap</code>)</li>
 <li>Sega Master System (<code>sms</code>) and Game Gear (<code>gg</code>)</li>
 </ul>
 </li>
 <li>Library<ul>
+<li>Fixed error when calling get_bkg_tile_xy: &lsquo;?ASlink-Warning-Undefined Global &rsquo;.set_tile_xy' referenced by module ` ?ASlink-Warning-Byte PCR relocation error for symbol .set_tile_xy</li>
 <li>Variables in static storage are now initialized to zero per C standard (but remaining WRAM is not cleared)</li>
-<li>Added new register flag constants and names. For example:<ul>
+<li>Added many new register flag constants and names. For example:<ul>
 <li><a class="el" href="gb_2hardware_8h.html#a8b576a1fe1473ac4aff8afecb28035cb">rLCDC</a> is a new alias for <a class="el" href="gb_2hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a></li>
 <li><a class="el" href="gb_2hardware_8h.html#a13a5f08b9aae68f8fa57a8aa7705b732">LCDCF_WINON</a>, <a class="el" href="gb_2hardware_8h.html#a582ece3b5f6cc49d47b2ad3e16d47374">LCDCF_WINOFF</a>, <a class="el" href="gb_2hardware_8h.html#ae1de721c95ddc8f29ba9b9deaee8d68c">LCDCF_B_WINON</a></li>
 </ul>
@@ -110,8 +121,10 @@ GBDK 2020 4.0.5</h2>
 <li>Added <a class="el" href="gb_8h.html#a42705001e2b9897f5167b67fb36c69dd">BANK()</a>, <a class="el" href="gb_8h.html#a086293f2afb4c7945460a4496b20aea3">BANKREF()</a>, <a class="el" href="gb_8h.html#a261bba55a07b802baf99346feadd9852">BANKREF_EXTERN()</a></li>
 <li>Added <a class="el" href="incbin_8h.html#af34047ed60abd6453f819c2a5230cd2b">INCBIN()</a>, <a class="el" href="gb_8h.html#a42705001e2b9897f5167b67fb36c69dd">BANK()</a>, <a class="el" href="incbin_8h.html#aeacb5370285c0d4308d0fe5f29da8d15">INCBIN_SIZE()</a>, <a class="el" href="incbin_8h.html#a51ab79f8ee37368158b1887b65ef97ec">INCBIN_EXTERN()</a></li>
 <li>Added generic <a class="el" href="gb_8h.html#a1e22a3b60368bb5f3705d625ac2d09cc">SWITCH_ROM()</a> and <a class="el" href="gb_8h.html#a6e40dcc763efd953181c7400642a9f69">SWITCH_RAM()</a></li>
-<li>Added <a class="el" href="bgb__emu_8h.html#a90f721e16d0bfe90edc612a07196f702">BGB_printf()</a> and updated bgb debug output.</li>
-<li>Changed <a class="el" href="stdlib_8h.html#a18feb68db6b25a32cb9c751fd02d81d0">itoa()</a>, <a class="el" href="stdlib_8h.html#afd258fe5cf98a19d10470af1564c6b2b">uitoa()</a>, <a class="el" href="stdlib_8h.html#ab77863e11877454f190acf4ebf40044d">ltoa()</a>, <a class="el" href="stdlib_8h.html#a6a6da070c2eb86ef2c79217d9c2046ab">ultoa()</a> to now require a radix value (base) argument to be passed. On the Game Boy and Analogue Pocket the parameter is required but not utilized.</li>
+<li>Added <a class="el" href="bgb__emu_8h.html#a2b2f53166550341e0b1297dd5aa5a2c3">BGB_printf()</a> and updated bgb debug output.</li>
+<li>Added <a class="el" href="gb_8h.html#a68651e50243349b48164a8ad983dca4e">set_native_tile_data()</a>, <a class="el" href="gb_8h.html#a55f82ff980398dd97036fd936ebd727e">set_tile_map()</a>, <a class="el" href="sms_8h.html#adcb394299a1033616fc7d2faec8bd6ad">set_1bpp_colors</a>, <a class="el" href="sms_8h.html#a4d5f74eed0489ebfdc2410ee3f9f7f04">set_bkg_1bpp_data</a>, <a class="el" href="sms_8h.html#a2cc121fbeb5570248531b85a8f0b5b97">set_sprite_1bpp_data</a>, <a class="el" href="sms_8h.html#aa224c9bac27c7fd268e62bdf33338a84">set_2bpp_palette</a>, <a class="el" href="sms_8h.html#aa7ba76e4d44dbf19da351fd1ea8e3023">set_bkg_2bpp_data</a>, <a class="el" href="sms_8h.html#a10ee2919fcab7a5c482816ed718d1c4a">set_sprite_2bpp_data</a>, <a class="el" href="sms_8h.html#a30e9f94cf4e5cf198bc54ce1e0ac5979">set_tile_2bpp_data</a> (sms/gg only), <a class="el" href="sms_8h.html#aeff13dca11be49e8c159820c616016ec">set_bkg_4bpp_data</a> (sms/gg only), <a class="el" href="sms_8h.html#a24f53cfe7e25c04fbb5dcb08cfb3b432">set_sprite_4bpp_data</a> (sms/gg only)</li>
+<li>Added RLE decompression support: <a class="el" href="rledecompress_8h.html#a95560a74a89bab26cb6265dcc2bf54f6">rle_init()</a>, <a class="el" href="rledecompress_8h.html#ad60bf95ddad142d8d81e5e1f0a0bb6e0">rle_decompress()</a>,</li>
+<li>Changed <a class="el" href="stdlib_8h.html#aac2ea595a9ea8f5ebd883a0bc05eba5c">itoa()</a>, <a class="el" href="stdlib_8h.html#a38c070016cb06132360cfa5bacc2ed19">uitoa()</a>, <a class="el" href="stdlib_8h.html#a6374e62474a5a76c7ace9a59fb1cc829">ltoa()</a>, <a class="el" href="stdlib_8h.html#ac22b79fe0c1279eabc3daf57328008d2">ultoa()</a> to now require a radix value (base) argument to be passed. On the Game Boy and Analogue Pocket the parameter is required but not utilized.</li>
 </ul>
 </li>
 <li>Examples<ul>
@@ -119,8 +132,10 @@ GBDK 2020 4.0.5</h2>
 <li>Added sms, gg, pocket(ap) examples</li>
 <li>Added incbin example</li>
 <li>Added simple physics sub-pixel / fixed point math example</li>
+<li>Added rle decompression example</li>
 <li>Changed windows make.bat files to compile.bat</li>
-<li>Bug fixes and updates for existing examples</li>
+<li>Bug fixes and updates for existing examples <br  />
+</li>
 </ul>
 </li>
 <li>Toolchain / Utilities<ul>
@@ -150,6 +165,8 @@ GBDK 2020 4.0.5</h2>
 <li><a class="el" href="docs_toolchain.html#utility_gbcompress">utility_gbcompress</a><ul>
 <li>Added C source array format output (&ndash;cout) (optional variable name argument &ndash;varname=)</li>
 <li>Added C source array format input (&ndash;cin) (experimental)</li>
+<li>Added block style rle compression and decompression mode: <code>--alg=rle</code></li>
+<li>Fixed comrpession errors when input size was larger than 64k</li>
 </ul>
 </li>
 </ul>
@@ -160,16 +177,16 @@ GBDK 2020 4.0.5</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md153"></a>
+<h2><a class="anchor" id="autotoc_md165"></a>
 GBDK 2020 4.0.4</h2>
 <p>2021/06</p><ul>
 <li>Library<ul>
 <li>Support SDCC INITIALIZER area (SDCC ~12207+)</li>
-<li>Added <a class="el" href="gb_8h.html#af1e1dffd53a01380c4bb1d491d0e08e8">get_vram_byte()</a> / <a class="el" href="gb_8h.html#a0168f90bec8aff7a826cd4aee7daad89">get_win_tile_xy()</a> / <a class="el" href="gb_8h.html#ada5a329f1e932972ff83758bb5e62982">get_bkg_tile_xy()</a></li>
-<li>Added <a class="el" href="gb_8h.html#a845a29ae3a4ab2ba3533aae20bbc526b">set_tile_data()</a></li>
+<li>Added <a class="el" href="gb_8h.html#a6558dad88815aa73fb81fae2ae90473d">get_vram_byte()</a> / <a class="el" href="gb_8h.html#a82582e006a955d2c934786e9d7c29623">get_win_tile_xy()</a> / <a class="el" href="gb_8h.html#a1a485dfade1a8f07232cbe669a1c1939">get_bkg_tile_xy()</a></li>
+<li>Added <a class="el" href="gb_8h.html#a0756c9c45dcf042a146d2a54290e9f6a">set_tile_data()</a></li>
 <li>Fixed SGB detection</li>
-<li>Fixed broken <a class="el" href="gb_8h.html#a2a033e99ac99d6328db0dc75b4afc495">get_tiles()</a> / <a class="el" href="gb_8h.html#aac7f4eb7e61237f4ce3b60580ff89ff5">set_tiles()</a></li>
-<li>Fixed broken token handling in <a class="el" href="gb_2gbdecompress_8h.html#a1bf78b24168404ddd77fa2d95a5a9ee4">gb_decompress_sprite_data()</a> / <a class="el" href="gb_2gbdecompress_8h.html#a944970c534bcaeeb3d14ebbaf154e90c">gb_decompress_bkg_data()</a> / <a class="el" href="gb_2gbdecompress_8h.html#a77d1475518a6b8e082515c02867372f7">gb_decompress_win_data()</a></li>
+<li>Fixed broken <a class="el" href="gb_8h.html#afdc3ad3ac77ec32609195ae125b919e1">get_tiles()</a> / <a class="el" href="gb_8h.html#aeb241bfa1101cc1e40d26b5bd1aad96b">set_tiles()</a></li>
+<li>Fixed broken token handling in <a class="el" href="gb_2gbdecompress_8h.html#a7a57b6a4ce5efc5e5f143844003b947d">gb_decompress_sprite_data()</a> / <a class="el" href="gb_2gbdecompress_8h.html#add300dcc2e13630d907441f3f0b78544">gb_decompress_bkg_data()</a> / <a class="el" href="gb_2gbdecompress_8h.html#af81d6d4e6fa886f54ce77c26bea85d78">gb_decompress_win_data()</a></li>
 <li>Changed all headers to use standard <code>stdint.h</code> types (ex: <code>uint8_t</code> instead of <code>UINT8</code>/<code>UBYTE</code>)</li>
 <li>Made sample.h, cgb.h and sgb.h independent from gb.h</li>
 </ul>
@@ -213,24 +230,24 @@ GBDK 2020 4.0.4</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md154"></a>
+<h2><a class="anchor" id="autotoc_md166"></a>
 GBDK 2020 4.0.3</h2>
 <p>2021/03</p><ul>
 <li>Library<ul>
-<li>Added <a class="el" href="gb_8h.html#aa8e85b82c4d347edb91c0cd2fb6c8393">set_vram_byte()</a></li>
+<li>Added <a class="el" href="gb_8h.html#a84e320d3c0b1eca4d0b81b848d096582">set_vram_byte()</a></li>
 <li>Added <a class="el" href="sms_8h.html#adcd40a58f7c7d348d506cc400cd94739">set_bkg_tile_xy()</a> / <a class="el" href="sms_8h.html#a95d929d964d9988f4dc5a25ed399ae08">set_win_tile_xy()</a></li>
-<li>Added <a class="el" href="gb_8h.html#a8ca73b01888393cf2d13e7ceebd7da0b">get_bkg_xy_addr()</a> / <a class="el" href="sms_8h.html#a6eaafdbe6cf1695d30724ce75acb9412">get_win_xy_addr()</a></li>
-<li>Added <a class="el" href="gb_8h.html#a0cfd261bc7a94b1f6093f423bad30298">set_bkg_submap()</a> / <a class="el" href="gb_8h.html#abb50a392ca0d0419a080413287ee5d79">set_win_submap()</a></li>
+<li>Added <a class="el" href="gb_8h.html#a194b27b9e852e93ae0a4b55fae7fee6d">get_bkg_xy_addr()</a> / <a class="el" href="sms_8h.html#a6eaafdbe6cf1695d30724ce75acb9412">get_win_xy_addr()</a></li>
+<li>Added <a class="el" href="gb_8h.html#adb21d1c7d533a7133bab36a845489780">set_bkg_submap()</a> / <a class="el" href="gb_8h.html#af80befa3cad9cae361c7cf4fffb3a8de">set_win_submap()</a></li>
 <li>Added metasprite api support</li>
 <li>Added gb_decompress support</li>
-<li>Added <a class="el" href="stdlib_8h.html#a62b7798461bd461da64c5f9d35feddf7">calloc</a> / <a class="el" href="stdlib_8h.html#a7ac38fce3243a7dcf448301ee9ffd392">malloc</a> / <a class="el" href="stdlib_8h.html#a1a6b5e8d2f1c37e5b43e4345586075be">realloc</a> / <a class="el" href="stdlib_8h.html#afbedc913aa4651b3c3b4b3aecd9b4711">free</a> and generic <a class="el" href="asm_2z80_2string_8h.html#a802c986820d3866639922b6bc9484f90">memmove</a></li>
-<li>Improved <a class="el" href="stdio_8h.html#a79c1db3e4a2aaa60d5afa76f7d984d0b">printf()</a>: ignore %0 padding and %1-9 width specifier instead of not printing, support upper case X</li>
-<li>Fixed <a class="el" href="drawing_8h.html#a0d0306ae7aafbbf9439e26c85d96e02b">line()</a>: handle drawing when x1 is less than x2</li>
+<li>Added <a class="el" href="stdlib_8h.html#a62b7798461bd461da64c5f9d35feddf7">calloc</a> / <a class="el" href="stdlib_8h.html#a7ac38fce3243a7dcf448301ee9ffd392">malloc</a> / <a class="el" href="stdlib_8h.html#a1a6b5e8d2f1c37e5b43e4345586075be">realloc</a> / <a class="el" href="stdlib_8h.html#afbedc913aa4651b3c3b4b3aecd9b4711">free</a> and generic <a class="el" href="asm_2z80_2string_8h.html#a854ba725a4e429439ccf93b1f5ad7b3a">memmove</a></li>
+<li>Improved <a class="el" href="stdio_8h.html#ab403fa700816f08631ba75bc536f74d4">printf()</a>: ignore %0 padding and %1-9 width specifier instead of not printing, support upper case X</li>
+<li>Fixed <a class="el" href="drawing_8h.html#afe0ad8959a2867c4b60829d065660f1b">line()</a>: handle drawing when x1 is less than x2</li>
 </ul>
 </li>
 <li>Examples<ul>
-<li>Added large_map: showing how to use <a class="el" href="gb_8h.html#a0cfd261bc7a94b1f6093f423bad30298">set_bkg_submap()</a></li>
-<li>Added scroller: showing use of <a class="el" href="gb_8h.html#a8ca73b01888393cf2d13e7ceebd7da0b">get_bkg_xy_addr()</a>, <a class="el" href="sms_8h.html#adcd40a58f7c7d348d506cc400cd94739">set_bkg_tile_xy()</a> and <a class="el" href="sms_8h.html#a18ce02bf91fd93098176b5bcc94cdf4a">set_vram_byte</a></li>
+<li>Added large_map: showing how to use <a class="el" href="gb_8h.html#adb21d1c7d533a7133bab36a845489780">set_bkg_submap()</a></li>
+<li>Added scroller: showing use of <a class="el" href="gb_8h.html#a194b27b9e852e93ae0a4b55fae7fee6d">get_bkg_xy_addr()</a>, <a class="el" href="sms_8h.html#adcd40a58f7c7d348d506cc400cd94739">set_bkg_tile_xy()</a> and <a class="el" href="sms_8h.html#a18ce02bf91fd93098176b5bcc94cdf4a">set_vram_byte</a></li>
 <li>Added gbdecompress: de-compressing tile data into vram</li>
 <li>Added metasprites: show creating a large sprite with the new metasprite api</li>
 <li>Added template projects</li>
@@ -249,7 +266,7 @@ GBDK 2020 4.0.3</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md155"></a>
+<h2><a class="anchor" id="autotoc_md167"></a>
 GBDK 2020 4.0.2</h2>
 <p>2021/01/17</p><ul>
 <li>Includes SDCC snapshot build version 12016 (has a fix for duplicate debug symbols generated from inlined header functions which GBDK 4.0+ uses)</li>
@@ -262,7 +279,7 @@ GBDK 2020 4.0.2</h2>
 <li>safer copy-to-VRAM functions</li>
 <li>loading of 1bit data fixed, also now it is possible to specify pixel color</li>
 <li>Improved code generation for the GBDK Library with SDCC switch on by default: <code>--max-allocs-per-node 50000</code></li>
-<li>fixed wrong parameter offsets in <a class="el" href="gb_8h.html#adef803cdd559747ad6f36830e126e48f">hiramcpy()</a> (broken ram_function example)</li>
+<li>fixed wrong parameter offsets in <a class="el" href="gb_8h.html#a08365da56dbc2a97c480818c0e6a62b9">hiramcpy()</a> (broken ram_function example)</li>
 <li>Multiple minor improvements</li>
 </ul>
 </li>
@@ -273,7 +290,7 @@ GBDK 2020 4.0.2</h2>
 </li>
 <li>Examples: Added bgb debug example</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md156"></a>
+<h2><a class="anchor" id="autotoc_md168"></a>
 GBDK 2020 4.0.1</h2>
 <p>2020/11/14</p><ul>
 <li>Updated API documentation</li>
@@ -283,7 +300,7 @@ GBDK 2020 4.0.1</h2>
 <li>new fill_*_rect() functions to clear rectangle areas</li>
 <li>runtime initialization code now does not initialize whole WRAM with zeros anymore, that allows BGB to raise exceptions when code tries to read WRAM that was not written before.</li>
 <li>enhanced SGB support<ul>
-<li><a class="el" href="gb_8h.html#a714bbced6a4c47ae9f82f81ef3b5b357">joypad_init()</a> / <a class="el" href="gb_8h.html#a1db30aa7479be2276312f3c981553906">joypad_ex()</a> support for multiple joypads</li>
+<li><a class="el" href="gb_8h.html#ab7e35e1eff44ed78ad8f0015c6e85b4e">joypad_init()</a> / <a class="el" href="gb_8h.html#a5166ceebbaa646e2667df1a219c7b903">joypad_ex()</a> support for multiple joypads</li>
 <li>SGB border example</li>
 </ul>
 </li>
@@ -299,7 +316,7 @@ GBDK 2020 4.0.1</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md157"></a>
+<h2><a class="anchor" id="autotoc_md169"></a>
 GBDK 2020 4.0</h2>
 <p>2020/10/01</p><ul>
 <li>GBDK now requires SDCC 4.0.3 or higher, that has fully working toolchain. Old link-gbz80 linker is not used anymore, sdldgb and makebin are used to link objects and produce binary roms; maccer tool is no longer needed either<ul>
@@ -314,7 +331,7 @@ GBDK 2020 4.0</h2>
 <li>itoa/ltoa functions were rewritten, div/mod is not required now which is about 10 times faster</li>
 <li>sprite functions are inline now, which is faster up to 12 times and produces the same or smaller code; .OAM symbol is renamed into _shadow_OAM that allows accessing shadow OAM directly from C code</li>
 <li>interrupt handling was revised, it is now possible to make dedicated ISR's, that is important for time-sensitive handlers such as HBlank.</li>
-<li>printf/sprintf were rewritten and splitted, print functions are twice faster now and also requre less rom space if you use <a class="el" href="stdio_8h.html#a6c8d9c5b5b6a760b5b2787f0f96b690e">sprintf()</a> only, say, in bgb_emu.h</li>
+<li>printf/sprintf were rewritten and splitted, print functions are twice faster now and also requre less rom space if you use <a class="el" href="stdio_8h.html#a31913a297ee18548c81d482ef6bdbe0f">sprintf()</a> only, say, in bgb_emu.h</li>
 <li>crash_handler.h - crash handler that allows to detect problems with ROMs after they are being released (adapted handler, originally written by ISSOtm)</li>
 <li>improved and fixed string.h</li>
 <li>many other improvements and fixes - thanks to all contributors!</li>
@@ -328,19 +345,19 @@ GBDK 2020 4.0</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md158"></a>
+<h2><a class="anchor" id="autotoc_md170"></a>
 GBDK 2020 3.2</h2>
 <p>2020/06/05</p><ul>
 <li>Fixed OAM initialization that was causing a bad access to VRAM</li>
 <li>Interrupt handlers now wait for lcd controller mode 0 or 1 by default to prevent access to inaccessible VRAM in several functions (like set_bkg_tiles)</li>
 <li>Several optimizations here and there</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md159"></a>
+<h2><a class="anchor" id="autotoc_md171"></a>
 GBDK 2020 3.1.1</h2>
 <p>2020/05/17</p><ul>
 <li>Fixed issues with libgcc_s_dw2-1.dll</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md160"></a>
+<h2><a class="anchor" id="autotoc_md172"></a>
 GBDK 2020 3.1</h2>
 <p>2020/05/16</p><ul>
 <li>Banked functions are working! The patcher is fully integrated in link-gbz80, no extra tools are needed. It is based on Toxa's work<ul>
@@ -348,7 +365,7 @@ GBDK 2020 3.1</h2>
 <li>Check the examples/gb/banked code for basic usage</li>
 </ul>
 </li>
-<li>USE_SFR_FOR_REG is the default now check here why <a href="https://gbdev.gg8.se/forums/viewtopic.php?id=697">https://gbdev.gg8.se/forums/viewtopic.php?id=697</a></li>
+<li>Behavior formerly enabled by USE_SFR_FOR_REG is on by default now (no need to specify it, it isn't a tested <code>#ifdef</code> anymore). check here why: <a href="https://gbdev.gg8.se/forums/viewtopic.php?id=697">https://gbdev.gg8.se/forums/viewtopic.php?id=697</a></li>
 <li>Fixed examples that were not compiling in the previous version and some improvements in a few of them. Removed all warnings caused by changing to the new SDCC</li>
 <li>Fixed bug in lcc that was causing some files in the temp folder not being deleted</li>
 <li>Removed as-gbz80 (the lib is now compiled with sdasgb thanks to this workaround) <a href="https://github.com/gbdk-2020/gbdk-2020/commit/d2caafa4a66eb08998a14b258cb66af041a0e5c8">https://github.com/gbdk-2020/gbdk-2020/commit/d2caafa4a66eb08998a14b258cb66af041a0e5c8</a></li>
@@ -358,21 +375,21 @@ GBDK 2020 3.1</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md161"></a>
+<h2><a class="anchor" id="autotoc_md173"></a>
 GBDK 2020 3.0.1</h2>
 <p>2020/04/12</p><ul>
 <li>Updated SDCC to v.4.0</li>
 <li>Updated LCC to work with the new compiler</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md162"></a>
+<h2><a class="anchor" id="autotoc_md174"></a>
 GBDK 2020 3.0</h2>
 <p>2020/04/12</p><ul>
 <li>Initial GBDK 2020 release <br  />
  Updated SDCC to v4.0 The new linker is not working so the old version is still there There is an issue with sdagb compiling drawing.s (the JP in line 32 after ".org .MODE_TABLE+4*.G_MODE" it's writing more than 4 bytes invading some addresses required by input.s:41) Because of this, all .s files in libc have been assembled with the old as-gbz80 and that's why it is still included</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md163"></a>
+<h1><a class="anchor" id="autotoc_md175"></a>
 Historical GBDK Release Notes</h1>
-<h2><a class="anchor" id="autotoc_md164"></a>
+<h2><a class="anchor" id="autotoc_md176"></a>
 GBDK 2.96</h2>
 <p>17 April, 2000 <br  />
  Many changes. <br  />
@@ -382,7 +399,7 @@ GBDK 2.96</h2>
 <li>Added full 32 bit long support.</li>
 <li>Still no floating pt support.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md165"></a>
+<h2><a class="anchor" id="autotoc_md177"></a>
 GBDK 2.95-3</h2>
 <p>19th August, 2000 <br  />
 </p>
@@ -394,7 +411,7 @@ GBDK 2.95-3</h2>
 </ul>
 <p>This is an experimental release for those who feel keen. The main change is a new lexer (the first part in the compilation process which recognises words and symbols like '!=' and 'char' and turns them into a token number) which speeds up compilation of large initialised arrays like tile data by a factor of three. Please report any bugs that show up - this is a big change.</p>
 <p>I have also included a 'minimal' release for win32 users which omits the documentation, library sources, and examples. If this is useful I will keep doing it.</p>
-<h2><a class="anchor" id="autotoc_md166"></a>
+<h2><a class="anchor" id="autotoc_md178"></a>
 GBDK 2.95-2</h2>
 <p>5th August, 2000 <br  />
  Just a small update. From the README:</p>
@@ -404,7 +421,7 @@ GBDK 2.95-2</h2>
 <li>Changed the ways globals are exported, reducing the amount of extra junk linked in.</li>
 <li>Turned on the optimisations in flex. Large constant arrays like tile data should compile a bit faster.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md167"></a>
+<h2><a class="anchor" id="autotoc_md179"></a>
 GBDK 2.95</h2>
 <p>22nd July, 2000</p><ul>
 <li>Fixed 'a &lt;&lt; c' for c = [9..15]</li>
@@ -426,7 +443,7 @@ GBDK 2.95</h2>
 <p>7th July, 2000 <br  />
  Information on float and long support. Someone asked about the state of float/long support recently. Heres my reply:</p>
 <p>long support is partly there, as is float support. The compiler will correctly recognise the long and float keywords, and will generate the code for most basic ops (+, -, &amp;, | etc) for longs correctly and will generate the function calls for floats and hard long operations (*, /, %) correctly. However it wont generate float constants in the correct format, nor will it 'return' a long or float - gbdk doesn't yet support returning types of 4 bytes. Unfortunately its not going to make it into 2.95 as there's too much else to do, but I should be able to complete long support for 2.96</p>
-<h2><a class="anchor" id="autotoc_md168"></a>
+<h2><a class="anchor" id="autotoc_md180"></a>
 GBDK 2.94</h2>
 <p>7th May, 2000 <br  />
  Many fixes - see the README for more.</p>
@@ -443,7 +460,7 @@ GBDK 2.94</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md169"></a>
+<h2><a class="anchor" id="autotoc_md181"></a>
 GBDK 2.93</h2>
 <p>6th April, 2000 <br  />
  From the README</p>
@@ -456,7 +473,7 @@ GBDK 2.93</h2>
 <li>The dscan demo now fully works (with a hack :)</li>
 <li>There is a bug with cached computed values which are later used as pointers. When the value is first used as a BYTE arg, then later as a pointer the pointer fails as the high byte was never computed and is now missing. A temporary fix is to declare something appropriate as 'volatile' to stop the value being cached. See dscan.c/bombs() for an example.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md170"></a>
+<h2><a class="anchor" id="autotoc_md182"></a>
 GBDK 2.92-2 for win32</h2>
 <p>26th March, 2000 <br  />
  This is a maintenance release for win32 which fixes some of the niggly install problems, especially:</p><ul>
@@ -475,7 +492,7 @@ GBDK 2.92-2 for win32</h2>
  Problems with the installer. It seems that the demo of InstallVISE has an unreasonably short time limit. I had planed to use the demo until the license key came through, but there's no sign of the key yet and the 3 day evaluation is up. If anyone knows of a free Windows installer with the ability to modify environment variables, please contact me. I hear that temporarily setting you clock back to the 15th works...</p>
 <p>18th March, 2000 <br  />
  libc5 version available / "Error creating temp file" Thanks to Rodrigo Couto there is now a Linux/libc5 version of gbdk3-2.92 available - follow the download link above. At least it will be there when the main sourceforge site comes back up... Also some people have reported a bug where the compiler reports '*** Error creating temp file'. Try typing "mkdir c: tmp" from a DOS prompt and see if that helps.</p>
-<h2><a class="anchor" id="autotoc_md171"></a>
+<h2><a class="anchor" id="autotoc_md183"></a>
 GBDK 2.92</h2>
 <p>8th March, 2000 <br  />
  Better than 2.91 :). Can now be installed anywhere. All the demos work. See the README for more.</p><ul>
@@ -490,7 +507,7 @@ GBDK 2.92</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md172"></a>
+<h2><a class="anchor" id="autotoc_md184"></a>
 GBDK 2.91</h2>
 <p>27th Feb, 2000 <br  />
  Better than 2.90 and includes Linux, win32 and a source tar ball. Some notes:</p>
@@ -505,11 +522,11 @@ GBDK 2.91</h2>
  Icehawk wrote "I did write some rumble pack routines. Just make sure to remind people to add -Wl-yt0x1C or -Wl-yt0x1D or -Wl-yt0x1E depending on sram and battery usage. Find the routines on my site (as usual). =)"</p>
 <p>18th Oct, 1999 <br  />
  Bug tracking / FAQ up. Try the link on the left to report any bugs with GBDK. It's also the first place to look if your having problems.</p>
-<h2><a class="anchor" id="autotoc_md173"></a>
+<h2><a class="anchor" id="autotoc_md185"></a>
 GBDK 2.1.5</h2>
 <p>17th Oct, 1999 <br  />
 </p>
-<p>The compiler is the same, but some of the libraries have been improved. <a class="el" href="asm_2gbz80_2string_8h.html#a23e7549e1468d21419457759150fa767">memset()</a> and <a class="el" href="asm_2gbz80_2string_8h.html#a1bb96f23101e1f8c053a36d59a01d3f8">memcpy()</a> are much faster, <a class="el" href="stdlib_8h.html#a7ac38fce3243a7dcf448301ee9ffd392">malloc()</a> is fixed, and a high speed fixed block alternative <a class="el" href="stdlib_8h.html#a7ac38fce3243a7dcf448301ee9ffd392">malloc()</a> was added. </p>
+<p>The compiler is the same, but some of the libraries have been improved. <a class="el" href="asm_2gbz80_2string_8h.html#af2fcd4c99b3b490e6db059e741676274">memset()</a> and <a class="el" href="asm_2gbz80_2string_8h.html#a36e8e03da711f0d862ca1d62a001a627">memcpy()</a> are much faster, <a class="el" href="stdlib_8h.html#a7ac38fce3243a7dcf448301ee9ffd392">malloc()</a> is fixed, and a high speed fixed block alternative <a class="el" href="stdlib_8h.html#a7ac38fce3243a7dcf448301ee9ffd392">malloc()</a> was added. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->

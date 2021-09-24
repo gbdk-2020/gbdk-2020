@@ -90,7 +90,7 @@ $(document).ready(function(){initNavTree('docs_toolchain_settings.html',''); ini
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="lcc-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md174"></a>
+<h1><a class="anchor" id="autotoc_md186"></a>
 lcc settings</h1>
 <div class="fragment"><div class="line">./lcc [ option | file ]...</div>
 <div class="line">    except for -l, options are processed left-to-right before files</div>
@@ -100,7 +100,7 @@ lcc settings</h1>
 <div class="line">-Bdir/  use the compiler named `dir/rcc&#39;</div>
 <div class="line">-c  compile only</div>
 <div class="line">-dn set switch statement density to `n&#39;</div>
-<div class="line">-debug  turn on --debug for compiler, -y (.cdb) and -j (.noi) for linker</div>
+<div class="line">-debug  Turns on --debug for compiler, -y (.cdb) and -j (.noi) for linker</div>
 <div class="line">-Dname -Dname=def   define the preprocessor symbol `name&#39;</div>
 <div class="line">-E  run only the preprocessor on the named C programs and unsuffixed files</div>
 <div class="line">-g  produce symbol table information for debuggers</div>
@@ -129,7 +129,7 @@ lcc settings</h1>
 <div class="line">-Woarg  specify system-specific `arg&#39;</div>
 <div class="line">-W[pfablim]arg  pass `arg&#39; to the preprocessor, compiler, assembler, bankpack, linker, ihxcheck, or makebin</div>
 </div><!-- fragment --><p><a class="anchor" id="sdcc-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md175"></a>
+<h1><a class="anchor" id="autotoc_md187"></a>
 sdcc settings</h1>
 <div class="fragment"><div class="line">SDCC : z80/gbz80 4.1.6 #12539 (Linux)</div>
 <div class="line">published under GNU General Public License (GPL)</div>
@@ -244,6 +244,8 @@ sdcc settings</h1>
 <div class="line">Special options for the z80 port:</div>
 <div class="line">      --callee-saves-bc     Force a called function to always save BC</div>
 <div class="line">      --portmode=           Determine PORT I/O mode (z80/z180)</div>
+<div class="line">      -bo                   &lt;num&gt; use code bank &lt;num&gt;</div>
+<div class="line">      -ba                   &lt;num&gt; use data bank &lt;num&gt;</div>
 <div class="line">      --asm=                Define assembler name (rgbds/asxxxx/isas/z80asm/gas)</div>
 <div class="line">      --codeseg             &lt;name&gt; use this name for the code segment</div>
 <div class="line">      --constseg            &lt;name&gt; use this name for the const segment</div>
@@ -267,7 +269,7 @@ sdcc settings</h1>
 <div class="line">      --no-std-crt0         For the z80/gbz80 do not link default crt0.rel</div>
 <div class="line">      --legacy-banking      Use legacy method to call banked functions</div>
 </div><!-- fragment --><p><a class="anchor" id="sdasgb-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md176"></a>
+<h1><a class="anchor" id="autotoc_md188"></a>
 sdasgb settings</h1>
 <div class="fragment"><div class="line">sdas Assembler V02.00 + NoICE + SDCC mods  (GameBoy Z80-like CPU)</div>
 <div class="line"> </div>
@@ -302,8 +304,44 @@ sdasgb settings</h1>
 <div class="line">       Directories are searched in the order given.</div>
 <div class="line"> </div>
 <div class="line">removing </div>
+</div><!-- fragment --><p><a class="anchor" id="sdasz80-settings"></a></p>
+<h1><a class="anchor" id="autotoc_md189"></a>
+sdasz80 settings</h1>
+<div class="fragment"><div class="line">sdas Assembler V02.00 + NoICE + SDCC mods  (GameBoy Z80-like CPU)</div>
+<div class="line"> </div>
+<div class="line"> </div>
+<div class="line">Copyright (C) 2012  Alan R. Baldwin</div>
+<div class="line">This program comes with ABSOLUTELY NO WARRANTY.</div>
+<div class="line"> </div>
+<div class="line">Usage: [-Options] file</div>
+<div class="line">Usage: [-Options] outfile file1 [file2 file3 ...]</div>
+<div class="line">  -d   Decimal listing</div>
+<div class="line">  -q   Octal   listing</div>
+<div class="line">  -x   Hex     listing (default)</div>
+<div class="line">  -g   Undefined symbols made global</div>
+<div class="line">  -n   Don&#39;t resolve global assigned value symbols</div>
+<div class="line">  -a   All user symbols made global</div>
+<div class="line">  -b   Display .define substitutions in listing</div>
+<div class="line">  -bb  and display without .define substitutions</div>
+<div class="line">  -c   Disable instruction cycle count in listing</div>
+<div class="line">  -j   Enable NoICE Debug Symbols</div>
+<div class="line">  -y   Enable SDCC  Debug Symbols</div>
+<div class="line">  -l   Create list   file/outfile[.lst]</div>
+<div class="line">  -o   Create object file/outfile[.rel]</div>
+<div class="line">  -s   Create symbol file/outfile[.sym]</div>
+<div class="line">  -p   Disable automatic listing pagination</div>
+<div class="line">  -u   Disable .list/.nlist processing</div>
+<div class="line">  -w   Wide listing format for symbol table</div>
+<div class="line">  -z   Disable case sensitivity for symbols</div>
+<div class="line">  -f   Flag relocatable references by  `   in listing file</div>
+<div class="line">  -ff  Flag relocatable references by mode in listing file</div>
+<div class="line">  -I   Add the named directory to the include file</div>
+<div class="line">       search path.  This option may be used more than once.</div>
+<div class="line">       Directories are searched in the order given.</div>
+<div class="line"> </div>
+<div class="line">removing </div>
 </div><!-- fragment --><p><a class="anchor" id="bankpack-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md177"></a>
+<h1><a class="anchor" id="autotoc_md190"></a>
 bankpack settings</h1>
 <div class="fragment"><div class="line">bankalloc [options] objfile1 objfile2 etc</div>
 <div class="line">Use: Read .o files and auto-assign areas with bank=255.</div>
@@ -340,7 +378,7 @@ bankpack settings</h1>
 <div class="line">S ___bank_&lt;const name&gt; Def0000FF</div>
 <div class="line">    (Above can be made by: const void __at(255) __bank_&lt;const name&gt;;</div>
 </div><!-- fragment --><p><a class="anchor" id="sdldgb-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md178"></a>
+<h1><a class="anchor" id="autotoc_md191"></a>
 sdldgb settings</h1>
 <div class="fragment"><div class="line">sdld Linker V03.00 + NoICE + sdld</div>
 <div class="line"> </div>
@@ -376,8 +414,45 @@ sdldgb settings</h1>
 <div class="line">  -z   Disable Case Sensitivity for Symbols</div>
 <div class="line">End:</div>
 <div class="line">  -e   or null line terminates input</div>
+</div><!-- fragment --><p><a class="anchor" id="sdldz80-settings"></a></p>
+<h1><a class="anchor" id="autotoc_md192"></a>
+sdldz80 settings</h1>
+<div class="fragment"><div class="line">sdld Linker V03.00 + NoICE + sdld</div>
+<div class="line"> </div>
+<div class="line">Usage: [-Options] [-Option with arg] file</div>
+<div class="line">Usage: [-Options] [-Option with arg] outfile file1 [file2 ...]</div>
+<div class="line">Startup:</div>
+<div class="line">  -p   Echo commands to stdout (default)</div>
+<div class="line">  -n   No echo of commands to stdout</div>
+<div class="line">Alternates to Command Line Input:</div>
+<div class="line">  -c                   ASlink &gt;&gt; prompt input</div>
+<div class="line">  -f   file[.lk]       Command File input</div>
+<div class="line">Libraries:</div>
+<div class="line">  -k   Library path specification, one per -k</div>
+<div class="line">  -l   Library file specification, one per -l</div>
+<div class="line">Relocation:</div>
+<div class="line">  -b   area base address = expression</div>
+<div class="line">  -g   global symbol = expression</div>
+<div class="line">  -a   (platform) Select platform specific virtual address translation</div>
+<div class="line">Map format:</div>
+<div class="line">  -m   Map output generated as (out)file[.map]</div>
+<div class="line">  -w   Wide listing format for map file</div>
+<div class="line">  -x   Hexadecimal (default)</div>
+<div class="line">  -d   Decimal</div>
+<div class="line">  -q   Octal</div>
+<div class="line">Output:</div>
+<div class="line">  -i   Intel Hex as (out)file[.ihx]</div>
+<div class="line">  -s   Motorola S Record as (out)file[.s19]</div>
+<div class="line">  -j   NoICE Debug output as (out)file[.noi]</div>
+<div class="line">  -y   SDCDB Debug output as (out)file[.cdb]</div>
+<div class="line">List:</div>
+<div class="line">  -u   Update listing file(s) with link data as file(s)[.rst]</div>
+<div class="line">Case Sensitivity:</div>
+<div class="line">  -z   Disable Case Sensitivity for Symbols</div>
+<div class="line">End:</div>
+<div class="line">  -e   or null line terminates input</div>
 </div><!-- fragment --><p><a class="anchor" id="ihxcheck-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md179"></a>
+<h1><a class="anchor" id="autotoc_md193"></a>
 ihxcheck settings</h1>
 <div class="fragment"><div class="line">ihx_check input_file.ihx [options]</div>
 <div class="line"> </div>
@@ -388,7 +463,7 @@ ihxcheck settings</h1>
 <div class="line">Use: Read a .ihx and warn about overlapped areas.</div>
 <div class="line">Example: &quot;ihx_check build/MyProject.ihx&quot;</div>
 </div><!-- fragment --><p><a class="anchor" id="makebin-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md180"></a>
+<h1><a class="anchor" id="autotoc_md194"></a>
 makebin settings</h1>
 <div class="fragment"><div class="line">makebin: convert a Intel IHX file to binary or GameBoy format binary.</div>
 <div class="line">Usage: makebin [options] [&lt;in_file&gt; [&lt;out_file&gt;]]</div>
@@ -419,22 +494,27 @@ makebin settings</h1>
 <div class="line">  &lt;in_file&gt;      optional IHX input file, &#39;-&#39; means stdin. (default: stdin)</div>
 <div class="line">  &lt;out_file&gt;     optional output file, &#39;-&#39; means stdout. (default: stdout)</div>
 </div><!-- fragment --><p><a class="anchor" id="gbcompress-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md181"></a>
+<h1><a class="anchor" id="autotoc_md195"></a>
 gbcompress settings</h1>
 <div class="fragment"><div class="line">gbcompress [options] infile outfile</div>
-<div class="line">Use: Gbcompress a binary file and write it out.</div>
+<div class="line">Use: compress a binary file and write it out.</div>
 <div class="line"> </div>
 <div class="line">Options</div>
 <div class="line">-h    : Show this help screen</div>
 <div class="line">-d    : Decompress (default is compress)</div>
 <div class="line">-v    : Verbose output</div>
-<div class="line">-cin  : Read input as .c source format (8 bit char ONLY, uses first array found)</div>
-<div class="line">-cout : Write output in .c / .h source format (8 bit char ONLY) </div>
-<div class="line">-varname=&lt;NAME&gt; : specify variable name for c source output</div>
+<div class="line">--cin  : Read input as .c source format (8 bit char ONLY, uses first array found)</div>
+<div class="line">--cout : Write output in .c / .h source format (8 bit char ONLY) </div>
+<div class="line">--varname=&lt;NAME&gt; : specify variable name for c source output</div>
+<div class="line">--alg=&lt;type&gt;     : specify compression type. &#39;rle&#39;, &#39;gb&#39; (default)</div>
 <div class="line">Example: &quot;gbcompress binaryfile.bin compressed.bin&quot;</div>
 <div class="line">Example: &quot;gbcompress -d compressedfile.bin decompressed.bin&quot;</div>
+<div class="line">Example: &quot;gbcompress --alg=rle binaryfile.bin compressed.bin&quot;</div>
+<div class="line"> </div>
+<div class="line">The default compression (gb) is the type used by gbtd/gbmb</div>
+<div class="line">The rle compression is Amiga IFF style</div>
 </div><!-- fragment --><p><a class="anchor" id="png2asset-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md182"></a>
+<h1><a class="anchor" id="autotoc_md196"></a>
 png2asset settings</h1>
 <div class="fragment"><div class="line">usage: png2asset    &lt;file&gt;.png [options]</div>
 <div class="line">-c                  ouput file (default: &lt;png file&gt;.c)</div>

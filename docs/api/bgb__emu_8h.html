@@ -92,7 +92,8 @@ $(document).ready(function(){initNavTree('bgb__emu_8h.html',''); initResizable()
 <div class="title">bgb_emu.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-
+<div class="textblock"><code>#include &lt;types.h&gt;</code><br />
+</div>
 <p><a href="bgb__emu_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
@@ -105,13 +106,15 @@ Macros</h2></td></tr>
 <tr class="separator:ab43f94064dc523e99c4aefb440e2c3ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6afa665bd7d093e7ca2d310cc92b08a9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bgb__emu_8h.html#a6afa665bd7d093e7ca2d310cc92b08a9">BGB_TEXT</a>(MSG)&#160;&#160;&#160;<a class="el" href="bgb__emu_8h.html#aabd48c83af8f69ed624bb8a83347fa39">BGB_MESSAGE</a>(MSG)</td></tr>
 <tr class="separator:a6afa665bd7d093e7ca2d310cc92b08a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95c9ae3faadfe6f93a3cac87085b3481"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bgb__emu_8h.html#a95c9ae3faadfe6f93a3cac87085b3481">BGB_BREAKPOINT</a>&#160;&#160;&#160;__asm__(&quot;ld <a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>, <a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>&quot;);</td></tr>
+<tr class="separator:a95c9ae3faadfe6f93a3cac87085b3481"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a219a24aebe0bddc535ba4abc81cee30c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bgb__emu_8h.html#a219a24aebe0bddc535ba4abc81cee30c">BGB_profiler_message</a> ()</td></tr>
 <tr class="separator:a219a24aebe0bddc535ba4abc81cee30c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a90f721e16d0bfe90edc612a07196f702"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bgb__emu_8h.html#a90f721e16d0bfe90edc612a07196f702">BGB_printf</a> (const char *format,...) <a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
-<tr class="separator:a90f721e16d0bfe90edc612a07196f702"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b2f53166550341e0b1297dd5aa5a2c3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bgb__emu_8h.html#a2b2f53166550341e0b1297dd5aa5a2c3">BGB_printf</a> (const char *format,...) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
+<tr class="separator:a2b2f53166550341e0b1297dd5aa5a2c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Debug window logging and profiling support for the BGB emulator.</p>
@@ -225,6 +228,21 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a95c9ae3faadfe6f93a3cac87085b3481"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95c9ae3faadfe6f93a3cac87085b3481">&#9670;&nbsp;</a></span>BGB_BREAKPOINT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BGB_BREAKPOINT&#160;&#160;&#160;__asm__(&quot;ld <a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>, <a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>&quot;);</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>BGB will break into debugger when encounters this line </p>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="a219a24aebe0bddc535ba4abc81cee30c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a219a24aebe0bddc535ba4abc81cee30c">&#9670;&nbsp;</a></span>BGB_profiler_message()</h2>
@@ -245,8 +263,8 @@ Functions</h2></td></tr>
 </div><!-- fragment --> 
 </div>
 </div>
-<a id="a90f721e16d0bfe90edc612a07196f702"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a90f721e16d0bfe90edc612a07196f702">&#9670;&nbsp;</a></span>BGB_printf()</h2>
+<a id="a2b2f53166550341e0b1297dd5aa5a2c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b2f53166550341e0b1297dd5aa5a2c3">&#9670;&nbsp;</a></span>BGB_printf()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -294,7 +312,7 @@ Functions</h2></td></tr>
 </div>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="abgb__emu_8h_html_aabd48c83af8f69ed624bb8a83347fa39"><div class="ttname"><a href="bgb__emu_8h.html#aabd48c83af8f69ed624bb8a83347fa39">BGB_MESSAGE</a></div><div class="ttdeci">#define BGB_MESSAGE(message_text)</div><div class="ttdef"><b>Definition:</b> bgb_emu.h:38</div></div>
+<div class="ttc" id="abgb__emu_8h_html_aabd48c83af8f69ed624bb8a83347fa39"><div class="ttname"><a href="bgb__emu_8h.html#aabd48c83af8f69ed624bb8a83347fa39">BGB_MESSAGE</a></div><div class="ttdeci">#define BGB_MESSAGE(message_text)</div><div class="ttdef"><b>Definition:</b> bgb_emu.h:40</div></div>
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

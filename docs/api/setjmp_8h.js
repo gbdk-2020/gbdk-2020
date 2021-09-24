@@ -7,6 +7,6 @@ var setjmp_8h =
     [ "RET_SIZE", "setjmp_8h.html#a61c5519ad23b4ddbcc77c45352aac913", null ],
     [ "setjmp", "setjmp_8h.html#a27d1a255c7e0d69afec2367bb85b60b0", null ],
     [ "jmp_buf", "setjmp_8h.html#a88bdd5a73c39b334f254a3ef5488880d", null ],
-    [ "__setjmp", "setjmp_8h.html#a299cf119e588646778caab18b90a41a5", null ],
-    [ "longjmp", "setjmp_8h.html#aaf56e20169cc5a6d5c1a968e24d04623", null ]
+    [ "__setjmp", "setjmp_8h.html#af04f5d4b814aaac060bca4e9dea7c2a1", null ],
+    [ "longjmp", "setjmp_8h.html#ae8f437ea759f560a09affd1bab9acb74", null ]
 ];

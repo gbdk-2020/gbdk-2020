@@ -9,5 +9,6 @@ var dir_aedcfcf321a7f13aa34b51e3093299b2 =
     [ "incbin.h", "incbin_8h.html", "incbin_8h" ],
     [ "metasprites.h", "gbdk_2metasprites_8h.html", null ],
     [ "platform.h", "platform_8h.html", null ],
+    [ "rledecompress.h", "rledecompress_8h.html", "rledecompress_8h" ],
     [ "version.h", "version_8h.html", "version_8h" ]
 ];

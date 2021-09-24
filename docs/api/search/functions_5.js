@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['enable_5finterrupts_1154',['enable_interrupts',['../gb_8h.html#add66104772d2d3af28975c79d7c2982f',1,'gb.h']]],
-  ['exit_1155',['exit',['../stdlib_8h.html#ae43e0ef9173e48d70e3b1f99007b420c',1,'stdlib.h']]]
+  ['enable_5finterrupts_1170',['enable_interrupts',['../gb_8h.html#a8de3c5a1e5f74c380f2541dafc7b30ef',1,'gb.h']]],
+  ['exit_1171',['exit',['../stdlib_8h.html#a55e99c539cf7723ec15e856b7e0a8cee',1,'stdlib.h']]]
 ];

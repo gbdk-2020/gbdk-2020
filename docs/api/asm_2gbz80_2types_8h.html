@@ -142,6 +142,7 @@ Typedefs</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Placed in the non-banked lower 16K region (bank 0), regardless of the bank selected by it's source file. </p>
 
 </div>
 </div>
@@ -156,6 +157,7 @@ Typedefs</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>The function will use banked sdcc calls, and is placed in the bank selected by it's source file (or compiler switches). </p>
 
 </div>
 </div>
@@ -170,6 +172,9 @@ Typedefs</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Use to create a block of of code which should execute with interrupts temporarily turned off.</p>
+<p><b>Do not</b> use <a class="el" href="asm_2z80_2types_8h.html#ae0233515480e60d29bcc731469976e02">CRITICAL</a> and <a class="el" href="asm_2z80_2types_8h.html#ac950c0db046e2f86d15e7ae1f558b017">INTERRUPT</a> attributes for a function added via <a class="el" href="gb_8h.html#a0d29659d08708143dd8bc720278e06b5">add_VBL()</a> (or LCD, etc). The attributes are only required when constructing a bare jump from the interrupt vector itself.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a8de3c5a1e5f74c380f2541dafc7b30ef">enable_interrupts</a>, <a class="el" href="gb_8h.html#a8a71c706c3eb1343196adf77f5825747">disable_interrupts</a> </dd></dl>
 
 </div>
 </div>
@@ -184,6 +189,9 @@ Typedefs</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Indicate to the compiler the function will be used as an interrupt handler.</p>
+<p><b>Do not</b> use <a class="el" href="asm_2z80_2types_8h.html#ae0233515480e60d29bcc731469976e02">CRITICAL</a> and <a class="el" href="asm_2z80_2types_8h.html#ac950c0db046e2f86d15e7ae1f558b017">INTERRUPT</a> attributes for a function added via <a class="el" href="gb_8h.html#a0d29659d08708143dd8bc720278e06b5">add_VBL()</a> (or LCD, etc). The attributes are only required when constructing a bare jump from the interrupt vector itself.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="isr_8h.html#a73769fed9338af86fdb7df35d7b82620">ISR_VECTOR()</a>, <a class="el" href="isr_8h.html#a78f9ef588aaf221023e48899898d566b">ISR_NESTED_VECTOR()</a> </dd></dl>
 
 </div>
 </div>
@@ -317,7 +325,7 @@ Typedefs</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Returned from clock </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="time_8h.html#aec80425d74a9644112e61b235fc9ffa9">clock</a> </dd></dl>
+<p>Returned from clock </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="time_8h.html#a9e660b4ddc93c500ce46593917de2bbf">clock</a> </dd></dl>
 
 </div>
 </div>

@@ -92,27 +92,31 @@ $(document).ready(function(){initNavTree('stdatomic_8h_source.html',''); initRes
 <a href="stdatomic_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef __SDCC_STDATOMIC_H</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define __SDCC_STDATOMIC_H 1</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
-<div class="line"><a name="l00004"></a><span class="lineno"><a class="line" href="structatomic__flag.html#a4fe9312fe0abb35e9f3626dc06c89bc4">    4</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>{<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> <a class="code" href="structatomic__flag.html#a4fe9312fe0abb35e9f3626dc06c89bc4">flag</a>;} <a class="code" href="structatomic__flag.html">atomic_flag</a>;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="types_8h.html">types.h</a>&gt;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#if defined(__SDCC_z80) || defined(__SDCC_z180) || defined(__SDCC_ez80_z80) || defined(__SDCC_gbz80) || defined(__SDCC_r2k) || defined(__SDCC_r3ka) || defined(__SDCC_stm8) || defined(__SDCC_hc08) || defined(__SDCC_s08)</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#define ATOMIC_FLAG_INIT {1}</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">//#elif defined(__SDCC_mcs51)</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">//#define ATOMIC_FLAG_INIT {0}</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#error Support for atomic_flag not implemented</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
-<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="stdatomic_8h.html#afbdfcef48a9fd85fa85549afbd3abdeb">   14</a></span>&#160;_Bool <a class="code" href="stdatomic_8h.html#afbdfcef48a9fd85fa85549afbd3abdeb">atomic_flag_test_and_set</a>(<span class="keyword">volatile</span> <a class="code" href="structatomic__flag.html">atomic_flag</a> *<span class="keywordtype">object</span>);</div>
+<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="structatomic__flag.html#a4fe9312fe0abb35e9f3626dc06c89bc4">    6</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>{<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> <a class="code" href="structatomic__flag.html#a4fe9312fe0abb35e9f3626dc06c89bc4">flag</a>;} <a class="code" href="structatomic__flag.html">atomic_flag</a>;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#if defined(__SDCC_z80) || defined(__SDCC_z180) || defined(__SDCC_ez80_z80) || defined(__SDCC_gbz80) || defined(__SDCC_r2k) || defined(__SDCC_r3ka) || defined(__SDCC_stm8) || defined(__SDCC_hc08) || defined(__SDCC_s08)</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#define ATOMIC_FLAG_INIT {1}</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">//#elif defined(__SDCC_mcs51)</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">//#define ATOMIC_FLAG_INIT {0}</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#error Support for atomic_flag not implemented</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
-<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="stdatomic_8h.html#a281cc77096d886b0cf2c6ab7dfbe900c">   16</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="stdatomic_8h.html#a281cc77096d886b0cf2c6ab7dfbe900c">atomic_flag_clear</a>(<span class="keyword">volatile</span> <a class="code" href="structatomic__flag.html">atomic_flag</a> *<span class="keywordtype">object</span>);</div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="stdatomic_8h.html#ad301ff71d8b03b0fa2a9207ed00c4ded">   16</a></span>&#160;_Bool <a class="code" href="stdatomic_8h.html#ad301ff71d8b03b0fa2a9207ed00c4ded">atomic_flag_test_and_set</a>(<span class="keyword">volatile</span> <a class="code" href="structatomic__flag.html">atomic_flag</a> *<span class="keywordtype">object</span>) <a class="code" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a>;</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="stdatomic_8h.html#a281cc77096d886b0cf2c6ab7dfbe900c">   18</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="stdatomic_8h.html#a281cc77096d886b0cf2c6ab7dfbe900c">atomic_flag_clear</a>(<span class="keyword">volatile</span> <a class="code" href="structatomic__flag.html">atomic_flag</a> *<span class="keywordtype">object</span>);</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="astructatomic__flag_html"><div class="ttname"><a href="structatomic__flag.html">atomic_flag</a></div><div class="ttdef"><b>Definition:</b> stdatomic.h:4</div></div>
-<div class="ttc" id="astdatomic_8h_html_afbdfcef48a9fd85fa85549afbd3abdeb"><div class="ttname"><a href="stdatomic_8h.html#afbdfcef48a9fd85fa85549afbd3abdeb">atomic_flag_test_and_set</a></div><div class="ttdeci">_Bool atomic_flag_test_and_set(volatile atomic_flag *object)</div></div>
-<div class="ttc" id="astructatomic__flag_html_a4fe9312fe0abb35e9f3626dc06c89bc4"><div class="ttname"><a href="structatomic__flag.html#a4fe9312fe0abb35e9f3626dc06c89bc4">atomic_flag::flag</a></div><div class="ttdeci">unsigned char flag</div><div class="ttdef"><b>Definition:</b> stdatomic.h:4</div></div>
+<div class="ttc" id="astructatomic__flag_html"><div class="ttname"><a href="structatomic__flag.html">atomic_flag</a></div><div class="ttdef"><b>Definition:</b> stdatomic.h:6</div></div>
+<div class="ttc" id="atypes_8h_html"><div class="ttname"><a href="types_8h.html">types.h</a></div></div>
+<div class="ttc" id="astructatomic__flag_html_a4fe9312fe0abb35e9f3626dc06c89bc4"><div class="ttname"><a href="structatomic__flag.html#a4fe9312fe0abb35e9f3626dc06c89bc4">atomic_flag::flag</a></div><div class="ttdeci">unsigned char flag</div><div class="ttdef"><b>Definition:</b> stdatomic.h:6</div></div>
+<div class="ttc" id="astdatomic_8h_html_ad301ff71d8b03b0fa2a9207ed00c4ded"><div class="ttname"><a href="stdatomic_8h.html#ad301ff71d8b03b0fa2a9207ed00c4ded">atomic_flag_test_and_set</a></div><div class="ttdeci">_Bool atomic_flag_test_and_set(volatile atomic_flag *object) OLDCALL</div></div>
+<div class="ttc" id="aasm_2types_8h_html_a0971918860055db2e50dacea4da8f3bc"><div class="ttname"><a href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></div><div class="ttdeci">#define OLDCALL</div><div class="ttdef"><b>Definition:</b> types.h:21</div></div>
 <div class="ttc" id="astdatomic_8h_html_a281cc77096d886b0cf2c6ab7dfbe900c"><div class="ttname"><a href="stdatomic_8h.html#a281cc77096d886b0cf2c6ab7dfbe900c">atomic_flag_clear</a></div><div class="ttdeci">void atomic_flag_clear(volatile atomic_flag *object)</div></div>
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->

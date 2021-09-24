@@ -3,8 +3,8 @@ var bcd_8h =
     [ "BCD_HEX", "bcd_8h.html#a5b336fcb3fc84fe505dc7e14d0ec17a7", null ],
     [ "MAKE_BCD", "bcd_8h.html#a8a3023920aa103a74c7d59007bcc7b6f", null ],
     [ "BCD", "bcd_8h.html#a4813acd7f1852dd32b67175ca6aca2eb", null ],
-    [ "uint2bcd", "bcd_8h.html#a718f9c42a96e0a1dde983117e08f0e91", null ],
-    [ "bcd_add", "bcd_8h.html#afa80f8e7a7af38bf7527d8e87860a40c", null ],
-    [ "bcd_sub", "bcd_8h.html#a52b446b9dd70d54bed395bf38c53e82f", null ],
-    [ "bcd2text", "bcd_8h.html#a9bb3578354883184d3bdfa877ec65ed2", null ]
+    [ "uint2bcd", "bcd_8h.html#af3d125e9dbb48d630cf7e2f7d1343ba1", null ],
+    [ "bcd_add", "bcd_8h.html#a0b14c76afa669863ed43c080f5baca98", null ],
+    [ "bcd_sub", "bcd_8h.html#a743275b2ee21c93633a933a2d3073d4e", null ],
+    [ "bcd2text", "bcd_8h.html#aec09ce7373727160488408c65fc8a91e", null ]
 ];
