@@ -16,6 +16,8 @@ Check the [Links and Third-Party Tools Section](https://gbdk-2020.github.io/gbdk
 # gbdk-2020
 GBDK is a cross-platform development kit for sm83 and z80 based consoles. It includes libraries, toolchain utilities and the [SDCC](http://sdcc.sourceforge.net/) C compiler suite.
 
+See the [Supported Consoles & Cross Compiling](https://gbdk-2020.github.io/gbdk-2020/docs/api/docs_supported_consoles.html) documentation for more details.
+
 __Supported Consoles:__
 - Nintendo Gameboy
 - Analogue Pocket
