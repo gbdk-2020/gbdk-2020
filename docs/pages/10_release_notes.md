@@ -21,6 +21,8 @@ https://github.com/gbdk-2020/gbdk-2020/releases
       - `#define AT(A)   __at(A)`
     - Added check for OAM overflow to metasprite calls for GB/CGB
     - Added constant definitions @ref PSG_LATCH, @ref PSG_CH0, @ref PSG_CH1, @ref PSG_CH2, @ref PSG_CH3, @ref PSG_VOLUME for SMS/GG
+    - Renamed `bgb_emu.h` to `emu_debug.h` and BGB_* functions to EMU_*.
+      - Aliases for the BGB_* ones and a `bgb_emu.h` shim are present for backward compatibility
     - Changed headers to wrap SDCC specific features (such as `NONBANKED`) with `#ifdef __SDCC`
     - Changed @ref rand() and @ref arand() to return `uint8_t` instead of `int8_t` (closer to the standard)
     - Fixed declaration for @ref PCM_SAMPLE and definition for @ref AUD3WAVE
@@ -72,7 +74,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
     - Added @ref BANK(), @ref BANKREF(), @ref BANKREF_EXTERN()
     - Added @ref INCBIN(), @ref BANK(), @ref INCBIN_SIZE(), @ref INCBIN_EXTERN()
     - Added generic @ref SWITCH_ROM() and @ref SWITCH_RAM()
-    - Added @ref BGB_printf() and updated bgb debug output.
+    - Added @ref BGB_printf() and updated emulator debug output.
     - Added @ref set_native_tile_data(), @ref set_tile_map(), @ref set_1bpp_colors, @ref set_bkg_1bpp_data, @ref set_sprite_1bpp_data, @ref set_2bpp_palette, @ref set_bkg_2bpp_data, @ref set_sprite_2bpp_data, @ref set_tile_2bpp_data (sms/gg only), @ref set_bkg_4bpp_data (sms/gg only), @ref set_sprite_4bpp_data (sms/gg only)
     - Added RLE decompression support: @ref rle_init(), @ref  rle_decompress(),
     - Changed @ref itoa(), @ref uitoa(), @ref ltoa(), @ref ultoa() to now require a radix value (base) argument to be passed. On the Game Boy and Analogue Pocket the parameter is required but not utilized.

@@ -1,6 +1,6 @@
-CC	= ../../../bin/lcc -Wl-m -Wl-j -Wm-yS -Wm-yc
+CC	= ../../../bin/lcc -mgbz80:ap -Wl-j -Wm-yS -Wm-yc
 
-BINS	= bgb_debug.gb
+BINS	= emu_debug.pocket
 
 all:	$(BINS)
 
@@ -9,9 +9,9 @@ compile.bat: Makefile
 	@make -sn | sed y/\\//\\\\/ | grep -v make >> compile.bat
 
 # Compile and link single file in one pass
-%.gb:	%.c
+%.pocket:	%.c
 	$(CC) -o $@ $<
 
 clean:
-	rm -f *.o *.lst *.map *.gb *~ *.rel *.cdb *.ihx *.lnk *.sym *.asm *.noi
+	rm -f *.o *.lst *.map *.pocket *~ *.rel *.cdb *.ihx *.lnk *.sym *.asm *.noi
 

@@ -5,7 +5,8 @@ This section contains information that may be useful to know or important when u
 # GBDK 2020 versions
 
 ## Porting to GBDK 2020 4.0.6
-  - No significant changes required
+  - Renamed `bgb_emu.h` to `emu_debug.h` and BGB_* functions to EMU_*
+    - Aliases for the BGB_* ones and a `bgb_emu.h` shim are present for backward compatibility, but updating to the new naming is recommended
 
 
 ## Porting to GBDK 2020 4.0.5
@@ -19,8 +20,7 @@ This section contains information that may be useful to know or important when u
   - set_bkg_1bit_data has been renamed to @ref set_bkg_1bpp_data
   - The following header files which are now cross platform were moved from `gb/` to `gbdk/`: `bcd.h`, `console.h`, `far_ptr.h`, `font.h`, `gbdecompress.h`, `gbdk-lib.h`, `incbin.h`, `metasprites.h`, `platform.h`, `version.h`
     - When including them use `#include <gbdk/...>` instead of `#include <gb/>`
-
-
+  
 ## Porting to GBDK 2020 4.0.4
   - GBDK now requires SDCC 12238 or higher
   - Made sample.h, cgb.h and sgb.h independent from gb.h

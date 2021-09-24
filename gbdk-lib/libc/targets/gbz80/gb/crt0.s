@@ -10,7 +10,7 @@
         ;; RST vectors
 ;       .org    0x00            ; Trap, utilized by crash_handler.h
 
-;       .org    0x08            ; --profile handler utilized by bgb_emu.h
+;       .org    0x08            ; --profile handler utilized by emu_debug.h
 
 ;       .org    0x10            ; empty
 
