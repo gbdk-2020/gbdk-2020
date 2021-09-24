@@ -29,7 +29,6 @@
 -------------------------------------------------------------------------*/
 #include <string.h>
 #include <stdint.h>
-#include <sdcc-lib.h>
 
 void *memmove (void *dst, const void *src, size_t size)
 {

@@ -1,7 +1,7 @@
 /** Dumb strings hack.
 */
-#include <gbdk-lib.h>
 #include <string.h>
+#include <gbdk/gbdk-lib.h>
 
 #if USE_C_STRCPY
 char *strcpy(char *dest, const char *source) NONBANKED

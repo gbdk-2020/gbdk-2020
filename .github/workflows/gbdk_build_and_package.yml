@@ -1,0 +1,141 @@
+name: GBDK Build and Package
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  # Triggers the workflow on push or pull request events but only for the develop branch
+  # push:
+  #   branches: [ develop ]
+  # pull_request:
+  #   branches: [ develop ]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os:
+          - ubuntu-20.04
+          - macos-10.15
+          - windows-2019
+        include:
+          - os: ubuntu-20.04
+            name: Linux-x64
+          - os: macos-10.15
+            name: MacOS-x64
+          - os: windows-2019
+            name: Windows-x64
+#      fail-fast: false
+    runs-on: ${{ matrix.os }}
+    steps:
+
+      # ==== OS Specific Dependencies ====
+      - name: Linux Depends
+        if: matrix.name == 'Linux-x64'
+        run: |
+          # curl -Lo sdcc.tar.bz2 https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-12539-official/sdcc-snapshot-amd64-unknown-linux2.5-20210711-12539.tar.bz2
+          # Use patched sms/gg z80 build:
+          curl -Lo sdcc.tar.bz2 https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-12539-patched/sdcc-amd64-linux2.5-20210711-12539--sms-gg-patched.tar.bz2
+          bunzip2 sdcc.tar.bz2
+          tar xvf sdcc.tar
+
+      - name: MacOS Depends
+        if: matrix.name == 'MacOS-x64'
+        run: |
+          # Note: patched sms/gg z80 build not available for macOS
+          curl -Lo sdcc.tar.bz2 https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-12539-official/sdcc-snapshot-x86_64-apple-macosx-20210718-12548.tar.bz2
+          # Use patched sms/gg z80 build:
+          curl -Lo sdcc.tar.bz2 https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-12539-patched/sdcc-x86_64-apple-macosx-20210718-12548--sms-gg-patched.tar.bz2
+          bunzip2 sdcc.tar.bz2
+          tar xvf sdcc.tar
+
+      - name: Windows-x64 Depends
+        if: matrix.name == 'Windows-x64'
+        run: |
+          # curl -Lo sdcc.zip https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-12539-official/sdcc-snapshot-x86_64-w64-mingw32-20210711-12539.zip
+          # Use patched sms/gg z80 build:
+          curl -Lo sdcc.zip https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-12539-patched/sdcc-x86_64-w64-mingw32-20210711-12539--sms-gg-patched.zip
+          7z x sdcc.zip
+
+      - name: Windows Depends MSYS2/MinGW64
+        if: matrix.name == 'Windows-x64'
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          path-type: minimal #strict
+          release: false
+          update: false
+          install: >-
+            base-devel
+            mingw-w64-x86_64-toolchain
+
+      # ==== Build Steps ====
+      - name: Check out GBDK-2020
+        uses: actions/checkout@v2
+        with:
+          path: gbdk-2020
+          submodules: false
+
+      # ==== Pre-Build: Set environment vars ====
+      # Needs to be in a separate step than build so that setting the environment var takes effect
+      #
+      - name: Pre-Build Linux/MacOS
+        if: (matrix.name == 'Linux-x64') || (matrix.name == 'MacOS-x64')
+        shell: bash
+        run: |
+          echo "BUILD_PACKAGE_FILENAME=gbdk-2020-${{ matrix.name }}.tar.gz" >> $GITHUB_ENV
+
+      - name: Pre-Build Windows
+        if: matrix.name == 'Windows-x64'
+        shell: bash
+        run: |
+          echo "BUILD_PACKAGE_FILENAME=gbdk-2020-${{ matrix.name }}.zip" >> $GITHUB_ENV
+
+      # ==== Builds ====
+      - name: Build GBDK-2020 Linux/MacOS
+        if: (matrix.name == 'Linux-x64') || (matrix.name == 'MacOS-x64')
+        shell: bash
+        run: |
+          export SDCCDIR=`pwd`/sdcc
+          cd gbdk-2020
+          make
+          cd ..
+
+      - name: Build GBDK-2020 Windows
+        if: matrix.name == 'Windows-x64'
+        shell: cmd
+        run: |
+          set SDCCDIR=%CD%\sdcc
+          cd gbdk-2020
+          msys2 -c 'make'
+          cd ..
+
+      # ==== Packaging ====
+      - name: Package build Linux/MacOS
+        if: (matrix.name == 'Linux-x64') || (matrix.name == 'MacOS-x64')
+        shell: bash
+        run: |
+          cd gbdk-2020
+          mkdir package
+          cd build
+          tar czf ../package/${{ env.BUILD_PACKAGE_FILENAME }} gbdk
+          cd ..
+          cd ..
+
+      - name: Package build Windows
+        if: matrix.name == 'Windows-x64'
+        shell: cmd
+        run: |
+          cd gbdk-2020
+          mkdir package
+          cd build
+          7z a ../package/${{ env.BUILD_PACKAGE_FILENAME }} gbdk
+          cd ..
+          cd ..
+
+      - name: Store build
+        if: (matrix.name == 'Linux-64') || (matrix.name == 'MacOS-64') || ('Windows-x64')
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.name }} build
+          path: gbdk-2020/package/${{ env.BUILD_PACKAGE_FILENAME }}
+          # retention-days: 14

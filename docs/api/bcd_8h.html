@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>GBDK 2020 Docs: bcd.h File Reference</title>
+<title>GBDK 2020 Docs: gb/bcd.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -93,8 +93,8 @@ $(document).ready(function(){initNavTree('bcd_8h.html',''); initResizable(); });
 <div class="title">bcd.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;<a class="el" href="stdint_8h_source.html">stdint.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="asm_2types_8h_source.html">asm/types.h</a>&gt;</code><br />
+<div class="textblock"><code>#include &lt;types.h&gt;</code><br />
+<code>#include &lt;<a class="el" href="stdint_8h_source.html">stdint.h</a>&gt;</code><br />
 </div>
 <p><a href="bcd_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -112,14 +112,14 @@ Typedefs</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a718f9c42a96e0a1dde983117e08f0e91"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bcd_8h.html#a718f9c42a96e0a1dde983117e08f0e91">uint2bcd</a> (<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> i, <a class="el" href="bcd_8h.html#a4813acd7f1852dd32b67175ca6aca2eb">BCD</a> *value)</td></tr>
-<tr class="separator:a718f9c42a96e0a1dde983117e08f0e91"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afa80f8e7a7af38bf7527d8e87860a40c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bcd_8h.html#afa80f8e7a7af38bf7527d8e87860a40c">bcd_add</a> (<a class="el" href="bcd_8h.html#a4813acd7f1852dd32b67175ca6aca2eb">BCD</a> *sour, const <a class="el" href="bcd_8h.html#a4813acd7f1852dd32b67175ca6aca2eb">BCD</a> *value)</td></tr>
-<tr class="separator:afa80f8e7a7af38bf7527d8e87860a40c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a52b446b9dd70d54bed395bf38c53e82f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bcd_8h.html#a52b446b9dd70d54bed395bf38c53e82f">bcd_sub</a> (<a class="el" href="bcd_8h.html#a4813acd7f1852dd32b67175ca6aca2eb">BCD</a> *sour, const <a class="el" href="bcd_8h.html#a4813acd7f1852dd32b67175ca6aca2eb">BCD</a> *value)</td></tr>
-<tr class="separator:a52b446b9dd70d54bed395bf38c53e82f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9bb3578354883184d3bdfa877ec65ed2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bcd_8h.html#a9bb3578354883184d3bdfa877ec65ed2">bcd2text</a> (const <a class="el" href="bcd_8h.html#a4813acd7f1852dd32b67175ca6aca2eb">BCD</a> *bcd, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> tile_offset, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *buffer)</td></tr>
-<tr class="separator:a9bb3578354883184d3bdfa877ec65ed2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3d125e9dbb48d630cf7e2f7d1343ba1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bcd_8h.html#af3d125e9dbb48d630cf7e2f7d1343ba1">uint2bcd</a> (<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> i, <a class="el" href="bcd_8h.html#a4813acd7f1852dd32b67175ca6aca2eb">BCD</a> *value) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
+<tr class="separator:af3d125e9dbb48d630cf7e2f7d1343ba1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b14c76afa669863ed43c080f5baca98"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bcd_8h.html#a0b14c76afa669863ed43c080f5baca98">bcd_add</a> (<a class="el" href="bcd_8h.html#a4813acd7f1852dd32b67175ca6aca2eb">BCD</a> *sour, const <a class="el" href="bcd_8h.html#a4813acd7f1852dd32b67175ca6aca2eb">BCD</a> *value) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
+<tr class="separator:a0b14c76afa669863ed43c080f5baca98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a743275b2ee21c93633a933a2d3073d4e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bcd_8h.html#a743275b2ee21c93633a933a2d3073d4e">bcd_sub</a> (<a class="el" href="bcd_8h.html#a4813acd7f1852dd32b67175ca6aca2eb">BCD</a> *sour, const <a class="el" href="bcd_8h.html#a4813acd7f1852dd32b67175ca6aca2eb">BCD</a> *value) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
+<tr class="separator:a743275b2ee21c93633a933a2d3073d4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec09ce7373727160488408c65fc8a91e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bcd_8h.html#aec09ce7373727160488408c65fc8a91e">bcd2text</a> (const <a class="el" href="bcd_8h.html#a4813acd7f1852dd32b67175ca6aca2eb">BCD</a> *bcd, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> tile_offset, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *buffer) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
+<tr class="separator:aec09ce7373727160488408c65fc8a91e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Support for working with BCD (Binary Coded Decimal)</p>
@@ -179,8 +179,8 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a718f9c42a96e0a1dde983117e08f0e91"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a718f9c42a96e0a1dde983117e08f0e91">&#9670;&nbsp;</a></span>uint2bcd()</h2>
+<a id="af3d125e9dbb48d630cf7e2f7d1343ba1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3d125e9dbb48d630cf7e2f7d1343ba1">&#9670;&nbsp;</a></span>uint2bcd()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -214,8 +214,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="afa80f8e7a7af38bf7527d8e87860a40c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afa80f8e7a7af38bf7527d8e87860a40c">&#9670;&nbsp;</a></span>bcd_add()</h2>
+<a id="a0b14c76afa669863ed43c080f5baca98"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b14c76afa669863ed43c080f5baca98">&#9670;&nbsp;</a></span>bcd_add()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -249,8 +249,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a52b446b9dd70d54bed395bf38c53e82f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a52b446b9dd70d54bed395bf38c53e82f">&#9670;&nbsp;</a></span>bcd_sub()</h2>
+<a id="a743275b2ee21c93633a933a2d3073d4e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a743275b2ee21c93633a933a2d3073d4e">&#9670;&nbsp;</a></span>bcd_sub()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -284,8 +284,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a9bb3578354883184d3bdfa877ec65ed2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9bb3578354883184d3bdfa877ec65ed2">&#9670;&nbsp;</a></span>bcd2text()</h2>
+<a id="aec09ce7373727160488408c65fc8a91e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec09ce7373727160488408c65fc8a91e">&#9670;&nbsp;</a></span>bcd2text()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -326,8 +326,8 @@ Functions</h2></td></tr>
 <p>Returns: Length in characters (always 8)</p>
 <p><b>buffer</b> should be large enough to store the converted string (9 bytes: 8 characters + 1 for terminator)</p>
 <p>There are a couple different ways to use <b>tile_offset</b>. For example: </p><ul>
-<li>It can be the Index of the Font Tile '0' in VRAM to allow the buffer to be used directly with <a class="el" href="gb_8h.html#ad1ec25843468eb57c54e0ebdcf532659">set_bkg_tiles</a>. </li>
-<li>It can also be set to the ascii value for character '0' so that the buffer is a normal string that can be passed to <a class="el" href="stdio_8h.html#a79c1db3e4a2aaa60d5afa76f7d984d0b">printf</a>. </li>
+<li>It can be the Index of the Font Tile '0' in VRAM to allow the buffer to be used directly with <a class="el" href="gb_8h.html#a45cb12c6a672558e9a3792d11951707c">set_bkg_tiles</a>. </li>
+<li>It can also be set to the ascii value for character '0' so that the buffer is a normal string that can be passed to <a class="el" href="stdio_8h.html#ab403fa700816f08631ba75bc536f74d4">printf</a>. </li>
 </ul>
 
 </div>

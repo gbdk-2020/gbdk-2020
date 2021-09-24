@@ -92,7 +92,7 @@ $(document).ready(function(){initNavTree('structmetasprite__t.html',''); initRes
 </div><!--header-->
 <div class="contents">
 
-<p><code>#include &lt;<a class="el" href="metasprites_8h_source.html">metasprites.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="gb_2metasprites_8h_source.html">metasprites.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
@@ -115,7 +115,18 @@ Data Fields</h2></td></tr>
   </table>
   </dd>
 </dl>
-<p>Metasprites are built from multiple <a class="el" href="structmetasprite__t.html">metasprite_t</a> items (one for each sub-sprite) and a pool of tiles they reference. If a metasprite has multiple frames then each frame will be built from some number of <a class="el" href="structmetasprite__t.html">metasprite_t</a> items (which may vary based on how many sprites are required for that particular frame). </p>
+<p>Metasprites are built from multiple <a class="el" href="structmetasprite__t.html">metasprite_t</a> items (one for each sub-sprite) and a pool of tiles they reference. If a metasprite has multiple frames then each frame will be built from some number of <a class="el" href="structmetasprite__t.html">metasprite_t</a> items (which may vary based on how many sprites are required for that particular frame).</p>
+<p>A metasprite frame is terminated with a {metasprite_end} entry.</p>
+<p>Metasprite sub-item structure </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dy</td><td>(int8_t) Y coordinate of the sprite relative to the metasprite origin (pivot) </td></tr>
+    <tr><td class="paramname">dx</td><td>(int8_t) X coordinate of the sprite relative to the metasprite origin (pivot) </td></tr>
+    <tr><td class="paramname">dtile</td><td>(uint8_t) Start tile relative to the metasprites own set of tiles</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Metasprites are built from multiple <a class="el" href="structmetasprite__t.html">metasprite_t</a> items (one for each sub-sprite) and a pool of tiles they reference. If a metasprite has multiple frames then each frame will be built from some number of <a class="el" href="structmetasprite__t.html">metasprite_t</a> items (which may vary based on how many sprites are required for that particular frame).</p>
+<p>A metasprite frame is terminated with a {metasprite_end} entry. </p>
 </div><h2 class="groupheader">Field Documentation</h2>
 <a id="a2c3fea1f6b3354352823320c69a3e4bb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2c3fea1f6b3354352823320c69a3e4bb">&#9670;&nbsp;</a></span>dy</h2>
@@ -174,7 +185,7 @@ Data Fields</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>gb/<a class="el" href="metasprites_8h_source.html">metasprites.h</a></li>
+<li>gb/<a class="el" href="gb_2metasprites_8h_source.html">metasprites.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

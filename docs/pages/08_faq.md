@@ -23,6 +23,10 @@
     - See @ref setting_mbc_and_rom_ram_banks <!-- -->  
 
 # Errors / Compiling / Toolchain
+  @anchor faq_sdcc_peephole_instruction_error
+  - What does `z80instructionSize() failed to parse line node, assuming 999 bytes` mean?
+    - This is a known issue with SDCC Peephole Optimizer parsing and can be ignored. A bug report has been filed for it. <!-- -->  
+
   @anchor faq_bank_overflow_errors
   - What do these kinds of warnings / errors mean?
     `WARNING: possibly wrote twice at addr 4000 (93->3E)`
@@ -45,9 +49,17 @@
     - You can use the @ref lcc_debug "lcc debug flag" <!-- -->  
 
   - Is it possible to generate a debug symbol file (`.sym`) compatible with the @ref bgb emulator?
-    - Yes, turn on `.noi` output (LCC argument: `-Wl-j` or `-debug` and then use `-Wm-yS` with LCC (or `-yS` with makebin directly). <!-- -->   
+    - Yes, turn on `.noi` output (LCC argument: `-Wl-j` or `-debug` and then use `-Wm-yS` with LCC (or `-yS` with makebin directly). <!-- -->  
 
 # API / Utilities
+  - Is there a list of all functions in the API?
+    - [Functions](globals_func.html)
+    - [Variables](globals_vars.html) <!-- -->  
+
+  - Can I use the `float` type to do floating point math?
+    - There is no support for 'float' in GBDK-2020.
+    - Instead consider some form of `fixed point` math (including the @ref fixed_point_type "fixed" type included in GBDK) <!-- -->  
+
   - Why are 8 bit numbers not printing correctly with printf()?
     - To correctly pass chars/uint8s for printing, they must be explicitly re-cast as such when calling the function. See docs_chars_varargs for more details.  <!-- -->  
 
@@ -62,6 +74,6 @@
   - How can CGB palettes and other sprite properties be used with metasprites?
     - See @ref metasprite_and_sprite_properties "Metasprites and sprite properties" <!-- -->  
 
-  - Weird things are happening to my sprite colors when I use png2mtspr and metasprites. What's going on and how does it work?
-    - See @ref utility_png2mtspr for details of how the conversion process works.
+  - Weird things are happening to my sprite colors when I use png2asset and metasprites. What's going on and how does it work?
+    - See @ref utility_png2asset for details of how the conversion process works.
 

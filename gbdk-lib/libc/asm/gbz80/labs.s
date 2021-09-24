@@ -26,45 +26,45 @@
 ;   might be covered by the GNU General Public License.
 ;--------------------------------------------------------------------------
 
-	.module	labs
+        .module labs
 
-	.area	_CODE
+        .area   _HOME
 
 ;long labs(long num)
 _labs::
-	lda	HL, 2(SP)
-	ld	A, (HL+)
-	ld	E, A
-	ld	A, (HL+)
-	ld	D, A
-	ld	A, (HL+)
-	ld	H, (HL)
-	ld	L, A		; DEHL = num
+        lda     HL, 2(SP)
+        ld      A, (HL+)
+        ld      E, A
+        ld      A, (HL+)
+        ld      D, A
+        ld      A, (HL+)
+        ld      H, (HL)
+        ld      L, A            ; DEHL = num
 
 .labs::
-	ld	A, H
-	add	A, A
-	ret	NC
+        ld      A, H
+        add     A, A
+        ret     NC
 
 1$:
-	ld	A, E
-	cpl
-	add	#1
-	ld	E, A
+        ld      A, E
+        cpl
+        add     #1
+        ld      E, A
 
-	ld	A, D
-	cpl
-	adc	#0
-	ld	D, A
+        ld      A, D
+        cpl
+        adc     #0
+        ld      D, A
 
-	ld	A, L
-	cpl
-	adc	#0
-	ld	L, A
+        ld      A, L
+        cpl
+        adc     #0
+        ld      L, A
 
-	ld	A, H
-	cpl
-	adc	#0
-	ld	H, A
+        ld      A, H
+        cpl
+        adc     #0
+        ld      H, A
 
-	ret 
+        ret 

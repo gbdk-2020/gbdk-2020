@@ -35,7 +35,7 @@ static void check_write_size(uint8_t len) {
     if ((FoutIndex + len) >= Fsize_out) {
         uint8_t * p_tmp = *pp_FoutBuf;
 
-        // Reallocate to twice as larege
+        // Reallocate to twice as large
         Fsize_out = Fsize_out * 2;
         *pp_FoutBuf = (void *)realloc(*pp_FoutBuf, Fsize_out);
 
@@ -76,7 +76,7 @@ static void write_string( uint8_t len, uint16_t data) {
 
     // conver's complement does not give the negation, see § Most negative number below. t back-ref offset from positive unsigned to negative signed
     data = (data ^ 0xFFFF) + 1;
-    
+
     FoutBuf[FoutIndex++] = (((len - 1) & len_mask) | token_str);
     FoutBuf[FoutIndex++] = (uint8_t)(data & 0xFF);
     FoutBuf[FoutIndex++] = (uint8_t)((data >> 8) & 0xFF);
@@ -103,7 +103,7 @@ static void write_end(void) {
 }
 
 
-static int read_uint16_t(uint16_t byte_pos, uint16_t * out_data) {
+static int read_uint16_t(uint32_t byte_pos, uint16_t * out_data) {
 
     if ((byte_pos + 2) < Fsize_in) {
         *out_data = (uint16_t)((FinBuf[byte_pos] << 8) + (uint16_t)FinBuf[byte_pos+1]);
@@ -160,10 +160,10 @@ uint32_t gbcompress_buf(uint8_t * inBuf, uint32_t size_in, uint8_t ** pp_outBuf,
             if ((FinBuf[FinIndex + rle_u8_len] == rle_u8_match) &&
                 (rle_u8_len < 64)) {
                 rle_u8_len++;
-            } 
+            }
             else break;
         }
-  
+
         // Check for overlapping uint16_t RLE run up to 63 bytes max
         // Read in initial u16 to match against
         if (read_uint16_t(FinIndex, &rle_u16_match)) {
@@ -171,10 +171,10 @@ uint32_t gbcompress_buf(uint8_t * inBuf, uint32_t size_in, uint8_t ** pp_outBuf,
             rle_u16_len = 1;
             // If the current u16 matches, increment the length
             while (read_uint16_t(FinIndex + (rle_u16_len * 2), &temp_u16)) {
-                if ((temp_u16 == rle_u16_match) && 
+                if ((temp_u16 == rle_u16_match) &&
                     (rle_u16_len < 64)) {
                     rle_u16_len++;
-                } 
+                }
                 else break;
             }
         }
@@ -182,13 +182,19 @@ uint32_t gbcompress_buf(uint8_t * inBuf, uint32_t size_in, uint8_t ** pp_outBuf,
         // Check for matching sequences starting at current position
         // against all previous data beginning at start up to 63 bytes max
         // (back reference "strings")
-        rle_str_start = 0; // 
         rle_str_back_offset = 0;
         rle_str_len = 0;
+        // Max string backreference length is 16 bits unsigned
+        // adjust search start accordingly
+        if (FinIndex > 0xFFFF)
+            rle_str_start = FinIndex - 0xFFFF;
+        else
+            rle_str_start = 0;
+
         while (rle_str_start < FinIndex) {
             rle_str_len_work = 0;
 
-            // Check for a matching run at rle_str_start against FinIndex 
+            // Check for a matching run at rle_str_start against FinIndex
             // and save length to rle_str_len_work
             while ((FinIndex + rle_str_len_work) < Fsize_in) {
                 // Test to see if u8 in current sequence matches the u8 for a previous sequence
@@ -215,14 +221,14 @@ uint32_t gbcompress_buf(uint8_t * inBuf, uint32_t size_in, uint8_t ** pp_outBuf,
 
 
         // Write out any rle data if it's ready
-        if ((rle_u8_len > 2) && 
-            (rle_u8_len > rle_u16_len) && 
+        if ((rle_u8_len > 2) &&
+            (rle_u8_len > rle_u16_len) &&
             (rle_u8_len > rle_str_len)) {
             flush_trash(&FinIndex, &trash_len);
             write_byte(rle_u8_len, rle_u8_match);
             FinIndex = FinIndex + rle_u8_len;
-        } 
-        else if ((rle_u16_len > 2) && 
+        }
+        else if ((rle_u16_len > 2) &&
                  ((rle_u16_len*2) > rle_str_len)) {
             flush_trash(&FinIndex, &trash_len);
             write_word(rle_u16_len, rle_u16_match);
@@ -236,7 +242,7 @@ uint32_t gbcompress_buf(uint8_t * inBuf, uint32_t size_in, uint8_t ** pp_outBuf,
         else if (trash_len >= 64) {
             write_trash(trash_len, &FinBuf[FinIndex-trash_len]);
             trash_len = 0;
-        } 
+        }
         else {
             trash_len++;
             FinIndex++;
@@ -327,20 +333,19 @@ uint32_t gbdecompress_buf(uint8_t * inBuf, uint32_t size_in, uint8_t ** pp_outBu
             case token_str:
                 // This token: copy N bytes from negative offset of current
                 // DECODED memory location (back reference)
-                backref_index = (uint16_t)(read_single_byte());
-                backref_index |= (uint16_t)((read_single_byte())<<8);
+                backref_index = ((uint16_t)read_single_byte() | (( (uint16_t)read_single_byte() ) << 8));
                 // Convert input from from Signed to Unsigned
                 backref_index = (backref_index ^ 0xFFFF) + 1;
 
                 // Assign the string back reference relative to the current buffer pointer
-                backref_index = FoutIndex - backref_index;
+                backref_index = (FoutIndex - (uint32_t)backref_index);
                 break;
 
             case token_trash: // AKA "Trash Bytes" in GBTD
                 // This token : copy next N bytes directly from ENCODED input
                 break;
         }
-        
+
         while (rle_len) {
 
             // Copy the decoded byte into VRAM

@@ -49,6 +49,13 @@ Interrupt handlers are called in sequence. To install a new interrupt handler, d
 
 See the `irq` example project for additional details for a complete example.
 
+## Using your own Interrupt Dispatcher
+If you want to use your own Interrupt Dispatcher instead of the GBDK chained dispatcher (for improved performance), then don't call the `add_...()` function for the respective interrupt and it's dispatcher won't be installed.
+  - Exception: the VBL dispatcher will always be linked in at compile time.
+  - For the SIO interrupt, also do not make any standard SIO calls to avoid having it's dispatcher installed.
+
+Then, @ref ISR_VECTOR() or @ref ISR_NESTED_VECTOR() can be used to install a custom ISR handler.
+
 ## Returning from Interrupts and STAT mode
 By default when an Interrupt handler completes and is ready to exit it will check STAT_REG and only return at the BEGINNING of either LCD Mode 0 or Mode 1. This helps prevent graphical glitches caused when an ISR interrupts a graphics operation in one mode but returns in a different mode for which that graphics operation is not allowed.
 
@@ -69,7 +76,6 @@ Including @ref stdio.h and using functions such as @ref printf() will use a larg
 
 
 # Copying Functions to RAM and HIRAM
-
 The `ram_function` example project included with GBDK demonstrates copying functions to RAM and HIRAM.
 
 It is possible to copy functions to RAM and HIRAM (using the memcpy() and hiramcpy() functions), and execute them from C. The compiler automatically generates two symbols for the start and the end of each function, named start_X and end_X (where X is the name of the function). This enables to calculate the length of a function when copying it to RAM. Ensure you have enough free space in RAM or HIRAM for copying a function.
@@ -83,7 +89,6 @@ The second approach is slightly more efficient. Both approaches are demonstrated
 
 
 # Mixing C and Assembly
-
 You can mix C and assembly (ASM) in two ways as described below. For additional detail see the @ref links_sdcc_docs.
 
 ## Inline ASM within C source files
@@ -150,6 +155,12 @@ Here is an example of how to mix assembly with C:
     LD   E,L
                   ; There is no register to restore
     RET           ; Return result in DE
+
+
+# Including binary files in C source with incbin
+Data from binary files can be included in C source files as a const array using the @ref INCBIN() macro.
+
+See the `incbin` example project for a demo of how to use it.
 
 
 # Known Issues and Limitations

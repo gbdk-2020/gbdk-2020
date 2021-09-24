@@ -1,9 +1,9 @@
-#include <gbdk-lib.h>
+#include <types.h>
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>
 
-typedef void (*emitter_t)(char, char **);
+typedef void (*emitter_t)(char, char **) OLDCALL;
 
 static const char _hex[] = "0123456789ABCDEF";
 
@@ -49,13 +49,13 @@ void __printf(const char *format, emitter_t emitter, char **pData, va_list va)
                         }
                         case 'u':
                         {
-                            utoa((unsigned char)va_arg(va, char), buf);
+                            uitoa((unsigned char)va_arg(va, char), buf, 10);
                             _printbuf(buf, emitter, pData);
                             break;
                         }
                         case 'd':
                         {
-                            itoa((signed char)va_arg(va, char), buf);
+                            itoa((signed char)va_arg(va, char), buf, 10);
                             _printbuf(buf, emitter, pData);
                             break;
                         }
@@ -69,13 +69,13 @@ void __printf(const char *format, emitter_t emitter, char **pData, va_list va)
                 }
                 case 'u':
                 {
-                    utoa(va_arg(va, int), buf);
+                    uitoa(va_arg(va, int), buf, 10);
                     _printbuf(buf, emitter, pData);
                     break;
                 }
                 case 'd':
                 {
-                    itoa(va_arg(va, int), buf);
+                    itoa(va_arg(va, int), buf, 10);
                     _printbuf(buf, emitter, pData);
                     break;
                 }
@@ -98,14 +98,12 @@ void __printf(const char *format, emitter_t emitter, char **pData, va_list va)
     }
 }
 
-static void _sprintf_emitter(char c, char ** pData)
-{
+static void _sprintf_emitter(char c, char ** pData) OLDCALL {
     **pData = c;
     (*pData)++;
 }
 
-void sprintf(char *into, const char *format, ...)
-{
+void sprintf(char *into, const char *format, ...) OLDCALL {
     va_list va;
     va_start(va, format);
 

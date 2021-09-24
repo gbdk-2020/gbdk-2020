@@ -1,7 +1,7 @@
-#include <gb/gb.h>
 #include <stdint.h>
-#include <gb/sgb.h>
-#include <gb/metasprites.h>
+
+#include <gbdk/platform.h>
+#include <gbdk/metasprites.h>
 
 #include "sprite.h"
 
@@ -36,7 +36,7 @@ void main(void) {
     set_bkg_data(0, 1, pattern);
 
     // Load metasprite tile data into VRAM
-    set_sprite_data(TILE_NUM_START, sizeof(sprite_data) >> 4, sprite_data);
+    set_sprite_data(TILE_NUM_START, sizeof(sprite_tiles) >> 4, sprite_tiles);
 
     // show bkg and sprites
     SHOW_BKG; SHOW_SPRITES;
@@ -111,7 +111,7 @@ void main(void) {
 	
 		// NOTE: In a real game it would be better to only call the move_metasprite..()
         //       functions if something changed (such as movement or rotation). That
-		//	     reduces CPU usage on frames that don't need udpates.
+		//	     reduces CPU usage on frames that don't need updates.
 		//
 		// In this example they are called every frame to simplify the example code
 
@@ -127,7 +127,7 @@ void main(void) {
             };
 
         // Hide rest of the hardware sprites, because amount of sprites differ between animation frames.
-        for (uint8_t i = hiwater; i < 40; i++) shadow_OAM[i].y = 0;
+	hide_sprites_range(hiwater, 40);        
 
         // Y Axis: update velocity (reduce speed) if no U/D button pressed
         if (!(PosF & ACC_Y)) {

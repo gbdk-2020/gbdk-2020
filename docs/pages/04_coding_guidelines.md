@@ -38,7 +38,6 @@ If you wish to use the original tools, you must add the `const` keyword every ti
 
 
 ## Variables
-
   - Use 8-bit values as much as possible. They will be much more efficient and compact than 16 and 32 bit types.
 
   - Prefer unsigned variables to signed ones: The code generated will be generally more efficient, especially when comparing two values.
@@ -70,13 +69,31 @@ If you wish to use the original tools, you must add the `const` keyword every ti
 
     - NOTE: In SDCC 3.6.0, the default for char changed from signed to unsigned. The manual says to use `--fsigned-char` for the old behavior, this option flag is included by default when compiling through @ref lcc. 
 
+    @anchor fixed_point_type
+  - A fixed point type (`fixed`) is included with GBDK when precision greater than whole numbers is required for 8 bit range values (since floating point is not included in GBDK).
+
+  See the "Simple Physics" sub-pixel example project.
+
+  Code example:
+    
+        fixed player[2];
+        ...
+        // Modify player position using it's 16 bit representation
+        player[0].w += player_speed_x;
+        player[1].w += player_speed_y;
+        ...
+        // Use only the upper 8 bits for setting the sprite position
+        move_sprite(0, player[0].h ,player[1].h);
+
 
 ## Code structure
 
   - Do not `#include` `.c` source files into other `.c` source files. Instead create `.h` header files for them and include those.
     https://www.tutorialspoint.com/cprogramming/c_header_files.htm
 
-  - When procesing for a given frame is done and it is time to wait before starting the next frame, @ref wait_vbl_done() can be used. It uses HALT to put the CPU into a low power state until processing resumes. The CPU will wake up and resume processing at the end of the current frame when the Vertical Blanking interrupt is triggered.
+  - Instead of using a blocking @ref delay() for things such as sprite animations/etc (which can prevent the rest of the game from continuing) many times it's better to use a counter which performs an action once every N frames. @ref sys_time may be useful in these cases.
+
+  - When processing for a given frame is done and it is time to wait before starting the next frame, @ref wait_vbl_done() can be used. It uses HALT to put the CPU into a low power state until processing resumes. The CPU will wake up and resume processing at the end of the current frame when the Vertical Blanking interrupt is triggered.
 
   - Minimize use of multiplication, modulo with non-powers of 2, and division with non-powers of 2. These operations have no corresponding CPU instructions (software functions), and hence are time costly.
       - SDCC has some optimizations for:
@@ -115,6 +132,8 @@ If you wish to use the original tools, you must add the `const` keyword every ti
   - drawing.h: The Game Boy graphics hardware is not well suited to frame-buffer style graphics such as the kind provided in @ref drawing.h. Due to that, most drawing functions (rectangles, circles, etc) will be slow . When possible it's much faster and more efficient to work with the tiles and tile maps that the Game Boy hardware is built around.
 
   - @ref waitpad() and @ref waitpadup check for input in a loop that doesn't HALT at all, so the CPU will be maxed out until it returns. One alternative is to write a function with a loop that checks input with @ref joypad() and then waits a frame using @ref wait_vbl_done() (which idles the CPU while waiting) before checking input again.
+
+  - @ref joypad(): When testing for multiple different buttons, it's best to read the joypad state *once* into a variable and then test using that variable (instead of making multiple calls).
 
 
 ## Toolchain
@@ -163,7 +182,7 @@ For example:
     printf("%hx %hx", (unsigned char)i, (unsigned char)i);
 
 Some functions that accept varargs:
- - @ref BGB_MESSAGE_FMT, @ref gprintf(), @ref printf(), @ref sprintf()
+ - @ref BGB_printf, @ref gprintf(), @ref printf(), @ref sprintf()
 
 Also See:
  - Other cases of char to int promotion: http://sdcc.sourceforge.net/doc/sdccman.pdf#chapter.6

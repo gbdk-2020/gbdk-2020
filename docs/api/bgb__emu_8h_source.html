@@ -93,51 +93,58 @@ $(document).ready(function(){initNavTree('bgb__emu_8h_source.html',''); initResi
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#ifndef __BGB_EMU_INCLUDE</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#define __BGB_EMU_INCLUDE</span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#define BGB_ADD_DOLLARD(A) BGB_ADD_DOLLARD1 (A)</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#define BGB_ADD_DOLLARD1(A) A##00$</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="bgb__emu_8h.html#aabd48c83af8f69ed624bb8a83347fa39">   43</a></span>&#160;<span class="preprocessor">#define BGB_MESSAGE(message_text) BGB_MESSAGE1(BGB_ADD_DOLLARD(__LINE__), message_text)</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#define BGB_MESSAGE1(lbl, message_text) \</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;types.h&gt;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="bgb__emu_8h.html#aabd48c83af8f69ed624bb8a83347fa39">   40</a></span>&#160;<span class="preprocessor">#define BGB_MESSAGE(message_text) BGB_MESSAGE1(BGB_MACRONAME(__LINE__), message_text)</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#define BGB_MACRONAME(A) BGB_MACRONAME1(A)</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#define BGB_MACRONAME1(A) BGBLOG##A</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#define BGB_MESSAGE1(name, message_text) \</span></div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">__asm \</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">  ld d, d \</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">  jr lbl \</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">  .dw 0x6464 \</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">  .dw 0x0000 \</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">  .ascii message_text \</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">lbl: \</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">__endasm</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">#define BGB_HASH #</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#define BGB_ADD_HASH(x) x</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor">#define BGB_MAKE_LABEL(a) BGB_ADD_HASH(BGB_HASH)a</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="bgb__emu_8h.html#aa55fc1a65764d7546ee5e4e3ee0bef90">   77</a></span>&#160;<span class="preprocessor">#define BGB_MESSAGE_FMT(buf, ...) sprintf(buf, __VA_ARGS__);BGB_MESSAGE2(BGB_ADD_DOLLARD(__LINE__), BGB_MAKE_LABEL(_##buf));</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor">#define BGB_MESSAGE2(lbl, buf) \</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor">__asm \</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="preprocessor">  ld d, d \</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor">  jr lbl \</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="preprocessor">  .dw 0x6464 \</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="preprocessor">  .dw 0x0001 \</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="preprocessor">  .dw buf \</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor">  .dw 0 \</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="preprocessor">lbl: \</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="preprocessor">__endasm</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="preprocessor">#define BGB_STR(A) #A</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="preprocessor">#define BGB_CONCAT(A,B) BGB_STR(A:B)</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
-<div class="line"><a name="l00103"></a><span class="lineno"><a class="line" href="bgb__emu_8h.html#ab5b05deda52856c84f274fb28578b6ee">  103</a></span>&#160;<span class="preprocessor">#define BGB_PROFILE_BEGIN(MSG) BGB_MESSAGE(BGB_CONCAT(MSG,%ZEROCLKS%));</span></div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
-<div class="line"><a name="l00129"></a><span class="lineno"><a class="line" href="bgb__emu_8h.html#ab43f94064dc523e99c4aefb440e2c3ed">  129</a></span>&#160;<span class="preprocessor">#define BGB_PROFILE_END(MSG) BGB_MESSAGE(BGB_CONCAT(MSG,%-8+LASTCLKS%));</span></div>
-<div class="line"><a name="l00130"></a><span class="lineno"><a class="line" href="bgb__emu_8h.html#a6afa665bd7d093e7ca2d310cc92b08a9">  130</a></span>&#160;<span class="preprocessor">#define BGB_TEXT(MSG) BGB_MESSAGE(BGB_STR(MSG))</span></div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
-<div class="line"><a name="l00140"></a><span class="lineno"><a class="line" href="bgb__emu_8h.html#a219a24aebe0bddc535ba4abc81cee30c">  140</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="bgb__emu_8h.html#a219a24aebe0bddc535ba4abc81cee30c">BGB_profiler_message</a>();</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160; </div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> * __BGB_PROFILER_INIT = &amp;<a class="code" href="bgb__emu_8h.html#a219a24aebe0bddc535ba4abc81cee30c">BGB_profiler_message</a>;</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160; </div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">.MACRO name msg_t, ?llbl\</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">  ld d, d \</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">  jr llbl \</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">  .dw 0x6464 \</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">  .dw 0x0000 \</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">  .ascii msg_t \</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">llbl: \</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">.ENDM \</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">name ^/message_text/ \</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">__endasm</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor">#define BGB_MESSAGE_SUFFIX(message_text, message_suffix) BGB_MESSAGE3(BGB_MACRONAME(__LINE__), message_text, message_suffix)</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">#define BGB_MESSAGE3(name, message_text, message_suffix) \</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor">__asm \</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">.MACRO name msg_t, msg_s, ?llbl\</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor">  ld d, d \</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">  jr llbl \</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor">  .dw 0x6464 \</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor">  .dw 0x0000 \</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor">  .ascii msg_t \</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="preprocessor">  .ascii msg_s \</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor">llbl: \</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="preprocessor">.ENDM \</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="preprocessor">name ^/message_text/, ^/message_suffix/ \</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor">__endasm</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="bgb__emu_8h.html#ab5b05deda52856c84f274fb28578b6ee">   84</a></span>&#160;<span class="preprocessor">#define BGB_PROFILE_BEGIN(MSG) BGB_MESSAGE_SUFFIX(MSG, &quot;%ZEROCLKS%&quot;);</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
+<div class="line"><a name="l00110"></a><span class="lineno"><a class="line" href="bgb__emu_8h.html#ab43f94064dc523e99c4aefb440e2c3ed">  110</a></span>&#160;<span class="preprocessor">#define BGB_PROFILE_END(MSG) BGB_MESSAGE_SUFFIX(MSG,&quot;%-8+LASTCLKS%&quot;);</span></div>
+<div class="line"><a name="l00111"></a><span class="lineno"><a class="line" href="bgb__emu_8h.html#a6afa665bd7d093e7ca2d310cc92b08a9">  111</a></span>&#160;<span class="preprocessor">#define BGB_TEXT(MSG) BGB_MESSAGE(MSG)</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
+<div class="line"><a name="l00121"></a><span class="lineno"><a class="line" href="bgb__emu_8h.html#a219a24aebe0bddc535ba4abc81cee30c">  121</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="bgb__emu_8h.html#a219a24aebe0bddc535ba4abc81cee30c">BGB_profiler_message</a>();</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160; </div>
+<div class="line"><a name="l00144"></a><span class="lineno"><a class="line" href="bgb__emu_8h.html#a2b2f53166550341e0b1297dd5aa5a2c3">  144</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="bgb__emu_8h.html#a2b2f53166550341e0b1297dd5aa5a2c3">BGB_printf</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *format, ...) <a class="code" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a>;</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160; </div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;static <span class="keywordtype">void</span> * __BGB_PROFILER_INIT = &amp;<a class="code" href="bgb__emu_8h.html#a219a24aebe0bddc535ba4abc81cee30c">BGB_profiler_message</a>;</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160; </div>
+<div class="line"><a name="l00150"></a><span class="lineno"><a class="line" href="bgb__emu_8h.html#a95c9ae3faadfe6f93a3cac87085b3481">  150</a></span>&#160;<span class="preprocessor">#define BGB_BREAKPOINT __asm__(&quot;ld b, b&quot;);</span></div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160; </div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="aasm_2types_8h_html_a0971918860055db2e50dacea4da8f3bc"><div class="ttname"><a href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></div><div class="ttdeci">#define OLDCALL</div><div class="ttdef"><b>Definition:</b> types.h:21</div></div>
+<div class="ttc" id="abgb__emu_8h_html_a2b2f53166550341e0b1297dd5aa5a2c3"><div class="ttname"><a href="bgb__emu_8h.html#a2b2f53166550341e0b1297dd5aa5a2c3">BGB_printf</a></div><div class="ttdeci">void BGB_printf(const char *format,...) OLDCALL</div></div>
 <div class="ttc" id="abgb__emu_8h_html_a219a24aebe0bddc535ba4abc81cee30c"><div class="ttname"><a href="bgb__emu_8h.html#a219a24aebe0bddc535ba4abc81cee30c">BGB_profiler_message</a></div><div class="ttdeci">void BGB_profiler_message()</div></div>
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->

@@ -1,6 +1,8 @@
 var cgb_8h =
 [
     [ "RGB", "cgb_8h.html#a4a118ad3ee36468a3fa616977a64864e", null ],
+    [ "RGB8", "cgb_8h.html#a7d2ed0f10b2b74123a544327bbfd7564", null ],
+    [ "RGBHTML", "cgb_8h.html#ab5a6e450fcf10402278fe585a421dbbd", null ],
     [ "RGB_RED", "cgb_8h.html#aa039288455af8a3812a35aa1e7b903e4", null ],
     [ "RGB_DARKRED", "cgb_8h.html#ae29b6947ac7dca7db513e59f1cfcbf51", null ],
     [ "RGB_GREEN", "cgb_8h.html#ab6c97468034c02fe204fd37036d9be15", null ],
@@ -21,11 +23,13 @@ var cgb_8h =
     [ "RGB_BROWN", "cgb_8h.html#a7c2a437dfb89d663a1c2f0a7a9256474", null ],
     [ "RGB_ORANGE", "cgb_8h.html#a0a85d8d0da8edc5cce98f48701f903f7", null ],
     [ "RGB_TEAL", "cgb_8h.html#a9c8c3710151b2258ea8269850498703f", null ],
-    [ "set_bkg_palette", "cgb_8h.html#aec5c352285ef0fb0d5a1a1d35f6e7877", null ],
-    [ "set_sprite_palette", "cgb_8h.html#a2f0430a99cd9df4496b3c04f49aa3f6d", null ],
-    [ "set_bkg_palette_entry", "cgb_8h.html#a9e90b3a0f765485234e7b4416ea194e2", null ],
-    [ "set_sprite_palette_entry", "cgb_8h.html#a6f4e37ea7767881169d20baf6b0735ec", null ],
-    [ "cpu_slow", "cgb_8h.html#a476d06d0fe64d7c5a1ec05b8ee859a56", null ],
-    [ "cpu_fast", "cgb_8h.html#a871b5b1aba74ab8764f72b73bc090adb", null ],
-    [ "cgb_compatibility", "cgb_8h.html#a6b334e5e452d0650aded17199be1514a", null ]
+    [ "palette_color_t", "cgb_8h.html#af868d7cdbd052c6b972ef137e02f6495", null ],
+    [ "set_bkg_palette", "cgb_8h.html#aa8851ca1f515ca55cbf9f6ff53b08e8a", null ],
+    [ "set_sprite_palette", "cgb_8h.html#a9ca9f825284da0db522d15aa2e42a4af", null ],
+    [ "set_bkg_palette_entry", "cgb_8h.html#aa8881ff123f364f2e7d1e88c18f9fbca", null ],
+    [ "set_sprite_palette_entry", "cgb_8h.html#aebeb7431ebd400baed34796a8f50ea58", null ],
+    [ "cpu_slow", "cgb_8h.html#a6a36fb9584e4a123f6164530a3b1e5e2", null ],
+    [ "cpu_fast", "cgb_8h.html#a884a743919b234cd9c37789380784d08", null ],
+    [ "set_default_palette", "cgb_8h.html#abd34836339579013c097ae4dea10c014", null ],
+    [ "cgb_compatibility", "cgb_8h.html#ac2dd234782ac786758952496b017ab97", null ]
 ];

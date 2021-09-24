@@ -1,6 +1,6 @@
 /*
   time.c
-  Simple, not completly conformant implementation of time routines
+  Simple, not completely conformant implementation of time routines
 */
 
 #include <stdint.h>

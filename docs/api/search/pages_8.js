@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['using_20gbdk_1333',['Using GBDK',['../docs_using_gbdk.html',1,'index']]]
+  ['toolchain_20settings_2172',['Toolchain settings',['../docs_toolchain_settings.html',1,'index']]],
+  ['todo_20list_2173',['Todo List',['../todo.html',1,'']]]
 ];

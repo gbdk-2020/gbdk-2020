@@ -8,6 +8,8 @@
 // #include <unistd.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <time.h>
+
 #include "obj_data.h"
 #include "files.h"
 
@@ -29,6 +31,8 @@ static void display_help(void) {
        "\n"
        "Options\n"
        "-h           : Show this help\n"
+       "-lkin=<file> : Load object files specified in linker file <file>\n"
+       "-lkout=<file>: Write list of object files out to linker file <file>\n"
        "-yt<mbctype> : Set MBC type per ROM byte 149 in Decimal or Hex (0xNN) (see pandocs)\n"
        "-mbc=N       : Similar to -yt, but sets MBC type directly to N instead\n"
        "               of by intepreting ROM byte 149\n"
@@ -41,6 +45,8 @@ static void display_help(void) {
        "-sym=<prefix>: Add symbols starting with <prefix> to match + update list.\n"
        "               Default entry is \"___bank_\" (see below)\n"
        "-cartsize    : Print min required cart size as \"autocartsize:<NNN>\"\n"
+       "-plat=<plat> : Select platform specific behavior (default:gb) (gb,sms)\n"
+       "-random      : Distribute banks randomly for testing (honors -min/-max)\n"
        "-v           : Verbose output, show assignments\n"
        "\n"
        "Example: \"bankpack -ext=.rel -path=some/newpath/ file1.o file2.o\"\n"
@@ -97,6 +103,14 @@ static int handle_args(int argc, char * argv[]) {
                 symbol_match_add(argv[i] + 5);
             } else if (strstr(argv[i], "-cartsize") == argv[i]) {
                 g_option_cartsize = true;
+            } else if (strstr(argv[i], "-plat=") == argv[i]) {
+                banks_set_platform(argv[i] + 6);
+            } else if (strstr(argv[i], "-random") == argv[i]) {
+                banks_set_random(true);
+            } else if (strstr(argv[i], "-lkin=") == argv[i]) {
+                files_read_linkerfile(argv[i] + strlen("-lkin="));
+            } else if (strstr(argv[i], "-lkout=") == argv[i]) {
+                files_set_linkerfile_outname(argv[i] + strlen("-lkout="));
             } else
                 printf("BankPack: Warning: Ignoring unknown option %s\n", argv[i]);
         } else {
@@ -120,6 +134,7 @@ static int matches_extension(char * filename, char * extension) {
 
 
 static void init(void) {
+    srand( time(0) );
     files_init();
     obj_data_init();
 }
@@ -143,7 +158,11 @@ int main( int argc, char *argv[] )  {
 
     if (handle_args(argc, argv)) {
 
-        if (banks_get_mbc_type() != MBC_TYPE_NONE) {
+        // Require MBC for Game Boy
+        // SMS doesn't require an MBC setting
+        if ((banks_get_platform() == PLATFORM_GB) && (banks_get_mbc_type() == MBC_TYPE_NONE))
+            printf("BankPack: ERROR: auto-banking does not work with unbanked ROMS (no MBC for Game Boy)\n");
+        else {
             // Extract areas, sort and assign them to banks
             // then rewrite object files as needed
             files_extract();
@@ -156,8 +175,7 @@ int main( int argc, char *argv[] )  {
 
             cleanup();
             ret = EXIT_SUCCESS;
-        } else
-            printf("BankPack: ERROR: auto-banking does not work with unbanked ROMS (no MBC)\n");
+        }
     }
 
     return ret; // Exit with failure by default

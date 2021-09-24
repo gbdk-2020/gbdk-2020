@@ -32,6 +32,14 @@ This is a brief list of useful tools and information. It is not meant to be comp
     https://gbdev.io/list.html
 
 
+@anchor links_sms_gg_docs
+# Sega Master System / Game Gear Documentation
+  - @anchor smspower
+    __SMS Power!__  
+    Community site with technical documentation, reviews and other content related to the Sega 8-bit systems.
+    https://www.smspower.org/
+
+
 @anchor links_gbdk_tutorials
 # Tutorials
   - @anchor tutorials_gamingmonsters
@@ -39,6 +47,10 @@ This is a brief list of useful tools and information. It is not meant to be comp
     Several video tutorials and code for making games with GBDK/GBDK-2020.  
     https://www.youtube.com/playlist?list=PLeEj4c2zF7PaFv5MPYhNAkBGrkx4iPGJo  
     https://github.com/gingemonster/GamingMonstersGameBoySampleCode
+
+  - @anchor tutorials_typorter
+    __Pocket Leage Tutortial__  
+    https://blog.ty-porter.dev/development/2021/04/04/writing-a-gameboy-game-in-2021-pt-0.html
 
 
 @anchor link_examples
@@ -113,8 +125,22 @@ This is a brief list of useful tools and information. It is not meant to be comp
     Calculate used and free space in banks (ROM/RAM) and warn about errors such as bank overflows.  
     https://github.com/bbbbbr/romusage
 
+  - @anchor bgb_symbol_conversion
+    __noi file to sym conversion for bgb__  
+    Debug information in .noi files can be converted to a symbol format that @ref bgb "BGB" recognizes using:
+    - @ref lcc : `-Wm-yS` (with `--debug`, or `-Wl-j` to create the .noi)
+    - directly with @ref makebin : `-yS` (with `-j` passed to the linker)
+
   - @anchor src2sym
     __src2sym.pl__  
     Add line-by-line C source code to the main symbol file in a BGB compatible format. This allows for C source-like debugging in BGB in a limited way.
     https://gbdev.gg8.se/forums/viewtopic.php?id=710
 
+
+@anchor tools_build_ci_cd
+# Continuous Integration and Deployment
+  - @anchor GBDK_GitHub_Action_Builder
+    __GBDK GitHub Action Builder__
+    A Github Action which provides basic CI/CD for building projects based on GBDK (not for building GBDK itself).  
+    https://github.com/wujood/gbdk-2020-github-builder
+    

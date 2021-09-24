@@ -26,19 +26,19 @@
 ;   might be covered by the GNU General Public License.
 ;--------------------------------------------------------------------------
 
-	.module		strlen
+        .module strlen
 
-	.area	_BASE
+        .area   _HOME
 
 _strlen::
-	lda	HL, 2(SP)
-	ld	A, (HL+)	
-	ld	H, (HL)
-	ld	L, A
-.strlen::	
-	ld	DE, #0
-1$:	ld	A, (HL+)
-	or	A
-	ret	Z
-	inc	DE
-	jr      1$
+        lda     HL, 2(SP)
+        ld      A, (HL+)        
+        ld      H, (HL)
+        ld      L, A
+.strlen::       
+        ld      DE, #0
+1$:     ld      A, (HL+)
+        or      A
+        ret     Z
+        inc     DE
+        jr      1$

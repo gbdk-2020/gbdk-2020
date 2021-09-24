@@ -10,7 +10,7 @@
 -Bdir/	use the compiler named `dir/rcc'
 -c	compile only
 -dn	set switch statement density to `n'
--debug	turn on --debug for compiler, -y (.cdb) and -j (.noi) for linker
+-debug	Turns on --debug for compiler, -y (.cdb) and -j (.noi) for linker
 -Dname -Dname=def	define the preprocessor symbol `name'
 -E	run only the preprocessor on the named C programs and unsuffixed files
 -g	produce symbol table information for debuggers
@@ -18,6 +18,7 @@
 -Idir	add `dir' to the beginning of the list of #include directories
 -K don't run ihxcheck test on linker ihx output
 -lx	search library `x'
+-m	select port and platform: "-m[port]:[plat]" ports:gbz80,z80 plats:ap,gb,sms,gg
 -N	do not search the standard directories for #include files
 -n	emit code to check for dereferencing zero pointers
 -no-crt do not auto-include the gbdk crt0.o runtime in linker list
@@ -41,7 +42,7 @@
 @anchor sdcc-settings
 # sdcc settings
 ```
-SDCC : mcs51/z80/z180/r2k/r2ka/r3ka/gbz80/tlcs90/ez80_z80/z80n/ds390/pic16/pic14/TININative/ds400/hc08/s08/stm8/pdk13/pdk14/pdk15 4.1.4 #12246 (Linux)
+SDCC : z80/gbz80 4.1.6 #12539 (Linux)
 published under GNU General Public License (GPL)
 Usage : sdcc [options] filename
 Options :-
@@ -151,79 +152,11 @@ Linker options:
       --idata-loc           
       --no-optsdcc-in-asm   Do not emit .optsdcc in asm
 
-Special options for the mcs51 port:
-      --model-small         internal data space is used (default)
-      --model-medium        external paged data space is used
-      --model-large         external data space is used
-      --model-huge          functions are banked, data in external space
-      --stack-size          Tells the linker to allocate this space for stack
-      --parms-in-bank1      use Bank1 for parameter passing
-      --acall-ajmp          Use acall/ajmp instead of lcall/ljmp
-      --no-ret-without-call  Do not use ret independent of acall/lcall
-
 Special options for the z80 port:
       --callee-saves-bc     Force a called function to always save BC
       --portmode=           Determine PORT I/O mode (z80/z180)
-      --asm=                Define assembler name (rgbds/asxxxx/isas/z80asm/gas)
-      --codeseg             <name> use this name for the code segment
-      --constseg            <name> use this name for the const segment
-      --dataseg             <name> use this name for the data segment
-      --no-std-crt0         For the z80/gbz80 do not link default crt0.rel
-      --reserve-regs-iy     Do not use IY (incompatible with --fomit-frame-pointer)
-      --oldralloc           Use old register allocator (deprecated)
-      --fno-omit-frame-pointer  Do not omit frame pointer
-      --emit-externs        Emit externs list in generated asm
-      --legacy-banking      Use legacy method to call banked functions
-      --nmos-z80            Generate workaround for NMOS Z80 when saving IFF2
-
-Special options for the z180 port:
-      --callee-saves-bc     Force a called function to always save BC
-      --portmode=           Determine PORT I/O mode (z80/z180)
-      --asm=                Define assembler name (rgbds/asxxxx/isas/z80asm/gas)
-      --codeseg             <name> use this name for the code segment
-      --constseg            <name> use this name for the const segment
-      --dataseg             <name> use this name for the data segment
-      --no-std-crt0         For the z80/gbz80 do not link default crt0.rel
-      --reserve-regs-iy     Do not use IY (incompatible with --fomit-frame-pointer)
-      --oldralloc           Use old register allocator (deprecated)
-      --fno-omit-frame-pointer  Do not omit frame pointer
-      --emit-externs        Emit externs list in generated asm
-      --legacy-banking      Use legacy method to call banked functions
-      --nmos-z80            Generate workaround for NMOS Z80 when saving IFF2
-
-Special options for the r2k port:
-      --callee-saves-bc     Force a called function to always save BC
-      --portmode=           Determine PORT I/O mode (z80/z180)
-      --asm=                Define assembler name (rgbds/asxxxx/isas/z80asm/gas)
-      --codeseg             <name> use this name for the code segment
-      --constseg            <name> use this name for the const segment
-      --dataseg             <name> use this name for the data segment
-      --no-std-crt0         For the z80/gbz80 do not link default crt0.rel
-      --reserve-regs-iy     Do not use IY (incompatible with --fomit-frame-pointer)
-      --oldralloc           Use old register allocator (deprecated)
-      --fno-omit-frame-pointer  Do not omit frame pointer
-      --emit-externs        Emit externs list in generated asm
-      --legacy-banking      Use legacy method to call banked functions
-      --nmos-z80            Generate workaround for NMOS Z80 when saving IFF2
-
-Special options for the r2ka port:
-      --callee-saves-bc     Force a called function to always save BC
-      --portmode=           Determine PORT I/O mode (z80/z180)
-      --asm=                Define assembler name (rgbds/asxxxx/isas/z80asm/gas)
-      --codeseg             <name> use this name for the code segment
-      --constseg            <name> use this name for the const segment
-      --dataseg             <name> use this name for the data segment
-      --no-std-crt0         For the z80/gbz80 do not link default crt0.rel
-      --reserve-regs-iy     Do not use IY (incompatible with --fomit-frame-pointer)
-      --oldralloc           Use old register allocator (deprecated)
-      --fno-omit-frame-pointer  Do not omit frame pointer
-      --emit-externs        Emit externs list in generated asm
-      --legacy-banking      Use legacy method to call banked functions
-      --nmos-z80            Generate workaround for NMOS Z80 when saving IFF2
-
-Special options for the r3ka port:
-      --callee-saves-bc     Force a called function to always save BC
-      --portmode=           Determine PORT I/O mode (z80/z180)
+      -bo                   <num> use code bank <num>
+      -ba                   <num> use data bank <num>
       --asm=                Define assembler name (rgbds/asxxxx/isas/z80asm/gas)
       --codeseg             <name> use this name for the code segment
       --constseg            <name> use this name for the const segment
@@ -246,132 +179,47 @@ Special options for the gbz80 port:
       --dataseg             <name> use this name for the data segment
       --no-std-crt0         For the z80/gbz80 do not link default crt0.rel
       --legacy-banking      Use legacy method to call banked functions
-
-Special options for the tlcs90 port:
-      --callee-saves-bc     Force a called function to always save BC
-      --portmode=           Determine PORT I/O mode (z80/z180)
-      --asm=                Define assembler name (rgbds/asxxxx/isas/z80asm/gas)
-      --codeseg             <name> use this name for the code segment
-      --constseg            <name> use this name for the const segment
-      --dataseg             <name> use this name for the data segment
-      --no-std-crt0         For the z80/gbz80 do not link default crt0.rel
-      --reserve-regs-iy     Do not use IY (incompatible with --fomit-frame-pointer)
-      --oldralloc           Use old register allocator (deprecated)
-      --fno-omit-frame-pointer  Do not omit frame pointer
-      --emit-externs        Emit externs list in generated asm
-      --legacy-banking      Use legacy method to call banked functions
-      --nmos-z80            Generate workaround for NMOS Z80 when saving IFF2
-
-Special options for the ez80_z80 port:
-      --callee-saves-bc     Force a called function to always save BC
-      --portmode=           Determine PORT I/O mode (z80/z180)
-      --asm=                Define assembler name (rgbds/asxxxx/isas/z80asm/gas)
-      --codeseg             <name> use this name for the code segment
-      --constseg            <name> use this name for the const segment
-      --dataseg             <name> use this name for the data segment
-      --no-std-crt0         For the z80/gbz80 do not link default crt0.rel
-      --reserve-regs-iy     Do not use IY (incompatible with --fomit-frame-pointer)
-      --oldralloc           Use old register allocator (deprecated)
-      --fno-omit-frame-pointer  Do not omit frame pointer
-      --emit-externs        Emit externs list in generated asm
-      --legacy-banking      Use legacy method to call banked functions
-      --nmos-z80            Generate workaround for NMOS Z80 when saving IFF2
-
-Special options for the z80n port:
-      --callee-saves-bc     Force a called function to always save BC
-      --portmode=           Determine PORT I/O mode (z80/z180)
-      --asm=                Define assembler name (rgbds/asxxxx/isas/z80asm/gas)
-      --codeseg             <name> use this name for the code segment
-      --constseg            <name> use this name for the const segment
-      --dataseg             <name> use this name for the data segment
-      --no-std-crt0         For the z80/gbz80 do not link default crt0.rel
-      --reserve-regs-iy     Do not use IY (incompatible with --fomit-frame-pointer)
-      --oldralloc           Use old register allocator (deprecated)
-      --fno-omit-frame-pointer  Do not omit frame pointer
-      --emit-externs        Emit externs list in generated asm
-      --legacy-banking      Use legacy method to call banked functions
-      --nmos-z80            Generate workaround for NMOS Z80 when saving IFF2
-
-Special options for the ds390 port:
-      --model-flat24        use the flat24 model for the ds390 (default)
-      --stack-8bit          use the 8bit stack for the ds390 (not supported yet)
-      --stack-size          Tells the linker to allocate this space for stack
-      --stack-10bit         use the 10bit stack for ds390 (default)
-      --use-accelerator     generate code for ds390 arithmetic accelerator
-      --protect-sp-update   will disable interrupts during ESP:SP updates
-      --parms-in-bank1      use Bank1 for parameter passing
-
-Special options for the pic16 port:
-      --pstack-model=       use stack model 'small' (default) or 'large'
-  -y  --extended            enable Extended Instruction Set/Literal Offset Addressing mode
-      --pno-banksel         do not generate BANKSEL assembler directives
-      --obanksel=           set banksel optimization level (default=0 no)
-      --denable-peeps       explicit enable of peepholes
-      --no-optimize-goto    do NOT use (conditional) BRA instead of GOTO
-      --optimize-cmp        try to optimize some compares
-      --optimize-df         thoroughly analyze data flow (memory and time intensive!)
-      --asm=                Use alternative assembler
-      --mplab-comp          enable compatibility mode for MPLAB utilities (MPASM/MPLINK)
-      --link=               Use alternative linker
-      --preplace-udata-with=  Place udata variables at another section: udata_acs, udata_ovr, udata_shr
-      --ivt-loc=            Set address of interrupt vector table.
-      --nodefaultlibs       do not link default libraries when linking
-      --use-crt=            use <crt-o> run-time initialization module
-      --no-crt              do not link any default run-time initialization module
-      --debug-xtra          show more debug info in assembly output
-      --debug-ralloc        dump register allocator debug file *.d
-      --pcode-verbose       dump pcode related info
-      --calltree            dump call tree in .calltree file
-      --gstack              trace stack pointer push/pop to overflow
-      --no-warn-non-free    suppress warning on absent --use-non-free option
-
-Special options for the pic14 port:
-      --debug-xtra          show more debug info in assembly output
-      --no-pcode-opt        disable (slightly faulty) optimization on pCode
-      --stack-size          sets the size if the argument passing stack (default: 16, minimum: 4)
-      --no-extended-instructions  forbid use of the extended instruction set (e.g., ADDFSR)
-      --no-warn-non-free    suppress warning on absent --use-non-free option
-
-Special options for the TININative port:
-      --model-flat24        use the flat24 model for the ds390 (default)
-      --stack-8bit          use the 8bit stack for the ds390 (not supported yet)
-      --stack-size          Tells the linker to allocate this space for stack
-      --stack-10bit         use the 10bit stack for ds390 (default)
-      --use-accelerator     generate code for ds390 arithmetic accelerator
-      --protect-sp-update   will disable interrupts during ESP:SP updates
-      --parms-in-bank1      use Bank1 for parameter passing
-      --tini-libid          <nnnn> LibraryID used in -mTININative
-
-Special options for the ds400 port:
-      --model-flat24        use the flat24 model for the ds400 (default)
-      --stack-8bit          use the 8bit stack for the ds400 (not supported yet)
-      --stack-size          Tells the linker to allocate this space for stack
-      --stack-10bit         use the 10bit stack for ds400 (default)
-      --use-accelerator     generate code for ds400 arithmetic accelerator
-      --protect-sp-update   will disable interrupts during ESP:SP updates
-      --parms-in-bank1      use Bank1 for parameter passing
-
-Special options for the hc08 port:
-      --model-small         8-bit address space for data
-      --model-large         16-bit address space for data (default)
-      --out-fmt-elf         Output executable in ELF format
-      --oldralloc           Use old register allocator
-
-Special options for the s08 port:
-      --model-small         8-bit address space for data
-      --model-large         16-bit address space for data (default)
-      --out-fmt-elf         Output executable in ELF format
-      --oldralloc           Use old register allocator
-
-Special options for the stm8 port:
-      --model-medium        16-bit address space for both data and code (default)
-      --model-large         16-bit address space for data, 24-bit for code
-      --codeseg             <name> use this name for the code segment
-      --constseg            <name> use this name for the const segment
-      --out-fmt-elf         Output executable in ELF format
 ```
 @anchor sdasgb-settings
 # sdasgb settings
+```
+
+sdas Assembler V02.00 + NoICE + SDCC mods  (GameBoy Z80-like CPU)
+
+
+Copyright (C) 2012  Alan R. Baldwin
+This program comes with ABSOLUTELY NO WARRANTY.
+
+Usage: [-Options] file
+Usage: [-Options] outfile file1 [file2 file3 ...]
+  -d   Decimal listing
+  -q   Octal   listing
+  -x   Hex     listing (default)
+  -g   Undefined symbols made global
+  -n   Don't resolve global assigned value symbols
+  -a   All user symbols made global
+  -b   Display .define substitutions in listing
+  -bb  and display without .define substitutions
+  -c   Disable instruction cycle count in listing
+  -j   Enable NoICE Debug Symbols
+  -y   Enable SDCC  Debug Symbols
+  -l   Create list   file/outfile[.lst]
+  -o   Create object file/outfile[.rel]
+  -s   Create symbol file/outfile[.sym]
+  -p   Disable automatic listing pagination
+  -u   Disable .list/.nlist processing
+  -w   Wide listing format for symbol table
+  -z   Disable case sensitivity for symbols
+  -f   Flag relocatable references by  `   in listing file
+  -ff  Flag relocatable references by mode in listing file
+  -I   Add the named directory to the include file
+       search path.  This option may be used more than once.
+       Directories are searched in the order given.
+
+removing 
+```
+@anchor sdasz80-settings
+# sdasz80 settings
 ```
 
 sdas Assembler V02.00 + NoICE + SDCC mods  (GameBoy Z80-like CPU)
@@ -417,6 +265,8 @@ Use: Read .o files and auto-assign areas with bank=255.
 
 Options
 -h           : Show this help
+-lkin=<file> : Load object files specified in linker file <file>
+-lkout=<file>: Write list of object files out to linker file <file>
 -yt<mbctype> : Set MBC type per ROM byte 149 in Decimal or Hex (0xNN) (see pandocs)
 -mbc=N       : Similar to -yt, but sets MBC type directly to N instead
                of by intepreting ROM byte 149
@@ -429,6 +279,8 @@ Options
 -sym=<prefix>: Add symbols starting with <prefix> to match + update list.
                Default entry is "___bank_" (see below)
 -cartsize    : Print min required cart size as "autocartsize:<NNN>"
+-plat=<plat> : Select platform specific behavior (default:gb) (gb,sms)
+-random      : Distribute banks randomly for testing (honors -min/-max)
 -v           : Verbose output, show assignments
 
 Example: "bankpack -ext=.rel -path=some/newpath/ file1.o file2.o"
@@ -462,6 +314,47 @@ Libraries:
 Relocation:
   -b   area base address = expression
   -g   global symbol = expression
+  -a   (platform) Select platform specific virtual address translation
+Map format:
+  -m   Map output generated as (out)file[.map]
+  -w   Wide listing format for map file
+  -x   Hexadecimal (default)
+  -d   Decimal
+  -q   Octal
+Output:
+  -i   Intel Hex as (out)file[.ihx]
+  -s   Motorola S Record as (out)file[.s19]
+  -j   NoICE Debug output as (out)file[.noi]
+  -y   SDCDB Debug output as (out)file[.cdb]
+List:
+  -u   Update listing file(s) with link data as file(s)[.rst]
+Case Sensitivity:
+  -z   Disable Case Sensitivity for Symbols
+End:
+  -e   or null line terminates input
+
+```
+@anchor sdldz80-settings
+# sdldz80 settings
+```
+
+sdld Linker V03.00 + NoICE + sdld
+
+Usage: [-Options] [-Option with arg] file
+Usage: [-Options] [-Option with arg] outfile file1 [file2 ...]
+Startup:
+  -p   Echo commands to stdout (default)
+  -n   No echo of commands to stdout
+Alternates to Command Line Input:
+  -c                   ASlink >> prompt input
+  -f   file[.lk]       Command File input
+Libraries:
+  -k   Library path specification, one per -k
+  -l   Library file specification, one per -l
+Relocation:
+  -b   area base address = expression
+  -g   global symbol = expression
+  -a   (platform) Select platform specific virtual address translation
 Map format:
   -m   Map output generated as (out)file[.map]
   -w   Wide listing format for map file
@@ -519,6 +412,7 @@ GameBoy format options (applicable only with -Z option):
   -ys            Super GameBoy
   -yS            Convert .noi file named like input file to .sym
   -yj            set non-Japanese region flag
+  -yN            do not copy big N validation logo into ROM header
   -yp addr=value Set address in ROM to given value (address 0x100-0x1FE)
 Arguments:
   <in_file>      optional IHX input file, '-' means stdin. (default: stdin)
@@ -528,29 +422,41 @@ Arguments:
 # gbcompress settings
 ```
 gbcompress [options] infile outfile
-Use: Gbcompress a binary file and write it out.
+Use: compress a binary file and write it out.
 
 Options
 -h    : Show this help screen
 -d    : Decompress (default is compress)
 -v    : Verbose output
--cin  : Read input as .c source format (8 bit char ONLY, uses first array found)
--cout : Write output in .c / .h source format (8 bit char ONLY) 
--varname=<NAME> : specify variable name for c source output
+--cin  : Read input as .c source format (8 bit char ONLY, uses first array found)
+--cout : Write output in .c / .h source format (8 bit char ONLY) 
+--varname=<NAME> : specify variable name for c source output
+--alg=<type>     : specify compression type. 'rle', 'gb' (default)
 Example: "gbcompress binaryfile.bin compressed.bin"
 Example: "gbcompress -d compressedfile.bin decompressed.bin"
+Example: "gbcompress --alg=rle binaryfile.bin compressed.bin"
+
+The default compression (gb) is the type used by gbtd/gbmb
+The rle compression is Amiga IFF style
 ```
-@anchor png2mtspr-settings
-# png2mtspr settings
+@anchor png2asset-settings
+# png2asset settings
 ```
-usage: png2mtspr <file>.png [options]
--c            ouput file (default: <png file>.c)
--sw <width>   metasprites width size (default: png width)
--sh <height>  metasprites height size (default: png height)
--sp <props>   change default for sprite OAM property bytes (in hex) (default: 0x00)
--px <x coord> metasprites pivot x coordinate (default: metasprites width / 2)
--py <y coord> metasprites pivot y coordinate (default: metasprites height / 2)
--spr8x8       use SPRITES_8x8 (default: SPRITES_8x16)
--spr8x16      use SPRITES_8x16 (default: SPRITES_8x16)
--b <bank>     bank (default 0)
+usage: png2asset    <file>.png [options]
+-c                  ouput file (default: <png file>.c)
+-sw <width>         metasprites width size (default: png width)
+-sh <height>        metasprites height size (default: png height)
+-sp <props>         change default for sprite OAM property bytes (in hex) (default: 0x00)
+-px <x coord>       metasprites pivot x coordinate (default: metasprites width / 2)
+-py <y coord>       metasprites pivot y coordinate (default: metasprites height / 2)
+-pw <width>         metasprites collision rect widht (default: metasprites width)
+-ph <height>        metasprites collision rect height (default: metasprites height)
+-spr8x8             use SPRITES_8x8 (default: SPRITES_8x16)
+-spr8x16            use SPRITES_8x16 (default: SPRITES_8x16)
+-b <bank>           bank (default 0)
+-keep_palette_order use png palette
+-noflip             disable tile flip
+-map                Export as map (tileset + bg)
+-use_map_attributes Use CGB BG Map attributes (default: palettes are stored for each tile in a separate array)
+-use_structs        Group the exported info into structs (default: false)
 ```

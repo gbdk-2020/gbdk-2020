@@ -19,13 +19,17 @@ void files_init(void);
 void files_cleanup(void);
 void files_add(char *);
 
+void files_read_linkerfile(char *);
+void files_set_linkerfile_outname(char *);
+void files_write_linkerfile(void);
+
 char * file_get_name_in_by_id(uint32_t);
 char * file_get_name_out_by_id(uint32_t);
 
 void files_set_out_ext(char *);
 void files_set_out_path(char *);
 
-int  files_extract(void);
-int  files_rewrite(void);
+void files_extract(void);
+void files_rewrite(void);
 
 #endif // _FILES_H

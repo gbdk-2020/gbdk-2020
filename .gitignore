@@ -61,6 +61,7 @@ gbdk-support/gbcompress/gbcompress
 gbdk-support/ihxcheck/ihxcheck
 gbdk-support/lcc/lcc
 gbdk-support/png2mtspr/png2mtspr
+gbdk-support/png2asset/png2asset
 as/bin
 link/bin
 maccer
@@ -70,8 +71,12 @@ far_fixer/Debug/
 far_fixer/.vs/
 [Dd]ebug/
 
-# Auto-generated make.bat (from Makefiles)
+# Auto-generated make.bat and compile.bat (from Makefiles)
 make.bat
+compile.bat
 
 # Doc generation files
 gbdk-lib/doc/
+
+# VS.Code folder
+.vscode

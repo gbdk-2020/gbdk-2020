@@ -116,29 +116,33 @@ static uint8_t * str_array_to_buf(char * str_in, uint32_t * p_ret_len) {
 //
 uint8_t * file_read_c_input_into_buffer(char * filename, uint32_t *ret_size) {
 
-    uint8_t * filedata = NULL;
+    char * filedata = NULL;
     uint32_t  file_size;
 
-    uint8_t * str_c_array = NULL;
-    uint8_t * str_c_array_start = NULL;
+    char * str_c_array = NULL;
+    char * str_c_array_start = NULL;
     uint8_t * p_array_data = NULL;
 
-    filedata = file_read_into_buffer(filename, &file_size);
+    filedata = file_read_into_buffer_char(filename, &file_size);
 
     if (filedata) {
         str_c_array = filedata; 
 
         // Find array opening bracket `[`
-        if ( str_c_array = str_ffwd_to(str_c_array, &file_size, '[', STR_FFWD_MATCH_ANY) ) {
+        str_c_array = str_ffwd_to(str_c_array, &file_size, '[', STR_FFWD_MATCH_ANY);
+        if (str_c_array) {
             // Find Array closing bracket `]`
-            if ( str_c_array = str_ffwd_to(str_c_array, &file_size, ']', "[xX0123456789ABCDEFabcdef\t\n\r ") ) {
+            str_c_array = str_ffwd_to(str_c_array, &file_size, ']', "[xX0123456789ABCDEFabcdef\t\n\r ");
+            if (str_c_array) {
                 // Find Start or array
-                if ( str_c_array = str_ffwd_to(str_c_array, &file_size, '{', "]\t\n\r =") ) {
+                str_c_array = str_ffwd_to(str_c_array, &file_size, '{', "]\t\n\r =");
+                if (str_c_array) {
                     // Save start of array
                     str_c_array_start = str_c_array + 1;
                     
                     // Find end of array
-                    if ( str_c_array = str_ffwd_to(str_c_array, &file_size, '}', "{xX0123456789ABCDEFabcdef,\t\n\r ") ) {
+                    str_c_array = str_ffwd_to(str_c_array, &file_size, '}', "{xX0123456789ABCDEFabcdef,\t\n\r ");
+                    if (str_c_array) {
                         // Terminate string at end of array
                         *str_c_array = '\0';
 

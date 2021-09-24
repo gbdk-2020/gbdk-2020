@@ -6,6 +6,67 @@ https://github.com/gbdk-2020/gbdk-2020/releases
 
 # GBDK 2020 Release Notes
 
+## GBDK 2020 4.0.5
+  2021/09
+  - Includes SDCC version 12539 with GBDK-2020 patches for Z80
+  - Known Issues
+    - SDCC: `z80instructionSize() failed to parse line node, assuming 999 bytes`
+      - This is a known issue with the SDCC Peephole Optimizer parsing and can be ignored.
+    - `-bo<n>` and `-ba<n>` are not supported by the Windows build of @ref sdcc
+    - On macOS the cross platform `banks` example has problems parsing the filename based ROM and RAM bank assignments into `-bo<n>` and `-ba<n>`
+  - Added support for new consoles. See @ref docs_supported_consoles
+    - Analogue Pocket (`ap`)
+    - Sega Master System (`sms`) and Game Gear (`gg`)
+  - Library
+    - Fixed error when calling get_bkg_tile_xy: `?ASlink-Warning-Undefined Global '.set_tile_xy' referenced by module `
+?ASlink-Warning-Byte PCR relocation error for symbol  .set_tile_xy
+    - Variables in static storage are now initialized to zero per C standard (but remaining WRAM is not cleared)
+    - Added many new register flag constants and names. For example:
+      - @ref rLCDC is a new alias for @ref LCDC_REG
+      - @ref LCDCF_WINON, @ref LCDCF_WINOFF, @ref LCDCF_B_WINON
+    - Added @ref BANK(), @ref BANKREF(), @ref BANKREF_EXTERN()
+    - Added @ref INCBIN(), @ref BANK(), @ref INCBIN_SIZE(), @ref INCBIN_EXTERN()
+    - Added generic @ref SWITCH_ROM() and @ref SWITCH_RAM()
+    - Added @ref BGB_printf() and updated bgb debug output.
+    - Added @ref set_native_tile_data(), @ref set_tile_map(), @ref set_1bpp_colors, @ref set_bkg_1bpp_data, @ref set_sprite_1bpp_data, @ref set_2bpp_palette, @ref set_bkg_2bpp_data, @ref set_sprite_2bpp_data, @ref set_tile_2bpp_data (sms/gg only), @ref set_bkg_4bpp_data (sms/gg only), @ref set_sprite_4bpp_data (sms/gg only)
+    - Added RLE decompression support: @ref rle_init(), @ref  rle_decompress(),
+    - Changed @ref itoa(), @ref uitoa(), @ref ltoa(), @ref ultoa() to now require a radix value (base) argument to be passed. On the Game Boy and Analogue Pocket the parameter is required but not utilized.
+  - Examples
+    - Added cross-platform examples (build for multiple consoles: gb, ap, sms, gg)
+    - Added sms, gg, pocket(ap) examples
+    - Added incbin example
+    - Added simple physics sub-pixel / fixed point math example
+    - Added rle decompression example
+    - Changed windows make.bat files to compile.bat
+    - Bug fixes and updates for existing examples    
+  - Toolchain / Utilities
+    - @ref utility_png2asset "png2asset"
+      - @ref utility_png2asset "png2asset" is the new name for the `png2mtspr` utility
+      - Added collision rectangle width and height (`-pw`, `-ph`)
+      - Added option to use the palette from the source png (`-keep_palette_order`)
+      - Added option to disable tile flip (`-noflip`)
+      - Added export as map: tileset + bg (`-map`)
+      - Added option to use CGB BG Map attributes (`-use_map_attributes`)
+      - Added option to group the exported info into structs (`-use_structs`)
+    - @ref lcc
+      - Use `-m` to select target port and platform: "-m[port]:[plat]" ports:`gbz80,z80` plats:`ap,gb,sms,gg`
+      - Changed default output format when not specified from `.ihx` to `.gb` (or other active rom extension)
+      - Changed lcc to always use the linkerfile `-lkout=` option when calling bankpack
+      - Fixed name generation crash when outfile lacks extension
+    - @ref bankpack
+      - Added linkerfile input and output: `-lkin=<file>`, `-lkout=<file>`
+      - Added selector for platform specific behavior `plat=<plat>` (Default:gb, Avaialble:`gb,sms`). sms/gg targets prohibits packing `LIT_N` areas in the same banks as `CODE_N` areas
+      - Added randomization for auto-banks (`-random`) for debugging and testing
+    - @ref utility_gbcompress
+      - Added C source array format output (--cout) (optional variable name argument --varname=)
+      - Added C source array format input (--cin) (experimental)
+      - Added block style rle compression and decompression mode: `--alg=rle`
+      - Fixed comrpession errors when input size was larger than 64k
+  - Docs
+    - Added @ref docs_supported_consoles section
+    - Various doc updates and improvements
+  
+
 ## GBDK 2020 4.0.4
   2021/06
   - Library
@@ -39,7 +100,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
       - Added rewrite .o files -> .rel for linking when called with `-autobank` and `-Wb-ext=.rel`
       - Workaround @ref makebin `-Wl-yp` formatting segfault
   - Docs
-    - Improved @ref utility_png2mtspr documentation
+    - Improved utility_png2mtspr documentation
     - Various doc updates and improvements
 
 
@@ -65,7 +126,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
     - Improved sgb_border
   - Toolchain / Utilities
     - Added @ref utility_gbcompress utility
-    - Added @ref utility_png2mtspr metasprite utility
+    - Added utility_png2mtspr metasprite utility
   - Docs
     - Added extensive documentation (some of which is imported and updated from the old gbdk docs)
     - Added PDF version of docs
@@ -151,7 +212,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
   - Banked functions are working! The patcher is fully integrated in link-gbz80, no extra tools are needed. It is based on Toxa's work
     - Check this post for more info
     - Check the examples/gb/banked code for basic usage
-  - USE_SFR_FOR_REG is the default now check here why
+  - Behavior formerly enabled by USE_SFR_FOR_REG is on by default now (no need to specify it, it isn't a tested `#ifdef` anymore). check here why:
     https://gbdev.gg8.se/forums/viewtopic.php?id=697
   - Fixed examples that were not compiling in the previous version and some improvements in a few of them. Removed all warnings caused by changing to the new SDCC
   - Fixed bug in lcc that was causing some files in the temp folder not being deleted

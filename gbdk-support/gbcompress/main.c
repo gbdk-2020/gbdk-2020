@@ -9,10 +9,15 @@
 #include <stdint.h>
 
 #include "gbcompress.h"
+#include "rlecompress.h"
 #include "files.h"
 #include "files_c_source.h"
 
 #define MAX_STR_LEN     4096
+
+#define COMPRESSION_TYPE_GB        0
+#define COMPRESSION_TYPE_RLE_BLOCK 1
+#define COMPRESSION_TYPE_DEFAULT   COMPRESSION_TYPE_GB
 
 char filename_in[MAX_STR_LEN] = {'\0'};
 char filename_out[MAX_STR_LEN] = {'\0'};
@@ -20,10 +25,11 @@ char filename_out[MAX_STR_LEN] = {'\0'};
 uint8_t * p_buf_in  = NULL;
 uint8_t * p_buf_out = NULL;
 
-bool opt_mode_compress  = true;
-bool opt_verbose        = false;
-bool opt_c_source_input = false;
-bool opt_c_source_output = false;
+bool opt_mode_compress    = true;
+bool opt_verbose          = false;
+bool opt_compression_type = COMPRESSION_TYPE_DEFAULT;
+bool opt_c_source_input   = false;
+bool opt_c_source_output  = false;
 char opt_c_source_output_varname[MAX_STR_LEN] = "var_name";
 
 static void display_help(void);
@@ -36,17 +42,22 @@ void cleanup(void);
 static void display_help(void) {
     fprintf(stdout,
        "gbcompress [options] infile outfile\n"
-       "Use: Gbcompress a binary file and write it out.\n"
+       "Use: compress a binary file and write it out.\n"
        "\n"
        "Options\n"
        "-h    : Show this help screen\n"
        "-d    : Decompress (default is compress)\n"
        "-v    : Verbose output\n"
-       "-cin  : Read input as .c source format (8 bit char ONLY, uses first array found)\n"
-       "-cout : Write output in .c / .h source format (8 bit char ONLY) \n"
-       "-varname=<NAME> : specify variable name for c source output\n"
+       "--cin  : Read input as .c source format (8 bit char ONLY, uses first array found)\n"
+       "--cout : Write output in .c / .h source format (8 bit char ONLY) \n"
+       "--varname=<NAME> : specify variable name for c source output\n"
+       "--alg=<type>     : specify compression type: 'rle', 'gb' (default)\n"
        "Example: \"gbcompress binaryfile.bin compressed.bin\"\n"
        "Example: \"gbcompress -d compressedfile.bin decompressed.bin\"\n"
+       "Example: \"gbcompress --alg=rle binaryfile.bin compressed.bin\"\n"
+       "\n"
+       "The default compression (gb) is the type used by gbtd/gbmb\n"
+       "The rle compression is Amiga IFF style\n"
        );
 }
 
@@ -76,6 +87,10 @@ int handle_args(int argc, char * argv[]) {
                 opt_c_source_output = true;
             } else if (strstr(argv[i], "--varname=") == argv[i]) {
                 snprintf(opt_c_source_output_varname, sizeof(opt_c_source_output_varname), "%s", argv[i] + 10);
+            } else if (strstr(argv[i], "--alg=gb") == argv[i]) {
+                opt_compression_type = COMPRESSION_TYPE_GB;
+            } else if (strstr(argv[i], "--alg=rle") == argv[i]) {
+                opt_compression_type = COMPRESSION_TYPE_RLE_BLOCK;
             } else if (strstr(argv[i], "-d") == argv[i]) {
                 opt_mode_compress = false;
             } else
@@ -129,9 +144,15 @@ static int compress() {
     p_buf_out = malloc(buf_size_out);
 
     if ((p_buf_in) && (p_buf_out) && (buf_size_in > 0)) {
-        out_len = gbcompress_buf(p_buf_in, buf_size_in, &p_buf_out, buf_size_out);
 
-        if (out_len > 0)
+        if (opt_compression_type == COMPRESSION_TYPE_GB)
+            out_len = gbcompress_buf(p_buf_in, buf_size_in, &p_buf_out, buf_size_out);
+        else if (opt_compression_type == COMPRESSION_TYPE_RLE_BLOCK)
+            out_len = rlecompress_buf(p_buf_in, buf_size_in, &p_buf_out, buf_size_out);
+        else
+            return EXIT_FAILURE;
+
+        if (out_len > 0) {
 
             if (opt_c_source_output) {
                 c_source_set_sizes(out_len, buf_size_in); // compressed, decompressed
@@ -145,10 +166,10 @@ static int compress() {
                     printf("Compressed: %d bytes -> %d bytes (%%%.2f)\n", buf_size_in, out_len, ((double)out_len / (double)buf_size_in) * 100);
                 return EXIT_SUCCESS;
             }
-
+        }
     }
 
-    return EXIT_FAILURE;    
+    return EXIT_FAILURE;
 }
 
 
@@ -170,22 +191,30 @@ static int decompress() {
     p_buf_out = malloc(buf_size_out);
 
     if ((p_buf_in) && (p_buf_out) && (buf_size_in > 0)) {
-        out_len = gbdecompress_buf(p_buf_in, buf_size_in,
-                                 &p_buf_out, buf_size_out);
-        if (out_len > 0)
+
+        if (opt_compression_type == COMPRESSION_TYPE_GB)
+            out_len = gbdecompress_buf(p_buf_in, buf_size_in, &p_buf_out, buf_size_out);
+        else if (opt_compression_type == COMPRESSION_TYPE_RLE_BLOCK)
+            out_len = rledecompress_buf(p_buf_in, buf_size_in, &p_buf_out, buf_size_out);
+        else
+            return EXIT_FAILURE;
+
+        if (out_len > 0) {
 
             if (opt_c_source_output) {
                 c_source_set_sizes(buf_size_in, out_len); // compressed, decompressed
                 result = file_write_c_output_from_buffer(filename_out, p_buf_out, out_len, opt_c_source_output_varname, true);
             }
-            else
+            else {
                 result = file_write_from_buffer(filename_out, p_buf_out, out_len);
+            }
 
             if (result) {
                 if (opt_verbose)
                     printf("Decompressed: %d bytes -> %d bytes (compression was %%%.2f)\n", buf_size_in, out_len, ((double)buf_size_in / (double)out_len) * 100);
                 return EXIT_SUCCESS;
             }
+        }
     }
 
     return EXIT_FAILURE;

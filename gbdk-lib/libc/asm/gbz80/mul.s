@@ -28,13 +28,15 @@
 
         ;; Originally from GBDK by Pascal Felber.
 
-        .area   _CODE
+        .module mul
 
-.globl	__mulsuchar
-.globl	__muluschar
-.globl	__mulschar
-.globl	__muluchar
-.globl	__mulint
+        .area   _HOME
+
+.globl  __mulsuchar
+.globl  __muluschar
+.globl  __mulschar
+.globl  __muluchar
+.globl  __mulint
 
 ; operands have different sign
 

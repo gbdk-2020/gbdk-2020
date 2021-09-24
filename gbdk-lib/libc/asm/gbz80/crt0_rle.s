@@ -27,41 +27,43 @@
 ;   might be covered by the GNU General Public License.
 ;--------------------------------------------------------------------------
 
-	.area   _HOME
+        .module rledecompress
 
-	;; Special RLE decoder used for initing global data
-	;; input: DE - destination address
+        .area   _HOME
+
+        ;; Special RLE decoder used for initing global data
+        ;; input: DE - destination address
 __initrleblock::
-	;; Pop the return address
-	pop	hl
+        ;; Pop the return address
+        pop     hl
 1$:
-	;; Fetch the run
-	ld	c, (hl)
-	inc	hl
-	;; Negative means a run
-	bit	7, c
-	jr	Z, 2$
-	;; Expanding a run
-	ld	a, (hl+)
+        ;; Fetch the run
+        ld      c, (hl)
+        inc     hl
+        ;; Negative means a run
+        bit     7, c
+        jr      Z, 2$
+        ;; Expanding a run
+        ld      a, (hl+)
 3$:
-	ld	(de), a
-	inc	de
-	inc	c
-	jr	NZ, 3$
-	jr	1$
+        ld      (de), a
+        inc     de
+        inc     c
+        jr      NZ, 3$
+        jr      1$
 2$:
-	;; Zero means end of a block
-	inc	c
-	dec	c
-	jr	Z, 4$
-	;; Expanding a block
+        ;; Zero means end of a block
+        inc     c
+        dec     c
+        jr      Z, 4$
+        ;; Expanding a block
 5$:
-	ld	a, (hl+)
-	ld	(de), a
-	inc	de
-	dec	c
-	jr	NZ, 5$
-	jr	1$
+        ld      a, (hl+)
+        ld      (de), a
+        inc     de
+        dec     c
+        jr      NZ, 5$
+        jr      1$
 4$:
-	;; Return back
-	jp	(hl)
+        ;; Return back
+        jp      (hl)

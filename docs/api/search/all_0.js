@@ -6,7 +6,8 @@ var searchData=
   ['04_5fcoding_5fguidelines_2emd_3',['04_coding_guidelines.md',['../04__coding__guidelines_8md.html',1,'']]],
   ['05_5fbanking_5fmbcs_2emd_4',['05_banking_mbcs.md',['../05__banking__mbcs_8md.html',1,'']]],
   ['06_5ftoolchain_2emd_5',['06_toolchain.md',['../06__toolchain_8md.html',1,'']]],
-  ['07_5fsample_5fprograms_2emd_6',['07_sample_programs.md',['../07__sample__programs_8md.html',1,'']]],
-  ['08_5ffaq_2emd_7',['08_faq.md',['../08__faq_8md.html',1,'']]],
-  ['09_5fmigrating_5fnew_5fversions_2emd_8',['09_migrating_new_versions.md',['../09__migrating__new__versions_8md.html',1,'']]]
+  ['06b_5fsupported_5fconsoles_2emd_6',['06b_supported_consoles.md',['../06b__supported__consoles_8md.html',1,'']]],
+  ['07_5fsample_5fprograms_2emd_7',['07_sample_programs.md',['../07__sample__programs_8md.html',1,'']]],
+  ['08_5ffaq_2emd_8',['08_faq.md',['../08__faq_8md.html',1,'']]],
+  ['09_5fmigrating_5fnew_5fversions_2emd_9',['09_migrating_new_versions.md',['../09__migrating__new__versions_8md.html',1,'']]]
 ];

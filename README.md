@@ -3,6 +3,9 @@
 ## Current release for Linux: [Linux Binaries](https://github.com/gbdk-2020/gbdk-2020/releases/latest/download/gbdk-linux64.tar.gz)
 You don't need the sources, unless you wish to compile GBDK-2020 yourself. Download the current release binaries using the links above.
 
+Upgrading to a new version? Check the [Migration notes](https://gbdk-2020.github.io/gbdk-2020/docs/api/docs_migrating_versions.html).
+
+
 # Docs
 Online documentation is avaliable [HERE](https://gbdk-2020.github.io/gbdk-2020/docs/api)
 
@@ -11,11 +14,16 @@ A good place to start is the [Getting Started Section](https://gbdk-2020.github.
 Check the [Links and Third-Party Tools Section](https://gbdk-2020.github.io/gbdk-2020/docs/api/docs_links_and_tools.html) for a list of recommended emulators, graphics tools, music drivers and more.
 
 # gbdk-2020
-[GBDK](http://gbdk.sourceforge.net/) A C compiler, assembler, linker and set of libraries for the Z80 like Nintendo Gameboy.
+GBDK is a cross-platform development kit for sm83 and z80 based consoles. It includes libraries, toolchain utilities and the [SDCC](http://sdcc.sourceforge.net/) C compiler suite.
+
+__Supported Consoles:__
+- Nintendo Gameboy
+- Analogue Pocket
+- Sega Master System & Game Gear
 
 # Current status
 - updated CRT and library that suits better for game development
-- the latest nightlies of **sdcc** (the compiler and toolchain) are used from [sourceforge](http://sdcc.sourceforge.net). At the moment of writing this the last stable version is 4.0 which has linker issues and won't work if you want to use banks. Please use one of the nightlies available [here](http://sdcc.sourceforge.net/snap.php) (we used 4.0.7 #12016)
+- the latest nightlies of **sdcc** (the compiler and toolchain) are used from [sourceforge](http://sdcc.sourceforge.net). At the moment of writing this the last stable version is 4.1.0, which is missing features from newer SDCC builds that GBDK-2020 uses. Please use one of the nightlies available [here](http://sdcc.sourceforge.net/snap.php) (we used 4.1.6 #12439)
 - The compiler driver **lcc** supports the latest sdcc toolchain.
 
 For full list of changes see the [ChangeLog](https://github.com/gbdk-2020/gbdk-2020/blob/master/gbdk-support/ChangeLog) file
@@ -29,24 +37,26 @@ The last version in the OLD repo is [2.96](https://sourceforge.net/projects/gbdk
 # Usage
 Most users will only need to download and unzip the latest [release](https://github.com/gbdk-2020/gbdk-2020/releases)
 
-Then go to the examples folder and build them (with make.bat on windows or running make). They are a good starting point.
+Then go to the examples folder and build them (with compile.bat on windows or running make). They are a good starting point.
 
 ## Discord servers
 * [gbdk/zgb Discord](https://discord.gg/XCbjCvqnUY) - For help with using GBDK (and ZGB), discussion and development of gbdk-2020
+
 * [gbdev Discord](https://discordapp.com/invite/tKGMPNr) - There is a #gbdk channel and also people with a lot of Game Boy development knowledge
+* [SMS Power! Discord](https://discord.gg/h5xrKUK) - Additional SMS & Game Gear discussion and resources.
+
+## Forums
+- [The Game Boy Development Forum](https://gbdev.gg8.se/forums/) - A good place to search for Game Boy related answers. 
+- [SMS Power! Forum](https://www.smspower.org/) - Additional SMS & Game Gear discussion and resources.
 
 For SDCC you can check its [website](http://sdcc.sourceforge.net/) and the [manual](http://sdcc.sourceforge.net/doc/sdccman.pdf)
-
-[The Game Boy Development Forum](https://gbdev.gg8.se/forums/) is a good place to search for answers. 
-
-
 
 # Build instructions
 Unless you are interested on recompiling the sources for some reason (like fixing some bugs) **you don't need to build GBDK**
 
-- **Windows only**: Download and install [mingw](http://www.mingw.org/)
+- **Windows only**: Download and install [mingw](http://mingw-w64.org/)
 - Clone, download this repo or just get the source form the [releases](https://github.com/gbdk-2020/gbdk-2020/releases)
-- Download and install [**sdcc nightlies from 4.0.7 #12016 onwards**](http://sdcc.sourceforge.net/snap.php) (SDCC is no longer part of GDDK so you need to download it (just the binaries) in the platform you need)
+- Download and install [**sdcc nightlies from 4.1.6 #12439 onwards**](http://sdcc.sourceforge.net/snap.php) (SDCC is no longer part of GDDK so you need to download it (just the binaries) in the platform you need)
 - On Linux **don't use package managers** The latest release available won't work, you need to compile or download one of the nightlies
 - Create **SDCCDIR** environment variable, that points into the folder, where you installed sdcc
 - Open command prompt or a terminal, go to the root directory of the repo and run **make**

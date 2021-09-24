@@ -1,8 +1,7 @@
 # Top level Makefile for GBDK that combines the builds for sdcc,
 # gbdk-lib, and gbdk-support
 #
-# 2001  Michael Hope <michaelh@juju.net.nz>
-# $Id: Makefile,v 1.4 2001/11/04 18:43:51 michaelh Exp $
+# GBDK-2020
 #
 TOPDIR = $(shell pwd)
 
@@ -11,10 +10,13 @@ PKG = gbdk
 # Version, used for tarballs
 VER = 3.00
 
+PORTS=gbz80 z80
+PLATFORMS=gb ap gg sms
+
 # Prefix to add to the standard tools.  Usefull for a standard gcc
 # cross-compile.
-# TOOLSPREFIX = i686-w64-mingw32-
 TOOLSPREFIX =
+# TOOLSPREFIX = i686-w64-mingw32-
 
 TARGETCC = $(TOOLSPREFIX)gcc
 TARGETRANLIB = $(TOOLSPREFIX)ranlib
@@ -37,7 +39,10 @@ DOXYGEN_VER_HAS = $(shell doxygen -v)
 
 # Base setup
 # Extension to add to executables
-EXEEXTENSION =
+EXEEXTENSION = 
+ifeq ($(TOOLSPREFIX),i686-w64-mingw32-)
+	EXEEXTENSION=.exe
+endif
 # Host operating system identifier.
 HOSTOS = $(shell uname -s)
 # Target operating system identifier.  Used in the output zip name.
@@ -55,6 +60,7 @@ all: native-build
 clean: gbdk-support-clean gbdk-lib-clean
 
 distclean: clean build-dir-clean
+dist-examples-rebuild: gbdk-dist-examples-clean gbdk-dist-examples-build
 
 docs: doxygen-generate
 docspdf: doxygen-generate-with-pdf
@@ -70,7 +76,7 @@ FIXUPMASKS = *.c *.h .bat *.s ChangeLog README
 
 native-build: gbdk-build gbdk-install
 
-cross-clean: sdcc-clean gbdk-support-clean
+cross-clean: gbdk-support-clean
 
 cross-build: gbdk-build gbdk-install cross-cleanup
 
@@ -124,31 +130,31 @@ endif
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/ihxcheck TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
 	@echo Building bankpack
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/bankpack TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
-	@echo Building png2mtspr
-	@$(MAKE) -C $(GBDKSUPPORTDIR)/png2mtspr
+	@echo Building png2asset
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/png2asset TOOLSPREFIX=$(TOOLSPREFIX)
 	@echo Building gbcompress
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/gbcompress TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
 	@echo
 
 gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
 	@echo Installing lcc
-	@cp $(GBDKSUPPORTDIR)/lcc/lcc $(BUILDDIR)/bin/lcc$(EXEEXTENSION)
+	@cp $(GBDKSUPPORTDIR)/lcc/lcc$(EXEEXTENSION) $(BUILDDIR)/bin/lcc$(EXEEXTENSION)
 	@$(TARGETSTRIP) $(BUILDDIR)/bin/lcc*
-	@cp $(GBDKSUPPORTDIR)/ChangeLog $(BUILDDIR)
-	@cp $(GBDKSUPPORTDIR)/README $(BUILDDIR)
+	@cp $(GBDKDOCSDIR)/ChangeLog $(BUILDDIR)
+	@cp $(GBDKDOCSDIR)/README $(BUILDDIR)
 	@cp $(GBDKDOCSDIR)/gbdk_manual.pdf $(BUILDDIR)
 	@echo
 	@echo Installing ihxcheck
-	@cp $(GBDKSUPPORTDIR)/ihxcheck/ihxcheck $(BUILDDIR)/bin/ihxcheck$(EXEEXTENSION)
+	@cp $(GBDKSUPPORTDIR)/ihxcheck/ihxcheck$(EXEEXTENSION) $(BUILDDIR)/bin/ihxcheck$(EXEEXTENSION)
 	@$(TARGETSTRIP) $(BUILDDIR)/bin/ihxcheck*
 	@echo Installing bankpack
-	@cp $(GBDKSUPPORTDIR)/bankpack/bankpack $(BUILDDIR)/bin/bankpack$(EXEEXTENSION)
+	@cp $(GBDKSUPPORTDIR)/bankpack/bankpack$(EXEEXTENSION) $(BUILDDIR)/bin/bankpack$(EXEEXTENSION)
 	@$(TARGETSTRIP) $(BUILDDIR)/bin/bankpack*
-	@echo Installing png2mtspr
-	@cp $(GBDKSUPPORTDIR)/png2mtspr/png2mtspr$(EXEEXTENSION) $(BUILDDIR)/bin/png2mtspr$(EXEEXTENSION)
-	@$(TARGETSTRIP) $(BUILDDIR)/bin/bankpack*
+	@echo Installing png2asset
+	@cp $(GBDKSUPPORTDIR)/png2asset/png2asset$(EXEEXTENSION) $(BUILDDIR)/bin/png2asset$(EXEEXTENSION)
+	@$(TARGETSTRIP) $(BUILDDIR)/bin/png2asset*
 	@echo Installing gbcompress
-	@cp $(GBDKSUPPORTDIR)/gbcompress/gbcompress $(BUILDDIR)/bin/gbcompress$(EXEEXTENSION)
+	@cp $(GBDKSUPPORTDIR)/gbcompress/gbcompress$(EXEEXTENSION) $(BUILDDIR)/bin/gbcompress$(EXEEXTENSION)
 	@$(TARGETSTRIP) $(BUILDDIR)/bin/gbcompress*
 	@echo
 
@@ -160,8 +166,8 @@ gbdk-support-clean:
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/ihxcheck clean --no-print-directory
 	@echo Cleaning bankpack
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/bankpack clean --no-print-directory
-	@echo Cleaning png2mtspr
-	@$(MAKE) -C $(GBDKSUPPORTDIR)/png2mtspr clean
+	@echo Cleaning png2asset
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/png2asset clean
 	@echo Cleaning gbcompress
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/gbcompress clean --no-print-directory
 	@echo
@@ -170,37 +176,76 @@ gbdk-support-clean:
 gbdk-lib-build: check-SDCCDIR
 ifndef CROSSCOMPILING
 	@echo Building lib
-	@$(MAKE) -C $(GBDKLIBDIR)/libc PORTS=gbz80 PLATFORMS=gb --no-print-directory
+	@$(MAKE) -C $(GBDKLIBDIR)/libc PORTS="$(PORTS)" PLATFORMS="$(PLATFORMS)" --no-print-directory
 	@echo
 endif
 
+
 gbdk-lib-install: gbdk-lib-build
+gbdk-lib-install: gbdk-lib-install-prepare
+gbdk-lib-install: gbdk-lib-install-examples
+gbdk-lib-install: gbdk-lib-install-ports
+gbdk-lib-install: gbdk-lib-install-platforms
+
+gbdk-lib-install-prepare:
+	@rm -rf $(BUILDDIR)/lib
+
+gbdk-lib-install-ports:
+	@for port in $(PORTS); do \
+		echo Installing lib for port: $$port; \
+		mkdir -p $(BUILDDIR)/lib/small/asxxxx/$$port/; \
+		cp $(GBDKLIBDIR)/build/small/asxxxx/$$port/$$port.lib $(BUILDDIR)/lib/small/asxxxx/$$port/$$port.lib; \
+	done
+	@echo
+
+# The inner loop copies global.s for platforms from relevant port/platform.
+# When doing that it expects a given platform to never be present in
+# multiple ports since the copy destination is not port specific (lacks /$$port/ )
+gbdk-lib-install-platforms:
+	@for plat in $(PLATFORMS); do \
+		echo Installing lib for platform: $$plat; \
+		mkdir -p $(BUILDDIR)/lib/small/asxxxx/$$plat; \
+		cp $(GBDKLIBDIR)/build/small/asxxxx/$$plat/crt0.o $(BUILDDIR)/lib/small/asxxxx/$$plat/crt0.o; \
+		cp $(GBDKLIBDIR)/build/small/asxxxx/$$plat/$$plat.lib $(BUILDDIR)/lib/small/asxxxx/$$plat/$$plat.lib; \
+		for port in $(PORTS); do \
+			if [ -d "$(GBDKLIBDIR)/libc/targets/$$port/$$plat" ]; then \
+				cp $(GBDKLIBDIR)/libc/targets/$$port/$$plat/global.s $(BUILDDIR)/lib/small/asxxxx/$$plat/global.s; \
+			fi \
+		done \
+	done
+	@echo
+
+
+gbdk-lib-install-examples:
 	@echo Installing Examples
 	@cp -r $(GBDKLIBDIR)/include $(GBDKLIBDIR)/examples $(BUILDDIR)
-	@echo
-	@echo Installing lib
-	@rm -rf $(BUILDDIR)/lib
-	mkdir -p $(BUILDDIR)/lib/small/asxxxx/gb/
-	mkdir -p $(BUILDDIR)/lib/small/asxxxx/gbz80/
-	@cp $(GBDKLIBDIR)/build/small/asxxxx/gb/crt0.o $(BUILDDIR)/lib/small/asxxxx/gb/crt0.o
-	@cp $(GBDKLIBDIR)/build/small/asxxxx/gb/gb.lib $(BUILDDIR)/lib/small/asxxxx/gb/gb.lib
-	@cp $(GBDKLIBDIR)/build/small/asxxxx/gbz80/gbz80.lib $(BUILDDIR)/lib/small/asxxxx/gbz80/gbz80.lib
-	@cp $(GBDKLIBDIR)/libc/gb/global.s $(BUILDDIR)/lib/small/asxxxx/global.s
-	@echo Generating make.bat
-	@$(MAKE) -C $(BUILDDIR)/examples/gb make.bat --no-print-directory
-	@echo
+	@for plat in $(PLATFORMS); do \
+		if [ -d "$(BUILDDIR)/examples/$$plat" ]; then \
+			echo Generating Examples compile.bat for $$plat; \
+			$(MAKE) -C $(BUILDDIR)/examples/$$plat compile.bat --no-print-directory; \
+			echo; \
+		fi \
+	done
+
 
 gbdk-lib-clean:
 	@echo Cleaning lib
-	@$(MAKE) -C $(GBDKLIBDIR) clean
+	@$(MAKE) -C $(GBDKLIBDIR) PORTS="$(PORTS)" PLATFORMS="$(PLATFORMS)" clean
 	@echo
 
 gbdk-lib-examples-makefile:
-	$(MAKE) -C $(BUILDDIR)/examples/gb make.bat
-	unix2dos $(BUILDDIR)/examples/gb/make.bat
+	$(MAKE) -C $(BUILDDIR)/examples/gb compile.bat
+	unix2dos $(BUILDDIR)/examples/gb/compile.bat
+
+gbdk-dist-examples-build:
+	$(MAKE) -C $(BUILDDIR)/examples/gb
+
+gbdk-dist-examples-clean:
+	$(MAKE) -C $(BUILDDIR)/examples/gb clean
+
 
 # Copy SDDC executable files
-SDCC_BINS = makebin packihx sdar sdasgb sdcc sdcdb sdcpp sdldgb sdnm sdobjcopy sdranlib sz80
+SDCC_BINS = makebin packihx sdar sdasgb sdcc sdcdb sdcpp sdldgb sdnm sdobjcopy sdranlib sz80 sdasz80 sdldz80
 ifeq ($(OS),Windows_NT)
 MINGW64_RUNTIME = \
 	libgcc_s_seh-1.dll \
@@ -291,10 +336,16 @@ ifneq (,$(wildcard $(BUILDDIR)/bin/))
 	echo \# sdcc settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 	$(BUILDDIR)/bin/sdcc -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);	
 # sdasgb
-	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 	echo \@anchor sdasgb-settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \# sdasgb settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+	$(BUILDDIR)/bin/sdasgb -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true 
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+# sdasz80
+	echo \@anchor sdasz80-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# sdasz80 settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 	$(BUILDDIR)/bin/sdasgb -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true 
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
@@ -304,9 +355,15 @@ ifneq (,$(wildcard $(BUILDDIR)/bin/))
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 	$(BUILDDIR)/bin/bankpack -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true 
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
-# sdldgb	
+# sdldgb
 	echo \@anchor sdldgb-settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \# sdldgb settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+	$(BUILDDIR)/bin/sdldgb >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true 
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+# sdldz80
+	echo \@anchor sdldz80-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# sdldz80 settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 	$(BUILDDIR)/bin/sdldgb >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true 
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
@@ -328,11 +385,11 @@ ifneq (,$(wildcard $(BUILDDIR)/bin/))
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 	$(BUILDDIR)/bin/gbcompress -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true 
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
-# png2mtspr
-	echo \@anchor png2mtspr-settings >> $(TOOLCHAIN_DOCS_FILE);
-	echo \# png2mtspr settings >> $(TOOLCHAIN_DOCS_FILE);
+# png2asset
+	echo \@anchor png2asset-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# png2asset settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
-	$(BUILDDIR)/bin/png2mtspr >> $(TOOLCHAIN_DOCS_FILE) 2>&1
+	$(BUILDDIR)/bin/png2asset >> $(TOOLCHAIN_DOCS_FILE) 2>&1
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE)
 endif
 
