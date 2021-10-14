@@ -18,6 +18,7 @@
 
 #define PLATFORM_STR_GB             "gb"
 #define PLATFORM_STR_AP             "ap"    // Uses PLATFORM_GB
+#define PLATFORM_STR_DUCK           "duck"  // Uses PLATFORM_GB
 #define PLATFORM_STR_SMS            "sms"
 #define PLATFORM_STR_GG             "gg"    // Uses PLATFORM_SMS
 

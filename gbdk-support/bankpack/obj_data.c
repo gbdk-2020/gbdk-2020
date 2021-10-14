@@ -56,7 +56,9 @@ void banks_set_platform(char * platform_str) {
     if (strcmp(platform_str, PLATFORM_STR_GB) == 0)
         g_platform = PLATFORM_GB;
     else if (strcmp(platform_str, PLATFORM_STR_AP) == 0)
-        g_platform = PLATFORM_GB;  // AP uses GB platform
+        g_platform = PLATFORM_GB;  // Analogue Pocket uses GB platform
+    else if (strcmp(platform_str, PLATFORM_STR_DUCK) == 0)
+        g_platform = PLATFORM_GB;  // Megaduck uses GB platform
     else if (strcmp(platform_str, PLATFORM_STR_SMS) == 0)
         g_platform = PLATFORM_SMS;
     else if (strcmp(platform_str, PLATFORM_STR_GG) == 0)
