@@ -161,7 +161,7 @@ __BYTE_REG AUD3WAVE[16];
 __REG LCDC_REG;         /**< LCD control */
 #define rLCDC LCDC_REG
 
-#ifdef __TARGET_ap
+#if defined(__TARGET_ap)
 #define LCDCF_OFF       0b00000000
 #define LCDCF_ON        0b00000001
 #define LCDCF_WIN9800   0b00000000
@@ -186,37 +186,62 @@ __REG LCDC_REG;         /**< LCD control */
 #define LCDCF_B_OBJ16   5
 #define LCDCF_B_OBJON   6
 #define LCDCF_B_BGON    7
+#elif defined(__TARGET_duck)
+#define LCDCF_OFF       0b00000000
+#define LCDCF_ON        0b10000000
+#define LCDCF_WIN9800   0b00000000
+#define LCDCF_WIN9C00   0b00001000
+#define LCDCF_WINOFF    0b00000000
+#define LCDCF_WINON     0b00100000
+#define LCDCF_BG8800    0b00000000
+#define LCDCF_BG8000    0b00010000
+#define LCDCF_BG9800    0b00000000
+#define LCDCF_BG9C00    0b00000100
+#define LCDCF_OBJ8      0b00000000
+#define LCDCF_OBJ16     0b00000010
+#define LCDCF_OBJOFF    0b00000000
+#define LCDCF_OBJON     0b00000001
+#define LCDCF_BGOFF     0b00000000
+#define LCDCF_BGON      0b01000000
+#define LCDCF_B_ON      7
+#define LCDCF_B_WIN9C00 3
+#define LCDCF_B_WINON   5
+#define LCDCF_B_BG8000  4
+#define LCDCF_B_BG9C00  2
+#define LCDCF_B_OBJ16   1
+#define LCDCF_B_OBJON   0
+#define LCDCF_B_BGON    6
 #else
-#define LCDCF_OFF     0b00000000 /**< LCD Control: Off */
-#define LCDCF_ON      0b10000000 /**< LCD Control: On */
-#define LCDCF_WIN9800 0b00000000 /**< Window Tile Map: Use 9800 Region */
-#define LCDCF_WIN9C00 0b01000000 /**< Window Tile Map: Use 9C00 Region */
-#define LCDCF_WINOFF  0b00000000 /**< Window Display: Hidden */
-#define LCDCF_WINON   0b00100000 /**< Window Display: Visible */
-#define LCDCF_BG8800  0b00000000 /**< BG & Window Tile Data: Use 8800 Region */
-#define LCDCF_BG8000  0b00010000 /**< BG & Window Tile Data: Use 8000 Region */
-#define LCDCF_BG9800  0b00000000 /**< BG Tile Map: use 9800 Region */
-#define LCDCF_BG9C00  0b00001000 /**< BG Tile Map: use 9C00 Region */
-#define LCDCF_OBJ8    0b00000000 /**< Sprites Size: 8x8 pixels */
-#define LCDCF_OBJ16   0b00000100 /**< Sprites Size: 8x16 pixels */
-#define LCDCF_OBJOFF  0b00000000 /**< Sprites Display: Hidden */
-#define LCDCF_OBJON   0b00000010 /**< Sprites Display: Visible */
-#define LCDCF_BGOFF   0b00000000 /**< Background Display: Hidden */
-#define LCDCF_BGON    0b00000001 /**< Background Display: Visible */
-#define LCDCF_B_ON      7        /**< Bit for LCD On/Off Select */
-#define LCDCF_B_WIN9C00 6        /**< Bit for Window Tile Map Region Select */
-#define LCDCF_B_WINON   5        /**< Bit for Window Display On/Off Control */
-#define LCDCF_B_BG8000  4        /**< Bit for BG & Window Tile Data Region Select */
-#define LCDCF_B_BG9C00  3        /**< Bit for BG Tile Map Region Select */
-#define LCDCF_B_OBJ16   2        /**< Bit for Sprites Size Select */
-#define LCDCF_B_OBJON   1        /**< Bit for Sprites Display Visible/Hidden Select */
-#define LCDCF_B_BGON    0        /**< Bit for Background Display Visible/Hidden Select */
+#define LCDCF_OFF       0b00000000 /**< LCD Control: Off */
+#define LCDCF_ON        0b10000000 /**< LCD Control: On */
+#define LCDCF_WIN9800   0b00000000 /**< Window Tile Map: Use 9800 Region */
+#define LCDCF_WIN9C00   0b01000000 /**< Window Tile Map: Use 9C00 Region */
+#define LCDCF_WINOFF    0b00000000 /**< Window Display: Hidden */
+#define LCDCF_WINON     0b00100000 /**< Window Display: Visible */
+#define LCDCF_BG8800    0b00000000 /**< BG & Window Tile Data: Use 8800 Region */
+#define LCDCF_BG8000    0b00010000 /**< BG & Window Tile Data: Use 8000 Region */
+#define LCDCF_BG9800    0b00000000 /**< BG Tile Map: use 9800 Region */
+#define LCDCF_BG9C00    0b00001000 /**< BG Tile Map: use 9C00 Region */
+#define LCDCF_OBJ8      0b00000000 /**< Sprites Size: 8x8 pixels */
+#define LCDCF_OBJ16     0b00000100 /**< Sprites Size: 8x16 pixels */
+#define LCDCF_OBJOFF    0b00000000 /**< Sprites Display: Hidden */
+#define LCDCF_OBJON     0b00000010 /**< Sprites Display: Visible */
+#define LCDCF_BGOFF     0b00000000 /**< Background Display: Hidden */
+#define LCDCF_BGON      0b00000001 /**< Background Display: Visible */
+#define LCDCF_B_ON      7          /**< Bit for LCD On/Off Select */
+#define LCDCF_B_WIN9C00 6          /**< Bit for Window Tile Map Region Select */
+#define LCDCF_B_WINON   5          /**< Bit for Window Display On/Off Control */
+#define LCDCF_B_BG8000  4          /**< Bit for BG & Window Tile Data Region Select */
+#define LCDCF_B_BG9C00  3          /**< Bit for BG Tile Map Region Select */
+#define LCDCF_B_OBJ16   2          /**< Bit for Sprites Size Select */
+#define LCDCF_B_OBJON   1          /**< Bit for Sprites Display Visible/Hidden Select */
+#define LCDCF_B_BGON    0          /**< Bit for Background Display Visible/Hidden Select */
 #endif
 
 __REG STAT_REG;         /**< LCD status */
 #define rSTAT STAT_REG
 
-#ifdef __TARGET_ap
+#if defined(__TARGET_ap)
 #define STATF_LYC       0b00000010
 #define STATF_MODE10    0b00000100
 #define STATF_MODE01    0b00001000

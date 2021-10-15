@@ -15,7 +15,7 @@ banked_call::			; Performs a long call.
 	inc	hl		; Yes this should be here
 	push	hl		; Push the real return address
 	ldh	(__current_bank),a
-	ld	(.MBC1_ROM_PAGE),a	; Perform the switch
+	ld	(.MBC_ROM_PAGE),a	; Perform the switch
 	ld	l,e
 	ld	h,d
 	rst	0x20
@@ -23,5 +23,5 @@ banked_ret::
 	pop	hl		; Get the return address
 	pop	af		; Pop the old bank
 	ldh	(__current_bank),a
-	ld	(.MBC1_ROM_PAGE),a
+	ld	(.MBC_ROM_PAGE),a
 	jp	(hl)

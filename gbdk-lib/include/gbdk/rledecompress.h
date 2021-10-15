@@ -14,7 +14,7 @@
 
 #define RLE_STOP 0
 
-#if defined(__TARGET_gb) || defined(__TARGET_ap)
+#if defined(__TARGET_gb) || defined(__TARGET_ap) || defined(__TARGET_duck)
 /** Initialize the RLE decompressor with RLE data at address __data__
 
     @param data   Pointer to start of RLE compressed data
