@@ -23,7 +23,7 @@
         .MBC_ROM_PAGE   = 0x0001 ; Default platform MBC rom switching address
 
         rRAMG           = 0x0000 ; $0000->$1fff
-        rROMB0          = 0x2000 ; $2000->$2fff
+        rROMB0          = 0x0001 ; $2000->$2fff
         rROMB1          = 0x3000 ; $3000->$3fff - If more than 256 ROM banks are present.
         rRAMB           = 0x4000 ; $4000->$5fff - Bit 3 enables rumble (if present)
         
