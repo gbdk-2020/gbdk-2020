@@ -228,24 +228,24 @@
         .STAT           = 0x11  ; LCD status
         rSTAT           = 0xFF11
 
-        STATF_LYC       = 0b00000010 ; LYC=LY Coincidence (Selectable)
-        STATF_MODE10    = 0b00000100 ; Mode 10
-        STATF_MODE01    = 0b00001000 ; Mode 01 (V-Blank)
-        STATF_MODE00    = 0b00010000 ; Mode 00 (H-Blank)
-        STATF_LYCF      = 0b00100000 ; Coincidence Flag
+        STATF_LYC       = 0b01000000 ; LYC=LY Coincidence (Selectable)
+        STATF_MODE10    = 0b00100000 ; Mode 10
+        STATF_MODE01    = 0b00010000 ; Mode 01 (V-Blank)
+        STATF_MODE00    = 0b00001000 ; Mode 00 (H-Blank)
+        STATF_LYCF      = 0b00000100 ; Coincidence Flag
         STATF_HBL       = 0b00000000 ; H-Blank
-        STATF_VBL       = 0b10000000 ; V-Blank
-        STATF_OAM       = 0b01000000 ; OAM-RAM is used by system
-        STATF_LCD       = 0b11000000 ; Both OAM and VRAM used by system
-        STATF_BUSY      = 0b01000000 ; When set, VRAM access is unsafe
-        STATF_B_LYC     = 1
-        STATF_B_MODE10  = 2
-        STATF_B_MODE01  = 3
-        STATF_B_MODE00  = 4
-        STATF_B_LYCF    = 5
-        STATF_B_VBL     = 7
-        STATF_B_OAM     = 6
-        STATF_B_BUSY    = 6
+        STATF_VBL       = 0b00000001 ; V-Blank
+        STATF_OAM       = 0b00000010 ; OAM-RAM is used by system
+        STATF_LCD       = 0b00000011 ; Both OAM and VRAM used by system
+        STATF_BUSY      = 0b00000010 ; When set, VRAM access is unsafe
+        STATF_B_LYC     = 6
+        STATF_B_MODE10  = 5
+        STATF_B_MODE01  = 4
+        STATF_B_MODE00  = 3
+        STATF_B_LYCF    = 2
+        STATF_B_VBL     = 0
+        STATF_B_OAM     = 1
+        STATF_B_BUSY    = 1
 
         .SCY            = 0x12  ; Scroll Y
         rSCY            = 0xFF12
