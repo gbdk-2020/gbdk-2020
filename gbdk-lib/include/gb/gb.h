@@ -17,6 +17,8 @@
 #define ANALOGUEPOCKET
 #elif defined(__TARGET_gb)
 #define GAMEBOY
+#elif defined(__TARGET_duck)
+#define MEGADUCK
 #endif
 
 
@@ -458,6 +460,12 @@ __endasm; \
 */
 #define BANKREF_EXTERN(VARNAME) extern const void __bank_ ## VARNAME;
 
+/** Makes MEGADUCK MBC switch the active ROM bank
+    @param b   ROM bank to switch to
+*/
+#define SWITCH_ROM_MEGADUCK(b) \
+  _current_bank = (b), *(uint8_t *)0x0001 = (b)
+
 
 /** Makes MBC1 and other compatible MBCs switch the active ROM bank
     @param b   ROM bank to switch to
@@ -465,12 +473,16 @@ __endasm; \
 #define SWITCH_ROM_MBC1(b) \
   _current_bank = (b), *(uint8_t *)0x2000 = (b)
 
-/** Makes MBC1, MBC5 (4M ROMs) and other compatible MBCs switch the active ROM bank
+/** Makes default platform MBC switch the active ROM bank
     @param b   ROM bank to switch to (max 255)
 
-    @see SWITCH_ROM_MBC1, SWITCH_ROM_MBC5
+    @see SWITCH_ROM_MBC1, SWITCH_ROM_MBC5, SWITCH_ROM_MEGADUCK
 */
+#if defined(__TARGET_duck)
+#define SWITCH_ROM SWITCH_ROM_MEGADUCK
+#else
 #define SWITCH_ROM SWITCH_ROM_MBC1
+#endif
 
 /** Switches SRAM bank on MBC1 and other compaticle MBCs
     @param b   SRAM bank to switch to

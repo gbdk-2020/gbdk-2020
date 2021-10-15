@@ -43,7 +43,7 @@ ___call__banked::
 	ld	L, A
 	ld	A, (#___call_banked_bank)
 	ldh	(#__current_bank), A
-	ld	(.MBC1_ROM_PAGE),A
+	ld	(.MBC_ROM_PAGE),A
 	jp	(HL)
 1$:
 	pop	AF

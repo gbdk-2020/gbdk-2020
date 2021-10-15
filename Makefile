@@ -11,7 +11,7 @@ PKG = gbdk
 VER = 3.00
 
 PORTS=gbz80 z80
-PLATFORMS=gb ap gg sms
+PLATFORMS=gb ap duck gg sms
 
 # Prefix to add to the standard tools.  Usefull for a standard gcc
 # cross-compile.

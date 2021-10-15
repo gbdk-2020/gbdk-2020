@@ -31,6 +31,12 @@ pocket:
 	${MAKE} build-target PORT=gbz80 PLAT=ap EXT=pocket
 
 
+megaduck-clean:
+	${MAKE} clean-target EXT=duck
+megaduck:
+	${MAKE} build-target PORT=gbz80 PLAT=duck EXT=duck
+
+
 sms-clean:
 	${MAKE} clean-target EXT=sms
 sms:
