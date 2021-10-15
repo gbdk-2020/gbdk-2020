@@ -130,13 +130,10 @@ _refresh_OAM::
         ;; soft reset: falldown to .code_start
 .reset::
 _reset::
-        RST     0x00
 
         ;; Initialization code
 .code_start::
         DI                      ; Disable interrupts
-        LD      D, #0           ; MEGADUCK is always a DMG
-        LD      E, B
         ;; Initialize the stack
         LD      SP, #.STACK
 
@@ -145,15 +142,10 @@ _reset::
 ;       LD      (.mode),A       ; Clearing (.mode) is performed when clearing RAM
 
         ;; Store CPU type
-        LD      A, D
+        LD      A, #.DMG_TYPE   ; MEGADUCK is always a DMG
         LD      (__cpu), A
-        CP      #.CGB_TYPE
-        JR      NZ, 1$
         XOR     A
-        SRL     E
-        RLA
-        LD      (__is_GBA), A
-1$:
+        LD      (__is_GBA), A   ; and it is never GBA
 
         ;; Turn the screen off
         CALL    .display_off
