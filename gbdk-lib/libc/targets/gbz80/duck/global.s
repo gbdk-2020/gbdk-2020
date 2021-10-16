@@ -118,17 +118,17 @@
         rNR14           = 0xFF24
         rAUD1HIGH       = 0xFF24
 
-        .NR21           = 0x26  ; Sound register
-        rNR21           = 0xFF26
-        rAUD2LEN        = 0xFF26
+        .NR21           = 0x25  ; Sound register
+        rNR21           = 0xFF25
+        rAUD2LEN        = 0xFF25
 
-        .NR22           = 0x28  ; Sound register
-        rNR22           = 0xFF28
-        rAUD2ENV        = 0xFF28
+        .NR22           = 0x27  ; Sound register
+        rNR22           = 0xFF27
+        rAUD2ENV        = 0xFF27
 
-        .NR23           = 0x27  ; Sound register
-        rNR23           = 0xFF27
-        rAUD2LOW        = 0xFF27
+        .NR23           = 0x28  ; Sound register
+        rNR23           = 0xFF28
+        rAUD2LOW        = 0xFF28
 
         .NR24           = 0x29  ; Sound register
         rNR24           = 0xFF29
