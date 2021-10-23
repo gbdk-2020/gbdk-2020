@@ -122,7 +122,7 @@ PNGImage image;
 int props_default = 0x00;  // Default Sprite props has no attributes enabled
 bool use_structs = false;
 bool flip_tiles = true;
-Tile::PackMode pack_mode = Tile::PackMode::GB;
+Tile::PackMode pack_mode = Tile::GB;
 
 Tile FlipH(const Tile& tile)
 {
@@ -260,7 +260,7 @@ void GetMap()
 			if(use_map_attributes)
 			{
 				unsigned char pal_idx = image.data[y * image.w + x] >> bpp; //We can pick the palette from the first pixel of this tile
-				if(pack_mode == Tile::PackMode::SGB) 
+				if(pack_mode == Tile::SGB) 
 				{
 					props = props << 1; //Mirror flags in SGB are on bit 7
 					props |= (pal_idx + 4) << 2; //Pals are in bits 2,3,4 and need to go from 4 to 7
@@ -379,11 +379,11 @@ int main(int argc, char *argv[])
 	int pivot_w = 0xFFFFFF;
 	int pivot_h = 0xFFFFFF;
 	tile_h = 16;
-  string output_filename = argv[1];
+	string output_filename = argv[1];
 	output_filename = output_filename.substr(0, output_filename.size() - 4) + ".c";
 	int bank = 0;
 	bool keep_palette_order = false;
-	int max_palettes = 8;
+	size_t max_palettes = 8;
 
 	//Parse argv
 	for(int i = 2; i < argc; ++i)
@@ -463,9 +463,9 @@ int main(int argc, char *argv[])
 		else if(!strcmp(argv[i], "-pack_mode"))
 		{
 			std::string pack_mode_str = argv[++ i];
-			if     (pack_mode_str == "gb")  pack_mode = Tile::PackMode::GB;
-			else if(pack_mode_str == "sgb") pack_mode = Tile::PackMode::SGB;
-			else if(pack_mode_str == "sms") pack_mode = Tile::PackMode::SMS;
+			if     (pack_mode_str == "gb")  pack_mode = Tile::GB;
+			else if(pack_mode_str == "sgb") pack_mode = Tile::SGB;
+			else if(pack_mode_str == "sms") pack_mode = Tile::SMS;
 			else 
 			{
 				printf("-pack_mode must be one of gb, sgb or sms\n");
