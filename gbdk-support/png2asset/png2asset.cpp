@@ -688,6 +688,7 @@ int main(int argc, char *argv[])
 		fprintf(file, "#define %s_TILE_H %d\n", data_name.c_str(), tile_h);
 		fprintf(file, "#define %s_WIDTH %d\n",  data_name.c_str(), sprite_w);
 		fprintf(file, "#define %s_HEIGHT %d\n", data_name.c_str(), sprite_h);
+		fprintf(file, "#define %s_TILE_COUNT %d\n", data_name.c_str(), (unsigned int)tiles.size());
 		if(export_as_map)
 		{
 			fprintf(file, "#define %s_MAP_ATTRIBUTES ",  data_name.c_str());
