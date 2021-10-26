@@ -723,7 +723,7 @@ int main(int argc, char *argv[])
 
 			if(use_map_attributes) {
 				if(map_attributes.size()) {
-					fprintf(file, "extern const unsigned char* %s_map_attributes[%d];\n", data_name.c_str(), (unsigned int)map_attributes.size());
+					fprintf(file, "extern const unsigned char %s_map_attributes[%d];\n", data_name.c_str(), (unsigned int)map_attributes.size());
 				}
 			} else
 				fprintf(file, "extern const unsigned char* %s_tile_pals[%d];\n", data_name.c_str(), (unsigned int)tiles.size());
