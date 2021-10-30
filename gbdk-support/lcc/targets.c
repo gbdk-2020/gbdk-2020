@@ -45,7 +45,7 @@ CLASS classes[] = {
         "%bankpack% $1 $2",
         "%ld_gb% -n -i $1 %libs_include% $3 %crt0dir% $2",
         "%ihxcheck% $2 $1",
-        "%mkbin% -Z $1 $2 $3",
+        "%mkbin% -yN -Z $1 $2 $3",  // -yN: Don't paste in the Nintendo logo bytes for gameboy and clones (-Z)
         llist0_defaults_gb, ARRAY_LEN(llist0_defaults_gb),
     },
     // Analogue Pocket
@@ -60,7 +60,7 @@ CLASS classes[] = {
         "%bankpack% $1 $2",
         "%ld_gb% -n -i $1 %libs_include% $3 %crt0dir% $2",
         "%ihxcheck% $2 $1",
-        "%mkbin% -Z $1 $2 $3",
+        "%mkbin% -yN -Z $1 $2 $3",  // -yN: Don't paste in the Nintendo logo bytes for gameboy and clones (-Z)
         llist0_defaults_gb, ARRAY_LEN(llist0_defaults_gb), // Use GB linker list defaults
     },
     // Megaduck
@@ -75,7 +75,7 @@ CLASS classes[] = {
         "%bankpack% $1 $2",
         "%ld_gb% -n -i $1 %libs_include% $3 %crt0dir% $2",
         "%ihxcheck% $2 $1",
-        "%mkbin% -Z $1 $2 $3",
+        "%mkbin% -yN -Z $1 $2 $3",  // -yN: Don't paste in the Nintendo logo bytes for gameboy and clones (-Z)
         llist0_defaults_gb, ARRAY_LEN(llist0_defaults_gb), // Use GB linker list defaults
     },
 
