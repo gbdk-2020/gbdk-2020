@@ -20,9 +20,9 @@ gb:
 
 
 gbc-clean:
-    ${MAKE} clean-target EXT=gbc
+	${MAKE} clean-target EXT=gbc
 gbc:
-    ${MAKE} build-target PORT=gbz80 PLAT=gb EXT=gbc
+	${MAKE} build-target PORT=gbz80 PLAT=gb EXT=gbc
 
 
 pocket-clean:
