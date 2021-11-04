@@ -694,7 +694,7 @@ void display_off() __preserves_regs(b, c, d, e, h, l);
 
 /** Copies data from shadow OAM to OAM
  */
-void refresh_OAM();
+void refresh_OAM() __preserves_regs(b, c, d, e, h, l);
 
 
 /** Copies data from somewhere in the lower address space to part of hi-ram.
