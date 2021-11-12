@@ -51,6 +51,7 @@ _NR50_REG    = 0xFF24    ; Sound register
 _NR51_REG    = 0xFF25    ; Sound register
 _NR52_REG    = 0xFF26    ; Sound register
 _PCM_SAMPLE  = 0xFF30    ; PCM wave pattern
+_AUD3WAVE    = 0xFF30    ; PCM wave pattern
 _LCDC_REG    = 0xFF40    ; LCD control
 _STAT_REG    = 0xFF41    ; LCD status
 _SCY_REG     = 0xFF42    ; Scroll Y
@@ -90,7 +91,7 @@ _IE_REG      = 0xFFFF    ; Interrupt enable
 .globl _NR30_REG, _NR31_REG, _NR32_REG, _NR33_REG, _NR34_REG
 .globl _NR41_REG, _NR42_REG, _NR43_REG, _NR44_REG
 .globl _NR50_REG, _NR51_REG, _NR52_REG
-.globl _PCM_SAMPLE
+.globl _PCM_SAMPLE, _AUD3WAVE
 .globl _LCDC_REG
 .globl _STAT_REG
 .globl _SCY_REG, _SCX_REG
