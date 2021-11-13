@@ -556,7 +556,7 @@ int main(int argc, char *argv[])
 				SetPal pal = GetPaletteColors(image32, x, y, 8, tile_h);
 				if(pal.size() > pal_size)
 				{
-					printf("Error: more than %d colors found on (%d, %d, %d, %d)\n", pal_size, x, y, 8, tile_h);
+					printf("Error: more than %d colors found on (%d, %d, %d, %d)\n", (unsigned int)pal_size, x, y, 8, tile_h);
 					return 1;
 				}
 
@@ -580,7 +580,7 @@ int main(int argc, char *argv[])
 					//Palette not found, add a new one
 					if(palettes.size() == max_palettes)
 					{
-						printf("Error: more than %d palettes found\n", max_palettes);
+						printf("Error: more than %d palettes found\n", (unsigned int)max_palettes);
 						return 1;
 					}
 
@@ -719,11 +719,11 @@ int main(int argc, char *argv[])
 		fprintf(file, "\n");
 		if(export_as_map)
 		{
-			fprintf(file, "extern const unsigned char %s_map[%d];\n", data_name.c_str(), map.size());
+			fprintf(file, "extern const unsigned char %s_map[%d];\n", data_name.c_str(), (unsigned int)map.size());
 
 			if(use_map_attributes) {
 				if(map_attributes.size()) {
-					fprintf(file, "extern const unsigned char* %s_map_attributes[%d];\n", data_name.c_str(), (unsigned int)map_attributes.size());
+					fprintf(file, "extern const unsigned char %s_map_attributes[%d];\n", data_name.c_str(), (unsigned int)map_attributes.size());
 				}
 			} else
 				fprintf(file, "extern const unsigned char* %s_tile_pals[%d];\n", data_name.c_str(), (unsigned int)tiles.size());
@@ -868,7 +868,7 @@ int main(int argc, char *argv[])
 
 		//Export map
 		fprintf(file, "\n");
-		fprintf(file, "const unsigned char %s_map[%d] = {\n", data_name.c_str(), map.size());
+		fprintf(file, "const unsigned char %s_map[%d] = {\n", data_name.c_str(), (unsigned int)map.size());
 		size_t line_size = map.size() / (image.h / 8);
 		for(size_t j = 0; j < image.h / 8; ++ j)
 		{
@@ -885,7 +885,7 @@ int main(int argc, char *argv[])
 		if(use_map_attributes && map_attributes.size())
 		{
 			fprintf(file, "\n");
-			fprintf(file, "const unsigned char %s_map_attributes[%d] = {\n", data_name.c_str(), map_attributes.size());
+			fprintf(file, "const unsigned char %s_map_attributes[%d] = {\n", data_name.c_str(), (unsigned int)map_attributes.size());
 			for(size_t j = 0; j < image.h / 8; ++ j)
 			{
 				fprintf(file, "\t");

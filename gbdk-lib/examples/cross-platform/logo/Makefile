@@ -7,7 +7,7 @@ PNG2ASSETS = $(GBDK_HOME)bin/png2asset
 # Set platforms to build here, spaced separated. (These are in the separate Makefile.targets)
 # They can also be built/cleaned individually: "make gg" and "make gg-clean"
 # Possible are: gb gbc pocket megaduck sms gg
-TARGETS=gb pocket megaduck sms gg
+TARGETS=gb gbc pocket megaduck sms gg
 
 # Configure platform specific LCC flags here:
 LCCFLAGS_gb      = -Wl-yt0x1B # Set an MBC for banking (1B-ROM+MBC5+RAM+BATT)
@@ -23,12 +23,13 @@ LCCFLAGS += -Wl-j -Wm-yoA -Wm-ya4 -autobank -Wb-ext=.rel -Wb-v # MBC + Autobanki
 # LCCFLAGS += -debug # Uncomment to enable debug output
 # LCCFLAGS += -v     # Uncomment for lcc verbose output
 
-RESFLAGS_nintendo = -map -noflip -bpp 2 -max_palettes 1 -pack_mode gb
-RESFLAGS_sega = -map -use_map_attributes -bpp 4 -max_palettes 2 -pack_mode sms 
+RESFLAGS_DMG  = -map -noflip -bpp 2 -max_palettes 1 -pack_mode gb
+RESFLAGS_CGB  = -map -use_map_attributes -bpp 2 -max_palettes 1 -pack_mode gb
+RESFLAGS_SEGA = -map -use_map_attributes -bpp 4 -max_palettes 2 -pack_mode sms 
 
 RESFLAGS += $(RESFLAGS_$(TYP))
 
-CFLAGS += -Wf-I$(OBJDIR)
+CFLAGS += -Wf-I$(OBJDIR) -DSYSTEM_$(TYP)
 
 # You can set the name of the ROM file here
 PROJECTNAME = logo

@@ -102,10 +102,9 @@ __standard_VBL_handler::
         RET
 
 _refresh_OAM::
-        LD      HL, #((.refresh_OAM_DMA - .start_refresh_OAM) + .refresh_OAM)
         WAIT_STAT
         LD      A, #>_shadow_OAM
-        JP      (HL)
+        JP      .refresh_OAM + (.refresh_OAM_DMA - .start_refresh_OAM)
 
 .clear_WRAM:
         PUSH    DE

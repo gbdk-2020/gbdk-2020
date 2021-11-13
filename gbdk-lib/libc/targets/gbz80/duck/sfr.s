@@ -63,7 +63,7 @@ _NR50_REG    = 0xFF44    ; Sound register
 _NR52_REG    = 0xFF45    ; Sound register
 _NR51_REG    = 0xFF46    ; Sound register
 _PCM_SAMPLE  = 0xFF30    ; PCM wave pattern
-
+_AUD3WAVE    = 0xFF30    ; PCM wave pattern
 _KEY1_REG    = 0xFF4D    ; CPU speed
 _VBK_REG     = 0xFF4F    ; VRAM bank
 _HDMA1_REG   = 0xFF51    ; DMA control 1
@@ -91,7 +91,7 @@ _IE_REG      = 0xFFFF    ; Interrupt enable
 .globl _NR30_REG, _NR31_REG, _NR32_REG, _NR33_REG, _NR34_REG
 .globl _NR41_REG, _NR42_REG, _NR43_REG, _NR44_REG
 .globl _NR50_REG, _NR51_REG, _NR52_REG
-.globl _PCM_SAMPLE
+.globl _PCM_SAMPLE, _AUD3WAVE
 .globl _LCDC_REG
 .globl _STAT_REG
 .globl _SCY_REG, _SCX_REG
