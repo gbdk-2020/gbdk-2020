@@ -825,7 +825,7 @@ int main(int argc, char *argv[])
 			fprintf(file, "\t%d, //height\n", pivot_h);
 			fprintf(file, "\t%d, //num_tiles\n", (unsigned int)tiles.size() * (tile_h >> 3));
 			fprintf(file, "\t%s_tiles, //tiles\n", data_name.c_str());
-			fprintf(file, "\t%d, //num palettes\n", (unsigned int)image.palettesize >> 2);
+			fprintf(file, "\t%d, //num palettes\n", (unsigned int)(image.palettesize / pal_size));
 			fprintf(file, "\t%s_palettes, //CGB palette\n", data_name.c_str());
 			fprintf(file, "\t%d, //num sprites\n", (unsigned int)sprites.size());
 			fprintf(file, "\t%s_metasprites, //metasprites\n", data_name.c_str());
@@ -857,7 +857,7 @@ int main(int argc, char *argv[])
 			fprintf(file, "const struct TilesInfo %s_tiles_info = {\n", data_name.c_str());
 			fprintf(file, "\t%d, //num tiles\n", (unsigned int)tiles.size());
 			fprintf(file, "\t%s_tiles, //tiles\n", data_name.c_str());
-			fprintf(file, "\t%d, //num palettes\n", (unsigned int)image.palettesize);
+			fprintf(file, "\t%d, //num palettes\n", (unsigned int)(image.palettesize / pal_size));
 			fprintf(file, "\t%s_palettes, //palettes\n", data_name.c_str());
 			if(!use_map_attributes)
 				fprintf(file, "\t%s_tile_pals, //tile palettes\n", data_name.c_str());
