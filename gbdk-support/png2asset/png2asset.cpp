@@ -688,7 +688,7 @@ int main(int argc, char *argv[])
 		fprintf(file, "#define %s_TILE_H %d\n", data_name.c_str(), tile_h);
 		fprintf(file, "#define %s_WIDTH %d\n",  data_name.c_str(), sprite_w);
 		fprintf(file, "#define %s_HEIGHT %d\n", data_name.c_str(), sprite_h);
-		fprintf(file, "#define %s_TILE_COUNT %d\n", data_name.c_str(), (unsigned int)tiles.size());
+		fprintf(file, "#define %s_TILE_COUNT %d\n", data_name.c_str(), (unsigned int)tiles.size() * (tile_h >> 3));
 		if(export_as_map)
 		{
 			fprintf(file, "#define %s_MAP_ATTRIBUTES ",  data_name.c_str());
@@ -823,7 +823,7 @@ int main(int argc, char *argv[])
 			fprintf(file, "const struct MetaSpriteInfo %s = {\n", data_name.c_str());
 			fprintf(file, "\t%d, //width\n", pivot_w);
 			fprintf(file, "\t%d, //height\n", pivot_h);
-			fprintf(file, "\t%d, //num_tiles\n", (unsigned int)tiles.size() * (tile_h >> 3));
+			fprintf(file, "\t%d, //num tiles\n", (unsigned int)tiles.size() * (tile_h >> 3));
 			fprintf(file, "\t%s_tiles, //tiles\n", data_name.c_str());
 			fprintf(file, "\t%d, //num palettes\n", (unsigned int)(image.palettesize / pal_size));
 			fprintf(file, "\t%s_palettes, //CGB palette\n", data_name.c_str());
@@ -855,7 +855,7 @@ int main(int argc, char *argv[])
 			fprintf(file, "#include \"TilesInfo.h\"\n");
 			fprintf(file, "BANKREF(%s_tiles_info)\n", data_name.c_str());
 			fprintf(file, "const struct TilesInfo %s_tiles_info = {\n", data_name.c_str());
-			fprintf(file, "\t%d, //num tiles\n", (unsigned int)tiles.size());
+			fprintf(file, "\t%d, //num tiles\n", (unsigned int)tiles.size() * (tile_h >> 3));
 			fprintf(file, "\t%s_tiles, //tiles\n", data_name.c_str());
 			fprintf(file, "\t%d, //num palettes\n", (unsigned int)(image.palettesize / pal_size));
 			fprintf(file, "\t%s_palettes, //palettes\n", data_name.c_str());
