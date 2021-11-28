@@ -3,7 +3,7 @@
 	.area _HOME
 
 ___sdcc_bcall_ehl::			; Performs a long call.
-ldh a,(__current_bank)
+	ldh	a,(__current_bank)
 	push	af			; Push the current bank onto the stack
 	ld	a, e
 	ldh	(__current_bank),a
