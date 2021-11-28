@@ -31,8 +31,8 @@ _memcmp::
         ret
 
 2$:
-        ld      hl,#-1
+        ld      hl,#1
         ret     c
 
-        ld      hl,#1
+        ld      hl,#-1
         ret

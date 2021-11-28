@@ -38,8 +38,8 @@ _memcmp::
         ret
 
 2$:
-        ld      de,#-1
+        ld      de,#1
         ret     c
 
-        ld      de,#1
+        ld      de,#-1
         ret
