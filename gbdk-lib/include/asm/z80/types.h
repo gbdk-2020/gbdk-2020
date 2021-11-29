@@ -35,12 +35,12 @@ typedef unsigned long 	UINT32;
 
 #ifndef __SIZE_T_DEFINED
 #define __SIZE_T_DEFINED
-typedef int	      	size_t;
+typedef unsigned int	size_t;
 #endif
 
 /** Returned from clock
     @see clock
 */
-typedef UINT16		clock_t;
+typedef unsigned int	clock_t;
 
 #endif

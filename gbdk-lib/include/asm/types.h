@@ -40,14 +40,6 @@
  */
 typedef INT8		BOOLEAN;
 
-#if BYTE_IS_UNSIGNED
-
-typedef UINT8		BYTE;
-typedef UINT16		WORD;
-typedef UINT32		DWORD;
-
-#else
-
 /** Signed 8 bit.
  */
 typedef INT8         	BYTE;
@@ -84,7 +76,5 @@ typedef union _fixed {
   } b;
   UWORD w;
 } fixed;
-
-#endif
 
 #endif
