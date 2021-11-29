@@ -22,8 +22,10 @@
 
 #ifdef __SDCC
 #define PRESERVES_REGS(...) __preserves_regs(__VA_ARGS__)
+#define NAKED   __naked
 #else
 #define PRESERVES_REGS(...)
+#define NAKED
 #endif
 
 #ifndef NONBANKED

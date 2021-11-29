@@ -10,17 +10,39 @@
 #endif
 
 #ifdef __SDCC
+
 #define Z88DK_CALLEE __z88dk_callee
 #define Z88DK_FASTCALL __z88dk_fastcall
+
+#define NONBANKED       __nonbanked /**< Placed in the non-banked lower 16K region (bank 0), regardless of the bank selected by it's source file. */
+#define BANKED          __banked /**< The function will use banked sdcc calls, and is placed in the bank selected by it's source file (or compiler switches). */
+
+/**  Use to create a block of of code which should execute with interrupts temporarily turned off.
+
+    __Do not__ use @ref CRITICAL and @ref INTERRUPT attributes for a
+    function added via add_VBL() (or LCD, etc). The attributes
+    are only required when constructing a bare jump from the
+    interrupt vector itself.
+
+    @see enable_interrupts, disable_interrupts
+*/
+#define CRITICAL        __critical
+
+/**  Indicate to the compiler the function will be used as an interrupt handler.
+
+    __Do not__ use @ref CRITICAL and @ref INTERRUPT attributes for a
+    function added via add_VBL() (or LCD, etc). The attributes
+    are only required when constructing a bare jump from the
+    interrupt vector itself.
+*/
+#define INTERRUPT       __interrupt
+
 #else
+
 #define Z88DK_CALLEE
 #define Z88DK_FASTCALL
-#endif
 
-#define NONBANKED		__nonbanked
-#define BANKED			__banked
-#define CRITICAL		__critical
-#define INTERRUPT		__interrupt
+#endif
 
 /** Signed eight bit.
  */
