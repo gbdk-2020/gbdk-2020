@@ -9,6 +9,14 @@
   #error z80 only.
 #endif
 
+#ifdef __SDCC
+#define Z88DK_CALLEE __z88dk_callee
+#define Z88DK_FASTCALL __z88dk_fastcall
+#else
+#define Z88DK_CALLEE
+#define Z88DK_FASTCALL
+#endif
+
 #define NONBANKED		__nonbanked
 #define BANKED			__banked
 #define CRITICAL		__critical
