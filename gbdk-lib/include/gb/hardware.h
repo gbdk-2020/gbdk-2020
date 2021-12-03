@@ -11,7 +11,7 @@
 
 #define __BYTES extern UBYTE
 #define __BYTE_REG extern volatile UBYTE
-#define __REG extern volatile __sfr
+#define __REG extern volatile SFR
 
 /** Memoty map */
 

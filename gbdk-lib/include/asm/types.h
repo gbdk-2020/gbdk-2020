@@ -23,9 +23,13 @@
 #ifdef __SDCC
 #define PRESERVES_REGS(...) __preserves_regs(__VA_ARGS__)
 #define NAKED   __naked
+#define SFR     __sfr
+#define AT(A)   __at(A)
 #else
 #define PRESERVES_REGS(...)
 #define NAKED
+#define SFR
+#define AT(A)
 #endif
 
 #ifndef NONBANKED
