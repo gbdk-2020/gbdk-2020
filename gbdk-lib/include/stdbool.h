@@ -29,7 +29,7 @@
 #ifndef __SDC51_STDBOOL_H
 #define __SDC51_STDBOOL_H 1
 
-#ifdef SDCC
+#ifdef __SDCC
 /* Define true and false of type _Bool in a way compatible with the preprocessor (see N 2229 for details). */
 #define true ((_Bool)+1)
 #define false ((_Bool)+0)
