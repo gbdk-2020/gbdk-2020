@@ -4,11 +4,14 @@
 # Consoles Supported by GBDK
 As of version `4.0.5` GBDK includes support for other consoles in addition to the Game Boy.
 
-  - Nintendo Game Boy / Game Boy Color (GB/GBC)
-  - Analogue Pocket (AP)
-  - Sega Master System (SMS)
-  - Sega Game Gear (GG)
-  - Mega Duck / Cougar Boy (DUCK)
+  - Game Boy and related clones
+    - Nintendo Game Boy / Game Boy Color (GB/GBC)
+    - Analogue Pocket (AP)
+    - Mega Duck / Cougar Boy (DUCK)
+
+  - Sega Consoles
+    - Sega Master System (SMS)
+    - Sega Game Gear (GG)
 
 While the GBDK API has many convenience functions that work the same or similar across different consoles, it's important to keep their different capabilities in mind when writing code intended to run on more than one. Some (but not all) of the differences are screen sizes, color abilities, memory layouts, processor type (z80 vs gbz80/sm83) and speed.
 

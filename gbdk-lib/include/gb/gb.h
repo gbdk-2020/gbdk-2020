@@ -129,7 +129,7 @@
     REG_BGP = DMG_PALETTE(DMG_BLACK, DMG_DARK_GRAY, DMG_LITE_GRAY, DMG_WHITE);
     \endcode
 
-    @see REG_OBP0, REG_OBP1, REG_BGP
+    @see OBP0_REG, OBP1_REG, BGP_REG
     @see DMG_BLACK, DMG_DARK_GRAY, DMG_LITE_GRAY, DMG_WHITE
 
  */
@@ -1428,7 +1428,7 @@ inline void hide_sprite(uint8_t nb) {
 
 
 /** Copies arbitrary data to an address in VRAM
-    without taking into account the state of LCDC bit 4.
+    without taking into account the state of LCDC bits 3 or 4.
 
     @param vram_addr Pointer to destination VRAM Address
     @param data      Pointer to source buffer
@@ -1440,13 +1440,13 @@ inline void hide_sprite(uint8_t nb) {
     \li VBK_REG=0 indicates the first bank
     \li VBK_REG=1 indicates the second
 
-    @see set_bkg_data, set_win_data, set_tile_data
+    @see set_bkg_data, set_win_data, set_bkg_tiles, set_win_tiles, set_tile_data, set_tiles
 */
 void set_data(uint8_t *vram_addr, const uint8_t *data, uint16_t len) OLDCALL PRESERVES_REGS(b, c);
 
 
 /** Copies arbitrary data from an address in VRAM into a buffer
-    without taking into account the state of LCDC bit 4.
+    without taking into account the state of LCDC bits 3 or 4.
 
     @param vram_addr Pointer to source VRAM Address
     @param data      Pointer to destination buffer
@@ -1458,7 +1458,7 @@ void set_data(uint8_t *vram_addr, const uint8_t *data, uint16_t len) OLDCALL PRE
     \li VBK_REG=0 indicates the first bank
     \li VBK_REG=1 indicates the second
 
-    @see get_bkg_data, get_win_data
+    @see get_bkg_data, get_win_data, get_bkg_tiles, get_win_tiles, get_tiles
 */
 void get_data(uint8_t *data, uint8_t *vram_addr, uint16_t len) OLDCALL PRESERVES_REGS(b, c);
 
@@ -1479,7 +1479,7 @@ void vmemcpy(uint8_t *dest, uint8_t *sour, uint16_t len) OLDCALL PRESERVES_REGS(
 
 
 /** Sets a rectangular region of Tile Map entries at a given VRAM Address
-    without taking into account the state of LCDC bit 4.
+    without taking into account the state of LCDC bit 3.
 
     @param x         X Start position in Map tile coordinates. Range 0 - 31
     @param y         Y Start position in Map tile coordinates. Range 0 - 31
@@ -1516,7 +1516,7 @@ void set_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *vram_addr, c
 void set_tile_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data, uint8_t base) OLDCALL PRESERVES_REGS(b, c);
 
 /** Copies a rectangular region of Tile Map entries from a given VRAM Address into a buffer
-    without taking into account the state of LCDC bit 4.
+    without taking into account the state of LCDC bit 3.
 
     @param x         X Start position in Background Map tile coordinates. Range 0 - 31
     @param y         Y Start position in Background Map tile coordinates. Range 0 - 31
