@@ -51,6 +51,14 @@
   - Is it possible to generate a debug symbol file (`.sym`) compatible with the @ref bgb emulator?
     - Yes, turn on `.noi` output (LCC argument: `-Wl-j` or `-debug` and then use `-Wm-yS` with LCC (or `-yS` with makebin directly). <!-- -->  
 
+  - How do I move the start of the `DATA` section and the `Shadow OAM` location?
+    - The default locations are: `_shadow_OAM=0xC000` and 240 bytes after it `_DATA=0xC0A0`
+    - So, for example, if you wanted to move them both to start 256(0x100) bytes later, use these command line arguments for LCC:
+      - To change the Shadow OAM address: `-Wl-g_shadow_OAM=0xC100`
+      - To change the DATA address (again, 240 bytes after the Shadow OAM): `-Wl-b_DATA=0xc1a0`
+     <!-- -->  
+
+
 # API / Utilities
   - Is there a list of all functions in the API?
     - [Functions](globals_func.html)
