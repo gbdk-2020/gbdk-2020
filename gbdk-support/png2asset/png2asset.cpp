@@ -336,7 +336,7 @@ SetPal GetPaletteColors(const PNGImage& image, int x, int y, int w, int h)
 	for(SetPal::iterator it = ret.begin(); it != ret.end(); ++it)
 	{
 		if(it != ret.begin() && ((0xFF & *it) != 0xFF)) //ret.begin() should be the only one transparent
-			printf("Warning: found more than one transparent color on x:%d,y:%d,w:%d,h:%d\n", x, y, w, h);
+			printf("Warning: found more than one transparent color in tile at x:%d, y:%d of size w:%d, h:%d\n", x, y, w, h);
 	}
 
 	return ret;
@@ -556,7 +556,7 @@ int main(int argc, char *argv[])
 				SetPal pal = GetPaletteColors(image32, x, y, 8, tile_h);
 				if(pal.size() > pal_size)
 				{
-					printf("Error: more than %d colors found on (%d, %d, %d, %d)\n", (unsigned int)pal_size, x, y, 8, tile_h);
+					printf("Error: more than %d colors found in tile at x:%d, y:%d of size w:%d, h:%d\n", (unsigned int)pal_size, x, y, 8, tile_h);
 					return 1;
 				}
 
