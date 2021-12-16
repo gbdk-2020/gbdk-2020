@@ -8,6 +8,7 @@ As of version `4.0.5` GBDK includes support for other consoles in addition to th
   - Analogue Pocket (AP)
   - Sega Master System (SMS)
   - Sega Game Gear (GG)
+  - Mega Duck / Cougar Boy (DUCK)
 
 While the GBDK API has many convenience functions that work the same or similar across different consoles, it's important to keep their different capabilities in mind when writing code intended to run on more than one. Some (but not all) of the differences are screen sizes, color abilities, memory layouts, processor type (z80 vs gbz80/sm83) and speed.
 
@@ -42,6 +43,9 @@ When linking with @ref sdldgb-settings "sdldgb" (for GB/AP) and @ref sdldz80-set
   - Analogue Pocket
     - @ref lcc : `-mgbz80:ap`
     - port:`gbz80`, plat:`ap`
+  - Mega Duck / Cougar Boy
+    - @ref lcc : `-mgbz80:duck`
+    - port:`gbz80`, plat:`duck`
 
   - Sega Master System
     - @ref lcc : `-mz80:sms`
@@ -62,6 +66,10 @@ There are several constant \#defines that can be used to help select console spe
     - When building for Analogue Pocket
       - `NINTENDO` will be \#defined
       - `ANALOGUEPOCKET` will be \#defined
+    - When building for Mega Duck / Cougar Boy
+      - `NINTENDO` will be \#defined
+      - `MEGADUCK` will be \#defined
+
 
   - When `<sms/sms.h >` is included (either directly or through `<gbdk/platform.h>`)
     - When building for Master System
@@ -107,6 +115,7 @@ GBDK includes an number of cross platform example projects. These projects show 
 
 They also show how to build for multiple target consoles with a single build command and `Makefile`. The `Makefile.targets` allows selecting different `port` and `plat` settings when calling the build stages.
 
+
 # Porting From Game Boy to Analogue Pocket
 The Analogue Pocket is (for practical purposes) functionally identical to the Game Boy / Color, but has a couple altered register flag and address definitions and a different boot logo. In order for software to be easily ported to the Analogue Pocket, or to run on both, use the following practices.
 
@@ -119,6 +128,17 @@ Use API defined registers and register flags instead of hardwired ones
 
 ## Boot logo
 As long as the target console is @ref docs_consoles_compiling "set during build time" then the correct boot logo will be automatically selected.
+
+
+# Porting From Game Boy to Mega Duck / Cougar Boy
+The Mega Duck is fairly similar to the classic Game Boy. It has a couple altered register flag and address definitions, no boot logo and a different startup/entry-point address. In order for software to be easily ported to the Mega Duck, or to run on both, use the following practices.
+
+## Registers and Flags
+Use API defined registers and register flags instead of hardwired ones
+   - LCDC register: @ref LCDC_REG or @ref rLCDC
+   - STAT register: @ref STAT_REG or @ref rSTAT
+   - LCDC flags: -> LCDCF_... (example: @ref LCDCF_ON)
+   - STAT flags: -> STATF_... (example: @ref STATF_LYC)
 
 
 # Porting From Game Boy to SMS/GG
