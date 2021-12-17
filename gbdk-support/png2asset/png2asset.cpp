@@ -16,6 +16,7 @@ void loadFile(vector<unsigned char>& buffer, const std::string& filename);
 bool export_as_map = false;
 bool use_map_attributes = false;
 size_t pal_size;
+#define TILE_W 8
 int tile_h;
 int bpp = 2;
 
@@ -543,6 +544,13 @@ int main(int argc, char *argv[])
 		if(error)
 		{
 			printf("decoder error %s\n", lodepng_error_text(error));
+			return 1;
+		}
+
+		// Validate image dimensions
+		if( ((image32.w % TILE_W) != 0) || ((image32.h % tile_h) != 0) )
+		{
+			printf("Error: Image size %d x %d isn't an even multiple of tile size %d x %d\n", image32.w, image32.h, TILE_W, tile_h);
 			return 1;
 		}
 
