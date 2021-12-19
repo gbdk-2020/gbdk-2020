@@ -21,7 +21,7 @@ or
 
     compile.bat
 
-This should build the example project. You can also navigate into other example project folders and build them by typing `make`.
+This should build the example project. You can also navigate into other example project folders and build in the same way.
 
 
 ## Linux / MacOS / Windows with Make installed:
