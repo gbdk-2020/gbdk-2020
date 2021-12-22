@@ -12,7 +12,7 @@ endif
 
 # Target older macOS version than whatever build OS is for better compatibility
 ifeq ($(BUILD_OS),Darwin)
-	export MACOSX_DEPLOYMENT_TARGET=10.9 # 2013 vintage is plenty old
+	export MACOSX_DEPLOYMENT_TARGET=10.10
 endif
 
 CC = $(TOOLSPREFIX)gcc
