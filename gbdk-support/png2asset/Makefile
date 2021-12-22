@@ -8,6 +8,18 @@ CXX = $(TOOLSPREFIX)g++
 CXXFLAGS = -Os -Wall -g
 LFLAGS = -g
 
+ifeq ($(OS),Windows_NT)
+	BUILD_OS := Windows_NT
+else
+	BUILD_OS := $(shell uname -s)
+endif
+
+# Target older macOS version than whatever build OS is for better compatibility
+ifeq ($(BUILD_OS),Darwin)
+	export MACOSX_DEPLOYMENT_TARGET=10.9 # 2013 vintage is plenty old
+endif
+
+
 # Static flag for windows cross and native builds
 ifeq ($(TOOLSPREFIX),i686-w64-mingw32-)
 #   prefix will automatically be .exe for cross build
@@ -20,10 +32,8 @@ ifeq ($(OS),Windows_NT)
 	LFLAGS += -static 
 endif
 
-# Target older macOS version than whatever build OS is for better compatibility
-ifeq ($(UNAME_S),Darwin)
-	export MACOSX_DEPLOYMENT_TARGET=10.9 # 2013 vintage is plenty old
-endif
+
+
 
 # ****************************************************
 # Targets needed to bring the executable up to date

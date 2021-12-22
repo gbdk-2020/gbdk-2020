@@ -8,10 +8,17 @@ endif
 BUILDDATE=$(shell date -u +%Y/%m/%d)
 BUILDTIME=$(shell date -u +%H:%M:%S)
 
+ifeq ($(OS),Windows_NT)
+	BUILD_OS := Windows_NT
+else
+	BUILD_OS := $(shell uname -s)
+endif
+
 # Target older macOS version than whatever build OS is for better compatibility
-ifeq ($(UNAME_S),Darwin)
+ifeq ($(BUILD_OS),Darwin)
 	export MACOSX_DEPLOYMENT_TARGET=10.9 # 2013 vintage is plenty old
 endif
+
 
 CC = $(TOOLSPREFIX)gcc
 CFLAGS = -ggdb -O -Wno-incompatible-pointer-types -DGBDKLIBDIR=\"$(TARGETDIR)\"
