@@ -19,26 +19,31 @@ ifeq ($(OS),Windows_NT)
 	EXT = .exe
 	LFLAGS += -static 
 endif
- 
+
+# Target older macOS version than whatever build OS is for better compatibility
+ifeq ($(UNAME_S),Darwin)
+	export MACOSX_DEPLOYMENT_TARGET=10.9 # 2013 vintage is plenty old
+endif
+
 # ****************************************************
 # Targets needed to bring the executable up to date
- 
+
 TARGET = png2asset
 
 
 SRCS := lodepng.cpp png2asset.cpp
 OBJS := $(SRCS:%.cpp=%.o)
- 
+
 $(TARGET): $(OBJS)
 	$(CXX) $(LFLAGS) -o $(TARGET) $(OBJS)
 	strip $@$(EXT)
- 
+
 # The main.o target can be written more simply
- 
+
 %.cpp.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
- 
- clean:
+
+clean:
 	rm -f *.o
 	rm -f *.exe
 	rm -f TARGET
