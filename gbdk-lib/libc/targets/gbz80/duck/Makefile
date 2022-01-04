@@ -22,7 +22,7 @@ ASSRC =	cgb.s cgb_palettes.s cgb_compat.s \
 	sgb.s font.s font_color.s delay.s \
 	bgb_emu.s bgb_emu_printf.s \
 	nowait.s far_ptr.s \
-	lcd.s joy.s tim.s \
+	lcd.s joy.s tim.s tim.s tim_nested.s tim_common.s \
 	crash_handler.s \
 	___sdcc_bcall_ehl.s ___sdcc_bcall.s \
 	mv_spr.s \

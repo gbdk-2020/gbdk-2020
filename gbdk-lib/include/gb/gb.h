@@ -221,7 +221,6 @@ void add_VBL(int_handler h) OLDCALL;
     Called when the LCD interrupt occurs, which is normally
     when @ref LY_REG == @ref LYC_REG.
 
-    From pan/k0Pa:
     There are various reasons for this interrupt to occur
     as described by the @ref STAT_REG register ($FF41). One very
     popular reason is to indicate to the user when the
@@ -236,7 +235,8 @@ void add_LCD(int_handler h) OLDCALL;
 
 /** Adds a timer interrupt handler.
 
-    From pan/k0Pa:
+    Can not be used together with @ref add_low_priority_TIM
+
     This interrupt occurs when the @ref TIMA_REG
     register ($FF05) changes from $FF to $00.
 
@@ -245,10 +245,22 @@ void add_LCD(int_handler h) OLDCALL;
 */
 void add_TIM(int_handler h) OLDCALL;
 
+/** Adds a timer interrupt handler, that could be 
+    interrupted by the other interrupts, 
+    as well as itself, if it runs too slow.
+
+    Can not be used together with @ref add_TIM
+
+    This interrupt occurs when the @ref TIMA_REG
+    register ($FF05) changes from $FF to $00.
+
+    @see add_VBL
+    @see set_interrupts() with TIM_IFLAG
+*/
+void add_low_priority_TIM(int_handler h) OLDCALL;
 
 /** Adds a Serial Link transmit complete interrupt handler.
 
-    From pan/k0Pa:
     This interrupt occurs when a serial transfer has
     completed on the game link port.
 
@@ -260,7 +272,6 @@ void add_SIO(int_handler h) OLDCALL;
 
 /** Adds a joypad button change interrupt handler.
 
-    From pan/k0Pa:
     This interrupt occurs on a transition of any of the
     keypad input lines from high to low. Due to the fact
     that keypad "bounce" is virtually always present,
