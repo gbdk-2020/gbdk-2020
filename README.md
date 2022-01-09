@@ -4,8 +4,8 @@ GBDK is a cross-platform development kit for sm83 and z80 based gaming consoles.
 __Supported Consoles:__ [(see docs)](https://gbdk-2020.github.io/gbdk-2020/docs/api/docs_supported_consoles.html)
 - Nintendo Gameboy / Game Boy Color
 - Analogue Pocket
-- Mega Duck / Cougar Boy
 - Sega Master System & Game Gear
+- Mega Duck / Cougar Boy
 
 
 ## Current Release
