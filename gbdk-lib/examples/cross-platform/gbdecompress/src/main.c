@@ -7,14 +7,8 @@
 #include "monalisa_tiles_comp.h"
 #include "monalisa_map.h"
 
-// The map tiles were exported from GBTD with compression enabled
-// using this updated version of GBTD: https://github.com/untoxa/GBTD_GBMB
-// Size was 4096 bytes -> 3493 bytes
-
-uint8_t buffer[4096];
-
-void main(void)
-{  
+void init()
+{
     // Decompress the map tiles into the background tile vram.
     //
     // Notice that the number of tiles isn't specified. The amount 
@@ -22,12 +16,24 @@ void main(void)
     //
     // Note: For non-compressed data the equivalent would be: set_bkg_data(0, 253u, monalisa_tiles)
     //
+    
+    // The map tiles were exported from GBTD with compression enabled
+    // using this updated version of GBTD: https://github.com/untoxa/GBTD_GBMB
+    // Size was 4096 bytes -> 3493 bytes as determined from gbcompress tool
+
+    uint8_t buffer[4096];
+    
     set_bkg_data(0, gb_decompress(monalisa_tiles_comp, buffer) >> 4, buffer);
 
     // Now set the map and turn the background on
     set_bkg_tiles(0,0, monalisa_mapWidth, monalisa_mapHeight, monalisa_mapPLN0);
     SHOW_BKG;
-    
+}
+
+void main(void)
+{
+    init();
+
     // Loop forever
     while(1) {
 
