@@ -19,6 +19,7 @@ size_t pal_size;
 #define TILE_W 8
 int tile_h;
 int bpp = 2;
+unsigned int tile_origin = 0; // Default to no tile index offset
 
 struct Tile
 {
@@ -266,9 +267,12 @@ void GetMap()
 
 				if(tiles.size() > 256 && pack_mode != Tile::SMS)
 					printf("Warning: found more than 256 tiles on x:%d,y:%d\n", x, y);
+
+				if(((tiles.size() + tile_origin) > 256) && (pack_mode != Tile::SMS))
+					printf("Warning: tile count (%d) + tile origin (%d) exceeds 256 at x:%d,y:%d\n", (unsigned int)tiles.size(), tile_origin, x, y);
 			}
 
-			map.push_back((unsigned char)idx);
+			map.push_back((unsigned char)idx + tile_origin);
 			
 			if(use_map_attributes)
 			{
@@ -388,6 +392,7 @@ int main(int argc, char *argv[])
 		printf("-bpp                bits per pixel (default: 2)\n");
 		printf("-max_palettes       maximum number of palettes allowed (default: 2)\n");
 		printf("-pack_mode          gb, sgb or sms (default:GB)\n");
+		printf("-tile_origin        tile index offset for maps (instead of zero)\n");
 		return 0;
 	}
 
@@ -491,6 +496,10 @@ int main(int argc, char *argv[])
 				printf("-pack_mode must be one of gb, sgb or sms\n");
 				return 1;
 			}
+		}
+		else if(!strcmp(argv[i], "-tile_origin"))
+		{
+			tile_origin = atoi(argv[++ i]);
 		}
 	}
 
@@ -693,6 +702,7 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
+		fprintf(file, "#define %s_TILE_ORIGIN %d\n", data_name.c_str(), tile_origin);
 		fprintf(file, "#define %s_TILE_H %d\n", data_name.c_str(), tile_h);
 		fprintf(file, "#define %s_WIDTH %d\n",  data_name.c_str(), sprite_w);
 		fprintf(file, "#define %s_HEIGHT %d\n", data_name.c_str(), sprite_h);
