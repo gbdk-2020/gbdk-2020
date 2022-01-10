@@ -34,15 +34,15 @@ static volatile SFR AT(0x7E) VCOUNTER;
 
 static volatile SFR AT(0x7F) PSG;
 
-#define PSGLatch       0x80
-#define PSGData        0x40
+#define PSG_LATCH      0x80
+#define PSG_DATA       0x40
 
-#define PSGChannel0    0b00000000
-#define PSGChannel1    0b00100000
-#define PSGChannel2    0b01000000
-#define PSGChannel3    0b01100000
+#define PSG_CH0        0b00000000
+#define PSG_CH1        0b00100000
+#define PSG_CH2        0b01000000
+#define PSG_CH3        0b01100000
 
-#define PSGVolumeData  0b00010000
+#define PSG_VOLUME     0b00010000
 
 static volatile SFR AT(0x7F) HCOUNTER;
 
