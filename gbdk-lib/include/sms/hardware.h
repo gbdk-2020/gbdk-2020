@@ -35,7 +35,6 @@ static volatile SFR AT(0x7E) VCOUNTER;
 static volatile SFR AT(0x7F) PSG;
 
 #define PSG_LATCH      0x80
-#define PSG_DATA       0x40
 
 #define PSG_CH0        0b00000000
 #define PSG_CH1        0b00100000

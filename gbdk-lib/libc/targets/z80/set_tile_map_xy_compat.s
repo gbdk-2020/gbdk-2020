@@ -7,6 +7,15 @@
 
         .ez80
 
+        .area   _INITIALIZED
+
+__map_tile_offset::
+        .ds     0x01
+
+        .area   _INITIALIZER
+
+        .db     0x00
+
         .area   _HOME
 
         ;; Set background tile table from (BC) at XY = DE of size WH = HL
@@ -52,8 +61,13 @@
         SMS_WRITE_VDP_CMD ixh, ixl
         ld c, #.VDP_DATA
 2$:                             ; copy W tiles
-        outi
-        VDP_DELAY
+        ld a, (__map_tile_offset)
+        add (hl)
+        out (c), a
+        inc hl
+        dec b
+        jr 8$                   ; delay
+8$:
         in a, (c)               ; skip next byte
 
         ld a, ixl

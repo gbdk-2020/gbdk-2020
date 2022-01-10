@@ -1,9 +1,21 @@
         .include        "global.s"
 
+        .title  "Set tile submap"
+        .module SetTileSubmap
+
         .area   _DATA
 
 .image_tile_width::
         .ds     0x01
+
+        .area   _INITIALIZED
+
+__submap_tile_offset::
+        .ds     0x01
+
+        .area   _INITIALIZER
+
+        .db     0x00
 
         .area   _HOME
 
@@ -91,8 +103,10 @@ _set_bkg_submap::
         push    bc              ; store dest
 3$:                             ; copy w tiles
         WAIT_STAT
-        ld      a, (hl+)
+        ld      a, (__submap_tile_offset)
+        add     (hl)
         ld      (bc), a
+        inc     hl
         
         ld      a, c            ; inc dest and wrap around
         and     #0xe0
