@@ -11,6 +11,8 @@ ASSRC = __sdcc_call_hl.s abs.s mul.s div.s shift.s crt0_rle.s \
 	rand.s arand.s \
 	bcd.s
 
+CSRC =	_memmove.c
+
 include $(TOPDIR)/Makefile.common
 
 AS = $(AS_GBZ80)
