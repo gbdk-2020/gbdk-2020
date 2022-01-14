@@ -12,7 +12,10 @@
 
 ___hide_metasprite::
         ldhl    sp, #2
-        ld      a, (hl-)
+        ld      a, (hl)
+        cp      #40
+        ret     nc
+        
         add     a
         add     a
         ld      e, a
@@ -40,4 +43,10 @@ ___hide_metasprite::
         inc     e
         inc     e
         inc     e
-        jr      1$
+
+        ld      a, e
+        cp      #160
+
+        jr      c, 1$
+
+        ret
