@@ -5,6 +5,47 @@ https://github.com/gbdk-2020/gbdk-2020/releases
 
 
 # GBDK 2020 Release Notes
+## GBDK 2020 4.0.6
+  2022/xx
+  - Building GBDK
+    - Changed to target older version of macOS (10.10) when building for better compatibility
+  - Platforms
+    - Added support for Mega Duck / Cougar Boy (`duck`). See @ref docs_supported_consoles
+  - Library
+    - Added @ref memcmp()
+    - Added @ref add_low_priority_TIM() function for timer interrupts which allow nesting for GB/CGB
+    - Added @ref set_bkg_based_tiles(), @ref set_bkg_based_submap(), @ref set_win_based_tiles(), @ref set_win_based_submap() for when a map's tiles don't start at VRAM index zero
+    - Added @ref clock() for SMS/GG
+    - Added macro definitions for SDCC features:
+      - `#define SFR     __sfr`
+      - `#define AT(A)   __at(A)`
+    - Added check for OAM overflow to metasprite calls for GB/CGB
+    - Added constant definitions @ref PSG_LATCH, @ref PSG_CH0, @ref PSG_CH1, @ref PSG_CH2, @ref PSG_CH3, @ref PSG_VOLUME for SMS/GG
+    - Changed headers to wrap SDCC specific features (such as `NONBANKED`) with `#ifdef __SDCC`
+    - Changed @ref rand() and @ref arand() to return `uint8_t` instead of `int8_t` (closer to the standard)
+    - Fixed declaration for @ref PCM_SAMPLE and definition for @ref AUD3WAVE
+    - Fixed definition of `size_t` to be `unsigned int` instead of  `int`
+    - Fixed @ref vmemcpy() and @ref memmove() for SMS/GG
+    - Fixed random number generation for SMS/GG
+    - Fixed letter `U` appearing as `K` for min font
+    - Fixed define name in crash_handler.h
+  - Toolchain / Utilities
+    - @ref utility_png2asset "png2asset"
+      - Added SMS/GG graphics format support
+      - Added 4bpp and SGB borders
+      - Added warning when image size is not an even multiple of tile size
+      - Added `-tile_origin` offset option for when map tiles do not start at tile 0 in VRAM
+      - Added `*_TILE_COUNT` definition to output
+      - Fixed CGB `...s_map_attributes` type definition in output
+      - Fixed values for `num_palettes` in output
+      - Fixed incorrect `TILE_COUNT` value when not `-using_structs`
+    - @ref lcc
+      - Changed @ref makebin flags to turn off Nintendo logo copy for GB/CGB (use version in crt instead)
+  - Examples
+    - Added logo example (cross-platform)
+    - Added @ref ISR_VECTOR example of a raw ISR vector with no dispatcher for GB/CGB
+    - Changed sgb_border example to use png2asset for graphics
+    - Changed use of set_interrupts() in examples so it's outside critical sections (since it disables/enables interrupts)
 
 ## GBDK 2020 4.0.5
   2021/09

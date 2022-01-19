@@ -18,7 +18,7 @@
 -Idir	add `dir' to the beginning of the list of #include directories
 -K don't run ihxcheck test on linker ihx output
 -lx	search library `x'
--m	select port and platform: "-m[port]:[plat]" ports:gbz80,z80 plats:ap,gb,sms,gg
+-m	select port and platform: "-m[port]:[plat]" ports:gbz80,z80 plats:ap,duck,gb,sms,gg
 -N	do not search the standard directories for #include files
 -n	emit code to check for dereferencing zero pointers
 -no-crt do not auto-include the gbdk crt0.o runtime in linker list
@@ -155,8 +155,6 @@ Linker options:
 Special options for the z80 port:
       --callee-saves-bc     Force a called function to always save BC
       --portmode=           Determine PORT I/O mode (z80/z180)
-      -bo                   <num> use code bank <num>
-      -ba                   <num> use data bank <num>
       --asm=                Define assembler name (rgbds/asxxxx/isas/z80asm/gas)
       --codeseg             <name> use this name for the code segment
       --constseg            <name> use this name for the const segment
@@ -431,7 +429,7 @@ Options
 --cin  : Read input as .c source format (8 bit char ONLY, uses first array found)
 --cout : Write output in .c / .h source format (8 bit char ONLY) 
 --varname=<NAME> : specify variable name for c source output
---alg=<type>     : specify compression type. 'rle', 'gb' (default)
+--alg=<type>     : specify compression type: 'rle', 'gb' (default)
 Example: "gbcompress binaryfile.bin compressed.bin"
 Example: "gbcompress -d compressedfile.bin decompressed.bin"
 Example: "gbcompress --alg=rle binaryfile.bin compressed.bin"
@@ -459,4 +457,8 @@ usage: png2asset    <file>.png [options]
 -map                Export as map (tileset + bg)
 -use_map_attributes Use CGB BG Map attributes (default: palettes are stored for each tile in a separate array)
 -use_structs        Group the exported info into structs (default: false)
+-bpp                bits per pixel (default: 2)
+-max_palettes       maximum number of palettes allowed (default: 2)
+-pack_mode          gb, sgb or sms (default:GB)
+-tile_origin        tile index offset for maps (instead of zero)
 ```
