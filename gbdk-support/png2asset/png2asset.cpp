@@ -388,7 +388,7 @@ int main(int argc, char *argv[])
 		printf("-noflip             disable tile flip\n");
 		printf("-map                Export as map (tileset + bg)\n");
 		printf("-use_map_attributes Use CGB BG Map attributes (default: palettes are stored for each tile in a separate array)\n");
-		printf("-use_structs        Group the exported info into structs (default: false)\n");
+		printf("-use_structs        Group the exported info into structs (default: false) (used by ZGB Game Engine)\n");
 		printf("-bpp                bits per pixel (default: 2)\n");
 		printf("-max_palettes       maximum number of palettes allowed (default: 2)\n");
 		printf("-pack_mode          gb, sgb or sms (default:GB)\n");
