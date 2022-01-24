@@ -37,9 +37,10 @@
 	;;   GameBoy, this is a safe bet!
 
 	.area	_DATA
-.randhi::			; Storage for last random number (or seed)
+___rand_seed::
+.randlo:		; Storage for last random number (or seed)
 	.ds	0x01
-.randlo::
+.randhi:
 	.ds	0x01
 
 	.area	_HOME

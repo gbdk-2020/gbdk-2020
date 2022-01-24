@@ -2,6 +2,7 @@
 
         .area   _DATA
 
+___rand_seed::
 .randval:
         .ds     0x02
 
