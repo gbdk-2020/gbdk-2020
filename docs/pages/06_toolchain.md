@@ -180,9 +180,10 @@ Checks .ihx files produced by @ref sdldgb for correctness.
 ## makebin
 IHX to ROM converter
 
-For detailed settings see @ref makebin-settings
+- For detailed settings see @ref makebin-settings
+- For makebin `-yt` MBC values see @ref setting_mbc_and_rom_ram_banks
 
-Converts .ihx files produced by @ref sdldgb into ROM files (.gb, .gbc).
+Converts .ihx files produced by @ref sdldgb into ROM files (.gb, .gbc). Also used for setting some ROM header data.
 - Arguments can be passed to it through @ref lcc using `-Wm-<argument>`
 
 

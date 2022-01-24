@@ -386,6 +386,7 @@ Example: "ihx_check build/MyProject.ihx"
 ```
 @anchor makebin-settings
 # makebin settings
+Also see @ref setting_mbc_and_rom_ram_banks
 ```
 makebin: convert a Intel IHX file to binary or GameBoy format binary.
 Usage: makebin [options] [<in_file> [<out_file>]]
