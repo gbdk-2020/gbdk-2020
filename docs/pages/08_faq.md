@@ -19,7 +19,7 @@
       - `-yC` : GameBoy Color only
       - `-ys` : Super GameBoy compatible <!-- -->  
 
-  - How do I set the ROM @ref MBC type?
+  - How do I set the ROM @ref MBC type, and what MBC values are available to use with the `-yt` @ref makebin flag?
     - See @ref setting_mbc_and_rom_ram_banks <!-- -->  
 
 # Errors / Compiling / Toolchain

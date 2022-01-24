@@ -53,8 +53,12 @@ At the link stage this is done with @ref lcc using pass-through switches for @re
     - `-Wl-yoA` may be used for automatic bank size.
   - `-Wl-ya<N>` where `<N>` is the number of RAM banks. 2, 4, 8, 16, 32
   - `-Wl-yt<N>` where `<N>` is the type of MBC cartridge (see below).
+    - Example: `Wl-yt0x1A`
 
-The following MBC settings are available when using the makebin MBC switch.
+The MBC settings below are available when using the makebin MBC switch.
+
+Additional details available at [Pandocs](https://gbdev.io/pandocs/The_Cartridge_Header.html#0147---cartridge-type "Pandocs")
+
 ```
 # From Makebin source:
 #

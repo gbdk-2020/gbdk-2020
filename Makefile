@@ -376,6 +376,7 @@ ifneq (,$(wildcard $(BUILDDIR)/bin/))
 # makebin
 	echo \@anchor makebin-settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \# makebin settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo Also see \@ref setting_mbc_and_rom_ram_banks >> $(TOOLCHAIN_DOCS_FILE);
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 	$(BUILDDIR)/bin/makebin -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
