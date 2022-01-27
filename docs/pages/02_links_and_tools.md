@@ -42,6 +42,11 @@ This is a brief list of useful tools and information. It is not meant to be comp
 
 @anchor links_gbdk_tutorials
 # Tutorials
+  - @anchor tutorials_larolds
+    __Larold's Jubilant Junkyard  Tutorials__      
+    Several walk throughs about the fundamentals of developing for the Game Boy with GBDK-2020. There are simple examples with source code.
+    https://laroldsjubilantjunkyard.com/tutorials/
+
   - @anchor tutorials_gamingmonsters
     __Gaming Monsters Tutorials__  
     Several video tutorials and code for making games with GBDK/GBDK-2020.  
@@ -92,8 +97,8 @@ This is a brief list of useful tools and information. It is not meant to be comp
 
 
   - @anchor hUGEdriver
-    __hUGEdriver__  
-    A tracker and music driver that works with GBDK and RGBDS.
+    __hUGEtracker__ and __hUGEdriver__  
+    A tracker and music driver that work with GBDK and RGBDS.
     It is smaller, more efficient and more versatile than gbt_player.  
     https://github.com/untoxa/hUGEBuild  
     https://github.com/SuperDisk/hUGEDriver  
