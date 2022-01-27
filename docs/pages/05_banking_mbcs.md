@@ -181,8 +181,8 @@ The global variable @ref _current_bank is updated automatically when calling @re
 
 
 
-# Auto-Banking
 @anchor rom_autobanking
+# Auto-Banking
 A ROM bank auto-assignment feature was added in GBDK 2020 4.0.2.
 
 Instead of having to manually specify which bank a source file will reside it, the banks can be assigned automatically to make the best use of space. The bank assignment operates on object files, after compiling/assembling and before linking.
