@@ -5,7 +5,14 @@
 # General
   - How can sound effects be made?
     - The simplest way is to use the Game Boy sound hardware directly. See the @ref examples_sound_sample "Sound Example" for a way to test out sounds on the hardware.
-    - Further discussion on using the Sound Example rom can be found in the ZGB wiki. Note that some example code there is ZGB specific and not part of the base GBDK API: https://github.com/Zal0/ZGB/wiki/Sounds <!-- -->  
+    - Further discussion on using the Sound Example rom can be found in the ZGB wiki. Note that some example code there is ZGB specific and not part of the base GBDK API: https://github.com/Zal0/ZGB/wiki/Sounds <!-- -->
+
+# Graphics and Resources
+  - How do I use a tile map when it's tiles don't start at index zero?
+    - The two main options are:
+      - Use @ref set_bkg_based_tiles(), @ref set_bkg_based_submap(), @ref set_win_based_tiles(), @ref set_win_based_submap() and provide a tile origin offset.
+      - Use @ref utility_png2asset with `-tile_origin` to create a map with the tile index offsets built in.
+      <!-- -->  
 
 # ROM Header Settings
   - How do I set the ROM's title?
