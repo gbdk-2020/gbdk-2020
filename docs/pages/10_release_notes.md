@@ -41,11 +41,14 @@ https://github.com/gbdk-2020/gbdk-2020/releases
       - Fixed incorrect `TILE_COUNT` value when not `-using_structs`
     - @ref lcc
       - Changed @ref makebin flags to turn off Nintendo logo copy for GB/CGB (use version in crt instead)
+      - Fixed lcc handling of makebin `-x*` arguments
   - Examples
     - Added logo example (cross-platform)
     - Added @ref ISR_VECTOR example of a raw ISR vector with no dispatcher for GB/CGB
     - Changed sgb_border example to use png2asset for graphics
     - Changed use of set_interrupts() in examples so it's outside critical sections (since it disables/enables interrupts)
+    - Changed cross-platform auto-banks example to use .h header files
+    - Changed SGB border example to also work with SGB on PAL SNES
 
 ## GBDK 2020 4.0.5
   2021/09
