@@ -29,6 +29,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
     - Fixed random number generation for SMS/GG
     - Fixed letter `U` appearing as `K` for min font
     - Fixed define name in crash_handler.h
+    - Exposed @ref __rand_seed
   - Toolchain / Utilities
     - @ref utility_png2asset "png2asset"
       - Added SMS/GG graphics format support
