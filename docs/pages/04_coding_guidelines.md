@@ -182,7 +182,7 @@ For example:
     printf("%hx %hx", (unsigned char)i, (unsigned char)i);
 
 Some functions that accept varargs:
- - @ref BGB_printf, @ref gprintf(), @ref printf(), @ref sprintf()
+ - @ref EMU_printf, @ref gprintf(), @ref printf(), @ref sprintf()
 
 Also See:
  - Other cases of char to int promotion: http://sdcc.sourceforge.net/doc/sdccman.pdf#chapter.6

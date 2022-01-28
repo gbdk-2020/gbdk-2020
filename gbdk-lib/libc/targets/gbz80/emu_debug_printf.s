@@ -1,7 +1,7 @@
         .include "global.s"
 
-        .title  "BGB_emu"
-        .module BGB_emu
+        .title  "EMU_debug"
+        .module EMU_debug
 
         .globl  _sprintf
 
@@ -14,8 +14,8 @@ printf_buffer:
 
         .area   _HOME
     
-        ;; BGB_printf(fmt, ...)
-_BGB_printf::
+        ;; EMU_printf(fmt, ...)
+_EMU_printf::
         di
         pop de
         ld hl, #ret_save
