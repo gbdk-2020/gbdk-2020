@@ -20,8 +20,9 @@
     particularly if read at some variable point in time (such
     as when the player presses a button).
 
-    Only needs to be called once to initialize, buy may be called
+    Only needs to be called once to initialize, but may be called
     again to re-initialize with the same or a different seed.
+
     @see rand(), randw()
 */
 #if defined(__PORT_gbz80)
@@ -32,6 +33,19 @@ void initrand(uint16_t seed) Z88DK_FASTCALL;
 
 #define RAND_MAX 255
 #define RANDW_MAX 65535
+
+/** The random number seed is stored in __rand_seed and can be
+    saved and restored if needed.
+
+    \code{.c}
+    // Save
+    some_uint16 = __rand_seed;
+    ...
+    // Restore
+    __rand_seed = some_uint16;
+    \endcode
+*/
+extern uint16_t __rand_seed;
 
 /** Returns a random byte (8 bit) value.
 
