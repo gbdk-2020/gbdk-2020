@@ -457,8 +457,8 @@ usage: png2asset    <file>.png [options]
 -noflip             disable tile flip
 -map                Export as map (tileset + bg)
 -use_map_attributes Use CGB BG Map attributes (default: palettes are stored for each tile in a separate array)
--use_structs        Group the exported info into structs (default: false)
--bpp                bits per pixel (default: 2)
+-use_structs        Group the exported info into structs (default: false) (used by ZGB Game Engine)
+-bpp                bits per pixel: 2, 4 (default: 2)
 -max_palettes       maximum number of palettes allowed (default: 2)
 -pack_mode          gb, sgb or sms (default:GB)
 -tile_origin        tile index offset for maps (instead of zero)
