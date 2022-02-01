@@ -118,6 +118,11 @@ GBDK includes an number of cross platform example projects. These projects show 
 
 They also show how to build for multiple target consoles with a single build command and `Makefile`. The `Makefile.targets` allows selecting different `port` and `plat` settings when calling the build stages.
 
+## Cross Platform Asset Example
+The cross-platform `Logo` example project shows how assets can be managed for multiple different console targets together.
+
+In the example @ref utility_png2asset is used to generate assets in the native format for each console at compile-time from separate source PNG images. The Makefile is set to use the source PNG folder which matches the current console being compiled, and the source code uses @ref set_native_tile_data() to load the assets tiles in native format.
+
 
 # Porting From Game Boy to Analogue Pocket
 The Analogue Pocket is (for practical purposes) functionally identical to the Game Boy / Color, but has a couple altered register flag and address definitions and a different boot logo. In order for software to be easily ported to the Analogue Pocket, or to run on both, use the following practices.

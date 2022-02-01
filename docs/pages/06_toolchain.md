@@ -208,6 +208,7 @@ Tool for converting PNGs into GBDK format MetaSprites and Tile Maps
 
 - Convert single or multiple frames of graphics into metasprite structured data for use with the ...metasprite...() functions.
 - When `-map` is used, converts images into Tile Maps and matching Tile Sets
+- Supports Game Boy 2bpp, GBC 4bpp, SGB 4bpp, and SMS/GG 4bpp
 
 For detailed settings see @ref png2asset-settings  
 For working with sprite properties (including cgb palettes), see @ref metasprite_and_sprite_properties  
@@ -262,3 +263,14 @@ By default the png will be converted to metasprites. The image will be subdivide
     - x offset
     - flags, containing the mirror info, the palettes for both DMG and GBC and the sprite priority
   - The metasprites array
+
+
+#### Super Game Boy Borders (SGB)
+Screen border assets for the Super Game Boy can be generated using png2asset.
+
+The following flags should be used to perform the conversion:
+  - `<input_border_file.png> -map -bpp 4 -max_palettes 4 -pack_mode sgb -use_map_attributes -c <output_border_data.c>`
+  - Where `<input_border_file.png>` is the image of the SGB border (256x224) and `<output_border_data.c>` is the name of the source file to write the assets out to.
+
+
+See the `sgb_border` example project for more details.
