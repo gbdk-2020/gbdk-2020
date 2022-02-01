@@ -100,7 +100,7 @@ Check out the links for @ref links_help_and_community "online community and supp
 
 
 # Migrating From Pre-GBDK-2020 Tutorials
-Several popular GBDK Tutorials, Videos and How-to's were made before GBDK-2020 was available. As a result some information they include is outdated or incompatible. The following summarizes changes that should be made for best results.
+Several popular GBDK Tutorials, Videos and How-to's were made before GBDK-2020 was available, as a result some information they include is outdated or incompatible. The following summarizes changes that should be made for best results.
 
 ## Also see: 
 - @ref docs_migrating_versions

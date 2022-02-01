@@ -52,6 +52,9 @@ https://github.com/gbdk-2020/gbdk-2020/releases
     - Changed use of set_interrupts() in examples so it's outside critical sections (since it disables/enables interrupts)
     - Changed cross-platform auto-banks example to use .h header files
     - Changed SGB border example to also work with SGB on PAL SNES
+  - Docs
+    - Added new section: Migrating From Pre-GBDK-2020 Tutorials
+
 
 ## GBDK 2020 4.0.5
   2021/09
