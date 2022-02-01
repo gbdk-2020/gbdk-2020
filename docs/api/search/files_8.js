@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['gb_2eh_1107',['gb.h',['../gb_8h.html',1,'']]],
-  ['gbdecompress_2eh_1108',['gbdecompress.h',['../gb_2gbdecompress_8h.html',1,'(Global Namespace)'],['../gbdk_2gbdecompress_8h.html',1,'(Global Namespace)'],['../sms_2gbdecompress_8h.html',1,'(Global Namespace)']]],
-  ['gbdk_2dlib_2eh_1109',['gbdk-lib.h',['../gbdk-lib_8h.html',1,'']]]
+  ['far_5fptr_2eh_1139',['far_ptr.h',['../far__ptr_8h.html',1,'']]],
+  ['font_2eh_1140',['font.h',['../font_8h.html',1,'']]]
 ];

@@ -1,0 +1,108 @@
+Follow the steps in this section to start using G\+B\+D\+K-\/2020.\hypertarget{docs_getting_started_autotoc_md6}{}\doxysubsection{1. Download a Release and unzip it}\label{docs_getting_started_autotoc_md6}
+You can get the latest releases from here\+: \href{https://github.com/gbdk-2020/gbdk-2020/releases}{\texttt{ https\+://github.\+com/gbdk-\/2020/gbdk-\/2020/releases}}\hypertarget{docs_getting_started_autotoc_md7}{}\doxysubsection{2. Compile Example projects}\label{docs_getting_started_autotoc_md7}
+Make sure your G\+B\+D\+K-\/2020 installation is working correctly by compiling some of the included \mbox{\hyperlink{docs_example_programs}{example projects}}.
+
+If everything in works in the steps below and there are no errors reported then each project that was build should have it\textquotesingle{}s on .gb R\+OM file (or suitable extension for the other supported targets).\hypertarget{docs_getting_started_autotoc_md8}{}\doxysubsubsection{Windows (without Make installed)\+:}\label{docs_getting_started_autotoc_md8}
+Navigate to a project within the example projects folder ({\ttfamily \char`\"{}examples\textbackslash{}gb\textbackslash{}\char`\"{}} under your G\+B\+D\+K-\/2020 install folder) and open a command line. Then type\+: \begin{DoxyVerb}compile
+\end{DoxyVerb}
+
+
+or \begin{DoxyVerb}compile.bat
+\end{DoxyVerb}
+
+
+This should build the example project. You can also navigate into other example project folders and build in the same way.\hypertarget{docs_getting_started_autotoc_md9}{}\doxysubsubsection{Linux / Mac\+O\+S / Windows with Make installed\+:}\label{docs_getting_started_autotoc_md9}
+Navigate to the example projects folder ({\ttfamily \char`\"{}examples/gb/\char`\"{}} under your G\+B\+D\+K-\/2020 install folder) and open a command line. Then type\+: \begin{DoxyVerb}make
+\end{DoxyVerb}
+
+
+This should build all of the examples sequentially. You can also navigate into an individual example project\textquotesingle{}s folder and build it by typing {\ttfamily make}.\hypertarget{docs_getting_started_autotoc_md10}{}\doxysubsection{3. Use a Template}\label{docs_getting_started_autotoc_md10}
+{\bfseries{To create a new project use a template!}}
+
+There are template projects included in the \mbox{\hyperlink{docs_example_programs}{G\+B\+DK example projects}} to help you get up and running. Their folder names start with {\ttfamily template\+\_\+}.
+
+
+\begin{DoxyEnumerate}
+\item Copy one of the template folders to a new folder name
+\item If you moved the folder out of the G\+B\+DK examples then you {\bfseries{must}} update the {\ttfamily G\+B\+DK} path variable and/or the path to {\ttfamily L\+CC} in the {\ttfamily Makefile} or {\ttfamily compile.\+bat} so that it will still build correctly.
+\item Type {\ttfamily make} on the command line in that folder to verify it still builds.
+\item Open main.\+c to start making changes.
+\end{DoxyEnumerate}\hypertarget{docs_getting_started_autotoc_md11}{}\doxysubsection{4. If you use G\+B\+T\+D / G\+B\+M\+B, get the fixed version}\label{docs_getting_started_autotoc_md11}
+If you plan to use G\+B\+TD / G\+B\+MB for making graphics, make sure to get the version with the {\ttfamily const} fix and other improvements. See \mbox{\hyperlink{docs_coding_guidelines_const_gbtd_gbmb}{const\+\_\+gbtd\+\_\+gbmb}}.\hypertarget{docs_getting_started_autotoc_md12}{}\doxysubsection{5. Review Coding Guidelines}\label{docs_getting_started_autotoc_md12}
+Take a look at the \mbox{\hyperlink{docs_coding_guidelines}{coding guidelines}}, even if you have experience writing software for other platforms. There is important information to help you get good results and performance on the Game Boy.
+
+If you haven\textquotesingle{}t written programs in C before, check the \mbox{\hyperlink{docs_coding_guidelines_docs_c_tutorials}{C tutorials section}}.\hypertarget{docs_getting_started_autotoc_md13}{}\doxysubsection{6. Hardware and Resources}\label{docs_getting_started_autotoc_md13}
+If you have a specific project in mind, consider what hardware want to target. It isn\textquotesingle{}t something that has to be decided up front, but it can influence design and implementation.
+
+What size will your game or program be?
+\begin{DoxyItemize}
+\item 32K Cart (no-\/\+M\+BC required)
+\item Larger than 32K (M\+BC required)
+\item See more details about \mbox{\hyperlink{docs_rombanking_mbcs}{R\+OM Banking and M\+B\+Cs}}.
+\end{DoxyItemize}
+
+What console platform(s) will it run on?
+\begin{DoxyItemize}
+\item Game Boy (G\+B/\+G\+BC)
+\item Analogue Pocket (AP)
+\item Sega Master System (S\+MS)
+\item Game Gear (GG)
+\item Mega Duck (D\+U\+CK)
+\item See \mbox{\hyperlink{docs_supported_consoles}{Supported Consoles \& Cross Compiling}}
+\end{DoxyItemize}
+
+If targeting the Game Boy, what hardware will it run on?
+\begin{DoxyItemize}
+\item Game Boy (\& Game Boy Color)
+\item Game Boy Color only
+\item Game Boy \& Super Game Boy
+\item See how to \mbox{\hyperlink{docs_faq_faq_gb_type_header_setting}{set the compatibility type in the cartridge header}}. Read more about hardware differences in the \mbox{\hyperlink{docs_links_and_tools_Pandocs}{Pandocs}}
+\end{DoxyItemize}\hypertarget{docs_getting_started_autotoc_md14}{}\doxysubsection{7. Set up C Source debugging}\label{docs_getting_started_autotoc_md14}
+Tracking down problems in code is easier with a debugger. Emulicious has a \mbox{\hyperlink{docs_links_and_tools_Emulicious_debug}{debug adapter}} that provides C source debugging with G\+B\+D\+K-\/2020.\hypertarget{docs_getting_started_autotoc_md15}{}\doxysubsection{8. Try a G\+B\+D\+K Tutorial}\label{docs_getting_started_autotoc_md15}
+You might want to start off with a guided G\+B\+DK tutorial from the \mbox{\hyperlink{docs_links_and_tools_links_gbdk_tutorials}{G\+B\+DK Tutorials section}}.
+
+
+\begin{DoxyItemize}
+\item {\bfseries{Note\+:}} Tutorials (or parts of them) may be based on the older G\+B\+DK from the 2000\textquotesingle{}s before it was updated to be G\+B\+D\+K-\/2020. The general principals are all the same, but the setup and parts of the \mbox{\hyperlink{docs_toolchain}{toolchain}} (compiler/etc) may be somewhat different and some links may be outdated (pointing to the old G\+B\+DK or old tools).
+\end{DoxyItemize}\hypertarget{docs_getting_started_autotoc_md16}{}\doxysubsection{9. Read up!}\label{docs_getting_started_autotoc_md16}
+
+\begin{DoxyItemize}
+\item It is strongly encouraged to read more \mbox{\hyperlink{index_docs_index}{G\+B\+D\+K-\/2020 General Documentation}}.
+\item Learn about the Game Boy hardware by reading through the \mbox{\hyperlink{docs_links_and_tools_Pandocs}{Pandocs}} technical reference.
+\end{DoxyItemize}\hypertarget{docs_getting_started_autotoc_md17}{}\doxysubsection{10. Need help?}\label{docs_getting_started_autotoc_md17}
+Check out the links for \mbox{\hyperlink{docs_links_and_tools_links_help_and_community}{online community and support}} and read the \mbox{\hyperlink{docs_faq}{F\+AQ}}.\hypertarget{docs_getting_started_autotoc_md18}{}\doxysubsection{Migrating From Pre-\/\+G\+B\+D\+K-\/2020 Tutorials}\label{docs_getting_started_autotoc_md18}
+Several popular G\+B\+DK Tutorials, Videos and How-\/to\textquotesingle{}s were made before G\+B\+D\+K-\/2020 was available, as a result some information they include is outdated or incompatible. The following summarizes changes that should be made for best results.\hypertarget{docs_getting_started_autotoc_md19}{}\doxysubsubsection{Also see\+:}\label{docs_getting_started_autotoc_md19}
+
+\begin{DoxyItemize}
+\item \mbox{\hyperlink{docs_migrating_versions}{Migrating to new G\+B\+DK Versions}}
+\item \mbox{\hyperlink{docs_coding_guidelines}{Coding Guidelines}}
+\item \mbox{\hyperlink{docs_getting_started}{Getting Started}} (the section above this)
+\end{DoxyItemize}\hypertarget{docs_getting_started_autotoc_md20}{}\doxysubsubsection{Use auto-\/banking}\label{docs_getting_started_autotoc_md20}
+G\+B\+D\+K-\/2020 now supports auto-\/banking (\mbox{\hyperlink{docs_rombanking_mbcs_rom_autobanking}{rom\+\_\+autobanking}}). In most cases using auto-\/banking will be easier and less error prone than manually assigning source and assets to banks.
+\begin{DoxyItemize}
+\item There is a source example {\ttfamily banks\+\_\+autobank} project.
+\end{DoxyItemize}\hypertarget{docs_getting_started_autotoc_md21}{}\doxysubsubsection{Non-\/standard types (\+U\+I\+N\+T8, etc)}\label{docs_getting_started_autotoc_md21}
+The old G\+B\+DK types {\ttfamily U\+I\+N\+T8}, {\ttfamily I\+N\+T8}, {\ttfamily U\+I\+N\+T16}, {\ttfamily I\+N\+T16} are non-\/standard and less portable.
+
+The following should be used instead\+: {\ttfamily uint8\+\_\+t}, {\ttfamily int16\+\_\+t}, {\ttfamily uint16\+\_\+t}, {\ttfamily int32\+\_\+t}, {\ttfamily uint32\+\_\+t} and {\ttfamily bool}.
+
+These are standard types defined in {\ttfamily stdint.\+h} ({\ttfamily \#include $<$stdint.\+h$>$}) and {\ttfamily stdbool.\+h} ({\ttfamily \#include $<$stdbool.\+h$>$}).\hypertarget{docs_getting_started_autotoc_md22}{}\doxysubsubsection{If using G\+B\+T\+D / G\+B\+M\+B, get the fixed version}\label{docs_getting_started_autotoc_md22}
+If you plan to use G\+B\+TD / G\+B\+MB for making graphics, make sure to get the version with the {\ttfamily const} fix and other improvements. See \mbox{\hyperlink{docs_coding_guidelines_const_gbtd_gbmb}{const\+\_\+gbtd\+\_\+gbmb}}.\hypertarget{docs_getting_started_autotoc_md23}{}\doxysubsubsection{L\+C\+C and S\+D\+C\+C flags that are not needed}\label{docs_getting_started_autotoc_md23}
+The following flag is no longer needed with \mbox{\hyperlink{docs_toolchain_lcc}{lcc}} and \mbox{\hyperlink{docs_toolchain_sdcc}{sdcc}}, it can be removed without any loss of performance.
+\begin{DoxyItemize}
+\item {\ttfamily -\/D\+U\+S\+E\+\_\+\+S\+FR}
+\begin{DoxyItemize}
+\item Behavior formerly enabled by U\+S\+E\+\_\+\+S\+F\+R\+\_\+\+F\+O\+R\+\_\+\+R\+EG is on by default now (no need to specify it, it isn\textquotesingle{}t a tested {\ttfamily \#ifdef} anymore). check here why\+: \href{https://gbdev.gg8.se/forums/viewtopic.php?id=697}{\texttt{ https\+://gbdev.\+gg8.\+se/forums/viewtopic.\+php?id=697}}
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{docs_getting_started_autotoc_md24}{}\doxysubsubsection{R\+O\+M Header Settings (such as Color, S\+G\+B, etc)}\label{docs_getting_started_autotoc_md24}
+Setting R\+OM bytes directly with {\ttfamily -\/Wl-\/yp0x$<$address$>$=0x$<$value$>$} is no longer supported. Instead use \mbox{\hyperlink{docs_toolchain_makebin}{makebin}} flags. For example, use {\ttfamily -\/Wm-\/yC} instead of {\ttfamily -\/Wl-\/yp0x143=0x\+C0}. See \mbox{\hyperlink{docs_faq_faq_gb_type_header_setting}{faq\+\_\+gb\+\_\+type\+\_\+header\+\_\+setting}}.\hypertarget{docs_getting_started_autotoc_md25}{}\doxysubsubsection{G\+B\+D\+K Header include changes}\label{docs_getting_started_autotoc_md25}
+The following header files which are now cross platform were moved from {\ttfamily gb/} to {\ttfamily gbdk/}\+: {\ttfamily bcd.\+h}, {\ttfamily console.\+h}, {\ttfamily far\+\_\+ptr.\+h}, {\ttfamily font.\+h}, {\ttfamily gbdecompress.\+h}, {\ttfamily gbdk-\/lib.\+h}, {\ttfamily incbin.\+h}, {\ttfamily metasprites.\+h}, {\ttfamily platform.\+h}, {\ttfamily version.\+h}
+\begin{DoxyItemize}
+\item When including them use {\ttfamily \#include $<$gbdk/...$>$} instead of {\ttfamily \#include $<$gb/$>$}
+\end{DoxyItemize}\hypertarget{docs_getting_started_autotoc_md26}{}\doxysubsubsection{Include .\+h headers, not .\+c source files}\label{docs_getting_started_autotoc_md26}
+Do not {\ttfamily \#include} {\ttfamily .c} source files into other {\ttfamily .c} source files. Instead create {\ttfamily .h} header files for them and include those.
+\begin{DoxyItemize}
+\item \href{https://www.tutorialspoint.com/cprogramming/c_header_files.htm}{\texttt{ https\+://www.\+tutorialspoint.\+com/cprogramming/c\+\_\+header\+\_\+files.\+htm}}
+\end{DoxyItemize}\hypertarget{docs_getting_started_autotoc_md27}{}\doxysubsubsection{Use the Template Projects}\label{docs_getting_started_autotoc_md27}
+Modern project templates are included with G\+B\+D\+K-\/2020. Using them (and their Makefile or compile.\+bat) as a starting point for projects is recommended and can help ensure better default settings and project organization.\hypertarget{docs_getting_started_autotoc_md28}{}\doxysubsubsection{Use h\+U\+G\+Etracker instead of gbt\+\_\+player}\label{docs_getting_started_autotoc_md28}
+h\+U\+G\+Etracker and it\textquotesingle{}s driver \mbox{\hyperlink{docs_links_and_tools_hUGEdriver}{h\+U\+G\+Edriver}} are smaller, more efficient and more versatile than gbt\+\_\+player. 

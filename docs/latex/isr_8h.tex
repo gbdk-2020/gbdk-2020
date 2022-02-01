@@ -1,0 +1,134 @@
+\hypertarget{isr_8h}{}\doxysubsection{gb/isr.h File Reference}
+\label{isr_8h}\index{gb/isr.h@{gb/isr.h}}
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include $<$types.\+h$>$}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structisr__vector__t}{isr\+\_\+vector\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structisr__nested__vector__t}{isr\+\_\+nested\+\_\+vector\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{isr_8h_a2cf2cba8468992868fe1f6b6448ffae2}{V\+E\+C\+T\+O\+R\+\_\+\+S\+T\+AT}}~0x48
+\item 
+\#define \mbox{\hyperlink{isr_8h_a84ca82d76186433c1ec77fde7652b827}{V\+E\+C\+T\+O\+R\+\_\+\+T\+I\+M\+ER}}~0x50
+\item 
+\#define \mbox{\hyperlink{isr_8h_a9c51a56a79576c33fcc98579bf7153a1}{V\+E\+C\+T\+O\+R\+\_\+\+S\+E\+R\+I\+AL}}~0x58
+\item 
+\#define \mbox{\hyperlink{isr_8h_ac93f10ff354ca76f4030f64a8496303f}{V\+E\+C\+T\+O\+R\+\_\+\+J\+O\+Y\+P\+AD}}~0x60
+\item 
+\#define \mbox{\hyperlink{isr_8h_a73769fed9338af86fdb7df35d7b82620}{I\+S\+R\+\_\+\+V\+E\+C\+T\+OR}}(A\+D\+DR,  F\+U\+NC)~static const \mbox{\hyperlink{structisr__vector__t}{isr\+\_\+vector\+\_\+t}} \mbox{\hyperlink{asm_2types_8h_a66d3e9555a86fa871932c5f60834c67e}{AT}}((A\+D\+DR)) \+\_\+\+\_\+\+I\+S\+R\+\_\+ \#\# A\+D\+DR = \{0xc3, (void $\ast$)\&(F\+U\+NC)\};
+\item 
+\#define \mbox{\hyperlink{isr_8h_a78f9ef588aaf221023e48899898d566b}{I\+S\+R\+\_\+\+N\+E\+S\+T\+E\+D\+\_\+\+V\+E\+C\+T\+OR}}(A\+D\+DR,  F\+U\+NC)~static const \mbox{\hyperlink{structisr__nested__vector__t}{isr\+\_\+nested\+\_\+vector\+\_\+t}} \mbox{\hyperlink{asm_2types_8h_a66d3e9555a86fa871932c5f60834c67e}{AT}}((A\+D\+DR)) \+\_\+\+\_\+\+I\+S\+R\+\_\+ \#\# A\+D\+DR = \{\{0xfb, 0xc3\}, (void $\ast$)\&(F\+U\+NC)\};
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structisr__vector__t}{isr\+\_\+vector\+\_\+t}} \mbox{\hyperlink{isr_8h_a40dca48ca391581d7f67d8697533cf30}{isr\+\_\+vector\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structisr__nested__vector__t}{isr\+\_\+nested\+\_\+vector\+\_\+t}} \mbox{\hyperlink{isr_8h_a99e64ac886740db0eb63d8ed0235b5c7}{isr\+\_\+nested\+\_\+vector\+\_\+t}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Detailed Description}
+Macros for creating raw interrupt service routines (I\+S\+Rs) which do not use the default G\+B\+DK I\+SR dispatcher.
+
+Handlers installed this way will have less overhead than ones which use the G\+B\+DK I\+SR dispatcher. 
+
+\doxysubsubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{isr_8h_a2cf2cba8468992868fe1f6b6448ffae2}\label{isr_8h_a2cf2cba8468992868fe1f6b6448ffae2}} 
+\index{isr.h@{isr.h}!VECTOR\_STAT@{VECTOR\_STAT}}
+\index{VECTOR\_STAT@{VECTOR\_STAT}!isr.h@{isr.h}}
+\doxyparagraph{\texorpdfstring{VECTOR\_STAT}{VECTOR\_STAT}}
+{\footnotesize\ttfamily \#define V\+E\+C\+T\+O\+R\+\_\+\+S\+T\+AT~0x48}
+
+Address for the S\+T\+AT interrupt vector \mbox{\Hypertarget{isr_8h_a84ca82d76186433c1ec77fde7652b827}\label{isr_8h_a84ca82d76186433c1ec77fde7652b827}} 
+\index{isr.h@{isr.h}!VECTOR\_TIMER@{VECTOR\_TIMER}}
+\index{VECTOR\_TIMER@{VECTOR\_TIMER}!isr.h@{isr.h}}
+\doxyparagraph{\texorpdfstring{VECTOR\_TIMER}{VECTOR\_TIMER}}
+{\footnotesize\ttfamily \#define V\+E\+C\+T\+O\+R\+\_\+\+T\+I\+M\+ER~0x50}
+
+Address for the T\+I\+M\+ER interrupt vector \mbox{\Hypertarget{isr_8h_a9c51a56a79576c33fcc98579bf7153a1}\label{isr_8h_a9c51a56a79576c33fcc98579bf7153a1}} 
+\index{isr.h@{isr.h}!VECTOR\_SERIAL@{VECTOR\_SERIAL}}
+\index{VECTOR\_SERIAL@{VECTOR\_SERIAL}!isr.h@{isr.h}}
+\doxyparagraph{\texorpdfstring{VECTOR\_SERIAL}{VECTOR\_SERIAL}}
+{\footnotesize\ttfamily \#define V\+E\+C\+T\+O\+R\+\_\+\+S\+E\+R\+I\+AL~0x58}
+
+Address for the S\+E\+R\+I\+AL interrupt vector \mbox{\Hypertarget{isr_8h_ac93f10ff354ca76f4030f64a8496303f}\label{isr_8h_ac93f10ff354ca76f4030f64a8496303f}} 
+\index{isr.h@{isr.h}!VECTOR\_JOYPAD@{VECTOR\_JOYPAD}}
+\index{VECTOR\_JOYPAD@{VECTOR\_JOYPAD}!isr.h@{isr.h}}
+\doxyparagraph{\texorpdfstring{VECTOR\_JOYPAD}{VECTOR\_JOYPAD}}
+{\footnotesize\ttfamily \#define V\+E\+C\+T\+O\+R\+\_\+\+J\+O\+Y\+P\+AD~0x60}
+
+Address for the J\+O\+Y\+P\+AD interrupt vector \mbox{\Hypertarget{isr_8h_a73769fed9338af86fdb7df35d7b82620}\label{isr_8h_a73769fed9338af86fdb7df35d7b82620}} 
+\index{isr.h@{isr.h}!ISR\_VECTOR@{ISR\_VECTOR}}
+\index{ISR\_VECTOR@{ISR\_VECTOR}!isr.h@{isr.h}}
+\doxyparagraph{\texorpdfstring{ISR\_VECTOR}{ISR\_VECTOR}}
+{\footnotesize\ttfamily \#define I\+S\+R\+\_\+\+V\+E\+C\+T\+OR(\begin{DoxyParamCaption}\item[{}]{A\+D\+DR,  }\item[{}]{F\+U\+NC }\end{DoxyParamCaption})~static const \mbox{\hyperlink{structisr__vector__t}{isr\+\_\+vector\+\_\+t}} \mbox{\hyperlink{asm_2types_8h_a66d3e9555a86fa871932c5f60834c67e}{AT}}((A\+D\+DR)) \+\_\+\+\_\+\+I\+S\+R\+\_\+ \#\# A\+D\+DR = \{0xc3, (void $\ast$)\&(F\+U\+NC)\};}
+
+Creates an interrupt vector at the given address for a raw interrupt service routine (which does not use the G\+B\+DK I\+SR dispatcher)
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\+D\+DR} & Address of the interrupt vector, any of\+: \mbox{\hyperlink{isr_8h_a2cf2cba8468992868fe1f6b6448ffae2}{V\+E\+C\+T\+O\+R\+\_\+\+S\+T\+AT}}, \mbox{\hyperlink{isr_8h_a84ca82d76186433c1ec77fde7652b827}{V\+E\+C\+T\+O\+R\+\_\+\+T\+I\+M\+ER}}, \mbox{\hyperlink{isr_8h_a9c51a56a79576c33fcc98579bf7153a1}{V\+E\+C\+T\+O\+R\+\_\+\+S\+E\+R\+I\+AL}}, \mbox{\hyperlink{isr_8h_ac93f10ff354ca76f4030f64a8496303f}{V\+E\+C\+T\+O\+R\+\_\+\+J\+O\+Y\+P\+AD}} \\
+\hline
+{\em F\+U\+NC} & I\+SR function supplied by the user\\
+\hline
+\end{DoxyParams}
+This cannot be used with the V\+B\+L\+A\+NK interrupt.
+
+Do not use this in combination with interrupt installers that rely on the default G\+B\+DK I\+SR dispatcher such as \mbox{\hyperlink{gb_8h_a028d1a2e820951bb4f103d6469975ffb}{add\+\_\+\+T\+I\+M()}}, \mbox{\hyperlink{gb_8h_a142f6c7755fce8b1148faf658d8ec147}{remove\+\_\+\+T\+I\+M()}} (and the same for all other interrupts).
+
+Example\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include <\mbox{\hyperlink{isr_8h}{gb/isr.h}}>}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{void} TimerISR() \_\_critical \_\_interrupt \{}
+\DoxyCodeLine{\textcolor{comment}{// some ISR code here}}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{isr_8h_a73769fed9338af86fdb7df35d7b82620}{ISR\_VECTOR}}(\mbox{\hyperlink{isr_8h_a84ca82d76186433c1ec77fde7652b827}{VECTOR\_TIMER}}, TimerISR)}
+\end{DoxyCode}
+
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{isr_8h_a78f9ef588aaf221023e48899898d566b}{I\+S\+R\+\_\+\+N\+E\+S\+T\+E\+D\+\_\+\+V\+E\+C\+T\+OR}}, \mbox{\hyperlink{sms_8h_aefda0091b2934571a11e07b512735f50}{set\+\_\+interrupts}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{isr_8h_a78f9ef588aaf221023e48899898d566b}\label{isr_8h_a78f9ef588aaf221023e48899898d566b}} 
+\index{isr.h@{isr.h}!ISR\_NESTED\_VECTOR@{ISR\_NESTED\_VECTOR}}
+\index{ISR\_NESTED\_VECTOR@{ISR\_NESTED\_VECTOR}!isr.h@{isr.h}}
+\doxyparagraph{\texorpdfstring{ISR\_NESTED\_VECTOR}{ISR\_NESTED\_VECTOR}}
+{\footnotesize\ttfamily \#define I\+S\+R\+\_\+\+N\+E\+S\+T\+E\+D\+\_\+\+V\+E\+C\+T\+OR(\begin{DoxyParamCaption}\item[{}]{A\+D\+DR,  }\item[{}]{F\+U\+NC }\end{DoxyParamCaption})~static const \mbox{\hyperlink{structisr__nested__vector__t}{isr\+\_\+nested\+\_\+vector\+\_\+t}} \mbox{\hyperlink{asm_2types_8h_a66d3e9555a86fa871932c5f60834c67e}{AT}}((A\+D\+DR)) \+\_\+\+\_\+\+I\+S\+R\+\_\+ \#\# A\+D\+DR = \{\{0xfb, 0xc3\}, (void $\ast$)\&(F\+U\+NC)\};}
+
+Creates an interrupt vector at the given address for a raw interrupt service routine allowing nested interrupts
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\+D\+DR} & Address of the interrupt vector, any of\+: \mbox{\hyperlink{isr_8h_a2cf2cba8468992868fe1f6b6448ffae2}{V\+E\+C\+T\+O\+R\+\_\+\+S\+T\+AT}}, \mbox{\hyperlink{isr_8h_a84ca82d76186433c1ec77fde7652b827}{V\+E\+C\+T\+O\+R\+\_\+\+T\+I\+M\+ER}}, \mbox{\hyperlink{isr_8h_a9c51a56a79576c33fcc98579bf7153a1}{V\+E\+C\+T\+O\+R\+\_\+\+S\+E\+R\+I\+AL}}, \mbox{\hyperlink{isr_8h_ac93f10ff354ca76f4030f64a8496303f}{V\+E\+C\+T\+O\+R\+\_\+\+J\+O\+Y\+P\+AD}} \\
+\hline
+{\em F\+U\+NC} & I\+SR function\\
+\hline
+\end{DoxyParams}
+This cannot be used with the V\+B\+L\+A\+NK interrupt
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{isr_8h_a73769fed9338af86fdb7df35d7b82620}{I\+S\+R\+\_\+\+V\+E\+C\+T\+OR}} 
+\end{DoxySeeAlso}
+
+
+\doxysubsubsection{Typedef Documentation}
+\mbox{\Hypertarget{isr_8h_a40dca48ca391581d7f67d8697533cf30}\label{isr_8h_a40dca48ca391581d7f67d8697533cf30}} 
+\index{isr.h@{isr.h}!isr\_vector\_t@{isr\_vector\_t}}
+\index{isr\_vector\_t@{isr\_vector\_t}!isr.h@{isr.h}}
+\doxyparagraph{\texorpdfstring{isr\_vector\_t}{isr\_vector\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structisr__vector__t}{isr\+\_\+vector\+\_\+t}} \mbox{\hyperlink{structisr__vector__t}{isr\+\_\+vector\+\_\+t}}}
+
+\mbox{\Hypertarget{isr_8h_a99e64ac886740db0eb63d8ed0235b5c7}\label{isr_8h_a99e64ac886740db0eb63d8ed0235b5c7}} 
+\index{isr.h@{isr.h}!isr\_nested\_vector\_t@{isr\_nested\_vector\_t}}
+\index{isr\_nested\_vector\_t@{isr\_nested\_vector\_t}!isr.h@{isr.h}}
+\doxyparagraph{\texorpdfstring{isr\_nested\_vector\_t}{isr\_nested\_vector\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structisr__nested__vector__t}{isr\+\_\+nested\+\_\+vector\+\_\+t}} \mbox{\hyperlink{structisr__nested__vector__t}{isr\+\_\+nested\+\_\+vector\+\_\+t}}}
+

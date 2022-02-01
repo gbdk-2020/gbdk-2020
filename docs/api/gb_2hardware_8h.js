@@ -249,6 +249,7 @@ var gb_2hardware_8h =
     [ "NR51_REG", "gb_2hardware_8h.html#ab28f97eabd5f32d48ea27d97bd5dc64f", null ],
     [ "NR52_REG", "gb_2hardware_8h.html#ac429365dce851ca57d8fe4f7c54a1caa", null ],
     [ "AUD3WAVE", "gb_2hardware_8h.html#a2fe41a6e0abb211cc00a8fca90543966", null ],
+    [ "PCM_SAMPLE", "gb_2hardware_8h.html#a271367a0bf840e5422b3a7ed541776f8", null ],
     [ "LCDC_REG", "gb_2hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b", null ],
     [ "STAT_REG", "gb_2hardware_8h.html#ad40ebf3b29add46cdd310a7e0802bc6b", null ],
     [ "SCY_REG", "gb_2hardware_8h.html#a244b162cf13bbcb4fe842d7e298b39c2", null ],

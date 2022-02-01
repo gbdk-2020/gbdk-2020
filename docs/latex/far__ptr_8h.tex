@@ -1,0 +1,194 @@
+\hypertarget{far__ptr_8h}{}\doxysubsection{gbdk/far\+\_\+ptr.h File Reference}
+\label{far__ptr_8h}\index{gbdk/far\_ptr.h@{gbdk/far\_ptr.h}}
+{\ttfamily \#include $<$types.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+union \mbox{\hyperlink{union____far__ptr}{\+\_\+\+\_\+far\+\_\+ptr}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{far__ptr_8h_a0c227677a96f9bf7e84a90922f2f8708}{T\+O\+\_\+\+F\+A\+R\+\_\+\+P\+TR}}(ofs,  seg)~(((\mbox{\hyperlink{far__ptr_8h_a7c6f52121dd07af29b477f4e64314842}{F\+A\+R\+\_\+\+P\+TR}})seg $<$$<$ 16) $\vert$ (\mbox{\hyperlink{far__ptr_8h_a7c6f52121dd07af29b477f4e64314842}{F\+A\+R\+\_\+\+P\+TR}})ofs)
+\item 
+\#define \mbox{\hyperlink{far__ptr_8h_a5bebc5322a1bba1c60c8d60e9b58be14}{F\+A\+R\+\_\+\+S\+EG}}(ptr)~(((union \mbox{\hyperlink{union____far__ptr}{\+\_\+\+\_\+far\+\_\+ptr}} $\ast$)\&ptr)-\/$>$segofs.\+seg)
+\item 
+\#define \mbox{\hyperlink{far__ptr_8h_ab79586d8cc3cb926f363f4d0cf7143d5}{F\+A\+R\+\_\+\+O\+FS}}(ptr)~(((union \mbox{\hyperlink{union____far__ptr}{\+\_\+\+\_\+far\+\_\+ptr}} $\ast$)\&ptr)-\/$>$segofs.\+ofs)
+\item 
+\#define \mbox{\hyperlink{far__ptr_8h_a048cfacb5d37ab758a74f44e86c1dbc6}{F\+A\+R\+\_\+\+F\+U\+NC}}(ptr,  typ)~((typ)(((union \mbox{\hyperlink{union____far__ptr}{\+\_\+\+\_\+far\+\_\+ptr}} $\ast$)\&ptr)-\/$>$segfn.\+fn))
+\item 
+\#define \mbox{\hyperlink{far__ptr_8h_a7f4ab1893ea392f8bf042a3b97de4730}{F\+A\+R\+\_\+\+C\+A\+LL}}(ptr,  typ, ...)~(\mbox{\hyperlink{far__ptr_8h_a27792b7fc3796a1e1828d4c5812e5b21}{\+\_\+\+\_\+call\+\_\+banked\+\_\+ptr}}=ptr,((typ)(\&\mbox{\hyperlink{far__ptr_8h_aa45a2312a2584abb8733a052f66b4a90}{\+\_\+\+\_\+call\+\_\+\+\_\+banked}}))(\+\_\+\+\_\+\+V\+A\+\_\+\+A\+R\+G\+S\+\_\+\+\_\+))
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \mbox{\hyperlink{stdint_8h_a33594304e786b158f3fb30289278f5af}{uint32\+\_\+t}} \mbox{\hyperlink{far__ptr_8h_a7c6f52121dd07af29b477f4e64314842}{F\+A\+R\+\_\+\+P\+TR}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{far__ptr_8h_aa45a2312a2584abb8733a052f66b4a90}{\+\_\+\+\_\+call\+\_\+\+\_\+banked}} ()
+\item 
+\mbox{\hyperlink{stdint_8h_a33594304e786b158f3fb30289278f5af}{uint32\+\_\+t}} \mbox{\hyperlink{far__ptr_8h_a23ab15f7eb85a48d72f717183badb110}{to\+\_\+far\+\_\+ptr}} (void $\ast$ofs, \mbox{\hyperlink{stdint_8h_adf4d876453337156dde61095e1f20223}{uint16\+\_\+t}} seg) \mbox{\hyperlink{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}{O\+L\+D\+C\+A\+LL}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+volatile \mbox{\hyperlink{far__ptr_8h_a7c6f52121dd07af29b477f4e64314842}{F\+A\+R\+\_\+\+P\+TR}} \mbox{\hyperlink{far__ptr_8h_a27792b7fc3796a1e1828d4c5812e5b21}{\+\_\+\+\_\+call\+\_\+banked\+\_\+ptr}}
+\item 
+volatile void $\ast$ \mbox{\hyperlink{far__ptr_8h_a1344c26ca298a9eadea4bcfea6442ae3}{\+\_\+\+\_\+call\+\_\+banked\+\_\+addr}}
+\item 
+volatile \mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \mbox{\hyperlink{far__ptr_8h_a892433d652420445a9a6aebf1a256623}{\+\_\+\+\_\+call\+\_\+banked\+\_\+bank}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Detailed Description}
+Far pointers include a segment (bank) selector so they are able to point to addresses (functions or data) outside of the current bank (unlike normal pointers which are not bank-\/aware).
+
+See the {\ttfamily banks\+\_\+farptr} example project included with gbdk.
+
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000001}{Todo}}]Add link to a discussion about banking (such as, how to assign code and variables to banks) \end{DoxyRefDesc}
+
+
+\doxysubsubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{far__ptr_8h_a0c227677a96f9bf7e84a90922f2f8708}\label{far__ptr_8h_a0c227677a96f9bf7e84a90922f2f8708}} 
+\index{far\_ptr.h@{far\_ptr.h}!TO\_FAR\_PTR@{TO\_FAR\_PTR}}
+\index{TO\_FAR\_PTR@{TO\_FAR\_PTR}!far\_ptr.h@{far\_ptr.h}}
+\doxyparagraph{\texorpdfstring{TO\_FAR\_PTR}{TO\_FAR\_PTR}}
+{\footnotesize\ttfamily \#define T\+O\+\_\+\+F\+A\+R\+\_\+\+P\+TR(\begin{DoxyParamCaption}\item[{}]{ofs,  }\item[{}]{seg }\end{DoxyParamCaption})~(((\mbox{\hyperlink{far__ptr_8h_a7c6f52121dd07af29b477f4e64314842}{F\+A\+R\+\_\+\+P\+TR}})seg $<$$<$ 16) $\vert$ (\mbox{\hyperlink{far__ptr_8h_a7c6f52121dd07af29b477f4e64314842}{F\+A\+R\+\_\+\+P\+TR}})ofs)}
+
+Macro to obtain a far pointer at compile-\/time 
+\begin{DoxyParams}{Parameters}
+{\em ofs} & Memory address within the given Segment (Bank) \\
+\hline
+{\em seg} & Segment (Bank) number\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A far pointer (type \mbox{\hyperlink{far__ptr_8h_a7c6f52121dd07af29b477f4e64314842}{F\+A\+R\+\_\+\+P\+TR}}) 
+\end{DoxyReturn}
+\mbox{\Hypertarget{far__ptr_8h_a5bebc5322a1bba1c60c8d60e9b58be14}\label{far__ptr_8h_a5bebc5322a1bba1c60c8d60e9b58be14}} 
+\index{far\_ptr.h@{far\_ptr.h}!FAR\_SEG@{FAR\_SEG}}
+\index{FAR\_SEG@{FAR\_SEG}!far\_ptr.h@{far\_ptr.h}}
+\doxyparagraph{\texorpdfstring{FAR\_SEG}{FAR\_SEG}}
+{\footnotesize\ttfamily \#define F\+A\+R\+\_\+\+S\+EG(\begin{DoxyParamCaption}\item[{}]{ptr }\end{DoxyParamCaption})~(((union \mbox{\hyperlink{union____far__ptr}{\+\_\+\+\_\+far\+\_\+ptr}} $\ast$)\&ptr)-\/$>$segofs.\+seg)}
+
+Macro to get the Segment (Bank) number of a far pointer 
+\begin{DoxyParams}{Parameters}
+{\em ptr} & A far pointer (type \mbox{\hyperlink{far__ptr_8h_a7c6f52121dd07af29b477f4e64314842}{F\+A\+R\+\_\+\+P\+TR}})\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Segment (Bank) of the far pointer (type uint16\+\_\+t) 
+\end{DoxyReturn}
+\mbox{\Hypertarget{far__ptr_8h_ab79586d8cc3cb926f363f4d0cf7143d5}\label{far__ptr_8h_ab79586d8cc3cb926f363f4d0cf7143d5}} 
+\index{far\_ptr.h@{far\_ptr.h}!FAR\_OFS@{FAR\_OFS}}
+\index{FAR\_OFS@{FAR\_OFS}!far\_ptr.h@{far\_ptr.h}}
+\doxyparagraph{\texorpdfstring{FAR\_OFS}{FAR\_OFS}}
+{\footnotesize\ttfamily \#define F\+A\+R\+\_\+\+O\+FS(\begin{DoxyParamCaption}\item[{}]{ptr }\end{DoxyParamCaption})~(((union \mbox{\hyperlink{union____far__ptr}{\+\_\+\+\_\+far\+\_\+ptr}} $\ast$)\&ptr)-\/$>$segofs.\+ofs)}
+
+Macro to get the Offset (address) of a far pointer 
+\begin{DoxyParams}{Parameters}
+{\em ptr} & A far pointer (type \mbox{\hyperlink{far__ptr_8h_a7c6f52121dd07af29b477f4e64314842}{F\+A\+R\+\_\+\+P\+TR}})\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Offset (address) of the far pointer (type void $\ast$) 
+\end{DoxyReturn}
+\mbox{\Hypertarget{far__ptr_8h_a048cfacb5d37ab758a74f44e86c1dbc6}\label{far__ptr_8h_a048cfacb5d37ab758a74f44e86c1dbc6}} 
+\index{far\_ptr.h@{far\_ptr.h}!FAR\_FUNC@{FAR\_FUNC}}
+\index{FAR\_FUNC@{FAR\_FUNC}!far\_ptr.h@{far\_ptr.h}}
+\doxyparagraph{\texorpdfstring{FAR\_FUNC}{FAR\_FUNC}}
+{\footnotesize\ttfamily \#define F\+A\+R\+\_\+\+F\+U\+NC(\begin{DoxyParamCaption}\item[{}]{ptr,  }\item[{}]{typ }\end{DoxyParamCaption})~((typ)(((union \mbox{\hyperlink{union____far__ptr}{\+\_\+\+\_\+far\+\_\+ptr}} $\ast$)\&ptr)-\/$>$segfn.\+fn))}
+
+\mbox{\Hypertarget{far__ptr_8h_a7f4ab1893ea392f8bf042a3b97de4730}\label{far__ptr_8h_a7f4ab1893ea392f8bf042a3b97de4730}} 
+\index{far\_ptr.h@{far\_ptr.h}!FAR\_CALL@{FAR\_CALL}}
+\index{FAR\_CALL@{FAR\_CALL}!far\_ptr.h@{far\_ptr.h}}
+\doxyparagraph{\texorpdfstring{FAR\_CALL}{FAR\_CALL}}
+{\footnotesize\ttfamily \#define F\+A\+R\+\_\+\+C\+A\+LL(\begin{DoxyParamCaption}\item[{}]{ptr,  }\item[{}]{typ,  }\item[{}]{... }\end{DoxyParamCaption})~(\mbox{\hyperlink{far__ptr_8h_a27792b7fc3796a1e1828d4c5812e5b21}{\+\_\+\+\_\+call\+\_\+banked\+\_\+ptr}}=ptr,((typ)(\&\mbox{\hyperlink{far__ptr_8h_aa45a2312a2584abb8733a052f66b4a90}{\+\_\+\+\_\+call\+\_\+\+\_\+banked}}))(\+\_\+\+\_\+\+V\+A\+\_\+\+A\+R\+G\+S\+\_\+\+\_\+))}
+
+Macro to call a function at far pointer {\bfseries{ptr}} of type {\bfseries{typ}} 
+\begin{DoxyParams}{Parameters}
+{\em ptr} & Far pointer of a function to call (type \mbox{\hyperlink{far__ptr_8h_a7c6f52121dd07af29b477f4e64314842}{F\+A\+R\+\_\+\+P\+TR}}) \\
+\hline
+{\em typ} & Type to cast the function far pointer to. \\
+\hline
+{\em ...} & VA Args list of parameters for the function\\
+\hline
+\end{DoxyParams}
+{\bfseries{type}} should match the definition of the function being called. For example\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{// A function in bank 2}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#pragma bank 2}}
+\DoxyCodeLine{\mbox{\hyperlink{stdint_8h_adf4d876453337156dde61095e1f20223}{uint16\_t}} some\_function(\mbox{\hyperlink{stdint_8h_adf4d876453337156dde61095e1f20223}{uint16\_t}} param1, \mbox{\hyperlink{stdint_8h_adf4d876453337156dde61095e1f20223}{uint16\_t}} param2) \_\_banked \{  \textcolor{keywordflow}{return} 1; \};}
+\DoxyCodeLine{}
+\DoxyCodeLine{...}
+\DoxyCodeLine{\textcolor{comment}{// Code elsewhere, such as unbanked main()}}
+\DoxyCodeLine{\textcolor{comment}{// This type declaration should match the above function}}
+\DoxyCodeLine{typedef \mbox{\hyperlink{stdint_8h_adf4d876453337156dde61095e1f20223}{uint16\_t}} (*some\_function\_t)(\mbox{\hyperlink{stdint_8h_adf4d876453337156dde61095e1f20223}{uint16\_t}}, \mbox{\hyperlink{stdint_8h_adf4d876453337156dde61095e1f20223}{uint16\_t}}) \_\_banked;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{// Using FAR\_CALL() with the above as *ptr*, *typ*, and two parameters.}}
+\DoxyCodeLine{result = \mbox{\hyperlink{far__ptr_8h_a7f4ab1893ea392f8bf042a3b97de4730}{FAR\_CALL}}(some\_function, some\_function\_t, 100, 50);}
+\end{DoxyCode}
+
+
+\begin{DoxyReturn}{Returns}
+Value returned by the function (if present) 
+\end{DoxyReturn}
+
+
+\doxysubsubsection{Typedef Documentation}
+\mbox{\Hypertarget{far__ptr_8h_a7c6f52121dd07af29b477f4e64314842}\label{far__ptr_8h_a7c6f52121dd07af29b477f4e64314842}} 
+\index{far\_ptr.h@{far\_ptr.h}!FAR\_PTR@{FAR\_PTR}}
+\index{FAR\_PTR@{FAR\_PTR}!far\_ptr.h@{far\_ptr.h}}
+\doxyparagraph{\texorpdfstring{FAR\_PTR}{FAR\_PTR}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{stdint_8h_a33594304e786b158f3fb30289278f5af}{uint32\+\_\+t}} \mbox{\hyperlink{far__ptr_8h_a7c6f52121dd07af29b477f4e64314842}{F\+A\+R\+\_\+\+P\+TR}}}
+
+Type for storing a F\+A\+R\+\_\+\+P\+TR 
+
+\doxysubsubsection{Function Documentation}
+\mbox{\Hypertarget{far__ptr_8h_aa45a2312a2584abb8733a052f66b4a90}\label{far__ptr_8h_aa45a2312a2584abb8733a052f66b4a90}} 
+\index{far\_ptr.h@{far\_ptr.h}!\_\_call\_\_banked@{\_\_call\_\_banked}}
+\index{\_\_call\_\_banked@{\_\_call\_\_banked}!far\_ptr.h@{far\_ptr.h}}
+\doxyparagraph{\texorpdfstring{\_\_call\_\_banked()}{\_\_call\_\_banked()}}
+{\footnotesize\ttfamily void \+\_\+\+\_\+call\+\_\+\+\_\+banked (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{far__ptr_8h_a23ab15f7eb85a48d72f717183badb110}\label{far__ptr_8h_a23ab15f7eb85a48d72f717183badb110}} 
+\index{far\_ptr.h@{far\_ptr.h}!to\_far\_ptr@{to\_far\_ptr}}
+\index{to\_far\_ptr@{to\_far\_ptr}!far\_ptr.h@{far\_ptr.h}}
+\doxyparagraph{\texorpdfstring{to\_far\_ptr()}{to\_far\_ptr()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{stdint_8h_a33594304e786b158f3fb30289278f5af}{uint32\+\_\+t}} to\+\_\+far\+\_\+ptr (\begin{DoxyParamCaption}\item[{void $\ast$}]{ofs,  }\item[{\mbox{\hyperlink{stdint_8h_adf4d876453337156dde61095e1f20223}{uint16\+\_\+t}}}]{seg }\end{DoxyParamCaption})}
+
+Obtain a far pointer at runtime 
+\begin{DoxyParams}{Parameters}
+{\em ofs} & Memory address within the given Segment (Bank) \\
+\hline
+{\em seg} & Segment (Bank) number\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A far pointer (type \mbox{\hyperlink{far__ptr_8h_a7c6f52121dd07af29b477f4e64314842}{F\+A\+R\+\_\+\+P\+TR}}) 
+\end{DoxyReturn}
+
+
+\doxysubsubsection{Variable Documentation}
+\mbox{\Hypertarget{far__ptr_8h_a27792b7fc3796a1e1828d4c5812e5b21}\label{far__ptr_8h_a27792b7fc3796a1e1828d4c5812e5b21}} 
+\index{far\_ptr.h@{far\_ptr.h}!\_\_call\_banked\_ptr@{\_\_call\_banked\_ptr}}
+\index{\_\_call\_banked\_ptr@{\_\_call\_banked\_ptr}!far\_ptr.h@{far\_ptr.h}}
+\doxyparagraph{\texorpdfstring{\_\_call\_banked\_ptr}{\_\_call\_banked\_ptr}}
+{\footnotesize\ttfamily volatile \mbox{\hyperlink{far__ptr_8h_a7c6f52121dd07af29b477f4e64314842}{F\+A\+R\+\_\+\+P\+TR}} \+\_\+\+\_\+call\+\_\+banked\+\_\+ptr\hspace{0.3cm}{\ttfamily [extern]}}
+
+\mbox{\Hypertarget{far__ptr_8h_a1344c26ca298a9eadea4bcfea6442ae3}\label{far__ptr_8h_a1344c26ca298a9eadea4bcfea6442ae3}} 
+\index{far\_ptr.h@{far\_ptr.h}!\_\_call\_banked\_addr@{\_\_call\_banked\_addr}}
+\index{\_\_call\_banked\_addr@{\_\_call\_banked\_addr}!far\_ptr.h@{far\_ptr.h}}
+\doxyparagraph{\texorpdfstring{\_\_call\_banked\_addr}{\_\_call\_banked\_addr}}
+{\footnotesize\ttfamily volatile void$\ast$ \+\_\+\+\_\+call\+\_\+banked\+\_\+addr\hspace{0.3cm}{\ttfamily [extern]}}
+
+\mbox{\Hypertarget{far__ptr_8h_a892433d652420445a9a6aebf1a256623}\label{far__ptr_8h_a892433d652420445a9a6aebf1a256623}} 
+\index{far\_ptr.h@{far\_ptr.h}!\_\_call\_banked\_bank@{\_\_call\_banked\_bank}}
+\index{\_\_call\_banked\_bank@{\_\_call\_banked\_bank}!far\_ptr.h@{far\_ptr.h}}
+\doxyparagraph{\texorpdfstring{\_\_call\_banked\_bank}{\_\_call\_banked\_bank}}
+{\footnotesize\ttfamily volatile \mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \+\_\+\+\_\+call\+\_\+banked\+\_\+bank\hspace{0.3cm}{\ttfamily [extern]}}
+

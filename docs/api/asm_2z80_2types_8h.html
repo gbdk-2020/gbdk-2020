@@ -29,6 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
+   &#160;<span id="projectnumber">4.0.6</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -97,14 +98,10 @@ $(document).ready(function(){initNavTree('asm_2z80_2types_8h.html',''); initResi
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a7ed081d8dfb6902784b2fc730bbb7f96"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="asm_2z80_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a>&#160;&#160;&#160;__nonbanked</td></tr>
-<tr class="separator:a7ed081d8dfb6902784b2fc730bbb7f96"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa8480aed89a168ec484727f5ac985cd0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="asm_2z80_2types_8h.html#aa8480aed89a168ec484727f5ac985cd0">BANKED</a>&#160;&#160;&#160;__banked</td></tr>
-<tr class="separator:aa8480aed89a168ec484727f5ac985cd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae0233515480e60d29bcc731469976e02"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="asm_2z80_2types_8h.html#ae0233515480e60d29bcc731469976e02">CRITICAL</a>&#160;&#160;&#160;__critical</td></tr>
-<tr class="separator:ae0233515480e60d29bcc731469976e02"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac950c0db046e2f86d15e7ae1f558b017"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="asm_2z80_2types_8h.html#ac950c0db046e2f86d15e7ae1f558b017">INTERRUPT</a>&#160;&#160;&#160;__interrupt</td></tr>
-<tr class="separator:ac950c0db046e2f86d15e7ae1f558b017"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa19670cfef9fe1cc31f28fafb0e1000a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="asm_2z80_2types_8h.html#aa19670cfef9fe1cc31f28fafb0e1000a">Z88DK_CALLEE</a></td></tr>
+<tr class="separator:aa19670cfef9fe1cc31f28fafb0e1000a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af45e54cf59a5202abc9125c07b64abf1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="asm_2z80_2types_8h.html#af45e54cf59a5202abc9125c07b64abf1">Z88DK_FASTCALL</a></td></tr>
+<tr class="separator:af45e54cf59a5202abc9125c07b64abf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8de3167f7b52ff5a2f538858cb5e32d3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="asm_2z80_2types_8h.html#a8de3167f7b52ff5a2f538858cb5e32d3">__SIZE_T_DEFINED</a></td></tr>
 <tr class="separator:a8de3167f7b52ff5a2f538858cb5e32d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -122,62 +119,34 @@ Typedefs</h2></td></tr>
 <tr class="separator:a516ea33686d40a7f91f5644851ce7b5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0b39d6d754cb24c708b0f2bdbe88130e"><td class="memItemLeft" align="right" valign="top">typedef unsigned long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="asm_2z80_2types_8h.html#a0b39d6d754cb24c708b0f2bdbe88130e">UINT32</a></td></tr>
 <tr class="separator:a0b39d6d754cb24c708b0f2bdbe88130e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7619b847aeded8a6d14cbfa212b2cdfb"><td class="memItemLeft" align="right" valign="top">typedef int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="asm_2z80_2types_8h.html#a7619b847aeded8a6d14cbfa212b2cdfb">size_t</a></td></tr>
-<tr class="separator:a7619b847aeded8a6d14cbfa212b2cdfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad666a63cb94701b620ce999f84629d23"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="asm_2gbz80_2types_8h.html#a805c2c164bdd38d72a30c46e84fb568b">UINT16</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="asm_2z80_2types_8h.html#ad666a63cb94701b620ce999f84629d23">clock_t</a></td></tr>
-<tr class="separator:ad666a63cb94701b620ce999f84629d23"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c94ea6f8948649f8d181ae55911eeaf"><td class="memItemLeft" align="right" valign="top">typedef unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="asm_2z80_2types_8h.html#a7c94ea6f8948649f8d181ae55911eeaf">size_t</a></td></tr>
+<tr class="separator:a7c94ea6f8948649f8d181ae55911eeaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb756bd89bf86769edbefdef8135109f"><td class="memItemLeft" align="right" valign="top">typedef unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="asm_2z80_2types_8h.html#aeb756bd89bf86769edbefdef8135109f">clock_t</a></td></tr>
+<tr class="separator:aeb756bd89bf86769edbefdef8135109f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a7ed081d8dfb6902784b2fc730bbb7f96"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7ed081d8dfb6902784b2fc730bbb7f96">&#9670;&nbsp;</a></span>NONBANKED</h2>
+<a id="aa19670cfef9fe1cc31f28fafb0e1000a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa19670cfef9fe1cc31f28fafb0e1000a">&#9670;&nbsp;</a></span>Z88DK_CALLEE</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define NONBANKED&#160;&#160;&#160;__nonbanked</td>
+          <td class="memname">#define Z88DK_CALLEE</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="aa8480aed89a168ec484727f5ac985cd0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa8480aed89a168ec484727f5ac985cd0">&#9670;&nbsp;</a></span>BANKED</h2>
+<a id="af45e54cf59a5202abc9125c07b64abf1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af45e54cf59a5202abc9125c07b64abf1">&#9670;&nbsp;</a></span>Z88DK_FASTCALL</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define BANKED&#160;&#160;&#160;__banked</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ae0233515480e60d29bcc731469976e02"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae0233515480e60d29bcc731469976e02">&#9670;&nbsp;</a></span>CRITICAL</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CRITICAL&#160;&#160;&#160;__critical</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ac950c0db046e2f86d15e7ae1f558b017"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac950c0db046e2f86d15e7ae1f558b017">&#9670;&nbsp;</a></span>INTERRUPT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define INTERRUPT&#160;&#160;&#160;__interrupt</td>
+          <td class="memname">#define Z88DK_FASTCALL</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -289,32 +258,32 @@ Typedefs</h2></td></tr>
 
 </div>
 </div>
-<a id="a7619b847aeded8a6d14cbfa212b2cdfb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7619b847aeded8a6d14cbfa212b2cdfb">&#9670;&nbsp;</a></span>size_t</h2>
+<a id="a7c94ea6f8948649f8d181ae55911eeaf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c94ea6f8948649f8d181ae55911eeaf">&#9670;&nbsp;</a></span>size_t</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef int <a class="el" href="asm_2gbz80_2types_8h.html#a7619b847aeded8a6d14cbfa212b2cdfb">size_t</a></td>
+          <td class="memname">typedef unsigned int <a class="el" href="asm_2gbz80_2types_8h.html#a7c94ea6f8948649f8d181ae55911eeaf">size_t</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="ad666a63cb94701b620ce999f84629d23"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad666a63cb94701b620ce999f84629d23">&#9670;&nbsp;</a></span>clock_t</h2>
+<a id="aeb756bd89bf86769edbefdef8135109f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb756bd89bf86769edbefdef8135109f">&#9670;&nbsp;</a></span>clock_t</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef <a class="el" href="asm_2gbz80_2types_8h.html#a805c2c164bdd38d72a30c46e84fb568b">UINT16</a> <a class="el" href="asm_2gbz80_2types_8h.html#ad666a63cb94701b620ce999f84629d23">clock_t</a></td>
+          <td class="memname">typedef unsigned int <a class="el" href="asm_2gbz80_2types_8h.html#aeb756bd89bf86769edbefdef8135109f">clock_t</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Returned from clock </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="time_8h.html#a9e660b4ddc93c500ce46593917de2bbf">clock</a> </dd></dl>
+<p>Returned from clock </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="time_8h.html#acc1f88818af5706d57262377382ae4ac">clock</a> </dd></dl>
 
 </div>
 </div>

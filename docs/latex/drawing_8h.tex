@@ -1,0 +1,316 @@
+\hypertarget{drawing_8h}{}\doxysubsection{gb/drawing.h File Reference}
+\label{drawing_8h}\index{gb/drawing.h@{gb/drawing.h}}
+{\ttfamily \#include $<$types.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{drawing_8h_a9a07c448b4d721dbec2715f51727e099}{G\+R\+A\+P\+H\+I\+C\+S\+\_\+\+W\+I\+D\+TH}}~160
+\item 
+\#define \mbox{\hyperlink{drawing_8h_aa9909ac8ecb03cbb763258a8f98f4170}{G\+R\+A\+P\+H\+I\+C\+S\+\_\+\+H\+E\+I\+G\+HT}}~144
+\item 
+\#define \mbox{\hyperlink{drawing_8h_aa8abfd58ea514228abd69d8f6330e91d}{S\+O\+L\+ID}}~0x00	    /$\ast$ Overwrites the existing pixels $\ast$/
+\item 
+\#define \mbox{\hyperlink{drawing_8h_a3363ca4d6d3cc0230b2804280591c991}{OR}}~0x01        /$\ast$ Performs a logical OR $\ast$/
+\item 
+\#define \mbox{\hyperlink{drawing_8h_a45cd11034d1a7d86c3a88d36f5e7f1ab}{X\+OR}}~0x02		/$\ast$ Performs a logical X\+OR $\ast$/
+\item 
+\#define \mbox{\hyperlink{drawing_8h_acd1b97556dfbbac61063a63031d2f91d}{A\+ND}}~0x03		/$\ast$ Performs a logical A\+ND $\ast$/
+\item 
+\#define \mbox{\hyperlink{drawing_8h_a87b537f5fa5c109d3c05c13d6b18f382}{W\+H\+I\+TE}}~0
+\item 
+\#define \mbox{\hyperlink{drawing_8h_a0ffe2221c8690dc80b5f9553474dd096}{L\+T\+G\+R\+EY}}~1
+\item 
+\#define \mbox{\hyperlink{drawing_8h_a4dad87d91b9201be3b4ede372f31ae8a}{D\+K\+G\+R\+EY}}~2
+\item 
+\#define \mbox{\hyperlink{drawing_8h_a7b3b25cba33b07c303f3060fe41887f6}{B\+L\+A\+CK}}~3
+\item 
+\#define \mbox{\hyperlink{drawing_8h_a91d52443c77ee105bd68cb0b47a8ee49}{M\+\_\+\+N\+O\+F\+I\+LL}}~0
+\item 
+\#define \mbox{\hyperlink{drawing_8h_aad3d180e0f12d6a6e5278fe0163f4c3e}{M\+\_\+\+F\+I\+LL}}~1
+\item 
+\#define \mbox{\hyperlink{drawing_8h_a4dec4d9b2bace4f5bc6e6337f4086837}{S\+I\+G\+N\+ED}}~1
+\item 
+\#define \mbox{\hyperlink{drawing_8h_a08cbc66092284f7da94279f986a0aae9}{U\+N\+S\+I\+G\+N\+ED}}~0
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{drawing_8h_aef65e5faa0adb82768fca06aafbe50e8}{gprint}} (char $\ast$str) \mbox{\hyperlink{asm_2types_8h_a7ed081d8dfb6902784b2fc730bbb7f96}{N\+O\+N\+B\+A\+N\+K\+ED}}
+\item 
+void \mbox{\hyperlink{drawing_8h_afeb7c0a887fe3d18659175de77a787a5}{gprintln}} (\mbox{\hyperlink{stdint_8h_a66634143db08bebe9b46ab4cb1fc6fd3}{int16\+\_\+t}} number, \mbox{\hyperlink{stdint_8h_aef44329758059c91c76d334e8fc09700}{int8\+\_\+t}} radix, \mbox{\hyperlink{stdint_8h_aef44329758059c91c76d334e8fc09700}{int8\+\_\+t}} signed\+\_\+value) \mbox{\hyperlink{asm_2types_8h_a7ed081d8dfb6902784b2fc730bbb7f96}{N\+O\+N\+B\+A\+N\+K\+ED}}
+\item 
+void \mbox{\hyperlink{drawing_8h_a9d70278d1d09fdc24ea6bd9788dbd96a}{gprintn}} (\mbox{\hyperlink{stdint_8h_aef44329758059c91c76d334e8fc09700}{int8\+\_\+t}} number, \mbox{\hyperlink{stdint_8h_aef44329758059c91c76d334e8fc09700}{int8\+\_\+t}} radix, \mbox{\hyperlink{stdint_8h_aef44329758059c91c76d334e8fc09700}{int8\+\_\+t}} signed\+\_\+value) \mbox{\hyperlink{asm_2types_8h_a7ed081d8dfb6902784b2fc730bbb7f96}{N\+O\+N\+B\+A\+N\+K\+ED}}
+\item 
+\mbox{\hyperlink{stdint_8h_aef44329758059c91c76d334e8fc09700}{int8\+\_\+t}} \mbox{\hyperlink{drawing_8h_a5f7a0ed309f9526e9be285146559848c}{gprintf}} (char $\ast$fmt,...) \mbox{\hyperlink{asm_2types_8h_a7ed081d8dfb6902784b2fc730bbb7f96}{N\+O\+N\+B\+A\+N\+K\+ED}}
+\item 
+void \mbox{\hyperlink{drawing_8h_ac888c327137d7f00cb3af57af236602a}{plot}} (\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} x, \mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} y, \mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} colour, \mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \mbox{\hyperlink{sms_8h_a3ea524204d839377cf39842eec23e202}{mode}}) \mbox{\hyperlink{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}{O\+L\+D\+C\+A\+LL}}
+\item 
+void \mbox{\hyperlink{drawing_8h_a595c77bca15884c75fd85af84f373814}{plot\+\_\+point}} (\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} x, \mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} y) \mbox{\hyperlink{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}{O\+L\+D\+C\+A\+LL}}
+\item 
+void \mbox{\hyperlink{drawing_8h_a7b8f466ecc6be62f6c034e52f05e957a}{switch\+\_\+data}} (\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} x, \mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} y, \mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$src, \mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$dst) \mbox{\hyperlink{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}{O\+L\+D\+C\+A\+LL}}
+\item 
+void \mbox{\hyperlink{drawing_8h_ab2c383d3e1541fae40cf5174e22166c6}{draw\+\_\+image}} (\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$data) \mbox{\hyperlink{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}{O\+L\+D\+C\+A\+LL}}
+\item 
+void \mbox{\hyperlink{drawing_8h_afe0ad8959a2867c4b60829d065660f1b}{line}} (\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} x1, \mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} y1, \mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} x2, \mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} y2) \mbox{\hyperlink{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}{O\+L\+D\+C\+A\+LL}}
+\item 
+void \mbox{\hyperlink{drawing_8h_ae1170230e5c9e61cc4321632e949e7ce}{box}} (\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} x1, \mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} y1, \mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} x2, \mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} y2, \mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} style) \mbox{\hyperlink{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}{O\+L\+D\+C\+A\+LL}}
+\item 
+void \mbox{\hyperlink{drawing_8h_ad46c3bdc38dfc9b70214693390d404cb}{circle}} (\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} x, \mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} y, \mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} radius, \mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} style) \mbox{\hyperlink{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}{O\+L\+D\+C\+A\+LL}}
+\item 
+\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \mbox{\hyperlink{drawing_8h_a1e268a46a8151f9cc3b7b40100123d09}{getpix}} (\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} x, \mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} y) \mbox{\hyperlink{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}{O\+L\+D\+C\+A\+LL}}
+\item 
+void \mbox{\hyperlink{drawing_8h_a9178e678a17cb08653600f435093ae2a}{wrtchr}} (char chr) \mbox{\hyperlink{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}{O\+L\+D\+C\+A\+LL}}
+\item 
+void \mbox{\hyperlink{drawing_8h_a2d6cbdc9528ec11ac54bd3dbe754ab74}{gotogxy}} (\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} x, \mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} y) \mbox{\hyperlink{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}{O\+L\+D\+C\+A\+LL}}
+\item 
+void \mbox{\hyperlink{drawing_8h_a9fa68d25be92836a1b08a5e610b4f32f}{color}} (\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} forecolor, \mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} backcolor, \mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \mbox{\hyperlink{sms_8h_a3ea524204d839377cf39842eec23e202}{mode}}) \mbox{\hyperlink{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}{O\+L\+D\+C\+A\+LL}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Detailed Description}
+All Points Addressable (A\+PA) mode drawing library.
+
+Drawing routines originally by Pascal Felber Legendary overhall by Jon Fuge \href{mailto:jonny@q-continuum.demon.co.uk}{\texttt{ jonny@q-\/continuum.\+demon.\+co.\+uk}} Commenting by Michael Hope
+
+Note\+: The standard text \mbox{\hyperlink{stdio_8h_ab403fa700816f08631ba75bc536f74d4}{printf()}} and \mbox{\hyperlink{stdio_8h_a9bc92fb9f23c72a66d030d4028dda72d}{putchar()}} cannot be used in A\+PA mode -\/ use \mbox{\hyperlink{drawing_8h_a5f7a0ed309f9526e9be285146559848c}{gprintf()}} and \mbox{\hyperlink{drawing_8h_a9178e678a17cb08653600f435093ae2a}{wrtchr()}} instead.
+
+Note\+: Using drawing.\+h will cause it\textquotesingle{}s custom V\+BL and L\+CD I\+S\+Rs ({\ttfamily drawing\+\_\+vbl} and {\ttfamily drawing\+\_\+lcd}) to be installed. Changing the mode ({\ttfamily mode(\+M\+\_\+\+T\+E\+X\+T\+\_\+\+O\+U\+T);}) will cause them to be de-\/installed.
+
+The valid coordinate ranges are from (x,y) 0,0 to 159,143. There is no built-\/in clipping, so drawing outside valid coordinates will likely produce undesired results (wrapping/etc).
+
+\DoxyHorRuler{0}
+
+
+{\bfseries{Important note for the drawing A\+PI \+:}}
+
+The Game Boy graphics hardware is not well suited to frame-\/buffer style graphics such as the kind provided in {\ttfamily drawing.\+h}. Due to that, {\bfseries{most drawing functions (rectangles, circles, etc) will be slow}} . When possible it\textquotesingle{}s much faster and more efficient to work with the tiles and tile maps that the Game Boy hardware is built around. 
+
+\doxysubsubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{drawing_8h_a9a07c448b4d721dbec2715f51727e099}\label{drawing_8h_a9a07c448b4d721dbec2715f51727e099}} 
+\index{drawing.h@{drawing.h}!GRAPHICS\_WIDTH@{GRAPHICS\_WIDTH}}
+\index{GRAPHICS\_WIDTH@{GRAPHICS\_WIDTH}!drawing.h@{drawing.h}}
+\doxyparagraph{\texorpdfstring{GRAPHICS\_WIDTH}{GRAPHICS\_WIDTH}}
+{\footnotesize\ttfamily \#define G\+R\+A\+P\+H\+I\+C\+S\+\_\+\+W\+I\+D\+TH~160}
+
+Size of the screen in pixels \mbox{\Hypertarget{drawing_8h_aa9909ac8ecb03cbb763258a8f98f4170}\label{drawing_8h_aa9909ac8ecb03cbb763258a8f98f4170}} 
+\index{drawing.h@{drawing.h}!GRAPHICS\_HEIGHT@{GRAPHICS\_HEIGHT}}
+\index{GRAPHICS\_HEIGHT@{GRAPHICS\_HEIGHT}!drawing.h@{drawing.h}}
+\doxyparagraph{\texorpdfstring{GRAPHICS\_HEIGHT}{GRAPHICS\_HEIGHT}}
+{\footnotesize\ttfamily \#define G\+R\+A\+P\+H\+I\+C\+S\+\_\+\+H\+E\+I\+G\+HT~144}
+
+\mbox{\Hypertarget{drawing_8h_aa8abfd58ea514228abd69d8f6330e91d}\label{drawing_8h_aa8abfd58ea514228abd69d8f6330e91d}} 
+\index{drawing.h@{drawing.h}!SOLID@{SOLID}}
+\index{SOLID@{SOLID}!drawing.h@{drawing.h}}
+\doxyparagraph{\texorpdfstring{SOLID}{SOLID}}
+{\footnotesize\ttfamily \#define S\+O\+L\+ID~0x00	    /$\ast$ Overwrites the existing pixels $\ast$/}
+
+\mbox{\Hypertarget{drawing_8h_a3363ca4d6d3cc0230b2804280591c991}\label{drawing_8h_a3363ca4d6d3cc0230b2804280591c991}} 
+\index{drawing.h@{drawing.h}!OR@{OR}}
+\index{OR@{OR}!drawing.h@{drawing.h}}
+\doxyparagraph{\texorpdfstring{OR}{OR}}
+{\footnotesize\ttfamily \#define OR~0x01        /$\ast$ Performs a logical OR $\ast$/}
+
+\mbox{\Hypertarget{drawing_8h_a45cd11034d1a7d86c3a88d36f5e7f1ab}\label{drawing_8h_a45cd11034d1a7d86c3a88d36f5e7f1ab}} 
+\index{drawing.h@{drawing.h}!XOR@{XOR}}
+\index{XOR@{XOR}!drawing.h@{drawing.h}}
+\doxyparagraph{\texorpdfstring{XOR}{XOR}}
+{\footnotesize\ttfamily \#define X\+OR~0x02		/$\ast$ Performs a logical X\+OR $\ast$/}
+
+\mbox{\Hypertarget{drawing_8h_acd1b97556dfbbac61063a63031d2f91d}\label{drawing_8h_acd1b97556dfbbac61063a63031d2f91d}} 
+\index{drawing.h@{drawing.h}!AND@{AND}}
+\index{AND@{AND}!drawing.h@{drawing.h}}
+\doxyparagraph{\texorpdfstring{AND}{AND}}
+{\footnotesize\ttfamily \#define A\+ND~0x03		/$\ast$ Performs a logical A\+ND $\ast$/}
+
+\mbox{\Hypertarget{drawing_8h_a87b537f5fa5c109d3c05c13d6b18f382}\label{drawing_8h_a87b537f5fa5c109d3c05c13d6b18f382}} 
+\index{drawing.h@{drawing.h}!WHITE@{WHITE}}
+\index{WHITE@{WHITE}!drawing.h@{drawing.h}}
+\doxyparagraph{\texorpdfstring{WHITE}{WHITE}}
+{\footnotesize\ttfamily \#define W\+H\+I\+TE~0}
+
+Possible drawing colours \mbox{\Hypertarget{drawing_8h_a0ffe2221c8690dc80b5f9553474dd096}\label{drawing_8h_a0ffe2221c8690dc80b5f9553474dd096}} 
+\index{drawing.h@{drawing.h}!LTGREY@{LTGREY}}
+\index{LTGREY@{LTGREY}!drawing.h@{drawing.h}}
+\doxyparagraph{\texorpdfstring{LTGREY}{LTGREY}}
+{\footnotesize\ttfamily \#define L\+T\+G\+R\+EY~1}
+
+\mbox{\Hypertarget{drawing_8h_a4dad87d91b9201be3b4ede372f31ae8a}\label{drawing_8h_a4dad87d91b9201be3b4ede372f31ae8a}} 
+\index{drawing.h@{drawing.h}!DKGREY@{DKGREY}}
+\index{DKGREY@{DKGREY}!drawing.h@{drawing.h}}
+\doxyparagraph{\texorpdfstring{DKGREY}{DKGREY}}
+{\footnotesize\ttfamily \#define D\+K\+G\+R\+EY~2}
+
+\mbox{\Hypertarget{drawing_8h_a7b3b25cba33b07c303f3060fe41887f6}\label{drawing_8h_a7b3b25cba33b07c303f3060fe41887f6}} 
+\index{drawing.h@{drawing.h}!BLACK@{BLACK}}
+\index{BLACK@{BLACK}!drawing.h@{drawing.h}}
+\doxyparagraph{\texorpdfstring{BLACK}{BLACK}}
+{\footnotesize\ttfamily \#define B\+L\+A\+CK~3}
+
+\mbox{\Hypertarget{drawing_8h_a91d52443c77ee105bd68cb0b47a8ee49}\label{drawing_8h_a91d52443c77ee105bd68cb0b47a8ee49}} 
+\index{drawing.h@{drawing.h}!M\_NOFILL@{M\_NOFILL}}
+\index{M\_NOFILL@{M\_NOFILL}!drawing.h@{drawing.h}}
+\doxyparagraph{\texorpdfstring{M\_NOFILL}{M\_NOFILL}}
+{\footnotesize\ttfamily \#define M\+\_\+\+N\+O\+F\+I\+LL~0}
+
+Possible fill styles for \mbox{\hyperlink{drawing_8h_ae1170230e5c9e61cc4321632e949e7ce}{box()}} and \mbox{\hyperlink{drawing_8h_ad46c3bdc38dfc9b70214693390d404cb}{circle()}} \mbox{\Hypertarget{drawing_8h_aad3d180e0f12d6a6e5278fe0163f4c3e}\label{drawing_8h_aad3d180e0f12d6a6e5278fe0163f4c3e}} 
+\index{drawing.h@{drawing.h}!M\_FILL@{M\_FILL}}
+\index{M\_FILL@{M\_FILL}!drawing.h@{drawing.h}}
+\doxyparagraph{\texorpdfstring{M\_FILL}{M\_FILL}}
+{\footnotesize\ttfamily \#define M\+\_\+\+F\+I\+LL~1}
+
+\mbox{\Hypertarget{drawing_8h_a4dec4d9b2bace4f5bc6e6337f4086837}\label{drawing_8h_a4dec4d9b2bace4f5bc6e6337f4086837}} 
+\index{drawing.h@{drawing.h}!SIGNED@{SIGNED}}
+\index{SIGNED@{SIGNED}!drawing.h@{drawing.h}}
+\doxyparagraph{\texorpdfstring{SIGNED}{SIGNED}}
+{\footnotesize\ttfamily \#define S\+I\+G\+N\+ED~1}
+
+Possible values for signed\+\_\+value in \mbox{\hyperlink{drawing_8h_afeb7c0a887fe3d18659175de77a787a5}{gprintln()}} and \mbox{\hyperlink{drawing_8h_a9d70278d1d09fdc24ea6bd9788dbd96a}{gprintn()}} \mbox{\Hypertarget{drawing_8h_a08cbc66092284f7da94279f986a0aae9}\label{drawing_8h_a08cbc66092284f7da94279f986a0aae9}} 
+\index{drawing.h@{drawing.h}!UNSIGNED@{UNSIGNED}}
+\index{UNSIGNED@{UNSIGNED}!drawing.h@{drawing.h}}
+\doxyparagraph{\texorpdfstring{UNSIGNED}{UNSIGNED}}
+{\footnotesize\ttfamily \#define U\+N\+S\+I\+G\+N\+ED~0}
+
+
+
+\doxysubsubsection{Function Documentation}
+\mbox{\Hypertarget{drawing_8h_aef65e5faa0adb82768fca06aafbe50e8}\label{drawing_8h_aef65e5faa0adb82768fca06aafbe50e8}} 
+\index{drawing.h@{drawing.h}!gprint@{gprint}}
+\index{gprint@{gprint}!drawing.h@{drawing.h}}
+\doxyparagraph{\texorpdfstring{gprint()}{gprint()}}
+{\footnotesize\ttfamily void gprint (\begin{DoxyParamCaption}\item[{char $\ast$}]{str }\end{DoxyParamCaption})}
+
+Print the string \textquotesingle{}str\textquotesingle{} with no interpretation \begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{drawing_8h_a2d6cbdc9528ec11ac54bd3dbe754ab74}{gotogxy()}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{drawing_8h_afeb7c0a887fe3d18659175de77a787a5}\label{drawing_8h_afeb7c0a887fe3d18659175de77a787a5}} 
+\index{drawing.h@{drawing.h}!gprintln@{gprintln}}
+\index{gprintln@{gprintln}!drawing.h@{drawing.h}}
+\doxyparagraph{\texorpdfstring{gprintln()}{gprintln()}}
+{\footnotesize\ttfamily void gprintln (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stdint_8h_a66634143db08bebe9b46ab4cb1fc6fd3}{int16\+\_\+t}}}]{number,  }\item[{\mbox{\hyperlink{stdint_8h_aef44329758059c91c76d334e8fc09700}{int8\+\_\+t}}}]{radix,  }\item[{\mbox{\hyperlink{stdint_8h_aef44329758059c91c76d334e8fc09700}{int8\+\_\+t}}}]{signed\+\_\+value }\end{DoxyParamCaption})}
+
+Print 16 bit {\bfseries{number}} in {\bfseries{radix}} (base) in the default font at the current text position.
+
+
+\begin{DoxyParams}{Parameters}
+{\em number} & number to print \\
+\hline
+{\em radix} & radix (base) to print with \\
+\hline
+{\em signed\+\_\+value} & should be set to S\+I\+G\+N\+ED or U\+N\+S\+I\+G\+N\+ED depending on whether the number is signed or not\\
+\hline
+\end{DoxyParams}
+The current position is advanced by the numer of characters printed. \begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{drawing_8h_a2d6cbdc9528ec11ac54bd3dbe754ab74}{gotogxy()}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{drawing_8h_a9d70278d1d09fdc24ea6bd9788dbd96a}\label{drawing_8h_a9d70278d1d09fdc24ea6bd9788dbd96a}} 
+\index{drawing.h@{drawing.h}!gprintn@{gprintn}}
+\index{gprintn@{gprintn}!drawing.h@{drawing.h}}
+\doxyparagraph{\texorpdfstring{gprintn()}{gprintn()}}
+{\footnotesize\ttfamily void gprintn (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stdint_8h_aef44329758059c91c76d334e8fc09700}{int8\+\_\+t}}}]{number,  }\item[{\mbox{\hyperlink{stdint_8h_aef44329758059c91c76d334e8fc09700}{int8\+\_\+t}}}]{radix,  }\item[{\mbox{\hyperlink{stdint_8h_aef44329758059c91c76d334e8fc09700}{int8\+\_\+t}}}]{signed\+\_\+value }\end{DoxyParamCaption})}
+
+Print 8 bit {\bfseries{number}} in {\bfseries{radix}} (base) in the default font at the current text position.
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{drawing_8h_afeb7c0a887fe3d18659175de77a787a5}{gprintln()}}, \mbox{\hyperlink{drawing_8h_a2d6cbdc9528ec11ac54bd3dbe754ab74}{gotogxy()}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{drawing_8h_a5f7a0ed309f9526e9be285146559848c}\label{drawing_8h_a5f7a0ed309f9526e9be285146559848c}} 
+\index{drawing.h@{drawing.h}!gprintf@{gprintf}}
+\index{gprintf@{gprintf}!drawing.h@{drawing.h}}
+\doxyparagraph{\texorpdfstring{gprintf()}{gprintf()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{stdint_8h_aef44329758059c91c76d334e8fc09700}{int8\+\_\+t}} gprintf (\begin{DoxyParamCaption}\item[{char $\ast$}]{fmt,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+Print the string and arguments given by {\bfseries{fmt}} with arguments \+\_\+\+\_\+...\+\_\+\+\_\+
+
+
+\begin{DoxyParams}{Parameters}
+{\em fmt} & The format string as per printf \\
+\hline
+{\em ...} & params\\
+\hline
+\end{DoxyParams}
+Currently supported\+: \begin{DoxyItemize}
+\item \%c (character) \item \%u (int) \item \%d (int8\+\_\+t) \item \%o (int8\+\_\+t as octal) \item \%x (int8\+\_\+t as hex) \item \%s (string)\end{DoxyItemize}
+\begin{DoxyReturn}{Returns}
+Returns the number of items printed, or -\/1 if there was an error. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{drawing_8h_a2d6cbdc9528ec11ac54bd3dbe754ab74}{gotogxy()}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{drawing_8h_ac888c327137d7f00cb3af57af236602a}\label{drawing_8h_ac888c327137d7f00cb3af57af236602a}} 
+\index{drawing.h@{drawing.h}!plot@{plot}}
+\index{plot@{plot}!drawing.h@{drawing.h}}
+\doxyparagraph{\texorpdfstring{plot()}{plot()}}
+{\footnotesize\ttfamily void plot (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{x,  }\item[{\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{y,  }\item[{\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{colour,  }\item[{\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{mode }\end{DoxyParamCaption})}
+
+Old style plot -\/ try \mbox{\hyperlink{drawing_8h_a595c77bca15884c75fd85af84f373814}{plot\+\_\+point()}} \mbox{\Hypertarget{drawing_8h_a595c77bca15884c75fd85af84f373814}\label{drawing_8h_a595c77bca15884c75fd85af84f373814}} 
+\index{drawing.h@{drawing.h}!plot\_point@{plot\_point}}
+\index{plot\_point@{plot\_point}!drawing.h@{drawing.h}}
+\doxyparagraph{\texorpdfstring{plot\_point()}{plot\_point()}}
+{\footnotesize\ttfamily void plot\+\_\+point (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{x,  }\item[{\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{y }\end{DoxyParamCaption})}
+
+Plot a point in the current drawing mode and colour at {\bfseries{x,y}} \mbox{\Hypertarget{drawing_8h_a7b8f466ecc6be62f6c034e52f05e957a}\label{drawing_8h_a7b8f466ecc6be62f6c034e52f05e957a}} 
+\index{drawing.h@{drawing.h}!switch\_data@{switch\_data}}
+\index{switch\_data@{switch\_data}!drawing.h@{drawing.h}}
+\doxyparagraph{\texorpdfstring{switch\_data()}{switch\_data()}}
+{\footnotesize\ttfamily void switch\+\_\+data (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{x,  }\item[{\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{y,  }\item[{\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$}]{src,  }\item[{\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$}]{dst }\end{DoxyParamCaption})}
+
+Exchanges the tile on screen at x,y with the tile pointed by src, original tile is saved in dst. Both src and dst may be N\+U\+LL -\/ saving or copying to screen is not performed in this case. \mbox{\Hypertarget{drawing_8h_ab2c383d3e1541fae40cf5174e22166c6}\label{drawing_8h_ab2c383d3e1541fae40cf5174e22166c6}} 
+\index{drawing.h@{drawing.h}!draw\_image@{draw\_image}}
+\index{draw\_image@{draw\_image}!drawing.h@{drawing.h}}
+\doxyparagraph{\texorpdfstring{draw\_image()}{draw\_image()}}
+{\footnotesize\ttfamily void draw\+\_\+image (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$}]{data }\end{DoxyParamCaption})}
+
+Draw a full screen image at {\bfseries{data}} \mbox{\Hypertarget{drawing_8h_afe0ad8959a2867c4b60829d065660f1b}\label{drawing_8h_afe0ad8959a2867c4b60829d065660f1b}} 
+\index{drawing.h@{drawing.h}!line@{line}}
+\index{line@{line}!drawing.h@{drawing.h}}
+\doxyparagraph{\texorpdfstring{line()}{line()}}
+{\footnotesize\ttfamily void line (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{x1,  }\item[{\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{y1,  }\item[{\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{x2,  }\item[{\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{y2 }\end{DoxyParamCaption})}
+
+Draw a line in the current drawing mode and colour from {\bfseries{x1,y1}} to {\bfseries{x2,y2}} \mbox{\Hypertarget{drawing_8h_ae1170230e5c9e61cc4321632e949e7ce}\label{drawing_8h_ae1170230e5c9e61cc4321632e949e7ce}} 
+\index{drawing.h@{drawing.h}!box@{box}}
+\index{box@{box}!drawing.h@{drawing.h}}
+\doxyparagraph{\texorpdfstring{box()}{box()}}
+{\footnotesize\ttfamily void box (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{x1,  }\item[{\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{y1,  }\item[{\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{x2,  }\item[{\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{y2,  }\item[{\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{style }\end{DoxyParamCaption})}
+
+Draw a box (rectangle) with corners {\bfseries{x1,y1}} and {\bfseries{x2,y2}} using fill mode {\bfseries{style}} (one of N\+O\+F\+I\+LL or F\+I\+LL) \mbox{\Hypertarget{drawing_8h_ad46c3bdc38dfc9b70214693390d404cb}\label{drawing_8h_ad46c3bdc38dfc9b70214693390d404cb}} 
+\index{drawing.h@{drawing.h}!circle@{circle}}
+\index{circle@{circle}!drawing.h@{drawing.h}}
+\doxyparagraph{\texorpdfstring{circle()}{circle()}}
+{\footnotesize\ttfamily void circle (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{x,  }\item[{\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{y,  }\item[{\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{radius,  }\item[{\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{style }\end{DoxyParamCaption})}
+
+Draw a circle with centre at {\bfseries{x,y}} and {\bfseries{radius}} using fill mode {\bfseries{style}} (one of N\+O\+F\+I\+LL or F\+I\+LL) \mbox{\Hypertarget{drawing_8h_a1e268a46a8151f9cc3b7b40100123d09}\label{drawing_8h_a1e268a46a8151f9cc3b7b40100123d09}} 
+\index{drawing.h@{drawing.h}!getpix@{getpix}}
+\index{getpix@{getpix}!drawing.h@{drawing.h}}
+\doxyparagraph{\texorpdfstring{getpix()}{getpix()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} getpix (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{x,  }\item[{\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{y }\end{DoxyParamCaption})}
+
+Returns the current colour of the pixel at {\bfseries{x,y}} \mbox{\Hypertarget{drawing_8h_a9178e678a17cb08653600f435093ae2a}\label{drawing_8h_a9178e678a17cb08653600f435093ae2a}} 
+\index{drawing.h@{drawing.h}!wrtchr@{wrtchr}}
+\index{wrtchr@{wrtchr}!drawing.h@{drawing.h}}
+\doxyparagraph{\texorpdfstring{wrtchr()}{wrtchr()}}
+{\footnotesize\ttfamily void wrtchr (\begin{DoxyParamCaption}\item[{char}]{chr }\end{DoxyParamCaption})}
+
+Prints the character {\bfseries{chr}} in the default font at the current text position.
+
+The current position is advanced by 1 after the character is printed. \begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{drawing_8h_a2d6cbdc9528ec11ac54bd3dbe754ab74}{gotogxy()}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{drawing_8h_a2d6cbdc9528ec11ac54bd3dbe754ab74}\label{drawing_8h_a2d6cbdc9528ec11ac54bd3dbe754ab74}} 
+\index{drawing.h@{drawing.h}!gotogxy@{gotogxy}}
+\index{gotogxy@{gotogxy}!drawing.h@{drawing.h}}
+\doxyparagraph{\texorpdfstring{gotogxy()}{gotogxy()}}
+{\footnotesize\ttfamily void gotogxy (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{x,  }\item[{\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{y }\end{DoxyParamCaption})}
+
+Sets the current text position to {\bfseries{x,y}}.
+
+Note\+: {\bfseries{x}} and {\bfseries{y}} have units of tiles (8 pixels per unit) \begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{drawing_8h_a9178e678a17cb08653600f435093ae2a}{wrtchr()}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{drawing_8h_a9fa68d25be92836a1b08a5e610b4f32f}\label{drawing_8h_a9fa68d25be92836a1b08a5e610b4f32f}} 
+\index{drawing.h@{drawing.h}!color@{color}}
+\index{color@{color}!drawing.h@{drawing.h}}
+\doxyparagraph{\texorpdfstring{color()}{color()}}
+{\footnotesize\ttfamily void color (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{forecolor,  }\item[{\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{backcolor,  }\item[{\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{mode }\end{DoxyParamCaption})}
+
+Set the current {\bfseries{foreground}} colour (for pixels), {\bfseries{background}} colour, and draw {\bfseries{mode}} 

@@ -1,0 +1,206 @@
+\hypertarget{emu__debug_8h}{}\doxysubsection{gb/emu\+\_\+debug.h File Reference}
+\label{emu__debug_8h}\index{gb/emu\_debug.h@{gb/emu\_debug.h}}
+{\ttfamily \#include $<$types.\+h$>$}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{emu__debug_8h_a5624be3849bf5308c6cc05bc4a624557}{E\+M\+U\+\_\+\+M\+E\+S\+S\+A\+GE}}(message\+\_\+text)~E\+M\+U\+\_\+\+M\+E\+S\+S\+A\+G\+E1(E\+M\+U\+\_\+\+M\+A\+C\+R\+O\+N\+A\+ME(\+\_\+\+\_\+\+L\+I\+N\+E\+\_\+\+\_\+), message\+\_\+text)
+\item 
+\#define \mbox{\hyperlink{emu__debug_8h_aabd48c83af8f69ed624bb8a83347fa39}{B\+G\+B\+\_\+\+M\+E\+S\+S\+A\+GE}}(message\+\_\+text)~\mbox{\hyperlink{emu__debug_8h_a5624be3849bf5308c6cc05bc4a624557}{E\+M\+U\+\_\+\+M\+E\+S\+S\+A\+GE}}(message\+\_\+text)
+\item 
+\#define \mbox{\hyperlink{emu__debug_8h_a5359c3e6ddab89f41f1de770cc3640d4}{E\+M\+U\+\_\+\+P\+R\+O\+F\+I\+L\+E\+\_\+\+B\+E\+G\+IN}}(M\+SG)~E\+M\+U\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+U\+F\+F\+IX(M\+SG, \char`\"{}\%Z\+E\+R\+O\+C\+L\+KS\%\char`\"{});
+\item 
+\#define \mbox{\hyperlink{emu__debug_8h_ab5b05deda52856c84f274fb28578b6ee}{B\+G\+B\+\_\+\+P\+R\+O\+F\+I\+L\+E\+\_\+\+B\+E\+G\+IN}}(M\+SG)~\mbox{\hyperlink{emu__debug_8h_a5359c3e6ddab89f41f1de770cc3640d4}{E\+M\+U\+\_\+\+P\+R\+O\+F\+I\+L\+E\+\_\+\+B\+E\+G\+IN}}(M\+SG)
+\item 
+\#define \mbox{\hyperlink{emu__debug_8h_acce78126775a7ca3c862459e28203aba}{E\+M\+U\+\_\+\+P\+R\+O\+F\+I\+L\+E\+\_\+\+E\+ND}}(M\+SG)~E\+M\+U\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+U\+F\+F\+IX(M\+SG,\char`\"{}\%-\/8+L\+A\+S\+T\+C\+L\+KS\%\char`\"{});
+\item 
+\#define \mbox{\hyperlink{emu__debug_8h_ab43f94064dc523e99c4aefb440e2c3ed}{B\+G\+B\+\_\+\+P\+R\+O\+F\+I\+L\+E\+\_\+\+E\+ND}}(M\+SG)~\mbox{\hyperlink{emu__debug_8h_acce78126775a7ca3c862459e28203aba}{E\+M\+U\+\_\+\+P\+R\+O\+F\+I\+L\+E\+\_\+\+E\+ND}}(M\+SG)
+\item 
+\#define \mbox{\hyperlink{emu__debug_8h_ad1ca656789d7d285b352afeaa4cc56bd}{E\+M\+U\+\_\+\+T\+E\+XT}}(M\+SG)~\mbox{\hyperlink{emu__debug_8h_a5624be3849bf5308c6cc05bc4a624557}{E\+M\+U\+\_\+\+M\+E\+S\+S\+A\+GE}}(M\+SG)
+\item 
+\#define \mbox{\hyperlink{emu__debug_8h_a6afa665bd7d093e7ca2d310cc92b08a9}{B\+G\+B\+\_\+\+T\+E\+XT}}(M\+SG)~\mbox{\hyperlink{emu__debug_8h_ad1ca656789d7d285b352afeaa4cc56bd}{E\+M\+U\+\_\+\+T\+E\+XT}}(M\+SG)
+\item 
+\#define \mbox{\hyperlink{emu__debug_8h_a47c147586d9a21282ce72a83947508e9}{B\+G\+B\+\_\+profiler\+\_\+message}}()~\mbox{\hyperlink{emu__debug_8h_a1e2adc0111203ce0f551bcb1d99395df}{E\+M\+U\+\_\+profiler\+\_\+message}}()
+\item 
+\#define \mbox{\hyperlink{emu__debug_8h_a892ddea0cd396141c1ae05e384303cbf}{B\+G\+B\+\_\+printf}}(...)~\mbox{\hyperlink{emu__debug_8h_a586ce1ddfba9c35726887ca31f933963}{E\+M\+U\+\_\+printf}}(\+\_\+\+\_\+\+V\+A\+\_\+\+A\+R\+G\+S\+\_\+\+\_\+)
+\item 
+\#define \mbox{\hyperlink{emu__debug_8h_a9e856b4691d63bb41c5148b9097bd2bb}{E\+M\+U\+\_\+\+B\+R\+E\+A\+K\+P\+O\+I\+NT}}~\+\_\+\+\_\+asm\+\_\+\+\_\+(\char`\"{}ld \mbox{\hyperlink{gb_8h_a4c2e4adef74067fdbb49005bc73de937}{b}}, \mbox{\hyperlink{gb_8h_a4c2e4adef74067fdbb49005bc73de937}{b}}\char`\"{});
+\item 
+\#define \mbox{\hyperlink{emu__debug_8h_a95c9ae3faadfe6f93a3cac87085b3481}{B\+G\+B\+\_\+\+B\+R\+E\+A\+K\+P\+O\+I\+NT}}~\mbox{\hyperlink{emu__debug_8h_a9e856b4691d63bb41c5148b9097bd2bb}{E\+M\+U\+\_\+\+B\+R\+E\+A\+K\+P\+O\+I\+NT}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{emu__debug_8h_a1e2adc0111203ce0f551bcb1d99395df}{E\+M\+U\+\_\+profiler\+\_\+message}} ()
+\item 
+void \mbox{\hyperlink{emu__debug_8h_a586ce1ddfba9c35726887ca31f933963}{E\+M\+U\+\_\+printf}} (const char $\ast$format,...) \mbox{\hyperlink{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}{O\+L\+D\+C\+A\+LL}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Detailed Description}
+Debug window logging and profiling support for emulators (B\+GB, Emulicious, etc).
+
+Also see the {\ttfamily emu\+\_\+debug} example project included with gbdk.
+
+See the B\+GB Manual for more information (\char`\"{}expressions, breakpoint conditions, and debug messages\char`\"{}) \href{http://bgb.bircd.org/manual.html\#expressions}{\texttt{ http\+://bgb.\+bircd.\+org/manual.\+html\#expressions}} 
+
+\doxysubsubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{emu__debug_8h_a5624be3849bf5308c6cc05bc4a624557}\label{emu__debug_8h_a5624be3849bf5308c6cc05bc4a624557}} 
+\index{emu\_debug.h@{emu\_debug.h}!EMU\_MESSAGE@{EMU\_MESSAGE}}
+\index{EMU\_MESSAGE@{EMU\_MESSAGE}!emu\_debug.h@{emu\_debug.h}}
+\doxyparagraph{\texorpdfstring{EMU\_MESSAGE}{EMU\_MESSAGE}}
+{\footnotesize\ttfamily \#define E\+M\+U\+\_\+\+M\+E\+S\+S\+A\+GE(\begin{DoxyParamCaption}\item[{}]{message\+\_\+text }\end{DoxyParamCaption})~E\+M\+U\+\_\+\+M\+E\+S\+S\+A\+G\+E1(E\+M\+U\+\_\+\+M\+A\+C\+R\+O\+N\+A\+ME(\+\_\+\+\_\+\+L\+I\+N\+E\+\_\+\+\_\+), message\+\_\+text)}
+
+Macro to display a message in the emulator debug message window
+
+
+\begin{DoxyParams}{Parameters}
+{\em message\+\_\+text} & Quoted text string to display in the debug message window\\
+\hline
+\end{DoxyParams}
+The following special parameters can be used when bracketed with \char`\"{}\%\char`\"{} characters. \begin{DoxyItemize}
+\item C\+PU registers\+: AF, BC, DE, HL, SP, PC, B, C, D, E, H, L, A, Z\+E\+RO, ZF, Z, C\+A\+R\+RY, CY, I\+ME, A\+L\+L\+R\+E\+GS \item Other state values\+: R\+O\+M\+B\+A\+NK, X\+R\+A\+M\+B\+A\+NK, S\+R\+A\+M\+B\+A\+NK, W\+R\+A\+M\+B\+A\+NK, V\+R\+A\+M\+B\+A\+NK, T\+O\+T\+A\+L\+C\+L\+KS, L\+A\+S\+T\+C\+L\+KS, C\+L\+K\+S2\+V\+B\+L\+A\+NK\end{DoxyItemize}
+Example\+: print a message along with the currently active R\+OM bank. 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{emu__debug_8h_a5624be3849bf5308c6cc05bc4a624557}{EMU\_MESSAGE}}(\textcolor{stringliteral}{"{}Current ROM Bank is: \%ROMBANK\%"{}});}
+\end{DoxyCode}
+
+
+See the B\+GB Manual for more information (\char`\"{}expressions, breakpoint conditions, and debug messages\char`\"{}) \href{http://bgb.bircd.org/manual.html\#expressions}{\texttt{ http\+://bgb.\+bircd.\+org/manual.\+html\#expressions}}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{emu__debug_8h_a5359c3e6ddab89f41f1de770cc3640d4}{E\+M\+U\+\_\+\+P\+R\+O\+F\+I\+L\+E\+\_\+\+B\+E\+G\+I\+N()}}, \mbox{\hyperlink{emu__debug_8h_acce78126775a7ca3c862459e28203aba}{E\+M\+U\+\_\+\+P\+R\+O\+F\+I\+L\+E\+\_\+\+E\+N\+D()}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{emu__debug_8h_aabd48c83af8f69ed624bb8a83347fa39}\label{emu__debug_8h_aabd48c83af8f69ed624bb8a83347fa39}} 
+\index{emu\_debug.h@{emu\_debug.h}!BGB\_MESSAGE@{BGB\_MESSAGE}}
+\index{BGB\_MESSAGE@{BGB\_MESSAGE}!emu\_debug.h@{emu\_debug.h}}
+\doxyparagraph{\texorpdfstring{BGB\_MESSAGE}{BGB\_MESSAGE}}
+{\footnotesize\ttfamily \#define B\+G\+B\+\_\+\+M\+E\+S\+S\+A\+GE(\begin{DoxyParamCaption}\item[{}]{message\+\_\+text }\end{DoxyParamCaption})~\mbox{\hyperlink{emu__debug_8h_a5624be3849bf5308c6cc05bc4a624557}{E\+M\+U\+\_\+\+M\+E\+S\+S\+A\+GE}}(message\+\_\+text)}
+
+\mbox{\Hypertarget{emu__debug_8h_a5359c3e6ddab89f41f1de770cc3640d4}\label{emu__debug_8h_a5359c3e6ddab89f41f1de770cc3640d4}} 
+\index{emu\_debug.h@{emu\_debug.h}!EMU\_PROFILE\_BEGIN@{EMU\_PROFILE\_BEGIN}}
+\index{EMU\_PROFILE\_BEGIN@{EMU\_PROFILE\_BEGIN}!emu\_debug.h@{emu\_debug.h}}
+\doxyparagraph{\texorpdfstring{EMU\_PROFILE\_BEGIN}{EMU\_PROFILE\_BEGIN}}
+{\footnotesize\ttfamily \#define E\+M\+U\+\_\+\+P\+R\+O\+F\+I\+L\+E\+\_\+\+B\+E\+G\+IN(\begin{DoxyParamCaption}\item[{}]{M\+SG }\end{DoxyParamCaption})~E\+M\+U\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+U\+F\+F\+IX(M\+SG, \char`\"{}\%Z\+E\+R\+O\+C\+L\+KS\%\char`\"{});}
+
+Macro to {\bfseries{Start}} a profiling block for the emulator (B\+GB, Emulicious, etc)
+
+
+\begin{DoxyParams}{Parameters}
+{\em M\+SG} & Quoted text string to display in the debug message window along with the result\\
+\hline
+\end{DoxyParams}
+To complete the profiling block and print the result call \mbox{\hyperlink{emu__debug_8h_acce78126775a7ca3c862459e28203aba}{E\+M\+U\+\_\+\+P\+R\+O\+F\+I\+L\+E\+\_\+\+E\+ND}}.
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{emu__debug_8h_acce78126775a7ca3c862459e28203aba}{E\+M\+U\+\_\+\+P\+R\+O\+F\+I\+L\+E\+\_\+\+E\+N\+D()}}, \mbox{\hyperlink{emu__debug_8h_a5624be3849bf5308c6cc05bc4a624557}{E\+M\+U\+\_\+\+M\+E\+S\+S\+A\+G\+E()}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{emu__debug_8h_ab5b05deda52856c84f274fb28578b6ee}\label{emu__debug_8h_ab5b05deda52856c84f274fb28578b6ee}} 
+\index{emu\_debug.h@{emu\_debug.h}!BGB\_PROFILE\_BEGIN@{BGB\_PROFILE\_BEGIN}}
+\index{BGB\_PROFILE\_BEGIN@{BGB\_PROFILE\_BEGIN}!emu\_debug.h@{emu\_debug.h}}
+\doxyparagraph{\texorpdfstring{BGB\_PROFILE\_BEGIN}{BGB\_PROFILE\_BEGIN}}
+{\footnotesize\ttfamily \#define B\+G\+B\+\_\+\+P\+R\+O\+F\+I\+L\+E\+\_\+\+B\+E\+G\+IN(\begin{DoxyParamCaption}\item[{}]{M\+SG }\end{DoxyParamCaption})~\mbox{\hyperlink{emu__debug_8h_a5359c3e6ddab89f41f1de770cc3640d4}{E\+M\+U\+\_\+\+P\+R\+O\+F\+I\+L\+E\+\_\+\+B\+E\+G\+IN}}(M\+SG)}
+
+\mbox{\Hypertarget{emu__debug_8h_acce78126775a7ca3c862459e28203aba}\label{emu__debug_8h_acce78126775a7ca3c862459e28203aba}} 
+\index{emu\_debug.h@{emu\_debug.h}!EMU\_PROFILE\_END@{EMU\_PROFILE\_END}}
+\index{EMU\_PROFILE\_END@{EMU\_PROFILE\_END}!emu\_debug.h@{emu\_debug.h}}
+\doxyparagraph{\texorpdfstring{EMU\_PROFILE\_END}{EMU\_PROFILE\_END}}
+{\footnotesize\ttfamily \#define E\+M\+U\+\_\+\+P\+R\+O\+F\+I\+L\+E\+\_\+\+E\+ND(\begin{DoxyParamCaption}\item[{}]{M\+SG }\end{DoxyParamCaption})~E\+M\+U\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+U\+F\+F\+IX(M\+SG,\char`\"{}\%-\/8+L\+A\+S\+T\+C\+L\+KS\%\char`\"{});}
+
+Macro to {\bfseries{End}} a profiling block and print the results in the emulator debug message window
+
+
+\begin{DoxyParams}{Parameters}
+{\em M\+SG} & Quoted text string to display in the debug message window along with the result\\
+\hline
+\end{DoxyParams}
+This should only be called after a previous call to \mbox{\hyperlink{emu__debug_8h_a5359c3e6ddab89f41f1de770cc3640d4}{E\+M\+U\+\_\+\+P\+R\+O\+F\+I\+L\+E\+\_\+\+B\+E\+G\+I\+N()}}
+
+The results are in Emulator clock units, which are \char`\"{}1 nop in \mbox{[}\+C\+G\+B\mbox{]} doublespeed mode\char`\"{}.
+
+So when running in Normal Speed mode (i.\+e. non-\/\+C\+GB doublespeed) the printed result should be {\bfseries{divided by 2}} to get the actual ellapsed cycle count.
+
+If running in CB Double Speed mode use the below call instead, it correctly compensates for the speed difference. In this scenario, the result does {\bfseries{not need to be divided by 2}} to get the ellapsed cycle count. 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{emu__debug_8h_a5624be3849bf5308c6cc05bc4a624557}{EMU\_MESSAGE}}(\textcolor{stringliteral}{"{}NOP TIME: \%-\/4+LASTCLKS\%"{}});}
+\end{DoxyCode}
+
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{emu__debug_8h_a5359c3e6ddab89f41f1de770cc3640d4}{E\+M\+U\+\_\+\+P\+R\+O\+F\+I\+L\+E\+\_\+\+B\+E\+G\+I\+N()}}, \mbox{\hyperlink{emu__debug_8h_a5624be3849bf5308c6cc05bc4a624557}{E\+M\+U\+\_\+\+M\+E\+S\+S\+A\+G\+E()}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{emu__debug_8h_ab43f94064dc523e99c4aefb440e2c3ed}\label{emu__debug_8h_ab43f94064dc523e99c4aefb440e2c3ed}} 
+\index{emu\_debug.h@{emu\_debug.h}!BGB\_PROFILE\_END@{BGB\_PROFILE\_END}}
+\index{BGB\_PROFILE\_END@{BGB\_PROFILE\_END}!emu\_debug.h@{emu\_debug.h}}
+\doxyparagraph{\texorpdfstring{BGB\_PROFILE\_END}{BGB\_PROFILE\_END}}
+{\footnotesize\ttfamily \#define B\+G\+B\+\_\+\+P\+R\+O\+F\+I\+L\+E\+\_\+\+E\+ND(\begin{DoxyParamCaption}\item[{}]{M\+SG }\end{DoxyParamCaption})~\mbox{\hyperlink{emu__debug_8h_acce78126775a7ca3c862459e28203aba}{E\+M\+U\+\_\+\+P\+R\+O\+F\+I\+L\+E\+\_\+\+E\+ND}}(M\+SG)}
+
+\mbox{\Hypertarget{emu__debug_8h_ad1ca656789d7d285b352afeaa4cc56bd}\label{emu__debug_8h_ad1ca656789d7d285b352afeaa4cc56bd}} 
+\index{emu\_debug.h@{emu\_debug.h}!EMU\_TEXT@{EMU\_TEXT}}
+\index{EMU\_TEXT@{EMU\_TEXT}!emu\_debug.h@{emu\_debug.h}}
+\doxyparagraph{\texorpdfstring{EMU\_TEXT}{EMU\_TEXT}}
+{\footnotesize\ttfamily \#define E\+M\+U\+\_\+\+T\+E\+XT(\begin{DoxyParamCaption}\item[{}]{M\+SG }\end{DoxyParamCaption})~\mbox{\hyperlink{emu__debug_8h_a5624be3849bf5308c6cc05bc4a624557}{E\+M\+U\+\_\+\+M\+E\+S\+S\+A\+GE}}(M\+SG)}
+
+\mbox{\Hypertarget{emu__debug_8h_a6afa665bd7d093e7ca2d310cc92b08a9}\label{emu__debug_8h_a6afa665bd7d093e7ca2d310cc92b08a9}} 
+\index{emu\_debug.h@{emu\_debug.h}!BGB\_TEXT@{BGB\_TEXT}}
+\index{BGB\_TEXT@{BGB\_TEXT}!emu\_debug.h@{emu\_debug.h}}
+\doxyparagraph{\texorpdfstring{BGB\_TEXT}{BGB\_TEXT}}
+{\footnotesize\ttfamily \#define B\+G\+B\+\_\+\+T\+E\+XT(\begin{DoxyParamCaption}\item[{}]{M\+SG }\end{DoxyParamCaption})~\mbox{\hyperlink{emu__debug_8h_ad1ca656789d7d285b352afeaa4cc56bd}{E\+M\+U\+\_\+\+T\+E\+XT}}(M\+SG)}
+
+\mbox{\Hypertarget{emu__debug_8h_a47c147586d9a21282ce72a83947508e9}\label{emu__debug_8h_a47c147586d9a21282ce72a83947508e9}} 
+\index{emu\_debug.h@{emu\_debug.h}!BGB\_profiler\_message@{BGB\_profiler\_message}}
+\index{BGB\_profiler\_message@{BGB\_profiler\_message}!emu\_debug.h@{emu\_debug.h}}
+\doxyparagraph{\texorpdfstring{BGB\_profiler\_message}{BGB\_profiler\_message}}
+{\footnotesize\ttfamily \#define B\+G\+B\+\_\+profiler\+\_\+message(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})~\mbox{\hyperlink{emu__debug_8h_a1e2adc0111203ce0f551bcb1d99395df}{E\+M\+U\+\_\+profiler\+\_\+message}}()}
+
+\mbox{\Hypertarget{emu__debug_8h_a892ddea0cd396141c1ae05e384303cbf}\label{emu__debug_8h_a892ddea0cd396141c1ae05e384303cbf}} 
+\index{emu\_debug.h@{emu\_debug.h}!BGB\_printf@{BGB\_printf}}
+\index{BGB\_printf@{BGB\_printf}!emu\_debug.h@{emu\_debug.h}}
+\doxyparagraph{\texorpdfstring{BGB\_printf}{BGB\_printf}}
+{\footnotesize\ttfamily \#define B\+G\+B\+\_\+printf(\begin{DoxyParamCaption}\item[{}]{... }\end{DoxyParamCaption})~\mbox{\hyperlink{emu__debug_8h_a586ce1ddfba9c35726887ca31f933963}{E\+M\+U\+\_\+printf}}(\+\_\+\+\_\+\+V\+A\+\_\+\+A\+R\+G\+S\+\_\+\+\_\+)}
+
+\mbox{\Hypertarget{emu__debug_8h_a9e856b4691d63bb41c5148b9097bd2bb}\label{emu__debug_8h_a9e856b4691d63bb41c5148b9097bd2bb}} 
+\index{emu\_debug.h@{emu\_debug.h}!EMU\_BREAKPOINT@{EMU\_BREAKPOINT}}
+\index{EMU\_BREAKPOINT@{EMU\_BREAKPOINT}!emu\_debug.h@{emu\_debug.h}}
+\doxyparagraph{\texorpdfstring{EMU\_BREAKPOINT}{EMU\_BREAKPOINT}}
+{\footnotesize\ttfamily \#define E\+M\+U\+\_\+\+B\+R\+E\+A\+K\+P\+O\+I\+NT~\+\_\+\+\_\+asm\+\_\+\+\_\+(\char`\"{}ld \mbox{\hyperlink{gb_8h_a4c2e4adef74067fdbb49005bc73de937}{b}}, \mbox{\hyperlink{gb_8h_a4c2e4adef74067fdbb49005bc73de937}{b}}\char`\"{});}
+
+The Emulator will break into debugger when encounters this line \mbox{\Hypertarget{emu__debug_8h_a95c9ae3faadfe6f93a3cac87085b3481}\label{emu__debug_8h_a95c9ae3faadfe6f93a3cac87085b3481}} 
+\index{emu\_debug.h@{emu\_debug.h}!BGB\_BREAKPOINT@{BGB\_BREAKPOINT}}
+\index{BGB\_BREAKPOINT@{BGB\_BREAKPOINT}!emu\_debug.h@{emu\_debug.h}}
+\doxyparagraph{\texorpdfstring{BGB\_BREAKPOINT}{BGB\_BREAKPOINT}}
+{\footnotesize\ttfamily \#define B\+G\+B\+\_\+\+B\+R\+E\+A\+K\+P\+O\+I\+NT~\mbox{\hyperlink{emu__debug_8h_a9e856b4691d63bb41c5148b9097bd2bb}{E\+M\+U\+\_\+\+B\+R\+E\+A\+K\+P\+O\+I\+NT}}}
+
+
+
+\doxysubsubsection{Function Documentation}
+\mbox{\Hypertarget{emu__debug_8h_a1e2adc0111203ce0f551bcb1d99395df}\label{emu__debug_8h_a1e2adc0111203ce0f551bcb1d99395df}} 
+\index{emu\_debug.h@{emu\_debug.h}!EMU\_profiler\_message@{EMU\_profiler\_message}}
+\index{EMU\_profiler\_message@{EMU\_profiler\_message}!emu\_debug.h@{emu\_debug.h}}
+\doxyparagraph{\texorpdfstring{EMU\_profiler\_message()}{EMU\_profiler\_message()}}
+{\footnotesize\ttfamily void E\+M\+U\+\_\+profiler\+\_\+message (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Display preset debug information in the Emulator debug messages window.
+
+This function is equivalent to\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{emu__debug_8h_a5624be3849bf5308c6cc05bc4a624557}{EMU\_MESSAGE}}(\textcolor{stringliteral}{"{}PROFILE,\%(SP+\$0)\%,\%(SP+\$1)\%,\%A\%,\%TOTALCLKS\%,\%ROMBANK\%,\%WRAMBANK\%"{}});}
+\end{DoxyCode}
+ \mbox{\Hypertarget{emu__debug_8h_a586ce1ddfba9c35726887ca31f933963}\label{emu__debug_8h_a586ce1ddfba9c35726887ca31f933963}} 
+\index{emu\_debug.h@{emu\_debug.h}!EMU\_printf@{EMU\_printf}}
+\index{EMU\_printf@{EMU\_printf}!emu\_debug.h@{emu\_debug.h}}
+\doxyparagraph{\texorpdfstring{EMU\_printf()}{EMU\_printf()}}
+{\footnotesize\ttfamily void E\+M\+U\+\_\+printf (\begin{DoxyParamCaption}\item[{const char $\ast$}]{format,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+Print the string and arguments given by format to the emulator debug message window
+
+
+\begin{DoxyParams}{Parameters}
+{\em format} & The format string as per printf\\
+\hline
+\end{DoxyParams}
+Does not return the number of characters printed. Result string M\+U\+ST BE L\+E\+SS OR E\+Q\+U\+AL T\+H\+AN 128 B\+Y\+T\+ES L\+O\+NG, I\+N\+C\+L\+U\+D\+I\+NG T\+HE T\+R\+A\+I\+L\+IG Z\+E\+RO B\+Y\+T\+E!
+
+Currently supported\+: \begin{DoxyItemize}
+\item \%hx (char as hex) \item \%hu (unsigned char) \item \%hd (signed char) \item \%c (character) \item \%u (unsigned int) \item \%d (signed int) \item \%x (unsigned int as hex) \item \%s (string)\end{DoxyItemize}
+Warning\+: to correctly pass chars for printing as chars, they {\itshape must} be explicitly re-\/cast as such when calling the function. See \mbox{\hyperlink{docs_coding_guidelines_docs_chars_varargs}{docs\+\_\+chars\+\_\+varargs}} for more details. 

@@ -1,0 +1,165 @@
+\hypertarget{docs_using_gbdk_autotoc_md40}{}\doxysubsection{Interrupts}\label{docs_using_gbdk_autotoc_md40}
+Interrupts allow execution to jump to a different part of your code as soon as an external event occurs -\/ for example the L\+CD entering the vertical blank period, serial data arriving or the timer reaching its end count. For an example see the irq.\+c sample project.
+
+Interrupts in G\+B\+DK are handled using the functions \mbox{\hyperlink{gb_8h_ad77796783b3a601b6f3781dfc3983499}{disable\+\_\+interrupts()}}, \mbox{\hyperlink{gb_8h_ae0b13f17609b26c86fc33944aeb6e867}{enable\+\_\+interrupts()}}, \mbox{\hyperlink{sms_8h_aefda0091b2934571a11e07b512735f50}{set\+\_\+interrupts(uint8\+\_\+t ier)}} and the interrupt service routine (I\+SR) linkers \mbox{\hyperlink{gb_8h_a0d29659d08708143dd8bc720278e06b5}{add\+\_\+\+V\+B\+L()}}, \mbox{\hyperlink{sms_8h_a6c66a583a8f0744e3985c89725e3dc10}{add\+\_\+\+T\+IM}}, \mbox{\hyperlink{sms_8h_a51add93356a25c71e8c37a73c9065c9d}{add\+\_\+\+L\+CD}}, \mbox{\hyperlink{sms_8h_a3372d61a07e0466bdb909a27f3aaaca9}{add\+\_\+\+S\+IO}} and \mbox{\hyperlink{sms_8h_a48163816121cd669526817d3e6266fd9}{add\+\_\+\+J\+OY}} which add interrupt handlers for the vertical blank, timer, L\+CD, serial link and joypad interrupts respectively.
+
+Since an interrupt can occur at any time an Interrupt Service Request (I\+SR) cannot take any arguments or return anything. Its only way of communicating with the greater program is through the global variables. When interacting with those shared I\+SR global variables from main code outside the interrupt, it is a good idea to wrap them in a {\ttfamily critical \{\}} section in case the interrupt occurs and modifies the variable while it is being used.
+
+Interrupts should be disabled before adding I\+S\+Rs. To use multiple interrupts, {\itshape logical OR} the relevant I\+F\+L\+A\+Gs together.
+
+I\+S\+Rs should be kept as small and short as possible, do not write an I\+SR so long that the Game Boy hardware spends all of its time servicing interrupts and has no time spare for the main code.
+
+For more detail on the Game Boy interrupts consider reading about them in the \mbox{\hyperlink{docs_links_and_tools_Pandocs}{Pandocs}}.\hypertarget{docs_using_gbdk_autotoc_md41}{}\doxysubsubsection{Available Interrupts}\label{docs_using_gbdk_autotoc_md41}
+The Game\+Boy hardware can generate 5 types of interrupts. Custom Interrupt Service Routines (I\+S\+Rs) can be added in addition to the built-\/in ones available in G\+B\+DK.
+
+
+\begin{DoxyItemize}
+\item V\+BL \+: L\+CD Vertical Blanking period start
+\begin{DoxyItemize}
+\item The default V\+BL I\+SR is installed automatically.
+\begin{DoxyItemize}
+\item See \mbox{\hyperlink{gb_8h_a0d29659d08708143dd8bc720278e06b5}{add\+\_\+\+V\+B\+L()}} and \mbox{\hyperlink{gb_8h_ad43fdfdb1e157b141f3fc48b78bf4386}{remove\+\_\+\+V\+B\+L()}}
+\end{DoxyItemize}
+\end{DoxyItemize}
+\item L\+CD \+: L\+C\+DC status (such as the start of a horizontal line)
+\begin{DoxyItemize}
+\item See \mbox{\hyperlink{gb_8h_a9f9f77105099a34556247d5bb03368d1}{add\+\_\+\+L\+C\+D()}} and \mbox{\hyperlink{gb_8h_a32683767caa2a263a1f494b3605786e7}{remove\+\_\+\+L\+C\+D()}}
+\item Example project\+: {\ttfamily lcd\+\_\+isr\+\_\+wobble}
+\end{DoxyItemize}
+\item T\+IM \+: Timer overflow
+\begin{DoxyItemize}
+\item See \mbox{\hyperlink{gb_8h_a028d1a2e820951bb4f103d6469975ffb}{add\+\_\+\+T\+I\+M()}} and \mbox{\hyperlink{gb_8h_a142f6c7755fce8b1148faf658d8ec147}{remove\+\_\+\+T\+I\+M()}}
+\item Example project\+: {\ttfamily tim}
+\end{DoxyItemize}
+\item S\+IO \+: Serial Link I/O transfer end
+\begin{DoxyItemize}
+\item The default S\+IO I\+SR gets installed automatically if any of the standard S\+IO calls are used. These calls include \mbox{\hyperlink{gb_8h_aa82422752016328ed0765879e286019f}{add\+\_\+\+S\+I\+O()}}, \mbox{\hyperlink{gb_8h_a5b821b31215361265d8b7894a9ae7118}{remove\+\_\+\+S\+I\+O()}}, \mbox{\hyperlink{gb_8h_ae339d7d8d7e0ebd6691b42608c416964}{send\+\_\+byte()}}, \mbox{\hyperlink{gb_8h_a9a7fd7be44bb12bc85a144b732ce02f7}{receive\+\_\+byte()}}.
+\item The default S\+IO I\+SR cannot be removed once installed. Only secondary chained S\+IO I\+S\+Rs (added with \mbox{\hyperlink{gb_8h_aa82422752016328ed0765879e286019f}{add\+\_\+\+S\+I\+O()}} ) can be removed.
+\item See \mbox{\hyperlink{gb_8h_aa82422752016328ed0765879e286019f}{add\+\_\+\+S\+I\+O()}} and \mbox{\hyperlink{gb_8h_a5b821b31215361265d8b7894a9ae7118}{remove\+\_\+\+S\+I\+O()}}
+\item Example project\+: {\ttfamily comm}
+\end{DoxyItemize}
+\item J\+OY \+: Transition from high to low of a joypad button
+\begin{DoxyItemize}
+\item See \mbox{\hyperlink{gb_8h_aa2f0235e78da2d1d94d3628d7a1afc30}{add\+\_\+\+J\+O\+Y()}} and \mbox{\hyperlink{gb_8h_a4a3e87e0917d5efb6bc7c94e9754fcd0}{remove\+\_\+\+J\+O\+Y()}}
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{docs_using_gbdk_autotoc_md42}{}\doxysubsubsection{Adding your own interrupt handler}\label{docs_using_gbdk_autotoc_md42}
+It is possible to install your own interrupt handlers (in C or in assembly) for any of these interrupts. Up to 4 chained handlers may be added, with the last added being called last. If the \mbox{\hyperlink{gb_8h_ad43fdfdb1e157b141f3fc48b78bf4386}{remove\+\_\+\+V\+B\+L()}} function is to be called, only three may be added for V\+BL.
+
+Interrupt handlers are called in sequence. To install a new interrupt handler, do the following\+:
+
+
+\begin{DoxyEnumerate}
+\item Write a function (say foo()) that takes no parameters, and that returns nothing. Remember that the code executed in an interrupt handler must be short.
+\item Inside a {\ttfamily \+\_\+\+\_\+critical \{ ... \}} section, install your interrupt handling routines using the add\+\_\+\+X\+X\+X() function, where X\+XX is the interrupt that you want to handle.
+\item Enable interrupts for the I\+RQ you want to handle, using the \mbox{\hyperlink{gb_8h_a9312e7ec34162d6b6ed0875631fa6fe3}{set\+\_\+interrupts()}} function. Note that the V\+BL interrupt is already enabled before the main() function is called. If you want to set the interrupts before main() is called, you must install an initialization routine.
+\end{DoxyEnumerate}
+
+See the {\ttfamily irq} example project for additional details for a complete example.\hypertarget{docs_using_gbdk_autotoc_md43}{}\doxysubsubsection{Using your own Interrupt Dispatcher}\label{docs_using_gbdk_autotoc_md43}
+If you want to use your own Interrupt Dispatcher instead of the G\+B\+DK chained dispatcher (for improved performance), then don\textquotesingle{}t call the {\ttfamily add\+\_\+...()} function for the respective interrupt and it\textquotesingle{}s dispatcher won\textquotesingle{}t be installed.
+\begin{DoxyItemize}
+\item Exception\+: the V\+BL dispatcher will always be linked in at compile time.
+\item For the S\+IO interrupt, also do not make any standard S\+IO calls to avoid having it\textquotesingle{}s dispatcher installed.
+\end{DoxyItemize}
+
+Then, \mbox{\hyperlink{isr_8h_a73769fed9338af86fdb7df35d7b82620}{I\+S\+R\+\_\+\+V\+E\+C\+T\+O\+R()}} or \mbox{\hyperlink{isr_8h_a78f9ef588aaf221023e48899898d566b}{I\+S\+R\+\_\+\+N\+E\+S\+T\+E\+D\+\_\+\+V\+E\+C\+T\+O\+R()}} can be used to install a custom I\+SR handler.\hypertarget{docs_using_gbdk_autotoc_md44}{}\doxysubsubsection{Returning from Interrupts and S\+T\+A\+T mode}\label{docs_using_gbdk_autotoc_md44}
+By default when an Interrupt handler completes and is ready to exit it will check S\+T\+A\+T\+\_\+\+R\+EG and only return at the B\+E\+G\+I\+N\+N\+I\+NG of either L\+CD Mode 0 or Mode 1. This helps prevent graphical glitches caused when an I\+SR interrupts a graphics operation in one mode but returns in a different mode for which that graphics operation is not allowed.
+
+You can change this behavior using \mbox{\hyperlink{gb_8h_a695c6d0e8fd7cf11dae0d4c67bc058f9}{nowait\+\_\+int\+\_\+handler()}} which does not check \mbox{\hyperlink{gb_2hardware_8h_ad40ebf3b29add46cdd310a7e0802bc6b}{S\+T\+A\+T\+\_\+\+R\+EG}} before returning. Also see \mbox{\hyperlink{gb_8h_acc9afd0cb72e763a1213d256b942a68f}{wait\+\_\+int\+\_\+handler()}}.\hypertarget{docs_using_gbdk_autotoc_md45}{}\doxysubsection{What G\+B\+D\+K does automatically and behind the scenes}\label{docs_using_gbdk_autotoc_md45}
+\hypertarget{docs_using_gbdk_autotoc_md46}{}\doxysubsubsection{O\+A\+M (\+V\+R\+A\+M Sprite Attribute Table)}\label{docs_using_gbdk_autotoc_md46}
+G\+B\+DK sets up a Shadow O\+AM which gets copied automatically to the hardware O\+AM by the default V-\/\+Blank I\+SR. The Shadow O\+AM allows updating sprites without worrying about whether it is safe to write to them or not based on the hardware L\+CD mode.\hypertarget{docs_using_gbdk_autotoc_md47}{}\doxysubsubsection{Font tiles when using stdio.\+h}\label{docs_using_gbdk_autotoc_md47}
+Including \mbox{\hyperlink{stdio_8h}{stdio.\+h}} and using functions such as \mbox{\hyperlink{stdio_8h_ab403fa700816f08631ba75bc536f74d4}{printf()}} will use a large number of the background tiles for font characters. If stdio.\+h is not included then that space will be available for use with other tiles instead.\hypertarget{docs_using_gbdk_autotoc_md48}{}\doxysubsubsection{Default Interrupt Service Handlers (\+I\+S\+Rs)}\label{docs_using_gbdk_autotoc_md48}
+
+\begin{DoxyItemize}
+\item V-\/\+Blank\+: A default V-\/\+Blank I\+SR is installed on startup which copies the Shadow O\+AM to the hardware O\+AM and increments the global \mbox{\hyperlink{sms_8h_a78d2fd18666afec116f176d46debb4e7}{sys\+\_\+time}} variable once per frame.
+\item Serial Link I/O\+: If any of the G\+B\+DK serial link functions are used such as \mbox{\hyperlink{gb_8h_ae339d7d8d7e0ebd6691b42608c416964}{send\+\_\+byte()}} and \mbox{\hyperlink{gb_8h_a9a7fd7be44bb12bc85a144b732ce02f7}{receive\+\_\+byte()}}, the default S\+IO serial link handler will be installed automatically at compile-\/time.
+\end{DoxyItemize}\hypertarget{docs_using_gbdk_autotoc_md49}{}\doxysubsection{Copying Functions to R\+A\+M and H\+I\+R\+AM}\label{docs_using_gbdk_autotoc_md49}
+See the {\ttfamily ram\+\_\+function} example project included with G\+B\+DK demonstrates copying functions to R\+AM and H\+I\+R\+AM.
+
+{\ttfamily Warning!} Copying of functions is generally not safe since they may contain jumps to absolute addresses that will not be converted to match the new location.
+
+It is possible to copy functions to R\+AM and H\+I\+R\+AM (using the \mbox{\hyperlink{asm_2gbz80_2string_8h_a6a1a6cbe7fb6102819098340a4986574}{memcpy()}} and \mbox{\hyperlink{gb_8h_a97b9f2fc6ac7cae97656aca940d65d44}{hiramcpy()}} functions), and execute them from C. Ensure you have enough free space in R\+AM or H\+I\+R\+AM for copying a function.
+
+There are basically two ways for calling a function located in R\+AM, H\+I\+R\+AM, or R\+OM\+:
+
+
+\begin{DoxyItemize}
+\item Declare a pointer-\/to-\/function variable, and set it to the address of the function to call.
+\item Declare the function as extern, and set its address at link time using the -\/Wl-\/g\+X\+XX=\# flag (where X\+XX is the name of the function, and \# is its address).
+\end{DoxyItemize}
+
+The second approach is slightly more efficient. Both approaches are demonstrated in the {\ttfamily ram\+\_\+function.\+c} example.\hypertarget{docs_using_gbdk_autotoc_md50}{}\doxysubsection{Mixing C and Assembly}\label{docs_using_gbdk_autotoc_md50}
+You can mix C and assembly (A\+SM) in two ways as described below. For additional detail see the \mbox{\hyperlink{docs_links_and_tools_links_sdcc_docs}{links\+\_\+sdcc\+\_\+docs}}.\hypertarget{docs_using_gbdk_autotoc_md51}{}\doxysubsubsection{Inline A\+S\+M within C source files}\label{docs_using_gbdk_autotoc_md51}
+Example\+: ~\newline
+ \begin{DoxyVerb}   __asm__("nop");
+\end{DoxyVerb}
+
+
+Another Example\+: ~\newline
+ \begin{DoxyVerb}  void some_c_function() 
+  {
+    // Optionally do something
+    __asm
+        (ASM code goes here)
+    __endasm;
+  }
+\end{DoxyVerb}
+\hypertarget{docs_using_gbdk_autotoc_md52}{}\doxysubsubsection{In Separate A\+S\+M files}\label{docs_using_gbdk_autotoc_md52}
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000002}{Todo}}]This is from G\+B\+DK 2.\+x docs, verify it with G\+B\+D\+K-\/2020 and modern S\+D\+CC\end{DoxyRefDesc}
+
+
+It is possible to assemble and link files written in A\+SM alongside files written in C.
+
+
+\begin{DoxyItemize}
+\item A C identifier {\ttfamily i} will be called {\ttfamily \+\_\+i} in assembly.
+\item Results are always returned into the {\ttfamily DE} register.
+\item Parameters are passed on the stack (starting at {\ttfamily S\+P+2} because the return address is also saved on the stack).
+\item Assembly identifier are exported using the {\ttfamily .globl} directive.
+\item You can access Game\+Boy hardware registers using {\ttfamily \+\_\+reg\+\_\+0x\+XX} where {\ttfamily XX} is the register number (see {\ttfamily sound.\+c} for an example).
+\item Registers must be preserved across function calls (you must store them at function begin, and restore them at the end), except {\ttfamily HL} (and {\ttfamily DE} when the function returns a result).
+\end{DoxyItemize}
+
+Here is an example of how to mix assembly with C\+:
+
+{\ttfamily main.\+c} \begin{DoxyVerb}main()
+{
+  int16_t i;
+  int16_t add(int16_t, int16_t);
+
+  i = add(1, 3);
+}
+\end{DoxyVerb}
+
+
+{\ttfamily add.\+s} \begin{DoxyVerb}.globl _add
+_add:         ; int16_t add(int16_t a, int16_t b)
+              ; There is no register to save:
+              ;  BC is not used
+              ;  DE is the return register
+              ;  HL needs never to be saved
+LDA  HL,2(SP)
+LD   E,(HL)   ; Get a in DE
+INC  HL
+LD   D,(HL)
+INC  HL
+LD   A,(HL)   ; Get b in HL
+INC  HL
+LD   H,(HL)
+LD   L,A
+ADD  HL,DE    ; Add DE to HL
+LD   D,H
+LD   E,L
+              ; There is no register to restore
+RET           ; Return result in DE
+\end{DoxyVerb}
+\hypertarget{docs_using_gbdk_autotoc_md53}{}\doxysubsection{Including binary files in C source with incbin}\label{docs_using_gbdk_autotoc_md53}
+Data from binary files can be included in C source files as a const array using the \mbox{\hyperlink{incbin_8h_af34047ed60abd6453f819c2a5230cd2b}{I\+N\+C\+B\+I\+N()}} macro.
+
+See the {\ttfamily incbin} example project for a demo of how to use it.\hypertarget{docs_using_gbdk_autotoc_md54}{}\doxysubsection{Known Issues and Limitations}\label{docs_using_gbdk_autotoc_md54}
+\hypertarget{docs_using_gbdk_autotoc_md55}{}\doxysubsubsection{S\+D\+CC}\label{docs_using_gbdk_autotoc_md55}
+
+\begin{DoxyItemize}
+\item Const arrays declared with {\ttfamily somevar\mbox{[}n\mbox{]} = \{x\}} will {\bfseries{N\+OT}} get initialized with value {\ttfamily x}. This may change when the S\+D\+CC R\+LE initializer is fixed. Use memset for now if you need it.
+\item S\+D\+CC banked calls and \mbox{\hyperlink{docs_rombanking_mbcs_far_pointers}{far\+\_\+pointers}} in G\+B\+DK only save one byte for the R\+OM bank, so for example they are limtied to {\bfseries{bank 15}} max for M\+B\+C1 and {\bfseries{bank 255}} max for M\+B\+C5. See \mbox{\hyperlink{docs_rombanking_mbcs_banked_calls}{banked\+\_\+calls}} for more details. 
+\end{DoxyItemize}

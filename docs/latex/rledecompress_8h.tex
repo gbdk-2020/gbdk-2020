@@ -1,0 +1,71 @@
+\hypertarget{rledecompress_8h}{}\doxysubsection{gbdk/rledecompress.h File Reference}
+\label{rledecompress_8h}\index{gbdk/rledecompress.h@{gbdk/rledecompress.h}}
+{\ttfamily \#include $<$types.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{rledecompress_8h_a2b4967f6970ecd99478db3807c68d955}{R\+L\+E\+\_\+\+S\+T\+OP}}~0
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \mbox{\hyperlink{rledecompress_8h_a95560a74a89bab26cb6265dcc2bf54f6}{rle\+\_\+init}} (void $\ast$data) \mbox{\hyperlink{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}{O\+L\+D\+C\+A\+LL}}
+\item 
+\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \mbox{\hyperlink{rledecompress_8h_ad60bf95ddad142d8d81e5e1f0a0bb6e0}{rle\+\_\+decompress}} (void $\ast$dest, \mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} len) \mbox{\hyperlink{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}{O\+L\+D\+C\+A\+LL}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Detailed Description}
+Decompressor for R\+LE encoded data
+
+Decompresses data which has been compressed with \mbox{\hyperlink{docs_toolchain_utility_gbcompress}{gbcompress}} using the {\ttfamily -\/-\/alg=rle} argument. 
+
+\doxysubsubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{rledecompress_8h_a2b4967f6970ecd99478db3807c68d955}\label{rledecompress_8h_a2b4967f6970ecd99478db3807c68d955}} 
+\index{rledecompress.h@{rledecompress.h}!RLE\_STOP@{RLE\_STOP}}
+\index{RLE\_STOP@{RLE\_STOP}!rledecompress.h@{rledecompress.h}}
+\doxyparagraph{\texorpdfstring{RLE\_STOP}{RLE\_STOP}}
+{\footnotesize\ttfamily \#define R\+L\+E\+\_\+\+S\+T\+OP~0}
+
+
+
+\doxysubsubsection{Function Documentation}
+\mbox{\Hypertarget{rledecompress_8h_a95560a74a89bab26cb6265dcc2bf54f6}\label{rledecompress_8h_a95560a74a89bab26cb6265dcc2bf54f6}} 
+\index{rledecompress.h@{rledecompress.h}!rle\_init@{rle\_init}}
+\index{rle\_init@{rle\_init}!rledecompress.h@{rledecompress.h}}
+\doxyparagraph{\texorpdfstring{rle\_init()}{rle\_init()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} rle\+\_\+init (\begin{DoxyParamCaption}\item[{void $\ast$}]{data }\end{DoxyParamCaption})}
+
+Initialize the R\+LE decompressor with R\+LE data at address {\bfseries{data}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & Pointer to start of R\+LE compressed data\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{rledecompress_8h_ad60bf95ddad142d8d81e5e1f0a0bb6e0}{rle\+\_\+decompress}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{rledecompress_8h_ad60bf95ddad142d8d81e5e1f0a0bb6e0}\label{rledecompress_8h_ad60bf95ddad142d8d81e5e1f0a0bb6e0}} 
+\index{rledecompress.h@{rledecompress.h}!rle\_decompress@{rle\_decompress}}
+\index{rle\_decompress@{rle\_decompress}!rledecompress.h@{rledecompress.h}}
+\doxyparagraph{\texorpdfstring{rle\_decompress()}{rle\_decompress()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} rle\+\_\+decompress (\begin{DoxyParamCaption}\item[{void $\ast$}]{dest,  }\item[{\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{len }\end{DoxyParamCaption})}
+
+Decompress R\+LE compressed data into {\bfseries{dest}} for length {\bfseries{len}} bytes
+
+
+\begin{DoxyParams}{Parameters}
+{\em dest} & Pointer to destination buffer/address \\
+\hline
+{\em len} & number of bytes to decompress\\
+\hline
+\end{DoxyParams}
+Before calling this function \mbox{\hyperlink{rledecompress_8h_a95560a74a89bab26cb6265dcc2bf54f6}{rle\+\_\+init}} must be called one time to initialize the R\+LE decompressor.
+
+Decompresses data which has been compressed with \mbox{\hyperlink{docs_toolchain_utility_gbcompress}{gbcompress}} using the {\ttfamily -\/-\/alg=rle} argument.
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{rledecompress_8h_a95560a74a89bab26cb6265dcc2bf54f6}{rle\+\_\+init}} 
+\end{DoxySeeAlso}

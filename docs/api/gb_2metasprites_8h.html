@@ -29,6 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
+   &#160;<span id="projectnumber">4.0.6</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -122,8 +123,8 @@ Typedefs</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aa01862cdcf50742c46c819668500b76b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_2metasprites_8h.html#aa01862cdcf50742c46c819668500b76b">hide_sprites_range</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> from, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> to) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a> __preserves_regs(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
-<tr class="separator:aa01862cdcf50742c46c819668500b76b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77bb622fa362f2e04be1bafaa099a709"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_2metasprites_8h.html#a77bb622fa362f2e04be1bafaa099a709">hide_sprites_range</a> (<a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> from, <a class="el" href="asm_2gbz80_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> to) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a> <a class="el" href="asm_2types_8h.html#acb825e83a33fcc06482c59b4ab2cf961">PRESERVES_REGS</a>(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
+<tr class="separator:a77bb622fa362f2e04be1bafaa099a709"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a77475e913bf0a19df28bdbf9d1cf392b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_2metasprites_8h.html#a77475e913bf0a19df28bdbf9d1cf392b">move_metasprite</a> (const <a class="el" href="structmetasprite__t.html">metasprite_t</a> *metasprite, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> base_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> base_sprite, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y)</td></tr>
 <tr class="separator:a77475e913bf0a19df28bdbf9d1cf392b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa8ff2df0679ebb0b6e0a8f6d83127e1a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_2metasprites_8h.html#aa8ff2df0679ebb0b6e0a8f6d83127e1a">move_metasprite_vflip</a> (const <a class="el" href="structmetasprite__t.html">metasprite_t</a> *metasprite, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> base_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> base_sprite, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y)</td></tr>
@@ -168,7 +169,12 @@ Metasprites and sprite properties (including cgb palette)</h1>
 <p>How to use sprite property flags with metasprites:</p><ul>
 <li>Metsaprite structures can be copied into RAM so their property flags can be modified at runtime.</li>
 <li>The metasprite structures can have the property flags modified before compilation (such as with <code>-sp &lt;props&gt;</code> in the <a class="el" href="docs_toolchain.html#utility_png2asset">png2asset</a> tool).</li>
-<li>Update properties for the affected sprites after calling a move_metasprite_*() function. </li>
+<li>Update properties for the affected sprites after calling a move_metasprite_*() function.</li>
+</ul>
+<p>The following functions are only available for Game Boy and related clone consoles due to lack of hardware support for sprite flipping in other consoles. See <a class="el" href="docs_supported_consoles.html#docs_consoles_supported_list">docs_consoles_supported_list</a></p><ul>
+<li><a class="el" href="gb_2metasprites_8h.html#aa8ff2df0679ebb0b6e0a8f6d83127e1a">move_metasprite_vflip()</a></li>
+<li><a class="el" href="gb_2metasprites_8h.html#a27e3bb17d0458b60b1f0433f66301f46">move_metasprite_hflip()</a></li>
+<li><a class="el" href="gb_2metasprites_8h.html#a32a61acd4a76d1de5814f7b94c8bc23f">move_metasprite_hvflip()</a> </li>
 </ul>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a9f9f390a57460914e27c7604b7d8379a"></a>
@@ -266,8 +272,8 @@ Metasprites and sprite properties (including cgb palette)</h1>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="aa01862cdcf50742c46c819668500b76b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa01862cdcf50742c46c819668500b76b">&#9670;&nbsp;</a></span>hide_sprites_range()</h2>
+<a id="a77bb622fa362f2e04be1bafaa099a709"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a77bb622fa362f2e04be1bafaa099a709">&#9670;&nbsp;</a></span>hide_sprites_range()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -357,8 +363,7 @@ Metasprites and sprite properties (including cgb palette)</h1>
   <table class="params">
     <tr><td class="paramname">metasprite</td><td>Pointer to the first struct of the metasprite (for the desired frame) </td></tr>
     <tr><td class="paramname">base_tile</td><td>Number of the first tile where the metasprite's tiles start </td></tr>
-    <tr><td class="paramname">base_sprite</td><td>Number of the first hardware sprite to be used by the metasprite <br  />
- </td></tr>
+    <tr><td class="paramname">base_sprite</td><td>Number of the first hardware sprite to be used by the metasprite </td></tr>
     <tr><td class="paramname">x</td><td>Absolute x coordinate of the sprite </td></tr>
     <tr><td class="paramname">y</td><td>Absolute y coordinate of the sprite</td></tr>
   </table>
@@ -430,8 +435,7 @@ Metasprites and sprite properties (including cgb palette)</h1>
   <table class="params">
     <tr><td class="paramname">metasprite</td><td>Pointer to the first struct of the metasprite (for the desired frame) </td></tr>
     <tr><td class="paramname">base_tile</td><td>Number of the first tile where the metasprite's tiles start </td></tr>
-    <tr><td class="paramname">base_sprite</td><td>Number of the first hardware sprite to be used by the metasprite <br  />
- </td></tr>
+    <tr><td class="paramname">base_sprite</td><td>Number of the first hardware sprite to be used by the metasprite </td></tr>
     <tr><td class="paramname">x</td><td>Absolute x coordinate of the sprite </td></tr>
     <tr><td class="paramname">y</td><td>Absolute y coordinate of the sprite</td></tr>
   </table>
@@ -443,6 +447,7 @@ Metasprites and sprite properties (including cgb palette)</h1>
 <li>__current_base_tile = base_tile;</li>
 </ul>
 <p>Note: Overwrites OAM sprite properties (such as CGB palette), see <a class="el" href="gb_2metasprites_8h.html#metasprite_and_sprite_properties">Metasprites and sprite properties</a>.</p>
+<p>This function is only available on Game Boy and related clone consoles.</p>
 <dl class="section return"><dt>Returns</dt><dd>Number of hardware sprites used to draw this metasprite</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_2metasprites_8h.html#a77475e913bf0a19df28bdbf9d1cf392b">move_metasprite()</a> </dd></dl>
 
@@ -504,8 +509,7 @@ Metasprites and sprite properties (including cgb palette)</h1>
   <table class="params">
     <tr><td class="paramname">metasprite</td><td>Pointer to the first struct of the metasprite (for the desired frame) </td></tr>
     <tr><td class="paramname">base_tile</td><td>Number of the first tile where the metasprite's tiles start </td></tr>
-    <tr><td class="paramname">base_sprite</td><td>Number of the first hardware sprite to be used by the metasprite <br  />
- </td></tr>
+    <tr><td class="paramname">base_sprite</td><td>Number of the first hardware sprite to be used by the metasprite </td></tr>
     <tr><td class="paramname">x</td><td>Absolute x coordinate of the sprite </td></tr>
     <tr><td class="paramname">y</td><td>Absolute y coordinate of the sprite</td></tr>
   </table>
@@ -517,6 +521,7 @@ Metasprites and sprite properties (including cgb palette)</h1>
 <li>__current_base_tile = base_tile;</li>
 </ul>
 <p>Note: Overwrites OAM sprite properties (such as CGB palette), see <a class="el" href="gb_2metasprites_8h.html#metasprite_and_sprite_properties">Metasprites and sprite properties</a>.</p>
+<p>This function is only available on Game Boy and related clone consoles.</p>
 <dl class="section return"><dt>Returns</dt><dd>Number of hardware sprites used to draw this metasprite</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_2metasprites_8h.html#a77475e913bf0a19df28bdbf9d1cf392b">move_metasprite()</a> </dd></dl>
 
@@ -578,8 +583,7 @@ Metasprites and sprite properties (including cgb palette)</h1>
   <table class="params">
     <tr><td class="paramname">metasprite</td><td>Pointer to the first struct of the metasprite (for the desired frame) </td></tr>
     <tr><td class="paramname">base_tile</td><td>Number of the first tile where the metasprite's tiles start </td></tr>
-    <tr><td class="paramname">base_sprite</td><td>Number of the first hardware sprite to be used by the metasprite <br  />
- </td></tr>
+    <tr><td class="paramname">base_sprite</td><td>Number of the first hardware sprite to be used by the metasprite </td></tr>
     <tr><td class="paramname">x</td><td>Absolute x coordinate of the sprite </td></tr>
     <tr><td class="paramname">y</td><td>Absolute y coordinate of the sprite</td></tr>
   </table>
@@ -591,6 +595,7 @@ Metasprites and sprite properties (including cgb palette)</h1>
 <li>__current_base_tile = base_tile;</li>
 </ul>
 <p>Note: Overwrites OAM sprite properties (such as CGB palette), see <a class="el" href="gb_2metasprites_8h.html#metasprite_and_sprite_properties">Metasprites and sprite properties</a>.</p>
+<p>This function is only available on Game Boy and related clone consoles.</p>
 <dl class="section return"><dt>Returns</dt><dd>Number of hardware sprites used to draw this metasprite</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_2metasprites_8h.html#a77475e913bf0a19df28bdbf9d1cf392b">move_metasprite()</a> </dd></dl>
 

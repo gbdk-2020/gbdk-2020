@@ -1,0 +1,242 @@
+\hypertarget{asm_2z80_2string_8h}{}\doxysubsection{asm/z80/string.h File Reference}
+\label{asm_2z80_2string_8h}\index{asm/z80/string.h@{asm/z80/string.h}}
+{\ttfamily \#include $<$types.\+h$>$}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+char $\ast$ \mbox{\hyperlink{asm_2z80_2string_8h_af5b1fe1ca3f2aca8ad215962460d15a6}{strcpy}} (char $\ast$dest, const char $\ast$src) \mbox{\hyperlink{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}{O\+L\+D\+C\+A\+LL}}
+\item 
+int \mbox{\hyperlink{asm_2z80_2string_8h_a11bd144d7d44914099a3aeddf1c8567d}{strcmp}} (const char $\ast$s1, const char $\ast$s2)
+\item 
+void $\ast$ \mbox{\hyperlink{asm_2z80_2string_8h_abec66c0a707472b9090ea4cd0402d648}{memcpy}} (void $\ast$dest, const void $\ast$src, \mbox{\hyperlink{asm_2gbz80_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}} len) \mbox{\hyperlink{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}{O\+L\+D\+C\+A\+LL}}
+\item 
+void $\ast$ \mbox{\hyperlink{asm_2z80_2string_8h_a854ba725a4e429439ccf93b1f5ad7b3a}{memmove}} (void $\ast$dest, const void $\ast$src, \mbox{\hyperlink{asm_2gbz80_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}} n) \mbox{\hyperlink{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}{O\+L\+D\+C\+A\+LL}}
+\item 
+void $\ast$ \mbox{\hyperlink{asm_2z80_2string_8h_a6491121b0087a8848354d9de3aa2444b}{memset}} (void $\ast$s, int \mbox{\hyperlink{sms_8h_a0b3366755f3276b0243c1e0497471b7a}{c}}, \mbox{\hyperlink{asm_2gbz80_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}} n) \mbox{\hyperlink{asm_2z80_2types_8h_aa19670cfef9fe1cc31f28fafb0e1000a}{Z88\+D\+K\+\_\+\+C\+A\+L\+L\+EE}}
+\item 
+char $\ast$ \mbox{\hyperlink{asm_2z80_2string_8h_a81863156a28fd2eefeee6859d768bdb1}{reverse}} (char $\ast$s) \mbox{\hyperlink{asm_2types_8h_a7ed081d8dfb6902784b2fc730bbb7f96}{N\+O\+N\+B\+A\+N\+K\+ED}}
+\item 
+char $\ast$ \mbox{\hyperlink{asm_2z80_2string_8h_a13c88f5a8475fd7de5d81553cb29724a}{strcat}} (char $\ast$s1, const char $\ast$s2) \mbox{\hyperlink{asm_2types_8h_a7ed081d8dfb6902784b2fc730bbb7f96}{N\+O\+N\+B\+A\+N\+K\+ED}}
+\item 
+int \mbox{\hyperlink{asm_2z80_2string_8h_ac952c3ccec84a458a4d385c5273c1ca0}{strlen}} (const char $\ast$s) \mbox{\hyperlink{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}{O\+L\+D\+C\+A\+LL}}
+\item 
+char $\ast$ \mbox{\hyperlink{asm_2z80_2string_8h_a168580a0ddcb7fe754a711309966c99d}{strncat}} (char $\ast$s1, const char $\ast$s2, int n) \mbox{\hyperlink{asm_2types_8h_a7ed081d8dfb6902784b2fc730bbb7f96}{N\+O\+N\+B\+A\+N\+K\+ED}}
+\item 
+int \mbox{\hyperlink{asm_2z80_2string_8h_a861dba2d93de82f087707bb795f5c602}{strncmp}} (const char $\ast$s1, const char $\ast$s2, int n) \mbox{\hyperlink{asm_2types_8h_a7ed081d8dfb6902784b2fc730bbb7f96}{N\+O\+N\+B\+A\+N\+K\+ED}}
+\item 
+char $\ast$ \mbox{\hyperlink{asm_2z80_2string_8h_a796a9459c4f362e51c00307044c40ed5}{strncpy}} (char $\ast$s1, const char $\ast$s2, int n) \mbox{\hyperlink{asm_2types_8h_a7ed081d8dfb6902784b2fc730bbb7f96}{N\+O\+N\+B\+A\+N\+K\+ED}}
+\item 
+int \mbox{\hyperlink{asm_2z80_2string_8h_add78645dba711c548ab16d056fb83b7e}{memcmp}} (const void $\ast$buf1, const void $\ast$buf2, \mbox{\hyperlink{asm_2gbz80_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}} count) \mbox{\hyperlink{asm_2z80_2types_8h_aa19670cfef9fe1cc31f28fafb0e1000a}{Z88\+D\+K\+\_\+\+C\+A\+L\+L\+EE}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Detailed Description}
+Generic string functions. 
+
+\doxysubsubsection{Function Documentation}
+\mbox{\Hypertarget{asm_2z80_2string_8h_af5b1fe1ca3f2aca8ad215962460d15a6}\label{asm_2z80_2string_8h_af5b1fe1ca3f2aca8ad215962460d15a6}} 
+\index{string.h@{string.h}!strcpy@{strcpy}}
+\index{strcpy@{strcpy}!string.h@{string.h}}
+\doxyparagraph{\texorpdfstring{strcpy()}{strcpy()}}
+{\footnotesize\ttfamily char$\ast$ strcpy (\begin{DoxyParamCaption}\item[{char $\ast$}]{dest,  }\item[{const char $\ast$}]{src }\end{DoxyParamCaption})}
+
+Copies the string pointed to by {\bfseries{src}} (including the terminating `\textbackslash{}0' character) to the array pointed to by {\bfseries{dest}}.
+
+The strings may not overlap, and the destination string dest must be large enough to receive the copy.
+
+
+\begin{DoxyParams}{Parameters}
+{\em dest} & Array to copy into \\
+\hline
+{\em src} & Array to copy from\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to dest 
+\end{DoxyReturn}
+\mbox{\Hypertarget{asm_2z80_2string_8h_a11bd144d7d44914099a3aeddf1c8567d}\label{asm_2z80_2string_8h_a11bd144d7d44914099a3aeddf1c8567d}} 
+\index{string.h@{string.h}!strcmp@{strcmp}}
+\index{strcmp@{strcmp}!string.h@{string.h}}
+\doxyparagraph{\texorpdfstring{strcmp()}{strcmp()}}
+{\footnotesize\ttfamily int strcmp (\begin{DoxyParamCaption}\item[{const char $\ast$}]{s1,  }\item[{const char $\ast$}]{s2 }\end{DoxyParamCaption})}
+
+Compares strings
+
+
+\begin{DoxyParams}{Parameters}
+{\em s1} & First string to compare \\
+\hline
+{\em s2} & Second string to compare\\
+\hline
+\end{DoxyParams}
+Returns\+: \begin{DoxyItemize}
+\item $>$ 0 if {\bfseries{s1}} $>$ {\bfseries{s2}} \item 0 if {\bfseries{s1}} == {\bfseries{s2}} \item $<$ 0 if {\bfseries{s1}} $<$ {\bfseries{s2}} \end{DoxyItemize}
+\mbox{\Hypertarget{asm_2z80_2string_8h_abec66c0a707472b9090ea4cd0402d648}\label{asm_2z80_2string_8h_abec66c0a707472b9090ea4cd0402d648}} 
+\index{string.h@{string.h}!memcpy@{memcpy}}
+\index{memcpy@{memcpy}!string.h@{string.h}}
+\doxyparagraph{\texorpdfstring{memcpy()}{memcpy()}}
+{\footnotesize\ttfamily void$\ast$ memcpy (\begin{DoxyParamCaption}\item[{void $\ast$}]{dest,  }\item[{const void $\ast$}]{src,  }\item[{\mbox{\hyperlink{asm_2gbz80_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}}}]{len }\end{DoxyParamCaption})}
+
+Copies n bytes from memory area src to memory area dest.
+
+The memory areas may not overlap.
+
+
+\begin{DoxyParams}{Parameters}
+{\em dest} & Buffer to copy into \\
+\hline
+{\em src} & Buffer to copy from \\
+\hline
+{\em len} & Number of Bytes to copy \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{asm_2z80_2string_8h_a854ba725a4e429439ccf93b1f5ad7b3a}\label{asm_2z80_2string_8h_a854ba725a4e429439ccf93b1f5ad7b3a}} 
+\index{string.h@{string.h}!memmove@{memmove}}
+\index{memmove@{memmove}!string.h@{string.h}}
+\doxyparagraph{\texorpdfstring{memmove()}{memmove()}}
+{\footnotesize\ttfamily void$\ast$ memmove (\begin{DoxyParamCaption}\item[{void $\ast$}]{dest,  }\item[{const void $\ast$}]{src,  }\item[{\mbox{\hyperlink{asm_2gbz80_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}}}]{n }\end{DoxyParamCaption})}
+
+Copies n bytes from memory area src to memory area dest, areas may overlap \mbox{\Hypertarget{asm_2z80_2string_8h_a6491121b0087a8848354d9de3aa2444b}\label{asm_2z80_2string_8h_a6491121b0087a8848354d9de3aa2444b}} 
+\index{string.h@{string.h}!memset@{memset}}
+\index{memset@{memset}!string.h@{string.h}}
+\doxyparagraph{\texorpdfstring{memset()}{memset()}}
+{\footnotesize\ttfamily void$\ast$ memset (\begin{DoxyParamCaption}\item[{void $\ast$}]{s,  }\item[{int}]{c,  }\item[{\mbox{\hyperlink{asm_2gbz80_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}}}]{n }\end{DoxyParamCaption})}
+
+Fills the memory region {\bfseries{s}} with {\bfseries{n}} bytes using value {\bfseries{c}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & Buffer to fill \\
+\hline
+{\em c} & char value to fill with (truncated from int) \\
+\hline
+{\em n} & Number of bytes to fill \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{asm_2z80_2string_8h_a81863156a28fd2eefeee6859d768bdb1}\label{asm_2z80_2string_8h_a81863156a28fd2eefeee6859d768bdb1}} 
+\index{string.h@{string.h}!reverse@{reverse}}
+\index{reverse@{reverse}!string.h@{string.h}}
+\doxyparagraph{\texorpdfstring{reverse()}{reverse()}}
+{\footnotesize\ttfamily char$\ast$ reverse (\begin{DoxyParamCaption}\item[{char $\ast$}]{s }\end{DoxyParamCaption})}
+
+Reverses the characters in a string
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & Pointer to string to reverse.\\
+\hline
+\end{DoxyParams}
+For example \textquotesingle{}abcdefg\textquotesingle{} will become \textquotesingle{}gfedcba\textquotesingle{}.
+
+Banked as the string must be modifiable.
+
+Returns\+: Pointer to {\bfseries{s}} \mbox{\Hypertarget{asm_2z80_2string_8h_a13c88f5a8475fd7de5d81553cb29724a}\label{asm_2z80_2string_8h_a13c88f5a8475fd7de5d81553cb29724a}} 
+\index{string.h@{string.h}!strcat@{strcat}}
+\index{strcat@{strcat}!string.h@{string.h}}
+\doxyparagraph{\texorpdfstring{strcat()}{strcat()}}
+{\footnotesize\ttfamily char$\ast$ strcat (\begin{DoxyParamCaption}\item[{char $\ast$}]{s1,  }\item[{const char $\ast$}]{s2 }\end{DoxyParamCaption})}
+
+Concatenate Strings. Appends string {\bfseries{s2}} to the end of string {\bfseries{s1}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em s1} & String to append onto \\
+\hline
+{\em s2} & String to copy from\\
+\hline
+\end{DoxyParams}
+For example \textquotesingle{}abc\textquotesingle{} and \textquotesingle{}def\textquotesingle{} will become \textquotesingle{}abcdef\textquotesingle{}.
+
+String {\bfseries{s1}} must be large enough to store both {\bfseries{s1}} and {\bfseries{s2}}.
+
+Returns\+: Pointer to {\bfseries{s1}} \mbox{\Hypertarget{asm_2z80_2string_8h_ac952c3ccec84a458a4d385c5273c1ca0}\label{asm_2z80_2string_8h_ac952c3ccec84a458a4d385c5273c1ca0}} 
+\index{string.h@{string.h}!strlen@{strlen}}
+\index{strlen@{strlen}!string.h@{string.h}}
+\doxyparagraph{\texorpdfstring{strlen()}{strlen()}}
+{\footnotesize\ttfamily int strlen (\begin{DoxyParamCaption}\item[{const char $\ast$}]{s }\end{DoxyParamCaption})}
+
+Calculates the length of a string
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & String to calculate length of\\
+\hline
+\end{DoxyParams}
+Returns\+: Length of string not including the terminating `\textbackslash{}0' character. \mbox{\Hypertarget{asm_2z80_2string_8h_a168580a0ddcb7fe754a711309966c99d}\label{asm_2z80_2string_8h_a168580a0ddcb7fe754a711309966c99d}} 
+\index{string.h@{string.h}!strncat@{strncat}}
+\index{strncat@{strncat}!string.h@{string.h}}
+\doxyparagraph{\texorpdfstring{strncat()}{strncat()}}
+{\footnotesize\ttfamily char$\ast$ strncat (\begin{DoxyParamCaption}\item[{char $\ast$}]{s1,  }\item[{const char $\ast$}]{s2,  }\item[{int}]{n }\end{DoxyParamCaption})}
+
+Concatenate at most {\bfseries{n}} characters from string {\bfseries{s2}} onto the end of {\bfseries{s1}}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em s1} & String to append onto \\
+\hline
+{\em s2} & String to copy from \\
+\hline
+{\em n} & Max number of characters to copy from {\bfseries{s2}}\\
+\hline
+\end{DoxyParams}
+String {\bfseries{s1}} must be large enough to store both {\bfseries{s1}} and {\bfseries{n}} characters of {\bfseries{s2}}
+
+Returns\+: Pointer to {\bfseries{s1}} \mbox{\Hypertarget{asm_2z80_2string_8h_a861dba2d93de82f087707bb795f5c602}\label{asm_2z80_2string_8h_a861dba2d93de82f087707bb795f5c602}} 
+\index{string.h@{string.h}!strncmp@{strncmp}}
+\index{strncmp@{strncmp}!string.h@{string.h}}
+\doxyparagraph{\texorpdfstring{strncmp()}{strncmp()}}
+{\footnotesize\ttfamily int strncmp (\begin{DoxyParamCaption}\item[{const char $\ast$}]{s1,  }\item[{const char $\ast$}]{s2,  }\item[{int}]{n }\end{DoxyParamCaption})}
+
+Compare strings (at most n characters)\+:
+
+
+\begin{DoxyParams}{Parameters}
+{\em s1} & First string to compare \\
+\hline
+{\em s2} & Second string to compare \\
+\hline
+{\em n} & Max number of characters to compare\\
+\hline
+\end{DoxyParams}
+Returns\+: \begin{DoxyItemize}
+\item $>$ 0 if {\bfseries{s1}} $>$ {\bfseries{s2}} \item 0 if {\bfseries{s1}} == {\bfseries{s2}} \item $<$ 0 if {\bfseries{s1}} $<$ {\bfseries{s2}} \end{DoxyItemize}
+\mbox{\Hypertarget{asm_2z80_2string_8h_a796a9459c4f362e51c00307044c40ed5}\label{asm_2z80_2string_8h_a796a9459c4f362e51c00307044c40ed5}} 
+\index{string.h@{string.h}!strncpy@{strncpy}}
+\index{strncpy@{strncpy}!string.h@{string.h}}
+\doxyparagraph{\texorpdfstring{strncpy()}{strncpy()}}
+{\footnotesize\ttfamily char$\ast$ strncpy (\begin{DoxyParamCaption}\item[{char $\ast$}]{s1,  }\item[{const char $\ast$}]{s2,  }\item[{int}]{n }\end{DoxyParamCaption})}
+
+Copy {\bfseries{n}} characters from string {\bfseries{s2}} to {\bfseries{s1}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em s1} & String to copy into \\
+\hline
+{\em s2} & String to copy from \\
+\hline
+{\em n} & Max number of characters to copy from {\bfseries{s2}}\\
+\hline
+\end{DoxyParams}
+If {\bfseries{s2}} is shorter than {\bfseries{n}}, the remaining bytes in {\bfseries{s1}} are filled with \textbackslash{}0.
+
+Warning\+: If there is no \textbackslash{}0 in the first {\bfseries{n}} bytes of {\bfseries{s2}} then {\bfseries{s1}} will not be null terminated.
+
+Returns\+: Pointer to {\bfseries{s1}} \mbox{\Hypertarget{asm_2z80_2string_8h_add78645dba711c548ab16d056fb83b7e}\label{asm_2z80_2string_8h_add78645dba711c548ab16d056fb83b7e}} 
+\index{string.h@{string.h}!memcmp@{memcmp}}
+\index{memcmp@{memcmp}!string.h@{string.h}}
+\doxyparagraph{\texorpdfstring{memcmp()}{memcmp()}}
+{\footnotesize\ttfamily int memcmp (\begin{DoxyParamCaption}\item[{const void $\ast$}]{buf1,  }\item[{const void $\ast$}]{buf2,  }\item[{\mbox{\hyperlink{asm_2gbz80_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}}}]{count }\end{DoxyParamCaption})}
+
+Compares buffers
+
+
+\begin{DoxyParams}{Parameters}
+{\em buf1} & First buffer to compare \\
+\hline
+{\em buf2} & Second buffer to compare \\
+\hline
+{\em count} & Buffer length\\
+\hline
+\end{DoxyParams}
+Returns\+: \begin{DoxyItemize}
+\item $>$ 0 if {\bfseries{buf1}} $>$ {\bfseries{buf2}} \item 0 if {\bfseries{buf1}} == {\bfseries{buf2}} \item $<$ 0 if {\bfseries{buf1}} $<$ {\bfseries{buf2}} \end{DoxyItemize}

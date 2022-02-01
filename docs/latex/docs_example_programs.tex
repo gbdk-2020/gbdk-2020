@@ -1,0 +1,63 @@
+G\+B\+DK includes several example programs both in C and in assembly. They are located in the examples directory, and in its subdirectories. They can be built by typing {\ttfamily make} in the correnponding directory.\hypertarget{docs_example_programs_autotoc_md139}{}\doxysubsection{banks (various projects)}\label{docs_example_programs_autotoc_md139}
+There are several different projects showing how to use R\+OM banking with G\+B\+DK.\hypertarget{docs_example_programs_autotoc_md140}{}\doxysubsection{comm}\label{docs_example_programs_autotoc_md140}
+Illustrates how to use communication routines.\hypertarget{docs_example_programs_autotoc_md141}{}\doxysubsection{crash}\label{docs_example_programs_autotoc_md141}
+Demonstrates how to use the optional G\+B\+DK crash handler which dumps debug info to the Game Boy screen in the event of a program crash.\hypertarget{docs_example_programs_autotoc_md142}{}\doxysubsection{colorbar}\label{docs_example_programs_autotoc_md142}
+The colorbar program, written by Mr. N.\+U. of Team\+K\+N\+Ox, illustrates the use of colors on a Color Game\+Boy.\hypertarget{docs_example_programs_autotoc_md143}{}\doxysubsection{dscan}\label{docs_example_programs_autotoc_md143}
+Deep Scan is a game written by Mr. N.\+U. of Team\+K\+N\+Ox that supports the Color Game\+Boy. Your aim is to destroy the submarines from your boat, and to avoid the projectiles that they send to you. The game should be self-\/explanatory. The following keys are used\+: \begin{DoxyVerb}RIGHT/LEFT   : Move your boat
+A/B          : Send a bomb from one side of your boat
+START        : Start game or pause game
+
+When game is paused:
+
+SELECT       : Invert A and B buttons
+RIGHT/LEFT   : Change speed
+UP/DOWN      : Change level
+\end{DoxyVerb}
+\hypertarget{docs_example_programs_autotoc_md144}{}\doxysubsection{filltest}\label{docs_example_programs_autotoc_md144}
+Demonstrates various graphics routines.\hypertarget{docs_example_programs_autotoc_md145}{}\doxysubsection{fonts}\label{docs_example_programs_autotoc_md145}
+Examples of how to work with the built in font and printing features.\hypertarget{docs_example_programs_autotoc_md146}{}\doxysubsection{galaxy}\label{docs_example_programs_autotoc_md146}
+A C translation of the space.\+s assembly program.\hypertarget{docs_example_programs_autotoc_md147}{}\doxysubsection{gb-\/dtmf}\label{docs_example_programs_autotoc_md147}
+The gb-\/dtmf, written by Osamu Ohashi, is a Dual Tone Multi-\/\+Frequency (D\+T\+MF) generator.\hypertarget{docs_example_programs_autotoc_md148}{}\doxysubsection{gbdecompress}\label{docs_example_programs_autotoc_md148}
+Demonstrates using gbdecompress to load a compressed tile set into vram.\hypertarget{docs_example_programs_autotoc_md149}{}\doxysubsection{irq}\label{docs_example_programs_autotoc_md149}
+Illustrates how to install interrupt handlers.\hypertarget{docs_example_programs_autotoc_md150}{}\doxysubsection{large map}\label{docs_example_programs_autotoc_md150}
+Shows how to scroll with maps larger than 32 x 32 tiles using \mbox{\hyperlink{gb_8h_adb21d1c7d533a7133bab36a845489780}{set\+\_\+bkg\+\_\+submap()}}. It fills rows and columns at the edges of the visible viewport (of the hardware Background Map) with the desired sub-\/region of the large map as it scrolls.\hypertarget{docs_example_programs_autotoc_md151}{}\doxysubsection{metasprites}\label{docs_example_programs_autotoc_md151}
+Demonstrates using the metasprite features to move and animate a large sprite.
+\begin{DoxyItemize}
+\item Press A button to show / hide the metasprite
+\item Press B button to cycle through the metasprite animations
+\item Press S\+E\+L\+E\+CT button to cycle the metasprite through Normal / Flip-\/Y / Flip-\/\+XY / Flip-\/X
+\item Up / Down / Left / Right to move the metasprite
+\end{DoxyItemize}\hypertarget{docs_example_programs_autotoc_md152}{}\doxysubsection{lcd isr wobble}\label{docs_example_programs_autotoc_md152}
+An example of how to use the L\+CD I\+SR for visual special effects\hypertarget{docs_example_programs_autotoc_md153}{}\doxysubsection{paint}\label{docs_example_programs_autotoc_md153}
+The paint example is a painting program. It supports different painting tools, drawing modes, and colors. At the moment, it only paints individual pixels. This program illustrates the use of the full-\/screen drawing library. It also illustrates the use of generic structures and big sprites. \begin{DoxyVerb}Arrow keys : Move the cursor
+SELECT     : Display/hide the tools palette
+A          : Select tool
+\end{DoxyVerb}
+\hypertarget{docs_example_programs_autotoc_md154}{}\doxysubsection{rand}\label{docs_example_programs_autotoc_md154}
+The rand program, written by Luc Van den Borre, illustrates the use of the G\+B\+DK random generator.\hypertarget{docs_example_programs_autotoc_md155}{}\doxysubsection{ram\+\_\+fn}\label{docs_example_programs_autotoc_md155}
+The ram\+\_\+fn example illustrates how to copy functions to R\+AM or H\+I\+R\+AM, and how to call them from C.\hypertarget{docs_example_programs_autotoc_md156}{}\doxysubsection{rpn}\label{docs_example_programs_autotoc_md156}
+A basic R\+PN calculator. Try entering expressions like 12 134$\ast$ and then 1789+.\hypertarget{docs_example_programs_autotoc_md157}{}\doxysubsection{samptest}\label{docs_example_programs_autotoc_md157}
+Demonstration of playing a sound sample.\hypertarget{docs_example_programs_autotoc_md158}{}\doxysubsection{sgb (various)}\label{docs_example_programs_autotoc_md158}
+A collection of examples showing how to use the Super Game Boy A\+PI features.
+
+\label{docs_example_programs_examples_sound_sample}%
+\Hypertarget{docs_example_programs_examples_sound_sample}%
+\hypertarget{docs_example_programs_autotoc_md159}{}\doxysubsection{sound}\label{docs_example_programs_autotoc_md159}
+The sound example is meant for experimenting with the soung generator of the Game\+Boy (to use on a real Game\+Boy). The four different sound modes of the Game\+Boy are available. It also demonstrates the use of bit fields in C (it\textquotesingle{}s a quick hack, so don\textquotesingle{}t expect too much from the code). The following keys are used\+: \begin{DoxyVerb}UP/DOWN      : Move the cursor
+RIGHT/LEFT   : Increment/decrement the value
+RIGHT/LEFT+A : Increment/decrement the value by 10
+RIGHT/LEFT+B : Set the value to maximum/minimum
+START        : Play the current mode's sound (or all modes if in control screen)
+START+A      : Play a little music with the current mode's sound
+SELECT       : Change the sound mode (1, 2, 3, 4 and control)
+SELECT+A     : Dump the sound registers to the screen
+\end{DoxyVerb}
+\hypertarget{docs_example_programs_autotoc_md160}{}\doxysubsection{space}\label{docs_example_programs_autotoc_md160}
+The space example is an assembly program that demonstrates the use of sprites, window, background, fixed-\/point values and more. The following keys are used\+: \begin{DoxyVerb}Arrow keys     : Change the speed (and direction) of the sprite
+Arrow keys + A : Change the speed (and direction) of the window
+Arrow keys + B : Change the speed (and direction) of the background
+START          : Open/close the door
+SELECT         : Basic fading effect
+\end{DoxyVerb}
+\hypertarget{docs_example_programs_autotoc_md161}{}\doxysubsection{templates}\label{docs_example_programs_autotoc_md161}
+Two basic template examples are provided as a starting place for writing your G\+B\+DK programs. 

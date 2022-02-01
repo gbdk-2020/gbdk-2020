@@ -1,0 +1,139 @@
+\hypertarget{rand_8h}{}\doxysubsection{rand.\+h File Reference}
+\label{rand_8h}\index{rand.h@{rand.h}}
+{\ttfamily \#include $<$types.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{rand_8h_a690f251553b39fd4f31894826141b61a}{R\+A\+N\+D\+\_\+\+M\+AX}}~255
+\item 
+\#define \mbox{\hyperlink{rand_8h_a6dbd2f1a15221db40f456cf574a793b4}{R\+A\+N\+D\+W\+\_\+\+M\+AX}}~65535
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{rand_8h_a964538799843c0ba5bd01151ef7e2640}{initrand}} (\mbox{\hyperlink{stdint_8h_adf4d876453337156dde61095e1f20223}{uint16\+\_\+t}} seed) \mbox{\hyperlink{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}{O\+L\+D\+C\+A\+LL}}
+\item 
+\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \mbox{\hyperlink{rand_8h_a21e0cee33278952c044f27d02c0b0d1a}{rand}} () \mbox{\hyperlink{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}{O\+L\+D\+C\+A\+LL}}
+\item 
+\mbox{\hyperlink{stdint_8h_adf4d876453337156dde61095e1f20223}{uint16\+\_\+t}} \mbox{\hyperlink{rand_8h_ac659150eb39aae2f523bef6554b19b77}{randw}} () \mbox{\hyperlink{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}{O\+L\+D\+C\+A\+LL}}
+\item 
+void \mbox{\hyperlink{rand_8h_a333400f85febd7e1360835955103db8b}{initarand}} (\mbox{\hyperlink{stdint_8h_adf4d876453337156dde61095e1f20223}{uint16\+\_\+t}} seed) \mbox{\hyperlink{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}{O\+L\+D\+C\+A\+LL}}
+\item 
+\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \mbox{\hyperlink{rand_8h_a67415330a1c7984e4537dac753306804}{arand}} () \mbox{\hyperlink{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}{O\+L\+D\+C\+A\+LL}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{stdint_8h_adf4d876453337156dde61095e1f20223}{uint16\+\_\+t}} \mbox{\hyperlink{rand_8h_a7aab2f4a234108a5eae48e0d26380ae7}{\+\_\+\+\_\+rand\+\_\+seed}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Detailed Description}
+Random generator using the linear congruential method
+
+\begin{DoxyAuthor}{Author}
+Luc Van den Borre 
+\end{DoxyAuthor}
+
+
+\doxysubsubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{rand_8h_a690f251553b39fd4f31894826141b61a}\label{rand_8h_a690f251553b39fd4f31894826141b61a}} 
+\index{rand.h@{rand.h}!RAND\_MAX@{RAND\_MAX}}
+\index{RAND\_MAX@{RAND\_MAX}!rand.h@{rand.h}}
+\doxyparagraph{\texorpdfstring{RAND\_MAX}{RAND\_MAX}}
+{\footnotesize\ttfamily \#define R\+A\+N\+D\+\_\+\+M\+AX~255}
+
+\mbox{\Hypertarget{rand_8h_a6dbd2f1a15221db40f456cf574a793b4}\label{rand_8h_a6dbd2f1a15221db40f456cf574a793b4}} 
+\index{rand.h@{rand.h}!RANDW\_MAX@{RANDW\_MAX}}
+\index{RANDW\_MAX@{RANDW\_MAX}!rand.h@{rand.h}}
+\doxyparagraph{\texorpdfstring{RANDW\_MAX}{RANDW\_MAX}}
+{\footnotesize\ttfamily \#define R\+A\+N\+D\+W\+\_\+\+M\+AX~65535}
+
+
+
+\doxysubsubsection{Function Documentation}
+\mbox{\Hypertarget{rand_8h_a964538799843c0ba5bd01151ef7e2640}\label{rand_8h_a964538799843c0ba5bd01151ef7e2640}} 
+\index{rand.h@{rand.h}!initrand@{initrand}}
+\index{initrand@{initrand}!rand.h@{rand.h}}
+\doxyparagraph{\texorpdfstring{initrand()}{initrand()}}
+{\footnotesize\ttfamily void initrand (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stdint_8h_adf4d876453337156dde61095e1f20223}{uint16\+\_\+t}}}]{seed }\end{DoxyParamCaption})}
+
+Initalise the pseudo-\/random number generator.
+
+
+\begin{DoxyParams}{Parameters}
+{\em seed} & The value for initializing the random number generator.\\
+\hline
+\end{DoxyParams}
+The seed should be different each time, otherwise the same pseudo-\/random sequence will be generated.
+
+The D\+IV Register (\mbox{\hyperlink{gb_2hardware_8h_afa1e18e47bf68ce68d7807fff6edf16b}{D\+I\+V\+\_\+\+R\+EG}}) is sometimes used as a seed, particularly if read at some variable point in time (such as when the player presses a button).
+
+Only needs to be called once to initialize, but may be called again to re-\/initialize with the same or a different seed.
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{rand_8h_a21e0cee33278952c044f27d02c0b0d1a}{rand()}}, \mbox{\hyperlink{rand_8h_ac659150eb39aae2f523bef6554b19b77}{randw()}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{rand_8h_a21e0cee33278952c044f27d02c0b0d1a}\label{rand_8h_a21e0cee33278952c044f27d02c0b0d1a}} 
+\index{rand.h@{rand.h}!rand@{rand}}
+\index{rand@{rand}!rand.h@{rand.h}}
+\doxyparagraph{\texorpdfstring{rand()}{rand()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} rand (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Returns a random byte (8 bit) value.
+
+\mbox{\hyperlink{rand_8h_a964538799843c0ba5bd01151ef7e2640}{initrand()}} should be used to initialize the random number generator before using \mbox{\hyperlink{rand_8h_a21e0cee33278952c044f27d02c0b0d1a}{rand()}} \mbox{\Hypertarget{rand_8h_ac659150eb39aae2f523bef6554b19b77}\label{rand_8h_ac659150eb39aae2f523bef6554b19b77}} 
+\index{rand.h@{rand.h}!randw@{randw}}
+\index{randw@{randw}!rand.h@{rand.h}}
+\doxyparagraph{\texorpdfstring{randw()}{randw()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{stdint_8h_adf4d876453337156dde61095e1f20223}{uint16\+\_\+t}} randw (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Returns a random word (16 bit) value.
+
+\mbox{\hyperlink{rand_8h_a964538799843c0ba5bd01151ef7e2640}{initrand()}} should be used to initialize the random number generator before using \mbox{\hyperlink{rand_8h_a21e0cee33278952c044f27d02c0b0d1a}{rand()}} \mbox{\Hypertarget{rand_8h_a333400f85febd7e1360835955103db8b}\label{rand_8h_a333400f85febd7e1360835955103db8b}} 
+\index{rand.h@{rand.h}!initarand@{initarand}}
+\index{initarand@{initarand}!rand.h@{rand.h}}
+\doxyparagraph{\texorpdfstring{initarand()}{initarand()}}
+{\footnotesize\ttfamily void initarand (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stdint_8h_adf4d876453337156dde61095e1f20223}{uint16\+\_\+t}}}]{seed }\end{DoxyParamCaption})}
+
+Random generator using the linear lagged additive method
+
+
+\begin{DoxyParams}{Parameters}
+{\em seed} & The value for initializing the random number generator.\\
+\hline
+\end{DoxyParams}
+Note\+: \mbox{\hyperlink{rand_8h_a333400f85febd7e1360835955103db8b}{initarand()}} calls \mbox{\hyperlink{rand_8h_a964538799843c0ba5bd01151ef7e2640}{initrand()}} with the same seed value, and uses \mbox{\hyperlink{rand_8h_a21e0cee33278952c044f27d02c0b0d1a}{rand()}} to initialize the random generator.
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{rand_8h_a964538799843c0ba5bd01151ef7e2640}{initrand()}} for suggestions about seed values, \mbox{\hyperlink{rand_8h_a67415330a1c7984e4537dac753306804}{arand()}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{rand_8h_a67415330a1c7984e4537dac753306804}\label{rand_8h_a67415330a1c7984e4537dac753306804}} 
+\index{rand.h@{rand.h}!arand@{arand}}
+\index{arand@{arand}!rand.h@{rand.h}}
+\doxyparagraph{\texorpdfstring{arand()}{arand()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} arand (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Returns a random number generated with the linear lagged additive method.
+
+\mbox{\hyperlink{rand_8h_a333400f85febd7e1360835955103db8b}{initarand()}} should be used to initialize the random number generator before using \mbox{\hyperlink{rand_8h_a67415330a1c7984e4537dac753306804}{arand()}} 
+
+\doxysubsubsection{Variable Documentation}
+\mbox{\Hypertarget{rand_8h_a7aab2f4a234108a5eae48e0d26380ae7}\label{rand_8h_a7aab2f4a234108a5eae48e0d26380ae7}} 
+\index{rand.h@{rand.h}!\_\_rand\_seed@{\_\_rand\_seed}}
+\index{\_\_rand\_seed@{\_\_rand\_seed}!rand.h@{rand.h}}
+\doxyparagraph{\texorpdfstring{\_\_rand\_seed}{\_\_rand\_seed}}
+{\footnotesize\ttfamily \mbox{\hyperlink{stdint_8h_adf4d876453337156dde61095e1f20223}{uint16\+\_\+t}} \+\_\+\+\_\+rand\+\_\+seed\hspace{0.3cm}{\ttfamily [extern]}}
+
+The random number seed is stored in \+\_\+\+\_\+rand\+\_\+seed and can be saved and restored if needed.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{// Save}}
+\DoxyCodeLine{some\_uint16 = \mbox{\hyperlink{rand_8h_a7aab2f4a234108a5eae48e0d26380ae7}{\_\_rand\_seed}};}
+\DoxyCodeLine{...}
+\DoxyCodeLine{\textcolor{comment}{// Restore}}
+\DoxyCodeLine{\_\_rand\_seed = some\_uint16;}
+\end{DoxyCode}
+ 

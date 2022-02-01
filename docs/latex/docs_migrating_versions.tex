@@ -1,0 +1,101 @@
+This section contains information that may be useful to know or important when upgrading to a newer G\+B\+DK release.\hypertarget{docs_migrating_versions_autotoc_md167}{}\doxysubsection{G\+B\+D\+K 2020 versions}\label{docs_migrating_versions_autotoc_md167}
+\hypertarget{docs_migrating_versions_autotoc_md168}{}\doxysubsubsection{Porting to G\+B\+D\+K 2020 4.\+0.\+6}\label{docs_migrating_versions_autotoc_md168}
+
+\begin{DoxyItemize}
+\item Renamed {\ttfamily bgb\+\_\+emu.\+h} to {\ttfamily emu\+\_\+debug.\+h} and B\+G\+B\+\_\+$\ast$ functions to E\+M\+U\+\_\+$\ast$
+\begin{DoxyItemize}
+\item Aliases for the B\+G\+B\+\_\+$\ast$ ones and a {\ttfamily bgb\+\_\+emu.\+h} shim are present for backward compatibility, but updating to the new naming is recommended
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{docs_migrating_versions_autotoc_md169}{}\doxysubsubsection{Porting to G\+B\+D\+K 2020 4.\+0.\+5}\label{docs_migrating_versions_autotoc_md169}
+
+\begin{DoxyItemize}
+\item G\+B\+DK now requires S\+D\+CC 12259 or higher with G\+B\+D\+K-\/2020 patches
+\item \mbox{\hyperlink{docs_toolchain_utility_png2asset}{png2asset}} is the new name for the {\ttfamily png2mtspr} utility
+\item \mbox{\hyperlink{docs_toolchain_lcc}{lcc}} \+: Changed default output format when not specified from {\ttfamily .ihx} to {\ttfamily .gb} (or other active rom extension)
+\item The {\ttfamily \+\_\+\+B\+SS} area is deprecated (use {\ttfamily \+\_\+\+D\+A\+TA} instead)
+\item The {\ttfamily \+\_\+\+B\+A\+SE} area is renamed to {\ttfamily \+\_\+\+H\+O\+ME}
+\item Variables in static storage are now initialized to zero per C standard (but remaining W\+R\+AM is not cleared)
+\item \mbox{\hyperlink{stdlib_8h_aac2ea595a9ea8f5ebd883a0bc05eba5c}{itoa()}}, \mbox{\hyperlink{stdlib_8h_a38c070016cb06132360cfa5bacc2ed19}{uitoa()}}, \mbox{\hyperlink{stdlib_8h_a6374e62474a5a76c7ace9a59fb1cc829}{ltoa()}}, \mbox{\hyperlink{stdlib_8h_ac22b79fe0c1279eabc3daf57328008d2}{ultoa()}} all now require a radix value (base) argument to be passed. On the Game Boy and Analogue Pocket the parameter is required but not utilized.
+\item set\+\_\+bkg\+\_\+1bit\+\_\+data has been renamed to \mbox{\hyperlink{sms_8h_a4d5f74eed0489ebfdc2410ee3f9f7f04}{set\+\_\+bkg\+\_\+1bpp\+\_\+data}}
+\item The following header files which are now cross platform were moved from {\ttfamily gb/} to {\ttfamily gbdk/}\+: {\ttfamily bcd.\+h}, {\ttfamily console.\+h}, {\ttfamily far\+\_\+ptr.\+h}, {\ttfamily font.\+h}, {\ttfamily gbdecompress.\+h}, {\ttfamily gbdk-\/lib.\+h}, {\ttfamily incbin.\+h}, {\ttfamily metasprites.\+h}, {\ttfamily platform.\+h}, {\ttfamily version.\+h}
+\begin{DoxyItemize}
+\item When including them use {\ttfamily \#include $<$gbdk/...$>$} instead of {\ttfamily \#include $<$gb/$>$}
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{docs_migrating_versions_autotoc_md170}{}\doxysubsubsection{Porting to G\+B\+D\+K 2020 4.\+0.\+4}\label{docs_migrating_versions_autotoc_md170}
+
+\begin{DoxyItemize}
+\item G\+B\+DK now requires S\+D\+CC 12238 or higher
+\item Made sample.\+h, cgb.\+h and sgb.\+h independent from gb.\+h
+\end{DoxyItemize}\hypertarget{docs_migrating_versions_autotoc_md171}{}\doxysubsubsection{Porting to G\+B\+D\+K 2020 4.\+0.\+3}\label{docs_migrating_versions_autotoc_md171}
+
+\begin{DoxyItemize}
+\item No significant changes required
+\end{DoxyItemize}\hypertarget{docs_migrating_versions_autotoc_md172}{}\doxysubsubsection{Porting to G\+B\+D\+K 2020 4.\+0.\+2}\label{docs_migrating_versions_autotoc_md172}
+
+\begin{DoxyItemize}
+\item The default font has been reduced from 256 to 96 characters.
+\begin{DoxyItemize}
+\item Code using special characters may need to be updated.
+\item The off-\/by-\/1 character index offset was removed for fonts. Old fonts with the offset need to be re-\/adjusted.
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{docs_migrating_versions_autotoc_md173}{}\doxysubsubsection{Porting to G\+B\+D\+K 2020 4.\+0.\+1}\label{docs_migrating_versions_autotoc_md173}
+
+\begin{DoxyItemize}
+\item {\bfseries{Important!}} \+: The {\ttfamily W\+R\+AM} memory region is no longer automatically initialized to zeros during startup.
+\begin{DoxyItemize}
+\item Any variables which are declared without being initialized may have {\bfseries{indeterminate values instead of 0}} on startup. This might reveal previously hidden bugs in your code.
+\item Check your code for variables that are not initialized before use.
+\item In B\+GB you can turn on triggering exceptions (options panel) reading from unitialized R\+AM. This allows for some additional runtime detection of uninitialized vars.
+\end{DoxyItemize}
+\item In .ihx files, multiple writes to the same R\+OM address are now warned about using \mbox{\hyperlink{docs_toolchain_ihxcheck}{ihxcheck}}.
+\item {\ttfamily set\+\_\+$\ast$\+\_\+tiles()} now wrap maps around horizontal and vertical boundaries correctly. Code relying on it not wrapping correctly may be affected.
+\end{DoxyItemize}\hypertarget{docs_migrating_versions_autotoc_md174}{}\doxysubsubsection{Porting to G\+B\+D\+K 2020 4.\+0}\label{docs_migrating_versions_autotoc_md174}
+
+\begin{DoxyItemize}
+\item G\+B\+DK now requires S\+D\+CC 4.\+0.\+3 or higher
+\item The old linker {\ttfamily link-\/gbz80} has been R\+E\+M\+O\+V\+ED, the linker \mbox{\hyperlink{docs_toolchain_sdldgb}{sdldgb}} from S\+D\+CC is used.
+\begin{DoxyItemize}
+\item Due to the linker change, there are no longer warnings about multiple writes to the same R\+OM address.
+\end{DoxyItemize}
+\item G\+B\+DK now generates .ihx files, those are converted to a R\+OM using \mbox{\hyperlink{docs_toolchain_makebin}{makebin}} (lcc can do this automatically in some use cases)
+\item Setting R\+OM bytes directly with {\ttfamily -\/Wl-\/yp0x$<$address$>$=0x$<$value$>$} is no longer supported. Instead use \mbox{\hyperlink{docs_toolchain_makebin}{makebin}} flags. For example, use {\ttfamily -\/Wm-\/yC} instead of {\ttfamily -\/Wl-\/yp0x143=0x\+C0}. See \mbox{\hyperlink{docs_faq_faq_gb_type_header_setting}{faq\+\_\+gb\+\_\+type\+\_\+header\+\_\+setting}}.
+\item O\+AM symbol has been renamed to {\ttfamily \+\_\+shadow\+\_\+\+O\+AM}, that allows accessing shadow O\+AM directly from C code
+\end{DoxyItemize}\hypertarget{docs_migrating_versions_autotoc_md175}{}\doxysubsubsection{Porting to G\+B\+D\+K 2020 3.\+2}\label{docs_migrating_versions_autotoc_md175}
+
+\begin{DoxyItemize}
+\item No significant changes required
+\end{DoxyItemize}\hypertarget{docs_migrating_versions_autotoc_md176}{}\doxysubsubsection{Porting to G\+B\+D\+K 2020 3.\+1.\+1}\label{docs_migrating_versions_autotoc_md176}
+
+\begin{DoxyItemize}
+\item No significant changes required
+\end{DoxyItemize}\hypertarget{docs_migrating_versions_autotoc_md177}{}\doxysubsubsection{Porting to G\+B\+D\+K 2020 3.\+1}\label{docs_migrating_versions_autotoc_md177}
+
+\begin{DoxyItemize}
+\item Behavior formerly enabled by U\+S\+E\+\_\+\+S\+F\+R\+\_\+\+F\+O\+R\+\_\+\+R\+EG is on by default now (no need to specify it, it isn\textquotesingle{}t a tested {\ttfamily \#ifdef} anymore). check here why\+: \href{https://gbdev.gg8.se/forums/viewtopic.php?id=697}{\texttt{ https\+://gbdev.\+gg8.\+se/forums/viewtopic.\+php?id=697}}
+\end{DoxyItemize}\hypertarget{docs_migrating_versions_autotoc_md178}{}\doxysubsubsection{Porting to G\+B\+D\+K 2020 3.\+0.\+1}\label{docs_migrating_versions_autotoc_md178}
+
+\begin{DoxyItemize}
+\item L\+CC was upgraded to use S\+D\+CC v4.\+0. Makefile changes may be required
+\begin{DoxyItemize}
+\item The symbol format changed. To get bgb compatible symbols turn on {\ttfamily .noi} output (L\+CC argument\+: {\ttfamily -\/Wl-\/j} or {\ttfamily -\/debug}) and use {\ttfamily -\/Wm-\/yS}
+\item ?? Suggested\+: With L\+CC argument\+: {\ttfamily -\/Wa-\/l} (sdasgb\+:{\ttfamily -\/a All user symbols made global})
+\item In S\+D\+CC 3.\+6.\+0, the default for char changed from signed to unsigned.
+\begin{DoxyItemize}
+\item If you want the old behavior use {\ttfamily -\/-\/fsigned-\/char}.
+\item lcc includes {\ttfamily -\/-\/fsigned-\/char} by default
+\item Explicit declaration of unsigned vars is encouraged (for example, \textquotesingle{}15U\textquotesingle{} instead of \textquotesingle{}15\textquotesingle{})
+\end{DoxyItemize}
+\item {\ttfamily .init} address has been removed
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+\hypertarget{docs_migrating_versions_autotoc_md180}{}\doxysubsection{Historical G\+B\+D\+K versions}\label{docs_migrating_versions_autotoc_md180}
+\hypertarget{docs_migrating_versions_autotoc_md181}{}\doxysubsubsection{G\+B\+D\+K 1.\+1 to G\+B\+D\+K 2.\+0}\label{docs_migrating_versions_autotoc_md181}
+
+\begin{DoxyItemize}
+\item Change your int variables to long if they have to be bigger than 255. If they should only contain values between 0 and 255, use an unsigned int.
+\item If your application uses the delay function, you\textquotesingle{}ll have to adapt your delay values.
+\item Several functions have new names. In particular some of them have been changed to macros (e.\+g. show\+\_\+bkg() is now S\+H\+O\+W\+\_\+\+B\+KG).
+\item You will probably have to change the name of the header files that you include. 
+\end{DoxyItemize}

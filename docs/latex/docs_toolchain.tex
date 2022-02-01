@@ -1,0 +1,310 @@
+\label{docs_toolchain_toolchain_overview}%
+\Hypertarget{docs_toolchain_toolchain_overview}%
+\hypertarget{docs_toolchain_autotoc_md95}{}\doxysubsection{Overview}\label{docs_toolchain_autotoc_md95}
+G\+B\+DK 2020 uses the S\+D\+CC compiler along with some custom tools to build Game Boy R\+O\+Ms.
+\begin{DoxyItemize}
+\item All tools are located under {\ttfamily bin/}
+\item The typical order of tools called is as follows. (When using lcc these steps are usually performed automatically.)
+\begin{DoxyEnumerate}
+\item Compile and assemble source files (.c, .s, .asm) with \mbox{\hyperlink{docs_toolchain_sdcc}{sdcc}} and \mbox{\hyperlink{docs_toolchain_sdasgb}{sdasgb}}
+\item Optional\+: perform auto banking with \mbox{\hyperlink{docs_toolchain_bankpack}{bankpack}} on the object files
+\item Link the object files into .ihx file with \mbox{\hyperlink{docs_toolchain_sdldgb}{sdldgb}}
+\item Validate the .ihx file with \mbox{\hyperlink{docs_toolchain_ihxcheck}{ihxcheck}}
+\item Convert the .ihx file to a R\+OM file (.gb, .gbc) with \mbox{\hyperlink{docs_toolchain_makebin}{makebin}}
+\end{DoxyEnumerate}
+\end{DoxyItemize}
+
+To see individual arguments and options for a tool, run that tool from the command line with either no arguments or with {\ttfamily -\/h}.\hypertarget{docs_toolchain_autotoc_md96}{}\doxysubsection{Data Types}\label{docs_toolchain_autotoc_md96}
+For data types and special C keywords, see \mbox{\hyperlink{asm_2gbz80_2types_8h_file_asm_gbz80_types_h}{asm/gbz80/types.h}} and \mbox{\hyperlink{asm_2types_8h_file_asm_types_h}{asm/types.h}}.
+
+Also see the S\+D\+CC manual (scroll down a little on the linked page)\+: \href{http://sdcc.sourceforge.net/doc/sdccman.pdf\#section.1.1}{\texttt{ http\+://sdcc.\+sourceforge.\+net/doc/sdccman.\+pdf\#section.\+1.\+1}}
+
+\label{docs_toolchain_toolchain_changing_important_addresses}%
+\Hypertarget{docs_toolchain_toolchain_changing_important_addresses}%
+ \hypertarget{docs_toolchain_autotoc_md97}{}\doxysubsection{Changing Important Addresses}\label{docs_toolchain_autotoc_md97}
+It is possible to change some of the important addresses used by the toolchain at link time using the -\/Wl-\/g X\+XX=Y\+YY and =Wl-\/b X\+XX=Y\+YY flags (where X\+XX is the name of the data, and Y\+YY is the new address).
+
+\mbox{\hyperlink{docs_toolchain_lcc}{lcc}} will include the following linker defaults for \mbox{\hyperlink{docs_toolchain_sdldgb}{sdldgb}} if they are not defined by the user.
+
+
+\begin{DoxyItemize}
+\item {\ttfamily \+\_\+shadow\+\_\+\+O\+AM}
+\begin{DoxyItemize}
+\item Location of sprite ram (requires 0x\+A0 bytes).
+\item Default {\ttfamily -\/Wl-\/g \+\_\+shadow\+\_\+\+O\+AM=0x\+C000}
+\end{DoxyItemize}
+\item {\ttfamily .S\+T\+A\+CK}
+\begin{DoxyItemize}
+\item Initial stack address
+\item Default {\ttfamily -\/Wl-\/g .S\+T\+A\+CK=0x\+E000}
+\end{DoxyItemize}
+\item {\ttfamily .refresh\+\_\+\+O\+AM}
+\begin{DoxyItemize}
+\item Address to which the routine for refreshing O\+AM will be copied (must be in H\+I\+R\+AM). Default
+\item Default {\ttfamily -\/Wl-\/g .refresh\+\_\+\+O\+AM=0x\+F\+F80}
+\end{DoxyItemize}
+\item {\ttfamily \+\_\+\+D\+A\+TA}
+\begin{DoxyItemize}
+\item Start of R\+AM section (starts after Shadow O\+AM)
+\item Default {\ttfamily -\/Wl-\/b \+\_\+\+D\+A\+TA=0xc0\+A0}
+\end{DoxyItemize}
+\item {\ttfamily \+\_\+\+C\+O\+DE}
+\begin{DoxyItemize}
+\item Start of R\+OM section
+\item Default {\ttfamily -\/Wl-\/b \+\_\+\+C\+O\+DE=0x0200}
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+\label{docs_toolchain_toolchain_compiling_programs}%
+\Hypertarget{docs_toolchain_toolchain_compiling_programs}%
+\hypertarget{docs_toolchain_autotoc_md98}{}\doxysubsection{Compiling programs}\label{docs_toolchain_autotoc_md98}
+The \mbox{\hyperlink{docs_toolchain_lcc}{lcc}} program is the front end compiler driver for the actual compiler, assembler and linker. It works out what you want to do based on command line options and the extensions of the files you give it, computes the order in which the various programs must be called and then executes them in order. Some examples are\+:
+
+
+\begin{DoxyItemize}
+\item Compile the C source \textquotesingle{}source.\+c\textquotesingle{}, assemble and link it producing the Gameboy image \textquotesingle{}image.\+gb\textquotesingle{} \begin{DoxyVerb}lcc -o image.gb source.c
+\end{DoxyVerb}
+
+\item Assemble the file \textquotesingle{}source.\+s\textquotesingle{} and link it producing the Gameboy image \textquotesingle{}image.\+gb\textquotesingle{} \begin{DoxyVerb}lcc -o image.gb source.s
+\end{DoxyVerb}
+
+\item Compile the C program \textquotesingle{}source1.\+c\textquotesingle{} and assemble it producing the object file \textquotesingle{}object1.\+o\textquotesingle{} for later linking. \begin{DoxyVerb}lcc -c -o object1.o source1.c
+\end{DoxyVerb}
+
+\item Assemble the file \textquotesingle{}source2.\+s\textquotesingle{} producing the object file \textquotesingle{}object2.\+o\textquotesingle{} for later linking \begin{DoxyVerb}lcc -c -o object2.o source2.s
+\end{DoxyVerb}
+
+\item Link the two object files \textquotesingle{}object1.\+o\textquotesingle{} and \textquotesingle{}object2.\+o\textquotesingle{} and produce the Gameboy image \textquotesingle{}image.\+gb\textquotesingle{} \begin{DoxyVerb}lcc -o image.gb object1.o object2.o
+\end{DoxyVerb}
+
+\item Do all sorts of clever stuff by compiling then assembling source1.\+c, assembling source2.\+s and then linking them together to produce image.\+gb. \begin{DoxyVerb}lcc -o image.gb source1.c source2.s
+\end{DoxyVerb}
+
+\end{DoxyItemize}
+
+Arguments to the assembler etc can be passed via lcc using -\/Wp..., -\/Wf..., -\/Wa... and -\/Wl... to pass options to the pre-\/processor, compiler, assembler and linker respectivly. Some common options are\+:
+
+
+\begin{DoxyItemize}
+\item To generate an assembler listing file. \begin{DoxyVerb}-Wa-l
+\end{DoxyVerb}
+
+\item To generate a linker map file. \begin{DoxyVerb}-Wl-m
+\end{DoxyVerb}
+
+\item To bind var to address \textquotesingle{}addr\textquotesingle{} at link time. \begin{DoxyVerb}-Wl-gvar=addr
+\end{DoxyVerb}
+
+\end{DoxyItemize}
+
+For example, to compile the example in the memory section and to generate a listing and map file you would use the following. Note the leading underscore that C adds to symbol names. \begin{DoxyVerb}lcc -Wa-l -Wl-m -Wl-g_snd_stat=0xff26 -o image.gb hardware.c
+\end{DoxyVerb}
+\hypertarget{docs_toolchain_Makefiles}{}\doxysubsubsection{Makefiles}\label{docs_toolchain_Makefiles}
+Using Makefiles
+
+Please see the sample projects included with G\+B\+D\+K-\/2020 for a couple different examples of how to use Makefiles.
+
+You may also want to read a tutorial on Makefiles. For example\+: ~\newline
+ \href{https://makefiletutorial.com/}{\texttt{ https\+://makefiletutorial.\+com/}} \href{https://www.tutorialspoint.com/makefile/index.htm}{\texttt{ https\+://www.\+tutorialspoint.\+com/makefile/index.\+htm}}
+
+\label{docs_toolchain_build_tools}%
+\Hypertarget{docs_toolchain_build_tools}%
+\hypertarget{docs_toolchain_autotoc_md99}{}\doxysubsection{Build Tools}\label{docs_toolchain_autotoc_md99}
+\label{docs_toolchain_lcc}%
+\Hypertarget{docs_toolchain_lcc}%
+\hypertarget{docs_toolchain_autotoc_md100}{}\doxysubsubsection{lcc}\label{docs_toolchain_autotoc_md100}
+lcc is the compiler driver (front end) for the G\+B\+D\+K/sdcc toolchain.
+
+For detailed settings see \mbox{\hyperlink{docs_toolchain_settings_lcc-settings}{lcc-\/settings}}
+
+It can be used to invoke all the tools needed for building a rom. If preferred, the individual tools can be called directly.
+\begin{DoxyItemize}
+\item the {\ttfamily -\/v} flag can be used to show the exact steps lcc executes for a build
+\item lcc can compile, link and generate a binary in a single pass\+: {\ttfamily lcc -\/o somerom.\+gb somesource.\+c}
+\item \label{docs_toolchain_lcc_debug}%
+\Hypertarget{docs_toolchain_lcc_debug}%
+ lcc now has a {\ttfamily -\/debug} flag that will turn on the following recommended flags for debugging
+\begin{DoxyItemize}
+\item {\ttfamily -\/-\/debug} for sdcc (lcc equiv\+: {\ttfamily -\/Wf-\/debug})
+\item {\ttfamily -\/y} enables .cdb output for \mbox{\hyperlink{docs_toolchain_sdldgb}{sdldgb}} (lcc equiv\+: {\ttfamily -\/Wl-\/y})
+\item {\ttfamily -\/j} enables .noi output for \mbox{\hyperlink{docs_toolchain_sdldgb}{sdldgb}} (lcc equiv\+: {\ttfamily -\/Wl-\/j})
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+\label{docs_toolchain_sdcc}%
+\Hypertarget{docs_toolchain_sdcc}%
+\hypertarget{docs_toolchain_autotoc_md101}{}\doxysubsubsection{sdcc}\label{docs_toolchain_autotoc_md101}
+S\+D\+CC C Source compiler
+
+For detailed settings see \mbox{\hyperlink{docs_toolchain_settings_sdcc-settings}{sdcc-\/settings}}
+
+
+\begin{DoxyItemize}
+\item Arguments can be passed to it through \mbox{\hyperlink{docs_toolchain_lcc}{lcc}} using {\ttfamily -\/Wf-\/$<$argument$>$} and {\ttfamily -\/Wp-\/$<$argument$>$} (pre-\/processor)
+\end{DoxyItemize}
+
+\label{docs_toolchain_sdasgb}%
+\Hypertarget{docs_toolchain_sdasgb}%
+\hypertarget{docs_toolchain_autotoc_md102}{}\doxysubsubsection{sdasgb}\label{docs_toolchain_autotoc_md102}
+S\+D\+CC Assembler for the gameboy
+
+For detailed settings see \mbox{\hyperlink{docs_toolchain_settings_sdasgb-settings}{sdasgb-\/settings}}
+
+
+\begin{DoxyItemize}
+\item Arguments can be passed to it through \mbox{\hyperlink{docs_toolchain_lcc}{lcc}} using {\ttfamily -\/Wa-\/$<$argument$>$}
+\end{DoxyItemize}
+
+\label{docs_toolchain_bankpack}%
+\Hypertarget{docs_toolchain_bankpack}%
+\hypertarget{docs_toolchain_autotoc_md103}{}\doxysubsubsection{bankpack}\label{docs_toolchain_autotoc_md103}
+Automatic Bank packer
+
+For detailed settings see \mbox{\hyperlink{docs_toolchain_settings_bankpack-settings}{bankpack-\/settings}}
+
+When enabled, automatically assigns banks for object files where bank has been set to {\ttfamily 255}, see \mbox{\hyperlink{docs_rombanking_mbcs_rom_autobanking}{rom\+\_\+autobanking}}. Unless an alternative output is specified the given object files are updated with the new bank numbers.
+\begin{DoxyItemize}
+\item Can be enabled by using the {\ttfamily -\/autobank} argument with \mbox{\hyperlink{docs_toolchain_lcc}{lcc}}.
+\item Must be called after compiling/assembling and before linking
+\item Arguments can be passed to it through \mbox{\hyperlink{docs_toolchain_lcc}{lcc}} using {\ttfamily -\/Wb-\/$<$argument$>$}
+\end{DoxyItemize}
+
+\label{docs_toolchain_sdldgb}%
+\Hypertarget{docs_toolchain_sdldgb}%
+\hypertarget{docs_toolchain_autotoc_md104}{}\doxysubsubsection{sdldgb}\label{docs_toolchain_autotoc_md104}
+The S\+D\+CC linker for the gameboy.
+
+For detailed settings see \mbox{\hyperlink{docs_toolchain_settings_sdldgb-settings}{sdldgb-\/settings}}
+
+Links object files (.o) into a .ihx file which can be processed by \mbox{\hyperlink{docs_toolchain_makebin}{makebin}}
+\begin{DoxyItemize}
+\item Arguments can be passed to it through \mbox{\hyperlink{docs_toolchain_lcc}{lcc}} using {\ttfamily -\/Wl-\/$<$argument$>$}
+\end{DoxyItemize}
+
+\label{docs_toolchain_ihxcheck}%
+\Hypertarget{docs_toolchain_ihxcheck}%
+\hypertarget{docs_toolchain_autotoc_md105}{}\doxysubsubsection{ihxcheck}\label{docs_toolchain_autotoc_md105}
+I\+HX file validator
+
+For detailed settings see \mbox{\hyperlink{docs_toolchain_settings_ihxcheck-settings}{ihxcheck-\/settings}}
+
+Checks .ihx files produced by \mbox{\hyperlink{docs_toolchain_sdldgb}{sdldgb}} for correctness.
+\begin{DoxyItemize}
+\item It will warn if there are multiple writes to the same R\+OM address. This may indicate mistakes in the code or R\+OM bank overflows
+\item Arguments can be passed to it through \mbox{\hyperlink{docs_toolchain_lcc}{lcc}} using {\ttfamily -\/Wi-\/$<$argument$>$}
+\end{DoxyItemize}
+
+\label{docs_toolchain_makebin}%
+\Hypertarget{docs_toolchain_makebin}%
+\hypertarget{docs_toolchain_autotoc_md106}{}\doxysubsubsection{makebin}\label{docs_toolchain_autotoc_md106}
+I\+HX to R\+OM converter
+
+
+\begin{DoxyItemize}
+\item For detailed settings see \mbox{\hyperlink{docs_toolchain_settings_makebin-settings}{makebin-\/settings}}
+\item For makebin {\ttfamily -\/yt} M\+BC values see \mbox{\hyperlink{docs_rombanking_mbcs_setting_mbc_and_rom_ram_banks}{setting\+\_\+mbc\+\_\+and\+\_\+rom\+\_\+ram\+\_\+banks}}
+\end{DoxyItemize}
+
+Converts .ihx files produced by \mbox{\hyperlink{docs_toolchain_sdldgb}{sdldgb}} into R\+OM files (.gb, .gbc). Also used for setting some R\+OM header data.
+\begin{DoxyItemize}
+\item Arguments can be passed to it through \mbox{\hyperlink{docs_toolchain_lcc}{lcc}} using {\ttfamily -\/Wm-\/$<$argument$>$}
+\end{DoxyItemize}
+
+\label{docs_toolchain_gbdk_utilities}%
+\Hypertarget{docs_toolchain_gbdk_utilities}%
+\hypertarget{docs_toolchain_autotoc_md107}{}\doxysubsection{G\+B\+D\+K Utilities}\label{docs_toolchain_autotoc_md107}
+\label{docs_toolchain_utility_gbcompress}%
+\Hypertarget{docs_toolchain_utility_gbcompress}%
+\hypertarget{docs_toolchain_autotoc_md108}{}\doxysubsubsection{G\+B\+Compress}\label{docs_toolchain_autotoc_md108}
+Compresssion utility
+
+For detailed settings see \mbox{\hyperlink{docs_toolchain_settings_gbcompress-settings}{gbcompress-\/settings}}
+
+Compresses (and decompresses) binary file data with the gbcompress algorithm (also used in G\+B\+T\+D/\+G\+B\+MB). Decompression support is available in G\+B\+DK, see \mbox{\hyperlink{gb_2gbdecompress_8h_a3370eefd9a88fdefed71eeb92e6861f2}{gb\+\_\+decompress()}}.
+
+Can also compress (and decompress) using block style rle encoding with the {\ttfamily -\/-\/alg=rle} flag. Decompression support is available in G\+B\+DK, see \mbox{\hyperlink{rledecompress_8h_ad60bf95ddad142d8d81e5e1f0a0bb6e0}{rle\+\_\+decompress()}}.
+
+\label{docs_toolchain_utility_png2asset}%
+\Hypertarget{docs_toolchain_utility_png2asset}%
+\hypertarget{docs_toolchain_autotoc_md109}{}\doxysubsubsection{png2asset}\label{docs_toolchain_autotoc_md109}
+Tool for converting P\+N\+Gs into G\+B\+DK format Meta\+Sprites and Tile Maps
+
+
+\begin{DoxyItemize}
+\item Convert single or multiple frames of graphics into metasprite structured data for use with the ...metasprite...() functions.
+\item When {\ttfamily -\/map} is used, converts images into Tile Maps and matching Tile Sets
+\item Supports Game Boy 2bpp, G\+BC 4bpp, S\+GB 4bpp, and S\+M\+S/\+GG 4bpp
+\end{DoxyItemize}
+
+For detailed settings see \mbox{\hyperlink{docs_toolchain_settings_png2asset-settings}{png2asset-\/settings}} ~\newline
+ For working with sprite properties (including cgb palettes), see \mbox{\hyperlink{gb_2metasprites_8h_metasprite_and_sprite_properties}{metasprite\+\_\+and\+\_\+sprite\+\_\+properties}} ~\newline
+ For A\+PI support see \mbox{\hyperlink{gb_2metasprites_8h_a77475e913bf0a19df28bdbf9d1cf392b}{move\+\_\+metasprite()}} and related functions in \mbox{\hyperlink{sms_2metasprites_8h}{metasprites.\+h}} ~\newline
+\hypertarget{docs_toolchain_autotoc_md110}{}\doxyparagraph{Working with png2asset}\label{docs_toolchain_autotoc_md110}
+
+\begin{DoxyItemize}
+\item The origin (pivot) for the metasprite is not required to be in the upper left-\/hand corner as with regular hardware sprites. See {\ttfamily -\/px} and {\ttfamily -\/py}.
+\item The conversion process supports using both S\+P\+R\+I\+T\+E\+S\+\_\+8x8 ({\ttfamily -\/spr8x8}) and S\+P\+R\+I\+T\+E\+S\+\_\+8x16 mode ({\ttfamily -\/spr8x16}). If 8x16 mode is used then the height of the metasprite must be a multiple of 16.
+\end{DoxyItemize}\hypertarget{docs_toolchain_autotoc_md111}{}\doxysubparagraph{Terminology}\label{docs_toolchain_autotoc_md111}
+The following abbreviations are used in this section\+:
+\begin{DoxyItemize}
+\item Original Game Boy and Game Boy Pocket style hardware\+: {\ttfamily D\+MG}
+\item Game Boy Color\+: {\ttfamily C\+GB}
+\end{DoxyItemize}\hypertarget{docs_toolchain_autotoc_md112}{}\doxysubparagraph{Conversion Process}\label{docs_toolchain_autotoc_md112}
+png2asset accepts any png as input, although that does not mean any image will be valid. The program will follow the next steps\+:
+\begin{DoxyItemize}
+\item The image will be subdivided into tiles of 8x8 or 8x16
+\item For each tile a palette will be generated
+\item If there are more than 4 colors in the palette it will throw an error
+\item The palette will be sorted from darkest to lightest. If there is a transparent color that will be the first one (this will create a palette that will also work with {\ttfamily D\+MG} devices)
+\item If there are more than 8 palettes the program will throw an error
+\end{DoxyItemize}
+
+With all this, the program will generate a new indexed image (with palette), where each 4 colors define a palette and all colors within a tile can only have colors from one of these palettes
+
+It is also posible to pass a indexed 8-\/bit png with the palette properly sorted out, using {\ttfamily -\/keep\+\_\+palette\+\_\+order}
+\begin{DoxyItemize}
+\item Palettes will be extracted from the image palette in groups of 4 colors.
+\item Each tile can only have colors from one of these palettes per tile
+\item The maximum number of colors is 32
+\end{DoxyItemize}
+
+Using this image a tileset will be created
+\begin{DoxyItemize}
+\item Duplicated tiles will be removed
+\item Tiles will be matched without mirror, using vertical mirror, horizontal mirror or both (use {\ttfamily -\/noflip} to turn off matching mirrored tiles)
+\item The palette won\textquotesingle{}t be taken into account for matching, only the pixel color order, meaning there will be a match between tiles using different palettes but looking identical on grayscale
+\end{DoxyItemize}\hypertarget{docs_toolchain_autotoc_md113}{}\doxysubparagraph{Maps}\label{docs_toolchain_autotoc_md113}
+Passing {\ttfamily -\/map} the png can be converted to a map that can be used in both the background and the window. In this case, png2asset will generate\+:
+\begin{DoxyItemize}
+\item The palettes
+\item The tileset
+\item The map
+\item The color info
+\begin{DoxyItemize}
+\item By default, an array of palette index for each tile. This is not the way the hardware works but it takes less space and will create maps compatibles with both {\ttfamily D\+MG} and {\ttfamily C\+GB} devices.
+\item Passing {\ttfamily -\/use\+\_\+map\+\_\+attributes} will create an array of map attributes. It will also add mirroring info for each tile and because of that maps created with this won\textquotesingle{}t be compatible with.
+\begin{DoxyItemize}
+\item Use {\ttfamily -\/noflip} to make background maps which are compatible with {\ttfamily D\+MG} devices.
+\end{DoxyItemize}
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{docs_toolchain_autotoc_md114}{}\doxysubparagraph{Meta sprites}\label{docs_toolchain_autotoc_md114}
+By default the png will be converted to metasprites. The image will be subdivided into meta sprites of {\ttfamily -\/sw} x {\ttfamily -\/sh}. In this case png2asset will generate\+:
+\begin{DoxyItemize}
+\item The metasprites, containing an array of\+:
+\begin{DoxyItemize}
+\item tile index
+\item y offset
+\item x offset
+\item flags, containing the mirror info, the palettes for both D\+MG and G\+BC and the sprite priority
+\end{DoxyItemize}
+\item The metasprites array
+\end{DoxyItemize}\hypertarget{docs_toolchain_autotoc_md115}{}\doxysubparagraph{Super Game Boy Borders (\+S\+G\+B)}\label{docs_toolchain_autotoc_md115}
+Screen border assets for the Super Game Boy can be generated using png2asset.
+
+The following flags should be used to perform the conversion\+:
+\begin{DoxyItemize}
+\item {\ttfamily $<$input\+\_\+border\+\_\+file.\+png$>$ -\/map -\/bpp 4 -\/max\+\_\+palettes 4 -\/pack\+\_\+mode sgb -\/use\+\_\+map\+\_\+attributes -\/c $<$output\+\_\+border\+\_\+data.\+c$>$}
+\item Where {\ttfamily $<$input\+\_\+border\+\_\+file.\+png$>$} is the image of the S\+GB border (256x224) and {\ttfamily $<$output\+\_\+border\+\_\+data.\+c$>$} is the name of the source file to write the assets out to.
+\end{DoxyItemize}
+
+See the {\ttfamily sgb\+\_\+border} example project for more details. 

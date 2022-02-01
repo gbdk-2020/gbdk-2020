@@ -1,0 +1,97 @@
+\hypertarget{stdio_8h}{}\doxysubsection{stdio.\+h File Reference}
+\label{stdio_8h}\index{stdio.h@{stdio.h}}
+{\ttfamily \#include $<$types.\+h$>$}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{stdio_8h_a9bc92fb9f23c72a66d030d4028dda72d}{putchar}} (char \mbox{\hyperlink{sms_8h_a0b3366755f3276b0243c1e0497471b7a}{c}}) \mbox{\hyperlink{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}{O\+L\+D\+C\+A\+LL}}
+\item 
+void \mbox{\hyperlink{stdio_8h_ab403fa700816f08631ba75bc536f74d4}{printf}} (const char $\ast$format,...) \mbox{\hyperlink{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}{O\+L\+D\+C\+A\+LL}}
+\item 
+void \mbox{\hyperlink{stdio_8h_a31913a297ee18548c81d482ef6bdbe0f}{sprintf}} (char $\ast$str, const char $\ast$format,...) \mbox{\hyperlink{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}{O\+L\+D\+C\+A\+LL}}
+\item 
+void \mbox{\hyperlink{stdio_8h_a299d0f9cb9e7b14e1278a4ed21e4d76f}{puts}} (const char $\ast$s)
+\item 
+char $\ast$ \mbox{\hyperlink{stdio_8h_a00a5b27bc2e5280952b02c304d7b27bc}{gets}} (char $\ast$s) \mbox{\hyperlink{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}{O\+L\+D\+C\+A\+LL}}
+\item 
+char \mbox{\hyperlink{stdio_8h_a2c79157c8bc2db72fbf1e34f291ff5d8}{getchar}} () \mbox{\hyperlink{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}{O\+L\+D\+C\+A\+LL}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Detailed Description}
+Basic file/console input output functions.
+
+Including stdio.\+h will use a large number of the background tiles for font characters. If stdio.\+h is not included then that space will be available for use with other tiles instead. 
+
+\doxysubsubsection{Function Documentation}
+\mbox{\Hypertarget{stdio_8h_a9bc92fb9f23c72a66d030d4028dda72d}\label{stdio_8h_a9bc92fb9f23c72a66d030d4028dda72d}} 
+\index{stdio.h@{stdio.h}!putchar@{putchar}}
+\index{putchar@{putchar}!stdio.h@{stdio.h}}
+\doxyparagraph{\texorpdfstring{putchar()}{putchar()}}
+{\footnotesize\ttfamily void putchar (\begin{DoxyParamCaption}\item[{char}]{c }\end{DoxyParamCaption})}
+
+Print char to stdout. 
+\begin{DoxyParams}{Parameters}
+{\em c} & Character to print \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{stdio_8h_ab403fa700816f08631ba75bc536f74d4}\label{stdio_8h_ab403fa700816f08631ba75bc536f74d4}} 
+\index{stdio.h@{stdio.h}!printf@{printf}}
+\index{printf@{printf}!stdio.h@{stdio.h}}
+\doxyparagraph{\texorpdfstring{printf()}{printf()}}
+{\footnotesize\ttfamily void printf (\begin{DoxyParamCaption}\item[{const char $\ast$}]{format,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+Print the string and arguments given by format to stdout.
+
+
+\begin{DoxyParams}{Parameters}
+{\em format} & The format string as per printf\\
+\hline
+\end{DoxyParams}
+Does not return the number of characters printed.
+
+Currently supported\+: \begin{DoxyItemize}
+\item \%hx (char as hex) \item \%hu (unsigned char) \item \%hd (signed char) \item \%c (character) \item \%u (unsigned int) \item \%d (signed int) \item \%x (unsigned int as hex) \item \%s (string)\end{DoxyItemize}
+Warning\+: to correctly pass chars for printing as chars, they {\itshape must} be explicitly re-\/cast as such when calling the function. See \mbox{\hyperlink{docs_coding_guidelines_docs_chars_varargs}{docs\+\_\+chars\+\_\+varargs}} for more details. \mbox{\Hypertarget{stdio_8h_a31913a297ee18548c81d482ef6bdbe0f}\label{stdio_8h_a31913a297ee18548c81d482ef6bdbe0f}} 
+\index{stdio.h@{stdio.h}!sprintf@{sprintf}}
+\index{sprintf@{sprintf}!stdio.h@{stdio.h}}
+\doxyparagraph{\texorpdfstring{sprintf()}{sprintf()}}
+{\footnotesize\ttfamily void sprintf (\begin{DoxyParamCaption}\item[{char $\ast$}]{str,  }\item[{const char $\ast$}]{format,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+Print the string and arguments given by format to a buffer.
+
+
+\begin{DoxyParams}{Parameters}
+{\em str} & The buffer to print into \\
+\hline
+{\em format} & The format string as per \mbox{\hyperlink{stdio_8h_ab403fa700816f08631ba75bc536f74d4}{printf}}\\
+\hline
+\end{DoxyParams}
+Does not return the number of characters printed. \mbox{\Hypertarget{stdio_8h_a299d0f9cb9e7b14e1278a4ed21e4d76f}\label{stdio_8h_a299d0f9cb9e7b14e1278a4ed21e4d76f}} 
+\index{stdio.h@{stdio.h}!puts@{puts}}
+\index{puts@{puts}!stdio.h@{stdio.h}}
+\doxyparagraph{\texorpdfstring{puts()}{puts()}}
+{\footnotesize\ttfamily void puts (\begin{DoxyParamCaption}\item[{const char $\ast$}]{s }\end{DoxyParamCaption})}
+
+\mbox{\hyperlink{stdio_8h_a299d0f9cb9e7b14e1278a4ed21e4d76f}{puts()}} writes the string {\bfseries{s}} and a trailing newline to stdout. \mbox{\Hypertarget{stdio_8h_a00a5b27bc2e5280952b02c304d7b27bc}\label{stdio_8h_a00a5b27bc2e5280952b02c304d7b27bc}} 
+\index{stdio.h@{stdio.h}!gets@{gets}}
+\index{gets@{gets}!stdio.h@{stdio.h}}
+\doxyparagraph{\texorpdfstring{gets()}{gets()}}
+{\footnotesize\ttfamily char$\ast$ gets (\begin{DoxyParamCaption}\item[{char $\ast$}]{s }\end{DoxyParamCaption})}
+
+\mbox{\hyperlink{stdio_8h_a00a5b27bc2e5280952b02c304d7b27bc}{gets()}} Reads a line from stdin into a buffer pointed to by {\bfseries{s}}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & Buffer to store string in\\
+\hline
+\end{DoxyParams}
+Reads until either a terminating newline or an E\+OF, which it replaces with \textquotesingle{}\textbackslash{}0\textquotesingle{}. No check for buffer overrun is performed.
+
+Returns\+: Buffer pointed to by {\bfseries{s}} \mbox{\Hypertarget{stdio_8h_a2c79157c8bc2db72fbf1e34f291ff5d8}\label{stdio_8h_a2c79157c8bc2db72fbf1e34f291ff5d8}} 
+\index{stdio.h@{stdio.h}!getchar@{getchar}}
+\index{getchar@{getchar}!stdio.h@{stdio.h}}
+\doxyparagraph{\texorpdfstring{getchar()}{getchar()}}
+{\footnotesize\ttfamily char getchar (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\hyperlink{stdio_8h_a2c79157c8bc2db72fbf1e34f291ff5d8}{getchar()}} Reads and returns a single character from stdin. 

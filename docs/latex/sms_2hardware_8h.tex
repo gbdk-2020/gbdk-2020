@@ -1,0 +1,986 @@
+\hypertarget{sms_2hardware_8h}{}\doxysubsection{sms/hardware.h File Reference}
+\label{sms_2hardware_8h}\index{sms/hardware.h@{sms/hardware.h}}
+{\ttfamily \#include $<$types.\+h$>$}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_ab2767d5f8f0ad35d8c8ee0bb3f4c51c3}{\+\_\+\+\_\+\+B\+Y\+T\+ES}}~extern \mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}}
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a3b39604bdf93a32e9ff965c1a55f0df8}{\+\_\+\+\_\+\+B\+Y\+T\+E\+\_\+\+R\+EG}}~extern volatile \mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}}
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_af4607245a47e34bd6af5d2d43d7fb30f}{M\+E\+M\+C\+T\+L\+\_\+\+J\+O\+Y\+ON}}~0b00000000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_ad8b8ecb5a71567cabc47af43da5dadf1}{M\+E\+M\+C\+T\+L\+\_\+\+J\+O\+Y\+O\+FF}}~0b00000100
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a2a98128eb9ca41477c139988da9d803f}{M\+E\+M\+C\+T\+L\+\_\+\+B\+A\+S\+E\+ON}}~0b00000000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a29d7c3b98f855f88d6bb3f380b301d64}{M\+E\+M\+C\+T\+L\+\_\+\+B\+A\+S\+E\+O\+FF}}~0b00001000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_af4522efccaecbb6ce47a337f6dbada24}{M\+E\+M\+C\+T\+L\+\_\+\+R\+A\+M\+ON}}~0b00000000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_adbfef6bdd2da5ba3901e91062390bb68}{M\+E\+M\+C\+T\+L\+\_\+\+R\+A\+M\+O\+FF}}~0b00010000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_ad729a51cb551d9ee8bfb57c50c9dfd11}{M\+E\+M\+C\+T\+L\+\_\+\+C\+R\+O\+M\+ON}}~0b00000000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a79ca0cc4a9979b2eeaeda61b043b36ae}{M\+E\+M\+C\+T\+L\+\_\+\+C\+R\+O\+M\+O\+FF}}~0b00100000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a27b47b593a0d021ab342dfc744403b86}{M\+E\+M\+C\+T\+L\+\_\+\+R\+O\+M\+ON}}~0b00000000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a25882a19ebfb78cd09158a5f743a6409}{M\+E\+M\+C\+T\+L\+\_\+\+R\+O\+M\+O\+FF}}~0b01000000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a41654dd6b42ebdd213edc44494855caf}{M\+E\+M\+C\+T\+L\+\_\+\+E\+X\+T\+ON}}~0b00000000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_ac4c1790dd7397ef1005190dc01b3e808}{M\+E\+M\+C\+T\+L\+\_\+\+E\+X\+T\+O\+FF}}~0b10000000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_aa8e128eeff1d58f674cebdbacc413f3c}{J\+O\+Y\+\_\+\+P1\+\_\+\+L\+A\+T\+CH}}~0b00000010
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a2cfa517650949a89a7ebabf0253fcdf7}{J\+O\+Y\+\_\+\+P2\+\_\+\+L\+A\+T\+CH}}~0b00001000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a6777f1ed2475b5ba6aa60b9a16fa02d3}{P\+S\+G\+\_\+\+L\+A\+T\+CH}}~0x80
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_ad8a903de6b38e08e1591fc5ef278381c}{P\+S\+G\+\_\+\+C\+H0}}~0b00000000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_addc12c4ee03ea787b826e337f1acd317}{P\+S\+G\+\_\+\+C\+H1}}~0b00100000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_aaeefb1ac1fb4d0d2324b8ee7f4953226}{P\+S\+G\+\_\+\+C\+H2}}~0b01000000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_ac760259fb86ee72abb5922018ae0db42}{P\+S\+G\+\_\+\+C\+H3}}~0b01100000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a3d806ff027bffa67c4dfc5967f87c1d1}{P\+S\+G\+\_\+\+V\+O\+L\+U\+ME}}~0b00010000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a4702e74fffdc57d60c3835e63c665cc1}{S\+T\+A\+T\+F\+\_\+\+I\+N\+T\+\_\+\+V\+BL}}~0b10000000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a4a7b807e5e5987302a5315fe5c815ce8}{S\+T\+A\+T\+F\+\_\+9\+\_\+\+S\+PR}}~0b01000000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a6fdd982d805d5af6de0417e24faf027d}{S\+T\+A\+T\+F\+\_\+\+S\+P\+R\+\_\+\+C\+O\+LL}}~0b00100000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a99ca7572e3708ffed188359799045b19}{V\+D\+P\+\_\+\+R\+E\+G\+\_\+\+M\+A\+SK}}~0b10000000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a673a19a1e353c852003c54d1d110b5e6}{V\+D\+P\+\_\+\+R0}}~0b10000000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a283c5cad8b93ee7e72ad07aabb9bf522}{R0\+\_\+\+V\+S\+C\+RL}}~0b00000000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a65fa6547c2cd80b353a0b266cd834ff0}{R0\+\_\+\+V\+S\+C\+R\+L\+\_\+\+I\+NH}}~0b10000000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a61143072ad490ff0050177e7b4b2dd40}{R0\+\_\+\+H\+S\+C\+RL}}~0b00000000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a5c238a0b81716020b92cf851b2498b96}{R0\+\_\+\+H\+S\+C\+R\+L\+\_\+\+I\+NH}}~0b01000000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_acdd680365862fb618641818646edeb7e}{R0\+\_\+\+N\+O\+\_\+\+L\+CB}}~0b00000000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a83088549f6d87bf5ccb8bf51dfe7ea7b}{R0\+\_\+\+L\+CB}}~0b00100000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a56819f822caf1e545ff803d41cac3ede}{R0\+\_\+\+I\+E1\+\_\+\+O\+FF}}~0b00000000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_ae9ab439a46f9918cc24453cd65f95202}{R0\+\_\+\+I\+E1}}~0b00010000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a10e6ffa0580e9956440f4259a3e79a38}{R0\+\_\+\+S\+S\+\_\+\+O\+FF}}~0b00000000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_ada8068942691b363f9004ccfd0cb8e82}{R0\+\_\+\+SS}}~0b00001000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_af69775608c5d3218fb769c4fb370685f}{R0\+\_\+\+D\+E\+F\+A\+U\+LT}}~0b00000110
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_aebdf04065a0abf79ae8e1016d03caa1f}{R0\+\_\+\+E\+S\+\_\+\+O\+FF}}~0b00000000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a07d8e5a18c957c482218804ab764dab9}{R0\+\_\+\+ES}}~0b00000001
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a413fdabdacfcda90cc73a04311a2ec6d}{V\+D\+P\+\_\+\+R1}}~0b10000001
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a490562a6e4b57d7bf25e8fed3b3f6905}{R1\+\_\+\+D\+E\+F\+A\+U\+LT}}~0b10000000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a143660061646a3f502d03a2251575588}{R1\+\_\+\+D\+I\+S\+P\+\_\+\+O\+FF}}~0b00000000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_adbfdd7c42539613c371820dffd14906f}{R1\+\_\+\+D\+I\+S\+P\+\_\+\+ON}}~0b01000000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_adf542fd9d2bf9affc6016718e3885473}{R1\+\_\+\+I\+E\+\_\+\+O\+FF}}~0b00000000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a29a2945a9e77ba1f003a2305b7500568}{R1\+\_\+\+IE}}~0b00100000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_aa4062707b9b0f9ff5d1ee982ccc42fe7}{R1\+\_\+\+S\+P\+R\+\_\+8\+X8}}~0b00000000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a4985d6df1031afe8efb993f9c480ca12}{R1\+\_\+\+S\+P\+R\+\_\+8\+X16}}~0b00000010
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a2c9f91fcf2aad494a80e967f0c4bb414}{V\+D\+P\+\_\+\+R2}}~0b10000010
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a8ce8807a3666fa8c7c93d4834ab22fe3}{R2\+\_\+\+M\+A\+P\+\_\+0x3800}}~0x\+FF
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a725647b41b3c8083a7ae8db762ffc880}{R2\+\_\+\+M\+A\+P\+\_\+0x3000}}~0x\+FD
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a43ae738f82e8c6e84d30a96fb9c2c792}{R2\+\_\+\+M\+A\+P\+\_\+0x2800}}~0x\+FB
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_aa2c53c6a4d12fb0614c1a18c015e39af}{R2\+\_\+\+M\+A\+P\+\_\+0x2000}}~0x\+F9
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a08fade3bc2afb94785b0ac50d6959faa}{R2\+\_\+\+M\+A\+P\+\_\+0x1800}}~0x\+F7
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a43a631b4692a370b2db6b9d5fc2512e1}{R2\+\_\+\+M\+A\+P\+\_\+0x1000}}~0x\+F5
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a64cfebfe759bacd1424ad147931ff5a3}{R2\+\_\+\+M\+A\+P\+\_\+0x0800}}~0x\+F3
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_acf804b73635a1bfeb04b7dbeafb7fd9f}{R2\+\_\+\+M\+A\+P\+\_\+0x0000}}~0x\+F1
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a2a58ae82037e16756404df4820a23f47}{V\+D\+P\+\_\+\+R3}}~0b10000011
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a5d1f215594c86a9e3d670f5a7f89e301}{V\+D\+P\+\_\+\+R4}}~0b10000100
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a75e2c9878fe4cc7c86f71d8e8fa09924}{V\+D\+P\+\_\+\+R5}}~0b10000101
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_ae973ce797203f9e4bebc10f5010a8fdd}{R5\+\_\+\+S\+A\+T\+\_\+0x3\+F00}}~0x\+FF
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_ab0ea6874bcc910239b098025c9761c01}{R5\+\_\+\+S\+A\+T\+\_\+\+M\+A\+SK}}~0b10000001
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a81ae7462829d0fcc65c3c99194a68772}{V\+D\+P\+\_\+\+R6}}~0b10000110
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a1aba84d3beebe43e641766525630d0ad}{R6\+\_\+\+B\+A\+N\+K0}}~0x\+FB
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a81289f179bb00ade9e4f7221ddff0e46}{R6\+\_\+\+D\+A\+T\+A\+\_\+0x0000}}~0x\+FB
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_adcc51095e67b158df848367761d735a4}{R6\+\_\+\+B\+A\+N\+K1}}~0x\+FF
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_ac59ac38e5ec2e23e511f854403d7cbe4}{R6\+\_\+\+D\+A\+T\+A\+\_\+0x2000}}~0x\+FF
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_aa82ab1c04cff3363327f3309d09ae638}{V\+D\+P\+\_\+\+R7}}~0b10000111
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_abef00e3cae6f12d97973b318ebbf9737}{V\+D\+P\+\_\+\+R\+B\+O\+R\+D\+ER}}~0b10000111
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_aa1a024a7dc26ef40663fe283565bcf50}{R7\+\_\+\+C\+O\+L\+O\+R\+\_\+\+M\+A\+SK}}~0b11110000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a3cb38487469808e023fcb331c180c4b9}{V\+D\+P\+\_\+\+R8}}~0b10001000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a9c49833bc96a70b8972027d28c816d2f}{V\+D\+P\+\_\+\+R\+S\+CX}}~0b10001000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a294388f3d14b6fec1f1bbeafc7d0f91e}{V\+D\+P\+\_\+\+R9}}~0b10001001
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a3cce162b45d638126c478c5b6f7bcbc7}{V\+D\+P\+\_\+\+R\+S\+CY}}~0b10001001
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a1049d2a3f634380f4dffff619334a504}{V\+D\+P\+\_\+\+R10}}~0b10001010
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a98d635ed568cfe9f853eaf7e1707dec4}{R10\+\_\+\+I\+N\+T\+\_\+\+O\+FF}}~0x\+FF
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_adf9e7ec5362058df23e1c0e4c06ad5d6}{R10\+\_\+\+I\+N\+T\+\_\+\+E\+V\+E\+RY}}~0x00
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a086bde6bcc92e5f4d3e9ae45f0de475e}{J\+O\+Y\+\_\+\+P1\+\_\+\+UP}}~0b00000001
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_ab4dd6ee624c6d9e5fe5820ce925ffb20}{J\+O\+Y\+\_\+\+P1\+\_\+\+D\+O\+WN}}~0b00000010
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a7d709160cbd7b369109bf40161ae8ccd}{J\+O\+Y\+\_\+\+P1\+\_\+\+L\+E\+FT}}~0b00000100
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a1efece9134651ad4d2bd1836c1d1d6d6}{J\+O\+Y\+\_\+\+P1\+\_\+\+R\+I\+G\+HT}}~0b00001000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_aacc8667a6d5d9683ed4876e52aba2d33}{J\+O\+Y\+\_\+\+P1\+\_\+\+S\+W1}}~0b00010000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_af29f72f4cc7c94deae5fb9c29b1cc94f}{J\+O\+Y\+\_\+\+P1\+\_\+\+T\+R\+I\+G\+G\+ER}}~0b00010000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a9ab9954d0c66751a154f7824e344806b}{J\+O\+Y\+\_\+\+P1\+\_\+\+S\+W2}}~0b00100000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a307ba8e12d9273a99aa4830c5e0a3c88}{J\+O\+Y\+\_\+\+P2\+\_\+\+UP}}~0b01000000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a6d4129d670d421656f5e9a1f4b68a7f4}{J\+O\+Y\+\_\+\+P2\+\_\+\+D\+O\+WN}}~0b10000000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a2121cb75e0d570b0f92c7630bc1af25f}{J\+O\+Y\+\_\+\+P2\+\_\+\+L\+E\+FT}}~0b00000001
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a16dac3d386b8bc0da50c6c814952472d}{J\+O\+Y\+\_\+\+P2\+\_\+\+R\+I\+G\+HT}}~0b00000010
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a942e3ecdef267100c84a36f6e0dc0b51}{J\+O\+Y\+\_\+\+P2\+\_\+\+S\+W1}}~0b00000100
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_afe5ec4ca4d413ae5388be131d9c4f93b}{J\+O\+Y\+\_\+\+P2\+\_\+\+T\+R\+I\+G\+G\+ER}}~0b00000100
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a6d181ce63ff84bd559d13f4423a336b3}{J\+O\+Y\+\_\+\+P2\+\_\+\+S\+W2}}~0b00001000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a5b3dff084cbb77646a337d94d16a1714}{J\+O\+Y\+\_\+\+R\+E\+S\+ET}}~0b00010000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a772c8def7b33ad4fd3cbfc74d84441de}{J\+O\+Y\+\_\+\+P1\+\_\+\+L\+I\+G\+HT}}~0b01000000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a42ded04442bd4fb4acf5333b248423fa}{J\+O\+Y\+\_\+\+P2\+\_\+\+L\+I\+G\+HT}}~0b10000000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a8f4dbe8a2e6389c78b9f6fb9a3ff1dca}{R\+A\+M\+C\+T\+L\+\_\+\+B\+A\+NK}}~0b00000100
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a0167c8f86de8ef1a327b806c8ed0c64c}{R\+A\+M\+C\+T\+L\+\_\+\+R\+OM}}~0b00000000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a8728acabf97eae3322439bc3cb41b02d}{R\+A\+M\+C\+T\+L\+\_\+\+R\+AM}}~0b00001000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_afa9ebb221cf9cd92038131ab588679bf}{R\+A\+M\+C\+T\+L\+\_\+\+RO}}~0b00010000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a97eb5adb5f29e17ce5766728447317f5}{R\+A\+M\+C\+T\+L\+\_\+\+P\+R\+OT}}~0b10000000
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a1ac4bf5582e0754ea814c3f51c99a91a}{S\+Y\+S\+T\+E\+M\+\_\+\+P\+AL}}~0x00
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_ae6888157a94fca2f1a1b5136494f2e07}{S\+Y\+S\+T\+E\+M\+\_\+\+N\+T\+SC}}~0x01
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_ad3b833661b103edc2648258dd741c92c}{V\+D\+P\+\_\+\+S\+A\+T\+\_\+\+T\+E\+RM}}~0x\+D0
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_ad14c51cdfb347c34c364f54e67dc978d}{D\+E\+V\+I\+C\+E\+\_\+\+S\+C\+R\+E\+E\+N\+\_\+\+P\+X\+\_\+\+W\+I\+D\+TH}}~(\mbox{\hyperlink{gb_2hardware_8h_add7f32ba868ef6517798f5fce337e4b2}{D\+E\+V\+I\+C\+E\+\_\+\+S\+C\+R\+E\+E\+N\+\_\+\+W\+I\+D\+TH}} $\ast$ 8)
+\item 
+\#define \mbox{\hyperlink{sms_2hardware_8h_a7bd450aa268b881257089cf8cd6697ec}{D\+E\+V\+I\+C\+E\+\_\+\+S\+C\+R\+E\+E\+N\+\_\+\+P\+X\+\_\+\+H\+E\+I\+G\+HT}}~(\mbox{\hyperlink{gb_2hardware_8h_ad252264fdcf900e5fbf611f7a45962ed}{D\+E\+V\+I\+C\+E\+\_\+\+S\+C\+R\+E\+E\+N\+\_\+\+H\+E\+I\+G\+HT}} $\ast$ 8)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}} \mbox{\hyperlink{sms_2hardware_8h_aa80cb68338819c004095531d32b70e38}{shadow\+\_\+\+V\+D\+P\+\_\+\+R0}}
+\item 
+\mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}} \mbox{\hyperlink{sms_2hardware_8h_a542cb696f242df44b0d8e9225d532ef4}{shadow\+\_\+\+V\+D\+P\+\_\+\+R1}}
+\item 
+\mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}} \mbox{\hyperlink{sms_2hardware_8h_a7f7fa2c0e33c6d515332a50c2acb54e7}{shadow\+\_\+\+V\+D\+P\+\_\+\+R2}}
+\item 
+\mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}} \mbox{\hyperlink{sms_2hardware_8h_ab984056ff9eb011fbd84abdafb3a8bce}{shadow\+\_\+\+V\+D\+P\+\_\+\+R3}}
+\item 
+\mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}} \mbox{\hyperlink{sms_2hardware_8h_af9a30a728fedbe7e4c660c448c262e2c}{shadow\+\_\+\+V\+D\+P\+\_\+\+R4}}
+\item 
+\mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}} \mbox{\hyperlink{sms_2hardware_8h_a221db76cb39200a948234330ed309af7}{shadow\+\_\+\+V\+D\+P\+\_\+\+R5}}
+\item 
+\mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}} \mbox{\hyperlink{sms_2hardware_8h_a8afbdaaf8c6dee4e7482a341351344b4}{shadow\+\_\+\+V\+D\+P\+\_\+\+R6}}
+\item 
+\mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}} \mbox{\hyperlink{sms_2hardware_8h_a33b3e7c120a579cb729caf588ba1d9a8}{shadow\+\_\+\+V\+D\+P\+\_\+\+R7}}
+\item 
+\mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}} \mbox{\hyperlink{sms_2hardware_8h_a20a977182f6f5f60ee6464e15f05aed0}{shadow\+\_\+\+V\+D\+P\+\_\+\+R\+B\+O\+R\+D\+ER}}
+\item 
+\mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}} \mbox{\hyperlink{sms_2hardware_8h_add65b8e5f0b806e563ce27de7348ba31}{shadow\+\_\+\+V\+D\+P\+\_\+\+R8}}
+\item 
+\mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}} \mbox{\hyperlink{sms_2hardware_8h_af6a84b0288b045560f83a1944a8c1c3b}{shadow\+\_\+\+V\+D\+P\+\_\+\+R\+S\+CX}}
+\item 
+\mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}} \mbox{\hyperlink{sms_2hardware_8h_a1ccce1e3f8acb76170fb752ee40ae659}{shadow\+\_\+\+V\+D\+P\+\_\+\+R9}}
+\item 
+\mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}} \mbox{\hyperlink{sms_2hardware_8h_a292b59055beb22b566b39462da3b7eba}{shadow\+\_\+\+V\+D\+P\+\_\+\+R\+S\+CY}}
+\item 
+\mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}} \mbox{\hyperlink{sms_2hardware_8h_af310a900e3b4b5b5032f4ffd6fa309b0}{shadow\+\_\+\+V\+D\+P\+\_\+\+R10}}
+\item 
+const \mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}} \mbox{\hyperlink{sms_2hardware_8h_a735fc9fb4f089391a584293f2dff1008}{\+\_\+\+B\+I\+OS}}
+\item 
+const \mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}} \mbox{\hyperlink{sms_2hardware_8h_a7093bf38c5e663715f4efed44341502d}{\+\_\+\+S\+Y\+S\+T\+EM}}
+\item 
+volatile \mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}} \mbox{\hyperlink{sms_2hardware_8h_a019bf78a6d586c987aec03af8d20e02f}{V\+D\+P\+\_\+\+A\+T\+T\+R\+\_\+\+S\+H\+I\+FT}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Detailed Description}
+Defines that let the S\+M\+S/\+GG hardware registers be accessed from C. 
+
+\doxysubsubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{sms_2hardware_8h_ab2767d5f8f0ad35d8c8ee0bb3f4c51c3}\label{sms_2hardware_8h_ab2767d5f8f0ad35d8c8ee0bb3f4c51c3}} 
+\index{hardware.h@{hardware.h}!\_\_BYTES@{\_\_BYTES}}
+\index{\_\_BYTES@{\_\_BYTES}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{\_\_BYTES}{\_\_BYTES}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+B\+Y\+T\+ES~extern \mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}}}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a3b39604bdf93a32e9ff965c1a55f0df8}\label{sms_2hardware_8h_a3b39604bdf93a32e9ff965c1a55f0df8}} 
+\index{hardware.h@{hardware.h}!\_\_BYTE\_REG@{\_\_BYTE\_REG}}
+\index{\_\_BYTE\_REG@{\_\_BYTE\_REG}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{\_\_BYTE\_REG}{\_\_BYTE\_REG}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+B\+Y\+T\+E\+\_\+\+R\+EG~extern volatile \mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}}}
+
+\mbox{\Hypertarget{sms_2hardware_8h_af4607245a47e34bd6af5d2d43d7fb30f}\label{sms_2hardware_8h_af4607245a47e34bd6af5d2d43d7fb30f}} 
+\index{hardware.h@{hardware.h}!MEMCTL\_JOYON@{MEMCTL\_JOYON}}
+\index{MEMCTL\_JOYON@{MEMCTL\_JOYON}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{MEMCTL\_JOYON}{MEMCTL\_JOYON}}
+{\footnotesize\ttfamily \#define M\+E\+M\+C\+T\+L\+\_\+\+J\+O\+Y\+ON~0b00000000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_ad8b8ecb5a71567cabc47af43da5dadf1}\label{sms_2hardware_8h_ad8b8ecb5a71567cabc47af43da5dadf1}} 
+\index{hardware.h@{hardware.h}!MEMCTL\_JOYOFF@{MEMCTL\_JOYOFF}}
+\index{MEMCTL\_JOYOFF@{MEMCTL\_JOYOFF}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{MEMCTL\_JOYOFF}{MEMCTL\_JOYOFF}}
+{\footnotesize\ttfamily \#define M\+E\+M\+C\+T\+L\+\_\+\+J\+O\+Y\+O\+FF~0b00000100}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a2a98128eb9ca41477c139988da9d803f}\label{sms_2hardware_8h_a2a98128eb9ca41477c139988da9d803f}} 
+\index{hardware.h@{hardware.h}!MEMCTL\_BASEON@{MEMCTL\_BASEON}}
+\index{MEMCTL\_BASEON@{MEMCTL\_BASEON}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{MEMCTL\_BASEON}{MEMCTL\_BASEON}}
+{\footnotesize\ttfamily \#define M\+E\+M\+C\+T\+L\+\_\+\+B\+A\+S\+E\+ON~0b00000000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a29d7c3b98f855f88d6bb3f380b301d64}\label{sms_2hardware_8h_a29d7c3b98f855f88d6bb3f380b301d64}} 
+\index{hardware.h@{hardware.h}!MEMCTL\_BASEOFF@{MEMCTL\_BASEOFF}}
+\index{MEMCTL\_BASEOFF@{MEMCTL\_BASEOFF}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{MEMCTL\_BASEOFF}{MEMCTL\_BASEOFF}}
+{\footnotesize\ttfamily \#define M\+E\+M\+C\+T\+L\+\_\+\+B\+A\+S\+E\+O\+FF~0b00001000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_af4522efccaecbb6ce47a337f6dbada24}\label{sms_2hardware_8h_af4522efccaecbb6ce47a337f6dbada24}} 
+\index{hardware.h@{hardware.h}!MEMCTL\_RAMON@{MEMCTL\_RAMON}}
+\index{MEMCTL\_RAMON@{MEMCTL\_RAMON}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{MEMCTL\_RAMON}{MEMCTL\_RAMON}}
+{\footnotesize\ttfamily \#define M\+E\+M\+C\+T\+L\+\_\+\+R\+A\+M\+ON~0b00000000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_adbfef6bdd2da5ba3901e91062390bb68}\label{sms_2hardware_8h_adbfef6bdd2da5ba3901e91062390bb68}} 
+\index{hardware.h@{hardware.h}!MEMCTL\_RAMOFF@{MEMCTL\_RAMOFF}}
+\index{MEMCTL\_RAMOFF@{MEMCTL\_RAMOFF}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{MEMCTL\_RAMOFF}{MEMCTL\_RAMOFF}}
+{\footnotesize\ttfamily \#define M\+E\+M\+C\+T\+L\+\_\+\+R\+A\+M\+O\+FF~0b00010000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_ad729a51cb551d9ee8bfb57c50c9dfd11}\label{sms_2hardware_8h_ad729a51cb551d9ee8bfb57c50c9dfd11}} 
+\index{hardware.h@{hardware.h}!MEMCTL\_CROMON@{MEMCTL\_CROMON}}
+\index{MEMCTL\_CROMON@{MEMCTL\_CROMON}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{MEMCTL\_CROMON}{MEMCTL\_CROMON}}
+{\footnotesize\ttfamily \#define M\+E\+M\+C\+T\+L\+\_\+\+C\+R\+O\+M\+ON~0b00000000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a79ca0cc4a9979b2eeaeda61b043b36ae}\label{sms_2hardware_8h_a79ca0cc4a9979b2eeaeda61b043b36ae}} 
+\index{hardware.h@{hardware.h}!MEMCTL\_CROMOFF@{MEMCTL\_CROMOFF}}
+\index{MEMCTL\_CROMOFF@{MEMCTL\_CROMOFF}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{MEMCTL\_CROMOFF}{MEMCTL\_CROMOFF}}
+{\footnotesize\ttfamily \#define M\+E\+M\+C\+T\+L\+\_\+\+C\+R\+O\+M\+O\+FF~0b00100000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a27b47b593a0d021ab342dfc744403b86}\label{sms_2hardware_8h_a27b47b593a0d021ab342dfc744403b86}} 
+\index{hardware.h@{hardware.h}!MEMCTL\_ROMON@{MEMCTL\_ROMON}}
+\index{MEMCTL\_ROMON@{MEMCTL\_ROMON}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{MEMCTL\_ROMON}{MEMCTL\_ROMON}}
+{\footnotesize\ttfamily \#define M\+E\+M\+C\+T\+L\+\_\+\+R\+O\+M\+ON~0b00000000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a25882a19ebfb78cd09158a5f743a6409}\label{sms_2hardware_8h_a25882a19ebfb78cd09158a5f743a6409}} 
+\index{hardware.h@{hardware.h}!MEMCTL\_ROMOFF@{MEMCTL\_ROMOFF}}
+\index{MEMCTL\_ROMOFF@{MEMCTL\_ROMOFF}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{MEMCTL\_ROMOFF}{MEMCTL\_ROMOFF}}
+{\footnotesize\ttfamily \#define M\+E\+M\+C\+T\+L\+\_\+\+R\+O\+M\+O\+FF~0b01000000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a41654dd6b42ebdd213edc44494855caf}\label{sms_2hardware_8h_a41654dd6b42ebdd213edc44494855caf}} 
+\index{hardware.h@{hardware.h}!MEMCTL\_EXTON@{MEMCTL\_EXTON}}
+\index{MEMCTL\_EXTON@{MEMCTL\_EXTON}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{MEMCTL\_EXTON}{MEMCTL\_EXTON}}
+{\footnotesize\ttfamily \#define M\+E\+M\+C\+T\+L\+\_\+\+E\+X\+T\+ON~0b00000000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_ac4c1790dd7397ef1005190dc01b3e808}\label{sms_2hardware_8h_ac4c1790dd7397ef1005190dc01b3e808}} 
+\index{hardware.h@{hardware.h}!MEMCTL\_EXTOFF@{MEMCTL\_EXTOFF}}
+\index{MEMCTL\_EXTOFF@{MEMCTL\_EXTOFF}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{MEMCTL\_EXTOFF}{MEMCTL\_EXTOFF}}
+{\footnotesize\ttfamily \#define M\+E\+M\+C\+T\+L\+\_\+\+E\+X\+T\+O\+FF~0b10000000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_aa8e128eeff1d58f674cebdbacc413f3c}\label{sms_2hardware_8h_aa8e128eeff1d58f674cebdbacc413f3c}} 
+\index{hardware.h@{hardware.h}!JOY\_P1\_LATCH@{JOY\_P1\_LATCH}}
+\index{JOY\_P1\_LATCH@{JOY\_P1\_LATCH}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{JOY\_P1\_LATCH}{JOY\_P1\_LATCH}}
+{\footnotesize\ttfamily \#define J\+O\+Y\+\_\+\+P1\+\_\+\+L\+A\+T\+CH~0b00000010}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a2cfa517650949a89a7ebabf0253fcdf7}\label{sms_2hardware_8h_a2cfa517650949a89a7ebabf0253fcdf7}} 
+\index{hardware.h@{hardware.h}!JOY\_P2\_LATCH@{JOY\_P2\_LATCH}}
+\index{JOY\_P2\_LATCH@{JOY\_P2\_LATCH}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{JOY\_P2\_LATCH}{JOY\_P2\_LATCH}}
+{\footnotesize\ttfamily \#define J\+O\+Y\+\_\+\+P2\+\_\+\+L\+A\+T\+CH~0b00001000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a6777f1ed2475b5ba6aa60b9a16fa02d3}\label{sms_2hardware_8h_a6777f1ed2475b5ba6aa60b9a16fa02d3}} 
+\index{hardware.h@{hardware.h}!PSG\_LATCH@{PSG\_LATCH}}
+\index{PSG\_LATCH@{PSG\_LATCH}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{PSG\_LATCH}{PSG\_LATCH}}
+{\footnotesize\ttfamily \#define P\+S\+G\+\_\+\+L\+A\+T\+CH~0x80}
+
+\mbox{\Hypertarget{sms_2hardware_8h_ad8a903de6b38e08e1591fc5ef278381c}\label{sms_2hardware_8h_ad8a903de6b38e08e1591fc5ef278381c}} 
+\index{hardware.h@{hardware.h}!PSG\_CH0@{PSG\_CH0}}
+\index{PSG\_CH0@{PSG\_CH0}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{PSG\_CH0}{PSG\_CH0}}
+{\footnotesize\ttfamily \#define P\+S\+G\+\_\+\+C\+H0~0b00000000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_addc12c4ee03ea787b826e337f1acd317}\label{sms_2hardware_8h_addc12c4ee03ea787b826e337f1acd317}} 
+\index{hardware.h@{hardware.h}!PSG\_CH1@{PSG\_CH1}}
+\index{PSG\_CH1@{PSG\_CH1}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{PSG\_CH1}{PSG\_CH1}}
+{\footnotesize\ttfamily \#define P\+S\+G\+\_\+\+C\+H1~0b00100000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_aaeefb1ac1fb4d0d2324b8ee7f4953226}\label{sms_2hardware_8h_aaeefb1ac1fb4d0d2324b8ee7f4953226}} 
+\index{hardware.h@{hardware.h}!PSG\_CH2@{PSG\_CH2}}
+\index{PSG\_CH2@{PSG\_CH2}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{PSG\_CH2}{PSG\_CH2}}
+{\footnotesize\ttfamily \#define P\+S\+G\+\_\+\+C\+H2~0b01000000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_ac760259fb86ee72abb5922018ae0db42}\label{sms_2hardware_8h_ac760259fb86ee72abb5922018ae0db42}} 
+\index{hardware.h@{hardware.h}!PSG\_CH3@{PSG\_CH3}}
+\index{PSG\_CH3@{PSG\_CH3}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{PSG\_CH3}{PSG\_CH3}}
+{\footnotesize\ttfamily \#define P\+S\+G\+\_\+\+C\+H3~0b01100000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a3d806ff027bffa67c4dfc5967f87c1d1}\label{sms_2hardware_8h_a3d806ff027bffa67c4dfc5967f87c1d1}} 
+\index{hardware.h@{hardware.h}!PSG\_VOLUME@{PSG\_VOLUME}}
+\index{PSG\_VOLUME@{PSG\_VOLUME}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{PSG\_VOLUME}{PSG\_VOLUME}}
+{\footnotesize\ttfamily \#define P\+S\+G\+\_\+\+V\+O\+L\+U\+ME~0b00010000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a4702e74fffdc57d60c3835e63c665cc1}\label{sms_2hardware_8h_a4702e74fffdc57d60c3835e63c665cc1}} 
+\index{hardware.h@{hardware.h}!STATF\_INT\_VBL@{STATF\_INT\_VBL}}
+\index{STATF\_INT\_VBL@{STATF\_INT\_VBL}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{STATF\_INT\_VBL}{STATF\_INT\_VBL}}
+{\footnotesize\ttfamily \#define S\+T\+A\+T\+F\+\_\+\+I\+N\+T\+\_\+\+V\+BL~0b10000000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a4a7b807e5e5987302a5315fe5c815ce8}\label{sms_2hardware_8h_a4a7b807e5e5987302a5315fe5c815ce8}} 
+\index{hardware.h@{hardware.h}!STATF\_9\_SPR@{STATF\_9\_SPR}}
+\index{STATF\_9\_SPR@{STATF\_9\_SPR}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{STATF\_9\_SPR}{STATF\_9\_SPR}}
+{\footnotesize\ttfamily \#define S\+T\+A\+T\+F\+\_\+9\+\_\+\+S\+PR~0b01000000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a6fdd982d805d5af6de0417e24faf027d}\label{sms_2hardware_8h_a6fdd982d805d5af6de0417e24faf027d}} 
+\index{hardware.h@{hardware.h}!STATF\_SPR\_COLL@{STATF\_SPR\_COLL}}
+\index{STATF\_SPR\_COLL@{STATF\_SPR\_COLL}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{STATF\_SPR\_COLL}{STATF\_SPR\_COLL}}
+{\footnotesize\ttfamily \#define S\+T\+A\+T\+F\+\_\+\+S\+P\+R\+\_\+\+C\+O\+LL~0b00100000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a99ca7572e3708ffed188359799045b19}\label{sms_2hardware_8h_a99ca7572e3708ffed188359799045b19}} 
+\index{hardware.h@{hardware.h}!VDP\_REG\_MASK@{VDP\_REG\_MASK}}
+\index{VDP\_REG\_MASK@{VDP\_REG\_MASK}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{VDP\_REG\_MASK}{VDP\_REG\_MASK}}
+{\footnotesize\ttfamily \#define V\+D\+P\+\_\+\+R\+E\+G\+\_\+\+M\+A\+SK~0b10000000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a673a19a1e353c852003c54d1d110b5e6}\label{sms_2hardware_8h_a673a19a1e353c852003c54d1d110b5e6}} 
+\index{hardware.h@{hardware.h}!VDP\_R0@{VDP\_R0}}
+\index{VDP\_R0@{VDP\_R0}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{VDP\_R0}{VDP\_R0}}
+{\footnotesize\ttfamily \#define V\+D\+P\+\_\+\+R0~0b10000000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a283c5cad8b93ee7e72ad07aabb9bf522}\label{sms_2hardware_8h_a283c5cad8b93ee7e72ad07aabb9bf522}} 
+\index{hardware.h@{hardware.h}!R0\_VSCRL@{R0\_VSCRL}}
+\index{R0\_VSCRL@{R0\_VSCRL}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{R0\_VSCRL}{R0\_VSCRL}}
+{\footnotesize\ttfamily \#define R0\+\_\+\+V\+S\+C\+RL~0b00000000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a65fa6547c2cd80b353a0b266cd834ff0}\label{sms_2hardware_8h_a65fa6547c2cd80b353a0b266cd834ff0}} 
+\index{hardware.h@{hardware.h}!R0\_VSCRL\_INH@{R0\_VSCRL\_INH}}
+\index{R0\_VSCRL\_INH@{R0\_VSCRL\_INH}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{R0\_VSCRL\_INH}{R0\_VSCRL\_INH}}
+{\footnotesize\ttfamily \#define R0\+\_\+\+V\+S\+C\+R\+L\+\_\+\+I\+NH~0b10000000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a61143072ad490ff0050177e7b4b2dd40}\label{sms_2hardware_8h_a61143072ad490ff0050177e7b4b2dd40}} 
+\index{hardware.h@{hardware.h}!R0\_HSCRL@{R0\_HSCRL}}
+\index{R0\_HSCRL@{R0\_HSCRL}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{R0\_HSCRL}{R0\_HSCRL}}
+{\footnotesize\ttfamily \#define R0\+\_\+\+H\+S\+C\+RL~0b00000000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a5c238a0b81716020b92cf851b2498b96}\label{sms_2hardware_8h_a5c238a0b81716020b92cf851b2498b96}} 
+\index{hardware.h@{hardware.h}!R0\_HSCRL\_INH@{R0\_HSCRL\_INH}}
+\index{R0\_HSCRL\_INH@{R0\_HSCRL\_INH}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{R0\_HSCRL\_INH}{R0\_HSCRL\_INH}}
+{\footnotesize\ttfamily \#define R0\+\_\+\+H\+S\+C\+R\+L\+\_\+\+I\+NH~0b01000000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_acdd680365862fb618641818646edeb7e}\label{sms_2hardware_8h_acdd680365862fb618641818646edeb7e}} 
+\index{hardware.h@{hardware.h}!R0\_NO\_LCB@{R0\_NO\_LCB}}
+\index{R0\_NO\_LCB@{R0\_NO\_LCB}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{R0\_NO\_LCB}{R0\_NO\_LCB}}
+{\footnotesize\ttfamily \#define R0\+\_\+\+N\+O\+\_\+\+L\+CB~0b00000000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a83088549f6d87bf5ccb8bf51dfe7ea7b}\label{sms_2hardware_8h_a83088549f6d87bf5ccb8bf51dfe7ea7b}} 
+\index{hardware.h@{hardware.h}!R0\_LCB@{R0\_LCB}}
+\index{R0\_LCB@{R0\_LCB}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{R0\_LCB}{R0\_LCB}}
+{\footnotesize\ttfamily \#define R0\+\_\+\+L\+CB~0b00100000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a56819f822caf1e545ff803d41cac3ede}\label{sms_2hardware_8h_a56819f822caf1e545ff803d41cac3ede}} 
+\index{hardware.h@{hardware.h}!R0\_IE1\_OFF@{R0\_IE1\_OFF}}
+\index{R0\_IE1\_OFF@{R0\_IE1\_OFF}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{R0\_IE1\_OFF}{R0\_IE1\_OFF}}
+{\footnotesize\ttfamily \#define R0\+\_\+\+I\+E1\+\_\+\+O\+FF~0b00000000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_ae9ab439a46f9918cc24453cd65f95202}\label{sms_2hardware_8h_ae9ab439a46f9918cc24453cd65f95202}} 
+\index{hardware.h@{hardware.h}!R0\_IE1@{R0\_IE1}}
+\index{R0\_IE1@{R0\_IE1}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{R0\_IE1}{R0\_IE1}}
+{\footnotesize\ttfamily \#define R0\+\_\+\+I\+E1~0b00010000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a10e6ffa0580e9956440f4259a3e79a38}\label{sms_2hardware_8h_a10e6ffa0580e9956440f4259a3e79a38}} 
+\index{hardware.h@{hardware.h}!R0\_SS\_OFF@{R0\_SS\_OFF}}
+\index{R0\_SS\_OFF@{R0\_SS\_OFF}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{R0\_SS\_OFF}{R0\_SS\_OFF}}
+{\footnotesize\ttfamily \#define R0\+\_\+\+S\+S\+\_\+\+O\+FF~0b00000000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_ada8068942691b363f9004ccfd0cb8e82}\label{sms_2hardware_8h_ada8068942691b363f9004ccfd0cb8e82}} 
+\index{hardware.h@{hardware.h}!R0\_SS@{R0\_SS}}
+\index{R0\_SS@{R0\_SS}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{R0\_SS}{R0\_SS}}
+{\footnotesize\ttfamily \#define R0\+\_\+\+SS~0b00001000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_af69775608c5d3218fb769c4fb370685f}\label{sms_2hardware_8h_af69775608c5d3218fb769c4fb370685f}} 
+\index{hardware.h@{hardware.h}!R0\_DEFAULT@{R0\_DEFAULT}}
+\index{R0\_DEFAULT@{R0\_DEFAULT}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{R0\_DEFAULT}{R0\_DEFAULT}}
+{\footnotesize\ttfamily \#define R0\+\_\+\+D\+E\+F\+A\+U\+LT~0b00000110}
+
+\mbox{\Hypertarget{sms_2hardware_8h_aebdf04065a0abf79ae8e1016d03caa1f}\label{sms_2hardware_8h_aebdf04065a0abf79ae8e1016d03caa1f}} 
+\index{hardware.h@{hardware.h}!R0\_ES\_OFF@{R0\_ES\_OFF}}
+\index{R0\_ES\_OFF@{R0\_ES\_OFF}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{R0\_ES\_OFF}{R0\_ES\_OFF}}
+{\footnotesize\ttfamily \#define R0\+\_\+\+E\+S\+\_\+\+O\+FF~0b00000000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a07d8e5a18c957c482218804ab764dab9}\label{sms_2hardware_8h_a07d8e5a18c957c482218804ab764dab9}} 
+\index{hardware.h@{hardware.h}!R0\_ES@{R0\_ES}}
+\index{R0\_ES@{R0\_ES}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{R0\_ES}{R0\_ES}}
+{\footnotesize\ttfamily \#define R0\+\_\+\+ES~0b00000001}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a413fdabdacfcda90cc73a04311a2ec6d}\label{sms_2hardware_8h_a413fdabdacfcda90cc73a04311a2ec6d}} 
+\index{hardware.h@{hardware.h}!VDP\_R1@{VDP\_R1}}
+\index{VDP\_R1@{VDP\_R1}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{VDP\_R1}{VDP\_R1}}
+{\footnotesize\ttfamily \#define V\+D\+P\+\_\+\+R1~0b10000001}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a490562a6e4b57d7bf25e8fed3b3f6905}\label{sms_2hardware_8h_a490562a6e4b57d7bf25e8fed3b3f6905}} 
+\index{hardware.h@{hardware.h}!R1\_DEFAULT@{R1\_DEFAULT}}
+\index{R1\_DEFAULT@{R1\_DEFAULT}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{R1\_DEFAULT}{R1\_DEFAULT}}
+{\footnotesize\ttfamily \#define R1\+\_\+\+D\+E\+F\+A\+U\+LT~0b10000000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a143660061646a3f502d03a2251575588}\label{sms_2hardware_8h_a143660061646a3f502d03a2251575588}} 
+\index{hardware.h@{hardware.h}!R1\_DISP\_OFF@{R1\_DISP\_OFF}}
+\index{R1\_DISP\_OFF@{R1\_DISP\_OFF}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{R1\_DISP\_OFF}{R1\_DISP\_OFF}}
+{\footnotesize\ttfamily \#define R1\+\_\+\+D\+I\+S\+P\+\_\+\+O\+FF~0b00000000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_adbfdd7c42539613c371820dffd14906f}\label{sms_2hardware_8h_adbfdd7c42539613c371820dffd14906f}} 
+\index{hardware.h@{hardware.h}!R1\_DISP\_ON@{R1\_DISP\_ON}}
+\index{R1\_DISP\_ON@{R1\_DISP\_ON}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{R1\_DISP\_ON}{R1\_DISP\_ON}}
+{\footnotesize\ttfamily \#define R1\+\_\+\+D\+I\+S\+P\+\_\+\+ON~0b01000000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_adf542fd9d2bf9affc6016718e3885473}\label{sms_2hardware_8h_adf542fd9d2bf9affc6016718e3885473}} 
+\index{hardware.h@{hardware.h}!R1\_IE\_OFF@{R1\_IE\_OFF}}
+\index{R1\_IE\_OFF@{R1\_IE\_OFF}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{R1\_IE\_OFF}{R1\_IE\_OFF}}
+{\footnotesize\ttfamily \#define R1\+\_\+\+I\+E\+\_\+\+O\+FF~0b00000000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a29a2945a9e77ba1f003a2305b7500568}\label{sms_2hardware_8h_a29a2945a9e77ba1f003a2305b7500568}} 
+\index{hardware.h@{hardware.h}!R1\_IE@{R1\_IE}}
+\index{R1\_IE@{R1\_IE}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{R1\_IE}{R1\_IE}}
+{\footnotesize\ttfamily \#define R1\+\_\+\+IE~0b00100000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_aa4062707b9b0f9ff5d1ee982ccc42fe7}\label{sms_2hardware_8h_aa4062707b9b0f9ff5d1ee982ccc42fe7}} 
+\index{hardware.h@{hardware.h}!R1\_SPR\_8X8@{R1\_SPR\_8X8}}
+\index{R1\_SPR\_8X8@{R1\_SPR\_8X8}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{R1\_SPR\_8X8}{R1\_SPR\_8X8}}
+{\footnotesize\ttfamily \#define R1\+\_\+\+S\+P\+R\+\_\+8\+X8~0b00000000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a4985d6df1031afe8efb993f9c480ca12}\label{sms_2hardware_8h_a4985d6df1031afe8efb993f9c480ca12}} 
+\index{hardware.h@{hardware.h}!R1\_SPR\_8X16@{R1\_SPR\_8X16}}
+\index{R1\_SPR\_8X16@{R1\_SPR\_8X16}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{R1\_SPR\_8X16}{R1\_SPR\_8X16}}
+{\footnotesize\ttfamily \#define R1\+\_\+\+S\+P\+R\+\_\+8\+X16~0b00000010}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a2c9f91fcf2aad494a80e967f0c4bb414}\label{sms_2hardware_8h_a2c9f91fcf2aad494a80e967f0c4bb414}} 
+\index{hardware.h@{hardware.h}!VDP\_R2@{VDP\_R2}}
+\index{VDP\_R2@{VDP\_R2}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{VDP\_R2}{VDP\_R2}}
+{\footnotesize\ttfamily \#define V\+D\+P\+\_\+\+R2~0b10000010}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a8ce8807a3666fa8c7c93d4834ab22fe3}\label{sms_2hardware_8h_a8ce8807a3666fa8c7c93d4834ab22fe3}} 
+\index{hardware.h@{hardware.h}!R2\_MAP\_0x3800@{R2\_MAP\_0x3800}}
+\index{R2\_MAP\_0x3800@{R2\_MAP\_0x3800}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{R2\_MAP\_0x3800}{R2\_MAP\_0x3800}}
+{\footnotesize\ttfamily \#define R2\+\_\+\+M\+A\+P\+\_\+0x3800~0x\+FF}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a725647b41b3c8083a7ae8db762ffc880}\label{sms_2hardware_8h_a725647b41b3c8083a7ae8db762ffc880}} 
+\index{hardware.h@{hardware.h}!R2\_MAP\_0x3000@{R2\_MAP\_0x3000}}
+\index{R2\_MAP\_0x3000@{R2\_MAP\_0x3000}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{R2\_MAP\_0x3000}{R2\_MAP\_0x3000}}
+{\footnotesize\ttfamily \#define R2\+\_\+\+M\+A\+P\+\_\+0x3000~0x\+FD}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a43ae738f82e8c6e84d30a96fb9c2c792}\label{sms_2hardware_8h_a43ae738f82e8c6e84d30a96fb9c2c792}} 
+\index{hardware.h@{hardware.h}!R2\_MAP\_0x2800@{R2\_MAP\_0x2800}}
+\index{R2\_MAP\_0x2800@{R2\_MAP\_0x2800}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{R2\_MAP\_0x2800}{R2\_MAP\_0x2800}}
+{\footnotesize\ttfamily \#define R2\+\_\+\+M\+A\+P\+\_\+0x2800~0x\+FB}
+
+\mbox{\Hypertarget{sms_2hardware_8h_aa2c53c6a4d12fb0614c1a18c015e39af}\label{sms_2hardware_8h_aa2c53c6a4d12fb0614c1a18c015e39af}} 
+\index{hardware.h@{hardware.h}!R2\_MAP\_0x2000@{R2\_MAP\_0x2000}}
+\index{R2\_MAP\_0x2000@{R2\_MAP\_0x2000}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{R2\_MAP\_0x2000}{R2\_MAP\_0x2000}}
+{\footnotesize\ttfamily \#define R2\+\_\+\+M\+A\+P\+\_\+0x2000~0x\+F9}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a08fade3bc2afb94785b0ac50d6959faa}\label{sms_2hardware_8h_a08fade3bc2afb94785b0ac50d6959faa}} 
+\index{hardware.h@{hardware.h}!R2\_MAP\_0x1800@{R2\_MAP\_0x1800}}
+\index{R2\_MAP\_0x1800@{R2\_MAP\_0x1800}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{R2\_MAP\_0x1800}{R2\_MAP\_0x1800}}
+{\footnotesize\ttfamily \#define R2\+\_\+\+M\+A\+P\+\_\+0x1800~0x\+F7}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a43a631b4692a370b2db6b9d5fc2512e1}\label{sms_2hardware_8h_a43a631b4692a370b2db6b9d5fc2512e1}} 
+\index{hardware.h@{hardware.h}!R2\_MAP\_0x1000@{R2\_MAP\_0x1000}}
+\index{R2\_MAP\_0x1000@{R2\_MAP\_0x1000}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{R2\_MAP\_0x1000}{R2\_MAP\_0x1000}}
+{\footnotesize\ttfamily \#define R2\+\_\+\+M\+A\+P\+\_\+0x1000~0x\+F5}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a64cfebfe759bacd1424ad147931ff5a3}\label{sms_2hardware_8h_a64cfebfe759bacd1424ad147931ff5a3}} 
+\index{hardware.h@{hardware.h}!R2\_MAP\_0x0800@{R2\_MAP\_0x0800}}
+\index{R2\_MAP\_0x0800@{R2\_MAP\_0x0800}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{R2\_MAP\_0x0800}{R2\_MAP\_0x0800}}
+{\footnotesize\ttfamily \#define R2\+\_\+\+M\+A\+P\+\_\+0x0800~0x\+F3}
+
+\mbox{\Hypertarget{sms_2hardware_8h_acf804b73635a1bfeb04b7dbeafb7fd9f}\label{sms_2hardware_8h_acf804b73635a1bfeb04b7dbeafb7fd9f}} 
+\index{hardware.h@{hardware.h}!R2\_MAP\_0x0000@{R2\_MAP\_0x0000}}
+\index{R2\_MAP\_0x0000@{R2\_MAP\_0x0000}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{R2\_MAP\_0x0000}{R2\_MAP\_0x0000}}
+{\footnotesize\ttfamily \#define R2\+\_\+\+M\+A\+P\+\_\+0x0000~0x\+F1}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a2a58ae82037e16756404df4820a23f47}\label{sms_2hardware_8h_a2a58ae82037e16756404df4820a23f47}} 
+\index{hardware.h@{hardware.h}!VDP\_R3@{VDP\_R3}}
+\index{VDP\_R3@{VDP\_R3}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{VDP\_R3}{VDP\_R3}}
+{\footnotesize\ttfamily \#define V\+D\+P\+\_\+\+R3~0b10000011}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a5d1f215594c86a9e3d670f5a7f89e301}\label{sms_2hardware_8h_a5d1f215594c86a9e3d670f5a7f89e301}} 
+\index{hardware.h@{hardware.h}!VDP\_R4@{VDP\_R4}}
+\index{VDP\_R4@{VDP\_R4}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{VDP\_R4}{VDP\_R4}}
+{\footnotesize\ttfamily \#define V\+D\+P\+\_\+\+R4~0b10000100}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a75e2c9878fe4cc7c86f71d8e8fa09924}\label{sms_2hardware_8h_a75e2c9878fe4cc7c86f71d8e8fa09924}} 
+\index{hardware.h@{hardware.h}!VDP\_R5@{VDP\_R5}}
+\index{VDP\_R5@{VDP\_R5}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{VDP\_R5}{VDP\_R5}}
+{\footnotesize\ttfamily \#define V\+D\+P\+\_\+\+R5~0b10000101}
+
+\mbox{\Hypertarget{sms_2hardware_8h_ae973ce797203f9e4bebc10f5010a8fdd}\label{sms_2hardware_8h_ae973ce797203f9e4bebc10f5010a8fdd}} 
+\index{hardware.h@{hardware.h}!R5\_SAT\_0x3F00@{R5\_SAT\_0x3F00}}
+\index{R5\_SAT\_0x3F00@{R5\_SAT\_0x3F00}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{R5\_SAT\_0x3F00}{R5\_SAT\_0x3F00}}
+{\footnotesize\ttfamily \#define R5\+\_\+\+S\+A\+T\+\_\+0x3\+F00~0x\+FF}
+
+\mbox{\Hypertarget{sms_2hardware_8h_ab0ea6874bcc910239b098025c9761c01}\label{sms_2hardware_8h_ab0ea6874bcc910239b098025c9761c01}} 
+\index{hardware.h@{hardware.h}!R5\_SAT\_MASK@{R5\_SAT\_MASK}}
+\index{R5\_SAT\_MASK@{R5\_SAT\_MASK}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{R5\_SAT\_MASK}{R5\_SAT\_MASK}}
+{\footnotesize\ttfamily \#define R5\+\_\+\+S\+A\+T\+\_\+\+M\+A\+SK~0b10000001}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a81ae7462829d0fcc65c3c99194a68772}\label{sms_2hardware_8h_a81ae7462829d0fcc65c3c99194a68772}} 
+\index{hardware.h@{hardware.h}!VDP\_R6@{VDP\_R6}}
+\index{VDP\_R6@{VDP\_R6}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{VDP\_R6}{VDP\_R6}}
+{\footnotesize\ttfamily \#define V\+D\+P\+\_\+\+R6~0b10000110}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a1aba84d3beebe43e641766525630d0ad}\label{sms_2hardware_8h_a1aba84d3beebe43e641766525630d0ad}} 
+\index{hardware.h@{hardware.h}!R6\_BANK0@{R6\_BANK0}}
+\index{R6\_BANK0@{R6\_BANK0}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{R6\_BANK0}{R6\_BANK0}}
+{\footnotesize\ttfamily \#define R6\+\_\+\+B\+A\+N\+K0~0x\+FB}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a81289f179bb00ade9e4f7221ddff0e46}\label{sms_2hardware_8h_a81289f179bb00ade9e4f7221ddff0e46}} 
+\index{hardware.h@{hardware.h}!R6\_DATA\_0x0000@{R6\_DATA\_0x0000}}
+\index{R6\_DATA\_0x0000@{R6\_DATA\_0x0000}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{R6\_DATA\_0x0000}{R6\_DATA\_0x0000}}
+{\footnotesize\ttfamily \#define R6\+\_\+\+D\+A\+T\+A\+\_\+0x0000~0x\+FB}
+
+\mbox{\Hypertarget{sms_2hardware_8h_adcc51095e67b158df848367761d735a4}\label{sms_2hardware_8h_adcc51095e67b158df848367761d735a4}} 
+\index{hardware.h@{hardware.h}!R6\_BANK1@{R6\_BANK1}}
+\index{R6\_BANK1@{R6\_BANK1}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{R6\_BANK1}{R6\_BANK1}}
+{\footnotesize\ttfamily \#define R6\+\_\+\+B\+A\+N\+K1~0x\+FF}
+
+\mbox{\Hypertarget{sms_2hardware_8h_ac59ac38e5ec2e23e511f854403d7cbe4}\label{sms_2hardware_8h_ac59ac38e5ec2e23e511f854403d7cbe4}} 
+\index{hardware.h@{hardware.h}!R6\_DATA\_0x2000@{R6\_DATA\_0x2000}}
+\index{R6\_DATA\_0x2000@{R6\_DATA\_0x2000}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{R6\_DATA\_0x2000}{R6\_DATA\_0x2000}}
+{\footnotesize\ttfamily \#define R6\+\_\+\+D\+A\+T\+A\+\_\+0x2000~0x\+FF}
+
+\mbox{\Hypertarget{sms_2hardware_8h_aa82ab1c04cff3363327f3309d09ae638}\label{sms_2hardware_8h_aa82ab1c04cff3363327f3309d09ae638}} 
+\index{hardware.h@{hardware.h}!VDP\_R7@{VDP\_R7}}
+\index{VDP\_R7@{VDP\_R7}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{VDP\_R7}{VDP\_R7}}
+{\footnotesize\ttfamily \#define V\+D\+P\+\_\+\+R7~0b10000111}
+
+\mbox{\Hypertarget{sms_2hardware_8h_abef00e3cae6f12d97973b318ebbf9737}\label{sms_2hardware_8h_abef00e3cae6f12d97973b318ebbf9737}} 
+\index{hardware.h@{hardware.h}!VDP\_RBORDER@{VDP\_RBORDER}}
+\index{VDP\_RBORDER@{VDP\_RBORDER}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{VDP\_RBORDER}{VDP\_RBORDER}}
+{\footnotesize\ttfamily \#define V\+D\+P\+\_\+\+R\+B\+O\+R\+D\+ER~0b10000111}
+
+\mbox{\Hypertarget{sms_2hardware_8h_aa1a024a7dc26ef40663fe283565bcf50}\label{sms_2hardware_8h_aa1a024a7dc26ef40663fe283565bcf50}} 
+\index{hardware.h@{hardware.h}!R7\_COLOR\_MASK@{R7\_COLOR\_MASK}}
+\index{R7\_COLOR\_MASK@{R7\_COLOR\_MASK}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{R7\_COLOR\_MASK}{R7\_COLOR\_MASK}}
+{\footnotesize\ttfamily \#define R7\+\_\+\+C\+O\+L\+O\+R\+\_\+\+M\+A\+SK~0b11110000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a3cb38487469808e023fcb331c180c4b9}\label{sms_2hardware_8h_a3cb38487469808e023fcb331c180c4b9}} 
+\index{hardware.h@{hardware.h}!VDP\_R8@{VDP\_R8}}
+\index{VDP\_R8@{VDP\_R8}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{VDP\_R8}{VDP\_R8}}
+{\footnotesize\ttfamily \#define V\+D\+P\+\_\+\+R8~0b10001000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a9c49833bc96a70b8972027d28c816d2f}\label{sms_2hardware_8h_a9c49833bc96a70b8972027d28c816d2f}} 
+\index{hardware.h@{hardware.h}!VDP\_RSCX@{VDP\_RSCX}}
+\index{VDP\_RSCX@{VDP\_RSCX}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{VDP\_RSCX}{VDP\_RSCX}}
+{\footnotesize\ttfamily \#define V\+D\+P\+\_\+\+R\+S\+CX~0b10001000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a294388f3d14b6fec1f1bbeafc7d0f91e}\label{sms_2hardware_8h_a294388f3d14b6fec1f1bbeafc7d0f91e}} 
+\index{hardware.h@{hardware.h}!VDP\_R9@{VDP\_R9}}
+\index{VDP\_R9@{VDP\_R9}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{VDP\_R9}{VDP\_R9}}
+{\footnotesize\ttfamily \#define V\+D\+P\+\_\+\+R9~0b10001001}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a3cce162b45d638126c478c5b6f7bcbc7}\label{sms_2hardware_8h_a3cce162b45d638126c478c5b6f7bcbc7}} 
+\index{hardware.h@{hardware.h}!VDP\_RSCY@{VDP\_RSCY}}
+\index{VDP\_RSCY@{VDP\_RSCY}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{VDP\_RSCY}{VDP\_RSCY}}
+{\footnotesize\ttfamily \#define V\+D\+P\+\_\+\+R\+S\+CY~0b10001001}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a1049d2a3f634380f4dffff619334a504}\label{sms_2hardware_8h_a1049d2a3f634380f4dffff619334a504}} 
+\index{hardware.h@{hardware.h}!VDP\_R10@{VDP\_R10}}
+\index{VDP\_R10@{VDP\_R10}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{VDP\_R10}{VDP\_R10}}
+{\footnotesize\ttfamily \#define V\+D\+P\+\_\+\+R10~0b10001010}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a98d635ed568cfe9f853eaf7e1707dec4}\label{sms_2hardware_8h_a98d635ed568cfe9f853eaf7e1707dec4}} 
+\index{hardware.h@{hardware.h}!R10\_INT\_OFF@{R10\_INT\_OFF}}
+\index{R10\_INT\_OFF@{R10\_INT\_OFF}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{R10\_INT\_OFF}{R10\_INT\_OFF}}
+{\footnotesize\ttfamily \#define R10\+\_\+\+I\+N\+T\+\_\+\+O\+FF~0x\+FF}
+
+\mbox{\Hypertarget{sms_2hardware_8h_adf9e7ec5362058df23e1c0e4c06ad5d6}\label{sms_2hardware_8h_adf9e7ec5362058df23e1c0e4c06ad5d6}} 
+\index{hardware.h@{hardware.h}!R10\_INT\_EVERY@{R10\_INT\_EVERY}}
+\index{R10\_INT\_EVERY@{R10\_INT\_EVERY}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{R10\_INT\_EVERY}{R10\_INT\_EVERY}}
+{\footnotesize\ttfamily \#define R10\+\_\+\+I\+N\+T\+\_\+\+E\+V\+E\+RY~0x00}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a086bde6bcc92e5f4d3e9ae45f0de475e}\label{sms_2hardware_8h_a086bde6bcc92e5f4d3e9ae45f0de475e}} 
+\index{hardware.h@{hardware.h}!JOY\_P1\_UP@{JOY\_P1\_UP}}
+\index{JOY\_P1\_UP@{JOY\_P1\_UP}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{JOY\_P1\_UP}{JOY\_P1\_UP}}
+{\footnotesize\ttfamily \#define J\+O\+Y\+\_\+\+P1\+\_\+\+UP~0b00000001}
+
+\mbox{\Hypertarget{sms_2hardware_8h_ab4dd6ee624c6d9e5fe5820ce925ffb20}\label{sms_2hardware_8h_ab4dd6ee624c6d9e5fe5820ce925ffb20}} 
+\index{hardware.h@{hardware.h}!JOY\_P1\_DOWN@{JOY\_P1\_DOWN}}
+\index{JOY\_P1\_DOWN@{JOY\_P1\_DOWN}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{JOY\_P1\_DOWN}{JOY\_P1\_DOWN}}
+{\footnotesize\ttfamily \#define J\+O\+Y\+\_\+\+P1\+\_\+\+D\+O\+WN~0b00000010}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a7d709160cbd7b369109bf40161ae8ccd}\label{sms_2hardware_8h_a7d709160cbd7b369109bf40161ae8ccd}} 
+\index{hardware.h@{hardware.h}!JOY\_P1\_LEFT@{JOY\_P1\_LEFT}}
+\index{JOY\_P1\_LEFT@{JOY\_P1\_LEFT}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{JOY\_P1\_LEFT}{JOY\_P1\_LEFT}}
+{\footnotesize\ttfamily \#define J\+O\+Y\+\_\+\+P1\+\_\+\+L\+E\+FT~0b00000100}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a1efece9134651ad4d2bd1836c1d1d6d6}\label{sms_2hardware_8h_a1efece9134651ad4d2bd1836c1d1d6d6}} 
+\index{hardware.h@{hardware.h}!JOY\_P1\_RIGHT@{JOY\_P1\_RIGHT}}
+\index{JOY\_P1\_RIGHT@{JOY\_P1\_RIGHT}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{JOY\_P1\_RIGHT}{JOY\_P1\_RIGHT}}
+{\footnotesize\ttfamily \#define J\+O\+Y\+\_\+\+P1\+\_\+\+R\+I\+G\+HT~0b00001000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_aacc8667a6d5d9683ed4876e52aba2d33}\label{sms_2hardware_8h_aacc8667a6d5d9683ed4876e52aba2d33}} 
+\index{hardware.h@{hardware.h}!JOY\_P1\_SW1@{JOY\_P1\_SW1}}
+\index{JOY\_P1\_SW1@{JOY\_P1\_SW1}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{JOY\_P1\_SW1}{JOY\_P1\_SW1}}
+{\footnotesize\ttfamily \#define J\+O\+Y\+\_\+\+P1\+\_\+\+S\+W1~0b00010000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_af29f72f4cc7c94deae5fb9c29b1cc94f}\label{sms_2hardware_8h_af29f72f4cc7c94deae5fb9c29b1cc94f}} 
+\index{hardware.h@{hardware.h}!JOY\_P1\_TRIGGER@{JOY\_P1\_TRIGGER}}
+\index{JOY\_P1\_TRIGGER@{JOY\_P1\_TRIGGER}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{JOY\_P1\_TRIGGER}{JOY\_P1\_TRIGGER}}
+{\footnotesize\ttfamily \#define J\+O\+Y\+\_\+\+P1\+\_\+\+T\+R\+I\+G\+G\+ER~0b00010000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a9ab9954d0c66751a154f7824e344806b}\label{sms_2hardware_8h_a9ab9954d0c66751a154f7824e344806b}} 
+\index{hardware.h@{hardware.h}!JOY\_P1\_SW2@{JOY\_P1\_SW2}}
+\index{JOY\_P1\_SW2@{JOY\_P1\_SW2}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{JOY\_P1\_SW2}{JOY\_P1\_SW2}}
+{\footnotesize\ttfamily \#define J\+O\+Y\+\_\+\+P1\+\_\+\+S\+W2~0b00100000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a307ba8e12d9273a99aa4830c5e0a3c88}\label{sms_2hardware_8h_a307ba8e12d9273a99aa4830c5e0a3c88}} 
+\index{hardware.h@{hardware.h}!JOY\_P2\_UP@{JOY\_P2\_UP}}
+\index{JOY\_P2\_UP@{JOY\_P2\_UP}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{JOY\_P2\_UP}{JOY\_P2\_UP}}
+{\footnotesize\ttfamily \#define J\+O\+Y\+\_\+\+P2\+\_\+\+UP~0b01000000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a6d4129d670d421656f5e9a1f4b68a7f4}\label{sms_2hardware_8h_a6d4129d670d421656f5e9a1f4b68a7f4}} 
+\index{hardware.h@{hardware.h}!JOY\_P2\_DOWN@{JOY\_P2\_DOWN}}
+\index{JOY\_P2\_DOWN@{JOY\_P2\_DOWN}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{JOY\_P2\_DOWN}{JOY\_P2\_DOWN}}
+{\footnotesize\ttfamily \#define J\+O\+Y\+\_\+\+P2\+\_\+\+D\+O\+WN~0b10000000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a2121cb75e0d570b0f92c7630bc1af25f}\label{sms_2hardware_8h_a2121cb75e0d570b0f92c7630bc1af25f}} 
+\index{hardware.h@{hardware.h}!JOY\_P2\_LEFT@{JOY\_P2\_LEFT}}
+\index{JOY\_P2\_LEFT@{JOY\_P2\_LEFT}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{JOY\_P2\_LEFT}{JOY\_P2\_LEFT}}
+{\footnotesize\ttfamily \#define J\+O\+Y\+\_\+\+P2\+\_\+\+L\+E\+FT~0b00000001}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a16dac3d386b8bc0da50c6c814952472d}\label{sms_2hardware_8h_a16dac3d386b8bc0da50c6c814952472d}} 
+\index{hardware.h@{hardware.h}!JOY\_P2\_RIGHT@{JOY\_P2\_RIGHT}}
+\index{JOY\_P2\_RIGHT@{JOY\_P2\_RIGHT}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{JOY\_P2\_RIGHT}{JOY\_P2\_RIGHT}}
+{\footnotesize\ttfamily \#define J\+O\+Y\+\_\+\+P2\+\_\+\+R\+I\+G\+HT~0b00000010}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a942e3ecdef267100c84a36f6e0dc0b51}\label{sms_2hardware_8h_a942e3ecdef267100c84a36f6e0dc0b51}} 
+\index{hardware.h@{hardware.h}!JOY\_P2\_SW1@{JOY\_P2\_SW1}}
+\index{JOY\_P2\_SW1@{JOY\_P2\_SW1}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{JOY\_P2\_SW1}{JOY\_P2\_SW1}}
+{\footnotesize\ttfamily \#define J\+O\+Y\+\_\+\+P2\+\_\+\+S\+W1~0b00000100}
+
+\mbox{\Hypertarget{sms_2hardware_8h_afe5ec4ca4d413ae5388be131d9c4f93b}\label{sms_2hardware_8h_afe5ec4ca4d413ae5388be131d9c4f93b}} 
+\index{hardware.h@{hardware.h}!JOY\_P2\_TRIGGER@{JOY\_P2\_TRIGGER}}
+\index{JOY\_P2\_TRIGGER@{JOY\_P2\_TRIGGER}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{JOY\_P2\_TRIGGER}{JOY\_P2\_TRIGGER}}
+{\footnotesize\ttfamily \#define J\+O\+Y\+\_\+\+P2\+\_\+\+T\+R\+I\+G\+G\+ER~0b00000100}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a6d181ce63ff84bd559d13f4423a336b3}\label{sms_2hardware_8h_a6d181ce63ff84bd559d13f4423a336b3}} 
+\index{hardware.h@{hardware.h}!JOY\_P2\_SW2@{JOY\_P2\_SW2}}
+\index{JOY\_P2\_SW2@{JOY\_P2\_SW2}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{JOY\_P2\_SW2}{JOY\_P2\_SW2}}
+{\footnotesize\ttfamily \#define J\+O\+Y\+\_\+\+P2\+\_\+\+S\+W2~0b00001000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a5b3dff084cbb77646a337d94d16a1714}\label{sms_2hardware_8h_a5b3dff084cbb77646a337d94d16a1714}} 
+\index{hardware.h@{hardware.h}!JOY\_RESET@{JOY\_RESET}}
+\index{JOY\_RESET@{JOY\_RESET}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{JOY\_RESET}{JOY\_RESET}}
+{\footnotesize\ttfamily \#define J\+O\+Y\+\_\+\+R\+E\+S\+ET~0b00010000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a772c8def7b33ad4fd3cbfc74d84441de}\label{sms_2hardware_8h_a772c8def7b33ad4fd3cbfc74d84441de}} 
+\index{hardware.h@{hardware.h}!JOY\_P1\_LIGHT@{JOY\_P1\_LIGHT}}
+\index{JOY\_P1\_LIGHT@{JOY\_P1\_LIGHT}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{JOY\_P1\_LIGHT}{JOY\_P1\_LIGHT}}
+{\footnotesize\ttfamily \#define J\+O\+Y\+\_\+\+P1\+\_\+\+L\+I\+G\+HT~0b01000000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a42ded04442bd4fb4acf5333b248423fa}\label{sms_2hardware_8h_a42ded04442bd4fb4acf5333b248423fa}} 
+\index{hardware.h@{hardware.h}!JOY\_P2\_LIGHT@{JOY\_P2\_LIGHT}}
+\index{JOY\_P2\_LIGHT@{JOY\_P2\_LIGHT}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{JOY\_P2\_LIGHT}{JOY\_P2\_LIGHT}}
+{\footnotesize\ttfamily \#define J\+O\+Y\+\_\+\+P2\+\_\+\+L\+I\+G\+HT~0b10000000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a8f4dbe8a2e6389c78b9f6fb9a3ff1dca}\label{sms_2hardware_8h_a8f4dbe8a2e6389c78b9f6fb9a3ff1dca}} 
+\index{hardware.h@{hardware.h}!RAMCTL\_BANK@{RAMCTL\_BANK}}
+\index{RAMCTL\_BANK@{RAMCTL\_BANK}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{RAMCTL\_BANK}{RAMCTL\_BANK}}
+{\footnotesize\ttfamily \#define R\+A\+M\+C\+T\+L\+\_\+\+B\+A\+NK~0b00000100}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a0167c8f86de8ef1a327b806c8ed0c64c}\label{sms_2hardware_8h_a0167c8f86de8ef1a327b806c8ed0c64c}} 
+\index{hardware.h@{hardware.h}!RAMCTL\_ROM@{RAMCTL\_ROM}}
+\index{RAMCTL\_ROM@{RAMCTL\_ROM}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{RAMCTL\_ROM}{RAMCTL\_ROM}}
+{\footnotesize\ttfamily \#define R\+A\+M\+C\+T\+L\+\_\+\+R\+OM~0b00000000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a8728acabf97eae3322439bc3cb41b02d}\label{sms_2hardware_8h_a8728acabf97eae3322439bc3cb41b02d}} 
+\index{hardware.h@{hardware.h}!RAMCTL\_RAM@{RAMCTL\_RAM}}
+\index{RAMCTL\_RAM@{RAMCTL\_RAM}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{RAMCTL\_RAM}{RAMCTL\_RAM}}
+{\footnotesize\ttfamily \#define R\+A\+M\+C\+T\+L\+\_\+\+R\+AM~0b00001000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_afa9ebb221cf9cd92038131ab588679bf}\label{sms_2hardware_8h_afa9ebb221cf9cd92038131ab588679bf}} 
+\index{hardware.h@{hardware.h}!RAMCTL\_RO@{RAMCTL\_RO}}
+\index{RAMCTL\_RO@{RAMCTL\_RO}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{RAMCTL\_RO}{RAMCTL\_RO}}
+{\footnotesize\ttfamily \#define R\+A\+M\+C\+T\+L\+\_\+\+RO~0b00010000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a97eb5adb5f29e17ce5766728447317f5}\label{sms_2hardware_8h_a97eb5adb5f29e17ce5766728447317f5}} 
+\index{hardware.h@{hardware.h}!RAMCTL\_PROT@{RAMCTL\_PROT}}
+\index{RAMCTL\_PROT@{RAMCTL\_PROT}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{RAMCTL\_PROT}{RAMCTL\_PROT}}
+{\footnotesize\ttfamily \#define R\+A\+M\+C\+T\+L\+\_\+\+P\+R\+OT~0b10000000}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a1ac4bf5582e0754ea814c3f51c99a91a}\label{sms_2hardware_8h_a1ac4bf5582e0754ea814c3f51c99a91a}} 
+\index{hardware.h@{hardware.h}!SYSTEM\_PAL@{SYSTEM\_PAL}}
+\index{SYSTEM\_PAL@{SYSTEM\_PAL}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{SYSTEM\_PAL}{SYSTEM\_PAL}}
+{\footnotesize\ttfamily \#define S\+Y\+S\+T\+E\+M\+\_\+\+P\+AL~0x00}
+
+\mbox{\Hypertarget{sms_2hardware_8h_ae6888157a94fca2f1a1b5136494f2e07}\label{sms_2hardware_8h_ae6888157a94fca2f1a1b5136494f2e07}} 
+\index{hardware.h@{hardware.h}!SYSTEM\_NTSC@{SYSTEM\_NTSC}}
+\index{SYSTEM\_NTSC@{SYSTEM\_NTSC}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{SYSTEM\_NTSC}{SYSTEM\_NTSC}}
+{\footnotesize\ttfamily \#define S\+Y\+S\+T\+E\+M\+\_\+\+N\+T\+SC~0x01}
+
+\mbox{\Hypertarget{sms_2hardware_8h_ad3b833661b103edc2648258dd741c92c}\label{sms_2hardware_8h_ad3b833661b103edc2648258dd741c92c}} 
+\index{hardware.h@{hardware.h}!VDP\_SAT\_TERM@{VDP\_SAT\_TERM}}
+\index{VDP\_SAT\_TERM@{VDP\_SAT\_TERM}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{VDP\_SAT\_TERM}{VDP\_SAT\_TERM}}
+{\footnotesize\ttfamily \#define V\+D\+P\+\_\+\+S\+A\+T\+\_\+\+T\+E\+RM~0x\+D0}
+
+\mbox{\Hypertarget{sms_2hardware_8h_ad14c51cdfb347c34c364f54e67dc978d}\label{sms_2hardware_8h_ad14c51cdfb347c34c364f54e67dc978d}} 
+\index{hardware.h@{hardware.h}!DEVICE\_SCREEN\_PX\_WIDTH@{DEVICE\_SCREEN\_PX\_WIDTH}}
+\index{DEVICE\_SCREEN\_PX\_WIDTH@{DEVICE\_SCREEN\_PX\_WIDTH}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{DEVICE\_SCREEN\_PX\_WIDTH}{DEVICE\_SCREEN\_PX\_WIDTH}}
+{\footnotesize\ttfamily \#define D\+E\+V\+I\+C\+E\+\_\+\+S\+C\+R\+E\+E\+N\+\_\+\+P\+X\+\_\+\+W\+I\+D\+TH~(\mbox{\hyperlink{gb_2hardware_8h_add7f32ba868ef6517798f5fce337e4b2}{D\+E\+V\+I\+C\+E\+\_\+\+S\+C\+R\+E\+E\+N\+\_\+\+W\+I\+D\+TH}} $\ast$ 8)}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a7bd450aa268b881257089cf8cd6697ec}\label{sms_2hardware_8h_a7bd450aa268b881257089cf8cd6697ec}} 
+\index{hardware.h@{hardware.h}!DEVICE\_SCREEN\_PX\_HEIGHT@{DEVICE\_SCREEN\_PX\_HEIGHT}}
+\index{DEVICE\_SCREEN\_PX\_HEIGHT@{DEVICE\_SCREEN\_PX\_HEIGHT}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{DEVICE\_SCREEN\_PX\_HEIGHT}{DEVICE\_SCREEN\_PX\_HEIGHT}}
+{\footnotesize\ttfamily \#define D\+E\+V\+I\+C\+E\+\_\+\+S\+C\+R\+E\+E\+N\+\_\+\+P\+X\+\_\+\+H\+E\+I\+G\+HT~(\mbox{\hyperlink{gb_2hardware_8h_ad252264fdcf900e5fbf611f7a45962ed}{D\+E\+V\+I\+C\+E\+\_\+\+S\+C\+R\+E\+E\+N\+\_\+\+H\+E\+I\+G\+HT}} $\ast$ 8)}
+
+
+
+\doxysubsubsection{Variable Documentation}
+\mbox{\Hypertarget{sms_2hardware_8h_aa80cb68338819c004095531d32b70e38}\label{sms_2hardware_8h_aa80cb68338819c004095531d32b70e38}} 
+\index{hardware.h@{hardware.h}!shadow\_VDP\_R0@{shadow\_VDP\_R0}}
+\index{shadow\_VDP\_R0@{shadow\_VDP\_R0}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{shadow\_VDP\_R0}{shadow\_VDP\_R0}}
+{\footnotesize\ttfamily \mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}} shadow\+\_\+\+V\+D\+P\+\_\+\+R0\hspace{0.3cm}{\ttfamily [extern]}}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a542cb696f242df44b0d8e9225d532ef4}\label{sms_2hardware_8h_a542cb696f242df44b0d8e9225d532ef4}} 
+\index{hardware.h@{hardware.h}!shadow\_VDP\_R1@{shadow\_VDP\_R1}}
+\index{shadow\_VDP\_R1@{shadow\_VDP\_R1}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{shadow\_VDP\_R1}{shadow\_VDP\_R1}}
+{\footnotesize\ttfamily \mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}} shadow\+\_\+\+V\+D\+P\+\_\+\+R1\hspace{0.3cm}{\ttfamily [extern]}}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a7f7fa2c0e33c6d515332a50c2acb54e7}\label{sms_2hardware_8h_a7f7fa2c0e33c6d515332a50c2acb54e7}} 
+\index{hardware.h@{hardware.h}!shadow\_VDP\_R2@{shadow\_VDP\_R2}}
+\index{shadow\_VDP\_R2@{shadow\_VDP\_R2}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{shadow\_VDP\_R2}{shadow\_VDP\_R2}}
+{\footnotesize\ttfamily \mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}} shadow\+\_\+\+V\+D\+P\+\_\+\+R2\hspace{0.3cm}{\ttfamily [extern]}}
+
+\mbox{\Hypertarget{sms_2hardware_8h_ab984056ff9eb011fbd84abdafb3a8bce}\label{sms_2hardware_8h_ab984056ff9eb011fbd84abdafb3a8bce}} 
+\index{hardware.h@{hardware.h}!shadow\_VDP\_R3@{shadow\_VDP\_R3}}
+\index{shadow\_VDP\_R3@{shadow\_VDP\_R3}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{shadow\_VDP\_R3}{shadow\_VDP\_R3}}
+{\footnotesize\ttfamily \mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}} shadow\+\_\+\+V\+D\+P\+\_\+\+R3\hspace{0.3cm}{\ttfamily [extern]}}
+
+\mbox{\Hypertarget{sms_2hardware_8h_af9a30a728fedbe7e4c660c448c262e2c}\label{sms_2hardware_8h_af9a30a728fedbe7e4c660c448c262e2c}} 
+\index{hardware.h@{hardware.h}!shadow\_VDP\_R4@{shadow\_VDP\_R4}}
+\index{shadow\_VDP\_R4@{shadow\_VDP\_R4}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{shadow\_VDP\_R4}{shadow\_VDP\_R4}}
+{\footnotesize\ttfamily \mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}} shadow\+\_\+\+V\+D\+P\+\_\+\+R4\hspace{0.3cm}{\ttfamily [extern]}}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a221db76cb39200a948234330ed309af7}\label{sms_2hardware_8h_a221db76cb39200a948234330ed309af7}} 
+\index{hardware.h@{hardware.h}!shadow\_VDP\_R5@{shadow\_VDP\_R5}}
+\index{shadow\_VDP\_R5@{shadow\_VDP\_R5}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{shadow\_VDP\_R5}{shadow\_VDP\_R5}}
+{\footnotesize\ttfamily \mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}} shadow\+\_\+\+V\+D\+P\+\_\+\+R5\hspace{0.3cm}{\ttfamily [extern]}}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a8afbdaaf8c6dee4e7482a341351344b4}\label{sms_2hardware_8h_a8afbdaaf8c6dee4e7482a341351344b4}} 
+\index{hardware.h@{hardware.h}!shadow\_VDP\_R6@{shadow\_VDP\_R6}}
+\index{shadow\_VDP\_R6@{shadow\_VDP\_R6}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{shadow\_VDP\_R6}{shadow\_VDP\_R6}}
+{\footnotesize\ttfamily \mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}} shadow\+\_\+\+V\+D\+P\+\_\+\+R6\hspace{0.3cm}{\ttfamily [extern]}}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a33b3e7c120a579cb729caf588ba1d9a8}\label{sms_2hardware_8h_a33b3e7c120a579cb729caf588ba1d9a8}} 
+\index{hardware.h@{hardware.h}!shadow\_VDP\_R7@{shadow\_VDP\_R7}}
+\index{shadow\_VDP\_R7@{shadow\_VDP\_R7}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{shadow\_VDP\_R7}{shadow\_VDP\_R7}}
+{\footnotesize\ttfamily \mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}} shadow\+\_\+\+V\+D\+P\+\_\+\+R7\hspace{0.3cm}{\ttfamily [extern]}}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a20a977182f6f5f60ee6464e15f05aed0}\label{sms_2hardware_8h_a20a977182f6f5f60ee6464e15f05aed0}} 
+\index{hardware.h@{hardware.h}!shadow\_VDP\_RBORDER@{shadow\_VDP\_RBORDER}}
+\index{shadow\_VDP\_RBORDER@{shadow\_VDP\_RBORDER}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{shadow\_VDP\_RBORDER}{shadow\_VDP\_RBORDER}}
+{\footnotesize\ttfamily \mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}} shadow\+\_\+\+V\+D\+P\+\_\+\+R\+B\+O\+R\+D\+ER\hspace{0.3cm}{\ttfamily [extern]}}
+
+\mbox{\Hypertarget{sms_2hardware_8h_add65b8e5f0b806e563ce27de7348ba31}\label{sms_2hardware_8h_add65b8e5f0b806e563ce27de7348ba31}} 
+\index{hardware.h@{hardware.h}!shadow\_VDP\_R8@{shadow\_VDP\_R8}}
+\index{shadow\_VDP\_R8@{shadow\_VDP\_R8}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{shadow\_VDP\_R8}{shadow\_VDP\_R8}}
+{\footnotesize\ttfamily \mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}} shadow\+\_\+\+V\+D\+P\+\_\+\+R8\hspace{0.3cm}{\ttfamily [extern]}}
+
+\mbox{\Hypertarget{sms_2hardware_8h_af6a84b0288b045560f83a1944a8c1c3b}\label{sms_2hardware_8h_af6a84b0288b045560f83a1944a8c1c3b}} 
+\index{hardware.h@{hardware.h}!shadow\_VDP\_RSCX@{shadow\_VDP\_RSCX}}
+\index{shadow\_VDP\_RSCX@{shadow\_VDP\_RSCX}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{shadow\_VDP\_RSCX}{shadow\_VDP\_RSCX}}
+{\footnotesize\ttfamily \mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}} shadow\+\_\+\+V\+D\+P\+\_\+\+R\+S\+CX\hspace{0.3cm}{\ttfamily [extern]}}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a1ccce1e3f8acb76170fb752ee40ae659}\label{sms_2hardware_8h_a1ccce1e3f8acb76170fb752ee40ae659}} 
+\index{hardware.h@{hardware.h}!shadow\_VDP\_R9@{shadow\_VDP\_R9}}
+\index{shadow\_VDP\_R9@{shadow\_VDP\_R9}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{shadow\_VDP\_R9}{shadow\_VDP\_R9}}
+{\footnotesize\ttfamily \mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}} shadow\+\_\+\+V\+D\+P\+\_\+\+R9\hspace{0.3cm}{\ttfamily [extern]}}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a292b59055beb22b566b39462da3b7eba}\label{sms_2hardware_8h_a292b59055beb22b566b39462da3b7eba}} 
+\index{hardware.h@{hardware.h}!shadow\_VDP\_RSCY@{shadow\_VDP\_RSCY}}
+\index{shadow\_VDP\_RSCY@{shadow\_VDP\_RSCY}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{shadow\_VDP\_RSCY}{shadow\_VDP\_RSCY}}
+{\footnotesize\ttfamily \mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}} shadow\+\_\+\+V\+D\+P\+\_\+\+R\+S\+CY\hspace{0.3cm}{\ttfamily [extern]}}
+
+\mbox{\Hypertarget{sms_2hardware_8h_af310a900e3b4b5b5032f4ffd6fa309b0}\label{sms_2hardware_8h_af310a900e3b4b5b5032f4ffd6fa309b0}} 
+\index{hardware.h@{hardware.h}!shadow\_VDP\_R10@{shadow\_VDP\_R10}}
+\index{shadow\_VDP\_R10@{shadow\_VDP\_R10}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{shadow\_VDP\_R10}{shadow\_VDP\_R10}}
+{\footnotesize\ttfamily \mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}} shadow\+\_\+\+V\+D\+P\+\_\+\+R10\hspace{0.3cm}{\ttfamily [extern]}}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a735fc9fb4f089391a584293f2dff1008}\label{sms_2hardware_8h_a735fc9fb4f089391a584293f2dff1008}} 
+\index{hardware.h@{hardware.h}!\_BIOS@{\_BIOS}}
+\index{\_BIOS@{\_BIOS}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{\_BIOS}{\_BIOS}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}} \+\_\+\+B\+I\+OS\hspace{0.3cm}{\ttfamily [extern]}}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a7093bf38c5e663715f4efed44341502d}\label{sms_2hardware_8h_a7093bf38c5e663715f4efed44341502d}} 
+\index{hardware.h@{hardware.h}!\_SYSTEM@{\_SYSTEM}}
+\index{\_SYSTEM@{\_SYSTEM}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{\_SYSTEM}{\_SYSTEM}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}} \+\_\+\+S\+Y\+S\+T\+EM\hspace{0.3cm}{\ttfamily [extern]}}
+
+\mbox{\Hypertarget{sms_2hardware_8h_a019bf78a6d586c987aec03af8d20e02f}\label{sms_2hardware_8h_a019bf78a6d586c987aec03af8d20e02f}} 
+\index{hardware.h@{hardware.h}!VDP\_ATTR\_SHIFT@{VDP\_ATTR\_SHIFT}}
+\index{VDP\_ATTR\_SHIFT@{VDP\_ATTR\_SHIFT}!hardware.h@{hardware.h}}
+\doxyparagraph{\texorpdfstring{VDP\_ATTR\_SHIFT}{VDP\_ATTR\_SHIFT}}
+{\footnotesize\ttfamily volatile \mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}} V\+D\+P\+\_\+\+A\+T\+T\+R\+\_\+\+S\+H\+I\+FT\hspace{0.3cm}{\ttfamily [extern]}}
+

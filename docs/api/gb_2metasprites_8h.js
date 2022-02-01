@@ -5,7 +5,7 @@ var gb_2metasprites_8h =
     [ "METASPR_ITEM", "gb_2metasprites_8h.html#aa88dc4d5e35045509b8955a4a23a30aa", null ],
     [ "METASPR_TERM", "gb_2metasprites_8h.html#aa1d425dcce3cd104751744535b6a389a", null ],
     [ "metasprite_t", "gb_2metasprites_8h.html#aba6401cc8173158a9f37ee22094c03d3", null ],
-    [ "hide_sprites_range", "gb_2metasprites_8h.html#aa01862cdcf50742c46c819668500b76b", null ],
+    [ "hide_sprites_range", "gb_2metasprites_8h.html#a77bb622fa362f2e04be1bafaa099a709", null ],
     [ "move_metasprite", "gb_2metasprites_8h.html#a77475e913bf0a19df28bdbf9d1cf392b", null ],
     [ "move_metasprite_vflip", "gb_2metasprites_8h.html#aa8ff2df0679ebb0b6e0a8f6d83127e1a", null ],
     [ "move_metasprite_hflip", "gb_2metasprites_8h.html#a27e3bb17d0458b60b1f0433f66301f46", null ],

@@ -1,0 +1,46 @@
+\hypertarget{asm_2gbz80_2stdarg_8h}{}\doxysubsection{asm/gbz80/stdarg.h File Reference}
+\label{asm_2gbz80_2stdarg_8h}\index{asm/gbz80/stdarg.h@{asm/gbz80/stdarg.h}}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{asm_2gbz80_2stdarg_8h_aa385efb7a67df5acc5e06cf3bdc8802f}{va\+\_\+start}}(list,  last)~list = (unsigned char $\ast$)\&last + sizeof(last)
+\item 
+\#define \mbox{\hyperlink{asm_2gbz80_2stdarg_8h_af4d89980b2bdeb5b37bbaa323d108bbc}{va\+\_\+arg}}(list,  type)~$\ast$((type $\ast$)((list += sizeof(type)) -\/ sizeof(type)))
+\item 
+\#define \mbox{\hyperlink{asm_2gbz80_2stdarg_8h_aa042dbf8cc345b3a522d6f706a78ddbd}{va\+\_\+end}}(list)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef unsigned char $\ast$ \mbox{\hyperlink{asm_2gbz80_2stdarg_8h_a90f5a53cfeaf133c17cd213633060737}{va\+\_\+list}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{asm_2gbz80_2stdarg_8h_aa385efb7a67df5acc5e06cf3bdc8802f}\label{asm_2gbz80_2stdarg_8h_aa385efb7a67df5acc5e06cf3bdc8802f}} 
+\index{stdarg.h@{stdarg.h}!va\_start@{va\_start}}
+\index{va\_start@{va\_start}!stdarg.h@{stdarg.h}}
+\doxyparagraph{\texorpdfstring{va\_start}{va\_start}}
+{\footnotesize\ttfamily \#define va\+\_\+start(\begin{DoxyParamCaption}\item[{}]{list,  }\item[{}]{last }\end{DoxyParamCaption})~list = (unsigned char $\ast$)\&last + sizeof(last)}
+
+\mbox{\Hypertarget{asm_2gbz80_2stdarg_8h_af4d89980b2bdeb5b37bbaa323d108bbc}\label{asm_2gbz80_2stdarg_8h_af4d89980b2bdeb5b37bbaa323d108bbc}} 
+\index{stdarg.h@{stdarg.h}!va\_arg@{va\_arg}}
+\index{va\_arg@{va\_arg}!stdarg.h@{stdarg.h}}
+\doxyparagraph{\texorpdfstring{va\_arg}{va\_arg}}
+{\footnotesize\ttfamily \#define va\+\_\+arg(\begin{DoxyParamCaption}\item[{}]{list,  }\item[{}]{type }\end{DoxyParamCaption})~$\ast$((type $\ast$)((list += sizeof(type)) -\/ sizeof(type)))}
+
+\mbox{\Hypertarget{asm_2gbz80_2stdarg_8h_aa042dbf8cc345b3a522d6f706a78ddbd}\label{asm_2gbz80_2stdarg_8h_aa042dbf8cc345b3a522d6f706a78ddbd}} 
+\index{stdarg.h@{stdarg.h}!va\_end@{va\_end}}
+\index{va\_end@{va\_end}!stdarg.h@{stdarg.h}}
+\doxyparagraph{\texorpdfstring{va\_end}{va\_end}}
+{\footnotesize\ttfamily \#define va\+\_\+end(\begin{DoxyParamCaption}\item[{}]{list }\end{DoxyParamCaption})}
+
+
+
+\doxysubsubsection{Typedef Documentation}
+\mbox{\Hypertarget{asm_2gbz80_2stdarg_8h_a90f5a53cfeaf133c17cd213633060737}\label{asm_2gbz80_2stdarg_8h_a90f5a53cfeaf133c17cd213633060737}} 
+\index{stdarg.h@{stdarg.h}!va\_list@{va\_list}}
+\index{va\_list@{va\_list}!stdarg.h@{stdarg.h}}
+\doxyparagraph{\texorpdfstring{va\_list}{va\_list}}
+{\footnotesize\ttfamily typedef unsigned char$\ast$ \mbox{\hyperlink{asm_2gbz80_2stdarg_8h_a90f5a53cfeaf133c17cd213633060737}{va\+\_\+list}}}
+

@@ -5,7 +5,7 @@ var sms_2metasprites_8h =
     [ "METASPR_ITEM", "sms_2metasprites_8h.html#aa88dc4d5e35045509b8955a4a23a30aa", null ],
     [ "METASPR_TERM", "sms_2metasprites_8h.html#aa1d425dcce3cd104751744535b6a389a", null ],
     [ "metasprite_t", "sms_2metasprites_8h.html#aba6401cc8173158a9f37ee22094c03d3", null ],
-    [ "hide_sprites_range", "sms_2metasprites_8h.html#a23abcd0a2eb5033abbb9dc0e2ea494d8", null ],
+    [ "hide_sprites_range", "sms_2metasprites_8h.html#a0c668f442b4764275a1dade597a59e20", null ],
     [ "move_metasprite", "sms_2metasprites_8h.html#a77475e913bf0a19df28bdbf9d1cf392b", null ],
     [ "hide_metasprite", "sms_2metasprites_8h.html#af8de5a888d65448b9d34027a0e1ce906", null ],
     [ "__current_metasprite", "sms_2metasprites_8h.html#aae51f066cc5436457f62351847bfc64b", null ],

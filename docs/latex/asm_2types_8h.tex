@@ -1,0 +1,182 @@
+\hypertarget{asm_2types_8h}{}\doxysubsection{asm/types.h File Reference}
+\label{asm_2types_8h}\index{asm/types.h@{asm/types.h}}
+{\ttfamily \#include $<$asm/gbz80/types.\+h$>$}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+union \mbox{\hyperlink{union__fixed}{\+\_\+fixed}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}{O\+L\+D\+C\+A\+LL}}
+\item 
+\#define \mbox{\hyperlink{asm_2types_8h_acb825e83a33fcc06482c59b4ab2cf961}{P\+R\+E\+S\+E\+R\+V\+E\+S\+\_\+\+R\+E\+GS}}(...)
+\item 
+\#define \mbox{\hyperlink{asm_2types_8h_a7a18c4884994b9b520ae535b6d9579d3}{N\+A\+K\+ED}}
+\item 
+\#define \mbox{\hyperlink{asm_2types_8h_afb3731986211fded0a874086c98ffcc4}{S\+FR}}
+\item 
+\#define \mbox{\hyperlink{asm_2types_8h_a66d3e9555a86fa871932c5f60834c67e}{AT}}(A)
+\item 
+\#define \mbox{\hyperlink{asm_2types_8h_a7ed081d8dfb6902784b2fc730bbb7f96}{N\+O\+N\+B\+A\+N\+K\+ED}}
+\item 
+\#define \mbox{\hyperlink{asm_2types_8h_aa8480aed89a168ec484727f5ac985cd0}{B\+A\+N\+K\+ED}}
+\item 
+\#define \mbox{\hyperlink{asm_2types_8h_ae0233515480e60d29bcc731469976e02}{C\+R\+I\+T\+I\+C\+AL}}
+\item 
+\#define \mbox{\hyperlink{asm_2types_8h_ac950c0db046e2f86d15e7ae1f558b017}{I\+N\+T\+E\+R\+R\+U\+PT}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \mbox{\hyperlink{asm_2gbz80_2types_8h_a7ebe70ceca856797319175e30bcf003d}{I\+N\+T8}} \mbox{\hyperlink{asm_2types_8h_a5e2fb030036b42012a298e24aca66071}{B\+O\+O\+L\+E\+AN}}
+\item 
+typedef \mbox{\hyperlink{asm_2gbz80_2types_8h_a7ebe70ceca856797319175e30bcf003d}{I\+N\+T8}} \mbox{\hyperlink{asm_2types_8h_a0059ccf0a32e1f146ef70ce970908bf6}{B\+Y\+TE}}
+\item 
+typedef \mbox{\hyperlink{asm_2gbz80_2types_8h_ab27e9918b538ce9d8ca692479b375b6a}{U\+I\+N\+T8}} \mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}}
+\item 
+typedef \mbox{\hyperlink{asm_2gbz80_2types_8h_a18f1c7ce6c452edd933189d52294af8d}{I\+N\+T16}} \mbox{\hyperlink{asm_2types_8h_ac1b71367b1b0eae6718d17b4fd07aecd}{W\+O\+RD}}
+\item 
+typedef \mbox{\hyperlink{asm_2gbz80_2types_8h_a805c2c164bdd38d72a30c46e84fb568b}{U\+I\+N\+T16}} \mbox{\hyperlink{asm_2types_8h_a9e551e7c1bd8feb51e8eefd109966f75}{U\+W\+O\+RD}}
+\item 
+typedef \mbox{\hyperlink{asm_2gbz80_2types_8h_a516ea33686d40a7f91f5644851ce7b5d}{I\+N\+T32}} \mbox{\hyperlink{asm_2types_8h_a6c3850eca7373a470eb6e5a7c6278215}{L\+W\+O\+RD}}
+\item 
+typedef \mbox{\hyperlink{asm_2gbz80_2types_8h_a0b39d6d754cb24c708b0f2bdbe88130e}{U\+I\+N\+T32}} \mbox{\hyperlink{asm_2types_8h_a91374712e986ede0145415318d88fbd8}{U\+L\+W\+O\+RD}}
+\item 
+typedef \mbox{\hyperlink{asm_2gbz80_2types_8h_a516ea33686d40a7f91f5644851ce7b5d}{I\+N\+T32}} \mbox{\hyperlink{asm_2types_8h_ad4ab93994d05960e2f96e83b4c45c1cf}{D\+W\+O\+RD}}
+\item 
+typedef \mbox{\hyperlink{asm_2gbz80_2types_8h_a0b39d6d754cb24c708b0f2bdbe88130e}{U\+I\+N\+T32}} \mbox{\hyperlink{asm_2types_8h_a332730c89876a91d3c98a6c9a764e23e}{U\+D\+W\+O\+RD}}
+\item 
+typedef union \mbox{\hyperlink{union__fixed}{\+\_\+fixed}} \mbox{\hyperlink{asm_2types_8h_ab61f8ff6a444351a91fc9a67c8e6145f}{fixed}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Detailed Description}
+Shared types definitions. 
+
+\doxysubsubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}\label{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}} 
+\index{types.h@{types.h}!OLDCALL@{OLDCALL}}
+\index{OLDCALL@{OLDCALL}!types.h@{types.h}}
+\doxyparagraph{\texorpdfstring{OLDCALL}{OLDCALL}}
+{\footnotesize\ttfamily \#define O\+L\+D\+C\+A\+LL}
+
+\mbox{\Hypertarget{asm_2types_8h_acb825e83a33fcc06482c59b4ab2cf961}\label{asm_2types_8h_acb825e83a33fcc06482c59b4ab2cf961}} 
+\index{types.h@{types.h}!PRESERVES\_REGS@{PRESERVES\_REGS}}
+\index{PRESERVES\_REGS@{PRESERVES\_REGS}!types.h@{types.h}}
+\doxyparagraph{\texorpdfstring{PRESERVES\_REGS}{PRESERVES\_REGS}}
+{\footnotesize\ttfamily \#define P\+R\+E\+S\+E\+R\+V\+E\+S\+\_\+\+R\+E\+GS(\begin{DoxyParamCaption}\item[{}]{... }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{asm_2types_8h_a7a18c4884994b9b520ae535b6d9579d3}\label{asm_2types_8h_a7a18c4884994b9b520ae535b6d9579d3}} 
+\index{types.h@{types.h}!NAKED@{NAKED}}
+\index{NAKED@{NAKED}!types.h@{types.h}}
+\doxyparagraph{\texorpdfstring{NAKED}{NAKED}}
+{\footnotesize\ttfamily \#define N\+A\+K\+ED}
+
+\mbox{\Hypertarget{asm_2types_8h_afb3731986211fded0a874086c98ffcc4}\label{asm_2types_8h_afb3731986211fded0a874086c98ffcc4}} 
+\index{types.h@{types.h}!SFR@{SFR}}
+\index{SFR@{SFR}!types.h@{types.h}}
+\doxyparagraph{\texorpdfstring{SFR}{SFR}}
+{\footnotesize\ttfamily \#define S\+FR}
+
+\mbox{\Hypertarget{asm_2types_8h_a66d3e9555a86fa871932c5f60834c67e}\label{asm_2types_8h_a66d3e9555a86fa871932c5f60834c67e}} 
+\index{types.h@{types.h}!AT@{AT}}
+\index{AT@{AT}!types.h@{types.h}}
+\doxyparagraph{\texorpdfstring{AT}{AT}}
+{\footnotesize\ttfamily \#define AT(\begin{DoxyParamCaption}\item[{}]{A }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{asm_2types_8h_a7ed081d8dfb6902784b2fc730bbb7f96}\label{asm_2types_8h_a7ed081d8dfb6902784b2fc730bbb7f96}} 
+\index{types.h@{types.h}!NONBANKED@{NONBANKED}}
+\index{NONBANKED@{NONBANKED}!types.h@{types.h}}
+\doxyparagraph{\texorpdfstring{NONBANKED}{NONBANKED}}
+{\footnotesize\ttfamily \#define N\+O\+N\+B\+A\+N\+K\+ED}
+
+\mbox{\Hypertarget{asm_2types_8h_aa8480aed89a168ec484727f5ac985cd0}\label{asm_2types_8h_aa8480aed89a168ec484727f5ac985cd0}} 
+\index{types.h@{types.h}!BANKED@{BANKED}}
+\index{BANKED@{BANKED}!types.h@{types.h}}
+\doxyparagraph{\texorpdfstring{BANKED}{BANKED}}
+{\footnotesize\ttfamily \#define B\+A\+N\+K\+ED}
+
+\mbox{\Hypertarget{asm_2types_8h_ae0233515480e60d29bcc731469976e02}\label{asm_2types_8h_ae0233515480e60d29bcc731469976e02}} 
+\index{types.h@{types.h}!CRITICAL@{CRITICAL}}
+\index{CRITICAL@{CRITICAL}!types.h@{types.h}}
+\doxyparagraph{\texorpdfstring{CRITICAL}{CRITICAL}}
+{\footnotesize\ttfamily \#define C\+R\+I\+T\+I\+C\+AL}
+
+\mbox{\Hypertarget{asm_2types_8h_ac950c0db046e2f86d15e7ae1f558b017}\label{asm_2types_8h_ac950c0db046e2f86d15e7ae1f558b017}} 
+\index{types.h@{types.h}!INTERRUPT@{INTERRUPT}}
+\index{INTERRUPT@{INTERRUPT}!types.h@{types.h}}
+\doxyparagraph{\texorpdfstring{INTERRUPT}{INTERRUPT}}
+{\footnotesize\ttfamily \#define I\+N\+T\+E\+R\+R\+U\+PT}
+
+
+
+\doxysubsubsection{Typedef Documentation}
+\mbox{\Hypertarget{asm_2types_8h_a5e2fb030036b42012a298e24aca66071}\label{asm_2types_8h_a5e2fb030036b42012a298e24aca66071}} 
+\index{types.h@{types.h}!BOOLEAN@{BOOLEAN}}
+\index{BOOLEAN@{BOOLEAN}!types.h@{types.h}}
+\doxyparagraph{\texorpdfstring{BOOLEAN}{BOOLEAN}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{asm_2gbz80_2types_8h_a7ebe70ceca856797319175e30bcf003d}{I\+N\+T8}} \mbox{\hyperlink{asm_2types_8h_a5e2fb030036b42012a298e24aca66071}{B\+O\+O\+L\+E\+AN}}}
+
+T\+R\+UE or F\+A\+L\+SE. \label{asm_2types_8h_file_asm_types_h}%
+\Hypertarget{asm_2types_8h_file_asm_types_h}%
+\mbox{\Hypertarget{asm_2types_8h_a0059ccf0a32e1f146ef70ce970908bf6}\label{asm_2types_8h_a0059ccf0a32e1f146ef70ce970908bf6}} 
+\index{types.h@{types.h}!BYTE@{BYTE}}
+\index{BYTE@{BYTE}!types.h@{types.h}}
+\doxyparagraph{\texorpdfstring{BYTE}{BYTE}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{asm_2gbz80_2types_8h_a7ebe70ceca856797319175e30bcf003d}{I\+N\+T8}} \mbox{\hyperlink{asm_2types_8h_a0059ccf0a32e1f146ef70ce970908bf6}{B\+Y\+TE}}}
+
+Signed 8 bit. \mbox{\Hypertarget{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}\label{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}} 
+\index{types.h@{types.h}!UBYTE@{UBYTE}}
+\index{UBYTE@{UBYTE}!types.h@{types.h}}
+\doxyparagraph{\texorpdfstring{UBYTE}{UBYTE}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{asm_2gbz80_2types_8h_ab27e9918b538ce9d8ca692479b375b6a}{U\+I\+N\+T8}} \mbox{\hyperlink{asm_2types_8h_a280213815420791851f7e59bdc8a3c95}{U\+B\+Y\+TE}}}
+
+Unsigned 8 bit. \mbox{\Hypertarget{asm_2types_8h_ac1b71367b1b0eae6718d17b4fd07aecd}\label{asm_2types_8h_ac1b71367b1b0eae6718d17b4fd07aecd}} 
+\index{types.h@{types.h}!WORD@{WORD}}
+\index{WORD@{WORD}!types.h@{types.h}}
+\doxyparagraph{\texorpdfstring{WORD}{WORD}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{asm_2gbz80_2types_8h_a18f1c7ce6c452edd933189d52294af8d}{I\+N\+T16}} \mbox{\hyperlink{asm_2types_8h_ac1b71367b1b0eae6718d17b4fd07aecd}{W\+O\+RD}}}
+
+Signed 16 bit \mbox{\Hypertarget{asm_2types_8h_a9e551e7c1bd8feb51e8eefd109966f75}\label{asm_2types_8h_a9e551e7c1bd8feb51e8eefd109966f75}} 
+\index{types.h@{types.h}!UWORD@{UWORD}}
+\index{UWORD@{UWORD}!types.h@{types.h}}
+\doxyparagraph{\texorpdfstring{UWORD}{UWORD}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{asm_2gbz80_2types_8h_a805c2c164bdd38d72a30c46e84fb568b}{U\+I\+N\+T16}} \mbox{\hyperlink{asm_2types_8h_a9e551e7c1bd8feb51e8eefd109966f75}{U\+W\+O\+RD}}}
+
+Unsigned 16 bit \mbox{\Hypertarget{asm_2types_8h_a6c3850eca7373a470eb6e5a7c6278215}\label{asm_2types_8h_a6c3850eca7373a470eb6e5a7c6278215}} 
+\index{types.h@{types.h}!LWORD@{LWORD}}
+\index{LWORD@{LWORD}!types.h@{types.h}}
+\doxyparagraph{\texorpdfstring{LWORD}{LWORD}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{asm_2gbz80_2types_8h_a516ea33686d40a7f91f5644851ce7b5d}{I\+N\+T32}} \mbox{\hyperlink{asm_2types_8h_a6c3850eca7373a470eb6e5a7c6278215}{L\+W\+O\+RD}}}
+
+Signed 32 bit \mbox{\Hypertarget{asm_2types_8h_a91374712e986ede0145415318d88fbd8}\label{asm_2types_8h_a91374712e986ede0145415318d88fbd8}} 
+\index{types.h@{types.h}!ULWORD@{ULWORD}}
+\index{ULWORD@{ULWORD}!types.h@{types.h}}
+\doxyparagraph{\texorpdfstring{ULWORD}{ULWORD}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{asm_2gbz80_2types_8h_a0b39d6d754cb24c708b0f2bdbe88130e}{U\+I\+N\+T32}} \mbox{\hyperlink{asm_2types_8h_a91374712e986ede0145415318d88fbd8}{U\+L\+W\+O\+RD}}}
+
+Unsigned 32 bit \mbox{\Hypertarget{asm_2types_8h_ad4ab93994d05960e2f96e83b4c45c1cf}\label{asm_2types_8h_ad4ab93994d05960e2f96e83b4c45c1cf}} 
+\index{types.h@{types.h}!DWORD@{DWORD}}
+\index{DWORD@{DWORD}!types.h@{types.h}}
+\doxyparagraph{\texorpdfstring{DWORD}{DWORD}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{asm_2gbz80_2types_8h_a516ea33686d40a7f91f5644851ce7b5d}{I\+N\+T32}} \mbox{\hyperlink{asm_2types_8h_ad4ab93994d05960e2f96e83b4c45c1cf}{D\+W\+O\+RD}}}
+
+Signed 32 bit \mbox{\Hypertarget{asm_2types_8h_a332730c89876a91d3c98a6c9a764e23e}\label{asm_2types_8h_a332730c89876a91d3c98a6c9a764e23e}} 
+\index{types.h@{types.h}!UDWORD@{UDWORD}}
+\index{UDWORD@{UDWORD}!types.h@{types.h}}
+\doxyparagraph{\texorpdfstring{UDWORD}{UDWORD}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{asm_2gbz80_2types_8h_a0b39d6d754cb24c708b0f2bdbe88130e}{U\+I\+N\+T32}} \mbox{\hyperlink{asm_2types_8h_a332730c89876a91d3c98a6c9a764e23e}{U\+D\+W\+O\+RD}}}
+
+Unsigned 32 bit \mbox{\Hypertarget{asm_2types_8h_ab61f8ff6a444351a91fc9a67c8e6145f}\label{asm_2types_8h_ab61f8ff6a444351a91fc9a67c8e6145f}} 
+\index{types.h@{types.h}!fixed@{fixed}}
+\index{fixed@{fixed}!types.h@{types.h}}
+\doxyparagraph{\texorpdfstring{fixed}{fixed}}
+{\footnotesize\ttfamily typedef union \mbox{\hyperlink{union__fixed}{\+\_\+fixed}} \mbox{\hyperlink{asm_2types_8h_ab61f8ff6a444351a91fc9a67c8e6145f}{fixed}}}
+
+Useful definition for working with 8 bit + 8 bit fixed point values
+
+Use {\ttfamily .w} to access the variable as unsigned 16 bit type.
+
+Use {\ttfamily .b.\+h} and {\ttfamily .b.\+l} (or just {\ttfamily .h} and {\ttfamily .l}) to directly access it\textquotesingle{}s high and low unsigned 8 bit values. 

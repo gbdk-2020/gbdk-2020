@@ -1,0 +1,182 @@
+\hypertarget{docs_coding_guidelines_autotoc_md56}{}\doxysubsection{Learning C / C fundamentals}\label{docs_coding_guidelines_autotoc_md56}
+Writing games and other programs with G\+B\+DK will be much easier with a basic understanding of the C language. In particular, understanding how to use C on \char`\"{}\+Embedded Platforms\char`\"{} (small computing systems, such as the Game Boy) can help you write better code (smaller, faster, less error prone) and avoid common pitfals.
+
+\label{docs_coding_guidelines_docs_c_tutorials}%
+\Hypertarget{docs_coding_guidelines_docs_c_tutorials}%
+\hypertarget{docs_coding_guidelines_autotoc_md57}{}\doxysubsubsection{General C tutorials}\label{docs_coding_guidelines_autotoc_md57}
+
+\begin{DoxyItemize}
+\item \href{https://www.learn-c.org/}{\texttt{ https\+://www.\+learn-\/c.\+org/}}
+\item \href{https://www.tutorialspoint.com/cprogramming/index.htm}{\texttt{ https\+://www.\+tutorialspoint.\+com/cprogramming/index.\+htm}}
+\end{DoxyItemize}\hypertarget{docs_coding_guidelines_autotoc_md58}{}\doxysubsubsection{Embedded C introductions}\label{docs_coding_guidelines_autotoc_md58}
+
+\begin{DoxyItemize}
+\item \href{http://dsp-book.narod.ru/CPES.pdf}{\texttt{ http\+://dsp-\/book.\+narod.\+ru/\+C\+P\+E\+S.\+pdf}}
+\item \href{https://www.phaedsys.com/principals/bytecraft/bytecraftdata/bcfirststeps.pdf}{\texttt{ https\+://www.\+phaedsys.\+com/principals/bytecraft/bytecraftdata/bcfirststeps.\+pdf}}
+\end{DoxyItemize}\hypertarget{docs_coding_guidelines_autotoc_md59}{}\doxysubsubsection{Game Boy games in C}\label{docs_coding_guidelines_autotoc_md59}
+
+\begin{DoxyItemize}
+\item \href{https://gbdev.io/list.html\#c}{\texttt{ https\+://gbdev.\+io/list.\+html\#c}}
+\end{DoxyItemize}\hypertarget{docs_coding_guidelines_autotoc_md60}{}\doxysubsection{Understanding the hardware}\label{docs_coding_guidelines_autotoc_md60}
+In addition to understanding the C language it\textquotesingle{}s important to learn how the Game Boy hardware works. What it is capable of doing, what it isn\textquotesingle{}t able to do, and what resources are available to work with. A good way to do this is by reading the \mbox{\hyperlink{docs_links_and_tools_Pandocs}{Pandocs}} and checking out the \mbox{\hyperlink{docs_links_and_tools_awesome_gb}{awesome\+\_\+gb}} list.\hypertarget{docs_coding_guidelines_autotoc_md61}{}\doxysubsection{Writing optimal C code for the Game Boy and S\+D\+CC}\label{docs_coding_guidelines_autotoc_md61}
+The following guidelines can result in better code for the Game Boy, even though some of the guidance may be contrary to typical advice for general purpose computers that have more resources and speed.\hypertarget{docs_coding_guidelines_autotoc_md62}{}\doxysubsubsection{Tools}\label{docs_coding_guidelines_autotoc_md62}
+\label{docs_coding_guidelines_const_gbtd_gbmb}%
+\Hypertarget{docs_coding_guidelines_const_gbtd_gbmb}%
+\hypertarget{docs_coding_guidelines_autotoc_md63}{}\doxyparagraph{G\+B\+T\+D / G\+B\+M\+B, Arrays and the \char`\"{}const\char`\"{} keyword}\label{docs_coding_guidelines_autotoc_md63}
+{\bfseries{Important}}\+: The old \mbox{\hyperlink{docs_links_and_tools_gbtd_gbmb}{G\+B\+T\+D/\+G\+B\+MB}} fails to include the {\ttfamily const} keyword when exporting to C source files for G\+B\+DK. That causes arrays to be created in R\+AM instead of R\+OM, which wastes R\+AM, uses a lot of R\+OM to initialize the R\+AM arrays and slows the compiler down a lot.
+
+\+\_\+\+\_\+\+Use of \mbox{\hyperlink{docs_links_and_tools_toxa_gbtd_gbmb}{toxa\textquotesingle{}s updated G\+B\+T\+D/\+G\+B\+MB}} is highly recommended.\+\_\+\+\_\+
+
+If you wish to use the original tools, you must add the {\ttfamily const} keyword every time the graphics are re-\/exported to C source files.\hypertarget{docs_coding_guidelines_autotoc_md64}{}\doxysubsubsection{Variables}\label{docs_coding_guidelines_autotoc_md64}
+
+\begin{DoxyItemize}
+\item Use 8-\/bit values as much as possible. They will be much more efficient and compact than 16 and 32 bit types.
+\item Prefer unsigned variables to signed ones\+: The code generated will be generally more efficient, especially when comparing two values.
+\item Use explicit types so you always know the size of your variables. {\ttfamily int8\+\_\+t, uint8\+\_\+t, int16\+\_\+t, uint16\+\_\+t, int32\+\_\+t, uint32\+\_\+t} and {\ttfamily bool}. These are standard types defined in {\ttfamily stdint.\+h} ({\ttfamily \#include $<$stdint.\+h$>$}) and {\ttfamily stdbool.\+h} ({\ttfamily \#include $<$stdbool.\+h$>$}).
+\item Global and local static variables are generally more efficient than local non-\/static variables (which go on the stack and are slower and can result in slower code).
+\item \label{docs_coding_guidelines_const_array_data}%
+\Hypertarget{docs_coding_guidelines_const_array_data}%
+ {\ttfamily const} keyword\+: Use const for arrays, structs and variables with read-\/only (constant) data. It will reduce R\+OM, R\+AM and C\+PU usage significantly. Non-\/{\ttfamily const} values are loaded from R\+OM into R\+AM inefficiently, and there is no benefit in loading them into the limited available R\+AM if they aren\textquotesingle{}t going to be changed.
+\item Here is how to delcare {\ttfamily const} pointers and variables\+:
+\begin{DoxyItemize}
+\item non-\/const pointer to a const variable\+: {\ttfamily const uint8\+\_\+t $\ast$ some\+\_\+pointer;}
+\item const pointer to a non-\/const variable\+: {\ttfamily uint8\+\_\+t $\ast$ const some\+\_\+pointer;}
+\item const pointer to a const variable\+: {\ttfamily const uint8\+\_\+t $\ast$ const some\+\_\+pointer;}
+\item \href{https://codeforwin.org/2017/11/constant-pointer-and-pointer-to-constant-in-c.html}{\texttt{ https\+://codeforwin.\+org/2017/11/constant-\/pointer-\/and-\/pointer-\/to-\/constant-\/in-\/c.\+html}}
+\item \href{https://stackoverflow.com/questions/21476869/constant-pointer-vs-pointer-to-constant}{\texttt{ https\+://stackoverflow.\+com/questions/21476869/constant-\/pointer-\/vs-\/pointer-\/to-\/constant}}
+\end{DoxyItemize}
+\item For calculated values that don\textquotesingle{}t change, pre-\/compute results once and store the result. Using lookup-\/tables and the like can improve speed and reduce code size. Macros can sometimes help. It may be beneficial to do the calculations with an outside tool and then include the result as C code in a const array.
+\item Use an advancing pointer ({\ttfamily some\+Struct-\/$>$var = x; some\+Struct++}) to loop through arrays of structs instead of using indexing each time in the loop {\ttfamily some\+Struct\mbox{[}i\mbox{]}.var = x}.
+\item When modifying variables that are also changed in an Interrupt Service Routine (I\+SR), wrap them the relevant code block in a {\ttfamily \+\_\+\+\_\+critical \{ \}} block. See \href{http://sdcc.sourceforge.net/doc/sdccman.pdf\#section.3.9}{\texttt{ http\+://sdcc.\+sourceforge.\+net/doc/sdccman.\+pdf\#section.\+3.\+9}}
+\item When using constants and literals the {\ttfamily U}, {\ttfamily L} and {\ttfamily UL} postfixes can be used.
+\begin{DoxyItemize}
+\item {\ttfamily U} specifies that the constant is unsigned
+\item {\ttfamily L} specifies that the constant is long.
+\item N\+O\+TE\+: In S\+D\+CC 3.\+6.\+0, the default for char changed from signed to unsigned. The manual says to use {\ttfamily -\/-\/fsigned-\/char} for the old behavior, this option flag is included by default when compiling through \mbox{\hyperlink{docs_toolchain_lcc}{lcc}}.
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+\label{docs_coding_guidelines_fixed_point_type}%
+\Hypertarget{docs_coding_guidelines_fixed_point_type}%
+
+\begin{DoxyItemize}
+\item A fixed point type ({\ttfamily fixed}) is included with G\+B\+DK when precision greater than whole numbers is required for 8 bit range values (since floating point is not included in G\+B\+DK).
+\end{DoxyItemize}
+
+See the \char`\"{}\+Simple Physics\char`\"{} sub-\/pixel example project.
+
+Code example\+: \begin{DoxyVerb}  fixed player[2];
+  ...
+  // Modify player position using it's 16 bit representation
+  player[0].w += player_speed_x;
+  player[1].w += player_speed_y;
+  ...
+  // Use only the upper 8 bits for setting the sprite position
+  move_sprite(0, player[0].h ,player[1].h);
+\end{DoxyVerb}
+\hypertarget{docs_coding_guidelines_autotoc_md65}{}\doxysubsubsection{Code structure}\label{docs_coding_guidelines_autotoc_md65}
+
+\begin{DoxyItemize}
+\item Do not {\ttfamily \#include} {\ttfamily .c} source files into other {\ttfamily .c} source files. Instead create {\ttfamily .h} header files for them and include those. \href{https://www.tutorialspoint.com/cprogramming/c_header_files.htm}{\texttt{ https\+://www.\+tutorialspoint.\+com/cprogramming/c\+\_\+header\+\_\+files.\+htm}}
+\item Instead of using a blocking \mbox{\hyperlink{gb_8h_a2afae202a1f8ca59a12a6455bb909c5d}{delay()}} for things such as sprite animations/etc (which can prevent the rest of the game from continuing) many times it\textquotesingle{}s better to use a counter which performs an action once every N frames. \mbox{\hyperlink{sms_8h_a78d2fd18666afec116f176d46debb4e7}{sys\+\_\+time}} may be useful in these cases.
+\item When processing for a given frame is done and it is time to wait before starting the next frame, \mbox{\hyperlink{gb_8h_acd186eb292d441f9389e77b545a55619}{wait\+\_\+vbl\+\_\+done()}} can be used. It uses H\+A\+LT to put the C\+PU into a low power state until processing resumes. The C\+PU will wake up and resume processing at the end of the current frame when the Vertical Blanking interrupt is triggered.
+\item Minimize use of multiplication, modulo with non-\/powers of 2, and division with non-\/powers of 2. These operations have no corresponding C\+PU instructions (software functions), and hence are time costly.
+\begin{DoxyItemize}
+\item S\+D\+CC has some optimizations for\+:
+\begin{DoxyItemize}
+\item Division by powers of 2. For example {\ttfamily n /= 4u} will be optimized to {\ttfamily n $>$$>$= 2}.
+\item Modulo by powers of 2. For example\+: {\ttfamily (n \% 8)} will be optimized to {\ttfamily (n \& 0x7)}.
+\end{DoxyItemize}
+\item If you need decimal numbers to count or display a score, you can use the G\+B\+DK B\+CD (\href{https://en.wikipedia.org/wiki/Binary-coded_decimal}{\texttt{ binary coded decimal}}) number functions. See\+: \mbox{\hyperlink{k_2bcd_8h}{bcd.\+h}} and the {\ttfamily B\+CD} example project included with G\+B\+DK.
+\end{DoxyItemize}
+\item Avoid long lists of function parameters. Passing many parameters can add overhead, especially if the function is called often. When applicable globals and local static vars can be used instead.
+\item Use inline functions if the function is short. (with the {\ttfamily inline} keyword, such as {\ttfamily inline uint8\+\_\+t my\+Function() \{ ... \}})
+\item Do not use recursive functions
+\end{DoxyItemize}\hypertarget{docs_coding_guidelines_autotoc_md66}{}\doxysubsubsection{G\+B\+D\+K A\+P\+I/\+Library}\label{docs_coding_guidelines_autotoc_md66}
+
+\begin{DoxyItemize}
+\item stdio.\+h\+: If you have other ways of printing text, avoid including \mbox{\hyperlink{stdio_8h}{stdio.\+h}} and using functions such as \mbox{\hyperlink{stdio_8h_ab403fa700816f08631ba75bc536f74d4}{printf()}}. Including it will use a large number of the background tiles for font characters. If stdio.\+h is not included then that space will be available for use with other tiles instead.
+\item drawing.\+h\+: The Game Boy graphics hardware is not well suited to frame-\/buffer style graphics such as the kind provided in \mbox{\hyperlink{drawing_8h}{drawing.\+h}}. Due to that, most drawing functions (rectangles, circles, etc) will be slow . When possible it\textquotesingle{}s much faster and more efficient to work with the tiles and tile maps that the Game Boy hardware is built around.
+\item \mbox{\hyperlink{gb_8h_aae433db7d8e3ee4c095c254b8abd7b8b}{waitpad()}} and \mbox{\hyperlink{sms_8h_a955d3733e5018f18b17a572aff45cf26}{waitpadup}} check for input in a loop that doesn\textquotesingle{}t H\+A\+LT at all, so the C\+PU will be maxed out until it returns. One alternative is to write a function with a loop that checks input with \mbox{\hyperlink{gb_8h_a176c477d759b814664785f3a0ad5e253}{joypad()}} and then waits a frame using \mbox{\hyperlink{gb_8h_acd186eb292d441f9389e77b545a55619}{wait\+\_\+vbl\+\_\+done()}} (which idles the C\+PU while waiting) before checking input again.
+\item \mbox{\hyperlink{gb_8h_a176c477d759b814664785f3a0ad5e253}{joypad()}}\+: When testing for multiple different buttons, it\textquotesingle{}s best to read the joypad state {\itshape once} into a variable and then test using that variable (instead of making multiple calls).
+\end{DoxyItemize}\hypertarget{docs_coding_guidelines_autotoc_md67}{}\doxysubsubsection{Toolchain}\label{docs_coding_guidelines_autotoc_md67}
+
+\begin{DoxyItemize}
+\item See S\+D\+CC optimizations\+: \href{http://sdcc.sourceforge.net/doc/sdccman.pdf\#section.8.1}{\texttt{ http\+://sdcc.\+sourceforge.\+net/doc/sdccman.\+pdf\#section.\+8.\+1}}
+\item Use profiling. Look at the A\+SM generated by the compiler, write several versions of a function, compare them and choose the faster one.
+\item Use the S\+D\+CC {\ttfamily -\/-\/max-\/allocs-\/per-\/node} flag with large values, such as {\ttfamily 50000}. {\ttfamily -\/-\/opt-\/code-\/speed} has a much smaller effect.
+\begin{DoxyItemize}
+\item G\+B\+D\+K-\/2020 (after v4.\+0.\+1) compiles the library with {\ttfamily -\/-\/max-\/allocs-\/per-\/node 50000}, but it must be turned on for your own code. ~\newline
+ (example\+: {\ttfamily lcc ... -\/Wf-\/-\/max-\/allocs-\/per-\/node50000} or {\ttfamily sdcc ... -\/-\/max-\/allocs-\/per-\/node 50000}).
+\item The other code/speed flags are {\ttfamily -\/-\/opt-\/code-\/speed} or {\ttfamily -\/-\/opt-\/code-\/size}.
+\end{DoxyItemize}
+\item Use current S\+D\+CC builds from \href{http://sdcc.sourceforge.net/snap.php}{\texttt{ http\+://sdcc.\+sourceforge.\+net/snap.\+php}} ~\newline
+ The minimum required version of S\+D\+CC will depend on the G\+B\+D\+K-\/2020 release. See \mbox{\hyperlink{docs_releases}{G\+B\+DK Releases}}
+\item Learn some A\+SM and inspect the compiler output to understand what the compiler is doing and how your code gets translated. This can help with writing better C code and with debugging.
+\end{DoxyItemize}
+
+\label{docs_coding_guidelines_docs_chars_varargs}%
+\Hypertarget{docs_coding_guidelines_docs_chars_varargs}%
+\hypertarget{docs_coding_guidelines_autotoc_md68}{}\doxysubsubsection{chars and vararg functions}\label{docs_coding_guidelines_autotoc_md68}
+In standard C when {\ttfamily chars} are passed to a function with variadic arguments (varargs, those delcared with {\ttfamily ...} as a parameter), such as \mbox{\hyperlink{stdio_8h_ab403fa700816f08631ba75bc536f74d4}{printf()}}, those {\ttfamily chars} get automatically promoted to {\ttfamily ints}. For an 8 bit cpu such as the Game Boy\textquotesingle{}s, this is not as efficient or desireable in most cases. So the default S\+D\+CC behavior, which G\+B\+D\+K-\/2020 expects, is that chars will remain chars and {\itshape not} get promoted to ints when {\bfseries{explicitly cast as chars while calling a varargs function}}.
+
+
+\begin{DoxyItemize}
+\item They must be explicitly re-\/cast when passing them to a varargs function, even though they are already declared as chars.
+\item Discussion in S\+D\+CC manual\+: ~\newline
+ \href{http://sdcc.sourceforge.net/doc/sdccman.pdf\#section.1.5}{\texttt{ http\+://sdcc.\+sourceforge.\+net/doc/sdccman.\+pdf\#section.\+1.\+5}} ~\newline
+ \href{http://sdcc.sourceforge.net/doc/sdccman.pdf\#subsection.3.5.10}{\texttt{ http\+://sdcc.\+sourceforge.\+net/doc/sdccman.\+pdf\#subsection.\+3.\+5.\+10}}
+\item If S\+D\+CC is invoked with -\/std-\/cxx (--std-\/c89, --std-\/c99, --std-\/c11, etc) then it will conform to standard C behavior and calling functions such as \mbox{\hyperlink{stdio_8h_ab403fa700816f08631ba75bc536f74d4}{printf()}} with chars may not work as expected.
+\end{DoxyItemize}
+
+For example\+: \begin{DoxyVerb}unsigned char i = 0x5A;
+
+// NO:
+// The char will get promoted to an int, producing incorrect printf output
+// The output will be: 5A 00
+printf("%hx %hx", i, i);
+
+// YES:
+// The char will remain a char and printf output will be as expected
+// The output will be: 5A 5A
+printf("%hx %hx", (unsigned char)i, (unsigned char)i);
+\end{DoxyVerb}
+
+
+Some functions that accept varargs\+:
+\begin{DoxyItemize}
+\item \mbox{\hyperlink{emu__debug_8h_a586ce1ddfba9c35726887ca31f933963}{E\+M\+U\+\_\+printf}}, \mbox{\hyperlink{drawing_8h_a5f7a0ed309f9526e9be285146559848c}{gprintf()}}, \mbox{\hyperlink{stdio_8h_ab403fa700816f08631ba75bc536f74d4}{printf()}}, \mbox{\hyperlink{stdio_8h_a31913a297ee18548c81d482ef6bdbe0f}{sprintf()}}
+\end{DoxyItemize}
+
+Also See\+:
+\begin{DoxyItemize}
+\item Other cases of char to int promotion\+: \href{http://sdcc.sourceforge.net/doc/sdccman.pdf\#chapter.6}{\texttt{ http\+://sdcc.\+sourceforge.\+net/doc/sdccman.\+pdf\#chapter.\+6}}
+\end{DoxyItemize}\hypertarget{docs_coding_guidelines_autotoc_md69}{}\doxysubsection{When C isn\textquotesingle{}t fast enough}\label{docs_coding_guidelines_autotoc_md69}
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000003}{Todo}}]Update and verify this section for the modernized S\+D\+CC and toolchain\end{DoxyRefDesc}
+
+
+For many applications C is fast enough but in intensive functions are sometimes better written in assembler. This section deals with interfacing your core C program with fast assembly sub routines.\hypertarget{docs_coding_guidelines_autotoc_md70}{}\doxysubsubsection{Calling convention}\label{docs_coding_guidelines_autotoc_md70}
+sdcc in common with almost all C compilers prepends a \textquotesingle{}\+\_\+\textquotesingle{} to any function names. For example the function printf(...) begins at the label \+\_\+printf\+:\+:. Note that all functions are declared global.
+
+The parameters to a function are pushed in right to left order with no aligning -\/ so a byte takes up a byte on the stack instead of the more natural word. So for example the function int store\+\_\+byte( uint16\+\_\+t addr, uint8\+\_\+t byte) would push \textquotesingle{}byte\textquotesingle{} onto the stack first then addr using a total of three bytes. As the return address is also pushed, the stack would contain\+: \begin{DoxyVerb}  At SP+0 - the return address
+
+  At SP+2 - addr
+
+  At SP+4 - byte 
+\end{DoxyVerb}
+
+
+Note that the arguments that are pushed first are highest in the stack due to how the Game Boy\textquotesingle{}s stack grows downwards.
+
+The function returns in DE.\hypertarget{docs_coding_guidelines_autotoc_md71}{}\doxysubsubsection{Variables and registers}\label{docs_coding_guidelines_autotoc_md71}
+C normally expects registers to be preserved across a function call. However in the case above as DE is used as the return value and HL is used for anything, only BC needs to be preserved.
+
+Getting at C variables is slightly tricky due to how local variables are allocated on the stack. However you shouldn\textquotesingle{}t be using the local variables of a calling function in any case. Global variables can be accessed by name by adding an underscore.\hypertarget{docs_coding_guidelines_autotoc_md72}{}\doxysubsubsection{Segments}\label{docs_coding_guidelines_autotoc_md72}
+The use of segments for code, data and variables is more noticeable in assembler. G\+B\+DK and S\+D\+CC define a number of default segments -\/ {\ttfamily \+\_\+\+C\+O\+DE}, {\ttfamily \+\_\+\+D\+A\+TA} and {\ttfamily \+\_\+\+B\+SS}. Two extra segments {\ttfamily \+\_\+\+H\+E\+A\+D\+ER} and {\ttfamily \+\_\+\+H\+E\+AP} exist for the Game Boy header and malloc heap respectively.
+
+The order these segments are linked together is determined by crt0.\+s and is currently {\ttfamily \+\_\+\+C\+O\+DE} in R\+OM, then {\ttfamily \+\_\+\+D\+A\+TA}, {\ttfamily \+\_\+\+B\+SS}, {\ttfamily \+\_\+\+H\+E\+AP} in W\+R\+AM, with {\ttfamily S\+T\+A\+CK} at the top of W\+R\+AM. {\ttfamily \+\_\+\+H\+E\+AP} is placed after {\ttfamily \+\_\+\+B\+SS} so that all spare memory is available for the malloc routines. To place code in other than the first two banks, use the segments {\ttfamily \+\_\+\+C\+O\+D\+E\+\_\+x} where x is the 16kB bank number.
+
+As the {\ttfamily \+\_\+\+B\+SS} segment occurs outside the R\+OM area you can only use .ds to reserve space in it.
+
+While you don\textquotesingle{}t have to use the {\ttfamily \+\_\+\+C\+O\+DE} and {\ttfamily \+\_\+\+D\+A\+TA} distinctions in assembler you may wish to do so consistancy. 

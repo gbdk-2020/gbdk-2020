@@ -1,0 +1,154 @@
+\hypertarget{font_8h}{}\doxysubsection{gbdk/font.h File Reference}
+\label{font_8h}\index{gbdk/font.h@{gbdk/font.h}}
+{\ttfamily \#include $<$types.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structsfont__handle}{sfont\+\_\+handle}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{font_8h_a63b93b85724b26151ddc2f0fc8050bd8}{F\+O\+N\+T\+\_\+256\+E\+N\+C\+O\+D\+I\+NG}}~0
+\item 
+\#define \mbox{\hyperlink{font_8h_a305ee4387ba051bd0e372b8a6dfb6905}{F\+O\+N\+T\+\_\+128\+E\+N\+C\+O\+D\+I\+NG}}~1
+\item 
+\#define \mbox{\hyperlink{font_8h_a80d0f581e17313b62dd7824653462b55}{F\+O\+N\+T\+\_\+\+N\+O\+E\+N\+C\+O\+D\+I\+NG}}~2
+\item 
+\#define \mbox{\hyperlink{font_8h_a7c5452979723b3535d17e253beb5d604}{F\+O\+N\+T\+\_\+\+C\+O\+M\+P\+R\+E\+S\+S\+ED}}~4
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \mbox{\hyperlink{stdint_8h_adf4d876453337156dde61095e1f20223}{uint16\+\_\+t}} \mbox{\hyperlink{font_8h_a7c6b54e58c41763c66f15ec4528a1d4a}{font\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structsfont__handle}{sfont\+\_\+handle}} \mbox{\hyperlink{font_8h_aea1f63fe2ea8c7689b061ad93b485553}{mfont\+\_\+handle}}
+\item 
+typedef struct \mbox{\hyperlink{structsfont__handle}{sfont\+\_\+handle}} $\ast$ \mbox{\hyperlink{font_8h_a82e0e078fc8a8b6a18538131625dba3a}{pmfont\+\_\+handle}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{font_8h_a6b0459241994d549ae90776cdacede2d}{font\+\_\+init}} ()
+\item 
+\mbox{\hyperlink{font_8h_a7c6b54e58c41763c66f15ec4528a1d4a}{font\+\_\+t}} \mbox{\hyperlink{font_8h_ad089c09492dbd0423f4dd28f1a49a995}{font\+\_\+load}} (void $\ast$font) \mbox{\hyperlink{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}{O\+L\+D\+C\+A\+LL}}
+\item 
+\mbox{\hyperlink{font_8h_a7c6b54e58c41763c66f15ec4528a1d4a}{font\+\_\+t}} \mbox{\hyperlink{font_8h_a7dee0ba7beb261727340b8cce7c5afcd}{font\+\_\+set}} (\mbox{\hyperlink{font_8h_a7c6b54e58c41763c66f15ec4528a1d4a}{font\+\_\+t}} font\+\_\+handle) \mbox{\hyperlink{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}{O\+L\+D\+C\+A\+LL}}
+\item 
+void \mbox{\hyperlink{font_8h_a47b4964ef677dce9fdf1e9df29804721}{font\+\_\+color}} (\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} forecolor, \mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} backcolor) \mbox{\hyperlink{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}{O\+L\+D\+C\+A\+LL}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \mbox{\hyperlink{group__gbdk__fonts_ga1b59bbd85c12436eeef52d4c32c7345d}{font\+\_\+spect}} \mbox{[}$\,$\mbox{]}
+\item 
+\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \mbox{\hyperlink{group__gbdk__fonts_ga17e825a65ba38f34a658fe0a2c99d8d4}{font\+\_\+italic}} \mbox{[}$\,$\mbox{]}
+\item 
+\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \mbox{\hyperlink{group__gbdk__fonts_ga6dcb04fed78fc39b95171988b776e6bb}{font\+\_\+ibm}} \mbox{[}$\,$\mbox{]}
+\item 
+\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \mbox{\hyperlink{group__gbdk__fonts_gad8497ecbd9d845fc24a56688f157aad8}{font\+\_\+min}} \mbox{[}$\,$\mbox{]}
+\item 
+\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \mbox{\hyperlink{group__gbdk__fonts_gab8c52bed73e745f1ee910f2da60ddb4c}{font\+\_\+ibm\+\_\+fixed}} \mbox{[}$\,$\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Detailed Description}
+Multiple font support for the Game\+Boy Michael Hope, 1999 \href{mailto:michaelh@earthling.net}{\texttt{ michaelh@earthling.\+net}} 
+
+\doxysubsubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{font_8h_a63b93b85724b26151ddc2f0fc8050bd8}\label{font_8h_a63b93b85724b26151ddc2f0fc8050bd8}} 
+\index{font.h@{font.h}!FONT\_256ENCODING@{FONT\_256ENCODING}}
+\index{FONT\_256ENCODING@{FONT\_256ENCODING}!font.h@{font.h}}
+\doxyparagraph{\texorpdfstring{FONT\_256ENCODING}{FONT\_256ENCODING}}
+{\footnotesize\ttfamily \#define F\+O\+N\+T\+\_\+256\+E\+N\+C\+O\+D\+I\+NG~0}
+
+Various flags in the font header. \mbox{\Hypertarget{font_8h_a305ee4387ba051bd0e372b8a6dfb6905}\label{font_8h_a305ee4387ba051bd0e372b8a6dfb6905}} 
+\index{font.h@{font.h}!FONT\_128ENCODING@{FONT\_128ENCODING}}
+\index{FONT\_128ENCODING@{FONT\_128ENCODING}!font.h@{font.h}}
+\doxyparagraph{\texorpdfstring{FONT\_128ENCODING}{FONT\_128ENCODING}}
+{\footnotesize\ttfamily \#define F\+O\+N\+T\+\_\+128\+E\+N\+C\+O\+D\+I\+NG~1}
+
+\mbox{\Hypertarget{font_8h_a80d0f581e17313b62dd7824653462b55}\label{font_8h_a80d0f581e17313b62dd7824653462b55}} 
+\index{font.h@{font.h}!FONT\_NOENCODING@{FONT\_NOENCODING}}
+\index{FONT\_NOENCODING@{FONT\_NOENCODING}!font.h@{font.h}}
+\doxyparagraph{\texorpdfstring{FONT\_NOENCODING}{FONT\_NOENCODING}}
+{\footnotesize\ttfamily \#define F\+O\+N\+T\+\_\+\+N\+O\+E\+N\+C\+O\+D\+I\+NG~2}
+
+\mbox{\Hypertarget{font_8h_a7c5452979723b3535d17e253beb5d604}\label{font_8h_a7c5452979723b3535d17e253beb5d604}} 
+\index{font.h@{font.h}!FONT\_COMPRESSED@{FONT\_COMPRESSED}}
+\index{FONT\_COMPRESSED@{FONT\_COMPRESSED}!font.h@{font.h}}
+\doxyparagraph{\texorpdfstring{FONT\_COMPRESSED}{FONT\_COMPRESSED}}
+{\footnotesize\ttfamily \#define F\+O\+N\+T\+\_\+\+C\+O\+M\+P\+R\+E\+S\+S\+ED~4}
+
+
+
+\doxysubsubsection{Typedef Documentation}
+\mbox{\Hypertarget{font_8h_a7c6b54e58c41763c66f15ec4528a1d4a}\label{font_8h_a7c6b54e58c41763c66f15ec4528a1d4a}} 
+\index{font.h@{font.h}!font\_t@{font\_t}}
+\index{font\_t@{font\_t}!font.h@{font.h}}
+\doxyparagraph{\texorpdfstring{font\_t}{font\_t}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{stdint_8h_adf4d876453337156dde61095e1f20223}{uint16\+\_\+t}} \mbox{\hyperlink{font_8h_a7c6b54e58c41763c66f15ec4528a1d4a}{font\+\_\+t}}}
+
+font\+\_\+t is a handle to a font loaded by \mbox{\hyperlink{font_8h_ad089c09492dbd0423f4dd28f1a49a995}{font\+\_\+load()}}. It can be used with \mbox{\hyperlink{font_8h_a7dee0ba7beb261727340b8cce7c5afcd}{font\+\_\+set()}} \mbox{\Hypertarget{font_8h_aea1f63fe2ea8c7689b061ad93b485553}\label{font_8h_aea1f63fe2ea8c7689b061ad93b485553}} 
+\index{font.h@{font.h}!mfont\_handle@{mfont\_handle}}
+\index{mfont\_handle@{mfont\_handle}!font.h@{font.h}}
+\doxyparagraph{\texorpdfstring{mfont\_handle}{mfont\_handle}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structsfont__handle}{sfont\+\_\+handle}} \mbox{\hyperlink{font_8h_aea1f63fe2ea8c7689b061ad93b485553}{mfont\+\_\+handle}}}
+
+Internal representation of a font. What a font\+\_\+t really is \mbox{\Hypertarget{font_8h_a82e0e078fc8a8b6a18538131625dba3a}\label{font_8h_a82e0e078fc8a8b6a18538131625dba3a}} 
+\index{font.h@{font.h}!pmfont\_handle@{pmfont\_handle}}
+\index{pmfont\_handle@{pmfont\_handle}!font.h@{font.h}}
+\doxyparagraph{\texorpdfstring{pmfont\_handle}{pmfont\_handle}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structsfont__handle}{sfont\+\_\+handle}}$\ast$ \mbox{\hyperlink{font_8h_a82e0e078fc8a8b6a18538131625dba3a}{pmfont\+\_\+handle}}}
+
+
+
+\doxysubsubsection{Function Documentation}
+\mbox{\Hypertarget{font_8h_a6b0459241994d549ae90776cdacede2d}\label{font_8h_a6b0459241994d549ae90776cdacede2d}} 
+\index{font.h@{font.h}!font\_init@{font\_init}}
+\index{font\_init@{font\_init}!font.h@{font.h}}
+\doxyparagraph{\texorpdfstring{font\_init()}{font\_init()}}
+{\footnotesize\ttfamily void font\+\_\+init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Initializes the font system. Should be called before other font functions. \mbox{\Hypertarget{font_8h_ad089c09492dbd0423f4dd28f1a49a995}\label{font_8h_ad089c09492dbd0423f4dd28f1a49a995}} 
+\index{font.h@{font.h}!font\_load@{font\_load}}
+\index{font\_load@{font\_load}!font.h@{font.h}}
+\doxyparagraph{\texorpdfstring{font\_load()}{font\_load()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{font_8h_a7c6b54e58c41763c66f15ec4528a1d4a}{font\+\_\+t}} font\+\_\+load (\begin{DoxyParamCaption}\item[{void $\ast$}]{font }\end{DoxyParamCaption})}
+
+Load a font and set it as the current font. 
+\begin{DoxyParams}{Parameters}
+{\em font} & Pointer to a font to load (usually a gbdk font)\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Handle to the loaded font, which can be used with \mbox{\hyperlink{font_8h_a7dee0ba7beb261727340b8cce7c5afcd}{font\+\_\+set()}} 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{font_8h_a6b0459241994d549ae90776cdacede2d}{font\+\_\+init()}}, \mbox{\hyperlink{font_8h_a7dee0ba7beb261727340b8cce7c5afcd}{font\+\_\+set()}}, \mbox{\hyperlink{group__gbdk__fonts}{List of gbdk fonts}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{font_8h_a7dee0ba7beb261727340b8cce7c5afcd}\label{font_8h_a7dee0ba7beb261727340b8cce7c5afcd}} 
+\index{font.h@{font.h}!font\_set@{font\_set}}
+\index{font\_set@{font\_set}!font.h@{font.h}}
+\doxyparagraph{\texorpdfstring{font\_set()}{font\_set()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{font_8h_a7c6b54e58c41763c66f15ec4528a1d4a}{font\+\_\+t}} font\+\_\+set (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{font_8h_a7c6b54e58c41763c66f15ec4528a1d4a}{font\+\_\+t}}}]{font\+\_\+handle }\end{DoxyParamCaption})}
+
+Set the current font. 
+\begin{DoxyParams}{Parameters}
+{\em font\+\_\+handle} & handle of a font returned by \mbox{\hyperlink{font_8h_ad089c09492dbd0423f4dd28f1a49a995}{font\+\_\+load()}}\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The previously used font handle. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{font_8h_a6b0459241994d549ae90776cdacede2d}{font\+\_\+init()}}, \mbox{\hyperlink{font_8h_ad089c09492dbd0423f4dd28f1a49a995}{font\+\_\+load()}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{font_8h_a47b4964ef677dce9fdf1e9df29804721}\label{font_8h_a47b4964ef677dce9fdf1e9df29804721}} 
+\index{font.h@{font.h}!font\_color@{font\_color}}
+\index{font\_color@{font\_color}!font.h@{font.h}}
+\doxyparagraph{\texorpdfstring{font\_color()}{font\_color()}}
+{\footnotesize\ttfamily void font\+\_\+color (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{forecolor,  }\item[{\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{backcolor }\end{DoxyParamCaption})}
+
+Set the current {\bfseries{foreground}} colour (for pixels), {\bfseries{background}} colour 

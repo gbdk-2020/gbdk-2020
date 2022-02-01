@@ -1,0 +1,78 @@
+\hypertarget{structmetasprite__t}{}\doxysubsection{metasprite\+\_\+t Struct Reference}
+\label{structmetasprite__t}\index{metasprite\_t@{metasprite\_t}}
+
+
+{\ttfamily \#include $<$metasprites.\+h$>$}
+
+\doxysubsubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{stdint_8h_aef44329758059c91c76d334e8fc09700}{int8\+\_\+t}} \mbox{\hyperlink{structmetasprite__t_a2c3fea1f6b3354352823320c69a3e4bb}{dy}}
+\item 
+\mbox{\hyperlink{stdint_8h_aef44329758059c91c76d334e8fc09700}{int8\+\_\+t}} \mbox{\hyperlink{structmetasprite__t_a67d2a6fb62059da39b54e975c4fbb324}{dx}}
+\item 
+\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \mbox{\hyperlink{structmetasprite__t_ad68b2f80c08f2f7fc603c56af2e75a6f}{dtile}}
+\item 
+\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \mbox{\hyperlink{structmetasprite__t_ab61e73a65c5e8cb30d0d81bb7845d615}{props}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Detailed Description}
+Metasprite sub-\/item structure 
+\begin{DoxyParams}{Parameters}
+{\em dy} & (int8\+\_\+t) Y coordinate of the sprite relative to the metasprite origin (pivot) \\
+\hline
+{\em dx} & (int8\+\_\+t) X coordinate of the sprite relative to the metasprite origin (pivot) \\
+\hline
+{\em dtile} & (uint8\+\_\+t) Start tile relative to the metasprites own set of tiles \\
+\hline
+{\em props} & (uint8\+\_\+t) Property Flags\\
+\hline
+\end{DoxyParams}
+Metasprites are built from multiple \mbox{\hyperlink{structmetasprite__t}{metasprite\+\_\+t}} items (one for each sub-\/sprite) and a pool of tiles they reference. If a metasprite has multiple frames then each frame will be built from some number of \mbox{\hyperlink{structmetasprite__t}{metasprite\+\_\+t}} items (which may vary based on how many sprites are required for that particular frame).
+
+A metasprite frame is terminated with a \{metasprite\+\_\+end\} entry.
+
+Metasprite sub-\/item structure 
+\begin{DoxyParams}{Parameters}
+{\em dy} & (int8\+\_\+t) Y coordinate of the sprite relative to the metasprite origin (pivot) \\
+\hline
+{\em dx} & (int8\+\_\+t) X coordinate of the sprite relative to the metasprite origin (pivot) \\
+\hline
+{\em dtile} & (uint8\+\_\+t) Start tile relative to the metasprites own set of tiles\\
+\hline
+\end{DoxyParams}
+Metasprites are built from multiple \mbox{\hyperlink{structmetasprite__t}{metasprite\+\_\+t}} items (one for each sub-\/sprite) and a pool of tiles they reference. If a metasprite has multiple frames then each frame will be built from some number of \mbox{\hyperlink{structmetasprite__t}{metasprite\+\_\+t}} items (which may vary based on how many sprites are required for that particular frame).
+
+A metasprite frame is terminated with a \{metasprite\+\_\+end\} entry. 
+
+\doxysubsubsection{Field Documentation}
+\mbox{\Hypertarget{structmetasprite__t_a2c3fea1f6b3354352823320c69a3e4bb}\label{structmetasprite__t_a2c3fea1f6b3354352823320c69a3e4bb}} 
+\index{metasprite\_t@{metasprite\_t}!dy@{dy}}
+\index{dy@{dy}!metasprite\_t@{metasprite\_t}}
+\doxyparagraph{\texorpdfstring{dy}{dy}}
+{\footnotesize\ttfamily \mbox{\hyperlink{stdint_8h_aef44329758059c91c76d334e8fc09700}{int8\+\_\+t}} metasprite\+\_\+t\+::dy}
+
+\mbox{\Hypertarget{structmetasprite__t_a67d2a6fb62059da39b54e975c4fbb324}\label{structmetasprite__t_a67d2a6fb62059da39b54e975c4fbb324}} 
+\index{metasprite\_t@{metasprite\_t}!dx@{dx}}
+\index{dx@{dx}!metasprite\_t@{metasprite\_t}}
+\doxyparagraph{\texorpdfstring{dx}{dx}}
+{\footnotesize\ttfamily \mbox{\hyperlink{stdint_8h_aef44329758059c91c76d334e8fc09700}{int8\+\_\+t}} metasprite\+\_\+t\+::dx}
+
+\mbox{\Hypertarget{structmetasprite__t_ad68b2f80c08f2f7fc603c56af2e75a6f}\label{structmetasprite__t_ad68b2f80c08f2f7fc603c56af2e75a6f}} 
+\index{metasprite\_t@{metasprite\_t}!dtile@{dtile}}
+\index{dtile@{dtile}!metasprite\_t@{metasprite\_t}}
+\doxyparagraph{\texorpdfstring{dtile}{dtile}}
+{\footnotesize\ttfamily \mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} metasprite\+\_\+t\+::dtile}
+
+\mbox{\Hypertarget{structmetasprite__t_ab61e73a65c5e8cb30d0d81bb7845d615}\label{structmetasprite__t_ab61e73a65c5e8cb30d0d81bb7845d615}} 
+\index{metasprite\_t@{metasprite\_t}!props@{props}}
+\index{props@{props}!metasprite\_t@{metasprite\_t}}
+\doxyparagraph{\texorpdfstring{props}{props}}
+{\footnotesize\ttfamily \mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} metasprite\+\_\+t\+::props}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+gb/\mbox{\hyperlink{gb_2metasprites_8h}{metasprites.\+h}}\end{DoxyCompactItemize}

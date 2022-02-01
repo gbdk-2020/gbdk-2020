@@ -1,0 +1,121 @@
+\hypertarget{bcd_8h}{}\doxysubsection{gb/bcd.h File Reference}
+\label{bcd_8h}\index{gb/bcd.h@{gb/bcd.h}}
+{\ttfamily \#include $<$types.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{bcd_8h_a5b336fcb3fc84fe505dc7e14d0ec17a7}{B\+C\+D\+\_\+\+H\+EX}}(v)~((\mbox{\hyperlink{bcd_8h_a4813acd7f1852dd32b67175ca6aca2eb}{B\+CD}})(v))
+\item 
+\#define \mbox{\hyperlink{bcd_8h_a8a3023920aa103a74c7d59007bcc7b6f}{M\+A\+K\+E\+\_\+\+B\+CD}}(v)~\mbox{\hyperlink{bcd_8h_a5b336fcb3fc84fe505dc7e14d0ec17a7}{B\+C\+D\+\_\+\+H\+EX}}(0x \#\# v)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \mbox{\hyperlink{stdint_8h_a33594304e786b158f3fb30289278f5af}{uint32\+\_\+t}} \mbox{\hyperlink{bcd_8h_a4813acd7f1852dd32b67175ca6aca2eb}{B\+CD}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{bcd_8h_af3d125e9dbb48d630cf7e2f7d1343ba1}{uint2bcd}} (\mbox{\hyperlink{stdint_8h_adf4d876453337156dde61095e1f20223}{uint16\+\_\+t}} i, \mbox{\hyperlink{bcd_8h_a4813acd7f1852dd32b67175ca6aca2eb}{B\+CD}} $\ast$value) \mbox{\hyperlink{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}{O\+L\+D\+C\+A\+LL}}
+\item 
+void \mbox{\hyperlink{bcd_8h_a0b14c76afa669863ed43c080f5baca98}{bcd\+\_\+add}} (\mbox{\hyperlink{bcd_8h_a4813acd7f1852dd32b67175ca6aca2eb}{B\+CD}} $\ast$sour, const \mbox{\hyperlink{bcd_8h_a4813acd7f1852dd32b67175ca6aca2eb}{B\+CD}} $\ast$value) \mbox{\hyperlink{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}{O\+L\+D\+C\+A\+LL}}
+\item 
+void \mbox{\hyperlink{bcd_8h_a743275b2ee21c93633a933a2d3073d4e}{bcd\+\_\+sub}} (\mbox{\hyperlink{bcd_8h_a4813acd7f1852dd32b67175ca6aca2eb}{B\+CD}} $\ast$sour, const \mbox{\hyperlink{bcd_8h_a4813acd7f1852dd32b67175ca6aca2eb}{B\+CD}} $\ast$value) \mbox{\hyperlink{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}{O\+L\+D\+C\+A\+LL}}
+\item 
+\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \mbox{\hyperlink{bcd_8h_aec09ce7373727160488408c65fc8a91e}{bcd2text}} (const \mbox{\hyperlink{bcd_8h_a4813acd7f1852dd32b67175ca6aca2eb}{B\+CD}} $\ast$bcd, \mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} tile\+\_\+offset, \mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$buffer) \mbox{\hyperlink{asm_2types_8h_a0971918860055db2e50dacea4da8f3bc}{O\+L\+D\+C\+A\+LL}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Detailed Description}
+Support for working with B\+CD (Binary Coded Decimal)
+
+See the example B\+CD project for additional details. 
+
+\doxysubsubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{bcd_8h_a5b336fcb3fc84fe505dc7e14d0ec17a7}\label{bcd_8h_a5b336fcb3fc84fe505dc7e14d0ec17a7}} 
+\index{bcd.h@{bcd.h}!BCD\_HEX@{BCD\_HEX}}
+\index{BCD\_HEX@{BCD\_HEX}!bcd.h@{bcd.h}}
+\doxyparagraph{\texorpdfstring{BCD\_HEX}{BCD\_HEX}}
+{\footnotesize\ttfamily \#define B\+C\+D\+\_\+\+H\+EX(\begin{DoxyParamCaption}\item[{}]{v }\end{DoxyParamCaption})~((\mbox{\hyperlink{bcd_8h_a4813acd7f1852dd32b67175ca6aca2eb}{B\+CD}})(v))}
+
+\mbox{\Hypertarget{bcd_8h_a8a3023920aa103a74c7d59007bcc7b6f}\label{bcd_8h_a8a3023920aa103a74c7d59007bcc7b6f}} 
+\index{bcd.h@{bcd.h}!MAKE\_BCD@{MAKE\_BCD}}
+\index{MAKE\_BCD@{MAKE\_BCD}!bcd.h@{bcd.h}}
+\doxyparagraph{\texorpdfstring{MAKE\_BCD}{MAKE\_BCD}}
+{\footnotesize\ttfamily \#define M\+A\+K\+E\+\_\+\+B\+CD(\begin{DoxyParamCaption}\item[{}]{v }\end{DoxyParamCaption})~\mbox{\hyperlink{bcd_8h_a5b336fcb3fc84fe505dc7e14d0ec17a7}{B\+C\+D\+\_\+\+H\+EX}}(0x \#\# v)}
+
+Converts an integer value into B\+CD format
+
+A maximum of 8 digits may be used 
+
+\doxysubsubsection{Typedef Documentation}
+\mbox{\Hypertarget{bcd_8h_a4813acd7f1852dd32b67175ca6aca2eb}\label{bcd_8h_a4813acd7f1852dd32b67175ca6aca2eb}} 
+\index{bcd.h@{bcd.h}!BCD@{BCD}}
+\index{BCD@{BCD}!bcd.h@{bcd.h}}
+\doxyparagraph{\texorpdfstring{BCD}{BCD}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{stdint_8h_a33594304e786b158f3fb30289278f5af}{uint32\+\_\+t}} \mbox{\hyperlink{bcd_8h_a4813acd7f1852dd32b67175ca6aca2eb}{B\+CD}}}
+
+
+
+\doxysubsubsection{Function Documentation}
+\mbox{\Hypertarget{bcd_8h_af3d125e9dbb48d630cf7e2f7d1343ba1}\label{bcd_8h_af3d125e9dbb48d630cf7e2f7d1343ba1}} 
+\index{bcd.h@{bcd.h}!uint2bcd@{uint2bcd}}
+\index{uint2bcd@{uint2bcd}!bcd.h@{bcd.h}}
+\doxyparagraph{\texorpdfstring{uint2bcd()}{uint2bcd()}}
+{\footnotesize\ttfamily void uint2bcd (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stdint_8h_adf4d876453337156dde61095e1f20223}{uint16\+\_\+t}}}]{i,  }\item[{\mbox{\hyperlink{bcd_8h_a4813acd7f1852dd32b67175ca6aca2eb}{B\+CD}} $\ast$}]{value }\end{DoxyParamCaption})}
+
+Converts integer {\bfseries{i}} into B\+CD format (Binary Coded Decimal) 
+\begin{DoxyParams}{Parameters}
+{\em i} & Numeric value to convert \\
+\hline
+{\em value} & Pointer to a B\+CD variable to store the converted result \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{bcd_8h_a0b14c76afa669863ed43c080f5baca98}\label{bcd_8h_a0b14c76afa669863ed43c080f5baca98}} 
+\index{bcd.h@{bcd.h}!bcd\_add@{bcd\_add}}
+\index{bcd\_add@{bcd\_add}!bcd.h@{bcd.h}}
+\doxyparagraph{\texorpdfstring{bcd\_add()}{bcd\_add()}}
+{\footnotesize\ttfamily void bcd\+\_\+add (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{bcd_8h_a4813acd7f1852dd32b67175ca6aca2eb}{B\+CD}} $\ast$}]{sour,  }\item[{const \mbox{\hyperlink{bcd_8h_a4813acd7f1852dd32b67175ca6aca2eb}{B\+CD}} $\ast$}]{value }\end{DoxyParamCaption})}
+
+Adds two numbers in B\+CD format\+: {\bfseries{sour}} += {\bfseries{value}} 
+\begin{DoxyParams}{Parameters}
+{\em sour} & Pointer to a B\+CD value to add to (and where the result is stored) \\
+\hline
+{\em value} & Pointer to the B\+CD value to add to {\bfseries{sour}} \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{bcd_8h_a743275b2ee21c93633a933a2d3073d4e}\label{bcd_8h_a743275b2ee21c93633a933a2d3073d4e}} 
+\index{bcd.h@{bcd.h}!bcd\_sub@{bcd\_sub}}
+\index{bcd\_sub@{bcd\_sub}!bcd.h@{bcd.h}}
+\doxyparagraph{\texorpdfstring{bcd\_sub()}{bcd\_sub()}}
+{\footnotesize\ttfamily void bcd\+\_\+sub (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{bcd_8h_a4813acd7f1852dd32b67175ca6aca2eb}{B\+CD}} $\ast$}]{sour,  }\item[{const \mbox{\hyperlink{bcd_8h_a4813acd7f1852dd32b67175ca6aca2eb}{B\+CD}} $\ast$}]{value }\end{DoxyParamCaption})}
+
+Subtracts two numbers in B\+CD format\+: {\bfseries{sour}} -\/= {\bfseries{value}} 
+\begin{DoxyParams}{Parameters}
+{\em sour} & Pointer to a B\+CD value to subtract from (and where the result is stored) \\
+\hline
+{\em value} & Pointer to the B\+CD value to subtract from {\bfseries{sour}} \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{bcd_8h_aec09ce7373727160488408c65fc8a91e}\label{bcd_8h_aec09ce7373727160488408c65fc8a91e}} 
+\index{bcd.h@{bcd.h}!bcd2text@{bcd2text}}
+\index{bcd2text@{bcd2text}!bcd.h@{bcd.h}}
+\doxyparagraph{\texorpdfstring{bcd2text()}{bcd2text()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} bcd2text (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{bcd_8h_a4813acd7f1852dd32b67175ca6aca2eb}{B\+CD}} $\ast$}]{bcd,  }\item[{\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{tile\+\_\+offset,  }\item[{\mbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$}]{buffer }\end{DoxyParamCaption})}
+
+Convert a B\+CD number into an asciiz (null terminated) string and return the length 
+\begin{DoxyParams}{Parameters}
+{\em bcd} & Pointer to B\+CD value to convert \\
+\hline
+{\em tile\+\_\+offset} & Optional per-\/character offset value to add (use 0 for none) \\
+\hline
+{\em buffer} & Buffer to store the result in\\
+\hline
+\end{DoxyParams}
+Returns\+: Length in characters (always 8)
+
+{\bfseries{buffer}} should be large enough to store the converted string (9 bytes\+: 8 characters + 1 for terminator)
+
+There are a couple different ways to use {\bfseries{tile\+\_\+offset}}. For example\+: \begin{DoxyItemize}
+\item It can be the Index of the Font Tile \textquotesingle{}0\textquotesingle{} in V\+R\+AM to allow the buffer to be used directly with \mbox{\hyperlink{gb_8h_a6da9e2fa1bafd35363e84ee999909ec7}{set\+\_\+bkg\+\_\+tiles}}. \item It can also be set to the ascii value for character \textquotesingle{}0\textquotesingle{} so that the buffer is a normal string that can be passed to \mbox{\hyperlink{stdio_8h_ab403fa700816f08631ba75bc536f74d4}{printf}}. \end{DoxyItemize}

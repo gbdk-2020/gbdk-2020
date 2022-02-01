@@ -1,14 +1,21 @@
 var searchData=
 [
-  ['p1f_5f0_1826',['P1F_0',['../gb_2hardware_8h.html#aedf8627c42ccf0aad5025ef629f4395a',1,'hardware.h']]],
-  ['p1f_5f1_1827',['P1F_1',['../gb_2hardware_8h.html#aad20c4bf5115b40c9118a484808f4b92',1,'hardware.h']]],
-  ['p1f_5f2_1828',['P1F_2',['../gb_2hardware_8h.html#af59d0dd661ea73965101294d30111385',1,'hardware.h']]],
-  ['p1f_5f3_1829',['P1F_3',['../gb_2hardware_8h.html#ae8e325a01af1c20935a0c73ea6465a0e',1,'hardware.h']]],
-  ['p1f_5f4_1830',['P1F_4',['../gb_2hardware_8h.html#ad215dbfc83c9486ead2f28510366f40b',1,'hardware.h']]],
-  ['p1f_5f5_1831',['P1F_5',['../gb_2hardware_8h.html#a6963ef598339e1163d30e57a962e5278',1,'hardware.h']]],
-  ['p1f_5fget_5fbtn_1832',['P1F_GET_BTN',['../gb_2hardware_8h.html#a750bc82ab34a8929a5bba10f2336abe6',1,'hardware.h']]],
-  ['p1f_5fget_5fdpad_1833',['P1F_GET_DPAD',['../gb_2hardware_8h.html#aeaabebe6a36d9e59a01dfceceb7b37d0',1,'hardware.h']]],
-  ['p1f_5fget_5fnone_1834',['P1F_GET_NONE',['../gb_2hardware_8h.html#a5c97ffb0ee0a345ad31797da26410b5a',1,'hardware.h']]],
-  ['ptrdiff_5fmax_1835',['PTRDIFF_MAX',['../stdint_8h.html#add2ef7bffac19cfdd1f4b5495409672f',1,'stdint.h']]],
-  ['ptrdiff_5fmin_1836',['PTRDIFF_MIN',['../stdint_8h.html#ad9b88ba2fb858f98b50b38e49875d90e',1,'stdint.h']]]
+  ['p1f_5f0_1879',['P1F_0',['../gb_2hardware_8h.html#aedf8627c42ccf0aad5025ef629f4395a',1,'hardware.h']]],
+  ['p1f_5f1_1880',['P1F_1',['../gb_2hardware_8h.html#aad20c4bf5115b40c9118a484808f4b92',1,'hardware.h']]],
+  ['p1f_5f2_1881',['P1F_2',['../gb_2hardware_8h.html#af59d0dd661ea73965101294d30111385',1,'hardware.h']]],
+  ['p1f_5f3_1882',['P1F_3',['../gb_2hardware_8h.html#ae8e325a01af1c20935a0c73ea6465a0e',1,'hardware.h']]],
+  ['p1f_5f4_1883',['P1F_4',['../gb_2hardware_8h.html#ad215dbfc83c9486ead2f28510366f40b',1,'hardware.h']]],
+  ['p1f_5f5_1884',['P1F_5',['../gb_2hardware_8h.html#a6963ef598339e1163d30e57a962e5278',1,'hardware.h']]],
+  ['p1f_5fget_5fbtn_1885',['P1F_GET_BTN',['../gb_2hardware_8h.html#a750bc82ab34a8929a5bba10f2336abe6',1,'hardware.h']]],
+  ['p1f_5fget_5fdpad_1886',['P1F_GET_DPAD',['../gb_2hardware_8h.html#aeaabebe6a36d9e59a01dfceceb7b37d0',1,'hardware.h']]],
+  ['p1f_5fget_5fnone_1887',['P1F_GET_NONE',['../gb_2hardware_8h.html#a5c97ffb0ee0a345ad31797da26410b5a',1,'hardware.h']]],
+  ['preserves_5fregs_1888',['PRESERVES_REGS',['../asm_2types_8h.html#acb825e83a33fcc06482c59b4ab2cf961',1,'types.h']]],
+  ['psg_5fch0_1889',['PSG_CH0',['../sms_2hardware_8h.html#ad8a903de6b38e08e1591fc5ef278381c',1,'hardware.h']]],
+  ['psg_5fch1_1890',['PSG_CH1',['../sms_2hardware_8h.html#addc12c4ee03ea787b826e337f1acd317',1,'hardware.h']]],
+  ['psg_5fch2_1891',['PSG_CH2',['../sms_2hardware_8h.html#aaeefb1ac1fb4d0d2324b8ee7f4953226',1,'hardware.h']]],
+  ['psg_5fch3_1892',['PSG_CH3',['../sms_2hardware_8h.html#ac760259fb86ee72abb5922018ae0db42',1,'hardware.h']]],
+  ['psg_5flatch_1893',['PSG_LATCH',['../sms_2hardware_8h.html#a6777f1ed2475b5ba6aa60b9a16fa02d3',1,'hardware.h']]],
+  ['psg_5fvolume_1894',['PSG_VOLUME',['../sms_2hardware_8h.html#a3d806ff027bffa67c4dfc5967f87c1d1',1,'hardware.h']]],
+  ['ptrdiff_5fmax_1895',['PTRDIFF_MAX',['../stdint_8h.html#add2ef7bffac19cfdd1f4b5495409672f',1,'stdint.h']]],
+  ['ptrdiff_5fmin_1896',['PTRDIFF_MIN',['../stdint_8h.html#ad9b88ba2fb858f98b50b38e49875d90e',1,'stdint.h']]]
 ];

@@ -29,6 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
+   &#160;<span id="projectnumber">4.0.6</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -90,17 +91,30 @@ $(document).ready(function(){initNavTree('docs_faq.html',''); initResizable(); }
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="toolchain_faq"></a></p>
-<h1><a class="anchor" id="autotoc_md145"></a>
+<h1><a class="anchor" id="autotoc_md162"></a>
 General</h1>
 <ul>
 <li>How can sound effects be made?<ul>
 <li>The simplest way is to use the Game Boy sound hardware directly. See the <a class="el" href="docs_example_programs.html#examples_sound_sample">Sound Example</a> for a way to test out sounds on the hardware.</li>
-<li>Further discussion on using the Sound Example rom can be found in the ZGB wiki. Note that some example code there is ZGB specific and not part of the base GBDK API: <a href="https://github.com/Zal0/ZGB/wiki/Sounds">https://github.com/Zal0/ZGB/wiki/Sounds</a> <br  />
-</li>
+<li>Further discussion on using the Sound Example rom can be found in the ZGB wiki. Note that some example code there is ZGB specific and not part of the base GBDK API: <a href="https://github.com/Zal0/ZGB/wiki/Sounds">https://github.com/Zal0/ZGB/wiki/Sounds</a></li>
 </ul>
 </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md146"></a>
+<h1><a class="anchor" id="autotoc_md163"></a>
+Graphics and Resources</h1>
+<ul>
+<li>How do I use a tile map when it's tiles don't start at index zero?<ul>
+<li>The two main options are:<ul>
+<li>Use <a class="el" href="gb_8h.html#a811c386cac0df2d260aacb5a43608be5">set_bkg_based_tiles()</a>, <a class="el" href="gb_8h.html#abc8bc5808620a9717263b8c9ec2237f0">set_bkg_based_submap()</a>, <a class="el" href="gb_8h.html#a739a212609ae60c9c56c095f96b4ea80">set_win_based_tiles()</a>, <a class="el" href="gb_8h.html#a1b8a1026983cb2b2c0bd46334b4692a0">set_win_based_submap()</a> and provide a tile origin offset.</li>
+<li>Use <a class="el" href="docs_toolchain.html#utility_png2asset">utility_png2asset</a> with <code>-tile_origin</code> to create a map with the tile index offsets built in.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><br  />
+</p>
+<h1><a class="anchor" id="autotoc_md164"></a>
 ROM Header Settings</h1>
 <ul>
 <li>How do I set the ROM's title?<ul>
@@ -121,13 +135,13 @@ ROM Header Settings</h1>
 </li>
 </ul>
 </li>
-<li>How do I set the ROM <a class="el" href="docs_rombanking_mbcs.html#MBC">MBC</a> type?<ul>
+<li>How do I set the ROM <a class="el" href="docs_rombanking_mbcs.html#MBC">MBC</a> type, and what MBC values are available to use with the <code>-yt</code> <a class="el" href="docs_toolchain.html#makebin">makebin</a> flag?<ul>
 <li>See <a class="el" href="docs_rombanking_mbcs.html#setting_mbc_and_rom_ram_banks">setting_mbc_and_rom_ram_banks</a> <br  />
 </li>
 </ul>
 </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md147"></a>
+<h1><a class="anchor" id="autotoc_md165"></a>
 Errors / Compiling / Toolchain</h1>
 <p><a class="anchor" id="faq_sdcc_peephole_instruction_error"></a></p><ul>
 <li>What does <code>z80instructionSize() failed to parse line node, assuming 999 bytes</code> mean?<ul>
@@ -168,8 +182,19 @@ Errors / Compiling / Toolchain</h1>
 </li>
 </ul>
 </li>
+<li>How do I move the start of the <code>DATA</code> section and the <code>Shadow OAM</code> location?<ul>
+<li>The default locations are: <code>_shadow_OAM=0xC000</code> and 240 bytes after it <code>_DATA=0xC0A0</code></li>
+<li>So, for example, if you wanted to move them both to start 256(0x100) bytes later, use these command line arguments for LCC:<ul>
+<li>To change the Shadow OAM address: <code>-Wl-g_shadow_OAM=0xC100</code></li>
+<li>To change the DATA address (again, 240 bytes after the Shadow OAM): <code>-Wl-b_DATA=0xc1a0</code></li>
 </ul>
-<h1><a class="anchor" id="autotoc_md148"></a>
+</li>
+</ul>
+</li>
+</ul>
+<p><br  />
+</p>
+<h1><a class="anchor" id="autotoc_md166"></a>
 API / Utilities</h1>
 <ul>
 <li>Is there a list of all functions in the API?<ul>
@@ -189,7 +214,7 @@ API / Utilities</h1>
 </li>
 </ul>
 </li>
-<li>How can maps larger than 32x32 tiles be scrolled? &amp; Why is the map wrapping around to the left side when setting a map wider than 32 tiles with <a class="el" href="gb_8h.html#a4d9b58a7682c3d9cbf4b974673c23d07">set_bkg_data()</a>?<ul>
+<li>How can maps larger than 32x32 tiles be scrolled? &amp; Why is the map wrapping around to the left side when setting a map wider than 32 tiles with <a class="el" href="gb_8h.html#a1f5101f2b7bb0123c26a3e257f843626">set_bkg_data()</a>?<ul>
 <li>The hardware Background map is 32 x 32 tiles. The screen viewport that can be scrolled around that map is 20 x 18 tiles. In order to scroll around within a much larger map, new tiles must be loaded at the edges of the screen viewport in the direction that it is being scrolled. <a class="el" href="sms_8h.html#a0cfd261bc7a94b1f6093f423bad30298">set_bkg_submap</a> can be used to load those rows and columns of tiles from the desired sub-region of the large map.</li>
 <li>See the "Large Map" example program and <a class="el" href="gb_8h.html#adb21d1c7d533a7133bab36a845489780">set_bkg_submap()</a></li>
 <li>Writes that exceed coordinate 31 of the Background tile map on the x or y axis will wrap around to the Left and Top edges. <br  />
