@@ -98,16 +98,19 @@ int strlen(const char *s) OLDCALL PRESERVES_REGS(b, c);
 */
 char *strncat(char *s1, const char *s2, int n);
 
-/** Compare strings (at most n characters):
+/** Compare strings (at most __n__ characters):
 
     @param s1         First string to compare
     @param s2         Second string to compare
     @param n          Max number of characters to compare
 
+    Returns zero if the strings are identical, or non-zero
+    if they are not (see below).
+
     Returns:
-    \li > 0 if __s1__ > __s2__
+    \li > 0 if __s1__ > __s2__ (at first non-matching byte)
     \li 0 if __s1__ == __s2__
-    \li < 0 if __s1__ < __s2__
+    \li < 0 if __s1__ < __s2__ (at first non-matching byte)
 */
 int strncmp(const char *s1, const char *s2, int n);
 
@@ -128,16 +131,19 @@ int strncmp(const char *s1, const char *s2, int n);
 */
 char *strncpy(char *s1, const char *s2, int n);
 
-/** Compares buffers
+/** Compare up to __count__ bytes in buffers __buf1__ and __buf2__
 
-    @param buf1         First buffer to compare
-    @param buf2         Second buffer to compare
-    @param count        Buffer length
+    @param buf1         Pointer to First buffer to compare
+    @param buf2         Pointer to Second buffer to compare
+    @param count        Max number of bytes to compare
+
+    Returns zero if the buffers are identical, or non-zero
+    if they are not (see below).
 
     Returns:
-    \li > 0 if __buf1__ > __buf2__
+    \li > 0 if __buf1__ > __buf2__ (at first non-matching byte)
     \li 0 if __buf1__ == __buf2__
-    \li < 0 if __buf1__ < __buf2__
+    \li < 0 if __buf1__ < __buf2__ (at first non-matching byte)
 */
 int memcmp(const void *buf1, const void *buf2, size_t count) OLDCALL;
 

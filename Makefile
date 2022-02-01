@@ -7,8 +7,8 @@ TOPDIR = $(shell pwd)
 
 # Package name, used for tarballs
 PKG = gbdk
-# Version, used for tarballs
-VER = 3.00
+# Version, used for tarballs & docs
+VER = 4.0.6
 
 PORTS=gbz80 z80
 PLATFORMS=gb ap duck gg sms
@@ -298,7 +298,7 @@ endif
 #Run Doxygen	
 	rm -rf $(GBDKDOCSDIR)/api; \
 	  cd "$(GBDKLIBDIR)/include"; \
-	  GBDKDOCSDIR="$(GBDKDOCSDIR)" GBDKLIBDIR="$(GBDKLIBDIR)" $(DOXYGENCMD) "$(GBDKDOCSDIR)/config/gbdk-2020-doxyfile"
+	  GBDKDOCSDIR="$(GBDKDOCSDIR)" GBDKVERSION=$(VER) GBDKLIBDIR="$(GBDKLIBDIR)" $(DOXYGENCMD) "$(GBDKDOCSDIR)/config/gbdk-2020-doxyfile"
 	@if [ "$(DOCS_PDF_ON)" = "YES" ]; then\
 		$(MAKE) -C $(GBDKDOCSDIR)/latex;\
 		cp $(GBDKDOCSDIR)/latex/refman.pdf $(GBDKDOCSDIR)/gbdk_manual.pdf;\
