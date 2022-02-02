@@ -20,6 +20,7 @@
         ;; MBC Equates
 
         .MBC1_ROM_PAGE  = 0x2000 ; Address to write to for MBC1 switching
+        .MBC_ROM_PAGE   = 0x2000 ; Default platform MBC rom switching address
 
         rRAMG           = 0x0000 ; $0000->$1fff
         rROMB0          = 0x2000 ; $2000->$2fff
@@ -491,7 +492,7 @@ lbl:
         SIGNED_ADD_A_REG16      regH, regL
 .endm
 
-.macro MUL_DE_BY_A_RET_HL ?lbl1 ?lbl2 ?lbl3
+.macro MUL_DE_BY_A_RET_HL ?lbl1 ?lbl2
         ; Multiply DE by A, return result in HL; preserves: BC
         LD      HL, #0
 lbl1:
@@ -499,10 +500,9 @@ lbl1:
         JR      NC, lbl2
         ADD     HL, DE
 lbl2:
-        JR      Z, lbl3
         SLA     E
         RL      D
-        JR      lbl1
-lbl3:
+        OR      A
+        JR      NZ, lbl1
 .endm
 

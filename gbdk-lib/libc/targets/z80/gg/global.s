@@ -307,7 +307,7 @@ lbl:
         ld regH, a
 .endm
 
-.macro MUL_DE_BY_A_RET_HL ?lbl1 ?lbl2 ?lbl3
+.macro MUL_DE_BY_A_RET_HL ?lbl1 ?lbl2
         ; Multiply DE by A, return result in HL; preserves: BC
         ld hl, #0
 lbl1:
@@ -315,11 +315,10 @@ lbl1:
         jp nc, lbl2
         add hl, de
 lbl2:
-        jp z, lbl3
         sla e
         rl d
-        jp lbl1
-lbl3:
+        or a
+        jp nz, lbl1
 .endm
 
 .macro DIV_PART divident divisor ?lbl

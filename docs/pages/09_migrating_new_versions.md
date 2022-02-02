@@ -4,6 +4,11 @@ This section contains information that may be useful to know or important when u
 
 # GBDK 2020 versions
 
+## Porting to GBDK 2020 4.0.6
+  - Renamed `bgb_emu.h` to `emu_debug.h` and BGB_* functions to EMU_*
+    - Aliases for the BGB_* ones and a `bgb_emu.h` shim are present for backward compatibility, but updating to the new naming is recommended
+
+
 ## Porting to GBDK 2020 4.0.5
   - GBDK now requires SDCC 12259 or higher with GBDK-2020 patches
   - @ref utility_png2asset "png2asset" is the new name for the `png2mtspr` utility
@@ -15,18 +20,21 @@ This section contains information that may be useful to know or important when u
   - set_bkg_1bit_data has been renamed to @ref set_bkg_1bpp_data
   - The following header files which are now cross platform were moved from `gb/` to `gbdk/`: `bcd.h`, `console.h`, `far_ptr.h`, `font.h`, `gbdecompress.h`, `gbdk-lib.h`, `incbin.h`, `metasprites.h`, `platform.h`, `version.h`
     - When including them use `#include <gbdk/...>` instead of `#include <gb/>`
-
+  
 ## Porting to GBDK 2020 4.0.4
   - GBDK now requires SDCC 12238 or higher
   - Made sample.h, cgb.h and sgb.h independent from gb.h
 
+
 ## Porting to GBDK 2020 4.0.3
   - No significant changes required
+
 
 ## Porting to GBDK 2020 4.0.2
  - The default font has been reduced from 256 to 96 characters.
    - Code using special characters may need to be updated.
    - The off-by-1 character index offset was removed for fonts. Old fonts with the offset need to be re-adjusted.
+
 
 ## Porting to GBDK 2020 4.0.1
  - __Important!__ : The `WRAM` memory region is no longer automatically initialized to zeros during startup.

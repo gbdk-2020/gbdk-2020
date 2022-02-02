@@ -115,13 +115,10 @@ _set_tile_2bpp_data::
 
         ld a, 0 (iy)
         out (.VDP_DATA), a
-        VDP_DELAY
         ld a, 1 (iy)
         out (.VDP_DATA), a
-        VDP_DELAY
         ld a, 2 (iy)
         out (.VDP_DATA), a
-        VDP_DELAY
         ld a, 3 (iy)
         out (.VDP_DATA), a
 

@@ -17,6 +17,7 @@
 // ROM file extensions
 #define EXT_GB   ".gb"
 #define EXT_AP   ".pocket"
+#define EXT_DUCK ".duck"
 #define EXT_SMS  ".sms"
 #define EXT_GG   ".gg"
 

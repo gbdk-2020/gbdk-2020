@@ -35,8 +35,8 @@ GBDK features:
  - C and ASM toolchain based on SDCC with some support utilities
  - A set of libraries with source code
  - Example programs in ASM and in C
- - Support for multiple ROM bank images
- - Support for multiple consoles: Game Boy, Analogue Pocket, Master System and Game Gear
+ - Support for multiple ROM bank images and auto-banking
+ - Support for multiple consoles: Game Boy, Analogue Pocket, Mega Duck, Master System and Game Gear
 
 GBDK is freeware. Most of the tooling code is under the GPL. The runtime libraries should be under the LGPL. Please consider mentioning GBDK in the credits of projects made with it.
 

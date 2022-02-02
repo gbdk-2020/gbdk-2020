@@ -1,3 +1,19 @@
+gbdk-4.0.6
+    - Support for MegaDuck
+    - Library fixes/improvements
+        - fix RNG for SMS/GG
+        - check for overflow in metasprites handling routines
+        - set_*_based_tiles() / set_*_based_submap() set tilemaps using tile offset
+        - add_low_priority_TIM() set timer ISR handler that allows nested interrupts
+        - rename gb/BGB_emu.h into gb/EMU_debug.h
+        - Intellisense-friendly headers (hide SDCC dialect features)
+        - other minor fixes
+    - Toolchain
+        - png2mtspr
+            - support for 4bpp graphics and SGB borders
+            - new -tile_origin parameter
+    - Updated documentation
+
 gbdk-4.0.5
     - Support for Sega Master Sysyem/Sega Game Gear
         - z80 library which provide compatibility layer as well as platform-specific functions

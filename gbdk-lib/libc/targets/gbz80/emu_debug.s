@@ -1,17 +1,17 @@
         .include "global.s"
 
-        .title  "BGB_emu"
-        .module BGB_emu
+        .title  "EMU_debug"
+        .module EMU_debug
         
         .area   _EMU_HEADER (ABS)
 
         .org    0x08
-        JP      _BGB_profiler_message
+        JP      _EMU_profiler_message
 
         .area   _HOME
     
-        ;; BGB profiler message
-_BGB_profiler_message::
+        ;; EMU profiler message
+_EMU_profiler_message::
         LD      D, D
         JR      1$
         .dw     0x6464

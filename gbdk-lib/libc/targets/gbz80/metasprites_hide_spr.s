@@ -13,6 +13,9 @@ _hide_sprites_range::
         ldhl    sp, #2
         ld      a, (hl+)
 
+        cp      #40
+        ret     nc
+
         add     a
         add     a
         ld      e, a
@@ -38,7 +41,7 @@ _hide_sprites_range::
         ret     z               ; z is not affected by 16-bit add
 
 0$:
-        rra                     ; carry is never set here
+        srl     a
         jr      nc, 1$
 
         ld      (hl), d

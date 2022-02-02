@@ -20,21 +20,38 @@
     particularly if read at some variable point in time (such
     as when the player presses a button).
 
-    Only needs to be called once to initialize, buy may be called
+    Only needs to be called once to initialize, but may be called
     again to re-initialize with the same or a different seed.
+
     @see rand(), randw()
 */
 #if defined(__PORT_gbz80)
 void initrand(uint16_t seed) OLDCALL;
 #elif defined(__PORT_z80)
-void initrand(uint16_t seed) __z88dk_fastcall;
+void initrand(uint16_t seed) Z88DK_FASTCALL;
 #endif
+
+#define RAND_MAX 255
+#define RANDW_MAX 65535
+
+/** The random number seed is stored in __rand_seed and can be
+    saved and restored if needed.
+
+    \code{.c}
+    // Save
+    some_uint16 = __rand_seed;
+    ...
+    // Restore
+    __rand_seed = some_uint16;
+    \endcode
+*/
+extern uint16_t __rand_seed;
 
 /** Returns a random byte (8 bit) value.
 
     @ref initrand() should be used to initialize the random number generator before using rand()
  */
-int8_t rand() OLDCALL;
+uint8_t rand() OLDCALL;
 
 /** Returns a random word (16 bit) value.
 
@@ -54,13 +71,13 @@ uint16_t randw() OLDCALL;
 #if defined(__PORT_gbz80)
 void initarand(uint16_t seed) OLDCALL;
 #elif defined(__PORT_z80)
-void initarand(uint16_t seed) __z88dk_fastcall;
+void initarand(uint16_t seed) Z88DK_FASTCALL;
 #endif
 
 /** Returns a random number generated with the linear lagged additive method.
 
     @ref initarand() should be used to initialize the random number generator before using arand()
  */
-int8_t arand() OLDCALL;
+uint8_t arand() OLDCALL;
 
 #endif

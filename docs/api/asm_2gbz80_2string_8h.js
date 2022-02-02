@@ -1,15 +1,16 @@
 var asm_2gbz80_2string_8h =
 [
-    [ "strcpy", "asm_2gbz80_2string_8h.html#a8d21cab0520a18493e48dab450288f31", null ],
-    [ "strcmp", "asm_2gbz80_2string_8h.html#a125908e664d4b65f55a49c8faf14784b", null ],
-    [ "memcpy", "asm_2gbz80_2string_8h.html#a36e8e03da711f0d862ca1d62a001a627", null ],
+    [ "strcpy", "asm_2gbz80_2string_8h.html#ada128b5ed545214bb397d1399615ec9e", null ],
+    [ "strcmp", "asm_2gbz80_2string_8h.html#a7172770a053aa1fe0ab46a97ab43a5fa", null ],
+    [ "memcpy", "asm_2gbz80_2string_8h.html#a6a1a6cbe7fb6102819098340a4986574", null ],
     [ "memmove", "asm_2gbz80_2string_8h.html#a802c986820d3866639922b6bc9484f90", null ],
-    [ "memset", "asm_2gbz80_2string_8h.html#af2fcd4c99b3b490e6db059e741676274", null ],
-    [ "reverse", "asm_2gbz80_2string_8h.html#a31e56ae6ad0e9bd961633507ec1aef6c", null ],
+    [ "memset", "asm_2gbz80_2string_8h.html#a4bc4146b1a053fc4ec10f1377bb21a4f", null ],
+    [ "reverse", "asm_2gbz80_2string_8h.html#a476b2b37367c65c6cb36037bfc16b19f", null ],
     [ "strcat", "asm_2gbz80_2string_8h.html#a8908188ae9fc2f05d993257ef001d553", null ],
-    [ "strlen", "asm_2gbz80_2string_8h.html#a2db4b83fd1a2889db33d4e0798d33fe2", null ],
+    [ "strlen", "asm_2gbz80_2string_8h.html#a5e4982e9d2fd4ec328abfda6b1a3f7e5", null ],
     [ "strncat", "asm_2gbz80_2string_8h.html#af70714f788819be9dbf368a969be23f7", null ],
     [ "strncmp", "asm_2gbz80_2string_8h.html#ab745ed93c0024648f33dc1d553e9fdcc", null ],
     [ "strncpy", "asm_2gbz80_2string_8h.html#a21ae87d60fcc456369668093c57db61f", null ],
+    [ "memcmp", "asm_2gbz80_2string_8h.html#a52701f453c97403ec1b12d286484259b", null ],
     [ "c", "asm_2gbz80_2string_8h.html#a0b3366755f3276b0243c1e0497471b7a", null ]
 ];

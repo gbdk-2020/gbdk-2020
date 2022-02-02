@@ -20,9 +20,9 @@ ASSRC =	cgb.s cgb_palettes.s cgb_compat.s \
 	set_data.s set_prop.s set_spr.s set_wi_t.s set_xy_t.s \
 	set_1bit_data.s \
 	sgb.s font.s font_color.s delay.s \
-	bgb_emu.s bgb_emu_printf.s \
+	emu_debug.s emu_debug_printf.s \
 	nowait.s far_ptr.s \
-	lcd.s joy.s tim.s \
+	lcd.s joy.s tim.s tim.s tim_nested.s tim_common.s \
 	crash_handler.s \
 	___sdcc_bcall_ehl.s ___sdcc_bcall.s \
 	mv_spr.s \

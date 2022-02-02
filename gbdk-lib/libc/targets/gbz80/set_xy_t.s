@@ -1,5 +1,17 @@
         .include        "global.s"
 
+        .title  "Set tile map"
+        .module SetTileMap
+
+        .area   _INITIALIZED
+
+__map_tile_offset::
+        .ds     0x01
+
+        .area   _INITIALIZER
+
+        .db     0x00
+
         .area   _HOME
 
         ;; Set window tile table from BC at XY = DE of size WH = HL
@@ -43,8 +55,10 @@
 3$:                             ; Copy W tiles
 
         WAIT_STAT
-        LD      A, (HL+)
+        LD      A, (__map_tile_offset)
+        ADD     (HL)
         LD      (BC), A
+        INC     HL
         
         LD      A, C            ; inc dest and wrap around
         AND     #0xE0

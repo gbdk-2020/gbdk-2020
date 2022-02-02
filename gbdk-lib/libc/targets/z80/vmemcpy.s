@@ -10,6 +10,8 @@ _vmemcpy::
         pop de          ; pop ret address
         pop hl          ; dst
         
+        DISABLE_VBLANK_COPY
+
         SMS_WRITE_VDP_CMD h, l
         
         pop hl          ; src
@@ -35,7 +37,9 @@ _vmemcpy::
 4$:
         dec a
         jp  nz, 3$
-        
+
+        ENABLE_VBLANK_COPY
+
         ld h, d
         ld l, e
         jp (hl)

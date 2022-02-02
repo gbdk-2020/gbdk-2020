@@ -5,6 +5,56 @@ https://github.com/gbdk-2020/gbdk-2020/releases
 
 
 # GBDK 2020 Release Notes
+## GBDK 2020 4.0.6
+  2022/xx
+  - Building GBDK
+    - Changed to target older version of macOS (10.10) when building for better compatibility
+  - Platforms
+    - Added support for Mega Duck / Cougar Boy (`duck`). See @ref docs_supported_consoles
+  - Library
+    - Added @ref memcmp()
+    - Added @ref add_low_priority_TIM() function for timer interrupts which allow nesting for GB/CGB
+    - Added @ref set_bkg_based_tiles(), @ref set_bkg_based_submap(), @ref set_win_based_tiles(), @ref set_win_based_submap() for when a map's tiles don't start at VRAM index zero
+    - Added @ref clock() for SMS/GG
+    - Added macro definitions for SDCC features:
+      - `#define SFR     __sfr`
+      - `#define AT(A)   __at(A)`
+    - Added check for OAM overflow to metasprite calls for GB/CGB
+    - Added constant definitions @ref PSG_LATCH, @ref PSG_CH0, @ref PSG_CH1, @ref PSG_CH2, @ref PSG_CH3, @ref PSG_VOLUME for SMS/GG
+    - Renamed `bgb_emu.h` to `emu_debug.h` and BGB_* functions to EMU_*.
+      - Aliases for the BGB_* ones and a `bgb_emu.h` shim are present for backward compatibility
+    - Changed headers to wrap SDCC specific features (such as `NONBANKED`) with `#ifdef __SDCC`
+    - Changed @ref rand() and @ref arand() to return `uint8_t` instead of `int8_t` (closer to the standard)
+    - Fixed declaration for @ref PCM_SAMPLE and definition for @ref AUD3WAVE
+    - Fixed definition of `size_t` to be `unsigned int` instead of  `int`
+    - Fixed @ref vmemcpy() and @ref memmove() for SMS/GG
+    - Fixed random number generation for SMS/GG
+    - Fixed letter `U` appearing as `K` for min font
+    - Fixed define name in crash_handler.h
+    - Exposed @ref __rand_seed
+  - Toolchain / Utilities
+    - @ref utility_png2asset "png2asset"
+      - Added SMS/GG graphics format support
+      - Added 4bpp and SGB borders
+      - Added warning when image size is not an even multiple of tile size
+      - Added `-tile_origin` offset option for when map tiles do not start at tile 0 in VRAM
+      - Added `*_TILE_COUNT` definition to output
+      - Fixed CGB `...s_map_attributes` type definition in output
+      - Fixed values for `num_palettes` in output
+      - Fixed incorrect `TILE_COUNT` value when not `-using_structs`
+    - @ref lcc
+      - Changed @ref makebin flags to turn off Nintendo logo copy for GB/CGB (use version in crt instead)
+      - Fixed lcc handling of makebin `-x*` arguments
+  - Examples
+    - Added logo example (cross-platform)
+    - Added @ref ISR_VECTOR example of a raw ISR vector with no dispatcher for GB/CGB
+    - Changed sgb_border example to use png2asset for graphics
+    - Changed use of set_interrupts() in examples so it's outside critical sections (since it disables/enables interrupts)
+    - Changed cross-platform auto-banks example to use .h header files
+    - Changed SGB border example to also work with SGB on PAL SNES
+  - Docs
+    - Added new section: Migrating From Pre-GBDK-2020 Tutorials
+
 
 ## GBDK 2020 4.0.5
   2021/09
@@ -27,7 +77,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
     - Added @ref BANK(), @ref BANKREF(), @ref BANKREF_EXTERN()
     - Added @ref INCBIN(), @ref BANK(), @ref INCBIN_SIZE(), @ref INCBIN_EXTERN()
     - Added generic @ref SWITCH_ROM() and @ref SWITCH_RAM()
-    - Added @ref BGB_printf() and updated bgb debug output.
+    - Added @ref BGB_printf() and updated emulator debug output.
     - Added @ref set_native_tile_data(), @ref set_tile_map(), @ref set_1bpp_colors, @ref set_bkg_1bpp_data, @ref set_sprite_1bpp_data, @ref set_2bpp_palette, @ref set_bkg_2bpp_data, @ref set_sprite_2bpp_data, @ref set_tile_2bpp_data (sms/gg only), @ref set_bkg_4bpp_data (sms/gg only), @ref set_sprite_4bpp_data (sms/gg only)
     - Added RLE decompression support: @ref rle_init(), @ref  rle_decompress(),
     - Changed @ref itoa(), @ref uitoa(), @ref ltoa(), @ref ultoa() to now require a radix value (base) argument to be passed. On the Game Boy and Analogue Pocket the parameter is required but not utilized.

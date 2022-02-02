@@ -1,6 +1,6 @@
-CC	= ../../../bin/lcc -Wl-m -Wl-j -Wm-yS -Wm-yc
+CC	= ../../../bin/lcc -Wa-l -Wl-m -Wl-j -Wm-yS
 
-BINS	= bgb_debug.gb
+BINS	= lcd_isr_wobble.gb
 
 all:	$(BINS)
 

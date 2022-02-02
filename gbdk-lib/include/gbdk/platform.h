@@ -1,7 +1,7 @@
 #ifndef __PLATFORM_H_INCLUDE
 #define __PLATFORM_H_INCLUDE
 
-#if defined(__TARGET_gb) || defined(__TARGET_ap)
+#if defined(__TARGET_gb) || defined(__TARGET_ap) || defined(__TARGET_duck)
   #include <gb/gb.h>
   #include <gb/cgb.h>
   #include <gb/sgb.h>

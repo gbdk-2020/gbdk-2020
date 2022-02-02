@@ -29,6 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
+   &#160;<span id="projectnumber">4.0.6</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -100,7 +101,7 @@ $(document).ready(function(){initNavTree('time_8h_source.html',''); initResizabl
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
 <div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="time_8h.html#ac84921d4d15eedac7d7b8051a7944c84">   12</a></span>&#160;<span class="keyword">typedef</span> <a class="code" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> <a class="code" href="time_8h.html#ac84921d4d15eedac7d7b8051a7944c84">time_t</a>;</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="time_8h.html#a9e660b4ddc93c500ce46593917de2bbf">   25</a></span>&#160;<a class="code" href="asm_2gbz80_2types_8h.html#ad666a63cb94701b620ce999f84629d23">clock_t</a> <a class="code" href="time_8h.html#a9e660b4ddc93c500ce46593917de2bbf">clock</a>();</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="time_8h.html#acc1f88818af5706d57262377382ae4ac">   25</a></span>&#160;<a class="code" href="asm_2gbz80_2types_8h.html#aeb756bd89bf86769edbefdef8135109f">clock_t</a> <a class="code" href="time_8h.html#acc1f88818af5706d57262377382ae4ac">clock</a>() <a class="code" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a>;</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
 <div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="time_8h.html#ae7841e681c8c9d59818568d39553642c">   36</a></span>&#160;<a class="code" href="time_8h.html#ac84921d4d15eedac7d7b8051a7944c84">time_t</a> <a class="code" href="time_8h.html#ae7841e681c8c9d59818568d39553642c">time</a>(<a class="code" href="time_8h.html#ac84921d4d15eedac7d7b8051a7944c84">time_t</a> *t);</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
@@ -110,10 +111,11 @@ $(document).ready(function(){initNavTree('time_8h_source.html',''); initResizabl
 <div class="ttc" id="atime_8h_html_ac84921d4d15eedac7d7b8051a7944c84"><div class="ttname"><a href="time_8h.html#ac84921d4d15eedac7d7b8051a7944c84">time_t</a></div><div class="ttdeci">uint16_t time_t</div><div class="ttdef"><b>Definition:</b> time.h:12</div></div>
 <div class="ttc" id="atypes_8h_html"><div class="ttname"><a href="types_8h.html">types.h</a></div></div>
 <div class="ttc" id="astdint_8h_html_adf4d876453337156dde61095e1f20223"><div class="ttname"><a href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a></div><div class="ttdeci">unsigned short int uint16_t</div><div class="ttdef"><b>Definition:</b> stdint.h:52</div></div>
-<div class="ttc" id="atime_8h_html_a9e660b4ddc93c500ce46593917de2bbf"><div class="ttname"><a href="time_8h.html#a9e660b4ddc93c500ce46593917de2bbf">clock</a></div><div class="ttdeci">clock_t clock()</div></div>
-<div class="ttc" id="aasm_2gbz80_2types_8h_html_ad666a63cb94701b620ce999f84629d23"><div class="ttname"><a href="asm_2gbz80_2types_8h.html#ad666a63cb94701b620ce999f84629d23">clock_t</a></div><div class="ttdeci">UINT16 clock_t</div><div class="ttdef"><b>Definition:</b> types.h:65</div></div>
 <div class="ttc" id="atime_8h_html_ae7841e681c8c9d59818568d39553642c"><div class="ttname"><a href="time_8h.html#ae7841e681c8c9d59818568d39553642c">time</a></div><div class="ttdeci">time_t time(time_t *t)</div></div>
 <div class="ttc" id="astdint_8h_html"><div class="ttname"><a href="stdint_8h.html">stdint.h</a></div></div>
+<div class="ttc" id="aasm_2types_8h_html_a0971918860055db2e50dacea4da8f3bc"><div class="ttname"><a href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></div><div class="ttdeci">#define OLDCALL</div><div class="ttdef"><b>Definition:</b> types.h:19</div></div>
+<div class="ttc" id="aasm_2gbz80_2types_8h_html_aeb756bd89bf86769edbefdef8135109f"><div class="ttname"><a href="asm_2gbz80_2types_8h.html#aeb756bd89bf86769edbefdef8135109f">clock_t</a></div><div class="ttdeci">unsigned int clock_t</div><div class="ttdef"><b>Definition:</b> types.h:68</div></div>
+<div class="ttc" id="atime_8h_html_acc1f88818af5706d57262377382ae4ac"><div class="ttname"><a href="time_8h.html#acc1f88818af5706d57262377382ae4ac">clock</a></div><div class="ttdeci">clock_t clock() OLDCALL</div></div>
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

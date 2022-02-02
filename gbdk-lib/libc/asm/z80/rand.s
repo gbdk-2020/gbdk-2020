@@ -2,6 +2,7 @@
 
         .area   _DATA
 
+___rand_seed::
 .randval:
         .ds     0x02
 
@@ -10,9 +11,10 @@
 _rand::	
 _randw::
 
-        ld HL, (.randval)
-        ex DE, HL
-        ld L, E
+        LD HL, (.randval)
+        EX DE, HL
+        LD L, E
+        LD A, D
 
         SLA L                   ; * 16
         RLA
@@ -38,11 +40,13 @@ _randw::
         LD A, H                 ; randhi*17
         ADC A, #0x5c
         LD H, A
-        ld (.randval), HL
+        LD (.randval), HL
+        LD H, L
+        LD L, A
 
         RET
 
 _initrand::                     ; Non banked
 .initrand::
-        ld (.randval), HL
-        ret
+        LD (.randval), HL
+        RET

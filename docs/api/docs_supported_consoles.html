@@ -29,6 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
+   &#160;<span id="projectnumber">4.0.6</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -90,23 +91,30 @@ $(document).ready(function(){initNavTree('docs_supported_consoles.html',''); ini
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="docs_consoles_supported_list"></a></p>
-<h1><a class="anchor" id="autotoc_md102"></a>
+<h1><a class="anchor" id="autotoc_md116"></a>
 Consoles Supported by GBDK</h1>
 <p>As of version <code>4.0.5</code> GBDK includes support for other consoles in addition to the Game Boy.</p>
 <ul>
+<li>Game Boy and related clones<ul>
 <li>Nintendo Game Boy / Game Boy Color (GB/GBC)</li>
 <li>Analogue Pocket (AP)</li>
+<li>Mega Duck / Cougar Boy (DUCK)</li>
+</ul>
+</li>
+<li>Sega Consoles<ul>
 <li>Sega Master System (SMS)</li>
 <li>Sega Game Gear (GG)</li>
 </ul>
+</li>
+</ul>
 <p>While the GBDK API has many convenience functions that work the same or similar across different consoles, it's important to keep their different capabilities in mind when writing code intended to run on more than one. Some (but not all) of the differences are screen sizes, color abilities, memory layouts, processor type (z80 vs gbz80/sm83) and speed.</p>
 <p><a class="anchor" id="docs_consoles_compiling"></a></p>
-<h1><a class="anchor" id="autotoc_md103"></a>
+<h1><a class="anchor" id="autotoc_md117"></a>
 Cross Compiling for Different Consoles</h1>
-<h2><a class="anchor" id="autotoc_md104"></a>
+<h2><a class="anchor" id="autotoc_md118"></a>
 lcc</h2>
 <p>When compiling and building through <a class="el" href="docs_toolchain.html#lcc">lcc</a> use the <code>-m&lt;port&gt;:&lt;plat&gt;</code> flag to select the desired console via it's port and platform combination.</p>
-<h2><a class="anchor" id="autotoc_md105"></a>
+<h2><a class="anchor" id="autotoc_md119"></a>
 sdcc</h2>
 <p>When building directly with the sdcc toolchain, the following must be specified manually (when using <a class="el" href="docs_toolchain.html#lcc">lcc</a> it will populate these automatically based on <code>-m&lt;port&gt;:&lt;plat&gt;</code>).</p>
 <p>When compiling with <a class="el" href="docs_toolchain_settings.html#sdcc-settings">sdcc</a>:</p><ul>
@@ -120,7 +128,7 @@ sdcc</h2>
 <li>Include the appropriate library files <code>-l &lt;port&gt;.lib</code>, <code>-l &lt;plat&gt;.lib</code></li>
 <li>The crt will be under <code>&lt;gbdk-path&gt;lib/small/asxxxx/&lt;plat&gt;/crt0.o</code></li>
 </ul>
-<h2><a class="anchor" id="autotoc_md106"></a>
+<h2><a class="anchor" id="autotoc_md120"></a>
 Console Port and Platform Settings</h2>
 <ul>
 <li>Nintendo Game Boy / Game Boy Color<ul>
@@ -131,6 +139,11 @@ Console Port and Platform Settings</h2>
 <li>Analogue Pocket<ul>
 <li><a class="el" href="docs_toolchain.html#lcc">lcc</a> : <code>-mgbz80:ap</code></li>
 <li>port:<code>gbz80</code>, plat:<code>ap</code></li>
+</ul>
+</li>
+<li>Mega Duck / Cougar Boy<ul>
+<li><a class="el" href="docs_toolchain.html#lcc">lcc</a> : <code>-mgbz80:duck</code></li>
+<li>port:<code>gbz80</code>, plat:<code>duck</code></li>
 </ul>
 </li>
 <li>Sega Master System<ul>
@@ -144,10 +157,10 @@ Console Port and Platform Settings</h2>
 </ul>
 </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md107"></a>
+<h1><a class="anchor" id="autotoc_md121"></a>
 Cross-Platform Constants</h1>
 <p>There are several constant #defines that can be used to help select console specific code during compile time (with <code>#ifdef</code>, <code>#ifndef</code>) .</p>
-<h2><a class="anchor" id="autotoc_md108"></a>
+<h2><a class="anchor" id="autotoc_md122"></a>
 Console Identifiers</h2>
 <ul>
 <li>When <code>&lt;gb/gb.h&gt;</code> is included (either directly or through <code>&lt;gbdk/platform.h&gt;</code>)<ul>
@@ -159,6 +172,11 @@ Console Identifiers</h2>
 <li>When building for Analogue Pocket<ul>
 <li><code>NINTENDO</code> will be #defined</li>
 <li><code>ANALOGUEPOCKET</code> will be #defined</li>
+</ul>
+</li>
+<li>When building for Mega Duck / Cougar Boy<ul>
+<li><code>NINTENDO</code> will be #defined</li>
+<li><code>MEGADUCK</code> will be #defined</li>
 </ul>
 </li>
 </ul>
@@ -177,7 +195,7 @@ Console Identifiers</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md109"></a>
+<h2><a class="anchor" id="autotoc_md123"></a>
 Console Hardware Properties</h2>
 <p>Constants that describe properties of the console hardware are listed below. Their values will change to reflect the current console target that is being built.</p>
 <ul>
@@ -188,7 +206,7 @@ Console Hardware Properties</h2>
 <li><a class="el" href="gb_2hardware_8h.html#af531e7ac0c0a58517fa3061631745c31">DEVICE_SPRITE_PX_OFFSET_X</a>, <a class="el" href="gb_2hardware_8h.html#a7f6c8420831388300bbec13ea4cb57a0">DEVICE_SPRITE_PX_OFFSET_Y</a></li>
 <li><a class="el" href="sms_2hardware_8h.html#ad14c51cdfb347c34c364f54e67dc978d">DEVICE_SCREEN_PX_WIDTH</a>, <a class="el" href="sms_2hardware_8h.html#a7bd450aa268b881257089cf8cd6697ec">DEVICE_SCREEN_PX_HEIGHT</a></li>
 </ul>
-<h1><a class="anchor" id="autotoc_md110"></a>
+<h1><a class="anchor" id="autotoc_md124"></a>
 Using &lt;gbdk/...&gt; headers</h1>
 <p>Some include files under <code>&lt;gbdk/..&gt;</code> are cross platform and others allow the build process to auto-select the correct include file for the current target port and platform (console).</p>
 <p>For example, the following can be used </p><pre class="fragment">#include &lt;gbdk/platform.h&gt;
@@ -198,14 +216,18 @@ Using &lt;gbdk/...&gt; headers</h1>
 </pre><p>and </p><pre class="fragment">#include &lt;sms/sms.h&gt;
 #include &lt;sms/metasprites.h&gt;
 </pre><p><a class="anchor" id="docs_consoles_cross_platform_examples"></a></p>
-<h1><a class="anchor" id="autotoc_md111"></a>
+<h1><a class="anchor" id="autotoc_md125"></a>
 Cross Platform Example Projects</h1>
 <p>GBDK includes an number of cross platform example projects. These projects show how to write code that can be compiled and run on multiple different consoles (for example Game Boy and Game Gear) with, in some cases, minimal differences.</p>
 <p>They also show how to build for multiple target consoles with a single build command and <code>Makefile</code>. The <code>Makefile.targets</code> allows selecting different <code>port</code> and <code>plat</code> settings when calling the build stages.</p>
-<h1><a class="anchor" id="autotoc_md112"></a>
+<h2><a class="anchor" id="autotoc_md126"></a>
+Cross Platform Asset Example</h2>
+<p>The cross-platform <code>Logo</code> example project shows how assets can be managed for multiple different console targets together.</p>
+<p>In the example <a class="el" href="docs_toolchain.html#utility_png2asset">utility_png2asset</a> is used to generate assets in the native format for each console at compile-time from separate source PNG images. The Makefile is set to use the source PNG folder which matches the current console being compiled, and the source code uses <a class="el" href="gb_8h.html#a68651e50243349b48164a8ad983dca4e">set_native_tile_data()</a> to load the assets tiles in native format.</p>
+<h1><a class="anchor" id="autotoc_md127"></a>
 Porting From Game Boy to Analogue Pocket</h1>
 <p>The Analogue Pocket is (for practical purposes) functionally identical to the Game Boy / Color, but has a couple altered register flag and address definitions and a different boot logo. In order for software to be easily ported to the Analogue Pocket, or to run on both, use the following practices.</p>
-<h2><a class="anchor" id="autotoc_md113"></a>
+<h2><a class="anchor" id="autotoc_md128"></a>
 Registers and Flags</h2>
 <p>Use API defined registers and register flags instead of hardwired ones</p><ul>
 <li>LCDC register: <a class="el" href="gb_2hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a> or <a class="el" href="gb_2hardware_8h.html#a8b576a1fe1473ac4aff8afecb28035cb">rLCDC</a></li>
@@ -213,21 +235,32 @@ Registers and Flags</h2>
 <li>LCDC flags: -&gt; LCDCF_... (example: <a class="el" href="gb_2hardware_8h.html#a1491fc03ed7f02e7309cc7b0c48b6c8a">LCDCF_ON</a>)</li>
 <li>STAT flags: -&gt; STATF_... (example: <a class="el" href="gb_2hardware_8h.html#a3b53105cc5be896b48794ba82d2aeb4c">STATF_LYC</a>)</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md114"></a>
+<h2><a class="anchor" id="autotoc_md129"></a>
 Boot logo</h2>
 <p>As long as the target console is <a class="el" href="docs_supported_consoles.html#docs_consoles_compiling">set during build time</a> then the correct boot logo will be automatically selected.</p>
-<h1><a class="anchor" id="autotoc_md115"></a>
+<h1><a class="anchor" id="autotoc_md130"></a>
+Porting From Game Boy to Mega Duck / Cougar Boy</h1>
+<p>The Mega Duck is fairly similar to the classic Game Boy. It has a couple altered register flag and address definitions, no boot logo and a different startup/entry-point address. In order for software to be easily ported to the Mega Duck, or to run on both, use the following practices.</p>
+<h2><a class="anchor" id="autotoc_md131"></a>
+Registers and Flags</h2>
+<p>Use API defined registers and register flags instead of hardwired ones</p><ul>
+<li>LCDC register: <a class="el" href="gb_2hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a> or <a class="el" href="gb_2hardware_8h.html#a8b576a1fe1473ac4aff8afecb28035cb">rLCDC</a></li>
+<li>STAT register: <a class="el" href="gb_2hardware_8h.html#ad40ebf3b29add46cdd310a7e0802bc6b">STAT_REG</a> or <a class="el" href="gb_2hardware_8h.html#a338ec378453b4457efdb3008978c0f28">rSTAT</a></li>
+<li>LCDC flags: -&gt; LCDCF_... (example: <a class="el" href="gb_2hardware_8h.html#a1491fc03ed7f02e7309cc7b0c48b6c8a">LCDCF_ON</a>)</li>
+<li>STAT flags: -&gt; STATF_... (example: <a class="el" href="gb_2hardware_8h.html#a3b53105cc5be896b48794ba82d2aeb4c">STATF_LYC</a>)</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md132"></a>
 Porting From Game Boy to SMS/GG</h1>
-<h2><a class="anchor" id="autotoc_md116"></a>
+<h2><a class="anchor" id="autotoc_md133"></a>
 Tile Data and Tile Map loading</h2>
-<h3><a class="anchor" id="autotoc_md117"></a>
+<h3><a class="anchor" id="autotoc_md134"></a>
 Tile and Map Data in 2bpp Game Boy Format</h3>
 <ul>
-<li><a class="el" href="gb_8h.html#a4d9b58a7682c3d9cbf4b974673c23d07">set_bkg_data()</a> and <a class="el" href="gb_8h.html#ac40ffe4802ea41e5cee0ac3d4b254e08">set_sprite_data()</a> will load 2bpp tile data in "game boy" format on both GB and SMS/GG.</li>
-<li>On the SMS/GG <a class="el" href="gb_8h.html#aa224c9bac27c7fd268e62bdf33338a84">set_2bpp_palette()</a> sets 4 colors that will be used when loading 2bpp assets with <a class="el" href="gb_8h.html#a4d9b58a7682c3d9cbf4b974673c23d07">set_bkg_data()</a>. This allows GB assets to be easily colorized without changing the asset format. There is some performance penalty for using the conversion.</li>
+<li><a class="el" href="gb_8h.html#a1f5101f2b7bb0123c26a3e257f843626">set_bkg_data()</a> and <a class="el" href="gb_8h.html#ae45b1c639698951b47e44fa8e89556f2">set_sprite_data()</a> will load 2bpp tile data in "game boy" format on both GB and SMS/GG.</li>
+<li>On the SMS/GG <a class="el" href="gb_8h.html#aa224c9bac27c7fd268e62bdf33338a84">set_2bpp_palette()</a> sets 4 colors that will be used when loading 2bpp assets with <a class="el" href="gb_8h.html#a1f5101f2b7bb0123c26a3e257f843626">set_bkg_data()</a>. This allows GB assets to be easily colorized without changing the asset format. There is some performance penalty for using the conversion.</li>
 <li><a class="el" href="sms_8h.html#a9a732aec1b7aec7d10a9d76ca4da2064">set_bkg_tiles()</a> loads 1-byte-per-tile tilemaps both for the GB and SMS/GG</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md118"></a>
+<h3><a class="anchor" id="autotoc_md135"></a>
 Tile and Map Data in Native Format</h3>
 <p>Use the following api calls when assets are avaialble in the native format for each platform.</p>
 <p><a class="el" href="gb_8h.html#a68651e50243349b48164a8ad983dca4e">set_native_tile_data()</a></p><ul>
@@ -240,15 +273,15 @@ Tile and Map Data in Native Format</h3>
 </ul>
 <p>There are also bit-depth specific API calls:</p><ul>
 <li>1bpp: <a class="el" href="sms_8h.html#adcb394299a1033616fc7d2faec8bd6ad">set_1bpp_colors</a>, <a class="el" href="sms_8h.html#a4d5f74eed0489ebfdc2410ee3f9f7f04">set_bkg_1bpp_data</a>, <a class="el" href="sms_8h.html#a2cc121fbeb5570248531b85a8f0b5b97">set_sprite_1bpp_data</a></li>
-<li>2bpp: <a class="el" href="sms_8h.html#aa224c9bac27c7fd268e62bdf33338a84">set_2bpp_palette</a>, <a class="el" href="sms_8h.html#aa7ba76e4d44dbf19da351fd1ea8e3023">set_bkg_2bpp_data</a>, <a class="el" href="sms_8h.html#a10ee2919fcab7a5c482816ed718d1c4a">set_sprite_2bpp_data</a>, <a class="el" href="sms_8h.html#a30e9f94cf4e5cf198bc54ce1e0ac5979">set_tile_2bpp_data</a> (sms/gg only)</li>
+<li>2bpp: <a class="el" href="sms_8h.html#aa224c9bac27c7fd268e62bdf33338a84">set_2bpp_palette</a>, <a class="el" href="sms_8h.html#aa7ba76e4d44dbf19da351fd1ea8e3023">set_bkg_2bpp_data</a>, <a class="el" href="sms_8h.html#a10ee2919fcab7a5c482816ed718d1c4a">set_sprite_2bpp_data</a>, <a class="el" href="sms_8h.html#ab752b1bb0f58da2a6d52e9747c4b3dd8">set_tile_2bpp_data</a> (sms/gg only)</li>
 <li>2bpp: <a class="el" href="sms_8h.html#aeff13dca11be49e8c159820c616016ec">set_bkg_4bpp_data</a> (sms/gg only), <a class="el" href="sms_8h.html#a24f53cfe7e25c04fbb5dcb08cfb3b432">set_sprite_4bpp_data</a> (sms/gg only)</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md119"></a>
+<h3><a class="anchor" id="autotoc_md136"></a>
 Emulated Game Boy Color map attributes on the SMS/Game Gear</h3>
 <p>On the Game Boy Color, <a class="el" href="gb_2hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a> is used to select between the regular background tile map and the background attribute tile map (for setting tile color palette and other properties).</p>
 <p>This behavior is emulated for the SMS/GG when using <a class="el" href="sms_8h.html#a9a732aec1b7aec7d10a9d76ca4da2064">set_bkg_tiles()</a> and <a class="el" href="gb_2hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a>. It allows writing a 1-byte tile map separately from a 1-byte attributes map.</p>
 <dl class="section note"><dt>Note</dt><dd>Tile map attributes on SMS/Game Gear use different control bits than the Game Boy Color, so a modified attribute map must be used.</dd></dl>
-<h1><a class="anchor" id="autotoc_md120"></a>
+<h1><a class="anchor" id="autotoc_md137"></a>
 Hardware Comparison</h1>
 <p>The specs below reflect the typical configuration of hardware when used with GBDK and is not meant as a complete list of their capabilities.</p>
 <p>GB/AP</p><ul>
@@ -294,7 +327,7 @@ Hardware Comparison</h1>
 </li>
 </ul>
 <p><a class="anchor" id="docs_consoles_safe_display_controller_access"></a></p>
-<h2><a class="anchor" id="autotoc_md121"></a>
+<h2><a class="anchor" id="autotoc_md138"></a>
 Safe VRAM / Display Controller Access</h2>
 <p>GB/AP</p><ul>
 <li>VRAM / Display Controller (PPU)<ul>

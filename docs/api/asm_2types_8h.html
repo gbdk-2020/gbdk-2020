@@ -29,6 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
+   &#160;<span id="projectnumber">4.0.6</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -106,6 +107,14 @@ Data Structures</h2></td></tr>
 Macros</h2></td></tr>
 <tr class="memitem:a0971918860055db2e50dacea4da8f3bc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
 <tr class="separator:a0971918860055db2e50dacea4da8f3bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb825e83a33fcc06482c59b4ab2cf961"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="asm_2types_8h.html#acb825e83a33fcc06482c59b4ab2cf961">PRESERVES_REGS</a>(...)</td></tr>
+<tr class="separator:acb825e83a33fcc06482c59b4ab2cf961"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a18c4884994b9b520ae535b6d9579d3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="asm_2types_8h.html#a7a18c4884994b9b520ae535b6d9579d3">NAKED</a></td></tr>
+<tr class="separator:a7a18c4884994b9b520ae535b6d9579d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb3731986211fded0a874086c98ffcc4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="asm_2types_8h.html#afb3731986211fded0a874086c98ffcc4">SFR</a></td></tr>
+<tr class="separator:afb3731986211fded0a874086c98ffcc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66d3e9555a86fa871932c5f60834c67e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="asm_2types_8h.html#a66d3e9555a86fa871932c5f60834c67e">AT</a>(A)</td></tr>
+<tr class="separator:a66d3e9555a86fa871932c5f60834c67e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7ed081d8dfb6902784b2fc730bbb7f96"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="asm_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
 <tr class="separator:a7ed081d8dfb6902784b2fc730bbb7f96"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa8480aed89a168ec484727f5ac985cd0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="asm_2types_8h.html#aa8480aed89a168ec484727f5ac985cd0">BANKED</a></td></tr>
@@ -149,6 +158,70 @@ Typedefs</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">#define OLDCALL</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acb825e83a33fcc06482c59b4ab2cf961"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb825e83a33fcc06482c59b4ab2cf961">&#9670;&nbsp;</a></span>PRESERVES_REGS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PRESERVES_REGS</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7a18c4884994b9b520ae535b6d9579d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a18c4884994b9b520ae535b6d9579d3">&#9670;&nbsp;</a></span>NAKED</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define NAKED</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afb3731986211fded0a874086c98ffcc4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb3731986211fded0a874086c98ffcc4">&#9670;&nbsp;</a></span>SFR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SFR</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a66d3e9555a86fa871932c5f60834c67e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a66d3e9555a86fa871932c5f60834c67e">&#9670;&nbsp;</a></span>AT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define AT</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">A</td><td>)</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">

@@ -10,13 +10,26 @@ You can get the latest releases from here: https://github.com/gbdk-2020/gbdk-202
 # 2. Compile Example projects
 Make sure your GBDK-2020 installation is working correctly by compiling some of the included @ref docs_example_programs "example projects".
 
+If everything in works in the steps below and there are no errors reported then each project that was build should have it's on .gb ROM file (or suitable extension for the other supported targets).
+
+## Windows (without Make installed):
+Navigate to a project within the example projects folder (`"examples\gb\"` under your GBDK-2020 install folder) and open a command line. Then type:
+
+    compile
+
+or
+
+    compile.bat
+
+This should build the example project. You can also navigate into other example project folders and build in the same way.
+
+
+## Linux / MacOS / Windows with Make installed:
 Navigate to the example projects folder (`"examples/gb/"` under your GBDK-2020 install folder) and open a command line. Then type:
 
     make
 
 This should build all of the examples sequentially. You can also navigate into an individual example project's folder and build it by typing `make`.
-
-If everything works and there are no errors reported each example sub-folder should have it's on .gb ROM file.
 
 
 # 3. Use a Template
@@ -51,7 +64,15 @@ What size will your game or program be?
   - Larger than 32K (MBC required)
   - See more details about @ref docs_rombanking_mbcs "ROM Banking and MBCs".
 
-What hardware will it run on?
+What console platform(s) will it run on?
+  - Game Boy (GB/GBC)
+  - Analogue Pocket (AP)
+  - Sega Master System (SMS)
+  - Game Gear (GG)
+  - Mega Duck (DUCK)
+  - See @ref docs_supported_consoles
+
+If targeting the Game Boy, what hardware will it run on?
   - Game Boy (& Game Boy Color)
   - Game Boy Color only
   - Game Boy & Super Game Boy
@@ -75,4 +96,51 @@ You might want to start off with a guided GBDK tutorial from the @ref links_gbdk
 
 # 10. Need help?
 Check out the links for @ref links_help_and_community "online community and support" and read the @ref docs_faq "FAQ".
+
+
+
+# Migrating From Pre-GBDK-2020 Tutorials
+Several popular GBDK Tutorials, Videos and How-to's were made before GBDK-2020 was available, as a result some information they include is outdated or incompatible. The following summarizes changes that should be made for best results.
+
+## Also see: 
+- @ref docs_migrating_versions
+- @ref docs_coding_guidelines
+- @ref docs_getting_started (the section above this)
+
+## Use auto-banking
+GBDK-2020 now supports auto-banking (@ref rom_autobanking). In most cases using auto-banking will be easier and less error prone than manually assigning source and assets to banks.
+- There is a source example `banks_autobank` project.
+
+## Non-standard types (UINT8, etc)
+The old GBDK types `UINT8`, `INT8`, `UINT16`, `INT16` are non-standard and less portable.
+
+The following should be used instead: `uint8_t`, `int16_t`, `uint16_t`, `int32_t`, `uint32_t` and `bool`.
+
+These are standard types defined in `stdint.h` (`#include <stdint.h>`) and `stdbool.h` (`#include <stdbool.h>`).
+
+## If using GBTD / GBMB, get the fixed version
+If you plan to use GBTD / GBMB for making graphics, make sure to get the version with the `const` fix and other improvements. See @ref const_gbtd_gbmb.
+
+## LCC and SDCC flags that are not needed
+The following flag is no longer needed with @ref lcc and @ref sdcc, it can be removed without any loss of performance.
+- `-DUSE_SFR`
+   - Behavior formerly enabled by USE_SFR_FOR_REG is on by default now (no need to specify it, it isn't a tested `#ifdef` anymore). check here why: https://gbdev.gg8.se/forums/viewtopic.php?id=697
+
+## ROM Header Settings (such as Color, SGB, etc)
+Setting ROM bytes directly with `-Wl-yp0x<address>=0x<value>` is no longer supported. Instead use @ref makebin flags. For example, use `-Wm-yC` instead of `-Wl-yp0x143=0xC0`. See @ref faq_gb_type_header_setting.
+
+## GBDK Header include changes
+The following header files which are now cross platform were moved from `gb/` to `gbdk/`: `bcd.h`, `console.h`, `far_ptr.h`, `font.h`, `gbdecompress.h`, `gbdk-lib.h`, `incbin.h`, `metasprites.h`, `platform.h`, `version.h`
+- When including them use `#include <gbdk/...>` instead of `#include <gb/>`
+
+## Include .h headers, not .c source files
+Do not `#include` `.c` source files into other `.c` source files. Instead create `.h` header files for them and include those.
+- https://www.tutorialspoint.com/cprogramming/c_header_files.htm
+
+## Use the Template Projects
+Modern project templates are included with GBDK-2020. Using them (and their Makefile or compile.bat) as a starting point for projects is recommended and can help ensure better default settings and project organization.
+
+## Use hUGEtracker instead of gbt_player
+hUGEtracker and it's driver @ref hUGEdriver are smaller, more efficient and more versatile than gbt_player.
+    
 

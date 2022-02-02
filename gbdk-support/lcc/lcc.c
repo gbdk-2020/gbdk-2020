@@ -746,7 +746,7 @@ static void help(void) {
 "-Idir	add `dir' to the beginning of the list of #include directories\n",
 "-K don't run ihxcheck test on linker ihx output\n",
 "-lx	search library `x'\n",
-"-m	select port and platform: \"-m[port]:[plat]\" ports:gbz80,z80 plats:ap,gb,sms,gg\n",
+"-m	select port and platform: \"-m[port]:[plat]\" ports:gbz80,z80 plats:ap,duck,gb,sms,gg\n",
 "-N	do not search the standard directories for #include files\n",
 "-n	emit code to check for dereferencing zero pointers\n",
 "-no-crt do not auto-include the gbdk crt0.o runtime in linker list\n",
@@ -885,7 +885,7 @@ static void opt(char *arg) {
 				char *tmp = malloc(256);
 				char *tmp2 = malloc(256);
 				tmp2[0] = '\0'; // Zero out second arg by default
-				if(arg[4] == 'y') {
+				if (arg[4] == 'y') {
 					sprintf(tmp, "%c%c%c", arg[3], arg[4], arg[5]); //-yo -ya -yt -yl -yk -yn -yp
 					if (!(arg[5] == 'c' || arg[5] == 'C' || arg[5] == 's'  || arg[5] == 'S' || arg[5] == 'j' || arg[5] == 'p')) // Don't add second arg for -yc -yC -ys -yS -yj
 						sprintf(tmp2, "%s", &arg[6]);
@@ -897,6 +897,13 @@ static void opt(char *arg) {
 					// If MBC option is present for makebin (-Wl-yt <n> or -Wm-yt <n>) then make a copy for bankpack to use
 					if (arg[5] == 't')
 						bankpack_flags = append(&arg[3], bankpack_flags);
+				} else if ((arg[4] == 'x') && arg[5] && arg[6]) {
+					// SMS options
+					// Print "-" plus first two option chars into first arg
+					// and any trailing option chars into a separate arg
+					sprintf(tmp, "%c%c%c", arg[3], arg[4], arg[5]);  //-xo -xj -xv
+					if(arg[6])
+						sprintf(tmp2, "%s", &arg[6]);
 				} else {
 					sprintf(tmp, "%c%c", arg[3], arg[4]); //-s
 					if(arg[5])

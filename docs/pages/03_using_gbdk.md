@@ -76,9 +76,11 @@ Including @ref stdio.h and using functions such as @ref printf() will use a larg
 
 
 # Copying Functions to RAM and HIRAM
-The `ram_function` example project included with GBDK demonstrates copying functions to RAM and HIRAM.
+See the `ram_function` example project included with GBDK demonstrates copying functions to RAM and HIRAM.
 
-It is possible to copy functions to RAM and HIRAM (using the memcpy() and hiramcpy() functions), and execute them from C. The compiler automatically generates two symbols for the start and the end of each function, named start_X and end_X (where X is the name of the function). This enables to calculate the length of a function when copying it to RAM. Ensure you have enough free space in RAM or HIRAM for copying a function.
+`Warning!` Copying of functions is generally not safe since they may contain jumps to absolute addresses that will not be converted to match the new location.
+
+It is possible to copy functions to RAM and HIRAM (using the memcpy() and hiramcpy() functions), and execute them from C. Ensure you have enough free space in RAM or HIRAM for copying a function.
 
 There are basically two ways for calling a function located in RAM, HIRAM, or ROM:
 

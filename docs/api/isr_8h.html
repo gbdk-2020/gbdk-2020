@@ -29,6 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
+   &#160;<span id="projectnumber">4.0.6</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -94,6 +95,7 @@ $(document).ready(function(){initNavTree('isr_8h.html',''); initResizable(); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;<a class="el" href="stdint_8h_source.html">stdint.h</a>&gt;</code><br />
+<code>#include &lt;types.h&gt;</code><br />
 </div>
 <p><a href="isr_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -114,9 +116,9 @@ Macros</h2></td></tr>
 <tr class="separator:a9c51a56a79576c33fcc98579bf7153a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac93f10ff354ca76f4030f64a8496303f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="isr_8h.html#ac93f10ff354ca76f4030f64a8496303f">VECTOR_JOYPAD</a>&#160;&#160;&#160;0x60</td></tr>
 <tr class="separator:ac93f10ff354ca76f4030f64a8496303f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a73769fed9338af86fdb7df35d7b82620"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="isr_8h.html#a73769fed9338af86fdb7df35d7b82620">ISR_VECTOR</a>(ADDR,  FUNC)&#160;&#160;&#160;static const <a class="el" href="structisr__vector__t.html">isr_vector_t</a> __at((ADDR)) __ISR_ ## ADDR = {0xc3, (void *)&amp;(FUNC)};</td></tr>
+<tr class="memitem:a73769fed9338af86fdb7df35d7b82620"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="isr_8h.html#a73769fed9338af86fdb7df35d7b82620">ISR_VECTOR</a>(ADDR,  FUNC)&#160;&#160;&#160;static const <a class="el" href="structisr__vector__t.html">isr_vector_t</a> <a class="el" href="asm_2types_8h.html#a66d3e9555a86fa871932c5f60834c67e">AT</a>((ADDR)) __ISR_ ## ADDR = {0xc3, (void *)&amp;(FUNC)};</td></tr>
 <tr class="separator:a73769fed9338af86fdb7df35d7b82620"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a78f9ef588aaf221023e48899898d566b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="isr_8h.html#a78f9ef588aaf221023e48899898d566b">ISR_NESTED_VECTOR</a>(ADDR,  FUNC)&#160;&#160;&#160;static const <a class="el" href="structisr__nested__vector__t.html">isr_nested_vector_t</a> __at((ADDR)) __ISR_ ## ADDR = {{0xfb, 0xc3}, (void *)&amp;(FUNC)};</td></tr>
+<tr class="memitem:a78f9ef588aaf221023e48899898d566b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="isr_8h.html#a78f9ef588aaf221023e48899898d566b">ISR_NESTED_VECTOR</a>(ADDR,  FUNC)&#160;&#160;&#160;static const <a class="el" href="structisr__nested__vector__t.html">isr_nested_vector_t</a> <a class="el" href="asm_2types_8h.html#a66d3e9555a86fa871932c5f60834c67e">AT</a>((ADDR)) __ISR_ ## ADDR = {{0xfb, 0xc3}, (void *)&amp;(FUNC)};</td></tr>
 <tr class="separator:a78f9ef588aaf221023e48899898d566b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
@@ -211,7 +213,7 @@ Typedefs</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;static const <a class="el" href="structisr__vector__t.html">isr_vector_t</a> __at((ADDR)) __ISR_ ## ADDR = {0xc3, (void *)&amp;(FUNC)};</td>
+          <td></td><td>&#160;&#160;&#160;static const <a class="el" href="structisr__vector__t.html">isr_vector_t</a> <a class="el" href="asm_2types_8h.html#a66d3e9555a86fa871932c5f60834c67e">AT</a>((ADDR)) __ISR_ ## ADDR = {0xc3, (void *)&amp;(FUNC)};</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -232,7 +234,7 @@ Typedefs</h2></td></tr>
 <div class="line">}</div>
 <div class="line"> </div>
 <div class="line"><a class="code" href="isr_8h.html#a73769fed9338af86fdb7df35d7b82620">ISR_VECTOR</a>(<a class="code" href="isr_8h.html#a84ca82d76186433c1ec77fde7652b827">VECTOR_TIMER</a>, TimerISR)</div>
-</div><!-- fragment --><dl class="section see"><dt>See also</dt><dd><a class="el" href="isr_8h.html#a78f9ef588aaf221023e48899898d566b">ISR_NESTED_VECTOR</a>, <a class="el" href="sms_8h.html#a46aa5fa208d6a58fe07a170db49a8849">set_interrupts</a> </dd></dl>
+</div><!-- fragment --><dl class="section see"><dt>See also</dt><dd><a class="el" href="isr_8h.html#a78f9ef588aaf221023e48899898d566b">ISR_NESTED_VECTOR</a>, <a class="el" href="sms_8h.html#aefda0091b2934571a11e07b512735f50">set_interrupts</a> </dd></dl>
 
 </div>
 </div>
@@ -257,7 +259,7 @@ Typedefs</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;static const <a class="el" href="structisr__nested__vector__t.html">isr_nested_vector_t</a> __at((ADDR)) __ISR_ ## ADDR = {{0xfb, 0xc3}, (void *)&amp;(FUNC)};</td>
+          <td></td><td>&#160;&#160;&#160;static const <a class="el" href="structisr__nested__vector__t.html">isr_nested_vector_t</a> <a class="el" href="asm_2types_8h.html#a66d3e9555a86fa871932c5f60834c67e">AT</a>((ADDR)) __ISR_ ## ADDR = {{0xfb, 0xc3}, (void *)&amp;(FUNC)};</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -305,8 +307,8 @@ Typedefs</h2></td></tr>
 </div>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aisr_8h_html_a84ca82d76186433c1ec77fde7652b827"><div class="ttname"><a href="isr_8h.html#a84ca82d76186433c1ec77fde7652b827">VECTOR_TIMER</a></div><div class="ttdeci">#define VECTOR_TIMER</div><div class="ttdef"><b>Definition:</b> isr.h:16</div></div>
-<div class="ttc" id="aisr_8h_html_a73769fed9338af86fdb7df35d7b82620"><div class="ttname"><a href="isr_8h.html#a73769fed9338af86fdb7df35d7b82620">ISR_VECTOR</a></div><div class="ttdeci">#define ISR_VECTOR(ADDR, FUNC)</div><div class="ttdef"><b>Definition:</b> isr.h:51</div></div>
+<div class="ttc" id="aisr_8h_html_a84ca82d76186433c1ec77fde7652b827"><div class="ttname"><a href="isr_8h.html#a84ca82d76186433c1ec77fde7652b827">VECTOR_TIMER</a></div><div class="ttdeci">#define VECTOR_TIMER</div><div class="ttdef"><b>Definition:</b> isr.h:17</div></div>
+<div class="ttc" id="aisr_8h_html_a73769fed9338af86fdb7df35d7b82620"><div class="ttname"><a href="isr_8h.html#a73769fed9338af86fdb7df35d7b82620">ISR_VECTOR</a></div><div class="ttdeci">#define ISR_VECTOR(ADDR, FUNC)</div><div class="ttdef"><b>Definition:</b> isr.h:52</div></div>
 <div class="ttc" id="aisr_8h_html"><div class="ttname"><a href="isr_8h.html">isr.h</a></div></div>
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->

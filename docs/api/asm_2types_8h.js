@@ -2,6 +2,10 @@ var asm_2types_8h =
 [
     [ "_fixed", "union__fixed.html", "union__fixed" ],
     [ "OLDCALL", "asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc", null ],
+    [ "PRESERVES_REGS", "asm_2types_8h.html#acb825e83a33fcc06482c59b4ab2cf961", null ],
+    [ "NAKED", "asm_2types_8h.html#a7a18c4884994b9b520ae535b6d9579d3", null ],
+    [ "SFR", "asm_2types_8h.html#afb3731986211fded0a874086c98ffcc4", null ],
+    [ "AT", "asm_2types_8h.html#a66d3e9555a86fa871932c5f60834c67e", null ],
     [ "NONBANKED", "asm_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96", null ],
     [ "BANKED", "asm_2types_8h.html#aa8480aed89a168ec484727f5ac985cd0", null ],
     [ "CRITICAL", "asm_2types_8h.html#ae0233515480e60d29bcc731469976e02", null ],

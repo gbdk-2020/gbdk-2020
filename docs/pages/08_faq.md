@@ -5,7 +5,14 @@
 # General
   - How can sound effects be made?
     - The simplest way is to use the Game Boy sound hardware directly. See the @ref examples_sound_sample "Sound Example" for a way to test out sounds on the hardware.
-    - Further discussion on using the Sound Example rom can be found in the ZGB wiki. Note that some example code there is ZGB specific and not part of the base GBDK API: https://github.com/Zal0/ZGB/wiki/Sounds <!-- -->  
+    - Further discussion on using the Sound Example rom can be found in the ZGB wiki. Note that some example code there is ZGB specific and not part of the base GBDK API: https://github.com/Zal0/ZGB/wiki/Sounds <!-- -->
+
+# Graphics and Resources
+  - How do I use a tile map when it's tiles don't start at index zero?
+    - The two main options are:
+      - Use @ref set_bkg_based_tiles(), @ref set_bkg_based_submap(), @ref set_win_based_tiles(), @ref set_win_based_submap() and provide a tile origin offset.
+      - Use @ref utility_png2asset with `-tile_origin` to create a map with the tile index offsets built in.
+      <!-- -->  
 
 # ROM Header Settings
   - How do I set the ROM's title?
@@ -19,7 +26,7 @@
       - `-yC` : GameBoy Color only
       - `-ys` : Super GameBoy compatible <!-- -->  
 
-  - How do I set the ROM @ref MBC type?
+  - How do I set the ROM @ref MBC type, and what MBC values are available to use with the `-yt` @ref makebin flag?
     - See @ref setting_mbc_and_rom_ram_banks <!-- -->  
 
 # Errors / Compiling / Toolchain
@@ -50,6 +57,14 @@
 
   - Is it possible to generate a debug symbol file (`.sym`) compatible with the @ref bgb emulator?
     - Yes, turn on `.noi` output (LCC argument: `-Wl-j` or `-debug` and then use `-Wm-yS` with LCC (or `-yS` with makebin directly). <!-- -->  
+
+  - How do I move the start of the `DATA` section and the `Shadow OAM` location?
+    - The default locations are: `_shadow_OAM=0xC000` and 240 bytes after it `_DATA=0xC0A0`
+    - So, for example, if you wanted to move them both to start 256(0x100) bytes later, use these command line arguments for LCC:
+      - To change the Shadow OAM address: `-Wl-g_shadow_OAM=0xC100`
+      - To change the DATA address (again, 240 bytes after the Shadow OAM): `-Wl-b_DATA=0xc1a0`
+     <!-- -->  
+
 
 # API / Utilities
   - Is there a list of all functions in the API?

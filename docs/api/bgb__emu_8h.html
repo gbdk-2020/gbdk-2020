@@ -29,6 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
+   &#160;<span id="projectnumber">4.0.6</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -85,234 +86,18 @@ $(document).ready(function(){initNavTree('bgb__emu_8h.html',''); initResizable()
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#define-members">Macros</a> &#124;
-<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">bgb_emu.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;types.h&gt;</code><br />
+<div class="textblock"><code>#include &lt;<a class="el" href="emu__debug_8h_source.html">gb/emu_debug.h</a>&gt;</code><br />
 </div>
 <p><a href="bgb__emu_8h_source.html">Go to the source code of this file.</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:aabd48c83af8f69ed624bb8a83347fa39"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bgb__emu_8h.html#aabd48c83af8f69ed624bb8a83347fa39">BGB_MESSAGE</a>(message_text)&#160;&#160;&#160;BGB_MESSAGE1(BGB_MACRONAME(__LINE__), message_text)</td></tr>
-<tr class="separator:aabd48c83af8f69ed624bb8a83347fa39"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab5b05deda52856c84f274fb28578b6ee"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bgb__emu_8h.html#ab5b05deda52856c84f274fb28578b6ee">BGB_PROFILE_BEGIN</a>(MSG)&#160;&#160;&#160;BGB_MESSAGE_SUFFIX(MSG, &quot;%ZEROCLKS%&quot;);</td></tr>
-<tr class="separator:ab5b05deda52856c84f274fb28578b6ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab43f94064dc523e99c4aefb440e2c3ed"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bgb__emu_8h.html#ab43f94064dc523e99c4aefb440e2c3ed">BGB_PROFILE_END</a>(MSG)&#160;&#160;&#160;BGB_MESSAGE_SUFFIX(MSG,&quot;%-8+LASTCLKS%&quot;);</td></tr>
-<tr class="separator:ab43f94064dc523e99c4aefb440e2c3ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6afa665bd7d093e7ca2d310cc92b08a9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bgb__emu_8h.html#a6afa665bd7d093e7ca2d310cc92b08a9">BGB_TEXT</a>(MSG)&#160;&#160;&#160;<a class="el" href="bgb__emu_8h.html#aabd48c83af8f69ed624bb8a83347fa39">BGB_MESSAGE</a>(MSG)</td></tr>
-<tr class="separator:a6afa665bd7d093e7ca2d310cc92b08a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a95c9ae3faadfe6f93a3cac87085b3481"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bgb__emu_8h.html#a95c9ae3faadfe6f93a3cac87085b3481">BGB_BREAKPOINT</a>&#160;&#160;&#160;__asm__(&quot;ld <a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>, <a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>&quot;);</td></tr>
-<tr class="separator:a95c9ae3faadfe6f93a3cac87085b3481"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a219a24aebe0bddc535ba4abc81cee30c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bgb__emu_8h.html#a219a24aebe0bddc535ba4abc81cee30c">BGB_profiler_message</a> ()</td></tr>
-<tr class="separator:a219a24aebe0bddc535ba4abc81cee30c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b2f53166550341e0b1297dd5aa5a2c3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bgb__emu_8h.html#a2b2f53166550341e0b1297dd5aa5a2c3">BGB_printf</a> (const char *format,...) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:a2b2f53166550341e0b1297dd5aa5a2c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Debug window logging and profiling support for the BGB emulator.</p>
-<p>Also see the <code>bgb_debug</code> example project included with gbdk.</p>
-<p>See the BGB Manual for more information ("expressions, breakpoint conditions, and debug messages") <a href="http://bgb.bircd.org/manual.html#expressions">http://bgb.bircd.org/manual.html#expressions</a> </p>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="aabd48c83af8f69ed624bb8a83347fa39"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aabd48c83af8f69ed624bb8a83347fa39">&#9670;&nbsp;</a></span>BGB_MESSAGE</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define BGB_MESSAGE</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">message_text</td><td>)</td>
-          <td>&#160;&#160;&#160;BGB_MESSAGE1(BGB_MACRONAME(__LINE__), message_text)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Macro to display a message in the BGB emulator debug message window</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">message_text</td><td>Quoted text string to display in the debug message window</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>The following special parameters can be used when bracketed with "%" characters. </p><ul>
-<li>CPU registers: AF, BC, DE, HL, SP, PC, B, C, D, E, H, L, A, ZERO, ZF, Z, CARRY, CY, IME, ALLREGS </li>
-<li>Other state values: ROMBANK, XRAMBANK, SRAMBANK, WRAMBANK, VRAMBANK, TOTALCLKS, LASTCLKS, CLKS2VBLANK</li>
-</ul>
-<p>Example: print a message along with the currently active ROM bank. </p><div class="fragment"><div class="line"><a class="code" href="bgb__emu_8h.html#aabd48c83af8f69ed624bb8a83347fa39">BGB_MESSAGE</a>(<span class="stringliteral">&quot;Current ROM Bank is: %ROMBANK%&quot;</span>);</div>
-</div><!-- fragment --><p>See the BGB Manual for more information ("expressions, breakpoint conditions, and debug messages") <a href="http://bgb.bircd.org/manual.html#expressions">http://bgb.bircd.org/manual.html#expressions</a></p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="bgb__emu_8h.html#ab5b05deda52856c84f274fb28578b6ee">BGB_PROFILE_BEGIN()</a>, <a class="el" href="bgb__emu_8h.html#ab43f94064dc523e99c4aefb440e2c3ed">BGB_PROFILE_END()</a> </dd></dl>
-
-</div>
-</div>
-<a id="ab5b05deda52856c84f274fb28578b6ee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab5b05deda52856c84f274fb28578b6ee">&#9670;&nbsp;</a></span>BGB_PROFILE_BEGIN</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define BGB_PROFILE_BEGIN</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">MSG</td><td>)</td>
-          <td>&#160;&#160;&#160;BGB_MESSAGE_SUFFIX(MSG, &quot;%ZEROCLKS%&quot;);</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Macro to <b>Start</b> a profiling block for the BGB emulator</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">MSG</td><td>Quoted text string to display in the debug message window along with the result</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>To complete the profiling block and print the result call <a class="el" href="bgb__emu_8h.html#ab43f94064dc523e99c4aefb440e2c3ed">BGB_PROFILE_END</a>.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="bgb__emu_8h.html#ab43f94064dc523e99c4aefb440e2c3ed">BGB_PROFILE_END()</a>, <a class="el" href="bgb__emu_8h.html#aabd48c83af8f69ed624bb8a83347fa39">BGB_MESSAGE()</a> </dd></dl>
-
-</div>
-</div>
-<a id="ab43f94064dc523e99c4aefb440e2c3ed"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab43f94064dc523e99c4aefb440e2c3ed">&#9670;&nbsp;</a></span>BGB_PROFILE_END</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define BGB_PROFILE_END</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">MSG</td><td>)</td>
-          <td>&#160;&#160;&#160;BGB_MESSAGE_SUFFIX(MSG,&quot;%-8+LASTCLKS%&quot;);</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Macro to <b>End</b> a profiling block and print the results in the BGB emulator debug message window</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">MSG</td><td>Quoted text string to display in the debug message window along with the result</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>This should only be called after a previous call to <a class="el" href="bgb__emu_8h.html#ab5b05deda52856c84f274fb28578b6ee">BGB_PROFILE_BEGIN()</a></p>
-<p>The results are in BGB clock units, which are "1 nop in [CGB] doublespeed mode".</p>
-<p>So when running in Normal Speed mode (i.e. non-CGB doublespeed) the printed result should be <b>divided by 2</b> to get the actual ellapsed cycle count.</p>
-<p>If running in CB Double Speed mode use the below call instead, it correctly compensates for the speed difference. In this scenario, the result does <b>not need to be divided by 2</b> to get the ellapsed cycle count. </p><div class="fragment"><div class="line"><a class="code" href="bgb__emu_8h.html#aabd48c83af8f69ed624bb8a83347fa39">BGB_MESSAGE</a>(<span class="stringliteral">&quot;NOP TIME: %-4+LASTCLKS%&quot;</span>);</div>
-</div><!-- fragment --><dl class="section see"><dt>See also</dt><dd><a class="el" href="bgb__emu_8h.html#ab5b05deda52856c84f274fb28578b6ee">BGB_PROFILE_BEGIN()</a>, <a class="el" href="bgb__emu_8h.html#aabd48c83af8f69ed624bb8a83347fa39">BGB_MESSAGE()</a> </dd></dl>
-
-</div>
-</div>
-<a id="a6afa665bd7d093e7ca2d310cc92b08a9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6afa665bd7d093e7ca2d310cc92b08a9">&#9670;&nbsp;</a></span>BGB_TEXT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define BGB_TEXT</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">MSG</td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="bgb__emu_8h.html#aabd48c83af8f69ed624bb8a83347fa39">BGB_MESSAGE</a>(MSG)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a95c9ae3faadfe6f93a3cac87085b3481"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a95c9ae3faadfe6f93a3cac87085b3481">&#9670;&nbsp;</a></span>BGB_BREAKPOINT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define BGB_BREAKPOINT&#160;&#160;&#160;__asm__(&quot;ld <a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>, <a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>&quot;);</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>BGB will break into debugger when encounters this line </p>
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a219a24aebe0bddc535ba4abc81cee30c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a219a24aebe0bddc535ba4abc81cee30c">&#9670;&nbsp;</a></span>BGB_profiler_message()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void BGB_profiler_message </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Display preset debug information in the BGB debug messages window.</p>
-<p>This function is equivalent to: </p><div class="fragment"><div class="line"><a class="code" href="bgb__emu_8h.html#aabd48c83af8f69ed624bb8a83347fa39">BGB_MESSAGE</a>(<span class="stringliteral">&quot;PROFILE,%(SP+$0)%,%(SP+$1)%,%A%,%TOTALCLKS%,%ROMBANK%,%WRAMBANK%&quot;</span>);</div>
-</div><!-- fragment --> 
-</div>
-</div>
-<a id="a2b2f53166550341e0b1297dd5aa5a2c3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2b2f53166550341e0b1297dd5aa5a2c3">&#9670;&nbsp;</a></span>BGB_printf()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void BGB_printf </td>
-          <td>(</td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>format</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Print the string and arguments given by format to the BGB emulator debug message window</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">format</td><td>The format string as per printf</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>Does not return the number of characters printed. Result string MUST BE LESS OR EQUAL THAN 128 BYTES LONG, INCLUDING THE TRAILIG ZERO BYTE!</p>
-<p>Currently supported: </p><ul>
-<li>%hx (char as hex) </li>
-<li>%hu (unsigned char) </li>
-<li>%hd (signed char) </li>
-<li>%c (character) </li>
-<li>%u (unsigned int) </li>
-<li>%d (signed int) </li>
-<li>%x (unsigned int as hex) </li>
-<li>%s (string)</li>
-</ul>
-<p>Warning: to correctly pass chars for printing as chars, they <em>must</em> be explicitly re-cast as such when calling the function. See <a class="el" href="docs_coding_guidelines.html#docs_chars_varargs">docs_chars_varargs</a> for more details. </p>
-
-</div>
-</div>
-</div><!-- contents -->
+<div class="textblock"><p>Shim for legacy use of <a class="el" href="bgb__emu_8h.html">bgb_emu.h</a> which has been migrated to <a class="el" href="emu__debug_8h.html">emu_debug.h</a></p>
+<p>See the <code>emu_debug</code> example project included with gbdk. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="abgb__emu_8h_html_aabd48c83af8f69ed624bb8a83347fa39"><div class="ttname"><a href="bgb__emu_8h.html#aabd48c83af8f69ed624bb8a83347fa39">BGB_MESSAGE</a></div><div class="ttdeci">#define BGB_MESSAGE(message_text)</div><div class="ttdef"><b>Definition:</b> bgb_emu.h:40</div></div>
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

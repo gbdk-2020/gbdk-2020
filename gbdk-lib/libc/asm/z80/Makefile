@@ -10,7 +10,7 @@ ASSRC = __strreverse.s strcpy.s strlen.s \
 	mul.s mulchar.s \
 	__itoa.s __ltoa.s \
 	__uitobcd.s __ultobcd.s \
-	memcpy.s memmove.s memset.s \
+	memcpy.s memmove.s memset.s memcmp.s \
 	setjmp.s \
 	abs.s \
 	rand.s arand.s \

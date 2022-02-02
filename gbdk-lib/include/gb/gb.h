@@ -17,6 +17,8 @@
 #define ANALOGUEPOCKET
 #elif defined(__TARGET_gb)
 #define GAMEBOY
+#elif defined(__TARGET_duck)
+#define MEGADUCK
 #endif
 
 
@@ -127,7 +129,7 @@
     REG_BGP = DMG_PALETTE(DMG_BLACK, DMG_DARK_GRAY, DMG_LITE_GRAY, DMG_WHITE);
     \endcode
 
-    @see REG_OBP0, REG_OBP1, REG_BGP
+    @see OBP0_REG, OBP1_REG, BGP_REG
     @see DMG_BLACK, DMG_DARK_GRAY, DMG_LITE_GRAY, DMG_WHITE
 
  */
@@ -219,7 +221,6 @@ void add_VBL(int_handler h) OLDCALL;
     Called when the LCD interrupt occurs, which is normally
     when @ref LY_REG == @ref LYC_REG.
 
-    From pan/k0Pa:
     There are various reasons for this interrupt to occur
     as described by the @ref STAT_REG register ($FF41). One very
     popular reason is to indicate to the user when the
@@ -234,7 +235,8 @@ void add_LCD(int_handler h) OLDCALL;
 
 /** Adds a timer interrupt handler.
 
-    From pan/k0Pa:
+    Can not be used together with @ref add_low_priority_TIM
+
     This interrupt occurs when the @ref TIMA_REG
     register ($FF05) changes from $FF to $00.
 
@@ -243,10 +245,22 @@ void add_LCD(int_handler h) OLDCALL;
 */
 void add_TIM(int_handler h) OLDCALL;
 
+/** Adds a timer interrupt handler, that could be 
+    interrupted by the other interrupts, 
+    as well as itself, if it runs too slow.
+
+    Can not be used together with @ref add_TIM
+
+    This interrupt occurs when the @ref TIMA_REG
+    register ($FF05) changes from $FF to $00.
+
+    @see add_VBL
+    @see set_interrupts() with TIM_IFLAG
+*/
+void add_low_priority_TIM(int_handler h) OLDCALL;
 
 /** Adds a Serial Link transmit complete interrupt handler.
 
-    From pan/k0Pa:
     This interrupt occurs when a serial transfer has
     completed on the game link port.
 
@@ -258,7 +272,6 @@ void add_SIO(int_handler h) OLDCALL;
 
 /** Adds a joypad button change interrupt handler.
 
-    From pan/k0Pa:
     This interrupt occurs on a transition of any of the
     keypad input lines from high to low. Due to the fact
     that keypad "bounce" is virtually always present,
@@ -321,7 +334,7 @@ void mode(uint8_t m) OLDCALL;
 
     @see M_DRAWING, M_TEXT_OUT, M_TEXT_INOUT, M_NO_SCROLL, M_NO_INTERP
 */
-uint8_t get_mode() OLDCALL __preserves_regs(b, c);
+uint8_t get_mode() OLDCALL PRESERVES_REGS(b, c);
 
 /** GB CPU type
 
@@ -458,6 +471,12 @@ __endasm; \
 */
 #define BANKREF_EXTERN(VARNAME) extern const void __bank_ ## VARNAME;
 
+/** Makes MEGADUCK MBC switch the active ROM bank
+    @param b   ROM bank to switch to
+*/
+#define SWITCH_ROM_MEGADUCK(b) \
+  _current_bank = (b), *(uint8_t *)0x0001 = (b)
+
 
 /** Makes MBC1 and other compatible MBCs switch the active ROM bank
     @param b   ROM bank to switch to
@@ -465,12 +484,16 @@ __endasm; \
 #define SWITCH_ROM_MBC1(b) \
   _current_bank = (b), *(uint8_t *)0x2000 = (b)
 
-/** Makes MBC1, MBC5 (4M ROMs) and other compatible MBCs switch the active ROM bank
+/** Makes default platform MBC switch the active ROM bank
     @param b   ROM bank to switch to (max 255)
 
-    @see SWITCH_ROM_MBC1, SWITCH_ROM_MBC5
+    @see SWITCH_ROM_MBC1, SWITCH_ROM_MBC5, SWITCH_ROM_MEGADUCK
 */
+#if defined(__TARGET_duck)
+#define SWITCH_ROM SWITCH_ROM_MEGADUCK
+#else
 #define SWITCH_ROM SWITCH_ROM_MBC1
+#endif
 
 /** Switches SRAM bank on MBC1 and other compaticle MBCs
     @param b   SRAM bank to switch to
@@ -561,7 +584,7 @@ void delay(uint16_t d) OLDCALL;
 
     @see J_START, J_SELECT, J_A, J_B, J_UP, J_DOWN, J_LEFT, J_RIGHT
 */
-uint8_t joypad() OLDCALL __preserves_regs(b, c, h, l);
+uint8_t joypad() OLDCALL PRESERVES_REGS(b, c, h, l);
 
 /** Waits until at least one of the buttons given in mask are pressed.
 
@@ -575,14 +598,14 @@ uint8_t joypad() OLDCALL __preserves_regs(b, c, h, l);
     @see joypad
     @see J_START, J_SELECT, J_A, J_B, J_UP, J_DOWN, J_LEFT, J_RIGHT
 */
-uint8_t waitpad(uint8_t mask) OLDCALL __preserves_regs(b, c);
+uint8_t waitpad(uint8_t mask) OLDCALL PRESERVES_REGS(b, c);
 
 /** Waits for the directional pad and all buttons to be released.
 
     Note: Checks in a loop that doesn't HALT at all, so the CPU
     will be maxed out until this call returns.
 */
-void waitpadup() __preserves_regs(a, b, c, d, e, h, l);
+void waitpadup() PRESERVES_REGS(a, b, c, d, e, h, l);
 
 /** Multiplayer joypad structure.
 
@@ -616,7 +639,7 @@ uint8_t joypad_init(uint8_t npads, joypads_t * joypads) OLDCALL;
 
     @see joypad_init(), joypads_t
 */
-void joypad_ex(joypads_t * joypads) OLDCALL __preserves_regs(b, c);
+void joypad_ex(joypads_t * joypads) OLDCALL PRESERVES_REGS(b, c);
 
 
 
@@ -628,7 +651,7 @@ void joypad_ex(joypads_t * joypads) OLDCALL __preserves_regs(b, c);
 
     @see disable_interrupts, set_interrupts, CRITICAL
 */
-inline void enable_interrupts() __preserves_regs(a, b, c, d, e, h, l) {
+inline void enable_interrupts() PRESERVES_REGS(a, b, c, d, e, h, l) {
     __asm__("ei");
 }
 
@@ -644,17 +667,21 @@ inline void enable_interrupts() __preserves_regs(a, b, c, d, e, h, l) {
 
     @see enable_interrupts, set_interrupts, CRITICAL
 */
-inline void disable_interrupts() __preserves_regs(a, b, c, d, e, h, l) {
+inline void disable_interrupts() PRESERVES_REGS(a, b, c, d, e, h, l) {
     __asm__("di");
 }
 
 /** Clears any pending interrupts and sets the interrupt mask
     register IO to flags.
     @param flags	A logical OR of *_IFLAGS
+
+    @note: This disables and then re-enables interrupts so it
+           must be used outside of a critical section.
+
     @see enable_interrupts(), disable_interrupts()
     @see VBL_IFLAG, LCD_IFLAG, TIM_IFLAG, SIO_IFLAG, JOY_IFLAG
 */
-void set_interrupts(uint8_t flags) OLDCALL __preserves_regs(b, c, d, e);
+void set_interrupts(uint8_t flags) OLDCALL PRESERVES_REGS(b, c, d, e);
 
 /** Performs a warm reset by reloading the CPU value
     then jumping to the start of crt0 (0x0150)
@@ -671,18 +698,18 @@ void reset();
     never return. If the screen is off this function returns
     immediately.
 */
-void wait_vbl_done() __preserves_regs(b, c, d, e, h, l);
+void wait_vbl_done() PRESERVES_REGS(b, c, d, e, h, l);
 
 /** Turns the display off.
 
     Waits until the VBL interrupt before turning the display off.
     @see DISPLAY_ON
 */
-void display_off() __preserves_regs(b, c, d, e, h, l);
+void display_off() PRESERVES_REGS(b, c, d, e, h, l);
 
 /** Copies data from shadow OAM to OAM
  */
-void refresh_OAM();
+void refresh_OAM() PRESERVES_REGS(b, c, d, e, h, l);
 
 
 /** Copies data from somewhere in the lower address space to part of hi-ram.
@@ -690,7 +717,7 @@ void refresh_OAM();
     @param src		Area to copy from
     @param n		Number of bytes to copy.
 */
-void hiramcpy(uint8_t dst, const void *src, uint8_t n) OLDCALL __preserves_regs(b, c);
+void hiramcpy(uint8_t dst, const void *src, uint8_t n) OLDCALL PRESERVES_REGS(b, c);
 
 
 /** Turns the display back on.
@@ -769,7 +796,7 @@ void hiramcpy(uint8_t dst, const void *src, uint8_t n) OLDCALL __preserves_regs(
  * @param addr address to write to
  * @param v value
  */
-void set_vram_byte(uint8_t * addr, uint8_t v) OLDCALL __preserves_regs(b, c);
+void set_vram_byte(uint8_t * addr, uint8_t v) OLDCALL PRESERVES_REGS(b, c);
 
 /**
  * Get byte from vram at given memory location
@@ -777,13 +804,13 @@ void set_vram_byte(uint8_t * addr, uint8_t v) OLDCALL __preserves_regs(b, c);
  * @param addr address to read from
  * @return read value
  */
-uint8_t get_vram_byte(uint8_t * addr) OLDCALL __preserves_regs(b, c);
+uint8_t get_vram_byte(uint8_t * addr) OLDCALL PRESERVES_REGS(b, c);
 
 
 /**
  * Get address of X,Y tile of background map
  */
-uint8_t * get_bkg_xy_addr(uint8_t x, uint8_t y) OLDCALL __preserves_regs(b, c);
+uint8_t * get_bkg_xy_addr(uint8_t x, uint8_t y) OLDCALL PRESERVES_REGS(b, c);
 
 #define COMPAT_PALETTE(C0,C1,C2,C3) ((uint8_t)(((C3) << 6) | ((C2) << 4) | ((C1) << 2) | (C0)))
 
@@ -816,7 +843,7 @@ inline void set_1bpp_colors(uint8_t fgcolor, uint8_t bgcolor) {
 
     @see set_win_data, set_tile_data
 */
-void set_bkg_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) OLDCALL __preserves_regs(b, c);
+void set_bkg_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) OLDCALL PRESERVES_REGS(b, c);
 #define set_bkg_2bpp_data set_bkg_data
 
 /** Sets VRAM Tile Pattern data for the Background / Window using 1bpp source data
@@ -834,7 +861,7 @@ void set_bkg_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) OLD
 
     @see SHOW_BKG, HIDE_BKG, set_bkg_tiles
 */
-void set_bkg_1bpp_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) OLDCALL __preserves_regs(b, c);
+void set_bkg_1bpp_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) OLDCALL PRESERVES_REGS(b, c);
 
 /** Copies from Background / Window VRAM Tile Pattern data into a buffer
 
@@ -850,7 +877,7 @@ void set_bkg_1bpp_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data
 
     @see get_win_data, get_data
 */
-void get_bkg_data(uint8_t first_tile, uint8_t nb_tiles, uint8_t *data) OLDCALL __preserves_regs(b, c);
+void get_bkg_data(uint8_t first_tile, uint8_t nb_tiles, uint8_t *data) OLDCALL PRESERVES_REGS(b, c);
 
 
 /** Sets a rectangular region of Background Tile Map.
@@ -905,8 +932,35 @@ void get_bkg_data(uint8_t first_tile, uint8_t nb_tiles, uint8_t *data) OLDCALL _
     @see SHOW_BKG
     @see set_bkg_data, set_bkg_submap, set_win_tiles, set_tiles
 */
-void set_bkg_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles) OLDCALL __preserves_regs(b, c);
+void set_bkg_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles) OLDCALL PRESERVES_REGS(b, c);
 #define set_tile_map set_bkg_tiles
+
+
+extern uint8_t _map_tile_offset;
+
+/** Sets a rectangular region of Background Tile Map.
+    The offset value in __base_tile__ is added to
+    the tile ID for each map entry.
+
+    @param x      X Start position in Background Map tile coordinates. Range 0 - 31
+    @param y      Y Start position in Background Map tile coordinates. Range 0 - 31
+    @param w      Width of area to set in tiles. Range 1 - 32
+    @param h      Height of area to set in tiles. Range 1 - 32
+    @param tiles  Pointer to source tile map data
+    @param base_tile Offset each tile ID entry of the source map by this value. Range 1 - 255
+
+    This is identical to @ref set_bkg_tiles() except that it
+    adds the __base_tile__ parameter for when a tile map's tiles don't
+    start at index zero. (For example, the tiles used by the map
+    range from 100 -> 120 in VRAM instead of 0 -> 20).
+
+    @see set_bkg_tiles for more details
+*/
+inline void set_bkg_based_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles, uint8_t base_tile) {
+    _map_tile_offset = base_tile;
+    set_bkg_tiles(x, y, w, h, tiles);
+    _map_tile_offset = 0;
+}
 
 
 /** Sets a rectangular area of the Background Tile Map using a sub-region
@@ -940,6 +994,35 @@ void set_bkg_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *ti
 void set_bkg_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w) OLDCALL;
 #define set_tile_submap set_bkg_submap
 
+
+extern uint8_t _submap_tile_offset;
+
+/** Sets a rectangular area of the Background Tile Map using a sub-region
+    from a source tile map. The offset value in __base_tile__ is added to
+    the tile ID for each map entry.
+
+    @param x      X Start position in Background Map tile coordinates. Range 0 - 31
+    @param y      Y Start position in Background Map tile coordinates. Range 0 - 31
+    @param w      Width of area to set in tiles. Range 1 - 255
+    @param h      Height of area to set in tiles. Range 1 - 255
+    @param map    Pointer to source tile map data
+    @param map_w  Width of source tile map in tiles. Range 1 - 255
+    @param base_tile Offset each tile ID entry of the source map by this value. Range 1 - 255
+
+    This is identical to @ref set_bkg_based_submap() except that it
+    adds the __base_tile__ parameter for when a tile map's tiles don't
+    start at index zero. (For example, the tiles used by the map
+    range from 100 -> 120 in VRAM instead of 0 -> 20).
+
+    @see set_bkg_based_submap for more details
+*/
+inline void set_bkg_based_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w, uint8_t base_tile) {
+    _submap_tile_offset = base_tile;
+    set_bkg_submap(x, y, w, h, map, map_w);
+    _submap_tile_offset = 0;
+}
+
+
 /** Copies a rectangular region of Background Tile Map entries into a buffer.
 
     @param x      X Start position in Background Map tile coordinates. Range 0 - 31
@@ -958,7 +1041,7 @@ void set_bkg_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *m
 
     @see get_win_tiles, get_bkg_tile_xy, get_tiles, get_vram_byte
 */
-void get_bkg_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *tiles) OLDCALL __preserves_regs(b, c);
+void get_bkg_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *tiles) OLDCALL PRESERVES_REGS(b, c);
 
 
 /**
@@ -968,7 +1051,7 @@ void get_bkg_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *tiles) O
  * @param t tile index
  * @return returns the address of tile, so you may use faster set_vram_byte() later
  */
-uint8_t * set_bkg_tile_xy(uint8_t x, uint8_t y, uint8_t t) OLDCALL __preserves_regs(b, c);
+uint8_t * set_bkg_tile_xy(uint8_t x, uint8_t y, uint8_t t) OLDCALL PRESERVES_REGS(b, c);
 #define set_tile_xy set_bkg_tile_xy
 
 /**
@@ -977,7 +1060,7 @@ uint8_t * set_bkg_tile_xy(uint8_t x, uint8_t y, uint8_t t) OLDCALL __preserves_r
  * @param y Y-coordinate
  * @return returns tile index
  */
-uint8_t get_bkg_tile_xy(uint8_t x, uint8_t y) OLDCALL __preserves_regs(b, c);
+uint8_t get_bkg_tile_xy(uint8_t x, uint8_t y) OLDCALL PRESERVES_REGS(b, c);
 
 
 /** Moves the Background Layer to the position specified in __x__ and __y__ in pixels.
@@ -1016,7 +1099,7 @@ inline void scroll_bkg(int8_t x, int8_t y) {
 /**
  * Get address of X,Y tile of window map
  */
-uint8_t * get_win_xy_addr(uint8_t x, uint8_t y) OLDCALL __preserves_regs(b, c);
+uint8_t * get_win_xy_addr(uint8_t x, uint8_t y) OLDCALL PRESERVES_REGS(b, c);
 
 /** Sets VRAM Tile Pattern data for the Window / Background
 
@@ -1031,7 +1114,7 @@ uint8_t * get_win_xy_addr(uint8_t x, uint8_t y) OLDCALL __preserves_regs(b, c);
     @see set_win_tiles, set_bkg_data, set_data
     @see SHOW_WIN, HIDE_WIN
 */
-void set_win_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) OLDCALL __preserves_regs(b, c);
+void set_win_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) OLDCALL PRESERVES_REGS(b, c);
 
 
 /** Sets VRAM Tile Pattern data for the Window / Background using 1bpp source data
@@ -1045,7 +1128,7 @@ void set_win_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) OLD
 
     @see set_bkg_data, set_bkg_1bpp_data, set_win_data
 */
-void set_win_1bpp_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) OLDCALL __preserves_regs(b, c);
+void set_win_1bpp_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) OLDCALL PRESERVES_REGS(b, c);
 
 
 /** Copies from Window / Background VRAM Tile Pattern data into a buffer
@@ -1059,7 +1142,7 @@ void set_win_1bpp_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data
 
     @see get_bkg_data, get_data
 */
-void get_win_data(uint8_t first_tile, uint8_t nb_tiles, uint8_t *data) OLDCALL __preserves_regs(b, c);
+void get_win_data(uint8_t first_tile, uint8_t nb_tiles, uint8_t *data) OLDCALL PRESERVES_REGS(b, c);
 
 
 /** Sets a rectangular region of the Window Tile Map.
@@ -1093,8 +1176,32 @@ void get_win_data(uint8_t first_tile, uint8_t nb_tiles, uint8_t *data) OLDCALL _
 
     @see SHOW_WIN, HIDE_WIN, set_win_submap, set_bkg_tiles, set_bkg_data, set_tiles
 */
-void set_win_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles) OLDCALL __preserves_regs(b, c);
+void set_win_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles) OLDCALL PRESERVES_REGS(b, c);
 
+
+/** Sets a rectangular region of the Window Tile Map.
+    The offset value in __base_tile__ is added to
+    the tile ID for each map entry.
+
+    @param x      X Start position in Window Map tile coordinates. Range 0 - 31
+    @param y      Y Start position in Window Map tile coordinates. Range 0 - 31
+    @param w      Width of area to set in tiles. Range 1 - 32
+    @param h      Height of area to set in tiles. Range 1 - 32
+    @param tiles  Pointer to source tile map data
+    @param base_tile Offset each tile ID entry of the source map by this value. Range 1 - 255
+
+    This is identical to @ref set_win_tiles() except that it
+    adds the __base_tile__ parameter for when a tile map's tiles don't
+    start at index zero. (For example, the tiles used by the map
+    range from 100 -> 120 in VRAM instead of 0 -> 20).
+
+    @see set_win_tiles for more details
+*/
+inline void set_win_based_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles, uint8_t base_tile) {
+    _map_tile_offset = base_tile;
+    set_win_tiles(x, y, w, h, tiles);
+    _map_tile_offset = 0;
+}
 
 /** Sets a rectangular area of the Window Tile Map using a sub-region
     from a source tile map.
@@ -1129,6 +1236,32 @@ void set_win_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *ti
 void set_win_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w) OLDCALL;
 
 
+/** Sets a rectangular area of the Window Tile Map using a sub-region
+    from a source tile map. The offset value in __base_tile__ is added
+    to the tile ID for each map entry.
+
+    @param x         X Start position in Window Map tile coordinates. Range 0 - 31
+    @param y         Y Start position in Wimdpw Map tile coordinates. Range 0 - 31
+    @param w         Width of area to set in tiles. Range 1 - 255
+    @param h         Height of area to set in tiles. Range 1 - 255
+    @param map       Pointer to source tile map data
+    @param map_w     Width of source tile map in tiles. Range 1 - 255
+    @param base_tile Offset each tile ID entry of the source map by this value. Range 1 - 255
+
+    This is identical to @ref set_win_submap() except that it
+    adds the __base_tile__ parameter for when a tile map's tiles don't
+    start at index zero. (For example, the tiles used by the map
+    range from 100 -> 120 in VRAM instead of 0 -> 20).
+
+    @see set_win_submap for more details
+**/
+inline void set_win_based_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w, uint8_t base_tile) {
+    _submap_tile_offset = base_tile;
+    set_win_submap(x, y, w, h, map, map_w);
+    _submap_tile_offset = 0;
+}
+
+
 /** Copies a rectangular region of Window Tile Map entries into a buffer.
 
     @param x      X Start position in Window Map tile coordinates. Range 0 - 31
@@ -1146,7 +1279,7 @@ void set_win_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *m
 
     @see get_bkg_tiles, get_bkg_tile_xy, get_tiles, get_vram_byte
 */
-void get_win_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *tiles) OLDCALL __preserves_regs(b, c);
+void get_win_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *tiles) OLDCALL PRESERVES_REGS(b, c);
 
 
 /**
@@ -1156,7 +1289,7 @@ void get_win_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *tiles) O
  * @param t tile index
  * @return returns the address of tile, so you may use faster set_vram_byte() later
  */
-uint8_t * set_win_tile_xy(uint8_t x, uint8_t y, uint8_t t) OLDCALL __preserves_regs(b, c);
+uint8_t * set_win_tile_xy(uint8_t x, uint8_t y, uint8_t t) OLDCALL PRESERVES_REGS(b, c);
 
 
 /**
@@ -1165,7 +1298,7 @@ uint8_t * set_win_tile_xy(uint8_t x, uint8_t y, uint8_t t) OLDCALL __preserves_r
  * @param y Y-coordinate
  * @return returns the tile index
  */
-uint8_t get_win_tile_xy(uint8_t x, uint8_t y) OLDCALL __preserves_regs(b, c);
+uint8_t get_win_tile_xy(uint8_t x, uint8_t y) OLDCALL PRESERVES_REGS(b, c);
 
 
 /** Moves the Window to the __x__, __y__ position on the screen.
@@ -1214,7 +1347,7 @@ inline void scroll_win(int8_t x, int8_t y) {
     \li VBK_REG=0 indicates the first bank
     \li VBK_REG=1 indicates the second
 */
-void set_sprite_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) OLDCALL __preserves_regs(b, c);
+void set_sprite_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) OLDCALL PRESERVES_REGS(b, c);
 #define set_sprite_2bpp_data set_sprite_data
 
 /** Sets VRAM Tile Pattern data for Sprites using 1bpp source data
@@ -1232,7 +1365,7 @@ void set_sprite_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) 
 
     @see SHOW_SPRITES, HIDE_SPRITES, set_sprite_tile
 */
-void set_sprite_1bpp_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) OLDCALL __preserves_regs(b, c);
+void set_sprite_1bpp_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) OLDCALL PRESERVES_REGS(b, c);
 
 /** Copies from Sprite VRAM Tile Pattern data into a buffer
 
@@ -1246,7 +1379,7 @@ void set_sprite_1bpp_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *d
     Each Tile is 16 bytes, so the buffer pointed to by __data__
     should be at least __nb_tiles__ x 16 bytes in size.
 */
-void get_sprite_data(uint8_t first_tile, uint8_t nb_tiles, uint8_t *data) OLDCALL __preserves_regs(b, c);
+void get_sprite_data(uint8_t first_tile, uint8_t nb_tiles, uint8_t *data) OLDCALL PRESERVES_REGS(b, c);
 
 
 /** Sprite Attributes structure
@@ -1416,7 +1549,7 @@ inline void hide_sprite(uint8_t nb) {
 
 
 /** Copies arbitrary data to an address in VRAM
-    without taking into account the state of LCDC bit 4.
+    without taking into account the state of LCDC bits 3 or 4.
 
     @param vram_addr Pointer to destination VRAM Address
     @param data      Pointer to source buffer
@@ -1428,13 +1561,13 @@ inline void hide_sprite(uint8_t nb) {
     \li VBK_REG=0 indicates the first bank
     \li VBK_REG=1 indicates the second
 
-    @see set_bkg_data, set_win_data, set_tile_data
+    @see set_bkg_data, set_win_data, set_bkg_tiles, set_win_tiles, set_tile_data, set_tiles
 */
-void set_data(uint8_t *vram_addr, const uint8_t *data, uint16_t len) OLDCALL __preserves_regs(b, c);
+void set_data(uint8_t *vram_addr, const uint8_t *data, uint16_t len) OLDCALL PRESERVES_REGS(b, c);
 
 
 /** Copies arbitrary data from an address in VRAM into a buffer
-    without taking into account the state of LCDC bit 4.
+    without taking into account the state of LCDC bits 3 or 4.
 
     @param vram_addr Pointer to source VRAM Address
     @param data      Pointer to destination buffer
@@ -1446,9 +1579,9 @@ void set_data(uint8_t *vram_addr, const uint8_t *data, uint16_t len) OLDCALL __p
     \li VBK_REG=0 indicates the first bank
     \li VBK_REG=1 indicates the second
 
-    @see get_bkg_data, get_win_data
+    @see get_bkg_data, get_win_data, get_bkg_tiles, get_win_tiles, get_tiles
 */
-void get_data(uint8_t *data, uint8_t *vram_addr, uint16_t len) OLDCALL __preserves_regs(b, c);
+void get_data(uint8_t *data, uint8_t *vram_addr, uint16_t len) OLDCALL PRESERVES_REGS(b, c);
 
 /** Copies arbitrary data from an address in VRAM into a buffer
 
@@ -1462,12 +1595,12 @@ void get_data(uint8_t *data, uint8_t *vram_addr, uint16_t len) OLDCALL __preserv
     \li VBK_REG=0 indicates the first bank
     \li VBK_REG=1 indicates the second
 */
-void vmemcpy(uint8_t *dest, uint8_t *sour, uint16_t len) OLDCALL __preserves_regs(b, c);
+void vmemcpy(uint8_t *dest, uint8_t *sour, uint16_t len) OLDCALL PRESERVES_REGS(b, c);
 
 
 
 /** Sets a rectangular region of Tile Map entries at a given VRAM Address
-    without taking into account the state of LCDC bit 4.
+    without taking into account the state of LCDC bit 3.
 
     @param x         X Start position in Map tile coordinates. Range 0 - 31
     @param y         Y Start position in Map tile coordinates. Range 0 - 31
@@ -1489,7 +1622,7 @@ void vmemcpy(uint8_t *dest, uint8_t *sour, uint16_t len) OLDCALL __preserves_reg
 
     @see set_bkg_tiles, set_win_tiles
 */
-void set_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *vram_addr, const uint8_t *tiles) OLDCALL __preserves_regs(b, c);
+void set_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *vram_addr, const uint8_t *tiles) OLDCALL PRESERVES_REGS(b, c);
 
 /** Sets VRAM Tile Pattern data starting from given base address
     without taking into account the state of LCDC bit 4.
@@ -1501,10 +1634,10 @@ void set_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *vram_addr, c
 
     @see set_bkg_data, set_win_data, set_data
 */
-void set_tile_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data, uint8_t base) OLDCALL __preserves_regs(b, c);
+void set_tile_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data, uint8_t base) OLDCALL PRESERVES_REGS(b, c);
 
 /** Copies a rectangular region of Tile Map entries from a given VRAM Address into a buffer
-    without taking into account the state of LCDC bit 4.
+    without taking into account the state of LCDC bit 3.
 
     @param x         X Start position in Background Map tile coordinates. Range 0 - 31
     @param y         Y Start position in Background Map tile coordinates. Range 0 - 31
@@ -1524,7 +1657,7 @@ void set_tile_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data, ui
 
     @see get_bkg_tiles, get_win_tiles
 */
-void get_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *vram_addr, uint8_t *tiles) OLDCALL __preserves_regs(b, c);
+void get_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *vram_addr, uint8_t *tiles) OLDCALL PRESERVES_REGS(b, c);
 
 
 /** Sets VRAM Tile Pattern data in the native format
@@ -1555,14 +1688,14 @@ inline void set_native_tile_data(uint16_t first_tile, uint8_t nb_tiles, const ui
 
     Note: This function avoids writes during modes 2 & 3
 */
-void init_win(uint8_t c) OLDCALL __preserves_regs(b, c);
+void init_win(uint8_t c) OLDCALL PRESERVES_REGS(b, c);
 
 /** Initializes the entire Background Tile Map with Tile Number __c__
     @param c   Tile number to fill with
 
     Note: This function avoids writes during modes 2 & 3
 */
-void init_bkg(uint8_t c) OLDCALL __preserves_regs(b, c);
+void init_bkg(uint8_t c) OLDCALL PRESERVES_REGS(b, c);
 
 /** Fills the VRAM memory region __s__ of size __n__ with Tile Number __c__
     @param s   Start address in VRAM
@@ -1571,7 +1704,7 @@ void init_bkg(uint8_t c) OLDCALL __preserves_regs(b, c);
 
     Note: This function avoids writes during modes 2 & 3
 */
-void vmemset (void *s, uint8_t c, size_t n) OLDCALL __preserves_regs(b, c);
+void vmemset (void *s, uint8_t c, size_t n) OLDCALL PRESERVES_REGS(b, c);
 
 
 
@@ -1583,7 +1716,7 @@ void vmemset (void *s, uint8_t c, size_t n) OLDCALL __preserves_regs(b, c);
     @param h      Height of area to set in tiles. Range 0 - 31
     @param tile   Fill value
 */
-void fill_bkg_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t tile) OLDCALL __preserves_regs(b, c);
+void fill_bkg_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t tile) OLDCALL PRESERVES_REGS(b, c);
 #define fill_rect fill_bkg_rect
 
 /** Fills a rectangular region of Tile Map entries for the Window layer with tile.
@@ -1594,6 +1727,6 @@ void fill_bkg_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t tile) OLD
     @param h      Height of area to set in tiles. Range 0 - 31
     @param tile   Fill value
 */
-void fill_win_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t tile) OLDCALL __preserves_regs(b, c);
+void fill_win_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t tile) OLDCALL PRESERVES_REGS(b, c);
 
 #endif /* _GB_H */

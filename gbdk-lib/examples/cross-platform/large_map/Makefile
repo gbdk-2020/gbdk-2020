@@ -5,12 +5,13 @@ LCC = $(GBDK_HOME)bin/lcc
 
 # Set platforms to build here, spaced separated. (These are in the separate Makefile.targets)
 # They can also be built/cleaned individually: "make gg" and "make gg-clean"
-# Possible are: gb gbc pocket sms gg
+# Possible are: gb gbc pocket megaduck sms gg
 TARGETS=gb gg
 
 # Configure platform specific LCC flags here:
 LCCFLAGS_gb      = -Wl-yt0x1B # Set an MBC for banking (1B-ROM+MBC5+RAM+BATT)
 LCCFLAGS_pocket  = -Wl-yt0x1B # Usually the same as required for .gb
+LCCFLAGS_duck    = -Wl-yt0x1B # Usually the same as required for .gb
 LCCFLAGS_gbc     = -Wl-yt0x1B -Wm-yc # Same as .gb with: -Wm-yc (gb & gbc) or Wm-yC (gbc exclusive)
 LCCFLAGS_sms     =
 LCCFLAGS_gg      =
@@ -24,6 +25,8 @@ LCCFLAGS += -Wl-j -Wm-yoA -Wm-ya4 -autobank -Wb-ext=.rel -Wb-v # MBC + Autobanki
 # You can set the name of the ROM file here
 PROJECTNAME = large-map
 
+CFLAGS = -Wf-MMD
+
 # EXT?=gb # Only sets extension to default (game boy .gb) if not populated
 SRCDIR      = src
 OBJDIR      = obj/$(EXT)
@@ -34,10 +37,15 @@ MKDIRS      = $(OBJDIR) $(BINDIR) # See bottom of Makefile for directory auto-cr
 BINS	    = $(OBJDIR)/$(PROJECTNAME).$(EXT)
 CSOURCES    = $(foreach dir,$(SRCDIR),$(notdir $(wildcard $(dir)/*.c))) $(foreach dir,$(RESDIR),$(notdir $(wildcard $(dir)/*.c)))
 ASMSOURCES  = $(foreach dir,$(SRCDIR),$(notdir $(wildcard $(dir)/*.s)))
-OBJS       = $(CSOURCES:%.c=$(OBJDIR)/%.o) $(ASMSOURCES:%.s=$(OBJDIR)/%.o)
+OBJS        = $(CSOURCES:%.c=$(OBJDIR)/%.o) $(ASMSOURCES:%.s=$(OBJDIR)/%.o)
 
 # Builds all targets sequentially
 all: $(TARGETS)
+
+# Dependencies
+DEPS = $(OBJS:%.o=%.d)
+
+-include $(DEPS)
 
 # Compile .c files in "src/" to .o object files
 $(OBJDIR)/%.o:	$(SRCDIR)/%.c

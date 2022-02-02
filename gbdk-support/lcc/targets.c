@@ -9,7 +9,7 @@
 //
 // NOTE: Only -g and -b entries are supported by Fixllist() right now
 
-// Game Boy / AP
+// Game Boy / Analogue Pocket / Megaduck
 arg_entry llist0_defaults_gb[] = {
     {.searchkey= "_shadow_OAM=", .addflag= "-g",.addvalue= "_shadow_OAM=0xC000", .found= false},
     {.searchkey= ".STACK=",      .addflag= "-g",.addvalue= ".STACK=0xE000",      .found= false},
@@ -45,10 +45,10 @@ CLASS classes[] = {
         "%bankpack% $1 $2",
         "%ld_gb% -n -i $1 %libs_include% $3 %crt0dir% $2",
         "%ihxcheck% $2 $1",
-        "%mkbin% -Z $1 $2 $3",
+        "%mkbin% -yN -Z $1 $2 $3",  // -yN: Don't paste in the Nintendo logo bytes for gameboy and clones (-Z)
         llist0_defaults_gb, ARRAY_LEN(llist0_defaults_gb),
     },
-    // AP
+    // Analogue Pocket
     { "gbz80",      // port
         "ap",       // plat
         "ap",       // default_plat
@@ -60,7 +60,22 @@ CLASS classes[] = {
         "%bankpack% $1 $2",
         "%ld_gb% -n -i $1 %libs_include% $3 %crt0dir% $2",
         "%ihxcheck% $2 $1",
-        "%mkbin% -Z $1 $2 $3",
+        "%mkbin% -yN -Z $1 $2 $3",  // -yN: Don't paste in the Nintendo logo bytes for gameboy and clones (-Z)
+        llist0_defaults_gb, ARRAY_LEN(llist0_defaults_gb), // Use GB linker list defaults
+    },
+    // Megaduck
+    { "gbz80",      // port
+        "duck",     // plat
+        "duck",     // default_plat
+        EXT_DUCK,   // ROM file extension
+        "%cpp% %cppdefault% -DINT_16_BITS $1 $2 $3",
+        "%includedefault%",
+        "%com% %comdefault% -Wa%asdefault% -DINT_16_BITS $1 %comflag% $2 -o $3",
+        "%as_gb% %asdefault% $1 $3 $2",
+        "%bankpack% $1 $2",
+        "%ld_gb% -n -i $1 %libs_include% $3 %crt0dir% $2",
+        "%ihxcheck% $2 $1",
+        "%mkbin% -yN -Z $1 $2 $3",  // -yN: Don't paste in the Nintendo logo bytes for gameboy and clones (-Z)
         llist0_defaults_gb, ARRAY_LEN(llist0_defaults_gb), // Use GB linker list defaults
     },
 

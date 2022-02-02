@@ -24,7 +24,7 @@ ASSRC =	set_interrupts.s \
 	palette.s set_palette.s \
 	pad.s pad_ex.s \
 	int.s nmi.s \
-	mode.s \
+	mode.s clock.s \
 	delay.s \
 	memset_small.s \
 	far_ptr.s \

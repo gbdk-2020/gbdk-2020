@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['rand_2eh_1117',['rand.h',['../rand_8h.html',1,'']]],
-  ['rledecompress_2eh_1118',['rledecompress.h',['../rledecompress_8h.html',1,'']]]
+  ['platform_2eh_1149',['platform.h',['../platform_8h.html',1,'']]],
+  ['provides_2eh_1150',['provides.h',['../gbz80_2provides_8h.html',1,'(Global Namespace)'],['../z80_2provides_8h.html',1,'(Global Namespace)']]]
 ];

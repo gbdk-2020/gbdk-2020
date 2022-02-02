@@ -18,6 +18,9 @@ ___move_metasprite_hflip::
         ld      a, (hl-)
         ld      c, a
         ld      a, (hl)
+        cp      #40
+        jr      nc, 3$
+
         add     a
         add     a
         ld      e, a
@@ -57,12 +60,15 @@ ___move_metasprite_hflip::
         ld      (de), a
         inc     e
 
-        jr      1$
+        ld      a, e
+        cp      #160
+        jr      c, 1$
 2$:
-        ldhl    sp, #2
         ld      a, e
         srl     a
         srl     a
+        ldhl    sp, #2
+3$:
         sub     (hl)
         ld      e, a
 
@@ -75,6 +81,9 @@ ___move_metasprite_vflip::
         ld      a, (hl-)
         ld      c, a
         ld      a, (hl)
+        cp      #40
+        jr      nc, 3$
+
         add     a
         add     a
         ld      e, a
@@ -114,12 +123,15 @@ ___move_metasprite_vflip::
         ld      (de), a
         inc     e
 
-        jr      1$
+        ld      a, e
+        cp      #160
+        jr      c, 1$
 2$:
-        ldhl    sp, #2
         ld      a, e
         srl     a
         srl     a
+        ldhl    sp, #2
+3$:
         sub     (hl)
         ld      e, a
 
@@ -132,6 +144,9 @@ ___move_metasprite_hvflip::
         ld      a, (hl-)
         ld      c, a
         ld      a, (hl)
+        cp      #40
+        jr      nc, 3$
+
         add     a
         add     a
         ld      e, a
@@ -173,12 +188,15 @@ ___move_metasprite_hvflip::
         ld      (de), a
         inc     e
 
-        jr      1$
+        ld      a, e
+        cp      #160
+        jr      c, 1$
 2$:
-        ldhl    sp, #2
         ld      a, e
         srl     a
         srl     a
+        ldhl    sp, #2
+3$:
         sub     (hl)
         ld      e, a
 

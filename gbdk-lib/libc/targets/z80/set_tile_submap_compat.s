@@ -10,6 +10,15 @@
 .image_tile_width_compat::
         .ds     0x01
 
+        .area   _INITIALIZED
+
+__submap_tile_offset::
+        .ds     0x01
+
+        .area   _INITIALIZER
+
+        .db     0x00
+
         .area   _HOME
 
 ; void set_tile_submap_compat(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t map_w, const uint8_t *map) __z88dk_callee __preserves_regs(iyh, iyl);
@@ -102,8 +111,13 @@ _set_tile_submap_compat::
         SMS_WRITE_VDP_CMD ixh, ixl
         ld c, #.VDP_DATA
 2$:                             ; copy W tiles
-        outi
-        VDP_DELAY
+        ld a, (__map_tile_offset)
+        add (hl)
+        out (c), a
+        inc hl
+        dec b
+        jr 8$                   ; delay
+8$:
         in a, (c)               ; skip next byte
 
         ld a, ixl

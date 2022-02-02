@@ -7,11 +7,11 @@ TOPDIR = $(shell pwd)
 
 # Package name, used for tarballs
 PKG = gbdk
-# Version, used for tarballs
-VER = 3.00
+# Version, used for tarballs & docs
+VER = 4.0.6
 
 PORTS=gbz80 z80
-PLATFORMS=gb ap gg sms
+PLATFORMS=gb ap duck gg sms
 
 # Prefix to add to the standard tools.  Usefull for a standard gcc
 # cross-compile.
@@ -298,7 +298,7 @@ endif
 #Run Doxygen	
 	rm -rf $(GBDKDOCSDIR)/api; \
 	  cd "$(GBDKLIBDIR)/include"; \
-	  GBDKDOCSDIR="$(GBDKDOCSDIR)" GBDKLIBDIR="$(GBDKLIBDIR)" $(DOXYGENCMD) "$(GBDKDOCSDIR)/config/gbdk-2020-doxyfile"
+	  GBDKDOCSDIR="$(GBDKDOCSDIR)" GBDKVERSION=$(VER) GBDKLIBDIR="$(GBDKLIBDIR)" $(DOXYGENCMD) "$(GBDKDOCSDIR)/config/gbdk-2020-doxyfile"
 	@if [ "$(DOCS_PDF_ON)" = "YES" ]; then\
 		$(MAKE) -C $(GBDKDOCSDIR)/latex;\
 		cp $(GBDKDOCSDIR)/latex/refman.pdf $(GBDKDOCSDIR)/gbdk_manual.pdf;\
@@ -376,6 +376,7 @@ ifneq (,$(wildcard $(BUILDDIR)/bin/))
 # makebin
 	echo \@anchor makebin-settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \# makebin settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo Also see \@ref setting_mbc_and_rom_ram_banks >> $(TOOLCHAIN_DOCS_FILE);
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 	$(BUILDDIR)/bin/makebin -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);

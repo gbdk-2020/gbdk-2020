@@ -10,7 +10,7 @@
         ;; RST vectors
 ;       .org    0x00            ; Trap, utilized by crash_handler.h
 
-;       .org    0x08            ; --profile handler utilized by bgb_emu.h
+;       .org    0x08            ; --profile handler utilized by emu_debug.h
 
 ;       .org    0x10            ; empty
 
@@ -102,10 +102,9 @@ __standard_VBL_handler::
         RET
 
 _refresh_OAM::
-        LD      HL, #((.refresh_OAM_DMA - .start_refresh_OAM) + .refresh_OAM)
         WAIT_STAT
         LD      A, #>_shadow_OAM
-        JP      (HL)
+        JP      .refresh_OAM + (.refresh_OAM_DMA - .start_refresh_OAM)
 
 .clear_WRAM:
         PUSH    DE
