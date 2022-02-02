@@ -6,7 +6,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
 
 # GBDK 2020 Release Notes
 ## GBDK 2020 4.0.6
-  2022/xx
+  2022/02
   - Building GBDK
     - Changed to target older version of macOS (10.10) when building for better compatibility
   - Platforms
