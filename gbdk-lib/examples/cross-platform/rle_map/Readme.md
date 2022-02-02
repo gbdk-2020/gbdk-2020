@@ -4,6 +4,16 @@ RLE Decompress
 
 Demonstrates using rle_decompress to load a compressed tile map into vram.
 
-The data was compressed using the `gbcompress` utility using the `--alg=rle` argument.
+## Map Data encoding
+The Tile Map is exported in binary format (one map entry per byte) and encoded in sequential **columns** 20 tiles high.
 
-`../../../../bin/gbcompress --alg=rle level1_map.bin level1_map.rle`
+The data is compressed using the `gbcompress` utility using the `--alg=rle` argument.
+  `../../../../bin/gbcompress --alg=rle level1_map.bin level1_map.rle`
+
+## Display
+As the program scrolls, a new column is drawn for every 8 pixels scrolled. The Tile Map data is decoded 20 tiles at a time and rendered to the next (just barely off-screen) column on the right.
+
+## Graphics
+The tileset graphics are by GrafxKid under CC-0 license:
+https://opengameart.org/content/cave-tileset-4
+
