@@ -54,7 +54,7 @@ The sources in this repo are only needed if you want to re-compile GBDK-2020 you
 ## Current status
 - Updated CRT and library that suits better for game development
 - SDCC Versions
-  - GBDK-2020 4.0.5 requires SDCC patches for z80 SMS/Game Gear support. So SDCC nightlies/snapshot builds cannot be used if you want to target SMS/Game Gear. Instead use the [Patched SDCC Builds](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/tag/sdcc-12539-patched). 
+  - Current GBDK-2020 versions require SDCC patches for z80 SMS/Game Gear support. So SDCC nightlies/snapshot builds cannot be used if you want to target SMS/Game Gear. Instead use the [Patched SDCC Builds](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/tag/sdcc-12539-patched). 
   - In addition, recent SDCC nightlies/snapshot builds have switched to a new calling convention which is not well tested with GBDK-2020 and there may be bugs. It's recommended to not use versions after build #12539 at this time.
 - The compiler driver **lcc** supports the latest sdcc toolchain.
 
