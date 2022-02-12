@@ -36,7 +36,7 @@ This is a brief list of useful tools and information. It is not meant to be comp
 # Sega Master System / Game Gear Documentation
   - @anchor smspower
     __SMS Power!__  
-    Community site with technical documentation, reviews and other content related to the Sega 8-bit systems.
+    Community site with technical documentation, reviews and other content related to the Sega 8-bit systems.  
     https://www.smspower.org/
 
 
@@ -44,7 +44,7 @@ This is a brief list of useful tools and information. It is not meant to be comp
 # Tutorials
   - @anchor tutorials_larolds
     __Larold's Jubilant Junkyard  Tutorials__      
-    Several walk throughs about the fundamentals of developing for the Game Boy with GBDK-2020. There are simple examples with source code.
+    Several walk throughs about the fundamentals of developing for the Game Boy with GBDK-2020. There are simple examples with source code.  
     https://laroldsjubilantjunkyard.com/tutorials/
 
   - @anchor tutorials_gamingmonsters
@@ -54,7 +54,7 @@ This is a brief list of useful tools and information. It is not meant to be comp
     https://github.com/gingemonster/GamingMonstersGameBoySampleCode
 
   - @anchor tutorials_typorter
-    __Pocket Leage Tutortial__  
+    __Pocket Leage Tutorial__  
     https://blog.ty-porter.dev/development/2021/04/04/writing-a-gameboy-game-in-2021-pt-0.html
 
 
@@ -73,7 +73,7 @@ This is a brief list of useful tools and information. It is not meant to be comp
     @anchor toxa_gbtd_gbmb
     __Game Boy Tile Designer and Map Builder (GBTD / GBMB)__  
     Sprite / Tile editor and Map Builder that can export to C that works with GBDK.  
-    This is an updated version with const export fixed and other improvments.  
+    This is an updated version with const export fixed and other improvements.  
     https://github.com/gbdk-2020/GBTD_GBMB
  
       - A GIMP plugin to read/write GBR/GBM files and do map conversion:  
@@ -145,7 +145,7 @@ This is a brief list of useful tools and information. It is not meant to be comp
 @anchor tools_build_ci_cd
 # Continuous Integration and Deployment
   - @anchor GBDK_GitHub_Action_Builder
-    __GBDK GitHub Action Builder__
+    __GBDK GitHub Action Builder__  
     A Github Action which provides basic CI/CD for building projects based on GBDK (not for building GBDK itself).  
     https://github.com/wujood/gbdk-2020-github-builder
     
