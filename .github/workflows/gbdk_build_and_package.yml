@@ -11,12 +11,9 @@ on:
 
 jobs:
   build:
+    runs-on: ${{ matrix.os }}  
     strategy:
       matrix:
-        os:
-          - ubuntu-20.04
-          - macos-10.15
-          - windows-2019
         include:
           - os: ubuntu-20.04
             name: Linux-x64
@@ -26,8 +23,6 @@ jobs:
             name: Windows-x64
           - os: windows-2019
             name: Windows-x32
-#      fail-fast: false
-    runs-on: ${{ matrix.os }}
     steps:
 
       # ==== OS Specific Dependencies ====
