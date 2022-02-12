@@ -51,6 +51,9 @@ endif
 ifeq ($(TOOLSPREFIX),x86_64-w64-mingw32-)
 	EXEEXTENSION=.exe
 endif
+ifeq ($(OS),Windows_NT)
+	EXEEXTENSION=.exe
+endif
 # Host operating system identifier.
 HOSTOS = $(shell uname -s)
 # Target operating system identifier.  Used in the output zip name.
