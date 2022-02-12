@@ -1,16 +1,15 @@
-#include <gb/gb.h>
+#include <gbdk/platform.h>
 #include <stdint.h>
 #include <stdio.h>      // Just for printf()
-#include <gb/cgb.h>     // Just for the cpu_fast()/slow() calls in CGB 2x example
 
-#include <gb/emu_debug.h> // Use this include to add the Emu debug functions
+#include <gbdk/emu_debug.h> // Use this include to add the Emu debug functions
 
 
 // This example shows how to use support for profiling
 // and logging to the debug window in the emulator (BGB or Emulicious).
 //
 // 1. Build this ROM (emu_debug.gb) then load it in the emulator (BGB or Emulicious)
-// 2. Open the internal debugger by pressing the "ESC" or "F1" key 
+// 2. Open the internal debugger by pressing the "ESC" or "F1" key
 // 3. From the debugger menu choose "debug messages" to open the debug messages window
 // 4. Reset the gameboy (you may need to press F9 in the debugger to resume running)
 // 5. The debug window will show the debug messages
@@ -21,14 +20,11 @@
 
 int main(void)
 {
-    int c;
-
     SHOW_BKG;
     DISPLAY_ON;
-    enable_interrupts();
 
-    // Display a message on the GameBoy's screen
-    printf("Message to the \nGameBoy screen\n");
+    // Display a message on the screen
+    printf("Message to the\nScreen\n");
 
     // Log a message to the Emulator debug message window
     EMU_MESSAGE(""); // new line
@@ -52,6 +48,7 @@ int main(void)
     }
 
 
+    #ifdef NINTENDO
     // ==== Color Game Boy in Double Speed Mode ====
     // Profile code: a single NOP instruction
     //
@@ -75,7 +72,7 @@ int main(void)
         // You should see the message "NOP TIME: 1".
 
         __critical {  // Temporarily turn off interrupts for more accurate measurements
-			EMU_PROFILE_BEGIN("Profile a single NOP instruction at CGB Double Speed");
+            EMU_PROFILE_BEGIN("Profile a single NOP instruction at CGB Double Speed");
                 __asm__("nop");
             // The "-4+" subtracts 4 clocks to compensate for the ones
             // used by the debug message itself (Normal speed uses -8)
@@ -86,8 +83,9 @@ int main(void)
         cpu_slow();
     }
 
-
     __critical {  // Temporarily turn off interrupts for more accurate measurements
+
+        int c;
 
         // Profile code in a loop
         EMU_PROFILE_BEGIN("Profile code in a loop");
@@ -99,11 +97,12 @@ int main(void)
         // Remember to divide by 2 for the result (Normal Speed)
         EMU_PROFILE_END("LOOP TIME:");
     }
-
+    #endif // NINTENDO
 
     // ==== Some other things you can print ====
 
-    // TOTALCLKS shows the clocks counter ("internal divider") in the BGB IO map
+    // - For Game Boy TOTALCLKS shows the clocks counter ("internal divider")
+    // - For SMS/GG TOTALCLKS is relative to CLKS2VBLANK (so at most it can be the max clocks to vblank)
     EMU_MESSAGE("Total Clocks: %TOTALCLKS%");
 
     // CLKS2VBLANK
@@ -112,7 +111,7 @@ int main(void)
     // Which Banks are currently active (for MBC based cartridges)
     EMU_MESSAGE("Current  ROM bank: %ROMBANK%");
     EMU_MESSAGE("Current SRAM bank: %SRAMBANK%");
-    // These are only banked in the CGB
+    // These are not banked on DMG/MGB Game Boys
     EMU_MESSAGE("Current VRAM bank: %VRAMBANK%");
     EMU_MESSAGE("Current WRAM bank: %WRAMBANK%");
 
@@ -122,23 +121,35 @@ int main(void)
     // Simple addition with a register
     EMU_MESSAGE("Register A + 1: %(A+1)%");
 
-    // Read the LY Register a couple times
-    // (Current Y coordinate being rendered to the LCD)
-    EMU_MESSAGE("LY Register (0xFF44): %($ff44)%");
-    EMU_MESSAGE("LY Register (0xFF44): %($ff44)%");
-    // Now print a conditional debug message using it
-    EMU_MESSAGE("Is LY Register > Line 67: %($ff44)>67%Yes;No;");
+    // Note: %SCANLINE% is available in Emulicious (for SMS/GG/GB/GBC) but not BGB
+    EMU_MESSAGE("Current Scanline: %SCANLINE%");
 
-    // Print some profile info using a built-in function.
-    EMU_MESSAGE("The following lines contain: PROFILE,(SP+$0),(SP+$1),A,TOTALCLKS,ROMBANK,WRAMBANK");
-    EMU_profiler_message();
-    // It's equivalent to:
-    EMU_MESSAGE("PROFILE,%(SP+$0)%,%(SP+$1)%,%A%,%TOTALCLKS%,%ROMBANK%,%WRAMBANK%");
+    #if defined(NINTENDO)
+        // Read the LY Register a couple times
+        // (Current Y coordinate being rendered to the LCD)
+        EMU_MESSAGE("LY Register (0xFF44): %($ff44)%");
+        EMU_MESSAGE("LY Register (0xFF44): %($ff44)%");
+        // Now print a conditional debug message using it
+        EMU_MESSAGE("Is LY Register > Line 67: %($ff44)>67%Yes;No;");
+    #endif
 
-	uint8_t var0 = 16;
-	int16_t var1 = -10;
-	//
-	EMU_printf("var0: %hd; var1: %d; var0*var1=%d", (uint8_t)var0, var1, var0 * var1);
+
+    #if defined(NINTENDO)
+        // Print some profile info using a built-in function.
+        EMU_MESSAGE("The following lines contain: PROFILE,(SP+$0),(SP+$1),A,TOTALCLKS,ROMBANK,WRAMBANK");
+
+        EMU_profiler_message();
+
+        // It's equivalent to:
+        EMU_MESSAGE("PROFILE,%(SP+$0)%,%(SP+$1)%,%A%,%TOTALCLKS%,%ROMBANK%,%WRAMBANK%");
+
+    #elif defined(SEGA)
+        EMU_MESSAGE("PROFILE,%(SP+$0)%,%(SP+$1)%,%A%,%ROMBANK%,%WRAMBANK%");
+    #endif
+
+    uint8_t var0 = 16;
+    int16_t var1 = -10;
+    EMU_printf("var0: %hd; var1: %d; var0*var1=%d", (uint8_t)var0, var1, var0 * var1);
 
     // The EMU_TEXT() macro will accept a non-quoted string
     EMU_TEXT("The End");

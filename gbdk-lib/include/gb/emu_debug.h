@@ -110,8 +110,13 @@ __endasm
 
     @see EMU_PROFILE_BEGIN(), EMU_MESSAGE()
  */
+#if defined(NINTENDO)
 #define EMU_PROFILE_END(MSG) EMU_MESSAGE_SUFFIX(MSG,"%-8+LASTCLKS%");
 #define BGB_PROFILE_END(MSG) EMU_PROFILE_END(MSG)
+#elif defined(SEGA)
+#define EMU_PROFILE_END(MSG) EMU_MESSAGE_SUFFIX(MSG,"%-16+LASTCLKS%");
+#define BGB_PROFILE_END(MSG) EMU_PROFILE_END(MSG)
+#endif
 
 #define EMU_TEXT(MSG) EMU_MESSAGE(MSG)
 #define BGB_TEXT(MSG) EMU_TEXT(MSG)
@@ -124,15 +129,17 @@ __endasm
     \endcode
 
 */
+#if defined(NINTENDO)
 void EMU_profiler_message();
 #define BGB_profiler_message() EMU_profiler_message()
+#endif // NINTENDO
 
 /** Print the string and arguments given by format to the emulator debug message window
 
     @param format   The format string as per printf
 
     Does not return the number of characters printed.
-	Result string MUST BE LESS OR EQUAL THAN 128 BYTES LONG, INCLUDING THE TRAILIG ZERO BYTE!
+    Result string MUST BE LESS OR EQUAL THAN 128 BYTES LONG, INCLUDING THE TRAILIG ZERO BYTE!
 
     Currently supported:
     \li \%hx (char as hex)
@@ -151,7 +158,9 @@ void EMU_profiler_message();
 void EMU_printf(const char *format, ...) OLDCALL;
 #define BGB_printf(...) EMU_printf(__VA_ARGS__)
 
+#ifdef NINTENDO
 static void * __EMU_PROFILER_INIT = &EMU_profiler_message;
+#endif // NINTENDO
 
 /** The Emulator will break into debugger when encounters this line
  */

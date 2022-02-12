@@ -26,6 +26,7 @@ ASSRC =	set_interrupts.s \
 	int.s nmi.s \
 	mode.s clock.s \
 	delay.s \
+	emu_debug_printf.s \
 	memset_small.s \
 	far_ptr.s \
 	gb_decompress.s \
