@@ -16,7 +16,12 @@ PLATFORMS=gb ap duck gg sms
 # Prefix to add to the standard tools.  Usefull for a standard gcc
 # cross-compile.
 TOOLSPREFIX =
-# TOOLSPREFIX = i686-w64-mingw32-
+ifeq ($(OS_TARGET),Win_x32)
+	TOOLSPREFIX = i686-w64-mingw32-
+endif
+ifeq ($(OS_TARGET),Win_x64)
+	TOOLSPREFIX = x86_64-w64-mingw32-
+endif
 
 TARGETCC = $(TOOLSPREFIX)gcc
 TARGETRANLIB = $(TOOLSPREFIX)ranlib
@@ -41,6 +46,9 @@ DOXYGEN_VER_HAS = $(shell doxygen -v)
 # Extension to add to executables
 EXEEXTENSION = 
 ifeq ($(TOOLSPREFIX),i686-w64-mingw32-)
+	EXEEXTENSION=.exe
+endif
+ifeq ($(TOOLSPREFIX),x86_64-w64-mingw32-)
 	EXEEXTENSION=.exe
 endif
 # Host operating system identifier.
@@ -139,23 +147,23 @@ endif
 gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
 	@echo Installing lcc
 	@cp $(GBDKSUPPORTDIR)/lcc/lcc$(EXEEXTENSION) $(BUILDDIR)/bin/lcc$(EXEEXTENSION)
-	@$(TARGETSTRIP) $(BUILDDIR)/bin/lcc*
+	@$(TARGETSTRIP) $(BUILDDIR)/bin/lcc$(EXEEXTENSION)
 	@cp $(GBDKDOCSDIR)/ChangeLog $(BUILDDIR)
 	@cp $(GBDKDOCSDIR)/README $(BUILDDIR)
 	@cp $(GBDKDOCSDIR)/gbdk_manual.pdf $(BUILDDIR)
 	@echo
 	@echo Installing ihxcheck
 	@cp $(GBDKSUPPORTDIR)/ihxcheck/ihxcheck$(EXEEXTENSION) $(BUILDDIR)/bin/ihxcheck$(EXEEXTENSION)
-	@$(TARGETSTRIP) $(BUILDDIR)/bin/ihxcheck*
+	@$(TARGETSTRIP) $(BUILDDIR)/bin/ihxcheck$(EXEEXTENSION)
 	@echo Installing bankpack
 	@cp $(GBDKSUPPORTDIR)/bankpack/bankpack$(EXEEXTENSION) $(BUILDDIR)/bin/bankpack$(EXEEXTENSION)
-	@$(TARGETSTRIP) $(BUILDDIR)/bin/bankpack*
+	@$(TARGETSTRIP) $(BUILDDIR)/bin/bankpack$(EXEEXTENSION)
 	@echo Installing png2asset
 	@cp $(GBDKSUPPORTDIR)/png2asset/png2asset$(EXEEXTENSION) $(BUILDDIR)/bin/png2asset$(EXEEXTENSION)
-	@$(TARGETSTRIP) $(BUILDDIR)/bin/png2asset*
+	@$(TARGETSTRIP) $(BUILDDIR)/bin/png2asset$(EXEEXTENSION)
 	@echo Installing gbcompress
 	@cp $(GBDKSUPPORTDIR)/gbcompress/gbcompress$(EXEEXTENSION) $(BUILDDIR)/bin/gbcompress$(EXEEXTENSION)
-	@$(TARGETSTRIP) $(BUILDDIR)/bin/gbcompress*
+	@$(TARGETSTRIP) $(BUILDDIR)/bin/gbcompress$(EXEEXTENSION)
 	@echo
 
 gbdk-support-clean:
