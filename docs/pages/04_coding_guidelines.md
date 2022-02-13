@@ -1,7 +1,7 @@
 @page docs_coding_guidelines Coding Guidelines
 
 # Learning C / C fundamentals
-Writing games and other programs with GBDK will be much easier with a basic understanding of the C language. In particular, understanding how to use C on "Embedded Platforms" (small computing systems, such as the Game Boy) can help you write better code (smaller, faster, less error prone) and avoid common pitfals.
+Writing games and other programs with GBDK will be much easier with a basic understanding of the C language. In particular, understanding how to use C on "Embedded Platforms" (small computing systems, such as the Game Boy) can help you write better code (smaller, faster, less error prone) and avoid common pitfalls.
 
 
 @anchor docs_c_tutorials
@@ -40,7 +40,7 @@ If you wish to use the original tools, you must add the `const` keyword every ti
 ## Variables
   - Use 8-bit values as much as possible. They will be much more efficient and compact than 16 and 32 bit types.
 
-  - Prefer unsigned variables to signed ones: The code generated will be generally more efficient, especially when comparing two values.
+  - Prefer unsigned variables to signed ones: the code generated will be generally more efficient, especially when comparing two values.
 
   - Use explicit types so you always know the size of your variables. `int8_t, uint8_t, int16_t, uint16_t, int32_t, uint32_t` and `bool`.
   These are standard types defined in `stdint.h` (`#include <stdint.h>`) and `stdbool.h` (`#include <stdbool.h>`).
@@ -48,7 +48,7 @@ If you wish to use the original tools, you must add the `const` keyword every ti
   - Global and local static variables are generally more efficient than local non-static variables (which go on the stack and are slower and can result in slower code).
 
   - @anchor const_array_data
-  `const` keyword: Use const for arrays, structs and variables with read-only (constant) data. It will reduce ROM, RAM and CPU usage significantly. Non-`const` values are loaded from ROM into RAM inefficiently, and there is no benefit in loading them into the limited available RAM if they aren't going to be changed.
+  `const` keyword: use const for arrays, structs and variables with read-only (constant) data. It will reduce ROM, RAM and CPU usage significantly. Non-`const` values are loaded from ROM into RAM inefficiently, and there is no benefit in loading them into the limited available RAM if they aren't going to be changed.
 
   - Here is how to delcare `const` pointers and variables:
     - non-const pointer to a const variable: `const uint8_t * some_pointer;`
@@ -78,7 +78,7 @@ If you wish to use the original tools, you must add the `const` keyword every ti
     
         fixed player[2];
         ...
-        // Modify player position using it's 16 bit representation
+        // Modify player position using its 16 bit representation
         player[0].w += player_speed_x;
         player[1].w += player_speed_y;
         ...
@@ -101,11 +101,11 @@ If you wish to use the original tools, you must add the `const` keyword every ti
         - Modulo by powers of 2. For example: `(n % 8)` will be optimized to `(n & 0x7)`.
       - If you need decimal numbers to count or display a score, you can use the GBDK BCD ([binary coded decimal](https://en.wikipedia.org/wiki/Binary-coded_decimal)) number functions. See: @ref bcd.h and the `BCD` example project included with GBDK.
 
-  - Avoid long lists of function parameters. Passing many parameters can add overhead, especially if the function is called often. When applicable globals and local static vars can be used instead.
+  - Avoid long lists of function parameters. Passing many parameters can add overhead, especially if the function is called often. Globals and local static vars can be used instead when applicable.
 
-  - Use inline functions if the function is short. (with the `inline` keyword, such as `inline uint8_t myFunction() { ... }`)
+  - Use inline functions if the function is short (with the `inline` keyword, such as `inline uint8_t myFunction() { ... }`).
 
-  - Do not use recursive functions
+  - Do not use recursive functions.
 <!-- This entry needs re-work. Signed vs unsigned, current SDCC optimizations...
 
   - Prefer `==` and `!=` comparison operators to `<`, `<=`, `>`, and `>=`. The code will be shorter and quicker.
@@ -157,7 +157,7 @@ If you wish to use the original tools, you must add the `const` keyword every ti
 @anchor docs_chars_varargs
 ## chars and vararg functions
 
-In standard C when `chars` are passed to a function with variadic arguments (varargs, those delcared with `...` as a parameter), such as @ref printf(), those `chars` get automatically promoted to `ints`. For an 8 bit cpu such as the Game Boy's, this is not as efficient or desireable in most cases. So the default SDCC behavior, which GBDK-2020 expects, is that chars will remain chars and _not_ get promoted to ints when **explicitly cast as chars while calling a varargs function**.
+In standard C when `chars` are passed to a function with variadic arguments (varargs, those declared with `...` as a parameter), such as @ref printf(), those `chars` get automatically promoted to `ints`. For an 8 bit CPU such as the Game Boy's, this is not as efficient or desirable in most cases. So the default SDCC behavior, which GBDK-2020 expects, is that chars will remain chars and _not_ get promoted to ints when **explicitly cast as chars while calling a varargs function**.
 
   - They must be explicitly re-cast when passing them to a varargs function, even though they are already declared as chars.
 
@@ -223,5 +223,5 @@ The order these segments are linked together is determined by crt0.s and is curr
 
 As the `_BSS` segment occurs outside the ROM area you can only use .ds to reserve space in it.
 
-While you don't have to use the `_CODE` and `_DATA` distinctions in assembler you may wish to do so consistancy. 
+While you don't have to use the `_CODE` and `_DATA` distinctions in assembler you may wish to do so to maintain consistency. 
 
