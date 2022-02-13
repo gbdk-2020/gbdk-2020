@@ -31,9 +31,9 @@ To assign code and constant data (such as graphics) to a ROM bank and use it:
 ## Setting the ROM bank for a Source file
 The ROM and RAM bank for a source file can be set in a couple different ways. Multiple different banks cannot be assigned inside the same source file (unless the `__addressmod` method is used), but multiple source files can share the same bank.
 
-If no ROM and RAM bank are speciied for a file then the default _CODE, _BSS and _DATA segments are used.
+If no ROM and RAM bank are specified for a file then the default _CODE, _BSS and _DATA segments are used.
 
-Ways to set the ROM bank for a Source file
+Ways to set the ROM bank for a Source file:
   - `#pragma bank <N>` at the start of a source file. Example (ROM bank 2): `#pragma bank 2`
   - The lcc switch for ROM bank `-Wf-bo<N>`. Example (ROM bank 2): `-Wf-bo2`
   - Using @ref rom_autobanking
@@ -42,7 +42,7 @@ Note: You can use the `NONBANKED` keyword to define a function as non-banked if 
 
 
 ## Setting the RAM bank for a Source file
-  - Using the lcc switch for RAM bank `-Wf-ba<N>`. Example (ROM bank 3): `-Wf-bo3`
+  - Using the lcc switch for RAM bank `-Wf-ba<N>`. Example (ROM bank 3): `-Wf-ba3`
 
 
 @anchor setting_mbc_and_rom_ram_banks
@@ -84,10 +84,9 @@ Additional details available at [Pandocs](https://gbdev.io/pandocs/The_Cartridge
 
 ## Getting Bank Numbers
 The bank number for a banked function, variable or source file can be stored and retrieved using the following macros:
-  - @ref BANKREF(): Create a reference for retrieving the bank number of a variable or function
-  - @ref BANK(): Retrieve a bank number using a reference created with @ref BANKREF()
-  - @ref BANKREF_EXTERN() - Make a @ref BANKREF() reference residing in another source
-    file accessible in the current file for use with @ref BANK().
+  - @ref BANKREF(): create a reference for retrieving the bank number of a variable or function
+  - @ref BANK(): retrieve a bank number using a reference created with @ref BANKREF()
+  - @ref BANKREF_EXTERN(): Make a @ref BANKREF() reference residing in another source file accessible in the current file for use with @ref BANK().
 
 
 ## Banking and Functions
@@ -95,23 +94,23 @@ The bank number for a banked function, variable or source file can be stored and
 @anchor banked_keywords
 ### BANKED/NONBANKED keywords
 - `BANKED`:
-  - The function will use banked sdcc calls
-  - Placed in the bank selected by it's source file (or compiler switches)
+  - The function will use banked sdcc calls.
+  - Placed in the bank selected by its source file (or compiler switches).
 - `NONBANKED`:
-  - Placed in the non-banked lower 16K region (bank 0), regardless of the bank selected by it's source file.
+  - Placed in the non-banked lower 16K region (bank 0), regardless of the bank selected by its source file.
 - `<not-specified>`:
-  - The function does not use sdcc banked calls (`near` instead of `far`)
-  - Placed in the bank selected by it's source file (or compiler switches)
+  - The function does not use sdcc banked calls (`near` instead of `far`).
+  - Placed in the bank selected by its source file (or compiler switches).
 
 @anchor banked_calls
 ### Banked Function Calls
-Banked functions can be called as follows.
-  - When defined with the `BANKED` keyword. Example: `void my_function() BANKED { do stuff }` in a source file which has had it's bank set (see above).
+Banked functions can be called as follows:
+  - When defined with the `BANKED` keyword. Example: `void my_function() BANKED { do stuff }` in a source file which has had its bank set (see above).
   - Using @ref far_pointers
-  - When defined with an area set up using the `__addressmod` keyword (See the `banks_new` example project and the SDCC manual for details)
+  - When defined with an area set up using the `__addressmod` keyword (see the `banks_new` example project and the SDCC manual for details).
   - Using @ref SWITCH_ROM() (and related functions for other MBCs) to manually switch in the required bank and then call the function.
 
-Non-banked functions (either in fixed Bank 0, or in an non-banked ROM with no MBC)
+Non-banked functions (either in fixed Bank 0, or in an non-banked ROM with no MBC):
   - May call functions in any bank: __YES__
   - May use data in any bank: __YES__
 
@@ -121,7 +120,7 @@ Banked functions (located in a switchable ROM bank)
   - May use data in any bank: __NO__ (may only use data from currently active banks)
 
 Limitations:
-  - SDCC banked calls and far_pointers in GBDK only save one byte for the ROM bank. So, for example, they are limtied to __bank 31__ max for MBC1 and __bank 255__ max for MBC5. This is due to the bank switching for those MBCs requiring a second, additional write to select the upper bits for more banks (banks 32+ in MBC1 and banks 256+ in MBC5).
+  - SDCC banked calls and far_pointers in GBDK only save one byte for the ROM bank. So, for example, they are limited to __bank 31__ max for MBC1 and __bank 255__ max for MBC5. This is due to the bank switching for those MBCs requiring a second, additional write to select the upper bits for more banks (banks 32+ in MBC1 and banks 256+ in MBC5).
 
 
 ## Const Data (Variables in ROM)
@@ -185,14 +184,14 @@ The global variable @ref _current_bank is updated automatically when calling @re
 # Auto-Banking
 A ROM bank auto-assignment feature was added in GBDK 2020 4.0.2.
 
-Instead of having to manually specify which bank a source file will reside it, the banks can be assigned automatically to make the best use of space. The bank assignment operates on object files, after compiling/assembling and before linking.
+Instead of having to manually specify which bank a source file will reside in, the banks can be assigned automatically to make the best use of space. The bank assignment operates on object files, after compiling/assembling and before linking.
 
-To turn on auto-banking, use the `-autobank` argument with lcc
+To turn on auto-banking, use the `-autobank` argument with lcc.
 
 For a source example see the `banks_autobank` project.
 
 In the source files you want auto-banked, do the following:
-  - Set the source file to be autobanked `#pragma bank 255` (this sets the temporary bank to `255`, which @ref bankpack then updates when repacking)
+  - Set the source file to be autobanked `#pragma bank 255` (this sets the temporary bank to `255`, which @ref bankpack then updates when repacking).
   - Create a reference to store the bank number for that source file: `BANKREF(<some-bank-reference-name>)`.
     - More than one `BANKREF()` may be created per file, but they should always have unique names.
 
@@ -223,11 +222,11 @@ Making sure bankpack checks all files:
         Recommended: 
         .c and .s -> (compiler) .o -> (bankpack) -> .rel -> (linker) ... -> .gb
 
-  - It is important because when bankpack assigns a bank for an autobanked (bank=255) object file (.o) it rewrites the bank and will then no longer see the file as one that needs to be auto-banked. That file will then remain in it's previously assigned bank until a source change causes the compiler to rebuild it to an object file again which resets it's bank to 255.
+  - It is important because when bankpack assigns a bank for an autobanked (bank=255) object file (.o) it rewrites the bank and will then no longer see the file as one that needs to be auto-banked. That file will then remain in its previously assigned bank until a source change causes the compiler to rebuild it to an object file again which resets its bank to 255.
 
   - For example consider a fixed-bank source file growing too large to share a bank with an auto-banked source file that was previously assigned to it. To avoid a bank overflow it would be important to have the auto-banked file check every time whether it can share that bank or not.
 
-  - See @ref bankpack for more options and settings
+  - See @ref bankpack for more options and settings.
 
 
 
@@ -250,8 +249,8 @@ In order to see how much space is used or remains available in a bank, you can u
 
 # Banking example projects
 There are several projects in the GBDK 2020 examples folder which demonstrate different ways to use banking.
-  - `Banks`: A basic banking example
-  - `Banks_new`: Examples of using new bank assignment and calling conventions available in GBDK 2020 and it's updated SDCC version.
-  - `Banks_farptr`: Using far pointers which have the bank number built into the pointer.
-  - `Banks_autobank`: Shows how to use the bank auto-assignment feature of in GBDK 2020 4.0.2 or later, instead of having to manually specify which bank a source file will reside it.
+  - `Banks`: a basic banking example
+  - `Banks_new`: examples of using new bank assignment and calling conventions available in GBDK 2020 and its updated SDCC version.
+  - `Banks_farptr`: using far pointers which have the bank number built into the pointer.
+  - `Banks_autobank`: shows how to use the bank auto-assignment feature in GBDK 2020 4.0.2 or later, instead of having to manually specify which bank a source file will reside it.
 
