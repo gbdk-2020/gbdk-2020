@@ -11,12 +11,9 @@ on:
 
 jobs:
   build:
+    runs-on: ${{ matrix.os }}  
     strategy:
-      matrix:
-        os:
-          - ubuntu-20.04
-          - macos-10.15
-          - windows-2019
+      matrix:       
         include:
           - os: ubuntu-20.04
             name: Linux-x64
@@ -24,8 +21,8 @@ jobs:
             name: MacOS-x64
           - os: windows-2019
             name: Windows-x64
-#      fail-fast: false
-    runs-on: ${{ matrix.os }}
+          - os: windows-2019
+            name: Windows-x32
     steps:
 
       # ==== OS Specific Dependencies ====
@@ -57,8 +54,16 @@ jobs:
           # Use patched sms/gg z80 build:
           # For GBDK-2020 4.0.5
           # curl -Lo sdcc.zip https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-12539-patched/sdcc-x86_64-w64-mingw32-20210711-12539--sms-gg-patched.zip
-          # For GBDK-2020 4.0.6: adds makebin -yN (also seems to trigger AV less)
+          # For GBDK-2020 4.0.6: adds makebin -yN
           curl -Lo sdcc.zip https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-12539-patched-gbdk0-4.0.6/sdcc-x86_64-w64-mingw32-20210711-12539--sms-gg-patched_makebin_yN.zip
+          7z x sdcc.zip
+
+      - name: Windows-x32 Depends
+        if: matrix.name == 'Windows-x32'
+        run: |
+          # Use patched sms/gg z80 build:
+          # For GBDK-2020 4.0.6: adds makebin -yN
+          curl -Lo sdcc.zip https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-12539-patched-gbdk0-4.0.6/sdcc-i586-mingw32msvc-20210711-12539--sms-gg-patched_makebin_yN.zip
           7z x sdcc.zip
 
       - name: Windows Depends MSYS2/MinGW64
@@ -72,6 +77,18 @@ jobs:
           install: >-
             base-devel
             mingw-w64-x86_64-toolchain
+
+      - name: Windows Depends MSYS2/MinGW32
+        if: matrix.name == 'Windows-x32'
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW32
+          path-type: minimal #strict
+          release: false
+          update: false
+          install: >-
+            base-devel
+            mingw-w64-i686-toolchain
 
       # ==== Build Steps ====
       - name: Check out GBDK-2020
@@ -90,7 +107,7 @@ jobs:
           echo "BUILD_PACKAGE_FILENAME=gbdk-2020-${{ matrix.name }}.tar.gz" >> $GITHUB_ENV
 
       - name: Pre-Build Windows
-        if: matrix.name == 'Windows-x64'
+        if: (matrix.name == 'Windows-x64') || (matrix.name == 'Windows-x32')
         shell: bash
         run: |
           echo "BUILD_PACKAGE_FILENAME=gbdk-2020-${{ matrix.name }}.zip" >> $GITHUB_ENV
@@ -114,7 +131,7 @@ jobs:
           cd ..
 
       - name: Build GBDK-2020 Windows
-        if: matrix.name == 'Windows-x64'
+        if: (matrix.name == 'Windows-x64') || (matrix.name == 'Windows-x32')
         shell: cmd
         run: |
           set SDCCDIR=%CD%\sdcc
