@@ -8,7 +8,7 @@
     - Further discussion on using the Sound Example rom can be found in the ZGB wiki. Note that some example code there is ZGB specific and not part of the base GBDK API: https://github.com/Zal0/ZGB/wiki/Sounds <!-- -->
 
 # Graphics and Resources
-  - How do I use a tile map when it's tiles don't start at index zero?
+  - How do I use a tile map when its tiles don't start at index zero?
     - The two main options are:
       - Use @ref set_bkg_based_tiles(), @ref set_bkg_based_submap(), @ref set_win_based_tiles(), @ref set_win_based_submap() and provide a tile origin offset.
       - Use @ref utility_png2asset with `-tile_origin` to create a map with the tile index offsets built in.
@@ -73,14 +73,14 @@
 
   - Can I use the `float` type to do floating point math?
     - There is no support for 'float' in GBDK-2020.
-    - Instead consider some form of `fixed point` math (including the @ref fixed_point_type "fixed" type included in GBDK) <!-- -->  
+    - Instead consider some form of `fixed point` math (including the @ref fixed_point_type "fixed" type included in GBDK). <!-- -->  
 
   - Why are 8 bit numbers not printing correctly with printf()?
-    - To correctly pass chars/uint8s for printing, they must be explicitly re-cast as such when calling the function. See docs_chars_varargs for more details.  <!-- -->  
+    - To correctly pass chars/uint8s for printing, they must be explicitly re-cast as such when calling the function. See @ref docs_chars_varargs for more details.  <!-- -->  
 
   - How can maps larger than 32x32 tiles be scrolled? & Why is the map wrapping around to the left side when setting a map wider than 32 tiles with set_bkg_data()?
     - The hardware Background map is 32 x 32 tiles. The screen viewport that can be scrolled around that map is 20 x 18 tiles. In order to scroll around within a much larger map, new tiles must be loaded at the edges of the screen viewport in the direction that it is being scrolled. @ref set_bkg_submap can be used to load those rows and columns of tiles from the desired sub-region of the large map.
-    - See the "Large Map" example program and @ref set_bkg_submap()
+    - See the "Large Map" example program and @ref set_bkg_submap().
     - Writes that exceed coordinate 31 of the Background tile map on the x or y axis will wrap around to the Left and Top edges. <!-- -->  
 
   - When using gbt_player with music in banks, how can the current bank be restored after calling gbt_update()? (since it changes the currently active bank without restoring it).

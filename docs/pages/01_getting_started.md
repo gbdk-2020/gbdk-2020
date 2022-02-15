@@ -10,7 +10,7 @@ You can get the latest releases from here: https://github.com/gbdk-2020/gbdk-202
 # 2. Compile Example projects
 Make sure your GBDK-2020 installation is working correctly by compiling some of the included @ref docs_example_programs "example projects".
 
-If everything in works in the steps below and there are no errors reported then each project that was build should have it's on .gb ROM file (or suitable extension for the other supported targets).
+If everything works in the steps below and there are no errors reported then each project that was built should have its own .gb ROM file (or suitable extension for the other supported targets).
 
 ## Windows (without Make installed):
 Navigate to a project within the example projects folder (`"examples\gb\"` under your GBDK-2020 install folder) and open a command line. Then type:
@@ -37,7 +37,7 @@ __To create a new project use a template!__
 
 There are template projects included in the @ref docs_example_programs "GBDK example projects" to help you get up and running. Their folder names start with `template_`.
 
-1. Copy one of the template folders to a new folder name
+1. Copy one of the template folders to a new folder name.
 
 2. If you moved the folder out of the GBDK examples then you __must__ update the `GBDK` path variable and/or the path to `LCC` in the `Makefile` or `compile.bat` so that it will still build correctly.
 
@@ -62,7 +62,7 @@ If you have a specific project in mind, consider what hardware want to target. I
 What size will your game or program be?
   - 32K Cart (no-MBC required)
   - Larger than 32K (MBC required)
-  - See more details about @ref docs_rombanking_mbcs "ROM Banking and MBCs".
+  - See more details about @ref docs_rombanking_mbcs "ROM Banking and MBCs"
 
 What console platform(s) will it run on?
   - Game Boy (GB/GBC)
@@ -86,7 +86,7 @@ Tracking down problems in code is easier with a debugger. Emulicious has a @ref 
 # 8. Try a GBDK Tutorial
 You might want to start off with a guided GBDK tutorial from the @ref links_gbdk_tutorials "GBDK Tutorials section".
 
-  - __Note:__ Tutorials (or parts of them) may be based on the older GBDK from the 2000's before it was updated to be GBDK-2020. The general principals are all the same, but the setup and parts of the @ref docs_toolchain "toolchain" (compiler/etc) may be somewhat different and some links may be outdated (pointing to the old GBDK or old tools).
+  - __Note:__ Tutorials (or parts of them) may be based on the older GBDK from the 2000's before it was updated to be GBDK-2020. The general principles are all the same, but the setup and parts of the @ref docs_toolchain "toolchain" (compiler/etc) may be somewhat different and some links may be outdated (pointing to the old GBDK or old tools).
 
 
 # 9. Read up!
@@ -124,7 +124,7 @@ If you plan to use GBTD / GBMB for making graphics, make sure to get the version
 ## LCC and SDCC flags that are not needed
 The following flag is no longer needed with @ref lcc and @ref sdcc, it can be removed without any loss of performance.
 - `-DUSE_SFR`
-   - Behavior formerly enabled by USE_SFR_FOR_REG is on by default now (no need to specify it, it isn't a tested `#ifdef` anymore). check here why: https://gbdev.gg8.se/forums/viewtopic.php?id=697
+   - Behavior formerly enabled by USE_SFR_FOR_REG is on by default now (no need to specify it, it isn't a tested `#ifdef` anymore). Check here why: https://gbdev.gg8.se/forums/viewtopic.php?id=697
 
 ## ROM Header Settings (such as Color, SGB, etc)
 Setting ROM bytes directly with `-Wl-yp0x<address>=0x<value>` is no longer supported. Instead use @ref makebin flags. For example, use `-Wm-yC` instead of `-Wl-yp0x143=0xC0`. See @ref faq_gb_type_header_setting.
@@ -141,6 +141,6 @@ Do not `#include` `.c` source files into other `.c` source files. Instead create
 Modern project templates are included with GBDK-2020. Using them (and their Makefile or compile.bat) as a starting point for projects is recommended and can help ensure better default settings and project organization.
 
 ## Use hUGEtracker instead of gbt_player
-hUGEtracker and it's driver @ref hUGEdriver are smaller, more efficient and more versatile than gbt_player.
+hUGEtracker and its driver @ref hUGEdriver are smaller, more efficient and more versatile than gbt_player.
     
 

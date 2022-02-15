@@ -13,14 +13,14 @@ As of version `4.0.5` GBDK includes support for other consoles in addition to th
     - Sega Master System (SMS)
     - Sega Game Gear (GG)
 
-While the GBDK API has many convenience functions that work the same or similar across different consoles, it's important to keep their different capabilities in mind when writing code intended to run on more than one. Some (but not all) of the differences are screen sizes, color abilities, memory layouts, processor type (z80 vs gbz80/sm83) and speed.
+While the GBDK API has many convenience functions that work the same or similar across different consoles, it's important to keep their different capabilities in mind when writing code intended to run on more than one. Some (but not all) of the differences are screen sizes, color capabilities, memory layouts, processor type (z80 vs gbz80/sm83) and speed.
 
  
 @anchor docs_consoles_compiling
 # Cross Compiling for Different Consoles
 
 ## lcc
-When compiling and building through @ref lcc use the `-m<port>:<plat>` flag to select the desired console via it's port and platform combination.
+When compiling and building through @ref lcc use the `-m<port>:<plat>` flag to select the desired console via its port and platform combination.
 
 
 ## sdcc
@@ -74,7 +74,7 @@ There are several constant \#defines that can be used to help select console spe
       - `MEGADUCK` will be \#defined
 
 
-  - When `<sms/sms.h >` is included (either directly or through `<gbdk/platform.h>`)
+  - When `<sms/sms.h>` is included (either directly or through `<gbdk/platform.h>`)
     - When building for Master System
       - `SEGA` will be \#defined
       - `MASTERSYSTEM` will be \#defined
@@ -128,7 +128,7 @@ In the example @ref utility_png2asset is used to generate assets in the native f
 The Analogue Pocket is (for practical purposes) functionally identical to the Game Boy / Color, but has a couple altered register flag and address definitions and a different boot logo. In order for software to be easily ported to the Analogue Pocket, or to run on both, use the following practices.
 
 ## Registers and Flags
-Use API defined registers and register flags instead of hardwired ones
+Use API defined registers and register flags instead of hardwired ones.
    - LCDC register: @ref LCDC_REG or @ref rLCDC
    - STAT register: @ref STAT_REG or @ref rSTAT
    - LCDC flags: -> LCDCF_... (example: @ref LCDCF_ON)
@@ -156,7 +156,7 @@ Use API defined registers and register flags instead of hardwired ones
 ### Tile and Map Data in 2bpp Game Boy Format
 - @ref set_bkg_data() and @ref set_sprite_data() will load 2bpp tile data in "game boy" format on both GB and SMS/GG.
 - On the SMS/GG @ref set_2bpp_palette() sets 4 colors that will be used when loading 2bpp assets with set_bkg_data(). This allows GB assets to be easily colorized without changing the asset format. There is some performance penalty for using the conversion.
-- @ref set_bkg_tiles() loads 1-byte-per-tile tilemaps both for the GB and SMS/GG
+- @ref set_bkg_tiles() loads 1-byte-per-tile tilemaps both for the GB and SMS/GG.
 
 ### Tile and Map Data in Native Format
 Use the following api calls when assets are avaialble in the native format for each platform.

@@ -51,7 +51,7 @@ The gb-dtmf, written by Osamu Ohashi, is a Dual Tone Multi-Frequency (DTMF) gene
 
 
 # gbdecompress
-Demonstrates using gbdecompress to load a compressed tile set into vram.
+Demonstrates using gbdecompress to load a compressed tile set into VRAM.
 
 
 # irq
@@ -71,7 +71,7 @@ Demonstrates using the metasprite features to move and animate a large sprite.
 
 
 # lcd isr wobble
-An example of how to use the LCD ISR for visual special effects
+An example of how to use the LCD ISR for visual special effects.
 
 
 # paint
@@ -104,7 +104,7 @@ A collection of examples showing how to use the Super Game Boy API features.
 
 @anchor examples_sound_sample
 # sound
-The sound example is meant for experimenting with the soung generator of the GameBoy (to use on a real GameBoy). The four different sound modes of the GameBoy are available. It also demonstrates the use of bit fields in C (it's a quick hack, so don't expect too much from the code). The following keys are used:
+The sound example is meant for experimenting with the sound generator of the GameBoy (to use on a real GameBoy). The four different sound modes of the GameBoy are available. It also demonstrates the use of bit fields in C (it's a quick hack, so don't expect too much from the code). The following keys are used:
 
     UP/DOWN      : Move the cursor
     RIGHT/LEFT   : Increment/decrement the value
