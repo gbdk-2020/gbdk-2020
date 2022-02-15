@@ -10,7 +10,7 @@ You can get the latest releases from here: https://github.com/gbdk-2020/gbdk-202
 # 2. Compile Example projects
 Make sure your GBDK-2020 installation is working correctly by compiling some of the included @ref docs_example_programs "example projects".
 
-If everything in works in the steps below and there are no errors reported then each project that was built should have its own .gb ROM file (or suitable extension for the other supported targets).
+If everything works in the steps below and there are no errors reported then each project that was built should have its own .gb ROM file (or suitable extension for the other supported targets).
 
 ## Windows (without Make installed):
 Navigate to a project within the example projects folder (`"examples\gb\"` under your GBDK-2020 install folder) and open a command line. Then type:
