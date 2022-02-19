@@ -333,6 +333,7 @@ _set_interrupts::
         .area   _INITIALIZED
         ;; For malloc
         .area   _HEAP
+        .area   _HEAP_END
 
         .area   _DATA
 .start_crt_globals:

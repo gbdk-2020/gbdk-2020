@@ -20,6 +20,7 @@
         .area   _BSEG
         .area   _BSS
         .area   _HEAP
+        .area   _HEAP_END
 
         ; program startup code
         .area   _CODE

@@ -125,6 +125,7 @@ _WRITE_VDP_DATA::
         .area   _BSEG
         .area   _BSS
         .area   _HEAP
+        .area   _HEAP_END
 
         .area   _CODE
         .area   _GSINIT
