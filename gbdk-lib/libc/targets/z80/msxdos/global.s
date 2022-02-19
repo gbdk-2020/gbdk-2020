@@ -1,3 +1,8 @@
+        .OS_RESET       = 0x0000
+        .LS_IO          = 0x0003
+        .LS_DSK         = 0x0004
+        .LS_FCB         = 0x0060
+        .LS_FILE_BUFFER = 0x0080
         .BDOS           = 0x0005
 
         ; MSX-DOS 1
@@ -135,10 +140,6 @@
         __NRAMD         = 0xBB  ; RAM disk does not exist
         __HDEAD         = 0xBA  ; File handle has been deleted
         __ISBFN         = 0xB8  ; Invalid sub-function number
-
-        ; LOW STORAGE
-        __FILE_BUFFER   = 0x80
-        .globl __FILE_BUFFER
 
         .MEMORY_CTL     = 0x3E
 

@@ -3,7 +3,7 @@
         .title  "putchar"
         .module putchar
 
-        .area   _HOME
+        .area   _CODE
 
 _setchar::
 _putchar::

@@ -31,7 +31,7 @@
 
         call .gsinit
 
-        ld hl, #__FILE_BUFFER
+        ld hl, #.LS_FILE_BUFFER
         xor a
         ld b, a
         ld c, (hl)
@@ -44,7 +44,7 @@
         ld (hl), a
         ld c, a                 ; param counter
 
-        ld hl, #(__FILE_BUFFER + 1)
+        ld hl, #(.LS_FILE_BUFFER + 1)
 3$:
         ld a, (hl)
         or a
@@ -105,10 +105,15 @@
         jr nz, 8$
 7$:
         call _main
-
+.exit:
         ld b, l
         CALL_BDOS #_TERM        ; try terminate usind MSX DOS 2 function
         JP_BDOS #_TERM0
+
+_exit::
+        pop hl
+        pop hl
+        jr .exit
 
         .area   _GSINIT
 .gsinit::

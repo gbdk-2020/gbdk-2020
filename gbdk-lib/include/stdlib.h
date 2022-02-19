@@ -14,12 +14,12 @@
     returned to the parent.
     All open streams are flushed and closed.
 */
-void exit(int status);
+void exit(int status) OLDCALL;
 
 #if 0
 /** Compatibility function.  Not implemented.
  */
-int getkey(void);
+int getkey(void) OLDCALL;
 #endif
 
 /** Returns the absolute value of int __i__
