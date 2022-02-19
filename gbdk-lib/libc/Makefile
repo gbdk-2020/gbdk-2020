@@ -7,7 +7,7 @@ ifeq ($(PORTS),)
 endif
 
 ifeq ($(PLATFORMS),)
-	PLATFORMS = gb ap duck gg sms
+	PLATFORMS = gb ap duck gg sms msxdos
 endif
 
 TOPDIR = ..

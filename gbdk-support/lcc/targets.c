@@ -26,6 +26,10 @@ arg_entry llist0_defaults_sms[] = {
     {.searchkey= "_CODE=",       .addflag= "-b",.addvalue= "_CODE=0x0100",       .found= false},
 };
 
+// MSX
+arg_entry llist0_defaults_msxdos[] = {
+    {.searchkey= "_CODE=",       .addflag= "-b",.addvalue= "_CODE=0x0100",       .found= false},
+};
 
 // Port/Platform specific settings
 //
@@ -108,7 +112,24 @@ CLASS classes[] = {
         "%ihxcheck% $2 $1",
         "%mkbin% -S $1 $2 $3",
         llist0_defaults_sms, ARRAY_LEN(llist0_defaults_sms),  // Use SMS linker list defaults
+    },
+
+    // MSX
+    { "z80",        // port
+        "msxdos",   // plat
+        "msxdos",   // default_plat
+        EXT_MSXDOS, // ROM file extension
+        "%cpp% %cppdefault% -DINT_16_BITS $1 $2 $3",
+        "%includedefault%",
+        "%com% %comdefault% -Wa%asdefault% -DINT_16_BITS $1 %comflag% $2 -o $3",
+        "%as_z80% %asdefault% $1 $3 $2",
+        "%bankpack% -plat=sms $1 $2",
+        "%ld_z80% -n -i $1 %libs_include% $3 %crt0dir% $2",
+        "%ihxcheck% $2 $1",
+        "%mkbin% -o 256 -p $1 $2 $3",
+        llist0_defaults_msxdos, ARRAY_LEN(llist0_defaults_msxdos),
     }
+
 };
 
 int classes_count = ARRAY_LEN(classes);

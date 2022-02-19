@@ -11,7 +11,7 @@ PKG = gbdk
 VER = 4.0.6
 
 PORTS=gbz80 z80
-PLATFORMS=gb ap duck gg sms
+PLATFORMS=gb ap duck gg sms msxdos
 
 # Prefix to add to the standard tools.  Usefull for a standard gcc
 # cross-compile.
