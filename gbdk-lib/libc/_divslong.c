@@ -28,14 +28,8 @@
 
 unsigned long _divulong (unsigned long a, unsigned long b);
 
-long _divslong (long a, long b)
-{
-  long r;
-
-  r = _divulong((a < 0 ? -a : a),
-                (b < 0 ? -b : b));
-  if ( (a < 0) ^ (b < 0))
-    return -r;
-  else
-    return r;
+long _divslong (long a, long b) {
+    long r;
+    r = _divulong((a < 0 ? -a : a), (b < 0 ? -b : b));
+    return ((a < 0) ^ (b < 0)) ? -r : r;
 }

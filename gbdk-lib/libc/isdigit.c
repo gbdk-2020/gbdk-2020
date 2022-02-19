@@ -1,10 +1,7 @@
 #include <ctype.h>
 #include <stdbool.h>
+#include <stdint.h>
 
-bool isdigit(char c)
-{
-  if(c >= '0' && c <= '9')
-    return 1;
-  else
-    return 0;
+bool isdigit(char c) {
+    return ((uint8_t)((uint8_t)c - '0') < 10u) ? true : false;
 }

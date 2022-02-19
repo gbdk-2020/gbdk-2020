@@ -1,10 +1,7 @@
 #include <ctype.h>
 #include <stdbool.h>
+#include <stdint.h>
 
-bool isupper(char c)
-{
-  if(c >= 'A' && c <= 'Z')
-    return 1;
-  else
-    return 0;
+bool isupper(char c) {
+    return ((uint8_t)((uint8_t)c - 'A') < ('Z' - 'A' + 1)) ? true : false;
 }
