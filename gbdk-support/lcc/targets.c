@@ -50,6 +50,7 @@ CLASS classes[] = {
         "%ld_gb% -n -i $1 %libs_include% $3 %crt0dir% $2",
         "%ihxcheck% $2 $1",
         "%mkbin% -yN -Z $1 $2 $3",  // -yN: Don't paste in the Nintendo logo bytes for gameboy and clones (-Z)
+        "",
         llist0_defaults_gb, ARRAY_LEN(llist0_defaults_gb),
     },
     // Analogue Pocket
@@ -65,6 +66,7 @@ CLASS classes[] = {
         "%ld_gb% -n -i $1 %libs_include% $3 %crt0dir% $2",
         "%ihxcheck% $2 $1",
         "%mkbin% -yN -Z $1 $2 $3",  // -yN: Don't paste in the Nintendo logo bytes for gameboy and clones (-Z)
+        "",
         llist0_defaults_gb, ARRAY_LEN(llist0_defaults_gb), // Use GB linker list defaults
     },
     // Megaduck
@@ -80,6 +82,7 @@ CLASS classes[] = {
         "%ld_gb% -n -i $1 %libs_include% $3 %crt0dir% $2",
         "%ihxcheck% $2 $1",
         "%mkbin% -yN -Z $1 $2 $3",  // -yN: Don't paste in the Nintendo logo bytes for gameboy and clones (-Z)
+        "",
         llist0_defaults_gb, ARRAY_LEN(llist0_defaults_gb), // Use GB linker list defaults
     },
 
@@ -96,6 +99,7 @@ CLASS classes[] = {
         "%ld_z80% -a sms -n -i $1 %libs_include% $3 %crt0dir% $2",
         "%ihxcheck% $2 $1",
         "%mkbin% -S -xj 4 $1 $2 $3",
+        "",
         llist0_defaults_sms, ARRAY_LEN(llist0_defaults_sms),
     },
     // GG
@@ -111,6 +115,7 @@ CLASS classes[] = {
         "%ld_z80% -a sms -n -i $1 %libs_include% $3 %crt0dir% $2",
         "%ihxcheck% $2 $1",
         "%mkbin% -S $1 $2 $3",
+        "",
         llist0_defaults_sms, ARRAY_LEN(llist0_defaults_sms),  // Use SMS linker list defaults
     },
 
@@ -124,9 +129,10 @@ CLASS classes[] = {
         "%com% %comdefault% -Wa%asdefault% -DINT_16_BITS $1 %comflag% $2 -o $3",
         "%as_z80% %asdefault% $1 $3 $2",
         "%bankpack% -plat=sms $1 $2",
-        "%ld_z80% -n -i $1 %libs_include% $3 %crt0dir% $2",
+        "%ld_z80% -a sms -n -i -j $1 %libs_include% $3 %crt0dir% $2",
         "%ihxcheck% $2 $1",
-        "%mkbin% -o 256 -p $1 $2 $3",
+        "%mkbin% $1 $2 $3",
+        "%mkcom% $1 $2",
         llist0_defaults_msxdos, ARRAY_LEN(llist0_defaults_msxdos),
     }
 

@@ -61,7 +61,7 @@ static void handle_autobanking(void);
 
 
 // These get populated from _class using finalise() in gb.c
-extern char *cpp[], *include[], *com[], *as[], *bankpack[], *ld[], *ihxcheck[], *mkbin[], inputs[], *suffixes[], *rom_extension;
+extern char *cpp[], *include[], *com[], *as[], *bankpack[], *ld[], *ihxcheck[], *mkbin[], *postproc[], inputs[], *suffixes[], *rom_extension;
 extern arg_entry *llist0_defaults;
 extern int llist0_defaults_len;
 
@@ -101,6 +101,7 @@ static List lccinputs;		/* list of input directories */
 char bankpack_newext[1024] = {'\0'};
 static int ihx_inputs = 0;  // Number of ihx files present in input list
 static char ihxFile[256] = {'\0'};
+static char binFile[256] = {'\0'};
 
 
 int main(int argc, char *argv[]) {
@@ -287,9 +288,25 @@ int main(int argc, char *argv[]) {
 			if(errcnt == 0)
 			{
 				//makebin
-				compose(mkbin, mkbinlist, append(ihxFile, 0), append(outfile, 0));
-				if (callsys(av))
-					errcnt++;
+				if (strlen(postproc) != 0)
+				{   
+                    // postprocess
+                    sprintf(binFile, "%s%s", path_stripext(outfile), EXT_BIN);
+                    compose(mkbin, mkbinlist, append(ihxFile, 0), append(binFile, 0));
+                    if (callsys(av))
+                        errcnt++;
+                    if(errcnt == 0)
+                    {
+                        compose(postproc, append(binFile, 0), append(outfile, 0), 0);
+                        if (callsys(av))
+                            errcnt++;
+                    }
+				} else {
+                    // makebin
+                    compose(mkbin, mkbinlist, append(ihxFile, 0), append(outfile, 0));
+                    if (callsys(av))
+                        errcnt++;                    
+                }
 			}
 		}
 	}

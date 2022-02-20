@@ -65,7 +65,8 @@ static struct {
 		{ "ihxcheck", "%bindir%ihxcheck" },
 		{ "mkbin", "%sdccdir%makebin" },
 		{ "crt0dir", "%libdir%%plat%/crt0.o"},
-		{ "libs_include", "-k %libdir%%port%/ -l %port%.lib -k %libdir%%plat%/ -l %plat%.lib"}
+		{ "libs_include", "-k %libdir%%port%/ -l %port%.lib -k %libdir%%plat%/ -l %plat%.lib"},
+                { "mkcom", "%sdccdir%makecom"}
 };
 
 static char *getTokenVal(const char *key)
@@ -207,6 +208,7 @@ char *ihxcheck[256];
 char *ld[256];
 char *bankpack[256];
 char *mkbin[256];
+char *postproc[256];
 char *rom_extension;
 arg_entry *llist0_defaults;
 int llist0_defaults_len = 0;
@@ -312,6 +314,7 @@ void finalise(void)
 	buildArgs(ld, _class->ld);
 	buildArgs(ihxcheck, _class->ihxcheck);
 	buildArgs(mkbin, _class->mkbin);
+        if (strlen(_class->postproc) != 0) buildArgs(postproc, _class->postproc); else postproc[0] = '\0';
 	rom_extension = strdup(_class->rom_extension);
 	llist0_defaults = _class->llist0_defaults;
 	llist0_defaults_len = _class->llist0_defaults_len;
