@@ -72,11 +72,10 @@ function CopyData(banks: tList; bank: longint; image: tMemoryStream; source_ofs,
 var i    : longint;
     data : tMemoryStream;
 begin
-  writeln('writing to bank: ', bank);
   result:= (bank < 255);
   if result then begin
     if (banks.count <= bank) then
-      for i:= banks.count to bank do begin banks.Add(tMemoryStream.Create()); writeln('creating bank'); end;
+      for i:= banks.count to bank do banks.Add(tMemoryStream.Create());
     data:= banks[bank];
     data.Seek(dest_ofs, soFromBeginning);
     data.Write(pAnsiChar(image.Memory)[source_ofs], len);
@@ -98,6 +97,12 @@ begin
         SaveToFile(ovr);
       finally free; end;
   end;
+end;
+
+function Hex2Int(value: ansistring): longint;
+begin
+  if (copy(value, 1, 2)) = '0x' then begin value[1]:= ' '; value[2]:= '$'; end;
+  result:= StrToIntDef(value, 0);
 end;
 
 const section_names = '_CODE,_HOME,_BASE,_CODE_0,_INITIALIZER,_LIT,_GSINIT,_GSFINAL';
@@ -139,10 +144,8 @@ begin
               name:= copy(name, 3, length(name));
               l:= symbols.Values[format('l_%s',[name])];
               if length(l) > 0 then begin
-                if (copy(v, 1, 2)) = '0x' then begin v[1]:= ' '; v[2]:= '$'; end;
-                addr:= StrToIntDef(v, 0);
-                if (copy(l, 1, 2)) = '0x' then begin l[1]:= ' '; l[2]:= '$'; end;
-                len:= StrToIntDef(l, 0);
+                addr:= Hex2Int(v);
+                len:= Hex2Int(l);
 
                 if (len > 0) then begin
                   if (known.IndexOf(name) >= 0) then begin
@@ -156,6 +159,12 @@ begin
               end;
             end;
           end;
+
+          if (banks.Count > 0) then begin
+            addr:= Hex2Int(symbols.Values['___overlay_count']);
+            if (addr > $100) then pAnsiChar(tMemoryStream(banks[0]).Memory)[addr - $100]:= chr(banks.Count - 1);
+          end;
+
           writeln('writing...');
           WriteData(banks, name_out);
           writeln('done!');
