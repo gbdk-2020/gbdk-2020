@@ -15,8 +15,8 @@
         .area   _GSFINAL
         .area   _INITIALIZER
 
-        .area   _INITIALIZED
         .area   _DATA
+        .area   _INITIALIZED
         .area   _BSEG
         .area   _BSS
         .area   _HEAP
@@ -31,6 +31,11 @@
         call .memset_simple     ; initialize veriables in RAM with zero
 
         call .gsinit
+
+        ld a, (___overlay_count)
+        and a
+        call nz, .load_overlays 
+        jp c, .exit_error
 
         ld hl, #.LS_FILE_BUFFER
         xor a
@@ -110,11 +115,17 @@
         ld b, l
         CALL_BDOS #_TERM        ; try terminate usind MSX DOS 2 function
         JP_BDOS #_TERM0
-
 _exit::
         pop hl
         pop hl
         jr .exit
+
+.exit_error:
+        ld hl, #1$
+        call _puts
+        JP_BDOS #_TERM0
+1$:
+        .asciz "ERROR LOADING!\r\n"
 
         .area   _GSINIT
 .gsinit::
@@ -127,7 +138,7 @@ _exit::
         .area   _GSFINAL
         ret
 
-        .area   _HOME
+        .area   _CODE
         ;; fills memory at HL of length BC with A, clobbers DE
 .memset_simple::
         ld e, a        
@@ -147,3 +158,45 @@ _exit::
         ret z
         ldir
         ret
+
+        ;; load overlays, count in A
+.load_overlays:
+        ld c, a
+        ld b, #1
+1$:
+        push bc
+        call .load_overlay
+        pop bc
+        ret c                  ; error
+        ld a, b
+        cp c
+        jr z, 2$
+        inc b
+        jr 1$
+2$:
+        or a                    ; clear carry
+        ret
+
+.load_overlay:
+        or a
+        ret
+
+___overlay_count::
+        .db 0
+.overlay_fcb:
+        .db 0                   ; drive
+___overlay_name::
+        .ascii "OVERLAYS"       ; filename
+        .ascii "000"            ; extension
+        .db 0                   ; extent
+        .db 0                   ; attributes
+.overlay_fcb_record_size:
+        .db 0                   ; extent       ; msx-dos1: record size low byte
+        .db 0                   ; record count ; msx-dos1: record size high byte
+.overlay_fcb_file_size:
+        .db 0, 0, 0, 0          ; file size
+        .db 0, 0, 0, 0          ; volume id
+        .ds 8                   ; internal
+        .db 0                   ; current record within extent
+.overlay_fcb_random_pos:
+        .db 0, 0, 0, 0          ; Random record number
