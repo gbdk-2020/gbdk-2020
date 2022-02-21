@@ -122,10 +122,11 @@ _exit::
 
 .exit_error:
         ld hl, #1$
+        push hl
         call _puts
         JP_BDOS #_TERM0
 1$:
-        .asciz "ERROR LOADING!\r\n"
+        .asciz "LOAD ERROR!\r\n"
 
         .area   _GSINIT
 .gsinit::
@@ -161,24 +162,81 @@ _exit::
 
         ;; load overlays, count in A
 .load_overlays:
-        ld c, a
-        ld b, #1
+        ld b, a
+        ld c, #1
 1$:
         push bc
         call .load_overlay
         pop bc
         ret c                  ; error
-        ld a, b
-        cp c
+        ld a, c
+        cp b
         jr z, 2$
-        inc b
+        inc c
         jr 1$
 2$:
         or a                    ; clear carry
         ret
 
 .load_overlay:
-        or a
+        ld b, #8
+        xor a
+1$:
+        rlc c
+        adc a
+        daa
+        djnz 1$
+                                ; result in a, max 99 overlays
+        ld c, a
+        ld b, #0x0f
+        ld e, #'0'
+        ld hl, #(.overlay_fcb_ext + 1)
+        rra
+        rra
+        rra
+        rra
+        and b
+        add e
+        ld (hl), a
+        inc hl
+        ld a, c
+        and b
+        add e
+        ld (hl), a
+
+        xor a
+        ld (.overlay_fcb_position), a
+
+        ld de, #.overlay_fcb
+        CALL_BDOS #_FOPEN
+        rrca
+        ret c                   ; file not found
+
+        ld de, #0x4000
+3$:
+        CALL_BDOS #_SETDTA
+
+        push de
+        ld de, #.overlay_fcb
+        CALL_BDOS #_RDSEQ
+        pop de
+
+        rrca
+        jr c, 2$                ; EOF reached
+
+        ld a, #128
+        ADD_A_REG16 d, e
+
+        ld a, #0xc0
+        cp d
+        jr z, 2$                ; end of page1 reached
+
+        jr 3$
+2$:
+        ld de, #.overlay_fcb
+        CALL_BDOS #_FCLOSE
+
+        or a                    ; reset carry flag, ok
         ret
 
 ___overlay_count::
@@ -187,16 +245,19 @@ ___overlay_count::
         .db 0                   ; drive
 ___overlay_name::
         .ascii "OVERLAYS"       ; filename
+.overlay_fcb_ext::
         .ascii "000"            ; extension
         .db 0                   ; extent
         .db 0                   ; attributes
 .overlay_fcb_record_size:
         .db 0                   ; extent       ; msx-dos1: record size low byte
+.overlay_fbc_record_cont:
         .db 0                   ; record count ; msx-dos1: record size high byte
 .overlay_fcb_file_size:
         .db 0, 0, 0, 0          ; file size
         .db 0, 0, 0, 0          ; volume id
         .ds 8                   ; internal
+.overlay_fcb_position:
         .db 0                   ; current record within extent
 .overlay_fcb_random_pos:
         .db 0, 0, 0, 0          ; Random record number
