@@ -26,6 +26,6 @@ $(BIN): makecom.dpr
 	fpc -B $< 
 
 clean:
-	rm -f *.o $(BIN) *~ *.dof *.cfg
+	rm -f *.o $(BIN) *~ *.dof *.cfg *.dsk
 	rm -f *.exe
 
