@@ -358,7 +358,7 @@ __endasm; \
     @param b   ROM bank to switch to
 */
 
-#define SWITCH_ROM(b) MAP_FRAME1=(b)
+void SWITCH_ROM(uint8_t bank) Z88DK_FASTCALL PRESERVES_REGS(b, c, d, e, iyh, iyl);
 #define SWITCH_ROM1 SWITCH_ROM
 
 /** Makes switch the active ROM bank in frame 2

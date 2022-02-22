@@ -203,8 +203,16 @@ lbl:    ret
 
 .mapper_page_alloc::
         CALLER_WRAPPER page_alloc_addr
+
+_SWITCH_ROM::                   ; Z88DK_FASTCALL : uint8_t parameter in l
+        ld a, l
+        ld (__current_bank), a
+        ld h, #>__banks_remap_table
+        ld l, a
+        ld a, (hl)
 .mapper_page_set::
         CALLER_WRAPPER page_set_addr
+
 .mapper_page_get::
         CALLER_WRAPPER page_get_addr
 
