@@ -6,6 +6,8 @@
         .LS_FILE_BUFFER = 0x0080
         .BDOS           = 0x0005
 
+        .EXTBIO         = 0xFFCA
+
         ; MSX-DOS 1
         _TERM0          = 0x00  ; Program terminate
         _CONIN          = 0x01  ; Console input

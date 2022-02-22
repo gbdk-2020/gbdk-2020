@@ -165,7 +165,7 @@ begin
             if (addr > $100) then pAnsiChar(tMemoryStream(banks[0]).Memory)[addr - $100]:= chr(banks.Count - 1);
             addr:= Hex2Int(symbols.Values['___overlay_name']);
             if (addr > $100) then begin
-              name:= format('%-8.8s', [uppercase(changefileext(name_out, ''))]);
+              name:= format('%-8.8s', [uppercase(changefileext(extractfilename(name_out), ''))]);
               system.move(name[1], pAnsiChar(tMemoryStream(banks[0]).Memory)[addr - $100], 8);
             end;
           end;

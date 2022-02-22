@@ -1,0 +1,1 @@
+const char * const __crlf = "\r\n";

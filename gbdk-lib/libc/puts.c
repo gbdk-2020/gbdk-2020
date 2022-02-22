@@ -1,11 +1,12 @@
 #include <stdio.h>
 
+extern const char *__crlf;
+
 void puts(const char *s) NONBANKED
 {
     while (*s)
-	putchar(*s++);
-#ifdef __TARGET_msxdos
-    putchar('\r');
-#endif
-    putchar('\n');
+        putchar(*s++);
+
+    for (s = __crlf; (*s); )
+        putchar(*s++);
 }

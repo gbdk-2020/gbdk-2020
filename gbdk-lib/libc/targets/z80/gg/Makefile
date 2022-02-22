@@ -5,7 +5,7 @@ TOPDIR = ../../../..
 THIS = gg
 PORT = z80
 
-CSRC =
+CSRC =  crlf.c 
 
 ASSRC =	set_interrupts.s \
 	outi.s vmemcpy.s \
