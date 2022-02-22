@@ -29,13 +29,13 @@ ___sdcc_bcall_ehl::
 
         CALL_HL
         dec sp
-        pop af
 
-        push de
+        ex (sp), hl
+        ld a, h
         ld (__current_bank), a
-        ld d, #>__banks_remap_table
-        ld e, a
-        ld a, (de)
+        ld h, #>__banks_remap_table
+        ld l, a
+        ld a, (hl)
         call .mapper_page_set
-        pop de
+        pop hl
         ret
