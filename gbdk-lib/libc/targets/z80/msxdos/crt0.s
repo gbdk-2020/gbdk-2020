@@ -30,12 +30,9 @@
         ld hl, #s__DATA
         call .memset_simple     ; initialize variables in RAM with zero
 
-        xor a
-        ld bc, #l__banks_remap_table
-        ld hl, #__banks_remap_table
-        call .memset_simple     ; initialize bank remapping table
-
         call .gsinit
+
+        call .initialize_ram_mapper
 
         ld a, (___overlay_count)
         and a
@@ -195,14 +192,15 @@ ___overlay_name::
 __rammapper_table::
         .dw 0
 
-.macro CALLER_WRAPPER addr ?lbl
-addr = .+1
-        call lbl
-lbl:    ret
-.endm
+current_bank_counter = 7
+.rammapper_hiwater:
+        .db current_bank_counter
 
 .mapper_page_alloc::
-        CALLER_WRAPPER page_alloc_addr
+        ld hl, #.rammapper_hiwater
+        ld a, (hl)
+        inc (hl)
+        ret
 
 _SWITCH_ROM::                   ; Z88DK_FASTCALL : uint8_t parameter in l
         ld a, l
@@ -211,10 +209,15 @@ _SWITCH_ROM::                   ; Z88DK_FASTCALL : uint8_t parameter in l
         ld l, a
         ld a, (hl)
 .mapper_page_set::
-        CALLER_WRAPPER page_set_addr
+        out (.MAP_FRAME1), a
+        ret
 
 .mapper_page_get::
-        CALLER_WRAPPER page_get_addr
+        in a, (.MAP_FRAME1)
+__mapper_page_mask = .+1
+.globl __mapper_page_mask
+        and #0x00
+        ret
 
 __current_bank::
         .db 0
@@ -224,17 +227,16 @@ __current_bank::
         .bndry 0x100  
 
 __banks_remap_table::
-        .ds 100
+        .db 4                   ; default page for bank 0
+        .rept 99
+                .db #<current_bank_counter
+                current_bank_counter = current_bank_counter + 1
+        .endm
 l__banks_remap_table = .-__banks_remap_table
 
         ;; load overlays, count in A
 .load_overlays:
         ld b, a
-        push bc
-        call .initialize_ram_mapper
-        pop bc
-        ret c                   ; error initializing ram mapper
-
         ld c, #1
 1$:
         push bc
@@ -244,7 +246,7 @@ l__banks_remap_table = .-__banks_remap_table
 
         ld a, c
         cp b
-        ret z                   ; all loaded - return
+        jr z, 2$                ; all loaded - return
 
         inc c                   ; next overlay
         ld a, #(l__banks_remap_table - 1)
@@ -252,6 +254,10 @@ l__banks_remap_table = .-__banks_remap_table
         ret c                   ; more than 99 overlays are not allowed
 
         jr 1$
+2$:
+        xor a
+        call _SWITCH_ROM
+        ret
 
 .load_overlay:
         push bc
@@ -332,17 +338,32 @@ l__banks_remap_table = .-__banks_remap_table
         ret
 
 .macro TRANSFER_POINTER ofs dest
+        ld hl, #dest
+        ld (hl), #0xc3
+        inc hl
         ld a, ofs (ix)
-        ld (dest), a
+        ld (hl), a
+        inc hl
         ld a, ofs+1 (ix)
-        ld (dest+1), a
+        ld (hl), a
 .endm
 
 .initialize_ram_mapper::
+                                ; detect mapper capacity 
+        in a, (.MAP_FRAME1)
+        ld e, a
+        xor a
+        out (.MAP_FRAME1), a
+        in a, (.MAP_FRAME1)
+        cpl
+        ld (__mapper_page_mask), a
+        and e
+        ld (__banks_remap_table), a
+
         xor a
         ld de,#0401             ; get routines info table
         call .EXTBIO
-        ld (#__rammapper_table), hl
+        ld (__rammapper_table), hl
 
         xor a
         ld de, #0x0402          ; populate ram mapper routines table
@@ -355,9 +376,9 @@ l__banks_remap_table = .-__banks_remap_table
         push hl
         pop ix
 
-        TRANSFER_POINTER 0x01, page_alloc_addr
-        TRANSFER_POINTER 0x1f, page_set_addr
-        TRANSFER_POINTER 0x22, page_get_addr
+        TRANSFER_POINTER 0x01, .mapper_page_alloc
+        TRANSFER_POINTER 0x1f, .mapper_page_set
+        TRANSFER_POINTER 0x22, .mapper_page_get
 
 ;        xor a
 ;        call .mapper_page_get

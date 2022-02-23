@@ -162,19 +162,10 @@ static volatile SFR AT(0xF0) FMADDRESS;
 static volatile SFR AT(0xF1) FMDATA;
 static volatile SFR AT(0xF2) AUDIOCTRL;
 
-static volatile UBYTE AT(0xfffc) RAM_CONTROL;
-
-#define RAMCTL_BANK    0b00000100
-#define RAMCTL_ROM     0b00000000
-#define RAMCTL_RAM     0b00001000
-#define RAMCTL_RO      0b00010000
-#define RAMCTL_PROT    0b10000000
-
-static volatile UBYTE AT(0xfff8) GLASSES_3D;
-
-static volatile UBYTE AT(0xfffd) MAP_FRAME0;
-static volatile UBYTE AT(0xfffe) MAP_FRAME1;
-static volatile UBYTE AT(0xffff) MAP_FRAME2;
+static volatile SFR AT(0xfc) MAP_FRAME0;
+static volatile SFR AT(0xfd) MAP_FRAME1;
+static volatile SFR AT(0xfe) MAP_FRAME2;
+static volatile SFR AT(0xff) MAP_FRAME3;
 
 extern const UBYTE _BIOS;
 

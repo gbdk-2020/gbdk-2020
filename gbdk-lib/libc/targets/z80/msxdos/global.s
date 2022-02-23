@@ -326,19 +326,10 @@
         .FMDATA         = 0xF1
         .AUDIOCTRL      = 0xF2
 
-        .RAM_CONTROL    = 0xfffc
-
-        .RAMCTL_BANK    = 0b00000100
-        .RAMCTL_ROM     = 0b00000000
-        .RAMCTL_RAM     = 0b00001000
-        .RAMCTL_RO      = 0b00010000
-        .RAMCTL_PROT    = 0b10000000
-
-        .GLASSES_3D     = 0xfff8
-
-        .MAP_FRAME0     = 0xfffd
-        .MAP_FRAME1     = 0xfffe
-        .MAP_FRAME2     = 0xffff
+        .MAP_FRAME0     = 0xfffc
+        .MAP_FRAME1     = 0xfffd
+        .MAP_FRAME2     = 0xfffe
+        .MAP_FRAME3     = 0xffff
 
         .BIOS           = 0xC000
 
