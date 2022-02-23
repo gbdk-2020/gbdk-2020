@@ -13,6 +13,8 @@ As of version `4.0.5` GBDK includes support for other consoles in addition to th
     - Sega Master System (SMS)
     - Sega Game Gear (GG)
 
+  - MSX DOS (MSXDOS)
+
 While the GBDK API has many convenience functions that work the same or similar across different consoles, it's important to keep their different capabilities in mind when writing code intended to run on more than one. Some (but not all) of the differences are screen sizes, color capabilities, memory layouts, processor type (z80 vs gbz80/sm83) and speed.
 
  
@@ -33,10 +35,13 @@ When compiling with @ref sdcc-settings "sdcc":
 When assembling with @ref sdasgb-settings "sdasgb" (for GB/AP) and @ref sdasz80-settings "sdasz80" (for SMS/GG):
   - Select the appropriate include path: `-I<gbdk-path>lib/small/asxxxx/<plat>`
 
-When linking with @ref sdldgb-settings "sdldgb" (for GB/AP) and @ref sdldz80-settings "sdldz80" (for SMS/GG):
+When linking with @ref sdldgb-settings "sdldgb" (for GB/AP) and @ref sdldz80-settings "sdldz80" (for SMS/GG or MSXDOS):
   - Select the appropriate include paths: `-k <gbdk-path>lib/small/asxxxx/<port>`, `-k <gbdk-path>lib/small/asxxxx/<plat>`
   - Include the appropriate library files `-l <port>.lib`, `-l <plat>.lib`
   - The crt will be under `  <gbdk-path>lib/small/asxxxx/<plat>/crt0.o`
+
+MSXDOS requires an additional build step after makebin to create the final binary:
+  - `makecom <image.bin> [<image.noi>] <output.com>`
 
 
 ## Console Port and Platform Settings
@@ -56,6 +61,10 @@ When linking with @ref sdldgb-settings "sdldgb" (for GB/AP) and @ref sdldz80-set
   - Sega Game Gear
     - @ref lcc : `-mz80:gg`
     - port:`z80`, plat:`gg`
+
+  - MSX DOS
+    - @ref lcc : `-mz80:msxdos`
+    - port:`z80`, plat:`msxdos`
 
 
 # Cross-Platform Constants
@@ -81,6 +90,9 @@ There are several constant \#defines that can be used to help select console spe
     - When building for Game Gear
       - `SEGA` will be \#defined
       - `GAMEGEAR` will be \#defined
+
+  - When `<msx/msx.h>` is included (either directly or through `<gbdk/platform.h>`)
+    - `MSXDOS` will be \#defined
 
 ## Console Hardware Properties
 Constants that describe properties of the console hardware are listed below. Their values will change to reflect the current console target that is being built.
