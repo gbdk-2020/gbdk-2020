@@ -114,6 +114,10 @@
 7$:
         call _main
 .exit:
+        push hl
+        ld l, #0
+        call _SWITCH_ROM
+        pop hl
         ld b, l
         CALL_BDOS #_TERM        ; try terminate usind MSX DOS 2 function
         JP_BDOS #_TERM0
@@ -189,17 +193,21 @@ ___overlay_name::
         .db 0, 0, 0, 0          ; Random record number
 .overlay_fcb_end:
 
+__memman_present::
+        .db 0
 __rammapper_table::
         .dw 0
 
-current_bank_counter = 7
 .rammapper_hiwater:
-        .db current_bank_counter
+        .db 4                   ; 7 segments for 128K config
+.rammapper_alloc_hiwater:
+        .db 1                   ; allocation starts from bank 1
 
 .mapper_page_alloc::
         ld hl, #.rammapper_hiwater
         ld a, (hl)
         inc (hl)
+        or a                    ; never fail
         ret
 
 _SWITCH_ROM::                   ; Z88DK_FASTCALL : uint8_t parameter in l
@@ -216,7 +224,7 @@ _SWITCH_ROM::                   ; Z88DK_FASTCALL : uint8_t parameter in l
         in a, (.MAP_FRAME1)
 __mapper_page_mask = .+1
 .globl __mapper_page_mask
-        and #0x00
+        and #0x00               ; zero ram size, will be patched
         ret
 
 __current_bank::
@@ -225,18 +233,43 @@ __current_bank::
 ; --- 256 byte boundary ---------------------------------------
 
         .bndry 0x100  
-
 __banks_remap_table::
-        .db 4                   ; default page for bank 0
-        .rept 99
-                .db #<current_bank_counter
-                current_bank_counter = current_bank_counter + 1
-        .endm
+        .ds 100
 l__banks_remap_table = .-__banks_remap_table
+
+__mapper_bank_alloc::
+        ld hl, #.rammapper_alloc_hiwater
+        ld a, (hl)
+        inc (hl)
+        ld h, #>__banks_remap_table
+        ld l, a
+        ld a, #0xff
+        cp (hl)
+        jr nz, 1$ 
+
+        xor a
+        ld b, a
+        push hl
+        call .mapper_page_alloc
+        pop hl
+        ret c                   ; return if no memory
+        ld (hl), a              ; set segment number for the bank number
+1$:
+        or a
+        ret                     ; allocated bank returns in l
 
         ;; load overlays, count in A
 .load_overlays:
         ld b, a
+        ld a, (__memman_present)
+        or a
+        jr nz, 3$
+        ld a, (__mapper_page_mask)
+        sub #3                  ; ram segments used for DOS  
+        inc a
+        cp b
+        ret c                   ; not sufficient ram to load overlays
+3$:
         ld c, #1
 1$:
         push bc
@@ -261,19 +294,11 @@ l__banks_remap_table = .-__banks_remap_table
 
 .load_overlay:
         push bc
-        ld a, c
-        ld (__current_bank), a  ; modify current bank first 
-        xor a
-        ld b, #0b00000000       ; format: FxxxSSPP             
-        call .mapper_page_alloc
+        call __mapper_bank_alloc
         pop bc
         ret c                   ; no free segments
 
-        ld h, #>__banks_remap_table
-        ld l, c
-        ld (hl), a              ; set segment number for the bank number
-
-        call .mapper_page_set   ; switch segment
+        call _SWITCH_ROM        ; switch bank to l
 
         ld b, #8
         xor a
@@ -358,7 +383,10 @@ l__banks_remap_table = .-__banks_remap_table
         cpl
         ld (__mapper_page_mask), a
         and e
-        ld (__banks_remap_table), a
+        ld hl, #__banks_remap_table
+        ld (hl), a
+        inc hl
+        ld (hl), a              ; bank 0 == bank 1
 
         xor a
         ld de,#0401             ; get routines info table
@@ -380,9 +408,8 @@ l__banks_remap_table = .-__banks_remap_table
         TRANSFER_POINTER 0x1f, .mapper_page_set
         TRANSFER_POINTER 0x22, .mapper_page_get
 
-;        xor a
-;        call .mapper_page_get
-;        ld (__banks_remap_table), a     ; should set the correct segment number for bank0
+        ld a, #1
+        ld (__memman_present), a
 
         or a                    ; return ok
         ret

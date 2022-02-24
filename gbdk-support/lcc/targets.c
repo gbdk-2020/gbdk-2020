@@ -28,7 +28,7 @@ arg_entry llist0_defaults_sms[] = {
 
 // MSX
 arg_entry llist0_defaults_msxdos[] = {
-    {.searchkey= "_DATA=",       .addflag= "-b",.addvalue= "_DATA=0xC000",       .found= false},
+    {.searchkey= "_DATA=",       .addflag= "-b",.addvalue= "_DATA=0x8000",       .found= false},
     {.searchkey= "_CODE=",       .addflag= "-b",.addvalue= "_CODE=0x0100",       .found= false},
 };
 
