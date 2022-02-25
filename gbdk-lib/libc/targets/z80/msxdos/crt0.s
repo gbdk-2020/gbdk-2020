@@ -435,9 +435,6 @@ _sys_time::
         .dw 0x0000
 .vbl_done::
         .db 0
-_VDP_ATTR_SHIFT::
-.vdp_shift::
-        .db 0
 __shadow_OAM_base::
         .db 0
 __shadow_OAM_OFF::

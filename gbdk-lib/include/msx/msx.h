@@ -528,19 +528,18 @@ void set_data(uint16_t dst, const void *src, uint16_t size) Z88DK_CALLEE PRESERV
 void vmemcpy(uint16_t dst, const void *src, uint16_t size) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
 
 void set_tile_map(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
-void set_tile_map_compat(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
-#define set_bkg_tiles set_tile_map_compat
-#define set_win_tiles set_tile_map_compat
+#define set_bkg_tiles set_tile_map
+#define set_win_tiles set_tile_map
 
 extern uint8_t _map_tile_offset;
 inline void set_bkg_based_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles, uint8_t base_tile) {
     _map_tile_offset = base_tile;
-    set_tile_map_compat(x, y, w, h, tiles);
+    set_tile_map(x, y, w, h, tiles);
     _map_tile_offset = 0;
 }
 inline void set_win_based_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles, uint8_t base_tile) {
     _map_tile_offset = base_tile;
-    set_tile_map_compat(x, y, w, h, tiles);
+    set_tile_map(x, y, w, h, tiles);
     _map_tile_offset = 0;
 }
 
