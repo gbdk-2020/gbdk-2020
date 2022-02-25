@@ -1,4 +1,4 @@
-/** @file sms/sms.h
+/** @file msx/msx.h
     MSX specific functions.
 */
 #ifndef _MSX_H
@@ -42,13 +42,8 @@
 #define	J_RIGHT      0b00001000
 #define	J_A          0b00010000
 #define	J_B          0b00100000
-#if defined(__TARGET_sms)
 #define	J_SELECT     0b00100000
 #define	J_START      0b00010000
-#elif defined(__TARGET_gg)
-#define	J_SELECT     0b00100000
-#define	J_START      0b10000000
-#endif
 
 /** Screen modes.
     Normally used by internal functions only.
@@ -115,13 +110,13 @@ uint8_t get_mode() OLDCALL;
     @see set_interrupts(), @see add_LCD
 */
 #define LCD_IFLAG    0x02U
-/** Does nothing on SMS/GG
+/** Does nothing on MSX
  */
 #define TIM_IFLAG    0x04U
-/** Does nothing on SMS/GG
+/** Does nothing on MSX
  */
 #define SIO_IFLAG    0x08U
-/** Does nothing on SMS/GG
+/** Does nothing on MSX
  */
 #define JOY_IFLAG    0x10U
 
@@ -174,15 +169,15 @@ void add_VBL(int_handler h) Z88DK_FASTCALL PRESERVES_REGS(d, e, iyh, iyl);
 */
 void add_LCD(int_handler h) Z88DK_FASTCALL PRESERVES_REGS(b, c, iyh, iyl);
 
-/** Does nothing on SMS/GG
+/** Does nothing on MSX
  */
 void add_TIM(int_handler h) Z88DK_FASTCALL;
 
-/** Does nothing on SMS/GG
+/** Does nothing on MSX
  */
 void add_SIO(int_handler h) Z88DK_FASTCALL;
 
-/** Does nothing on SMS/GG
+/** Does nothing on MSX
  */
 void add_JOY(int_handler h) Z88DK_FASTCALL;
 
@@ -292,7 +287,7 @@ void refresh_OAM();
 	__WRITE_VDP_REG(VDP_R1, __READ_VDP_REG(VDP_R1) &= (~R1_SPR_8X16))
 
 /** Macro returns TRUE if device supports color
- *  (it always does on SMS/GG)
+ *  (it always does on MSX)
  */
 #define DEVICE_SUPPORTS_COLOR (TRUE)
 
@@ -481,7 +476,7 @@ void set_palette(uint8_t first_palette, uint8_t nb_palettes, palette_color_t *rg
 #define set_bkg_palette set_palette
 #define set_sprite_palette(first_palette,nb_palettes,rgb_data) set_palette(1,1,rgb_data)
 
-void set_native_tile_data(uint16_t start, uint16_t ntiles, const void *src) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
+void set_native_tile_data(uint16_t start, uint16_t ntiles, const void *src) Z88DK_CALLEE;
 inline void set_bkg_4bpp_data(uint16_t start, uint16_t ntiles, const void *src) {
     set_native_tile_data(start, ntiles, src);
 }
@@ -571,9 +566,8 @@ inline void set_win_based_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, con
 }
 
 void fill_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint16_t tile) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
-void fill_rect_compat(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint16_t tile) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
-#define fill_bkg_rect fill_rect_compat
-#define fill_win_rect fill_rect_compat
+#define fill_bkg_rect fill_rect
+#define fill_win_rect fill_rect
 
 /** Shadow OAM array in WRAM, that is transferred into the real OAM each VBlank
 */
@@ -589,7 +583,7 @@ extern volatile uint8_t _shadow_OAM_base;
     \li 1: OAM copy routine is disabled (non-isr VDP operation may be in progress)
     \li 0: OAM copy routine is enabled
 
-    This flag is modified by all sms/gg GBDK API calls that write to the VDP.
+    This flag is modified by all MSX GBDK API calls that write to the VDP.
     It is set to DISABLED when they start and ENABLED when they complete.
 
     @note It is recommended to avoid writing to the Video Display Processor
@@ -746,4 +740,4 @@ uint8_t * set_tile_xy(uint8_t x, uint8_t y, uint8_t t) Z88DK_CALLEE PRESERVES_RE
 uint8_t * get_bkg_xy_addr(uint8_t x, uint8_t y) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
 #define get_win_xy_addr get_bkg_xy_addr
 
-#endif /* _SMS_H */
+#endif /* _MSX_H */

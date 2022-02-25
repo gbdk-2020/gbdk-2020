@@ -45,9 +45,9 @@ static volatile SFR AT(0x7F) PSG;
 
 static volatile SFR AT(0x7F) HCOUNTER;
 
-static volatile SFR AT(0xBE) VDP_DATA;
-static volatile SFR AT(0xBF) VDP_CMD;
-static volatile SFR AT(0xBF) VDP_STATUS;
+static volatile SFR AT(0x98) VDP_DATA;
+static volatile SFR AT(0x99) VDP_CMD;
+static volatile SFR AT(0x99) VDP_STATUS;
 
 #define STATF_INT_VBL  0b10000000
 #define STATF_9_SPR    0b01000000
@@ -57,17 +57,16 @@ static volatile SFR AT(0xBF) VDP_STATUS;
 #define VDP_R0         0b10000000
 extern UBYTE shadow_VDP_R0;
 
-#define R0_VSCRL       0b00000000
-#define R0_VSCRL_INH   0b10000000
-#define R0_HSCRL       0b00000000
-#define R0_HSCRL_INH   0b01000000
-#define R0_NO_LCB      0b00000000
-#define R0_LCB         0b00100000
+#define R0_DEFAULT     0b00000000
+#define R0_CB_OUTPUT   0b00000000
+#define R0_CB_INPUT    0b01000000
+#define R0_IE2_OFF     0b00000000
+#define R0_IE2         0b00100000
 #define R0_IE1_OFF     0b00000000
 #define R0_IE1         0b00010000
-#define R0_SS_OFF      0b00000000
-#define R0_SS          0b00001000
-#define R0_DEFAULT     0b00000110
+#define R0_SCR_MODE1   0b00000000
+#define R0_SCR_MODE2   0b00000010
+#define R0_SCR_MODE3   0b00000100
 #define R0_ES_OFF      0b00000000
 #define R0_ES          0b00000001
 
@@ -79,8 +78,13 @@ extern UBYTE shadow_VDP_R1;
 #define R1_DISP_ON     0b01000000
 #define R1_IE_OFF      0b00000000
 #define R1_IE          0b00100000
+#define R1_SCR_MODE1   0b00010000
+#define R1_SCR_MODE2   0b00000000
+#define R1_SCR_MODE3   0b00000000
 #define R1_SPR_8X8     0b00000000
-#define R1_SPR_8X16    0b00000010
+#define R1_SPR_16X16   0b00000010
+#define R1_SPR_MAG     0b00000001
+#define R1_SPR_MAG_OFF 0b00000000
 
 #define VDP_R2         0b10000010
 extern UBYTE shadow_VDP_R2;

@@ -134,18 +134,6 @@ _exit::
 1$:
         .asciz "LOAD ERROR!\r\n"
 
-        .area   _GSINIT
-.gsinit::
-        ;; initialize static storage variables
-        ld bc, #l__INITIALIZER
-        ld hl, #s__INITIALIZER
-        ld de, #s__INITIALIZED
-        call .memcpy_simple
-
-        .area   _GSFINAL
-        ret
-
-        .area   _CODE
         ;; fills memory at HL of length BC with A, clobbers DE
 .memset_simple::
         ld e, a        
@@ -412,4 +400,74 @@ __mapper_bank_alloc::
         ld (__memman_present), a
 
         or a                    ; return ok
+        ret
+
+.shadow_VDP:
+_shadow_VDP_R0::
+        .db #(.R0_DEFAULT | .R0_SCR_MODE2)
+_shadow_VDP_R1::
+        .db #(.R1_DEFAULT | .R1_DISP_ON | .R1_SCR_MODE2 | .R1_IE)
+_shadow_VDP_R2::
+        .db .R2_MAP_0x3800
+_shadow_VDP_R3::
+        .db 0xFF 
+_shadow_VDP_R4::
+        .db 0xFF
+_shadow_VDP_R5::
+        .db .R5_SAT_0x3F00
+_shadow_VDP_R6::
+        .db .R6_DATA_0x2000
+_shadow_VDP_R7::
+_shadow_VDP_RBORDER::
+        .db #(0 | .R7_COLOR_MASK)
+_shadow_VDP_R8::
+_shadow_VDP_RSCX::
+        .db 0
+_shadow_VDP_R9::
+_shadow_VDP_RSCY::
+        .db 0
+_shadow_VDP_R10::
+        .db #.R10_INT_OFF
+.shadow_VDP_end::   
+
+.sys_time::
+_sys_time::
+        .dw 0x0000
+.vbl_done::
+        .db 0
+_VDP_ATTR_SHIFT::
+.vdp_shift::
+        .db 0
+__shadow_OAM_base::
+        .db 0
+__shadow_OAM_OFF::
+        .db 0
+.mode::
+        .ds  .T_MODE_INOUT      ; Current mode
+
+        .area   _GSINIT
+.gsinit::
+        ;; initialize static storage variables
+        ld bc, #l__INITIALIZER
+        ld hl, #s__INITIALIZER
+        ld de, #s__INITIALIZED
+        call .memcpy_simple
+
+;        di
+;        ;; Initialize VDP
+;        ld c, #.VDP_CMD
+;        ld b, #(.shadow_VDP_end - .shadow_VDP)
+;        ld hl,#(.shadow_VDP_end - 1)
+;1$:
+;        outd
+;
+;        ld a, b
+;        or #.VDP_REG_MASK
+;        out (c), a
+;            
+;        djnz 1$
+;
+;        ei
+
+        .area   _GSFINAL
         ret

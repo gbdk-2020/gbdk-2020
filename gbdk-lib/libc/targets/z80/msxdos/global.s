@@ -202,7 +202,14 @@
         .JOY_P2_LATCH   = 0b00001000
 
         .VDP_VRAM       = 0x4000
-        .VDP_TILEMAP    = 0x7800
+        .VDP_TILEDATA0  = 0x4000
+        .VDP_TILEDATA1  = 0x4800
+        .VDP_TILEDATA2  = 0x5000
+        .VDP_COLORDATA0 = 0x6000
+        .VDP_COLORDATA1 = 0x6800
+        .VDP_COLORDATA1 = 0x7000
+
+        .VDP_TILEMAP    = 0x5800
         .VDP_CRAM       = 0xC000
         .VDP_SAT        = 0x7F00
 
@@ -212,9 +219,9 @@
         .VDP_PSG        = 0x7F
         .VDP_HCOUNTER   = 0x7F
 
-        .VDP_DATA       = 0xBE
-        .VDP_CMD        = 0xBF
-        .VDP_STAT       = 0xBF
+        .VDP_DATA       = 0x98
+        .VDP_CMD        = 0x99
+        .VDP_STAT       = 0x99
 
         .STATF_INT_VBL  = 0b10000000
         .STATF_9_SPR    = 0b01000000
@@ -223,17 +230,16 @@
         .VDP_REG_MASK   = 0b10000000
         .VDP_R0         = 0b10000000
 
-        .R0_VSCRL       = 0b00000000
-        .R0_VSCRL_INH   = 0b10000000
-        .R0_HSCRL       = 0b00000000
-        .R0_HSCRL_INH   = 0b01000000
-        .R0_NO_LCB      = 0b00000000
-        .R0_LCB         = 0b00100000
+        .R0_DEFAULT     = 0b00000000
+        .R0_CB_OUTPUT   = 0b00000000
+        .R0_CB_INPUT    = 0b01000000
+        .R0_IE2_OFF     = 0b00000000
+        .R0_IE2         = 0b00100000
         .R0_IE1_OFF     = 0b00000000
         .R0_IE1         = 0b00010000
-        .R0_SS_OFF      = 0b00000000
-        .R0_SS          = 0b00001000
-        .R0_DEFAULT     = 0b00000110
+        .R0_SCR_MODE1   = 0b00000000
+        .R0_SCR_MODE2   = 0b00000010
+        .R0_SCR_MODE2   = 0b00000100
         .R0_ES_OFF      = 0b00000000
         .R0_ES          = 0b00000001
 
@@ -244,8 +250,13 @@
         .R1_DISP_ON     = 0b01000000
         .R1_IE_OFF      = 0b00000000
         .R1_IE          = 0b00100000
+        .R1_SCR_MODE1   = 0b00010000
+        .R1_SCR_MODE2   = 0b00000000
+        .R1_SCR_MODE3   = 0b00000000
         .R1_SPR_8X8     = 0b00000000
-        .R1_SPR_8X16    = 0b00000010
+        .R1_SPR_16X16   = 0b00000010
+        .R1_SPR_MAG     = 0b00000001
+        .R1_SPR_MAG_OFF = 0b00000000
 
         .VDP_R2         = 0b10000010
 
@@ -348,11 +359,11 @@
 
         ;; Screen dimentions in tiles
 
-        .SCREEN_X_OFS   = 6
-        .SCREEN_Y_OFS   = 3
-        .SCREEN_WIDTH   = 20
-        .SCREEN_HEIGHT  = 18
-        .VDP_MAP_HEIGHT = 28
+        .SCREEN_X_OFS   = 0
+        .SCREEN_Y_OFS   = 0
+        .SCREEN_WIDTH   = 32
+        .SCREEN_HEIGHT  = 24
+        .VDP_MAP_HEIGHT = 24
         .VDP_MAP_WIDTH  = 32
 
         ;; Interrupt flags
@@ -379,7 +390,7 @@
         jp .BDOS
 .endm
 
-.macro SMS_WRITE_VDP_DATA regH regL ?lbl
+.macro MSX_WRITE_VDP_DATA regH regL ?lbl
         ld a, i
         ld a, regL
         di
@@ -391,7 +402,7 @@ lbl:
         out (#.VDP_DATA), a
 .endm
 
-.macro SMS_WRITE_VDP_CMD regH regL ?lbl
+.macro MSX_WRITE_VDP_CMD regH regL ?lbl
         ld a, i
         ld a, regL
         di
@@ -414,11 +425,11 @@ lbl:
 .endm
 
 .macro WRITE_VDP_CMD_HL
-        SMS_WRITE_VDP_CMD h, l
+        MSX_WRITE_VDP_CMD h, l
 .endm
 
 .macro WRITE_VDP_DATA_HL
-        SMS_WRITE_VDP_DATA h, l
+        MSX_WRITE_VDP_DATA h, l
 .endm
 
 .macro CALL_HL

@@ -4,7 +4,7 @@
 
         .area   _HOME
 
-; void set_tile_map(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint16_t tile) __z88dk_callee __preserves_regs(iyh, iyl);
+; void fill_rect_compat(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint16_t tile) __z88dk_callee __preserves_regs(iyh, iyl);
 _fill_rect_compat::
         pop hl          ; HL = ret
         pop bc          ; BC = YX

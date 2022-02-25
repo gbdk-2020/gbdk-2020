@@ -8,6 +8,9 @@ PORT = z80
 CSRC = crlf.c 
 
 ASSRC =	bdos_putchar.s bdos_getchar.s bdos_gets.s \
+	msx_set_native_data.s \
+	msx_fill_rect.s msx_fill_rect_xy.s \
+	color.s \
 	heap.s \
 	__sdcc_bcall.s __sdcc_bcall_abc.s \
 	crt0.s
