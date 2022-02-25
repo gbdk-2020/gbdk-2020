@@ -207,7 +207,7 @@
 
         ;; Macro definitions
 
-.macro SMS_WRITE_VDP_DATA regH regL ?lbl
+.macro VDP_WRITE_DATA regH regL ?lbl
         ld a, i
         ld a, regL
         di
@@ -219,7 +219,7 @@ lbl:
         out (#.VDP_DATA), a
 .endm
 
-.macro SMS_WRITE_VDP_CMD regH regL ?lbl
+.macro VDP_WRITE_CMD regH regL ?lbl
         ld a, i
         ld a, regL
         di

@@ -13,18 +13,18 @@
 
 ;        .org    0x08            ; --profile handler 
 
-        .org    0x10            ; RST 0x10: SMS_WRITE_VDP_CMD
+        .org    0x10            ; RST 0x10: VDP_WRITE_CMD
 
 _WRITE_VDP_CMD::        
-        SMS_WRITE_VDP_CMD h, l
+        VDP_WRITE_CMD h, l
         ret
 
 ;        .org    0x18            ; unusable
 
-        .org    0x20            ; RST 0x20: SMS_WRITE_VDP_DATA
+        .org    0x20            ; RST 0x20: VDP_WRITE_DATA
 
 _WRITE_VDP_DATA::        
-        SMS_WRITE_VDP_DATA h, l
+        VDP_WRITE_DATA h, l
         ret
 
 ;       .org    0x28             ; unusable

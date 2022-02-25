@@ -40,7 +40,7 @@ _set_tile_1bpp_data::
         jr 2$
 
 1$:
-        MSX_WRITE_VDP_CMD h, l
+        VDP_WRITE_CMD h, l
         ex de, hl
         ld b, #8
 3$:        
@@ -52,7 +52,7 @@ _set_tile_1bpp_data::
         ADD_A_REG16 h, l
         ex (sp), hl
 
-        MSX_WRITE_VDP_CMD h, l
+        VDP_WRITE_CMD h, l
         ld b, #8
         ld a, ixl
 4$:        

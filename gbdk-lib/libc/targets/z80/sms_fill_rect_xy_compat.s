@@ -49,7 +49,7 @@
         DISABLE_VBLANK_COPY     ; switch OFF copy shadow SAT
 
 1$:                             ; copy H rows
-        SMS_WRITE_VDP_CMD ixh, ixl
+        VDP_WRITE_CMD ixh, ixl
         ld c, #.VDP_DATA
 2$:                             ; copy W tiles
         out (c), l
@@ -68,7 +68,7 @@
         and #0xC0
         or b
         ld ixl, a
-        SMS_WRITE_VDP_CMD ixh, ixl
+        VDP_WRITE_CMD ixh, ixl
         dec e
         jp nz, 2$
         jp 7$

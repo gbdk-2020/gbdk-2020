@@ -35,7 +35,7 @@ _set_native_tile_data::
         jr 2$
 
 1$:
-        MSX_WRITE_VDP_CMD h, l
+        VDP_WRITE_CMD h, l
         ex de, hl
         ld b, #8
 3$:        
@@ -47,7 +47,7 @@ _set_native_tile_data::
         ADD_A_REG16 h, l
         ex (sp), hl
 
-        MSX_WRITE_VDP_CMD h, l
+        VDP_WRITE_CMD h, l
         ex de, hl
         ld b, #8
 4$:        

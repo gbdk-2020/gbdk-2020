@@ -20,7 +20,7 @@ _set_native_tile_data::
 
         DISABLE_VBLANK_COPY        ; switch OFF copy shadow SAT
 
-        SMS_WRITE_VDP_CMD h, l
+        VDP_WRITE_CMD h, l
 
         pop bc
         pop hl
