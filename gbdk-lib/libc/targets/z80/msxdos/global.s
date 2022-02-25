@@ -1,6 +1,7 @@
         .OS_RESET       = 0x0000
         .LS_IO          = 0x0003
         .LS_DSK         = 0x0004
+        .LS_INT_VECTOR  = 0x0038
         .LS_FCB0        = 0x005C
         .LS_FCB1        = 0x006C
         .LS_FILE_BUFFER = 0x0080
@@ -377,6 +378,9 @@
 
         ;; Main user routine
         .globl  _main
+        
+        ;; interrupt handler
+        .globl _INT_ISR
 
         ;; Macro definitions
 

@@ -6,6 +6,11 @@
         .globl  .sys_time, .vbl_done
         .globl  .OUTI128, .OUTI64, __shadow_OAM_base
 
+        .area   _GSINIT
+
+        ld hl, #_INT_ISR
+        ld (.LS_INT_VECTOR + 1), hl 
+
         .area   _HOME
 
 _INT_ISR::
@@ -165,7 +170,6 @@ _remove_VBL::
         or (hl)
         ldi
         jr nz, 2$
-        ret
 
 _remove_TIM::
 _remove_SIO::

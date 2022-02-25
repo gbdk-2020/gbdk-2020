@@ -25,14 +25,10 @@
         ; program startup code
         .area   _CODE
 .start::
-        xor a
-        ld bc, #l__DATA
-        ld hl, #s__DATA
-        call .memset_simple     ; initialize variables in RAM with zero
+        ld hl, (.LS_INT_VECTOR + 1)
+        ld (__old_int_vector), hl
 
         call .gsinit
-
-        call .initialize_ram_mapper
 
         ld a, (___overlay_count)
         and a
@@ -117,6 +113,10 @@
         push hl
         ld l, #0
         call _SWITCH_ROM
+                                ; restore old int vector
+        ld hl, (__old_int_vector)
+        ld (.LS_INT_VECTOR + 1), hl
+
         pop hl
         ld b, l
         CALL_BDOS #_TERM        ; try terminate usind MSX DOS 2 function
@@ -152,6 +152,22 @@ _exit::
         or b
         ret z
         ldir
+        ret
+
+        ;; Wait for VBL interrupt to be finished
+.wait_vbl_done::
+_wait_vbl_done::
+        ld  a, (_shadow_VDP_R1)
+        and #.R1_DISP_ON
+        ret z
+        
+        xor a
+        ld (.vbl_done), a
+1$:
+        halt
+        ld a, (.vbl_done)
+        or a
+        jr z, 1$
         ret
 
         ;; put some internal data here, to save bytes wasted for the alignment of __banks_remap_table
@@ -245,6 +261,64 @@ __mapper_bank_alloc::
 1$:
         or a
         ret                     ; allocated bank returns in l
+
+.macro TRANSFER_POINTER ofs dest
+        ld hl, #dest
+        ld (hl), #0xc3
+        inc hl
+        ld a, ofs (ix)
+        ld (hl), a
+        inc hl
+        ld a, ofs+1 (ix)
+        ld (hl), a
+.endm
+
+.initialize_ram_mapper::
+                                ; detect mapper capacity 
+        in a, (.MAP_FRAME1)
+        ld e, a
+        xor a
+        out (.MAP_FRAME1), a
+        in a, (.MAP_FRAME1)
+        cpl
+        ld (__mapper_page_mask), a
+        and e
+        ld hl, #__banks_remap_table
+        ld (hl), a
+        inc hl
+        ld (hl), a              ; bank 0 == bank 1
+
+        xor a
+        ld de,#0401             ; get routines info table
+        call .EXTBIO
+        ld (__rammapper_table), hl
+
+        xor a
+        ld de, #0x0402          ; populate ram mapper routines table
+        call .EXTBIO
+        or a
+        jr nz, 1$
+        scf
+        ret
+1$:
+        push hl
+        pop ix
+
+        TRANSFER_POINTER 0x01, .mapper_page_alloc
+        TRANSFER_POINTER 0x1f, .mapper_page_set
+        TRANSFER_POINTER 0x22, .mapper_page_get
+
+        ld a, #1
+        ld (__memman_present), a
+
+        or a                    ; return ok
+        ret
+
+; --- 256 byte boundary ---------------------------------------
+
+        .bndry 256
+_shadow_OAM::
+        .ds 0xc0
 
         ;; load overlays, count in A
 .load_overlays:
@@ -350,58 +424,6 @@ __mapper_bank_alloc::
         or a                    ; return ok
         ret
 
-.macro TRANSFER_POINTER ofs dest
-        ld hl, #dest
-        ld (hl), #0xc3
-        inc hl
-        ld a, ofs (ix)
-        ld (hl), a
-        inc hl
-        ld a, ofs+1 (ix)
-        ld (hl), a
-.endm
-
-.initialize_ram_mapper::
-                                ; detect mapper capacity 
-        in a, (.MAP_FRAME1)
-        ld e, a
-        xor a
-        out (.MAP_FRAME1), a
-        in a, (.MAP_FRAME1)
-        cpl
-        ld (__mapper_page_mask), a
-        and e
-        ld hl, #__banks_remap_table
-        ld (hl), a
-        inc hl
-        ld (hl), a              ; bank 0 == bank 1
-
-        xor a
-        ld de,#0401             ; get routines info table
-        call .EXTBIO
-        ld (__rammapper_table), hl
-
-        xor a
-        ld de, #0x0402          ; populate ram mapper routines table
-        call .EXTBIO
-        or a
-        jr nz, 1$
-        scf
-        ret
-1$:
-        push hl
-        pop ix
-
-        TRANSFER_POINTER 0x01, .mapper_page_alloc
-        TRANSFER_POINTER 0x1f, .mapper_page_set
-        TRANSFER_POINTER 0x22, .mapper_page_get
-
-        ld a, #1
-        ld (__memman_present), a
-
-        or a                    ; return ok
-        ret
-
 .shadow_VDP:
 _shadow_VDP_R0::
         .db #(.R0_DEFAULT | .R0_SCR_MODE2)
@@ -441,14 +463,26 @@ __shadow_OAM_OFF::
         .db 0
 .mode::
         .ds  .T_MODE_INOUT      ; Current mode
+__old_int_vector::
+        .dw 0
 
         .area   _GSINIT
 .gsinit::
+        ;; initialize static storage
+        xor a
+        ld bc, #l__DATA
+        ld hl, #s__DATA
+        call .memset_simple     ; initialize variables in RAM with zero
+
         ;; initialize static storage variables
         ld bc, #l__INITIALIZER
         ld hl, #s__INITIALIZER
         ld de, #s__INITIALIZED
         call .memcpy_simple
+
+        ;; initialize ram mapper
+        call .initialize_ram_mapper
+
 
 ;        di
 ;        ;; Initialize VDP
