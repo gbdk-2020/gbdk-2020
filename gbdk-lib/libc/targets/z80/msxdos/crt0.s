@@ -25,9 +25,8 @@
         ; program startup code
         .area   _CODE
 .start::
-        ld hl, (.LS_INT_VECTOR + 1)
-        ld (__old_int_vector), hl
-
+        ei
+        call .save_int_vector
         call .gsinit
 
         ld a, (___overlay_count)
@@ -113,10 +112,7 @@
         push hl
         ld l, #0
         call _SWITCH_ROM
-                                ; restore old int vector
-        ld hl, (__old_int_vector)
-        ld (.LS_INT_VECTOR + 1), hl
-
+        call .restore_int_vector
         pop hl
         ld b, l
         CALL_BDOS #_TERM        ; try terminate usind MSX DOS 2 function
@@ -152,22 +148,6 @@ _exit::
         or b
         ret z
         ldir
-        ret
-
-        ;; Wait for VBL interrupt to be finished
-.wait_vbl_done::
-_wait_vbl_done::
-        ld  a, (_shadow_VDP_R1)
-        and #.R1_DISP_ON
-        ret z
-        
-        xor a
-        ld (.vbl_done), a
-1$:
-        halt
-        ld a, (.vbl_done)
-        or a
-        jr z, 1$
         ret
 
         ;; put some internal data here, to save bytes wasted for the alignment of __banks_remap_table
@@ -314,6 +294,22 @@ __mapper_bank_alloc::
         or a                    ; return ok
         ret
 
+        ;; Wait for VBL interrupt to be finished
+.wait_vbl_done::
+_wait_vbl_done::
+        ld  a, (_shadow_VDP_R1)
+        and #.R1_DISP_ON
+        ret z
+        
+        xor a
+        ld (.vbl_done), a
+1$:
+        halt
+        ld a, (.vbl_done)
+        or a
+        jr z, 1$
+        ret
+
 ; --- 256 byte boundary ---------------------------------------
 
         .bndry 256
@@ -424,6 +420,25 @@ _shadow_OAM::
         or a                    ; return ok
         ret
 
+.restore_int_vector:
+        ld hl, #__old_int_vector
+        ld de, #.LS_INT_VECTOR
+        jr .restore_ldir
+.save_int_vector:
+        ld hl, #.LS_INT_VECTOR
+        ld de, #__old_int_vector
+.restore_ldir:
+        ld bc, #0x0005
+        ld a, i
+        push af
+        di
+        ldir
+        pop af
+        jp po, 1$
+        ei
+1$:
+        ret
+
 .shadow_VDP:
 _shadow_VDP_R0::
         .db #(.R0_DEFAULT | .R0_SCR_MODE2)
@@ -462,9 +477,9 @@ __shadow_OAM_base::
 __shadow_OAM_OFF::
         .db 0
 .mode::
-        .ds  .T_MODE_INOUT      ; Current mode
+        .ds .T_MODE_INOUT       ; Current mode
 __old_int_vector::
-        .dw 0
+        .ds 5
 
         .area   _GSINIT
 .gsinit::

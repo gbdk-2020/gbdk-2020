@@ -8,8 +8,15 @@
 
         .area   _GSINIT
 
+        ld a, i
+        ld a, #0xc3
+        di
+        ld (.LS_INT_VECTOR), a
         ld hl, #_INT_ISR
-        ld (.LS_INT_VECTOR + 1), hl 
+        jp po, 1$
+        ei
+1$:
+        ld (.LS_INT_VECTOR + 1), hl
 
         .area   _HOME
 

@@ -15,6 +15,7 @@ ASSRC =	set_interrupts.s \
 	msx_set_native_data.s msx_set_1bpp_data.s msx_set_1bpp_sprite_data.s \
 	msx_set_tile_map.s msx_set_tile_map_xy.s \
 	msx_fill_rect.s msx_fill_rect_xy.s \
+	msx_metasprites.s \
 	int.s \
 	mode.s clock.s \
 	delay.s \
