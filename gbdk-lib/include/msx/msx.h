@@ -625,7 +625,7 @@ extern volatile uint8_t _shadow_OAM_OFF;
 
 /** Amount of hardware sprites in OAM
 */
-#define MAX_HARDWARE_SPRITES 64
+#define MAX_HARDWARE_SPRITES 32
 
 /** Sets address of 256-byte aligned array of shadow OAM to be transferred on each VBlank
 */

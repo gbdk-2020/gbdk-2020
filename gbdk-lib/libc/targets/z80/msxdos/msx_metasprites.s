@@ -10,13 +10,6 @@ ___current_metasprite::
 ___current_base_tile::
         .ds     0x01
 
-        .area   _INITIALIZED
-___render_shadow_OAM::
-        .ds     0x01
-        
-        .area   _INITIALIZER
-        .db     #>_shadow_OAM
-
         .area   _CODE
 
 ; uint8_t __move_metasprite(uint8_t id, uint8_t x, uint8_t y) __z88dk_callee __preserves_regs(iyh,iyl);
@@ -74,6 +67,11 @@ ___move_metasprite::
         inc     sp
         push    hl
         ld      a, e
+        srl     a
+        srl     a
         sub     c
         ld      l, a
         ret
+
+___render_shadow_OAM::
+        .db     #>_shadow_OAM

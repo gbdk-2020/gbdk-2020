@@ -15,7 +15,7 @@ ___hide_metasprite::
 
         ld      hl, (___current_metasprite)
 
-        ld      bc, #3
+        ld      bc, #4
 
         ld      a, (___render_shadow_OAM)
         ld      d, a
@@ -24,7 +24,7 @@ ___hide_metasprite::
         cp      #0x80
         ret     z
 
-        ld      a, #0x3F
+        ld      a, #0x1F
         cp      e
         ret     c
 
