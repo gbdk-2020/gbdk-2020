@@ -242,7 +242,6 @@
         .R0_IE1         = 0b00010000
         .R0_SCR_MODE1   = 0b00000000
         .R0_SCR_MODE2   = 0b00000010
-        .R0_SCR_MODE2   = 0b00000100
         .R0_ES_OFF      = 0b00000000
         .R0_ES          = 0b00000001
 
@@ -263,14 +262,7 @@
 
         .VDP_R2         = 0b10000010
 
-        .R2_MAP_0x3800  = 0xFF
-        .R2_MAP_0x3000  = 0xFD
-        .R2_MAP_0x2800  = 0xFB
-        .R2_MAP_0x2000  = 0xF9
-        .R2_MAP_0x1800  = 0xF7
-        .R2_MAP_0x1000  = 0xF5
-        .R2_MAP_0x0800  = 0xF3
-        .R2_MAP_0x0000  = 0xF1
+        .R2_MAP_0x1C00  = 0x07
 
         .VDP_R3         = 0b10000011
         .VDP_R4         = 0b10000100
@@ -281,26 +273,16 @@
 
         .VDP_R6         = 0b10000110
 
-        .R6_BANK0       = 0xFB
-        .R6_DATA_0x0000 = 0xFB
-        .R6_BANK1       = 0xFF
-        .R6_DATA_0x2000 = 0xFF
-
         .VDP_R7         = 0b10000111
         .VDP_RBORDER    = 0b10000111
 
         .R7_COLOR_MASK  = 0b11110000
 
         .VDP_R8         = 0b10001000
-        .VDP_RSCX       = 0b10001000
 
         .VDP_R9         = 0b10001001
-        .VDP_RSCY       = 0b10001001
 
         .VDP_R10        = 0b10001010
-
-        .R10_INT_OFF    = 0xFF
-        .R10_INT_EVERY  = 0x00
 
         .JOYPAD_COUNT   = 1
 

@@ -34,6 +34,8 @@
         call nz, .load_overlays 
         jp c, .exit_error
 
+        call .setup_video_mode
+
         ld hl, #.LS_FILE_BUFFER
         xor a
         ld b, a
@@ -439,32 +441,49 @@ _shadow_OAM::
 1$:
         ret
 
+.setup_video_mode:
+        ld a, i
+        push af
+        di
+        ;; Initialize VDP
+        ld c, #.VDP_CMD
+        ld b, #(.shadow_VDP_end - .shadow_VDP)
+        ld hl,#(.shadow_VDP_end - 1)
+1$:
+        outd
+
+        ld a, b
+        or #.VDP_REG_MASK
+        out (c), a
+            
+        ld a, b
+        or a
+        jr nz, 1$
+
+        pop af
+        jp po, 2$
+        ei
+2$:
+        ret
+
 .shadow_VDP:
 _shadow_VDP_R0::
         .db #(.R0_DEFAULT | .R0_SCR_MODE2)
 _shadow_VDP_R1::
-        .db #(.R1_DEFAULT | .R1_DISP_ON | .R1_SCR_MODE2 | .R1_IE)
+        .db #(.R1_DEFAULT | .R1_DISP_OFF | .R1_IE | .R1_SCR_MODE2 | .R1_SPR_8X8)
 _shadow_VDP_R2::
-        .db .R2_MAP_0x3800
+        .db .R2_MAP_0x1C00
 _shadow_VDP_R3::
-        .db 0xFF 
+        .db 0xFF                        ; tiledata attr from 0x2000 
 _shadow_VDP_R4::
-        .db 0xFF
+        .db 0x03                        ; tiledata from 0x0000
 _shadow_VDP_R5::
         .db .R5_SAT_0x1B00
 _shadow_VDP_R6::
-        .db .R6_DATA_0x2000
+        .db 0x07
 _shadow_VDP_R7::
 _shadow_VDP_RBORDER::
-        .db #(0 | .R7_COLOR_MASK)
-_shadow_VDP_R8::
-_shadow_VDP_RSCX::
-        .db 0
-_shadow_VDP_R9::
-_shadow_VDP_RSCY::
-        .db 0
-_shadow_VDP_R10::
-        .db #.R10_INT_OFF
+        .db 0x01
 .shadow_VDP_end::   
 
 .sys_time::
@@ -497,23 +516,6 @@ __old_int_vector::
 
         ;; initialize ram mapper
         call .initialize_ram_mapper
-
-
-;        di
-;        ;; Initialize VDP
-;        ld c, #.VDP_CMD
-;        ld b, #(.shadow_VDP_end - .shadow_VDP)
-;        ld hl,#(.shadow_VDP_end - 1)
-;1$:
-;        outd
-;
-;        ld a, b
-;        or #.VDP_REG_MASK
-;        out (c), a
-;            
-;        djnz 1$
-;
-;        ei
 
         .area   _GSFINAL
         ret
