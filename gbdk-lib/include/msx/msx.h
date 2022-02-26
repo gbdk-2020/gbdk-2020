@@ -480,8 +480,9 @@ void set_native_tile_data(uint16_t start, uint16_t ntiles, const void *src) Z88D
 inline void set_bkg_4bpp_data(uint16_t start, uint16_t ntiles, const void *src) {
     set_native_tile_data(start, ntiles, src);
 }
-inline void set_sprite_4bpp_data(uint16_t start, uint16_t ntiles, const void *src) {
-    set_native_tile_data((uint8_t)(start) + 0x100u, ntiles, src);
+void set_sprite_1bpp_data(uint16_t start, uint16_t ntiles, const void *src) Z88DK_CALLEE;
+inline void set_native_sprite_data(uint16_t start, uint16_t ntiles, const void *src) {
+    set_sprite_1bpp_data(start, ntiles, src);
 }
 
 #define COMPAT_PALETTE(C0,C1,C2,C3) (((uint16_t)(C3) << 12) | ((uint16_t)(C2) << 8) | ((uint16_t)(C1) << 4) | (uint16_t)(C0))
@@ -489,19 +490,19 @@ extern uint16_t _current_2bpp_palette;
 inline void set_2bpp_palette(uint16_t palette) {
     _current_2bpp_palette = palette;
 }
-void set_tile_2bpp_data(uint16_t start, uint16_t ntiles, const void *src, uint16_t palette) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
+//void set_tile_2bpp_data(uint16_t start, uint16_t ntiles, const void *src, uint16_t palette) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
 inline void set_bkg_data(uint16_t start, uint16_t ntiles, const void *src) {
-    set_tile_2bpp_data(start, ntiles, src, _current_2bpp_palette);
+    set_native_tile_data(start, ntiles, src);
 }
 inline void set_sprite_data(uint16_t start, uint16_t ntiles, const void *src) {
-    set_tile_2bpp_data((uint8_t)(start) + 0x100u, ntiles, src, _current_2bpp_palette);
+    set_sprite_1bpp_data(start, ntiles, src);
 }
-inline void set_bkg_2bpp_data(uint16_t start, uint16_t ntiles, const void *src) {
-    set_tile_2bpp_data(start, ntiles, src, _current_2bpp_palette);
-}
-inline void set_sprite_2bpp_data(uint16_t start, uint16_t ntiles, const void *src) {
-    set_tile_2bpp_data((uint8_t)(start) + 0x100u, ntiles, src, _current_2bpp_palette);
-}
+//inline void set_bkg_2bpp_data(uint16_t start, uint16_t ntiles, const void *src) {
+//    set_tile_2bpp_data(start, ntiles, src, _current_2bpp_palette);
+//}
+//inline void set_sprite_2bpp_data(uint16_t start, uint16_t ntiles, const void *src) {
+//    set_tile_2bpp_data((uint8_t)(start) + 0x100u, ntiles, src, _current_2bpp_palette);
+//}
 
 extern uint16_t _current_1bpp_colors;
 inline void set_1bpp_colors(uint8_t fgcolor, uint8_t bgcolor) {
@@ -510,9 +511,6 @@ inline void set_1bpp_colors(uint8_t fgcolor, uint8_t bgcolor) {
 void set_tile_1bpp_data(uint16_t start, uint16_t ntiles, const void *src, uint16_t colors) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
 inline void set_bkg_1bpp_data(uint16_t start, uint16_t ntiles, const void *src) {
     set_tile_1bpp_data(start, ntiles, src, _current_1bpp_colors);
-}
-inline void set_sprite_1bpp_data(uint16_t start, uint16_t ntiles, const void *src) {
-    set_tile_1bpp_data((uint8_t)(start) + 0x100u, ntiles, src, _current_1bpp_colors);
 }
 
 
@@ -568,9 +566,22 @@ void fill_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint16_t tile) 
 #define fill_bkg_rect fill_rect
 #define fill_win_rect fill_rect
 
-/** Shadow OAM array in WRAM, that is transferred into the real OAM each VBlank
+/** Sprite Attributes structure
+    @param x     X Coordinate of the sprite on screen
+    @param y     Y Coordinate of the sprite on screen
+    @param tile  Sprite tile number (see @ref set_sprite_tile)
+    @param prop  OAM Property Flags (see @ref set_sprite_prop)
 */
-extern volatile uint8_t shadow_OAM[];
+typedef struct OAM_item_t {
+    uint8_t y, x;  //< X, Y Coordinates of the sprite on screen
+    uint8_t tile;  //< Sprite tile number
+    uint8_t prop;  //< OAM Property Flags
+} OAM_item_t;
+
+
+/** Shadow OAM array in WRAM, that is DMA-transferred into the real OAM each VBlank
+*/
+extern volatile struct OAM_item_t shadow_OAM[];
 
 /** MSB of shadow_OAM address is used by OAM copying routine
 */
@@ -639,7 +650,7 @@ inline void SET_SHADOW_OAM_ADDRESS(void * address) {
     \li See: @ref SPRITES_8x16
 */
 inline void set_sprite_tile(uint8_t nb, uint8_t tile) {
-    shadow_OAM[0x41+(nb << 1)] = tile;
+    shadow_OAM[nb].tile=tile;
 }
 
 
@@ -650,16 +661,15 @@ inline void set_sprite_tile(uint8_t nb, uint8_t tile) {
 @see set_sprite_tile for more details
 */
 inline uint8_t get_sprite_tile(uint8_t nb) {
-    return shadow_OAM[0x41+(nb << 1)];
+    return shadow_OAM[nb].tile;
 }
 
 inline void set_sprite_prop(uint8_t nb, uint8_t prop) {
-    nb; prop;
+    shadow_OAM[nb].prop = prop;
 }
 
 inline uint8_t get_sprite_prop(uint8_t nb) {
-    nb;
-    return 0;
+    return shadow_OAM[nb].prop;
 }
 
 /** Moves sprite number __nb__ to the __x__, __y__ position on the screen.
@@ -675,8 +685,8 @@ inline uint8_t get_sprite_prop(uint8_t nb) {
     Moving the sprite to 0,0 (or similar off-screen location) will hide it.
 */
 inline void move_sprite(uint8_t nb, uint8_t x, uint8_t y) {
-    shadow_OAM[nb] = (y < VDP_SAT_TERM) ? y : 0xC0;
-    shadow_OAM[0x40+(nb << 1)] = x;
+    OAM_item_t * itm = &shadow_OAM[nb];
+    itm->y=y, itm->x=x;
 }
 
 
@@ -691,9 +701,8 @@ inline void move_sprite(uint8_t nb, uint8_t x, uint8_t y) {
     @see move_sprite for more details about the X and Y position
  */
 inline void scroll_sprite(uint8_t nb, int8_t x, int8_t y) {
-    uint8_t new_y = shadow_OAM[nb] + y;
-    shadow_OAM[nb] = (new_y < VDP_SAT_TERM) ? new_y : 0xC0;
-    shadow_OAM[0x40+(nb << 1)] = x;
+    OAM_item_t * itm = &shadow_OAM[nb];
+    itm->y+=y, itm->x+=x;
 }
 
 
@@ -702,7 +711,7 @@ inline void scroll_sprite(uint8_t nb, int8_t x, int8_t y) {
     @param nb  Sprite number, range 0 - 39
  */
 inline void hide_sprite(uint8_t nb) {
-    shadow_OAM[nb] = 0xC0;
+    shadow_OAM[nb].y = 0xC0;
 }
 
 /**

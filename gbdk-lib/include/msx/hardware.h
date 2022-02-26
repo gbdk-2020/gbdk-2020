@@ -1,5 +1,5 @@
-/** @file sms/hardware.h
-    Defines that let the SMS/GG hardware registers be accessed
+/** @file msx/hardware.h
+    Defines that let the MSX hardware registers be accessed
     from C.
 */
 #ifndef _HARDWARE_H

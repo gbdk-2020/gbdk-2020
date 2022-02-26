@@ -318,7 +318,7 @@ __mapper_bank_alloc::
 
         .bndry 256
 _shadow_OAM::
-        .ds 0xc0
+        .ds 0x80
 
         ;; load overlays, count in A
 .load_overlays:
@@ -436,7 +436,7 @@ _shadow_VDP_R3::
 _shadow_VDP_R4::
         .db 0xFF
 _shadow_VDP_R5::
-        .db .R5_SAT_0x3F00
+        .db .R5_SAT_0x1B00
 _shadow_VDP_R6::
         .db .R6_DATA_0x2000
 _shadow_VDP_R7::
@@ -458,7 +458,7 @@ _sys_time::
 .vbl_done::
         .db 0
 __shadow_OAM_base::
-        .db 0
+        .db #>_shadow_OAM
 __shadow_OAM_OFF::
         .db 0
 .mode::

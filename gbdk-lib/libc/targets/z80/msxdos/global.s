@@ -210,9 +210,11 @@
         .VDP_COLORDATA1 = 0x6800
         .VDP_COLORDATA1 = 0x7000
 
-        .VDP_TILEMAP    = 0x5800
+        .VDP_SPRDATA0   = 0x7800
+
+        .VDP_TILEMAP    = 0x5C00
         .VDP_CRAM       = 0xC000
-        .VDP_SAT        = 0x7F00
+        .VDP_SAT        = 0x5B00
 
         .VDP_SAT_TERM   = 0xD0
 
@@ -274,7 +276,7 @@
         .VDP_R4         = 0b10000100
         .VDP_R5         = 0b10000101
 
-        .R5_SAT_0x3F00  = 0xFF
+        .R5_SAT_0x1B00  = 0x36
         .R5_SAT_MASK    = 0b10000001
 
         .VDP_R6         = 0b10000110

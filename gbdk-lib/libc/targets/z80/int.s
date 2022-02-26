@@ -49,13 +49,6 @@ _INT_ISR::
         ld a, #>.VDP_SAT
         out (c), a
         dec c                           ; c == .VDP_DATA
-        call .OUTI64
-        inc c                           ; c == .VDP_CMD
-        ld a, #<(.VDP_SAT + 0x80)
-        out (c), a
-        ld a, #>(.VDP_SAT + 0x80)
-        out (c), a
-        dec c                           ; c == .VDP_DATA
         call .OUTI128
 1$:
 
