@@ -36,14 +36,14 @@
 
     @see joypad
  */
-#define	J_UP         0b00000001
-#define	J_DOWN       0b00000010
-#define	J_LEFT       0b00000100
-#define	J_RIGHT      0b00001000
-#define	J_A          0b00010000
-#define	J_B          0b00100000
-#define	J_SELECT     0b00100000
-#define	J_START      0b00010000
+#define	J_UP         0b00100000
+#define	J_DOWN       0b01000000
+#define	J_LEFT       0b00010000
+#define	J_RIGHT      0b10000000
+#define	J_A          0b00000001
+#define	J_B          0b00000100
+#define	J_SELECT     0b00001000
+#define	J_START      0b00000010
 
 /** Screen modes.
     Normally used by internal functions only.

@@ -286,14 +286,17 @@
 
         .JOYPAD_COUNT   = 1
 
-        .UP             = 0b00000001
-        .DOWN           = 0b00000010
-        .LEFT           = 0b00000100
-        .RIGHT          = 0b00001000
-        .A              = 0b00010000
-        .B              = 0b00100000
-        .SELECT         = 0b00100000    ; map to B
-        .START          = 0b10000000    ; Game Gear Start button
+        .UP             = 0b00100000
+        .DOWN           = 0b01000000
+        .LEFT           = 0b00010000
+        .RIGHT          = 0b10000000
+        .A              = 0b00000001
+        .B              = 0b00000100
+        .SELECT         = 0b00001000
+        .START          = 0b00000010
+
+        .KBD_SELECT_ROW = 0xAA
+        .KBD_INPUT      = 0xA9
 
         .JOY_PORT1      = 0xDC
 

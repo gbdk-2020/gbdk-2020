@@ -42,6 +42,7 @@
     @param dy        (int8_t)  Y coordinate of the sprite relative to the metasprite origin (pivot)
     @param dx        (int8_t)  X coordinate of the sprite relative to the metasprite origin (pivot)
     @param dtile     (uint8_t) Start tile relative to the metasprites own set of tiles
+    @param props     (uint8_t) Property Flags
 
     Metasprites are built from multiple metasprite_t items (one for each sub-sprite)
     and a pool of tiles they reference. If a metasprite has multiple frames then each
