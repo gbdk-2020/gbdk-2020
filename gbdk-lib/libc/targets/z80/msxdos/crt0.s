@@ -451,7 +451,8 @@ _shadow_OAM::
         ld hl,#(.shadow_VDP_end - 1)
 1$:
         outd
-
+        jr 3$                   ; delay
+3$:
         ld a, b
         or #.VDP_REG_MASK
         out (c), a
@@ -470,7 +471,7 @@ _shadow_OAM::
 _shadow_VDP_R0::
         .db #(.R0_DEFAULT | .R0_SCR_MODE2)
 _shadow_VDP_R1::
-        .db #(.R1_DEFAULT | .R1_DISP_OFF | .R1_IE | .R1_SCR_MODE2 | .R1_SPR_8X8)
+        .db #(.R1_DEFAULT | .R1_DISP_ON | .R1_IE | .R1_SCR_MODE2 | .R1_SPR_8X8)
 _shadow_VDP_R2::
         .db .R2_MAP_0x1C00
 _shadow_VDP_R3::
