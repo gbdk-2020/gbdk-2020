@@ -18,6 +18,11 @@
 // ("expressions, breakpoint conditions, and debug messages")
 // https://bgb.bircd.org/manual.html#expressions
 
+// If you see a message like the following, it is safe to ignore. It is a known
+// issue with SDCC and should not cause problems.
+//
+// " src/emu_debug.c:156: info 218: z80instructionSize() failed to parse line node, assuming 999 bytes ' llbl:'
+
 int main(void)
 {
     SHOW_BKG;
@@ -82,6 +87,8 @@ int main(void)
         // Return the CGB to normal speed
         cpu_slow();
     }
+    #endif // NINTENDO
+
 
     __critical {  // Temporarily turn off interrupts for more accurate measurements
 
@@ -97,7 +104,6 @@ int main(void)
         // Remember to divide by 2 for the result (Normal Speed)
         EMU_PROFILE_END("LOOP TIME:");
     }
-    #endif // NINTENDO
 
     // ==== Some other things you can print ====
 
@@ -144,7 +150,7 @@ int main(void)
         EMU_MESSAGE("PROFILE,%(SP+$0)%,%(SP+$1)%,%A%,%TOTALCLKS%,%ROMBANK%,%WRAMBANK%");
 
     #elif defined(SEGA)
-        EMU_MESSAGE("PROFILE,%(SP+$0)%,%(SP+$1)%,%A%,%ROMBANK%,%WRAMBANK%");
+        EMU_MESSAGE("PROFILE,%(SP+$0)%,%(SP+$1)%,%A%,%TOTALCLKS%,%ROMBANK%,%WRAMBANK%");
     #endif
 
     uint8_t var0 = 16;

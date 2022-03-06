@@ -49,6 +49,10 @@
 
       See the section @ref setting_mbc_and_rom_ram_banks for more details. <!-- -->  
 
+  - What do the following kinds of warnings / errors mean?
+    `info 218: z80instructionSize() failed to parse line node, assuming 999 bytes`
+    - This is a known issue with SDCC, it should not cause actual problems and you can ignore the warning. <!-- -->  
+
   - Why is the compiler so slow, or why did it suddenly get much slower?
     - This may happen if you have large initialized arrays declared without the `const` keyword. It's important to use the const keyword for read-only data. See @ref const_gbtd_gbmb and @ref const_array_data <!-- -->  
 
