@@ -27,6 +27,7 @@ typedef struct CLASS {
     const char *ld;
     const char *ihxcheck;
     const char *mkbin;
+    const char *postproc;
     arg_entry  *llist0_defaults;
     int         llist0_defaults_len;
 } CLASS;

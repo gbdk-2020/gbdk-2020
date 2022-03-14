@@ -13,13 +13,15 @@
 #define EXT_OBJ  ".obj"
 #define EXT_IHX  ".ihx"
 #define EXT_LK   ".lk"
+#define EXT_ROM  ".rom"
 
 // ROM file extensions
-#define EXT_GB   ".gb"
-#define EXT_AP   ".pocket"
-#define EXT_DUCK ".duck"
-#define EXT_SMS  ".sms"
-#define EXT_GG   ".gg"
+#define EXT_GB     ".gb"
+#define EXT_AP     ".pocket"
+#define EXT_DUCK   ".duck"
+#define EXT_SMS    ".sms"
+#define EXT_GG     ".gg"
+#define EXT_MSXDOS ".com"
 
 #define ARRAY_LEN(A) (sizeof(A) / sizeof(A[0]))
 

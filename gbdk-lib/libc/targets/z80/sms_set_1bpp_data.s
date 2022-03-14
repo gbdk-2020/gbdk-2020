@@ -23,7 +23,7 @@ _set_tile_1bpp_data::
                 
         DISABLE_VBLANK_COPY     ; switch OFF copy shadow SAT
 
-        SMS_WRITE_VDP_CMD h, l
+        VDP_WRITE_CMD h, l
 
         ex de, hl               ; hl = ret
 

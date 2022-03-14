@@ -2,40 +2,41 @@
 
         .title  "VRAM utilities"
         .module VRAMUtils
+
+        .ez80
+
         .area   _HOME
 
-; void set_native_tile_data(uint16_t start, uint16_t ntiles, const void *src) __z88dk_callee __preserves_regs(iyh,iyl);
-_set_native_tile_data::
-        pop de          ; pop ret address
+; void set_sprite_1bpp_data(uint16_t start, uint16_t ntiles, const void *src) __z88dk_callee;
+_set_sprite_1bpp_data::
+        pop af
         pop hl
+        pop iy
+        pop de
+        push af
 
         add hl, hl
         add hl, hl
         add hl, hl
-        add hl, hl
-        add hl, hl
 
-        ld bc, #.VDP_VRAM
+        ld bc, #.VDP_SPRDATA0
         add hl, bc
 
         DISABLE_VBLANK_COPY        ; switch OFF copy shadow SAT
 
-        SMS_WRITE_VDP_CMD h, l
+        VDP_WRITE_CMD h, l
 
-        pop bc
-        pop hl
-        push de
+        ex de, hl
 
-        ld e, c
-        ld d, b
-        
+        ld d, iyh
+        ld e, iyl
+
         ld c, #.VDP_DATA
         inc d
         inc e
         jr 2$
-
 1$:
-        ld b, #32
+        ld b, #8
 3$:        
         outi
         jr nz, 3$
@@ -45,7 +46,7 @@ _set_native_tile_data::
 
         dec d
         jr nz, 1$
-        
+
         ENABLE_VBLANK_COPY         ; switch ON copy shadow SAT
 
         ret

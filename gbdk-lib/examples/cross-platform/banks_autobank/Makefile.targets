@@ -11,7 +11,12 @@ build-target: $(BINS)
 
 clean-target:
 	rm -rf $(OBJDIR)
-	rm -rf $(BINDIR)
+	rm -f $(BINDIR)/*.com $(BINDIR)/*.bin $(BINDIR)/*.noi $(BINDIR)/*.sym $(BINDIR)/*.ihx $(BINDIR)/*.map $(BINDIR)/*.0??
+
+msxdos-clean:
+	${MAKE} clean-target EXT=com
+msxdos:
+	${MAKE} build-target PORT=z80 PLAT=msxdos EXT=com
 
 gb-clean:
 	${MAKE} clean-target EXT=gb

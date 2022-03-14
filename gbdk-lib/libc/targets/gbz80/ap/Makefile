@@ -5,7 +5,7 @@ TOPDIR = ../../../..
 THIS = ap
 PORT = gbz80
 
-CSRC = digits.c gprint.c gprintf.c gprintln.c gprintn.c
+CSRC = crlf.c digits.c gprint.c gprintf.c gprintln.c gprintn.c
 
 ASSRC =	cgb.s cgb_palettes.s cgb_compat.s \
 	cpy_data.s \

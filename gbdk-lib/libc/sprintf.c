@@ -2,46 +2,46 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>
+#include <stdint.h>
 
 typedef void (*emitter_t)(char, char **) OLDCALL;
 
 static const char _hex[] = "0123456789ABCDEF";
 
-static inline void _printhex(unsigned int u, emitter_t emitter, char ** pData)
+inline void _printhex(uint16_t u, emitter_t emitter, char ** pData)
 {
-    for (char i = 0; i < 4; i++) {
-        (*emitter)(_hex[u >> 12], pData);
-        u = u << 4;     
-    }
+    (*emitter)(_hex[(uint8_t)(u >> 8) >> 4], pData);
+    (*emitter)(_hex[(uint8_t)(u >> 8) & 0x0fu], pData);
+    (*emitter)(_hex[((uint8_t)u >> 4) & 0x0fu], pData);
+    (*emitter)(_hex[(uint8_t)u & 0x0fu], pData);
 }
 
-static inline void _printhexbyte(unsigned char u, emitter_t emitter, char ** pData)
+inline void _printhexbyte(uint8_t u, emitter_t emitter, char ** pData)
 {
     (*emitter)(_hex[u >> 4], pData);
     (*emitter)(_hex[u & 0x0fu], pData);
 }
 
 static void _printbuf(char * buf, emitter_t emitter, char ** pData) {
-    char *s = buf;
-    while (*s) (*emitter)(*s, pData), s++;
+    for (char *s = buf; *s; s++) (*emitter)(*s, pData);
 }
 
 void __printf(const char *format, emitter_t emitter, char **pData, va_list va)
 {
     char buf[16];
-    while (*format) {
-        if (*format == '%') {
+    while ((uint8_t)(*format)) {
+        if ((uint8_t)(*format) == '%') {
             format++;
 
             // 0 Padding is not supported, ignore
-            if (*format == '0') format++;
+            if ((uint8_t)(*format) == '0') format++;
 
             // Width Specifier is not supported, ignore 1 digit worth
-            if ((*format >= '1') && (*format <= '9')) format++;
+            if ((uint8_t)((uint8_t)(*format) - '1') < 9u) format++;
 
-            switch (*format) {
+            switch ((uint8_t)(*format)) {
                 case 'h': {
-                    switch (*++format) {
+                    switch ((uint8_t)(*++format)) {
                         case 'X' :
                         case 'x' : {
                             _printhexbyte(va_arg(va, char), emitter, pData);

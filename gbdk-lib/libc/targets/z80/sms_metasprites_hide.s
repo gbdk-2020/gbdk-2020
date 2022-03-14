@@ -24,7 +24,7 @@ ___hide_metasprite::
         cp      #0x80
         ret     z
 
-        ld      a, #0x40
+        ld      a, #0x3F
         cp      e
         ret     c
 

@@ -4,7 +4,19 @@
         .module INTHandler
 
         .globl  .sys_time, .vbl_done
-        .globl  .OUTI128, .OUTI64, __shadow_OAM_base
+        .globl  .OUTI128, __shadow_OAM_base
+
+        .area   _GSINIT
+
+        ld a, i
+        ld a, #0xc3
+        di
+        ld (.LS_INT_VECTOR), a
+        ld hl, #_INT_ISR
+        jp po, 1$
+        ei
+1$:
+        ld (.LS_INT_VECTOR + 1), hl
 
         .area   _HOME
 
@@ -44,13 +56,6 @@ _INT_ISR::
         ld a, #>.VDP_SAT
         out (c), a
         dec c                           ; c == .VDP_DATA
-        call .OUTI64
-        inc c                           ; c == .VDP_CMD
-        ld a, #<(.VDP_SAT + 0x80)
-        out (c), a
-        ld a, #>(.VDP_SAT + 0x80)
-        out (c), a
-        dec c                           ; c == .VDP_DATA
         call .OUTI128
 1$:
 
@@ -58,28 +63,22 @@ _INT_ISR::
         ld hl, (.VBLANK_HANDLER0)
         ld a, h
         or l
-        jp z, 3$
+        jp z, 2$
         CALL_HL
 
         ld hl, (.VBLANK_HANDLER1)
         ld a, h
         or l
-        jp z, 3$
+        jp z, 2$
         CALL_HL
 
         ld hl, (.VBLANK_HANDLER2)
         ld a, h
         or l
-        jp z, 3$
+        jp z, 2$
         CALL_HL
-        jp 3$
 
-        ;; handle HBlank
 2$:             
-        ld hl, (.HBLANK_HANDLER0)
-        CALL_HL
-
-3$:
         pop ix
         pop iy
         pop hl
@@ -88,18 +87,7 @@ _INT_ISR::
         pop af
         ei
         reti        
-        
-; void remove_LCD (int_handler h) __z88dk_fastcall __preserves_regs(b, c, iyh, iyl);
-_remove_LCD::
-.remove_LCD::
-        ld hl, #.empty_function 
-
-; void add_LCD (int_handler h) __z88dk_fastcall __preserves_regs(b, c, iyh, iyl);
-_add_LCD::
-.add_LCD::
-        ld (.HBLANK_HANDLER0), hl
-        ret
-           
+                   
 ; void add_VBL(int_handler h) __z88dk_fastcall __preserves_regs(d, e, iyh, iyl);
 _add_VBL::
         ld b, h
@@ -165,8 +153,11 @@ _remove_VBL::
         or (hl)
         ldi
         jr nz, 2$
-        ret
 
+_remove_LCD::
+.remove_LCD::
+_add_LCD::
+.add_LCD::
 _remove_TIM::
 _remove_SIO::
 _remove_JOY::
@@ -178,8 +169,6 @@ _add_JOY::
    
         .area   _INITIALIZED
         
-.HBLANK_HANDLER0: 
-        .ds     0x02
 .VBLANK_HANDLER0:
         .ds     0x02
 .VBLANK_HANDLER1:
@@ -190,7 +179,6 @@ _add_JOY::
         
         .area   _INITIALIZER
         
-        .dw     .empty_function
         .dw     0x0000 
         .dw     0x0000 
         .dw     0x0000

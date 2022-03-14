@@ -63,6 +63,8 @@ void banks_set_platform(char * platform_str) {
         g_platform = PLATFORM_SMS;
     else if (strcmp(platform_str, PLATFORM_STR_GG) == 0)
         g_platform = PLATFORM_SMS; // GG uses SMS platform
+    else if (strcmp(platform_str, PLATFORM_STR_MSXDOS) == 0)
+        g_platform = PLATFORM_SMS; // MSXDOS uses SMS platform
     else
         printf("BankPack: Warning: Invalid platform option %s\n", platform_str);
 }

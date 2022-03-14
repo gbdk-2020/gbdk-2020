@@ -1,10 +1,7 @@
 #include <ctype.h>
 #include <stdbool.h>
+#include <stdint.h>
 
-bool isspace(char c)
-{
-  if(c == ' ' || c == '\t' || c == '\n')
-    return 1;
-  else
-    return 0;
+bool isspace(char c) {
+    return (((uint8_t)c == ' ') || ((uint8_t)c == '\t') || ((uint8_t)c == '\n')) ? true : false;
 }

@@ -1,6 +1,5 @@
-#include <ctype.h>
+#include <stdint.h>
 
-char tolower(char c)
-{
-  return ((c >= 'A' && c <= 'Z') ? c + 32: c);
+char tolower (char c) {
+  return ((uint8_t)((uint8_t)c - 'A') < ('Z' - 'A' + 1)) ? c + 32u : c;
 }
