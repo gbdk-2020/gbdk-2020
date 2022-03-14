@@ -399,7 +399,6 @@ ifneq (,$(wildcard $(BUILDDIR)/bin/))
 # makecom
 	echo \@anchor makecom-settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \# makecom settings >> $(TOOLCHAIN_DOCS_FILE);
-	echo Also see \@ref setting_mbc_and_rom_ram_banks >> $(TOOLCHAIN_DOCS_FILE);
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 	$(BUILDDIR)/bin/makecom -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
