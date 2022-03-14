@@ -156,6 +156,8 @@ int bin2com(void) {
 
     // No write the data out
     banks_write_out();
+
+    return EXIT_SUCCESS;
 }
 
 

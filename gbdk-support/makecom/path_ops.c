@@ -23,6 +23,7 @@ const char kPathSeparator =
                             '/';
 #endif
 
+const char kPathSeparator_unix = '/';
 
 
 void filename_replace_extension(char * filename, char * new_ext, size_t maxlen) {
@@ -50,8 +51,14 @@ void filename_replace_path(char * filename, char * new_path, size_t maxlen) {
     char temp[MAX_FILE_STR];
     char path_sep[2] = {'\0'}; // default to empty string
 
-    // Add trailing slash to path if needed
-    if ((new_path[(strlen(new_path)-1)] != kPathSeparator)) {
+    // Add trailing slash to path if needed (Windows needs both for when running under linix like env)
+#ifdef __WIN32__
+    if (((new_path[(strlen(new_path)-1)] != kPathSeparator)) &&
+       ((new_path[(strlen(new_path)-1)] != kPathSeparator_unix)))
+#else
+    if ((new_path[(strlen(new_path)-1)] != kPathSeparator))
+#endif
+    {
         path_sep[0] = kPathSeparator;
         path_sep[1] = '\0';
     }
@@ -68,7 +75,14 @@ const char * get_filename_from_path(const char * path)
 
     // Returns string starting at last occurrance of path separator char
     for(i = strlen(path) - 1; i; i--) {
-        if (path[i] == kPathSeparator) {
+
+    // Add trailing slash to path if needed (Windows needs both for when running under linix like env)
+    #ifdef __WIN32__
+        if ((path[i] == kPathSeparator) || (path[i] == kPathSeparator_unix))
+    #else
+        if (path[i] == kPathSeparator)
+    #endif
+        {
             return &path[i+1];
         }
     }
@@ -109,8 +123,14 @@ bool get_path_without_filename(const char * path, char * path_only, uint32_t str
         return false;
 
    for(i = strlen(path) - 1; i; i--) {
-        if (path[i] == kPathSeparator) {
 
+    // Add trailing slash to path if needed (Windows needs both for when running under linix like env)
+    #ifdef __WIN32__
+        if ((path[i] == kPathSeparator) || (path[i] == kPathSeparator_unix))
+    #else
+        if (path[i] == kPathSeparator)
+    #endif
+        {
             memcpy(path_only, path, i+1 );
             path_only[i+1] = '\0';
             return true;
