@@ -1,4 +1,4 @@
-# makecom makefile
+# bankcheck (auto bank tool) makefile
 
 ifndef TARGETDIR
 TARGETDIR = /opt/gbdk
@@ -15,18 +15,17 @@ ifeq ($(BUILD_OS),Darwin)
 	export MACOSX_DEPLOYMENT_TARGET=10.10
 endif
 
-CC = $(TOOLSPREFIX)gcc
-CFLAGS = -ggdb -O -Wno-incompatible-pointer-types -DGBDKLIBDIR=\"$(TARGETDIR)\"
-OBJ = makecom.o noi_file.o files.o bin_to_com.o list.o path_ops.o
+CC =
+CFLAGS = 
+OBJ = 
 BIN = makecom
 
 all: $(BIN)
 
-$(BIN): $(OBJ)
+$(BIN): makecom.dpr
+	fpc -B $< 
 
 clean:
-	rm -f *.o $(BIN) *~
-	rm -f tmp.*
+	rm -f *.o $(BIN) *~ *.dof *.cfg *.dsk
 	rm -f *.exe
-
 

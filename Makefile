@@ -145,6 +145,8 @@ endif
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/png2asset TOOLSPREFIX=$(TOOLSPREFIX)
 	@echo Building gbcompress
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/gbcompress TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
+	@echo Building makecom
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/makecom TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
 	@echo
 
 gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
@@ -167,6 +169,9 @@ gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
 	@echo Installing gbcompress
 	@cp $(GBDKSUPPORTDIR)/gbcompress/gbcompress$(EXEEXTENSION) $(BUILDDIR)/bin/gbcompress$(EXEEXTENSION)
 	@$(TARGETSTRIP) $(BUILDDIR)/bin/gbcompress$(EXEEXTENSION)
+	@echo Installing makecom
+	@cp $(GBDKSUPPORTDIR)/makecom/makecom$(EXEEXTENSION) $(BUILDDIR)/bin/makecom$(EXEEXTENSION)
+	@$(TARGETSTRIP) $(BUILDDIR)/bin/makecom$(EXEEXTENSION)
 	@echo
 
 gbdk-support-clean:
@@ -390,6 +395,12 @@ ifneq (,$(wildcard $(BUILDDIR)/bin/))
 	echo Also see \@ref setting_mbc_and_rom_ram_banks >> $(TOOLCHAIN_DOCS_FILE);
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 	$(BUILDDIR)/bin/makebin -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+# makecom
+	echo \@anchor makecom-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# makecom settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+	$(BUILDDIR)/bin/makecom -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 # gbcompress
 	echo \@anchor gbcompress-settings >> $(TOOLCHAIN_DOCS_FILE);

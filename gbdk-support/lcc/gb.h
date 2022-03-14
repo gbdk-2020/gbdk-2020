@@ -13,7 +13,7 @@
 #define EXT_OBJ  ".obj"
 #define EXT_IHX  ".ihx"
 #define EXT_LK   ".lk"
-#define EXT_BIN  ".bin"
+#define EXT_ROM  ".rom"
 
 // ROM file extensions
 #define EXT_GB     ".gb"

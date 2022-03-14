@@ -33,6 +33,7 @@ static char rcsid[] = "$Id: lcc.c,v 2.0 " BUILDDATE " " BUILDTIME " gbdk-2020 Ex
 void *alloc(int);
 extern char *basepath(char *);
 extern char *path_stripext(char *);
+extern char *path_newext(char *, char *);
 static int callsys(char *[]);
 extern char *concat(const char *, const char *);
 static void compose(char *[], List, List, List);
@@ -287,25 +288,21 @@ int main(int argc, char *argv[]) {
 		{
 			if(errcnt == 0)
 			{
-				//makebin
-				if (strlen(postproc) != 0)
-				{   
-                    // postprocess
-                    sprintf(binFile, "%s%s", path_stripext(outfile), EXT_BIN);
-                    compose(mkbin, mkbinlist, append(ihxFile, 0), append(binFile, 0));
+                // makebin - use output filename unless there is a post-process step
+                if (strlen(postproc) == 0)
+                    sprintf(binFile, "%s", outfile);
+                else
+                    sprintf(binFile, "%s", path_newext(outfile, EXT_ROM));
+
+                compose(mkbin, mkbinlist, append(ihxFile, 0), append(binFile, 0));
+                if (callsys(av))
+                    errcnt++;
+
+                // post-process step (such as makecom), if applicable
+                if ((strlen(postproc) != 0) && (errcnt == 0)) {
+                    compose(postproc, append(binFile, 0), append(outfile, 0), 0);
                     if (callsys(av))
                         errcnt++;
-                    if(errcnt == 0)
-                    {
-                        compose(postproc, append(binFile, 0), append(outfile, 0), 0);
-                        if (callsys(av))
-                            errcnt++;
-                    }
-				} else {
-                    // makebin
-                    compose(mkbin, mkbinlist, append(ihxFile, 0), append(outfile, 0));
-                    if (callsys(av))
-                        errcnt++;                    
                 }
 			}
 		}
@@ -404,7 +401,7 @@ char *basepath(char *name) {
 	return s;
 }
 
-// path_stripext - return a new string of path [name] with extension removed,
+// path_stripext - return a new string of path [name] with extension removed
 //              e.g. /usr/drh/foo.c => /usr/drh/foo
 char *path_stripext(char *name) {
 	char * copy_str = strsave(name);
@@ -420,6 +417,13 @@ char *path_stripext(char *name) {
 		end_str--;
 	}
 	return copy_str;
+}
+
+
+// path_newext - return a new string of path [name] with extension replaced
+//              e.g. /usr/drh/foo.c => /usr/drh/foo
+char *path_newext(char *name, char *new_ext) {
+     return stringf("%s%s", path_stripext(name), new_ext);
 }
 
 
