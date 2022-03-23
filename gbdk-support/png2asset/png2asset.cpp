@@ -4,6 +4,7 @@
 #include <cstring>
 #include <set>
 #include <stdio.h>
+#include <fstream>
 #include "lodepng.h"
 
 using namespace std;
@@ -126,6 +127,14 @@ struct MTTile
 	MTTile(char offset_x, char offset_y, unsigned char offset_idx, unsigned char props) : offset_x(offset_x), offset_y(offset_y), offset_idx(offset_idx), props(props) {}
 	MTTile() : offset_x(0), offset_y(0), offset_idx(0), props(0) {}
 };
+string source_tileset;
+int extra_tile_count = 0;
+int source_palette_count = 0;
+int source_tileset_size = 0;
+bool includeTileData = true;
+bool includedMapOrMetaspriteData = true;
+PNGImage source_tileset_image;
+bool use_source_tileset = false;
 
 typedef vector< MTTile > MetaSprite;
 vector< Tile > tiles;
@@ -229,6 +238,11 @@ void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y)
 				unsigned char pal_idx = image.data[y * image.w + x] >> 2; //We can pick the palette from the first pixel of this tile
 				if(!FindTile(tile, idx, props))
 				{
+					if (use_source_tileset) {
+						printf("found a tile not in the source tileset at %d,%d. The target tileset has %d extra tiles.\n", x, y,extra_tile_count+1);
+						extra_tile_count++;
+						includeTileData = true;
+					}
 					tiles.push_back(tile);
 					idx = tiles.size() - 1;
 					props = props_default;
@@ -261,6 +275,11 @@ void GetMap()
 			unsigned char props;
 			if(!FindTile(tile, idx, props))
 			{
+				if (use_source_tileset) {
+					printf("found a tile not in the source tileset at %d,%d. The target tileset has %d extra tiles.\n", x, y, extra_tile_count + 1);
+					extra_tile_count++;
+					includeTileData = true;
+				}
 				tiles.push_back(tile);
 				idx = tiles.size() - 1;
 				props = props_default;
@@ -296,10 +315,10 @@ void GetMap()
 					map_attributes.push_back(props);
 				}
 			}
+
 		}
 	}
 }
-
 //Functor to compare entries in SetPal
 struct CmpIntColor {
   bool operator() (unsigned int const& c1, unsigned int const& c2) const
@@ -347,6 +366,154 @@ SetPal GetPaletteColors(const PNGImage& image, int x, int y, int w, int h)
 	return ret;
 }
 
+bool GetSourceTileset(bool keep_palette_order, int max_palettes, vector< SetPal >& palettes) {
+
+	lodepng::State sourceTilesetState;
+	vector<unsigned char> buffer2;
+
+	lodepng::load_file(buffer2, source_tileset);
+
+
+	if (keep_palette_order) {
+		//Calling with keep_palette_order means
+			//-The image is png8
+			//-Each 4 colors define a gbc palette, the first color is the transparent one
+			//-Each rectangle with dimension(8, tile_h) in the image has colors from one of those palettes only
+		sourceTilesetState.info_raw.colortype = LCT_PALETTE;
+		sourceTilesetState.info_raw.bitdepth = 8;
+		sourceTilesetState.decoder.color_convert = false;
+
+			unsigned error = lodepng::decode(source_tileset_image.data, source_tileset_image.w, source_tileset_image.h, sourceTilesetState, buffer2);
+			if (error)
+			{
+				printf("decoder error %s\n", lodepng_error_text(error));
+				return false;
+			}
+
+
+		if (sourceTilesetState.info_raw.colortype != LCT_PALETTE)
+		{
+			printf("error: keep_palette_order only works with png8");
+			return false;
+		}
+
+		source_tileset_image.palettesize = sourceTilesetState.info_raw.palettesize;
+		source_tileset_image.palette = sourceTilesetState.info_raw.palette;
+
+	}
+	else {
+
+		PNGImage image32;
+		unsigned error = lodepng::decode(image32.data, image32.w, image32.h, sourceTilesetState, buffer2); //decode as 32 bit
+		if (error)
+		{
+			printf("decoder error %s\n", lodepng_error_text(error));
+			return false;
+		}
+
+
+		int* palettes_per_tile = new int[(image32.w / 8) * (image32.h / tile_h)];
+
+		for (unsigned int y = 0; y < image32.h; y += tile_h)
+		{
+			for (unsigned int x = 0; x < image32.w; x += 8)
+			{
+				//Get palette colors on (x, y, 8, tile_h)
+				SetPal pal = GetPaletteColors(image32, x, y, 8, tile_h);
+				if (pal.size() > pal_size)
+				{
+					printf("Error: more than %d colors found in tile at x:%d, y:%d of size w:%d, h:%d\n", (unsigned int)pal_size, x, y, 8, tile_h);
+					return false;
+				}
+
+				//Check if it matches any palettes or create a new one
+				size_t i;
+				for (i = 0; i < palettes.size(); ++i)
+				{
+					//Try to merge this palette wit any of the palettes (checking if they are equal is not enough since the palettes can have less than 4 colors)
+					SetPal merged(palettes[i]);
+					merged.insert(pal.begin(), pal.end());
+					if (merged.size() <= pal_size)
+					{
+						if (palettes[i].size() <= pal_size)
+							palettes[i] = merged; //Increase colors with this palette (it has less than 4 colors)
+						break; //Found palette
+					}
+				}
+
+				if (i == palettes.size())
+				{
+					//Palette not found, add a new one
+					if (palettes.size() == max_palettes)
+					{
+						printf("Error: more than %d palettes found\n", (unsigned int)max_palettes);
+						return false;
+					}
+
+					palettes.push_back(pal);
+				}
+
+				palettes_per_tile[(y / tile_h) * (image32.w / 8) + (x / 8)] = i;
+			}
+		};
+
+
+		//Create the indexed image
+		source_tileset_image.data.clear();
+		source_tileset_image.w = image32.w;
+		source_tileset_image.h = image32.h;
+
+		source_tileset_image.palettesize = palettes.size() * pal_size;
+		source_tileset_image.palette = new unsigned char[palettes.size() * pal_size * 4]; //pal_size colors * 4 bytes each
+		source_palette_count = source_tileset_image.palettesize;
+
+		for (size_t p = 0; p < palettes.size(); ++p)
+		{
+			int* color_ptr = (int*)&source_tileset_image.palette[p * pal_size * 4];
+
+			//TODO: if palettes[p].size() != pal_size we should probably try to fill the gaps based on grayscale values 
+
+			for (SetPal::iterator it = palettes[p].begin(); it != palettes[p].end(); ++it, color_ptr++)
+			{
+				unsigned char* c = (unsigned char*)&(*it);
+				*color_ptr = (c[0] << 24) | (c[1] << 16) | (c[2] << 8) | c[3];
+			}
+		}
+
+		for (size_t y = 0; y < image32.h; ++y)
+		{
+			for (size_t x = 0; x < image32.w; ++x)
+			{
+				unsigned char* c32ptr = &image32.data[(image32.w * y + x) * 4];
+				int color32 = (c32ptr[0] << 24) | (c32ptr[1] << 16) | (c32ptr[2] << 8) | c32ptr[3];
+				unsigned char palette = palettes_per_tile[(y / tile_h) * (image32.w / 8) + (x / 8)];
+				unsigned char index = std::distance(palettes[palette].begin(), palettes[palette].find(color32));
+				source_tileset_image.data.push_back((palette << bpp) + index);
+			}
+		}
+	}
+
+	// We'll change the image variable
+	// So we don't have to change any of the existing code
+	PNGImage temp = image;
+	image = source_tileset_image;
+	use_source_tileset = false;
+	GetMap();
+	use_source_tileset = true;
+
+	// Change the image variable back
+	image = temp;
+
+	source_tileset_size = tiles.size();
+
+	printf("Got %d tiles from the source tileset.\n", tiles.size());
+	printf("Got %d palettes from the source tileset.\n", source_tileset_image.palettesize/4);
+
+	return true;
+
+}
+
+
 void Export(const PNGImage& image, const char* path)
 {
 	lodepng::State state;
@@ -368,9 +535,9 @@ void Export(const PNGImage& image, const char* path)
 	lodepng::save_file(buffer, path);
 }
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
-	if(argc < 2)
+	if (argc < 2)
 	{
 		printf("usage: png2asset    <file>.png [options]\n");
 		printf("-c                  ouput file (default: <png file>.c)\n");
@@ -393,6 +560,15 @@ int main(int argc, char *argv[])
 		printf("-max_palettes       maximum number of palettes allowed (default: 2)\n");
 		printf("-pack_mode          gb, sgb or sms (default:GB)\n");
 		printf("-tile_origin        tile index offset for maps (instead of zero)\n");
+
+
+		printf("-tiles_only			should only tile data be exported\n");
+		printf("-maps_only			should only map data be exported\n");
+		printf("-metasprites_only   should only metasprite data be exported\n");
+		printf("-source_tileset     source tileset\n");
+
+		printf("-bin				Should a .bin file be written?");
+		printf("-transposed			Should be map items be written column-by-column, instead of row-by-row?");
 		return 0;
 	}
 
@@ -408,6 +584,8 @@ int main(int argc, char *argv[])
 	output_filename = output_filename.substr(0, output_filename.size() - 4) + ".c";
 	int bank = 0;
 	bool keep_palette_order = false;
+	bool output_binary = false;
+	bool output_transposed = false;
 	size_t max_palettes = 8;
 
 	//Parse argv
@@ -423,7 +601,7 @@ int main(int argc, char *argv[])
 		}
 		else if(!strcmp(argv[i], "-sp"))
 		{
-			props_default = strtol(argv[++ i], NULL, 16);
+			props_default = strtol(argv[++i], NULL, 16);
 		}
 		if(!strcmp(argv[i], "-px"))
 		{
@@ -491,7 +669,7 @@ int main(int argc, char *argv[])
 			if     (pack_mode_str == "gb")  pack_mode = Tile::GB;
 			else if(pack_mode_str == "sgb") pack_mode = Tile::SGB;
 			else if(pack_mode_str == "sms") pack_mode = Tile::SMS;
-			else 
+			else
 			{
 				printf("-pack_mode must be one of gb, sgb or sms\n");
 				return 1;
@@ -501,23 +679,60 @@ int main(int argc, char *argv[])
 		{
 			tile_origin = atoi(argv[++ i]);
 		}
+		else if (!strcmp(argv[i], "-maps_only") || !strcmp(argv[i], "-metasprites_only"))
+		{
+			includeTileData = false;
+		}
+		else if (!strcmp(argv[i], "-tiles_only"))
+		{
+			includedMapOrMetaspriteData = false;
+		}
+		else if (!strcmp(argv[i], "-source_tileset"))
+		{
+			use_source_tileset = true;
+			includeTileData = false;
+			source_tileset = argv[++i];
+		}
+		else if (!strcmp(argv[i], "-bin"))
+		{
+			output_binary = true;
+		}
+		else if (!strcmp(argv[i], "-transposed"))
+		{
+			output_transposed = true;
+		}
 	}
 
 	pal_size = 1 << bpp;
 
 	if(export_as_map)
 		tile_h = 8; //Force tiles_h to 8 on maps
-	
+
 	int slash_pos = (int)output_filename.find_last_of('/');
 	if(slash_pos == -1)
 		slash_pos = (int)output_filename.find_last_of('\\');
 	int dot_pos = (int)output_filename.find_first_of('.', slash_pos == -1 ? 0 : slash_pos);
 
 	string output_filename_h = output_filename.substr(0, dot_pos) + ".h";
+	string output_filename_bin = output_filename.substr(0, dot_pos) + "_map.bin";
+	string output_filename_attributes_bin = output_filename.substr(0, dot_pos) + "_map_attributes.bin";
+	string output_filename_tiles_bin = output_filename.substr(0, dot_pos) + "_tiles.bin";
 	string data_name = output_filename.substr(slash_pos + 1, dot_pos - 1 - slash_pos);
 	replace(data_name.begin(), data_name.end(), '-', '_');
 
-  //load and decode png
+	// This was moved from outside the upcoming else statement when not using keep_palette_order
+	// So the 'GetSourceTileset' function can pre-populate it from the source tileset
+	vector< SetPal > palettes;
+
+	if (use_source_tileset) {
+
+		if (!GetSourceTileset(keep_palette_order, max_palettes, palettes)) {
+			return 1;
+		}
+	}
+
+
+	//load and decode png
 	vector<unsigned char> buffer;
 	lodepng::load_file(buffer, argv[1]);
 	lodepng::State state;
@@ -545,6 +760,25 @@ int main(int argc, char *argv[])
 
 		image.palettesize = state.info_raw.palettesize;
 		image.palette = state.info_raw.palette;
+
+		if (use_source_tileset) {
+
+			// Make sure these two values match when keeping palette order
+			if (image.palettesize != source_tileset_image.palettesize) {
+
+				printf("error: The the number of color palette's for your source tileset (%d) and target image (%d) do not match.", source_tileset_image.palettesize, image.palettesize);
+				return 1;
+			}
+
+			size_t size = max(image.palettesize, source_tileset_image.palettesize);
+
+			// Make sure these two values match when keeping palette order
+			if (memcmp(image.palette, source_tileset_image.palette, size) != 0) {
+
+				printf("error: The palette's for your source tileset and target image do not match.");
+				return 1;
+			}
+		}
 	}
 	else
 	{
@@ -564,7 +798,6 @@ int main(int argc, char *argv[])
 		}
 
 		int* palettes_per_tile = new int[(image32.w / 8) * (image32.h /tile_h)];
-		vector< SetPal > palettes;
 		for(unsigned int y = 0; y < image32.h; y += tile_h)
 		{
 			for(unsigned int x = 0; x < image32.w; x += 8)
@@ -607,15 +840,20 @@ int main(int argc, char *argv[])
 				palettes_per_tile[(y / tile_h) * (image32.w / 8) + (x / 8)] = i;
 			}
 		}
-		
+
 		//Create the indexed image
 		image.data.clear();
 		image.w = image32.w;
 		image.h = image32.h;
-		
+
 		image.palettesize = palettes.size() * pal_size;
 		image.palette = new unsigned char[palettes.size() * pal_size * 4]; //pal_size colors * 4 bytes each
-		for(size_t p = 0; p < palettes.size(); ++ p)
+
+		// If we are using a sourcetileset and have more palettes than it defines
+		if (use_source_tileset && image.palettesize > source_palette_count) {
+			printf("Found %d extra palette(s) for target tilemap.\n", (image.palettesize - source_palette_count) / 4);
+		}
+		for(size_t p = 0; p < palettes.size(); ++p)
 		{
 			int *color_ptr = (int*)&image.palette[p * pal_size * 4];
 
@@ -667,273 +905,399 @@ int main(int argc, char *argv[])
 			}
 		}
 	}
-  
+
 	//Output .h FILE
-	FILE* file = fopen(output_filename_h.c_str(), "w");
-	if(!file) {
-		printf("Error writing file");
-		return 1;
-	}
+	FILE* file;
+	if(!output_binary||!export_as_map){
+		file=fopen(output_filename_h.c_str(), "w");
+		if (!file) {
+			printf("Error writing file");
+			return 1;
+		}
 
-	fprintf(file, "//AUTOGENERATED FILE FROM png2asset\n");
-	fprintf(file, "#ifndef METASPRITE_%s_H\n", data_name.c_str());
-	fprintf(file, "#define METASPRITE_%s_H\n", data_name.c_str());
-	fprintf(file, "\n");
-	fprintf(file, "#include <stdint.h>\n");
-	fprintf(file, "#include <gbdk/platform.h>\n");
-	fprintf(file, "#include <gbdk/metasprites.h>\n");
-	fprintf(file, "\n");
-	if(use_structs)
-	{
-		if(export_as_map)
-		{
-			fprintf(file, "#include \"TilesInfo.h\"\n");
-			fprintf(file, "#include \"MapInfo.h\"\n");
-			fprintf(file, "\n");
-			fprintf(file, "extern const struct TilesInfo %s_tiles_info;\n", data_name.c_str());
-			fprintf(file, "extern const struct MapInfo %s;\n", data_name.c_str());
-		}
-		else
-		{
-			fprintf(file, "#include \"MetaSpriteInfo.h\"\n");
-			fprintf(file, "\n");
-			fprintf(file, "extern const struct MetaSpriteInfo %s;\n", data_name.c_str());
-		}
-	}
-	else
-	{
-		fprintf(file, "#define %s_TILE_ORIGIN %d\n", data_name.c_str(), tile_origin);
-		fprintf(file, "#define %s_TILE_H %d\n", data_name.c_str(), tile_h);
-		fprintf(file, "#define %s_WIDTH %d\n",  data_name.c_str(), sprite_w);
-		fprintf(file, "#define %s_HEIGHT %d\n", data_name.c_str(), sprite_h);
-		fprintf(file, "#define %s_TILE_COUNT %d\n", data_name.c_str(), (unsigned int)tiles.size() * (tile_h >> 3));
-		if(export_as_map)
-		{
-			fprintf(file, "#define %s_MAP_ATTRIBUTES ",  data_name.c_str());
-			if(use_map_attributes && map_attributes.size())
-				fprintf(file, "%s_map_attributes\n", data_name.c_str());
-			else
-				fprintf(file, "0\n");
-
-			fprintf(file, "#define %s_TILE_PALS ",  data_name.c_str());
-			if(use_map_attributes)
-				fprintf(file, "0\n");
-			else
-				fprintf(file, "%s_tile_pals\n", data_name.c_str());
-		}
-		else
-		{
-			fprintf(file, "#define %s_PIVOT_X %d\n", data_name.c_str(), pivot_x);
-			fprintf(file, "#define %s_PIVOT_Y %d\n", data_name.c_str(), pivot_y);
-			fprintf(file, "#define %s_PIVOT_W %d\n", data_name.c_str(), pivot_w);
-			fprintf(file, "#define %s_PIVOT_H %d\n", data_name.c_str(), pivot_h);
-		}
+		fprintf(file, "//AUTOGENERATED FILE FROM png2asset\n");
+		fprintf(file, "#ifndef METASPRITE_%s_H\n", data_name.c_str());
+		fprintf(file, "#define METASPRITE_%s_H\n", data_name.c_str());
 		fprintf(file, "\n");
-		fprintf(file, "BANKREF_EXTERN(%s)\n", data_name.c_str());
+		fprintf(file, "#include <stdint.h>\n");
+		fprintf(file, "#include <gbdk/platform.h>\n");
+		fprintf(file, "#include <gbdk/metasprites.h>\n");
 		fprintf(file, "\n");
-		fprintf(file, "extern const palette_color_t %s_palettes[%d];\n", data_name.c_str(), (unsigned int)image.palettesize);
-		fprintf(file, "extern const uint8_t %s_tiles[%d];\n", data_name.c_str(), (unsigned int)(tiles.size() * (8 * tile_h * bpp / 8)));
-		
-		fprintf(file, "\n");
-		if(export_as_map)
+		if(use_structs)
 		{
-			fprintf(file, "extern const unsigned char %s_map[%d];\n", data_name.c_str(), (unsigned int)map.size());
-
-			if(use_map_attributes) {
-				if(map_attributes.size()) {
-					fprintf(file, "extern const unsigned char %s_map_attributes[%d];\n", data_name.c_str(), (unsigned int)map_attributes.size());
-				}
-			} else
-				fprintf(file, "extern const unsigned char* %s_tile_pals[%d];\n", data_name.c_str(), (unsigned int)tiles.size());
-		}
-		else
-		{
-			fprintf(file, "extern const metasprite_t* const %s_metasprites[%d];\n", data_name.c_str(), (unsigned int)sprites.size());
-		}
-	}
-	fprintf(file, "\n");
-	fprintf(file, "#endif");
-	
-
-	fclose(file);
-
-	//Output .c FILE
-	file = fopen(output_filename.c_str(), "w");
-	if(!file) {
-		printf("Error writing file");
-		return 1;
-	}
-	
-	if (bank) fprintf(file, "#pragma bank %d\n\n", bank);
-
-	fprintf(file, "//AUTOGENERATED FILE FROM png2asset\n\n");
-
-	fprintf(file, "#include <stdint.h>\n");
-	fprintf(file, "#include <gbdk/platform.h>\n");
-	fprintf(file, "#include <gbdk/metasprites.h>\n");
-	fprintf(file, "\n");
-
-	fprintf(file, "BANKREF(%s)\n\n", data_name.c_str());
-
-	fprintf(file, "const palette_color_t %s_palettes[%d] = {\n", data_name.c_str(), (unsigned int)image.palettesize);
-	for(size_t i = 0; i < image.palettesize / 4; ++i)
-	{
-		if(i != 0)
-			fprintf(file, ",\n");
-		fprintf(file, "\t");
-
-		unsigned char* pal_ptr = &image.palette[i * 16];
-		for(int c = 0; c < 4; ++ c, pal_ptr += 4)
-		{
-			fprintf(file, "RGB8(%d, %d, %d)", pal_ptr[0], pal_ptr[1], pal_ptr[2]);
-			if(c != 3)
-				fprintf(file, ", ");
-		}
-	}
-	fprintf(file, "\n};\n");
-
-	fprintf(file, "\n");
-	fprintf(file, "const uint8_t %s_tiles[%d] = {\n", data_name.c_str(), (unsigned int)(tiles.size() * 8 * tile_h * bpp / 8));
-	for(vector< Tile >::iterator it = tiles.begin(); it != tiles.end(); ++ it)
-	{
-		fprintf(file, "\t");
-
-		vector< unsigned char > packed_data = (*it).GetPackedData(pack_mode);
-		for(vector< unsigned char >::iterator it2 = packed_data.begin(); it2 != packed_data.end(); ++ it2)
-		{
-			fprintf(file, "0x%02x", (*it2));
-			if((it + 1) != tiles.end() || (it2 + 1) != packed_data.end())
-				fprintf(file, ",");
-		}
-
-		if(it != tiles.end())
-			fprintf(file, "\n");
-	}
-	fprintf(file, "};\n\n");
-
-	if(!export_as_map)
-	{
-		for(vector< MetaSprite >::iterator it = sprites.begin(); it != sprites.end(); ++ it)
-		{
-			fprintf(file, "const metasprite_t %s_metasprite%d[] = {\n", data_name.c_str(), (int)(it - sprites.begin()));
-			fprintf(file, "\t");
-			for(MetaSprite::iterator it2 = (*it).begin(); it2 != (*it).end(); ++ it2)
+			if(export_as_map)
 			{
-				fprintf(file, "METASPR_ITEM(%d, %d, %d, %d), ", (*it2).offset_y, (*it2).offset_x, (*it2).offset_idx, (*it2).props);
+				fprintf(file, "#include \"TilesInfo.h\"\n");
+				fprintf(file, "#include \"MapInfo.h\"\n");
+				fprintf(file, "\n");
+				fprintf(file, "extern const struct TilesInfo %s_tiles_info;\n", data_name.c_str());
+				fprintf(file, "extern const struct MapInfo %s;\n", data_name.c_str());
 			}
-			fprintf(file, "METASPR_TERM\n");
+			else
+			{
+				fprintf(file, "#include \"MetaSpriteInfo.h\"\n");
+				fprintf(file, "\n");
+				fprintf(file, "extern const struct MetaSpriteInfo %s;\n", data_name.c_str());
+			}
+		}
+		else
+		{
+			fprintf(file, "#define %s_TILE_ORIGIN %d\n", data_name.c_str(), tile_origin);
+			fprintf(file, "#define %s_TILE_H %d\n", data_name.c_str(), tile_h);
+			fprintf(file, "#define %s_WIDTH %d\n",  data_name.c_str(), sprite_w);
+			fprintf(file, "#define %s_HEIGHT %d\n", data_name.c_str(), sprite_h);
+			fprintf(file, "#define %s_TILE_COUNT %d\n", data_name.c_str(), ((unsigned int)tiles.size() - source_tileset_size) * (tile_h >> 3));
+			fprintf(file, "#define %s_PALETTE_COUNT %d\n", data_name.c_str(), image.palettesize / 4);
+
+			if (includedMapOrMetaspriteData) {
+
+				if(export_as_map)
+				{
+					fprintf(file, "#define %s_MAP_ATTRIBUTES ",  data_name.c_str());
+					if(use_map_attributes && map_attributes.size())
+						fprintf(file, "%s_map_attributes\n", data_name.c_str());
+					else
+						fprintf(file, "0\n");
+
+					fprintf(file, "#define %s_TILE_PALS ",  data_name.c_str());
+					if(use_map_attributes)
+						fprintf(file, "0\n");
+					else
+						fprintf(file, "%s_tile_pals\n", data_name.c_str());
+				}
+				else
+				{
+					fprintf(file, "#define %s_PIVOT_X %d\n", data_name.c_str(), pivot_x);
+					fprintf(file, "#define %s_PIVOT_Y %d\n", data_name.c_str(), pivot_y);
+					fprintf(file, "#define %s_PIVOT_W %d\n", data_name.c_str(), pivot_w);
+					fprintf(file, "#define %s_PIVOT_H %d\n", data_name.c_str(), pivot_h);
+				}
+			}
+			fprintf(file, "\n");
+			fprintf(file, "BANKREF_EXTERN(%s)\n", data_name.c_str());
+			fprintf(file, "\n");
+
+			// If we are not using a source tileset, or if we have extra palettes defined
+			if (image.palettesize - source_palette_count > 0 || !use_source_tileset) {
+				fprintf(file, "extern const palette_color_t %s_palettes[%d];\n", data_name.c_str(), (unsigned int)image.palettesize - source_palette_count);
+			}
+			if (includeTileData) {
+				fprintf(file, "extern const uint8_t %s_tiles[%d];\n", data_name.c_str(), (unsigned int)((tiles.size() - source_tileset_size) * (8 * tile_h * bpp / 8)));
+			}
+
+			fprintf(file, "\n");
+			if (includedMapOrMetaspriteData) {
+				if(export_as_map)
+				{
+					fprintf(file, "extern const unsigned char %s_map[%d];\n", data_name.c_str(), (unsigned int)map.size());
+
+					if(use_map_attributes) {
+						if(map_attributes.size()) {
+							fprintf(file, "extern const unsigned char %s_map_attributes[%d];\n", data_name.c_str(), (unsigned int)map_attributes.size());
+						}
+					}
+					else if (includeTileData)
+						fprintf(file, "extern const unsigned char* %s_tile_pals[%d];\n", data_name.c_str(), (unsigned int)tiles.size());
+				}
+				else
+				{
+					fprintf(file, "extern const metasprite_t* const %s_metasprites[%d];\n", data_name.c_str(), (unsigned int)sprites.size());
+				}
+			}
+		}
+		fprintf(file, "\n");
+		fprintf(file, "#endif");
+
+
+		fclose(file);
+
+		//Output .c FILE
+		file = fopen(output_filename.c_str(), "w");
+		if(!file) {
+			printf("Error writing file");
+			return 1;
+		}
+	
+		if (bank) fprintf(file, "#pragma bank %d\n\n", bank);
+
+		fprintf(file, "//AUTOGENERATED FILE FROM png2asset\n\n");
+
+		fprintf(file, "#include <stdint.h>\n");
+		fprintf(file, "#include <gbdk/platform.h>\n");
+		fprintf(file, "#include <gbdk/metasprites.h>\n");
+		fprintf(file, "\n");
+
+		fprintf(file, "BANKREF(%s)\n\n", data_name.c_str());
+
+		// Are we not using a source tileset, or do we have extra colors
+		if (image.palettesize - source_palette_count > 0||!use_source_tileset) {
+			
+				// Subtract however many palettes we had in the source tileset
+				fprintf(file, "const palette_color_t %s_palettes[%d] = {\n", data_name.c_str(), (unsigned int)image.palettesize - source_palette_count);
+			
+				// Offset by however many palettes we had in the source ileset
+				for (size_t i = source_palette_count/4; i < image.palettesize / 4; ++i)
+				{
+					if(i != 0)
+						fprintf(file, ",\n");
+					fprintf(file, "\t");
+
+					unsigned char* pal_ptr = &image.palette[i * 16];
+					for(int c = 0; c < 4; ++ c, pal_ptr += 4)
+					{
+						fprintf(file, "RGB8(%d, %d, %d)", pal_ptr[0], pal_ptr[1], pal_ptr[2]);
+						if(c != 3)
+							fprintf(file, ", ");
+					}
+				}
+				fprintf(file, "\n};\n");
+		}
+
+		if (includeTileData) {
+			fprintf(file, "\n");
+			fprintf(file, "const uint8_t %s_tiles[%d] = {\n", data_name.c_str(), (unsigned int)((tiles.size()-source_tileset_size) * 8 * tile_h * bpp / 8));
+			for (vector< Tile >::iterator it = tiles.begin()+ source_tileset_size; it != tiles.end(); ++it)
+			{
+				fprintf(file, "\t");
+
+				vector< unsigned char > packed_data = (*it).GetPackedData(pack_mode);
+				for(vector< unsigned char >::iterator it2 = packed_data.begin(); it2 != packed_data.end(); ++it2)
+				{
+					fprintf(file, "0x%02x", (*it2));
+					if((it + 1) != tiles.end() || (it2 + 1) != packed_data.end())
+						fprintf(file, ",");
+				}
+
+				if(it != tiles.end())
+					fprintf(file, "\n");
+			}
 			fprintf(file, "};\n\n");
 		}
 
-		fprintf(file, "const metasprite_t* const %s_metasprites[%d] = {\n\t", data_name.c_str(), (unsigned int)sprites.size());
-		for(vector< MetaSprite >::iterator it = sprites.begin(); it != sprites.end(); ++ it)
-		{
-			fprintf(file, "%s_metasprite%d", data_name.c_str(), (int)(it - sprites.begin()));
-			if(it + 1 != sprites.end())
-				fprintf(file, ", ");
-		}
-		fprintf(file, "\n};\n");
+		if(includedMapOrMetaspriteData) {
 
-		if(use_structs)
-		{
-			fprintf(file, "\n");
-			fprintf(file, "#include \"MetaSpriteInfo.h\"\n");
-			fprintf(file, "const struct MetaSpriteInfo %s = {\n", data_name.c_str());
-			fprintf(file, "\t%d, //width\n", pivot_w);
-			fprintf(file, "\t%d, //height\n", pivot_h);
-			fprintf(file, "\t%d, //num tiles\n", (unsigned int)tiles.size() * (tile_h >> 3));
-			fprintf(file, "\t%s_tiles, //tiles\n", data_name.c_str());
-			fprintf(file, "\t%d, //num palettes\n", (unsigned int)(image.palettesize / pal_size));
-			fprintf(file, "\t%s_palettes, //CGB palette\n", data_name.c_str());
-			fprintf(file, "\t%d, //num sprites\n", (unsigned int)sprites.size());
-			fprintf(file, "\t%s_metasprites, //metasprites\n", data_name.c_str());
-			fprintf(file, "};\n");
-		}
-	}
-	else
-	{
-		//Export tiles pals (if any)
-		if(!use_map_attributes)
-		{
-			fprintf(file, "\n");
-			fprintf(file, "const uint8_t %s_tile_pals[%d] = {\n\t", data_name.c_str(), (unsigned int)tiles.size());
-			for(vector< Tile >::iterator it = tiles.begin(); it != tiles.end(); ++ it)
+			if(!export_as_map)
 			{
-				if(it != tiles.begin())
-					fprintf(file, ", ");
-				fprintf(file, "%d", it->pal);
-			}
-			fprintf(file, "\n};\n");
-		}
-
-		if(use_structs)
-		{
-			//Export Tiles Info
-			fprintf(file, "\n");
-			fprintf(file, "#include \"TilesInfo.h\"\n");
-			fprintf(file, "BANKREF(%s_tiles_info)\n", data_name.c_str());
-			fprintf(file, "const struct TilesInfo %s_tiles_info = {\n", data_name.c_str());
-			fprintf(file, "\t%d, //num tiles\n", (unsigned int)tiles.size() * (tile_h >> 3));
-			fprintf(file, "\t%s_tiles, //tiles\n", data_name.c_str());
-			fprintf(file, "\t%d, //num palettes\n", (unsigned int)(image.palettesize / pal_size));
-			fprintf(file, "\t%s_palettes, //palettes\n", data_name.c_str());
-			if(!use_map_attributes)
-				fprintf(file, "\t%s_tile_pals, //tile palettes\n", data_name.c_str());
-			else
-				fprintf(file, "\t0 //tile palettes\n");
-			fprintf(file, "};\n");
-		}
-
-		//Export map
-		fprintf(file, "\n");
-		fprintf(file, "const unsigned char %s_map[%d] = {\n", data_name.c_str(), (unsigned int)map.size());
-		size_t line_size = map.size() / (image.h / 8);
-		for(size_t j = 0; j < image.h / 8; ++ j)
-		{
-			fprintf(file, "\t");
-			for(size_t i = 0; i < line_size; ++ i)
-			{
-				fprintf(file, "0x%02x,", map[j * line_size + i]);
-			}
-			fprintf(file, "\n");
-		}
-		fprintf(file, "};\n");
-
-		//Export map attributes (if any)
-		if(use_map_attributes && map_attributes.size())
-		{
-			fprintf(file, "\n");
-			fprintf(file, "const unsigned char %s_map_attributes[%d] = {\n", data_name.c_str(), (unsigned int)map_attributes.size());
-			for(size_t j = 0; j < image.h / 8; ++ j)
-			{
-				fprintf(file, "\t");
-				for(size_t i = 0; i < line_size; ++ i)
+				for(vector< MetaSprite >::iterator it = sprites.begin(); it != sprites.end(); ++ it)
 				{
-					fprintf(file, "0x%02x,", map_attributes[j * line_size + i]);
+					fprintf(file, "const metasprite_t %s_metasprite%d[] = {\n", data_name.c_str(), (int)(it - sprites.begin()));
+					fprintf(file, "\t");
+					for(MetaSprite::iterator it2 = (*it).begin(); it2 != (*it).end(); ++ it2)
+					{
+						fprintf(file, "METASPR_ITEM(%d, %d, %d, %d), ", (*it2).offset_y, (*it2).offset_x, (*it2).offset_idx, (*it2).props);
+					}
+					fprintf(file, "METASPR_TERM\n");
+					fprintf(file, "};\n\n");
 				}
-				fprintf(file, "\n");
+
+				fprintf(file, "const metasprite_t* const %s_metasprites[%d] = {\n\t", data_name.c_str(), (unsigned int)sprites.size());
+				for(vector< MetaSprite >::iterator it = sprites.begin(); it != sprites.end(); ++ it)
+				{
+					fprintf(file, "%s_metasprite%d", data_name.c_str(), (int)(it - sprites.begin()));
+					if(it + 1 != sprites.end())
+						fprintf(file, ", ");
+				}
+				fprintf(file, "\n};\n");
+
+				if(use_structs)
+				{
+					fprintf(file, "\n");
+					fprintf(file, "#include \"MetaSpriteInfo.h\"\n");
+					fprintf(file, "const struct MetaSpriteInfo %s = {\n", data_name.c_str());
+					fprintf(file, "\t%d, //width\n", pivot_w);
+					fprintf(file, "\t%d, //height\n", pivot_h);
+					fprintf(file, "\t%d, //num tiles\n", (unsigned int)tiles.size() * (tile_h >> 3));
+					fprintf(file, "\t%s_tiles, //tiles\n", data_name.c_str());
+					fprintf(file, "\t%d, //num palettes\n", (unsigned int)(image.palettesize / pal_size));
+					fprintf(file, "\t%s_palettes, //CGB palette\n", data_name.c_str());
+					fprintf(file, "\t%d, //num sprites\n", (unsigned int)sprites.size());
+					fprintf(file, "\t%s_metasprites, //metasprites\n", data_name.c_str());
+					fprintf(file, "};\n");
+				}
 			}
-			fprintf(file, "};\n");
+			else
+			{
+				if (includeTileData) {
+					//Export tiles pals (if any)
+					if(!use_map_attributes)
+					{
+						fprintf(file, "\n");
+						fprintf(file, "const uint8_t %s_tile_pals[%d] = {\n\t", data_name.c_str(), (unsigned int)tiles.size()- source_tileset_size);
+						for(vector< Tile >::iterator it = tiles.begin()+ source_tileset_size; it != tiles.end(); ++ it)
+						{
+							if(it != tiles.begin())
+								fprintf(file, ", ");
+							fprintf(file, "%d", it->pal);
+						}
+						fprintf(file, "\n};\n");
+					}
+
+					if(use_structs)
+					{
+						//Export Tiles Info
+						fprintf(file, "\n");
+						fprintf(file, "#include \"TilesInfo.h\"\n");
+						fprintf(file, "BANKREF(%s_tiles_info)\n", data_name.c_str());
+						fprintf(file, "const struct TilesInfo %s_tiles_info = {\n", data_name.c_str());
+						fprintf(file, "\t%d, //num tiles\n", (unsigned int)tiles.size() * (tile_h >> 3));
+						fprintf(file, "\t%s_tiles, //tiles\n", data_name.c_str());
+						fprintf(file, "\t%d, //num palettes\n", (unsigned int)(image.palettesize / pal_size));
+						fprintf(file, "\t%s_palettes, //palettes\n", data_name.c_str());
+						if(!use_map_attributes)
+							fprintf(file, "\t%s_tile_pals, //tile palettes\n", data_name.c_str());
+						else
+							fprintf(file, "\t0 //tile palettes\n");
+						fprintf(file, "};\n");
+					}
+				}
+
+				//Export map
+				fprintf(file, "\n");
+				fprintf(file, "const unsigned char %s_map[%d] = {\n", data_name.c_str(), (unsigned int)map.size());
+				size_t line_size = map.size() / (image.h / 8);
+				if (output_transposed) {
+
+					for(size_t i = 0; i < line_size; ++i)
+					{
+						fprintf(file, "\t");
+						for (size_t j = 0; j < image.h / 8; ++j)
+						{
+							fprintf(file, "0x%02x,", map[j * line_size + i]);
+						}
+						fprintf(file, "\n");
+					}
+				}
+				else {
+
+					for (size_t j = 0; j < image.h / 8; ++j)
+					{
+						fprintf(file, "\t");
+						for (size_t i = 0; i < line_size; ++i)
+						{
+							fprintf(file, "0x%02x,", map[j * line_size + i]);
+						}
+						fprintf(file, "\n");
+					}
+				}
+				fprintf(file, "};\n");
+
+
+				//Export map attributes (if any)
+				if(use_map_attributes && map_attributes.size())
+				{
+					fprintf(file, "\n");
+					fprintf(file, "const unsigned char %s_map_attributes[%d] = {\n", data_name.c_str(), (unsigned int)map_attributes.size());
+					if (output_transposed) {
+						for (size_t i = 0; i < line_size; ++i)
+						{
+							fprintf(file, "\t");
+							for (size_t j = 0; j < image.h / 8; ++j)
+							{
+								fprintf(file, "0x%02x,", map_attributes[j * line_size + i]);
+							}
+							fprintf(file, "\n");
+						}
+					}
+					else {
+						for (size_t j = 0; j < image.h / 8; ++j)
+						{
+							fprintf(file, "\t");
+							for (size_t i = 0; i < line_size; ++i)
+							{
+								fprintf(file, "0x%02x,", map_attributes[j * line_size + i]);
+							}
+							fprintf(file, "\n");
+						}
+					}
+					
+					fprintf(file, "};\n");
+				}
+
+				if(use_structs)
+				{
+					//Export Map Info
+					fprintf(file, "\n");
+					fprintf(file, "#include \"MapInfo.h\"\n");
+					fprintf(file, "BANKREF_EXTERN(%s_tiles_info)\n", data_name.c_str());
+					fprintf(file, "const struct MapInfo %s = {\n", data_name.c_str());
+					fprintf(file, "\t%s_map, //map\n", data_name.c_str());
+					fprintf(file, "\t%d, //with\n", image.w >> 3);
+					fprintf(file, "\t%d, //height\n", image.h >> 3);
+					if (use_map_attributes && map_attributes.size())
+						fprintf(file, "\t%s_map_attributes, //map attributes\n", data_name.c_str());
+					else
+						fprintf(file, "\t%s, //map attributes\n", "0");
+					fprintf(file, "\tBANK(%s_tiles_info), //tiles bank\n", data_name.c_str());
+					fprintf(file, "\t&%s_tiles_info, //tiles info\n", data_name.c_str());
+					fprintf(file, "};\n");
+				}
+			}
+		}
+	
+		fclose(file);
+	}
+
+	// If we are exporting as a map, and binary output is desired
+	else if (export_as_map) {
+
+		std::ofstream mapBinaryFile, mapAttributesBinaryfile,tilesBinaryFile;
+		mapBinaryFile.open(output_filename_bin, std::ios_base::binary);
+		tilesBinaryFile.open(output_filename_tiles_bin, std::ios_base::binary);
+
+		for (vector< Tile >::iterator it = tiles.begin() + source_tileset_size; it != tiles.end(); ++it)
+		{
+
+			vector< unsigned char > packed_data = (*it).GetPackedData(pack_mode);
+			for (vector< unsigned char >::iterator it2 = packed_data.begin(); it2 != packed_data.end(); ++it2)
+			{
+
+				const char chars[] = { *it2 };
+				tilesBinaryFile.write(chars, 1);
+			}
+
 		}
 
-		if(use_structs)
-		{
-			//Export Map Info
-			fprintf(file, "\n");
-			fprintf(file, "#include \"MapInfo.h\"\n");
-			fprintf(file, "BANKREF_EXTERN(%s_tiles_info)\n", data_name.c_str());
-			fprintf(file, "const struct MapInfo %s = {\n", data_name.c_str());
-			fprintf(file, "\t%s_map, //map\n", data_name.c_str());
-			fprintf(file, "\t%d, //with\n", image.w >> 3);
-			fprintf(file, "\t%d, //height\n", image.h >> 3);
-			if(use_map_attributes && map_attributes.size())
-				fprintf(file, "\t%s_map_attributes, //map attributes\n", data_name.c_str());
-			else
-				fprintf(file, "\t%s, //map attributes\n", "0");
-			fprintf(file, "\tBANK(%s_tiles_info), //tiles bank\n", data_name.c_str());
-			fprintf(file, "\t&%s_tiles_info, //tiles info\n", data_name.c_str());
-			fprintf(file, "};\n");
+
+		// Open our file for writing attributes if speciied
+		if (use_map_attributes)mapAttributesBinaryfile.open(output_filename_attributes_bin, std::ios_base::binary);
+
+		int columns = image.w >> 3;
+		int rows = image.h >> 3;
+
+		int i = 0;
+
+
+		// If we want the values to be column-by-column
+		if (output_transposed) {
+
+			// Swap the column/row for loops
+			for (int column = 0; column < columns; column++) {
+				for (int row = 0; row < rows; ++row) {
+
+					int tile = column + row * columns;
+
+					const char mapChars[] = { map[tile] };
+
+					// Write map items column-by-column
+					mapBinaryFile.write(mapChars, 1);
+					if(use_map_attributes) {
+						const char mapAttributeChars[] = { map_attributes[tile] };
+						mapAttributesBinaryfile.write(mapAttributeChars, 1);
+					}
+				}
+			}
 		}
+		else {
+
+			// Write the arrays as-is, row-by-row
+			mapBinaryFile.write((const char*)(&map[0]), rows * columns);
+			if (use_map_attributes)mapAttributesBinaryfile.write((const char*)(&map_attributes[0]), rows * columns);
+		}
+
+		// Finalzie the files
+		mapBinaryFile.close();
+		tilesBinaryFile.close();
+		if (use_map_attributes)mapAttributesBinaryfile.close();
+
 	}
-	fclose(file);
 }
