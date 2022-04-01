@@ -128,9 +128,9 @@ struct MTTile
 	MTTile() : offset_x(0), offset_y(0), offset_idx(0), props(0) {}
 };
 string source_tileset;
-int extra_tile_count = 0;
-int source_palette_count = 0;
-int source_tileset_size = 0;
+unsigned int extra_tile_count = 0;
+unsigned int source_palette_count = 0;
+unsigned int source_tileset_size = 0;
 bool includeTileData = true;
 bool includedMapOrMetaspriteData = true;
 PNGImage source_tileset_image;
@@ -366,7 +366,7 @@ SetPal GetPaletteColors(const PNGImage& image, int x, int y, int w, int h)
 	return ret;
 }
 
-bool GetSourceTileset(bool keep_palette_order, int max_palettes, vector< SetPal >& palettes) {
+bool GetSourceTileset(bool keep_palette_order, unsigned int max_palettes, vector< SetPal >& palettes) {
 
 	lodepng::State sourceTilesetState;
 	vector<unsigned char> buffer2;
@@ -1251,7 +1251,7 @@ int main(int argc, char* argv[])
 			for (vector< unsigned char >::iterator it2 = packed_data.begin(); it2 != packed_data.end(); ++it2)
 			{
 
-				const char chars[] = { *it2 };
+				const char chars[] = { (const char)(*it2) };
 				tilesBinaryFile.write(chars, 1);
 			}
 
@@ -1264,9 +1264,6 @@ int main(int argc, char* argv[])
 		int columns = image.w >> 3;
 		int rows = image.h >> 3;
 
-		int i = 0;
-
-
 		// If we want the values to be column-by-column
 		if (output_transposed) {
 
@@ -1276,12 +1273,12 @@ int main(int argc, char* argv[])
 
 					int tile = column + row * columns;
 
-					const char mapChars[] = { map[tile] };
+					const char mapChars[] = { (const char)map[tile] };
 
 					// Write map items column-by-column
 					mapBinaryFile.write(mapChars, 1);
 					if(use_map_attributes) {
-						const char mapAttributeChars[] = { map_attributes[tile] };
+						const char mapAttributeChars[] = { (const char)map_attributes[tile] };
 						mapAttributesBinaryfile.write(mapAttributeChars, 1);
 					}
 				}
