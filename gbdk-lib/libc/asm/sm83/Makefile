@@ -1,8 +1,8 @@
-# gbz80 specific Makefile
+# sm83 specific Makefile
 
 TOPDIR = ../../..
 
-THIS = gbz80
+THIS = sm83
 
 ASSRC = __sdcc_call_hl.s abs.s mul.s div.s shift.s crt0_rle.s \
 	itoa.s strlen.s reverse.s labs.s ltoa.s \
@@ -15,7 +15,7 @@ CSRC =	_memmove.c
 
 include $(TOPDIR)/Makefile.common
 
-AS = $(AS_GBZ80)
+AS = $(AS_SM83)
 
 include ../Makefile.port
 

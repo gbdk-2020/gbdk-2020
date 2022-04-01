@@ -8,7 +8,7 @@ MODEL =	small
 endif
 
 ifndef PORTS
-PORTS = gbz80 z80
+PORTS = sm83 z80
 endif
 ifndef PLATFORMS
 PLATFORMS = gb ap duck gg sms msxdos
@@ -24,11 +24,7 @@ SDAR = 	$(subst \,/,'$(SDCCLIB)')/bin/sdar
 
 
 AS_Z80 = $(SDCCLIB)/bin/sdasz80
-ifeq ($(RGBDS),1)
-AS_GBZ80 = rgbasm
-else
-AS_GBZ80 = $(SDCCLIB)/bin/sdasgb
-endif
+AS_SM83 = $(SDCCLIB)/bin/sdasgb
 
 CLEANSPEC = *.o *.cdb *.sym *.lst *~ *.asm
 

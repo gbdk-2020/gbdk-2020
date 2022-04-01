@@ -1,7 +1,4 @@
         .NEAR_CALLS = 1         ; <near_calls> - tag so that sed can change this
-        
-        ;; Changed by astorgb.pl to 1
-        __RGBDS__       = 0
 
         _VRAM           = 0x8000 ; $8000->$9FFF
         _VRAM8000       = 0x8000
@@ -20,27 +17,27 @@
         ;; MBC Equates
 
         .MBC1_ROM_PAGE  = 0x2000 ; Address to write to for MBC1 switching
-        .MBC_ROM_PAGE   = 0x0001 ; Default platform MBC rom switching address
+        .MBC_ROM_PAGE   = 0x2000 ; Default platform MBC rom switching address
 
         rRAMG           = 0x0000 ; $0000->$1fff
-        rROMB0          = 0x0001 ; $2000->$2fff
+        rROMB0          = 0x2000 ; $2000->$2fff
         rROMB1          = 0x3000 ; $3000->$3fff - If more than 256 ROM banks are present.
         rRAMB           = 0x4000 ; $4000->$5fff - Bit 3 enables rumble (if present)
-        
+
         ;;  Keypad
-        .START          = 0x80
-        .SELECT         = 0x40
-        .B              = 0x20
-        .A              = 0x10
-        .DOWN           = 0x08
         .UP             = 0x04
+        .DOWN           = 0x08
         .LEFT           = 0x02
         .RIGHT          = 0x01
+        .A              = 0x10
+        .B              = 0x20
+        .SELECT         = 0x40
+        .START          = 0x80
 
         .P14            = 0x10
         .P15            = 0x20
 
-        ;;  Screen dimensions 
+        ;;  Screen dimensions
         .MAXCURSPOSX    = 0x13  ; In tiles
         .MAXCURSPOSY    = 0x11
 
@@ -52,17 +49,17 @@
         .MAXWNDPOSY     = 0x8F
 
         ;; Hardware registers
- 
+
         .P1             = 0x00  ; Joystick: 1.1.P15.P14.P13.P12.P11.P10
         rP1             = 0xFF00
-        
+
         P1F_5           = 0b00100000 ; P15 out port, set to 0 to get buttons
         P1F_4           = 0b00010000 ; P14 out port, set to 0 to get dpad
         P1F_3           = 0b00001000 ; P13 in port
         P1F_2           = 0b00000100 ; P12 in port
         P1F_1           = 0b00000010 ; P11 in port
         P1F_0           = 0b00000001 ; P10 in port
-        
+
         P1F_GET_DPAD    = 0b00100000
         P1F_GET_BTN     = 0b00010000
         P1F_GET_NONE    = 0b00110000
@@ -81,7 +78,7 @@
 
         .TMA            = 0x06  ; Timer modulo
         rTMA            = 0xFF06
-        
+
         .TAC            = 0x07  ; Timer control
         rTAC            = 0xFF07
 
@@ -94,92 +91,92 @@
 
         .IF             = 0x0F  ; Interrupt flags: 0.0.0.JST.SIO.TIM.LCD.VBL
         rIF             = 0xFF0F
-        
-        .NR10           = 0x20  ; Sound register
-        rNR10           = 0xFF20
-        rAUD1SWEEP      = 0xFF20
+
+        .NR10           = 0x10  ; Sound register
+        rNR10           = 0xFF10
+        rAUD1SWEEP      = 0xFF10
 
         AUD1SWEEP_UP    = 0b00000000
         AUD1SWEEP_DOWN  = 0b00001000
 
-        .NR11           = 0x22  ; Sound register
-        rNR11           = 0xFF22
-        rAUD1LEN        = 0xFF22
+        .NR11           = 0x11  ; Sound register
+        rNR11           = 0xFF11
+        rAUD1LEN        = 0xFF11
 
-        .NR12           = 0x21  ; Sound register
-        rNR12           = 0xFF21
-        rAUD1ENV        = 0xFF21
-        
-        .NR13           = 0x23  ; Sound register
-        rNR13           = 0xFF23
-        rAUD1LOW        = 0xFF23
+        .NR12           = 0x12  ; Sound register
+        rNR12           = 0xFF12
+        rAUD1ENV        = 0xFF12
 
-        .NR14           = 0x24  ; Sound register
-        rNR14           = 0xFF24
-        rAUD1HIGH       = 0xFF24
+        .NR13           = 0x13  ; Sound register
+        rNR13           = 0xFF13
+        rAUD1LOW        = 0xFF13
 
-        .NR21           = 0x25  ; Sound register
-        rNR21           = 0xFF25
-        rAUD2LEN        = 0xFF25
+        .NR14           = 0x14  ; Sound register
+        rNR14           = 0xFF14
+        rAUD1HIGH       = 0xFF14
 
-        .NR22           = 0x27  ; Sound register
-        rNR22           = 0xFF27
-        rAUD2ENV        = 0xFF27
+        .NR21           = 0x16  ; Sound register
+        rNR21           = 0xFF16
+        rAUD2LEN        = 0xFF16
 
-        .NR23           = 0x28  ; Sound register
-        rNR23           = 0xFF28
-        rAUD2LOW        = 0xFF28
+        .NR22           = 0x17  ; Sound register
+        rNR22           = 0xFF17
+        rAUD2ENV        = 0xFF17
 
-        .NR24           = 0x29  ; Sound register
-        rNR24           = 0xFF29
-        rAUD2HIGH       = 0xFF29
+        .NR23           = 0x18  ; Sound register
+        rNR23           = 0xFF18
+        rAUD2LOW        = 0xFF18
 
-        .NR30           = 0x2A  ; Sound register
-        rNR30           = 0xFF2A
-        rAUD3ENA        = 0xFF2A
+        .NR24           = 0x19  ; Sound register
+        rNR24           = 0xFF19
+        rAUD2HIGH       = 0xFF19
 
-        .NR31           = 0x2B  ; Sound register
-        rNR31           = 0xFF2B
-        rAUD3LEN        = 0xFF2B
+        .NR30           = 0x1A  ; Sound register
+        rNR30           = 0xFF1A
+        rAUD3ENA        = 0xFF1A
 
-        .NR32           = 0x2C  ; Sound register
-        rNR32           = 0xFF2C
-        rAUD3LEVEL      = 0xFF2C
+        .NR31           = 0x1B  ; Sound register
+        rNR31           = 0xFF1B
+        rAUD3LEN        = 0xFF1B
 
-        .NR33           = 0x2E  ; Sound register
-        rNR33           = 0xFF2E
-        rAUD3LOW        = 0xFF2E
+        .NR32           = 0x1C  ; Sound register
+        rNR32           = 0xFF1C
+        rAUD3LEVEL      = 0xFF1C
 
-        .NR34           = 0x2D  ; Sound register
-        rNR34           = 0xFF2D
-        rAUD3HIGH       = 0xFF2D
+        .NR33           = 0x1D  ; Sound register
+        rNR33           = 0xFF1D
+        rAUD3LOW        = 0xFF1D
 
-        .NR41           = 0x40  ; Sound register
-        rNR41           = 0xFF40
-        rAUD4LEN        = 0xFF40
+        .NR34           = 0x1E  ; Sound register
+        rNR34           = 0xFF1E
+        rAUD3HIGH       = 0xFF1E
 
-        .NR42           = 0x42  ; Sound register
-        rNR42           = 0xFF42
-        rAUD4ENV        = 0xFF42
+        .NR41           = 0x20  ; Sound register
+        rNR41           = 0xFF20
+        rAUD4LEN        = 0xFF20
 
-        .NR43           = 0x41  ; Sound register
-        rNR43           = 0xFF41
-        rAUD4POLY       = 0xFF41
+        .NR42           = 0x21  ; Sound register
+        rNR42           = 0xFF21
+        rAUD4ENV        = 0xFF21
 
-        .NR44           = 0x43  ; Sound register
-        rNR44           = 0xFF43
-        rAUD4GO         = 0xFF43
+        .NR43           = 0x22  ; Sound register
+        rNR43           = 0xFF22
+        rAUD4POLY       = 0xFF22
 
-        .NR50           = 0x44  ; Sound register
-        rNR50           = 0xFF44
-        rAUDVOL         = 0xFF44
+        .NR44           = 0x23  ; Sound register
+        rNR44           = 0xFF23
+        rAUD4GO         = 0xFF23
+
+        .NR50           = 0x24  ; Sound register
+        rNR50           = 0xFF24
+        rAUDVOL         = 0xFF24
 
         AUDVOL_VIN_LEFT  = 0b10000000 ; SO2
         AUDVOL_VIN_RIGHT = 0b00001000 ; SO1
 
-        .NR51           = 0x46  ; Sound register
-        rNR51           = 0xFF46
-        rAUDTERM        = 0xFF46
+        .NR51           = 0x25  ; Sound register
+        rNR51           = 0xFF25
+        rAUDTERM        = 0xFF25
 
         AUDTERM_4_LEFT  = 0b10000000
         AUDTERM_3_LEFT  = 0b01000000
@@ -190,43 +187,43 @@
         AUDTERM_2_RIGHT = 0b00000010
         AUDTERM_1_RIGHT = 0b00000001
 
-        .NR52           = 0x45  ; Sound register
-        rNR52           = 0xFF45
-        rAUDENA         = 0xFF45
+        .NR52           = 0x26  ; Sound register
+        rNR52           = 0xFF26
+        rAUDENA         = 0xFF26
 
         AUDENA_ON       = 0b10000000
         AUDENA_OFF      = 0b00000000  ; sets all audio regs to 0!
 
-        .LCDC           = 0x10  ; LCD control
-        rLCDC           = 0xFF10
+        .LCDC           = 0x40  ; LCD control
+        rLCDC           = 0xFF40
 
         LCDCF_OFF       = 0b00000000 ; LCD Control Operation
         LCDCF_ON        = 0b10000000 ; LCD Control Operation
         LCDCF_WIN9800   = 0b00000000 ; Window Tile Map Display Select
-        LCDCF_WIN9C00   = 0b00001000 ; Window Tile Map Display Select
+        LCDCF_WIN9C00   = 0b01000000 ; Window Tile Map Display Select
         LCDCF_WINOFF    = 0b00000000 ; Window Display
         LCDCF_WINON     = 0b00100000 ; Window Display
         LCDCF_BG8800    = 0b00000000 ; BG & Window Tile Data Select
         LCDCF_BG8000    = 0b00010000 ; BG & Window Tile Data Select
         LCDCF_BG9800    = 0b00000000 ; BG Tile Map Display Select
-        LCDCF_BG9C00    = 0b00000100 ; BG Tile Map Display Select
+        LCDCF_BG9C00    = 0b00001000 ; BG Tile Map Display Select
         LCDCF_OBJ8      = 0b00000000 ; OBJ Construction
-        LCDCF_OBJ16     = 0b00000010 ; OBJ Construction
+        LCDCF_OBJ16     = 0b00000100 ; OBJ Construction
         LCDCF_OBJOFF    = 0b00000000 ; OBJ Display
-        LCDCF_OBJON     = 0b00000001 ; OBJ Display
+        LCDCF_OBJON     = 0b00000010 ; OBJ Display
         LCDCF_BGOFF     = 0b00000000 ; BG Display
-        LCDCF_BGON      = 0b01000000 ; BG Display
+        LCDCF_BGON      = 0b00000001 ; BG Display
         LCDCF_B_ON      = 7
-        LCDCF_B_WIN9C00 = 3
+        LCDCF_B_WIN9C00 = 6
         LCDCF_B_WINON   = 5
         LCDCF_B_BG8000  = 4
-        LCDCF_B_BG9C00  = 2
-        LCDCF_B_OBJ16   = 1
-        LCDCF_B_OBJON   = 0
-        LCDCF_B_BGON    = 6
+        LCDCF_B_BG9C00  = 3
+        LCDCF_B_OBJ16   = 2
+        LCDCF_B_OBJON   = 1
+        LCDCF_B_BGON    = 0
 
-        .STAT           = 0x11  ; LCD status
-        rSTAT           = 0xFF11
+        .STAT           = 0x41  ; LCD status
+        rSTAT           = 0xFF41
 
         STATF_LYC       = 0b01000000 ; LYC=LY Coincidence (Selectable)
         STATF_MODE10    = 0b00100000 ; Mode 10
@@ -247,35 +244,35 @@
         STATF_B_OAM     = 1
         STATF_B_BUSY    = 1
 
-        .SCY            = 0x12  ; Scroll Y
-        rSCY            = 0xFF12
+        .SCY            = 0x42  ; Scroll Y
+        rSCY            = 0xFF42
 
-        .SCX            = 0x13  ; Scroll X
-        rSCX            = 0xFF13
+        .SCX            = 0x43  ; Scroll X
+        rSCX            = 0xFF43
 
-        .LY             = 0x18  ; LCDC Y-coordinate
-        rLY             = 0xFF18
+        .LY             = 0x44  ; LCDC Y-coordinate
+        rLY             = 0xFF44
 
-        .LYC            = 0x19  ; LY compare
-        rLYC            = 0xFF19
+        .LYC            = 0x45  ; LY compare
+        rLYC            = 0xFF45
 
-        .DMA            = 0x1A  ; DMA transfer
-        rDMA            = 0xFF1A
+        .DMA            = 0x46  ; DMA transfer
+        rDMA            = 0xFF46
 
-        .BGP            = 0x1B  ; BG palette data
-        rBGP            = 0xFF1B
+        .BGP            = 0x47  ; BG palette data
+        rBGP            = 0xFF47
 
-        .OBP0           = 0x14  ; OBJ palette 0 data
-        rOBP0           = 0xFF14
+        .OBP0           = 0x48  ; OBJ palette 0 data
+        rOBP0           = 0xFF48
 
-        .OBP1           = 0x15  ; OBJ palette 1 data
-        rOBP1           = 0xFF15
+        .OBP1           = 0x49  ; OBJ palette 1 data
+        rOBP1           = 0xFF49
 
-        .WY             = 0x16  ; Window Y coordinate
-        rWY             = 0xFF16
+        .WY             = 0x4A  ; Window Y coordinate
+        rWY             = 0xFF4A
 
-        .WX             = 0x17  ; Window X coordinate
-        rWX             = 0xFF17
+        .WX             = 0x4B  ; Window X coordinate
+        rWX             = 0xFF4B
 
         .KEY1           = 0x4D  ; CPU speed
         rKEY1           = 0xFF4D
@@ -292,21 +289,21 @@
 
         .HDMA2          = 0x52  ; DMA control 2
         rHDMA2          = 0xFF52
-        
+
         .HDMA3          = 0x53  ; DMA control 3
         rHDMA3          = 0xFF53
-        
+
         .HDMA4          = 0x54  ; DMA control 4
         rHDMA4          = 0xFF54
-        
+
         .HDMA5          = 0x55  ; DMA control 5
         rHDMA5          = 0xFF55
-        
+
         HDMA5F_MODE_GP  = 0b00000000 ; General Purpose DMA (W)
         HDMA5F_MODE_HBL = 0b10000000 ; HBlank DMA (W)
 
         HDMA5F_BUSY     = 0b10000000 ; 0=Busy (DMA still in progress), 1=Transfer complete (R)
-        
+
         .RP             = 0x56  ; IR port
         rRP             = 0xFF56
 
@@ -317,7 +314,7 @@
 
         .BCPS           = 0x68  ; BG color palette specification
         rBCPS           = 0xFF68
-        
+
         BCPSF_AUTOINC   = 0b10000000 ; Auto Increment (0=Disabled, 1=Increment after Writing)
 
         .BCPD           = 0x69  ; BG color palette data
@@ -325,18 +322,18 @@
 
         .OCPS           = 0x6A  ; OBJ color palette specification
         rOCPS           = 0xFF6A
-        
+
         OCPSF_AUTOINC   = 0b10000000 ; Auto Increment (0=Disabled, 1=Increment after Writing)
 
         .OCPD           = 0x6B  ; OBJ color palette data
         rOCPD           = 0xFF6B
-        
+
         .SVBK           = 0x70  ; WRAM bank
         rSVBK           = 0xFF70
         rSMBK           = 0xFF70
 
         rPCM12          = 0xFF76
-        
+
         rPCM34          = 0xFF77
 
         .IE             = 0xFF  ; Interrupt enable
@@ -355,21 +352,21 @@
         IEF_VBLANK      = 0b00000001 ; V-Blank
 
         ;; Flags common to multiple sound channels
-        
+
         AUDLEN_DUTY_12_5 = 0b00000000 ; 12.5%
         AUDLEN_DUTY_25   = 0b01000000 ; 25%
         AUDLEN_DUTY_50   = 0b10000000 ; 50%
         AUDLEN_DUTY_75   = 0b11000000 ; 75%
-                            
+
         AUDENV_UP       = 0b00001000
         AUDENV_DOWN     = 0b00000000
-                            
+
         AUDHIGH_RESTART    = 0b10000000
         AUDHIGH_LENGTH_ON  = 0b01000000
         AUDHIGH_LENGTH_OFF = 0b00000000
 
         ;; OAM related constants
-        
+
         OAM_COUNT       = 40  ; number of OAM entries in OAM RAM
 
         OAMF_PRI        = 0b10000000 ; Priority
@@ -418,7 +415,7 @@
         ;; CPU detection
         .DMG_TYPE       = 0x01 ; Original GB or Super GB
         .MGB_TYPE       = 0xFF ; Pocket GB or Super GB 2
-        .CGB_TYPE       = 0x11 ; Color GB        
+        .CGB_TYPE       = 0x11 ; Color GB
 
         ;; GBDK library screen modes
 
@@ -428,7 +425,7 @@
         .T_MODE_INOUT   = 0x03  ; Text mode with input
         .M_NO_SCROLL    = 0x04  ; Disables scrolling of the screen in text mode
         .M_NO_INTERP    = 0x08  ; Disables special character interpretation
-        
+
         ;; Status codes for IO
         .IO_IDLE        = 0x00
         .IO_SENDING     = 0x01
@@ -456,7 +453,7 @@
 
         .globl  __current_bank
         .globl  __shadow_OAM_base
-        
+
         ;; Global variables
         .globl  .mode
 
@@ -472,7 +469,7 @@
 
         .globl  .wait_vbl_done
 
-        ;; Interrupt routines 
+        ;; Interrupt routines
         .globl  .add_VBL
 ;       .globl  .add_LCD        ;; don't link LCD.o by default
 ;       .globl  .add_TIM        ;; don't link TIM.o by default
@@ -484,7 +481,7 @@
         .globl  _shadow_OAM
         .globl  .refresh_OAM
 
-        ;; Main user routine    
+        ;; Main user routine
         .globl  _main
 
         ;; Macro definitions
@@ -519,7 +516,7 @@ lbl:
         SIGNED_ADD_A_REG16      regH, regL
 .endm
 
-.macro MUL_DE_BY_A_RET_HL ?lbl1 ?lbl2 ?lbl3
+.macro MUL_DE_BY_A_RET_HL ?lbl1 ?lbl2
         ; Multiply DE by A, return result in HL; preserves: BC
         LD      HL, #0
 lbl1:
@@ -527,10 +524,9 @@ lbl1:
         JR      NC, lbl2
         ADD     HL, DE
 lbl2:
-        JR      Z, lbl3
         SLA     E
         RL      D
-        JR      lbl1
-lbl3:
+        OR      A
+        JR      NZ, lbl1
 .endm
 

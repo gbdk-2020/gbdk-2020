@@ -25,7 +25,7 @@
 
     @see rand(), randw()
 */
-#if defined(__PORT_gbz80)
+#if defined(__PORT_sm83)
 void initrand(uint16_t seed) OLDCALL;
 #elif defined(__PORT_z80)
 void initrand(uint16_t seed) Z88DK_FASTCALL;
@@ -68,7 +68,7 @@ uint16_t randw() OLDCALL;
 
     @see initrand() for suggestions about seed values, arand()
 */
-#if defined(__PORT_gbz80)
+#if defined(__PORT_sm83)
 void initarand(uint16_t seed) OLDCALL;
 #elif defined(__PORT_z80)
 void initarand(uint16_t seed) Z88DK_FASTCALL;

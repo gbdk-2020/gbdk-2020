@@ -4,8 +4,8 @@
 #ifndef GBDK_LIB_INCLUDE
 #define GBDK_LIB_INCLUDE
 
-#if defined(__PORT_gbz80)
-  #include <asm/gbz80/provides.h>
+#if defined(__PORT_sm83)
+  #include <asm/sm83/provides.h>
 #elif defined(__PORT_z80)
   #include <asm/z80/provides.h>
 #else

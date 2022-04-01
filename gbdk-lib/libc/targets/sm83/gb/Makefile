@@ -3,7 +3,7 @@
 TOPDIR = ../../../..
 
 THIS = gb
-PORT = gbz80
+PORT = sm83
 
 CSRC = crlf.c digits.c gprint.c gprintf.c gprintln.c gprintn.c
 
@@ -35,19 +35,13 @@ ASSRC =	cgb.s cgb_palettes.s cgb_compat.s \
 	gb_decompress.s gb_decompress_tiles.s \
 	rle_decompress.s \
 	heap.s \
+	sfr.s \
 	crt0.s
-
-ifeq ($(ASM),asxxxx)
-ASSRC +=	sfr.s
-endif
-ifeq ($(ASM),rgbds)
-ASSRC +=	stubs.s
-endif
 
 CRT0 =	crt0.s
 
 include $(TOPDIR)/Makefile.common
 
-AS = $(AS_GBZ80)
+AS = $(AS_SM83)
 
 include ../../../Makefile.platform
