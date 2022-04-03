@@ -32,30 +32,15 @@
 .globl	__moduint
 
 __moduchar:
-        ld      hl,#2+1
-        add     hl,sp
+	ld	e, l
+	ld	l, a
 
-        ld      e,(hl)
-        dec     hl
-        ld      l,(hl)
-
-        call    __divu8
-
-	ex	de,hl
-
-        ret
+	call    __divu8
+	ex	de, hl
+	ret
 
 __moduint:
-        pop     af
-        pop     hl
-        pop     de
-        push    de
-        push    hl
-        push    af
-
-        call    __divu16
-
-        ex      de,hl
-
-        ret
+	call    __divu16
+	ex	de, hl
+	ret
 

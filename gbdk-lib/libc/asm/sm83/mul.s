@@ -2,6 +2,8 @@
 ;  mul.s
 ;
 ;  Copyright (C) 2000, Michael Hope
+;  Copyright (C) 2021-2022, Sebastian 'basxto' Riedel (sdcc@basxto.de)
+;  Copyright (c) 2021, Philipp Klaus Krause
 ;
 ;  This library is free software; you can redistribute it and/or modify it
 ;  under the terms of the GNU General Public License as published by the
@@ -29,8 +31,7 @@
         ;; Originally from GBDK by Pascal Felber.
 
         .module mul
-
-        .area   _HOME
+        .area   _CODE
 
 .globl  __mulsuchar
 .globl  __muluschar
@@ -38,84 +39,39 @@
 .globl  __muluchar
 .globl  __mulint
 
-; operands have different sign
+; operands with different sign
 
 __mulsuchar:
-        ld      hl,#2+1
-        ld      b, h
-        add     hl,sp
-
-        ld      e,(hl)
-        dec     hl
-        ld      c,(hl)
+        ld      c, a
         jr      signexte
 
 __muluschar:
-        ld      hl,#2
-        ld      b, h
-        add     hl,sp
+        ld      c, e
+        ld      e, a
 
-        ld      e,(hl)
-        inc     hl
-        ld      c,(hl)
-        jr      signexte
-
-__mulschar:
-        ld      hl,#2
-        add     hl,sp
-
-        ld      a,(hl+)
-        ld      a, e
-        ld      l,(hl)
-
-        ;; Need to sign extend before going in.
-        ld      c,l
-
-        ld      a,l
-        rla
-        sbc     a,a
-        ld      b,a
 signexte:
         ld      a,e
         rla
         sbc     a,a
         ld      d,a
 
-        jr      .mul16
-
-__muluchar:
-        ld      hl,#2
-        add     hl,sp
-
-        ld      a,(hl+)
-
-        ld      e, a
-        ld      c,(hl)
-
-        ;; Clear the top
         xor     a
-        ld      d,a
+        jr      .mul8
+
+__mulschar:
+        ; Sign-extend before going in.
+        ld      c,a
+
+        rla
+        sbc     a,a
         ld      b,a
 
-        jr      .mul16
+        ld      a,e
+        rla
+        sbc     a,a
+        ld      d,a
 
 __mulint:
-        ld      hl,#2
-        add     hl,sp
-
-        ld      a,(hl+)
-        ld      e, a
-        ld      a,(hl+)
-        ld      d, a
-        ld      a,(hl+)
-        ld      h,(hl)
-        ld      l,a
-
-        ;; Parameters:
-        ;;      HL, DE (left, right irrelivent)
-        ld      b,h
-        ld      c,l
-
         ;; 16-bit multiplication
         ;;
         ;; Entry conditions
@@ -123,37 +79,80 @@ __mulint:
         ;;   DE = multiplier
         ;;
         ;; Exit conditions
-        ;;   DE = less significant word of product
+        ;;   BC = less significant word of product
         ;;
         ;; Register used: AF,BC,DE,HL
 .mul16:
-        ld      hl,#0
+        ;; Let the smaller number loop
         ld      a,b
-        ; ld c,c
-        ld      b,#16
-
+        cp      a,d
+        jr      c, keep
+        ;; d <= b
+        ld      a, e
+        ld      e, c
+        ld      c, a
+        ld      a, d
+        ld      d, b
+        ld      b, a
+keep:
         ;; Optimise for the case when this side has 8 bits of data or
         ;; less.  This is often the case with support address calls.
         or      a
-        jr      NZ,1$
-
-        ld      b,#8
-        ld      a,c
-1$:
+        jp      Z, .mul8
+        
+        ld      l,#0
+        ld      b,#16
+loop16:
         ;; Taken from z88dk, which originally borrowed from the
         ;; Spectrum rom.
         add     hl,hl
         rl      c
         rla                     ;DLE 27/11/98
-        jr      NC,2$
+        jr      NC,skip16
         add     hl,de
-2$:
+skip16:
         dec     b
-        jr      NZ,1$
+        jr      NZ,loop16
 
-        ;; Return in DE
-        ld      e,l
-        ld      d,h
+        ;; Return in bc
+        ld      c,l
+        ld      b,h
+
+        ret
+
+__muluchar:
+        ld      c, a
+        xor     a
+        ;; Clear the top
+        ld      d, a
+
+        ;; Version that uses an 8bit multiplicand
+        ;;
+        ;; Entry conditions
+        ;;   C  = multiplicand
+        ;;   DE = multiplier
+        ;;   A  = 0
+        ;;
+        ;; Exit conditions
+        ;;   BC = less significant word of product
+        ;;
+        ;; Register used: AF,BC,DE,HL
+.mul8:
+        ld      l,a
+        ld      b,#8
+        ld      a,c
+loop8:
+        add     hl,hl
+        rla
+        jr      NC,skip8
+        add     hl,de
+skip8:
+        dec     b
+        jr      NZ,loop8
+
+        ;; Return in bc
+        ld      c,l
+        ld      b,h
 
         ret
 
