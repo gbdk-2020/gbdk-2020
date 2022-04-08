@@ -558,17 +558,16 @@ int main(int argc, char* argv[])
 		printf("-use_structs        Group the exported info into structs (default: false) (used by ZGB Game Engine)\n");
 		printf("-bpp                bits per pixel: 2, 4 (default: 2)\n");
 		printf("-max_palettes       maximum number of palettes allowed (default: 2)\n");
-		printf("-pack_mode          gb, sgb or sms (default:GB)\n");
-		printf("-tile_origin        tile index offset for maps (instead of zero)\n");
+		printf("-pack_mode          gb, sgb or sms (default: gb)\n");
+		printf("-tile_origin        tile index offset for maps (default: 0)\n");
 
+		printf("-tiles_only         export tile data only\n");
+		printf("-maps_only          export map tilemap only\n");
+		printf("-metasprites_only   export metasprite descriptors only\n");
+		printf("-source_tileset     use source tileset (image with common tiles)\n");
 
-		printf("-tiles_only			should only tile data be exported\n");
-		printf("-maps_only			should only map data be exported\n");
-		printf("-metasprites_only   should only metasprite data be exported\n");
-		printf("-source_tileset     source tileset\n");
-
-		printf("-bin				Should a .bin file be written?");
-		printf("-transposed			Should be map items be written column-by-column, instead of row-by-row?");
+		printf("-bin                export to binary format\n");
+		printf("-transposed         export transposed (column-by-column instead of row-by-row)\n");
 		return 0;
 	}
 
