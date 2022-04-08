@@ -499,6 +499,11 @@ bool GetSourceTileset(bool keep_palette_order, unsigned int max_palettes, vector
 	image = source_tileset_image;
 	use_source_tileset = false;
 	GetMap();
+	
+	// Our source tileset shouldn't build the map arrays up
+	// Clear anything from the previous 'GetMap' call
+	map.clear();
+	map_attributes.clear();
 	use_source_tileset = true;
 
 	// Change the image variable back
