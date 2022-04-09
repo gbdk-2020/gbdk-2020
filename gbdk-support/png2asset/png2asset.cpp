@@ -770,7 +770,7 @@ int main(int argc, char* argv[])
 			// Make sure these two values match when keeping palette order
 			if (image.palettesize != source_tileset_image.palettesize) {
 
-				printf("error: The the number of color palette's for your source tileset (%d) and target image (%d) do not match.", source_tileset_image.palettesize, image.palettesize);
+				printf("error: The number of color palette's for your source tileset (%d) and target image (%d) do not match.", source_tileset_image.palettesize, image.palettesize);
 				return 1;
 			}
 
