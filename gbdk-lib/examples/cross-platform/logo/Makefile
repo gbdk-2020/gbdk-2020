@@ -29,7 +29,7 @@ RESFLAGS_SEGA = -map -use_map_attributes -bpp 4 -max_palettes 2 -pack_mode sms
 
 RESFLAGS += $(RESFLAGS_$(TYP))
 
-CFLAGS += -Wf-I$(OBJDIR) -DSYSTEM_$(TYP)
+CFLAGS += -I$(OBJDIR) -DSYSTEM_$(TYP)
 
 # You can set the name of the ROM file here
 PROJECTNAME = logo
@@ -45,13 +45,16 @@ BINS	    = $(OBJDIR)/$(PROJECTNAME).$(EXT)
 IMAGES      = $(foreach dir,$(RESDIR),$(notdir $(wildcard $(dir)/*.png)))
 CSOURCES    = $(foreach dir,$(SRCDIR),$(notdir $(wildcard $(dir)/*.c)))
 ASMSOURCES  = $(foreach dir,$(SRCDIR),$(notdir $(wildcard $(dir)/*.s)))
-OBJS        = $(IMAGES:%.png=$(OBJDIR)/%.c) $(CSOURCES:%.c=$(OBJDIR)/%.o) $(ASMSOURCES:%.s=$(OBJDIR)/%.o)
+OBJS        = $(IMAGES:%.png=$(OBJDIR)/%.o) $(CSOURCES:%.c=$(OBJDIR)/%.o) $(ASMSOURCES:%.s=$(OBJDIR)/%.o)
 
 # Builds all targets sequentially
 all: $(TARGETS)
 
 $(OBJDIR)/%.c: $(RESDIR)/%.png
 	$(PNG2ASSETS) $< $(RESFLAGS) -c $@
+
+$(OBJDIR)/%.o:	$(OBJDIR)/%.c
+	$(LCC) $(CFLAGS) -c -o $@ $<
 
 # Compile .c files in "src/" to .o object files
 $(OBJDIR)/%.o:	$(SRCDIR)/%.c
