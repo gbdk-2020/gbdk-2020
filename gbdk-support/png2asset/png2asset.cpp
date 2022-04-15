@@ -135,6 +135,7 @@ bool includeTileData = true;
 bool includedMapOrMetaspriteData = true;
 PNGImage source_tileset_image;
 bool use_source_tileset = false;
+bool keep_duplicate_tiles = false;
 
 typedef vector< MTTile > MetaSprite;
 vector< Tile > tiles;
@@ -236,17 +237,26 @@ void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y)
 				size_t idx;
 				unsigned char props;
 				unsigned char pal_idx = image.data[y * image.w + x] >> 2; //We can pick the palette from the first pixel of this tile
-				if(!FindTile(tile, idx, props))
-				{
-					if (use_source_tileset) {
-						printf("found a tile not in the source tileset at %d,%d. The target tileset has %d extra tiles.\n", x, y,extra_tile_count+1);
-						extra_tile_count++;
-						includeTileData = true;
-					}
-					tiles.push_back(tile);
-					idx = tiles.size() - 1;
-					props = props_default;
-				}
+        if(!keep_duplicate_tiles)
+        {
+          if(!FindTile(tile, idx, props))
+          {
+            if (use_source_tileset) {
+              printf("found a tile not in the source tileset at %d,%d. The target tileset has %d extra tiles.\n", x, y,extra_tile_count+1);
+              extra_tile_count++;
+              includeTileData = true;
+            }
+            tiles.push_back(tile);
+            idx = tiles.size() - 1;
+            props = props_default;
+          }
+        }
+        else 
+        {
+          tiles.push_back(tile);
+          idx = tiles.size() - 1;
+          props = props_default;
+        }
 
 				props |= pal_idx;
 
@@ -273,23 +283,32 @@ void GetMap()
 			
 			size_t idx;
 			unsigned char props;
-			if(!FindTile(tile, idx, props))
-			{
-				if (use_source_tileset) {
-					printf("found a tile not in the source tileset at %d,%d. The target tileset has %d extra tiles.\n", x, y, extra_tile_count + 1);
-					extra_tile_count++;
-					includeTileData = true;
-				}
-				tiles.push_back(tile);
-				idx = tiles.size() - 1;
-				props = props_default;
+      if(!keep_duplicate_tiles) 
+      {
+        if(!FindTile(tile, idx, props))
+        {
+          if (use_source_tileset) {
+            printf("found a tile not in the source tileset at %d,%d. The target tileset has %d extra tiles.\n", x, y, extra_tile_count + 1);
+            extra_tile_count++;
+            includeTileData = true;
+          }
+          tiles.push_back(tile);
+          idx = tiles.size() - 1;
+          props = props_default;
 
-				if(tiles.size() > 256 && pack_mode != Tile::SMS)
-					printf("Warning: found more than 256 tiles on x:%d,y:%d\n", x, y);
+          if(tiles.size() > 256 && pack_mode != Tile::SMS)
+            printf("Warning: found more than 256 tiles on x:%d,y:%d\n", x, y);
 
-				if(((tiles.size() + tile_origin) > 256) && (pack_mode != Tile::SMS))
-					printf("Warning: tile count (%d) + tile origin (%d) exceeds 256 at x:%d,y:%d\n", (unsigned int)tiles.size(), tile_origin, x, y);
-			}
+          if(((tiles.size() + tile_origin) > 256) && (pack_mode != Tile::SMS))
+            printf("Warning: tile count (%d) + tile origin (%d) exceeds 256 at x:%d,y:%d\n", (unsigned int)tiles.size(), tile_origin, x, y);
+        }
+      }
+      else 
+      {
+        tiles.push_back(tile);
+        idx = tiles.size() - 1;
+        props = props_default;
+      }
 
 			map.push_back((unsigned char)idx + tile_origin);
 			
@@ -570,6 +589,7 @@ int main(int argc, char* argv[])
 		printf("-maps_only          export map tilemap only\n");
 		printf("-metasprites_only   export metasprite descriptors only\n");
 		printf("-source_tileset     use source tileset (image with common tiles)\n");
+    printf("-keep_duplicate_tiles   do not remove duplicate tiles (default: not enabled)\n");
 
 		printf("-bin                export to binary format\n");
 		printf("-transposed         export transposed (column-by-column instead of row-by-row)\n");
@@ -691,6 +711,10 @@ int main(int argc, char* argv[])
 		{
 			includedMapOrMetaspriteData = false;
 		}
+    else if (!strcmp(argv[i], "-keep_duplicate_tiles"))
+    {
+      keep_duplicate_tiles = true;
+    }
 		else if (!strcmp(argv[i], "-source_tileset"))
 		{
 			use_source_tileset = true;
