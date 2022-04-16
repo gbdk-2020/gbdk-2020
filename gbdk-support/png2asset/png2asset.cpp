@@ -28,15 +28,15 @@ struct Tile
 	unsigned char pal;
 
 	Tile(size_t size = 0) : data(size), pal(0) {}
-	bool operator==(const Tile& t) const 
+	bool operator==(const Tile& t) const
 	{
 		return data == t.data && pal == t.pal;
 	}
-	
-	const Tile& operator=(const Tile& t) 
+
+	const Tile& operator=(const Tile& t)
 	{
-		data = t.data; 
-		pal = t.pal; 
+		data = t.data;
+		pal = t.pal;
 		return *this;
 	}
 
@@ -56,7 +56,7 @@ struct Tile
 					ret[j * 2 + 1] |= BIT(col, 1) << (7 - i);
 				}
 			}
-		} 
+		}
 		else if(pack_mode == SGB)
 		{
 			for(int j = 0; j < tile_h; ++j) {
@@ -237,26 +237,27 @@ void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y)
 				size_t idx;
 				unsigned char props;
 				unsigned char pal_idx = image.data[y * image.w + x] >> 2; //We can pick the palette from the first pixel of this tile
-        if(!keep_duplicate_tiles)
-        {
-          if(!FindTile(tile, idx, props))
-          {
-            if (use_source_tileset) {
-              printf("found a tile not in the source tileset at %d,%d. The target tileset has %d extra tiles.\n", x, y,extra_tile_count+1);
-              extra_tile_count++;
-              includeTileData = true;
-            }
-            tiles.push_back(tile);
-            idx = tiles.size() - 1;
-            props = props_default;
-          }
-        }
-        else 
-        {
-          tiles.push_back(tile);
-          idx = tiles.size() - 1;
-          props = props_default;
-        }
+
+				if(keep_duplicate_tiles)
+				{
+					tiles.push_back(tile);
+					idx = tiles.size() - 1;
+					props = props_default;
+				}
+				else
+				{
+					if(!FindTile(tile, idx, props))
+					{
+						if (use_source_tileset) {
+							printf("found a tile not in the source tileset at %d,%d. The target tileset has %d extra tiles.\n", x, y,extra_tile_count+1);
+							extra_tile_count++;
+							includeTileData = true;
+						}
+						tiles.push_back(tile);
+						idx = tiles.size() - 1;
+						props = props_default;
+					}
+				}
 
 				props |= pal_idx;
 
@@ -264,7 +265,7 @@ void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y)
 					idx *= 2;
 
 				mt_sprite.push_back(MTTile(x - last_x, y - last_y, (unsigned char)idx, props));
-				
+
 				last_x = x;
 				last_y = y;
 			}
@@ -280,42 +281,43 @@ void GetMap()
 		{
 			Tile tile(8 * 8);
 			image.ExtractGBTile(x, y, 8, tile);
-			
+
 			size_t idx;
 			unsigned char props;
-      if(!keep_duplicate_tiles) 
-      {
-        if(!FindTile(tile, idx, props))
-        {
-          if (use_source_tileset) {
-            printf("found a tile not in the source tileset at %d,%d. The target tileset has %d extra tiles.\n", x, y, extra_tile_count + 1);
-            extra_tile_count++;
-            includeTileData = true;
-          }
-          tiles.push_back(tile);
-          idx = tiles.size() - 1;
-          props = props_default;
 
-          if(tiles.size() > 256 && pack_mode != Tile::SMS)
-            printf("Warning: found more than 256 tiles on x:%d,y:%d\n", x, y);
+			if(keep_duplicate_tiles)
+			{
+				tiles.push_back(tile);
+				idx = tiles.size() - 1;
+				props = props_default;
+			}
+			else
+			{
+				if(!FindTile(tile, idx, props))
+				{
+					if (use_source_tileset) {
+						printf("found a tile not in the source tileset at %d,%d. The target tileset has %d extra tiles.\n", x, y, extra_tile_count + 1);
+						extra_tile_count++;
+						includeTileData = true;
+					}
+					tiles.push_back(tile);
+					idx = tiles.size() - 1;
+					props = props_default;
 
-          if(((tiles.size() + tile_origin) > 256) && (pack_mode != Tile::SMS))
-            printf("Warning: tile count (%d) + tile origin (%d) exceeds 256 at x:%d,y:%d\n", (unsigned int)tiles.size(), tile_origin, x, y);
-        }
-      }
-      else 
-      {
-        tiles.push_back(tile);
-        idx = tiles.size() - 1;
-        props = props_default;
-      }
+					if(tiles.size() > 256 && pack_mode != Tile::SMS)
+						printf("Warning: found more than 256 tiles on x:%d,y:%d\n", x, y);
+
+					if(((tiles.size() + tile_origin) > 256) && (pack_mode != Tile::SMS))
+						printf("Warning: tile count (%d) + tile origin (%d) exceeds 256 at x:%d,y:%d\n", (unsigned int)tiles.size(), tile_origin, x, y);
+				}
+			}
 
 			map.push_back((unsigned char)idx + tile_origin);
-			
+
 			if(use_map_attributes)
 			{
 				unsigned char pal_idx = image.data[y * image.w + x] >> bpp; //We can pick the palette from the first pixel of this tile
-				if(pack_mode == Tile::SGB) 
+				if(pack_mode == Tile::SGB)
 				{
 					props = props << 1; //Mirror flags in SGB are on bit 7
 					props |= (pal_idx + 4) << 2; //Pals are in bits 2,3,4 and need to go from 4 to 7
@@ -328,7 +330,7 @@ void GetMap()
 						props |= 1;
 					map.push_back(props);
 				}
-				else 
+				else
 				{
 					props |= pal_idx;
 					map_attributes.push_back(props);
@@ -490,7 +492,7 @@ bool GetSourceTileset(bool keep_palette_order, unsigned int max_palettes, vector
 		{
 			int* color_ptr = (int*)&source_tileset_image.palette[p * pal_size * 4];
 
-			//TODO: if palettes[p].size() != pal_size we should probably try to fill the gaps based on grayscale values 
+			//TODO: if palettes[p].size() != pal_size we should probably try to fill the gaps based on grayscale values
 
 			for (SetPal::iterator it = palettes[p].begin(); it != palettes[p].end(); ++it, color_ptr++)
 			{
@@ -518,7 +520,7 @@ bool GetSourceTileset(bool keep_palette_order, unsigned int max_palettes, vector
 	image = source_tileset_image;
 	use_source_tileset = false;
 	GetMap();
-	
+
 	// Our source tileset shouldn't build the map arrays up
 	// Clear anything from the previous 'GetMap' call
 	map.clear();
@@ -530,8 +532,8 @@ bool GetSourceTileset(bool keep_palette_order, unsigned int max_palettes, vector
 
 	source_tileset_size = tiles.size();
 
-	printf("Got %d tiles from the source tileset.\n", tiles.size());
-	printf("Got %d palettes from the source tileset.\n", source_tileset_image.palettesize/4);
+	printf("Got %d tiles from the source tileset.\n", (unsigned int)tiles.size());
+	printf("Got %d palettes from the source tileset.\n", (unsigned int)source_tileset_image.palettesize/4);
 
 	return true;
 
@@ -541,7 +543,7 @@ bool GetSourceTileset(bool keep_palette_order, unsigned int max_palettes, vector
 void Export(const PNGImage& image, const char* path)
 {
 	lodepng::State state;
-	state.info_png.color.colortype = LCT_PALETTE; 
+	state.info_png.color.colortype = LCT_PALETTE;
 	state.info_png.color.bitdepth = 8;
 	state.info_raw.colortype = LCT_PALETTE;
 	state.info_raw.bitdepth = 8;
@@ -553,7 +555,7 @@ void Export(const PNGImage& image, const char* path)
 		unsigned char* c = &image.palette[p * 4];
 		ADD_PALETTE(c[0], c[1], c[2], c[3]);
 	}
-				
+
 	std::vector<unsigned char> buffer;
 	lodepng::encode(buffer, image.data, image.w, image.h, state);
 	lodepng::save_file(buffer, path);
@@ -589,7 +591,7 @@ int main(int argc, char* argv[])
 		printf("-maps_only          export map tilemap only\n");
 		printf("-metasprites_only   export metasprite descriptors only\n");
 		printf("-source_tileset     use source tileset (image with common tiles)\n");
-    printf("-keep_duplicate_tiles   do not remove duplicate tiles (default: not enabled)\n");
+		printf("-keep_duplicate_tiles   do not remove duplicate tiles (default: not enabled)\n");
 
 		printf("-bin                export to binary format\n");
 		printf("-transposed         export transposed (column-by-column instead of row-by-row)\n");
@@ -711,10 +713,10 @@ int main(int argc, char* argv[])
 		{
 			includedMapOrMetaspriteData = false;
 		}
-    else if (!strcmp(argv[i], "-keep_duplicate_tiles"))
-    {
-      keep_duplicate_tiles = true;
-    }
+		else if (!strcmp(argv[i], "-keep_duplicate_tiles"))
+		{
+			keep_duplicate_tiles = true;
+		}
 		else if (!strcmp(argv[i], "-source_tileset"))
 		{
 			use_source_tileset = true;
@@ -794,7 +796,7 @@ int main(int argc, char* argv[])
 			// Make sure these two values match when keeping palette order
 			if (image.palettesize != source_tileset_image.palettesize) {
 
-				printf("error: The number of color palette's for your source tileset (%d) and target image (%d) do not match.", source_tileset_image.palettesize, image.palettesize);
+				printf("error: The number of color palette's for your source tileset (%d) and target image (%d) do not match.", (unsigned int)source_tileset_image.palettesize, (unsigned int)image.palettesize);
 				return 1;
 			}
 
@@ -879,13 +881,13 @@ int main(int argc, char* argv[])
 
 		// If we are using a sourcetileset and have more palettes than it defines
 		if (use_source_tileset && image.palettesize > source_palette_count) {
-			printf("Found %d extra palette(s) for target tilemap.\n", (image.palettesize - source_palette_count) / 4);
+			printf("Found %d extra palette(s) for target tilemap.\n", (unsigned int)(image.palettesize - source_palette_count) / 4);
 		}
 		for(size_t p = 0; p < palettes.size(); ++p)
 		{
 			int *color_ptr = (int*)&image.palette[p * pal_size * 4];
 
-			//TODO: if palettes[p].size() != pal_size we should probably try to fill the gaps based on grayscale values 
+			//TODO: if palettes[p].size() != pal_size we should probably try to fill the gaps based on grayscale values
 
 			for(SetPal::iterator it = palettes[p].begin(); it != palettes[p].end(); ++ it, color_ptr ++)
 			{
@@ -975,7 +977,7 @@ int main(int argc, char* argv[])
 			fprintf(file, "#define %s_WIDTH %d\n",  data_name.c_str(), sprite_w);
 			fprintf(file, "#define %s_HEIGHT %d\n", data_name.c_str(), sprite_h);
 			fprintf(file, "#define %s_TILE_COUNT %d\n", data_name.c_str(), ((unsigned int)tiles.size() - source_tileset_size) * (tile_h >> 3));
-			fprintf(file, "#define %s_PALETTE_COUNT %d\n", data_name.c_str(), image.palettesize / 4);
+			fprintf(file, "#define %s_PALETTE_COUNT %d\n", data_name.c_str(), (unsigned int)image.palettesize / 4);
 
 			if (includedMapOrMetaspriteData) {
 
@@ -1045,7 +1047,7 @@ int main(int argc, char* argv[])
 			printf("Error writing file");
 			return 1;
 		}
-	
+
 		if (bank) fprintf(file, "#pragma bank %d\n\n", bank);
 
 		fprintf(file, "//AUTOGENERATED FILE FROM png2asset\n\n");
@@ -1059,10 +1061,10 @@ int main(int argc, char* argv[])
 
 		// Are we not using a source tileset, or do we have extra colors
 		if (image.palettesize - source_palette_count > 0||!use_source_tileset) {
-			
+
 				// Subtract however many palettes we had in the source tileset
 				fprintf(file, "const palette_color_t %s_palettes[%d] = {\n", data_name.c_str(), (unsigned int)image.palettesize - source_palette_count);
-			
+
 				// Offset by however many palettes we had in the source ileset
 				for (size_t i = source_palette_count/4; i < image.palettesize / 4; ++i)
 				{
@@ -1237,7 +1239,7 @@ int main(int argc, char* argv[])
 							fprintf(file, "\n");
 						}
 					}
-					
+
 					fprintf(file, "};\n");
 				}
 
@@ -1261,7 +1263,7 @@ int main(int argc, char* argv[])
 				}
 			}
 		}
-	
+
 		fclose(file);
 	}
 
