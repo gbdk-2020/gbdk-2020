@@ -23,7 +23,9 @@ void main(void)
 {
   uint8_t _saved_bank;
 
+  #ifndef MSXDOS // TODO
   set_default_palette();
+  #endif
   printf("Program Start...\n\n");
 
   // Call the functions, unbanked first then the banked ones
