@@ -1,4 +1,4 @@
-#include <sms/sms.h>
+#include <gbdk/platform.h>
 
 BANKREF_EXTERN(earth_data)
 extern const unsigned char earth_data[];

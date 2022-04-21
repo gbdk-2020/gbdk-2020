@@ -1,3 +1,4 @@
+#include <gbdk/platform.h>
 #include <stdio.h>
 #include <stdint.h>
 
