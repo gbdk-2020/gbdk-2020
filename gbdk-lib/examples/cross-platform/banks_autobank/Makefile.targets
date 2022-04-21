@@ -49,7 +49,7 @@ gg:
 	${MAKE} build-target PORT=z80 PLAT=gg EXT=gg
 
 msxdos-clean:
-    ${MAKE} clean-target EXT=com
+	${MAKE} clean-target EXT=com
 msxdos:
-    ${MAKE} build-target PORT=z80 PLAT=msxdos EXT=com
+	${MAKE} build-target PORT=z80 PLAT=msxdos EXT=com
 
