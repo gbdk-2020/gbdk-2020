@@ -4,8 +4,8 @@
 #ifndef ASM_TYPES_INCLUDE
 #define ASM_TYPES_INCLUDE
 
-#if defined(__PORT_gbz80)
-#include <asm/gbz80/types.h>
+#if defined(__PORT_sm83)
+#include <asm/sm83/types.h>
 #elif defined(__PORT_z80)
 #include <asm/z80/types.h>
 #else

@@ -28,7 +28,7 @@ static struct {
 	const char *val;
 } _tokens[] = {
 		// expandable string tokens used in "CLASS" command strings
-		{ "port",		"gbz80" },  // if default class is ever changed from Game Boy, this default (and plat) may need to be changed to match
+		{ "port",		"sm83" },  // if default class is ever changed from Game Boy, this default (and plat) may need to be changed to match
 		{ "plat",		"gb" },
 		{ "sdccdir", "%bindir%"},
 		{ "cpp",		"%sdccdir%sdcpp" },
@@ -276,7 +276,7 @@ int option(char *arg) {
 				exit(-1);
 			}
 		} else {
-			fprintf(stderr, "Error: -m requires both/only PORT and PLATFORM values (ex: -mgbz80:gb) : %s\n", arg);
+			fprintf(stderr, "Error: -m requires both/only PORT and PLATFORM values (ex: -msm83:gb) : %s\n", arg);
 			exit(-1);
 		}
 

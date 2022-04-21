@@ -1,8 +1,5 @@
         .NEAR_CALLS = 1         ; <near_calls> - tag so that sed can change this
         
-        ;; Changed by astorgb.pl to 1
-        __RGBDS__       = 0
-
         _VRAM           = 0x8000 ; $8000->$9FFF
         _VRAM8000       = 0x8000
         _VRAM8800       = 0x8800

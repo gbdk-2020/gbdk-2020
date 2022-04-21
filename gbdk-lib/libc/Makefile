@@ -3,7 +3,7 @@
 .EXPORT_ALL_VARIABLES:
 
 ifeq ($(PORTS),)
-	PORTS = gbz80 z80
+	PORTS = sm83 z80
 endif
 
 ifeq ($(PLATFORMS),)

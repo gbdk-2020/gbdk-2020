@@ -10,7 +10,7 @@ PKG = gbdk
 # Version, used for tarballs & docs
 VER = 4.0.6
 
-PORTS=gbz80 z80
+PORTS=sm83 z80
 PLATFORMS=gb ap duck gg sms msxdos
 
 # Prefix to add to the standard tools.  Usefull for a standard gcc

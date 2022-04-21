@@ -4,8 +4,8 @@
 #ifndef STD_STRING_INCLUDE
 #define STD_STRING_INCLUDE
 
-#ifdef __PORT_gbz80
-  #include <asm/gbz80/string.h>
+#ifdef __PORT_sm83
+  #include <asm/sm83/string.h>
 #else
   #ifdef __PORT_z80
     #include <asm/z80/string.h>

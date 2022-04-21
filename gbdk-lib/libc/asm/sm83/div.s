@@ -2,6 +2,8 @@
 ;  div.s
 ;
 ;  Copyright (C) 2000, Michael Hope
+;  Copyright (C) 2021, Sebastian 'basxto' Riedel (sdcc@basxto.de)
+;  Copyright (c) 2021, Philipp Klaus Krause
 ;
 ;  This library is free software; you can redistribute it and/or modify it
 ;  under the terms of the GNU General Public License as published by the
@@ -27,11 +29,8 @@
 ;--------------------------------------------------------------------------
 
         ;; Originally from GBDK by Pascal Felber.
-
-        .module div
-
-        .area   _HOME
-
+        .module divmod
+        .area   _CODE
 .globl  __divsuchar
 .globl  __modsuchar
 .globl  __divuschar
@@ -46,59 +45,35 @@
 .globl  __moduint
 
 __divsuchar:
-        ldhl    sp,#2+1
-
-        ld      e,(hl)
-        dec     hl
-        ld      c,(hl)
-        ld      b,#0
-
-        call      signexte
-
-        ld      e,c
-        ld      d,b
-
-        ret
-
-__modsuchar:
-        ldhl    sp,#2+1
-
-        ld      e,(hl)
-        dec     hl
-        ld      c,(hl)
-        ld      b,#0
+        ld      c, a
+        ld      b, #0
 
         jp      signexte
 
-__divuschar:
-        ld      hl,#2+1
-        ld      d, h
-        add     hl,sp
+__modsuchar:
+        ld      c, a
+        ld      b, #0
 
-        ld      a,(hl-)
-        ld      e, a
-        ld      c,(hl)
+        call    signexte
 
-        ld      a,c             ; Sign extend
-        rlca
-        sbc     a
-        ld      b,a
-
-        call    .div16
-
-        ld      e,c
-        ld      d,b
+        ld      c, e
+        ld      b, d
 
         ret
 
-__moduschar:
-        ld      hl,#2+1
-        ld      d, h
-        add     hl,sp
+__divuschar:
+        ld      d, #0
 
-        ld      a,(hl-)
+        ld      c, a             ; Sign extend
+        rlca
+        sbc     a
+        ld      b,a
+
+        jp      .div16
+
+__moduschar:
         ld      e, a
-        ld      c,(hl)
+        ld      d, #0
 
         ld      a,c             ; Sign extend
         rlca
@@ -106,148 +81,98 @@ __moduschar:
         ld      b,a
 
         call    .div16
+
+        ld      c, e
+        ld      b, d
 
         ret
 
 __divschar:
-        ldhl    sp,#2+1
-
-        ld      e,(hl)
-        dec     hl
-        ld      l,(hl)
-
-        ld      c,l
+        ld      c, a
 
         call    .div8
-
-        ld      e,c
-        ld      d,b
 
         ret
 
 __modschar:
-        ldhl    sp,#2+1
-
-        ld      e,(hl)
-        dec     hl
-        ld      l,(hl)
-
-        ld      c,l
+        ld      c, a
 
         call    .div8
 
-        ;; Already in DE
+        ld      c, e
+        ld      b, d
 
         ret
 
 __divsint:
-        ldhl    sp,#2+3
+        ld      a, e
+        ld      e, c
+        ld      c, a
 
-        ld      a,(hl-)
-        ld      d, a
-        ld      a,(hl-)
-        ld      e, a
-        ld      a,(hl-)
-        ld      l,(hl)
-        ld      h,a
+        ld      a, d
+        ld      d, b
+        ld      b, a
 
-        ld      b,h
-        ld      c,l
-
-        call    .div16
-
-        ld      e,c
-        ld      d,b
-
-        ret
+        jp      .div16
 
 __modsint:
-        ldhl    sp,#2+3
+        ld      a, e
+        ld      e, c
+        ld      c, a
 
-        ld      a,(hl-)
-        ld      d, a
-        ld      a,(hl-)
-        ld      e, a
-        ld      a,(hl-)
-        ld      l,(hl)
-        ld      h,a
-
-        ld      b,h
-        ld      c,l
+        ld      a, d
+        ld      d, b
+        ld      b, a
 
         call    .div16
 
-        ;; Already in DE
+        ld      c, e
+        ld      b, d
 
         ret
 
         ;; Unsigned
 __divuchar:
-        ldhl    sp,#2+1
+        ld      c, a
 
-        ld      e,(hl)
-        dec     hl
-        ld      l,(hl)
-
-        ld      c,l
         call    .divu8
-
-        ld      e,c
-        ld      d,b
 
         ret
 
 __moduchar:
-        ldhl    sp,#2+1
+        ld      c, a
 
-        ld      e,(hl)
-        dec     hl
-        ld      l,(hl)
-
-        ld      c,l
         call    .divu8
 
-        ;; Already in DE
+        ld      c, e
+        ld      b, d
 
         ret
 
-__divuint:
-        ldhl    sp,#2+3
+__divuint:      
+        ld      a, e
+        ld      e, c
+        ld      c, a
 
-        ld      a,(hl-)
-        ld      d, a
-        ld      a,(hl-)
-        ld      e, a
-        ld      a,(hl-)
-        ld      l,(hl)
-        ld      h,a
+        ld      a, d
+        ld      d, b
+        ld      b, a
 
-        ld      b,h
-        ld      c,l
-        call    .divu16
-
-        ld      e,c
-        ld      d,b
-
-        ret
+        jp      .divu16
 
 __moduint:
-        ldhl    sp,#2+3
+        ld      a, e
+        ld      e, c
+        ld      c, a
 
-        ld      a,(hl-)
-        ld      d, a
-        ld      a,(hl-)
-        ld      e, a
-        ld      a,(hl-)
-        ld      l,(hl)
-        ld      h,a
-
-        ld      b,h
-        ld      c,l
+        ld      a, d
+        ld      d, b
+        ld      b, a
 
         call    .divu16
 
-        ;; Already in DE
+        ld      c, e
+        ld      b, d
 
         ret
 
@@ -258,10 +183,10 @@ __moduint:
         sbc     a
         ld      b,a
 signexte:
-        ld      a,e             ; Sign extend
+        ld      a, e             ; Sign extend
         rlca
         sbc     a
-        ld      d,a
+        ld      d, a
 
         ; Fall through to .div16
 
@@ -395,8 +320,7 @@ signexte:
         jr      NZ,.dvloop
         jr      .nodrop
 .drop:
-        inc     sp
-        inc     sp
+        pop     af              ; faster and smaller than 2x inc sp
         pop     af              ; recover # bits remaining, carry flag destroyed
         dec     a
         scf                     ; restore (set) the carry flag

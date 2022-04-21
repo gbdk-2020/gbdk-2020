@@ -1,7 +1,8 @@
 ;--------------------------------------------------------------------------
-;  mulchar.s
+;  mul.s
 ;
 ;  Copyright (C) 2000, Michael Hope
+;  Copyright (C) 2021, Philipp Klaus Krause
 ;
 ;  This library is free software; you can redistribute it and/or modify it
 ;  under the terms of the GNU General Public License as published by the
@@ -31,12 +32,8 @@
 .globl	__mulint
 
 __mulint:
-        pop     af
-        pop     bc
-        pop     de
-        push    de
-        push    bc
-        push    af
+        ld	c, l
+        ld	b, h
 
 	;; 16-bit multiplication
 	;;
@@ -45,7 +42,7 @@ __mulint:
 	;; de = multiplier
 	;;
 	;; Exit conditions
-	;; hl = less significant word of product
+	;; de = less significant word of product
 	;;
 	;; Register used: AF,BC,DE,HL
 __mul16::
@@ -70,5 +67,6 @@ __mul16::
         add     hl,de
 3$:
         djnz    1$
+        ex	de, hl
         ret
 

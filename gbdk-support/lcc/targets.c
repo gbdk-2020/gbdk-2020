@@ -39,7 +39,7 @@ arg_entry llist0_defaults_msxdos[] = {
 // $3 is the output file
 CLASS classes[] = {
     // GB
-    { "gbz80",      // port
+    { "sm83",      // port
         "gb",       // plat
         "gb",       // default_plat
         EXT_GB,     // ROM file extension
@@ -55,7 +55,7 @@ CLASS classes[] = {
         llist0_defaults_gb, ARRAY_LEN(llist0_defaults_gb),
     },
     // Analogue Pocket
-    { "gbz80",      // port
+    { "sm83",      // port
         "ap",       // plat
         "ap",       // default_plat
         EXT_AP,     // ROM file extension
@@ -71,7 +71,7 @@ CLASS classes[] = {
         llist0_defaults_gb, ARRAY_LEN(llist0_defaults_gb), // Use GB linker list defaults
     },
     // Megaduck
-    { "gbz80",      // port
+    { "sm83",      // port
         "duck",     // plat
         "duck",     // default_plat
         EXT_DUCK,   // ROM file extension

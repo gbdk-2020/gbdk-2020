@@ -1,12 +1,12 @@
-/** @file asm/gbz80/types.h
-    @anchor file_asm_gbz80_types_h
+/** @file asm/sm83/types.h
+    @anchor file_asm_sm83_types_h
     Types definitions for the gb.
 */
-#ifndef ASM_GBZ80_TYPES_INCLUDE
-#define ASM_GBZ80_TYPES_INCLUDE
+#ifndef ASM_SM83_TYPES_INCLUDE
+#define ASM_SM83_TYPES_INCLUDE
 
-#ifndef __PORT_gbz80
-  #error gbz80 only.
+#ifndef __PORT_sm83
+  #error sm83 only.
 #endif
 
 #ifdef __SDCC

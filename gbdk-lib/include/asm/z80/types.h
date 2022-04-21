@@ -1,4 +1,4 @@
-/** @file asm/gbz80/types.h
+/** @file asm/z80/types.h
     @anchor file_asm_z80_types_h
     Types definitions for the gb.
 */
@@ -11,7 +11,7 @@
 
 #ifdef __SDCC
 
-#define Z88DK_CALLEE __z88dk_callee
+#define Z88DK_CALLEE __sdcccall(0) __z88dk_callee
 #define Z88DK_FASTCALL __z88dk_fastcall
 
 #define NONBANKED       __nonbanked /**< Placed in the non-banked lower 16K region (bank 0), regardless of the bank selected by it's source file. */

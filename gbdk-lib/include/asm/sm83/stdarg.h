@@ -1,5 +1,5 @@
-#ifndef ASM_GBZ80_STDARG_INCLUDE
-#define ASM_GBZ80_STDARG_INCLUDE
+#ifndef ASM_SM83_STDARG_INCLUDE
+#define ASM_SM83_STDARG_INCLUDE
 
 /* sdcc pushes right to left with the real sizes, not cast up
    to an int.
