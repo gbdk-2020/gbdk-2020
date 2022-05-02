@@ -278,13 +278,13 @@ void refresh_OAM();
 
 /** Sets sprite size to 8x16 pixels, two tiles one above the other.
 */
-#define SPRITES_8x16 \
-	__WRITE_VDP_REG(VDP_R1, __READ_VDP_REG(VDP_R1) |= R1_SPR_8X16)
+#define SPRITES_16x16 \
+	__WRITE_VDP_REG(VDP_R1, __READ_VDP_REG(VDP_R1) |= R1_SPR_16X16)
 
 /** Sets sprite size to 8x8 pixels, one tile.
 */
 #define SPRITES_8x8 \
-	__WRITE_VDP_REG(VDP_R1, __READ_VDP_REG(VDP_R1) &= (~R1_SPR_8X16))
+	__WRITE_VDP_REG(VDP_R1, __READ_VDP_REG(VDP_R1) &= (~R1_SPR_16X16))
 
 /** Macro returns TRUE if device supports color
  *  (it always does on MSX)
