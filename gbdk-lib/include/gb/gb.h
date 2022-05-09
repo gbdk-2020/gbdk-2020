@@ -1622,7 +1622,7 @@ void vmemcpy(uint8_t *dest, uint8_t *sour, uint16_t len) OLDCALL PRESERVES_REGS(
 
     @see set_bkg_tiles, set_win_tiles
 */
-void set_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *vram_addr, const uint8_t *tiles) OLDCALL PRESERVES_REGS(b, c);
+void set_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *vram_addr, const uint8_t *tiles) OLDCALL;
 
 /** Sets VRAM Tile Pattern data starting from given base address
     without taking into account the state of LCDC bit 4.
@@ -1657,7 +1657,7 @@ void set_tile_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data, ui
 
     @see get_bkg_tiles, get_win_tiles
 */
-void get_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *vram_addr, uint8_t *tiles) OLDCALL PRESERVES_REGS(b, c);
+void get_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *vram_addr, uint8_t *tiles) OLDCALL;
 
 
 /** Sets VRAM Tile Pattern data in the native format

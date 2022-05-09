@@ -7,21 +7,16 @@
 ; void set_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *vram_addr, const uint8_t *tiles);
 
 _set_tiles::
-        PUSH    BC
-        CALL    1$
-        POP     BC
-        RET
-1$:
-        LDHL    SP, #9
-        LD      A, (HL-)
-        LD      D, A
+        LDHL    SP, #5
         LD      A, (HL-)
         LD      E, A
+        LD      A, (HL-)
+        LD      D, A
         PUSH    DE
         LD      A, (HL-)
         LD      E, A
         LD      D, (HL)
-        LDHL    SP, #15
+        LDHL    SP, #11
         LD      A, (HL-)
         LD      B, A
         LD      A, (HL-)
