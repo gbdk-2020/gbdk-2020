@@ -997,12 +997,15 @@ int main(int argc, char* argv[])
 						fprintf(file, "%s_map_attributes\n", data_name.c_str());
 					else
 						fprintf(file, "0\n");
-
-					fprintf(file, "#define %s_TILE_PALS ",  data_name.c_str());
-					if(use_map_attributes)
-						fprintf(file, "0\n");
-					else
-						fprintf(file, "%s_tile_pals\n", data_name.c_str());
+					
+                    if(use_structs)
+					{
+                        fprintf(file, "#define %s_TILE_PALS ",  data_name.c_str());
+                        if(use_map_attributes)
+                            fprintf(file, "0\n");
+                        else
+                            fprintf(file, "%s_tile_pals\n", data_name.c_str());
+                    }
 				}
 				else
 				{
@@ -1035,7 +1038,7 @@ int main(int argc, char* argv[])
 							fprintf(file, "extern const unsigned char %s_map_attributes[%d];\n", data_name.c_str(), (unsigned int)map_attributes.size());
 						}
 					}
-					else if (includeTileData)
+					else if ((includeTileData) && (use_structs))
 						fprintf(file, "extern const unsigned char* %s_tile_pals[%d];\n", data_name.c_str(), (unsigned int)tiles.size());
 				}
 				else
@@ -1157,22 +1160,21 @@ int main(int argc, char* argv[])
 			else
 			{
 				if (includeTileData) {
-					//Export tiles pals (if any)
-					if(!use_map_attributes)
-					{
-						fprintf(file, "\n");
-						fprintf(file, "const uint8_t %s_tile_pals[%d] = {\n\t", data_name.c_str(), (unsigned int)tiles.size()- source_tileset_size);
-						for(vector< Tile >::iterator it = tiles.begin()+ source_tileset_size; it != tiles.end(); ++ it)
-						{
-							if(it != tiles.begin())
-								fprintf(file, ", ");
-							fprintf(file, "%d", it->pal);
-						}
-						fprintf(file, "\n};\n");
-					}
-
 					if(use_structs)
 					{
+                        //Export tiles pals (if any)
+                        if(!use_map_attributes)
+                        {
+                            fprintf(file, "\n");
+                            fprintf(file, "const uint8_t %s_tile_pals[%d] = {\n\t", data_name.c_str(), (unsigned int)tiles.size()- source_tileset_size);
+                            for(vector< Tile >::iterator it = tiles.begin()+ source_tileset_size; it != tiles.end(); ++ it)
+                            {
+                                if(it != tiles.begin())
+                                    fprintf(file, ", ");
+                                fprintf(file, "%d", it->pal);
+                            }
+                            fprintf(file, "\n};\n");
+                        }
 						//Export Tiles Info
 						fprintf(file, "\n");
 						fprintf(file, "#include \"TilesInfo.h\"\n");
