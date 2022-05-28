@@ -9,7 +9,10 @@ ___sdcc_bcall_ehl::			; Performs a long call.
 	ldh	(__current_bank),a
 	ld	(.MBC_ROM_PAGE),a	; Perform the switch
 	rst	0x20
-	pop	af			; Pop the old bank
+	pop	bc			; Pop the old bank
+	ld c, a
+	ld a, b
 	ldh	(__current_bank),a
 	ld	(.MBC_ROM_PAGE),a
+	ld a, c
 	ret

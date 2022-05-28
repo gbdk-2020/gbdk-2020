@@ -41,8 +41,11 @@ ___sdcc_bcall_abc::
         inc     sp
         call    ___sdcc_bjump_abc
         dec     sp
-        pop     af
+        pop     bc
+        ld      c, a
+        ld      a, b
         ld      (#.MAP_FRAME1), a
+        ld      a, c
         ret
 ;
 ___sdcc_bjump_abc:
@@ -63,6 +66,9 @@ ___sdcc_bcall_ehl::
         ld      (#.MAP_FRAME1), a
         CALL_HL
         dec     sp
-        pop     af
+        pop     bc
+        ld      c, a
+        ld      a, b
         ld      (#.MAP_FRAME1), a
+        ld      a, c
         ret

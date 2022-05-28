@@ -21,7 +21,10 @@ banked_call::			; Performs a long call.
 	rst	0x20
 banked_ret::
 	pop	hl		; Get the return address
-	pop	af		; Pop the old bank
+	pop	bc		; Pop the old bank
+	ld c, a
+	ld a, b
 	ldh	(__current_bank),a
 	ld	(.MBC_ROM_PAGE),a
+	ld a, c		; we must preserve A for the new calling convention
 	jp	(hl)

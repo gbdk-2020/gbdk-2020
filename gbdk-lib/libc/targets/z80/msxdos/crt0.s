@@ -202,7 +202,7 @@ _SWITCH_ROM::                   ; Z88DK_FASTCALL : uint8_t parameter in l
         ld h, #>__banks_remap_table
         ld l, a
         ld a, (hl)
-.mapper_page_set::
+.mapper_page_set::              ; must preserve C
         out (.MAP_FRAME1), a
         ret
 

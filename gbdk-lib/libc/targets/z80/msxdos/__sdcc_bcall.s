@@ -31,11 +31,13 @@ ___sdcc_bcall_ehl::
         dec sp
 
         ex (sp), hl
+        ld c, a
         ld a, h
         ld (__current_bank), a
         ld h, #>__banks_remap_table
         ld l, a
         ld a, (hl)
         call .mapper_page_set
+        ld a, c
         pop hl
         ret
