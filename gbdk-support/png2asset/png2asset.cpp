@@ -413,21 +413,24 @@ bool GetSourceTileset(bool keep_palette_order, unsigned int max_palettes, vector
 			//-Each rectangle with dimension(8, tile_h) in the image has colors from one of those palettes only
 		sourceTilesetState.info_raw.colortype = LCT_PALETTE;
 		sourceTilesetState.info_raw.bitdepth = 8;
-		sourceTilesetState.decoder.color_convert = false;
+		// * Do *NOT* turn color_convert off here. That causes decode to ignore state.info_raw.bitdepth = 8, and
+		//   you'll end up with arbitrary bit packed pixels based on the source image and palette count.
+		//   For example 2 colors in the palette -> 1bpp -> 4 pixels per byte in the decoded image.
+		//sourceTilesetState.decoder.color_convert = false;
 
-			unsigned error = lodepng::decode(source_tileset_image.data, source_tileset_image.w, source_tileset_image.h, sourceTilesetState, buffer2);
-			if (error)
-			{
-				printf("decoder error %s\n", lodepng_error_text(error));
-				return false;
-			}
-
-
-		if (sourceTilesetState.info_raw.colortype != LCT_PALETTE)
+		unsigned error = lodepng::decode(source_tileset_image.data, source_tileset_image.w, source_tileset_image.h, sourceTilesetState, buffer2);
+		// Check for incompatible palette type first, allows generating a more intuitive error than lodepng
+		if (sourceTilesetState.info_png.color.colortype != LCT_PALETTE)
 		{
 			printf("error: keep_palette_order only works with png8");
 			return false;
 		}
+		else if (error)
+		{
+			printf("decoder error %s\n", lodepng_error_text(error));
+			return false;
+		}
+
 
 		unsigned int palette_count = PaletteCountApplyMaxLimit(max_palettes, sourceTilesetState.info_raw.palettesize / pal_size);
 		source_tileset_image.palettesize = palette_count * pal_size;
@@ -786,17 +789,20 @@ int main(int argc, char* argv[])
 		//-Each rectangle with dimension(8, tile_h) in the image has colors from one of those palettes only
 		state.info_raw.colortype = LCT_PALETTE;
 		state.info_raw.bitdepth = 8;
-		state.decoder.color_convert = false;
+		// * Do *NOT* turn color_convert off here. That causes decode to ignore state.info_raw.bitdepth = 8, and
+		//   you'll end up with arbitrary bit packed pixels based on the source image and palette count.
+		//   For example 2 colors in the palette -> 1bpp -> 4 pixels per byte in the decoded image.
+		// state.decoder.color_convert = false;
 		unsigned error = lodepng::decode(image.data, image.w, image.h, state, buffer);
-		if(error)
-		{
-			printf("decoder error %s\n", lodepng_error_text(error));
-			return 1;
-		}
-
-		if(state.info_raw.colortype != LCT_PALETTE)
+		// Check for incompatible palette type first, that allows generating a more intuitive error than lodepng does
+		if(state.info_png.color.colortype != LCT_PALETTE)
 		{
 			printf("error: keep_palette_order only works with png8");
+			return 1;
+		}
+		else if(error)
+		{
+			printf("decoder error %s\n", lodepng_error_text(error));
 			return 1;
 		}
 
