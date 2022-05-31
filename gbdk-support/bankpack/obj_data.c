@@ -128,6 +128,7 @@ void banks_set_mbc_by_rom_byte_149(int mbc_type_rom_byte) {
         case 0x11U: //  11-ROM+MBC3
         case 0x12U: //  12-ROM+MBC3+RAM
         case 0x13U: //  13-ROM+MBC3+RAM+BATT
+        case 0xFCU: //  FC-GAME BOY CAMERA
             banks_set_mbc(MBC_TYPE_MBC3);
             break;
 
