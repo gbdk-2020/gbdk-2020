@@ -14,9 +14,11 @@ void loadFile(vector<unsigned char>& buffer, const std::string& filename);
 
 #define BIT(VALUE, INDEX) (1 & ((VALUE) >> (INDEX)))
 
+#define RGBA32_SZ 4 // RGBA 8:8:8:8 is 4 bytes per pixel
+
 bool export_as_map = false;
 bool use_map_attributes = false;
-size_t pal_size;
+size_t colors_per_pal;  // Number of colors per palette (ex: CGB has 4 colors per palette x 8 palettes total)
 #define TILE_W 8
 int tile_h;
 int bpp = 2;
@@ -91,12 +93,12 @@ struct PNGImage
 	unsigned int w;
 	unsigned int h;
 
-	size_t palettesize; //number of palette colors
+	size_t total_color_count; // Total number of colors across all palettes (palette_count x colors_per_pal)
 	unsigned char* palette; //palette colors in RGBA (1 color == 4 bytes)
 
 	unsigned char GetGBColor(int x, int y)
 	{
-		return data[w * y + x] % pal_size;
+		return data[w * y + x] % colors_per_pal;
 	}
 
 	bool ExtractGBTile(int x, int y, int tile_h, Tile& tile)
@@ -129,7 +131,7 @@ struct MTTile
 };
 string source_tileset;
 unsigned int extra_tile_count = 0;
-unsigned int source_palette_count = 0;
+unsigned int source_total_color_count = 0;  // Total number of colors (palette_count x colors_per_palette)
 unsigned int source_tileset_size = 0;
 bool includeTileData = true;
 bool includedMapOrMetaspriteData = true;
@@ -372,7 +374,7 @@ SetPal GetPaletteColors(const PNGImage& image, int x, int y, int w, int h)
 	{
 		for(int i = x; i < (x + w); ++ i)
 		{
-			const unsigned char* color = &image.data[(j * image.w + i) * 4];
+			const unsigned char* color = &image.data[(j * image.w + i) * RGBA32_SZ];
 			int color_int = (color[0] << 24) | (color[1] << 16) | (color[2] << 8) | color[3];
 			ret.insert(color_int);
 		}
@@ -413,6 +415,7 @@ bool GetSourceTileset(bool keep_palette_order, unsigned int max_palettes, vector
 			//-Each rectangle with dimension(8, tile_h) in the image has colors from one of those palettes only
 		sourceTilesetState.info_raw.colortype = LCT_PALETTE;
 		sourceTilesetState.info_raw.bitdepth = 8;
+
 		// * Do *NOT* turn color_convert off here. That causes decode to ignore state.info_raw.bitdepth = 8, and
 		//   you'll end up with arbitrary bit packed pixels based on the source image and palette count.
 		//   For example 2 colors in the palette -> 1bpp -> 4 pixels per byte in the decoded image.
@@ -432,8 +435,8 @@ bool GetSourceTileset(bool keep_palette_order, unsigned int max_palettes, vector
 		}
 
 
-		unsigned int palette_count = PaletteCountApplyMaxLimit(max_palettes, sourceTilesetState.info_raw.palettesize / pal_size);
-		source_tileset_image.palettesize = palette_count * pal_size;
+		unsigned int palette_count = PaletteCountApplyMaxLimit(max_palettes, sourceTilesetState.info_raw.palettesize / colors_per_pal);
+		source_tileset_image.total_color_count = palette_count * colors_per_pal;
 		source_tileset_image.palette = sourceTilesetState.info_raw.palette;
 	}
 	else {
@@ -455,9 +458,9 @@ bool GetSourceTileset(bool keep_palette_order, unsigned int max_palettes, vector
 			{
 				//Get palette colors on (x, y, 8, tile_h)
 				SetPal pal = GetPaletteColors(image32, x, y, 8, tile_h);
-				if (pal.size() > pal_size)
+				if (pal.size() > colors_per_pal)
 				{
-					printf("Error: more than %d colors found in tile at x:%d, y:%d of size w:%d, h:%d\n", (unsigned int)pal_size, x, y, 8, tile_h);
+					printf("Error: more than %d colors found in tile at x:%d, y:%d of size w:%d, h:%d\n", (unsigned int)colors_per_pal, x, y, 8, tile_h);
 					return false;
 				}
 
@@ -468,9 +471,9 @@ bool GetSourceTileset(bool keep_palette_order, unsigned int max_palettes, vector
 					//Try to merge this palette with any of the palettes (checking if they are equal is not enough since the palettes can have less than 4 colors)
 					SetPal merged(palettes[i]);
 					merged.insert(pal.begin(), pal.end());
-					if (merged.size() <= pal_size)
+					if (merged.size() <= colors_per_pal)
 					{
-						if (palettes[i].size() <= pal_size)
+						if (palettes[i].size() <= colors_per_pal)
 							palettes[i] = merged; //Increase colors with this palette (it has less than 4 colors)
 						break; //Found palette
 					}
@@ -493,15 +496,15 @@ bool GetSourceTileset(bool keep_palette_order, unsigned int max_palettes, vector
 
 		unsigned int palette_count = PaletteCountApplyMaxLimit(max_palettes, palettes.size());
 
-		source_tileset_image.palettesize = palette_count * pal_size;
-		source_tileset_image.palette = new unsigned char[palette_count * pal_size * 4]; //pal_size colors * 4 bytes each
-		source_palette_count = source_tileset_image.palettesize;
+		source_tileset_image.total_color_count = palette_count * colors_per_pal;
+		source_tileset_image.palette = new unsigned char[palette_count * colors_per_pal * RGBA32_SZ]; //colors_per_pal colors * 4 bytes each
+		source_total_color_count = source_tileset_image.total_color_count;
 
 		for (size_t p = 0; p < palette_count; ++p)
 		{
-			int* color_ptr = (int*)&source_tileset_image.palette[p * pal_size * 4];
+			int* color_ptr = (int*)&source_tileset_image.palette[p * colors_per_pal * RGBA32_SZ];
 
-			//TODO: if palettes[p].size() != pal_size we should probably try to fill the gaps based on grayscale values
+			//TODO: if palettes[p].size() != colors_per_pal we should probably try to fill the gaps based on grayscale values
 
 			for (SetPal::iterator it = palettes[p].begin(); it != palettes[p].end(); ++it, color_ptr++)
 			{
@@ -514,7 +517,7 @@ bool GetSourceTileset(bool keep_palette_order, unsigned int max_palettes, vector
 		{
 			for (size_t x = 0; x < image32.w; ++x)
 			{
-				unsigned char* c32ptr = &image32.data[(image32.w * y + x) * 4];
+				unsigned char* c32ptr = &image32.data[(image32.w * y + x) * RGBA32_SZ];
 				int color32 = (c32ptr[0] << 24) | (c32ptr[1] << 16) | (c32ptr[2] << 8) | c32ptr[3];
 				unsigned char palette = palettes_per_tile[(y / tile_h) * (image32.w / 8) + (x / 8)];
 				unsigned char index = std::distance(palettes[palette].begin(), palettes[palette].find(color32));
@@ -542,7 +545,7 @@ bool GetSourceTileset(bool keep_palette_order, unsigned int max_palettes, vector
 	source_tileset_size = tiles.size();
 
 	printf("Got %d tiles from the source tileset.\n", (unsigned int)tiles.size());
-	printf("Got %d palettes from the source tileset.\n", (unsigned int)source_tileset_image.palettesize/4);
+	printf("Got %d palettes from the source tileset.\n", (unsigned int)(source_tileset_image.total_color_count / colors_per_pal));
 
 	return true;
 
@@ -559,9 +562,9 @@ void Export(const PNGImage& image, const char* path)
 	state.encoder.auto_convert = 0; //we specify ourselves exactly what output PNG color mode we want
 
 #define ADD_PALETTE(R, G, B, A) lodepng_palette_add(&state.info_png.color, R, G, B, A); lodepng_palette_add(&state.info_raw, R, G, B, A)
-	for(size_t p = 0; p < image.palettesize; ++ p)
+	for(size_t p = 0; p < image.total_color_count; ++ p)
 	{
-		unsigned char* c = &image.palette[p * 4];
+		unsigned char* c = &image.palette[p * RGBA32_SZ];
 		ADD_PALETTE(c[0], c[1], c[2], c[3]);
 	}
 
@@ -591,7 +594,7 @@ int main(int argc, char* argv[])
 		printf("-map                Export as map (tileset + bg)\n");
 		printf("-use_map_attributes Use CGB BG Map attributes\n");
 		printf("-use_structs        Group the exported info into structs (default: false) (used by ZGB Game Engine)\n");
-		printf("-bpp                bits per pixel: 2, 4 (default: 2)\n");
+		printf("-bpp                bits per pixel: 1, 2, 4 (default: 2)\n");
 		printf("-max_palettes       max number of palettes allowed (default: 8)\n");
 		printf("                    (note: max colors = max_palettes x num colors per palette)\n");
 		printf("-pack_mode          gb, sgb or sms (default: gb)\n");
@@ -748,7 +751,7 @@ int main(int argc, char* argv[])
 		}
 	}
 
-	pal_size = 1 << bpp;
+	colors_per_pal = 1 << bpp;
 
 	if(export_as_map)
 		tile_h = 8; //Force tiles_h to 8 on maps
@@ -806,20 +809,20 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 
-		unsigned int palette_count = PaletteCountApplyMaxLimit(max_palettes, state.info_raw.palettesize / pal_size);
-		image.palettesize = palette_count * pal_size;
+		unsigned int palette_count = PaletteCountApplyMaxLimit(max_palettes, state.info_raw.palettesize / colors_per_pal);
+		image.total_color_count = palette_count * colors_per_pal;
 		image.palette = state.info_raw.palette;
 
 		if (use_source_tileset) {
 
 			// Make sure these two values match when keeping palette order
-			if (image.palettesize != source_tileset_image.palettesize) {
+			if (image.total_color_count != source_tileset_image.total_color_count) {
 
-				printf("error: The number of color palette's for your source tileset (%d) and target image (%d) do not match.", (unsigned int)source_tileset_image.palettesize, (unsigned int)image.palettesize);
+				printf("error: The number of color palette's for your source tileset (%d) and target image (%d) do not match.", (unsigned int)source_tileset_image.total_color_count, (unsigned int)image.total_color_count);
 				return 1;
 			}
 
-			size_t size = max(image.palettesize, source_tileset_image.palettesize);
+			size_t size = max(image.total_color_count, source_tileset_image.total_color_count);
 
 			// Make sure these two values match when keeping palette order
 			if (memcmp(image.palette, source_tileset_image.palette, size) != 0) {
@@ -853,9 +856,9 @@ int main(int argc, char* argv[])
 			{
 				//Get palette colors on (x, y, 8, tile_h)
 				SetPal pal = GetPaletteColors(image32, x, y, 8, tile_h);
-				if(pal.size() > pal_size)
+				if(pal.size() > colors_per_pal)
 				{
-					printf("Error: more than %d colors found in tile at x:%d, y:%d of size w:%d, h:%d\n", (unsigned int)pal_size, x, y, 8, tile_h);
+					printf("Error: more than %d colors found in tile at x:%d, y:%d of size w:%d, h:%d\n", (unsigned int)colors_per_pal, x, y, 8, tile_h);
 					return 1;
 				}
 
@@ -866,9 +869,9 @@ int main(int argc, char* argv[])
 					//Try to merge this palette wit any of the palettes (checking if they are equal is not enough since the palettes can have less than 4 colors)
 					SetPal merged(palettes[i]);
 					merged.insert(pal.begin(), pal.end());
-					if(merged.size() <= pal_size)
+					if(merged.size() <= colors_per_pal)
 					{
-						if(palettes[i].size() <= pal_size)
+						if(palettes[i].size() <= colors_per_pal)
 							palettes[i] = merged; //Increase colors with this palette (it has less than 4 colors)
 						break; //Found palette
 					}
@@ -891,18 +894,18 @@ int main(int argc, char* argv[])
 
 		unsigned int palette_count = PaletteCountApplyMaxLimit(max_palettes, palettes.size());
 
-		image.palettesize = palette_count * pal_size;
-		image.palette = new unsigned char[palette_count * pal_size * 4]; //pal_size colors * 4 bytes each
+		image.total_color_count = palette_count * colors_per_pal;
+		image.palette = new unsigned char[palette_count * colors_per_pal * RGBA32_SZ]; // total color count * 4 bytes each
 
 		// If we are using a sourcetileset and have more palettes than it defines
-		if (use_source_tileset && image.palettesize > source_palette_count) {
-			printf("Found %d extra palette(s) for target tilemap.\n", (unsigned int)(image.palettesize - source_palette_count) / 4);
+		if (use_source_tileset && (image.total_color_count > source_total_color_count)) {
+			printf("Found %d extra palette(s) for target tilemap.\n", (unsigned int)((image.total_color_count - source_total_color_count) / colors_per_pal));
 		}
 		for(size_t p = 0; p < palette_count; ++p)
 		{
-			int *color_ptr = (int*)&image.palette[p * pal_size * 4];
+			int *color_ptr = (int*)&image.palette[p * colors_per_pal * RGBA32_SZ];
 
-			//TODO: if palettes[p].size() != pal_size we should probably try to fill the gaps based on grayscale values
+			//TODO: if palettes[p].size() != colors_per_pal we should probably try to fill the gaps based on grayscale values
 
 			for(SetPal::iterator it = palettes[p].begin(); it != palettes[p].end(); ++ it, color_ptr ++)
 			{
@@ -915,7 +918,7 @@ int main(int argc, char* argv[])
 		{
 			for(size_t x = 0; x < image32.w; ++x)
 			{
-				unsigned char* c32ptr = &image32.data[(image32.w * y + x) * 4];
+				unsigned char* c32ptr = &image32.data[(image32.w * y + x) * RGBA32_SZ];
 				int color32 = (c32ptr[0] << 24) | (c32ptr[1] << 16) | (c32ptr[2] << 8) | c32ptr[3];
 				unsigned char palette = palettes_per_tile[(y / tile_h) * (image32.w / 8) + (x / 8)];
 				unsigned char index = std::distance(palettes[palette].begin(), palettes[palette].find(color32));
@@ -992,7 +995,9 @@ int main(int argc, char* argv[])
 			fprintf(file, "#define %s_WIDTH %d\n",  data_name.c_str(), sprite_w);
 			fprintf(file, "#define %s_HEIGHT %d\n", data_name.c_str(), sprite_h);
 			fprintf(file, "#define %s_TILE_COUNT %d\n", data_name.c_str(), ((unsigned int)tiles.size() - source_tileset_size) * (tile_h >> 3));
-			fprintf(file, "#define %s_PALETTE_COUNT %d\n", data_name.c_str(), (unsigned int)image.palettesize / 4);
+			fprintf(file, "#define %s_PALETTE_COUNT %d\n", data_name.c_str(), (unsigned int)(image.total_color_count / colors_per_pal));
+			fprintf(file, "#define %s_COLORS_PER_PALETTE %d\n", data_name.c_str(), (unsigned int)colors_per_pal);
+			fprintf(file, "#define %s_TOTAL_COLORS %d\n", data_name.c_str(), (unsigned int)image.total_color_count);
 
 			if (includedMapOrMetaspriteData) {
 
@@ -1026,8 +1031,8 @@ int main(int argc, char* argv[])
 			fprintf(file, "\n");
 
 			// If we are not using a source tileset, or if we have extra palettes defined
-			if (image.palettesize - source_palette_count > 0 || !use_source_tileset) {
-				fprintf(file, "extern const palette_color_t %s_palettes[%d];\n", data_name.c_str(), (unsigned int)image.palettesize - source_palette_count);
+			if (image.total_color_count - source_total_color_count > 0 || !use_source_tileset) {
+				fprintf(file, "extern const palette_color_t %s_palettes[%d];\n", data_name.c_str(), (unsigned int)image.total_color_count - source_total_color_count);
 			}
 			if (includeTileData) {
 				fprintf(file, "extern const uint8_t %s_tiles[%d];\n", data_name.c_str(), (unsigned int)((tiles.size() - source_tileset_size) * (8 * tile_h * bpp / 8)));
@@ -1078,24 +1083,27 @@ int main(int argc, char* argv[])
 		fprintf(file, "BANKREF(%s)\n\n", data_name.c_str());
 
 		// Are we not using a source tileset, or do we have extra colors
-		if (image.palettesize - source_palette_count > 0||!use_source_tileset) {
+		if (image.total_color_count - source_total_color_count > 0||!use_source_tileset) {
 
 				// Subtract however many palettes we had in the source tileset
-				fprintf(file, "const palette_color_t %s_palettes[%d] = {\n", data_name.c_str(), (unsigned int)image.palettesize - source_palette_count);
+				fprintf(file, "const palette_color_t %s_palettes[%d] = {\n", data_name.c_str(), (unsigned int)image.total_color_count - source_total_color_count);
 
-				// Offset by however many palettes we had in the source ileset
-				for (size_t i = source_palette_count/4; i < image.palettesize / 4; ++i)
+				// Offset by however many palettes we had in the source tileset
+				for (size_t i = source_total_color_count / colors_per_pal; i < image.total_color_count / colors_per_pal; ++i)
 				{
 					if(i != 0)
 						fprintf(file, ",\n");
 					fprintf(file, "\t");
 
-					unsigned char* pal_ptr = &image.palette[i * 16];
-					for(int c = 0; c < 4; ++ c, pal_ptr += 4)
+					unsigned char* pal_ptr = &image.palette[i * (colors_per_pal * RGBA32_SZ)];
+					for(int c = 0; c < (int)colors_per_pal; ++ c, pal_ptr += RGBA32_SZ)
 					{
-						fprintf(file, "RGB8(%d, %d, %d)", pal_ptr[0], pal_ptr[1], pal_ptr[2]);
-						if(c != 3)
+						fprintf(file, "RGB8(%3d, %3d, %3d)", pal_ptr[0], pal_ptr[1], pal_ptr[2]);
+						if(c != (int)colors_per_pal - 1)
 							fprintf(file, ", ");
+						 // Line break every 4 color entries, to keep size down
+						if (((c + 1) % 4) == 0)
+							fprintf(file, "\n\t");
 					}
 				}
 				fprintf(file, "\n};\n");
@@ -1156,7 +1164,7 @@ int main(int argc, char* argv[])
 					fprintf(file, "\t%d, //height\n", pivot_h);
 					fprintf(file, "\t%d, //num tiles\n", (unsigned int)tiles.size() * (tile_h >> 3));
 					fprintf(file, "\t%s_tiles, //tiles\n", data_name.c_str());
-					fprintf(file, "\t%d, //num palettes\n", (unsigned int)(image.palettesize / pal_size));
+					fprintf(file, "\t%d, //num palettes\n", (unsigned int)(image.total_color_count / colors_per_pal));
 					fprintf(file, "\t%s_palettes, //CGB palette\n", data_name.c_str());
 					fprintf(file, "\t%d, //num sprites\n", (unsigned int)sprites.size());
 					fprintf(file, "\t%s_metasprites, //metasprites\n", data_name.c_str());
@@ -1188,7 +1196,7 @@ int main(int argc, char* argv[])
 						fprintf(file, "const struct TilesInfo %s_tiles_info = {\n", data_name.c_str());
 						fprintf(file, "\t%d, //num tiles\n", (unsigned int)tiles.size() * (tile_h >> 3));
 						fprintf(file, "\t%s_tiles, //tiles\n", data_name.c_str());
-						fprintf(file, "\t%d, //num palettes\n", (unsigned int)(image.palettesize / pal_size));
+						fprintf(file, "\t%d, //num palettes\n", (unsigned int)(image.total_color_count / colors_per_pal));
 						fprintf(file, "\t%s_palettes, //palettes\n", data_name.c_str());
 						if(!use_map_attributes)
 							fprintf(file, "\t%s_tile_pals, //tile palettes\n", data_name.c_str());
