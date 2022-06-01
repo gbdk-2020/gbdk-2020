@@ -57,7 +57,7 @@ If you haven't written programs in C before, check the @ref docs_c_tutorials "C 
 
 
 # 6. Hardware and Resources
-If you have a specific project in mind, consider what hardware want to target. It isn't something that has to be decided up front, but it can influence design and implementation.
+If you have a specific project in mind, consider what hardware you want to target. It isn't something that has to be decided up front, but it can influence design and implementation.
 
 What size will your game or program be?
   - 32K Cart (no-MBC required)
