@@ -419,6 +419,7 @@ bool GetSourceTileset(bool keep_palette_order, unsigned int max_palettes, vector
 		// * Do *NOT* turn color_convert off here. That causes decode to ignore state.info_raw.bitdepth = 8, and
 		//   you'll end up with arbitrary bit packed pixels based on the source image and palette count.
 		//   For example 2 colors in the palette -> 1bpp -> 4 pixels per byte in the decoded image.
+		//     Also see below about requirement to use palette from source image
 		//sourceTilesetState.decoder.color_convert = false;
 
 		unsigned error = lodepng::decode(source_tileset_image.data, source_tileset_image.w, source_tileset_image.h, sourceTilesetState, buffer2);
@@ -434,10 +435,11 @@ bool GetSourceTileset(bool keep_palette_order, unsigned int max_palettes, vector
 			return false;
 		}
 
-
-		unsigned int palette_count = PaletteCountApplyMaxLimit(max_palettes, sourceTilesetState.info_raw.palettesize / colors_per_pal);
+		// Use source image palette since lodepng conversion to indexed (LCT_PALETTE) won't create a palette
+		// So: source_tileset_image.info_png.color.palette/size instead of source_tileset_image.info_raw.palette/size
+		unsigned int palette_count = PaletteCountApplyMaxLimit(max_palettes, sourceTilesetState.info_png.color.palettesize / colors_per_pal);
 		source_tileset_image.total_color_count = palette_count * colors_per_pal;
-		source_tileset_image.palette = sourceTilesetState.info_raw.palette;
+		source_tileset_image.palette = sourceTilesetState.info_png.color.palette;
 	}
 	else {
 
@@ -795,7 +797,9 @@ int main(int argc, char* argv[])
 		// * Do *NOT* turn color_convert off here. That causes decode to ignore state.info_raw.bitdepth = 8, and
 		//   you'll end up with arbitrary bit packed pixels based on the source image and palette count.
 		//   For example 2 colors in the palette -> 1bpp -> 4 pixels per byte in the decoded image.
+		//     Also see below about requirement to use palette from source image
 		// state.decoder.color_convert = false;
+
 		unsigned error = lodepng::decode(image.data, image.w, image.h, state, buffer);
 		// Check for incompatible palette type first, that allows generating a more intuitive error than lodepng does
 		if(state.info_png.color.colortype != LCT_PALETTE)
@@ -809,9 +813,11 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 
-		unsigned int palette_count = PaletteCountApplyMaxLimit(max_palettes, state.info_raw.palettesize / colors_per_pal);
+		// Use source image palette since lodepng conversion to indexed (LCT_PALETTE) won't create a palette
+		// So: state.info_png.color.palette/size instead of state.info_raw.palette/size
+		unsigned int palette_count = PaletteCountApplyMaxLimit(max_palettes, state.info_png.color.palettesize / colors_per_pal);
 		image.total_color_count = palette_count * colors_per_pal;
-		image.palette = state.info_raw.palette;
+		image.palette = state.info_png.color.palette;
 
 		if (use_source_tileset) {
 
