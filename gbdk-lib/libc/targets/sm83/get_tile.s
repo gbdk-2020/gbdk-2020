@@ -3,12 +3,8 @@
 .area _CODE
 
 _get_vram_byte::
-        ldhl    sp,#2
-        ld      a,(hl+)
-        ld      h,(hl)
-        ld      l,a
         WAIT_STAT
-        ld      e,(hl)
+        ld      a,(de)
         ret
 
 _get_win_tile_xy::

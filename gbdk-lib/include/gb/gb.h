@@ -570,7 +570,7 @@ __endasm; \
     Uses no timers or interrupts, and can be called with
     interrupts disabled
  */
-void delay(uint16_t d) OLDCALL;
+void delay(uint16_t d) PRESERVES_REGS(h, l);
 
 
 
@@ -584,7 +584,7 @@ void delay(uint16_t d) OLDCALL;
 
     @see J_START, J_SELECT, J_A, J_B, J_UP, J_DOWN, J_LEFT, J_RIGHT
 */
-uint8_t joypad() OLDCALL PRESERVES_REGS(b, c, h, l);
+uint8_t joypad() PRESERVES_REGS(b, c, h, l);
 
 /** Waits until at least one of the buttons given in mask are pressed.
 
@@ -598,7 +598,7 @@ uint8_t joypad() OLDCALL PRESERVES_REGS(b, c, h, l);
     @see joypad
     @see J_START, J_SELECT, J_A, J_B, J_UP, J_DOWN, J_LEFT, J_RIGHT
 */
-uint8_t waitpad(uint8_t mask) OLDCALL PRESERVES_REGS(b, c);
+uint8_t waitpad(uint8_t mask) PRESERVES_REGS(b, c, h, l);
 
 /** Waits for the directional pad and all buttons to be released.
 
@@ -639,7 +639,7 @@ uint8_t joypad_init(uint8_t npads, joypads_t * joypads) OLDCALL;
 
     @see joypad_init(), joypads_t
 */
-void joypad_ex(joypads_t * joypads) OLDCALL PRESERVES_REGS(b, c);
+void joypad_ex(joypads_t * joypads) PRESERVES_REGS(b, c);
 
 
 
@@ -804,7 +804,7 @@ void set_vram_byte(uint8_t * addr, uint8_t v) OLDCALL PRESERVES_REGS(b, c);
  * @param addr address to read from
  * @return read value
  */
-uint8_t get_vram_byte(uint8_t * addr) OLDCALL PRESERVES_REGS(b, c);
+uint8_t get_vram_byte(uint8_t * addr) PRESERVES_REGS(b, c, h, l);
 
 
 /**

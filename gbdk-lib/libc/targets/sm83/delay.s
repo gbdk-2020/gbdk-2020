@@ -11,11 +11,6 @@
 	.CPMS	= 4194/4	; 4.194304 MHz
 
 _delay::
-	LDA	HL,2(SP)	; Skip return address
-	LD	E,(HL)		; DE = delay
-	INC	HL
-	LD	D,(HL)
-
 .delay::			; 6 cycles for the CALL
 	PUSH	BC		; 4 cycles
 	CALL	.dly		; 12 cycles to return from .dly (6+1+5)

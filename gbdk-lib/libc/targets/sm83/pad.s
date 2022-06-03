@@ -56,8 +56,7 @@ _joypad::
 
 	;; Wait for the key to be pressed
 _waitpad::
-	LDA	HL,2(SP)	; Skip return address
-	LD	D,(HL)
+	LD	D,A
 	;; Wait for the key in D to be pressed
 .wait_pad::
 1$:
