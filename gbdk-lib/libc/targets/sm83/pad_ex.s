@@ -68,11 +68,6 @@ _joypad_init::
 	ret
 
 _joypad_ex::
-	lda	hl, 2(sp)
-	ld	a, (hl+)
-	ld	e, a
-	ld	d, (hl)
-
 .joypad_ex::
 	ld	a, (de)
 	inc	de
