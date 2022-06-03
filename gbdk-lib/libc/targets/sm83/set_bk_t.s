@@ -1,26 +1,26 @@
-	.include	"global.s"
+        .include        "global.s"
 
-	.globl	.set_xy_btt
+        .globl  .set_xy_btt
 
-	.area	_HOME
+        .area   _HOME
 
 _set_bkg_tiles::
-	PUSH	BC
+        PUSH    BC
 
-	LDA	HL,4(SP)	; Skip return address and registers
-	LD	A,(HL+)		; D = x
-	LD	D, A
-	LD	E,(HL)		; E = y
-	LDA	HL,9(SP)
-	LD	A,(HL-)		; BC = tiles
-	LD	B, A
-	LD	A,(HL-)
-	LD	C, A
-	LD	A,(HL-)		; A = h
-	LD	H,(HL)		; H = w
-	LD	L,A		; L = h
+        LDA     HL,4(SP)        ; Skip return address and registers
+        LD      A,(HL+)         ; D = x
+        LD      D, A
+        LD      E,(HL)          ; E = y
+        LDA     HL,9(SP)
+        LD      A,(HL-)         ; BC = tiles
+        LD      B, A
+        LD      A,(HL-)
+        LD      C, A
+        LD      A,(HL-)         ; A = h
+        LD      H,(HL)          ; H = w
+        LD      L,A             ; L = h
 
-	CALL	.set_xy_btt
+        CALL    .set_xy_btt
 
-	POP	BC
-	RET
+        POP     BC
+        RET

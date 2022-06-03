@@ -3,13 +3,16 @@
 	.area _HOME
 
 ___sdcc_bcall_ehl::			; Performs a long call.
-	ldh	a,(__current_bank)
+	ldh	a, (__current_bank)
 	push	af			; Push the current bank onto the stack
 	ld	a, e
-	ldh	(__current_bank),a
-	ld	(.MBC_ROM_PAGE),a	; Perform the switch
+	ldh	(__current_bank), a
+	ld	(.MBC_ROM_PAGE), a	; Perform the switch
 	rst	0x20
-	pop	af			; Pop the old bank
-	ldh	(__current_bank),a
-	ld	(.MBC_ROM_PAGE),a
+	pop	bc			; Pop the old bank
+	ld	c, a
+	ld	a, b
+	ldh	(__current_bank), a
+	ld	(.MBC_ROM_PAGE), a
+	ld	a, c
 	ret

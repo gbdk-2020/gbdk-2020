@@ -475,14 +475,14 @@ __endasm; \
     @param b   ROM bank to switch to
 */
 #define SWITCH_ROM_MEGADUCK(b) \
-  _current_bank = (b), *(uint8_t *)0x0001 = (b)
+  _current_bank = (b), *(volatile uint8_t *)0x0001 = (b)
 
 
 /** Makes MBC1 and other compatible MBCs switch the active ROM bank
     @param b   ROM bank to switch to
 */
 #define SWITCH_ROM_MBC1(b) \
-  _current_bank = (b), *(uint8_t *)0x2000 = (b)
+  _current_bank = (b), *(volatile uint8_t *)0x2000 = (b)
 
 /** Makes default platform MBC switch the active ROM bank
     @param b   ROM bank to switch to (max 255)
@@ -499,7 +499,7 @@ __endasm; \
     @param b   SRAM bank to switch to
 */
 #define SWITCH_RAM_MBC1(b) \
-  *(uint8_t *)0x4000 = (b)
+  *(volatile uint8_t *)0x4000 = (b)
 
 /** Switches SRAM bank on MBC1 and other compaticle MBCs
     @param b   SRAM bank to switch to
@@ -511,22 +511,22 @@ __endasm; \
 /** Enables SRAM on MBC1
 */
 #define ENABLE_RAM_MBC1 \
-  *(uint8_t *)0x0000 = 0x0A
+  *(volatile uint8_t *)0x0000 = 0x0A
 
 #define ENABLE_RAM ENABLE_RAM_MBC1
 
 /** Disables SRAM on MBC1
 */
 #define DISABLE_RAM_MBC1 \
-  *(uint8_t *)0x0000 = 0x00
+  *(volatile uint8_t *)0x0000 = 0x00
 
 #define DISABLE_RAM DISABLE_RAM_MBC1
 
 #define SWITCH_16_8_MODE_MBC1 \
-  *(uint8_t *)0x6000 = 0x00
+  *(volatile uint8_t *)0x6000 = 0x00
 
 #define SWITCH_4_32_MODE_MBC1 \
-  *(uint8_t *)0x6000 = 0x01
+  *(volatile uint8_t *)0x6000 = 0x01
 
 /** Makes MBC5 switch to the active ROM bank; only 4M roms are supported, @see SWITCH_ROM_MBC5_8M()
     @param b   ROM bank to switch to
@@ -535,8 +535,8 @@ __endasm; \
 */
 #define SWITCH_ROM_MBC5(b) \
   _current_bank = (b), \
-  *(uint8_t *)0x3000 = 0, \
-  *(uint8_t *)0x2000 = (b)
+  *(volatile uint8_t *)0x3000 = 0, \
+  *(volatile uint8_t *)0x2000 = (b)
 
 /** Makes MBC5 to switch the active ROM bank; active bank number is not tracked by _current_bank if you use this macro
     @see _current_bank
@@ -545,24 +545,24 @@ __endasm; \
     Note the order used here. Writing the other way around on a MBC1 always selects bank 1
 */
 #define SWITCH_ROM_MBC5_8M(b) \
-  *(uint8_t *)0x3000 = ((uint16_t)(b) >> 8), \
-  *(uint8_t *)0x2000 = (b)
+  *(volatile uint8_t *)0x3000 = ((uint16_t)(b) >> 8), \
+  *(volatile uint8_t *)0x2000 = (b)
 
 /** Switches SRAM bank on MBC5
     @param b   SRAM bank to switch to
 */
 #define SWITCH_RAM_MBC5(b) \
-  *(uint8_t *)0x4000 = (b)
+  *(volatile uint8_t *)0x4000 = (b)
 
 /** Enables SRAM on MBC5
 */
 #define ENABLE_RAM_MBC5 \
-  *(uint8_t *)0x0000 = 0x0A
+  *(volatile uint8_t *)0x0000 = 0x0A
 
 /** Disables SRAM on MBC5
 */
 #define DISABLE_RAM_MBC5 \
-  *(uint8_t *)0x0000 = 0x00
+  *(volatile uint8_t *)0x0000 = 0x00
 
 
 
@@ -1622,7 +1622,7 @@ void vmemcpy(uint8_t *dest, uint8_t *sour, uint16_t len) OLDCALL PRESERVES_REGS(
 
     @see set_bkg_tiles, set_win_tiles
 */
-void set_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *vram_addr, const uint8_t *tiles) OLDCALL PRESERVES_REGS(b, c);
+void set_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *vram_addr, const uint8_t *tiles) OLDCALL;
 
 /** Sets VRAM Tile Pattern data starting from given base address
     without taking into account the state of LCDC bit 4.
@@ -1657,7 +1657,7 @@ void set_tile_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data, ui
 
     @see get_bkg_tiles, get_win_tiles
 */
-void get_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *vram_addr, uint8_t *tiles) OLDCALL PRESERVES_REGS(b, c);
+void get_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *vram_addr, uint8_t *tiles) OLDCALL;
 
 
 /** Sets VRAM Tile Pattern data in the native format

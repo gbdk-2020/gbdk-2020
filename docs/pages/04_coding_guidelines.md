@@ -191,7 +191,7 @@ Also See:
 #  When C isn't fast enough
 @todo Update and verify this section for the modernized SDCC and toolchain
 
-For many applications C is fast enough but in intensive functions are sometimes better written in assembler. This section deals with interfacing your core C program with fast assembly sub routines. 
+For many applications C is fast enough but in intensive functions are sometimes better written in assembly. This section deals with interfacing your core C program with fast assembly sub routines. 
 
 
 ## Calling convention
