@@ -46,6 +46,7 @@ struct Tile
 		GB,
 		SGB,
 		SMS,
+		BPP1
 	};
 
 	vector< unsigned char > GetPackedData(PackMode pack_mode) {
@@ -80,6 +81,18 @@ struct Tile
 					ret[j * 4 + 1] |= BIT(col, 1) << (7 - i);
 					ret[j * 4 + 2] |= BIT(col, 2) << (7 - i);
 					ret[j * 4 + 3] |= BIT(col, 3) << (7 - i);
+				}
+			}
+		}
+		else if(pack_mode == BPP1)
+		{
+			// Packs 8 pixel wide rows in order set by ExtractTile**()
+			// Process all rows of pixels in the tile
+			for(int j = 0; j < (tile_h); j++) {
+				// Pack each row of 8 pixels into one byte
+				for(int i = 0; i < 8; i++) {
+					unsigned char col = data[8 * j + i];
+					ret[j] |= BIT(col, 0) << (7 - i);
 				}
 			}
 		}
@@ -599,7 +612,7 @@ int main(int argc, char* argv[])
 		printf("-bpp                bits per pixel: 1, 2, 4 (default: 2)\n");
 		printf("-max_palettes       max number of palettes allowed (default: 8)\n");
 		printf("                    (note: max colors = max_palettes x num colors per palette)\n");
-		printf("-pack_mode          gb, sgb or sms (default: gb)\n");
+		printf("-pack_mode          gb, sgb, sms, 1bpp (default: gb)\n");
 		printf("-tile_origin        tile index offset for maps (default: 0)\n");
 
 		printf("-tiles_only         export tile data only\n");
@@ -715,9 +728,10 @@ int main(int argc, char* argv[])
 			if     (pack_mode_str == "gb")  pack_mode = Tile::GB;
 			else if(pack_mode_str == "sgb") pack_mode = Tile::SGB;
 			else if(pack_mode_str == "sms") pack_mode = Tile::SMS;
+			else if(pack_mode_str == "1bpp") pack_mode = Tile::BPP1;
 			else
 			{
-				printf("-pack_mode must be one of gb, sgb or sms\n");
+				printf("-pack_mode must be one of gb, sgb, sms, 1bpp\n");
 				return 1;
 			}
 		}
