@@ -1184,7 +1184,7 @@ int main(int argc, char* argv[])
 						fprintf(file, "RGB8(%3d,%3d,%3d)", pal_ptr[0], pal_ptr[1], pal_ptr[2]);
 						if(c != (int)colors_per_pal - 1)
 							fprintf(file, ", ");
-						 // Line break every 4 color entries, to keep size down
+						 // Line break every 4 color entries, to keep line width down
 						if (((c + 1) % 4) == 0)
 							fprintf(file, "\n\t");
 					}
@@ -1195,9 +1195,9 @@ int main(int argc, char* argv[])
 		if (includeTileData) {
 			fprintf(file, "\n");
 			fprintf(file, "const uint8_t %s_tiles[%d] = {\n", data_name.c_str(), (unsigned int)((tiles.size()-source_tileset_size) * tile_w * tile_h * bpp / 8));
+			fprintf(file, "\t");
 			for (vector< Tile >::iterator it = tiles.begin()+ source_tileset_size; it != tiles.end(); ++it)
 			{
-				fprintf(file, "\t");
 
 				int line_break = 1; // Start with 1 to prevent line break on first iteration
 				vector< unsigned char > packed_data = (*it).GetPackedData(pack_mode);
@@ -1211,7 +1211,7 @@ int main(int argc, char* argv[])
 					 	fprintf(file, "\n\t");
 				}
 
-				if(it != tiles.end())
+				if ((!export_as_map) && (it != tiles.end()))
 					fprintf(file, "\n");
 			}
 			fprintf(file, "};\n\n");
