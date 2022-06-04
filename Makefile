@@ -222,6 +222,7 @@ gbdk-lib-install-platforms:
 		echo Installing lib for platform: $$plat; \
 		mkdir -p $(BUILDDIR)/lib/small/asxxxx/$$plat; \
 		cp $(GBDKLIBDIR)/build/small/asxxxx/$$plat/crt0.o $(BUILDDIR)/lib/small/asxxxx/$$plat/crt0.o; \
+		cp $(GBDKLIBDIR)/build/small/asxxxx/$$plat/crt0.lst $(BUILDDIR)/lib/small/asxxxx/$$plat/crt0.lst; \
 		cp $(GBDKLIBDIR)/build/small/asxxxx/$$plat/$$plat.lib $(BUILDDIR)/lib/small/asxxxx/$$plat/$$plat.lib; \
 		for port in $(PORTS); do \
 			if [ -d "$(GBDKLIBDIR)/libc/targets/$$port/$$plat" ]; then \
