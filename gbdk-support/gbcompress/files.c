@@ -66,7 +66,9 @@ bool file_write_from_buffer(char * filename, uint8_t * p_buf, uint32_t data_len)
 char * file_read_into_buffer_char(char * filename, uint32_t *ret_size) {
 
     long fsize;
-    FILE * file_in = fopen(filename, "r");
+    // On windows windows fread() will auto-translate CRLF to just LF and
+    // report it as one byte read, messing up the size check
+    FILE * file_in = fopen(filename, "rb");
     char * filedata = NULL;
 
     if (file_in) {
