@@ -54,7 +54,7 @@ static char * str_ffwd_to(char * str_in, uint32_t * max_len, char char_match, ch
 
 
 
-// Convert an array of comma delimtied numbers into a buffer
+// Convert an array of comma delimited numbers into a buffer
 //
 // If conversion fails: returns NULL, *p_ret_size == 0
 //

@@ -193,7 +193,7 @@ Converts .ihx files produced by @ref sdldgb into ROM files (.gb, .gbc). Also use
 
 @anchor utility_gbcompress
 ## GBCompress
-Compresssion utility.
+Compression utility.
 
 For detailed settings see @ref gbcompress-settings
 

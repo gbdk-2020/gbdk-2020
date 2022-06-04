@@ -50,7 +50,7 @@ If you wish to use the original tools, you must add the `const` keyword every ti
   - @anchor const_array_data
   `const` keyword: use const for arrays, structs and variables with read-only (constant) data. It will reduce ROM, RAM and CPU usage significantly. Non-`const` values are loaded from ROM into RAM inefficiently, and there is no benefit in loading them into the limited available RAM if they aren't going to be changed.
 
-  - Here is how to delcare `const` pointers and variables:
+  - Here is how to declare `const` pointers and variables:
     - non-const pointer to a const variable: `const uint8_t * some_pointer;`
     - const pointer to a non-const variable: `uint8_t * const some_pointer;`
     - const pointer to a const variable: `const uint8_t * const some_pointer;`
