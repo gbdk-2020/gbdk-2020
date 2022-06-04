@@ -170,4 +170,4 @@ See the `incbin` example project for a demo of how to use it.
 ## SDCC
   - Const arrays declared with `somevar[n] = {x}` will __NOT__ get initialized with value `x`. This may change when the SDCC RLE initializer is fixed. Use memset for now if you need it.
 
-  - SDCC banked calls and @ref far_pointers in GBDK only save one byte for the ROM bank, so for example they are limtied to __bank 15__ max for MBC1 and __bank 255__ max for MBC5. See @ref banked_calls for more details.
+  - SDCC banked calls and @ref far_pointers in GBDK only save one byte for the ROM bank, so for example they are limited to __bank 15__ max for MBC1 and __bank 255__ max for MBC5. See @ref banked_calls for more details.
