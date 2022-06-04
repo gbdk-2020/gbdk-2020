@@ -16,7 +16,7 @@ Writing games and other programs with GBDK will be much easier with a basic unde
 
 ## Game Boy games in C
 
-  - https://gbdev.io/list.html#c
+  - https://gbdev.io/resources.html#c
 
 # Understanding the hardware
 In addition to understanding the C language it's important to learn how the Game Boy hardware works. What it is capable of doing, what it isn't able to do, and what resources are available to work with. A good way to do this is by reading the @ref Pandocs and checking out the @ref awesome_gb list.
