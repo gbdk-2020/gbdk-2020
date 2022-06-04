@@ -29,7 +29,7 @@ This is a brief list of useful tools and information. It is not meant to be comp
   - @anchor awesome_gb
     __Awesome Game Boy Development list__  
     A list of Game Boy/Color development resources, tools, docs, related projects and homebrew.  
-    https://gbdev.io/list.html
+    https://gbdev.io/resources.html
 
 
 @anchor links_sms_gg_docs

@@ -145,7 +145,7 @@ struct PNGImage
 		// MSX 16x16 sprite tiles are composed of four 8x8 tiles in this order UL, LL, UR, LR
 		bool UL_notempty, LL_notempty, UR_notempty, LR_notempty;
 
-		// Call these separately since otherwise some get optimzied out during
+		// Call these separately since otherwise some get optimized out during
 		// runtime if any single one before it returns false
 		UL_notempty = ExtractGBTile(x,     y,  	 8, 8, tile, 0);
 		LL_notempty = ExtractGBTile(x,     y + 8, 8, 8, tile, ((8 *8) * 1));
@@ -632,7 +632,7 @@ int main(int argc, char* argv[])
 		printf("-sp <props>         change default for sprite OAM property bytes (in hex) (default: 0x00)\n");
 		printf("-px <x coord>       metasprites pivot x coordinate (default: metasprites width / 2)\n");
 		printf("-py <y coord>       metasprites pivot y coordinate (default: metasprites height / 2)\n");
-		printf("-pw <width>         metasprites collision rect widht (default: metasprites width)\n");
+		printf("-pw <width>         metasprites collision rect width (default: metasprites width)\n");
 		printf("-ph <height>        metasprites collision rect height (default: metasprites height)\n");
 		printf("-spr8x8             use SPRITES_8x8\n");
 		printf("-spr8x16            use SPRITES_8x16 (this is the default)\n");
@@ -1400,7 +1400,7 @@ int main(int argc, char* argv[])
 		}
 
 
-		// Open our file for writing attributes if speciied
+		// Open our file for writing attributes if specified
 		if (use_map_attributes)mapAttributesBinaryfile.open(output_filename_attributes_bin, std::ios_base::binary);
 
 		int columns = image.w >> 3;
@@ -1433,7 +1433,7 @@ int main(int argc, char* argv[])
 			if (use_map_attributes)mapAttributesBinaryfile.write((const char*)(&map_attributes[0]), rows * columns);
 		}
 
-		// Finalzie the files
+		// Finalize the files
 		mapBinaryFile.close();
 		tilesBinaryFile.close();
 		if (use_map_attributes)mapAttributesBinaryfile.close();

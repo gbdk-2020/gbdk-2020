@@ -16,7 +16,7 @@ Writing games and other programs with GBDK will be much easier with a basic unde
 
 ## Game Boy games in C
 
-  - https://gbdev.io/list.html#c
+  - https://gbdev.io/resources.html#c
 
 # Understanding the hardware
 In addition to understanding the C language it's important to learn how the Game Boy hardware works. What it is capable of doing, what it isn't able to do, and what resources are available to work with. A good way to do this is by reading the @ref Pandocs and checking out the @ref awesome_gb list.
@@ -50,7 +50,7 @@ If you wish to use the original tools, you must add the `const` keyword every ti
   - @anchor const_array_data
   `const` keyword: use const for arrays, structs and variables with read-only (constant) data. It will reduce ROM, RAM and CPU usage significantly. Non-`const` values are loaded from ROM into RAM inefficiently, and there is no benefit in loading them into the limited available RAM if they aren't going to be changed.
 
-  - Here is how to delcare `const` pointers and variables:
+  - Here is how to declare `const` pointers and variables:
     - non-const pointer to a const variable: `const uint8_t * some_pointer;`
     - const pointer to a non-const variable: `uint8_t * const some_pointer;`
     - const pointer to a const variable: `const uint8_t * const some_pointer;`
