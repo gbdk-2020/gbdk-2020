@@ -269,6 +269,13 @@ int option(char *arg) {
 
 		// Requires both PORT and PLAT, must match a valid setClass entry.
 		if (word_count == 2) {
+			// Error out and warn user when old gbz80 PORT name is used instead of sm83
+			if (!strcmp("gbz80", words[0])) {
+				fprintf(stderr, "Error: %s: old \"gbz80\" SDCC PORT name specified (in \"%s\"). Use \"sm83\" instead. "
+				                "You must update your build settings.\n", progname, arg);
+				exit(-1);
+			}
+
 			setTokenVal("port", words[0]);
 			setTokenVal("plat", words[1]);
 			if (!setClass(words[0], words[1])) {
