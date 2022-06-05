@@ -1,7 +1,9 @@
 /*-------------------------------------------------------------------------
-   atomic_flag_clear.c
+   _memmove.c - part of string library functions
 
-   Philipp Klaus Krause, pkk@spth.de 2020
+   Copyright (C) 1999, Sandeep Dutta . sandeep.dutta@usa.net
+   Adapted By -  Erik Petrich  . epetrich@users.sourceforge.net
+   from _memcpy.c which was originally
 
    This library is free software; you can redistribute it and/or modify it
    under the terms of the GNU General Public License as published by the
@@ -25,17 +27,28 @@
    not however invalidate any other reasons why the executable file
    might be covered by the GNU General Public License.
 -------------------------------------------------------------------------*/
+#include <string.h>
+#include <stdint.h>
 
-#include <stdatomic.h>
-
-void atomic_flag_clear(volatile atomic_flag *object)
+void *memmove (void *dst, const void *src, size_t size)
 {
-#if defined(__SDCC_z80) || defined(__SDCC_z180) || defined(__SDCC_ez80_z80) || defined(__SDCC_sm83) || defined(__SDCC_r2k) || defined(__SDCC_r3ka) || defined(__SDCC_stm8) || defined(__SDCC_hc08) || defined(__SDCC_s08) || defined(__SDCC_mos6502)
-	object->flag = 1;
-#elif defined(__SDCC_mcs51)
-	object->flag = 0;
-#else
-#error Support for atomic_flag not implemented
-#endif
-}
+	size_t c = size;
+	if (c == 0)
+		return dst;
 
+	char *d = dst;
+	const char *s = src;
+	if (s < d) {
+		d += c;
+		s += c;
+		do {
+			*--d = *--s;
+		} while (--c);
+	} else {
+		do {
+			*d++ = *s++;
+		} while (--c);
+	}
+
+	return dst;
+}

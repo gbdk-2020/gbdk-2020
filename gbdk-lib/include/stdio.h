@@ -37,7 +37,7 @@ void putchar(char c) OLDCALL;
     be explicitly re-cast as such when calling the function.
     See @ref docs_chars_varargs for more details.
  */
-void printf(const char *format, ...) OLDCALL;
+void printf(const char *format, ...) OLDCALL REENTRANT;
 
 /** Print the string and arguments given by format to a buffer.
 
@@ -46,7 +46,7 @@ void printf(const char *format, ...) OLDCALL;
 
     Does not return the number of characters printed.
  */
-void sprintf(char *str, const char *format, ...) OLDCALL;
+void sprintf(char *str, const char *format, ...) OLDCALL REENTRANT;
 
 /** puts() writes the string __s__ and a trailing newline to stdout.
 */

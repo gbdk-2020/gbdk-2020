@@ -8,7 +8,7 @@ MODEL =	small
 endif
 
 ifndef PORTS
-PORTS = sm83 z80
+PORTS = sm83 z80 mos6502
 endif
 ifndef PLATFORMS
 PLATFORMS = gb ap duck gg sms msxdos
@@ -25,6 +25,7 @@ SDAR = 	$(subst \,/,'$(SDCCLIB)')/bin/sdar
 
 AS_Z80 = $(SDCCLIB)/bin/sdasz80
 AS_SM83 = $(SDCCLIB)/bin/sdasgb
+AS_6500 = $(SDCCLIB)/bin/sdas6500
 
 CLEANSPEC = *.o *.cdb *.sym *.lst *~ *.asm
 
