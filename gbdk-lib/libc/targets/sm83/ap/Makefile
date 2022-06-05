@@ -10,7 +10,7 @@ CSRC = crlf.c digits.c gprint.c gprintf.c gprintln.c gprintn.c
 ASSRC =	cgb.s cgb_palettes.s cgb_compat.s \
 	cpy_data.s \
 	drawing.s drawing_isr.s color.s \
-	f_ibm_full.s f_ibm_sh.s f_italic.s f_min.s f_spect.s \
+	../../f_ibm_full.s ../../f_ibm_sh.s ../../f_italic.s ../../f_min.s ../../f_spect.s \
 	get_bk_t.s get_data.s get_tile.s \
 	get_wi_t.s get_xy_t.s \
 	get_addr.s \

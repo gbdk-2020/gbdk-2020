@@ -2,15 +2,6 @@
 
 	.area	_HOME
 
-	.globl	font_load
-	;; Perform tricks with banking to shift this font out of
-	;; bank 0.  Doesnt currently work as the encoding table
-	;; must always be visible.
-_font_load_ibm_fixed::		; Banked
-	ld	hl,#_font_ibm_fixed
-	call	font_load
-	ret
-
 _font_ibm_fixed::
 	.db	0+4	; 256 char encoding, compressed
 	.db	255	; Number of tiles
