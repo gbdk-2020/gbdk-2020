@@ -23,10 +23,6 @@ LCCFLAGS += -Wl-j -Wm-yoA -Wm-ya4 -autobank -Wb-ext=.rel -Wb-v # MBC + Autobanki
 # LCCFLAGS += -debug # Uncomment to enable debug output
 # LCCFLAGS += -v     # Uncomment for lcc verbose output
 
-RESFLAGS_DMG  = -map -noflip -bpp 2 -max_palettes 1 -pack_mode gb
-RESFLAGS_CGB  = -map -use_map_attributes -bpp 2 -max_palettes 1 -pack_mode gb
-RESFLAGS_SEGA = -map -use_map_attributes -bpp 4 -max_palettes 2 -pack_mode sms 
-
 RESFLAGS += $(RESFLAGS_$(TYP))
 
 CFLAGS += -I$(OBJDIR) -DSYSTEM_$(TYP)
@@ -50,8 +46,9 @@ OBJS        = $(IMAGES:%.png=$(OBJDIR)/%.o) $(CSOURCES:%.c=$(OBJDIR)/%.o) $(ASMS
 # Builds all targets sequentially
 all: $(TARGETS)
 
-$(OBJDIR)/%.c: $(RESDIR)/%.png
-	$(PNG2ASSETS) $< $(RESFLAGS) -c $@
+.SECONDEXPANSION:
+$(OBJDIR)/%.c: $(RESDIR)/%.png $$(wildcard $(RESDIR)/gfx/$(PLAT)/backgrounds/%.png.meta)
+	$(PNG2ASSETS) $< `cat <$<.meta 2>/dev/null` -c $@
 
 $(OBJDIR)/%.o:	$(OBJDIR)/%.c
 	$(LCC) $(CFLAGS) -c -o $@ $<
