@@ -8,6 +8,8 @@
 #include <asm/sm83/types.h>
 #elif defined(__PORT_z80)
 #include <asm/z80/types.h>
+#elif defined(__PORT_mos6502)
+#include <asm/mos6502/types.h>
 #else
 #error Unrecognised port
 #endif

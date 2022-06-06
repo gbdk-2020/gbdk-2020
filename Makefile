@@ -10,7 +10,7 @@ PKG = gbdk
 # Version, used for tarballs & docs
 VER = 4.0.6
 
-PORTS=sm83 z80
+PORTS=sm83 z80 mos6502
 PLATFORMS=gb ap duck gg sms msxdos
 
 # Prefix to add to the standard tools.  Usefull for a standard gcc
@@ -262,7 +262,7 @@ gbdk-dist-examples-clean:
 
 
 # Copy SDDC executable files
-SDCC_BINS = makebin packihx sdar sdasgb sdcc sdcdb sdcpp sdldgb sdnm sdobjcopy sdranlib sz80 sdasz80 sdldz80
+SDCC_BINS = makebin packihx sdar sdasgb sdcc sdcdb sdcpp sdldgb sdnm sdobjcopy sdranlib sz80 sdasz80 sdldz80 sdas6500 sdld
 ifeq ($(OS),Windows_NT)
 MINGW64_RUNTIME = \
 	libgcc_s_seh-1.dll \

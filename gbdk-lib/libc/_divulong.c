@@ -322,7 +322,7 @@ _divulong (unsigned long a, unsigned long b)
 {
   unsigned long reste = 0L;
   unsigned char count = 32;
-  #if defined(__SDCC_STACK_AUTO) || defined(__SDCC_z80) || defined(__SDCC_sm83)
+  #if defined(__SDCC_STACK_AUTO) || defined(__SDCC_z80) || defined(__SDCC_sm83) || defined(__SDCC_mos6502)
     char c;
   #else
     bit c;
