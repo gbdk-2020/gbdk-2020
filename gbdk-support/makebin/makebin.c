@@ -93,13 +93,13 @@ usage (void)
            "  -s romsize     size of the binary file (default: rom banks * 16384)\n"
            "  -Z             generate GameBoy format binary file\n"
            "  -S             generate Sega Master System format binary file\n"
-           "  -t size        skip size bytes from the beginning of the rom"
+           "  -o bytes       skip amount of bytes in binary file\n"
 
            "SMS format options (applicable only with -S option):\n"
-           "  -xo n          rom size (0xa-0x2)\n"
-           "  -xj n          set region code (3-7)\n"
+           "  -xo n          rom size (0xa-0x2) (default: 0xc)\n"
+           "  -xj n          set region code (3-7) (default: 4)\n"
            //"  -xc n          product code (0-159999)\n"
-           "  -xv n          version number (0-15)\n"
+           "  -xv n          version number (0-15) (default: 0)\n"
            //"  -xV n          SDSC version number\n"
            //"  -xd n          SDSC date\n"
            //"  -xA n          SDSC author pointer\n"
@@ -320,7 +320,7 @@ gb_postproc (BYTE * rom, int size, int *real_size, struct gb_opt_s *o)
     {
       if(o->address_overwrite[i] != 0xFF)
         {
-          rom[0x0100 & o->address_overwrite[i]] = o->address_overwrite[i+1];
+          rom[0x0100 | o->address_overwrite[i]] = o->address_overwrite[i+1];
           // warnings for builds ported from ancient GBDK
           fprintf (stderr, "caution: -yp0x01%02x=0x%02x is outdated", o->address_overwrite[i], o->address_overwrite[i+1]);
           if(o->address_overwrite[i] == 0x43)
@@ -484,7 +484,8 @@ noi2sym (char *filename)
   char read = ' ';
   // no$gmb's implementation is limited to 32 character labels
   // we can safely throw away the rest
-  char label[33];
+  #define SYM_FILE_NAME_LEN_MAX 32
+  char label[SYM_FILE_NAME_LEN_MAX + 1];
   // 0x + 6 digit hex number
   // -> 65536 rom banks is the maximum homebrew cartrideges support (TPP1)
   char value[9];
@@ -540,7 +541,7 @@ noi2sym (char *filename)
       if (strncmp(value, "DEF ", 4) == 0)
         {
           // read label
-          for (i = 0; i < 32; ++i)
+          for (i = 0; i < (SYM_FILE_NAME_LEN_MAX - 1); ++i)
             {
               label[i] = read;
               if ((read = fgetc(noi)) == EOF || read == '\r' || read == '\n' || read == ' ')
@@ -574,7 +575,7 @@ noi2sym (char *filename)
           // we successfully read label and value
 
           // but filter out some invalid symbols
-          if (strcmp(label, ".__.ABS.") != 0 && strncmp(label, "l__", 3) != 0)
+          if (strcmp(label, ".__.ABS.") != 0)
             fprintf (sym, "%02X:%04X %s\n", (unsigned int)(strtoul(value, NULL, 0)>>16), (unsigned int)strtoul(value, NULL, 0)&0xFFFF, label);
         }
       else
@@ -688,7 +689,7 @@ read_ihx (FILE *fin, BYTE **rom, int *size, int *real_size, struct gb_opt_s *o)
 int
 main (int argc, char **argv)
 {
-  int size = 32768, skipsize = 0, pack = 0, real_size = 0, i = 0;
+  int size = 32768, offset = 0, pack = 0, real_size = 0, i = 0;
   char *token;
   BYTE *rom;
   FILE *fin, *fout;
@@ -711,8 +712,9 @@ main (int argc, char **argv)
                             .do_logo_copy=true,
                             .address_overwrite={0xFF, 0, 0xFF, 0, 0xFF, 0, 0xFF, 0, 0xFF, 0, 0xFF, 0, 0xFF, 0, 0xFF, 0} };
 
-  struct sms_opt_s sms_opt = {.rom_size=0xa,
-                              .region_code=7,
+  // 32KiB, SMS Export, version 0 <- should work with most emulaters (<32K was never used, GG accepts SMS)
+  struct sms_opt_s sms_opt = {.rom_size=0xc,
+                              .region_code=4,
                               .version=0 };
 
 #if defined(_WIN32)
@@ -732,13 +734,13 @@ main (int argc, char **argv)
           size = strtoul (*argv, NULL, 0);
           break;
 
-        case 't':
+        case 'o':
           if (!*++argv)
             {
               usage ();
               return 1;
             }
-          skipsize = strtoul (*argv, NULL, 0);
+          offset = strtoul (*argv, NULL, 0);
           break;
 
         case 'h':
@@ -813,6 +815,7 @@ main (int argc, char **argv)
                   usage ();
                   return 1;
                 }
+              // we don't need \0
               strncpy (gb_opt.licensee_str, *argv, 2);
               break;
 
@@ -853,12 +856,21 @@ main (int argc, char **argv)
             case 'p':
               // remove "-yp"
               *argv += 3;
+
+              // also support -yp 0x143=0x80
+              if (!(*argv)[0])
+                if (!*++argv)
+                  {
+                    usage ();
+                    return 1;
+                  }
+
               // effectively split string into argv and token
               strtok(*argv, "=");
               token = strtok(NULL, "=");
               for (i = 0; i < 16; i+=2)
                 {
-                  if(gb_opt.address_overwrite[i] == 0xFF)
+                  if (gb_opt.address_overwrite[i] == 0xFF)
                     {
                       gb_opt.address_overwrite[i] = strtoul (*argv, NULL, 0);
                       gb_opt.address_overwrite[i+1] = strtoul (token, NULL, 0);
@@ -1008,9 +1020,14 @@ main (int argc, char **argv)
                 }
             }
         }
+      // skip offset
+      if (offset > 0)
+        {
+          memmove (rom, rom + offset, size - offset);
+          memset (rom + size - offset, FILL_BYTE, offset);
+        }
 
-      int writesize = (pack ? real_size : size) - skipsize;
-      if (writesize > 0) fwrite (rom + skipsize, 1, writesize, fout);
+      fwrite (rom, 1, (pack ? real_size : size) - offset, fout);
 
       fclose (fout);
 
