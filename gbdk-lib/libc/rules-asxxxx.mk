@@ -11,6 +11,9 @@ $(BUILD)/%.o: ../%.c
 $(BUILD)/%.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 
+$(BUILD)/%.o: ../../%.s
+	$(AS) -plosgff $@ $<
+
 $(BUILD)/%.o: ../%.s
 	$(AS) -plosgff $@ $<
 
