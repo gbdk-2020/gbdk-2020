@@ -52,9 +52,11 @@ static struct {
 		{ "asdefault",	"-pogn -I%libdir%%plat%" },
 		{ "as_gb",		"%sdccdir%sdasgb" },
 		{ "as_z80",		"%sdccdir%sdasz80" },
+		{ "as_6500",		"%sdccdir%sdas6500" },
 		{ "bankpack", "%bindir%bankpack" },
 		{ "ld_gb",		"%sdccdir%sdldgb" },
 		{ "ld_z80",		"%sdccdir%sdldz80" },
+		{ "ld",			"%sdccdir%sdld" },
 		{ "libdir",		"%prefix%lib/%libmodel%/asxxxx/" },
 		{ "libmodel",	"small" },
 #ifndef GBDKBINDIR
