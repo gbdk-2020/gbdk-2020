@@ -11,7 +11,7 @@ PKG = gbdk
 VER = 4.0.6
 
 PORTS=sm83 z80 mos6502
-PLATFORMS=gb ap duck gg sms msxdos
+PLATFORMS=gb ap duck gg sms msxdos nes
 
 # Prefix to add to the standard tools.  Usefull for a standard gcc
 # cross-compile.
@@ -147,6 +147,8 @@ endif
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/gbcompress TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
 	@echo Building makecom
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/makecom TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
+	@echo Building makebin
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/makebin TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
 	@echo
 
 gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
@@ -172,6 +174,9 @@ gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
 	@echo Installing makecom
 	@cp $(GBDKSUPPORTDIR)/makecom/makecom$(EXEEXTENSION) $(BUILDDIR)/bin/makecom$(EXEEXTENSION)
 	@$(TARGETSTRIP) $(BUILDDIR)/bin/makecom$(EXEEXTENSION)
+	@echo Installing makebin
+	@cp $(GBDKSUPPORTDIR)/makebin/makebin$(EXEEXTENSION) $(BUILDDIR)/bin/makebin$(EXEEXTENSION)
+	@$(TARGETSTRIP) $(BUILDDIR)/bin/makebin$(EXEEXTENSION)
 	@echo
 
 gbdk-support-clean:

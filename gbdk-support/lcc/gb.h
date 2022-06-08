@@ -22,6 +22,7 @@
 #define EXT_SMS    ".sms"
 #define EXT_GG     ".gg"
 #define EXT_MSXDOS ".com"
+#define EXT_NES    ".nes"
 
 #define ARRAY_LEN(A) (sizeof(A) / sizeof(A[0]))
 
