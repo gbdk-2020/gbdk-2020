@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-typedef void (*emitter_t)(char, char **) OLDCALL;
+typedef void (*emitter_t)(char, char **) OLDCALL REENTRANT;
 
 static const char _hex[] = "0123456789ABCDEF";
 
@@ -98,7 +98,7 @@ void __printf(const char *format, emitter_t emitter, char **pData, va_list va)
     }
 }
 
-static void _sprintf_emitter(char c, char ** pData) OLDCALL {
+static void _sprintf_emitter(char c, char ** pData) OLDCALL REENTRANT {
     **pData = c;
     (*pData)++;
 }

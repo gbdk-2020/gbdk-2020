@@ -1,22 +1,19 @@
-/** @file asm/z80/types.h
-    @anchor file_asm_z80_types_h
+/** @file asm/mos6502/types.h
+    @anchor file_asm_mos6502_types_h
     Types definitions for the gb.
 */
-#ifndef ASM_Z80_TYPES_INCLUDE
-#define ASM_Z80_TYPES_INCLUDE
+#ifndef ASM_MOS6502_TYPES_INCLUDE
+#define ASM_MOS6502_TYPES_INCLUDE
 
-#ifndef __PORT_z80
-  #error z80 only.
+#ifndef __PORT_mos6502
+  #error mos6502 only.
 #endif
 
 #ifdef __SDCC
 
-#define Z88DK_CALLEE __sdcccall(0) __z88dk_callee
-#define Z88DK_FASTCALL __z88dk_fastcall
-
-#define NONBANKED       __nonbanked /**< Placed in the non-banked lower 16K region (bank 0), regardless of the bank selected by it's source file. */
-#define BANKED          __banked /**< The function will use banked sdcc calls, and is placed in the bank selected by it's source file (or compiler switches). */
-#define REENTRANT                /**< Needed for mos6502 target when functions take too many parameters. */
+#define NONBANKED	            /**< Currently a no-op for mos6502 target. */
+#define BANKED		            /**< Currently a no-op for mos6502 target. */
+#define REENTRANT	__reentrant /**< Needed for mos6502 target when functions take too many parameters. */
 
 /**  Use to create a block of of code which should execute with interrupts temporarily turned off.
 
@@ -27,7 +24,7 @@
 
     @see enable_interrupts, disable_interrupts
 */
-#define CRITICAL        __critical
+#define CRITICAL		__critical
 
 /**  Indicate to the compiler the function will be used as an interrupt handler.
 
@@ -35,13 +32,10 @@
     function added via add_VBL() (or LCD, etc). The attributes
     are only required when constructing a bare jump from the
     interrupt vector itself.
+
+    @see ISR_VECTOR(), ISR_NESTED_VECTOR()
 */
-#define INTERRUPT       __interrupt
-
-#else
-
-#define Z88DK_CALLEE
-#define Z88DK_FASTCALL
+#define INTERRUPT		__interrupt
 
 #endif
 
