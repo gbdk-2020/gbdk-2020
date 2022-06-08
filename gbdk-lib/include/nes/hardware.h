@@ -17,7 +17,7 @@
 #define PPUCTRL_BG_CHR      0b00010000
 #define PPUCTRL_SPR_CHR     0b00001000
 #define PPUCTRL_INC32       0b00000100
-extern UBYTE shadow_PPUCTRL;
+extern volatile UBYTE shadow_PPUCTRL;
 
 #define PPUMASK     ((uint8_t*)0x2001);
 #define PPUMASK_BLUE        0b10000000
@@ -28,7 +28,7 @@ extern UBYTE shadow_PPUCTRL;
 #define PPUMASK_SHOW_SPR_LC 0b00000100
 #define PPUMASK_SHOW_BG_LC  0b00000010
 #define PPUMASK_MONOCHROME  0b00000001
-extern UBYTE shadow_PPUMASK;
+extern volatile UBYTE shadow_PPUMASK;
 
 #define PPUSTATUS   ((uint8_t*)0x2002);
 #define OAMADDR     ((uint8_t*)0x2003);
@@ -50,8 +50,8 @@ extern UBYTE shadow_PPUMASK;
 #define DEVICE_SCREEN_PX_WIDTH (DEVICE_SCREEN_WIDTH * 8)
 #define DEVICE_SCREEN_PX_HEIGHT (DEVICE_SCREEN_HEIGHT * 8)
 
-// Scrolling coordinates (updated by NMI handler)
-extern UBYTE bkg_scroll_x;
-extern UBYTE bkg_scroll_y;
+// Scrolling coordinates (will be written to PPUSCROLL at end-of-vblank by NMI handler)
+extern volatile UBYTE bkg_scroll_x;
+extern volatile UBYTE bkg_scroll_y;
 
 #endif
