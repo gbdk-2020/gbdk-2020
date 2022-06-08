@@ -12,7 +12,8 @@ ASSRC = __sdcc_indirect_jsr.s _memcpy.s _strcpy.s _strcmp.s \
 
 CSRC =	_memmove.c _memset.c _ret.c abs.c \
 	_rrulonglong.c _rrslonglong.c \
-	atomic_flag_test_and_set.c
+	atomic_flag_test_and_set.c \
+	__itoa.c _strlen.c
 
 include $(TOPDIR)/Makefile.common
 
