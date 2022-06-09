@@ -158,6 +158,7 @@ gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
 	@cp $(GBDKDOCSDIR)/ChangeLog $(BUILDDIR)
 	@cp $(GBDKDOCSDIR)/README $(BUILDDIR)
 	@cp $(GBDKDOCSDIR)/gbdk_manual.pdf $(BUILDDIR)
+	@cp $(GBDKDOCSDIR)/sdccman.pdf $(BUILDDIR)
 	@echo
 	@echo Installing ihxcheck
 	@cp $(GBDKSUPPORTDIR)/ihxcheck/ihxcheck$(EXEEXTENSION) $(BUILDDIR)/bin/ihxcheck$(EXEEXTENSION)
