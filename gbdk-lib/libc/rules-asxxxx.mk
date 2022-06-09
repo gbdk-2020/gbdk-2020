@@ -3,7 +3,7 @@ $(LIB): pre $(OBJ)
 		$(SDAR) -ru $(LIB) $${file} ; \
 	done
 
-pre: set-model build-dir
+pre: build-dir
 
 $(BUILD)/%.o: ../%.c
 	$(CC) $(CFLAGS) -c -o $@ $<

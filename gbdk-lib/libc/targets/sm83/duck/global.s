@@ -1,5 +1,3 @@
-        .NEAR_CALLS = 1         ; <near_calls> - tag so that sed can change this
-        
         _VRAM           = 0x8000 ; $8000->$9FFF
         _VRAM8000       = 0x8000
         _VRAM8800       = 0x8800
@@ -443,13 +441,7 @@
         ;; Overheap of a banked call.  Used for parameters
         ;;  = ret + real ret + bank
 
-        .if .NEAR_CALLS
-        .BANKOV         = 2
-
-        .else
         .BANKOV         = 6
-
-        .endif
 
         .globl  __current_bank
         .globl  __shadow_OAM_base

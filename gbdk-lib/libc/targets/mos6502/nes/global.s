@@ -1,5 +1,3 @@
-        .NEAR_CALLS = 1         ; <near_calls> - tag so that sed can change this
-
         ;;  Keypad
         .UP             = 0x10
         .DOWN           = 0x20
@@ -78,13 +76,7 @@
         ;; Overheap of a banked call.  Used for parameters
         ;;  = ret + real ret + bank
 
-        .if .NEAR_CALLS
-        .BANKOV         = 2
-
-        .else
         .BANKOV         = 6
-
-        .endif
 
         .globl  __current_bank
         .globl  __shadow_OAM_base
@@ -110,3 +102,4 @@
 
         ;; Main user routine
         .globl  _main
+

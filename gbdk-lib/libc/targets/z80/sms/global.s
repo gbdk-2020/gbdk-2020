@@ -190,6 +190,12 @@
         .CR             = 0x0A
         .SPACE          = 0x00
 
+        ;; C related
+        ;; Overheap of a banked call.  Used for parameters
+        ;;  = ret + real ret + bank
+
+        .BANKOV         = 5
+
         ;; Global variables
         .globl  .mode
 
