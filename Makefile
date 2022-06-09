@@ -191,6 +191,8 @@ gbdk-support-clean:
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/png2asset clean
 	@echo Cleaning gbcompress
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/gbcompress clean --no-print-directory
+	@echo Cleaning makecom
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/makecom clean
 	@echo
 
 # Rules for gbdk-lib
