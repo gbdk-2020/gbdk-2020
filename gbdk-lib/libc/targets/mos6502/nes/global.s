@@ -56,6 +56,11 @@
 
         OAM_COUNT       = 64  ; number of OAM entries in OAM RAM
 
+        OAM_POS_Y       = 0
+        OAM_TILE_INDEX  = 1
+        OAM_ATTRIBUTES  = 2
+        OAM_POS_X       = 3
+
         OAMF_PRI        = 0b00100000 ; Priority
         OAMF_YFLIP      = 0b10000000 ; Y flip
         OAMF_XFLIP      = 0b01000000 ; X flip
