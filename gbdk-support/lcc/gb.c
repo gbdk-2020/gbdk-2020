@@ -32,14 +32,11 @@ static struct {
 		{ "plat",		"gb" },
 		{ "sdccdir", "%bindir%"},
 		{ "cpp",		"%sdccdir%sdcpp" },
-		{ "cppdefault", 	"-Wall -DSDCC_PORT=%port% -DSDCC_PLAT=%plat% -D%cppmodel%"
-		},
-		{ "cppmodel",	"SDCC_MODEL_SMALL" },
+		{ "cppdefault", 	"-Wall -DSDCC_PORT=%port% -DSDCC_PLAT=%plat%"},
 		{ "includedefault",	"-I%includedir%" },
 		{ "includedir", 	"%prefix%include" },
 		{ "prefix",		GBDKLIBDIR },
 		{ "comopt",		"--noinvariant --noinduction" },
-		{ "commodel", 	"small" },
 		{ "com",		"%sdccdir%sdcc" },
 		{ "comflag",	"-c"},
 		{ "comdefault",	"-m%port% --no-std-crt0 --fsigned-char --use-stdout -D__PORT_%port% -D__TARGET_%plat% "},
@@ -57,8 +54,7 @@ static struct {
 		{ "ld_gb",		"%sdccdir%sdldgb" },
 		{ "ld_z80",		"%sdccdir%sdldz80" },
 		{ "ld",			"%sdccdir%sdld" },
-		{ "libdir",		"%prefix%lib/%libmodel%/asxxxx/" },
-		{ "libmodel",	"small" },
+		{ "libdir",		"%prefix%lib/" },
 #ifndef GBDKBINDIR
 		{ "bindir",		"%prefix%bin/" },
 #else
@@ -290,20 +286,6 @@ int option(char *arg) {
 		}
 
 		return 1;
-	}
-	else if ((tail = starts_with(arg, "--model-"))) {
-		if (!strcmp(tail, "small")) {
-			setTokenVal("commodel", "small");
-			setTokenVal("libmodel", "small");
-			setTokenVal("cppmodel", "SDCC_MODEL_SMALL");
-			return 1;
-		}
-		else if (!strcmp(tail, "medium")) {
-			setTokenVal("commodel", "medium");
-			setTokenVal("libmodel", "medium");
-			setTokenVal("cppmodel", "SDCC_MODEL_MEDIUM");
-			return 1;
-		}
 	}
 	return 0;
 }

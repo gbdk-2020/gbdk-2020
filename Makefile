@@ -216,8 +216,8 @@ gbdk-lib-install-prepare:
 gbdk-lib-install-ports:
 	@for port in $(PORTS); do \
 		echo Installing lib for port: $$port; \
-		mkdir -p $(BUILDDIR)/lib/small/asxxxx/$$port/; \
-		cp $(GBDKLIBDIR)/build/small/asxxxx/$$port/$$port.lib $(BUILDDIR)/lib/small/asxxxx/$$port/$$port.lib; \
+		mkdir -p $(BUILDDIR)/lib/$$port/; \
+		cp $(GBDKLIBDIR)/build/$$port/$$port.lib $(BUILDDIR)/lib/$$port/$$port.lib; \
 	done
 	@echo
 
@@ -227,13 +227,13 @@ gbdk-lib-install-ports:
 gbdk-lib-install-platforms:
 	@for plat in $(PLATFORMS); do \
 		echo Installing lib for platform: $$plat; \
-		mkdir -p $(BUILDDIR)/lib/small/asxxxx/$$plat; \
-		touch $(BUILDDIR)/lib/small/asxxxx/$$plat/crt0.lst; \
-		cp $(GBDKLIBDIR)/build/small/asxxxx/$$plat/crt0.o $(BUILDDIR)/lib/small/asxxxx/$$plat/crt0.o; \
-		cp $(GBDKLIBDIR)/build/small/asxxxx/$$plat/$$plat.lib $(BUILDDIR)/lib/small/asxxxx/$$plat/$$plat.lib; \
+		mkdir -p $(BUILDDIR)/lib/$$plat; \
+		touch $(BUILDDIR)/lib/$$plat/crt0.lst; \
+		cp $(GBDKLIBDIR)/build/$$plat/crt0.o $(BUILDDIR)/lib/$$plat/crt0.o; \
+		cp $(GBDKLIBDIR)/build/$$plat/$$plat.lib $(BUILDDIR)/lib/$$plat/$$plat.lib; \
 		for port in $(PORTS); do \
 			if [ -d "$(GBDKLIBDIR)/libc/targets/$$port/$$plat" ]; then \
-				cp $(GBDKLIBDIR)/libc/targets/$$port/$$plat/global.s $(BUILDDIR)/lib/small/asxxxx/$$plat/global.s; \
+				cp $(GBDKLIBDIR)/libc/targets/$$port/$$plat/global.s $(BUILDDIR)/lib/$$plat/global.s; \
 			fi \
 		done \
 	done

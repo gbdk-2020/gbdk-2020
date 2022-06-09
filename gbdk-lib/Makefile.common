@@ -1,11 +1,4 @@
 # Common settings
-ifndef ASM
-ASM = 	asxxxx
-endif
-
-ifndef MODEL
-MODEL =	small
-endif
 
 ifndef PORTS
 PORTS = sm83 z80 mos6502
@@ -34,7 +27,7 @@ CFLAGS += -m$(PORT)
 CFLAGS += --max-allocs-per-node 50000
 CFLAGS += --fsigned-char
 CC = 	$(SCC)
-BUILD = $(TOPDIR)/build/$(MODEL)/$(ASM)/$(THIS)
+BUILD = $(TOPDIR)/build/$(THIS)
 LIB = 	$(BUILD)/$(THIS).lib
 
 OBJ = $(CSRC:%.c=$(BUILD)/%.o) $(ASSRC:%.s=$(BUILD)/%.o)
