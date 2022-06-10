@@ -137,7 +137,18 @@ In the example @ref utility_png2asset is used to generate assets in the native f
 
 
 # Porting From Game Boy to Analogue Pocket
-The Analogue Pocket is (for practical purposes) functionally identical to the Game Boy / Color, but has a couple altered register flag and address definitions and a different boot logo. In order for software to be easily ported to the Analogue Pocket, or to run on both, use the following practices.
+The Analogue Pocket operating in `.pocket` mode is (for practical purposes) functionally identical to the Game Boy / Color though it has a couple changes:
+
+Official differences:
+   - Altered register flag and address definitions
+   - Different boot logo
+
+Observed differences:
+  - MBC1 and MBC5 are supported, MBC3 won't save, the HuC3 isn't supported at all (via JoseJX)
+  - The Serial Link port does not work
+  - The IR port in CGB mode does not work as reliably as the Game Boy Color
+
+ In order for software to be easily ported to the Analogue Pocket, or to run on both, use the following practices.
 
 ## Registers and Flags
 Use API defined registers and register flags instead of hardwired ones.

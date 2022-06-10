@@ -154,8 +154,36 @@ If you wish to use the original tools, you must add the `const` keyword every ti
   - Learn some ASM and inspect the compiler output to understand what the compiler is doing and how your code gets translated. This can help with writing better C code and with debugging.
 
 
+@anchor docs_constant_signedness
+## Constants, Signed-ness and Overflows
+There are a some scenarios where the compiler will warn about overflows with constants. They often have to do with mixed signedness between constants and variables. To avoid problems use care about whether or not constants are explicitly defined as unsigned and what type of variables they are used with.
+
+`WARNING: overflow in implicit constant conversion`
+
+- A constant can be used where the the value is too high (or low) for the storage medium causing an value overflow.
+  -  For example this constant value is too high since the max value for a signed 8 bit char is `127`.
+
+          #define TOO_LARGE_CONST 255
+          int8_t signed_var = TOO_LARGE_CONST;
+
+- This can also happen when constants are not explicitly declared as unsigned (and so may get treated by the compiler as signed) and then added such that the resulting value exceeds the signed maximum. 
+  - For example, this results in an warning even though the sum total is `254` which is less than the `255`, the max value for a unsigned 8 bit char variable.
+
+          #define CONST_UNSIGNED 127u
+          #define CONST_SIGNED 127
+          uint8_t unsigned_var = (CONST_SIGNED + CONST_UNSIGNED);
+
+  - It can be avoided by always using the unsigned `u` when the constant is intended for unsigned operations.
+
+          #define CONST_UNSIGNED 127u
+          #define CONST_ALSO_UNSIGNED 127u  // <-- Added "u", now no warning
+          uint8_t unsigned_var = (CONST_UNSIGNED + CONST_ALSO_UNSIGNED);
+
+
+
+
 @anchor docs_chars_varargs
-## chars and vararg functions
+## Chars and vararg functions
 
 In standard C when `chars` are passed to a function with variadic arguments (varargs, those declared with `...` as a parameter), such as @ref printf(), those `chars` get automatically promoted to `ints`. For an 8 bit CPU such as the Game Boy's, this is not as efficient or desirable in most cases. So the default SDCC behavior, which GBDK-2020 expects, is that chars will remain chars and _not_ get promoted to ints when **explicitly cast as chars while calling a varargs function**.
 
@@ -195,33 +223,42 @@ For many applications C is fast enough but in intensive functions are sometimes 
 
 
 ## Calling convention
-sdcc in common with almost all C compilers prepends a '_' to any function names. For example the function printf(...) begins at the label _printf::. Note that all functions are declared global.
 
-The parameters to a function are pushed in right to left order with no aligning - so a byte takes up a byte on the stack instead of the more natural word. So for example the function int store_byte( uint16_t addr, uint8_t byte) would push 'byte' onto the stack first then addr using a total of three bytes. As the return address is also pushed, the stack would contain:
+SDCC in common with almost all C compilers prepends a `_` to any function names. For example the function `printf(...)` begins at the label `_printf::.` Note that all functions are declared global.
 
-      At SP+0 - the return address
+Functions can be marked with `OLDCALL` which will cause them to use the `__sdcccall(0)` calling convention instead of the new default `__sdcccall(1)` which replaced it.
 
-      At SP+2 - addr
-
-      At SP+4 - byte 
-
-Note that the arguments that are pushed first are highest in the stack due to how the Game Boy's stack grows downwards.
-
-The function returns in DE.
+For details about the calling convetions, see sections `SM83 calling conventions` and `Z80, Z180 and Z80N calling conventions` in the SDCC manual.
+  - http://sdcc.sourceforge.net/doc/sdccman.pdf
 
 
 ## Variables and registers
-C normally expects registers to be preserved across a function call. However in the case above as DE is used as the return value and HL is used for anything, only BC needs to be preserved.
+<!-- C normally expects registers to be preserved across a function call. However in the case above as DE is used as the return value and HL is used for anything, only BC needs to be preserved. -->
 
 Getting at C variables is slightly tricky due to how local variables are allocated on the stack. However you shouldn't be using the local variables of a calling function in any case. Global variables can be accessed by name by adding an underscore. 
 
 
-## Segments
-The use of segments for code, data and variables is more noticeable in assembler. GBDK and SDCC define a number of default segments - `_CODE`, `_DATA` and `_BSS`. Two extra segments `_HEADER` and `_HEAP` exist for the Game Boy header and malloc heap respectively.
+## Segments / Areas
+The use of segments/areas for code, data and variables is more noticeable in assembler. GBDK and SDCC define a number of default ones. The order they are linked is determined by crt0.s and is currently as follows for the Game Boy and related clones.
 
-The order these segments are linked together is determined by crt0.s and is currently `_CODE` in ROM, then `_DATA`, `_BSS`, `_HEAP` in WRAM, with `STACK` at the top of WRAM. `_HEAP` is placed after `_BSS` so that all spare memory is available for the malloc routines. To place code in other than the first two banks, use the segments `_CODE_x` where x is the 16kB bank number.
+  - ROM (in this order)
+    - `_HEADER`: For the Game Boy header
+    - `_CODE`: CODE is specified as after BASE, but is placed before it due to how the linker works.
+    - `_HOME`
+    - `_BASE`
+    - `_CODE_0`
+    - `_INITIALIZER`: Constant data used to init RAM data
+    - `_LIT`
+    - `_GSINIT`: Code used to init RAM data
+    - `_GSFINAL`
 
-As the `_BSS` segment occurs outside the ROM area you can only use .ds to reserve space in it.
-
-While you don't have to use the `_CODE` and `_DATA` distinctions in assembler you may wish to do so to maintain consistency. 
+  - Banked ROM
+    - `_CODE_x` Places code in ROM other than Bank `0`, where x is the 16kB bank number.
+  
+  - WRAM (in this order)
+    - `_DATA`: Uninitialized RAM data
+    - `_BSS`
+    - `_INITIALIZED`: Initialized RAM data
+    - `_HEAP`: placed after `_INITIALIZED` so that all spare memory is available for the malloc routines.
+    - `STACK`: at the end of WRAM
 

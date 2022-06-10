@@ -7,17 +7,28 @@ The standard Game Boy cartridge with no MBC has a fixed 32K bytes of ROM. In ord
 
 
 ## Non-banked cartridges
-Cartridges with no MBC controller are non-banked, they have 32K bytes of fixed ROM space and no switchable banks. For these cartridges the ROM space between `0000h and 7FFFh` can be treated as a single large bank of 32K bytes, or as two contiguous banks of 16K bytes in Bank 0 at `0000h - 3FFFh` and Bank 1 at `4000h to 7FFFh`.
+Cartridges with no MBC controller are non-banked, they have 32K bytes of fixed ROM space and no switchable banks. For these cartridges the ROM space between `0000h and 7FFFh` can be treated as a single large bank of 32K bytes, or as two contiguous banks of 16K bytes in Bank `0` at `0000h - 3FFFh` and Bank `1` at `4000h to 7FFFh`.
 
 
 ## MBC Banked cartridges (Memory Bank Controllers)
 @anchor MBC
 @anchor MBCS
-Cartridges with MBCs allow the the Game Boy to work with ROMS up to 8MB in size and with RAM up to 128kB. Each bank is 16K Bytes.
-  - Bank 0 of the ROM is located in the region at `0000h - 3FFFh`. It is _usually_ fixed (non-banked) and cannot be switched out for another bank.
-  - The higher region at `4000h to 7FFFh` is used for switching between different ROM banks.
-
+Cartridges with MBCs allow the the Game Boy to work with ROMS up to 8MB in size and with RAM up to 128kB. Each bank is 16K Bytes. The following are _usually_ true, with some exceptions:
+  - Bank `0` of the ROM is located in the region at `0000h - 3FFFh`. It is fixed (non-banked) and cannot be switched out for another bank.
+  - Banks `1 .. N` can be switched into the upper region at `4000h - 7FFFh`. The upper limit for `N` is determined by the MBC used and available cartridge space.
+  - It is not necessary to manually assign Bank `0` for source files, that will happen by default if no bank is specified.
+  
 See the @ref Pandocs for more details about the individual MBCs and their capabilities.
+
+
+### Bank 0 Size Limit and Overlows When Using MBCs
+When using MBCs and bank switching the space used in the lower fixed Bank `0` **must be <= 16K bytes**. Otherwise it's data will overflow into Bank `1` and may be overwriten or overwrite other data, and can get switched out when banks are changed.
+
+See the @ref faq_bank_overflow_errors "FAQ entry about bank overflow errors".
+
+
+### Conserving Bank 0 for Important Functions and Data
+When using MBCs, Bank `0` is the only bank which is always active and it's code can run regardless of what other banks are active. This means it is a limited resource and should be prioritized for data and functions which must be accessible regardless of which bank is currently active.
 
 
 # Working with Banks
@@ -92,12 +103,14 @@ The bank number for a banked function, variable or source file can be stored and
 ## Banking and Functions
 
 @anchor banked_keywords
-### BANKED/NONBANKED keywords
-- `BANKED`:
+### BANKED/NONBANKED Keywords for Functions
+- `BANKED` (is a calling convention):
   - The function will use banked sdcc calls.
   - Placed in the bank selected by its source file (or compiler switches).
-- `NONBANKED`:
+  - This keyword only specifies the __calling convention__ for the function, it does not set a bank itself.
+- `NONBANKED` (is a storage attribute):
   - Placed in the non-banked lower 16K region (bank 0), regardless of the bank selected by its source file.
+  - Forces the .area to `_HOME`.
 - `<not-specified>`:
   - The function does not use sdcc banked calls (`near` instead of `far`).
   - Placed in the bank selected by its source file (or compiler switches).
@@ -114,17 +127,20 @@ Non-banked functions (either in fixed Bank 0, or in an non-banked ROM with no MB
   - May call functions in any bank: __YES__
   - May use data in any bank: __YES__
 
-@todo Fill in this info for Banked Functions
 Banked functions (located in a switchable ROM bank)
-  - May call functions in any bank: ?
-  - May use data in any bank: __NO__ (may only use data from currently active banks)
+  - May call functions in fixed Bank 0: __YES__
+  - May call `BANKED` functions in any bank: __YES__
+    - The compiler and library will manage the bank switching automatically using the bank switching trampoline.
+  - May use data in any bank: __NO__
+    - May only use data from Bank 0 and the currently active bank.
+    - A @ref wrapped_function_for_banked_data "NONBANKED wrapper function" may be used to access data in other banks.
 
 Limitations:
   - SDCC banked calls and far_pointers in GBDK only save one byte for the ROM bank. So, for example, they are limited to __bank 31__ max for MBC1 and __bank 255__ max for MBC5. This is due to the bank switching for those MBCs requiring a second, additional write to select the upper bits for more banks (banks 32+ in MBC1 and banks 256+ in MBC5).
 
 
 ## Const Data (Variables in ROM)
-@todo Const Data (Variables in ROM)
+Data declared as `const` (read only) will be stored in ROM in the bank associated with it's source file (if none is specified it defaults to Bank 0). If that bank is a switchable bank then the data is only accesible while the given bank is active.
 
 
 ## Variables in RAM
@@ -146,38 +162,45 @@ You can manually switch banks using the @ref SWITCH_ROM(), @ref SWITCH_RAM(), an
 Note: You can only do a switch_rom_bank call from non-banked `_CODE` since otherwise you would switch out the code that was executing. Global routines that will be called without an expectation of bank switching should fit within the limited 16k of non-banked `_CODE`.
 
 
-## Restoring the current bank (after calling functions which change it without restoring)
+@anchor wrapped_function_for_banked_data
+## Wrapper Function for Accessing Banked Data
+In order to load Data in one bank from code running in another bank a `NONBANKED` wrapper function can be used. It can save the current bank, switch to another bank, operate on some data, restore the original bank and then return.
+
+An example function which can :
+- Load background data from any bank
+- And which can be called from code residing in any bank
+
+```{.c}
+// This function is NONBANKED so it resides in fixed Bank 0
+void set_banked_bkg_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data, uint8_t bank) NONBANKED 
+{
+    uint8_t save = _current_bank;
+    SWITCH_ROM(bank);
+    set_bkg_data(first_tile, nb_tiles, data);
+    SWITCH_ROM(save);
+}
+
+// And then it can be called from any bank:
+set_banked_bkg_data(<first tile>, <num tiles>, tile_data, BANK(tile_data));
+```
+
+
 @anchor banking_current_bank
-If a function call is made (for example inside an ISR) which changes the bank *without* restoring it, then the @ref _current_bank variable should be saved and then restored.
-
-For example, __instead__ of this code:
-```
-void vbl_music_isr(void)
-{
-    // A function which changes the bank and
-    // *doesn't* restore it after changing.
-    some_function();
-}
-```
-It should be:
-```
-void vbl_music_isr(void)
-{
-    // Save the current bank
-    uint8_t _saved_bank = _current_bank;
-
-    // A function which changes the bank and
-    // *doesn't* restore it after changing.
-    some_function();
-
-    // Now restore the current bank
-    SWITCH_ROM(_saved_bank);
-}
-```
-
 ## Currently active bank: _current_bank
 The global variable @ref _current_bank is updated automatically when calling @ref SWITCH_ROM(), @ref SWITCH_ROM_MBC1() and @ref SWITCH_ROM_MBC5, or when a `BANKED` function is called.
 
+Normaly banked calls are used and the active bank does not need to be directly managed, but in the case that it does the following shows how to save and restore it.
+
+```{.c}
+// The current bank can be saved
+uint8_t _saved_bank = _current_bank;
+
+// Call some function which changes the bank but does not restore it
+// ...
+
+// And then restored if needed
+SWITCH_ROM(_saved_bank);
+```
 
 
 @anchor rom_autobanking
@@ -201,17 +224,21 @@ In the other source files you want to access the banked data from, do the follow
 
 Example: level_1_map.c
 
-        #pragma bank 255
-        BANKREF(level_1_map)
-        ...
-        const uint8_t level_1_map[] = {... some map data here ...};
+```{.c}
+#pragma bank 255
+BANKREF(level_1_map)
+...
+const uint8_t level_1_map[] = {... some map data here ...};
+```
 
 Accessing that data: main.c
 
-      BANKREF_EXTERN(level_1_map)
-      ...
-      SWITCH_ROM( BANK(level_1_map) );
-      // Do something with level_1_map[]
+```{.c}
+BANKREF_EXTERN(level_1_map)
+...
+SWITCH_ROM( BANK(level_1_map) );
+// Do something with level_1_map[]
+```
 
 Features and Notes:
   - Fixed banked source files can be used in the same project as auto-banked source files. The bankpack tool will attempt to pack the auto-banked source files as efficiently as possible around the fixed-bank ones.
