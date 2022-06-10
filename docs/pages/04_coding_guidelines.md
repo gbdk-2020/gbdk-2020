@@ -222,6 +222,7 @@ Also See:
 For many applications C is fast enough but in intensive functions are sometimes better written in assembly. This section deals with interfacing your core C program with fast assembly sub routines. 
 
 
+@anchor sdcc_calling_convention
 ## Calling convention
 
 SDCC in common with almost all C compilers prepends a `_` to any function names. For example the function `printf(...)` begins at the label `_printf::.` Note that all functions are declared global.

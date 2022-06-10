@@ -2,14 +2,21 @@
 
 This section contains information that may be useful to know or important when upgrading to a newer GBDK release.
 
-# GBDK 2020 versions
+# GBDK-2020 versions
 
-## Porting to GBDK 2020 4.0.6
+
+## Porting to GBDK-2020 4.1.0
+  - GBDK now requires SDCC 4.2 or higher with GBDK-2020 patches for the the z80 linker
+    - The default calling convention changed in SDCC 4.2, see @ref sdcc_calling_convention "Calling Conventions" for more details.
+    - The SDCC `PORT` name for the Game Boy and related clones changed from `gbz80` to `sm83`. Additional details in the @ref console_port_plat_settings "Console Port and Platform Settings" section and @ref faq_gbz80_sm83_old_port_name_error "FAQ entry". @ref LCC will error out if the old `PORT` name is passed in.
+
+
+## Porting to GBDK-2020 4.0.6
   - Renamed `bgb_emu.h` to `emu_debug.h` and BGB_* functions to EMU_*
     - Aliases for the BGB_* ones and a `bgb_emu.h` shim are present for backward compatibility, but updating to the new naming is recommended
 
 
-## Porting to GBDK 2020 4.0.5
+## Porting to GBDK-2020 4.0.5
   - GBDK now requires SDCC 12259 or higher with GBDK-2020 patches
   - @ref utility_png2asset "png2asset" is the new name for the `png2mtspr` utility
   - @ref lcc : Changed default output format when not specified from `.ihx` to `.gb` (or other active rom extension)
@@ -21,22 +28,22 @@ This section contains information that may be useful to know or important when u
   - The following header files which are now cross platform were moved from `gb/` to `gbdk/`: `bcd.h`, `console.h`, `far_ptr.h`, `font.h`, `gbdecompress.h`, `gbdk-lib.h`, `incbin.h`, `metasprites.h`, `platform.h`, `version.h`
     - When including them use `#include <gbdk/...>` instead of `#include <gb/>`
   
-## Porting to GBDK 2020 4.0.4
+## Porting to GBDK-2020 4.0.4
   - GBDK now requires SDCC 12238 or higher
   - Made sample.h, cgb.h and sgb.h independent from gb.h
 
 
-## Porting to GBDK 2020 4.0.3
+## Porting to GBDK-2020 4.0.3
   - No significant changes required
 
 
-## Porting to GBDK 2020 4.0.2
+## Porting to GBDK-2020 4.0.2
  - The default font has been reduced from 256 to 96 characters.
    - Code using special characters may need to be updated.
    - The off-by-1 character index offset was removed for fonts. Old fonts with the offset need to be re-adjusted.
 
 
-## Porting to GBDK 2020 4.0.1
+## Porting to GBDK-2020 4.0.1
  - __Important!__ : The `WRAM` memory region is no longer automatically initialized to zeros during startup.
    - Any variables which are declared without being initialized may have __indeterminate values instead of 0__ on startup. This might reveal previously hidden bugs in your code.
    - Check your code for variables that are not initialized before use.
@@ -45,7 +52,7 @@ This section contains information that may be useful to know or important when u
  - `set_*_tiles()` now wrap maps around horizontal and vertical boundaries correctly. Code relying on it not wrapping correctly may be affected.
 
 
-## Porting to GBDK 2020 4.0
+## Porting to GBDK-2020 4.0
  - GBDK now requires SDCC 4.0.3 or higher
  - The old linker `link-gbz80` has been REMOVED, the linker @ref sdldgb from SDCC is used.
    - Due to the linker change, there are no longer warnings about multiple writes to the same ROM address.
@@ -54,17 +61,17 @@ This section contains information that may be useful to know or important when u
  - OAM symbol has been renamed to `_shadow_OAM`, that allows accessing shadow OAM directly from C code
 
 
-## Porting to GBDK 2020 3.2
+## Porting to GBDK-2020 3.2
   - No significant changes required
 
-## Porting to GBDK 2020 3.1.1
+## Porting to GBDK-2020 3.1.1
   - No significant changes required
 
-## Porting to GBDK 2020 3.1
+## Porting to GBDK-2020 3.1
   - Behavior formerly enabled by USE_SFR_FOR_REG is on by default now (no need to specify it, it isn't a tested `#ifdef` anymore). check here why:
     https://gbdev.gg8.se/forums/viewtopic.php?id=697
 
-## Porting to GBDK 2020 3.0.1
+## Porting to GBDK-2020 3.0.1
  - LCC was upgraded to use SDCC v4.0. Makefile changes may be required
    - The symbol format changed. To get bgb compatible symbols turn on `.noi` output (LCC argument: `-Wl-j` or `-debug`) and use `-Wm-yS`
    - ?? Suggested: With LCC argument: `-Wa-l` (sdasgb:`-a   All user symbols made global`)
