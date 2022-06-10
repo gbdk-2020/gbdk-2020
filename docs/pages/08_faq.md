@@ -57,7 +57,7 @@
     - This may happen if you have large initialized arrays declared without the `const` keyword. It's important to use the const keyword for read-only data. See @ref const_gbtd_gbmb and @ref const_array_data <!-- -->  
 
   - What flags should be enabled for debugging?
-    - You can use the @ref lcc_debug "lcc debug flag" <!-- -->  
+    - You can use the @ref lcc_debug "lcc debug flag" `-debug`to turn on debug output. It covers most uses and removes the need to specify multiple flags such as `-Wa-l -Wl-m -Wl-j`. <!-- -->  
 
   - Is it possible to generate a debug symbol file (`.sym`) compatible with the @ref bgb emulator?
     - Yes, turn on `.noi` output (LCC argument: `-Wl-j` or `-debug` and then use `-Wm-yS` with LCC (or `-yS` with makebin directly). <!-- -->  
@@ -66,8 +66,12 @@
     - The default locations are: `_shadow_OAM=0xC000` and 240 bytes after it `_DATA=0xC0A0`
     - So, for example, if you wanted to move them both to start 256(0x100) bytes later, use these command line arguments for LCC:
       - To change the Shadow OAM address: `-Wl-g_shadow_OAM=0xC100`
-      - To change the DATA address (again, 240 bytes after the Shadow OAM): `-Wl-b_DATA=0xc1a0`
-     <!-- -->  
+      - To change the DATA address (again, 240 bytes after the Shadow OAM): `-Wl-b_DATA=0xc1a0` <!-- -->  
+
+  - What does this warning mean?
+    `WARNING: overflow in implicit constant conversion`
+    - See @ref docs_constant_signedness "Constants, Signed-ness and Overflows"
+    <!-- -->  
 
 
 # API / Utilities

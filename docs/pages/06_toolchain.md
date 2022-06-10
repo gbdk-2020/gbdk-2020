@@ -16,7 +16,7 @@ To see individual arguments and options for a tool, run that tool from the comma
 
 
 # Data Types
-For data types and special C keywords, see @ref file_asm_gbz80_types_h "asm/gbz80/types.h" and @ref file_asm_types_h "asm/types.h".
+For data types and special C keywords, see @ref file_asm_sm83_types_h "asm/sm83/types.h" and @ref file_asm_types_h "asm/types.h".
 
 Also see the SDCC manual (scroll down a little on the linked page): http://sdcc.sourceforge.net/doc/sdccman.pdf#section.1.1
 

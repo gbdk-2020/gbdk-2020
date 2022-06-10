@@ -88,14 +88,7 @@ This is a brief list of useful tools and information. It is not meant to be comp
 
 
 @anchor tools_music
-# Music drivers and tools
-  - @anchor gbt-player
-    __GBT Player__  
-    A .mod converter and music driver that works with GBDK and RGBDS.  
-    https://github.com/AntonioND/gbt-player  
-    Docs from GBStudio that should mostly apply: https://www.gbstudio.dev/docs/music/
-
-
+# Music And Sound Effects
   - @anchor hUGEdriver
     __hUGEtracker__ and __hUGEdriver__  
     A tracker and music driver that work with GBDK and RGBDS.
@@ -103,6 +96,22 @@ This is a brief list of useful tools and information. It is not meant to be comp
     https://github.com/untoxa/hUGEBuild  
     https://github.com/SuperDisk/hUGEDriver  
     https://github.com/SuperDisk/hUGETracker
+
+  - @anchor CBT-FX
+    __CBT-FX__  
+    A sound effects driver which can play effects created in FX Hammer.
+    https://github.com/datguywitha3ds/CBT-FX
+
+  - @anchor VGM2GBSFX
+    __VGM2GBSFX__  
+    A sound effects converter and driver for DMG VGM files, FX Hammer and PCM WAV files.
+    https://github.com/untoxa/VGM2GBSFX
+
+  - @anchor gbt-player
+    __GBT Player__  
+    A .mod converter and music driver that works with GBDK and RGBDS.  
+    https://github.com/AntonioND/gbt-player  
+    Docs from GBStudio that should mostly apply: https://www.gbstudio.dev/docs/music/
 
 
 @anchor tools_emulators
