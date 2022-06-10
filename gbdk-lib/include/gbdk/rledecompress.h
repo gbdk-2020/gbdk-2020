@@ -26,7 +26,8 @@ uint8_t rle_init(void * data) OLDCALL;
 /** Decompress RLE compressed data into __dest__ for length __len__ bytes
 
     @param dest   Pointer to destination buffer/address
-    @param len    number of bytes to decompress
+    @param len    Number of bytes to decompress
+    @return       Returns `0` if compression is complete, `1` if there is more data to decompress
 
     Before calling this function @ref rle_init must be called
     one time to initialize the RLE decompressor.
