@@ -3,11 +3,11 @@
 .EXPORT_ALL_VARIABLES:
 
 ifeq ($(PORTS),)
-	PORTS = sm83 z80
+	PORTS = sm83 z80 mos6502
 endif
 
 ifeq ($(PLATFORMS),)
-	PLATFORMS = gb ap duck gg sms msxdos
+	PLATFORMS = gb ap duck gg sms msxdos nes
 endif
 
 TOPDIR = ..

@@ -7,6 +7,8 @@
   #include <sms/metasprites.h>
 #elif defined(__TARGET_msxdos)
   #include <msx/metasprites.h>
+#elif defined(__TARGET_nes)
+  #include <nes/metasprites.h>
 #else
   #error Unrecognized port
 #endif

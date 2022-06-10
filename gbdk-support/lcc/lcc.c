@@ -767,7 +767,7 @@ static void help(void) {
 "-Idir	add `dir' to the beginning of the list of #include directories\n",
 "-K don't run ihxcheck test on linker ihx output\n",
 "-lx	search library `x'\n",
-"-m	select port and platform: \"-m[port]:[plat]\" ports:sm83,z80 plats:ap,duck,gb,sms,gg\n",
+"-m	select port and platform: \"-m[port]:[plat]\" ports:sm83,z80,mos6502 plats:ap,duck,gb,sms,gg,nes\n",
 "-N	do not search the standard directories for #include files\n",
 "-n	emit code to check for dereferencing zero pointers\n",
 "-no-crt do not auto-include the gbdk crt0.o runtime in linker list\n",
