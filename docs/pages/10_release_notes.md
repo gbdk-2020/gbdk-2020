@@ -1,11 +1,16 @@
 @page docs_releases GBDK Releases
 
-The GBDK 2020 releases can be found on Github:
+The GBDK-2020 releases can be found on Github:
 https://github.com/gbdk-2020/gbdk-2020/releases
 
 
-# GBDK 2020 Release Notes
-## GBDK 2020 4.0.6
+# GBDK-2020 Release Notes
+
+## GBDK-2020 4.1.0
+  2022
+
+
+## GBDK-2020 4.0.6
   2022/02
   - Building GBDK
     - Changed to target older version of macOS (10.10) when building for better compatibility
@@ -56,7 +61,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
     - Added new section: Migrating From Pre-GBDK-2020 Tutorials
 
 
-## GBDK 2020 4.0.5
+## GBDK-2020 4.0.5
   2021/09
   - Includes SDCC version 12539 with GBDK-2020 patches for Z80
   - Known Issues
@@ -117,7 +122,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
     - Various doc updates and improvements
   
 
-## GBDK 2020 4.0.4
+## GBDK-2020 4.0.4
   2021/06
   - Library
     - Support SDCC INITIALIZER area (SDCC ~12207+)
@@ -154,7 +159,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
     - Various doc updates and improvements
 
 
-## GBDK 2020 4.0.3
+## GBDK-2020 4.0.3
   2021/03
   - Library
     - Added @ref set_vram_byte()
@@ -182,7 +187,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
     - Added PDF version of docs
  
 
-## GBDK 2020 4.0.2
+## GBDK-2020 4.0.2
   2021/01/17
   - Includes SDCC snapshot build version 12016 (has a fix for duplicate debug symbols generated from inlined header functions which GBDK 4.0+ uses)
   - Updated documentation
@@ -202,7 +207,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
   - Examples: Added bgb debug example
 
 
-## GBDK 2020 4.0.1
+## GBDK-2020 4.0.1
   2020/11/14
   - Updated API documentation
   - IHX is checked for correctness before the makebin stage. That allows to warn about overwriting the same ROM addresses (SDCC toolchain does not check this anymore).
@@ -222,7 +227,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
       - Fix output not working if target is -o some_filename.ihx
 
 
-## GBDK 2020 4.0
+## GBDK-2020 4.0
   2020/10/01
   - GBDK now requires SDCC 4.0.3 or higher, that has fully working toolchain. Old link-gbz80 linker is not used anymore, sdldgb and makebin are used to link objects and produce binary roms; maccer tool is no longer needed either
     - SDCC 4.0.3 has much better code generator which produces smaller and faster code. Code is twice faster
@@ -245,19 +250,19 @@ https://github.com/gbdk-2020/gbdk-2020/releases
     - quoted paths with spaces are working now
 
 
-## GBDK 2020 3.2
+## GBDK-2020 3.2
   2020/06/05
   - Fixed OAM initialization that was causing a bad access to VRAM
   - Interrupt handlers now wait for lcd controller mode 0 or 1 by default to prevent access to inaccessible VRAM in several functions (like set_bkg_tiles)
   - Several optimizations here and there
 
 
-## GBDK 2020 3.1.1
+## GBDK-2020 3.1.1
   2020/05/17
   - Fixed issues with libgcc_s_dw2-1.dll
 
 
-## GBDK 2020 3.1
+## GBDK-2020 3.1
   2020/05/16
   - Banked functions are working! The patcher is fully integrated in link-gbz80, no extra tools are needed. It is based on Toxa's work
     - Check this post for more info
@@ -276,15 +281,15 @@ https://github.com/gbdk-2020/gbdk-2020/releases
       https://gbdev.gg8.se/forums/viewtopic.php?id=710
 
 
-## GBDK 2020 3.0.1
+## GBDK-2020 3.0.1
   2020/04/12
   - Updated SDCC to v.4.0
   - Updated LCC to work with the new compiler
 
 
-## GBDK 2020 3.0
+## GBDK-2020 3.0
   2020/04/12
-  - Initial GBDK 2020 release  
+  - Initial GBDK-2020 release  
   Updated SDCC to v4.0
   The new linker is not working so the old version is still there
   There is an issue with sdagb compiling drawing.s (the JP in 

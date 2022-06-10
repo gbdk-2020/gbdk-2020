@@ -30,6 +30,10 @@
     - See @ref setting_mbc_and_rom_ram_banks <!-- -->  
 
 # Errors / Compiling / Toolchain
+  @anchor faq_gbz80_sm83_old_port_name_error
+  - What does the error `old "gbz80" SDCC PORT name specified (in "-mgbz80:gb"). Use "sm83" instead. You must update your build settings.` mean?
+    - The `PORT` name for the Game Boy and related clones changed from `gbz80` to `sm83`. You must change your Makefile, Build settings, etc to use the new name. Additional details in the @ref console_port_plat_settings "Console Port and Platform Settings" section.  <!-- -->  
+
   @anchor faq_sdcc_peephole_instruction_error
   - What does `z80instructionSize() failed to parse line node, assuming 999 bytes` mean?
     - This is a known issue with SDCC Peephole Optimizer parsing and can be ignored. A bug report has been filed for it. <!-- -->  

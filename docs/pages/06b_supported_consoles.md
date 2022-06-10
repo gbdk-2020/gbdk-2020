@@ -44,16 +44,19 @@ MSXDOS requires an additional build step after makebin to create the final binar
   - `makecom <image.bin> [<image.noi>] <output.com>`
 
 
+@anchor console_port_plat_settings
 ## Console Port and Platform Settings
-  - Nintendo Game Boy / Game Boy Color
-    - @ref lcc : `-mgbz80:gb`
-    - port:`gbz80`, plat:`gb`
+Note: Starting with GBDK-2020 4.1.0 and SDCC 4.2, the Game Boy and related clones use `sm83` for the port instead of `gbz80`
+
+  - Nintendo Game Boy / Game Boy Color    
+    - @ref lcc : `-msm83:gb`
+    - port:`sm83`, plat:`gb`
   - Analogue Pocket
-    - @ref lcc : `-mgbz80:ap`
-    - port:`gbz80`, plat:`ap`
+    - @ref lcc : `-msm83:ap`
+    - port:`sm83`, plat:`ap`
   - Mega Duck / Cougar Boy
-    - @ref lcc : `-mgbz80:duck`
-    - port:`gbz80`, plat:`duck`
+    - @ref lcc : `-msm83:duck`
+    - port:`sm83`, plat:`duck`
 
   - Sega Master System
     - @ref lcc : `-mz80:sms`
