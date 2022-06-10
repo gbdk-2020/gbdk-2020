@@ -821,7 +821,35 @@ inline void set_2bpp_palette(uint16_t palette) {
 }
 
 extern uint16_t _current_1bpp_colors;
+
+/** Sets the Foreground and Background colors used by the set_*_1bpp_*() functions
+    @param fgcolor  Foreground color
+    @param bgcolor  Background color
+    @param mode     Draw Mode
+
+    See @ref set_1bpp_colors for details.
+*/
 void set_1bpp_colors_ex(uint8_t fgcolor, uint8_t bgcolor, uint8_t mode) OLDCALL;
+
+/** Sets the Foreground and Background colors used by the set_*_1bpp_*() functions
+    @param fgcolor  Foreground color to use
+    @param bgcolor  Background color to use
+
+    The default colors are:
+    \li Foreground: DMG_BLACK
+    \li Background: DMG_WHITE
+
+    Example:
+    \code{.c}
+    // Use DMG_BLACK as the Foreground color and DMG_LITE_GRAY
+    // as the Background color when loading 1bpp tile data.
+    set_1bpp_colors(DMG_BLACK, DMG_LITE_GRAY);
+    \endcode
+
+
+    @see DMG_BLACK, DMG_DARK_GRAY, DMG_LITE_GRAY, DMG_WHITE
+    @see set_bkg_1bpp_data, set_win_1bpp_data, set_sprite_1bpp_data
+*/
 inline void set_1bpp_colors(uint8_t fgcolor, uint8_t bgcolor) {
     set_1bpp_colors_ex(fgcolor, bgcolor, 0);
 }
@@ -856,10 +884,13 @@ void set_bkg_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) OLD
     which gets expanded into 2 bits-per-pixel.
 
     For a given bit that represent a pixel:
-    \li 0 will be expanded into color 0
-    \li 1 will be expanded into color 1, 2 or 3 depending on color argument
+    \li 0 will be expanded into the Background color
+    \li 1 will be expanded into the Foreground color
+
+    See @ref set_1bpp_colors for details about setting the Foreground and Background colors.
 
     @see SHOW_BKG, HIDE_BKG, set_bkg_tiles
+    @see set_win_1bpp_data, set_sprite_1bpp_data
 */
 void set_bkg_1bpp_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) OLDCALL PRESERVES_REGS(b, c);
 
@@ -1126,7 +1157,14 @@ void set_win_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) OLD
     This is the same as @ref set_bkg_1bpp_data, since the Window Layer and
     Background Layer share the same Tile pattern data.
 
-    @see set_bkg_data, set_bkg_1bpp_data, set_win_data
+    For a given bit that represent a pixel:
+    \li 0 will be expanded into the Background color
+    \li 1 will be expanded into the Foreground color
+
+    See @ref set_1bpp_colors for details about setting the Foreground and Background colors.
+
+    @see set_bkg_data, set_bkg_1bpp_data, set_win_data, set_1bpp_colors
+    @see set_bkg_1bpp_data, set_sprite_1bpp_data
 */
 void set_win_1bpp_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) OLDCALL PRESERVES_REGS(b, c);
 
@@ -1360,10 +1398,13 @@ void set_sprite_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) 
     which gets expanded into 2 bits-per-pixel.
 
     For a given bit that represent a pixel:
-    \li 0 will be expanded into color 0
-    \li 1 will be expanded into color 3
+    \li 0 will be expanded into the Background color
+    \li 1 will be expanded into the Foreground color
+
+    See @ref set_1bpp_colors for details about setting the Foreground and Background colors.
 
     @see SHOW_SPRITES, HIDE_SPRITES, set_sprite_tile
+    @see set_bkg_1bpp_data, set_win_1bpp_data
 */
 void set_sprite_1bpp_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) OLDCALL PRESERVES_REGS(b, c);
 
