@@ -33,12 +33,12 @@ When compiling with @ref sdcc-settings "sdcc":
   - `-m<port>`, `-D__PORT_<port>` and `-D__TARGET_<plat> `
 
 When assembling with @ref sdasgb-settings "sdasgb" (for GB/AP) and @ref sdasz80-settings "sdasz80" (for SMS/GG):
-  - Select the appropriate include path: `-I<gbdk-path>lib/small/asxxxx/<plat>`
+  - Select the appropriate include path: `-I<gbdk-path>lib/<plat>`
 
 When linking with @ref sdldgb-settings "sdldgb" (for GB/AP) and @ref sdldz80-settings "sdldz80" (for SMS/GG or MSXDOS):
-  - Select the appropriate include paths: `-k <gbdk-path>lib/small/asxxxx/<port>`, `-k <gbdk-path>lib/small/asxxxx/<plat>`
+  - Select the appropriate include paths: `-k <gbdk-path>lib/<port>`, `-k <gbdk-path>lib/<plat>`
   - Include the appropriate library files `-l <port>.lib`, `-l <plat>.lib`
-  - The crt will be under `  <gbdk-path>lib/small/asxxxx/<plat>/crt0.o`
+  - The crt will be under `  <gbdk-path>lib/<plat>/crt0.o`
 
 MSXDOS requires an additional build step after makebin to create the final binary:
   - `makecom <image.bin> [<image.noi>] <output.com>`
