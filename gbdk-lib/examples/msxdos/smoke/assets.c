@@ -1,6 +1,6 @@
 #pragma bank 2
 
-#include <sms/sms.h>
+#include <gbdk/platform.h>
 
 BANKREF(earth_data)
 const unsigned char earth_data[] = {

@@ -26,5 +26,5 @@ $(BINS):	$(OBJS)
 	rm -f *.map *.noi *.ihx *.lst
 
 clean:
-	rm -f *.o *.lst *.map *.com *~ *.rel *.cdb *.ihx *.lnk *.sym *.asm *.noi
+	rm -f *.o *.lst *.map *.com *~ *.rel *.cdb *.ihx *.lnk *.sym *.asm *.noi *.0?? *.rom
 
