@@ -16,10 +16,10 @@ int8_t xspd = 0, yspd  = 0;
 
 uint8_t anim = 0, tick = 0;
 
-joypads_t joy;
+uint8_t joy;
 void main() {
-    HIDE_LEFT_COLUMN;
-    SPRITES_8x16;
+//    HIDE_LEFT_COLUMN;
+//    SPRITES_8x16;
     DISPLAY_ON;
 
 //  vmemcpy(0x4000, earth_data, sizeof(earth_data));
@@ -36,22 +36,20 @@ void main() {
 
     set_tile_map(4, 16, 4, 2, tilemapw);
 
-    joypad_init(2, &joy);
-
     while(TRUE) {
-        joypad_ex(&joy);
+        joy = joypad();
 
-        if (joy.joy0 & J_LEFT) {            
+        if (joy & J_LEFT) {            
             if (xspd > -32) xspd -= 2; 
-        } else if (joy.joy0 & J_RIGHT) {
+        } else if (joy & J_RIGHT) {
             if (xspd < 32) xspd += 2;
         } else {
             if (xspd < 0) xspd++; else if (xspd > 0) xspd--;            
         }
         
-        if (joy.joy0 & J_UP) {
+        if (joy & J_UP) {
             if (yspd > -32) yspd -= 2; 
-        } else if (joy.joy0 & J_DOWN) {
+        } else if (joy & J_DOWN) {
             if (yspd < 32) yspd += 2;
         } else {
             if (yspd < 0) yspd++; else if (yspd > 0) yspd--;
@@ -73,18 +71,18 @@ void main() {
 
         move_sprite(0, x >> 4, y >> 4);
         move_sprite(1, (x >> 4) + 8, y >> 4);
-
-        if (joy.joy1 & J_LEFT) {
+/*
+        if (joy & J_LEFT) {
             scroll_bkg(-1, 0);
         } else if (joy.joy1 & J_RIGHT) {
             scroll_bkg(1, 0);
         }
-        if (joy.joy1 & J_UP) {
+        if (joy & J_UP) {
             scroll_bkg(0, -1);
         } else if (joy.joy1 & J_DOWN) {
             scroll_bkg(0, 1);
         }
-        
+*/        
         wait_vbl_done();
     }
 }
