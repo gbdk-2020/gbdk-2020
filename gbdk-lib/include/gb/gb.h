@@ -772,6 +772,8 @@ void hiramcpy(uint8_t dst, const void *src, uint8_t n) OLDCALL PRESERVES_REGS(b,
 
 /** Turns off the sprites layer.
     Clears bit 1 of the LCDC register to 0.
+
+    @see hide_sprite, hide_sprites_range
 */
 #define HIDE_SPRITES \
   LCDC_REG&=~LCDCF_OBJON
@@ -998,8 +1000,8 @@ inline void set_bkg_based_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, cons
     from a source tile map. Useful for scrolling implementations of maps
     larger than 32 x 32 tiles.
 
-    @param x      X Start position in Background Map tile coordinates. Range 0 - 31
-    @param y      Y Start position in Background Map tile coordinates. Range 0 - 31
+    @param x      X Start position in both the Source Tile Map and hardware Background Map tile coordinates. Range 0 - 255
+    @param y      Y Start position in both the Source Tile Map and hardware Background Map tile coordinates. Range 0 - 255
     @param w      Width of area to set in tiles. Range 1 - 255
     @param h      Height of area to set in tiles. Range 1 - 255
     @param map    Pointer to source tile map data
@@ -1008,6 +1010,13 @@ inline void set_bkg_based_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, cons
     Entries are copied from __map__ to the Background Tile Map starting at
     __x__, __y__ writing across for __w__ tiles and down for __h__ tiles,
     using __map_w__ as the rowstride for the source tile map.
+
+    The __x__ and __y__ parameters are linked in lockstep between
+    the Source Tile Map and the hardware Background Map.
+    The hardware Background Map tile coordinates will be masked
+    to the lowest 5 bits (`value & 0x1F`). In order to use them
+    out of lockstep an offset from the Source Tile Map pointer
+    can be passed in `map + x + (y * map_width)`.
 
     Use this instead of @ref set_bkg_tiles when the source map is wider than
     32 tiles or when writing a width that does not match the source map width.
@@ -1032,12 +1041,12 @@ extern uint8_t _submap_tile_offset;
     from a source tile map. The offset value in __base_tile__ is added to
     the tile ID for each map entry.
 
-    @param x      X Start position in Background Map tile coordinates. Range 0 - 31
-    @param y      Y Start position in Background Map tile coordinates. Range 0 - 31
-    @param w      Width of area to set in tiles. Range 1 - 255
-    @param h      Height of area to set in tiles. Range 1 - 255
-    @param map    Pointer to source tile map data
-    @param map_w  Width of source tile map in tiles. Range 1 - 255
+    @param x         X Start position in both the Source Tile Map and hardware Background Map tile coordinates. Range 0 - 255
+    @param y         Y Start position in both the Source Tile Map and hardware Background Map tile coordinates. Range 0 - 255
+    @param w         Width of area to set in tiles. Range 1 - 255
+    @param h         Height of area to set in tiles. Range 1 - 255
+    @param map       Pointer to source tile map data
+    @param map_w     Width of source tile map in tiles. Range 1 - 255
     @param base_tile Offset each tile ID entry of the source map by this value. Range 1 - 255
 
     This is identical to @ref set_bkg_based_submap() except that it
@@ -1244,8 +1253,8 @@ inline void set_win_based_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, cons
 /** Sets a rectangular area of the Window Tile Map using a sub-region
     from a source tile map.
 
-    @param x      X Start position in Window Map tile coordinates. Range 0 - 31
-    @param y      Y Start position in Wimdpw Map tile coordinates. Range 0 - 31
+    @param x      X Start position in both the Source Tile Map and hardware Window Map tile coordinates. Range 0 - 255
+    @param y      Y Start position in both the Source Tile Map and hardware Window Map tile coordinates. Range 0 - 255
     @param w      Width of area to set in tiles. Range 1 - 255
     @param h      Height of area to set in tiles. Range 1 - 255
     @param map    Pointer to source tile map data
@@ -1254,6 +1263,13 @@ inline void set_win_based_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, cons
     Entries are copied from __map__ to the Window Tile Map starting at
     __x__, __y__ writing across for __w__ tiles and down for __h__ tiles,
     using __map_w__ as the rowstride for the source tile map.
+
+    The __x__ and __y__ parameters are linked in lockstep between
+    the Source Tile Map and the hardware Window Map.
+    The hardware Window Map tile coordinates will be masked
+    to the lowest 5 bits (`value & 0x1F`). In order to use them
+    out of lockstep an offset from the Source Tile Map pointer
+    can be passed in `map + x + (y * map_width)`.
 
     Use this instead of @ref set_win_tiles when the source map is wider than
     32 tiles or when writing a width that does not match the source map width.
@@ -1278,8 +1294,8 @@ void set_win_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *m
     from a source tile map. The offset value in __base_tile__ is added
     to the tile ID for each map entry.
 
-    @param x         X Start position in Window Map tile coordinates. Range 0 - 31
-    @param y         Y Start position in Wimdpw Map tile coordinates. Range 0 - 31
+    @param x         X Start position in both the Source Tile Map and hardware Window Map tile coordinates. Range 0 - 255
+    @param y         Y Start position in both the Source Tile Map and hardware Window Map tile coordinates. Range 0 - 255
     @param w         Width of area to set in tiles. Range 1 - 255
     @param h         Height of area to set in tiles. Range 1 - 255
     @param map       Pointer to source tile map data
@@ -1582,6 +1598,8 @@ inline void scroll_sprite(uint8_t nb, int8_t x, int8_t y) {
 /** Hides sprite number __nb__ by moving it to zero position by Y.
 
     @param nb  Sprite number, range 0 - 39
+
+    @see hide_sprites_range, HIDE_SPRITES
  */
 inline void hide_sprite(uint8_t nb) {
     shadow_OAM[nb].y = 0;
