@@ -868,8 +868,8 @@ inline void set_1bpp_colors(uint8_t fgcolor, uint8_t bgcolor) {
     Note: Sprite Tiles 128-255 share the same memory region as Background Tiles 128-255.
 
     GBC only: @ref VBK_REG determines which bank of Background tile patterns are written to.
-    \li VBK_REG=0 indicates the first bank
-    \li VBK_REG=1 indicates the second
+    \li VBK_REG = @ref VBK_BANK_0 indicates the first bank
+    \li VBK_REG = @ref VBK_BANK_1 indicates the second
 
     @see set_win_data, set_tile_data
 */
@@ -937,8 +937,8 @@ void get_bkg_data(uint8_t first_tile, uint8_t nb_tiles, uint8_t *data) OLDCALL P
     Note: Patterns 128-255 overlap with patterns 128-255 of the sprite Tile Pattern table.
 
     GBC only: @ref VBK_REG determines whether Tile Numbers or Tile Attributes get set.
-    \li VBK_REG=0 Tile Numbers are written
-    \li VBK_REG=1 Tile Attributes are written
+    \li VBK_REG = @ref VBK_TILES Tile Numbers are written
+    \li VBK_REG = @ref VBK_ATTRIBUTES Tile Attributes are written
 
     GBC Tile Attributes are defined as:
     \li Bit 7 - Priority flag. When this is set, it puts the tile above the sprites
@@ -1216,8 +1216,8 @@ void get_win_data(uint8_t first_tile, uint8_t nb_tiles, uint8_t *data) OLDCALL P
     Note: Patterns 128-255 overlap with patterns 128-255 of the sprite Tile Pattern table.
 
     GBC only: @ref VBK_REG determines whether Tile Numbers or Tile Attributes get set.
-    \li VBK_REG=0 Tile Numbers are written
-    \li VBK_REG=1 Tile Attributes are written
+    \li VBK_REG = @ref VBK_TILES Tile Numbers are written
+    \li VBK_REG = @ref VBK_ATTRIBUTES Tile Attributes are written
 
     For more details about GBC Tile Attributes see @ref set_bkg_tiles.
 
@@ -1280,8 +1280,8 @@ inline void set_win_based_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, cons
     the Left and Top edges.
 
     GBC only: @ref VBK_REG determines whether Tile Numbers or Tile Attributes get set.
-    \li VBK_REG=0 Tile Numbers are written
-    \li VBK_REG=1 Tile Attributes are written
+    \li VBK_REG = @ref VBK_TILES Tile Numbers are written
+    \li VBK_REG = @ref VBK_ATTRIBUTES Tile Attributes are written
 
     See @ref set_bkg_tiles for details about CGB attribute maps with @ref VBK_REG.
 
@@ -1398,8 +1398,8 @@ inline void scroll_win(int8_t x, int8_t y) {
     Note: Sprite Tiles 128-255 share the same memory region as Background Tiles 128-255.
 
     GBC only: @ref VBK_REG determines which bank of Background tile patterns are written to.
-    \li VBK_REG=0 indicates the first bank
-    \li VBK_REG=1 indicates the second
+    \li VBK_REG = @ref VBK_BANK_0 indicates the first bank
+    \li VBK_REG = @ref VBK_BANK_1 indicates the second
 */
 void set_sprite_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) OLDCALL PRESERVES_REGS(b, c);
 #define set_sprite_2bpp_data set_sprite_data
@@ -1617,8 +1617,8 @@ inline void hide_sprite(uint8_t nb) {
     Copies __len__ bytes from a buffer at __data__ to VRAM starting at __vram_addr__.
 
     GBC only: @ref VBK_REG determines which bank of Background tile patterns are written to.
-    \li VBK_REG=0 indicates the first bank
-    \li VBK_REG=1 indicates the second
+    \li VBK_REG = @ref VBK_BANK_0 indicates the first bank
+    \li VBK_REG = @ref VBK_BANK_1 indicates the second
 
     @see set_bkg_data, set_win_data, set_bkg_tiles, set_win_tiles, set_tile_data, set_tiles
 */
@@ -1635,8 +1635,8 @@ void set_data(uint8_t *vram_addr, const uint8_t *data, uint16_t len) OLDCALL PRE
     Copies __len__ bytes from VRAM starting at __vram_addr__ into a buffer at __data__.
 
     GBC only: @ref VBK_REG determines which bank of Background tile patterns are written to.
-    \li VBK_REG=0 indicates the first bank
-    \li VBK_REG=1 indicates the second
+    \li VBK_REG = @ref VBK_BANK_0 indicates the first bank
+    \li VBK_REG = @ref VBK_BANK_1 indicates the second
 
     @see get_bkg_data, get_win_data, get_bkg_tiles, get_win_tiles, get_tiles
 */
@@ -1651,8 +1651,8 @@ void get_data(uint8_t *data, uint8_t *vram_addr, uint16_t len) OLDCALL PRESERVES
     Copies __len__ bytes from or to VRAM starting at __sour__ into a buffer or to VRAM at __dest__.
 
     GBC only: @ref VBK_REG determines which bank of Background tile patterns are written to.
-    \li VBK_REG=0 indicates the first bank
-    \li VBK_REG=1 indicates the second
+    \li VBK_REG = @ref VBK_BANK_0 indicates the first bank
+    \li VBK_REG = @ref VBK_BANK_1 indicates the second
 */
 void vmemcpy(uint8_t *dest, uint8_t *sour, uint16_t len) OLDCALL PRESERVES_REGS(b, c);
 
@@ -1676,8 +1676,8 @@ void vmemcpy(uint8_t *dest, uint8_t *sour, uint16_t len) OLDCALL PRESERVES_REGS(
     There are two 32x32 Tile Maps in VRAM at addresses 9800h-9BFFh and 9C00h-9FFFh.
 
     GBC only: @ref VBK_REG determines whether Tile Numbers or Tile Attributes get set.
-    \li VBK_REG=0 Tile Numbers are written
-    \li VBK_REG=1 Tile Attributes are written
+    \li VBK_REG = @ref VBK_TILES Tile Numbers are written
+    \li VBK_REG = @ref VBK_ATTRIBUTES Tile Attributes are written
 
     @see set_bkg_tiles, set_win_tiles
 */

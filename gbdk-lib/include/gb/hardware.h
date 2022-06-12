@@ -309,13 +309,13 @@ __REG KEY1_REG;         /**< CPU speed */
 #define KEY1F_DBLSPEED 0b10000000
 #define KEY1F_PREPARE  0b00000001
 
-__REG VBK_REG;          /**< VRAM bank select (CGB only)*/
+__REG VBK_REG;          /**< VRAM bank select (CGB only) @see VBK_BANK_0, VBK_TILES, VBK_BANK_1, VBK_ATTRIBUTES */
 #define rVBK VBK_REG
 
 #define VBK_BANK_0      0        /**< Select Regular Map and Normal Tiles (CGB Mode Only) */
 #define VBK_TILES       0        /**< Select Regular Map and Normal Tiles (CGB Mode Only) */
 #define VBK_BANK_1      1        /**< Select Map Attributes and Extra Tile Bank (CGB Mode Only)*/
-#define VBK_ATTRIBUTES  1        /**< Select Regular Map and Normal Tiles (CGB Mode Only) */
+#define VBK_ATTRIBUTES  1        /**< Select Map Attributes and Extra Tile Bank (CGB Mode Only) */
 
 #define BKGF_PRI      0b10000000  /**< Background CGB BG and Window over Sprite priority Enabled */
 #define BKGF_YFLIP    0b01000000  /**< Background CGB Y axis flip: Vertically mirrored */
@@ -362,6 +362,7 @@ __REG BCPS_REG;         /**< BG color palette specification */
 #define BCPSF_AUTOINC 0b10000000
 __REG BCPD_REG;         /**< BG color palette data */
 #define rBCPD BCPD_REG
+
 __REG OCPS_REG;         /**< OBJ color palette specification */
 #define rOCPS OCPS_REG
 

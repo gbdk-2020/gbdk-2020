@@ -14,7 +14,7 @@ void main(void)
 {
     // Set the screen to black via the palettes to hide the image draw
     if (_cpu == CGB_TYPE) {
-        set_bkg_palette(CGB_BKG_PAL_0, CGB_ONE_PAL, cgb_pal_black);
+        set_bkg_palette(BKGF_CGB_PAL0, CGB_ONE_PAL, cgb_pal_black);
     } else {
         BGP_REG = DMG_PALETTE(DMG_BLACK, DMG_BLACK, DMG_BLACK, DMG_BLACK);
     }
@@ -28,7 +28,7 @@ void main(void)
     // Then load the palettes at the start of a new frame
     wait_vbl_done();
     if (_cpu == CGB_TYPE) {
-        set_bkg_palette(OAMF_CGB_PAL0, CGB_ONE_PAL, scenery_palettes);
+        set_bkg_palette(BKGF_CGB_PAL0, CGB_ONE_PAL, scenery_palettes);
     } else {
         BGP_REG = DMG_PALETTE(DMG_WHITE, DMG_LITE_GRAY, DMG_DARK_GRAY, DMG_BLACK);
     }
