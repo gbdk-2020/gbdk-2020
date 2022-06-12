@@ -98,6 +98,8 @@ typedef uint16_t palette_color_t;   /**< 16 bit color entry */
     \li Each component (R, G, B) may have values from 0 - 31 (5 bits), 31 is brightest.
 
     @see RGB(), set_bkg_palette_entry()
+    @see BKGF_CGB_PAL0, BKGF_CGB_PAL1, BKGF_CGB_PAL2, BKGF_CGB_PAL3
+    @see BKGF_CGB_PAL4, BKGF_CGB_PAL5, BKGF_CGB_PAL6, BKGF_CGB_PAL7
  */
 void set_bkg_palette(uint8_t first_palette, uint8_t nb_palettes, palette_color_t *rgb_data) OLDCALL;
 
@@ -115,6 +117,8 @@ void set_bkg_palette(uint8_t first_palette, uint8_t nb_palettes, palette_color_t
     \li Each component (R, G, B) may have values from 0 - 31 (5 bits), 31 is brightest.
 
     @see RGB(), set_sprite_palette_entry()
+    @see OAMF_CGB_PAL0, OAMF_CGB_PAL1, OAMF_CGB_PAL2, OAMF_CGB_PAL3
+    @see OAMF_CGB_PAL4, OAMF_CGB_PAL5, OAMF_CGB_PAL6, OAMF_CGB_PAL7
  */
 void set_sprite_palette(uint8_t first_palette, uint8_t nb_palettes, palette_color_t *rgb_data) OLDCALL;
 
@@ -125,6 +129,8 @@ void set_sprite_palette(uint8_t first_palette, uint8_t nb_palettes, palette_colo
     @param rgb_data New color data in BGR 15bpp format.
 
     @see set_bkg_palette(), RGB()
+    @see BKGF_CGB_PAL0, BKGF_CGB_PAL1, BKGF_CGB_PAL2, BKGF_CGB_PAL3
+    @see BKGF_CGB_PAL4, BKGF_CGB_PAL5, BKGF_CGB_PAL6, BKGF_CGB_PAL7
  */
 
 void set_bkg_palette_entry(uint8_t palette, uint8_t entry, uint16_t rgb_data) OLDCALL;
@@ -136,6 +142,8 @@ void set_bkg_palette_entry(uint8_t palette, uint8_t entry, uint16_t rgb_data) OL
     @param rgb_data New color data in BGR 15bpp format.
 
     @see set_sprite_palette(), RGB()
+    @see OAMF_CGB_PAL0, OAMF_CGB_PAL1, OAMF_CGB_PAL2, OAMF_CGB_PAL3
+    @see OAMF_CGB_PAL4, OAMF_CGB_PAL5, OAMF_CGB_PAL6, OAMF_CGB_PAL7    
  */
 void set_sprite_palette_entry(uint8_t palette, uint8_t entry, uint16_t rgb_data) OLDCALL;
 

@@ -219,22 +219,22 @@ void init_screen()
 
   if(DEVICE_SUPPORTS_COLOR) {
     /* Transfer color palette */
-    set_bkg_palette( 0, 1, &bkg_p[0] );
-    set_bkg_palette( 1, 1, &bkg_p[4] );
-    set_bkg_palette( 2, 1, &bkg_p[8] );
-    set_bkg_palette( 3, 1, &bkg_p[12] );
-    set_bkg_palette( 4, 1, &bkg_p[16] );
-    set_bkg_palette( 5, 1, &bkg_p[20] );
-    set_bkg_palette( 6, 1, &bkg_p[24] );
-    set_bkg_palette( 7, 1, &bkg_p[28] );
-    set_sprite_palette( 0, 1, &obj_p[0] );
-    set_sprite_palette( 1, 1, &obj_p[4] );
-    set_sprite_palette( 2, 1, &obj_p[8] );
-    set_sprite_palette( 3, 1, &obj_p[12] );
-    set_sprite_palette( 4, 1, &obj_p[16] );
-    set_sprite_palette( 5, 1, &obj_p[20] );
-    set_sprite_palette( 6, 1, &obj_p[24] );
-    set_sprite_palette( 7, 1, &obj_p[28] );
+    set_bkg_palette( BKGF_CGB_PAL0, 1, &bkg_p[0] );
+    set_bkg_palette( BKGF_CGB_PAL1, 1, &bkg_p[4] );
+    set_bkg_palette( BKGF_CGB_PAL2, 1, &bkg_p[8] );
+    set_bkg_palette( BKGF_CGB_PAL3, 1, &bkg_p[12] );
+    set_bkg_palette( BKGF_CGB_PAL4, 1, &bkg_p[16] );
+    set_bkg_palette( BKGF_CGB_PAL5, 1, &bkg_p[20] );
+    set_bkg_palette( BKGF_CGB_PAL6, 1, &bkg_p[24] );
+    set_bkg_palette( BKGF_CGB_PAL7, 1, &bkg_p[28] );
+    set_sprite_palette( OAMF_CGB_PAL0, 1, &obj_p[0] );
+    set_sprite_palette( OAMF_CGB_PAL1, 1, &obj_p[4] );
+    set_sprite_palette( OAMF_CGB_PAL2, 1, &obj_p[8] );
+    set_sprite_palette( OAMF_CGB_PAL3, 1, &obj_p[12] );
+    set_sprite_palette( OAMF_CGB_PAL4, 1, &obj_p[16] );
+    set_sprite_palette( OAMF_CGB_PAL5, 1, &obj_p[20] );
+    set_sprite_palette( OAMF_CGB_PAL6, 1, &obj_p[24] );
+    set_sprite_palette( OAMF_CGB_PAL7, 1, &obj_p[28] );
 
     /* set attributes */
     set_bkg_attr( 0, 0, 20, 18, bkg_c );
