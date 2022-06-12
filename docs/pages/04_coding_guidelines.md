@@ -185,6 +185,24 @@ There are a some scenarios where the compiler will warn about overflows with con
 @anchor docs_chars_varargs
 ## Chars and vararg functions
 
+Parameters (chars, ints, etc) to @ref printf / @ref sprintf should always be explicitly cast to avoid type related parameter passing issues.
+
+For example, below will result in the likely unintended output:
+```{.c}
+sprintf(str_temp, "%u, %d, %x\n", UINT16_MAX, INT16_MIN, UINT16_MAX);
+printf("%s",str_temp);
+
+// Will output: "65535, 0, 8000"
+```
+Instead this will give the intended output:
+```{.c}
+sprintf(str_temp, "%u, %d, %x\n", (uint16_t)UINT16_MAX, (int16_t)INT16_MIN, (uint16_t)UINT16_MAX);
+printf("%s",str_temp);
+
+// Will output: "65535, -32768, FFFF"
+```
+
+### Chars
 In standard C when `chars` are passed to a function with variadic arguments (varargs, those declared with `...` as a parameter), such as @ref printf(), those `chars` get automatically promoted to `ints`. For an 8 bit CPU such as the Game Boy's, this is not as efficient or desirable in most cases. So the default SDCC behavior, which GBDK-2020 expects, is that chars will remain chars and _not_ get promoted to ints when **explicitly cast as chars while calling a varargs function**.
 
   - They must be explicitly re-cast when passing them to a varargs function, even though they are already declared as chars.
@@ -197,17 +215,19 @@ In standard C when `chars` are passed to a function with variadic arguments (var
 
 For example:
 
-    unsigned char i = 0x5A;
-    
-    // NO:
-    // The char will get promoted to an int, producing incorrect printf output
-    // The output will be: 5A 00
-    printf("%hx %hx", i, i);
-    
-    // YES:
-    // The char will remain a char and printf output will be as expected
-    // The output will be: 5A 5A
-    printf("%hx %hx", (unsigned char)i, (unsigned char)i);
+```{.c}
+unsigned char i = 0x5A;
+
+// NO:
+// The char will get promoted to an int, producing incorrect printf output
+// The output will be: 5A 00
+printf("%hx %hx", i, i);
+
+// YES:
+// The char will remain a char and printf output will be as expected
+// The output will be: 5A 5A
+printf("%hx %hx", (unsigned char)i, (unsigned char)i);
+```
 
 Some functions that accept varargs:
  - @ref EMU_printf, @ref gprintf(), @ref printf(), @ref sprintf()

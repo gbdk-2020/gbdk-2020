@@ -19,6 +19,7 @@ This section contains information that may be useful to know or important when u
 
 ## Porting to GBDK-2020 4.0.5
   - GBDK now requires SDCC 12259 or higher with GBDK-2020 patches
+  - Variables in static storage are now initialized to zero per C standard (but remaining WRAM is not cleared)
   - @ref utility_png2asset "png2asset" is the new name for the `png2mtspr` utility
   - @ref lcc : Changed default output format when not specified from `.ihx` to `.gb` (or other active rom extension)
   - The `_BSS` area is deprecated (use `_DATA` instead)

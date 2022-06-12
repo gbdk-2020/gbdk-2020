@@ -33,8 +33,9 @@ void putchar(char c) OLDCALL;
     \li \%x (unsigned int as hex)
     \li \%s (string)
 
-    Warning: to correctly pass chars for printing as chars, they *must*
-    be explicitly re-cast as such when calling the function.
+    Warning: to correctly pass parameters (such as chars, ints, etc)
+    __all of them should always be explicitly cast__ as when calling
+    the function.
     See @ref docs_chars_varargs for more details.
  */
 void printf(const char *format, ...) OLDCALL REENTRANT;
@@ -45,6 +46,11 @@ void printf(const char *format, ...) OLDCALL REENTRANT;
     @param format	The format string as per @ref printf
 
     Does not return the number of characters printed.
+
+    Warning: to correctly pass parameters (such as chars, ints, etc)
+    __all of them should always be explicitly cast__ as when calling
+    the function.
+    See @ref docs_chars_varargs for more details.
  */
 void sprintf(char *str, const char *format, ...) OLDCALL REENTRANT;
 

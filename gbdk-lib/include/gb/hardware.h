@@ -309,7 +309,7 @@ __REG KEY1_REG;         /**< CPU speed */
 #define KEY1F_DBLSPEED 0b10000000
 #define KEY1F_PREPARE  0b00000001
 
-__REG VBK_REG;          /**< VRAM bank select */
+__REG VBK_REG;          /**< VRAM bank select (CGB only)*/
 #define rVBK VBK_REG
 __REG HDMA1_REG;        /**< DMA control 1 */
 #define rHDMA1 HDMA1_REG
