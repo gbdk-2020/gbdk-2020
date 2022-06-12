@@ -311,6 +311,27 @@ __REG KEY1_REG;         /**< CPU speed */
 
 __REG VBK_REG;          /**< VRAM bank select (CGB only)*/
 #define rVBK VBK_REG
+
+#define VBK_BANK_0      0        /**< Select Regular Map and Normal Tiles (CGB Mode Only) */
+#define VBK_TILES       0        /**< Select Regular Map and Normal Tiles (CGB Mode Only) */
+#define VBK_BANK_1      1        /**< Select Map Attributes and Extra Tile Bank (CGB Mode Only)*/
+#define VBK_ATTRIBUTES  1        /**< Select Regular Map and Normal Tiles (CGB Mode Only) */
+
+#define BKGF_PRI      0b10000000  /**< Background CGB BG and Window over Sprite priority Enabled */
+#define BKGF_YFLIP    0b01000000  /**< Background CGB Y axis flip: Vertically mirrored */
+#define BKGF_XFLIP    0b00100000  /**< Background CGB X axis flip: Horizontally mirrored */
+#define BKGF_BANK0    0b00000000  /**< Background CGB Tile VRAM-Bank: Use Bank 0 (CGB Mode Only) */
+#define BKGF_BANK1    0b00001000  /**< Background CGB Tile VRAM-Bank: Use Bank 1 (CGB Mode Only) */
+
+#define BKGF_CGB_PAL0 0b00000000  /**< Background CGB Palette number (CGB Mode Only) */
+#define BKGF_CGB_PAL1 0b00000001  /**< Background CGB Palette number (CGB Mode Only) */
+#define BKGF_CGB_PAL2 0b00000010  /**< Background CGB Palette number (CGB Mode Only) */
+#define BKGF_CGB_PAL3 0b00000011  /**< Background CGB Palette number (CGB Mode Only) */
+#define BKGF_CGB_PAL4 0b00000100  /**< Background CGB Palette number (CGB Mode Only) */
+#define BKGF_CGB_PAL5 0b00000101  /**< Background CGB Palette number (CGB Mode Only) */
+#define BKGF_CGB_PAL6 0b00000110  /**< Background CGB Palette number (CGB Mode Only) */
+#define BKGF_CGB_PAL7 0b00000111  /**< Background CGB Palette number (CGB Mode Only) */
+
 __REG HDMA1_REG;        /**< DMA control 1 */
 #define rHDMA1 HDMA1_REG
 __REG HDMA2_REG;        /**< DMA control 2 */

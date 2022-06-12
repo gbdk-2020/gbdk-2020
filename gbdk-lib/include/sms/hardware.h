@@ -185,6 +185,9 @@ extern const UBYTE _SYSTEM;
 
 extern volatile UBYTE VDP_ATTR_SHIFT;
 
+#define VBK_TILES       0
+#define VBK_ATTRIBUTES  1
+
 #define VDP_SAT_TERM   0xD0
 
 #if defined(__TARGET_sms)
