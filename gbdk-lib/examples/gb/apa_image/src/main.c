@@ -5,7 +5,8 @@
 #include <res/scenery.h>
 
 
-#define CGB_ONE_PAL  1u
+#define CGB_BKG_PAL_0 0u
+#define CGB_ONE_PAL   1u
 const palette_color_t cgb_pal_black[] = {RGB_BLACK, RGB_BLACK, RGB_BLACK, RGB_BLACK};
 
 
@@ -13,7 +14,7 @@ void main(void)
 {
     // Set the screen to black via the palettes to hide the image draw
     if (_cpu == CGB_TYPE) {
-        set_bkg_palette(OAMF_CGB_PAL0, CGB_ONE_PAL, cgb_pal_black);
+        set_bkg_palette(CGB_BKG_PAL_0, CGB_ONE_PAL, cgb_pal_black);
     } else {
         BGP_REG = DMG_PALETTE(DMG_BLACK, DMG_BLACK, DMG_BLACK, DMG_BLACK);
     }
