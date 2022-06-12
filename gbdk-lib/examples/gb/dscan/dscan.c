@@ -128,7 +128,7 @@ void set_bkg_attr( uint8_t x, uint8_t y, uint8_t sx, uint8_t sy, unsigned char *
 {
   uint8_t xx, yy;
 
-  VBK_REG = 1;		/* select palette bank */
+  VBK_REG = VBK_ATTRIBUTES;	/* select palette bank */
   for( yy=0; yy<sy; yy++ ) {
     for( xx=0; xx<sx; xx++ ) {
       msg_tile[xx] = bkgCGB[(unsigned int)*d];
@@ -136,7 +136,7 @@ void set_bkg_attr( uint8_t x, uint8_t y, uint8_t sx, uint8_t sy, unsigned char *
     }
     set_bkg_tiles( x, y+yy, sx, 1, msg_tile );
   }
-  VBK_REG = 0;		/* select data bank */
+  VBK_REG = VBK_TILES;		/* select data bank */
 }
 
 uint8_t make_rnd( uint8_t i )

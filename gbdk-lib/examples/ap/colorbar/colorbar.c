@@ -56,12 +56,12 @@ int main(void)
   set_bkg_data( 0x0, 32, bar_c );
 
   /* Select VRAM bank 1 */
-  VBK_REG = 1;
+  VBK_REG = VBK_ATTRIBUTES;
   /* Set attributes */
   set_bkg_tiles( 0, 0, bar_mWidth, bar_mHeight, bar_a );
 
   /* Select VRAM bank 0 */
-  VBK_REG = 0;
+  VBK_REG = VBK_TILES;
   /* Set data */
   set_bkg_tiles( 0, 0, bar_mWidth, bar_mHeight, bar_m );
 
