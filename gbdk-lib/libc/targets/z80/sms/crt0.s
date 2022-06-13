@@ -72,7 +72,14 @@ _WRITE_VDP_DATA::
         ;; Initialise global variables
         call .gsinit
 
-        ;; Initialize VDP
+        ;; Clear VRAM and Initialize VDP
+
+        ld hl, #((.VDP_R1 << 8) | .R1_DEFAULT)
+        WRITE_VDP_CMD_HL
+
+        call _set_default_palette
+        call .clear_VRAM
+
         ld c, #.VDP_CMD
         ld b, #(.shadow_VDP_end - .shadow_VDP)
         ld hl,#(.shadow_VDP_end - 1)
@@ -104,19 +111,6 @@ _WRITE_VDP_DATA::
         ld a, #.SYSTEM_PAL
 4$:
         ld (#__SYSTEM), a
-
-        ld a, (_shadow_VDP_R1)
-        and #(~.R1_DISP_ON)
-        ld l, a
-        ld h, #(.VDP_REG_MASK | 1)
-        WRITE_VDP_CMD_HL
-
-        call _set_default_palette
-        call .clear_VRAM
-
-        ld hl, (_shadow_VDP_R1)
-        ld h, #(.VDP_REG_MASK | 1)
-        WRITE_VDP_CMD_HL
 
         VDP_CANCEL_INT
 
