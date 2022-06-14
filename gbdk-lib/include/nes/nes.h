@@ -47,27 +47,27 @@ typedef uint8_t palette_color_t;
     uint8_t keys;
     keys = joypad();
     if (keys & J_B) {
-    	...
+        ...
     }
 
     @see joypad
  */
-#define	J_UP         0x10U
-#define	J_DOWN       0x20U
-#define	J_LEFT       0x40U
-#define	J_RIGHT      0x80U
-#define	J_A          0x01U
-#define	J_B          0x02U
-#define	J_SELECT     0x04U
-#define	J_START      0x08U
+#define J_UP         0x10U
+#define J_DOWN       0x20U
+#define J_LEFT       0x40U
+#define J_RIGHT      0x80U
+#define J_A          0x01U
+#define J_B          0x02U
+#define J_SELECT     0x04U
+#define J_START      0x08U
 
 /** Screen modes.
     Normally used by internal functions only.
     @see mode()
  */
-#define	M_DRAWING    0x01U
-#define	M_TEXT_OUT   0x02U
-#define	M_TEXT_INOUT 0x03U
+#define M_DRAWING    0x01U
+#define M_TEXT_OUT   0x02U
+#define M_TEXT_INOUT 0x03U
 /** Set this in addition to the others to disable scrolling
 
     If scrolling is disabled, the cursor returns to (0,0)
@@ -230,8 +230,6 @@ uint8_t joypad() OLDCALL;
 
 /** Waits until at least one of the buttons given in mask are pressed.
 
-    @param mask Bitmask indicating which buttons to wait for
-
     Normally only used for checking one key, but it will
     support many, even J_LEFT at the same time as J_RIGHT. :)
 
@@ -261,8 +259,8 @@ typedef struct {
 } joypads_t;
 
 /** Initializes joypads_t structure for polling multiple joypads
-    @param npads	number of joypads requested (1, 2 or 4)
-    @param joypads	pointer to joypads_t structure to be initialized
+    @param npads    number of joypads requested (1, 2 or 4)
+    @param joypads  pointer to joypads_t structure to be initialized
 
     Only required for @ref joypad_ex, not required for calls to regular @ref joypad()
     @returns number of joypads avaliable
@@ -271,8 +269,6 @@ typedef struct {
 uint8_t joypad_init(uint8_t npads, joypads_t * joypads) OLDCALL;
 
 /** Polls all avaliable joypads
-    @param joypads	pointer to joypads_t structure to be filled with joypad statuses,
-    	   must be previously initialized with joypad_init()
 
     @see joypad_init(), joypads_t
 */
@@ -421,10 +417,6 @@ inline void set_1bpp_colors(uint8_t fgcolor, uint8_t bgcolor) {
 
 /** Sets VRAM Tile Pattern data for the Background
 
-    @param first_tile  Index of the first tile to write
-    @param nb_tiles    Number of tiles to write
-    @param data        Pointer to (2 bpp) source tile data
-
     Writes __nb_tiles__ tiles to VRAM starting at __first_tile__, tile data
     is sourced from __data__. Each Tile is 16 bytes in size (8x8 pixels, 2 bits-per-pixel).
 
@@ -436,10 +428,6 @@ void set_bkg_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) OLD
 #define set_bkg_2bpp_data set_bkg_data
 
 /** Sets VRAM Tile Pattern data for the Background using 1bpp source data
-
-    @param first_tile  Index of the first Tile to write
-    @param nb_tiles    Number of Tiles to write
-    @param data        Pointer to (1bpp) source Tile Pattern data
 
     Similar to @ref set_bkg_data, except source data is 1 bit-per-pixel
     which gets expanded into 2 bits-per-pixel.
@@ -453,12 +441,6 @@ void set_bkg_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) OLD
 void set_bkg_1bpp_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) OLDCALL;
 
 /** Sets a rectangular region of Background Tile Map.
-
-    @param x      X Start position in Background Map tile coordinates. Range 0 - 31
-    @param y      Y Start position in Background Map tile coordinates. Range 0 - 31
-    @param w      Width of area to set in tiles. Range 1 - 32
-    @param h      Height of area to set in tiles. Range 1 - 32
-    @param tiles  Pointer to source tile map data
 
     Entries are copied from map at __tiles__ to the Background Tile Map starting at
     __x__, __y__ writing across for __w__ tiles and down for __h__ tiles.
@@ -511,12 +493,12 @@ inline void set_bkg_based_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, cons
     from a source tile map. Useful for scrolling implementations of maps
     larger than 32 x 32 tiles.
 
-    @param x      X Start position in Background Map tile coordinates. Range 0 - 31
-    @param y      Y Start position in Background Map tile coordinates. Range 0 - 31
-    @param w      Width of area to set in tiles. Range 1 - 255
-    @param h      Height of area to set in tiles. Range 1 - 255
-    @param map    Pointer to source tile map data
-    @param map_w  Width of source tile map in tiles. Range 1 - 255
+    @ param x      X Start position in Background Map tile coordinates. Range 0 - 31
+    @ param y      Y Start position in Background Map tile coordinates. Range 0 - 31
+    @ param w      Width of area to set in tiles. Range 1 - 255
+    @ param h      Height of area to set in tiles. Range 1 - 255
+    @ param map    Pointer to source tile map data
+    @ param map_w  Width of source tile map in tiles. Range 1 - 255
 
     Entries are copied from __map__ to the Background Tile Map starting at
     __x__, __y__ writing across for __w__ tiles and down for __h__ tiles,
@@ -568,13 +550,6 @@ inline void set_bkg_based_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, con
 
 
 /** Copies a rectangular region of Background Tile Map entries into a buffer.
-
-    @param x      X Start position in Background Map tile coordinates. Range 0 - 31
-    @param y      Y Start position in Background Map tile coordinates. Range 0 - 31
-    @param w      Width of area to copy in tiles. Range 0 - 31
-    @param h      Height of area to copy in tiles. Range 0 - 31
-    @param tiles  Pointer to destination buffer for Tile Map data
-
 
     Entries are copied into __tiles__ from the Background Tile Map starting at
     __x__, __y__ reading across for __w__ tiles and down for __h__ tiles.
@@ -641,10 +616,6 @@ inline void scroll_bkg(int8_t x, int8_t y) {
 
 /** Sets VRAM Tile Pattern data for Sprites
 
-    @param first_tile  Index of the first tile to write
-    @param nb_tiles    Number of tiles to write
-    @param data        Pointer to (2 bpp) source Tile Pattern data
-
     Writes __nb_tiles__ tiles to VRAM starting at __first_tile__, tile data
     is sourced from __data__. Each Tile is 16 bytes in size (8x8 pixels, 2 bits-per-pixel).
 
@@ -658,10 +629,6 @@ void set_sprite_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) 
 #define set_sprite_2bpp_data set_sprite_data
 
 /** Sets VRAM Tile Pattern data for Sprites using 1bpp source data
-
-    @param first_tile  Index of the first tile to write
-    @param nb_tiles    Number of tiles to write
-    @param data        Pointer to (1bpp) source Tile Pattern data
 
     Similar to @ref set_sprite_data, except source data is 1 bit-per-pixel
     which gets expanded into 2 bits-per-pixel.
@@ -838,10 +805,6 @@ inline void hide_sprite(uint8_t nb) {
 /** Copies arbitrary data to an address in VRAM
     without taking into account the state of LCDC bits 3 or 4.
 
-    @param vram_addr Pointer to destination VRAM Address
-    @param data      Pointer to source buffer
-    @param len       Number of bytes to copy
-
     Copies __len__ bytes from a buffer at __data__ to VRAM starting at __vram_addr__.
 
     @see set_bkg_data, set_win_data, set_bkg_tiles, set_win_tiles, set_tile_data, set_tiles
@@ -871,11 +834,6 @@ void set_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *vram_addr, c
 
 /** Sets VRAM Tile Pattern data starting from given base address
     without taking into account the state of PPUMASK.
-
-    @param first_tile  Index of the first tile to write
-    @param nb_tiles    Number of tiles to write
-    @param data        Pointer to (2 bpp) source Tile Pattern data.
-    @param base        MSB of the destination address in VRAM (usually 0x80 or 0x90 which gives 0x8000 or 0x9000)
 
     @see set_bkg_data, set_data
 */
