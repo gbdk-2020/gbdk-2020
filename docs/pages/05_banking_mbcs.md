@@ -63,34 +63,68 @@ At the link stage this is done with @ref lcc using pass-through switches for @re
   - `-Wl-yo<N>` where `<N>` is the number of ROM banks. 2, 4, 8, 16, 32, 64, 128, 256, 512
     - `-Wl-yoA` may be used for automatic bank size.
   - `-Wl-ya<N>` where `<N>` is the number of RAM banks. 2, 4, 8, 16, 32
-  - `-Wl-yt<N>` where `<N>` is the type of MBC cartridge (see below).
+  - `-Wl-yt<N>` where `<N>` is the type of MBC cartridge (see chart below).
     - Example: `Wl-yt0x1A`
 
-The MBC settings below are available when using the makebin MBC switch.
+The MBC settings below are available when using the makebin `-Wl-yt<N>` switch.
 
-Additional details available at [Pandocs](https://gbdev.io/pandocs/The_Cartridge_Header.html#0147---cartridge-type "Pandocs")
+Source: Pandocs. Additional details available at [Pandocs](https://gbdev.io/pandocs/The_Cartridge_Header.html#0147---cartridge-type "Pandocs")
+
 
 ```
-# From Makebin source:
-#
-#-Wl-yt<NN> where <NN> is one of the numbers below
-#
-# 0147: Cartridge type:
-# 0-ROM ONLY            12-ROM+MBC3+RAM
-# 1-ROM+MBC1            13-ROM+MBC3+RAM+BATT
-# 2-ROM+MBC1+RAM        19-ROM+MBC5
-# 3-ROM+MBC1+RAM+BATT   1A-ROM+MBC5+RAM
-# 5-ROM+MBC2            1B-ROM+MBC5+RAM+BATT
-# 6-ROM+MBC2+BATTERY    1C-ROM+MBC5+RUMBLE
-# 8-ROM+RAM             1D-ROM+MBC5+RUMBLE+SRAM
-# 9-ROM+RAM+BATTERY     1E-ROM+MBC5+RUMBLE+SRAM+BATT
-# B-ROM+MMM01           1F-Pocket Camera
-# C-ROM+MMM01+SRAM      FD-Bandai TAMA5
-# D-ROM+MMM01+SRAM+BATT FE - Hudson HuC-3
-# F-ROM+MBC3+TIMER+BATT FF - Hudson HuC-1
-# 10-ROM+MBC3+TIMER+RAM+BATT
-# 11-ROM+MBC3
+0147: Cartridge type:
+0x00: ROM ONLY                  0x12: ROM+MBC3+RAM
+0x01: ROM+MBC1                  0x13: ROM+MBC3+RAM+BATT
+0x02: ROM+MBC1+RAM              0x19: ROM+MBC5
+0x03: ROM+MBC1+RAM+BATT         0x1A: ROM+MBC5+RAM
+0x05: ROM+MBC2                  0x1B: ROM+MBC5+RAM+BATT
+0x06: ROM+MBC2+BATTERY          0x1C: ROM+MBC5+RUMBLE
+0x08: ROM+RAM                   0x1D: ROM+MBC5+RUMBLE+SRAM
+0x09: ROM+RAM+BATTERY           0x1E: ROM+MBC5+RUMBLE+SRAM+BATT
+0x0B: ROM+MMM01                 0x1F: Pocket Camera
+0x0C: ROM+MMM01+SRAM            0xFD: Bandai TAMA5
+0x0D: ROM+MMM01+SRAM+BATT       0xFE: Hudson HuC-3
+0x0F: ROM+MBC3+TIMER+BATT       0xFF: Hudson HuC-1
+0x10: ROM+MBC3+TIMER+RAM+BATT
+0x11: ROM+MBC3
 ```
+
+
+| Hex Code | MBC Type      | SRAM | BATTERY | RTC | RUMBLE | EXTRA  | 
+| -------- | ------------- | ---- | ------- | --- | ------ | ------ | 
+| 0x00     | ROM ONLY      |      |         |     |        |        | 
+| 0x01     | MBC-1         |      |         |     |        |        |
+| 0x02     | MBC-1         | SRAM |         |     |        |        |
+| 0x03     | MBC-1         | SRAM | BATTERY |     |        |        |
+| 0x05     | MBC-2         |      |         |     |        |        |
+| 0x06     | MBC-2         |      | BATTERY |     |        |        |
+| 0x08     | ROM (1)       | SRAM |         |     |        |        |
+| 0x09     | ROM (1)       | SRAM | BATTERY |     |        |        |
+| 0x0B     | MMM01         |      |         |     |        |        |
+| 0x0C     | MMM01         | SRAM |         |     |        |        |
+| 0x0D     | MMM01         | SRAM | BATTERY |     |        |        |
+| 0x0F     | MBC-3         |      | BATTERY | RTC |        |        |
+| 0x10     | MBC-3 (2)     | SRAM | BATTERY | RTC |        |        |
+| 0x11     | MBC-3         |      |         |     |        |        |
+| 0x12     | MBC-3 (2)     | SRAM |         |     |        |        |
+| 0x13     | MBC-3 (2)     | SRAM | BATTERY |     |        |        |
+| 0x19     | MBC-5         |      |         |     |        |        |
+| 0x1A     | MBC-5         | SRAM |         |     |        |        |
+| 0x1B     | MBC-5         | SRAM | BATTERY |     |        |        |
+| 0x1C     | MBC-5         |      |         |     | RUMBLE |        |
+| 0x1D     | MBC-5         | SRAM |         |     | RUMBLE |        |
+| 0x1E     | MBC-5         | SRAM | BATTERY |     | RUMBLE |        |
+| 0x20     | MBC-6         |      |         |     |        |        |
+| 0x22     | MBC-7         | SRAM | BATTERY |     | RUMBLE | SENSOR |
+| 0xFC     | POCKET CAMERA |      |         |     |        |        |
+| 0xFD     | BANDAI TAMA5  |      |         |     |        |        |
+| 0xFE     | HuC3          |      |         |     |        |        |
+| 0xFF     | HuC1          | SRAM | BATTERY |     |        |        | 
+
+
+1: No licensed cartridge makes use of this option. Exact behaviour is unknown.
+
+2: MBC3 with RAM size 64 KByte refers to MBC30, used only in Pocket Monsters Crystal Version for Japan. 
 
 
 ## Getting Bank Numbers
