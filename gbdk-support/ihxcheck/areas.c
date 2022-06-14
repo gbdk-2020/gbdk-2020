@@ -13,6 +13,8 @@
 
 #define AREA_GROW_SIZE 500
 
+extern bank_info banks[];
+
 area_item * arealist;
 uint32_t    arealist_size;
 uint32_t    arealist_count;
@@ -39,9 +41,15 @@ static uint32_t addrs_check_overlap(uint32_t a_start, uint32_t a_end, uint32_t b
     } else {
         size_used = min(b_end, a_end) - max(b_start, a_start) + 1; // Calculate minimum overlap
 
-        printf("WARNING: Multiple write of %5d bytes at 0x%x -> 0x%x (%x -> %x, %x -> %x)\n",
-                size_used, max(b_start, a_start), min(b_end, a_end),
-                a_start, a_end, b_start, b_end);
+        uint32_t overlap_start = max(a_start, b_start);
+        uint32_t overlap_end   = min(a_end, b_end);
+
+        // Flag a multiple write warning in the bank where the overflow ENDS
+        // Used later to check for overflows
+        banks[BANK_NUM(overlap_end)].had_multiple_write_warning = true;
+
+        printf("Warning: Multiple write of %5d bytes at 0x%x -> 0x%x writes:(0x%x -> 0x%x, 0x%x -> 0x%x)\n",
+                size_used, overlap_start, overlap_end, a_start, a_end, b_start, b_end);
     }
     return size_used;
 }
