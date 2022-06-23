@@ -43,6 +43,14 @@
 
 typedef uint8_t palette_color_t;
 
+void set_bkg_palette(uint8_t first_palette, uint8_t nb_palettes, palette_color_t *rgb_data) OLDCALL;
+
+void set_sprite_palette(uint8_t first_palette, uint8_t nb_palettes, palette_color_t *rgb_data) OLDCALL;
+
+void set_bkg_palette_entry(uint8_t palette, uint8_t entry, palette_color_t rgb_data) OLDCALL;
+
+void set_sprite_palette_entry(uint8_t palette, uint8_t entry, palette_color_t rgb_data) OLDCALL;
+
 /** Joypad bits.
     A logical OR of these is used in the wait_pad and joypad
     functions.  For example, to see if the B button is pressed
