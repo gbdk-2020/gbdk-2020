@@ -8,34 +8,38 @@
 #include <stdint.h>
 #include <gbdk/version.h>
 #include <nes/hardware.h>
+#include <nes/rgb_to_nes_macro.h>
 
 #define NINTENDO_ENTERTAINMENT_SYSTEM
 #ifdef SEGA
 #undef SEGA
 #endif
 
-#define RGB(r,g,b)        ((r) | ((g) << 2) | ((b) << 4))
-#define RGB8(r,g,b)       (((r) >> 6) | (((g) >> 6) << 2) | (((b) >> 6) << 4))
-#define RGBHTML(RGB24bit) (((RGB24bit) >> 22) | ((((RGB24bit) & 0xFFFF) >> 14) << 2) | ((((RGB24bit) & 0xFF) >> 6) << 4))
+#define RGB(r,g,b)        RGB_TO_NES(((r) | ((g) << 2) | ((b) << 4)))
+#define RGB8(r,g,b)       RGB_TO_NES((((r) >> 6) | (((g) >> 6) << 2) | (((b) >> 6) << 4)))
+#define RGBHTML(RGB24bit) RGB_TO_NES((((RGB24bit) >> 22) | ((((RGB24bit) & 0xFFFF) >> 14) << 2) | ((((RGB24bit) & 0xFF) >> 6) << 4)))
 
 /** Common colors based on the EGA default palette.
+ *
+ * Manually entered from https://www.nesdev.org/wiki/PPU_palettes#RGBI
+ *
  */
-#define RGB_RED        RGB( 3,  0,  0)
-#define RGB_DARKRED    RGB( 2,  0,  0)
-#define RGB_GREEN      RGB( 0,  3,  0)
-#define RGB_DARKGREEN  RGB( 0,  2,  0)
-#define RGB_BLUE       RGB( 0,  0,  3)
-#define RGB_DARKBLUE   RGB( 0,  0,  2)
-#define RGB_YELLOW     RGB( 3,  3,  0)
-#define RGB_DARKYELLOW RGB( 2,  2,  0)
-#define RGB_CYAN       RGB( 0,  3,  3)
-#define RGB_AQUA       RGB( 3,  1,  2)
-#define RGB_PINK       RGB( 3,  0,  3)
-#define RGB_PURPLE     RGB( 2,  0,  2)
-#define RGB_BLACK      RGB( 0,  0,  0)
-#define RGB_DARKGRAY   RGB( 1,  1,  1)
-#define RGB_LIGHTGRAY  RGB( 2,  2,  2)
-#define RGB_WHITE      RGB( 3,  3,  3)
+#define RGB_RED        0x16     // EGA12
+#define RGB_DARKRED    0x06     // EGA4
+#define RGB_GREEN      0x2A     // EGA10
+#define RGB_DARKGREEN  0x1A     // EGA2
+#define RGB_BLUE       0x12     // EGA9
+#define RGB_DARKBLUE   0x02     // EGA1
+#define RGB_YELLOW     0x28     // EGA14
+#define RGB_DARKYELLOW 0x18     // EGA6
+#define RGB_CYAN       0x2C     // EGA11
+#define RGB_AQUA       0x1C     // EGA3
+#define RGB_PINK       0x24     // EGA13
+#define RGB_PURPLE     0x14     // EGA5
+#define RGB_BLACK      0x0F     // EGA0
+#define RGB_DARKGRAY   0x00     // EGA8
+#define RGB_LIGHTGRAY  0x10     // EGA7
+#define RGB_WHITE      0x30     // EGA15
 
 typedef uint8_t palette_color_t;
 
