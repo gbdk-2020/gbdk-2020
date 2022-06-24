@@ -14,6 +14,8 @@ _fill_bkg_rect::
     .define .width  "_fill_bkg_rect_PARM_3"
     .define .height "_fill_bkg_rect_PARM_4"
     .define .tile   "_fill_bkg_rect_PARM_5"
+    sta *.xpos
+    stx *.ypos
     ldy *.height
 1$:
     lda #0
