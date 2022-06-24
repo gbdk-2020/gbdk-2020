@@ -10,7 +10,8 @@ CSRC = crlf.c
 ASSRC =	f_ibm_full.s f_ibm_sh.s f_italic.s f_min.s f_spect.s \
 	font.s font_color.s set_data.s set_1bit_data.s color.s mode.s \
 	metasprites.s metasprites_hide.s metasprites_hide_spr.s \
-	fill_rect_bk.s \
+	set_bk_ts.s fill_rect_bk.s set_bk_attributes.s \
+	nes_palettes.s \
 	pad.s pad_ex.s \
 	crt0.s
 

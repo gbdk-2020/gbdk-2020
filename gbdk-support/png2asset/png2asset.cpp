@@ -25,12 +25,21 @@ enum {
 
 bool export_as_map = false;
 bool use_map_attributes = false;
+bool use_2x2_map_attributes = false;
+bool pack_map_attributes = false;
+bool convert_rgb_to_nes = false;
+size_t map_attributes_width = 0;
+size_t map_attributes_height = 0;
+size_t map_attributes_packed_width = 0;
+size_t map_attributes_packed_height = 0;
 size_t colors_per_pal;  // Number of colors per palette (ex: CGB has 4 colors per palette x 8 palettes total)
 int tile_w;
 int tile_h;
 int sprite_mode;
 int bpp = 2;
 unsigned int tile_origin = 0; // Default to no tile index offset
+
+extern unsigned char rgb_to_nes[64];
 
 struct Tile
 {
@@ -446,6 +455,130 @@ unsigned int PaletteCountApplyMaxLimit(unsigned int max_palettes, unsigned int c
 		return cur_palette_size;
 }
 
+//
+// Builds palettes and palette-per-tile (attributes) for an image
+//
+// Inputs:
+//   image32         : Input image in RGBA32 format
+//   palettes        : Palettes for image. Will be added-to / merged with new palettes.
+//   half_resolution : If true, attributes will follow a constraint of every 2x2 cell having the same attribute.
+//
+// Returns: array of attributes. This always has *per-tile* dimensions, even when half_resolution is true.
+//
+int* BuildPalettesAndAttributes(const PNGImage& image32, vector< SetPal >& palettes, bool half_resolution)
+{
+	int* palettes_per_tile = new int[(image32.w / tile_w) * (image32.h / tile_h)];
+	int sx = half_resolution ? 2 : 1;
+	int sy = half_resolution ? 2 : 1;
+	for (unsigned int y = 0; y < image32.h; y += tile_h * sy)
+	{
+		for (unsigned int x = 0; x < image32.w; x += tile_w * sx)
+		{
+			//Get palette colors on (x, y, tile_w, tile_h)
+			SetPal pal = GetPaletteColors(image32, (x / sx) * sx, (y / sy) * sy, sx * tile_w, sy * tile_h);
+			if (pal.size() > colors_per_pal)
+			{
+				printf("Error: more than %d colors found in tile at x:%d, y:%d of size w:%d, h:%d\n",
+					(unsigned int)colors_per_pal,
+					(x / sx) * sx,
+					(y / sy) * sy,
+					sx * tile_w,
+					sy * tile_h);
+				delete[] palettes_per_tile;
+				return nullptr;
+			}
+
+			//Check if it matches any palettes or create a new one
+			size_t i;
+			for (i = 0; i < palettes.size(); ++i)
+			{
+				//Try to merge this palette with any of the palettes (checking if they are equal is not enough since the palettes can have less than 4 colors)
+				SetPal merged(palettes[i]);
+				merged.insert(pal.begin(), pal.end());
+				if (merged.size() <= colors_per_pal)
+				{
+					if (palettes[i].size() <= colors_per_pal)
+						palettes[i] = merged; //Increase colors with this palette (it has less than 4 colors)
+					break; //Found palette
+				}
+			}
+
+			if (i == palettes.size())
+			{
+				//Palette not found, add a new one
+				palettes.push_back(pal);
+			}
+			// Assign single or multiple entries in palettes_per_tile, to keep it independent of
+			// of half_resolution parameter
+			int dx = ((x / tile_w) / sx) * sx;
+			int dy = ((y / tile_h) / sy) * sy;
+			int w = (image32.w / tile_w);
+			for (int yy = 0; yy < sy; yy++)
+			{
+				for (int xx = 0; xx < sx; xx++)
+				{
+					palettes_per_tile[(dy + yy) * w + dx + xx] = i;
+				}
+			}
+		}
+	}
+	return palettes_per_tile;
+}
+
+unsigned char GetMapAttribute(size_t x, size_t y)
+{
+	if (x < map_attributes_width && y < map_attributes_height)
+		return map_attributes[y * map_attributes_width + x];
+	else
+		return 0;
+}
+
+void ReduceMapAttributes2x2(const vector< SetPal >& palettes)
+{
+	size_t w = (map_attributes_width + 1) / 2;
+	size_t h = (map_attributes_height + 1) / 2;
+	vector< unsigned char > map_attributes_2x2;
+	map_attributes_2x2.resize(w * h);
+	for (size_t y = 0; y < h; y++)
+	{
+		for (size_t x = 0; x < w; x++)
+		{
+			// Use only Top-left attribute, ignoring the other three as they should now be identical
+			map_attributes_2x2[y * w + x] = GetMapAttribute(2 * x, 2 * y);
+		}
+	}
+	// Overwrite old attributes
+	map_attributes_width = w;
+	map_attributes_height = h;
+	map_attributes = map_attributes_2x2;
+}
+
+//
+// Pack map attributes
+// (NES has packs multiple 2-bit entries into one byte)
+//
+void PackMapAttributes()
+{
+	vector< unsigned char > map_attributes_packed;
+	map_attributes_packed_width = (map_attributes_width + 1) / 2;
+	map_attributes_packed_height = (map_attributes_width + 1) / 2;
+	map_attributes_packed.resize(map_attributes_packed_width * map_attributes_packed_height);
+	for (size_t y = 0; y < map_attributes_packed_height; y++)
+	{
+		for (size_t x = 0; x < map_attributes_packed_width; x++)
+		{
+			unsigned char a_tl = GetMapAttribute(2 * x + 0, 2 * y + 0);
+			unsigned char a_tr = GetMapAttribute(2 * x + 1, 2 * y + 0);
+			unsigned char a_bl = GetMapAttribute(2 * x + 0, 2 * y + 1);
+			unsigned char a_br = GetMapAttribute(2 * x + 1, 2 * y + 1);
+			unsigned char packed_bits = (a_br << 6) | (a_bl << 4) | (a_tr << 2) | (a_tl << 0);
+			map_attributes_packed[map_attributes_packed_width * y + x] = packed_bits;
+		}
+	}
+	// Overwrite old attributes
+	map_attributes = map_attributes_packed;
+}
+
 bool GetSourceTileset(bool keep_palette_order, unsigned int max_palettes, vector< SetPal >& palettes) {
 
 	lodepng::State sourceTilesetState;
@@ -497,45 +630,7 @@ bool GetSourceTileset(bool keep_palette_order, unsigned int max_palettes, vector
 			return false;
 		}
 
-
-		int* palettes_per_tile = new int[(image32.w / tile_w) * (image32.h / tile_h)];
-
-		for (unsigned int y = 0; y < image32.h; y += tile_h)
-		{
-			for (unsigned int x = 0; x < image32.w; x += tile_w)
-			{
-				//Get palette colors on (x, y, tile_w, tile_h)
-				SetPal pal = GetPaletteColors(image32, x, y, tile_w, tile_h);
-				if (pal.size() > colors_per_pal)
-				{
-					printf("Error: more than %d colors found in tile at x:%d, y:%d of size w:%d, h:%d\n", (unsigned int)colors_per_pal, x, y, tile_w, tile_h);
-					return false;
-				}
-
-				//Check if it matches any palettes or create a new one
-				size_t i;
-				for (i = 0; i < palettes.size(); ++i)
-				{
-					//Try to merge this palette with any of the palettes (checking if they are equal is not enough since the palettes can have less than 4 colors)
-					SetPal merged(palettes[i]);
-					merged.insert(pal.begin(), pal.end());
-					if (merged.size() <= colors_per_pal)
-					{
-						if (palettes[i].size() <= colors_per_pal)
-							palettes[i] = merged; //Increase colors with this palette (it has less than 4 colors)
-						break; //Found palette
-					}
-				}
-
-				if (i == palettes.size())
-				{
-					//Palette not found, add a new one
-					palettes.push_back(pal);
-				}
-
-				palettes_per_tile[(y / tile_h) * (image32.w / tile_w) + (x / tile_w)] = i;
-			}
-		};
+		int* palettes_per_tile = BuildPalettesAndAttributes(image32, palettes, use_2x2_map_attributes);
 
 		//Create the indexed image
 		source_tileset_image.data.clear();
@@ -642,6 +737,8 @@ int main(int argc, char* argv[])
 		printf("-noflip             disable tile flip\n");
 		printf("-map                Export as map (tileset + bg)\n");
 		printf("-use_map_attributes Use CGB BG Map attributes\n");
+		printf("-use_nes_attributes Use NES BG Map attributes\n");
+		printf("-use_nes_colors     Convert RGB color values to NES PPU colors\n");
 		printf("-use_structs        Group the exported info into structs (default: false) (used by ZGB Game Engine)\n");
 		printf("-bpp                bits per pixel: 1, 2, 4 (default: 2)\n");
 		printf("-max_palettes       max number of palettes allowed (default: 8)\n");
@@ -752,6 +849,16 @@ int main(int argc, char* argv[])
 		else if(!strcmp(argv[i], "-use_map_attributes"))
 		{
 			use_map_attributes = true;
+		}
+		else if (!strcmp(argv[i], "-use_nes_attributes"))
+		{
+			use_map_attributes = true;
+			use_2x2_map_attributes = true;
+			pack_map_attributes = true;
+		}
+		else if (!strcmp(argv[i], "-use_nes_colors"))
+		{
+			convert_rgb_to_nes = true;
 		}
 		else if(!strcmp(argv[i], "-use_structs"))
 		{
@@ -929,43 +1036,7 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 
-		int* palettes_per_tile = new int[(image32.w / tile_w) * (image32.h /tile_h)];
-		for(unsigned int y = 0; y < image32.h; y += tile_h)
-		{
-			for(unsigned int x = 0; x < image32.w; x += tile_w)
-			{
-				//Get palette colors on (x, y, 8, tile_h)
-				SetPal pal = GetPaletteColors(image32, x, y, tile_w, tile_h);
-				if(pal.size() > colors_per_pal)
-				{
-					printf("Error: more than %d colors found in tile at x:%d, y:%d of size w:%d, h:%d\n", (unsigned int)colors_per_pal, x, y, tile_w, tile_h);
-					return 1;
-				}
-
-				//Check if it matches any palettes or create a new one
-				size_t i;
-				for(i = 0; i < palettes.size(); ++i)
-				{
-					//Try to merge this palette wit any of the palettes (checking if they are equal is not enough since the palettes can have less than 4 colors)
-					SetPal merged(palettes[i]);
-					merged.insert(pal.begin(), pal.end());
-					if(merged.size() <= colors_per_pal)
-					{
-						if(palettes[i].size() <= colors_per_pal)
-							palettes[i] = merged; //Increase colors with this palette (it has less than 4 colors)
-						break; //Found palette
-					}
-				}
-
-				if(i == palettes.size())
-				{
-					//Palette not found, add a new one
-					palettes.push_back(pal);
-				}
-
-				palettes_per_tile[(y / tile_h) * (image32.w / tile_w) + (x / tile_w)] = i;
-			}
-		}
+		int* palettes_per_tile = BuildPalettesAndAttributes(image32, palettes, use_2x2_map_attributes);
 
 		//Create the indexed image
 		image.data.clear();
@@ -1033,6 +1104,25 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
+	map_attributes_width = image.w / 8;
+	map_attributes_height = image.h / 8;
+	// Optionally perform 2x2 reduction on attributes (NES attribute table has this format)
+	if(use_2x2_map_attributes)
+	{
+		// NES attribute map dimensions are half-resolution 
+		ReduceMapAttributes2x2(palettes);
+	}
+	// Optionally pack map attributes into NES PPU format
+	if (pack_map_attributes)
+	{
+		PackMapAttributes();
+	}
+	else
+	{
+		// Use original attribute dimensions for packed
+		map_attributes_packed_width = map_attributes_width;
+		map_attributes_packed_height = map_attributes_height;
+	}
 
 	//Output .h FILE
 	FILE* file;
@@ -1091,7 +1181,15 @@ int main(int argc, char* argv[])
 						fprintf(file, "%s_map_attributes\n", data_name.c_str());
 					else
 						fprintf(file, "0\n");
-					
+
+					if (use_map_attributes)
+					{
+						fprintf(file, "#define %s_MAP_ATTRIBUTES_WIDTH %d\n", data_name.c_str(), (int)map_attributes_width);
+						fprintf(file, "#define %s_MAP_ATTRIBUTES_HEIGHT %d\n", data_name.c_str(), (int)map_attributes_height);
+						fprintf(file, "#define %s_MAP_ATTRIBUTES_PACKED_WIDTH %d\n", data_name.c_str(), (int)map_attributes_packed_width);
+						fprintf(file, "#define %s_MAP_ATTRIBUTES_PACKED_HEIGHT %d\n", data_name.c_str(), (int)map_attributes_packed_height);
+					}
+
                     if(use_structs)
 					{
                         fprintf(file, "#define %s_TILE_PALS ",  data_name.c_str());
@@ -1181,7 +1279,13 @@ int main(int argc, char* argv[])
 					unsigned char* pal_ptr = &image.palette[i * (colors_per_pal * RGBA32_SZ)];
 					for(int c = 0; c < (int)colors_per_pal; ++ c, pal_ptr += RGBA32_SZ)
 					{
-						fprintf(file, "RGB8(%3d,%3d,%3d)", pal_ptr[0], pal_ptr[1], pal_ptr[2]);
+						size_t rgb222 = (((pal_ptr[2] >> 6) & 0x3) << 4) |
+										(((pal_ptr[1] >> 6) & 0x3) << 2) |
+										(((pal_ptr[0] >> 6) & 0x3) << 0);
+						if (convert_rgb_to_nes)
+							fprintf(file, "0x%0X", rgb_to_nes[rgb222]);
+						else
+							fprintf(file, "RGB8(%3d,%3d,%3d)", pal_ptr[0], pal_ptr[1], pal_ptr[2]);
 						if(c != (int)colors_per_pal - 1)
 							fprintf(file, ", ");
 						 // Line break every 4 color entries, to keep line width down
@@ -1330,23 +1434,23 @@ int main(int argc, char* argv[])
 					fprintf(file, "\n");
 					fprintf(file, "const unsigned char %s_map_attributes[%d] = {\n", data_name.c_str(), (unsigned int)map_attributes.size());
 					if (output_transposed) {
-						for (size_t i = 0; i < line_size; ++i)
+						for (size_t i = 0; i < map_attributes_packed_width; ++i)
 						{
 							fprintf(file, "\t");
-							for (size_t j = 0; j < image.h / 8; ++j)
+							for (size_t j = 0; j < map_attributes_packed_height; ++j)
 							{
-								fprintf(file, "0x%02x,", map_attributes[j * line_size + i]);
+								fprintf(file, "0x%02x,", map_attributes[j * map_attributes_packed_width + i]);
 							}
 							fprintf(file, "\n");
 						}
 					}
 					else {
-						for (size_t j = 0; j < image.h / 8; ++j)
+						for (size_t j = 0; j < map_attributes_packed_height; ++j)
 						{
 							fprintf(file, "\t");
-							for (size_t i = 0; i < line_size; ++i)
+							for (size_t i = 0; i < map_attributes_packed_width; ++i)
 							{
-								fprintf(file, "0x%02x,", map_attributes[j * line_size + i]);
+								fprintf(file, "0x%02x,", map_attributes[j * map_attributes_packed_width + i]);
 							}
 							fprintf(file, "\n");
 						}

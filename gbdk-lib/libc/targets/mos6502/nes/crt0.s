@@ -43,7 +43,7 @@ __current_bank::                        .ds 1
 _sys_time::                             .ds 2
 _shadow_PPUCTRL::                       .ds 1
 _shadow_PPUMASK::                       .ds 1
-__crt0_paletteShadow:                   .ds 25
+__crt0_paletteShadow::                  .ds 25
 __crt0_spritePageValid:                 .ds 1
 __crt0_NMI_Done:                        .ds 1
 __crt0_NMI_insideNMI:                   .ds 1

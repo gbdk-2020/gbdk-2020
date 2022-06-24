@@ -92,6 +92,7 @@
 
         .globl _shadow_PPUCTRL, _shadow_PPUMASK
         .globl _bkg_scroll_x, _bkg_scroll_y
+        .globl __crt0_paletteShadow
         
         ;; Identity table for register-to-register-adds and bankswitching
         .globl .identity, _identity
