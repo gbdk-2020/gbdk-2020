@@ -8,6 +8,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#include "common.h"
 #include "gbcompress.h"
 #include "rlecompress.h"
 #include "files.h"
@@ -31,6 +32,7 @@ bool opt_compression_type = COMPRESSION_TYPE_DEFAULT;
 bool opt_c_source_input   = false;
 bool opt_c_source_output  = false;
 char opt_c_source_output_varname[MAX_STR_LEN] = "var_name";
+uint16_t opt_bank_num     = BANK_NUM_ROM_UNSET;
 
 static void display_help(void);
 static int handle_args(int argc, char * argv[]);
@@ -45,19 +47,21 @@ static void display_help(void) {
        "Use: compress a binary file and write it out.\n"
        "\n"
        "Options\n"
-       "-h    : Show this help screen\n"
-       "-d    : Decompress (default is compress)\n"
-       "-v    : Verbose output\n"
-       "--cin  : Read input as .c source format (8 bit char ONLY, uses first array found)\n"
-       "--cout : Write output in .c / .h source format (8 bit char ONLY) \n"
+       "-h       : Show this help screen\n"
+       "-d       : Decompress (default is compress)\n"
+       "-v       : Verbose output\n"
+       "--cin    : Read input as .c source format (8 bit char ONLY, uses first array found)\n"
+       "--cout   : Write output in .c / .h source format (8 bit char ONLY) \n"
        "--varname=<NAME> : specify variable name for c source output\n"
        "--alg=<type>     : specify compression type: 'rle', 'gb' (default)\n"
+       "--bank=<num>     : Add Bank Ref: %d - %d (default is none, with --cout only)\n"
        "Example: \"gbcompress binaryfile.bin compressed.bin\"\n"
        "Example: \"gbcompress -d compressedfile.bin decompressed.bin\"\n"
        "Example: \"gbcompress --alg=rle binaryfile.bin compressed.bin\"\n"
        "\n"
        "The default compression (gb) is the type used by gbtd/gbmb\n"
-       "The rle compression is Amiga IFF style\n"
+       "The rle compression is Amiga IFF style\n",
+       BANK_NUM_ROM_MIN, BANK_NUM_ROM_MAX
        );
 }
 
@@ -93,6 +97,12 @@ int handle_args(int argc, char * argv[]) {
                 opt_compression_type = COMPRESSION_TYPE_RLE_BLOCK;
             } else if (strstr(argv[i], "-d") == argv[i]) {
                 opt_mode_compress = false;
+            } else if (strstr(argv[i], "--bank=") == argv[i]) {
+                opt_bank_num = atoi(argv[i] + strlen("--bank="));
+                if ((opt_bank_num < BANK_NUM_ROM_MIN) || (opt_bank_num > BANK_NUM_ROM_MAX)) {
+                    printf("gbcompress: Warning: Bank Num %d outside of range %d - %d\n", opt_bank_num, BANK_NUM_ROM_MIN, BANK_NUM_ROM_MAX);
+                    return false;
+                }
             } else
                 printf("gbcompress: Warning: Ignoring unknown option %s\n", argv[i]);
         }
@@ -156,7 +166,7 @@ static int compress() {
 
             if (opt_c_source_output) {
                 c_source_set_sizes(out_len, buf_size_in); // compressed, decompressed
-                result = file_write_c_output_from_buffer(filename_out, p_buf_out, out_len, opt_c_source_output_varname, true);
+                result = file_write_c_output_from_buffer(filename_out, p_buf_out, out_len, opt_c_source_output_varname, true, opt_bank_num);
             }
             else
                 result = file_write_from_buffer(filename_out, p_buf_out, out_len);
@@ -203,7 +213,7 @@ static int decompress() {
 
             if (opt_c_source_output) {
                 c_source_set_sizes(buf_size_in, out_len); // compressed, decompressed
-                result = file_write_c_output_from_buffer(filename_out, p_buf_out, out_len, opt_c_source_output_varname, true);
+                result = file_write_c_output_from_buffer(filename_out, p_buf_out, out_len, opt_c_source_output_varname, true, opt_bank_num);
             }
             else {
                 result = file_write_from_buffer(filename_out, p_buf_out, out_len);
@@ -214,6 +224,8 @@ static int decompress() {
                     printf("Decompressed: %d bytes -> %d bytes (compression was %%%.2f)\n", buf_size_in, out_len, ((double)buf_size_in / (double)out_len) * 100);
                 return EXIT_SUCCESS;
             }
+        } else if (out_len == 0) {
+            printf("gbcompress: ERROR: Failed to decompress any bytes (from %d input). Data may not be compressed\n", buf_size_in);
         }
     }
 
