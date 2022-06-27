@@ -75,11 +75,7 @@ _get_win_data::
 _get_sprite_data::
         PUSH    BC
 
-        LDA     HL,7(SP)        ; Skip return address and registers
-        LD      A,(HL-)         ; BC = data
-        LD      B, A
-        LD      A,(HL-)
-        LD      C, A
+        LDA     HL,5(SP)        ; Skip return address and registers
         LD      A,(HL-)         ; E = nb_tiles
         LD      E, A
         LD      L,(HL)          ; L = first_tile
@@ -91,7 +87,8 @@ _get_sprite_data::
         LD      DE,#0x1000      ; DE = nb_tiles = 256
         JR      2$
 1$:
-        LD      H,#0x00         ; HL = nb_tiles
+        XOR     A
+        LD      H,A             ; HL = nb_tiles
         LD      L,E
         ADD     HL,HL           ; HL *= 16
         ADD     HL,HL
@@ -101,18 +98,21 @@ _get_sprite_data::
         LD      E,L
 2$:
         POP     HL              ; HL = first_tile
-        LD      L,A
+        LD      H,A
         ADD     HL,HL           ; HL *= 16
         ADD     HL,HL
         ADD     HL,HL
         ADD     HL,HL
 
-        PUSH    BC
         LD      BC,#0x8000
         ADD     HL,BC
         LD      B,H
-        LD      C,L
-        POP     HL
+        LD      C,L             ; BC = source
+
+        LDA     HL,7(SP)
+        LD      A,(HL-)
+        LD      L,(HL)
+        LD      H, A            ; HL = data
 
         CALL    .copy_vram
 
