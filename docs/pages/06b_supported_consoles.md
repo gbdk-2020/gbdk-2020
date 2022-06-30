@@ -140,11 +140,17 @@ In the example @ref utility_png2asset is used to generate assets in the native f
 
 
 # Porting From Game Boy to Analogue Pocket
-The Analogue Pocket operating in `.pocket` mode is (for practical purposes) functionally identical to the Game Boy / Color though it has a couple changes:
+The Analogue Pocket operating in `.pocket` mode is (for practical purposes) functionally identical to the Game Boy / Color though it has a couple changes listed below. These are handled automatically in GBDK as long as the practices outlined below are followed.
 
 Official differences:
    - Altered register flag and address definitions
-   - Different boot logo
+     - @ref STAT_REG "STAT" & @ref LCDC_REG "LCDC": Order of register bits is reversed
+       - Example: @ref LCDCF_B_ON "LCD on/off" is LCDC.0 instead of .7
+       - Example: @ref STATF_B_LYC "LYC Interrupt enable" is STAT.1 instead of .6
+     - @ref LCDC_REG "LCDC" address is `0xFF4E` instead of `0xFF40`
+   - Different logo data in the header at address `0x0104`:
+     - `0x01, 0x10, 0xCE, 0xEF, 0x00, 0x00, 0x44, 0xAA, 0x00, 0x74, 0x00, 0x18, 0x11, 0x95, 0x00, 0x34, 0x00, 0x1A, 0x00, 0xD5, 0x00, 0x22, 0x00, 0x69, 0x6F, 0xF6, 0xF7, 0x73, 0x09, 0x90, 0xE1, 0x10, 0x44, 0x40, 0x9A, 0x90, 0xD5, 0xD0, 0x44, 0x30, 0xA9, 0x21, 0x5D, 0x48, 0x22, 0xE0, 0xF8, 0x60`
+                
 
 Observed differences:
   - MBC1 and MBC5 are supported, MBC3 won't save, the HuC3 isn't supported at all (via JoseJX)
