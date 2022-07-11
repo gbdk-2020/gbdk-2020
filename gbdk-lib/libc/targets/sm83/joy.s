@@ -44,4 +44,4 @@ _remove_JOY::
 	.area	_DATA
 
 .int_0x60::
-	.blkw	0x08
+	.blkw	0x05

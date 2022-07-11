@@ -78,4 +78,4 @@ _remove_LCD::
 	.area	_DATA
 
 .int_0x48::
-	.blkw	0x08
+	.blkw	0x04

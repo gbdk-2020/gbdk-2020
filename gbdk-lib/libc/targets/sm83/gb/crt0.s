@@ -348,7 +348,7 @@ __is_GBA::
 _sys_time::
         .ds     0x02            ; System time in VBL units
 .int_0x40::
-        .blkw   0x0A            ; 4 interrupt handlers (built-in + user-defined)
+        .blkw   0x06            ; 5 interrupt handlers: 1 built-in + 4 user-defined
 
 .end_crt_globals:
 

@@ -25,4 +25,4 @@ _remove_TIM::
         .area   _DATA
 
 .int_0x50::
-        .blkw   0x08
+        .blkw   0x05

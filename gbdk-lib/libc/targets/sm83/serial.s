@@ -109,7 +109,7 @@ __io_in::
 __io_status::
 	.ds	0x01		; Status of serial IO
 .int_0x58::
-	.blkw	0x08
+	.blkw	0x05
 
 	.area	_CODE
 
