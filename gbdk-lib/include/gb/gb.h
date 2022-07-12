@@ -203,9 +203,8 @@ void remove_JOY(int_handler h) OLDCALL;
     @param h  The handler to be called whenever a V-blank
     interrupt occurs.
 
-    Up to 4 handlers may be added, with the last added being
-    called last.  If the @ref remove_VBL function is to be called,
-    only three may be added.
+    Up to 4 handlers may be added, with the last added
+    being called last.
 
     Do not use @ref CRITICAL and @ref INTERRUPT attributes for a
     function added via add_VBL() (or LCD, etc). The attributes
@@ -221,6 +220,9 @@ void add_VBL(int_handler h) OLDCALL;
     Called when the LCD interrupt occurs, which is normally
     when @ref LY_REG == @ref LYC_REG.
 
+    Up to 3 handlers may be added, with the last added
+    being called last.
+
     There are various reasons for this interrupt to occur
     as described by the @ref STAT_REG register ($FF41). One very
     popular reason is to indicate to the user when the
@@ -229,7 +231,11 @@ void add_VBL(int_handler h) OLDCALL;
     @ref SCX_REG / @ref SCY_REG registers ($FF43/$FF42) to perform
     special video effects.
 
-    @see add_VBL
+    If this ISR is to be called once per each scanline then
+    make sure that the time it takes to execute is less
+    than the duration of a scanline.
+
+    @see add_VBL, nowait_int_handler
 */
 void add_LCD(int_handler h) OLDCALL;
 
@@ -240,19 +246,25 @@ void add_LCD(int_handler h) OLDCALL;
     This interrupt occurs when the @ref TIMA_REG
     register ($FF05) changes from $FF to $00.
 
+    Up to 4 handlers may be added, with the last added
+    being called last.
+
     @see add_VBL
     @see set_interrupts() with TIM_IFLAG
 */
 void add_TIM(int_handler h) OLDCALL;
 
-/** Adds a timer interrupt handler, that could be 
-    interrupted by the other interrupts, 
+/** Adds a timer interrupt handler, that could be
+    interrupted by the other interrupts,
     as well as itself, if it runs too slow.
 
     Can not be used together with @ref add_TIM
 
     This interrupt occurs when the @ref TIMA_REG
     register ($FF05) changes from $FF to $00.
+
+    Up to 4 handlers may be added, with the last added
+    being called last.
 
     @see add_VBL
     @see set_interrupts() with TIM_IFLAG
@@ -263,6 +275,9 @@ void add_low_priority_TIM(int_handler h) OLDCALL;
 
     This interrupt occurs when a serial transfer has
     completed on the game link port.
+
+    Up to 4 handlers may be added, with the last added
+    being called last.
 
     @see send_byte, receive_byte(), add_VBL()
     @see set_interrupts() with SIO_IFLAG
@@ -278,6 +293,9 @@ void add_SIO(int_handler h) OLDCALL;
     software should expect this interrupt to occur one
     or more times for every button press and one or more
     times for every button release.
+
+    Up to 4 handlers may be added, with the last added
+    being called last.
 
     @see joypad(), add_VBL()
 */
