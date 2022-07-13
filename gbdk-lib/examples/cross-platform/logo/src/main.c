@@ -26,18 +26,17 @@ void main() {
         VBK_REG = VBK_TILES;
     }
 #elif defined(SYSTEM_NES)
-    // Make sure attribute coordinates are rounded to 4
-    // TODO: Round to 2 once support for odd attribute coordinates / dimensions is in place
-    set_bkg_attributes((((DEVICE_SCREEN_WIDTH - (GBDK_2020_logo_WIDTH >> 3)) >> 1) & 0xFC) >> 1, 
-                       (((DEVICE_SCREEN_HEIGHT - (GBDK_2020_logo_HEIGHT >> 3)) >> 1) & 0xFC) >> 1, 
+    // Make sure attribute coordinates are rounded to 2
+    set_bkg_attributes((((DEVICE_SCREEN_WIDTH - (GBDK_2020_logo_WIDTH >> 3)) >> 1) & 0xFE) >> 1, 
+                       (((DEVICE_SCREEN_HEIGHT - (GBDK_2020_logo_HEIGHT >> 3)) >> 1) & 0xFE) >> 1, 
                        GBDK_2020_logo_MAP_ATTRIBUTES_WIDTH, 
                        GBDK_2020_logo_MAP_ATTRIBUTES_HEIGHT, 
                        GBDK_2020_logo_map_attributes);
 #endif
 #if defined(SYSTEM_NES)
-    // Make sure tile coordinates are rounded to 4, to match attribute table
-    set_tile_map(((DEVICE_SCREEN_WIDTH - (GBDK_2020_logo_WIDTH >> 3)) >> 1) & 0xFC, 
-                 ((DEVICE_SCREEN_HEIGHT - (GBDK_2020_logo_HEIGHT >> 3)) >> 1) & 0xFC, 
+    // Make sure tile coordinates are rounded to 2, to match attribute table
+    set_tile_map(((DEVICE_SCREEN_WIDTH - (GBDK_2020_logo_WIDTH >> 3)) >> 1) & 0xFE, 
+                 ((DEVICE_SCREEN_HEIGHT - (GBDK_2020_logo_HEIGHT >> 3)) >> 1) & 0xFE, 
                  GBDK_2020_logo_WIDTH >> 3, 
                  GBDK_2020_logo_HEIGHT >> 3, 
                  GBDK_2020_logo_map);
