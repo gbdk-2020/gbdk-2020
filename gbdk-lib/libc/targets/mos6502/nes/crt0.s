@@ -59,6 +59,7 @@ __crt0_textTemp:                        .ds 1
 .tmp::                                  .ds 2
 _bkg_scroll_x::                         .ds 1
 _bkg_scroll_y::                         .ds 1
+_attribute_row_dirty::                  .ds 1
 
         ;; ****************************************
 
@@ -96,6 +97,9 @@ _bkg_scroll_y::                         .ds 1
         ;; For malloc
         .area _HEAP
         .area _HEAP_END
+
+.area DATA
+_attribute_shadow::     .ds 64
 
 .area CODE
 

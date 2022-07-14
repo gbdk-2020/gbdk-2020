@@ -15,6 +15,15 @@
         .SCREENWIDTH    = 256
         .SCREENHEIGHT   = 240
 
+        ;; NAMETABLES
+        PPU_NT0         = 0x2000
+        PPU_AT0         = 0x23C0
+
+        ATTRIBUTE_MASK_TL = 0b00000011
+        ATTRIBUTE_MASK_TR = 0b00001100
+        ATTRIBUTE_MASK_BL = 0b00110000
+        ATTRIBUTE_MASK_BR = 0b11000000
+
         ;; Hardware registers / masks
         PPUCTRL             = 0x2000
         PPUCTRL_NMI         = 0b10000000
@@ -93,6 +102,7 @@
         .globl _shadow_PPUCTRL, _shadow_PPUMASK
         .globl _bkg_scroll_x, _bkg_scroll_y
         .globl __crt0_paletteShadow
+        .globl _attribute_shadow, _attribute_row_dirty
         
         ;; Identity table for register-to-register-adds and bankswitching
         .globl .identity, _identity
