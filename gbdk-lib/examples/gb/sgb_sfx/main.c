@@ -7,6 +7,7 @@
 #include <gbdk/console.h>
 
 #include "sgb_snd_sfx.h"
+#include "sgb_sfx_names.h"
 
 
 // Stores button presses
@@ -41,7 +42,7 @@ void sgb_sound_effect(uint8_t sfx_a, uint8_t sfx_b) {
 }
 
 
-#define DISP_SFX_A_START 4
+#define DISP_SFX_A_START 3
 #define DISP_SFX_B_START 10
 
 // Display basic operation info on the screen
@@ -66,11 +67,16 @@ void init_display() {
 // Update the display if either of the sfx types have changed
 void update_display(void) {
 
-    gotoxy(7, DISP_SFX_A_START);
+    gotoxy(7u, DISP_SFX_A_START);
     printf("0x%hx", (uint8_t)sfx_num_a);
+    gotoxy(1u, DISP_SFX_A_START + 4u);
+    printf("%s", (const char *)sgb_sfx_names_table_a[sfx_num_a]);
 
-    gotoxy(7, DISP_SFX_B_START);
+
+    gotoxy(7u, DISP_SFX_B_START);
     printf("0x%hx", (uint8_t)sfx_num_b);
+    gotoxy(1u, DISP_SFX_B_START + 4u);
+    printf("%s", (const char *)sgb_sfx_names_table_b[sfx_num_b]);
 }
 
 
