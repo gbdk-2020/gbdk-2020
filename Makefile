@@ -36,6 +36,8 @@ GBDKSUPPORTDIR = $(TOPDIR)/gbdk-support
 # Directory with docs config and output (via doxygen)
 GBDKDOCSDIR = $(TOPDIR)/docs
 
+GBDKLICENSEDIR = $(TOPDIR)/license
+
 # Doxygen command and version check info
 DOXYGENCMD = doxygen
 DOXYGEN_VER_REQ = 1.8.17
@@ -155,10 +157,13 @@ gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
 	@echo Installing lcc
 	@cp $(GBDKSUPPORTDIR)/lcc/lcc$(EXEEXTENSION) $(BUILDDIR)/bin/lcc$(EXEEXTENSION)
 	@$(TARGETSTRIP) $(BUILDDIR)/bin/lcc$(EXEEXTENSION)
+	@echo
+	@echo Installing docs and licenses
 	@cp $(GBDKDOCSDIR)/ChangeLog $(BUILDDIR)
 	@cp $(GBDKDOCSDIR)/README $(BUILDDIR)
 	@cp $(GBDKDOCSDIR)/gbdk_manual.pdf $(BUILDDIR)
 	@cp $(GBDKDOCSDIR)/sdccman.pdf $(BUILDDIR)
+	@cp -r $(GBDKLICENSEDIR) $(BUILDDIR)
 	@echo
 	@echo Installing ihxcheck
 	@cp $(GBDKSUPPORTDIR)/ihxcheck/ihxcheck$(EXEEXTENSION) $(BUILDDIR)/bin/ihxcheck$(EXEEXTENSION)

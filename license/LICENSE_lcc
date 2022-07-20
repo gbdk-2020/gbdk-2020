@@ -1,12 +1,18 @@
 
+Note:
+
 The LCC front end / compiler driver this LICENSE file is attached to 
 is a small subset of the original LCC compiler distribution included 
 in versions of GBDK before it switched to the SDCC compiler. Now only 
 the LCC front end / compiler driver is included with GBDK as a 
-convenience interface to the SDCC compiler.
+convenience interface and wrapper to the SDCC compiler.
 
 The license below is the one used by the original authorsof LCC. There have
 been various contributors via the GBDK and GBDK-2020 projects since then.
+
+The non-commercial clause below is with regard to using the LCC code
+itself (of which very little remains), and is not related to using code
+which is passed through LCC in it's role as a front-end compiler driver.
 
 The modern incarnation of the original project can now be found at:
 https://github.com/drh/lcc/
