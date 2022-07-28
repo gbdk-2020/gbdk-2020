@@ -4,7 +4,7 @@
 # Interrupts
 Interrupts allow execution to jump to a different part of your code as soon as an external event occurs - for example the LCD entering the vertical blank period, serial data arriving or the timer reaching its end count. For an example see the irq.c sample project.
 
-Interrupts in GBDK are handled using the functions @ref disable_interrupts(), @ref enable_interrupts(), @ref set_interrupts(uint8_t ier) and the interrupt service routine (ISR) linkers @ref add_VBL(), @ref add_TIM, @ref add_LCD, @ref add_SIO and @ref add_JOY which add interrupt handlers for the vertical blank, timer, LCD, serial link and joypad interrupts respectively.
+Interrupts in GBDK are handled using the functions @ref disable_interrupts(), @ref enable_interrupts(), @ref set_interrupts(uint8_t ier) and the interrupt service routine (ISR) linkers @ref add_VBL(), @ref add_TIM, @ref add_low_priority_TIM, @ref add_LCD, @ref add_SIO and @ref add_JOY which add interrupt handlers for the vertical blank, timer, LCD, serial link and joypad interrupts respectively.
 
 Since an interrupt can occur at any time an Interrupt Service Request (ISR) cannot take any arguments or return anything. Its only way of communicating with the greater program is through the global variables. When interacting with those shared ISR global variables from main code outside the interrupt, it is a good idea to wrap them in a `critical {}` section in case the interrupt occurs and modifies the variable while it is being used.
 
@@ -26,7 +26,7 @@ The GameBoy hardware can generate 5 types of interrupts. Custom Interrupt Servic
     - Example project: `lcd_isr_wobble`
 
   - TIM : Timer overflow
-    - See @ref add_TIM() and @ref remove_TIM()
+    - See @ref add_TIM() (or @ref add_low_priority_TIM() ) and @ref remove_TIM()
     - Example project: `tim`
 
   - SIO : Serial Link I/O transfer end
