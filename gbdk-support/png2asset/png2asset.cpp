@@ -618,7 +618,10 @@ bool GetSourceTileset(bool keep_palette_order, unsigned int max_palettes, vector
 		// So: source_tileset_image.info_png.color.palette/size instead of source_tileset_image.info_raw.palette/size
 		unsigned int palette_count = PaletteCountApplyMaxLimit(max_palettes, sourceTilesetState.info_png.color.palettesize / colors_per_pal);
 		source_tileset_image.total_color_count = palette_count * colors_per_pal;
-		source_tileset_image.palette = sourceTilesetState.info_png.color.palette;
+		source_tileset_image.palette = (uint8_t*)malloc(source_tileset_image.total_color_count * RGBA32_SZ);
+		if(source_tileset_image.palette) {
+			memcpy(source_tileset_image.palette, sourceTilesetState.info_png.color.palette, source_tileset_image.total_color_count * RGBA32_SZ);
+		}
 	}
 	else {
 
