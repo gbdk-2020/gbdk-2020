@@ -2,7 +2,7 @@
     All Points Addressable (APA) mode drawing library.
 
     Drawing routines originally by Pascal Felber
-    Legendary overhall by Jon Fuge <jonny@q-continuum.demon.co.uk>
+    Legendary overhall by Jon Fuge : https://github.com/jf1452
     Commenting by Michael Hope
 
     Note: The standard text printf() and putchar() cannot be used

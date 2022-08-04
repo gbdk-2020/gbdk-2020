@@ -1,3 +1,34 @@
+What is SDCC?
+-------------
+
+SDCC is a retargettable, optimizing Standard C (ANSI C89, ISO C99, ISO C11) compiler suite that targets the Intel MCS51 based microprocessors (8031, 8032, 8051, 8052, etc.), Maxim (formerly Dallas) DS80C390 variants, Freescale (formerly Motorola) HC08 based (hc08, s08), Zilog Z80 based MCUs (Z80, Z180, SM83, Rabbit 2000, 2000A, 3000A, TLCS-90), Padauk (pdk14, pdk15) and STMicroelectronics STM8. Work is in progress on supporting the Padauk pdk13 and MOS 6502 targets; Microchip PIC16 and PIC18 targets are unmaintained. SDCC can be retargeted for other microprocessors.
+
+SDCC suite is a collection of several components derived from different sources with different FOSS licenses. SDCC compiler suite include:
+
+    sdas and sdld, a retargettable assembler and linker, based on ASXXXX, written by Alan Baldwin; (GPL).
+    sdcpp preprocessor, based on GCC cpp; (GPL).
+    ucsim simulators, originally written by Daniel Drotos; (GPL).
+    sdcdb source level debugger, originally written by Sandeep Dutta; (GPL).
+    sdbinutils library archive utilities, including sdar, sdranlib and sdnm, derived from GNU Binutils; (GPL)
+    SDCC run-time libraries; (GPL+LE). Pic device libraries and header files are derived from Microchip header (.inc) and linker script (.lkr) files. Microchip requires that "The header files should state that they are only to be used with authentic Microchip devices" which makes them incompatible with the GPL.
+    gcc-test regression tests, derived from gcc-testsuite; (no license explicitely specified, but since it is a part of GCC is probably GPL licensed)
+    packihx; (public domain)
+    makebin; (zlib/libpng License)
+    sdcc C compiler, originally written by Sandeep Dutta; (GPL). Some of the features include:
+        extensive MCU specific language extensions, allowing effective use of the underlying hardware.
+        a host of standard optimizations such as global sub expression elimination, loop optimizations (loop invariant, strength reduction of induction variables and loop reversing), constant folding and propagation, copy propagation, dead code elimination and jump tables for 'switch' statements.
+        MCU specific optimizations, including a global register allocator.
+        adaptable MCU specific backend that should be well suited for other 8 bit MCUs
+        independent rule based peep hole optimizer.
+        a full range of data types: char (8 bits, 1 byte), short (16 bits, 2 bytes), int (16 bits, 2 bytes), long (32 bit, 4 bytes), long long (64 bit, 8 bytes), float (4 byte IEEE) and _Bool/bool.
+        the ability to add inline assembler code anywhere in a function.
+        the ability to report on the complexity of a function to help decide what should be re-written in assembler.
+        a good selection of automated regression tests.
+
+SDCC was originally written by Sandeep Dutta and released under a GPL license. Since its initial release there have been numerous bug fixes and improvements. As of December 1999, the code was moved to SourceForge where all the "users turned developers" can access the same source tree. SDCC is constantly being updated with all the users' and developers' input.
+
+
+
 SDCC - free open source, retargettable, optimizing ANSI-C compiler
 ------------------------------------------------------------------
 
@@ -128,3 +159,6 @@ SDCC includes code from:
    for TX B+ Tree C++ Template Classes used in sdcc compiler
 * Malini Dutta <malini AT mediaone.net>
    Sandeep's wife, for her patience and support.
+
+
+
