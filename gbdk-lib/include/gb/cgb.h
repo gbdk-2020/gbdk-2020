@@ -30,7 +30,7 @@
 
     @see set_bkg_palette(), set_sprite_palette(), RGB8(), RGBHTML()
  */
-#define RGB(r, g, b) ((((uint16_t)(b) & 0x1f) << 10) | (((uint16_t)(g) & 0x1f) << 5) | (((uint16_t)(r) & 0x1f) << 0))
+#define RGB(r, g, b) ((uint16_t)((((b) & 0x1f) << 10) | (((g) & 0x1f) << 5) | (((r) & 0x1f) << 0)))
 
 /** Macro to create a CGB palette color entry out of 8-bit color components.
 
@@ -44,7 +44,7 @@
 
     @see set_bkg_palette(), set_sprite_palette(), RGB(), RGBHTML()
  */
-#define RGB8(r, g, b) ((uint16_t)((r) >> 3) | ((uint16_t)((g) >> 3) << 5) | ((uint16_t)((b) >> 3) << 10))
+#define RGB8(r, g, b) ((uint16_t)((((r) >> 3) & 0x1f) | ((((g) >> 3) & 0x1f) << 5) | ((((b) >> 3) & 0x1f) << 10)))
 
 /** Macro to convert a 24 Bit RGB color to a CGB palette color entry.
 
@@ -56,7 +56,7 @@
 
     @see set_bkg_palette(), set_sprite_palette(), RGB(), RGB8()
  */
-#define RGBHTML(RGB24bit) (RGB8((((RGB24bit) >> 16) & 0xFF), (((RGB24bit) >> 8) & 0xFF), ((RGB24bit) & 0xFF)))
+#define RGBHTML(RGB24bit) (RGB8((((RGB24bit) >> 16) & 0xff), (((RGB24bit) >> 8) & 0xff), ((RGB24bit) & 0xff)))
 
 /** Common colors based on the EGA default palette.
  */
@@ -143,7 +143,7 @@ void set_bkg_palette_entry(uint8_t palette, uint8_t entry, uint16_t rgb_data) OL
 
     @see set_sprite_palette(), RGB()
     @see OAMF_CGB_PAL0, OAMF_CGB_PAL1, OAMF_CGB_PAL2, OAMF_CGB_PAL3
-    @see OAMF_CGB_PAL4, OAMF_CGB_PAL5, OAMF_CGB_PAL6, OAMF_CGB_PAL7    
+    @see OAMF_CGB_PAL4, OAMF_CGB_PAL5, OAMF_CGB_PAL6, OAMF_CGB_PAL7
  */
 void set_sprite_palette_entry(uint8_t palette, uint8_t entry, uint16_t rgb_data) OLDCALL;
 
