@@ -58,7 +58,8 @@
     - This is a known issue with SDCC, it should not cause actual problems and you can ignore the warning. <!-- -->  
 
   - Why is the compiler so slow, or why did it suddenly get much slower?
-    - This may happen if you have large initialized arrays declared without the `const` keyword. It's important to use the const keyword for read-only data. See @ref const_gbtd_gbmb and @ref const_array_data <!-- -->  
+    - This may happen if you have large initialized arrays declared without the `const` keyword. It's important to use the const keyword for read-only data. See @ref const_gbtd_gbmb and @ref const_array_data
+    - It can also happen if C source files are `#included` into other C source files, or if there is a very large source file.  <!-- -->  
 
   - What flags should be enabled for debugging?
     - You can use the @ref lcc_debug "lcc debug flag" `-debug`to turn on debug output. It covers most uses and removes the need to specify multiple flags such as `-Wa-l -Wl-m -Wl-j`. <!-- -->  

@@ -18,7 +18,7 @@
 -Idir	add `dir' to the beginning of the list of #include directories
 -K don't run ihxcheck test on linker ihx output
 -lx	search library `x'
--m	select port and platform: "-m[port]:[plat]" ports:gbz80,z80 plats:ap,duck,gb,sms,gg
+-m	select port and platform: "-m[port]:[plat]" ports:sm83,z80,mos6502 plats:ap,duck,gb,sms,gg,nes
 -N	do not search the standard directories for #include files
 -n	emit code to check for dereferencing zero pointers
 -no-crt do not auto-include the gbdk crt0.o runtime in linker list
@@ -42,7 +42,7 @@
 @anchor sdcc-settings
 # sdcc settings
 ```
-SDCC : z80/gbz80 4.1.6 #12539 (Linux)
+SDCC : z80/sm83/mos6502 4.2.2 #13350 (Linux)
 published under GNU General Public License (GPL)
 Usage : sdcc [options] filename
 Options :-
@@ -59,6 +59,7 @@ General options:
   -U                        Undefine macro as in -Umacro
   -M                        Preprocessor option
   -W                        Pass through options to the pre-processor (p), assembler (a) or linker (l)
+      --include             Pre-include a file during pre-processing
   -S                        Compile only; do not assemble or link
   -c  --compile-only        Compile and assemble, but do not link
   -E  --preprocessonly      Preprocess only, do not compile
@@ -97,7 +98,6 @@ Code generation options:
       --float-reent         Use reentrant calls on the float support functions
       --xram-movc           Use movc instead of movx to read xram (xdata)
       --callee-saves        <func[,func,...]> Cause the called function to save registers instead of the caller
-      --profile             On supported ports, generate extra profiling information
       --fomit-frame-pointer  Leave out the frame pointer.
       --all-callee-saves    callee will always save registers used
       --stack-probe         insert call to function __stack_probe at each function prologue
@@ -155,19 +155,22 @@ Linker options:
 Special options for the z80 port:
       --callee-saves-bc     Force a called function to always save BC
       --portmode=           Determine PORT I/O mode (z80/z180)
+      -bo                   <num> use code bank <num>
+      -ba                   <num> use data bank <num>
       --asm=                Define assembler name (rgbds/asxxxx/isas/z80asm/gas)
       --codeseg             <name> use this name for the code segment
       --constseg            <name> use this name for the const segment
       --dataseg             <name> use this name for the data segment
-      --no-std-crt0         For the z80/gbz80 do not link default crt0.rel
+      --no-std-crt0         Do not link default crt0.rel
       --reserve-regs-iy     Do not use IY (incompatible with --fomit-frame-pointer)
-      --oldralloc           Use old register allocator (deprecated)
       --fno-omit-frame-pointer  Do not omit frame pointer
       --emit-externs        Emit externs list in generated asm
       --legacy-banking      Use legacy method to call banked functions
       --nmos-z80            Generate workaround for NMOS Z80 when saving IFF2
+      --sdcccall            Set ABI version for default calling convention
+      --allow-undocumented-instructions  Allow use of undocumented instructions
 
-Special options for the gbz80 port:
+Special options for the sm83 port:
       -bo                   <num> use code bank <num>
       -ba                   <num> use data bank <num>
       --asm=                Define assembler name (rgbds/asxxxx/isas/z80asm/gas)
@@ -175,84 +178,104 @@ Special options for the gbz80 port:
       --codeseg             <name> use this name for the code segment
       --constseg            <name> use this name for the const segment
       --dataseg             <name> use this name for the data segment
-      --no-std-crt0         For the z80/gbz80 do not link default crt0.rel
+      --no-std-crt0         Do not link default crt0.rel
       --legacy-banking      Use legacy method to call banked functions
+      --sdcccall            Set ABI version for default calling convention
+
+Special options for the mos6502 port:
+      --model-small         8-bit address space for data
+      --model-large         16-bit address space for data (default)
+      --no-std-crt0         Do not link default crt0.rel
 ```
 @anchor sdasgb-settings
 # sdasgb settings
 ```
 
-sdas Assembler V02.00 + NoICE + SDCC mods  (GameBoy Z80-like CPU)
+sdas Assembler V02.00 + NoICE + SDCC mods  (GameBoy)
 
 
 Copyright (C) 2012  Alan R. Baldwin
 This program comes with ABSOLUTELY NO WARRANTY.
 
-Usage: [-Options] file
-Usage: [-Options] outfile file1 [file2 file3 ...]
-  -d   Decimal listing
-  -q   Octal   listing
-  -x   Hex     listing (default)
-  -g   Undefined symbols made global
-  -n   Don't resolve global assigned value symbols
-  -a   All user symbols made global
-  -b   Display .define substitutions in listing
-  -bb  and display without .define substitutions
-  -c   Disable instruction cycle count in listing
-  -j   Enable NoICE Debug Symbols
-  -y   Enable SDCC  Debug Symbols
-  -l   Create list   file/outfile[.lst]
-  -o   Create object file/outfile[.rel]
-  -s   Create symbol file/outfile[.sym]
-  -p   Disable automatic listing pagination
-  -u   Disable .list/.nlist processing
-  -w   Wide listing format for symbol table
-  -z   Disable case sensitivity for symbols
-  -f   Flag relocatable references by  `   in listing file
-  -ff  Flag relocatable references by mode in listing file
+Usage: [-Options] [-Option with arg] file
+Usage: [-Options] [-Option with arg] outfile file1 [file2 ...]
+  -h   or NO ARGUMENTS  Show this help list
+Input:
   -I   Add the named directory to the include file
        search path.  This option may be used more than once.
        Directories are searched in the order given.
+Output:
+  -l   Create list   file/outfile[.lst]
+  -o   Create object file/outfile[.rel]
+  -s   Create symbol file/outfile[.sym]
+Listing:
+  -d   Decimal listing
+  -q   Octal   listing
+  -x   Hex     listing (default)
+  -b   Display .define substitutions in listing
+  -bb  and display without .define substitutions
+  -c   Disable instruction cycle count in listing
+  -f   Flag relocatable references by  `   in listing file
+  -ff  Flag relocatable references by mode in listing file
+  -p   Disable automatic listing pagination
+  -u   Disable .list/.nlist processing
+  -w   Wide listing format for symbol table
+Assembly:
+  -v   Enable out of range signed / unsigned errors
+Symbols:
+  -a   All user symbols made global
+  -g   Undefined symbols made global
+  -n   Don't resolve global assigned value symbols
+  -z   Disable case sensitivity for symbols
+Debugging:
+  -j   Enable NoICE Debug Symbols
+  -y   Enable SDCC  Debug Symbols
 
-removing 
 ```
 @anchor sdasz80-settings
 # sdasz80 settings
 ```
 
-sdas Assembler V02.00 + NoICE + SDCC mods  (GameBoy Z80-like CPU)
+sdas Assembler V02.00 + NoICE + SDCC mods  (GameBoy)
 
 
 Copyright (C) 2012  Alan R. Baldwin
 This program comes with ABSOLUTELY NO WARRANTY.
 
-Usage: [-Options] file
-Usage: [-Options] outfile file1 [file2 file3 ...]
-  -d   Decimal listing
-  -q   Octal   listing
-  -x   Hex     listing (default)
-  -g   Undefined symbols made global
-  -n   Don't resolve global assigned value symbols
-  -a   All user symbols made global
-  -b   Display .define substitutions in listing
-  -bb  and display without .define substitutions
-  -c   Disable instruction cycle count in listing
-  -j   Enable NoICE Debug Symbols
-  -y   Enable SDCC  Debug Symbols
-  -l   Create list   file/outfile[.lst]
-  -o   Create object file/outfile[.rel]
-  -s   Create symbol file/outfile[.sym]
-  -p   Disable automatic listing pagination
-  -u   Disable .list/.nlist processing
-  -w   Wide listing format for symbol table
-  -z   Disable case sensitivity for symbols
-  -f   Flag relocatable references by  `   in listing file
-  -ff  Flag relocatable references by mode in listing file
+Usage: [-Options] [-Option with arg] file
+Usage: [-Options] [-Option with arg] outfile file1 [file2 ...]
+  -h   or NO ARGUMENTS  Show this help list
+Input:
   -I   Add the named directory to the include file
        search path.  This option may be used more than once.
        Directories are searched in the order given.
+Output:
+  -l   Create list   file/outfile[.lst]
+  -o   Create object file/outfile[.rel]
+  -s   Create symbol file/outfile[.sym]
+Listing:
+  -d   Decimal listing
+  -q   Octal   listing
+  -x   Hex     listing (default)
+  -b   Display .define substitutions in listing
+  -bb  and display without .define substitutions
+  -c   Disable instruction cycle count in listing
+  -f   Flag relocatable references by  `   in listing file
+  -ff  Flag relocatable references by mode in listing file
+  -p   Disable automatic listing pagination
+  -u   Disable .list/.nlist processing
+  -w   Wide listing format for symbol table
+Assembly:
+  -v   Enable out of range signed / unsigned errors
+Symbols:
+  -a   All user symbols made global
+  -g   Undefined symbols made global
+  -n   Don't resolve global assigned value symbols
+  -z   Disable case sensitivity for symbols
+Debugging:
+  -j   Enable NoICE Debug Symbols
+  -y   Enable SDCC  Debug Symbols
 
-removing 
 ```
 @anchor bankpack-settings
 # bankpack settings
@@ -265,7 +288,8 @@ Options
 -h           : Show this help
 -lkin=<file> : Load object files specified in linker file <file>
 -lkout=<file>: Write list of object files out to linker file <file>
--yt<mbctype> : Set MBC type per ROM byte 149 in Decimal or Hex (0xNN) (see pandocs)
+-yt<mbctype> : Set MBC type per ROM byte 149 in Decimal or Hex (0xNN)
+               ([see pandocs](https://gbdev.io/pandocs/The_Cartridge_Header.html#0147---cartridge-type))
 -mbc=N       : Similar to -yt, but sets MBC type directly to N instead
                of by intepreting ROM byte 149
                mbc1 will exclude banks {0x20,0x40,0x60} max=127, 
@@ -312,7 +336,6 @@ Libraries:
 Relocation:
   -b   area base address = expression
   -g   global symbol = expression
-  -a   (platform) Select platform specific virtual address translation
 Map format:
   -m   Map output generated as (out)file[.map]
   -w   Wide listing format for map file
@@ -352,7 +375,6 @@ Libraries:
 Relocation:
   -b   area base address = expression
   -g   global symbol = expression
-  -a   (platform) Select platform specific virtual address translation
 Map format:
   -m   Map output generated as (out)file[.map]
   -w   Wide listing format for map file
@@ -395,10 +417,12 @@ Options:
   -s romsize     size of the binary file (default: rom banks * 16384)
   -Z             generate GameBoy format binary file
   -S             generate Sega Master System format binary file
+  -N             generate Famicom/NES format binary file
+  -o bytes       skip amount of bytes in binary file
 SMS format options (applicable only with -S option):
-  -xo n          rom size (0xa-0x2)
-  -xj n          set region code (3-7)
-  -xv n          version number (0-15)
+  -xo n          rom size (0xa-0x2) (default: 0xc)
+  -xj n          set region code (3-7) (default: 4)
+  -xv n          version number (0-15) (default: 0)
 GameBoy format options (applicable only with -Z option):
   -yo n          number of rom banks (default: 2) (autosize: A)
   -ya n          number of ram banks (default: 0)
@@ -417,6 +441,12 @@ Arguments:
   <in_file>      optional IHX input file, '-' means stdin. (default: stdin)
   <out_file>     optional output file, '-' means stdout. (default: stdout)
 ```
+@anchor makecom-settings
+# makecom settings
+```
+makecom image.rom image.noi output.com
+Use: convert a binary .rom file to .msxdos com format.
+```
 @anchor gbcompress-settings
 # gbcompress settings
 ```
@@ -424,13 +454,14 @@ gbcompress [options] infile outfile
 Use: compress a binary file and write it out.
 
 Options
--h    : Show this help screen
--d    : Decompress (default is compress)
--v    : Verbose output
---cin  : Read input as .c source format (8 bit char ONLY, uses first array found)
---cout : Write output in .c / .h source format (8 bit char ONLY) 
+-h       : Show this help screen
+-d       : Decompress (default is compress)
+-v       : Verbose output
+--cin    : Read input as .c source format (8 bit char ONLY, uses first array found)
+--cout   : Write output in .c / .h source format (8 bit char ONLY) 
 --varname=<NAME> : specify variable name for c source output
 --alg=<type>     : specify compression type: 'rle', 'gb' (default)
+--bank=<num>     : Add Bank Ref: 1 - 511 (default is none, with --cout only)
 Example: "gbcompress binaryfile.bin compressed.bin"
 Example: "gbcompress -d compressedfile.bin decompressed.bin"
 Example: "gbcompress --alg=rle binaryfile.bin compressed.bin"
@@ -450,16 +481,27 @@ usage: png2asset    <file>.png [options]
 -py <y coord>       metasprites pivot y coordinate (default: metasprites height / 2)
 -pw <width>         metasprites collision rect width (default: metasprites width)
 -ph <height>        metasprites collision rect height (default: metasprites height)
--spr8x8             use SPRITES_8x8 (default: SPRITES_8x16)
--spr8x16            use SPRITES_8x16 (default: SPRITES_8x16)
+-spr8x8             use SPRITES_8x8
+-spr8x16            use SPRITES_8x16 (this is the default)
+-spr16x16msx        use SPRITES_16x16
 -b <bank>           bank (default 0)
 -keep_palette_order use png palette
 -noflip             disable tile flip
 -map                Export as map (tileset + bg)
--use_map_attributes Use CGB BG Map attributes (default: palettes are stored for each tile in a separate array)
+-use_map_attributes Use CGB BG Map attributes
+-use_nes_attributes Use NES BG Map attributes
+-use_nes_colors     Convert RGB color values to NES PPU colors
 -use_structs        Group the exported info into structs (default: false) (used by ZGB Game Engine)
--bpp                bits per pixel: 2, 4 (default: 2)
--max_palettes       maximum number of palettes allowed (default: 2)
--pack_mode          gb, sgb or sms (default:GB)
--tile_origin        tile index offset for maps (instead of zero)
+-bpp                bits per pixel: 1, 2, 4 (default: 2)
+-max_palettes       max number of palettes allowed (default: 8)
+                    (note: max colors = max_palettes x num colors per palette)
+-pack_mode          gb, sgb, sms, 1bpp (default: gb)
+-tile_origin        tile index offset for maps (default: 0)
+-tiles_only         export tile data only
+-maps_only          export map tilemap only
+-metasprites_only   export metasprite descriptors only
+-source_tileset     use source tileset (image with common tiles)
+-keep_duplicate_tiles   do not remove duplicate tiles (default: not enabled)
+-bin                export to binary format
+-transposed         export transposed (column-by-column instead of row-by-row)
 ```

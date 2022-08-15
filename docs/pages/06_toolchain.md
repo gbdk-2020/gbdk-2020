@@ -274,3 +274,11 @@ The following flags should be used to perform the conversion:
 
 
 See the `sgb_border` example project for more details.
+
+
+@anchor utility_makecom
+## makecom
+Converts a binary .rom file to .msxdos com format, including splitting the banks up into separate files.
+
+- For detailed settings see @ref makecom-settings
+
