@@ -7,7 +7,9 @@ Writing games and other programs with GBDK will be much easier with a basic unde
 @anchor docs_c_tutorials
 ## General C tutorials
   - https://www.learn-c.org/
-  -  https://www.tutorialspoint.com/cprogramming/index.htm
+  - https://www.tutorialspoint.com/cprogramming/index.htm
+  - https://www.chiark.greenend.org.uk/~sgtatham/cdescent/
+
 
 ## Embedded C introductions
 

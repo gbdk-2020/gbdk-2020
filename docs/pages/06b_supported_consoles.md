@@ -13,7 +13,8 @@ As of version `4.0.5` GBDK includes support for other consoles in addition to th
     - Sega Master System (SMS)
     - Sega Game Gear (GG)
 
-  - MSX DOS (MSXDOS)
+  - MSX DOS (MSXDOS) (partial support)
+  - NES (NES) (partial support)
 
 While the GBDK API has many convenience functions that work the same or similar across different consoles, it's important to keep their different capabilities in mind when writing code intended to run on more than one. Some (but not all) of the differences are screen sizes, color capabilities, memory layouts, processor type (z80 vs gbz80/sm83) and speed.
 
@@ -40,7 +41,7 @@ When linking with @ref sdldgb-settings "sdldgb" (for GB/AP) and @ref sdldz80-set
   - Include the appropriate library files `-l <port>.lib`, `-l <plat>.lib`
   - The crt will be under `  <gbdk-path>lib/<plat>/crt0.o`
 
-MSXDOS requires an additional build step after makebin to create the final binary:
+MSXDOS requires an additional build step with @ref utility_makecom "makecom" after @ref makebin to create the final binary:
   - `makecom <image.bin> [<image.noi>] <output.com>`
 
 
@@ -68,6 +69,10 @@ Note: Starting with GBDK-2020 4.1.0 and SDCC 4.2, the Game Boy and related clone
   - MSX DOS
     - @ref lcc : `-mz80:msxdos`
     - port:`z80`, plat:`msxdos`
+
+  - NES
+    - @ref lcc : `-mmos6502:nes`
+    - port:`mos6502`, plat:`nes`
 
 
 # Cross-Platform Constants

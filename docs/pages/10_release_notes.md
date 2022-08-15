@@ -8,7 +8,66 @@ https://github.com/gbdk-2020/gbdk-2020/releases
 
 ## GBDK-2020 4.1.0
   2022
-
+  - Building GBDK
+    - The linux port of SDCC is custom built on Ubuntu 16.04 due to reduced GLIBC compatibility issues in more recent SDCC project builds.
+    - Added Windows 32-Bit build
+  - Platforms
+    - SDCC has renamed the `gbz80` port to `sm83` see @ref faq_gbz80_sm83_old_port_name_error
+    - Added initial support for MSXDOS (`msxdos`) and NES (`nes`). These platforms are not fully supported at this time. See @ref docs_supported_consoles
+  - Library
+    - SGB: Use longer wait between the SGB packet transfers
+    - SMS/GG: less garbage on screen when clearing VRAM in the init code
+    - SMS/GG: Added @ref cgb_compatibility() to set default palette with the four shades of gray
+    - Fixed: @ref get_sprite_data(), @ref get_bkg_data() , @ref get_win_data() when @ref LCDCF_BG8000 bit of @ref LCDC_REG is set
+    - Fixed ISR chain lengths. VBL: 4 user handlers, LCD: 3 user handlers, SIO/TIM/JOY: 4 user handlers
+    - Added new constants for the Game Boy Color (CGB):
+      - @ref VBK_BANK_0, @ref VBK_BANK_1
+      - @ref VBK_TILES, @ref VBK_ATTRIBUTES
+      - @ref BKGF_PRI, @ref BKGF_YFLIP, @ref BKGF_XFLIP, @ref BKGF_BANK0, @ref BKGF_BANK1
+      - @ref BKGF_CGB_PAL0, @ref BKGF_CGB_PAL1, @ref BKGF_CGB_PAL2, @ref BKGF_CGB_PAL3, @ref BKGF_CGB_PAL4, @ref BKGF_CGB_PAL5, @ref BKGF_CGB_PAL6, @ref BKGF_CGB_PAL7
+      - @ref VBK_TILES, @ref VBK_ATTRIBUTES
+  - Toolchain / Utilities
+    - @ref lcc
+      - Changed to Error out and warn when `gbz80` port is used instead of `sm83`
+    - @ref utility_png2asset "png2asset"
+      - Added `-tiles_only`: Export tile data only
+      - Added `-maps_only`: Export map tilemap only
+      - Added `-metasprites_only`: Export metasprite descriptors only
+      - Added `-source_tileset`: Use source tileset image with common tiles
+      - Added `-keep_duplicate_tiles`: Do not remove duplicate tiles
+      - Added `-bin`: Export to binary format
+      - Added `-transposed`: Export transposed (column-by-column instead of row-by-row)
+      - Added basic MSXDOS support
+        - Added 1bpp packing mode (BPP1)
+        - `-spr16x16msx`
+      - Added basic NES support
+        - `-use_nes_attributes`
+        - `-use_nes_colors`
+      - Changed to only export `_tile_pals[]` arrays when `-use-structs` is set (ZGB specific)
+    - @ref utility_gbcompress "gbcompress"
+      - Added `--bank=<num>` Add Bank Ref: 1 - 511 (default is none, with `--cout` only)
+      - Fixed failure to flush data at end of compression (uncommitted bytes)
+      - Fixed `Warning: File read size didn't match expected`
+    - @ref utility_makecom "makecom"
+      - Added `makecom` for post-processing msxdos binary
+    - @ref makebin
+      - Fixed (via sdcc) bug with `-yp` not always working correctly
+        - https://sourceforge.net/p/sdcc/code/12975/
+    - @ref bankpack
+      - Added support for the Game Boy Camera MBC
+    - @ref ihxcheck
+      - Check and warn for bank overflows under specific conditions
+        - A multiple write to the same address must occur. The address where the overlap ends is used as BANK.
+        - There must also be a write which spans multiple banks, the ending address of that must match BANK. The starting addresses is the OVERFLOW-FROM BANK.  
+  - Examples
+     - Changed Logo example to use new GBDK logo art from Digit 
+     - Added example for APA image mode with more than 256 tiles
+     - Added SGB Sound Effects example
+     - Changed to new WAV sound example
+  - Docs
+    - Added improved @ref mbc_type_chart "MBC Type chart"
+    - Include SDCC manual in pdf format      
+    - Various doc updates and improvements
 
 ## GBDK-2020 4.0.6
   2022/02

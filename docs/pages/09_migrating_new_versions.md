@@ -7,10 +7,15 @@ This section contains information that may be useful to know or important when u
 
 ## Porting to GBDK-2020 4.1.0
   - GBDK now requires SDCC 4.2 or higher with GBDK-2020 patches for the the z80 linker
-    - The default calling convention changed in SDCC 4.2, see @ref sdcc_calling_convention "Calling Conventions" for more details.
-    - The SDCC `PORT` name for the Game Boy and related clones changed from `gbz80` to `sm83`. Additional details in the @ref console_port_plat_settings "Console Port and Platform Settings" section and @ref faq_gbz80_sm83_old_port_name_error "FAQ entry". @ref lcc will error out if the old `PORT` name is passed in.
+  - The default calling convention changed in SDCC 4.2, see @ref sdcc_calling_convention "Calling Conventions" for more details.
+    - If you are linking to libraries compiled with an older version of SDCC / GBDK then you may have to recompile them.
+  - The SDCC `PORT` name for the Game Boy and related clones changed from `gbz80` to `sm83`.
+    - Additional details in the @ref console_port_plat_settings "Console Port and Platform Settings" section and @ref faq_gbz80_sm83_old_port_name_error "FAQ entry". @ref lcc will error out if the old `PORT` name is passed in.
   - The library base path changed from `lib/small/asxxxx/` to `lib/`.
     - For example  `lib/small/asxxxx/gb` becomes `lib/gb`
+  - Allocations for ISR chain lengths were fixed.
+    - Now they are VBL: 4 user handlers, LCD: 3 user handlers, SIO/TIM/JOY: 4 user handlers
+    
 
 ## Porting to GBDK-2020 4.0.6
   - Renamed `bgb_emu.h` to `emu_debug.h` and BGB_* functions to EMU_*

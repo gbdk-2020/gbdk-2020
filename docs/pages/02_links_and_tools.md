@@ -151,6 +151,16 @@ This is a brief list of useful tools and information. It is not meant to be comp
     https://gbdev.gg8.se/forums/viewtopic.php?id=710
 
 
+@anchor links_optimizing
+# Optimizing Assembly
+  - @anchor optimizing_assembly
+    __Optimizing Assembly Code__  
+    Pret has a useful guide to optimizing assembly for
+    the Game Boy for times when asm using in a project
+    in addition to C.
+    https://github.com/pret/pokecrystal/wiki/Optimizing-assembly-code
+
+
 @anchor tools_build_ci_cd
 # Continuous Integration and Deployment
   - @anchor GBDK_GitHub_Action_Builder

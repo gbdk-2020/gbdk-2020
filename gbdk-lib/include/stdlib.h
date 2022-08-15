@@ -69,6 +69,9 @@ long atol(const char *s);
     @param radix  Numerical base for converted number, ex: 10 is decimal base
                   (parameter is required but not utilized on Game Boy and Analogue Pocket)
 
+    Can be used with @ref set_bkg_based_tiles() for printing if
+    the digit character tiles are not ascii-mapped.
+
     Returns:    Pointer to converted string
  */
 char *itoa(int n, char *s, unsigned char radix) OLDCALL;
@@ -78,6 +81,9 @@ char *itoa(int n, char *s, unsigned char radix) OLDCALL;
     @param s      String to store the converted number
     @param radix  Numerical base for converted number, ex: 10 is decimal base
                   (parameter is required but not utilized on Game Boy and Analogue Pocket)
+
+    Can be used with @ref set_bkg_based_tiles() for printing if
+    the digit character tiles are not ascii-mapped.
 
     Returns:    Pointer to converted string
  */
@@ -89,6 +95,9 @@ char *uitoa(unsigned int n, char *s, unsigned char radix) OLDCALL;
     @param radix  Numerical base for converted number, ex: 10 is decimal base
                   (parameter is required but not utilized on Game Boy and Analogue Pocket)
 
+    Can be used with @ref set_bkg_based_tiles() for printing if
+    the digit character tiles are not ascii-mapped.
+
     Returns:    Pointer to converted string
  */
 char *ltoa(long n, char *s, unsigned char radix) OLDCALL;
@@ -98,6 +107,9 @@ char *ltoa(long n, char *s, unsigned char radix) OLDCALL;
     @param s      String to store the converted number
     @param radix  Numerical base for converted number, ex: 10 is decimal base
                   (parameter is required but not utilized on Game Boy and Analogue Pocket)
+
+    Can be used with @ref set_bkg_based_tiles() for printing if
+    the digit character tiles are not ascii-mapped.
 
     Returns:    Pointer to converted string
  */

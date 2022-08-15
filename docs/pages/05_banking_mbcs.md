@@ -71,6 +71,7 @@ The MBC settings below are available when using the makebin `-Wl-yt<N>` switch.
 Source: Pandocs. Additional details available at [Pandocs](https://gbdev.io/pandocs/The_Cartridge_Header.html#0147---cartridge-type "Pandocs")
 
 
+## MBC Type Chart
 ```
 0147: Cartridge type:
 0x00: ROM ONLY                  0x12: ROM+MBC3+RAM
@@ -89,6 +90,7 @@ Source: Pandocs. Additional details available at [Pandocs](https://gbdev.io/pand
 0x11: ROM+MBC3
 ```
 
+@anchor mbc_type_chart
 
 | Hex Code | MBC Type      | SRAM | BATTERY | RTC | RUMBLE | EXTRA  | 
 | -------- | ------------- | ---- | ------- | --- | ------ | ------ | 

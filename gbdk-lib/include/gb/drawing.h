@@ -139,7 +139,13 @@ void wrtchr(char chr) OLDCALL;
 void gotogxy(uint8_t x, uint8_t y) OLDCALL;
 
 /** Set the current __foreground__ colour (for pixels), __background__ colour, and
-   draw __mode__ */
+   draw __mode__
+
+   Several settings are available for the drawing __mode__ :
+   `SOLID`, `OR`, `XOR`, `AND`.
+
+   In order to completely overwrite existing pixels use `SOLID` for __mode__
+*/
 void color(uint8_t forecolor, uint8_t backcolor, uint8_t mode) OLDCALL;
 
 #endif /* __DRAWING_H */
