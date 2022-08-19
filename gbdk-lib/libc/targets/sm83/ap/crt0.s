@@ -107,7 +107,6 @@ _refresh_OAM::
         JP      .refresh_OAM + (.refresh_OAM_DMA - .start_refresh_OAM)
 
 .clear_WRAM:
-        PUSH    DE
         XOR     A
         LD      BC, #l__DATA
         LD      HL, #s__DATA
@@ -120,7 +119,6 @@ _refresh_OAM::
         LD      L, A
         LD      C, #(40 << 2)   ; 40 entries 4 bytes each
         RST     0x28
-        POP     DE
         RET
 
         ;; GameBoy Header
@@ -192,7 +190,12 @@ _reset::
         ;; Initialize the stack
         LD      SP, #.STACK
 
+        PUSH    DE
+        ;; Turn the screen off
+        CALL    .display_off
+        ;; Clear the static storage
         CALL    .clear_WRAM
+        POP     DE
 
 ;       LD      (.mode),A       ; Clearing (.mode) is performed when clearing RAM
 
@@ -206,10 +209,6 @@ _reset::
         RLA
         LD      (__is_GBA), A
 1$:
-
-        ;; Turn the screen off
-        CALL    .display_off
-
         XOR     A
         ;; Initialize the display
         LDH     (.SCY),A
