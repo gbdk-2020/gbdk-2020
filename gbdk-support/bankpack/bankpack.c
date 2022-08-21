@@ -14,12 +14,8 @@
 #include "files.h"
 #include "options.h"
 
-bool g_option_verbose = false;
-bool g_option_cartsize = false;
-
 static void display_help(void);
 static int handle_args(int argc, char * argv[]);
-static void option_set_verbose(bool is_enabled);
 static void init(void);
 void cleanup(void);
 
@@ -84,12 +80,12 @@ static int handle_args(int argc, char * argv[]) {
                 display_help();
                 return false;  // Don't parse input when -h is used
             } else if (strstr(argv[i], "-min=") == argv[i]) {
-                if (!banks_set_min(atoi(argv[i] + 5))) {
+                if (!option_banks_set_min(atoi(argv[i] + 5))) {
                     printf("BankPack: ERROR: Invalid min bank: %s\n", argv[i] + 5);
                     return false;
                 }
             } else if (strstr(argv[i], "-max=") == argv[i]) {
-                if (!banks_set_max(atoi(argv[i] + 5))) {
+                if (!option_banks_set_max(atoi(argv[i] + 5))) {
                     printf("BankPack: ERROR: Invalid max bank: %s\n", argv[i] + 5);
                     return false;
                 }
@@ -98,19 +94,19 @@ static int handle_args(int argc, char * argv[]) {
             } else if (strstr(argv[i], "-path=") == argv[i]) {
                 files_set_out_path(argv[i] + 6);
             } else if (strstr(argv[i], "-mbc=") == argv[i]) {
-                banks_set_mbc(atoi(argv[i] + 5));
+                option_set_mbc(atoi(argv[i] + 5));
             } else if (strstr(argv[i], "-yt") == argv[i]) {
-                banks_set_mbc_by_rom_byte_149(strtol(argv[i] + 3, NULL, 0));
+                option_mbc_by_rom_byte_149(strtol(argv[i] + 3, NULL, 0));
             } else if (strstr(argv[i], "-v") == argv[i]) {
                 option_set_verbose(true);
             } else if (strstr(argv[i], "-sym=") == argv[i]) {
                 symbol_match_add(argv[i] + 5);
             } else if (strstr(argv[i], "-cartsize") == argv[i]) {
-                g_option_cartsize = true;
+                option_set_cartsize(true);
             } else if (strstr(argv[i], "-plat=") == argv[i]) {
-                banks_set_platform(argv[i] + 6);
+                option_set_platform(argv[i] + 6);
             } else if (strstr(argv[i], "-random") == argv[i]) {
-                banks_set_random(true);
+                option_set_random_assign(true);
             } else if (strstr(argv[i], "-lkin=") == argv[i]) {
                 files_read_linkerfile(argv[i] + strlen("-lkin="));
             } else if (strstr(argv[i], "-lkout=") == argv[i]) {
@@ -131,11 +127,6 @@ static int handle_args(int argc, char * argv[]) {
     }
 
     return true;
-}
-
-
-static void option_set_verbose(bool is_enabled) {
-    g_option_verbose = is_enabled;
 }
 
 
@@ -171,7 +162,7 @@ int main( int argc, char *argv[] )  {
 
         // Require MBC for Game Boy
         // SMS doesn't require an MBC setting
-        if ((banks_get_platform() == PLATFORM_GB) && (banks_get_mbc_type() == MBC_TYPE_NONE))
+        if ((option_get_platform() == PLATFORM_GB) && (option_get_mbc_type() == MBC_TYPE_NONE))
             printf("BankPack: ERROR: auto-banking does not work with unbanked ROMS (no MBC for Game Boy)\n");
         else {
             // Extract areas, sort and assign them to banks
@@ -179,10 +170,10 @@ int main( int argc, char *argv[] )  {
             files_extract();
             files_rewrite();
 
-            if (g_option_verbose)
+            if (option_get_verbose())
                 banks_show();
-            if (g_option_cartsize)
-                fprintf(stdout,"autocartsize:%d\n",banks_calc_cart_size());
+            if (option_get_cartsize())
+                fprintf(stdout,"autocartsize:%d\n",option_banks_calc_cart_size());
 
             cleanup();
             ret = EXIT_SUCCESS;
