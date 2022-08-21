@@ -12,6 +12,7 @@
 
 #include "obj_data.h"
 #include "files.h"
+#include "options.h"
 
 bool g_option_verbose = false;
 bool g_option_cartsize = false;
@@ -30,25 +31,27 @@ static void display_help(void) {
        "     Typically called by Lcc compiler driver before linker.\n"
        "\n"
        "Options\n"
-       "-h           : Show this help\n"
-       "-lkin=<file> : Load object files specified in linker file <file>\n"
-       "-lkout=<file>: Write list of object files out to linker file <file>\n"
-       "-yt<mbctype> : Set MBC type per ROM byte 149 in Decimal or Hex (0xNN)\n"
+       "-h            : Show this help\n"
+       "-lkin=<file>  : Load object files specified in linker file <file>\n"
+       "-lkout=<file> : Write list of object files out to linker file <file>\n"
+       "-yt<mbctype>  : Set MBC type per ROM byte 149 in Decimal or Hex (0xNN)\n"
        "               ([see pandocs](https://gbdev.io/pandocs/The_Cartridge_Header.html#0147---cartridge-type))\n"
-       "-mbc=N       : Similar to -yt, but sets MBC type directly to N instead\n"
+       "-mbc=N        : Similar to -yt, but sets MBC type directly to N instead\n"
        "               of by intepreting ROM byte 149\n"
        "               mbc1 will exclude banks {0x20,0x40,0x60} max=127, \n"
        "               mbc2 max=15, mbc3 max=127, mbc5 max=255 (not 511!) \n"
-       "-min=N       : Min assigned ROM bank is N (default 1)\n"
-       "-max=N       : Max assigned ROM bank is N, error if exceeded\n"
-       "-ext=<.ext>  : Write files out with <.ext> instead of source extension\n"
-       "-path=<path> : Write files out to <path> (<path> *MUST* already exist)\n"
-       "-sym=<prefix>: Add symbols starting with <prefix> to match + update list.\n"
+       "-min=N        : Min assigned ROM bank is N (default 1)\n"
+       "-max=N        : Max assigned ROM bank is N, error if exceeded\n"
+       "-ext=<.ext>   : Write files out with <.ext> instead of source extension\n"
+       "-path=<path>  : Write files out to <path> (<path> *MUST* already exist)\n"
+       "-sym=<prefix> : Add symbols starting with <prefix> to match + update list.\n"
        "               Default entry is \"___bank_\" (see below)\n"
-       "-cartsize    : Print min required cart size as \"autocartsize:<NNN>\"\n"
-       "-plat=<plat> : Select platform specific behavior (default:gb) (gb,sms)\n"
-       "-random      : Distribute banks randomly for testing (honors -min/-max)\n"
-       "-v           : Verbose output, show assignments\n"
+       "-cartsize     : Print min required cart size as \"autocartsize:<NNN>\"\n"
+       "-plat=<plat>  : Select platform specific behavior (default:gb) (gb,sms)\n"
+       "-random       : Distribute banks randomly for testing (honors -min/-max)\n"
+       "-reserve=<b:n>: Reserve N bytes (hex) in bank B (decimal)\n"
+       "                Ex: -reserve=105:30F reserves 0x30F bytes in bank 105\n"
+       "-v            : Verbose output, show assignments\n"
        "\n"
        "Example: \"bankpack -ext=.rel -path=some/newpath/ file1.o file2.o\"\n"
        "Unless -ext or -path specify otherwise, input files are overwritten.\n"
@@ -112,8 +115,15 @@ static int handle_args(int argc, char * argv[]) {
                 files_read_linkerfile(argv[i] + strlen("-lkin="));
             } else if (strstr(argv[i], "-lkout=") == argv[i]) {
                 files_set_linkerfile_outname(argv[i] + strlen("-lkout="));
-            } else
+            } else if (strstr(argv[i], "-reserve=") == argv[i]) {
+                if (!option_bank_reserve_bytes(argv[i])) {
+                    fprintf(stdout,"BankPack: ERROR! Malformed argument: %s\n\n", argv[i]);
+                    display_help();
+                    return false;
+                }
+            } else {
                 printf("BankPack: Warning: Ignoring unknown option %s\n", argv[i]);
+            }
         } else {
             // Add to list of object files to process
             files_add(argv[i]);

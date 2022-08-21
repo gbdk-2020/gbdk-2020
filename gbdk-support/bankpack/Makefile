@@ -17,7 +17,7 @@ endif
 
 CC = $(TOOLSPREFIX)gcc
 CFLAGS = -ggdb -O -Wno-incompatible-pointer-types -DGBDKLIBDIR=\"$(TARGETDIR)\"
-OBJ = bankpack.o files.o obj_data.o list.o path_ops.o
+OBJ = bankpack.o files.o obj_data.o list.o path_ops.o options.o
 BIN = bankpack
 
 all: $(BIN)

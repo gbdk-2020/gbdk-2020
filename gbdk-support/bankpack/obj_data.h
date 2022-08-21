@@ -31,6 +31,7 @@
 typedef struct bank_item {
     uint32_t size;
     uint32_t free;
+    uint32_t reserved;
     uint32_t type;
     uint16_t item_count;
 } bank_item;

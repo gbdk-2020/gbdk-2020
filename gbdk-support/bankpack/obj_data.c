@@ -250,9 +250,10 @@ void obj_data_init(void) {
     list_init(&symbollist,    sizeof(symbol_item));
     list_init(&symbol_matchlist, sizeof(symbol_match_item));
 
-    // Pre-populate bank list with max number of of banks
+    // Pre-populate bank list with max number of banks
     // to allow handling fixed-bank (non-autobank) areas
     newbank.size = newbank.free = BANK_SIZE_ROM;
+    newbank.reserved = 0;
     newbank.type = BANK_TYPE_UNSET;
     newbank.item_count = 0;
     for (c=0; c < BANK_ROM_TOTAL; c++)
@@ -371,13 +372,13 @@ static void bank_add_area(bank_item * p_bank, uint16_t bank_num, area_item * p_a
 
         // Trying to add an auto-bank area to a full bank should be prevented by previous tests, but just in case
         if (p_area->bank_num_in == BANK_NUM_AUTO) {
-            printf("BankPack: ERROR! Auto-banked Area %s, bank %d, size %d won't fit in assigned bank %d (free %d)\n",
-                    p_area->name, p_area->bank_num_in, p_area->size, bank_num, p_bank->free);
+            printf("BankPack: ERROR! Auto-banked Area %s, bank %d, size %d won't fit in assigned bank %d (%d bytes free, %d bytes reserved)\n",
+                    p_area->name, p_area->bank_num_in, p_area->size, bank_num, p_bank->free, p_bank->reserved);
             exit(EXIT_FAILURE);
         } else {
             // Only warn for fixed bank areas. Don't exit and add the area anyway
-            printf("BankPack: Warning: Fixed-bank Area %s, bank %d, size %d won't fit in assigned bank %d (free %d)\n",
-                    p_area->name, p_area->bank_num_in, p_area->size, bank_num, p_bank->free);
+            printf("BankPack: Warning: Fixed-bank Area %s, bank %d, size %d won't fit in assigned bank %d (%d bytes free, %d bytes reserved)\n",
+                    p_area->name, p_area->bank_num_in, p_area->size, bank_num, p_bank->free, p_bank->reserved);
         }
 
         // Force bank space to zero, subtracting at this point would overflow
@@ -652,7 +653,7 @@ void banks_show(void) {
     area_item * areas = (area_item *)arealist.p_array;
     for (c = 0; c < banklist.count; c++) {
         if (banks[c].free != BANK_SIZE_ROM) {
-            printf("Bank %d: size=%5d, free=%5d\n", c, banks[c].size, banks[c].free);
+            printf("Bank %d: size=%5d, free=%5d, reserved=%5d\n", c, banks[c].size, banks[c].free, banks[c].reserved);
             for (a = 0; a < arealist.count; a++) {
                 if (areas[a].bank_num_out == c) {
                     printf(" +- Area: name=%8s, size=%5d, bank_in=%3d, bank_out=%3d, file=%s -> %s\n",
