@@ -24,6 +24,7 @@ enum {
 #define BANK_ROM_TOTAL        256 // Banks 0-255
 #define BANK_ROM_CALC_MAX     512 // Banks 0-512 (>256 not supported for auto-banking right now)
 #define BANK_SIZE_ROM         0x4000U
+#define BANK_SIZE_ROM_MAX     (BANK_SIZE_ROM)
 
 #define BANK_ITEM_COUNT_MAX 0xFFFF
 

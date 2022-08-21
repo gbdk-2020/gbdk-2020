@@ -12,13 +12,10 @@
 
 #include "obj_data.h"
 #include "files.h"
-
-bool g_option_verbose = false;
-bool g_option_cartsize = false;
+#include "options.h"
 
 static void display_help(void);
 static int handle_args(int argc, char * argv[]);
-static void option_set_verbose(bool is_enabled);
 static void init(void);
 void cleanup(void);
 
@@ -30,25 +27,27 @@ static void display_help(void) {
        "     Typically called by Lcc compiler driver before linker.\n"
        "\n"
        "Options\n"
-       "-h           : Show this help\n"
-       "-lkin=<file> : Load object files specified in linker file <file>\n"
-       "-lkout=<file>: Write list of object files out to linker file <file>\n"
-       "-yt<mbctype> : Set MBC type per ROM byte 149 in Decimal or Hex (0xNN)\n"
+       "-h            : Show this help\n"
+       "-lkin=<file>  : Load object files specified in linker file <file>\n"
+       "-lkout=<file> : Write list of object files out to linker file <file>\n"
+       "-yt<mbctype>  : Set MBC type per ROM byte 149 in Decimal or Hex (0xNN)\n"
        "               ([see pandocs](https://gbdev.io/pandocs/The_Cartridge_Header.html#0147---cartridge-type))\n"
-       "-mbc=N       : Similar to -yt, but sets MBC type directly to N instead\n"
+       "-mbc=N        : Similar to -yt, but sets MBC type directly to N instead\n"
        "               of by intepreting ROM byte 149\n"
        "               mbc1 will exclude banks {0x20,0x40,0x60} max=127, \n"
        "               mbc2 max=15, mbc3 max=127, mbc5 max=255 (not 511!) \n"
-       "-min=N       : Min assigned ROM bank is N (default 1)\n"
-       "-max=N       : Max assigned ROM bank is N, error if exceeded\n"
-       "-ext=<.ext>  : Write files out with <.ext> instead of source extension\n"
-       "-path=<path> : Write files out to <path> (<path> *MUST* already exist)\n"
-       "-sym=<prefix>: Add symbols starting with <prefix> to match + update list.\n"
+       "-min=N        : Min assigned ROM bank is N (default 1)\n"
+       "-max=N        : Max assigned ROM bank is N, error if exceeded\n"
+       "-ext=<.ext>   : Write files out with <.ext> instead of source extension\n"
+       "-path=<path>  : Write files out to <path> (<path> *MUST* already exist)\n"
+       "-sym=<prefix> : Add symbols starting with <prefix> to match + update list.\n"
        "               Default entry is \"___bank_\" (see below)\n"
-       "-cartsize    : Print min required cart size as \"autocartsize:<NNN>\"\n"
-       "-plat=<plat> : Select platform specific behavior (default:gb) (gb,sms)\n"
-       "-random      : Distribute banks randomly for testing (honors -min/-max)\n"
-       "-v           : Verbose output, show assignments\n"
+       "-cartsize     : Print min required cart size as \"autocartsize:<NNN>\"\n"
+       "-plat=<plat>  : Select platform specific behavior (default:gb) (gb,sms)\n"
+       "-random       : Distribute banks randomly for testing (honors -min/-max)\n"
+       "-reserve=<b:n>: Reserve N bytes (hex) in bank B (decimal)\n"
+       "                Ex: -reserve=105:30F reserves 0x30F bytes in bank 105\n"
+       "-v            : Verbose output, show assignments\n"
        "\n"
        "Example: \"bankpack -ext=.rel -path=some/newpath/ file1.o file2.o\"\n"
        "Unless -ext or -path specify otherwise, input files are overwritten.\n"
@@ -81,12 +80,12 @@ static int handle_args(int argc, char * argv[]) {
                 display_help();
                 return false;  // Don't parse input when -h is used
             } else if (strstr(argv[i], "-min=") == argv[i]) {
-                if (!banks_set_min(atoi(argv[i] + 5))) {
+                if (!option_banks_set_min(atoi(argv[i] + 5))) {
                     printf("BankPack: ERROR: Invalid min bank: %s\n", argv[i] + 5);
                     return false;
                 }
             } else if (strstr(argv[i], "-max=") == argv[i]) {
-                if (!banks_set_max(atoi(argv[i] + 5))) {
+                if (!option_banks_set_max(atoi(argv[i] + 5))) {
                     printf("BankPack: ERROR: Invalid max bank: %s\n", argv[i] + 5);
                     return false;
                 }
@@ -95,25 +94,32 @@ static int handle_args(int argc, char * argv[]) {
             } else if (strstr(argv[i], "-path=") == argv[i]) {
                 files_set_out_path(argv[i] + 6);
             } else if (strstr(argv[i], "-mbc=") == argv[i]) {
-                banks_set_mbc(atoi(argv[i] + 5));
+                option_set_mbc(atoi(argv[i] + 5));
             } else if (strstr(argv[i], "-yt") == argv[i]) {
-                banks_set_mbc_by_rom_byte_149(strtol(argv[i] + 3, NULL, 0));
+                option_mbc_by_rom_byte_149(strtol(argv[i] + 3, NULL, 0));
             } else if (strstr(argv[i], "-v") == argv[i]) {
                 option_set_verbose(true);
             } else if (strstr(argv[i], "-sym=") == argv[i]) {
                 symbol_match_add(argv[i] + 5);
             } else if (strstr(argv[i], "-cartsize") == argv[i]) {
-                g_option_cartsize = true;
+                option_set_cartsize(true);
             } else if (strstr(argv[i], "-plat=") == argv[i]) {
-                banks_set_platform(argv[i] + 6);
+                option_set_platform(argv[i] + 6);
             } else if (strstr(argv[i], "-random") == argv[i]) {
-                banks_set_random(true);
+                option_set_random_assign(true);
             } else if (strstr(argv[i], "-lkin=") == argv[i]) {
                 files_read_linkerfile(argv[i] + strlen("-lkin="));
             } else if (strstr(argv[i], "-lkout=") == argv[i]) {
                 files_set_linkerfile_outname(argv[i] + strlen("-lkout="));
-            } else
+            } else if (strstr(argv[i], "-reserve=") == argv[i]) {
+                if (!option_bank_reserve_bytes(argv[i])) {
+                    fprintf(stdout,"BankPack: ERROR! Malformed argument: %s\n\n", argv[i]);
+                    display_help();
+                    return false;
+                }
+            } else {
                 printf("BankPack: Warning: Ignoring unknown option %s\n", argv[i]);
+            }
         } else {
             // Add to list of object files to process
             files_add(argv[i]);
@@ -121,11 +127,6 @@ static int handle_args(int argc, char * argv[]) {
     }
 
     return true;
-}
-
-
-static void option_set_verbose(bool is_enabled) {
-    g_option_verbose = is_enabled;
 }
 
 
@@ -161,7 +162,7 @@ int main( int argc, char *argv[] )  {
 
         // Require MBC for Game Boy
         // SMS doesn't require an MBC setting
-        if ((banks_get_platform() == PLATFORM_GB) && (banks_get_mbc_type() == MBC_TYPE_NONE))
+        if ((option_get_platform() == PLATFORM_GB) && (option_get_mbc_type() == MBC_TYPE_NONE))
             printf("BankPack: ERROR: auto-banking does not work with unbanked ROMS (no MBC for Game Boy)\n");
         else {
             // Extract areas, sort and assign them to banks
@@ -169,10 +170,10 @@ int main( int argc, char *argv[] )  {
             files_extract();
             files_rewrite();
 
-            if (g_option_verbose)
+            if (option_get_verbose())
                 banks_show();
-            if (g_option_cartsize)
-                fprintf(stdout,"autocartsize:%d\n",banks_calc_cart_size());
+            if (option_get_cartsize())
+                fprintf(stdout,"autocartsize:%d\n",option_banks_calc_cart_size());
 
             cleanup();
             ret = EXIT_SUCCESS;
