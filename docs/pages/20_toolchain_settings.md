@@ -285,25 +285,27 @@ Use: Read .o files and auto-assign areas with bank=255.
      Typically called by Lcc compiler driver before linker.
 
 Options
--h           : Show this help
--lkin=<file> : Load object files specified in linker file <file>
--lkout=<file>: Write list of object files out to linker file <file>
--yt<mbctype> : Set MBC type per ROM byte 149 in Decimal or Hex (0xNN)
+-h            : Show this help
+-lkin=<file>  : Load object files specified in linker file <file>
+-lkout=<file> : Write list of object files out to linker file <file>
+-yt<mbctype>  : Set MBC type per ROM byte 149 in Decimal or Hex (0xNN)
                ([see pandocs](https://gbdev.io/pandocs/The_Cartridge_Header.html#0147---cartridge-type))
--mbc=N       : Similar to -yt, but sets MBC type directly to N instead
+-mbc=N        : Similar to -yt, but sets MBC type directly to N instead
                of by intepreting ROM byte 149
                mbc1 will exclude banks {0x20,0x40,0x60} max=127, 
                mbc2 max=15, mbc3 max=127, mbc5 max=255 (not 511!) 
--min=N       : Min assigned ROM bank is N (default 1)
--max=N       : Max assigned ROM bank is N, error if exceeded
--ext=<.ext>  : Write files out with <.ext> instead of source extension
--path=<path> : Write files out to <path> (<path> *MUST* already exist)
--sym=<prefix>: Add symbols starting with <prefix> to match + update list.
+-min=N        : Min assigned ROM bank is N (default 1)
+-max=N        : Max assigned ROM bank is N, error if exceeded
+-ext=<.ext>   : Write files out with <.ext> instead of source extension
+-path=<path>  : Write files out to <path> (<path> *MUST* already exist)
+-sym=<prefix> : Add symbols starting with <prefix> to match + update list.
                Default entry is "___bank_" (see below)
--cartsize    : Print min required cart size as "autocartsize:<NNN>"
--plat=<plat> : Select platform specific behavior (default:gb) (gb,sms)
--random      : Distribute banks randomly for testing (honors -min/-max)
--v           : Verbose output, show assignments
+-cartsize     : Print min required cart size as "autocartsize:<NNN>"
+-plat=<plat>  : Select platform specific behavior (default:gb) (gb,sms)
+-random       : Distribute banks randomly for testing (honors -min/-max)
+-reserve=<b:n>: Reserve N bytes (hex) in bank B (decimal)
+                Ex: -reserve=105:30F reserves 0x30F bytes in bank 105
+-v            : Verbose output, show assignments
 
 Example: "bankpack -ext=.rel -path=some/newpath/ file1.o file2.o"
 Unless -ext or -path specify otherwise, input files are overwritten.

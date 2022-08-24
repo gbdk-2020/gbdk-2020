@@ -55,12 +55,13 @@ https://github.com/gbdk-2020/gbdk-2020/releases
         - https://sourceforge.net/p/sdcc/code/12975/
     - @ref bankpack
       - Added support for the Game Boy Camera MBC
+      - Added `-reserve=<bank>:<size>` option
     - @ref ihxcheck
       - Check and warn for bank overflows under specific conditions
         - A multiple write to the same address must occur. The address where the overlap ends is used as BANK.
         - There must also be a write which spans multiple banks, the ending address of that must match BANK. The starting addresses is the OVERFLOW-FROM BANK.  
   - Examples
-     - Changed Logo example to use new GBDK logo art from Digit 
+     - Changed Logo example to use new GBDK logo art from user "Digit"
      - Added example for APA image mode with more than 256 tiles
      - Added SGB Sound Effects example
      - Changed to new WAV sound example

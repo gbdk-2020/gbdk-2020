@@ -8,6 +8,9 @@
 
 /** sets SGB border
 
+    The display must be turned on before calling this function
+    (with @ref DISPLAY_ON).
+
     When using the SGB with a PAL SNES, a delay should be added
     just after program startup such as:
 
