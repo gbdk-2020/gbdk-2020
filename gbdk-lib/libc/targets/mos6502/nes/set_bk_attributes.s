@@ -89,9 +89,11 @@ _set_bkg_attributes::
     asl
     asl
     ora *.xpos
-    ora #<_attribute_shadow
+    clc
+    adc #<_attribute_shadow
     sta *.dst
     lda #>_attribute_shadow
+    adc #0
     sta *.dst+1
     jsr .attribute_set_dirty
     ; Branch into distinct routines based on whether x / y are aligned
