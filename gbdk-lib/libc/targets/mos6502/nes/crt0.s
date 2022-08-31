@@ -10,6 +10,8 @@
 
 ; OAM CPU page
 _shadow_OAM             = 0x200
+; Attribute shadow (64 bytes, leaving 56 bytes available for CPU stack)
+_attribute_shadow       = 0x188
 ; Transfer buffer (lower half of hardware stack)
 _vram_transfer_buffer   = 0x100
 
@@ -97,9 +99,6 @@ _attribute_row_dirty::                  .ds 1
         ;; For malloc
         .area _HEAP
         .area _HEAP_END
-
-.area DATA
-_attribute_shadow::     .ds 64
 
 .area CODE
 
