@@ -249,7 +249,9 @@ For many applications C is fast enough but in intensive functions are sometimes 
 
 SDCC in common with almost all C compilers prepends a `_` to any function names. For example the function `printf(...)` begins at the label `_printf::.` Note that all functions are declared global.
 
-Functions can be marked with `OLDCALL` which will cause them to use the `__sdcccall(0)` calling convention instead of the new default `__sdcccall(1)` which replaced it.
+Functions can be marked with `OLDCALL` which will cause them to use the `__sdcccall(0)` calling convention (the format used prior to in SDCC 4.2 & GBDK-2020 4.1.0).
+
+Starting with SDCC 4.2 and GBDK-2020 4.1.0 the new default calling convention is`__sdcccall(1)`.
 
 For details about the calling convetions, see sections `SM83 calling conventions` and `Z80, Z180 and Z80N calling conventions` in the SDCC manual.
   - http://sdcc.sourceforge.net/doc/sdccman.pdf

@@ -32,7 +32,13 @@
 # Errors / Compiling / Toolchain
   @anchor faq_gbz80_sm83_old_port_name_error
   - What does the error `old "gbz80" SDCC PORT name specified (in "-mgbz80:gb"). Use "sm83" instead. You must update your build settings.` mean?
-    - The `PORT` name for the Game Boy and related clones changed from `gbz80` to `sm83`. You must change your Makefile, Build settings, etc to use the new name. Additional details in the @ref console_port_plat_settings "Console Port and Platform Settings" section.  <!-- -->  
+    - The `PORT` name for the Game Boy and related clones changed from `gbz80` to `sm83` in the SDCC version used in GBDK-2020 4.1.0 and later. You must change your Makefile, Build settings, etc to use the new name. Additional details in the @ref console_port_plat_settings "Console Port and Platform Settings" section.  <!-- -->  
+
+  - What does the warning `?ASlink-Warning-Conflicting sdcc options: "-msm83" in module "_____" and
+   "-mgbz80" in module "_____".` mean?
+    - One object file was compiled with the PORT setting as `gbz80` (meaning a version of SDCC / GBDK-2020 __OLDER than GBDK-2020 4.1.0__).
+    - The other had the PORT setting as `sm83` (meaning __GBDK-2020 4.1.0 or LATER__).
+    - You must rebuild the object files using `gbz80` with GBDK-2020 4.1.0 or later so that the linker is able to use them with the other object files. Additional details in the @ref console_port_plat_settings "Console Port and Platform Settings" section.  <!-- -->  
 
   @anchor faq_sdcc_peephole_instruction_error
   - What does `z80instructionSize() failed to parse line node, assuming 999 bytes` mean?

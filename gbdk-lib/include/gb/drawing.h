@@ -138,11 +138,18 @@ void wrtchr(char chr) OLDCALL;
     @see wrtchr() */
 void gotogxy(uint8_t x, uint8_t y) OLDCALL;
 
-/** Set the current __foreground__ colour (for pixels), __background__ colour, and
+/** Set the current __forecolor__ colour, __backcolor__ colour, and
    draw __mode__
 
-   Several settings are available for the drawing __mode__ :
-   `SOLID`, `OR`, `XOR`, `AND`.
+    @param forecolor    The primary drawing color (outlines of
+                        rectangles with @ref box(), letter color
+                        with @ref gprintf(), etc).
+    @param backcolor    Secondary or background color where applicable
+                        (fill color of rectangles with @ref box() when
+                        @ref M_FILL is specifed, background color of text
+                        with @ref gprintf(), etc).
+    @param mode         Drawing style to use. Several settings are available
+                        `SOLID`, `OR`, `XOR`, `AND`.
 
    In order to completely overwrite existing pixels use `SOLID` for __mode__
 */
