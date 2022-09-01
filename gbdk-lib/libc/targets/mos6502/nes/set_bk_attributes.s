@@ -18,7 +18,6 @@
 
     .area   _HOME
 
-; TODO: Switch to use vram transfer buffer when screen not blanked
 .define .width  "_set_bkg_attributes_PARM_3"
 .define .height "_set_bkg_attributes_PARM_4"
 .define .tiles  "_set_bkg_attributes_PARM_5"
@@ -543,22 +542,22 @@ _flush_shadow_attributes_end:
 
 ;
 ; Flushes all dirty rows of _attribute_shadow by writing them to PPU memory
-; TODO: Support VRAM transfer buffer as well as direct mode.
 ;
 _flush_shadow_attributes_update_row:
     ; Update all 8 bytes of row for now, as each row in _attribute_row_dirty only stores 1 bit
     ; TODO: Could store 8 bytes and update range, at expense of 7 more bytes.
     lda *.tmp+1
-    sta PPUADDR
+    tax
     lda *.tmp
-    sta PPUADDR
+    jsr .ppu_stripe_begin_horizontal
     ; Write 8 bytes
     i = 0
     .rept 8
     lda _attribute_shadow+i,y
-    sta PPUDATA
+    jsr .ppu_stripe_write_byte
     i = i + 1
     .endm
+    jsr .ppu_stripe_end
     jmp _flush_shadow_attributes_next_row
 
 .attribute_set_dirty:

@@ -28,6 +28,8 @@ VRAM_HDR_LENGTH         = 0
 VRAM_HDR_DIRECTION      = 1
 VRAM_HDR_PPUHI          = 2
 VRAM_HDR_PPULO          = 3
+VRAM_MAX_BYTES          = 32
+VRAM_MAX_STRIPE_SIZE    = VRAM_HDR_SIZEOF + VRAM_MAX_BYTES
 ; Number of 8-cycles available each frame for transfer buffer
 VRAM_DELAY_CYCLES_X8    = 170
 
@@ -628,6 +630,120 @@ _display_on::
     ; Clear forced blanking bit
     clc
     ror *.crt0_forced_blanking
+    rts
+
+;
+; Begin a horizontal stripe
+;
+.ppu_stripe_begin_horizontal::
+    clc
+    jmp .ppu_stripe_begin
+
+;
+; Begin a vertical stripe
+;
+.ppu_stripe_begin_vertical::
+    sec
+    jmp .ppu_stripe_begin
+
+;
+; Begin a stripe (carry indicates vertical stripe)
+;
+.ppu_stripe_begin::
+    bit *.crt0_forced_blanking
+    bpl 1$
+    ; Direct write
+    stx PPUADDR
+    sta PPUADDR
+    ; Set inc-by-32 bit in PPUCTRL as well
+    lda #0
+    rol
+    asl
+    asl
+    lda *_shadow_PPUCTRL
+    sta PPUCTRL
+    rts
+1$:
+    ; Indirect write via transfer buffer
+    sty *__crt0_textTemp
+    pha
+    txa
+    pha
+    lda #0
+    rol
+    asl
+    asl
+    pha
+    ; Ensure there's at least VRAM_MAX_STRIPE_SIZE bytes remaining to write before progressing
+    ; This conservative limit simplifies conditions for rest of stripe in order to write single bytes with no checks
+2$:
+    lda *__crt0_drawListPosW
+    cmp #128-VRAM_MAX_STRIPE_SIZE
+    bcs 2$
+    ; Lock buffer and store current write pointer for later
+    VRAM_BUFFER_LOCK
+    ldy *__crt0_drawListPosW
+    sty *.crt0_textStringBegin
+    ; Write direction
+    pla
+    sta _vram_transfer_buffer+VRAM_HDR_DIRECTION,y
+    ; Write address
+    pla
+    sta _vram_transfer_buffer+VRAM_HDR_PPUHI,y
+    pla
+    sta _vram_transfer_buffer+VRAM_HDR_PPULO,y
+    tya
+    clc
+    adc #VRAM_HDR_SIZEOF
+    sta *__crt0_drawListPosW
+    ; __crt0_drawListNumDelayCycles_x8 -= 7 (assumes carry clear)
+    lda *__crt0_drawListNumDelayCycles_x8
+    sbc #6
+    sta *__crt0_drawListNumDelayCycles_x8
+    ldy *__crt0_textTemp
+    rts
+
+;
+; End a stripe (be it direct or via transfer buffer)
+;
+.ppu_stripe_end::
+    bit *.crt0_forced_blanking
+    bpl 1$
+    ; For direct writes there's nothing more to do
+    rts
+1$:
+    sty *__crt0_textTemp
+    ldy *__crt0_drawListPosW
+    ; Write terminator byte
+    lda #0
+    sta _vram_transfer_buffer,y
+    ; Write number of data bytes
+    tya
+    sec
+    sbc *.crt0_textStringBegin
+    sec
+    sbc #VRAM_HDR_SIZEOF
+    ldy *.crt0_textStringBegin
+    sta _vram_transfer_buffer+VRAM_HDR_LENGTH,y
+    VRAM_BUFFER_UNLOCK
+    ldy *__crt0_textTemp
+    rts
+
+;
+; Writes a byte of an in-progress horizontal / vertical stripe (be it direct or via transfer buffer)
+;
+.ppu_stripe_write_byte::
+    bit *.crt0_forced_blanking
+    bpl 1$
+    sta PPUDATA     ; Direct write
+    rts
+1$:
+    sty *__crt0_textTemp
+    ldy *__crt0_drawListPosW
+    sta _vram_transfer_buffer,y
+    inc *__crt0_drawListPosW
+    dec *__crt0_drawListNumDelayCycles_x8
+    ldy *__crt0_textTemp
     rts
 
 ; Interrupt / RESET vector table
