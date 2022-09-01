@@ -36,7 +36,7 @@ GBDKSUPPORTDIR = $(TOPDIR)/gbdk-support
 # Directory with docs config and output (via doxygen)
 GBDKDOCSDIR = $(TOPDIR)/docs
 
-GBDKLICENSEDIR = $(TOPDIR)/license
+GBDKLICENSEDIR = $(TOPDIR)/licenses
 
 # Doxygen command and version check info
 DOXYGENCMD = doxygen
