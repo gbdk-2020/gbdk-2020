@@ -14,6 +14,22 @@ _shadow_OAM             = 0x200
 _attribute_shadow       = 0x188
 ; Transfer buffer (lower half of hardware stack)
 _vram_transfer_buffer   = 0x100
+;
+; Format of transfer buffer
+;
+; 0: Data length
+; 1: 4 if inc-by-32, 0 if inc-by-1
+; 2: PPUADDR_HI
+; 3: PPUADDR_LO
+; 4: ...N data bytes...
+;
+VRAM_HDR_SIZEOF         = 4
+VRAM_HDR_LENGTH         = 0
+VRAM_HDR_DIRECTION      = 1
+VRAM_HDR_PPUHI          = 2
+VRAM_HDR_PPULO          = 3
+; Number of 8-cycles available each frame for transfer buffer
+VRAM_DELAY_CYCLES_X8    = 170
 
 ; Declare a dummy symbol for banking
 ; TODO: Make banking actually work
@@ -39,6 +55,16 @@ b_wait_frames = 0
 .endm
 .endm
 
+.macro VRAM_BUFFER_LOCK
+    clc
+    ror *__crt0_drawListValid
+.endm
+
+.macro VRAM_BUFFER_UNLOCK
+    sec
+    ror *__crt0_drawListValid
+.endm
+
 .area ZP (PAG)
 __shadow_OAM_base::                     .ds 1
 __current_bank::                        .ds 1
@@ -52,7 +78,6 @@ __crt0_NMI_insideNMI:                   .ds 1
 __crt0_ScrollHV:                        .ds 1
 __crt0_drawListValid:                   .ds 1
 __crt0_drawListNumDelayCycles_x8:       .ds 1
-__crt0_drawListPosR:                    .ds 1
 __crt0_drawListPosW:                    .ds 1
 __crt0_textPPUAddr:                     .ds 2
 __crt0_NMITEMP:                         .ds 4
@@ -62,6 +87,8 @@ __crt0_textTemp:                        .ds 1
 _bkg_scroll_x::                         .ds 1
 _bkg_scroll_y::                         .ds 1
 _attribute_row_dirty::                  .ds 1
+.crt0_textStringBegin:                  .ds 1
+.crt0_forced_blanking:                  .ds 1
 
         ;; ****************************************
 
@@ -201,7 +228,17 @@ __crt0_doSpriteDMA_loop:
 DoUpdateVRAM:
     WRITE_PALETTE_SHADOW
     bit *__crt0_drawListValid
-    bpl DoUpdateVRAM_drawListInvalid
+    bmi DoUpdateVRAM_drawListValid
+DoUpdateVRAM_drawListInvalid:
+    ; Delay exactly 1633 cycles to keep timing consistent
+    ldx #(VRAM_DELAY_CYCLES_X8+7)
+DoUpdateVRAM_invalid_loop:
+    lda *__crt0_drawListNumDelayCycles_x8
+    dex
+    bne DoUpdateVRAM_invalid_loop
+    nop
+    rts
+DoUpdateVRAM_drawListValid:
     jsr ProcessDrawList
     ; Delay up to 167*8-1 = 1575 cycles (value set by draw list creation code)
     ; ...plus fixed-cost of 56 cycles
@@ -210,30 +247,10 @@ DoUpdateVRAM_valid_loop:
     stx *__crt0_drawListNumDelayCycles_x8
     dex
     bne DoUpdateVRAM_valid_loop
-    lda #169
-    sta *__crt0_drawListNumDelayCycles_x8
-    rts
-DoUpdateVRAM_drawListInvalid:
-    ; Delay exactly 1633 cyles to keep timing consistent
-    ldx #176
-DoUpdateVRAM_invalid_loop:
-    stx *__crt0_drawListNumDelayCycles_x8
-    dex
-    bne DoUpdateVRAM_invalid_loop
-    nop
-    nop
-    lda #169
+    lda #VRAM_DELAY_CYCLES_X8
     sta *__crt0_drawListNumDelayCycles_x8
     rts
 
-;
-; Format of draw list
-;
-; 0: Data length
-; 1: 4 if inc-by-32, 0 if inc-by-1
-; 2: PPUADDR_HI
-; 3: PPUADDR_LO
-; 4: ...N data bytes...
 ;
 ; Number of cycles spent = 19 + 21 + 48*NumTransfers + 8*NumBytesTransferred
 ;                        = 56 + 48*NumTransfers + 8*NumBytesTransferred
@@ -247,11 +264,10 @@ ProcessDrawList:
     sta *ProcessDrawList_addr+1             ; +3
     tsx                                     ; +2
     stx *ProcessDrawList_tempX              ; +3
-    ldx #0 ;drawListPosR                    ; +2
-    dex                                     ; +2
+    ldx #0xFF                               ; +2
     txs                                     ; +2
     jmp ProcessDrawList_DoOneTransfer       ; +3
-    ; Total = 2 + 3 + 2 + 3 + 2 + 2 + 2 + 3 = 19 fixed-cost entry
+    ; Total = 2 + 3 + 2 + 3 + 2 + 2 + 3 = 17 fixed-cost entry
 
 .bndry 0x100
 ProcessDrawList_UnrolledCopyLoop:
@@ -279,16 +295,13 @@ ProcessDrawList_DoOneTransfer:
     ;         4 + 3 + 14 = 7 + 14 = 21 fixed-cost exit
 
 ProcessDrawList_EndOfList:
-    tsx                                 ; +2
-    inx                                 ; +2
-    stx *__crt0_drawListPosR            ; +3
     ldx *ProcessDrawList_tempX          ; +3
     txs                                 ; +2
     lda #0                              ; +2
     sta *__crt0_drawListPosW            ; +3
     sta *__crt0_drawListValid           ; +3
     rts                                 ; +6
-    ; = 2 + 2 + 3 + 3 + 2 + 2 + 3 + 3 + 6 = 26
+    ; = 3 + 2 + 2 + 3 + 3 + 6 = 19
 
 .bndry 0x100
 ProcessDrawList_NumBytesToAddress:
@@ -316,18 +329,87 @@ _writeNametableByte::
     rol *__crt0_textPPUAddr+1
     ora .identity,x
     sta *__crt0_textPPUAddr
-; Prevent main code from writing too much data by waiting for NMI to flush transfer buffer if >= 32 bytes
+    ; If we're currently in forced blanking mode, use direct writes instead of transfer buffer
+    bit *.crt0_forced_blanking
+    bpl 1$
+    lda *__crt0_textPPUAddr+1
+    sta PPUADDR
+    lda *__crt0_textPPUAddr
+    sta PPUADDR
+    lda #0
+    rol
+    asl
+    asl
+    ora *_shadow_PPUCTRL
+    sta PPUCTRL
+    pla
+    sta PPUDATA
+    ; Increment PPU addr
+    lda *__crt0_textPPUAddr
+    clc
+    adc #1
+    sta *__crt0_textPPUAddr
+    lda *(__crt0_textPPUAddr+1)
+    adc #0
+    sta *(__crt0_textPPUAddr+1)
+    rts
+1$:
 _writeNametableByteWaitForFlush:
     ldy *__crt0_drawListPosW
     tya
     ; Limit when (slightly more than) equal to 80 bytes, to avoid overrunning vblank time
     cmp #80
     bcs _writeNametableByteWaitForFlush
-    ; Just write each character as a separate single-byte write
-    ; TODO: Optimize to handle continuous characters as multi-byte transfer for less blocking.
+    VRAM_BUFFER_LOCK
+    ; First check if we can append to previously added stripe
+    ldy *.crt0_textStringBegin
+    ; Only append if current vram buffer pointer directly follows previous stripe
+    tya
     clc
-    ror *__crt0_drawListValid
+    adc _vram_transfer_buffer+VRAM_HDR_LENGTH,y
+    adc #VRAM_HDR_SIZEOF
+    cmp *__crt0_drawListPosW
+    bne 2$
+    ; Only append if previous stripe was horizontal
+    lda _vram_transfer_buffer+VRAM_HDR_DIRECTION,y
+    bne 2$
+    ; Only append if PPU address following previous stripe matches desired PPU address
+    lda _vram_transfer_buffer+VRAM_HDR_PPULO,y
+    clc
+    adc _vram_transfer_buffer+VRAM_HDR_LENGTH,y
+    sta *.tmp
+    lda _vram_transfer_buffer+VRAM_HDR_PPUHI,y
+    adc #0
+    ; Check against textPPUAddr
+    cmp *__crt0_textPPUAddr+1
+    bne 2$
+    lda *.tmp
+    cmp *__crt0_textPPUAddr
+    bne 2$
+    jmp _writeNametableByte_continue
+2$:
+    jmp _writeNametableByte_new
+
+_writeNametableByte_end:
+    ; Increment PPU addr
+    lda *__crt0_textPPUAddr
+    clc
+    adc #1
+    sta *__crt0_textPPUAddr
+    lda *(__crt0_textPPUAddr+1)
+    adc #0
+    sta *(__crt0_textPPUAddr+1)
+    sty *__crt0_drawListPosW
+    VRAM_BUFFER_UNLOCK
+    ldy *__crt0_textTemp
+    rts
+
+;
+; Writes a new nametable byte, effectively beginning a new stripe
+;
+_writeNametableByte_new:
     ldy *__crt0_drawListPosW
+    sty *.crt0_textStringBegin
     ; Number of bytes
     lda #1
     sta _vram_transfer_buffer,y
@@ -355,26 +437,34 @@ _writeNametableByteWaitForFlush:
     ; Each new write operation adds 48 cycles + 8 cycles per written byte, i.e.:
     ;  NumDelayCycles_x8 -= 6 * numberOfWriteCommands + numWrittenBytes
     ;
-    dec *__crt0_drawListNumDelayCycles_x8
-    dec *__crt0_drawListNumDelayCycles_x8
-    dec *__crt0_drawListNumDelayCycles_x8
-    dec *__crt0_drawListNumDelayCycles_x8
-    dec *__crt0_drawListNumDelayCycles_x8
-    dec *__crt0_drawListNumDelayCycles_x8
-    dec *__crt0_drawListNumDelayCycles_x8
-    ; Increment PPU addr
-    lda *__crt0_textPPUAddr
+    ; __crt0_drawListNumDelayCycles_x8 -= 7
+    lda *__crt0_drawListNumDelayCycles_x8
+    sec
+    sbc #7
+    sta *__crt0_drawListNumDelayCycles_x8
+    jmp _writeNametableByte_end
+
+;
+; Continues the previously started stripe by adding an additional byte to it
+;
+_writeNametableByte_continue:
+    ; Increase number of bytes in header
+    ldy *.crt0_textStringBegin
+    lda _vram_transfer_buffer,y
     clc
     adc #1
-    sta *__crt0_textPPUAddr
-    lda *(__crt0_textPPUAddr+1)
-    adc #0
-    sta *(__crt0_textPPUAddr+1)
-    sty *__crt0_drawListPosW
-    sec
-    ror *__crt0_drawListValid
-    ldy *__crt0_textTemp
-    rts
+    sta _vram_transfer_buffer,y
+    ; Write new byte
+    ldy *__crt0_drawListPosW
+    pla
+    sta _vram_transfer_buffer,y
+    iny
+    ; zero byte at end
+    lda #0
+    sta _vram_transfer_buffer,y
+    ; Decrease x8 cycle delay by 1
+    dec *__crt0_drawListNumDelayCycles_x8
+    jmp _writeNametableByte_end
 
 __crt0_IRQ:
     jmp __crt0_IRQ
@@ -499,9 +589,10 @@ __crt0_RESET_bankSwitchValue:
     sta *__crt0_textPPUAddr
     lda #>0x2041
     sta *(__crt0_textPPUAddr+1)
+    lda #VRAM_DELAY_CYCLES_X8
+    sta *__crt0_drawListNumDelayCycles_x8
     lda #0
     sta *__crt0_drawListPosW
-    sta *__crt0_drawListPosR
     ; 
     lda #(PPUMASK_SHOW_BG | PPUMASK_SHOW_SPR | PPUMASK_SHOW_BG_LC | PPUMASK_SHOW_SPR_LC)
     sta *_shadow_PPUMASK
@@ -523,6 +614,9 @@ _display_off::
     and #~(PPUMASK_SHOW_BG | PPUMASK_SHOW_SPR)
     sta *_shadow_PPUMASK
     sta PPUMASK
+    ; Set forced blanking bit
+    sec
+    ror *.crt0_forced_blanking
     rts
 
 .display_on::
@@ -531,6 +625,9 @@ _display_on::
     ora #(PPUMASK_SHOW_BG | PPUMASK_SHOW_SPR)
     sta *_shadow_PPUMASK
     sta PPUMASK
+    ; Clear forced blanking bit
+    clc
+    ror *.crt0_forced_blanking
     rts
 
 ; Interrupt / RESET vector table
