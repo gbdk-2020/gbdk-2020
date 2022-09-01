@@ -4,7 +4,7 @@
 
 	.area	_HOME
 
-_joypad_init::	
+_joypad_init::
 	call	.sgb_check
 	ld	a, e
 	inc     e
@@ -64,7 +64,7 @@ _joypad_init::
 	ld	(hl+), a
 	ld	(hl+), a
 	ld	(hl+), a
-	ld	(hl), a	
+	ld	(hl), a
 	ret
 
 _joypad_ex::
@@ -124,4 +124,4 @@ _joypad_ex::
 	jr	nz, 1$
 	pop	bc
 
-	ret 
+	ret

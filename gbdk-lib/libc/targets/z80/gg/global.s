@@ -1,5 +1,5 @@
         .GG_STATE       = 0x00
-        
+
         .GGSTATE_STT    = 0b10000000
         .GGSTATE_NJAP   = 0b01000000
         .GGSTATE_NNTS   = 0b00100000

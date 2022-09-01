@@ -73,7 +73,7 @@
         POP     HL
         INC     HL
         JR      1$
-_wait_int_handler::    
+_wait_int_handler::
         ADD     SP,#4
 .int_tail:
         POP     DE
@@ -96,7 +96,7 @@ __standard_VBL_handler::
         INC     (HL)
 2$:
         CALL    .refresh_OAM
-        
+
         LD      A, #1
         LDH     (.vbl_done),A
         RET
@@ -130,11 +130,11 @@ _refresh_OAM::
 
         ;; Nintendo logo
         .org    0x104
-        .byte   0x01,0x10,0xCE,0xEF,0x00,0x00,0x44,0xAA 
-        .byte   0x00,0x74,0x00,0x18,0x11,0x95,0x00,0x34 
-        .byte   0x00,0x1A,0x00,0xD5,0x00,0x22,0x00,0x69 
-        .byte   0x6F,0xF6,0xF7,0x73,0x09,0x90,0xE1,0x10 
-        .byte   0x44,0x40,0x9A,0x90,0xD5,0xD0,0x44,0x30 
+        .byte   0x01,0x10,0xCE,0xEF,0x00,0x00,0x44,0xAA
+        .byte   0x00,0x74,0x00,0x18,0x11,0x95,0x00,0x34
+        .byte   0x00,0x1A,0x00,0xD5,0x00,0x22,0x00,0x69
+        .byte   0x6F,0xF6,0xF7,0x73,0x09,0x90,0xE1,0x10
+        .byte   0x44,0x40,0x9A,0x90,0xD5,0xD0,0x44,0x30
         .byte   0xA9,0x21,0x5D,0x48,0x22,0xE0,0xF8,0x60
 
         ;; Title of the game
@@ -174,7 +174,7 @@ _refresh_OAM::
 
         ;; ****************************************
         .org    0x150
-        
+
         ;; soft reset: falldown to .code_start
 .reset::
 _reset::
@@ -265,7 +265,7 @@ _reset::
 
         ;; Call the main function
         CALL    _main
-_exit:: 
+_exit::
 99$:
         HALT
         NOP
@@ -312,13 +312,13 @@ _set_interrupts::
         .area   _CODE_0
         ;; Constant data
         .area   _LIT
-;       ;; since _CODE_1 area base address is pre-defined in the linker from 0x4000, 
+;       ;; since _CODE_1 area base address is pre-defined in the linker from 0x4000,
 ;       ;; that moves initializer code and tables out of bank 0
 ;       .area   _CODE_1
         ;; Constant data, used to init _DATA
         .area   _INITIALIZER
         ;; Code, used to init _DATA
-        .area   _GSINIT 
+        .area   _GSINIT
         .area   _GSFINAL
         ;; Uninitialised ram data
         .area   _DATA
@@ -344,7 +344,7 @@ _sys_time::
 
         .area   _HRAM (ABS)
 
-        .org    0xFF90  
+        .org    0xFF90
 __current_bank::        ; Current bank
         .ds     0x01
 .vbl_done:
@@ -359,7 +359,7 @@ gsinit::
         LD      BC, #l__INITIALIZER
         LD      HL, #s__INITIALIZER
         LD      DE, #s__INITIALIZED
-        call    .memcpy_simple         
+        call    .memcpy_simple
 
         .area   _GSFINAL
         ret
@@ -405,7 +405,7 @@ gsinit::
         DEC     C
         JR      NZ,1$
         DEC     B
-        JR      NZ,1$   
+        JR      NZ,1$
 4$:
         RET
 
@@ -493,7 +493,7 @@ _display_off::
         LDH     A,(.LCDC)
         AND     #LCDCF_ON
         RET     Z               ; Return if screen is off
-1$:                             ; We wait for the *NEXT* VBL 
+1$:                             ; We wait for the *NEXT* VBL
         LDH     A,(.LY)
         CP      #0x92           ; Smaller than or equal to 0x91?
         JR      NC,1$           ; Loop until smaller than or equal to 0x91
@@ -516,7 +516,7 @@ _remove_VBL::
         CALL    .remove_VBL
         POP     BC
         RET
-        
+
 _add_VBL::
         PUSH    BC
         LDA     HL, 4(SP)       ; Skip return address and registers

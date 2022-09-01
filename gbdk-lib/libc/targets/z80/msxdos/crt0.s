@@ -31,7 +31,7 @@
 
         ld a, (___overlay_count)
         and a
-        call nz, .load_overlays 
+        call nz, .load_overlays
         jp c, .exit_error
 
         call .setup_video_mode
@@ -42,7 +42,7 @@
         ld c, (hl)
         or c
         jr z, 1$
-        
+
         add hl, bc
         inc hl
         xor a
@@ -93,7 +93,7 @@
         ld b, h
         ld c, l
         add ix, bc
-8$: 
+8$:
         ld d, (hl)
         ld a, 0 (ix)
         ld 0 (ix), d
@@ -134,7 +134,7 @@ _exit::
 
         ;; fills memory at HL of length BC with A, clobbers DE
 .memset_simple::
-        ld e, a        
+        ld e, a
         ld a, c
         or b
         ret z
@@ -218,7 +218,7 @@ __current_bank::
 
 ; --- 256 byte boundary ---------------------------------------
 
-        .bndry 0x100  
+        .bndry 0x100
 __banks_remap_table::
         .ds 100
 l__banks_remap_table = .-__banks_remap_table
@@ -231,7 +231,7 @@ __mapper_bank_alloc::
         ld l, a
         ld a, #0xff
         cp (hl)
-        jr nz, 1$ 
+        jr nz, 1$
 
         xor a
         ld b, a
@@ -256,7 +256,7 @@ __mapper_bank_alloc::
 .endm
 
 .initialize_ram_mapper::
-                                ; detect mapper capacity 
+                                ; detect mapper capacity
         in a, (.MAP_FRAME1)
         ld e, a
         xor a
@@ -302,7 +302,7 @@ _wait_vbl_done::
         ld  a, (_shadow_VDP_R1)
         and #.R1_DISP_ON
         ret z
-        
+
         xor a
         ld (.vbl_done), a
 1$:
@@ -325,7 +325,7 @@ _shadow_OAM::
         or a
         jr nz, 3$
         ld a, (__mapper_page_mask)
-        sub #3                  ; ram segments used for DOS  
+        sub #3                  ; ram segments used for DOS
         inc a
         cp b
         ret c                   ; not sufficient ram to load overlays
@@ -386,7 +386,7 @@ _shadow_OAM::
         ld (hl), a
 
         xor a
-        ld bc, #(.overlay_fcb_end - .overlay_fcb_extent) 
+        ld bc, #(.overlay_fcb_end - .overlay_fcb_extent)
         ld hl, #.overlay_fcb_extent
         call .memset_simple     ; initialize fcb
 
@@ -456,7 +456,7 @@ _shadow_OAM::
         ld a, b
         or #.VDP_REG_MASK
         out (c), a
-            
+
         ld a, b
         or a
         jr nz, 1$
@@ -475,7 +475,7 @@ _shadow_VDP_R1::
 _shadow_VDP_R2::
         .db .R2_MAP_0x1C00
 _shadow_VDP_R3::
-        .db 0xFF                        ; tiledata attr from 0x2000 
+        .db 0xFF                        ; tiledata attr from 0x2000
 _shadow_VDP_R4::
         .db 0x03                        ; tiledata from 0x0000
 _shadow_VDP_R5::
@@ -485,7 +485,7 @@ _shadow_VDP_R6::
 _shadow_VDP_R7::
 _shadow_VDP_RBORDER::
         .db 0x01
-.shadow_VDP_end::   
+.shadow_VDP_end::
 
 .sys_time::
 _sys_time::
