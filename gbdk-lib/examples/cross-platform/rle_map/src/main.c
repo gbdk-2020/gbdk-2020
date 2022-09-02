@@ -15,7 +15,7 @@ INCBIN_EXTERN(map_tiles)
 INCBIN(map_compressed, "res/map.bin.rle")
 INCBIN_EXTERN(map_compressed)
 
-uint8_t data[32][MAP_DATA_HEIGHT];  // Collision map buffer
+uint8_t data[MAP_DATA_HEIGHT];  // Collision map buffer
 uint8_t scrollpos = 0;              // Scroll position in pixels
 uint8_t datapos = 0;                // x position in tiles inside the collision map
 
@@ -32,13 +32,12 @@ void main() {
     // To get started, decompress and display a whole screen worth,
     // + 1 additional column in the direction being scrolled (to
     // avoid screen tearing from drawing a column right as it scrolls into view)
-    uint8_t * data_ptr = &data[0][0];
-    for (uint8_t i = 0; (rle_decompress(data_ptr, MAP_DATA_HEIGHT)) && (i != DEVICE_SCREEN_WIDTH + 1); i++) {
+    for (uint8_t i = 0; (rle_decompress(data, MAP_DATA_HEIGHT)) && (i != DEVICE_SCREEN_WIDTH + 1); i++) {
         // pre-process column here
         // ...
 
         // Draw current column starting at row 0
-        set_bkg_tiles(i, 0, 1, MAP_DATA_HEIGHT, data_ptr);
+        set_bkg_tiles(i, 0, 1, MAP_DATA_HEIGHT, data);
     }
 
     // main game loop
@@ -64,18 +63,17 @@ void main() {
             uint8_t map_x_column = (datapos + DEVICE_SCREEN_WIDTH) & 31;
 
             // Decompress a column worth of data
-            data_ptr = &data[map_x_column][0];
             // If the end of compressed data is reached, reset decompression
             // and resume at the start (to make infinite scrolling)
-            if (!rle_decompress(data_ptr, MAP_DATA_HEIGHT)) {
+            if (!rle_decompress(data, MAP_DATA_HEIGHT)) {
                 rle_init(map_compressed);
-                rle_decompress(data_ptr, MAP_DATA_HEIGHT);
+                rle_decompress(data, MAP_DATA_HEIGHT);
             }
             // pre-process column here
             // ...
 
             // Display column
-            set_bkg_tiles(map_x_column, 0, 1, MAP_DATA_HEIGHT, data_ptr);
+            set_bkg_tiles(map_x_column, 0, 1, MAP_DATA_HEIGHT, data);
         }
     }
 }
