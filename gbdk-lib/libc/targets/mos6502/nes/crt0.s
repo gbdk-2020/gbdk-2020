@@ -80,7 +80,7 @@ __crt0_NMI_insideNMI:                   .ds 1
 __crt0_ScrollHV:                        .ds 1
 __crt0_drawListValid:                   .ds 1
 __crt0_drawListNumDelayCycles_x8:       .ds 1
-__crt0_drawListPosW:                    .ds 1
+__crt0_drawListPosW::                   .ds 1
 __crt0_textPPUAddr:                     .ds 2
 __crt0_NMITEMP:                         .ds 4
 __crt0_textTemp:                        .ds 1
@@ -90,7 +90,7 @@ _bkg_scroll_x::                         .ds 1
 _bkg_scroll_y::                         .ds 1
 _attribute_row_dirty::                  .ds 1
 .crt0_textStringBegin:                  .ds 1
-.crt0_forced_blanking:                  .ds 1
+.crt0_forced_blanking::                 .ds 1
 
         ;; ****************************************
 
@@ -696,9 +696,9 @@ _display_on::
     clc
     adc #VRAM_HDR_SIZEOF
     sta *__crt0_drawListPosW
-    ; __crt0_drawListNumDelayCycles_x8 -= 7 (assumes carry clear)
+    ; __crt0_drawListNumDelayCycles_x8 -= 6 (assumes carry clear)
     lda *__crt0_drawListNumDelayCycles_x8
-    sbc #6
+    sbc #5
     sta *__crt0_drawListNumDelayCycles_x8
     ldy *__crt0_textTemp
     rts
@@ -721,10 +721,12 @@ _display_on::
     tya
     sec
     sbc *.crt0_textStringBegin
-    sec
     sbc #VRAM_HDR_SIZEOF
     ldy *.crt0_textStringBegin
     sta _vram_transfer_buffer+VRAM_HDR_LENGTH,y
+    lda *__crt0_drawListNumDelayCycles_x8
+    sbc _vram_transfer_buffer+VRAM_HDR_LENGTH,y
+    sta *__crt0_drawListNumDelayCycles_x8
     VRAM_BUFFER_UNLOCK
     ldy *__crt0_textTemp
     rts
@@ -742,7 +744,6 @@ _display_on::
     ldy *__crt0_drawListPosW
     sta _vram_transfer_buffer,y
     inc *__crt0_drawListPosW
-    dec *__crt0_drawListNumDelayCycles_x8
     ldy *__crt0_textTemp
     rts
 
