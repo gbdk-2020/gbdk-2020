@@ -770,8 +770,14 @@ void hiramcpy(uint8_t dst, const void *src, uint8_t n) OLDCALL PRESERVES_REGS(b,
 #define HIDE_BKG \
   LCDC_REG&=~LCDCF_BGON
 
-/** Turns on the window layer
+/** Turns on the Window layer
     Sets bit 5 of the LCDC register to 1.
+
+    This only controls Window visibility. If either
+    the Background layer (which the window is part of)
+    or the Display are not turned then the Window contents
+    will not be visible. Those can be turned on using
+    @ref SHOW_BKG and @ref DISPLAY_ON.
 */
 #define SHOW_WIN \
   LCDC_REG|=LCDCF_WINON
