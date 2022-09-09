@@ -9,7 +9,7 @@ LCC = $(GBDK_HOME)bin/lcc
 # They can also be built/cleaned individually: "make gg" and "make gg-clean"
 # Possible are: gb gbc pocket megaduck sms gg
 #TARGETS=gb pocket sms gg
-TARGETS=gb gg sms
+TARGETS=gb gg sms nes
 
 # Configure platform specific LCC flags here:
 LCCFLAGS_gb      = -Wl-yt0x19 -Wl-yo4 -Wm-yS -Wm-yn"$(PROJECTNAME)"
@@ -17,11 +17,12 @@ LCCFLAGS_pocket  = -Wl-yt0x19 -Wl-yo4 -Wm-yS -Wm-yn"$(PROJECTNAME)"
 LCCFLAGS_duck    = -Wl-yt0x19 -Wl-yo4 -Wm-yS -Wm-yn"$(PROJECTNAME)"
 LCCFLAGS_sms     = -Wl-yo4 -Wm-yS
 LCCFLAGS_gg      = -Wl-yo4 -Wm-yS
+LCCFLAGS_nes     = 
 
 LCCFLAGS += $(LCCFLAGS_$(EXT)) # This adds the current platform specific LCC Flags
 
 # LCCFLAGS += -Wl-j -Wm-yoA -Wm-ya4 -autobank -Wb-ext=.rel -Wb-v # MBC + Autobanking related flags
-LCCFLAGS += -Wl-j
+LCCFLAGS += -Wl-u -Wl-j
 # LCCFLAGS += -debug # Uncomment to enable debug output
 # LCCFLAGS += -v     # Uncomment for lcc verbose output
 

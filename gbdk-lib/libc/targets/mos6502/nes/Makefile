@@ -13,6 +13,7 @@ ASSRC =	f_ibm_full.s f_ibm_sh.s f_italic.s f_min.s f_spect.s \
 	set_bk_ts.s fill_rect_bk.s set_bk_attributes.s \
 	nes_palettes.s \
 	pad.s pad_ex.s \
+	rle_decompress.s \
 	crt0.s
 
 CRT0 =	crt0.s
