@@ -20,7 +20,13 @@ uint8_t scrollpos = 0;              // Scroll position in pixels
 uint8_t datapos = 0;                // x position in tiles inside the collision map
 
 void main() {
-
+    if(DEVICE_SCREEN_BUFFER_WIDTH == DEVICE_SCREEN_WIDTH)
+    {
+        // On platforms where screen buffer has no more space than physical screen,
+        // the next map column will be written to the leftmost screen column.
+        // So we blank the leftmost column to hide visual artifacts where possible.
+        HIDE_LEFT_COLUMN;
+    }
     SHOW_BKG;
 
     // Load Tile data
@@ -32,16 +38,18 @@ void main() {
     // To get started, decompress and display a whole screen worth,
     // + 1 additional column in the direction being scrolled (to
     // avoid screen tearing from drawing a column right as it scrolls into view)
-    for (uint8_t i = 0; (rle_decompress(data, MAP_DATA_HEIGHT)) && (i != DEVICE_SCREEN_WIDTH + 1); i++) {
+    for (uint8_t i = 0; (i != DEVICE_SCREEN_WIDTH + 1); i++) {
+        rle_decompress(data, MAP_DATA_HEIGHT);
         // pre-process column here
         // ...
 
         // Draw current column starting at row 0
-        set_bkg_tiles(i, 0, 1, MAP_DATA_HEIGHT, data);
+        set_bkg_tiles(i & (DEVICE_SCREEN_BUFFER_WIDTH-1), 0, 1, MAP_DATA_HEIGHT, data);
     }
 
     // main game loop
-    datapos = scrollpos = 0;
+    datapos = 0;
+    scrollpos = 1;
     while(TRUE) {
 
         wait_vbl_done();
@@ -54,13 +62,12 @@ void main() {
 
         // Once for every 8 pixels scrolled: draw a
         // new column of tiles on the right-most edge
-        // ( == 1 is used here so it triggers on the very first pass)
-        if ((scrollpos & 0x07u) == 1) {
+        if ((scrollpos & 0x07u) == 0) {
 
             // Get hardware map tile X column from scroll position / 8
             // Then + 1 since there's a 1 tile column buffer on the right edge
-            datapos = (scrollpos >> 3) + 1;
-            uint8_t map_x_column = (datapos + DEVICE_SCREEN_WIDTH) & 31;
+            datapos = (scrollpos >> 3);
+            uint8_t map_x_column = (datapos + DEVICE_SCREEN_WIDTH) & (DEVICE_SCREEN_BUFFER_WIDTH-1);
 
             // Decompress a column worth of data
             // If the end of compressed data is reached, reset decompression
