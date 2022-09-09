@@ -17,6 +17,11 @@ _fill_bkg_rect::
     sta *.xpos
     stx *.ypos
     ldy *.height
+    ; Prefer vertical stripes if height > width
+    cpy *.width
+    beq _fill_bkg_rect_horizontalStripes
+    bcs _fill_bkg_rect_verticalStripes
+_fill_bkg_rect_horizontalStripes:
 1$:
     lda #0
     sta *.tmp+1
@@ -36,16 +41,53 @@ _fill_bkg_rect::
     ;
     lda *.tmp+1
     ora #0x20
-    sta PPUADDR
+    tax
     lda *.tmp
-    sta PPUADDR
+    jsr .ppu_stripe_begin_horizontal
     ldx *.width
-    lda *.tile
 2$:
-    sta PPUDATA
+    lda *.tile
+    jsr .ppu_stripe_write_byte
     dex
     bne 2$
+    jsr .ppu_stripe_end
     inc *.ypos
+    dey
+    bne 1$
+    rts
+
+_fill_bkg_rect_verticalStripes:
+    ldy *.width
+1$:
+    lda #0
+    sta *.tmp+1
+    lda *.ypos
+    asl
+    rol *.tmp+1
+    asl
+    rol *.tmp+1
+    asl
+    rol *.tmp+1
+    asl
+    rol *.tmp+1
+    asl
+    rol *.tmp+1
+    ora *.xpos
+    sta *.tmp
+    ;
+    lda *.tmp+1
+    ora #0x20
+    tax
+    lda *.tmp
+    jsr .ppu_stripe_begin_vertical
+    ldx *.height
+2$:
+    lda *.tile
+    jsr .ppu_stripe_write_byte
+    dex
+    bne 2$
+    jsr .ppu_stripe_end
+    inc *.xpos
     dey
     bne 1$
     rts
