@@ -14,6 +14,8 @@ https://github.com/gbdk-2020/gbdk-2020/releases
   - Platforms
     - SDCC has renamed the `gbz80` port to `sm83` see @ref faq_gbz80_sm83_old_port_name_error
     - Added initial support for MSXDOS (`msxdos`) and NES (`nes`). These platforms are not fully supported at this time. See @ref docs_supported_consoles
+  - Licensing
+    - Clarified licensing status with consent from GBDK original authors, added licensing folder to distribution
   - Library
     - SGB: Use longer wait between the SGB packet transfers
     - SMS/GG: less garbage on screen when clearing VRAM in the init code
