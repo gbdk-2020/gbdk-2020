@@ -31,6 +31,7 @@ clean:
 
 # round trip the executable through compression and de-compression as a brief test
 test:
+	# Compression test on the executable itself
 	rm -f tmp.cmp; rm -f tmp.dcmp
 	cp $(BIN) tmp.in; ./gbcompress -v tmp.in tmp.cmp; ./gbcompress -v -d tmp.cmp tmp.dcmp; diff -s tmp.in tmp.dcmp
 	rm -f tmp.cmp.c; rm -f tmp.dcmp.c; 	rm -f tmp.cmp; rm -f tmp.dcmp
@@ -40,4 +41,14 @@ test:
 	cp $(BIN) tmp.in; ./gbcompress --alg=rle -v tmp.in tmp.cmp; ./gbcompress  --alg=rle -v -d tmp.cmp tmp.dcmp; diff -s tmp.in tmp.dcmp
 	rm -f tmp.cmp.c; rm -f tmp.dcmp.c; 	rm -f tmp.cmp; rm -f tmp.dcmp
 	cp $(BIN) tmp.in; ./gbcompress  --alg=rle -v --cout --varname=some_array tmp.in tmp.cmp.c; ./gbcompress --alg=rle -v -d --cin tmp.cmp.c tmp.dcmp; diff -s tmp.in tmp.dcmp
-	rm tmp.*
+	rm -f tmp.*
+	# test_no_u16_align_end_of_buf.c
+	rm -f tmp.*
+	cp test_data/test_no_u16_align_end_of_buf.c tmp.in.c; ./gbcompress --cin -v --cout tmp.in.c tmp.cmp.c; ./gbcompress -v -d --cin --cout tmp.cmp.c tmp.dcmp.c; diff -s tmp.in.c tmp.dcmp.c
+	rm -f tmp.*
+	cp test_data/test_no_u16_align_end_of_buf.c tmp.in.c; ./gbcompress  --alg=rle --cin -v --cout tmp.in.c tmp.cmp.c; ./gbcompress --alg=rle -v -d --cin --cout tmp.cmp.c tmp.dcmp.c; diff -s tmp.in.c tmp.dcmp.c
+	rm -f tmp.*
+
+
+
+
