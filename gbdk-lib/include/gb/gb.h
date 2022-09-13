@@ -490,7 +490,7 @@ __endasm; \
 #define BANKREF_EXTERN(VARNAME) extern const void __bank_ ## VARNAME;
 
 /** Makes MEGADUCK MBC switch the active ROM bank
-    @param b   ROM bank to switch to
+    @param b   ROM bank to switch to (max `3` for 64K, or `7` for 128K)
 */
 #define SWITCH_ROM_MEGADUCK(b) \
   _current_bank = (b), *(volatile uint8_t *)0x0001 = (b)
