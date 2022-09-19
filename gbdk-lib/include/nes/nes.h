@@ -548,12 +548,12 @@ extern uint8_t _submap_tile_offset;
     @param map_w  Width of source tile map in tiles. Range 1 - 255
     @param base_tile Offset each tile ID entry of the source map by this value. Range 1 - 255
 
-    This is identical to @ref set_bkg_based_submap() except that it
+    This is identical to @ref set_bkg_submap() except that it
     adds the __base_tile__ parameter for when a tile map's tiles don't
     start at index zero. (For example, the tiles used by the map
     range from 100 -> 120 in VRAM instead of 0 -> 20).
 
-    @see set_bkg_based_submap for more details
+    @see set_bkg_submap for more details
 */
 inline void set_bkg_based_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w, uint8_t base_tile) {
     _submap_tile_offset = base_tile;
