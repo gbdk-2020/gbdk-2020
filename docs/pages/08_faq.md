@@ -7,6 +7,11 @@
     - The simplest way is to use the Game Boy sound hardware directly. See the @ref examples_sound_sample "Sound Example" for a way to test out sounds on the hardware.
     - Further discussion on using the Sound Example rom can be found in the ZGB wiki. Note that some example code there is ZGB specific and not part of the base GBDK API: https://github.com/Zal0/ZGB/wiki/Sounds <!-- -->
 
+# Licensing
+  - What license information is required when distributing the compiled ROM (binary) of my game or program?
+    - There is no requirement to include or credit any of the GBDK-2020 licenses or authors, although credit of GBDK-2020 is appreciated.
+    - This is different and separate from redistributing the GBDK-2020 dev environment itself (or the GBDK-2020 sources) which does require the licenses. <!-- -->
+
 # Graphics and Resources
   - How do I use a tile map when its tiles don't start at index zero?
     - The two main options are:

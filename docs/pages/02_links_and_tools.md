@@ -9,6 +9,9 @@ This is a brief list of useful tools and information. It is not meant to be comp
   http://sdcc.sourceforge.net/doc/sdccman.pdf  
   http://sdcc.sourceforge.net
 
+  - The SDCC assembler and linker (sdas / asxxxx and aslink) manual.  
+  https://sourceforge.net/p/sdcc/code/HEAD/tree/trunk/sdcc/sdas/doc/asmlnk.txt
+
 
 @anchor links_help_and_community
 # Getting Help
