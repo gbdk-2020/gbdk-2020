@@ -50,6 +50,8 @@ https://github.com/gbdk-2020/gbdk-2020/releases
       - Added `--bank=<num>` Add Bank Ref: 1 - 511 (default is none, with `--cout` only)
       - Fixed failure to flush data at end of compression (uncommitted bytes)
       - Fixed `Warning: File read size didn't match expected`
+    - @ref lcc "lcc"
+      - When `-autobank` is specified `lcc` will automatically add `-yoA` for @ref makebin if no `-yo*` entry is present
     - @ref utility_makecom "makecom"
       - Added `makecom` for post-processing msxdos binary
     - @ref makebin

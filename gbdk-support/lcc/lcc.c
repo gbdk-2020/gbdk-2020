@@ -294,6 +294,12 @@ int main(int argc, char *argv[]) {
                 else
                     sprintf(binFile, "%s", path_newext(outfile, EXT_ROM));
 
+                // makebin - if autobanking and no ROM bank size specified (-yo *) then add ROM auto-size (-yo A)
+                if ((autobankflag) && (find("-yo", mkbinlist) == 0)) {
+                    mkbinlist = append("-yo", mkbinlist);
+                    mkbinlist = append("A", mkbinlist);
+                }
+
                 compose(mkbin, mkbinlist, append(ihxFile, 0), append(binFile, 0));
                 if (callsys(av))
                     errcnt++;

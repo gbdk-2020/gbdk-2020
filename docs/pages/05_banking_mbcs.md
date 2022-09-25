@@ -60,11 +60,13 @@ Note: You can use the `NONBANKED` keyword to define a function as non-banked if 
 ## Setting the MBC and number of ROM & RAM banks available
 
 At the link stage this is done with @ref lcc using pass-through switches for @ref makebin.
-  - `-Wl-yo<N>` where `<N>` is the number of ROM banks. 2, 4, 8, 16, 32, 64, 128, 256, 512
-    - `-Wl-yoA` may be used for automatic bank size.
-  - `-Wl-ya<N>` where `<N>` is the number of RAM banks. 2, 4, 8, 16, 32
-  - `-Wl-yt<N>` where `<N>` is the type of MBC cartridge (see chart below).
-    - Example: `Wl-yt0x1A`
+  - `-Wm-yo<N>` where `<N>` is the number of ROM banks. 2, 4, 8, 16, 32, 64, 128, 256, 512
+    - `-Wm-yoA` may be used for automatic bank size.
+  - `-Wm-ya<N>` where `<N>` is the number of RAM banks. 2, 4, 8, 16, 32
+  - `-Wm-yt<N>` where `<N>` is the type of MBC cartridge (see chart below).
+    - Example: `Wm-yt0x1A`
+  - If passing the above arguments to @ref makebin directly **without** using @ref lcc, then the `-Wm` part should be omitted.
+    - Note: Some makebin switches (such as `-yo A`) require a space when passed directly. See @ref makebin-settings for details.
 
 The MBC settings below are available when using the makebin `-Wl-yt<N>` switch.
 
