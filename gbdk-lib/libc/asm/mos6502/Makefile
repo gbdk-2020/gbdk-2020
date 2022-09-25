@@ -5,6 +5,7 @@ TOPDIR = ../../..
 THIS = mos6502
 
 ASSRC = __sdcc_indirect_jsr.s _memcpy.s _strcpy.s _strcmp.s \
+	rand.s \
 	_divuint.s _divsint.s _modsint.s _moduint.s \
 	_divulong.s _divslong.s _modulong.s _modslong.s \
 	_mulint.s \
