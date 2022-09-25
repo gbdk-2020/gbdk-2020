@@ -12,7 +12,7 @@
   - The pixels in the game area at the center of the image should be set
     to 100% Alpha Transparency (as in the example image). If this is not
     done then the game area may share a palette color with other parts
-    of the border leading to tile pattern flasing while the border loads.
+    of the border leading to tile pattern flashing while the border loads.
 
 - See the pandocs for additional details
   - https://gbdev.io/pandocs/SGB_Functions.html
