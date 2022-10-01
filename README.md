@@ -70,7 +70,7 @@ Unless you are interested on recompiling the sources for some reason (like fixin
 
 - **Windows only**: Download and install [mingw](http://mingw-w64.org/)
 - Clone, download this repo or just get the source form the [releases](https://github.com/gbdk-2020/gbdk-2020/releases)
-- Download and install the **PATCHED** [sdcc builds](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/tag/sdcc-12539-patched) from the separate repo for that (https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/tag/sdcc-12539-patched).
+- Download and install the **PATCHED** [sdcc builds](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases) from the separate repo for that (https://github.com/gbdk-2020/gbdk-2020-sdcc/releases).
 - On Linux **don't use package managers** The latest release available won't work, you need to compile or download one of the nightlies
 - Create **SDCCDIR** environment variable, that points into the folder, where you installed sdcc
 - Open command prompt or a terminal, go to the root directory of the repo and run **make**
