@@ -198,7 +198,7 @@ void remove_SIO(int_handler h) OLDCALL;
 */
 void remove_JOY(int_handler h) OLDCALL;
 
-/** Adds a V-blank interrupt handler.
+/** Adds a Vertical Blanking interrupt handler.
 
     @param h  The handler to be called whenever a V-blank
     interrupt occurs.
@@ -206,12 +206,20 @@ void remove_JOY(int_handler h) OLDCALL;
     Up to 4 handlers may be added, with the last added
     being called last.
 
-    Do not use @ref CRITICAL and @ref INTERRUPT attributes for a
-    function added via add_VBL() (or LCD, etc). The attributes
-    are only required when constructing a bare jump from the
-    interrupt vector itself.
+    __Do not__ use the function definition attributes
+    @ref CRITICAL and @ref INTERRUPT when declaring
+    ISR functions added via add_VBL() (or LCD, etc).
+    Those attributes are only required when constructing
+    a bare jump from the interrupt vector itself (such as
+    with @ref ISR_VECTOR()).
 
-    Note: The default VBL is installed automatically.
+    ISR handlers added using add_VBL()/etc are instead
+    called via the GBDK ISR dispatcher which makes
+    the extra function attributes unecessary.
+
+    Note: The default GBDK VBL is installed automatically.
+
+    @see ISR_VECTOR()
 */
 void add_VBL(int_handler h) OLDCALL;
 
@@ -230,12 +238,23 @@ void add_VBL(int_handler h) OLDCALL;
     This can be useful for dynamically controlling the
     @ref SCX_REG / @ref SCY_REG registers ($FF43/$FF42) to perform
     special video effects.
+    
+    __Do not__ use the function definition attributes
+    @ref CRITICAL and @ref INTERRUPT when declaring
+    ISR functions added via add_VBL() (or LCD, etc).
+    Those attributes are only required when constructing
+    a bare jump from the interrupt vector itself (such as
+    with @ref ISR_VECTOR()).
+
+    ISR handlers added using add_VBL()/etc are instead
+    called via the GBDK ISR dispatcher which makes
+    the extra function attributes unecessary.
 
     If this ISR is to be called once per each scanline then
     make sure that the time it takes to execute is less
     than the duration of a scanline.
 
-    @see add_VBL, nowait_int_handler
+    @see add_VBL, nowait_int_handler, ISR_VECTOR()
 */
 void add_LCD(int_handler h) OLDCALL;
 
@@ -250,7 +269,7 @@ void add_LCD(int_handler h) OLDCALL;
     being called last.
 
     @see add_VBL
-    @see set_interrupts() with TIM_IFLAG
+    @see set_interrupts() with TIM_IFLAG, ISR_VECTOR()
 */
 void add_TIM(int_handler h) OLDCALL;
 
@@ -267,7 +286,7 @@ void add_TIM(int_handler h) OLDCALL;
     being called last.
 
     @see add_VBL
-    @see set_interrupts() with TIM_IFLAG
+    @see set_interrupts() with TIM_IFLAG, ISR_VECTOR()
 */
 void add_low_priority_TIM(int_handler h) OLDCALL;
 
