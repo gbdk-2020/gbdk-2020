@@ -145,8 +145,15 @@ jobs:
           set SDCCDIR=%CD%\sdcc
           cd gbdk-2020
           msys2 -c 'make'
+          cd ..
+
+      - name: Build Examples GBDK-2020 Windows
+        if: (matrix.name == 'Windows-x64') || (matrix.name == 'Windows-x32')
+        shell: cmd
+        run: |
           dir
           # Now build the examples for all platforms
+          cd gbdk-2020          
           cd build
           cd gbdk
           cd examples
@@ -169,6 +176,7 @@ jobs:
           tar czf ../package/${{ env.BUILD_PACKAGE_FILENAME }} gbdk/examples
           cd ..
           cd ..
+
       - name: Package build Windows
         if: (matrix.name == 'Windows-x64') || (matrix.name == 'Windows-x32')
         shell: cmd
@@ -179,6 +187,7 @@ jobs:
           7z a ../package/${{ env.BUILD_PACKAGE_FILENAME }} gbdk/examples
           cd ..
           cd ..
+
       - name: Store build
         if: (matrix.name == 'Linux-64') || (matrix.name == 'MacOS-64') || ('Windows-x64') || ('Windows-x32')
         uses: actions/upload-artifact@v2
