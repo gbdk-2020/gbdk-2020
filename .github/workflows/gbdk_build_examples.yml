@@ -145,11 +145,14 @@ jobs:
           set SDCCDIR=%CD%\sdcc
           cd gbdk-2020
           msys2 -c 'make'
+          dir
           # Now build the examples for all platforms
           cd build
           cd gbdk
           cd examples
+          dir
           msys2 -c 'make'
+          dir
           cd ..
           cd ..
           cd ..
