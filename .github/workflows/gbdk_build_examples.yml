@@ -151,15 +151,13 @@ jobs:
         if: (matrix.name == 'Windows-x64') || (matrix.name == 'Windows-x32')
         shell: cmd
         run: |
-          dir
-          # Now build the examples for all platforms
-          cd gbdk-2020          
+          # For Windows build Examples is a separate stage due to commands getting skipped(?) after calling msys make
+          # Now build the examples
+          cd gbdk-2020
           cd build
           cd gbdk
           cd examples
-          dir
           msys2 -c 'make'
-          dir
           cd ..
           cd ..
           cd ..
