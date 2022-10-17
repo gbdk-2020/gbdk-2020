@@ -86,7 +86,7 @@ static List mkbinlist;		/* loader files, flags */
 #define L_ARGS 0
 #define L_FILES 1
 #define L_LKFILES 2
-static List llist[3];       /* [2] = .lkfiles, [1] = linker object file list, [0] = linker flags */
+static List llist[3];	   /* [2] = .lkfiles, [1] = linker object file list, [0] = linker flags */
 
 static List alist;		/* assembler flags */
 List clist;		/* compiler flags */
@@ -288,34 +288,34 @@ int main(int argc, char *argv[]) {
 		{
 			if(errcnt == 0)
 			{
-                // makebin - use output filename unless there is a post-process step
-                if (strlen(postproc) == 0)
-                    sprintf(binFile, "%s", outfile);
-                else
-                    sprintf(binFile, "%s", path_newext(outfile, EXT_ROM));
+				// makebin - use output filename unless there is a post-process step
+				if (strlen(postproc) == 0)
+					sprintf(binFile, "%s", outfile);
+				else
+					sprintf(binFile, "%s", path_newext(outfile, EXT_ROM));
 
-                // makebin - if autobanking and no ROM bank size specified (-yo *) then add ROM auto-size (-yo A)
-                if ((autobankflag) && (find("-yo", mkbinlist) == 0)) {
-                    mkbinlist = append("-yo", mkbinlist);
-                    mkbinlist = append("A", mkbinlist);
-                }
+				// makebin - if autobanking and no ROM bank size specified (-yo *) then add ROM auto-size (-yo A)
+				if ((autobankflag) && (find("-yo", mkbinlist) == 0)) {
+					mkbinlist = append("-yo", mkbinlist);
+					mkbinlist = append("A", mkbinlist);
+				}
 
-                compose(mkbin, mkbinlist, append(ihxFile, 0), append(binFile, 0));
-                if (callsys(av))
-                    errcnt++;
+				compose(mkbin, mkbinlist, append(ihxFile, 0), append(binFile, 0));
+				if (callsys(av))
+					errcnt++;
 
-                // post-process step (such as makecom), if applicable
-                if ((strlen(postproc) != 0) && (errcnt == 0)) {
-                    compose(postproc, append(binFile, 0), append(outfile, 0), 0);
-                    if (callsys(av))
-                        errcnt++;
-                }
+				// post-process step (such as makecom), if applicable
+				if ((strlen(postproc) != 0) && (errcnt == 0)) {
+					compose(postproc, append(binFile, 0), append(outfile, 0), 0);
+					if (callsys(av))
+						errcnt++;
+				}
 			}
 		}
 	}
 	rm(rmlist);
-    if (verbose > 0)
-        fprintf(stderr, "\n");
+	if (verbose > 0)
+		fprintf(stderr, "\n");
 	return errcnt ? EXIT_FAILURE : EXIT_SUCCESS;
 }
 
@@ -408,7 +408,7 @@ char *basepath(char *name) {
 }
 
 // path_stripext - return a new string of path [name] with extension removed
-//              e.g. /usr/drh/foo.c => /usr/drh/foo
+//			  e.g. /usr/drh/foo.c => /usr/drh/foo
 char *path_stripext(char *name) {
 	char * copy_str = strsave(name);
 	char * end_str = copy_str + strlen(copy_str);
@@ -427,9 +427,9 @@ char *path_stripext(char *name) {
 
 
 // path_newext - return a new string of path [name] with extension replaced
-//              e.g. /usr/drh/foo.c => /usr/drh/foo
+//			  e.g. /usr/drh/foo.c => /usr/drh/foo
 char *path_newext(char *name, char *new_ext) {
-     return stringf("%s%s", path_stripext(name), new_ext);
+	 return stringf("%s%s", path_stripext(name), new_ext);
 }
 
 
@@ -480,11 +480,11 @@ void removeQuotes(char* src, char* dst)
 	while(*src != '\0')
 	{
 		if(*src != '\"')
-    {
-      if(*dst != *src)
+	{
+	  if(*dst != *src)
 				*(dst) = *src;
-      dst ++;
-    }
+	  dst ++;
+	}
 		src ++;
 	}
   if(*dst != '\0')
@@ -563,7 +563,7 @@ static int callsys(char **av) {
 #ifdef __WIN32__
 				fixQuotes(*it); //On windows quotes must be kept, and fixed
 #else
-        removeQuotes(*it, *it); //On macos, quotes must be fully removed from args
+		removeQuotes(*it, *it); //On macos, quotes must be fully removed from args
 #endif
 			}
 			//For future reference:
@@ -900,7 +900,7 @@ static void opt(char *arg) {
 						llist[L_LKFILES] = append(stringf(&arg[5]), llist[L_LKFILES]);
 					} else {
 						//sdldgb requires spaces between -k and the path
-						llist[L_ARGS] = append(stringf("%c%c", arg[3], arg[4]), llist[L_ARGS]);     //splitting the args into 2 works on Win and Linux
+						llist[L_ARGS] = append(stringf("%c%c", arg[3], arg[4]), llist[L_ARGS]);	 //splitting the args into 2 works on Win and Linux
 						if (arg[5]) {
 							llist[L_ARGS] = append(&arg[5], llist[L_ARGS]);  // Add filename separately if present
 						}
@@ -946,9 +946,9 @@ static void opt(char *arg) {
 	case 'd':	/* -dn */
 		if (strcmp(arg, "-debug") == 0) {
 			// Load default debug options
-			clist    = append("--debug", clist);  // Debug for sdcc compiler
-			llist[L_ARGS] = append("-y", llist[L_ARGS]);    // Enable .cdb output for sdldgb linker
-			llist[L_ARGS] = append("-j", llist[L_ARGS]);    // Enable .noi output
+			clist	= append("--debug", clist);  // Debug for sdcc compiler
+			llist[L_ARGS] = append("-y", llist[L_ARGS]);	// Enable .cdb output for sdldgb linker
+			llist[L_ARGS] = append("-j", llist[L_ARGS]);	// Enable .noi output
 			return;
 		}
 
@@ -1028,7 +1028,7 @@ static void opt(char *arg) {
 	}
 	if (arg[2] == 0)
 		switch (arg[1]) {	/* single-character options */
-		case 'S':        // Requested compile to assembly only
+		case 'S':		// Requested compile to assembly only
 			Sflag++;
 			option(arg); // Update composing the compile stage, use of -S instead of -c
 			return;
@@ -1166,29 +1166,29 @@ char *tempname(char *suffix) {
 //
 static void handle_autobanking(void) {
 
-    // bankpack will be populated if supported by active port:platform
-    if (bankpack[0][0] != '\0') {
+	// bankpack will be populated if supported by active port:platform
+	if (bankpack[0][0] != '\0') {
 
-        char * bankpack_linkerfile_name = tempname(EXT_LK);
-        rmlist = append(bankpack_linkerfile_name, rmlist); // Delete the linkerfile when done
-        // Always use a linkerfile when using bankpack through lcc
-        // Writes all input object files out to [bankpack_linkerfile_name]
-        bankpack_flags = append(stringf("%s%s","-lkout=", bankpack_linkerfile_name), bankpack_flags);
+		char * bankpack_linkerfile_name = tempname(EXT_LK);
+		rmlist = append(bankpack_linkerfile_name, rmlist); // Delete the linkerfile when done
+		// Always use a linkerfile when using bankpack through lcc
+		// Writes all input object files out to [bankpack_linkerfile_name]
+		bankpack_flags = append(stringf("%s%s","-lkout=", bankpack_linkerfile_name), bankpack_flags);
 
-        // Add linkerfile entries (usually *.lk) to the bankpack arg list if any are present
-        bankpack_flags = list_add_to_another(bankpack_flags, llist[L_LKFILES], "-lkin=", NULL);
+		// Add linkerfile entries (usually *.lk) to the bankpack arg list if any are present
+		bankpack_flags = list_add_to_another(bankpack_flags, llist[L_LKFILES], "-lkin=", NULL);
 
-        // Prepare the bankpack command line, then execute it
-        compose(bankpack, bankpack_flags, llist[L_FILES], 0);
-        if (callsys(av))
-            errcnt++;
+		// Prepare the bankpack command line, then execute it
+		compose(bankpack, bankpack_flags, llist[L_FILES], 0);
+		if (callsys(av))
+			errcnt++;
 
-        // Clear out the objects file and linkerfiles from their lists
-        // Then replace them with the filename passed to bankpack for "-lkout="
-        llist[L_FILES]   = list_remove_all(llist[L_FILES]);
-        llist[L_LKFILES] = list_remove_all(llist[L_LKFILES]);
-        llist[L_LKFILES] = append(stringf("%s", bankpack_linkerfile_name), llist[L_LKFILES]);
-    }
-    else
-        fprintf(stderr, "Warning: bankpack enabled but not supported by active port:platform\n");
+		// Clear out the objects file and linkerfiles from their lists
+		// Then replace them with the filename passed to bankpack for "-lkout="
+		llist[L_FILES]   = list_remove_all(llist[L_FILES]);
+		llist[L_LKFILES] = list_remove_all(llist[L_LKFILES]);
+		llist[L_LKFILES] = append(stringf("%s", bankpack_linkerfile_name), llist[L_LKFILES]);
+	}
+	else
+		fprintf(stderr, "Warning: bankpack enabled but not supported by active port:platform\n");
 }

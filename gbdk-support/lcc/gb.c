@@ -64,7 +64,7 @@ static struct {
 		{ "mkbin", "%sdccdir%makebin" },
 		{ "crt0dir", "%libdir%%plat%/crt0.o"},
 		{ "libs_include", "-k %libdir%%port%/ -l %port%.lib -k %libdir%%plat%/ -l %plat%.lib"},
-                { "mkcom", "%sdccdir%makecom"}
+				{ "mkcom", "%sdccdir%makecom"}
 };
 
 static char *getTokenVal(const char *key)
@@ -187,13 +187,13 @@ static void buildArgs(char **args, const char *template)
 // If order is changed here, file type handling MUST be updated
 // in lcc.c: "switch (suffix(name, suffixes, 5)) {"
 char *suffixes[] = {
-    EXT_C,               // 0
-    EXT_I,               // 1
-    EXT_ASM ";" EXT_S,   // 2
-    EXT_O   ";" EXT_OBJ, // 3
-    EXT_IHX,             // 4
-    EXT_GB,              // 5
-    0
+	EXT_C,					// 0
+	EXT_I,			 		// 1
+	EXT_ASM ";" EXT_S,		// 2
+	EXT_O   ";" EXT_OBJ,	// 3
+	EXT_IHX,				// 4
+	EXT_GB,					// 5
+	0
 };
 
 char inputs[256] = "";
@@ -270,7 +270,7 @@ int option(char *arg) {
 			// Error out and warn user when old gbz80 PORT name is used instead of sm83
 			if (!strcmp("gbz80", words[0])) {
 				fprintf(stderr, "Error: %s: old \"gbz80\" SDCC PORT name specified (in \"%s\"). Use \"sm83\" instead. "
-				                "You must update your build settings.\n", progname, arg);
+								"You must update your build settings.\n", progname, arg);
 				exit(-1);
 			}
 
@@ -305,7 +305,7 @@ void finalise(void)
 	buildArgs(ld, _class->ld);
 	buildArgs(ihxcheck, _class->ihxcheck);
 	buildArgs(mkbin, _class->mkbin);
-        if (strlen(_class->postproc) != 0) buildArgs(postproc, _class->postproc); else postproc[0] = '\0';
+		if (strlen(_class->postproc) != 0) buildArgs(postproc, _class->postproc); else postproc[0] = '\0';
 	rom_extension = strdup(_class->rom_extension);
 	llist0_defaults = _class->llist0_defaults;
 	llist0_defaults_len = _class->llist0_defaults_len;
