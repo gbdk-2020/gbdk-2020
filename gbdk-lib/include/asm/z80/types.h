@@ -18,12 +18,13 @@
 #define BANKED          __banked /**< The function will use banked sdcc calls, and is placed in the bank selected by it's source file (or compiler switches). */
 #define REENTRANT                /**< Needed for mos6502 target when functions take too many parameters. */
 
-/**  Use to create a block of of code which should execute with interrupts temporarily turned off.
+/**  Use to create a block of code which should execute with interrupts temporarily turned off.
 
-    __Do not__ use @ref CRITICAL and @ref INTERRUPT attributes for a
-    function added via add_VBL() (or LCD, etc). The attributes
-    are only required when constructing a bare jump from the
-    interrupt vector itself.
+    __Do not__ use the function definition attributes
+    @ref CRITICAL and @ref INTERRUPT when declaring
+    ISR functions added via add_VBL() (or LCD, etc).
+    These attributes are only required when constructing
+    a bare jump from the interrupt vector itself.
 
     @see enable_interrupts, disable_interrupts
 */
@@ -31,10 +32,11 @@
 
 /**  Indicate to the compiler the function will be used as an interrupt handler.
 
-    __Do not__ use @ref CRITICAL and @ref INTERRUPT attributes for a
-    function added via add_VBL() (or LCD, etc). The attributes
-    are only required when constructing a bare jump from the
-    interrupt vector itself.
+    __Do not__ use the function definition attributes
+    @ref CRITICAL and @ref INTERRUPT when declaring
+    ISR functions added via add_VBL() (or LCD, etc).
+    These attributes are only required when constructing
+    a bare jump from the interrupt vector itself.
 */
 #define INTERRUPT       __interrupt
 

@@ -37,7 +37,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
       - Added `-metasprites_only`: Export metasprite descriptors only
       - Added `-source_tileset`: Use source tileset image with common tiles
       - Added `-keep_duplicate_tiles`: Do not remove duplicate tiles
-      - Added `-bin`: Export to binary format
+      - Added `-bin`: Export to binary format (includes header files)
       - Added `-transposed`: Export transposed (column-by-column instead of row-by-row)
       - Added basic MSXDOS support
         - Added 1bpp packing mode (BPP1)

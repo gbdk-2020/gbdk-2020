@@ -15,12 +15,13 @@
 #define BANKED		            /**< Currently a no-op for mos6502 target. */
 #define REENTRANT	__reentrant /**< Needed for mos6502 target when functions take too many parameters. */
 
-/**  Use to create a block of of code which should execute with interrupts temporarily turned off.
+/**  Use to create a block of code which should execute with interrupts temporarily turned off.
 
-    __Do not__ use @ref CRITICAL and @ref INTERRUPT attributes for a
-    function added via add_VBL() (or LCD, etc). The attributes
-    are only required when constructing a bare jump from the
-    interrupt vector itself.
+    __Do not__ use the function definition attributes
+    @ref CRITICAL and @ref INTERRUPT when declaring
+    ISR functions added via add_VBL() (or LCD, etc).
+    These attributes are only required when constructing
+    a bare jump from the interrupt vector itself.
 
     @see enable_interrupts, disable_interrupts
 */
@@ -28,10 +29,11 @@
 
 /**  Indicate to the compiler the function will be used as an interrupt handler.
 
-    __Do not__ use @ref CRITICAL and @ref INTERRUPT attributes for a
-    function added via add_VBL() (or LCD, etc). The attributes
-    are only required when constructing a bare jump from the
-    interrupt vector itself.
+    __Do not__ use the function definition attributes
+    @ref CRITICAL and @ref INTERRUPT when declaring
+    ISR functions added via add_VBL() (or LCD, etc).
+    These attributes are only required when constructing
+    a bare jump from the interrupt vector itself.
 
     @see ISR_VECTOR(), ISR_NESTED_VECTOR()
 */
