@@ -145,7 +145,15 @@ jobs:
           set SDCCDIR=%CD%\sdcc
           cd gbdk-2020
           msys2 -c 'make'
-          # Now build the examples for all platforms
+          cd ..
+
+      - name: Build Examples GBDK-2020 Windows
+        if: (matrix.name == 'Windows-x64') || (matrix.name == 'Windows-x32')
+        shell: cmd
+        run: |
+          # For Windows build Examples is a separate stage due to commands getting skipped(?) after calling msys make
+          # Now build the examples
+          cd gbdk-2020
           cd build
           cd gbdk
           cd examples
@@ -155,3 +163,33 @@ jobs:
           cd ..
           cd ..
 
+      # ==== Packaging ====
+      - name: Package build Linux/MacOS
+        if: (matrix.name == 'Linux-x64') || (matrix.name == 'MacOS-x64')
+        shell: bash
+        run: |
+          cd gbdk-2020
+          mkdir package
+          cd build
+          tar czf ../package/${{ env.BUILD_PACKAGE_FILENAME }} gbdk/examples
+          cd ..
+          cd ..
+
+      - name: Package build Windows
+        if: (matrix.name == 'Windows-x64') || (matrix.name == 'Windows-x32')
+        shell: cmd
+        run: |
+          cd gbdk-2020
+          mkdir package
+          cd build
+          7z a ../package/${{ env.BUILD_PACKAGE_FILENAME }} gbdk/examples
+          cd ..
+          cd ..
+
+      - name: Store build
+        if: (matrix.name == 'Linux-64') || (matrix.name == 'MacOS-64') || ('Windows-x64') || ('Windows-x32')
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.name }} build
+          path: gbdk-2020/package/${{ env.BUILD_PACKAGE_FILENAME }}
+          # retention-days: 14
