@@ -48,119 +48,126 @@ arg_entry llist0_defaults_nes[] = {
 // $3 is the output file
 CLASS classes[] = {
     // GB
-    { "sm83",      // port
-        "gb",       // plat
-        "gb",       // default_plat
-        EXT_GB,     // ROM file extension
-        "%cpp% %cppdefault% -DINT_16_BITS $1 $2 $3",
-        "%includedefault%",
-        "%com% %comdefault% -Wa%asdefault% -DINT_16_BITS $1 %comflag% $2 -o $3",
-        "%as_gb% %asdefault% $1 $3 $2",
-        "%bankpack% $1 $2",
-        "%ld_gb% -n -i $1 %libs_include% $3 %crt0dir% $2",
-        "%ihxcheck% $2 $1",
-        "%mkbin% -yN -Z $1 $2 $3",  // -yN: Don't paste in the Nintendo logo bytes for gameboy and clones (-Z)
-        "",
-        llist0_defaults_gb, ARRAY_LEN(llist0_defaults_gb),
+    { .port         = "sm83",
+      .plat         = "gb",
+      .default_plat = "gb",
+      .rom_extension=  EXT_GB,
+      .cpp          = "%cpp% %cppdefault% -DINT_16_BITS $1 $2 $3",
+      .include      = "%includedefault%",
+      .com          = "%com% %comdefault% -Wa%asdefault% -DINT_16_BITS $1 %comflag% $2 -o $3",
+      .as           = "%as_gb% %asdefault% $1 $3 $2",
+      .bankpack     = "%bankpack% $1 $2",
+      .ld           = "%ld_gb% -n -i $1 %libs_include% $3 %crt0dir% $2",
+      .ihxcheck     = "%ihxcheck% $2 $1",
+      .mkbin        = "%mkbin% -yN -Z $1 $2 $3",  // -yN: Don't paste in the Nintendo logo bytes for gameboy and clones (-Z)
+      .postproc     = "",
+      .llist0_defaults    = llist0_defaults_gb,
+      .llist0_defaults_len= ARRAY_LEN(llist0_defaults_gb),
     },
     // Analogue Pocket
-    { "sm83",      // port
-        "ap",       // plat
-        "ap",       // default_plat
-        EXT_AP,     // ROM file extension
-        "%cpp% %cppdefault% -DINT_16_BITS $1 $2 $3",
-        "%includedefault%",
-        "%com% %comdefault% -Wa%asdefault% -DINT_16_BITS $1 %comflag% $2 -o $3",
-        "%as_gb% %asdefault% $1 $3 $2",
-        "%bankpack% $1 $2",
-        "%ld_gb% -n -i $1 %libs_include% $3 %crt0dir% $2",
-        "%ihxcheck% $2 $1",
-        "%mkbin% -yN -Z $1 $2 $3",  // -yN: Don't paste in the Nintendo logo bytes for gameboy and clones (-Z)
-        "",
-        llist0_defaults_gb, ARRAY_LEN(llist0_defaults_gb), // Use GB linker list defaults
+    { .port         = "sm83",
+      .plat         = "ap",
+      .default_plat = "ap",
+      .rom_extension=  EXT_AP,
+      .cpp          = "%cpp% %cppdefault% -DINT_16_BITS $1 $2 $3",
+      .include      = "%includedefault%",
+      .com          = "%com% %comdefault% -Wa%asdefault% -DINT_16_BITS $1 %comflag% $2 -o $3",
+      .as           = "%as_gb% %asdefault% $1 $3 $2",
+      .bankpack     = "%bankpack% $1 $2",
+      .ld           = "%ld_gb% -n -i $1 %libs_include% $3 %crt0dir% $2",
+      .ihxcheck     = "%ihxcheck% $2 $1",
+      .mkbin        = "%mkbin% -yN -Z $1 $2 $3",  // -yN: Don't paste in the Nintendo logo bytes for gameboy and clones (-Z)
+      .postproc     = "",
+      .llist0_defaults    = llist0_defaults_gb,
+      .llist0_defaults_len= ARRAY_LEN(llist0_defaults_gb), // Use GB linker list defaults
     },
     // Megaduck
-    { "sm83",      // port
-        "duck",     // plat
-        "duck",     // default_plat
-        EXT_DUCK,   // ROM file extension
-        "%cpp% %cppdefault% -DINT_16_BITS $1 $2 $3",
-        "%includedefault%",
-        "%com% %comdefault% -Wa%asdefault% -DINT_16_BITS $1 %comflag% $2 -o $3",
-        "%as_gb% %asdefault% $1 $3 $2",
-        "%bankpack% $1 $2",
-        "%ld_gb% -n -i $1 %libs_include% $3 %crt0dir% $2",
-        "%ihxcheck% $2 $1",
-        "%mkbin% -yN -Z $1 $2 $3",  // -yN: Don't paste in the Nintendo logo bytes for gameboy and clones (-Z)
-        "",
-        llist0_defaults_gb, ARRAY_LEN(llist0_defaults_gb), // Use GB linker list defaults
+    { .port         = "sm83",
+      .plat         = "duck",
+      .default_plat = "duck",
+      .rom_extension=  EXT_DUCK,
+      .cpp          = "%cpp% %cppdefault% -DINT_16_BITS $1 $2 $3",
+      .include      = "%includedefault%",
+      .com          = "%com% %comdefault% -Wa%asdefault% -DINT_16_BITS $1 %comflag% $2 -o $3",
+      .as           = "%as_gb% %asdefault% $1 $3 $2",
+      .bankpack     = "%bankpack% $1 $2",
+      .ld           = "%ld_gb% -n -i $1 %libs_include% $3 %crt0dir% $2",
+      .ihxcheck     = "%ihxcheck% $2 $1",
+      .mkbin        = "%mkbin% -yN -Z $1 $2 $3",  // -yN: Don't paste in the Nintendo logo bytes for gameboy and clones (-Z)
+      .postproc     = "",
+      .llist0_defaults    = llist0_defaults_gb,
+      .llist0_defaults_len= ARRAY_LEN(llist0_defaults_gb), // Use GB linker list defaults
     },
 
     // SMS
-    { "z80",        // port
-        "sms",      // plat
-        "sms",      // default_plat
-        EXT_SMS,    // ROM file extension
-        "%cpp% %cppdefault% -DINT_16_BITS $1 $2 $3",
-        "%includedefault%",
-        "%com% %comdefault% -Wa%asdefault% -DINT_16_BITS $1 %comflag% $2 -o $3",
-        "%as_z80% %asdefault% $1 $3 $2",
-        "%bankpack% -plat=sms $1 $2",
-        "%ld_z80% -a sms -n -i $1 %libs_include% $3 %crt0dir% $2",
-        "%ihxcheck% $2 $1",
-        "%mkbin% -S -xj 4 $1 $2 $3",
-        "",
-        llist0_defaults_sms, ARRAY_LEN(llist0_defaults_sms),
+    { .port         = "z80",
+      .plat         = "sms",
+      .default_plat = "sms",
+      .rom_extension=  EXT_SMS,
+      .cpp          = "%cpp% %cppdefault% -DINT_16_BITS $1 $2 $3",
+      .include      = "%includedefault%",
+      .com          = "%com% %comdefault% -Wa%asdefault% -DINT_16_BITS $1 %comflag% $2 -o $3",
+      .as           = "%as_z80% %asdefault% $1 $3 $2",
+      .bankpack     = "%bankpack% -plat=sms $1 $2",
+      .ld           = "%ld_z80% -a sms -n -i $1 %libs_include% $3 %crt0dir% $2",
+      .ihxcheck     = "%ihxcheck% $2 $1",
+      .mkbin        = "%mkbin% -S -xj 4 $1 $2 $3",
+      .postproc     = "",
+      .llist0_defaults    = llist0_defaults_sms,
+      .llist0_defaults_len= ARRAY_LEN(llist0_defaults_sms),
     },
     // GG
-    { "z80",        // port
-        "gg",       // plat
-        "gg",       // default_plat
-        EXT_GG,     // ROM file extension
-        "%cpp% %cppdefault% -DINT_16_BITS $1 $2 $3",
-        "%includedefault%",
-        "%com% %comdefault% -Wa%asdefault% -DINT_16_BITS $1 %comflag% $2 -o $3",
-        "%as_z80% %asdefault% $1 $3 $2",
-        "%bankpack% -plat=sms $1 $2",
-        "%ld_z80% -a sms -n -i $1 %libs_include% $3 %crt0dir% $2",
-        "%ihxcheck% $2 $1",
-        "%mkbin% -S $1 $2 $3",
-        "",
-        llist0_defaults_sms, ARRAY_LEN(llist0_defaults_sms),  // Use SMS linker list defaults
+    { .port         = "z80",
+      .plat         = "gg",
+      .default_plat = "gg",
+      .rom_extension=  EXT_GG,
+      .cpp          = "%cpp% %cppdefault% -DINT_16_BITS $1 $2 $3",
+      .include      = "%includedefault%",
+      .com          = "%com% %comdefault% -Wa%asdefault% -DINT_16_BITS $1 %comflag% $2 -o $3",
+      .as           = "%as_z80% %asdefault% $1 $3 $2",
+      .bankpack     = "%bankpack% -plat=sms $1 $2",
+      .ld           = "%ld_z80% -a sms -n -i $1 %libs_include% $3 %crt0dir% $2",
+      .ihxcheck     = "%ihxcheck% $2 $1",
+      .mkbin        = "%mkbin% -S $1 $2 $3",
+      .postproc     = "",
+      .llist0_defaults    = llist0_defaults_sms,
+      .llist0_defaults_len= ARRAY_LEN(llist0_defaults_sms),  // Use SMS linker list defaults
     },
 
     // MSX
-    { "z80",        // port
-        "msxdos",   // plat
-        "msxdos",   // default_plat
-        EXT_MSXDOS, // ROM file extension
-        "%cpp% %cppdefault% -DINT_16_BITS $1 $2 $3",
-        "%includedefault%",
-        "%com% %comdefault% -Wa%asdefault% -DINT_16_BITS $1 %comflag% $2 -o $3",
-        "%as_z80% %asdefault% $1 $3 $2",
-        "%bankpack% -plat=sms $1 $2",
-        "%ld_z80% -a sms -n -i -j $1 %libs_include% $3 %crt0dir% $2",
-        "%ihxcheck% $2 $1",
-        "%mkbin% $1 $2 $3",
-        "%mkcom% $1 $2",
-        llist0_defaults_msxdos, ARRAY_LEN(llist0_defaults_msxdos),
+    { .port         = "z80",
+      .plat         = "msxdos",
+      .default_plat = "msxdos",
+      .rom_extension=  EXT_MSXDOS,
+      .cpp          = "%cpp% %cppdefault% -DINT_16_BITS $1 $2 $3",
+      .include      = "%includedefault%",
+      .com          = "%com% %comdefault% -Wa%asdefault% -DINT_16_BITS $1 %comflag% $2 -o $3",
+      .as           = "%as_z80% %asdefault% $1 $3 $2",
+      .bankpack     = "%bankpack% -plat=sms $1 $2",
+      .ld           = "%ld_z80% -a sms -n -i -j $1 %libs_include% $3 %crt0dir% $2",
+      .ihxcheck     = "%ihxcheck% $2 $1",
+      .mkbin        = "%mkbin% $1 $2 $3",
+      .postproc     = "%mkcom% $1 $2",
+      .llist0_defaults    = llist0_defaults_msxdos,
+      .llist0_defaults_len= ARRAY_LEN(llist0_defaults_msxdos),
     },
 
     // NES
-    { "mos6502",        // port
-        "nes",   // plat
-        "nes",   // default_plat
-        EXT_NES, // ROM file extension
-        "%cpp% %cppdefault% -DINT_16_BITS $1 $2 $3",
-        "%includedefault%",
-        "%com% %comdefault% -Wa%asdefault% -DINT_16_BITS $1 %comflag% $2 -o $3",
-        "%as_6500% %asdefault% $1 $3 $2",
-        "%bankpack% -plat=nes $1 $2",
-        "%ld% -n -i -j $1 %libs_include% $3 %crt0dir% $2",
-        "%ihxcheck% $2 $1",
-        "%mkbin% -N -yo 2 -yS $2 $3",
-        "",
-        llist0_defaults_nes, ARRAY_LEN(llist0_defaults_nes),
+    { .port         = "mos6502",
+      .plat         = "nes",
+      .default_plat = "nes",
+      .rom_extension=  EXT_NES,
+      .cpp          = "%cpp% %cppdefault% -DINT_16_BITS $1 $2 $3",
+      .include      = "%includedefault%",
+      .com          = "%com% %comdefault% -Wa%asdefault% -DINT_16_BITS $1 %comflag% $2 -o $3",
+      .as           = "%as_6500% %asdefault% $1 $3 $2",
+      .bankpack     = "%bankpack% -plat=nes $1 $2",
+      .ld           = "%ld% -n -i -j $1 %libs_include% $3 %crt0dir% $2",
+      .ihxcheck     = "%ihxcheck% $2 $1",
+      .mkbin        = "%mkbin% -N -yo 2 -yS $2 $3",
+      .postproc     = "",
+      .llist0_defaults    = llist0_defaults_nes,
+      .llist0_defaults_len= ARRAY_LEN(llist0_defaults_nes),
     }
 
 };
