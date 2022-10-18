@@ -27,12 +27,19 @@ static struct {
 	const char *name;
 	const char *val;
 } _tokens[] = {
-		// expandable string tokens used in "CLASS" command strings
+		// Expandable string tokens used in "CLASS" command strings
 		{ "port",		"sm83" },  // if default class is ever changed from Game Boy, this default (and plat) may need to be changed to match
 		{ "plat",		"gb" },
-		{ "sdccdir", "%bindir%"},
-		{ "cpp",		"%sdccdir%sdcpp" },
-		{ "cppdefault", 	"-Wall -DSDCC_PORT=%port% -DSDCC_PLAT=%plat%"},
+		{ "sdccdir", 	"%bindir%"},
+
+		// In order for things such as "__SDCC_VERSION_MAJOR" to work with -E preprocess only,
+		// the preprocessor needs to be invoked via SDCC instead since that's where those
+		// settings are generated. (see sdcc --verbose -E ...)
+		// { "cpp",		"%sdccdir%sdcpp" },
+		// { "cppdefault", "-Wall -D__PORT_%port% -D__TARGET_%plat%"},
+		{ "cpp",		"%com%" },
+		{ "cppdefault",	"-E -D__PORT_%port% -D__TARGET_%plat% "},
+
 		{ "includedefault",	"-I%includedir%" },
 		{ "includedir", 	"%prefix%include" },
 		{ "prefix",		GBDKLIBDIR },
@@ -49,8 +56,8 @@ static struct {
 		{ "asdefault",	"-pogn -I%libdir%%plat%" },
 		{ "as_gb",		"%sdccdir%sdasgb" },
 		{ "as_z80",		"%sdccdir%sdasz80" },
-		{ "as_6500",		"%sdccdir%sdas6500" },
-		{ "bankpack", "%bindir%bankpack" },
+		{ "as_6500",	"%sdccdir%sdas6500" },
+		{ "bankpack",	"%bindir%bankpack" },
 		{ "ld_gb",		"%sdccdir%sdldgb" },
 		{ "ld_z80",		"%sdccdir%sdldz80" },
 		{ "ld",			"%sdccdir%sdld" },
@@ -60,9 +67,9 @@ static struct {
 #else
 		{ "bindir",		GBDKBINDIR },
 #endif
-		{ "ihxcheck", "%bindir%ihxcheck" },
-		{ "mkbin", "%sdccdir%makebin" },
-		{ "crt0dir", "%libdir%%plat%/crt0.o"},
+		{ "ihxcheck",	"%bindir%ihxcheck" },
+		{ "mkbin",		"%sdccdir%makebin" },
+		{ "crt0dir",	"%libdir%%plat%/crt0.o"},
 		{ "libs_include", "-k %libdir%%port%/ -l %port%.lib -k %libdir%%plat%/ -l %plat%.lib"},
 				{ "mkcom", "%sdccdir%makecom"}
 };
@@ -184,8 +191,13 @@ static void buildArgs(char **args, const char *template)
 	*last = NULL;
 }
 
+// TODO: This + suffix() is brittle and hard to read elsewhere. Rewrite it.
+//
 // If order is changed here, file type handling MUST be updated
 // in lcc.c: "switch (suffix(name, suffixes, 5)) {"
+//
+// suffix() interpretes this as each additional array item being
+// part of an inclusively larger set.
 char *suffixes[] = {
 	EXT_C,					// 0
 	EXT_I,			 		// 1
@@ -193,11 +205,13 @@ char *suffixes[] = {
 	EXT_O   ";" EXT_OBJ,	// 3
 	EXT_IHX,				// 4
 	EXT_GB,					// 5
-	0
+	0						// 6
 };
 
 char inputs[256] = "";
 
+// Todo: Move these into a struct
+// (Could use "CLASS" aside from const typing? It's mainly dupe of that anyway)
 char *cpp[256];
 char *include[256];
 char *com[256] = { "", "", "" };

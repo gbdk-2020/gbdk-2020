@@ -59,6 +59,7 @@ static bool arg_has_searchkey(char *, char *);
 static void Fixllist();
 
 static void handle_autobanking(void);
+static int handle_file_preprocess_only(char *name, char *base);
 
 
 // These get populated from _class using finalise() in gb.c
@@ -73,6 +74,7 @@ void finalise(void);
 
 static int errcnt;		/* number of errors */
 static int Eflag;		/* -E specified */
+static int Eflag_preproc_to_file;	// --save-procroc specified
 static int Sflag;		/* -S specified */
 static int cflag;		/* -c specified */
 static int Kflag;		/* -K specified */
@@ -231,7 +233,12 @@ int main(int argc, char *argv[]) {
 		}
 
 
-	// Perform Link / ihxcheck / makebin stages (unless some conditions prevent it)
+	// Perform Link / ihxcheck / makebin stages
+	//
+	// Don't perform these stages if any of the following were requested:
+	// -E : Preprocessor only
+	// -c : Compile only
+	// -S : Compile to Assembly
 	if (errcnt == 0 && !Eflag && !cflag && !Sflag &&
 		(llist[L_FILES] || llist[L_LKFILES] || ((ihxFile[0] != '\0') && ihx_inputs))) {
 
@@ -686,7 +693,11 @@ static int filename(char *name, char *base) {
 	// Handle all available suffixes except .gb (last in list)
 	switch (suffix(name, suffixes, 5)) {
 	case 0:	/* C source files */
-		{
+		if (Eflag) {
+			// If Preprocess only was requested
+			status = handle_file_preprocess_only(name, base);
+		}
+		else {
 			char *ofile;
 			if ((cflag || Sflag) && outfile)
 				ofile = outfile;
@@ -700,11 +711,12 @@ static int filename(char *name, char *base) {
 			{
 				ofile = tempname(EXT_O);
 
+				// Remove generated files of these extensions upon completion
 				char* ofileBase = basepath(ofile);
 				rmlist = append(stringf("%s/%s%s", tempdir, ofileBase, EXT_ASM), rmlist);
-				rmlist = append(stringf("%s/%s%s", tempdir, ofileBase, ".lst"), rmlist);
-				rmlist = append(stringf("%s/%s%s", tempdir, ofileBase, ".sym"), rmlist);
-				rmlist = append(stringf("%s/%s%s", tempdir, ofileBase, ".adb"), rmlist);
+				rmlist = append(stringf("%s/%s%s", tempdir, ofileBase, EXT_LST), rmlist);
+				rmlist = append(stringf("%s/%s%s", tempdir, ofileBase, EXT_SYM), rmlist);
+				rmlist = append(stringf("%s/%s%s", tempdir, ofileBase, EXT_ADB), rmlist);
 			}
 
 			compose(com, clist, append(name, 0), append(ofile, 0));
@@ -715,7 +727,7 @@ static int filename(char *name, char *base) {
 		break;
 	case 2:	/* assembly language files */
 		if (Eflag)
-			break;
+			break; // Skip asm files if pre-process only specified
 		if (!Sflag) {
 			char *ofile;
 			if (cflag && outfile)
@@ -738,10 +750,12 @@ static int filename(char *name, char *base) {
 		// Apply "name" as .ihx file (there can be only one as input)
 		strncpy(ihxFile, name, sizeof(ihxFile) - 1);
 		break;
-	default:
-		if (Eflag) {
-			compose(cpp, plist, append(name, 0), 0);
-			status = callsys(av);
+	default: // Files with unmatched or no extension
+
+		// If Preprocess only was requested and it's a .h file
+		if ((Eflag) && matches_ext(name, EXT_H))  {
+			status = handle_file_preprocess_only(name, base);
+			break;
 		}
 		llist[L_FILES] = append(name, llist[L_FILES]);
 		break;
@@ -767,7 +781,8 @@ static void help(void) {
 "-dn	set switch statement density to `n'\n",
 "-debug	Turns on --debug for compiler, -y (.cdb) and -j (.noi) for linker\n",
 "-Dname -Dname=def	define the preprocessor symbol `name'\n",
-"-E	run only the preprocessor on the named C programs and unsuffixed files\n",
+"-E	only run preprocessor on named .c and .h files files -> stdout\n",
+"--save-preproc  Use with -E for output to *.i files instead of stdout\n",
 "-g	produce symbol table information for debuggers\n",
 "-help or -?	print this message\n",
 "-Idir	add `dir' to the beginning of the list of #include directories\n",
@@ -855,6 +870,10 @@ static void interrupt(int n) {
 /* opt - process option in arg */
 static void opt(char *arg) {
 	switch (arg[1]) {	/* multi-character options */
+	case '-':	// --* options
+		if (strcmp(arg, "--save-preproc") == 0)
+			Eflag_preproc_to_file = true;
+		return;
 	case 'W':	/* -Wxarg */
 		if (arg[2] && arg[3])
 			switch (arg[2]) {
@@ -1053,7 +1072,7 @@ static void opt(char *arg) {
 				fprintf(stderr, "%s: %s ignored\n", progname, arg);
 			return;
 		case 'E':
-			Eflag++;
+			Eflag++; // Preprocess files only
 			return;
 		case 'c':
 			cflag++;
@@ -1192,3 +1211,28 @@ static void handle_autobanking(void) {
 	else
 		fprintf(stderr, "Warning: bankpack enabled but not supported by active port:platform\n");
 }
+
+// Triggered by -E flag
+// Called for files with .c, unmatched extension, or no extension
+// Output with -o > <somefile>.i is blocked earlier (same as is for output to .c)
+//
+// Note: This follows the existing convention for -c and -S where the output file
+//       is just the input file with the path stripped off and placed into the working dir.
+//       Not actually sure that's what anyone wants, but not gonna rock that boat for now.
+//       Otherwise using "name" instead of base would use the full path for output.
+static int handle_file_preprocess_only(char *name, char *base) {
+
+	// Default for preprocess only is to stdout with no output file
+	char *ofile;
+
+	// Save preprocessor output to a file if requested
+	if (Eflag_preproc_to_file) {
+		ofile = concat("-o", concat(base, EXT_I));
+		compose(cpp, clist, append(name, 0), append(ofile, 0));
+	}
+	else
+		compose(cpp, clist, append(name, 0), 0);
+
+	return callsys(av); // return call status
+}
+
