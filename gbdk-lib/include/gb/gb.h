@@ -457,9 +457,15 @@ extern volatile uint8_t _io_out;
 
 
 
-/** Tracks current active ROM bank @see SWITCH_ROM_MBC1(), SWITCH_ROM_MBC5()
+/** Tracks current active ROM bank
+
+    The active bank number is not tracked by @ref _current_bank when
+    @ref SWITCH_ROM_MBC5_8M is used.
+
     This variable is updated automatically when you call SWITCH_ROM_MBC1 or
-    SWITCH_ROM_MBC5, or call a BANKED function.
+    SWITCH_ROM_MBC5, SWITCH_ROM(), or call a BANKED function.
+
+    @see SWITCH_ROM_MBC1(), SWITCH_ROM_MBC5(), SWITCH_ROM()
 */
 __REG _current_bank;
 #define CURRENT_BANK _current_bank
@@ -519,7 +525,7 @@ __endasm; \
     @param b   ROM bank to switch to
 
     For MBC1 some banks in it's range are unavailable
-    (typically 0x00, 0x20, 0x40, 0x60).
+    (typically 0x20, 0x40, 0x60).
 
     See pandocs for more details https://gbdev.io/pandocs/MBC1
 */
@@ -529,12 +535,15 @@ __endasm; \
 /** Makes default platform MBC switch the active ROM bank
     @param b   ROM bank to switch to (max 255)
 
-    \li When used with MBC1 the max bank is Bank 31
-    \li When used with MBC5 the max bank is Bank 255
-    \li To use the full size of MBC5 see @ref SWITCH_ROM_MBC5_8M()
+    \li When used with MBC1 the max bank is Bank 31 (512K).
+    \li When used with MBC5 the max bank is Bank 255 (4MB).
+    \li To use the full 8MB size of MBC5 see @ref SWITCH_ROM_MBC5_8M().
 
     \li For MBC1 some banks in it's range are unavailable
-    (typically 0x00, 0x20, 0x40, 0x60).
+    (typically 0x20, 0x40, 0x60).
+
+    Note: Using @ref SWITCH_ROM_MBC5_8M() should not be mixed with using
+          @ref SWITCH_ROM_MBC5() and @ref SWITCH_ROM().
 
     @see SWITCH_ROM_MBC1, SWITCH_ROM_MBC5, SWITCH_ROM_MEGADUCK
 */
@@ -582,7 +591,10 @@ __endasm; \
 
     Supports up to ROM bank 255 (4 MB).
 
-    @ref SWITCH_ROM_MBC5_8M may be used if a larger size is needed.
+    @ref SWITCH_ROM_MBC5_8M may be used if the full 8MB size is needed.
+
+    Note: Using @ref SWITCH_ROM_MBC5_8M() should not be mixed with using
+          @ref SWITCH_ROM_MBC5() and @ref SWITCH_ROM().
 
     Note the order used here. Writing the other way around on a MBC1 always selects bank 1
 */
@@ -591,9 +603,16 @@ __endasm; \
   *(volatile uint8_t *)0x3000 = 0, \
   *(volatile uint8_t *)0x2000 = (b)
 
-/** Makes MBC5 to switch the active ROM bank; active bank number is not tracked by _current_bank if you use this macro
+/** Makes MBC5 to switch the active ROM bank using the full 8MB size.
     @see _current_bank
     @param b   ROM bank to switch to
+
+    This is an alternate to @ref SWITCH_ROM_MBC5 which is limited to 4MB.
+
+    Note:
+    \li Banked SDCC calls are not supported if you use this macro.
+    \li The active bank number is not tracked by @ref _current_bank if you use this macro.
+    \li Using @ref SWITCH_ROM_MBC5_8M() should not be mixed with using @ref SWITCH_ROM_MBC5() and @ref SWITCH_ROM().
 
     Note the order used here. Writing the other way around on a MBC1 always selects bank 1
 */
