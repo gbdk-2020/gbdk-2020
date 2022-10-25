@@ -17,10 +17,18 @@ Cartridges with MBCs allow the the Game Boy to work with ROMS up to 8MB in size 
   - Bank `0` of the ROM is located in the region at `0000h - 3FFFh`. It is fixed (non-banked) and cannot be switched out for another bank.
   - Banks `1 .. N` can be switched into the upper region at `4000h - 7FFFh`. The upper limit for `N` is determined by the MBC used and available cartridge space.
   - It is not necessary to manually assign Bank `0` for source files, that will happen by default if no bank is specified.
-  
+
 See the @ref Pandocs for more details about the individual MBCs and their capabilities.
 
+## Recommended MBC type
+@anchor Recommended_MBC
 
+For most projects we recommend __MBC5__.
+  - The @ref SWITCH_ROM() / ref  SWITCH_RAM() macros work with MBC5 (up to ROM bank 255, @ref SWITCH_ROM_MBC5_8M may be used if a larger size is needed).
+
+  - __MBC1 is not recommended__. Some banks in it's range are unavailable. See pandocs for more details. https://gbdev.io/pandocs/MBC1
+
+  
 ### Bank 0 Size Limit and Overlows When Using MBCs
 When using MBCs and bank switching the space used in the lower fixed Bank `0` **must be <= 16K bytes**. Otherwise it's data will overflow into Bank `1` and may be overwriten or overwrite other data, and can get switched out when banks are changed.
 
@@ -73,7 +81,7 @@ The MBC settings below are available when using the makebin `-Wl-yt<N>` switch.
 Source: Pandocs. Additional details available at [Pandocs](https://gbdev.io/pandocs/The_Cartridge_Header.html#0147---cartridge-type "Pandocs")
 
 
-## MBC Type Chart
+# MBC Type Chart
 ```
 0147: Cartridge type:
 0x00: ROM ONLY                  0x12: ROM+MBC3+RAM
@@ -94,41 +102,51 @@ Source: Pandocs. Additional details available at [Pandocs](https://gbdev.io/pand
 
 @anchor mbc_type_chart
 
-| Hex Code | MBC Type      | SRAM | BATTERY | RTC | RUMBLE | EXTRA  | 
-| -------- | ------------- | ---- | ------- | --- | ------ | ------ | 
-| 0x00     | ROM ONLY      |      |         |     |        |        | 
-| 0x01     | MBC-1         |      |         |     |        |        |
-| 0x02     | MBC-1         | SRAM |         |     |        |        |
-| 0x03     | MBC-1         | SRAM | BATTERY |     |        |        |
-| 0x05     | MBC-2         |      |         |     |        |        |
-| 0x06     | MBC-2         |      | BATTERY |     |        |        |
-| 0x08     | ROM (1)       | SRAM |         |     |        |        |
-| 0x09     | ROM (1)       | SRAM | BATTERY |     |        |        |
-| 0x0B     | MMM01         |      |         |     |        |        |
-| 0x0C     | MMM01         | SRAM |         |     |        |        |
-| 0x0D     | MMM01         | SRAM | BATTERY |     |        |        |
-| 0x0F     | MBC-3         |      | BATTERY | RTC |        |        |
-| 0x10     | MBC-3 (2)     | SRAM | BATTERY | RTC |        |        |
-| 0x11     | MBC-3         |      |         |     |        |        |
-| 0x12     | MBC-3 (2)     | SRAM |         |     |        |        |
-| 0x13     | MBC-3 (2)     | SRAM | BATTERY |     |        |        |
-| 0x19     | MBC-5         |      |         |     |        |        |
-| 0x1A     | MBC-5         | SRAM |         |     |        |        |
-| 0x1B     | MBC-5         | SRAM | BATTERY |     |        |        |
-| 0x1C     | MBC-5         |      |         |     | RUMBLE |        |
-| 0x1D     | MBC-5         | SRAM |         |     | RUMBLE |        |
-| 0x1E     | MBC-5         | SRAM | BATTERY |     | RUMBLE |        |
-| 0x20     | MBC-6         |      |         |     |        |        |
-| 0x22     | MBC-7         | SRAM | BATTERY |     | RUMBLE | SENSOR |
-| 0xFC     | POCKET CAMERA |      |         |     |        |        |
-| 0xFD     | BANDAI TAMA5  |      |         |     |        |        |
-| 0xFE     | HuC3          |      |         |     |        |        |
-| 0xFF     | HuC1          | SRAM | BATTERY |     |        |        | 
+| Hex Code | MBC Type      | SRAM | Battery | RTC | Rumble | Extra  | Max ROM Size (1)|
+| -------- | ------------- | ---- | ------- | --- | ------ | ------ | --------------- |
+| 0x00     | ROM ONLY      |      |         |     |        |        | 32 K            |
+| 0x01     | MBC-1 (2)     |      |         |     |        |        | 2 MB            |
+| 0x02     | MBC-1 (2)     | SRAM |         |     |        |        | 2 MB            |
+| 0x03     | MBC-1 (2)     | SRAM | BATTERY |     |        |        | 2 MB            |
+| 0x05     | MBC-2         |      |         |     |        |        | 256 K           |
+| 0x06     | MBC-2         |      | BATTERY |     |        |        | 256 K           |
+| 0x08     | ROM (3)       | SRAM |         |     |        |        | 32 K            |
+| 0x09     | ROM (3)       | SRAM | BATTERY |     |        |        | 32 K            |
+| 0x0B     | MMM01         |      |         |     |        |        | 8 MB / N        |
+| 0x0C     | MMM01         | SRAM |         |     |        |        | 8 MB / N        |
+| 0x0D     | MMM01         | SRAM | BATTERY |     |        |        | 8 MB / N        |
+| 0x0F     | MBC-3         |      | BATTERY | RTC |        |        | 2 MB            |
+| 0x10     | MBC-3 (4)     | SRAM | BATTERY | RTC |        |        | 2 MB            |
+| 0x11     | MBC-3         |      |         |     |        |        | 2 MB            |
+| 0x12     | MBC-3 (4)     | SRAM |         |     |        |        | 2 MB            |
+| 0x13     | MBC-3 (4)     | SRAM | BATTERY |     |        |        | 2 MB            |
+| 0x19     | MBC-5         |      |         |     |        |        | 8 MB            |
+| 0x1A     | MBC-5         | SRAM |         |     |        |        | 8 MB            |
+| 0x1B     | MBC-5         | SRAM | BATTERY |     |        |        | 8 MB            |
+| 0x1C     | MBC-5         |      |         |     | RUMBLE |        | 8 MB            |
+| 0x1D     | MBC-5         | SRAM |         |     | RUMBLE |        | 8 MB            |
+| 0x1E     | MBC-5         | SRAM | BATTERY |     | RUMBLE |        | 8 MB            |
+| 0x20     | MBC-6         |      |         |     |        |        | ~2MB            |
+| 0x22     | MBC-7         | SRAM | BATTERY |     | RUMBLE | SENSOR | 2MB             |
+| 0xFC     | POCKET CAMERA |      |         |     |        |        | To Do           |
+| 0xFD     | BANDAI TAMA5  |      |         |     |        |        | To Do           |
+| 0xFE     | HuC3          |      |         | RTC |        |        | To Do           |
+| 0xFF     | HuC1          | SRAM | BATTERY |     |        | IR     | To Do           |
 
 
-1: No licensed cartridge makes use of this option. Exact behaviour is unknown.
+1: Max possible size for MBC is shown. When used with generic @ref SWITCH_ROM() the max size may be smaller. For example:
+  - The max for MBC1 becomes __Bank 31__ (512K)
+  - The max for MBC5 becomes __Bank 255__(4MB). To use the full size of MBC5 see @ref SWITCH_ROM_MBC5_8M().
 
-2: MBC3 with RAM size 64 KByte refers to MBC30, used only in Pocket Monsters Crystal Version for Japan. 
+2: For MBC1 some banks in it's range are unavailable. See pandocs for more details https://gbdev.io/pandocs/MBC1
+
+3: No licensed cartridge makes use of this option. Exact behaviour is unknown.
+
+4: MBC3 with RAM size 64 KByte refers to MBC30, used only in Pocket Monsters Crystal Version for Japan.
+
+
+
+
 
 
 ## Getting Bank Numbers
