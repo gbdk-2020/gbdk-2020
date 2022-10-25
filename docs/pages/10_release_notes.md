@@ -52,6 +52,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
       - Fixed `Warning: File read size didn't match expected`
     - @ref lcc "lcc"
       - When `-autobank` is specified `lcc` will automatically add `-yoA` for @ref makebin if no `-yo*` entry is present
+      - Fixed broken `-E` Preprocess only flag
     - @ref utility_makecom "makecom"
       - Added `makecom` for post-processing msxdos binary
     - @ref makebin
