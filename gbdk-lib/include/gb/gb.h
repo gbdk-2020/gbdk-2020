@@ -517,12 +517,24 @@ __endasm; \
 
 /** Makes MBC1 and other compatible MBCs switch the active ROM bank
     @param b   ROM bank to switch to
+
+    For MBC1 some banks in it's range are unavailable
+    (typically 0x00, 0x20, 0x40, 0x60).
+
+    See pandocs for more details https://gbdev.io/pandocs/MBC1
 */
 #define SWITCH_ROM_MBC1(b) \
   _current_bank = (b), *(volatile uint8_t *)0x2000 = (b)
 
 /** Makes default platform MBC switch the active ROM bank
     @param b   ROM bank to switch to (max 255)
+
+    \li When used with MBC1 the max bank is Bank 31
+    \li When used with MBC5 the max bank is Bank 255
+    \li To use the full size of MBC5 see @ref SWITCH_ROM_MBC5_8M()
+
+    \li For MBC1 some banks in it's range are unavailable
+    (typically 0x00, 0x20, 0x40, 0x60).
 
     @see SWITCH_ROM_MBC1, SWITCH_ROM_MBC5, SWITCH_ROM_MEGADUCK
 */
@@ -565,8 +577,12 @@ __endasm; \
 #define SWITCH_4_32_MODE_MBC1 \
   *(volatile uint8_t *)0x6000 = 0x01
 
-/** Makes MBC5 switch to the active ROM bank; only 4M roms are supported, @see SWITCH_ROM_MBC5_8M()
-    @param b   ROM bank to switch to
+/** Makes MBC5 switch to the active ROM bank
+    @param b   ROM bank to switch to (max 255)
+
+    Supports up to ROM bank 255 (4 MB).
+
+    @ref SWITCH_ROM_MBC5_8M may be used if a larger size is needed.
 
     Note the order used here. Writing the other way around on a MBC1 always selects bank 1
 */

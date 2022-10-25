@@ -12,7 +12,8 @@
 -dn	set switch statement density to `n'
 -debug	Turns on --debug for compiler, -y (.cdb) and -j (.noi) for linker
 -Dname -Dname=def	define the preprocessor symbol `name'
--E	run only the preprocessor on the named C programs and unsuffixed files
+-E	only run preprocessor on named .c and .h files files -> stdout
+--save-preproc  Use with -E for output to *.i files instead of stdout
 -g	produce symbol table information for debuggers
 -help or -?	print this message
 -Idir	add `dir' to the beginning of the list of #include directories
