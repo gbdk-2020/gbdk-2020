@@ -166,9 +166,15 @@ uint8_t get_mode() OLDCALL;
 */
 extern volatile uint16_t sys_time;
 
-/** Tracks current active ROM bank @see SWITCH_ROM_MBC1(), SWITCH_ROM_MBC5()
+/** Tracks current active ROM bank
+
+    The active bank number is not tracked by @ref _current_bank when
+    @ref SWITCH_ROM_MBC5_8M is used.
+
     This variable is updated automatically when you call SWITCH_ROM_MBC1 or
-    SWITCH_ROM_MBC5, or call a BANKED function.
+    SWITCH_ROM_MBC5, SWITCH_ROM(), or call a BANKED function.
+
+    @see SWITCH_ROM_MBC1(), SWITCH_ROM_MBC5(), SWITCH_ROM()
 */
 extern volatile uint8_t _current_bank;
 #define CURRENT_BANK _current_bank

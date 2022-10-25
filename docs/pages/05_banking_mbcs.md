@@ -136,7 +136,7 @@ Source: Pandocs. Additional details available at [Pandocs](https://gbdev.io/pand
 
 1: Max possible size for MBC is shown. When used with generic @ref SWITCH_ROM() the max size may be smaller. For example:
   - The max for MBC1 becomes __Bank 31__ (512K)
-  - The max for MBC5 becomes __Bank 255__(4MB). To use the full size of MBC5 see @ref SWITCH_ROM_MBC5_8M().
+  - The max for MBC5 becomes __Bank 255__ (4MB). To use the full 8MB size of MBC5 see @ref SWITCH_ROM_MBC5_8M().
 
 2: For MBC1 some banks in it's range are unavailable. See pandocs for more details https://gbdev.io/pandocs/MBC1
 
