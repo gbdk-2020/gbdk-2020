@@ -195,6 +195,8 @@ extern volatile UBYTE VDP_ATTR_SHIFT;
 #define DEVICE_SCREEN_MAP_ENTRY_SIZE 2
 #define DEVICE_SPRITE_PX_OFFSET_X 0
 #define DEVICE_SPRITE_PX_OFFSET_Y -1
+#define DEVICE_WINDOW_PX_OFFSET_X 0
+#define DEVICE_WINDOW_PX_OFFSET_Y 0
 #else
 #error Unrecognized port
 #endif
