@@ -61,7 +61,7 @@ Note: You can use the `NONBANKED` keyword to define a function as non-banked if 
 
 
 ## Setting the RAM bank for a Source file
-  - Using the lcc switch for RAM bank `-Wf-ba<N>`. Example (RAM bank 3): `-Wf-ba3`
+  - Using the lcc switch for Cartridge SRAM bank `-Wf-ba<N>`. Example (Cartridge SRAM bank 3): `-Wf-ba3`
 
 
 @anchor setting_mbc_and_rom_ram_banks
