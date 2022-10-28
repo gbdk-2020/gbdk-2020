@@ -1,4 +1,4 @@
-@page docs_releases GBDK Releases
+@page docs_releases GBDK Release Notes
 
 The GBDK-2020 releases can be found on Github:
 https://github.com/gbdk-2020/gbdk-2020/releases
@@ -7,13 +7,13 @@ https://github.com/gbdk-2020/gbdk-2020/releases
 # GBDK-2020 Release Notes
 
 ## GBDK-2020 4.1.0
-  2022
+  2022/10
   - Building GBDK
     - The linux port of SDCC is custom built on Ubuntu 16.04 due to reduced GLIBC compatibility issues in more recent SDCC project builds.
     - Added Windows 32-Bit build
   - Platforms
     - SDCC has renamed the `gbz80` port to `sm83` see @ref faq_gbz80_sm83_old_port_name_error
-    - Added initial support for MSXDOS (`msxdos`) and NES (`nes`). These platforms are not fully supported at this time. See @ref docs_supported_consoles
+    - Added experimental support for MSXDOS (`msxdos`) and NES (`nes`). These platforms are not fully functional at this time. See @ref docs_supported_consoles
   - Licensing
     - Clarified licensing status with consent from GBDK original authors, added licensing folder to distribution
   - Library
@@ -54,13 +54,14 @@ https://github.com/gbdk-2020/gbdk-2020/releases
       - When `-autobank` is specified `lcc` will automatically add `-yoA` for @ref makebin if no `-yo*` entry is present
       - Fixed broken `-E` Preprocess only flag
     - @ref utility_makecom "makecom"
-      - Added `makecom` for post-processing msxdos binary
+      - Added `makecom` for post-processing msxdos binaries
     - @ref makebin
       - Fixed (via sdcc) bug with `-yp` not always working correctly
         - https://sourceforge.net/p/sdcc/code/12975/
     - @ref bankpack
       - Added support for the Game Boy Camera MBC
-      - Added `-reserve=<bank>:<size>` option
+      - Added `-reserve=<bank>:<size>` option to reserve space during autobank packing
+        - Workaround for libraries that contain objects in banks (such as gbt-player)
     - @ref ihxcheck
       - Check and warn for bank overflows under specific conditions
         - A multiple write to the same address must occur. The address where the overlap ends is used as BANK.

@@ -38,7 +38,6 @@
     for (uint8_t i = hiwater; i < 64; i++) shadow_OAM[i].y = 0;
     \endcode
 
-    @anchor metasprite_and_sprite_properties
     # Metasprites and sprite properties (including cgb palette)
 
     When the move_metasprite_*() functions are called they
