@@ -2,7 +2,7 @@ var asm_2z80_2string_8h =
 [
     [ "strcpy", "asm_2z80_2string_8h.html#af5b1fe1ca3f2aca8ad215962460d15a6", null ],
     [ "strcmp", "asm_2z80_2string_8h.html#a11bd144d7d44914099a3aeddf1c8567d", null ],
-    [ "memcpy", "asm_2z80_2string_8h.html#abec66c0a707472b9090ea4cd0402d648", null ],
+    [ "memcpy", "asm_2z80_2string_8h.html#ab68eb7b07f8ada1c6c8bde74731d3de7", null ],
     [ "memmove", "asm_2z80_2string_8h.html#a854ba725a4e429439ccf93b1f5ad7b3a", null ],
     [ "memset", "asm_2z80_2string_8h.html#a6491121b0087a8848354d9de3aa2444b", null ],
     [ "reverse", "asm_2z80_2string_8h.html#a81863156a28fd2eefeee6859d768bdb1", null ],

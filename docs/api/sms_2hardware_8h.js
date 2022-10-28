@@ -101,6 +101,8 @@ var sms_2hardware_8h =
     [ "RAMCTL_PROT", "sms_2hardware_8h.html#a97eb5adb5f29e17ce5766728447317f5", null ],
     [ "SYSTEM_PAL", "sms_2hardware_8h.html#a1ac4bf5582e0754ea814c3f51c99a91a", null ],
     [ "SYSTEM_NTSC", "sms_2hardware_8h.html#ae6888157a94fca2f1a1b5136494f2e07", null ],
+    [ "VBK_TILES", "sms_2hardware_8h.html#a6b6b917fd4f396ba028bb18631165781", null ],
+    [ "VBK_ATTRIBUTES", "sms_2hardware_8h.html#a418a105f4c7d4bf1cbc556eab72c27ca", null ],
     [ "VDP_SAT_TERM", "sms_2hardware_8h.html#ad3b833661b103edc2648258dd741c92c", null ],
     [ "DEVICE_SCREEN_PX_WIDTH", "sms_2hardware_8h.html#ad14c51cdfb347c34c364f54e67dc978d", null ],
     [ "DEVICE_SCREEN_PX_HEIGHT", "sms_2hardware_8h.html#a7bd450aa268b881257089cf8cd6697ec", null ],

@@ -44,6 +44,9 @@ When linking with @ref sdldgb-settings "sdldgb" (for GB/AP) and @ref sdldz80-set
 MSXDOS requires an additional build step with @ref utility_makecom "makecom" after @ref makebin to create the final binary:
   - `makecom <image.bin> [<image.noi>] <output.com>`
 
+The NES port has `--no-peep` specified (in @ref lcc) due to a peephole related codegen bug in SDCC that has not yet been merged.
+  - If you wish to build without that flag then SDCC can be called directly instead of through lcc.
+  - Alternately, custom peephole rules from a file can be passed in using `-Wf--peep-file` (lcc) or `--peep-file` (sdcc).
 
 @anchor console_port_plat_settings
 ## Console Port and Platform Settings
