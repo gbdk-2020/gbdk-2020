@@ -159,7 +159,7 @@ CLASS classes[] = {
       .rom_extension=  EXT_NES,
       .cpp          = "%cpp% %cppdefault% -DINT_16_BITS $1 $2 $3",
       .include      = "%includedefault%",
-      .com          = "%com% %comdefault% -Wa%asdefault% -DINT_16_BITS $1 %comflag% $2 -o $3",
+      .com          = "%com% %comdefault% -Wa%asdefault% --no-peep -DINT_16_BITS $1 %comflag% $2 -o $3",
       .as           = "%as_6500% %asdefault% $1 $3 $2",
       .bankpack     = "%bankpack% -plat=nes $1 $2",
       .ld           = "%ld% -n -i -j $1 %libs_include% $3 %crt0dir% $2",
