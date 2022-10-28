@@ -43,7 +43,7 @@
    "-mgbz80" in module "_____".` mean?
     - One object file was compiled with the PORT setting as `gbz80` (meaning a version of SDCC / GBDK-2020 __OLDER than GBDK-2020 4.1.0__).
     - The other had the PORT setting as `sm83` (meaning __GBDK-2020 4.1.0 or LATER__).
-    - You must rebuild the object files using `gbz80` with GBDK-2020 4.1.0 or later so that the linker is able to use them with the other object files. Additional details in the @ref console_port_plat_settings "Console Port and Platform Settings" section.  <!-- -->  
+    - You must rebuild the object files using `sm83` with GBDK-2020 4.1.0 or later so that the linker is able to use them with the other object files. Additional details in the @ref console_port_plat_settings "Console Port and Platform Settings" section.  <!-- -->  
 
   @anchor faq_sdcc_peephole_instruction_error
   - What does `z80instructionSize() failed to parse line node, assuming 999 bytes` mean?
