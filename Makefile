@@ -328,7 +328,7 @@ endif
 #Run Doxygen	
 	rm -rf $(GBDKDOCSDIR)/api; \
 	  cd "$(GBDKLIBDIR)/include"; \
-	  GBDKDOCSDIR="$(GBDKDOCSDIR)" GBDKVERSION=$(VER) GBDKLIBDIR="$(GBDKLIBDIR)" $(DOXYGENCMD) "$(GBDKDOCSDIR)/config/gbdk-2020-doxyfile"
+	  GBDKDOCSDIR="$(GBDKDOCSDIR)" GBDKVERSION=$(VER) GBDKLIBDIR="$(GBDKLIBDIR)" GBDKBASEDIR="$(TOPDIR)" $(DOXYGENCMD) "$(GBDKDOCSDIR)/config/gbdk-2020-doxyfile"
 	@if [ "$(DOCS_PDF_ON)" = "YES" ]; then\
 		$(MAKE) -C $(GBDKDOCSDIR)/latex;\
 		cp $(GBDKDOCSDIR)/latex/refman.pdf $(GBDKDOCSDIR)/gbdk_manual.pdf;\
