@@ -1,7 +1,7 @@
 var stdlib_8h =
 [
     [ "__reentrant", "stdlib_8h.html#a83798998ad669e85a8f75d6490191760", null ],
-    [ "exit", "stdlib_8h.html#a55e99c539cf7723ec15e856b7e0a8cee", null ],
+    [ "exit", "stdlib_8h.html#a259b56e52cd0350410d31610758c7b24", null ],
     [ "abs", "stdlib_8h.html#a3bb2d2cacc5535004757ebbc640079fb", null ],
     [ "labs", "stdlib_8h.html#a8b7210ba18f750970a2db3c73a841a22", null ],
     [ "atoi", "stdlib_8h.html#a30670a60464f77af17dfb353353d6df8", null ],

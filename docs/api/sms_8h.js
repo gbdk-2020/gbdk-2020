@@ -99,6 +99,7 @@ var sms_8h =
     [ "joypad_init", "sms_8h.html#abe90cc2b5bb10c0ed9e01e548ddf8862", null ],
     [ "joypad_ex", "sms_8h.html#a1d45c65829490c5ec98362f5e60edc20", null ],
     [ "set_default_palette", "sms_8h.html#abd34836339579013c097ae4dea10c014", null ],
+    [ "cgb_compatibility", "sms_8h.html#ac2dd234782ac786758952496b017ab97", null ],
     [ "cpu_fast", "sms_8h.html#a884a743919b234cd9c37789380784d08", null ],
     [ "set_palette_entry", "sms_8h.html#a2c9aabf4519e01257b0d0e04e8108164", null ],
     [ "set_palette", "sms_8h.html#a92109adcc20960f26e8bc5fbb141d27e", null ],

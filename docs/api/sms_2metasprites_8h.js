@@ -11,5 +11,5 @@ var sms_2metasprites_8h =
     [ "__current_metasprite", "sms_2metasprites_8h.html#aae51f066cc5436457f62351847bfc64b", null ],
     [ "__current_base_tile", "sms_2metasprites_8h.html#a345fa52509387bd18a4092178a18286f", null ],
     [ "__render_shadow_OAM", "sms_2metasprites_8h.html#a4bfe4d95031b67951cf6bc342110db39", null ],
-    [ "iyl", "sms_2metasprites_8h.html#af279c752a3b15c4bd5c67f54b92e553f", null ]
+    [ "iyl", "sms_2metasprites_8h.html#ab3ffa618117b57a09f96f42b7f13585d", null ]
 ];

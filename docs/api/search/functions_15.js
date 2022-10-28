@@ -1,10 +1,10 @@
 var searchData=
 [
-  ['wait_5fint_5fhandler_1373',['wait_int_handler',['../gb_8h.html#acc9afd0cb72e763a1213d256b942a68f',1,'gb.h']]],
-  ['wait_5fvbl_5fdone_1374',['wait_vbl_done',['../gb_8h.html#acd186eb292d441f9389e77b545a55619',1,'wait_vbl_done() PRESERVES_REGS(b:&#160;gb.h'],['../sms_8h.html#acd186eb292d441f9389e77b545a55619',1,'wait_vbl_done() PRESERVES_REGS(b:&#160;sms.h']]],
-  ['waitpad_1375',['waitpad',['../gb_8h.html#aae433db7d8e3ee4c095c254b8abd7b8b',1,'waitpad(uint8_t mask) OLDCALL PRESERVES_REGS(b:&#160;gb.h'],['../sms_8h.html#a79b565677967da5ef9bf1a00aa6776ce',1,'waitpad(uint8_t mask) Z88DK_FASTCALL PRESERVES_REGS(b:&#160;sms.h']]],
-  ['waitpadup_1376',['waitpadup',['../gb_8h.html#a8484d346b788309ac702b7e0b1fca730',1,'waitpadup() PRESERVES_REGS(a:&#160;gb.h'],['../sms_8h.html#a955d3733e5018f18b17a572aff45cf26',1,'waitpadup() PRESERVES_REGS(b:&#160;sms.h']]],
-  ['write_5fvdp_5fcmd_1377',['WRITE_VDP_CMD',['../sms_8h.html#a498b148efd22ab8ad9b844b2dc5e5bb8',1,'sms.h']]],
-  ['write_5fvdp_5fdata_1378',['WRITE_VDP_DATA',['../sms_8h.html#aa2ddf9662320c4a9d00fd4a94d347570',1,'sms.h']]],
-  ['wrtchr_1379',['wrtchr',['../drawing_8h.html#a9178e678a17cb08653600f435093ae2a',1,'drawing.h']]]
+  ['wait_5fint_5fhandler_1443',['wait_int_handler',['../gb_8h.html#acc9afd0cb72e763a1213d256b942a68f',1,'gb.h']]],
+  ['wait_5fvbl_5fdone_1444',['wait_vbl_done',['../gb_8h.html#acd186eb292d441f9389e77b545a55619',1,'wait_vbl_done() PRESERVES_REGS(b:&#160;gb.h'],['../msx_8h.html#acd186eb292d441f9389e77b545a55619',1,'wait_vbl_done() PRESERVES_REGS(b:&#160;msx.h'],['../nes_8h.html#ac4a06ca83515e998223462121f1bac59',1,'wait_vbl_done():&#160;nes.h'],['../sms_8h.html#acd186eb292d441f9389e77b545a55619',1,'wait_vbl_done() PRESERVES_REGS(b:&#160;sms.h']]],
+  ['waitpad_1445',['waitpad',['../gb_8h.html#abb680388b5bcbf0c69526d7017ffe8d2',1,'waitpad(uint8_t mask) PRESERVES_REGS(b:&#160;gb.h'],['../msx_8h.html#a79b565677967da5ef9bf1a00aa6776ce',1,'waitpad(uint8_t mask) Z88DK_FASTCALL PRESERVES_REGS(b:&#160;msx.h'],['../nes_8h.html#af068fcd54cfae7c070d6caf97b2c6ff2',1,'waitpad(uint8_t mask) OLDCALL:&#160;nes.h'],['../sms_8h.html#a79b565677967da5ef9bf1a00aa6776ce',1,'waitpad(uint8_t mask) Z88DK_FASTCALL PRESERVES_REGS(b:&#160;sms.h']]],
+  ['waitpadup_1446',['waitpadup',['../gb_8h.html#a8484d346b788309ac702b7e0b1fca730',1,'waitpadup() PRESERVES_REGS(a:&#160;gb.h'],['../msx_8h.html#a955d3733e5018f18b17a572aff45cf26',1,'waitpadup() PRESERVES_REGS(b:&#160;msx.h'],['../nes_8h.html#acd88858a8314f43dc0458af1a43a1af2',1,'waitpadup():&#160;nes.h'],['../sms_8h.html#a955d3733e5018f18b17a572aff45cf26',1,'waitpadup() PRESERVES_REGS(b:&#160;sms.h']]],
+  ['write_5fvdp_5fcmd_1447',['WRITE_VDP_CMD',['../msx_8h.html#a498b148efd22ab8ad9b844b2dc5e5bb8',1,'WRITE_VDP_CMD(uint16_t cmd) Z88DK_FASTCALL PRESERVES_REGS(b:&#160;msx.h'],['../sms_8h.html#a498b148efd22ab8ad9b844b2dc5e5bb8',1,'WRITE_VDP_CMD(uint16_t cmd) Z88DK_FASTCALL PRESERVES_REGS(b:&#160;sms.h']]],
+  ['write_5fvdp_5fdata_1448',['WRITE_VDP_DATA',['../msx_8h.html#aa2ddf9662320c4a9d00fd4a94d347570',1,'WRITE_VDP_DATA(uint16_t data) Z88DK_FASTCALL PRESERVES_REGS(b:&#160;msx.h'],['../sms_8h.html#aa2ddf9662320c4a9d00fd4a94d347570',1,'WRITE_VDP_DATA(uint16_t data) Z88DK_FASTCALL PRESERVES_REGS(b:&#160;sms.h']]],
+  ['wrtchr_1449',['wrtchr',['../drawing_8h.html#a9178e678a17cb08653600f435093ae2a',1,'drawing.h']]]
 ];
