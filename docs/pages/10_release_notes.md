@@ -1,4 +1,4 @@
-@page docs_releases GBDK Releases
+@page docs_releases GBDK Release Notes
 
 The GBDK-2020 releases can be found on Github:
 https://github.com/gbdk-2020/gbdk-2020/releases
@@ -7,7 +7,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
 # GBDK-2020 Release Notes
 
 ## GBDK-2020 4.1.0
-  2022
+  2022/10
   - Building GBDK
     - The linux port of SDCC is custom built on Ubuntu 16.04 due to reduced GLIBC compatibility issues in more recent SDCC project builds.
     - Added Windows 32-Bit build
