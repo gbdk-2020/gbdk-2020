@@ -9,6 +9,9 @@ This is a brief list of useful tools and information. It is not meant to be comp
   http://sdcc.sourceforge.net/doc/sdccman.pdf  
   http://sdcc.sourceforge.net
 
+  - The SDCC assembler and linker (sdas / asxxxx and aslink) manual.  
+  https://sourceforge.net/p/sdcc/code/HEAD/tree/trunk/sdcc/sdas/doc/asmlnk.txt
+
 
 @anchor links_help_and_community
 # Getting Help
@@ -29,14 +32,14 @@ This is a brief list of useful tools and information. It is not meant to be comp
   - @anchor awesome_gb
     __Awesome Game Boy Development list__  
     A list of Game Boy/Color development resources, tools, docs, related projects and homebrew.  
-    https://gbdev.io/list.html
+    https://gbdev.io/resources.html
 
 
 @anchor links_sms_gg_docs
 # Sega Master System / Game Gear Documentation
   - @anchor smspower
     __SMS Power!__  
-    Community site with technical documentation, reviews and other content related to the Sega 8-bit systems.
+    Community site with technical documentation, reviews and other content related to the Sega 8-bit systems.  
     https://www.smspower.org/
 
 
@@ -44,7 +47,7 @@ This is a brief list of useful tools and information. It is not meant to be comp
 # Tutorials
   - @anchor tutorials_larolds
     __Larold's Jubilant Junkyard  Tutorials__      
-    Several walk throughs about the fundamentals of developing for the Game Boy with GBDK-2020. There are simple examples with source code.
+    Several walk throughs about the fundamentals of developing for the Game Boy with GBDK-2020. There are simple examples with source code.  
     https://laroldsjubilantjunkyard.com/tutorials/
 
   - @anchor tutorials_gamingmonsters
@@ -54,7 +57,7 @@ This is a brief list of useful tools and information. It is not meant to be comp
     https://github.com/gingemonster/GamingMonstersGameBoySampleCode
 
   - @anchor tutorials_typorter
-    __Pocket Leage Tutortial__  
+    __Pocket Leage Tutorial__  
     https://blog.ty-porter.dev/development/2021/04/04/writing-a-gameboy-game-in-2021-pt-0.html
 
 
@@ -73,7 +76,7 @@ This is a brief list of useful tools and information. It is not meant to be comp
     @anchor toxa_gbtd_gbmb
     __Game Boy Tile Designer and Map Builder (GBTD / GBMB)__  
     Sprite / Tile editor and Map Builder that can export to C that works with GBDK.  
-    This is an updated version with const export fixed and other improvments.  
+    This is an updated version with const export fixed and other improvements.  
     https://github.com/gbdk-2020/GBTD_GBMB
  
       - A GIMP plugin to read/write GBR/GBM files and do map conversion:  
@@ -88,14 +91,7 @@ This is a brief list of useful tools and information. It is not meant to be comp
 
 
 @anchor tools_music
-# Music drivers and tools
-  - @anchor gbt-player
-    __GBT Player__  
-    A .mod converter and music driver that works with GBDK and RGBDS.  
-    https://github.com/AntonioND/gbt-player  
-    Docs from GBStudio that should mostly apply: https://www.gbstudio.dev/docs/music/
-
-
+# Music And Sound Effects
   - @anchor hUGEdriver
     __hUGEtracker__ and __hUGEdriver__  
     A tracker and music driver that work with GBDK and RGBDS.
@@ -103,6 +99,22 @@ This is a brief list of useful tools and information. It is not meant to be comp
     https://github.com/untoxa/hUGEBuild  
     https://github.com/SuperDisk/hUGEDriver  
     https://github.com/SuperDisk/hUGETracker
+
+  - @anchor CBT-FX
+    __CBT-FX__  
+    A sound effects driver which can play effects created in FX Hammer.
+    https://github.com/datguywitha3ds/CBT-FX
+
+  - @anchor VGM2GBSFX
+    __VGM2GBSFX__  
+    A sound effects converter and driver for DMG VGM files, FX Hammer and PCM WAV files.
+    https://github.com/untoxa/VGM2GBSFX
+
+  - @anchor gbt-player
+    __GBT Player__  
+    A .mod converter and music driver that works with GBDK and RGBDS.  
+    https://github.com/AntonioND/gbt-player  
+    Docs from GBStudio that should mostly apply: https://www.gbstudio.dev/docs/music/
 
 
 @anchor tools_emulators
@@ -142,10 +154,20 @@ This is a brief list of useful tools and information. It is not meant to be comp
     https://gbdev.gg8.se/forums/viewtopic.php?id=710
 
 
+@anchor links_optimizing
+# Optimizing Assembly
+  - @anchor optimizing_assembly
+    __Optimizing Assembly Code__  
+    Pret has a useful guide to optimizing assembly for
+    the Game Boy for times when asm using in a project
+    in addition to C.
+    https://github.com/pret/pokecrystal/wiki/Optimizing-assembly-code
+
+
 @anchor tools_build_ci_cd
 # Continuous Integration and Deployment
   - @anchor GBDK_GitHub_Action_Builder
-    __GBDK GitHub Action Builder__
+    __GBDK GitHub Action Builder__  
     A Github Action which provides basic CI/CD for building projects based on GBDK (not for building GBDK itself).  
     https://github.com/wujood/gbdk-2020-github-builder
     

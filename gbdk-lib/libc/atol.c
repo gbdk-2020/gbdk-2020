@@ -1,24 +1,28 @@
 #include <stdint.h>
-#include <stdlib.h>
-#include <ctype.h>
+#include <stdbool.h>
 
-long atol(const char *s) NONBANKED
-{
-  uint8_t i, sign = 0;
-  long n;
+inline bool _isdigit(char c) {
+    return ((uint8_t)((uint8_t)c - '0') < 10u) ? true : false;
+}
 
-  for(i = 0; (s[i] == ' ') || (s[i] == '\n') || (s[i] == '\t'); ++i)
-    ;
-  switch(s[i])
-    {
-    case '-':
-      sign++;
-      /* and fall through */
-    case '+':
-      ++i;
-      break;
+long atol(const char *s) {
+    bool sign = false;
+    long n;
+
+    const uint8_t * pc = (const uint8_t *)s;
+
+    for(; ((*pc == ' ') || (*pc == '\t') || (*pc == '\n')); ++pc);
+    
+    switch(*pc) {
+        case '-':
+            sign = true;
+            /* and fall through */
+        case '+':
+            ++pc;
+            break;
     }
-  for(n = 0; isdigit(s[i]); ++i)
-    n = 10 * n + s[i] - '0';
-  return (sign == 0 ? n : -n);
+    
+    for(n = 0; _isdigit(*pc); ++pc) n = 10 * n + (*pc - '0');
+
+    return (sign == 0 ? n : -n);
 }

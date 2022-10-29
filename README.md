@@ -7,8 +7,16 @@ __Supported Consoles:__ [(see docs)](https://gbdk-2020.github.io/gbdk-2020/docs/
 - Sega Master System & Game Gear
 - Mega Duck / Cougar Boy
 
+Expirimental consoles (not yet fully functional)
+  - MSXDOS
+  - NES
+
 
 ## Current Release
+
+[![Current Release](https://img.shields.io/github/v/release/gbdk-2020/gbdk-2020?label=Current%20Release)](https://github.com/gbdk-2020/gbdk-2020/releases/latest)
+![Downloads](https://img.shields.io/github/downloads/gbdk-2020/gbdk-2020/latest/total?label=Downloads)
+
 <a href="https://github.com/gbdk-2020/gbdk-2020/releases/latest/download/gbdk-win.zip"><img src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white" alt="GBDK-2020 Windows Release"></a> 
 <a href="https://github.com/gbdk-2020/gbdk-2020/releases/latest/download/gbdk-linux64.tar.gz"><img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" alt="GBDK-2020 Linux Release"></a>
 <a href="https://github.com/gbdk-2020/gbdk-2020/releases/latest/download/gbdk-macos.zip"><img src="https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=apple&logoColor=white" alt="GBDK-2020 MacOS Release"></a>
@@ -54,8 +62,8 @@ The sources in this repo are only needed if you want to re-compile GBDK-2020 you
 ## Current status
 - Updated CRT and library that suits better for game development
 - SDCC Versions
-  - GBDK-2020 4.0.5 requires SDCC patches for z80 SMS/Game Gear support. So SDCC nightlies/snapshot builds cannot be used if you want to target SMS/Game Gear. Instead use the [Patched SDCC Builds](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/tag/sdcc-12539-patched). 
-  - In addition, recent SDCC nightlies/snapshot builds have switched to a new calling convention which is not well tested with GBDK-2020 and there may be bugs. It's recommended to not use versions after build #12539 at this time.
+  - Current GBDK-2020 versions require SDCC patches for z80 SMS/Game Gear support (only `sdldz80` in GBDK-2020 4.1.0). So SDCC nightlies/snapshot builds cannot be used if you want to target SMS/Game Gear. Instead use the [Patched SDCC Builds](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases). 
+  - The default calling convention changed in `SDCC 4.2`. This is supported starting with `GBDK-2020 4.1.0`. Older versions of GBDK should use SDCC builds #12539 or older (see per-version GBDK notes).
 - The compiler driver **lcc** supports the latest sdcc toolchain.
 
 
@@ -70,7 +78,7 @@ Unless you are interested on recompiling the sources for some reason (like fixin
 
 - **Windows only**: Download and install [mingw](http://mingw-w64.org/)
 - Clone, download this repo or just get the source form the [releases](https://github.com/gbdk-2020/gbdk-2020/releases)
-- Download and install the **PATCHED** [sdcc builds](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/tag/sdcc-12539-patched) from the separate repo for that (https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/tag/sdcc-12539-patched).
+- Download and install the **PATCHED** [sdcc builds](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases) from the separate repo for that (https://github.com/gbdk-2020/gbdk-2020-sdcc/releases).
 - On Linux **don't use package managers** The latest release available won't work, you need to compile or download one of the nightlies
 - Create **SDCCDIR** environment variable, that points into the folder, where you installed sdcc
 - Open command prompt or a terminal, go to the root directory of the repo and run **make**

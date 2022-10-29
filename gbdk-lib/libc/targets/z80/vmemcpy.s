@@ -12,7 +12,7 @@ _vmemcpy::
         
         DISABLE_VBLANK_COPY
 
-        SMS_WRITE_VDP_CMD h, l
+        VDP_WRITE_CMD h, l
         
         pop hl          ; src
         pop bc          ; size

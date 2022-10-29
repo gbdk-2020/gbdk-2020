@@ -1,5 +1,5 @@
         .GG_STATE       = 0x00
-        
+
         .GGSTATE_STT    = 0b10000000
         .GGSTATE_NJAP   = 0b01000000
         .GGSTATE_NNTS   = 0b00100000
@@ -226,6 +226,12 @@
         .CR             = 0x0A
         .SPACE          = 0x00
 
+        ;; C related
+        ;; Overheap of a banked call.  Used for parameters
+        ;;  = ret + real ret + bank
+
+        .BANKOV         = 5
+
         ;; Global variables
         .globl  .mode
 
@@ -243,7 +249,7 @@
 
         ;; Macro definitions
 
-.macro SMS_WRITE_VDP_DATA regH regL ?lbl
+.macro VDP_WRITE_DATA regH regL ?lbl
         ld a, i
         ld a, regL
         di
@@ -255,7 +261,7 @@ lbl:
         out (#.VDP_DATA), a
 .endm
 
-.macro SMS_WRITE_VDP_CMD regH regL ?lbl
+.macro VDP_WRITE_CMD regH regL ?lbl
         ld a, i
         ld a, regL
         di

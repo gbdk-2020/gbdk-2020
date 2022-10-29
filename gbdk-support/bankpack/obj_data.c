@@ -13,6 +13,7 @@
 #include "common.h"
 #include "list.h"
 #include "files.h"
+#include "options.h"
 #include "obj_data.h"
 
 
@@ -26,7 +27,6 @@ static int area_item_compare(const void* a, const void* b);
 static void areas_sort(void);
 static bool symbol_banked_check_rewrite_ok(char *, uint32_t);
 
-extern bool g_option_verbose;
 
 
 list_type banklist;
@@ -38,204 +38,9 @@ uint16_t bank_limit_rom_min = BANK_NUM_ROM_MIN;
 uint16_t bank_limit_rom_max = BANK_NUM_ROM_MAX;
 
 
-uint16_t bank_assign_rom_min = BANK_NUM_ROM_MAX;
-uint16_t bank_assign_rom_max = 0;
-uint16_t bank_all_rom_max = 0;
-
-int g_mbc_type = MBC_TYPE_DEFAULT;
-int g_platform = PLATFORM_DEFAULT;
-bool g_opt_random_assign = false;
-
-
-int banks_get_platform(void) {
-    return g_platform;
-}
-
-void banks_set_platform(char * platform_str) {
-
-    if (strcmp(platform_str, PLATFORM_STR_GB) == 0)
-        g_platform = PLATFORM_GB;
-    else if (strcmp(platform_str, PLATFORM_STR_AP) == 0)
-        g_platform = PLATFORM_GB;  // Analogue Pocket uses GB platform
-    else if (strcmp(platform_str, PLATFORM_STR_DUCK) == 0)
-        g_platform = PLATFORM_GB;  // Megaduck uses GB platform
-    else if (strcmp(platform_str, PLATFORM_STR_SMS) == 0)
-        g_platform = PLATFORM_SMS;
-    else if (strcmp(platform_str, PLATFORM_STR_GG) == 0)
-        g_platform = PLATFORM_SMS; // GG uses SMS platform
-    else
-        printf("BankPack: Warning: Invalid platform option %s\n", platform_str);
-}
-
-
-
-int banks_get_mbc_type(void) {
-    return g_mbc_type;
-}
-
-
-// Set MBC type by interpreting from byte 149
-//
-//  For lcc linker option: -Wl-ytN where N is one of the numbers below
-//  (from makebin.c in SDCC)
-//
-//  ROM Byte 0147: Cartridge type:
-//  0-ROM ONLY            12-ROM+MBC3+RAM
-//  1-ROM+MBC1            13-ROM+MBC3+RAM+BATT
-//  2-ROM+MBC1+RAM        19-ROM+MBC5
-//  3-ROM+MBC1+RAM+BATT   1A-ROM+MBC5+RAM
-//  5-ROM+MBC2            1B-ROM+MBC5+RAM+BATT
-//  6-ROM+MBC2+BATTERY    1C-ROM+MBC5+RUMBLE
-//  8-ROM+RAM             1D-ROM+MBC5+RUMBLE+SRAM
-//  9-ROM+RAM+BATTERY     1E-ROM+MBC5+RUMBLE+SRAM+BATT
-//  B-ROM+MMM01           1F-Pocket Camera
-//  C-ROM+MMM01+SRAM      FD-Bandai TAMA5
-//  D-ROM+MMM01+SRAM+BATT FE - Hudson HuC-3
-//  F-ROM+MBC3+TIMER+BATT FF - Hudson HuC-1
-//  10-ROM+MBC3+TIMER+RAM+BATT
-//  11-ROM+MBC3
-void banks_set_mbc_by_rom_byte_149(int mbc_type_rom_byte) {
-
-    switch (mbc_type_rom_byte) {
-        // NO MBC
-        case 0x00U: //  0-ROM ONLY
-        case 0x08U: //  2-ROM+MBC1+RAM
-        case 0x09U: //  8-ROM+RAM
-        case 0x0BU: //  B-ROM+MMM01
-        case 0x0CU: //  C-ROM+MMM01+SRAM
-        case 0x0DU: //  D-ROM+MMM01+SRAM+BATT
-            banks_set_mbc(MBC_TYPE_NONE);
-            break;
-
-        // MBC 1
-        case 0x01U: //  1-ROM+MBC1
-        case 0x02U: //  2-ROM+MBC1+RAM
-        case 0x03U: //  3-ROM+MBC1+RAM+BATT
-            banks_set_mbc(MBC_TYPE_MBC1);
-            break;
-
-        // MBC 2
-        case 0x05U: //  5-ROM+MBC2
-        case 0x06U: //  6-ROM+MBC2+BATTERY
-            banks_set_mbc(MBC_TYPE_MBC2);
-            break;
-
-        // MBC 3
-        case 0x0FU: //  F-ROM+MBC3+TIMER+BATT
-        case 0x10U: //  10-ROM+MBC3+TIMER+RAM+BATT
-        case 0x11U: //  11-ROM+MBC3
-        case 0x12U: //  12-ROM+MBC3+RAM
-        case 0x13U: //  13-ROM+MBC3+RAM+BATT
-            banks_set_mbc(MBC_TYPE_MBC3);
-            break;
-
-        // MBC 5
-        case 0x19U: //  19-ROM+MBC5
-        case 0x1AU: //  1A-ROM+MBC5+RAM
-        case 0x1BU: //  1B-ROM+MBC5+RAM+BATT
-        case 0x1CU: //  1C-ROM+MBC5+RUMBLE
-        case 0x1DU: //  1D-ROM+MBC5+RUMBLE+SRAM
-        case 0x1EU: //  1E-ROM+MBC5+RUMBLE+SRAM+BATT
-            banks_set_mbc(MBC_TYPE_MBC5);
-            break;
-
-        default:
-            printf("BankPack: Warning: unrecognized MBC option -yt=%x\n", mbc_type_rom_byte);
-            break;
-    }
-}
-
-
-// Set MBC type directly
-void banks_set_mbc(int mbc_type) {
-
-    uint16_t mbc_bank_limit_rom_max;
-
-    switch (mbc_type) {
-        case MBC_TYPE_NONE:
-            g_mbc_type = MBC_TYPE_NONE;
-            break;
-        case MBC_TYPE_MBC1:
-            g_mbc_type = mbc_type;
-            mbc_bank_limit_rom_max = BANK_NUM_ROM_MAX_MBC1;
-            break;
-        case MBC_TYPE_MBC2:
-            g_mbc_type = mbc_type;
-            mbc_bank_limit_rom_max = BANK_NUM_ROM_MAX_MBC2;
-            break;
-        case MBC_TYPE_MBC3:
-            g_mbc_type = mbc_type;
-            mbc_bank_limit_rom_max = BANK_NUM_ROM_MAX_MBC3;
-            break;
-        case MBC_TYPE_MBC5:
-            g_mbc_type = mbc_type;
-            mbc_bank_limit_rom_max = BANK_NUM_ROM_MAX_MBC5;
-            break;
-        default:
-            printf("BankPack: Warning: unrecognized MBC option -mbc%d!\n", mbc_type);
-            break;
-    }
-    if (mbc_bank_limit_rom_max < bank_limit_rom_max)
-        bank_limit_rom_max = mbc_bank_limit_rom_max;
-}
-
-
-
-// From makebin
-//  Byte
-//  0148 - ROM size             -yt<N>
-//  0    - 256Kbit = 32KByte  =   2 banks
-//  1    - 512Kbit = 64KByte  =   4 banks
-//  2    - 1Mbit   = 128KByte =   8 banks
-//  3    - 2Mbit   = 256KByte =  16 banks
-//  4    - 4Mbit   = 512KByte =  32 banks
-//  5    - 8Mbit   = 1MByte   =  64 banks
-//  6    - 16Mbit  = 2MByte   = 128 banks
-//  7    - 16Mbit  = 2MByte   = 256 banks
-//  8    - 16Mbit  = 2MByte   = 512 banks
-//
-//  Not supported by makebin:
-//  $52 - 9Mbit = 1.1MByte = 72 banks
-//  $53 - 10Mbit = 1.2MByte = 80 banks
-//  $54 - 12Mbit = 1.5MByte = 96 banks
-uint32_t banks_calc_cart_size(void) {
-
-    uint32_t req_banks = 1;
-
-    if ((bank_all_rom_max + 1) > BANK_ROM_CALC_MAX) {
-        printf("BankPack: Warning! Can't calc cart size, too many banks: %d (max %d)\n", (bank_all_rom_max + 1), BANK_ROM_CALC_MAX);
-        return (0);
-    }
-
-    // Calculate nearest upper power of 2
-    while (req_banks < (bank_all_rom_max + 1))
-        req_banks *= 2;
-
-    return (req_banks);
-}
-
-
-bool banks_set_min(uint16_t bank_num) {
-    if (bank_num < BANK_NUM_ROM_MIN)
-        return false;
-    else bank_limit_rom_min = bank_num;
-
-    return true;
-}
-
-bool banks_set_max(uint16_t bank_num) {
-    if (bank_num > BANK_NUM_ROM_MAX)
-        return false;
-    else bank_limit_rom_max = bank_num;
-
-    return true;
-}
-
-
-void banks_set_random(bool is_random) {
-    g_opt_random_assign = is_random;
-}
-
+uint16_t bank_assigned_rom_min = BANK_NUM_ROM_MAX;
+uint16_t bank_assigned_rom_max = 0;
+uint16_t bank_assigned_rom_max_alltypes = 0;
 
 
 void obj_data_init(void) {
@@ -247,9 +52,10 @@ void obj_data_init(void) {
     list_init(&symbollist,    sizeof(symbol_item));
     list_init(&symbol_matchlist, sizeof(symbol_match_item));
 
-    // Pre-populate bank list with max number of of banks
+    // Pre-populate bank list with max number of banks
     // to allow handling fixed-bank (non-autobank) areas
     newbank.size = newbank.free = BANK_SIZE_ROM;
+    newbank.reserved = 0;
     newbank.type = BANK_TYPE_UNSET;
     newbank.item_count = 0;
     for (c=0; c < BANK_ROM_TOTAL; c++)
@@ -340,11 +146,11 @@ int symbols_add(char * symbol_str, uint32_t file_id) {
 // Track Min/Max assigned banks used
 static void bank_update_assigned_minmax(uint16_t bank_num) {
 
-    if (bank_num > bank_assign_rom_max)
-        bank_assign_rom_max = bank_num;
+    if (bank_num > bank_assigned_rom_max)
+        bank_assigned_rom_max = bank_num;
 
-    if (bank_num < bank_assign_rom_min)
-        bank_assign_rom_min = bank_num;
+    if (bank_num < bank_assigned_rom_min)
+        bank_assigned_rom_min = bank_num;
 
     bank_update_all_max(bank_num);
 }
@@ -353,8 +159,8 @@ static void bank_update_assigned_minmax(uint16_t bank_num) {
 // Tracks Max bank for *all* banks used, including fixed banks outside max limits
 static void bank_update_all_max(uint16_t bank_num) {
 
-    if (bank_num > bank_all_rom_max)
-        bank_all_rom_max = bank_num;
+    if (bank_num > bank_assigned_rom_max_alltypes)
+        bank_assigned_rom_max_alltypes = bank_num;
 }
 
 
@@ -368,13 +174,13 @@ static void bank_add_area(bank_item * p_bank, uint16_t bank_num, area_item * p_a
 
         // Trying to add an auto-bank area to a full bank should be prevented by previous tests, but just in case
         if (p_area->bank_num_in == BANK_NUM_AUTO) {
-            printf("BankPack: ERROR! Auto-banked Area %s, bank %d, size %d won't fit in assigned bank %d (free %d)\n",
-                    p_area->name, p_area->bank_num_in, p_area->size, bank_num, p_bank->free);
+            printf("BankPack: ERROR! Auto-banked Area %s, bank %d, size %d won't fit in assigned bank %d (%d bytes free, %d bytes reserved)\n",
+                    p_area->name, p_area->bank_num_in, p_area->size, bank_num, p_bank->free, p_bank->reserved);
             exit(EXIT_FAILURE);
         } else {
             // Only warn for fixed bank areas. Don't exit and add the area anyway
-            printf("BankPack: Warning: Fixed-bank Area %s, bank %d, size %d won't fit in assigned bank %d (free %d)\n",
-                    p_area->name, p_area->bank_num_in, p_area->size, bank_num, p_bank->free);
+            printf("BankPack: Warning: Fixed-bank Area %s, bank %d, size %d won't fit in assigned bank %d (%d bytes free, %d bytes reserved)\n",
+                    p_area->name, p_area->bank_num_in, p_area->size, bank_num, p_bank->free, p_bank->reserved);
         }
 
         // Force bank space to zero, subtracting at this point would overflow
@@ -419,7 +225,7 @@ static void bank_report_mixed_area_error(bank_item * p_bank, uint16_t bank_num, 
            "  Area %s, bank %d, file:%s\n",
            p_area->bank_num_in, p_area->name, bank_num, file_get_name_in_by_id(p_area->file_id));
 
-    if (g_option_verbose)
+    if (option_get_verbose())
         banks_show();
 }
 
@@ -429,7 +235,7 @@ static bool bank_check_mixed_area_types_ok(bank_item * p_bank, uint16_t bank_num
 
     // Don't allow mixing of _CODE_ and _LIT_ for sms/gg ports
     // If one type has already been assigned to the bank, lock others out
-    if ((g_platform == PLATFORM_SMS) &&
+    if ((option_get_platform() == PLATFORM_SMS) &&
         (p_bank->type != BANK_TYPE_UNSET) &&
         (p_area->type != p_bank->type))
         return false;
@@ -443,7 +249,7 @@ static bool bank_check_mixed_area_types_ok(bank_item * p_bank, uint16_t bank_num
 static bool bank_check_ok_for_area(uint16_t bank_num, area_item * p_area, bank_item * banks) {
 
     // Check for MBC bank restrictions
-    if ((g_mbc_type != MBC_TYPE_MBC1) || (bank_check_mbc1_ok(bank_num))) {
+    if ((option_get_mbc_type() != MBC_TYPE_MBC1) || (bank_check_mbc1_ok(bank_num))) {
         // Check for allowed area mixing if needed
         if (bank_check_mixed_area_types_ok(&banks[bank_num], bank_num, p_area)) {
             // Make sure there is enough space for the area
@@ -527,7 +333,7 @@ static void banks_assign_area(area_item * p_area) {
         if ((bank_num >= bank_limit_rom_min) &&
             (bank_num <= bank_limit_rom_max)) {
 
-            if ((g_mbc_type == MBC_TYPE_MBC1) && (!bank_check_mbc1_ok(bank_num)))
+            if ((option_get_mbc_type() == MBC_TYPE_MBC1) && (!bank_check_mbc1_ok(bank_num)))
                 printf("BankPack: Warning: Area in fixed bank assigned to MBC1 excluded bank: %d, file: %s\n", bank_num, file_get_name_in_by_id(p_area->file_id));
 
             if (!bank_check_mixed_area_types_ok(&banks[bank_num], bank_num, p_area)) {
@@ -544,7 +350,7 @@ static void banks_assign_area(area_item * p_area) {
     }
     else if (p_area->bank_num_in == BANK_NUM_AUTO) {
 
-        if (g_opt_random_assign)
+        if (option_get_random_assign())
             result = banks_assign_area_random(p_area, banks);
         else
             result = banks_assign_area_linear(p_area, banks);
@@ -553,7 +359,7 @@ static void banks_assign_area(area_item * p_area) {
             return;
     }
 
-    if (g_option_verbose)
+    if (option_get_verbose())
         banks_show();
     printf("BankPack: ERROR! Failed to assign bank for Area %s, bank %d, size %d. Out of banks!\n",
             p_area->name, p_area->bank_num_in, p_area->size);
@@ -641,15 +447,15 @@ void banks_show(void) {
     uint32_t a;
 
     printf("\n=== Banks assigned: %d -> %d (allowed range %d -> %d). Max including fixed: %d) ===\n",
-            bank_assign_rom_min, bank_assign_rom_max,
+            bank_assigned_rom_min, bank_assigned_rom_max,
             bank_limit_rom_min,  bank_limit_rom_max,
-            bank_all_rom_max);
+            bank_assigned_rom_max_alltypes);
 
     bank_item * banks = (bank_item *)banklist.p_array;
     area_item * areas = (area_item *)arealist.p_array;
     for (c = 0; c < banklist.count; c++) {
         if (banks[c].free != BANK_SIZE_ROM) {
-            printf("Bank %d: size=%5d, free=%5d\n", c, banks[c].size, banks[c].free);
+            printf("Bank %d: size=%5d, free=%5d, reserved=%5d\n", c, banks[c].size, banks[c].free, banks[c].reserved);
             for (a = 0; a < arealist.count; a++) {
                 if (areas[a].bank_num_out == c) {
                     printf(" +- Area: name=%8s, size=%5d, bank_in=%3d, bank_out=%3d, file=%s -> %s\n",

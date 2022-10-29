@@ -1,17 +1,10 @@
 # Common settings
-ifndef ASM
-ASM = 	asxxxx
-endif
-
-ifndef MODEL
-MODEL =	small
-endif
 
 ifndef PORTS
-PORTS = gbz80 z80
+PORTS = sm83 z80 mos6502
 endif
 ifndef PLATFORMS
-PLATFORMS = gb ap duck gg sms
+PLATFORMS = gb ap duck gg sms msxdos nes
 endif
 
 ifndef SDCCLIB
@@ -24,11 +17,8 @@ SDAR = 	$(subst \,/,'$(SDCCLIB)')/bin/sdar
 
 
 AS_Z80 = $(SDCCLIB)/bin/sdasz80
-ifeq ($(RGBDS),1)
-AS_GBZ80 = rgbasm
-else
-AS_GBZ80 = $(SDCCLIB)/bin/sdasgb
-endif
+AS_SM83 = $(SDCCLIB)/bin/sdasgb
+AS_6500 = $(SDCCLIB)/bin/sdas6500
 
 CLEANSPEC = *.o *.cdb *.sym *.lst *~ *.asm
 
@@ -37,7 +27,7 @@ CFLAGS += -m$(PORT)
 CFLAGS += --max-allocs-per-node 50000
 CFLAGS += --fsigned-char
 CC = 	$(SCC)
-BUILD = $(TOPDIR)/build/$(MODEL)/$(ASM)/$(THIS)
+BUILD = $(TOPDIR)/build/$(THIS)
 LIB = 	$(BUILD)/$(THIS).lib
 
 OBJ = $(CSRC:%.c=$(BUILD)/%.o) $(ASSRC:%.s=$(BUILD)/%.o)

@@ -2,6 +2,7 @@
 ;  memcpy.s
 ;
 ;  Copyright (C) 2020, Sergey Belyashov
+;  Copyright (c) 2021, Philipp Klaus Krause
 ;
 ;  This library is free software; you can redistribute it and/or modify it
 ;  under the terms of the GNU General Public License as published by the
@@ -34,20 +35,15 @@
 ; The Z80 has the ldir instruction, which is perfect for implementing memcpy().
 _memcpy:
 ___memcpy:
-	pop	af
-	pop	hl	;return value expected to be in HL, so pop dst to HL
-	pop	de
+	ex	de, hl
+	pop	iy
 	pop	bc
-	push	bc
-	push	de
-	push	hl
-	push	af
 	ld	a, c
 	or	a, b
-	ret	Z
-	push	hl
-	ex	de, hl
+	jr	Z, end
+	push	de
 	ldir
-	pop	hl
-	ret
+	pop	de
+end:
+	jp	(iy)
 

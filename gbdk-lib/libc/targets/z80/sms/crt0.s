@@ -13,18 +13,18 @@
 
 ;        .org    0x08            ; --profile handler 
 
-        .org    0x10            ; RST 0x10: SMS_WRITE_VDP_CMD
+        .org    0x10            ; RST 0x10: VDP_WRITE_CMD
 
 _WRITE_VDP_CMD::        
-        SMS_WRITE_VDP_CMD h, l
+        VDP_WRITE_CMD h, l
         ret
 
 ;        .org    0x18            ; unusable
 
-        .org    0x20            ; RST 0x20: SMS_WRITE_VDP_DATA
+        .org    0x20            ; RST 0x20: VDP_WRITE_DATA
 
 _WRITE_VDP_DATA::        
-        SMS_WRITE_VDP_DATA h, l
+        VDP_WRITE_DATA h, l
         ret
 
 ;       .org    0x28             ; unusable
@@ -72,7 +72,14 @@ _WRITE_VDP_DATA::
         ;; Initialise global variables
         call .gsinit
 
-        ;; Initialize VDP
+        ;; Clear VRAM and Initialize VDP
+
+        ld hl, #((.VDP_R1 << 8) | .R1_DEFAULT)
+        WRITE_VDP_CMD_HL
+
+        call _set_default_palette
+        call .clear_VRAM
+
         ld c, #.VDP_CMD
         ld b, #(.shadow_VDP_end - .shadow_VDP)
         ld hl,#(.shadow_VDP_end - 1)
@@ -105,10 +112,6 @@ _WRITE_VDP_DATA::
 4$:
         ld (#__SYSTEM), a
 
-        call .clear_VRAM
-
-        call _set_default_palette
-
         VDP_CANCEL_INT
 
         ei                      ; re-enable interrupts before going to main()
@@ -132,6 +135,7 @@ _WRITE_VDP_DATA::
         .area   _BSEG
         .area   _BSS
         .area   _HEAP
+        .area   _HEAP_END
 
         .area   _CODE
         .area   _GSINIT

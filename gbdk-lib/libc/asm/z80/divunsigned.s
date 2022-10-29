@@ -1,7 +1,7 @@
 ;--------------------------------------------------------------------------
 ;  divunsigned.s
 ;
-;  Copyright (C) 2000-2012, Michael Hope, Philipp Klaus Krause, Marco Bodrato
+;  Copyright (C) 2000-2021, Michael Hope, Philipp Klaus Krause, Marco Bodrato
 ;
 ;  This library is free software; you can redistribute it and/or modify it
 ;  under the terms of the GNU General Public License as published by the
@@ -33,23 +33,10 @@
 .globl	__divuint
 .globl	__divuchar
 
-__divuint:
-        pop     af
-        pop     hl
-        pop     de
-        push    de
-        push    hl
-        push    af
-
-        jr      __divu16
 
 __divuchar:
-        ld      hl,#2+1
-        add     hl,sp
-
-        ld      e,(hl)
-        dec     hl
-        ld      l,(hl)
+	ld	e, l
+	ld	l, a
 
         ;; Fall through
 __divu8::
@@ -64,12 +51,13 @@ __divu8::
         ;;   DE = divisor
         ;;
         ;; Exit conditions
-        ;;   HL = quotient
-        ;;   DE = remainder
+        ;;   DE = quotient
+        ;;   HL = remainder
         ;;   carry = 0
         ;;   If divisor is 0, quotient is set to "infinity", i.e HL = 0xFFFF.
         ;;
         ;; Register used: AF,B,DE,HL
+__divuint:
 __divu16::
         ;; Two algorithms: one assumes divisor <2^7, the second
         ;; assumes divisor >=2^7; choose the applicable one.
@@ -105,6 +93,7 @@ __divu16::
         ;; Carry now contains the same value it contained before
         ;; entering .dvloop7[*]: "0" = valid result.
         ld      e,a             ; DE = remainder, HL = quotient
+        ex	de, hl
         ret
 
 .morethan7bits:
@@ -138,6 +127,5 @@ __divu16::
         ;; Carry now contains "0" = valid result.
         ld      d,b
         ld      e,a             ; DE = quotient, HL = remainder
-        ex      de,hl           ; HL = quotient, DE = remainder
         ret
 

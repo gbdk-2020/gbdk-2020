@@ -41,8 +41,11 @@ zero - versus - the first bank overflowed into the second that is empty.
 Currently the 100% bank will get merged into the next one and present as overflow
 */
 
+bank_info banks[BANKS_MAX_COUNT] = {
+    {.overflowed_into = false,
+     .overflow_from   = 0,
+     .had_multiple_write_warning = false } };
 
-#define BANK_NUM(addr)  ((addr & 0xFFFFC000U) >> 14)
 #define ADDR_UNSET      0xFFFFFFFEU
 
 #define MAX_STR_LEN     4096
@@ -75,7 +78,7 @@ void set_option_warnings_as_errors(bool new_val) {
 
 
 // Return false if any character isn't a valid hex digit
-int check_hex(char * c) {
+static int check_hex(char * c) {
     while (*c != '\0') {
         if ((*c >= '0') && (*c <= '9'))
             c++;
@@ -91,8 +94,35 @@ int check_hex(char * c) {
 }
 
 
+// Check for bank overflows under specific conditions
+// (fragmented writes of the ihx format make overflows hard to detect reliably)
+//
+// Call this after processing of all areas has been completed
+//
+// In order to avoid falsely flagging overflows (including 32K only roms
+// where bank 0 is normally allowed to overflow into bank 1) the following
+// criteria must be met:
+//
+// * A multiple write to the same address must occur. The address
+//   where the overlap ends is used as the CURRENT BANK.
+//
+// * There must also be a write which spans multiple banks, the
+//   ending address of that must match CURRENT BANK.
+//   The starting addresses is the OVERFLOW-FROM BANK.
+//
+static void ihx_check_for_overflows(void) {
+
+    for (int c = 0; c < BANKS_MAX_COUNT; c++) {
+        if (banks[c].overflowed_into && banks[c].had_multiple_write_warning) {
+
+            printf("Warning: Possible overflow from Bank %d into Bank %d\n", banks[c].overflow_from, c);
+        }
+    }
+}
+
+
 // Parse and validate an IHX record
-int ihx_parse_and_validate_record(char * p_str, ihx_record * p_rec) {
+static int ihx_parse_and_validate_record(char * p_str, ihx_record * p_rec) {
 
         int calc_length = 0;
         int c;
@@ -181,10 +211,17 @@ int ihx_parse_and_validate_record(char * p_str, ihx_record * p_rec) {
 
         // For records that start in banks above the unbanked region (0x000 - 0x3FFF)
         // Warn (but don't error) if they cross the boundary between different banks
-        if ((p_rec->address >= 0x00004000U) &&
-            ((p_rec->address & 0xFFFFC000U) != (p_rec->address_end & 0xFFFFC000U))) {
-            printf("Warning: Write from one bank spans into the next. %x -> %x (bank %d -> %d)\n",
-                   p_rec->address, p_rec->address_end, BANK_NUM(p_rec->address), BANK_NUM(p_rec->address_end));
+        if ((p_rec->address & 0xFFFFC000U) != (p_rec->address_end & 0xFFFFC000U)) {
+
+            if (p_rec->address >= 0x00004000U) {
+                printf("Warning: Write from one bank spans into the next. 0x%x -> 0x%x (bank %d -> %d)\n",
+                       p_rec->address, p_rec->address_end, BANK_NUM(p_rec->address), BANK_NUM(p_rec->address_end));
+            }
+            // Log all writes that spans multiple banks, including bank 0 -> 1
+            // Used later to help check for overflow
+            banks[BANK_NUM(p_rec->address_end)].overflowed_into = true;
+            banks[BANK_NUM(p_rec->address_end)].overflow_from = BANK_NUM(p_rec->address);
+
         }
 
         return true;
@@ -264,6 +301,9 @@ int ihx_file_process_areas(char * filename_in) {
         printf("Problem with filename or unable to open file! %s\n", filename_in);
         ret = EXIT_FAILURE;
     }
+
+    // Check and warn for possible overflows
+    ihx_check_for_overflows();
 
     areas_cleanup();
     return ret;

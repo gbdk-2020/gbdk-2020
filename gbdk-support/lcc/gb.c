@@ -27,19 +27,23 @@ static struct {
 	const char *name;
 	const char *val;
 } _tokens[] = {
-		// expandable string tokens used in "CLASS" command strings
-		{ "port",		"gbz80" },  // if default class is ever changed from Game Boy, this default (and plat) may need to be changed to match
+		// Expandable string tokens used in "CLASS" command strings
+		{ "port",		"sm83" },  // if default class is ever changed from Game Boy, this default (and plat) may need to be changed to match
 		{ "plat",		"gb" },
-		{ "sdccdir", "%bindir%"},
-		{ "cpp",		"%sdccdir%sdcpp" },
-		{ "cppdefault", 	"-Wall -DSDCC_PORT=%port% -DSDCC_PLAT=%plat% -D%cppmodel%"
-		},
-		{ "cppmodel",	"SDCC_MODEL_SMALL" },
+		{ "sdccdir", 	"%bindir%"},
+
+		// In order for things such as "__SDCC_VERSION_MAJOR" to work with -E preprocess only,
+		// the preprocessor needs to be invoked via SDCC instead since that's where those
+		// settings are generated. (see sdcc --verbose -E ...)
+		// { "cpp",		"%sdccdir%sdcpp" },
+		// { "cppdefault", "-Wall -D__PORT_%port% -D__TARGET_%plat%"},
+		{ "cpp",		"%com%" },
+		{ "cppdefault",	"-E -D__PORT_%port% -D__TARGET_%plat% "},
+
 		{ "includedefault",	"-I%includedir%" },
 		{ "includedir", 	"%prefix%include" },
 		{ "prefix",		GBDKLIBDIR },
 		{ "comopt",		"--noinvariant --noinduction" },
-		{ "commodel", 	"small" },
 		{ "com",		"%sdccdir%sdcc" },
 		{ "comflag",	"-c"},
 		{ "comdefault",	"-m%port% --no-std-crt0 --fsigned-char --use-stdout -D__PORT_%port% -D__TARGET_%plat% "},
@@ -52,20 +56,22 @@ static struct {
 		{ "asdefault",	"-pogn -I%libdir%%plat%" },
 		{ "as_gb",		"%sdccdir%sdasgb" },
 		{ "as_z80",		"%sdccdir%sdasz80" },
-		{ "bankpack", "%bindir%bankpack" },
+		{ "as_6500",	"%sdccdir%sdas6500" },
+		{ "bankpack",	"%bindir%bankpack" },
 		{ "ld_gb",		"%sdccdir%sdldgb" },
 		{ "ld_z80",		"%sdccdir%sdldz80" },
-		{ "libdir",		"%prefix%lib/%libmodel%/asxxxx/" },
-		{ "libmodel",	"small" },
+		{ "ld",			"%sdccdir%sdld" },
+		{ "libdir",		"%prefix%lib/" },
 #ifndef GBDKBINDIR
 		{ "bindir",		"%prefix%bin/" },
 #else
 		{ "bindir",		GBDKBINDIR },
 #endif
-		{ "ihxcheck", "%bindir%ihxcheck" },
-		{ "mkbin", "%sdccdir%makebin" },
-		{ "crt0dir", "%libdir%%plat%/crt0.o"},
-		{ "libs_include", "-k %libdir%%port%/ -l %port%.lib -k %libdir%%plat%/ -l %plat%.lib"}
+		{ "ihxcheck",	"%bindir%ihxcheck" },
+		{ "mkbin",		"%sdccdir%makebin" },
+		{ "crt0dir",	"%libdir%%plat%/crt0.o"},
+		{ "libs_include", "-k %libdir%%port%/ -l %port%.lib -k %libdir%%plat%/ -l %plat%.lib"},
+				{ "mkcom", "%sdccdir%makecom"}
 };
 
 static char *getTokenVal(const char *key)
@@ -185,20 +191,27 @@ static void buildArgs(char **args, const char *template)
 	*last = NULL;
 }
 
+// TODO: This + suffix() is brittle and hard to read elsewhere. Rewrite it.
+//
 // If order is changed here, file type handling MUST be updated
 // in lcc.c: "switch (suffix(name, suffixes, 5)) {"
+//
+// suffix() interpretes this as each additional array item being
+// part of an inclusively larger set.
 char *suffixes[] = {
-    EXT_C,               // 0
-    EXT_I,               // 1
-    EXT_ASM ";" EXT_S,   // 2
-    EXT_O   ";" EXT_OBJ, // 3
-    EXT_IHX,             // 4
-    EXT_GB,              // 5
-    0
+	EXT_C,					// 0
+	EXT_I,			 		// 1
+	EXT_ASM ";" EXT_S,		// 2
+	EXT_O   ";" EXT_OBJ,	// 3
+	EXT_IHX,				// 4
+	EXT_GB,					// 5
+	0						// 6
 };
 
 char inputs[256] = "";
 
+// Todo: Move these into a struct
+// (Could use "CLASS" aside from const typing? It's mainly dupe of that anyway)
 char *cpp[256];
 char *include[256];
 char *com[256] = { "", "", "" };
@@ -207,6 +220,7 @@ char *ihxcheck[256];
 char *ld[256];
 char *bankpack[256];
 char *mkbin[256];
+char *postproc[256];
 char *rom_extension;
 arg_entry *llist0_defaults;
 int llist0_defaults_len = 0;
@@ -267,6 +281,13 @@ int option(char *arg) {
 
 		// Requires both PORT and PLAT, must match a valid setClass entry.
 		if (word_count == 2) {
+			// Error out and warn user when old gbz80 PORT name is used instead of sm83
+			if (!strcmp("gbz80", words[0])) {
+				fprintf(stderr, "Error: %s: old \"gbz80\" SDCC PORT name specified (in \"%s\"). Use \"sm83\" instead. "
+								"You must update your build settings.\n", progname, arg);
+				exit(-1);
+			}
+
 			setTokenVal("port", words[0]);
 			setTokenVal("plat", words[1]);
 			if (!setClass(words[0], words[1])) {
@@ -274,25 +295,11 @@ int option(char *arg) {
 				exit(-1);
 			}
 		} else {
-			fprintf(stderr, "Error: -m requires both/only PORT and PLATFORM values (ex: -mgbz80:gb) : %s\n", arg);
+			fprintf(stderr, "Error: -m requires both/only PORT and PLATFORM values (ex: -msm83:gb) : %s\n", arg);
 			exit(-1);
 		}
 
 		return 1;
-	}
-	else if ((tail = starts_with(arg, "--model-"))) {
-		if (!strcmp(tail, "small")) {
-			setTokenVal("commodel", "small");
-			setTokenVal("libmodel", "small");
-			setTokenVal("cppmodel", "SDCC_MODEL_SMALL");
-			return 1;
-		}
-		else if (!strcmp(tail, "medium")) {
-			setTokenVal("commodel", "medium");
-			setTokenVal("libmodel", "medium");
-			setTokenVal("cppmodel", "SDCC_MODEL_MEDIUM");
-			return 1;
-		}
 	}
 	return 0;
 }
@@ -312,6 +319,7 @@ void finalise(void)
 	buildArgs(ld, _class->ld);
 	buildArgs(ihxcheck, _class->ihxcheck);
 	buildArgs(mkbin, _class->mkbin);
+		if (strlen(_class->postproc) != 0) buildArgs(postproc, _class->postproc); else postproc[0] = '\0';
 	rom_extension = strdup(_class->rom_extension);
 	llist0_defaults = _class->llist0_defaults;
 	llist0_defaults_len = _class->llist0_defaults_len;

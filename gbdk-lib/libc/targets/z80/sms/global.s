@@ -190,6 +190,12 @@
         .CR             = 0x0A
         .SPACE          = 0x00
 
+        ;; C related
+        ;; Overheap of a banked call.  Used for parameters
+        ;;  = ret + real ret + bank
+
+        .BANKOV         = 5
+
         ;; Global variables
         .globl  .mode
 
@@ -207,7 +213,7 @@
 
         ;; Macro definitions
 
-.macro SMS_WRITE_VDP_DATA regH regL ?lbl
+.macro VDP_WRITE_DATA regH regL ?lbl
         ld a, i
         ld a, regL
         di
@@ -219,7 +225,7 @@ lbl:
         out (#.VDP_DATA), a
 .endm
 
-.macro SMS_WRITE_VDP_CMD regH regL ?lbl
+.macro VDP_WRITE_CMD regH regL ?lbl
         ld a, i
         ld a, regL
         di

@@ -1,13 +1,15 @@
 @page docs_coding_guidelines Coding Guidelines
 
 # Learning C / C fundamentals
-Writing games and other programs with GBDK will be much easier with a basic understanding of the C language. In particular, understanding how to use C on "Embedded Platforms" (small computing systems, such as the Game Boy) can help you write better code (smaller, faster, less error prone) and avoid common pitfals.
+Writing games and other programs with GBDK will be much easier with a basic understanding of the C language. In particular, understanding how to use C on "Embedded Platforms" (small computing systems, such as the Game Boy) can help you write better code (smaller, faster, less error prone) and avoid common pitfalls.
 
 
 @anchor docs_c_tutorials
 ## General C tutorials
   - https://www.learn-c.org/
-  -  https://www.tutorialspoint.com/cprogramming/index.htm
+  - https://www.tutorialspoint.com/cprogramming/index.htm
+  - https://www.chiark.greenend.org.uk/~sgtatham/cdescent/
+
 
 ## Embedded C introductions
 
@@ -16,7 +18,7 @@ Writing games and other programs with GBDK will be much easier with a basic unde
 
 ## Game Boy games in C
 
-  - https://gbdev.io/list.html#c
+  - https://gbdev.io/resources.html#c
 
 # Understanding the hardware
 In addition to understanding the C language it's important to learn how the Game Boy hardware works. What it is capable of doing, what it isn't able to do, and what resources are available to work with. A good way to do this is by reading the @ref Pandocs and checking out the @ref awesome_gb list.
@@ -40,7 +42,7 @@ If you wish to use the original tools, you must add the `const` keyword every ti
 ## Variables
   - Use 8-bit values as much as possible. They will be much more efficient and compact than 16 and 32 bit types.
 
-  - Prefer unsigned variables to signed ones: The code generated will be generally more efficient, especially when comparing two values.
+  - Prefer unsigned variables to signed ones: the code generated will be generally more efficient, especially when comparing two values.
 
   - Use explicit types so you always know the size of your variables. `int8_t, uint8_t, int16_t, uint16_t, int32_t, uint32_t` and `bool`.
   These are standard types defined in `stdint.h` (`#include <stdint.h>`) and `stdbool.h` (`#include <stdbool.h>`).
@@ -48,9 +50,9 @@ If you wish to use the original tools, you must add the `const` keyword every ti
   - Global and local static variables are generally more efficient than local non-static variables (which go on the stack and are slower and can result in slower code).
 
   - @anchor const_array_data
-  `const` keyword: Use const for arrays, structs and variables with read-only (constant) data. It will reduce ROM, RAM and CPU usage significantly. Non-`const` values are loaded from ROM into RAM inefficiently, and there is no benefit in loading them into the limited available RAM if they aren't going to be changed.
+  `const` keyword: use const for arrays, structs and variables with read-only (constant) data. It will reduce ROM, RAM and CPU usage significantly. Non-`const` values are loaded from ROM into RAM inefficiently, and there is no benefit in loading them into the limited available RAM if they aren't going to be changed.
 
-  - Here is how to delcare `const` pointers and variables:
+  - Here is how to declare `const` pointers and variables:
     - non-const pointer to a const variable: `const uint8_t * some_pointer;`
     - const pointer to a non-const variable: `uint8_t * const some_pointer;`
     - const pointer to a const variable: `const uint8_t * const some_pointer;`
@@ -78,7 +80,7 @@ If you wish to use the original tools, you must add the `const` keyword every ti
     
         fixed player[2];
         ...
-        // Modify player position using it's 16 bit representation
+        // Modify player position using its 16 bit representation
         player[0].w += player_speed_x;
         player[1].w += player_speed_y;
         ...
@@ -101,11 +103,11 @@ If you wish to use the original tools, you must add the `const` keyword every ti
         - Modulo by powers of 2. For example: `(n % 8)` will be optimized to `(n & 0x7)`.
       - If you need decimal numbers to count or display a score, you can use the GBDK BCD ([binary coded decimal](https://en.wikipedia.org/wiki/Binary-coded_decimal)) number functions. See: @ref bcd.h and the `BCD` example project included with GBDK.
 
-  - Avoid long lists of function parameters. Passing many parameters can add overhead, especially if the function is called often. When applicable globals and local static vars can be used instead.
+  - Avoid long lists of function parameters. Passing many parameters can add overhead, especially if the function is called often. Globals and local static vars can be used instead when applicable.
 
-  - Use inline functions if the function is short. (with the `inline` keyword, such as `inline uint8_t myFunction() { ... }`)
+  - Use inline functions if the function is short (with the `inline` keyword, such as `inline uint8_t myFunction() { ... }`).
 
-  - Do not use recursive functions
+  - Do not use recursive functions.
 <!-- This entry needs re-work. Signed vs unsigned, current SDCC optimizations...
 
   - Prefer `==` and `!=` comparison operators to `<`, `<=`, `>`, and `>=`. The code will be shorter and quicker.
@@ -154,10 +156,56 @@ If you wish to use the original tools, you must add the `const` keyword every ti
   - Learn some ASM and inspect the compiler output to understand what the compiler is doing and how your code gets translated. This can help with writing better C code and with debugging.
 
 
-@anchor docs_chars_varargs
-## chars and vararg functions
+@anchor docs_constant_signedness
+## Constants, Signed-ness and Overflows
+There are a some scenarios where the compiler will warn about overflows with constants. They often have to do with mixed signedness between constants and variables. To avoid problems use care about whether or not constants are explicitly defined as unsigned and what type of variables they are used with.
 
-In standard C when `chars` are passed to a function with variadic arguments (varargs, those delcared with `...` as a parameter), such as @ref printf(), those `chars` get automatically promoted to `ints`. For an 8 bit cpu such as the Game Boy's, this is not as efficient or desireable in most cases. So the default SDCC behavior, which GBDK-2020 expects, is that chars will remain chars and _not_ get promoted to ints when **explicitly cast as chars while calling a varargs function**.
+`WARNING: overflow in implicit constant conversion`
+
+- A constant can be used where the the value is too high (or low) for the storage medium causing an value overflow.
+  -  For example this constant value is too high since the max value for a signed 8 bit char is `127`.
+
+          #define TOO_LARGE_CONST 255
+          int8_t signed_var = TOO_LARGE_CONST;
+
+- This can also happen when constants are not explicitly declared as unsigned (and so may get treated by the compiler as signed) and then added such that the resulting value exceeds the signed maximum. 
+  - For example, this results in an warning even though the sum total is `254` which is less than the `255`, the max value for a unsigned 8 bit char variable.
+
+          #define CONST_UNSIGNED 127u
+          #define CONST_SIGNED 127
+          uint8_t unsigned_var = (CONST_SIGNED + CONST_UNSIGNED);
+
+  - It can be avoided by always using the unsigned `u` when the constant is intended for unsigned operations.
+
+          #define CONST_UNSIGNED 127u
+          #define CONST_ALSO_UNSIGNED 127u  // <-- Added "u", now no warning
+          uint8_t unsigned_var = (CONST_UNSIGNED + CONST_ALSO_UNSIGNED);
+
+
+
+
+@anchor docs_chars_varargs
+## Chars and vararg functions
+
+Parameters (chars, ints, etc) to @ref printf / @ref sprintf should always be explicitly cast to avoid type related parameter passing issues.
+
+For example, below will result in the likely unintended output:
+```{.c}
+sprintf(str_temp, "%u, %d, %x\n", UINT16_MAX, INT16_MIN, UINT16_MAX);
+printf("%s",str_temp);
+
+// Will output: "65535, 0, 8000"
+```
+Instead this will give the intended output:
+```{.c}
+sprintf(str_temp, "%u, %d, %x\n", (uint16_t)UINT16_MAX, (int16_t)INT16_MIN, (uint16_t)UINT16_MAX);
+printf("%s",str_temp);
+
+// Will output: "65535, -32768, FFFF"
+```
+
+### Chars
+In standard C when `chars` are passed to a function with variadic arguments (varargs, those declared with `...` as a parameter), such as @ref printf(), those `chars` get automatically promoted to `ints`. For an 8 bit CPU such as the Game Boy's, this is not as efficient or desirable in most cases. So the default SDCC behavior, which GBDK-2020 expects, is that chars will remain chars and _not_ get promoted to ints when **explicitly cast as chars while calling a varargs function**.
 
   - They must be explicitly re-cast when passing them to a varargs function, even though they are already declared as chars.
 
@@ -169,17 +217,19 @@ In standard C when `chars` are passed to a function with variadic arguments (var
 
 For example:
 
-    unsigned char i = 0x5A;
-    
-    // NO:
-    // The char will get promoted to an int, producing incorrect printf output
-    // The output will be: 5A 00
-    printf("%hx %hx", i, i);
-    
-    // YES:
-    // The char will remain a char and printf output will be as expected
-    // The output will be: 5A 5A
-    printf("%hx %hx", (unsigned char)i, (unsigned char)i);
+```{.c}
+unsigned char i = 0x5A;
+
+// NO:
+// The char will get promoted to an int, producing incorrect printf output
+// The output will be: 5A 00
+printf("%hx %hx", i, i);
+
+// YES:
+// The char will remain a char and printf output will be as expected
+// The output will be: 5A 5A
+printf("%hx %hx", (unsigned char)i, (unsigned char)i);
+```
 
 Some functions that accept varargs:
  - @ref EMU_printf, @ref gprintf(), @ref printf(), @ref sprintf()
@@ -191,37 +241,49 @@ Also See:
 #  When C isn't fast enough
 @todo Update and verify this section for the modernized SDCC and toolchain
 
-For many applications C is fast enough but in intensive functions are sometimes better written in assembler. This section deals with interfacing your core C program with fast assembly sub routines. 
+For many applications C is fast enough but in intensive functions are sometimes better written in assembly. This section deals with interfacing your core C program with fast assembly sub routines. 
 
 
+@anchor sdcc_calling_convention
 ## Calling convention
-sdcc in common with almost all C compilers prepends a '_' to any function names. For example the function printf(...) begins at the label _printf::. Note that all functions are declared global.
 
-The parameters to a function are pushed in right to left order with no aligning - so a byte takes up a byte on the stack instead of the more natural word. So for example the function int store_byte( uint16_t addr, uint8_t byte) would push 'byte' onto the stack first then addr using a total of three bytes. As the return address is also pushed, the stack would contain:
+SDCC in common with almost all C compilers prepends a `_` to any function names. For example the function `printf(...)` begins at the label `_printf::.` Note that all functions are declared global.
 
-      At SP+0 - the return address
+Functions can be marked with `OLDCALL` which will cause them to use the `__sdcccall(0)` calling convention (the format used prior to in SDCC 4.2 & GBDK-2020 4.1.0).
 
-      At SP+2 - addr
+Starting with SDCC 4.2 and GBDK-2020 4.1.0 the new default calling convention is`__sdcccall(1)`.
 
-      At SP+4 - byte 
-
-Note that the arguments that are pushed first are highest in the stack due to how the Game Boy's stack grows downwards.
-
-The function returns in DE.
+For details about the calling convetions, see sections `SM83 calling conventions` and `Z80, Z180 and Z80N calling conventions` in the SDCC manual.
+  - http://sdcc.sourceforge.net/doc/sdccman.pdf
 
 
 ## Variables and registers
-C normally expects registers to be preserved across a function call. However in the case above as DE is used as the return value and HL is used for anything, only BC needs to be preserved.
+<!-- C normally expects registers to be preserved across a function call. However in the case above as DE is used as the return value and HL is used for anything, only BC needs to be preserved. -->
 
 Getting at C variables is slightly tricky due to how local variables are allocated on the stack. However you shouldn't be using the local variables of a calling function in any case. Global variables can be accessed by name by adding an underscore. 
 
 
-## Segments
-The use of segments for code, data and variables is more noticeable in assembler. GBDK and SDCC define a number of default segments - `_CODE`, `_DATA` and `_BSS`. Two extra segments `_HEADER` and `_HEAP` exist for the Game Boy header and malloc heap respectively.
+## Segments / Areas
+The use of segments/areas for code, data and variables is more noticeable in assembler. GBDK and SDCC define a number of default ones. The order they are linked is determined by crt0.s and is currently as follows for the Game Boy and related clones.
 
-The order these segments are linked together is determined by crt0.s and is currently `_CODE` in ROM, then `_DATA`, `_BSS`, `_HEAP` in WRAM, with `STACK` at the top of WRAM. `_HEAP` is placed after `_BSS` so that all spare memory is available for the malloc routines. To place code in other than the first two banks, use the segments `_CODE_x` where x is the 16kB bank number.
+  - ROM (in this order)
+    - `_HEADER`: For the Game Boy header
+    - `_CODE`: CODE is specified as after BASE, but is placed before it due to how the linker works.
+    - `_HOME`
+    - `_BASE`
+    - `_CODE_0`
+    - `_INITIALIZER`: Constant data used to init RAM data
+    - `_LIT`
+    - `_GSINIT`: Code used to init RAM data
+    - `_GSFINAL`
 
-As the `_BSS` segment occurs outside the ROM area you can only use .ds to reserve space in it.
-
-While you don't have to use the `_CODE` and `_DATA` distinctions in assembler you may wish to do so consistancy. 
+  - Banked ROM
+    - `_CODE_x` Places code in ROM other than Bank `0`, where x is the 16kB bank number.
+  
+  - WRAM (in this order)
+    - `_DATA`: Uninitialized RAM data
+    - `_BSS`
+    - `_INITIALIZED`: Initialized RAM data
+    - `_HEAP`: placed after `_INITIALIZED` so that all spare memory is available for the malloc routines.
+    - `STACK`: at the end of WRAM
 

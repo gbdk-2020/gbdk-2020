@@ -19,6 +19,8 @@
 # Introduction
 Welcome to GBDK-2020! The best thing to do is head over to the @ref docs_getting_started "Getting Started" section to get up and running.
 
+If you are upgrading please check @ref docs_releases and @ref docs_migrating_versions
+
 
 # About the Documentation
 This documentation is partially based on material written by the original GBDK authors in 1999 and updated for GBDK-2020. The API docs are automatically generated from the C header files using Doxygen.
@@ -46,7 +48,7 @@ GBDK is freeware. Most of the tooling code is under the GPL. The runtime librari
 
 Work on the original GBDK (pre-2020) was by:
 
-Pascal Felber, Lars Malmborg, Michael Hope, David Galloway (djmips), and others.
+Pascal Felber, Lars Malmborg, Michael Hope, David Galloway (djmips), John Fuge, and others.
 
 
 The following is from the original GBDK documentation:

@@ -54,6 +54,7 @@ static void check_write_size(uint8_t len) {
 static void write_byte(uint8_t len, uint8_t data) {
 
     check_write_size(2); // writing 2 bytes
+    // printf("* write_byte     len: %2d , data: %02x \n", len, data);
 
     FoutBuf[FoutIndex++] = ((len - 1) & len_mask);
     FoutBuf[FoutIndex++] = data;
@@ -63,6 +64,7 @@ static void write_byte(uint8_t len, uint8_t data) {
 static void write_word( uint8_t len, uint16_t data ) {
 
     check_write_size(3); // writing 3 bytes
+    // printf("* write_word     len: %2d , data: %02x, %02x \n", len, (uint8_t)((data >> 8) & 0xFF), (uint8_t)(data & 0xFF));
 
     FoutBuf[FoutIndex++] = (((len - 1) & len_mask) | token_word);
     FoutBuf[FoutIndex++] = (uint8_t)((data >> 8) & 0xFF);
@@ -74,8 +76,9 @@ static void write_string( uint8_t len, uint16_t data) {
 
     check_write_size(3); // writing 3 bytes
 
-    // conver's complement does not give the negation, see § Most negative number below. t back-ref offset from positive unsigned to negative signed
+    // Convert back-ref offset from positive unsigned to negative signed to match format
     data = (data ^ 0xFFFF) + 1;
+    // printf("* write_string   len: %2d , data: %02x, %02x \n", len, (uint8_t)((data >> 8) & 0xFF), (uint8_t)(data & 0xFF));
 
     FoutBuf[FoutIndex++] = (((len - 1) & len_mask) | token_str);
     FoutBuf[FoutIndex++] = (uint8_t)(data & 0xFF);
@@ -88,6 +91,10 @@ static void write_trash( uint8_t len, uint8_t * pos) {
     uint8_t i;
 
     check_write_size(len); // writing len bytes
+    // printf("* write_string   len: %2d , data: ", len);
+    // for (i=0; i < len; i++)
+    //     printf("%02x, ", pos[i]);
+    // printf("\n");
 
     FoutBuf[FoutIndex++] = (((len-1) & len_mask) | token_trash);
     for (i=0; i < len; i++)
@@ -130,10 +137,10 @@ uint32_t gbcompress_buf(uint8_t * inBuf, uint32_t size_in, uint8_t ** pp_outBuf,
     uint8_t   rle_u8_match;  // x
     uint16_t  rle_u16_match; // y
 
-    uint32_t  rle_u8_len;   // r_rb
-    uint32_t  rle_u16_len;  // r_rw
-    uint32_t  rle_str_len;  // r_rs
-    uint32_t  trash_len;    // tb (by "trash" the original author meant, "non-rle sequence of bytes")
+    uint32_t  rle_u8_len  = 0;  // r_rb
+    uint32_t  rle_u16_len = 0;  // r_rw
+    uint32_t  rle_str_len = 0;  // r_rs
+    uint32_t  trash_len   = 0;  // tb (by "trash" the original author meant, "non-rle sequence of bytes")
 
     uint32_t  rle_str_start;       // rr
     uint32_t  rle_str_back_offset; // sr (this is signed in original code, handled differently to be unsigned now)
@@ -148,9 +155,9 @@ uint32_t gbcompress_buf(uint8_t * inBuf, uint32_t size_in, uint8_t ** pp_outBuf,
     Fsize_out  = size_out;
     FoutIndex = 0;
 
-    trash_len = 0;
-
     while (FinIndex < Fsize_in) {
+
+        // printf("@%3d / %3d = %02x\n", FinIndex, Fsize_in, FinBuf[FinIndex]);
 
         // Check for u8 RLE run up to 63 bytes max
         rle_u8_match = FinBuf[FinIndex];
@@ -177,6 +184,10 @@ uint32_t gbcompress_buf(uint8_t * inBuf, uint32_t size_in, uint8_t ** pp_outBuf,
                 }
                 else break;
             }
+        } else {
+            // If failed to read a u16 worth of data reset u16 token length
+            // (meaning: near end of buffer and only 1 byte was available)
+            rle_u16_len = 0;
         }
 
         // Check for matching sequences starting at current position
@@ -224,22 +235,26 @@ uint32_t gbcompress_buf(uint8_t * inBuf, uint32_t size_in, uint8_t ** pp_outBuf,
         if ((rle_u8_len > 2) &&
             (rle_u8_len > rle_u16_len) &&
             (rle_u8_len > rle_str_len)) {
+
             flush_trash(&FinIndex, &trash_len);
             write_byte(rle_u8_len, rle_u8_match);
             FinIndex = FinIndex + rle_u8_len;
         }
         else if ((rle_u16_len > 2) &&
                  ((rle_u16_len*2) > rle_str_len)) {
+
             flush_trash(&FinIndex, &trash_len);
             write_word(rle_u16_len, rle_u16_match);
             FinIndex = FinIndex + rle_u16_len*2;
         }
         else if (rle_str_len > 3) {
+
             flush_trash(&FinIndex, &trash_len);
             write_string(rle_str_len, rle_str_back_offset);
             FinIndex = FinIndex + rle_str_len;
         }
         else if (trash_len >= 64) {
+
             write_trash(trash_len, &FinBuf[FinIndex-trash_len]);
             trash_len = 0;
         }
@@ -249,6 +264,8 @@ uint32_t gbcompress_buf(uint8_t * inBuf, uint32_t size_in, uint8_t ** pp_outBuf,
         }
 
     }
+
+    // printf("End of compression, flushing unwritten bytes\n");
 
     // Flush any remaining "trash" bytes
     flush_trash(&FinIndex, &trash_len);

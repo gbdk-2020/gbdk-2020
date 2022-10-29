@@ -13,14 +13,17 @@ As of version `4.0.5` GBDK includes support for other consoles in addition to th
     - Sega Master System (SMS)
     - Sega Game Gear (GG)
 
-While the GBDK API has many convenience functions that work the same or similar across different consoles, it's important to keep their different capabilities in mind when writing code intended to run on more than one. Some (but not all) of the differences are screen sizes, color abilities, memory layouts, processor type (z80 vs gbz80/sm83) and speed.
+  - MSX DOS (MSXDOS) (partial support)
+  - NES (NES) (partial support)
+
+While the GBDK API has many convenience functions that work the same or similar across different consoles, it's important to keep their different capabilities in mind when writing code intended to run on more than one. Some (but not all) of the differences are screen sizes, color capabilities, memory layouts, processor type (z80 vs gbz80/sm83) and speed.
 
  
 @anchor docs_consoles_compiling
 # Cross Compiling for Different Consoles
 
 ## lcc
-When compiling and building through @ref lcc use the `-m<port>:<plat>` flag to select the desired console via it's port and platform combination.
+When compiling and building through @ref lcc use the `-m<port>:<plat>` flag to select the desired console via its port and platform combination.
 
 
 ## sdcc
@@ -31,24 +34,33 @@ When compiling with @ref sdcc-settings "sdcc":
   - `-m<port>`, `-D__PORT_<port>` and `-D__TARGET_<plat> `
 
 When assembling with @ref sdasgb-settings "sdasgb" (for GB/AP) and @ref sdasz80-settings "sdasz80" (for SMS/GG):
-  - Select the appropriate include path: `-I<gbdk-path>lib/small/asxxxx/<plat>`
+  - Select the appropriate include path: `-I<gbdk-path>lib/<plat>`
 
-When linking with @ref sdldgb-settings "sdldgb" (for GB/AP) and @ref sdldz80-settings "sdldz80" (for SMS/GG):
-  - Select the appropriate include paths: `-k <gbdk-path>lib/small/asxxxx/<port>`, `-k <gbdk-path>lib/small/asxxxx/<plat>`
+When linking with @ref sdldgb-settings "sdldgb" (for GB/AP) and @ref sdldz80-settings "sdldz80" (for SMS/GG or MSXDOS):
+  - Select the appropriate include paths: `-k <gbdk-path>lib/<port>`, `-k <gbdk-path>lib/<plat>`
   - Include the appropriate library files `-l <port>.lib`, `-l <plat>.lib`
-  - The crt will be under `  <gbdk-path>lib/small/asxxxx/<plat>/crt0.o`
+  - The crt will be under `  <gbdk-path>lib/<plat>/crt0.o`
 
+MSXDOS requires an additional build step with @ref utility_makecom "makecom" after @ref makebin to create the final binary:
+  - `makecom <image.bin> [<image.noi>] <output.com>`
 
+The NES port has `--no-peep` specified (in @ref lcc) due to a peephole related codegen bug in SDCC that has not yet been merged.
+  - If you wish to build without that flag then SDCC can be called directly instead of through lcc.
+  - Alternately, custom peephole rules from a file can be passed in using `-Wf--peep-file` (lcc) or `--peep-file` (sdcc).
+
+@anchor console_port_plat_settings
 ## Console Port and Platform Settings
-  - Nintendo Game Boy / Game Boy Color
-    - @ref lcc : `-mgbz80:gb`
-    - port:`gbz80`, plat:`gb`
+Note: Starting with GBDK-2020 4.1.0 and SDCC 4.2, the Game Boy and related clones use `sm83` for the port instead of `gbz80`
+
+  - Nintendo Game Boy / Game Boy Color    
+    - @ref lcc : `-msm83:gb`
+    - port:`sm83`, plat:`gb`
   - Analogue Pocket
-    - @ref lcc : `-mgbz80:ap`
-    - port:`gbz80`, plat:`ap`
+    - @ref lcc : `-msm83:ap`
+    - port:`sm83`, plat:`ap`
   - Mega Duck / Cougar Boy
-    - @ref lcc : `-mgbz80:duck`
-    - port:`gbz80`, plat:`duck`
+    - @ref lcc : `-msm83:duck`
+    - port:`sm83`, plat:`duck`
 
   - Sega Master System
     - @ref lcc : `-mz80:sms`
@@ -56,6 +68,14 @@ When linking with @ref sdldgb-settings "sdldgb" (for GB/AP) and @ref sdldz80-set
   - Sega Game Gear
     - @ref lcc : `-mz80:gg`
     - port:`z80`, plat:`gg`
+
+  - MSX DOS
+    - @ref lcc : `-mz80:msxdos`
+    - port:`z80`, plat:`msxdos`
+
+  - NES
+    - @ref lcc : `-mmos6502:nes`
+    - port:`mos6502`, plat:`nes`
 
 
 # Cross-Platform Constants
@@ -74,13 +94,16 @@ There are several constant \#defines that can be used to help select console spe
       - `MEGADUCK` will be \#defined
 
 
-  - When `<sms/sms.h >` is included (either directly or through `<gbdk/platform.h>`)
+  - When `<sms/sms.h>` is included (either directly or through `<gbdk/platform.h>`)
     - When building for Master System
       - `SEGA` will be \#defined
       - `MASTERSYSTEM` will be \#defined
     - When building for Game Gear
       - `SEGA` will be \#defined
       - `GAMEGEAR` will be \#defined
+
+  - When `<msx/msx.h>` is included (either directly or through `<gbdk/platform.h>`)
+    - `MSXDOS` will be \#defined
 
 ## Console Hardware Properties
 Constants that describe properties of the console hardware are listed below. Their values will change to reflect the current console target that is being built.
@@ -125,10 +148,27 @@ In the example @ref utility_png2asset is used to generate assets in the native f
 
 
 # Porting From Game Boy to Analogue Pocket
-The Analogue Pocket is (for practical purposes) functionally identical to the Game Boy / Color, but has a couple altered register flag and address definitions and a different boot logo. In order for software to be easily ported to the Analogue Pocket, or to run on both, use the following practices.
+The Analogue Pocket operating in `.pocket` mode is (for practical purposes) functionally identical to the Game Boy / Color though it has a couple changes listed below. These are handled automatically in GBDK as long as the practices outlined below are followed.
+
+Official differences:
+   - Altered register flag and address definitions
+     - @ref STAT_REG "STAT" & @ref LCDC_REG "LCDC": Order of register bits is reversed
+       - Example: @ref LCDCF_B_ON "LCD on/off" is LCDC.0 instead of .7
+       - Example: @ref STATF_B_LYC "LYC Interrupt enable" is STAT.1 instead of .6
+     - @ref LCDC_REG "LCDC" address is `0xFF4E` instead of `0xFF40`
+   - Different logo data in the header at address `0x0104`:
+     - `0x01, 0x10, 0xCE, 0xEF, 0x00, 0x00, 0x44, 0xAA, 0x00, 0x74, 0x00, 0x18, 0x11, 0x95, 0x00, 0x34, 0x00, 0x1A, 0x00, 0xD5, 0x00, 0x22, 0x00, 0x69, 0x6F, 0xF6, 0xF7, 0x73, 0x09, 0x90, 0xE1, 0x10, 0x44, 0x40, 0x9A, 0x90, 0xD5, 0xD0, 0x44, 0x30, 0xA9, 0x21, 0x5D, 0x48, 0x22, 0xE0, 0xF8, 0x60`
+                
+
+Observed differences:
+  - MBC1 and MBC5 are supported, MBC3 won't save, the HuC3 isn't supported at all (via JoseJX)
+  - The Serial Link port does not work
+  - The IR port in CGB mode does not work as reliably as the Game Boy Color
+
+ In order for software to be easily ported to the Analogue Pocket, or to run on both, use the following practices.
 
 ## Registers and Flags
-Use API defined registers and register flags instead of hardwired ones
+Use API defined registers and register flags instead of hardwired ones.
    - LCDC register: @ref LCDC_REG or @ref rLCDC
    - STAT register: @ref STAT_REG or @ref rSTAT
    - LCDC flags: -> LCDCF_... (example: @ref LCDCF_ON)
@@ -156,7 +196,7 @@ Use API defined registers and register flags instead of hardwired ones
 ### Tile and Map Data in 2bpp Game Boy Format
 - @ref set_bkg_data() and @ref set_sprite_data() will load 2bpp tile data in "game boy" format on both GB and SMS/GG.
 - On the SMS/GG @ref set_2bpp_palette() sets 4 colors that will be used when loading 2bpp assets with set_bkg_data(). This allows GB assets to be easily colorized without changing the asset format. There is some performance penalty for using the conversion.
-- @ref set_bkg_tiles() loads 1-byte-per-tile tilemaps both for the GB and SMS/GG
+- @ref set_bkg_tiles() loads 1-byte-per-tile tilemaps both for the GB and SMS/GG.
 
 ### Tile and Map Data in Native Format
 Use the following api calls when assets are avaialble in the native format for each platform.

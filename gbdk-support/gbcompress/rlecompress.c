@@ -170,6 +170,8 @@ uint32_t rlecompress_buf(uint8_t * inBuf, uint32_t size_in, uint8_t ** pp_outBuf
         }
     }
 
+    // Flush any trailing data
+    rle_commit();
     write_end_of_data();
 
     return FoutIndex;

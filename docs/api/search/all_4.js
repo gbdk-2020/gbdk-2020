@@ -1,12 +1,12 @@
 var searchData=
 [
   ['abs_63',['abs',['../stdlib_8h.html#a3bb2d2cacc5535004757ebbc640079fb',1,'stdlib.h']]],
-  ['add_5fjoy_64',['add_JOY',['../gb_8h.html#aa2f0235e78da2d1d94d3628d7a1afc30',1,'add_JOY(int_handler h) OLDCALL:&#160;gb.h'],['../sms_8h.html#a48163816121cd669526817d3e6266fd9',1,'add_JOY(int_handler h) Z88DK_FASTCALL:&#160;sms.h']]],
-  ['add_5flcd_65',['add_LCD',['../gb_8h.html#a9f9f77105099a34556247d5bb03368d1',1,'add_LCD(int_handler h) OLDCALL:&#160;gb.h'],['../sms_8h.html#a51add93356a25c71e8c37a73c9065c9d',1,'add_LCD(int_handler h) Z88DK_FASTCALL PRESERVES_REGS(b:&#160;sms.h']]],
+  ['add_5fjoy_64',['add_JOY',['../gb_8h.html#aa2f0235e78da2d1d94d3628d7a1afc30',1,'add_JOY(int_handler h) OLDCALL:&#160;gb.h'],['../msx_8h.html#a48163816121cd669526817d3e6266fd9',1,'add_JOY(int_handler h) Z88DK_FASTCALL:&#160;msx.h'],['../sms_8h.html#a48163816121cd669526817d3e6266fd9',1,'add_JOY(int_handler h) Z88DK_FASTCALL:&#160;sms.h']]],
+  ['add_5flcd_65',['add_LCD',['../gb_8h.html#a9f9f77105099a34556247d5bb03368d1',1,'add_LCD(int_handler h) OLDCALL:&#160;gb.h'],['../msx_8h.html#a51add93356a25c71e8c37a73c9065c9d',1,'add_LCD(int_handler h) Z88DK_FASTCALL PRESERVES_REGS(b:&#160;msx.h'],['../sms_8h.html#a51add93356a25c71e8c37a73c9065c9d',1,'add_LCD(int_handler h) Z88DK_FASTCALL PRESERVES_REGS(b:&#160;sms.h']]],
   ['add_5flow_5fpriority_5ftim_66',['add_low_priority_TIM',['../gb_8h.html#a970f18857533e062f4780f6e1c407d69',1,'gb.h']]],
-  ['add_5fsio_67',['add_SIO',['../gb_8h.html#aa82422752016328ed0765879e286019f',1,'add_SIO(int_handler h) OLDCALL:&#160;gb.h'],['../sms_8h.html#a3372d61a07e0466bdb909a27f3aaaca9',1,'add_SIO(int_handler h) Z88DK_FASTCALL:&#160;sms.h']]],
-  ['add_5ftim_68',['add_TIM',['../gb_8h.html#a028d1a2e820951bb4f103d6469975ffb',1,'add_TIM(int_handler h) OLDCALL:&#160;gb.h'],['../sms_8h.html#a6c66a583a8f0744e3985c89725e3dc10',1,'add_TIM(int_handler h) Z88DK_FASTCALL:&#160;sms.h']]],
-  ['add_5fvbl_69',['add_VBL',['../gb_8h.html#a0d29659d08708143dd8bc720278e06b5',1,'add_VBL(int_handler h) OLDCALL:&#160;gb.h'],['../sms_8h.html#ae59628e2237f301df1341e22bfc8296e',1,'add_VBL(int_handler h) Z88DK_FASTCALL PRESERVES_REGS(d:&#160;sms.h']]],
+  ['add_5fsio_67',['add_SIO',['../gb_8h.html#aa82422752016328ed0765879e286019f',1,'add_SIO(int_handler h) OLDCALL:&#160;gb.h'],['../msx_8h.html#a3372d61a07e0466bdb909a27f3aaaca9',1,'add_SIO(int_handler h) Z88DK_FASTCALL:&#160;msx.h'],['../sms_8h.html#a3372d61a07e0466bdb909a27f3aaaca9',1,'add_SIO(int_handler h) Z88DK_FASTCALL:&#160;sms.h']]],
+  ['add_5ftim_68',['add_TIM',['../gb_8h.html#a028d1a2e820951bb4f103d6469975ffb',1,'add_TIM(int_handler h) OLDCALL:&#160;gb.h'],['../msx_8h.html#a6c66a583a8f0744e3985c89725e3dc10',1,'add_TIM(int_handler h) Z88DK_FASTCALL:&#160;msx.h'],['../sms_8h.html#a6c66a583a8f0744e3985c89725e3dc10',1,'add_TIM(int_handler h) Z88DK_FASTCALL:&#160;sms.h']]],
+  ['add_5fvbl_69',['add_VBL',['../gb_8h.html#a0d29659d08708143dd8bc720278e06b5',1,'add_VBL(int_handler h) OLDCALL:&#160;gb.h'],['../msx_8h.html#ae59628e2237f301df1341e22bfc8296e',1,'add_VBL(int_handler h) Z88DK_FASTCALL PRESERVES_REGS(d:&#160;msx.h'],['../sms_8h.html#ae59628e2237f301df1341e22bfc8296e',1,'add_VBL(int_handler h) Z88DK_FASTCALL PRESERVES_REGS(d:&#160;sms.h']]],
   ['and_70',['AND',['../drawing_8h.html#acd1b97556dfbbac61063a63031d2f91d',1,'drawing.h']]],
   ['arand_71',['arand',['../rand_8h.html#a67415330a1c7984e4537dac753306804',1,'rand.h']]],
   ['assert_72',['assert',['../assert_8h.html#af576bf8ffa22a44e53018c67095ffbf0',1,'assert.h']]],

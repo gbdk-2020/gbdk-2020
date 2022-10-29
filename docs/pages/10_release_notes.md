@@ -1,11 +1,82 @@
-@page docs_releases GBDK Releases
+@page docs_releases GBDK Release Notes
 
-The GBDK 2020 releases can be found on Github:
+The GBDK-2020 releases can be found on Github:
 https://github.com/gbdk-2020/gbdk-2020/releases
 
 
-# GBDK 2020 Release Notes
-## GBDK 2020 4.0.6
+# GBDK-2020 Release Notes
+
+## GBDK-2020 4.1.0
+  2022/10
+  - Building GBDK
+    - The linux port of SDCC is custom built on Ubuntu 16.04 due to reduced GLIBC compatibility issues in more recent SDCC project builds.
+    - Added Windows 32-Bit build
+  - Platforms
+    - SDCC has renamed the `gbz80` port to `sm83` see @ref faq_gbz80_sm83_old_port_name_error
+    - Added experimental support for MSXDOS (`msxdos`) and NES (`nes`). These platforms are not fully functional at this time. See @ref docs_supported_consoles
+  - Licensing
+    - Clarified licensing status with consent from GBDK original authors, added licensing folder to distribution
+  - Library
+    - SGB: Use longer wait between the SGB packet transfers
+    - SMS/GG: less garbage on screen when clearing VRAM in the init code
+    - SMS/GG: Added @ref cgb_compatibility() to set default palette with the four shades of gray
+    - Fixed: @ref get_sprite_data(), @ref get_bkg_data() , @ref get_win_data() when @ref LCDCF_BG8000 bit of @ref LCDC_REG is set
+    - Fixed ISR chain lengths. VBL: 4 user handlers, LCD: 3 user handlers, SIO/TIM/JOY: 4 user handlers
+    - Added new constants for the Game Boy Color (CGB):
+      - @ref VBK_BANK_0, @ref VBK_BANK_1
+      - @ref VBK_TILES, @ref VBK_ATTRIBUTES
+      - @ref BKGF_PRI, @ref BKGF_YFLIP, @ref BKGF_XFLIP, @ref BKGF_BANK0, @ref BKGF_BANK1
+      - @ref BKGF_CGB_PAL0, @ref BKGF_CGB_PAL1, @ref BKGF_CGB_PAL2, @ref BKGF_CGB_PAL3, @ref BKGF_CGB_PAL4, @ref BKGF_CGB_PAL5, @ref BKGF_CGB_PAL6, @ref BKGF_CGB_PAL7
+      - @ref VBK_TILES, @ref VBK_ATTRIBUTES
+  - Toolchain / Utilities
+    - @ref lcc
+      - Changed to Error out and warn when `gbz80` port is used instead of `sm83`
+    - @ref utility_png2asset "png2asset"
+      - Added `-tiles_only`: Export tile data only
+      - Added `-maps_only`: Export map tilemap only
+      - Added `-metasprites_only`: Export metasprite descriptors only
+      - Added `-source_tileset`: Use source tileset image with common tiles
+      - Added `-keep_duplicate_tiles`: Do not remove duplicate tiles
+      - Added `-bin`: Export to binary format (includes header files)
+      - Added `-transposed`: Export transposed (column-by-column instead of row-by-row)
+      - Added basic MSXDOS support
+        - Added 1bpp packing mode (BPP1)
+        - `-spr16x16msx`
+      - Added basic NES support
+        - `-use_nes_attributes`
+        - `-use_nes_colors`
+      - Changed to only export `_tile_pals[]` arrays when `-use-structs` is set (ZGB specific)
+    - @ref utility_gbcompress "gbcompress"
+      - Added `--bank=<num>` Add Bank Ref: 1 - 511 (default is none, with `--cout` only)
+      - Fixed failure to flush data at end of compression (uncommitted bytes)
+      - Fixed `Warning: File read size didn't match expected`
+    - @ref lcc "lcc"
+      - When `-autobank` is specified `lcc` will automatically add `-yoA` for @ref makebin if no `-yo*` entry is present
+      - Fixed broken `-E` Preprocess only flag
+    - @ref utility_makecom "makecom"
+      - Added `makecom` for post-processing msxdos binaries
+    - @ref makebin
+      - Fixed (via sdcc) bug with `-yp` not always working correctly
+        - https://sourceforge.net/p/sdcc/code/12975/
+    - @ref bankpack
+      - Added support for the Game Boy Camera MBC
+      - Added `-reserve=<bank>:<size>` option to reserve space during autobank packing
+        - Workaround for libraries that contain objects in banks (such as gbt-player)
+    - @ref ihxcheck
+      - Check and warn for bank overflows under specific conditions
+        - A multiple write to the same address must occur. The address where the overlap ends is used as BANK.
+        - There must also be a write which spans multiple banks, the ending address of that must match BANK. The starting addresses is the OVERFLOW-FROM BANK.  
+  - Examples
+     - Changed Logo example to use new GBDK logo art from user "Digit"
+     - Added example for APA image mode with more than 256 tiles
+     - Added SGB Sound Effects example
+     - Changed to new WAV sound example
+  - Docs
+    - Added improved @ref mbc_type_chart "MBC Type chart"
+    - Include SDCC manual in pdf format      
+    - Various doc updates and improvements
+
+## GBDK-2020 4.0.6
   2022/02
   - Building GBDK
     - Changed to target older version of macOS (10.10) when building for better compatibility
@@ -56,7 +127,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
     - Added new section: Migrating From Pre-GBDK-2020 Tutorials
 
 
-## GBDK 2020 4.0.5
+## GBDK-2020 4.0.5
   2021/09
   - Includes SDCC version 12539 with GBDK-2020 patches for Z80
   - Known Issues
@@ -117,7 +188,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
     - Various doc updates and improvements
   
 
-## GBDK 2020 4.0.4
+## GBDK-2020 4.0.4
   2021/06
   - Library
     - Support SDCC INITIALIZER area (SDCC ~12207+)
@@ -154,7 +225,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
     - Various doc updates and improvements
 
 
-## GBDK 2020 4.0.3
+## GBDK-2020 4.0.3
   2021/03
   - Library
     - Added @ref set_vram_byte()
@@ -182,7 +253,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
     - Added PDF version of docs
  
 
-## GBDK 2020 4.0.2
+## GBDK-2020 4.0.2
   2021/01/17
   - Includes SDCC snapshot build version 12016 (has a fix for duplicate debug symbols generated from inlined header functions which GBDK 4.0+ uses)
   - Updated documentation
@@ -202,7 +273,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
   - Examples: Added bgb debug example
 
 
-## GBDK 2020 4.0.1
+## GBDK-2020 4.0.1
   2020/11/14
   - Updated API documentation
   - IHX is checked for correctness before the makebin stage. That allows to warn about overwriting the same ROM addresses (SDCC toolchain does not check this anymore).
@@ -222,7 +293,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
       - Fix output not working if target is -o some_filename.ihx
 
 
-## GBDK 2020 4.0
+## GBDK-2020 4.0
   2020/10/01
   - GBDK now requires SDCC 4.0.3 or higher, that has fully working toolchain. Old link-gbz80 linker is not used anymore, sdldgb and makebin are used to link objects and produce binary roms; maccer tool is no longer needed either
     - SDCC 4.0.3 has much better code generator which produces smaller and faster code. Code is twice faster
@@ -245,19 +316,19 @@ https://github.com/gbdk-2020/gbdk-2020/releases
     - quoted paths with spaces are working now
 
 
-## GBDK 2020 3.2
+## GBDK-2020 3.2
   2020/06/05
   - Fixed OAM initialization that was causing a bad access to VRAM
   - Interrupt handlers now wait for lcd controller mode 0 or 1 by default to prevent access to inaccessible VRAM in several functions (like set_bkg_tiles)
   - Several optimizations here and there
 
 
-## GBDK 2020 3.1.1
+## GBDK-2020 3.1.1
   2020/05/17
   - Fixed issues with libgcc_s_dw2-1.dll
 
 
-## GBDK 2020 3.1
+## GBDK-2020 3.1
   2020/05/16
   - Banked functions are working! The patcher is fully integrated in link-gbz80, no extra tools are needed. It is based on Toxa's work
     - Check this post for more info
@@ -276,15 +347,15 @@ https://github.com/gbdk-2020/gbdk-2020/releases
       https://gbdev.gg8.se/forums/viewtopic.php?id=710
 
 
-## GBDK 2020 3.0.1
+## GBDK-2020 3.0.1
   2020/04/12
   - Updated SDCC to v.4.0
   - Updated LCC to work with the new compiler
 
 
-## GBDK 2020 3.0
+## GBDK-2020 3.0
   2020/04/12
-  - Initial GBDK 2020 release  
+  - Initial GBDK-2020 release  
   Updated SDCC to v4.0
   The new linker is not working so the old version is still there
   There is an issue with sdagb compiling drawing.s (the JP in 

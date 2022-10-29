@@ -1,21 +1,45 @@
-MIT License
 
-Copyright (c) 2020 Zalo
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+### Overview of Licenses in GBDK-2020
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+See the relevant licensing files in the LICENSES folder for details on the entries below
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+
+### For the End User
+Q: What license information is required when distributing the compiled ROM (binary) of my game?
+
+A: There is no requirement to include or credit any of the GBDK-2020 licenses or authors, although credit of GBDK-2020 is appreciated.
+   This is different and separate from redistributing the GBDK-2020 dev environment itself (or the GBDK-2020 sources) which does require the licenses.
+
+
+### GBDK Library & Makefiles, SDCC:
+GPLv2+LE (linking exception). Some files from SDCC, some from the historical GBDK that were originally LGPL and have been relicensed to GPLv2+LE (linking exception) to match the SDCC ones in 2022 by permission of original authors.
+- LICENSE_SDCC
+- LICENSE_GPLV2_LE
+
+When patches are used for some SDCC tools they can be found at:
+https://github.com/gbdk-2020/gbdk-2020-sdcc
+
+
+### Optional Crash handler in the GBDK Library
+zlib License: https://github.com/ISSOtm/gb-starter-kit/
+- LICENSE_crashhandler
+
+
+### makebin:
+zlib/libpng License
+According to: http://sdcc.sourceforge.net/
+
+
+### bankpack, ihxcheck, gbcompress, makecom:
+Public Domain. @bbbbbr is the original author
+
+
+### png2asset:
+MIT License. @Zal0 is the original author + additional contributors
+
+
+### LCC front end / compiler driver:
+LCC License, traditionally named as the "CPYRIGHT" file
+
+

@@ -1,7 +1,7 @@
 ;--------------------------------------------------------------------------
 ;  modsigned.s
 ;
-;  Copyright (C) 2009, Philipp Klaus Krause
+;  Copyright (C) 2009-2021, Philipp Klaus Krause
 ;
 ;  This library is free software; you can redistribute it and/or modify it
 ;  under the terms of the GNU General Public License as published by the
@@ -32,26 +32,15 @@
 .globl	__modsint
 
 __modschar:
-        ld      hl,#2+1
-        add     hl,sp
+	ld	e, l
+	ld	l, a
 
-        ld      e,(hl)
-        dec     hl
-        ld      l,(hl)
+	call    __div8
 
-        call    __div8
-
-        jp	__get_remainder
+	jp	__get_remainder
 
 __modsint:
-        pop     af
-        pop     hl
-        pop     de
-        push    de
-        push    hl
-        push    af
+	call    __div16
 
-        call    __div16
-
-        jp	__get_remainder
+	jp	__get_remainder
 

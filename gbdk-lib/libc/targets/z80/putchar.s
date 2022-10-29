@@ -36,6 +36,7 @@ _putchar::
         push de
         push hl
 
+	ld a, e
         cp #.CR
         jr nz, 0$
 

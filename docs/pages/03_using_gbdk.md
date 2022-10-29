@@ -4,7 +4,7 @@
 # Interrupts
 Interrupts allow execution to jump to a different part of your code as soon as an external event occurs - for example the LCD entering the vertical blank period, serial data arriving or the timer reaching its end count. For an example see the irq.c sample project.
 
-Interrupts in GBDK are handled using the functions @ref disable_interrupts(), @ref enable_interrupts(), @ref set_interrupts(uint8_t ier) and the interrupt service routine (ISR) linkers @ref add_VBL(), @ref add_TIM, @ref add_LCD, @ref add_SIO and @ref add_JOY which add interrupt handlers for the vertical blank, timer, LCD, serial link and joypad interrupts respectively.
+Interrupts in GBDK are handled using the functions @ref disable_interrupts(), @ref enable_interrupts(), @ref set_interrupts(uint8_t ier) and the interrupt service routine (ISR) linkers @ref add_VBL(), @ref add_TIM, @ref add_low_priority_TIM, @ref add_LCD, @ref add_SIO and @ref add_JOY which add interrupt handlers for the vertical blank, timer, LCD, serial link and joypad interrupts respectively.
 
 Since an interrupt can occur at any time an Interrupt Service Request (ISR) cannot take any arguments or return anything. Its only way of communicating with the greater program is through the global variables. When interacting with those shared ISR global variables from main code outside the interrupt, it is a good idea to wrap them in a `critical {}` section in case the interrupt occurs and modifies the variable while it is being used.
 
@@ -26,7 +26,7 @@ The GameBoy hardware can generate 5 types of interrupts. Custom Interrupt Servic
     - Example project: `lcd_isr_wobble`
 
   - TIM : Timer overflow
-    - See @ref add_TIM() and @ref remove_TIM()
+    - See @ref add_TIM() (or @ref add_low_priority_TIM() ) and @ref remove_TIM()
     - Example project: `tim`
 
   - SIO : Serial Link I/O transfer end
@@ -50,16 +50,17 @@ Interrupt handlers are called in sequence. To install a new interrupt handler, d
 See the `irq` example project for additional details for a complete example.
 
 ## Using your own Interrupt Dispatcher
-If you want to use your own Interrupt Dispatcher instead of the GBDK chained dispatcher (for improved performance), then don't call the `add_...()` function for the respective interrupt and it's dispatcher won't be installed.
+If you want to use your own Interrupt Dispatcher instead of the GBDK chained dispatcher (for improved performance), then don't call the `add_...()` function for the respective interrupt and its dispatcher won't be installed.
   - Exception: the VBL dispatcher will always be linked in at compile time.
-  - For the SIO interrupt, also do not make any standard SIO calls to avoid having it's dispatcher installed.
+  - For the SIO interrupt, also do not make any standard SIO calls to avoid having its dispatcher installed.
 
 Then, @ref ISR_VECTOR() or @ref ISR_NESTED_VECTOR() can be used to install a custom ISR handler.
 
+@anchor isr_nowait_info
 ## Returning from Interrupts and STAT mode
 By default when an Interrupt handler completes and is ready to exit it will check STAT_REG and only return at the BEGINNING of either LCD Mode 0 or Mode 1. This helps prevent graphical glitches caused when an ISR interrupts a graphics operation in one mode but returns in a different mode for which that graphics operation is not allowed.
 
-You can change this behavior using nowait_int_handler() which does not check @ref STAT_REG before returning. Also see @ref wait_int_handler().
+You can change this behavior using @ref nowait_int_handler() which does not check @ref STAT_REG before returning. Also see @ref wait_int_handler().
 
 
 # What GBDK does automatically and behind the scenes
@@ -73,10 +74,19 @@ Including @ref stdio.h and using functions such as @ref printf() will use a larg
 ## Default Interrupt Service Handlers (ISRs)
   - V-Blank: A default V-Blank ISR is installed on startup which copies the Shadow OAM to the hardware OAM and increments the global @ref sys_time variable once per frame.
   - Serial Link I/O: If any of the GBDK serial link functions are used such as @ref send_byte() and @ref receive_byte(), the default SIO serial link handler will be installed automatically at compile-time.
+  - APA Graphics Mode: When this mode is used (via @ref drawing.h) custom VBL and LCD ISRs handlers will be installed (`drawing_vbl` and `drawing_lcd`). Changing the mode to (`mode(M_TEXT_OUT);`) will cause them to be de-installed. These handlers are used to change the tile data source at start-of-frame and mid-frame so that 384 background tiles can be used instead of the typical 256.
+
+
+## Ensuring Safe Access to Graphics Memory
+There are certain times during each video frame when memory and registers relating to graphics are "busy" and should not be read or written to (otherwise there may be corrupt or dropped data). GBDK handles this automatically for most graphics related API calls. It also ensures that ISR handlers return in such a way that if they interrupted a graphics access then it will only resume when access is allowed.
+
+The ISR return behavior @ref isr_nowait_info "can be turned off" using the @ref nowait_int_handler.
+
+For more details see the related Pandocs section: https://gbdev.io/pandocs/Accessing_VRAM_and_OAM.html
 
 
 # Copying Functions to RAM and HIRAM
-See the `ram_function` example project included with GBDK demonstrates copying functions to RAM and HIRAM.
+See the `ram_function` example project included with GBDK which demonstrates copying functions to RAM and HIRAM.
 
 `Warning!` Copying of functions is generally not safe since they may contain jumps to absolute addresses that will not be converted to match the new location.
 
@@ -119,7 +129,7 @@ It is possible to assemble and link files written in ASM alongside files written
   - A C identifier `i` will be called `_i` in assembly.
   - Results are always returned into the `DE` register.
   - Parameters are passed on the stack (starting at `SP+2` because the return address is also saved on the stack).
-  - Assembly identifier are exported using the `.globl` directive.
+  - Assembly identifiers are exported using the `.globl` directive.
   - You can access GameBoy hardware registers using `_reg_0xXX` where `XX` is the register number (see `sound.c` for an example).
   - Registers must be preserved across function calls (you must store them at function begin, and restore them at the end), except `HL` (and `DE` when the function returns a result).
 
@@ -170,4 +180,4 @@ See the `incbin` example project for a demo of how to use it.
 ## SDCC
   - Const arrays declared with `somevar[n] = {x}` will __NOT__ get initialized with value `x`. This may change when the SDCC RLE initializer is fixed. Use memset for now if you need it.
 
-  - SDCC banked calls and @ref far_pointers in GBDK only save one byte for the ROM bank, so for example they are limtied to __bank 15__ max for MBC1 and __bank 255__ max for MBC5. See @ref banked_calls for more details.
+  - SDCC banked calls and @ref far_pointers in GBDK only save one byte for the ROM bank, so for example they are limited to __bank 15__ max for MBC1 and __bank 255__ max for MBC5. See @ref banked_calls for more details.

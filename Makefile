@@ -8,15 +8,20 @@ TOPDIR = $(shell pwd)
 # Package name, used for tarballs
 PKG = gbdk
 # Version, used for tarballs & docs
-VER = 4.0.6
+VER = 4.1.0
 
-PORTS=gbz80 z80
-PLATFORMS=gb ap duck gg sms
+PORTS=sm83 z80 mos6502
+PLATFORMS=gb ap duck gg sms msxdos nes
 
 # Prefix to add to the standard tools.  Usefull for a standard gcc
 # cross-compile.
 TOOLSPREFIX =
-# TOOLSPREFIX = i686-w64-mingw32-
+ifeq ($(OS_TARGET),Win_x32)
+	TOOLSPREFIX = i686-w64-mingw32-
+endif
+ifeq ($(OS_TARGET),Win_x64)
+	TOOLSPREFIX = x86_64-w64-mingw32-
+endif
 
 TARGETCC = $(TOOLSPREFIX)gcc
 TARGETRANLIB = $(TOOLSPREFIX)ranlib
@@ -31,6 +36,8 @@ GBDKSUPPORTDIR = $(TOPDIR)/gbdk-support
 # Directory with docs config and output (via doxygen)
 GBDKDOCSDIR = $(TOPDIR)/docs
 
+GBDKLICENSEDIR = $(TOPDIR)/licenses
+
 # Doxygen command and version check info
 DOXYGENCMD = doxygen
 DOXYGEN_VER_REQ = 1.8.17
@@ -41,6 +48,12 @@ DOXYGEN_VER_HAS = $(shell doxygen -v)
 # Extension to add to executables
 EXEEXTENSION = 
 ifeq ($(TOOLSPREFIX),i686-w64-mingw32-)
+	EXEEXTENSION=.exe
+endif
+ifeq ($(TOOLSPREFIX),x86_64-w64-mingw32-)
+	EXEEXTENSION=.exe
+endif
+ifeq ($(OS),Windows_NT)
 	EXEEXTENSION=.exe
 endif
 # Host operating system identifier.
@@ -134,28 +147,42 @@ endif
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/png2asset TOOLSPREFIX=$(TOOLSPREFIX)
 	@echo Building gbcompress
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/gbcompress TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
+	@echo Building makecom
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/makecom TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
+	@echo Building makebin
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/makebin TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
 	@echo
 
 gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
 	@echo Installing lcc
 	@cp $(GBDKSUPPORTDIR)/lcc/lcc$(EXEEXTENSION) $(BUILDDIR)/bin/lcc$(EXEEXTENSION)
-	@$(TARGETSTRIP) $(BUILDDIR)/bin/lcc*
+	@$(TARGETSTRIP) $(BUILDDIR)/bin/lcc$(EXEEXTENSION)
+	@echo
+	@echo Installing docs and licenses
 	@cp $(GBDKDOCSDIR)/ChangeLog $(BUILDDIR)
 	@cp $(GBDKDOCSDIR)/README $(BUILDDIR)
 	@cp $(GBDKDOCSDIR)/gbdk_manual.pdf $(BUILDDIR)
+	@cp $(GBDKDOCSDIR)/sdccman.pdf $(BUILDDIR)
+	@cp -r $(GBDKLICENSEDIR) $(BUILDDIR)
 	@echo
 	@echo Installing ihxcheck
 	@cp $(GBDKSUPPORTDIR)/ihxcheck/ihxcheck$(EXEEXTENSION) $(BUILDDIR)/bin/ihxcheck$(EXEEXTENSION)
-	@$(TARGETSTRIP) $(BUILDDIR)/bin/ihxcheck*
+	@$(TARGETSTRIP) $(BUILDDIR)/bin/ihxcheck$(EXEEXTENSION)
 	@echo Installing bankpack
 	@cp $(GBDKSUPPORTDIR)/bankpack/bankpack$(EXEEXTENSION) $(BUILDDIR)/bin/bankpack$(EXEEXTENSION)
-	@$(TARGETSTRIP) $(BUILDDIR)/bin/bankpack*
+	@$(TARGETSTRIP) $(BUILDDIR)/bin/bankpack$(EXEEXTENSION)
 	@echo Installing png2asset
 	@cp $(GBDKSUPPORTDIR)/png2asset/png2asset$(EXEEXTENSION) $(BUILDDIR)/bin/png2asset$(EXEEXTENSION)
-	@$(TARGETSTRIP) $(BUILDDIR)/bin/png2asset*
+	@$(TARGETSTRIP) $(BUILDDIR)/bin/png2asset$(EXEEXTENSION)
 	@echo Installing gbcompress
 	@cp $(GBDKSUPPORTDIR)/gbcompress/gbcompress$(EXEEXTENSION) $(BUILDDIR)/bin/gbcompress$(EXEEXTENSION)
-	@$(TARGETSTRIP) $(BUILDDIR)/bin/gbcompress*
+	@$(TARGETSTRIP) $(BUILDDIR)/bin/gbcompress$(EXEEXTENSION)
+	@echo Installing makecom
+	@cp $(GBDKSUPPORTDIR)/makecom/makecom$(EXEEXTENSION) $(BUILDDIR)/bin/makecom$(EXEEXTENSION)
+	@$(TARGETSTRIP) $(BUILDDIR)/bin/makecom$(EXEEXTENSION)
+	@echo Installing makebin
+	@cp $(GBDKSUPPORTDIR)/makebin/makebin$(EXEEXTENSION) $(BUILDDIR)/bin/makebin$(EXEEXTENSION)
+	@$(TARGETSTRIP) $(BUILDDIR)/bin/makebin$(EXEEXTENSION)
 	@echo
 
 gbdk-support-clean:
@@ -170,6 +197,8 @@ gbdk-support-clean:
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/png2asset clean
 	@echo Cleaning gbcompress
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/gbcompress clean --no-print-directory
+	@echo Cleaning makecom
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/makecom clean
 	@echo
 
 # Rules for gbdk-lib
@@ -193,8 +222,8 @@ gbdk-lib-install-prepare:
 gbdk-lib-install-ports:
 	@for port in $(PORTS); do \
 		echo Installing lib for port: $$port; \
-		mkdir -p $(BUILDDIR)/lib/small/asxxxx/$$port/; \
-		cp $(GBDKLIBDIR)/build/small/asxxxx/$$port/$$port.lib $(BUILDDIR)/lib/small/asxxxx/$$port/$$port.lib; \
+		mkdir -p $(BUILDDIR)/lib/$$port/; \
+		cp $(GBDKLIBDIR)/build/$$port/$$port.lib $(BUILDDIR)/lib/$$port/$$port.lib; \
 	done
 	@echo
 
@@ -204,12 +233,13 @@ gbdk-lib-install-ports:
 gbdk-lib-install-platforms:
 	@for plat in $(PLATFORMS); do \
 		echo Installing lib for platform: $$plat; \
-		mkdir -p $(BUILDDIR)/lib/small/asxxxx/$$plat; \
-		cp $(GBDKLIBDIR)/build/small/asxxxx/$$plat/crt0.o $(BUILDDIR)/lib/small/asxxxx/$$plat/crt0.o; \
-		cp $(GBDKLIBDIR)/build/small/asxxxx/$$plat/$$plat.lib $(BUILDDIR)/lib/small/asxxxx/$$plat/$$plat.lib; \
+		mkdir -p $(BUILDDIR)/lib/$$plat; \
+		touch $(BUILDDIR)/lib/$$plat/crt0.lst; \
+		cp $(GBDKLIBDIR)/build/$$plat/crt0.o $(BUILDDIR)/lib/$$plat/crt0.o; \
+		cp $(GBDKLIBDIR)/build/$$plat/$$plat.lib $(BUILDDIR)/lib/$$plat/$$plat.lib; \
 		for port in $(PORTS); do \
 			if [ -d "$(GBDKLIBDIR)/libc/targets/$$port/$$plat" ]; then \
-				cp $(GBDKLIBDIR)/libc/targets/$$port/$$plat/global.s $(BUILDDIR)/lib/small/asxxxx/$$plat/global.s; \
+				cp $(GBDKLIBDIR)/libc/targets/$$port/$$plat/global.s $(BUILDDIR)/lib/$$plat/global.s; \
 			fi \
 		done \
 	done
@@ -245,7 +275,7 @@ gbdk-dist-examples-clean:
 
 
 # Copy SDDC executable files
-SDCC_BINS = makebin packihx sdar sdasgb sdcc sdcdb sdcpp sdldgb sdnm sdobjcopy sdranlib sz80 sdasz80 sdldz80
+SDCC_BINS = packihx sdar sdasgb sdcc sdcdb sdcpp sdldgb sdnm sdobjcopy sdranlib sz80 sdasz80 sdldz80 sdas6500 sdld
 ifeq ($(OS),Windows_NT)
 MINGW64_RUNTIME = \
 	libgcc_s_seh-1.dll \
@@ -298,7 +328,7 @@ endif
 #Run Doxygen	
 	rm -rf $(GBDKDOCSDIR)/api; \
 	  cd "$(GBDKLIBDIR)/include"; \
-	  GBDKDOCSDIR="$(GBDKDOCSDIR)" GBDKVERSION=$(VER) GBDKLIBDIR="$(GBDKLIBDIR)" $(DOXYGENCMD) "$(GBDKDOCSDIR)/config/gbdk-2020-doxyfile"
+	  GBDKDOCSDIR="$(GBDKDOCSDIR)" GBDKVERSION=$(VER) GBDKLIBDIR="$(GBDKLIBDIR)" GBDKBASEDIR="$(TOPDIR)" $(DOXYGENCMD) "$(GBDKDOCSDIR)/config/gbdk-2020-doxyfile"
 	@if [ "$(DOCS_PDF_ON)" = "YES" ]; then\
 		$(MAKE) -C $(GBDKDOCSDIR)/latex;\
 		cp $(GBDKDOCSDIR)/latex/refman.pdf $(GBDKDOCSDIR)/gbdk_manual.pdf;\
@@ -336,42 +366,42 @@ ifneq (,$(wildcard $(BUILDDIR)/bin/))
 	echo \# sdcc settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 	$(BUILDDIR)/bin/sdcc -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1
-	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);	
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 # sdasgb
 	echo \@anchor sdasgb-settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \# sdasgb settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
-	$(BUILDDIR)/bin/sdasgb -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true 
+	$(BUILDDIR)/bin/sdasgb -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 # sdasz80
 	echo \@anchor sdasz80-settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \# sdasz80 settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
-	$(BUILDDIR)/bin/sdasgb -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true 
+	$(BUILDDIR)/bin/sdasgb -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 # bankpack
 	echo \@anchor bankpack-settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \# bankpack settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
-	$(BUILDDIR)/bin/bankpack -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true 
+	$(BUILDDIR)/bin/bankpack -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 # sdldgb
 	echo \@anchor sdldgb-settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \# sdldgb settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
-	$(BUILDDIR)/bin/sdldgb >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true 
+	$(BUILDDIR)/bin/sdldgb >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 # sdldz80
 	echo \@anchor sdldz80-settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \# sdldz80 settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
-	$(BUILDDIR)/bin/sdldgb >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true 
+	$(BUILDDIR)/bin/sdldgb >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 # ihxcheck
 	echo \@anchor ihxcheck-settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \# ihxcheck settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
-	$(BUILDDIR)/bin/ihxcheck -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true 
+	$(BUILDDIR)/bin/ihxcheck -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 # makebin
 	echo \@anchor makebin-settings >> $(TOOLCHAIN_DOCS_FILE);
@@ -380,11 +410,17 @@ ifneq (,$(wildcard $(BUILDDIR)/bin/))
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 	$(BUILDDIR)/bin/makebin -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+# makecom
+	echo \@anchor makecom-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# makecom settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+	$(BUILDDIR)/bin/makecom -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 # gbcompress
 	echo \@anchor gbcompress-settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \# gbcompress settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
-	$(BUILDDIR)/bin/gbcompress -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true 
+	$(BUILDDIR)/bin/gbcompress -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 # png2asset
 	echo \@anchor png2asset-settings >> $(TOOLCHAIN_DOCS_FILE);

@@ -64,7 +64,7 @@ union bil {
    if 16x16->16 is faster than three 8x8->16.
    2009, by M.Bodrato ( http://bodrato.it/ )
 
-   z80 and gbz80 don't have any hardware multiplication.
+   z80 and sm83 don't have any hardware multiplication.
    r2k and r3k have 16x16 hardware multiplication.
  */
 long _mullong (long a, long b)

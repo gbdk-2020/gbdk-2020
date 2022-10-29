@@ -470,3 +470,51 @@ code {
     padding-left: 3px;
     padding-right: 3px;
 }
+
+/* Markdown tables */
+/*
+table, .markdownTable {
+  background-color: rgb(255, 255, 255);
+  border-color: #d0d7de;
+  color: rgb(36, 41, 47);
+}
+
+th, .markdownTableHead.
+.markdownTableRowOdd {
+    background-color: rgb(255, 255, 255);
+}
+
+.markdownTableRowEven {
+    background-color: rgb(246, 248, 250);
+}
+
+*/
+table.markdownTable td, table.markdownTable th {
+    border: 1px solid #d0d7de;
+    padding: 3px 7px 2px;
+    color: rgb(36, 41, 47);
+    font-size: 90%;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+
+th.markdownTableHeadLeft, th.markdownTableHeadRight, th.markdownTableHeadCenter, th.markdownTableHeadNone {
+    background-color: rgb(255, 255, 255);
+    color: rgb(36, 41, 47);
+    font-size: unset;
+    padding-bottom: unset;
+    padding-top: unset;
+}
+
+th,
+.markdownTableHead,
+.markdownTableRowOdd {
+    background-color: rgb(255, 255, 255);
+}
+
+.markdownTableRowEven {
+    background-color: rgb(246, 248, 250);
+}
+
+table.markdownTable tr:hover {
+    background-color: rgb(231, 236, 242);
+}
