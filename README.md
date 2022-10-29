@@ -7,6 +7,10 @@ __Supported Consoles:__ [(see docs)](https://gbdk-2020.github.io/gbdk-2020/docs/
 - Sega Master System & Game Gear
 - Mega Duck / Cougar Boy
 
+Expirimental consoles (not yet fully functional)
+  - MSXDOS
+  - NES
+
 
 ## Current Release
 
@@ -58,8 +62,8 @@ The sources in this repo are only needed if you want to re-compile GBDK-2020 you
 ## Current status
 - Updated CRT and library that suits better for game development
 - SDCC Versions
-  - Current GBDK-2020 versions require SDCC patches for z80 SMS/Game Gear support. So SDCC nightlies/snapshot builds cannot be used if you want to target SMS/Game Gear. Instead use the [Patched SDCC Builds](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/tag/sdcc-12539-patched). 
-  - In addition, recent SDCC nightlies/snapshot builds have switched to a new calling convention which is not well tested with GBDK-2020 and there may be bugs. It's recommended to not use versions after build #12539 at this time.
+  - Current GBDK-2020 versions require SDCC patches for z80 SMS/Game Gear support (only `sdldz80` in GBDK-2020 4.1.0). So SDCC nightlies/snapshot builds cannot be used if you want to target SMS/Game Gear. Instead use the [Patched SDCC Builds](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases). 
+  - The default calling convention changed in `SDCC 4.2`. This is supported starting with `GBDK-2020 4.1.0`. Older versions of GBDK should use SDCC builds #12539 or older (see per-version GBDK notes).
 - The compiler driver **lcc** supports the latest sdcc toolchain.
 
 
