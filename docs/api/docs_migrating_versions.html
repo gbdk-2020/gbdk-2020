@@ -99,7 +99,8 @@ Porting to GBDK-2020 4.1.0</h2>
 <li>GBDK now requires SDCC 4.2 or higher with GBDK-2020 patches for the the z80 linker</li>
 <li>The default calling convention changed in SDCC 4.2, see <a class="el" href="docs_coding_guidelines.html#sdcc_calling_convention">Calling Conventions</a> for more details.<ul>
 <li>If you are linking to libraries compiled with an older version of SDCC / GBDK then you may have to recompile them.</li>
-<li>If there are functions written in ASM which receive parameters, they should also be reviewed to make sure they work with the new <code>__sdcccall(1)</code> calling convention, or have their header declaration changed to use <code>OLDCALL</code>.</li>
+<li>If there are existing functions written in ASM which <b>receive parameters</b> they should also be reviewed to make sure they work with the new <code>__sdcccall(1)</code> calling convention, or have their header declaration changed to use <code>OLDCALL</code>.</li>
+<li>If there are existing functions written in ASM which <b>call other functions written in C</b> the callee C function should be declared OLDCALL.</li>
 <li>If you are using tools such as <code>rgb2sdas</code> (from hUGETracker/Driver) you may need to edit the resulting .o file and replace <code>-mgbz80</code> with <code>-msm83</code> in addition to using <code>OLDCALL</code></li>
 </ul>
 </li>

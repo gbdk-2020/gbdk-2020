@@ -9,7 +9,8 @@ This section contains information that may be useful to know or important when u
   - GBDK now requires SDCC 4.2 or higher with GBDK-2020 patches for the the z80 linker
   - The default calling convention changed in SDCC 4.2, see @ref sdcc_calling_convention "Calling Conventions" for more details.
     - If you are linking to libraries compiled with an older version of SDCC / GBDK then you may have to recompile them.
-    - If there are functions written in ASM which receive parameters, they should also be reviewed to make sure they work with the new `__sdcccall(1)` calling convention, or have their header declaration changed to use `OLDCALL`.
+    - If there are existing functions written in ASM which __receive parameters__ they should also be reviewed to make sure they work with the new `__sdcccall(1)` calling convention, or have their header declaration changed to use `OLDCALL`.
+    - If there are existing functions written in ASM which __call other functions written in C__ the callee C function should be declared OLDCALL.
     - If you are using tools such as `rgb2sdas` (from hUGETracker/Driver) you may need to edit the resulting .o file and replace `-mgbz80` with `-msm83` in addition to using `OLDCALL`
   - The SDCC `PORT` name for the Game Boy and related clones changed from `gbz80` to `sm83`.
     - Additional details in the @ref console_port_plat_settings "Console Port and Platform Settings" section and @ref faq_gbz80_sm83_old_port_name_error "FAQ entry". @ref lcc will error out if the old `PORT` name is passed in.
