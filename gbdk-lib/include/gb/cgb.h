@@ -30,7 +30,7 @@
 
     @see set_bkg_palette(), set_sprite_palette(), RGB8(), RGBHTML()
  */
-#define RGB(r, g, b) ((uint16_t)((((b) & 0x1f) << 10) | (((g) & 0x1f) << 5) | (((r) & 0x1f) << 0)))
+#define RGB(r, g, b) ((uint16_t)((((b) & 0x1f) << 10) | ((uint16_t)(((g) & 0x1f) << 5)) | (((r) & 0x1f) << 0)))
 
 /** Macro to create a CGB palette color entry out of 8-bit color components.
 
@@ -44,7 +44,7 @@
 
     @see set_bkg_palette(), set_sprite_palette(), RGB(), RGBHTML()
  */
-#define RGB8(r, g, b) ((uint16_t)((((r) >> 3) & 0x1f) | ((((g) >> 3) & 0x1f) << 5) | ((((b) >> 3) & 0x1f) << 10)))
+#define RGB8(r, g, b) (((uint16_t)((((b) >> 3) & 0x1f) << 10)) | ((uint16_t)((((g) >> 3) & 0x1f) << 5)) | (((r) >> 3) & 0x1f))
 
 /** Macro to convert a 24 Bit RGB color to a CGB palette color entry.
 
