@@ -15,7 +15,7 @@ Expirimental consoles (not yet fully functional)
 ## Current Release
 
 [![Current Release](https://img.shields.io/github/v/release/gbdk-2020/gbdk-2020?label=Current%20Release)](https://github.com/gbdk-2020/gbdk-2020/releases/latest)
-![Downloads](https://img.shields.io/github/downloads/gbdk-2020/gbdk-2020/latest/total?label=Downloads)
+![Downloads](https://img.shields.io/github/downloads/gbdk-2020/gbdk-2020/total?label=Total%20Downloads)
 
 <a href="https://github.com/gbdk-2020/gbdk-2020/releases/latest/download/gbdk-win.zip"><img src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white" alt="GBDK-2020 Windows Release"></a> 
 <a href="https://github.com/gbdk-2020/gbdk-2020/releases/latest/download/gbdk-linux64.tar.gz"><img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" alt="GBDK-2020 Linux Release"></a>
