@@ -9,6 +9,10 @@
         .START          = 0x08
 
         ;;  Screen dimensions (in tiles)
+        .DEVICE_SCREEN_WIDTH            = 32
+        .DEVICE_SCREEN_HEIGHT           = 30
+        .DEVICE_SCREEN_BUFFER_WIDTH     = 32
+        .DEVICE_SCREEN_BUFFER_HEIGHT    = 30
         .MAXCURSPOSX    = 31
         .MAXCURSPOSY    = 29
 
