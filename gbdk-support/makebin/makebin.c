@@ -756,11 +756,11 @@ main (int argc, char **argv)
                               .version=0 };
 
   struct nes_opt_s nes_opt = {
-                              .mapper = 2,
+                              .mapper = 30,
                               .num_prg_banks = 2,
                               .num_chr_banks = 0,
                               .vertical_mirroring = 0,
-                              .four_screen = 0,
+                              .four_screen = 1,
                               .battery = 0 };
 
 #if defined(_WIN32)
