@@ -4,6 +4,9 @@ This section contains information that may be useful to know or important when u
 
 # GBDK-2020 versions
 
+## Porting to GBDK-2020 4.1.1
+  - No significant changes required
+
 
 ## Porting to GBDK-2020 4.1.0
   - GBDK now requires SDCC 4.2 or higher with GBDK-2020 patches for the the z80 linker
