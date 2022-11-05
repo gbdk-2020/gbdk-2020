@@ -29,7 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.1.0</span>
+   &#160;<span id="projectnumber">4.1.1</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -91,7 +91,7 @@ $(document).ready(function(){initNavTree('docs_toolchain_settings.html',''); ini
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="lcc-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md225"></a>
+<h1><a class="anchor" id="autotoc_md227"></a>
 lcc settings</h1>
 <div class="fragment"><div class="line">./lcc [ option | file ]...</div>
 <div class="line">    except for -l, options are processed left-to-right before files</div>
@@ -131,7 +131,7 @@ lcc settings</h1>
 <div class="line">-Woarg  specify system-specific `arg&#39;</div>
 <div class="line">-W[pfablim]arg  pass `arg&#39; to the preprocessor, compiler, assembler, bankpack, linker, ihxcheck, or makebin</div>
 </div><!-- fragment --><p><a class="anchor" id="sdcc-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md226"></a>
+<h1><a class="anchor" id="autotoc_md228"></a>
 sdcc settings</h1>
 <div class="fragment"><div class="line">SDCC : z80/sm83/mos6502 4.2.2 #13350 (Linux)</div>
 <div class="line">published under GNU General Public License (GPL)</div>
@@ -278,7 +278,7 @@ sdcc settings</h1>
 <div class="line">      --model-large         16-bit address space for data (default)</div>
 <div class="line">      --no-std-crt0         Do not link default crt0.rel</div>
 </div><!-- fragment --><p><a class="anchor" id="sdasgb-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md227"></a>
+<h1><a class="anchor" id="autotoc_md229"></a>
 sdasgb settings</h1>
 <div class="fragment"><div class="line">sdas Assembler V02.00 + NoICE + SDCC mods  (GameBoy)</div>
 <div class="line"> </div>
@@ -320,7 +320,7 @@ sdasgb settings</h1>
 <div class="line">  -j   Enable NoICE Debug Symbols</div>
 <div class="line">  -y   Enable SDCC  Debug Symbols</div>
 </div><!-- fragment --><p><a class="anchor" id="sdasz80-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md228"></a>
+<h1><a class="anchor" id="autotoc_md230"></a>
 sdasz80 settings</h1>
 <div class="fragment"><div class="line">sdas Assembler V02.00 + NoICE + SDCC mods  (GameBoy)</div>
 <div class="line"> </div>
@@ -362,7 +362,7 @@ sdasz80 settings</h1>
 <div class="line">  -j   Enable NoICE Debug Symbols</div>
 <div class="line">  -y   Enable SDCC  Debug Symbols</div>
 </div><!-- fragment --><p><a class="anchor" id="bankpack-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md229"></a>
+<h1><a class="anchor" id="autotoc_md231"></a>
 bankpack settings</h1>
 <div class="fragment"><div class="line">bankalloc [options] objfile1 objfile2 etc</div>
 <div class="line">Use: Read .o files and auto-assign areas with bank=255.</div>
@@ -402,7 +402,7 @@ bankpack settings</h1>
 <div class="line">S ___bank_&lt;const name&gt; Def0000FF</div>
 <div class="line">    (Above can be made by: const void __at(255) __bank_&lt;const name&gt;;</div>
 </div><!-- fragment --><p><a class="anchor" id="sdldgb-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md230"></a>
+<h1><a class="anchor" id="autotoc_md232"></a>
 sdldgb settings</h1>
 <div class="fragment"><div class="line">sdld Linker V03.00 + NoICE + sdld</div>
 <div class="line"> </div>
@@ -438,7 +438,7 @@ sdldgb settings</h1>
 <div class="line">End:</div>
 <div class="line">  -e   or null line terminates input</div>
 </div><!-- fragment --><p><a class="anchor" id="sdldz80-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md231"></a>
+<h1><a class="anchor" id="autotoc_md233"></a>
 sdldz80 settings</h1>
 <div class="fragment"><div class="line">sdld Linker V03.00 + NoICE + sdld</div>
 <div class="line"> </div>
@@ -474,7 +474,7 @@ sdldz80 settings</h1>
 <div class="line">End:</div>
 <div class="line">  -e   or null line terminates input</div>
 </div><!-- fragment --><p><a class="anchor" id="ihxcheck-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md232"></a>
+<h1><a class="anchor" id="autotoc_md234"></a>
 ihxcheck settings</h1>
 <div class="fragment"><div class="line">ihx_check input_file.ihx [options]</div>
 <div class="line"> </div>
@@ -485,7 +485,7 @@ ihxcheck settings</h1>
 <div class="line">Use: Read a .ihx and warn about overlapped areas.</div>
 <div class="line">Example: &quot;ihx_check build/MyProject.ihx&quot;</div>
 </div><!-- fragment --><p><a class="anchor" id="makebin-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md233"></a>
+<h1><a class="anchor" id="autotoc_md235"></a>
 makebin settings</h1>
 <p>Also see <a class="el" href="docs_rombanking_mbcs.html#setting_mbc_and_rom_ram_banks">setting_mbc_and_rom_ram_banks</a> </p><div class="fragment"><div class="line">makebin: convert a Intel IHX file to binary or GameBoy format binary.</div>
 <div class="line">Usage: makebin [options] [&lt;in_file&gt; [&lt;out_file&gt;]]</div>
@@ -518,12 +518,12 @@ makebin settings</h1>
 <div class="line">  &lt;in_file&gt;      optional IHX input file, &#39;-&#39; means stdin. (default: stdin)</div>
 <div class="line">  &lt;out_file&gt;     optional output file, &#39;-&#39; means stdout. (default: stdout)</div>
 </div><!-- fragment --><p><a class="anchor" id="makecom-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md234"></a>
+<h1><a class="anchor" id="autotoc_md236"></a>
 makecom settings</h1>
 <div class="fragment"><div class="line">makecom image.rom image.noi output.com</div>
 <div class="line">Use: convert a binary .rom file to .msxdos com format.</div>
 </div><!-- fragment --><p><a class="anchor" id="gbcompress-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md235"></a>
+<h1><a class="anchor" id="autotoc_md237"></a>
 gbcompress settings</h1>
 <div class="fragment"><div class="line">gbcompress [options] infile outfile</div>
 <div class="line">Use: compress a binary file and write it out.</div>
@@ -544,7 +544,7 @@ gbcompress settings</h1>
 <div class="line">The default compression (gb) is the type used by gbtd/gbmb</div>
 <div class="line">The rle compression is Amiga IFF style</div>
 </div><!-- fragment --><p><a class="anchor" id="png2asset-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md236"></a>
+<h1><a class="anchor" id="autotoc_md238"></a>
 png2asset settings</h1>
 <div class="fragment"><div class="line">usage: png2asset    &lt;file&gt;.png [options]</div>
 <div class="line">-c                  ouput file (default: &lt;png file&gt;.c)</div>
