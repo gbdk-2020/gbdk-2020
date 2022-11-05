@@ -6,6 +6,11 @@ https://github.com/gbdk-2020/gbdk-2020/releases
 
 # GBDK-2020 Release Notes
 
+## GBDK-2020 4.1.1
+  2022/11
+  - Library
+    - Fixed @ref RGB() and @ref RGB8() macros
+
 ## GBDK-2020 4.1.0
   2022/10
   - Building GBDK

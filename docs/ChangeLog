@@ -1,3 +1,6 @@
+gbdk-4.1.1
+    - Library fixes/improvements
+      - Fixed RGB() and RGB8() macros
 
 gbdk-4.1.0
     - Experimental Support for MSXDOS and NES. These are not yet fully functional

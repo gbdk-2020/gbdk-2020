@@ -1,5 +1,7 @@
 var NAVTREEINDEX6 =
 {
+"nes_2hardware_8h.html#aaf30bd58f6f863e21f605957d547bdd7":[4,0,1,0,4,0,14],
+"nes_2hardware_8h.html#ab2767d5f8f0ad35d8c8ee0bb3f4c51c3":[4,0,1,0,4,0,0],
 "nes_2hardware_8h.html#ab3147e0e9e56b86bebba0bcf1c7609af":[4,0,1,0,4,0,7],
 "nes_2hardware_8h.html#abbecfb740287072ee794c1c71fbbe86d":[4,0,1,0,4,0,18],
 "nes_2hardware_8h.html#ad02bc22c80dccee167fb5b19d14d63e7":[4,0,1,0,4,0,22],
@@ -247,7 +249,5 @@ var NAVTREEINDEX6 =
 "sms_2hardware_8h.html#a1ac4bf5582e0754ea814c3f51c99a91a":[4,0,1,0,5,1,99],
 "sms_2hardware_8h.html#a1ccce1e3f8acb76170fb752ee40ae659":[4,0,1,0,5,1,117],
 "sms_2hardware_8h.html#a1efece9134651ad4d2bd1836c1d1d6d6":[4,0,1,0,5,1,80],
-"sms_2hardware_8h.html#a20a977182f6f5f60ee6464e15f05aed0":[4,0,1,0,5,1,114],
-"sms_2hardware_8h.html#a2121cb75e0d570b0f92c7630bc1af25f":[4,0,1,0,5,1,86],
-"sms_2hardware_8h.html#a221db76cb39200a948234330ed309af7":[4,0,1,0,5,1,111]
+"sms_2hardware_8h.html#a20a977182f6f5f60ee6464e15f05aed0":[4,0,1,0,5,1,114]
 };

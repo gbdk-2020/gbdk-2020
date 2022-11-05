@@ -35,9 +35,9 @@ arg_entry llist0_defaults_msxdos[] = {
 // NES
 arg_entry llist0_defaults_nes[] = {
     {.searchkey= "DATA=",        .addflag= "-b",.addvalue= "DATA=0x300",         .found = false},
-    {.searchkey= "CODE=",        .addflag= "-b",.addvalue= "CODE=0xC000",        .found = false},
+    {.searchkey= "CODE=",        .addflag= "-b",.addvalue= "CODE=0x8000",        .found = false},
+    {.searchkey= "CODEFIXED=",   .addflag= "-b",.addvalue= "CODEFIXED=0xE000",   .found = false},
     {.searchkey= "VECTORS=",     .addflag= "-b",.addvalue= "VECTORS=0xFFFA",     .found = false},
-    {.searchkey= "_CODE_1=",     .addflag= "-b",.addvalue= "_CODE_1=0x8000",     .found = false},
     {.searchkey= "ZP=",          .addflag= "-b",.addvalue= "ZP=0x30",            .found = false},
 };
 

@@ -129,7 +129,7 @@ _attribute_row_dirty::                  .ds 1
         .area _HEAP
         .area _HEAP_END
 
-.area CODE
+.area CODEFIXED
 
 .bndry 0x100
 .identity::
