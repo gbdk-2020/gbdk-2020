@@ -1,5 +1,7 @@
 var NAVTREEINDEX5 =
 {
+"msx_2hardware_8h.html#a942e3ecdef267100c84a36f6e0dc0b51":[4,0,1,0,3,0,92],
+"msx_2hardware_8h.html#a98d635ed568cfe9f853eaf7e1707dec4":[4,0,1,0,3,0,79],
 "msx_2hardware_8h.html#a99ca7572e3708ffed188359799045b19":[4,0,1,0,3,0,25],
 "msx_2hardware_8h.html#a9a9ba38de4c1a1945957941d83e65a6d":[4,0,1,0,3,0,45],
 "msx_2hardware_8h.html#a9ab9954d0c66751a154f7824e344806b":[4,0,1,0,3,0,87],
@@ -247,7 +249,5 @@ var NAVTREEINDEX5 =
 "nes_2hardware_8h.html#a8a693ef1e7481e9d66811dc6848e5575":[4,0,1,0,4,0,6],
 "nes_2hardware_8h.html#a8c4fddfd97f8facc6045a6be1e98cd01":[4,0,1,0,4,0,19],
 "nes_2hardware_8h.html#a9b5d0dc0272b5f201ae5958714a557fe":[4,0,1,0,4,0,9],
-"nes_2hardware_8h.html#aa5aceb33d8da812050bd2b7383522be7":[4,0,1,0,4,0,24],
-"nes_2hardware_8h.html#aaf30bd58f6f863e21f605957d547bdd7":[4,0,1,0,4,0,14],
-"nes_2hardware_8h.html#ab2767d5f8f0ad35d8c8ee0bb3f4c51c3":[4,0,1,0,4,0,0]
+"nes_2hardware_8h.html#aa5aceb33d8da812050bd2b7383522be7":[4,0,1,0,4,0,24]
 };

@@ -1,5 +1,7 @@
 var NAVTREEINDEX2 =
 {
+"functions.html":[3,2,0],
+"functions_vars.html":[3,2,1],
 "gb_2gbdecompress_8h.html":[4,0,1,0,1,7],
 "gb_2gbdecompress_8h.html#a0b3366755f3276b0243c1e0497471b7a":[4,0,1,0,1,7,4],
 "gb_2gbdecompress_8h.html#a3370eefd9a88fdefed71eeb92e6861f2":[4,0,1,0,1,7,0],
@@ -247,7 +249,5 @@ var NAVTREEINDEX2 =
 "gb_2hardware_8h.html#acd0b3763f8599ed65e2d060b159bd91c":[4,0,1,0,1,8,51],
 "gb_2hardware_8h.html#acdbf6b3217f6a5681df94c8b8992d1d6":[4,0,1,0,1,8,114],
 "gb_2hardware_8h.html#ad07fa5e19e334eee03c2fcb8671b2ed3":[4,0,1,0,1,8,188],
-"gb_2hardware_8h.html#ad14c51cdfb347c34c364f54e67dc978d":[4,0,1,0,1,8,219],
-"gb_2hardware_8h.html#ad195d4be68ff54c3926c431fa5511de5":[4,0,1,0,1,8,198],
-"gb_2hardware_8h.html#ad215dbfc83c9486ead2f28510366f40b":[4,0,1,0,1,8,5]
+"gb_2hardware_8h.html#ad14c51cdfb347c34c364f54e67dc978d":[4,0,1,0,1,8,219]
 };
