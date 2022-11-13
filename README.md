@@ -17,9 +17,10 @@ Expirimental consoles (not yet fully functional)
 [![Current Release](https://img.shields.io/github/v/release/gbdk-2020/gbdk-2020?label=Current%20Release)](https://github.com/gbdk-2020/gbdk-2020/releases/latest)
 ![Downloads](https://img.shields.io/github/downloads/gbdk-2020/gbdk-2020/total?label=Total%20Downloads)
 
-<a href="https://github.com/gbdk-2020/gbdk-2020/releases/latest/download/gbdk-win.zip"><img src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white" alt="GBDK-2020 Windows Release"></a> 
 <a href="https://github.com/gbdk-2020/gbdk-2020/releases/latest/download/gbdk-linux64.tar.gz"><img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" alt="GBDK-2020 Linux Release"></a>
 <a href="https://github.com/gbdk-2020/gbdk-2020/releases/latest/download/gbdk-macos.zip"><img src="https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=apple&logoColor=white" alt="GBDK-2020 MacOS Release"></a>
+<a href="https://github.com/gbdk-2020/gbdk-2020/releases/latest/download/gbdk-win64.zip"><img src="https://img.shields.io/badge/Windows%2064%20Bit-0078D6?style=for-the-badge&logo=windows&logoColor=white" alt="GBDK-2020 Windows 64 Bit Release"></a> 
+<a href="https://github.com/gbdk-2020/gbdk-2020/releases/latest/download/gbdk-win32.zip"><img src="https://img.shields.io/badge/32%20Bit-0078D6?style=for-the-badge&logo=windows&logoColor=white" alt="GBDK-2020 Windows 32 Bit"></a> 
 
 <!-- <a href="https://hub.docker.com"><img src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white" alt="Docker"></a> -->
 
