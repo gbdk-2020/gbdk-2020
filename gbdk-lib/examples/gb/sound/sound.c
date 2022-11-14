@@ -3,6 +3,27 @@
 #include <stdint.h>
 #include <stdio.h>
 
+
+inline uint8_t nybble_swap_if_megaduck(uint8_t value) {
+	#ifdef MEGADUCK
+		return ((uint8_t)(value << 4) | (uint8_t)(value >> 4));
+	#else
+		return value;
+	#endif
+}
+
+inline uint8_t NR32_swap_volume_if_megaduck(uint8_t value) {
+	#ifdef MEGADUCK
+		// Translate NR32 volume. New Volume = ((0x00 - Volume) & 0x60)
+		// GB: Bits:6..5 : 00 = mute, 01 = 100%, 10 = 50%, 11 = 25%
+		// MD: Bits:6..5 : 00 = mute, 11 = 100%, 10 = 50%, 01 = 25%
+		return ((~(uint8_t)value) + 1u) & (uint8_t)0x60u;
+	#else
+		return value;
+	#endif
+}
+
+
 #define ARROW_CHAR '>'
 #define SPACE_CHAR ' '
 
@@ -611,15 +632,15 @@ void update_value(uint8_t mode, uint8_t line, uint16_t value)
 	break;
       case 5: // envInitialValue
 	soundReg->mode1.envInitialValue = value;
-	NR12_REG = NR12();
+	NR12_REG = nybble_swap_if_megaduck( NR12() );
 	break;
       case 6: // envMode
 	soundReg->mode1.envMode = value;
-	NR12_REG = NR12();
+	NR12_REG = nybble_swap_if_megaduck( NR12() );
 	break;
       case 7: // envNbSweep
 	soundReg->mode1.envNbSweep = value;
-	NR12_REG = NR12();
+	NR12_REG = nybble_swap_if_megaduck( NR12() );
 	break;
       case 8: // frequency
       case FREQUENCY:
@@ -664,15 +685,15 @@ void update_value(uint8_t mode, uint8_t line, uint16_t value)
 	break;
       case 2: // envInitialValue
 	soundReg->mode2.envInitialValue = value;
-	NR22_REG = NR22();
+	NR22_REG = nybble_swap_if_megaduck( NR22() );
 	break;
       case 3: // envMode
 	soundReg->mode2.envMode = value;
-	NR22_REG = NR22();
+	NR22_REG = nybble_swap_if_megaduck( NR22() );
 	break;
       case 4: // envNbStep
 	soundReg->mode2.envNbStep = value;
-	NR22_REG = NR22();
+	NR22_REG = nybble_swap_if_megaduck( NR22() );
 	break;
       case 5: // frequency
       case FREQUENCY:
@@ -717,7 +738,7 @@ void update_value(uint8_t mode, uint8_t line, uint16_t value)
 	break;
       case 2: // selOutputLevel
 	soundReg->mode3.selOutputLevel = value;
-	NR32_REG = NR32();
+	NR32_REG = NR32_swap_volume_if_megaduck( NR32() );
 	break;
       case 3: // frequency
       case FREQUENCY:
@@ -758,27 +779,27 @@ void update_value(uint8_t mode, uint8_t line, uint16_t value)
 	break;
       case 1: // envInitialValue
 	soundReg->mode4.envInitialValue = value;
-	NR42_REG = NR42();
+	NR42_REG = nybble_swap_if_megaduck( NR42() );
 	break;
       case 2: // envMode
 	soundReg->mode4.envMode = value;
-	NR42_REG = NR42();
+	NR42_REG = nybble_swap_if_megaduck( NR42() );
 	break;
       case 3: // envNbStep
 	soundReg->mode4.envNbStep = value;
-	NR42_REG = NR42();
+	NR42_REG = nybble_swap_if_megaduck( NR42() );
 	break;
       case 4: // polyCounterFreq
 	soundReg->mode4.polyCounterFreq = value;
-	NR43_REG = NR43();
+	NR43_REG = nybble_swap_if_megaduck( NR43() );
 	break;
       case 5: // polyCounterStep
 	soundReg->mode4.polyCounterStep = value;
-	NR43_REG = NR43();
+	NR43_REG = nybble_swap_if_megaduck( NR43() );
 	break;
       case 6: // polyCounterDiv
 	soundReg->mode4.polyCounterDiv = value;
-	NR43_REG = NR43();
+	NR43_REG = nybble_swap_if_megaduck( NR43() );
 	break;
       case 7: // counter_ConsSel
 	soundReg->mode4.counter_ConsSel = value;
@@ -840,6 +861,11 @@ void play_music(uint8_t mode)
 
 
 void show_register_channel(uint8_t mode) {
+
+	#ifdef MEGADUCK
+		gotoxy(0, 15);
+		print("MDuck:Shows GB Eqivs");
+	#endif
 
     switch (mode) {
         case 1:
@@ -1033,27 +1059,32 @@ void main()
   //
   NR52_REG = 0x80;
 
+  // Init Channel 3 Wave RAM to known values
+  // (Match CGB power-on defaults of alternating 00/FF)
+  for (uint8_t c = 0u; c < 16u; c++)
+    AUD3WAVE[c] = (c & 1u) ? 0x00u : 0xFFu;
+
   soundReg = &s;
   NR10_REG = NR10();
   NR11_REG = NR11();
-  NR12_REG = NR12();
+  NR12_REG = nybble_swap_if_megaduck( NR12() );
   NR13_REG = NR13();
   NR14_REG = NR14();
 
   NR21_REG = NR21();
-  NR22_REG = NR22();
+  NR22_REG = nybble_swap_if_megaduck( NR22() );
   NR23_REG = NR23();
   NR24_REG = NR24();
 
   NR30_REG = NR30();
   NR31_REG = NR31();
-  NR32_REG = NR32();
+  NR32_REG = NR32_swap_volume_if_megaduck( NR32() );
   NR33_REG = NR33();
   NR34_REG = NR34();
 
   NR41_REG = NR41();
-  NR42_REG = NR42();
-  NR43_REG = NR43();
+  NR42_REG = nybble_swap_if_megaduck( NR42() );
+  NR43_REG = nybble_swap_if_megaduck( NR43() );
   NR44_REG = NR44();
 
   NR50_REG = NR50();
