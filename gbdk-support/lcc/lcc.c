@@ -871,9 +871,13 @@ static void interrupt(int n) {
 static void opt(char *arg) {
 	switch (arg[1]) {	/* multi-character options */
 	case '-':	// --* options
-		if (strcmp(arg, "--save-preproc") == 0)
+		if (strcmp(arg, "--save-preproc") == 0) {
 			Eflag_preproc_to_file = true;
-		return;
+			return;
+		}
+		// If no match for "--*" options here then break instead of
+		// return in case they need to get processed in option() below
+		break;
 	case 'W':	/* -Wxarg */
 		if (arg[2] && arg[3])
 			switch (arg[2]) {
