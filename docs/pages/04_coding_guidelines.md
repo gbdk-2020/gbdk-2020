@@ -239,23 +239,7 @@ Also See:
 
 
 #  When C isn't fast enough
-@todo Update and verify this section for the modernized SDCC and toolchain
-
 For many applications C is fast enough but in intensive functions are sometimes better written in assembly. This section deals with interfacing your core C program with fast assembly sub routines. 
-
-
-@anchor sdcc_calling_convention
-## Calling convention
-
-SDCC in common with almost all C compilers prepends a `_` to any function names. For example the function `printf(...)` begins at the label `_printf::.` Note that all functions are declared global.
-
-Functions can be marked with `OLDCALL` which will cause them to use the `__sdcccall(0)` calling convention (the format used prior to in SDCC 4.2 & GBDK-2020 4.1.0).
-
-Starting with SDCC 4.2 and GBDK-2020 4.1.0 the new default calling convention is`__sdcccall(1)`.
-
-For details about the calling convetions, see sections `SM83 calling conventions` and `Z80, Z180 and Z80N calling conventions` in the SDCC manual.
-  - http://sdcc.sourceforge.net/doc/sdccman.pdf
-
 
 ## Variables and registers
 <!-- C normally expects registers to be preserved across a function call. However in the case above as DE is used as the return value and HL is used for anything, only BC needs to be preserved. -->
@@ -287,3 +271,59 @@ The use of segments/areas for code, data and variables is more noticeable in ass
     - `_HEAP`: placed after `_INITIALIZED` so that all spare memory is available for the malloc routines.
     - `STACK`: at the end of WRAM
 
+@anchor sdcc_calling_convention
+## Calling convention
+
+SDCC in common with almost all C compilers prepends a `_` to any function names. For example the function `printf(...)` begins at the label `_printf::.` Note that all functions are declared global.
+
+Functions can be marked with `OLDCALL` which will cause them to use the `__sdcccall(0)` calling convention (the format used prior to SDCC 4.2 & GBDK-2020 4.1.0).
+
+Starting with SDCC 4.2 and GBDK-2020 4.1.0 the new default calling convention is`__sdcccall(1)`.
+
+For additional details about the calling convetions, see sections `SM83 calling conventions` and `Z80, Z180 and Z80N calling conventions` in the SDCC manual.
+  - http://sdcc.sourceforge.net/doc/sdccman.pdf
+  - Section 4.3.9 isn't specific about it, but `gbz80`/`sm83` generally share this subheading with `z80` (Game Boy is partially a sub-port of z80 in SDCC). https://sdcc.sourceforge.net/doc/sdccman.pdf#subsection.4.3.9
+
+
+@anchor banked_calling_convention
+### Banked Calling Convention
+_The following is primarily oriented toward the Game Boy and related clones (sm83 devices), other targets such as sms/gg may vary._
+
+Key Points:
+  - Function arguments (if present) are always placed on the stack, right to left without particular alignment
+  - A fixed stack offset (sm83:+4, z80:+3) is added by the `Callee` (to skip the pushed `Caller` Bank and additional `Trampoline` Return Address)
+  - Return values follow the calling convention (`__sdcccall(1)`, or `__sdcccall(0)` for `OLDCALL`)
+
+Terminology:
+- `Caller`: the code which is calling the requested function
+- `Callee`: the function to be called  (declared as `BANKED` or `__banked`)
+- `Trampoline`: The intermediary which performs the bank switching and does hand-off between `Caller` and `Callee` during the call and then return.
+
+Banked Call Trampoline
+  - Banked calls are performed via a trampoline in the non-banked region 0000-3ffff
+  - The `__sdcc_bcall_ehl` trampoline is used by default
+    - With it both calling conventions are supported:  `__sdcccall(1)` (default) or `__sdcccall(0)` for `OLDCALL`
+  - If `--legacy-banking` is specified to SDCC the `__sdcc_bcall` trampoline is used.
+    - This may only be used with `__sdcccall(0)`
+
+Process for a banked call (`using __sdcc_bcall_ehl`, the default)
+1. The Caller
+   - Function arguments (if present) are always placed on the stack, right to left without particular alignment
+   - The Bank of Callee function is placed into register E
+   - The Address of Callee function is placed in HL
+   - Calls the bank switch Trampoline (which adds Caller return address to the stack)
+2. The Trampoline
+   - Saves the Current Bank onto the stack (pushed as AF, so 16 bits)
+   - Switches to the Bank of Callee function (in register E)
+   - Calls the Callee function address in HL (which adds Trampoline return address to the stack)
+3. The Callee Function
+   - SDCC will use an offset to skip the first N bytes of the stack
+     - For `sm83` (GB/AP/DUCK): skip first 4 bytes
+     - For `z80` (GG/SMS/etc): skip first 3 bytes
+   - Return values follow the calling convention (`__sdcccall(1)`, or `__sdcccall(0)` for `OLDCALL`)
+   - Executes a return to Trampoline
+4. The Trampoline
+   - Switches to the Bank of the Caller saved on the stack (and moves Stack Pointer past it)
+   - Executes a return to Caller
+5. The Caller
+   - Cleans up the stack and uses return value (if present)

@@ -81,7 +81,7 @@ The MBC settings below are available when using the makebin `-Wl-yt<N>` switch.
 Source: Pandocs. Additional details available at [Pandocs](https://gbdev.io/pandocs/The_Cartridge_Header.html#0147---cartridge-type "Pandocs")
 
 
-# MBC Type Chart
+## MBC Type Chart
 ```
 0147: Cartridge type:
 0x00: ROM ONLY                  0x12: ROM+MBC3+RAM
@@ -146,9 +146,6 @@ Source: Pandocs. Additional details available at [Pandocs](https://gbdev.io/pand
 
 
 
-
-
-
 ## Getting Bank Numbers
 The bank number for a banked function, variable or source file can be stored and retrieved using the following macros:
   - @ref BANKREF(): create a reference for retrieving the bank number of a variable or function
@@ -173,7 +170,7 @@ The bank number for a banked function, variable or source file can be stored and
 
 @anchor banked_calls
 ### Banked Function Calls
-Banked functions can be called as follows:
+Functions in banks can be called as follows:
   - When defined with the `BANKED` keyword. Example: `void my_function() BANKED { do stuff }` in a source file which has had its bank set (see above).
   - Using @ref far_pointers
   - When defined with an area set up using the `__addressmod` keyword (see the `banks_new` example project and the SDCC manual for details).
@@ -188,12 +185,14 @@ Banked functions (located in a switchable ROM bank)
   - May call `BANKED` functions in any bank: __YES__
     - The compiler and library will manage the bank switching automatically using the bank switching trampoline.
   - May use data in any bank: __NO__
-    - May only use data from Bank 0 and the currently active bank.
+    - May only use data from fixed Bank 0 and the currently active bank.
     - A @ref wrapped_function_for_banked_data "NONBANKED wrapper function" may be used to access data in other banks.
 
 Limitations:
   - SDCC banked calls and far_pointers in GBDK only save one byte for the ROM bank. So, for example, they are limited to __bank 31__ max for MBC1 and __bank 255__ max for MBC5. This is due to the bank switching for those MBCs requiring a second, additional write to select the upper bits for more banks (banks 32+ in MBC1 and banks 256+ in MBC5).
 
+Calling Convention:
+  - For details see @ref banked_calling_convention "Banked Calling Convention"
 
 ## Const Data (Variables in ROM)
 Data declared as `const` (read only) will be stored in ROM in the bank associated with it's source file (if none is specified it defaults to Bank 0). If that bank is a switchable bank then the data is only accesible while the given bank is active.
