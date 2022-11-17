@@ -1576,6 +1576,14 @@ __REG _shadow_OAM_base;
 */
 #define MAX_HARDWARE_SPRITES 40
 
+/** True if sprite hardware can flip sprites horizontally
+*/
+#define HARDWARE_SPRITE_CAN_FLIP_H 1
+
+/** True if sprite hardware can flip sprites vertically
+*/
+#define HARDWARE_SPRITE_CAN_FLIP_V 1
+
 /** Enable OAM DMA copy each VBlank and set it to transfer any 256-byte aligned array
 */
 inline void SET_SHADOW_OAM_ADDRESS(void * address) {
