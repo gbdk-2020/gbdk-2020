@@ -142,36 +142,6 @@ inline uint8_t move_metasprite(const metasprite_t * metasprite, uint8_t base_til
     return __move_metasprite(base_sprite, x, y);
 }
 
-/** Moves metasprite to the absolute position x and y, __flipped on the Y axis__
-
-    @param metasprite   Pointer to the first struct of the metasprite (for the desired frame)
-    @param base_tile    Number of the first tile where the metasprite's tiles start
-    @param base_sprite  Number of the first hardware sprite to be used by the metasprite
-    @param x            Absolute x coordinate of the sprite
-    @param y            Absolute y coordinate of the sprite
-
-    Same as @ref move_metasprite(), but with the metasprite flipped on the Y axis only.
-
-    Sets:
-    \li __current_metasprite = metasprite;
-    \li __current_base_tile = base_tile;
-
-    Note: Overwrites OAM sprite properties (such as CGB palette), see
-          @ref metasprite_and_sprite_properties "Metasprites and sprite properties".
-
-    This function is only available on Game Boy and related clone consoles.
-
-    @return Number of hardware sprites used to draw this metasprite
-
-    @see move_metasprite()
-*/
-inline uint8_t move_metasprite_vflip(const metasprite_t * metasprite, uint8_t base_tile, uint8_t base_sprite, uint8_t x, uint8_t y) {
-    __current_metasprite = metasprite;
-    __current_base_tile = base_tile;
-    return __move_metasprite_vflip(base_sprite, x - 8, y);
-}
-
-
 /** Moves metasprite to the absolute position x and y, __flipped on the X axis__
 
     @param metasprite   Pointer to the first struct of the metasprite (for the desired frame)
@@ -198,7 +168,37 @@ inline uint8_t move_metasprite_vflip(const metasprite_t * metasprite, uint8_t ba
 inline uint8_t move_metasprite_hflip(const metasprite_t * metasprite, uint8_t base_tile, uint8_t base_sprite, uint8_t x, uint8_t y) {
     __current_metasprite = metasprite;
     __current_base_tile = base_tile;
-    return __move_metasprite_hflip(base_sprite, x, y - ((LCDC_REG & 0x04U) ? 16 : 8) );
+    return __move_metasprite_hflip(base_sprite, x - 8, y);
+}
+
+
+/** Moves metasprite to the absolute position x and y, __flipped on the Y axis__
+
+    @param metasprite   Pointer to the first struct of the metasprite (for the desired frame)
+    @param base_tile    Number of the first tile where the metasprite's tiles start
+    @param base_sprite  Number of the first hardware sprite to be used by the metasprite
+    @param x            Absolute x coordinate of the sprite
+    @param y            Absolute y coordinate of the sprite
+
+    Same as @ref move_metasprite(), but with the metasprite flipped on the Y axis only.
+
+    Sets:
+    \li __current_metasprite = metasprite;
+    \li __current_base_tile = base_tile;
+
+    Note: Overwrites OAM sprite properties (such as CGB palette), see
+          @ref metasprite_and_sprite_properties "Metasprites and sprite properties".
+
+    This function is only available on Game Boy and related clone consoles.
+
+    @return Number of hardware sprites used to draw this metasprite
+
+    @see move_metasprite()
+*/
+inline uint8_t move_metasprite_vflip(const metasprite_t * metasprite, uint8_t base_tile, uint8_t base_sprite, uint8_t x, uint8_t y) {
+    __current_metasprite = metasprite;
+    __current_base_tile = base_tile;
+    return __move_metasprite_vflip(base_sprite, x, y - ((LCDC_REG & 0x04U) ? 16 : 8) );
 }
 
 /** Moves metasprite to the absolute position x and y, __flipped on the X and Y axis__

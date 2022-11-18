@@ -9,9 +9,9 @@
 
         .area   _CODE
 
-; uint8_t __move_metasprite(uint8_t id, uint8_t x, uint8_t y)
+; uint8_t __move_metasprite_vflip(uint8_t id, uint8_t x, uint8_t y)
 
-___move_metasprite_hflip::
+___move_metasprite_vflip::
         ldhl    sp, #4
         ld      a, (hl-)
         ld      b, a
@@ -74,7 +74,9 @@ ___move_metasprite_hflip::
 
         ret
 
-___move_metasprite_vflip::
+; uint8_t __move_metasprite_hflip(uint8_t id, uint8_t x, uint8_t y)
+
+___move_metasprite_hflip::
         ldhl    sp, #4
         ld      a, (hl-)
         ld      b, a
@@ -136,6 +138,8 @@ ___move_metasprite_vflip::
         ld      e, a
 
         ret
+
+; uint8_t __move_metasprite_hvflip(uint8_t id, uint8_t x, uint8_t y)
 
 ___move_metasprite_hvflip::
         ldhl    sp, #4
