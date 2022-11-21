@@ -627,6 +627,14 @@ extern volatile uint8_t _shadow_OAM_OFF;
 */
 #define MAX_HARDWARE_SPRITES 32
 
+/** True if sprite hardware can flip sprites horizontally
+*/
+#define HARDWARE_SPRITE_CAN_FLIP_H 0
+
+/** True if sprite hardware can flip sprites vertically
+*/
+#define HARDWARE_SPRITE_CAN_FLIP_V 0
+
 /** Sets address of 256-byte aligned array of shadow OAM to be transferred on each VBlank
 */
 inline void SET_SHADOW_OAM_ADDRESS(void * address) {

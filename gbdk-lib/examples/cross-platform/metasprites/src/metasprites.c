@@ -1,3 +1,5 @@
+#include <stdint.h>
+
 #include <gbdk/platform.h>
 #include <gbdk/metasprites.h>
 
@@ -26,7 +28,7 @@ uint16_t PosX, PosY;
 int16_t SpdX, SpdY;
 uint8_t PosF;
 uint8_t hide, jitter;
-uint8_t idx;
+uint8_t idx, rot;
 
 // main funxction
 void main(void) {
@@ -59,7 +61,7 @@ void main(void) {
     PosX = PosY = 96 << 4;
     SpdX = SpdY = 0;
 
-    hide = 0; jitter = 0; idx = 0;
+    hide = 0; jitter = 0; idx = 0; rot = 0;
 
     while(1) {        
         // poll joypads
@@ -100,18 +102,41 @@ void main(void) {
             jitter = 10;
         }
 
+        // Press SELECT button to cycle metasprite through Normal/Flip-Y/Flip-XY/Flip-X
+        if ((joypads.joy0 & J_SELECT) && (!jitter) && (!hide)) {
+            rot++; rot &= 3;
+            jitter = 20;
+        }
+
         // Hide/Animate/Flip input throttling
         if (jitter) jitter--;
 
         PosX += SpdX, PosY += SpdY; 
 
         uint8_t hiwater = 0;
-	
-        // Hide the metasprite or move it
+
+        // NOTE: In a real game it would be better to only call the move_metasprite..()
+        //       functions if something changed (such as movement or rotation). That
+        //       reduces CPU usage on frames that don't need updates.
+        //
+        // In this example they are called every frame to simplify the example code
+
+        // Hide the metasprite or move it & apply any rotation settings
         if (hide)
             hide_metasprite(sprite_metasprites[idx], SPR_NUM_START);
         else
-            hiwater = move_metasprite(sprite_metasprites[idx], TILE_NUM_START, SPR_NUM_START, (PosX >> 4), (PosY >> 4));
+            switch (rot) {
+#if HARDWARE_SPRITE_CAN_FLIP_V
+                case 1: hiwater = move_metasprite_hflip(sprite_metasprites[idx], TILE_NUM_START, SPR_NUM_START, (PosX >> 4), (PosY >> 4)); break;
+#endif
+#if HARDWARE_SPRITE_CAN_FLIP_H && HARDWARE_SPRITE_CAN_FLIP_V
+                case 2: hiwater = move_metasprite_hvflip(sprite_metasprites[idx], TILE_NUM_START, SPR_NUM_START, (PosX >> 4), (PosY >> 4)); break;
+#endif
+#if HARDWARE_SPRITE_CAN_FLIP_H
+                case 3: hiwater = move_metasprite_vflip(sprite_metasprites[idx], TILE_NUM_START, SPR_NUM_START, (PosX >> 4), (PosY >> 4)); break;
+#endif
+                default: hiwater = move_metasprite(sprite_metasprites[idx], TILE_NUM_START, SPR_NUM_START, (PosX >> 4), (PosY >> 4)); break;
+            };
 
         // Hide rest of the hardware sprites, because amount of sprites differ between animation frames.
         hide_sprites_range(hiwater, MAX_HARDWARE_SPRITES);        
@@ -119,16 +144,16 @@ void main(void) {
         // Y Axis: update velocity (reduce speed) if no U/D button pressed
         if (!(PosF & ACC_Y)) {
             if (SpdY != 0) {
-                if (SpdY < 0) SpdY++;
-                else SpdY --;
+                if (SpdY > 0) SpdY--;
+                else SpdY ++;
             }
         }
 
         // X Axis: update velocity (reduce speed) if no L/R button pressed
         if (!(PosF & ACC_X)) {
             if (SpdX != 0) {
-                if (SpdX < 0) SpdX++;
-                else SpdX --;
+                if (SpdX > 0) SpdX--;
+                else SpdX ++;
             }
         }
 
