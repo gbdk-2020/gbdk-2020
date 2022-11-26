@@ -23,6 +23,12 @@ enum {
 	SPR_16x16_MSX
 };
 
+enum {
+	PROPS_GB,
+	PROPS_NES
+};
+
+
 bool export_map_binary();
 bool export_h_file(void);
 bool export_c_file(void);
@@ -61,6 +67,7 @@ bool export_c_file(void);
 	int tile_w = 8;
 	int tile_h = 16;
 	int sprite_mode = SPR_8x16;
+	int props_mode = PROPS_GB;
 
 	int bpp = 2;
 	unsigned int tile_origin = 0; // Default to no tile index offset
@@ -301,6 +308,20 @@ bool FindTile(const Tile& t, size_t& idx, unsigned char& props)
 	return false;
 }
 
+uint8_t GetSpriteProps(int props_mode, int props, int pal_idx)
+{
+    int h = (props >> 5) & 1;
+    int v = (props >> 6) & 1;
+    switch(props_mode)
+    {
+        case PROPS_NES:
+            return (v << 7) | (h << 6) | pal_idx;
+        case PROPS_GB:
+        default:
+            return (v << 6) | (h << 5) | pal_idx;
+    }
+}
+
 void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y)
 {
 	int last_x = _x + pivot_x;
@@ -340,7 +361,7 @@ void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y)
 					}
 				}
 
-				props |= pal_idx;
+				props = GetSpriteProps(props_mode, props, pal_idx);
 
 				// Scale up index based on 8x8 tiles-per-hardware sprite
 				if (sprite_mode == SPR_8x16)
@@ -767,6 +788,7 @@ int main(int argc, char* argv[])
 		printf("-map                Export as map (tileset + bg)\n");
 		printf("-use_map_attributes Use CGB BG Map attributes\n");
 		printf("-use_nes_attributes Use NES BG Map attributes\n");
+        printf("-use_nes_props      Use NES sprite props\n");
 		printf("-use_nes_colors     Convert RGB color values to NES PPU colors\n");
 		printf("-use_structs        Group the exported info into structs (default: false) (used by ZGB Game Engine)\n");
 		printf("-bpp                bits per pixel: 1, 2, 4 (default: 2)\n");
@@ -868,6 +890,10 @@ int main(int argc, char* argv[])
 			use_map_attributes = true;
 			use_2x2_map_attributes = true;
 			pack_map_attributes = true;
+		}
+		else if(!strcmp(argv[i], "-use_nes_props"))
+		{
+			props_mode = PROPS_NES;
 		}
 		else if (!strcmp(argv[i], "-use_nes_colors"))
 		{
