@@ -76,7 +76,6 @@ ___move_metasprite_loop:
     sta _shadow_OAM+OAM_TILE_INDEX,x
     lda [*___current_metasprite],y      ; props
     iny
-    ; TODO: Handle attributes in png2asset
     sta _shadow_OAM+OAM_ATTRIBUTES,x
     inx
     inx
@@ -112,7 +111,6 @@ ___move_metasprite_vflip_loop:
     lda [*___current_metasprite],y      ; props
     eor #OAMF_XFLIP
     iny
-    ; TODO: Handle attributes in png2asset
     sta _shadow_OAM+OAM_ATTRIBUTES,x
     inx
     inx
@@ -149,7 +147,6 @@ ___move_metasprite_hflip_loop:
     lda [*___current_metasprite],y      ; props
     eor #OAMF_YFLIP
     iny
-    ; TODO: Handle attributes in png2asset
     sta _shadow_OAM+OAM_ATTRIBUTES,x
     inx
     inx
@@ -186,7 +183,6 @@ ___move_metasprite_hvflip_loop:
     lda [*___current_metasprite],y      ; props
     eor #OAMF_YFLIP+OAMF_XFLIP
     iny
-    ; TODO: Handle attributes in png2asset
     sta _shadow_OAM+OAM_ATTRIBUTES,x
     inx
     inx

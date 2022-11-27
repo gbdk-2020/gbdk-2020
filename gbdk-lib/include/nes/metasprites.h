@@ -82,7 +82,8 @@ typedef struct metasprite_t {
 } metasprite_t;
 
 #define metasprite_end -128
-#define METASPR_ITEM(dy,dx,dt,a) {(dy),(dx),(dt),(a)}
+#define FLAGS_GB_TO_NES(a) (((a & 0x40) << 1) | ((a & 0x20) << 1) | (a & 0x3))
+#define METASPR_ITEM(dy,dx,dt,a) {(dy),(dx),(dt),FLAGS_GB_TO_NES(a)}
 #define METASPR_TERM {metasprite_end}
 
 extern const void * __current_metasprite;
