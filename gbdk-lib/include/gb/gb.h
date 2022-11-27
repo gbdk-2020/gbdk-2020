@@ -80,6 +80,10 @@
     @see set_sprite_prop()
 */
 #define S_PRIORITY   0x80U
+/** Defines how palette number is encoded in OAM.
+    Required for the png2asset tool's metasprite output.
+*/
+#define S_PAL(n)     n
 
 /* Interrupt flags */
 /** Disable calling of interrupt service routines
