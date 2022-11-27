@@ -1,11 +1,12 @@
     .include    "global.s"
 
     .area   OSEG (PAG, OVR)
-    _set_bkg_palette_PARM_3::   .ds 2
+    _set_bkg_palette_PARM_3::
+    _set_sprite_palette_PARM_3::
+    _set_bkg_palette_entry_PARM_3::
+    _set_sprite_palette_entry_PARM_3::
+    .ds 2
     .num_entries:               .ds 1
-    .define _set_sprite_palette_PARM_3 "_set_bkg_palette_PARM_3"
-    .define _set_bkg_palette_entry_PARM_3 "_set_bkg_palette_PARM_3"
-    .define _set_sprite_palette_entry_PARM_3 "_set_bkg_palette_PARM_3"
     .define .src "_set_bkg_palette_PARM_3"
 
     .area   _HOME
