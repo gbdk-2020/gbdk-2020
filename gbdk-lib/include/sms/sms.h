@@ -78,6 +78,10 @@
 /** If set the background tile priority.
  */
 #define S_PRIORITY   0x10U
+/** Dummy function used by other platforms.
+    Required for the png2asset tool's metasprite output.
+*/
+#define S_PAL(n)     0
 
 // VDP helper macros
 #define __WRITE_VDP_REG(REG, v) shadow_##REG=(v);__critical{VDP_CMD=(shadow_##REG),VDP_CMD=REG;}

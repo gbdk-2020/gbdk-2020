@@ -1367,12 +1367,21 @@ bool export_c_file(void) {
 			for(vector< MetaSprite >::iterator it = sprites.begin(); it != sprites.end(); ++ it)
 			{
 				fprintf(file, "const metasprite_t %s_metasprite%d[] = {\n", data_name.c_str(), (int)(it - sprites.begin()));
-				fprintf(file, "\t");
 				for(MetaSprite::iterator it2 = (*it).begin(); it2 != (*it).end(); ++ it2)
-				{
-					fprintf(file, "METASPR_ITEM(%d, %d, %d, %d), ", (*it2).offset_y, (*it2).offset_x, (*it2).offset_idx, (*it2).props);
+				{                    
+					int pal_idx = (*it2).props & 0xF;
+                    int flip_x = ((*it2).props >> 5) & 1;
+                    int flip_y = ((*it2).props >> 6) & 1;
+					fprintf(file,
+					        "\tMETASPR_ITEM(%d, %d, %d, S_PAL(%d)%s%s),\n",
+					        (*it2).offset_y,
+					        (*it2).offset_x,
+					        (*it2).offset_idx,
+					        pal_idx,
+					        flip_x ? " | S_FLIPX" : "",
+					        flip_y ? " | S_FLIPY" : "");
 				}
-				fprintf(file, "METASPR_TERM\n");
+				fprintf(file, "\tMETASPR_TERM\n");
 				fprintf(file, "};\n\n");
 			}
 

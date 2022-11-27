@@ -109,6 +109,10 @@ void set_sprite_palette_entry(uint8_t palette, uint8_t entry, palette_color_t rg
     @see set_sprite_prop()
 */
 #define S_PRIORITY   0x20U
+/** Defines how palette number is encoded in OAM.
+    Required for the png2asset tool's metasprite output.
+*/
+#define S_PAL(n)     n
 
 /* DMG Palettes */
 #define DMG_BLACK     0x03
