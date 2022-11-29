@@ -92,7 +92,16 @@ void hide_sprites_range(UINT8 from, UINT8 to) Z88DK_CALLEE PRESERVES_REGS(iyh, i
     \li __current_base_tile = base_tile;
 
     @return Number of hardware sprites used to draw this metasprite
- */
+*/
+inline uint8_t move_metasprite_ex(const metasprite_t * metasprite, uint8_t base_tile, uint8_t base_prop, uint8_t base_sprite, uint8_t x, uint8_t y) {
+    base_prop;
+    __current_metasprite = metasprite; 
+    __current_base_tile = base_tile;
+    return __move_metasprite(base_sprite, x, y); 
+}
+
+/** Obsolete
+*/
 inline uint8_t move_metasprite(const metasprite_t * metasprite, uint8_t base_tile, uint8_t base_sprite, uint8_t x, uint8_t y) {
     __current_metasprite = metasprite; 
     __current_base_tile = base_tile;

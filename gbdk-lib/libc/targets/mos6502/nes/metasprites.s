@@ -86,6 +86,7 @@ ___move_metasprite_end:
     jmp .move_metasprite_epilogue
 
 ; uint8_t __move_metasprite_vflip(uint8_t id, uint8_t x, uint8_t y)
+___move_metasprite_flipx::
 ___move_metasprite_vflip::
     jsr .move_metasprite_prologue
 ___move_metasprite_vflip_loop:
@@ -121,6 +122,7 @@ ___move_metasprite_vflip_end:
     jmp .move_metasprite_epilogue
 
 ; uint8_t __move_metasprite_hflip(uint8_t id, uint8_t x, uint8_t y)
+___move_metasprite_flipy::
 ___move_metasprite_hflip::
     jsr .move_metasprite_prologue
 ___move_metasprite_hflip_loop:
@@ -157,6 +159,7 @@ ___move_metasprite_hflip_end:
     jmp .move_metasprite_epilogue
 
 ; uint8_t __move_metasprite_hvflip(uint8_t id, uint8_t x, uint8_t y)
+___move_metasprite_flipxy::
 ___move_metasprite_hvflip::
     jsr .move_metasprite_prologue
 ___move_metasprite_hvflip_loop:

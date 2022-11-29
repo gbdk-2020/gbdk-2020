@@ -9,6 +9,8 @@ ___current_metasprite::
         .ds     0x02
 ___current_base_tile::
         .ds     0x01
+___current_base_prop::
+	.ds     0x01
 
         .area   _INITIALIZED
 ___render_shadow_OAM::
@@ -63,7 +65,9 @@ ___move_metasprite::
         ld      (de), a
         inc     e
 
-        ld      a, (hl+)    ; props
+	ld      a, (___current_base_prop)
+        add     (hl)        ; props
+        inc     hl
         ld      (de), a
         inc     e
 

@@ -5,12 +5,13 @@
 
         .area   _DATA
 
-        .globl ___current_metasprite, ___current_base_tile, ___render_shadow_OAM
+        .globl ___current_metasprite, ___current_base_tile, ___current_base_prop, ___render_shadow_OAM
 
         .area   _CODE
 
 ; uint8_t __move_metasprite(uint8_t id, uint8_t x, uint8_t y)
 
+___move_metasprite_flipy::
 ___move_metasprite_hflip::
         ldhl    sp, #4
         ld      a, (hl-)
@@ -55,7 +56,9 @@ ___move_metasprite_hflip::
         ld      (de), a
         inc     e
 
-        ld      a, (hl+)    ; props
+	ld      a, (___current_base_prop)
+        add     (hl)        ; props
+        inc     hl
         xor     #0x40
         ld      (de), a
         inc     e
@@ -74,6 +77,7 @@ ___move_metasprite_hflip::
 
         ret
 
+___move_metasprite_flipx::
 ___move_metasprite_vflip::
         ldhl    sp, #4
         ld      a, (hl-)
@@ -118,7 +122,9 @@ ___move_metasprite_vflip::
         ld      (de), a
         inc     e
 
-        ld      a, (hl+)    ; props
+	ld      a, (___current_base_prop)
+        add     (hl)        ; props
+        inc     hl
         xor     #0x20
         ld      (de), a
         inc     e
@@ -137,6 +143,7 @@ ___move_metasprite_vflip::
 
         ret
 
+___move_metasprite_flipxy::
 ___move_metasprite_hvflip::
         ldhl    sp, #4
         ld      a, (hl-)
@@ -183,7 +190,9 @@ ___move_metasprite_hvflip::
         ld      (de), a
         inc     e
 
-        ld      a, (hl+)    ; props
+	ld      a, (___current_base_prop)
+        add     (hl)        ; props
+        inc     hl
         xor     #0x60
         ld      (de), a
         inc     e

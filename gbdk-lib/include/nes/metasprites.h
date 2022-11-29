@@ -125,13 +125,22 @@ void hide_sprites_range(UINT8 from, UINT8 to) OLDCALL;
 
     @return Number of hardware sprites used to draw this metasprite
  */
+inline uint8_t move_metasprite_ex(const metasprite_t * metasprite, uint8_t base_tile, uint8_t base_prop, uint8_t base_sprite, uint8_t x, uint8_t y) {
+    base_prop;
+    __current_metasprite = metasprite;
+    __current_base_tile = base_tile;
+    return __move_metasprite(base_sprite, x, y);
+}
+
+/** Obsolete
+*/
 inline uint8_t move_metasprite(const metasprite_t * metasprite, uint8_t base_tile, uint8_t base_sprite, uint8_t x, uint8_t y) {
     __current_metasprite = metasprite;
     __current_base_tile = base_tile;
     return __move_metasprite(base_sprite, x, y);
 }
 
-/** Moves metasprite to the absolute position x and y, __flipped on the Y axis__
+/** Moves metasprite to the absolute position x and y, __flipped by X__
 
     @param metasprite   Pointer to the first struct of the metasprite (for the desired frame)
     @param base_tile    Number of the first tile where the metasprite's tiles start
@@ -139,7 +148,7 @@ inline uint8_t move_metasprite(const metasprite_t * metasprite, uint8_t base_til
     @param x            Absolute x coordinate of the sprite
     @param y            Absolute y coordinate of the sprite
 
-    Same as @ref move_metasprite(), but with the metasprite flipped on the Y axis only.
+    Same as @ref move_metasprite(), but with the metasprite flipped by X.
 
     Sets:
     \li __current_metasprite = metasprite;
@@ -151,6 +160,15 @@ inline uint8_t move_metasprite(const metasprite_t * metasprite, uint8_t base_til
     @return Number of hardware sprites used to draw this metasprite
 
     @see move_metasprite()
+*/
+inline uint8_t move_metasprite_flipx(const metasprite_t * metasprite, uint8_t base_tile, uint8_t base_prop, uint8_t base_sprite, uint8_t x, uint8_t y) {
+    base_prop;
+    __current_metasprite = metasprite;
+    __current_base_tile = base_tile;
+    return __move_metasprite_vflip(base_sprite, x - 8, y);
+}
+
+/** Obsolete
 */
 inline uint8_t move_metasprite_vflip(const metasprite_t * metasprite, uint8_t base_tile, uint8_t base_sprite, uint8_t x, uint8_t y) {
     __current_metasprite = metasprite;
@@ -159,7 +177,7 @@ inline uint8_t move_metasprite_vflip(const metasprite_t * metasprite, uint8_t ba
 }
 
 
-/** Moves metasprite to the absolute position x and y, __flipped on the X axis__
+/** Moves metasprite to the absolute position x and y, __flipped by Y__
 
     @param metasprite   Pointer to the first struct of the metasprite (for the desired frame)
     @param base_tile    Number of the first tile where the metasprite's tiles start
@@ -167,7 +185,7 @@ inline uint8_t move_metasprite_vflip(const metasprite_t * metasprite, uint8_t ba
     @param x            Absolute x coordinate of the sprite
     @param y            Absolute y coordinate of the sprite
 
-    Same as @ref move_metasprite(), but with the metasprite flipped on the X axis only.
+    Same as @ref move_metasprite(), but with the metasprite flipped by Y.
 
     Sets:
     \li __current_metasprite = metasprite;
@@ -180,13 +198,22 @@ inline uint8_t move_metasprite_vflip(const metasprite_t * metasprite, uint8_t ba
 
     @see move_metasprite()
 */
+inline uint8_t move_metasprite_flipy(const metasprite_t * metasprite, uint8_t base_tile, uint8_t base_prop, uint8_t base_sprite, uint8_t x, uint8_t y) {
+    base_prop;
+    __current_metasprite = metasprite;
+    __current_base_tile = base_tile;
+    return __move_metasprite_hflip(base_sprite, x, y - ((shadow_PPUCTRL & PPUCTRL_SPR_8X16) ? 16 : 8) );
+}
+
+/** Obsolete
+*/
 inline uint8_t move_metasprite_hflip(const metasprite_t * metasprite, uint8_t base_tile, uint8_t base_sprite, uint8_t x, uint8_t y) {
     __current_metasprite = metasprite;
     __current_base_tile = base_tile;
     return __move_metasprite_hflip(base_sprite, x, y - ((shadow_PPUCTRL & PPUCTRL_SPR_8X16) ? 16 : 8) );
 }
 
-/** Moves metasprite to the absolute position x and y, __flipped on the X and Y axis__
+/** Moves metasprite to the absolute position x and y, __flipped by X and Y__
 
     @param metasprite   Pointer to the first struct of the metasprite (for the desired frame)
     @param base_tile    Number of the first tile where the metasprite's tiles start
@@ -194,7 +221,7 @@ inline uint8_t move_metasprite_hflip(const metasprite_t * metasprite, uint8_t ba
     @param x            Absolute x coordinate of the sprite
     @param y            Absolute y coordinate of the sprite
 
-    Same as @ref move_metasprite(), but with the metasprite flipped on both the X and Y axis.
+    Same as @ref move_metasprite(), but with the metasprite flipped by X and Y.
 
     Sets:
     \li __current_metasprite = metasprite;
@@ -206,6 +233,15 @@ inline uint8_t move_metasprite_hflip(const metasprite_t * metasprite, uint8_t ba
     @return Number of hardware sprites used to draw this metasprite
 
     @see move_metasprite()
+*/
+inline uint8_t move_metasprite_flipxy(const metasprite_t * metasprite, uint8_t base_tile, uint8_t base_prop, uint8_t base_sprite, uint8_t x, uint8_t y) {
+    base_prop;
+    __current_metasprite = metasprite;
+    __current_base_tile = base_tile;
+    return __move_metasprite_hvflip(base_sprite, x - 8, y - ((shadow_PPUCTRL & PPUCTRL_SPR_8X16) ? 16 : 8));
+}
+
+/** Obsolete
 */
 inline uint8_t move_metasprite_hvflip(const metasprite_t * metasprite, uint8_t base_tile, uint8_t base_sprite, uint8_t x, uint8_t y) {
     __current_metasprite = metasprite;
