@@ -65,6 +65,9 @@ extern uint8_t __render_shadow_OAM;
 
 
 static uint8_t __move_metasprite(uint8_t id, uint8_t x, uint8_t y) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
+static uint8_t __move_metasprite_flipx(uint8_t id, uint8_t x, uint8_t y) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
+static uint8_t __move_metasprite_flipy(uint8_t id, uint8_t x, uint8_t y) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
+static uint8_t __move_metasprite_flipxy(uint8_t id, uint8_t x, uint8_t y) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
 static void __hide_metasprite(uint8_t id) Z88DK_FASTCALL PRESERVES_REGS(iyh, iyl);
 
 /**
@@ -106,6 +109,90 @@ inline uint8_t move_metasprite(const metasprite_t * metasprite, uint8_t base_til
     __current_metasprite = metasprite; 
     __current_base_tile = base_tile;
     return __move_metasprite(base_sprite, x, y); 
+}
+
+/** Moves metasprite to the absolute position x and y, __flipped by X__
+
+    @param metasprite   Pointer to the first struct of the metasprite (for the desired frame)
+    @param base_tile    Number of the first tile where the metasprite's tiles start
+    @param base_sprite  Number of the first hardware sprite to be used by the metasprite
+    @param x            Absolute x coordinate of the sprite
+    @param y            Absolute y coordinate of the sprite
+
+    Same as @ref move_metasprite(), but with the metasprite flipped by X.
+
+    Sets:
+    \li __current_metasprite = metasprite;
+    \li __current_base_tile = base_tile;
+
+    Note: Overwrites OAM sprite properties (such as palette), see
+          @ref metasprite_and_sprite_properties "Metasprites and sprite properties".
+
+    @return Number of hardware sprites used to draw this metasprite
+
+    @see move_metasprite()
+*/
+inline uint8_t move_metasprite_flipx(const metasprite_t * metasprite, uint8_t base_tile, uint8_t base_prop, uint8_t base_sprite, uint8_t x, uint8_t y) {
+    base_prop;
+    __current_metasprite = metasprite;
+    __current_base_tile = base_tile;
+    return __move_metasprite_flipx(base_sprite, x - 8, y);
+}
+
+/** Moves metasprite to the absolute position x and y, __flipped by Y__
+
+    @param metasprite   Pointer to the first struct of the metasprite (for the desired frame)
+    @param base_tile    Number of the first tile where the metasprite's tiles start
+    @param base_sprite  Number of the first hardware sprite to be used by the metasprite
+    @param x            Absolute x coordinate of the sprite
+    @param y            Absolute y coordinate of the sprite
+
+    Same as @ref move_metasprite(), but with the metasprite flipped by Y.
+
+    Sets:
+    \li __current_metasprite = metasprite;
+    \li __current_base_tile = base_tile;
+
+    Note: Overwrites OAM sprite properties (such as palette), see
+          @ref metasprite_and_sprite_properties "Metasprites and sprite properties".
+
+    @return Number of hardware sprites used to draw this metasprite
+
+    @see move_metasprite()
+*/
+inline uint8_t move_metasprite_flipy(const metasprite_t * metasprite, uint8_t base_tile, uint8_t base_prop, uint8_t base_sprite, uint8_t x, uint8_t y) {
+    base_prop;
+    __current_metasprite = metasprite;
+    __current_base_tile = base_tile;
+    return __move_metasprite_flipy(base_sprite, x, y - ((__READ_VDP_REG(VDP_R1) & R1_SPR_8X16) ? 16 : 8) );
+}
+
+/** Moves metasprite to the absolute position x and y, __flipped by X and Y__
+
+    @param metasprite   Pointer to the first struct of the metasprite (for the desired frame)
+    @param base_tile    Number of the first tile where the metasprite's tiles start
+    @param base_sprite  Number of the first hardware sprite to be used by the metasprite
+    @param x            Absolute x coordinate of the sprite
+    @param y            Absolute y coordinate of the sprite
+
+    Same as @ref move_metasprite(), but with the metasprite flipped by X and Y.
+
+    Sets:
+    \li __current_metasprite = metasprite;
+    \li __current_base_tile = base_tile;
+
+    Note: Overwrites OAM sprite properties (such as palette), see
+          @ref metasprite_and_sprite_properties "Metasprites and sprite properties".
+
+    @return Number of hardware sprites used to draw this metasprite
+
+    @see move_metasprite()
+*/
+inline uint8_t move_metasprite_flipxy(const metasprite_t * metasprite, uint8_t base_tile, uint8_t base_prop, uint8_t base_sprite, uint8_t x, uint8_t y) {
+    base_prop;
+    __current_metasprite = metasprite;
+    __current_base_tile = base_tile;
+    return __move_metasprite_flipxy(base_sprite, x - 8, y - ((__READ_VDP_REG(VDP_R1) & R1_SPR_8X16) ? 16 : 8));
 }
 
 /** Hides a metasprite from the screen
