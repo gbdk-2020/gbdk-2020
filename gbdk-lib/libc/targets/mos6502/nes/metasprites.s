@@ -6,9 +6,13 @@
     .area	OSEG (PAG, OVR)
     ___current_metasprite::     .ds 2
     ___current_base_tile::      .ds 1
+    ___current_base_prop::      .ds 1
     ___move_metasprite_hflip_PARM_3::
     ___move_metasprite_vflip_PARM_3::
     ___move_metasprite_hvflip_PARM_3::
+    ___move_metasprite_flipx_PARM_3::
+    ___move_metasprite_flipy_PARM_3::
+    ___move_metasprite_flipxy_PARM_3::
     ___move_metasprite_PARM_3:: .ds 2
 
     .area   _INITIALIZED
@@ -75,6 +79,7 @@ ___move_metasprite_loop:
     adc *___current_base_tile
     sta _shadow_OAM+OAM_TILE_INDEX,x
     lda [*___current_metasprite],y      ; props
+    adc *___current_base_prop
     iny
     sta _shadow_OAM+OAM_ATTRIBUTES,x
     inx
@@ -110,6 +115,7 @@ ___move_metasprite_vflip_loop:
     adc *___current_base_tile
     sta _shadow_OAM+OAM_TILE_INDEX,x
     lda [*___current_metasprite],y      ; props
+    adc *___current_base_prop
     eor #OAMF_XFLIP
     iny
     sta _shadow_OAM+OAM_ATTRIBUTES,x
@@ -147,6 +153,7 @@ ___move_metasprite_hflip_loop:
     adc *___current_base_tile
     sta _shadow_OAM+OAM_TILE_INDEX,x
     lda [*___current_metasprite],y      ; props
+    adc *___current_base_prop
     eor #OAMF_YFLIP
     iny
     sta _shadow_OAM+OAM_ATTRIBUTES,x
@@ -184,6 +191,7 @@ ___move_metasprite_hvflip_loop:
     adc *___current_base_tile
     sta _shadow_OAM+OAM_TILE_INDEX,x
     lda [*___current_metasprite],y      ; props
+    adc *___current_base_prop
     eor #OAMF_YFLIP+OAMF_XFLIP
     iny
     sta _shadow_OAM+OAM_ATTRIBUTES,x

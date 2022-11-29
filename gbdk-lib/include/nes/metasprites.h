@@ -87,10 +87,14 @@ typedef struct metasprite_t {
 
 extern const void * __current_metasprite;
 extern uint8_t __current_base_tile;
+extern uint8_t __current_base_prop;
 extern uint8_t __render_shadow_OAM;
 
 
 static uint8_t __move_metasprite(uint8_t id, uint8_t x, uint8_t y) OLDCALL;
+static uint8_t __move_metasprite_flipx(uint8_t id, uint8_t x, uint8_t y) OLDCALL;
+static uint8_t __move_metasprite_flipy(uint8_t id, uint8_t x, uint8_t y) OLDCALL;
+static uint8_t __move_metasprite_flipxy(uint8_t id, uint8_t x, uint8_t y) OLDCALL;
 static uint8_t __move_metasprite_vflip(uint8_t id, uint8_t x, uint8_t y) OLDCALL;
 static uint8_t __move_metasprite_hflip(uint8_t id, uint8_t x, uint8_t y) OLDCALL;
 static uint8_t __move_metasprite_hvflip(uint8_t id, uint8_t x, uint8_t y) OLDCALL;
@@ -129,6 +133,7 @@ inline uint8_t move_metasprite_ex(const metasprite_t * metasprite, uint8_t base_
     base_prop;
     __current_metasprite = metasprite;
     __current_base_tile = base_tile;
+    __current_base_prop = base_prop;
     return __move_metasprite(base_sprite, x, y);
 }
 
@@ -137,6 +142,7 @@ inline uint8_t move_metasprite_ex(const metasprite_t * metasprite, uint8_t base_
 inline uint8_t move_metasprite(const metasprite_t * metasprite, uint8_t base_tile, uint8_t base_sprite, uint8_t x, uint8_t y) {
     __current_metasprite = metasprite;
     __current_base_tile = base_tile;
+    __current_base_prop = 0;
     return __move_metasprite(base_sprite, x, y);
 }
 
@@ -165,7 +171,8 @@ inline uint8_t move_metasprite_flipx(const metasprite_t * metasprite, uint8_t ba
     base_prop;
     __current_metasprite = metasprite;
     __current_base_tile = base_tile;
-    return __move_metasprite_vflip(base_sprite, x - 8, y);
+    __current_base_prop = base_prop;
+    return __move_metasprite_flipx(base_sprite, x - 8, y);
 }
 
 /** Obsolete
@@ -173,6 +180,7 @@ inline uint8_t move_metasprite_flipx(const metasprite_t * metasprite, uint8_t ba
 inline uint8_t move_metasprite_vflip(const metasprite_t * metasprite, uint8_t base_tile, uint8_t base_sprite, uint8_t x, uint8_t y) {
     __current_metasprite = metasprite;
     __current_base_tile = base_tile;
+    __current_base_prop = 0;
     return __move_metasprite_vflip(base_sprite, x - 8, y);
 }
 
@@ -202,7 +210,8 @@ inline uint8_t move_metasprite_flipy(const metasprite_t * metasprite, uint8_t ba
     base_prop;
     __current_metasprite = metasprite;
     __current_base_tile = base_tile;
-    return __move_metasprite_hflip(base_sprite, x, y - ((shadow_PPUCTRL & PPUCTRL_SPR_8X16) ? 16 : 8) );
+    __current_base_prop = base_prop;
+    return __move_metasprite_flipy(base_sprite, x, y - ((shadow_PPUCTRL & PPUCTRL_SPR_8X16) ? 16 : 8) );
 }
 
 /** Obsolete
@@ -210,6 +219,7 @@ inline uint8_t move_metasprite_flipy(const metasprite_t * metasprite, uint8_t ba
 inline uint8_t move_metasprite_hflip(const metasprite_t * metasprite, uint8_t base_tile, uint8_t base_sprite, uint8_t x, uint8_t y) {
     __current_metasprite = metasprite;
     __current_base_tile = base_tile;
+    __current_base_prop = 0;
     return __move_metasprite_hflip(base_sprite, x, y - ((shadow_PPUCTRL & PPUCTRL_SPR_8X16) ? 16 : 8) );
 }
 
@@ -238,7 +248,8 @@ inline uint8_t move_metasprite_flipxy(const metasprite_t * metasprite, uint8_t b
     base_prop;
     __current_metasprite = metasprite;
     __current_base_tile = base_tile;
-    return __move_metasprite_hvflip(base_sprite, x - 8, y - ((shadow_PPUCTRL & PPUCTRL_SPR_8X16) ? 16 : 8));
+    __current_base_prop = base_prop;
+    return __move_metasprite_flipxy(base_sprite, x - 8, y - ((shadow_PPUCTRL & PPUCTRL_SPR_8X16) ? 16 : 8));
 }
 
 /** Obsolete
@@ -246,6 +257,7 @@ inline uint8_t move_metasprite_flipxy(const metasprite_t * metasprite, uint8_t b
 inline uint8_t move_metasprite_hvflip(const metasprite_t * metasprite, uint8_t base_tile, uint8_t base_sprite, uint8_t x, uint8_t y) {
     __current_metasprite = metasprite;
     __current_base_tile = base_tile;
+    __current_base_prop = 0;
     return __move_metasprite_hvflip(base_sprite, x - 8, y - ((shadow_PPUCTRL & PPUCTRL_SPR_8X16) ? 16 : 8));
 }
 
