@@ -85,6 +85,6 @@ void main() {
             scroll_bkg(0, 1);
         }
         
-        wait_vbl_done();
+        vsync();
     }
 }

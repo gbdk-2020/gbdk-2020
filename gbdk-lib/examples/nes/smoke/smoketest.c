@@ -3,6 +3,6 @@
 void main() {
     DISPLAY_ON;
     while(TRUE) {
-        wait_vbl_done();
+        vsync();
     }
 }

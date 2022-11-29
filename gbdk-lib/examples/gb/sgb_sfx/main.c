@@ -140,7 +140,7 @@ void main(void) {
 
     // Wait 4 frames
     // For SGB on PAL SNES this delay is required on startup, otherwise borders don't show up
-    for (uint8_t i = 4; i != 0; i--) wait_vbl_done();
+    for (uint8_t i = 4; i != 0; i--) vsync();
 
     DISPLAY_ON;
 
@@ -150,7 +150,7 @@ void main(void) {
         update_display();
 
         while(1) {
-            wait_vbl_done();
+            vsync();
 
             keys_last = keys;
             keys = joypad();

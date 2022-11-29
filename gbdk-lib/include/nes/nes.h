@@ -326,7 +326,7 @@ inline void disable_interrupts() {
     __asm__("sei");
 }
 
-/** Waits for the vertical blank interrupt (VBL) to finish.
+/** Waits for the vertical blank interrupt.
 
     This is often used in main loops to idle the CPU
     until it's time to start the next frame. It's also useful for
@@ -334,6 +334,10 @@ inline void disable_interrupts() {
 
     Warning: If the VBL interrupt is disabled, this function will
     never return.
+*/
+void vsync();
+
+/** Obsolete
 */
 void wait_vbl_done();
 

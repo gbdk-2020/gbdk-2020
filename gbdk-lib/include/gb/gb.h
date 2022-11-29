@@ -764,7 +764,7 @@ void set_interrupts(uint8_t flags) OLDCALL PRESERVES_REGS(b, c, d, e);
 */
 void reset();
 
-/** HALTs the CPU and waits for the vertical blank interrupt (VBL) to finish.
+/** HALTs the CPU and waits for the vertical blank interrupt.
 
     This is often used in main loops to idle the CPU at low power
     until it's time to start the next frame. It's also useful for
@@ -773,6 +773,10 @@ void reset();
     Warning: If the VBL interrupt is disabled, this function will
     never return. If the screen is off this function returns
     immediately.
+*/
+void vsync() PRESERVES_REGS(b, c, d, e, h, l);
+
+/** Obsolete
 */
 void wait_vbl_done() PRESERVES_REGS(b, c, d, e, h, l);
 

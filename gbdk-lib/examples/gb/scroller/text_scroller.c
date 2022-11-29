@@ -67,6 +67,6 @@ void main() {
             // put next char
             set_vram_byte(scroller_vram_addr, *scroller_next_char - 0x20);
         }
-        wait_vbl_done();        
+        vsync();        
     }
 }

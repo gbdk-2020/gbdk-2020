@@ -1056,7 +1056,7 @@ void wait_event(uint8_t mode)
 			keys = 0;
 			break;
 		}
-		wait_vbl_done();
+		vsync();
 		UPDATE_KEYS();
     }
   }

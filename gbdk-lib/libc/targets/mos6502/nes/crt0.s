@@ -547,6 +547,7 @@ __crt0_clearVRAM_loop:
 
 .wait_vbl_done::
 _wait_vbl_done::
+_vsync::
     lda *_sys_time
 _wait_vbl_done_waitForNextFrame_loop:
     cmp *_sys_time

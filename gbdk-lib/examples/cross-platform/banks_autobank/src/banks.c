@@ -71,6 +71,6 @@ void main(void)
   while(1) {
 
     // Yield CPU till the end of each frame
-    wait_vbl_done();
+    vsync();
   }
 }

@@ -583,7 +583,7 @@ void main()
   while(1) {
     /* Skip four VBLs (slow down animation) */
     for(i = 0; i < 4; i++)
-      wait_vbl_done();
+      vsync();
     time++;
     fade();
     door();

@@ -349,22 +349,22 @@ void splash()
   SHOW_SPRITES;
 
   for(; cursor_x < 120; cursor_x++) {
-    wait_vbl_done();
+    vsync();
     move_cursor();
     plot(cursor_x, cursor_y, BLACK, SOLID);
   }
   for(; cursor_y < 94; cursor_y++) {
-    wait_vbl_done();
+    vsync();
     move_cursor();
     plot(cursor_x, cursor_y, BLACK, SOLID);
   }
   for(; cursor_x > 40; cursor_x--) {
-    wait_vbl_done();
+    vsync();
     move_cursor();
     plot(cursor_x, cursor_y, BLACK, SOLID);
   }
   for(; cursor_y > 50; cursor_y--) {
-    wait_vbl_done();
+    vsync();
     move_cursor();
     plot(cursor_x, cursor_y, BLACK, SOLID);
   }
@@ -402,7 +402,7 @@ void menu()
   SHOW_SPRITES;
   waitpadup();
   do {
-    wait_vbl_done();
+    vsync();
     key = joypad();
     if(key & (J_UP|J_DOWN|J_LEFT|J_RIGHT)) {
       if(key & J_UP)
@@ -415,7 +415,7 @@ void menu()
 	menu_cursor_pos = icons[menu_cursor_pos].right;
       move_menu_cursor();
       while(slowdown && key == joypad()) {
-	wait_vbl_done();
+	vsync();
 	slowdown--;
       }
       slowdown = 10;
@@ -465,7 +465,7 @@ void run()
   SHOW_SPRITES;
 
   while(1) {
-    wait_vbl_done();
+    vsync();
     key = joypad();
     if(key & (J_UP|J_DOWN|J_LEFT|J_RIGHT)) {
       if(key & J_UP && cursor_y > 0)
@@ -478,7 +478,7 @@ void run()
 	cursor_x++;
       move_cursor();
       while(slowdown && key == joypad()) {
-	wait_vbl_done();
+	vsync();
 	slowdown--;
       }
       slowdown = 1;

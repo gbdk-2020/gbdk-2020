@@ -39,7 +39,7 @@ void main() {
     SHOW_BKG;
 
     while (TRUE) {
-        wait_vbl_done();        
+        vsync();        
         scanline_offsets = &scanline_offsets_tbl[(uint8_t)(sys_time >> 2) & 0x07u];
     }
 }

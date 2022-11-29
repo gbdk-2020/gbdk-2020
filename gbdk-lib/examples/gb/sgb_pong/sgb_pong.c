@@ -139,6 +139,6 @@ void main(void) {
         move_sprite(3, ballX, ballY);
 
         // wait for VBlank to slow down everything
-        wait_vbl_done();
+        vsync();
     }
 }

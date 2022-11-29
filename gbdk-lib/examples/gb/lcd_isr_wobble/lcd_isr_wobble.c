@@ -22,7 +22,7 @@ void main() {
     set_interrupts(VBL_IFLAG | LCD_IFLAG);
 
     while (1) {
-        wait_vbl_done();        
+        vsync();        
         scanline_offsets = &scanline_offsets_tbl[(uint8_t)(sys_time >> 2) & 0x07u];
     }
 }

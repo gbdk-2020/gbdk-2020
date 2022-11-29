@@ -88,9 +88,9 @@ void main(){
             }
         } 
         if (redraw) {
-            wait_vbl_done();
+            vsync();
             set_camera();
             redraw = FALSE;
-        } else wait_vbl_done();
+        } else vsync();
     }
 }

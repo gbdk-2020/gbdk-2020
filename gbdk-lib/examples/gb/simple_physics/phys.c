@@ -88,6 +88,6 @@ void main(void) {
         } else SpdX ++;
 
         // Done processing, yield CPU and wait for start of next frame (VBlank)
-        wait_vbl_done();
+        vsync();
     }
 }

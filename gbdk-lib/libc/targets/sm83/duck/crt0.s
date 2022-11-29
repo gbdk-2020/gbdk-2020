@@ -412,6 +412,7 @@ gsinit::
         ;; Wait for VBL interrupt to be finished
 .wait_vbl_done::
 _wait_vbl_done::
+_vsync::
         ;; Check if the screen is on
         LDH     A,(.LCDC)
         AND     #LCDCF_ON

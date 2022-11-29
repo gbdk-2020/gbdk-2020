@@ -574,7 +574,7 @@ void main()
 	ch_pos = 0;
 
 	while(1) {
-		wait_vbl_done();
+		vsync();
 		key1 = joypad();
 
 		if(key1 != key2){

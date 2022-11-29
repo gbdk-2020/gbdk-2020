@@ -184,6 +184,7 @@ _WRITE_VDP_DATA::
         ;; Wait for VBL interrupt to be finished
 .wait_vbl_done::
 _wait_vbl_done::
+_vsync::
         ld  a, (_shadow_VDP_R1)
         and #.R1_DISP_ON
         ret z

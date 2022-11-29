@@ -26,6 +26,6 @@ void main(void)
 
 
 		// Done processing, yield CPU and wait for start of next frame
-        wait_vbl_done();
+        vsync();
     }
 }

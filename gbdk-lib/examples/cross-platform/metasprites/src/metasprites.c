@@ -158,7 +158,7 @@ void main(void) {
         }
 
         // wait for VBlank to slow down everything and reduce cpu use when idle
-        wait_vbl_done();
+        vsync();
     }
 }
 

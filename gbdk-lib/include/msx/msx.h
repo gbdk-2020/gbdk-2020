@@ -202,7 +202,7 @@ inline void scroll_bkg(int8_t x, int8_t y) {
 	__WRITE_VDP_REG(VDP_RSCY, (tmp < 0) ? 224 + tmp : tmp % 224u);
 }
 
-/** HALTs the CPU and waits for the vertical blank interrupt (VBL) to finish.
+/** HALTs the CPU and waits for the vertical blank interrupt.
 
     This is often used in main loops to idle the CPU at low power
     until it's time to start the next frame. It's also useful for
@@ -211,6 +211,10 @@ inline void scroll_bkg(int8_t x, int8_t y) {
     Warning: If the VBL interrupt is disabled, this function will
     never return. If the screen is off this function returns
     immediately.
+*/
+void vsync() PRESERVES_REGS(b, c, d, e, h, l, iyh, iyl);
+
+/** Obsolete
 */
 void wait_vbl_done() PRESERVES_REGS(b, c, d, e, h, l, iyh, iyl);
 
