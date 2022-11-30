@@ -126,13 +126,13 @@ void main(void) {
             hide_metasprite(sprite_metasprites[idx], SPR_NUM_START);
         else
             switch (rot) {
-#if HARDWARE_SPRITE_CAN_FLIP_V
+#if HARDWARE_SPRITE_CAN_FLIP_Y
                 case 1: hiwater = move_metasprite_flipy(sprite_metasprites[idx], TILE_NUM_START, 0, SPR_NUM_START, (PosX >> 4), (PosY >> 4)); break;
 #endif
-#if HARDWARE_SPRITE_CAN_FLIP_H && HARDWARE_SPRITE_CAN_FLIP_V
+#if HARDWARE_SPRITE_CAN_FLIP_X && HARDWARE_SPRITE_CAN_FLIP_Y
                 case 2: hiwater = move_metasprite_flipxy(sprite_metasprites[idx], TILE_NUM_START, 0, SPR_NUM_START, (PosX >> 4), (PosY >> 4)); break;
 #endif
-#if HARDWARE_SPRITE_CAN_FLIP_H
+#if HARDWARE_SPRITE_CAN_FLIP_X
                 case 3: hiwater = move_metasprite_flipx(sprite_metasprites[idx], TILE_NUM_START, 0, SPR_NUM_START, (PosX >> 4), (PosY >> 4)); break;
 #endif
                 default: hiwater = move_metasprite_ex(sprite_metasprites[idx], TILE_NUM_START, 0, SPR_NUM_START, (PosX >> 4), (PosY >> 4)); break;
