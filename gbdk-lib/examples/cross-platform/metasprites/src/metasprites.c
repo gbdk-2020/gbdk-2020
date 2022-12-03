@@ -30,9 +30,38 @@ uint8_t PosF;
 uint8_t hide, jitter;
 uint8_t idx, rot;
 
+const palette_color_t gray_pal[4] = {   RGB8(255,255,255),
+                                        RGB8(170,170,170),
+                                        RGB8(85,85,85),
+                                        RGB8(0,0,0) };
+const palette_color_t pink_pal[4] = {   RGB8(255,255,255),
+                                        RGB8(255,0,255),
+                                        RGB8(170,0,170),
+                                        RGB8(85,0,85) };
+const palette_color_t cyan_pal[4] = {   RGB8(255,255,255),
+                                        RGB8(85,255,255),
+                                        RGB8(0,170,170),
+                                        RGB8(0,85,85) };
+const palette_color_t green_pal[4] = {  RGB8(255,255,255),
+                                        RGB8(170,255,170),
+                                        RGB8(0,170,0),
+                                        RGB8(0,85,0) };
+
 // main funxction
 void main(void) {
     DISPLAY_OFF;
+
+#if defined(GAMEBOY)
+    set_sprite_palette(OAMF_CGB_PAL0, 1, gray_pal);
+    set_sprite_palette(OAMF_CGB_PAL1, 1, pink_pal);
+    set_sprite_palette(OAMF_CGB_PAL2, 1, cyan_pal);
+    set_sprite_palette(OAMF_CGB_PAL3, 1, green_pal);
+#elif defined(NINTENDO_ENTERTAINMENT_SYSTEM)
+    set_sprite_palette(4, 1, gray_pal);
+    set_sprite_palette(5, 1, pink_pal);
+    set_sprite_palette(6, 1, cyan_pal);
+    set_sprite_palette(7, 1, green_pal);
+#endif
 
     // Fill the screen background with a single tile pattern
     fill_bkg_rect(0, 0, DEVICE_SCREEN_WIDTH, DEVICE_SCREEN_HEIGHT, 0);
@@ -104,7 +133,7 @@ void main(void) {
 
         // Press SELECT button to cycle metasprite through Normal/Flip-Y/Flip-XY/Flip-X
         if ((joypads.joy0 & J_SELECT) && (!jitter) && (!hide)) {
-            rot++; rot &= 3;
+            rot++; rot &= 0xF;
             jitter = 20;
         }
 
@@ -125,18 +154,21 @@ void main(void) {
         if (hide)
             hide_metasprite(sprite_metasprites[idx], SPR_NUM_START);
         else
-            switch (rot) {
+        {
+            uint8_t subpal = rot >> 2;
+            switch (rot & 0x3) {
 #if HARDWARE_SPRITE_CAN_FLIP_Y
-                case 1: hiwater = move_metasprite_flipy(sprite_metasprites[idx], TILE_NUM_START, 0, SPR_NUM_START, (PosX >> 4), (PosY >> 4)); break;
+                case 1: hiwater = move_metasprite_flipy(sprite_metasprites[idx], TILE_NUM_START, subpal, SPR_NUM_START, (PosX >> 4), (PosY >> 4)); break;
 #endif
 #if HARDWARE_SPRITE_CAN_FLIP_X && HARDWARE_SPRITE_CAN_FLIP_Y
-                case 2: hiwater = move_metasprite_flipxy(sprite_metasprites[idx], TILE_NUM_START, 0, SPR_NUM_START, (PosX >> 4), (PosY >> 4)); break;
+                case 2: hiwater = move_metasprite_flipxy(sprite_metasprites[idx], TILE_NUM_START, subpal, SPR_NUM_START, (PosX >> 4), (PosY >> 4)); break;
 #endif
 #if HARDWARE_SPRITE_CAN_FLIP_X
-                case 3: hiwater = move_metasprite_flipx(sprite_metasprites[idx], TILE_NUM_START, 0, SPR_NUM_START, (PosX >> 4), (PosY >> 4)); break;
+                case 3: hiwater = move_metasprite_flipx(sprite_metasprites[idx], TILE_NUM_START, subpal, SPR_NUM_START, (PosX >> 4), (PosY >> 4)); break;
 #endif
-                default: hiwater = move_metasprite_ex(sprite_metasprites[idx], TILE_NUM_START, 0, SPR_NUM_START, (PosX >> 4), (PosY >> 4)); break;
+                default: hiwater = move_metasprite_ex(sprite_metasprites[idx], TILE_NUM_START, subpal, SPR_NUM_START, (PosX >> 4), (PosY >> 4)); break;
             };
+        }
 
         // Hide rest of the hardware sprites, because amount of sprites differ between animation frames.
         hide_sprites_range(hiwater, MAX_HARDWARE_SPRITES);        
