@@ -39,8 +39,6 @@
 
 const unsigned char pattern[] = {0x80,0x80,0x40,0x40,0x20,0x20,0x10,0x10,0x08,0x08,0x04,0x04,0x02,0x02,0x01,0x01};
 
-joypads_t joypads;
-
 #define ACC_X 1
 #define ACC_Y 2
 
@@ -62,7 +60,7 @@ unsigned char flipped_data[16];
 size_t num_tiles;
 
 // Table for fast reversing of bits in a byte - used for flipping in X
-UBYTE reverse_bits[256] = {
+const UBYTE reverse_bits[256] = {
     0x00,0x80,0x40,0xC0,0x20,0xA0,0x60,0xE0,0x10,0x90,0x50,0xD0,0x30,0xB0,0x70,0xF0,
     0x08,0x88,0x48,0xC8,0x28,0xA8,0x68,0xE8,0x18,0x98,0x58,0xD8,0x38,0xB8,0x78,0xF8,
     0x04,0x84,0x44,0xC4,0x24,0xA4,0x64,0xE4,0x14,0x94,0x54,0xD4,0x34,0xB4,0x74,0xF4,
@@ -96,6 +94,7 @@ void set_tile(UBYTE tile_idx, UBYTE* data, UBYTE flip_x, UBYTE flip_y)
 
 uint8_t get_tile_offset(uint8_t flipx, uint8_t flipy)
 {
+    flipx; flipy; // suppress compiler warnings
     uint8_t offset = 0;
 #if !HARDWARE_SPRITE_CAN_FLIP_Y
     offset += flipy ? num_tiles : 0;
@@ -105,6 +104,28 @@ uint8_t get_tile_offset(uint8_t flipx, uint8_t flipy)
     offset += flipx ? num_tiles : 0;
 #endif
     return offset;
+}
+
+// Load metasprite tile data into VRAM, one tile at a time.
+// For each tile, create a duplicate flipped in X and/or Y
+// That's placed at tile index = get_tile_offset(flipX?, flipY?)
+void load_and_duplicate_sprite_tile_data()
+{
+    size_t i;
+    num_tiles = sizeof(sprite_tiles) >> 4;
+    for(i = 0; i < num_tiles; i++)
+    {
+        set_tile(i + get_tile_offset(0, 0), sprite_tiles + (i << 4), 0, 0);
+#if !HARDWARE_SPRITE_CAN_FLIP_X
+        set_tile(i + get_tile_offset(1, 0), sprite_tiles + (i << 4), 1, 0);
+#endif
+#if !HARDWARE_SPRITE_CAN_FLIP_Y
+        set_tile(i + get_tile_offset(0, 1), sprite_tiles + (i << 4), 0, 1);
+#endif
+#if !HARDWARE_SPRITE_CAN_FLIP_X && !HARDWARE_SPRITE_CAN_FLIP_Y
+        set_tile(i + get_tile_offset(1, 1), sprite_tiles + (i << 4), 1, 1);
+#endif
+    }
 }
 
 const palette_color_t gray_pal[4] = {   RGB8(255,255,255),
@@ -126,7 +147,6 @@ const palette_color_t green_pal[4] = {  RGB8(255,255,255),
 
 // main funxction
 void main(void) {
-    size_t i;
     DISPLAY_OFF;
 
 #if defined(GAMEBOY)
@@ -147,21 +167,8 @@ void main(void) {
     // set tile data for background
     set_bkg_data(0, 1, pattern);
 
-    // Load metasprite tile data into VRAM, one tile at a time
-    num_tiles = sizeof(sprite_tiles) >> 4;
-    for(i = 0; i < num_tiles; i++)
-    {
-        set_tile(i + get_tile_offset(0, 0), sprite_tiles + (i << 4), 0, 0);
-#if !HARDWARE_SPRITE_CAN_FLIP_X
-        set_tile(i + get_tile_offset(1, 0), sprite_tiles + (i << 4), 1, 0);
-#endif
-#if !HARDWARE_SPRITE_CAN_FLIP_Y
-        set_tile(i + get_tile_offset(0, 1), sprite_tiles + (i << 4), 0, 1);
-#endif
-#if !HARDWARE_SPRITE_CAN_FLIP_X && !HARDWARE_SPRITE_CAN_FLIP_Y
-        set_tile(i + get_tile_offset(1, 1), sprite_tiles + (i << 4), 1, 1);
-#endif
-    }
+    // Load (and flip) sprite tile data
+    load_and_duplicate_sprite_tile_data();
 
     // show bkg and sprites
     SHOW_BKG; SHOW_SPRITES;
@@ -174,9 +181,6 @@ void main(void) {
     #endif
     DISPLAY_ON;
 
-    // init 1 joypad
-    joypad_init(1, &joypads);
- 
     // Set initial position, zero out speed
     PosX = PosY = 96 << 4;
     SpdX = SpdY = 0;
@@ -185,38 +189,38 @@ void main(void) {
 
     while(1) {        
         // poll joypads
-        joypad_ex(&joypads);
+        uint8_t joyp = joypad();
         
         PosF = 0;
         // game object
-        if (joypads.joy0 & J_UP) {
+        if (joyp & J_UP) {
             SpdY -= 2;
             if (SpdY < -32) SpdY = -32;
             PosF |= ACC_Y;
-        } else if (joypads.joy0 & J_DOWN) {
+        } else if (joyp & J_DOWN) {
             SpdY += 2;
             if (SpdY > 32) SpdY = 32;
             PosF |= ACC_Y;
         }
 
-        if (joypads.joy0 & J_LEFT) {
+        if (joyp & J_LEFT) {
             SpdX -= 2;
             if (SpdX < -32) SpdX = -32;
             PosF |= ACC_X;
-        } else if (joypads.joy0 & J_RIGHT) {
+        } else if (joyp & J_RIGHT) {
             SpdX += 2;
             if (SpdX > 32) SpdX = 32;
             PosF |= ACC_X;
         }
 
         // Press B button to cycle through metasprite animations
-        if ((joypads.joy0 & J_B) && (!jitter)) {
+        if ((joyp & J_B) && (!jitter)) {
             idx++; if (idx >= (sizeof(sprite_metasprites) >> 1)) idx = 0;
             jitter = 10;
         }
 
         // Press A button to cycle metasprite through Normal/Flip-Y/Flip-XY/Flip-X and sub-pals
-        if ((joypads.joy0 & J_A) && (!jitter)) {
+        if ((joyp & J_A) && (!jitter)) {
             rot++; rot &= 0xF;
             jitter = 20;
         }
