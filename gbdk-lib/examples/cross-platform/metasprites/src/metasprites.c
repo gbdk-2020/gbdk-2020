@@ -96,6 +96,7 @@ void set_tile(UBYTE tile_idx, UBYTE* data, UBYTE flip_x, UBYTE flip_y)
 
 uint8_t get_tile_offset(uint8_t flipx, uint8_t flipy)
 {
+    flipx; flipy; // suppress compiler warnings
     uint8_t offset = 0;
 #if !HARDWARE_SPRITE_CAN_FLIP_Y
     offset += flipy ? num_tiles : 0;

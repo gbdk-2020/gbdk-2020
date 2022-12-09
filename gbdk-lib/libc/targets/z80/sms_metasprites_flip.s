@@ -5,23 +5,11 @@
 
         .area   _DATA
 
-___current_metasprite:: 
-        .ds     0x02
-___current_base_tile::
-        .ds     0x01
-
-        .area   _INITIALIZED
-___render_shadow_OAM::
-        .ds     0x01
-        
-        .area   _INITIALIZER
-        .db     #>_shadow_OAM
+        .globl ___current_metasprite, ___current_base_tile, ___render_shadow_OAM
 
         .area   _CODE
 
-; uint8_t __move_metasprite(uint8_t id, uint8_t x, uint8_t y) __z88dk_callee __preserves_regs(iyh,iyl);
-
-___move_metasprite::
+.macro MOVE_METASPRITE_BODY neg_dx neg_dy
         ld      hl, #4
         add     hl, sp
 
@@ -40,6 +28,9 @@ ___move_metasprite::
         inc     hl
         cp      #0x80
         jp      z, 2$
+.ifne neg_dy
+        neg                     ; apply flipy (or no-op)
+.endif
         add     b        
         ld      b, a
         cp      #0xD0
@@ -57,6 +48,9 @@ ___move_metasprite::
 
         ld      a, (hl)         ; dx
         inc     hl
+.ifne neg_dx
+        neg                     ; apply flipx (or no-op)
+.endif
         add     c
         ld      c, a
         ld      (de), a
@@ -80,3 +74,13 @@ ___move_metasprite::
         sub     c
         ld      l, a
         ret
+.endm
+
+___move_metasprite_flipx::
+    MOVE_METASPRITE_BODY 1,0
+
+___move_metasprite_flipy::
+    MOVE_METASPRITE_BODY 0,1
+
+___move_metasprite_flipxy::
+    MOVE_METASPRITE_BODY 1,1
