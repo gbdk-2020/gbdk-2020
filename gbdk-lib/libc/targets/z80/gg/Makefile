@@ -16,7 +16,8 @@ ASSRC =	set_interrupts.s \
 	coords_to_address.s \
 	set_tile.s \
 	sms_fill_rect.s sms_fill_rect_xy.s sms_fill_rect_compat.s sms_fill_rect_xy_compat.s \
-	sms_metasprites.s sms_metasprites_flip.s sms_metasprites_hide.s sms_metasprites_hide_spr.s \
+	sms_metasprites.s sms_metasprites_flipx.s sms_metasprites_flipy.s sms_metasprites_flipxy.s \
+	sms_metasprites_hide.s sms_metasprites_hide_spr.s \
 	f_ibm_full.s f_ibm_sh.s f_italic.s f_min.s f_spect.s \
 	font.s color.s \
 	putchar.s \
