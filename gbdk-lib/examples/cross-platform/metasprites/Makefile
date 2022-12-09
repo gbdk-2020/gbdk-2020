@@ -58,7 +58,7 @@ all: $(TARGETS)
 # -c ...   : Set C output file
 # Convert metasprite .pngs in res/ -> .c files in obj/<platform ext>/src/
 $(RESOBJSRC)/%.c:	$(RESDIR)/%.png
-	$(PNG2ASSET) $< -sh 48 -spr8x16 -noflip -c $@
+	$(PNG2ASSET) $< -sh 48 -spr8x8 -noflip -c $@
 
 # Compile the Metasprite pngs that were converted to .c files
 # .c files in obj/<platform ext>/src/ -> .o files in obj/
