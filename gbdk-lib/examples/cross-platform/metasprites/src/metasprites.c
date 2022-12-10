@@ -24,6 +24,7 @@
 // cursor -> Moves metasprite position in X/Y
 // A      -> Rotates the metasprite through X/Y flip states, and then through sub-palettes
 // B      -> Animates the metasprite
+//
 
 #include <stdint.h>
 
@@ -36,8 +37,12 @@
 //  Makefile adds part of that path as an include when compiling. Example: -Iobj/gb
 #include <res/sprite.h>
 
+// Constants for tile dimensions
+#define TILE_WIDTH          8
+#define TILE_HEIGHT         8
+#define NUM_BYTES_PER_TILE  16
 
-const unsigned char pattern[] = {0x80,0x80,0x40,0x40,0x20,0x20,0x10,0x10,0x08,0x08,0x04,0x04,0x02,0x02,0x01,0x01};
+const uint8_t pattern[] = {0x80,0x80,0x40,0x40,0x20,0x20,0x10,0x10,0x08,0x08,0x04,0x04,0x02,0x02,0x01,0x01};
 
 #define ACC_X 1
 #define ACC_Y 2
@@ -55,12 +60,12 @@ uint8_t PosF;
 uint8_t hide, jitter;
 uint8_t idx, rot;
 
-unsigned char flipped_data[16];
+uint8_t flipped_data[NUM_BYTES_PER_TILE];
 
 size_t num_tiles;
 
 // Table for fast reversing of bits in a byte - used for flipping in X
-const UBYTE reverse_bits[256] = {
+const uint8_t reverse_bits[256] = {
     0x00,0x80,0x40,0xC0,0x20,0xA0,0x60,0xE0,0x10,0x90,0x50,0xD0,0x30,0xB0,0x70,0xF0,
     0x08,0x88,0x48,0xC8,0x28,0xA8,0x68,0xE8,0x18,0x98,0x58,0xD8,0x38,0xB8,0x78,0xF8,
     0x04,0x84,0x44,0xC4,0x24,0xA4,0x64,0xE4,0x14,0x94,0x54,0xD4,0x34,0xB4,0x74,0xF4,
@@ -79,13 +84,16 @@ const UBYTE reverse_bits[256] = {
     0x0F,0x8F,0x4F,0xCF,0x2F,0xAF,0x6F,0xEF,0x1F,0x9F,0x5F,0xDF,0x3F,0xBF,0x7F,0xFF
 };
 
-// Helper function to flip tile
-void set_tile(UBYTE tile_idx, UBYTE* data, UBYTE flip_x, UBYTE flip_y)
+// Helper function to flip tile in X/Y
+// Note this assumes 2BPP tile in GB format, where bitplanes are interleaved.
+// Currently all platforms use GB format for 2BPP tile data storage, irrespective
+// of what their native tile format is, as set_sprite_data handles the conversion.
+void set_tile(uint8_t tile_idx, uint8_t* data, uint8_t flip_x, uint8_t flip_y)
 {
     size_t i;
-    for(i = 0; i < 8; i++)
+    for(i = 0; i < TILE_HEIGHT; i++)
     {
-        size_t y = flip_y ? (7-i) : i; 
+        size_t y = flip_y ? (TILE_HEIGHT-1-i) : i; 
         flipped_data[2*i] = flip_x ? reverse_bits[data[2*y]] : data[2*y];
         flipped_data[2*i+1] = flip_x ? reverse_bits[data[2*y+1]] : data[2*y+1];
     }
@@ -145,7 +153,7 @@ const palette_color_t green_pal[4] = {  RGB8(255,255,255),
                                         RGB8(0,170,0),
                                         RGB8(0,85,0) };
 
-// main funxction
+// Main function
 void main(void) {
     DISPLAY_OFF;
 
@@ -164,13 +172,13 @@ void main(void) {
     // Fill the screen background with a single tile pattern
     fill_bkg_rect(0, 0, DEVICE_SCREEN_WIDTH, DEVICE_SCREEN_HEIGHT, 0);
 
-    // set tile data for background
+    // Set tile data for background
     set_bkg_data(0, 1, pattern);
 
     // Load (and flip) sprite tile data
     load_and_duplicate_sprite_tile_data();
 
-    // show bkg and sprites
+    // Show bkg and sprites
     SHOW_BKG; SHOW_SPRITES;
 
     // Check what size hardware sprite the metasprite is using (from sprite.h)
@@ -188,11 +196,11 @@ void main(void) {
     hide = 0; jitter = 0; idx = 0; rot = 0;
 
     while(1) {        
-        // poll joypads
+        // Poll joypads
         uint8_t joyp = joypad();
         
         PosF = 0;
-        // game object
+        // Game object
         if (joyp & J_UP) {
             SpdY -= 2;
             if (SpdY < -32) SpdY = -32;
@@ -299,8 +307,8 @@ void main(void) {
             }
         }
 
-        // wait for VBlank to slow down everything and reduce cpu use when idle
+        // Wait for VBlank to slow down everything, and reduce CPU power use on 
+        // handheld systems.
         vsync();
     }
 }
-
