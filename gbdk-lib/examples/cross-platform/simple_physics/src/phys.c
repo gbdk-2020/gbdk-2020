@@ -42,9 +42,10 @@ uint8_t joy  = 0, old_joy;
 
 // main function
 void main(void) {
+#ifdef NINTENDO
     // init palettes
     BGP_REG = OBP0_REG = OBP1_REG = DMG_PALETTE(DMG_WHITE, DMG_LITE_GRAY, DMG_DARK_GRAY, DMG_BLACK);
-
+#endif
     // load tile data into VRAM
     set_sprite_data(0, 4, sprite_data);
     
