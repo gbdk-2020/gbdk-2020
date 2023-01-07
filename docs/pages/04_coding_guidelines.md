@@ -191,15 +191,13 @@ Parameters (chars, ints, etc) to @ref printf / @ref sprintf should always be exp
 
 For example, below will result in the likely unintended output:
 ```{.c}
-sprintf(str_temp, "%u, %d, %x\n", UINT16_MAX, INT16_MIN, UINT16_MAX);
-printf("%s",str_temp);
+printf(str_temp, "%u, %d, %x\n", UINT16_MAX, INT16_MIN, UINT16_MAX);
 
 // Will output: "65535, 0, 8000"
 ```
 Instead this will give the intended output:
 ```{.c}
-sprintf(str_temp, "%u, %d, %x\n", (uint16_t)UINT16_MAX, (int16_t)INT16_MIN, (uint16_t)UINT16_MAX);
-printf("%s",str_temp);
+printf(str_temp, "%u, %d, %x\n", (uint16_t)UINT16_MAX, (int16_t)INT16_MIN, (uint16_t)UINT16_MAX);
 
 // Will output: "65535, -32768, FFFF"
 ```
