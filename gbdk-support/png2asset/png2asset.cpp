@@ -1300,12 +1300,17 @@ bool export_h_file(void) {
 			{
 				fprintf(file, "extern const unsigned char %s_map[%d];\n", data_name.c_str(), (unsigned int)map.size());
 
-				if(use_map_attributes) {
-					if(map_attributes.size()) {
+				if(use_map_attributes && map_attributes.size()) {
 						fprintf(file, "extern const unsigned char %s_map_attributes[%d];\n", data_name.c_str(), (unsigned int)map_attributes.size());
-					}
 				}
-				else if ((includeTileData) && (use_structs)) {
+				else
+				{
+					// Some platforms (like SMS/GG) encode attributes as part of map
+					// For compatibility, add a define that makes _map_attributes equal _map,
+					// so that set_bkg_attributes can work the same on these platforms
+					fprintf(file, "#define %s_map_attributes %s_map\n", data_name.c_str(), data_name.c_str());
+				}
+				if (!use_map_attributes && (includeTileData) && (use_structs)) {
 					fprintf(file, "extern const unsigned char* %s_tile_pals[%d];\n", data_name.c_str(), (unsigned int)tiles.size());
 				}
 			}
