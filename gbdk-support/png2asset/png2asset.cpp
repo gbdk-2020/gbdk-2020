@@ -481,6 +481,37 @@ unsigned int PaletteCountApplyMaxLimit(unsigned int max_palettes, unsigned int c
 		return cur_palette_size;
 }
 
+int FindOrCreateSubPalette(const SetPal& pal, vector< SetPal >& palettes)
+{
+	// Return -1 if colors can't even fit in sub-palette hardware limit
+	if (pal.size() > colors_per_pal)
+	{
+		return -1;
+	}
+	//Check if it matches any palettes or create a new one
+	int i;
+	for (i = 0; i < palettes.size(); ++i)
+	{
+		//Try to merge this palette with any of the palettes (checking if they are equal is not enough since the palettes can have less than 4 colors)
+		SetPal merged(palettes[i]);
+		merged.insert(pal.begin(), pal.end());
+		if (merged.size() <= colors_per_pal)
+		{
+			if (palettes[i].size() <= colors_per_pal)
+				palettes[i] = merged; //Increase colors with this palette (it has less than 4 colors)
+			return i; //Found palette
+		}
+	}
+
+	if (i == palettes.size())
+	{
+		//Palette not found, add a new one
+		palettes.push_back(pal);
+	}
+	return i;
+}
+
+
 //
 // Builds palettes and palette-per-tile (attributes) for an image
 //
@@ -502,7 +533,9 @@ int* BuildPalettesAndAttributes(const PNGImage& image32, vector< SetPal >& palet
 		{
 			//Get palette colors on (x, y, tile_w, tile_h)
 			SetPal pal = GetPaletteColors(image32, (x / sx) * sx, (y / sy) * sy, sx * tile_w, sy * tile_h);
-			if (pal.size() > colors_per_pal)
+
+			int subPalIndex = FindOrCreateSubPalette(pal, palettes);
+			if (subPalIndex < 0)
 			{
 				printf("Error: more than %d colors found in tile at x:%d, y:%d of size w:%d, h:%d\n",
 					(unsigned int)colors_per_pal,
@@ -510,29 +543,7 @@ int* BuildPalettesAndAttributes(const PNGImage& image32, vector< SetPal >& palet
 					(y / sy) * sy,
 					sx * tile_w,
 					sy * tile_h);
-				delete[] palettes_per_tile;
-				return nullptr;
-			}
-
-			//Check if it matches any palettes or create a new one
-			size_t i;
-			for (i = 0; i < palettes.size(); ++i)
-			{
-				//Try to merge this palette with any of the palettes (checking if they are equal is not enough since the palettes can have less than 4 colors)
-				SetPal merged(palettes[i]);
-				merged.insert(pal.begin(), pal.end());
-				if (merged.size() <= colors_per_pal)
-				{
-					if (palettes[i].size() <= colors_per_pal)
-						palettes[i] = merged; //Increase colors with this palette (it has less than 4 colors)
-					break; //Found palette
-				}
-			}
-
-			if (i == palettes.size())
-			{
-				//Palette not found, add a new one
-				palettes.push_back(pal);
+				subPalIndex = 0; // Force to sub-palette 0, to allow getting a partially-incorrect output image
 			}
 			// Assign single or multiple entries in palettes_per_tile, to keep it independent of
 			// of half_resolution parameter
@@ -543,7 +554,7 @@ int* BuildPalettesAndAttributes(const PNGImage& image32, vector< SetPal >& palet
 			{
 				for (int xx = 0; xx < sx; xx++)
 				{
-					palettes_per_tile[(dy + yy) * w + dx + xx] = i;
+					palettes_per_tile[(dy + yy) * w + dx + xx] = subPalIndex;
 				}
 			}
 		}
@@ -580,14 +591,47 @@ void ReduceMapAttributes2x2(const vector< SetPal >& palettes)
 }
 
 //
+// Aligns map attribute data to be aligned properly for NES and set_bkg_submap_attributes
+// Namely:
+// * Width aligned to multiples of 2 to reflect the NES's packed attribute table
+// * Every 16th row is blank to reflect the unused row in the NES's packed attribute table
+//
+void AlignMapAttributes()
+{
+	const size_t ATTRIBUTE_HEIGHT = 15;
+	const size_t ATTRIBUTE_ALIGNED_HEIGHT = 16;
+	vector< unsigned char > map_attributes_aligned;
+	size_t map_attributes_aligned_width = 2 * ((map_attributes_width + 1) / 2);
+	size_t num_vertical_nametables = (map_attributes_height + ATTRIBUTE_HEIGHT - 1) / ATTRIBUTE_HEIGHT;
+	map_attributes_aligned.resize(map_attributes_aligned_width * (num_vertical_nametables * ATTRIBUTE_ALIGNED_HEIGHT));
+	for (size_t i = 0; i < num_vertical_nametables; i++)
+	{
+		bool last_nametable = (i == num_vertical_nametables - 1);
+		size_t height = last_nametable ? (map_attributes_height - i * ATTRIBUTE_HEIGHT) : ATTRIBUTE_HEIGHT;
+		for (size_t y = 0; y < height; y++)
+		{
+			for (size_t x = 0; x < map_attributes_width; x++)
+			{
+				map_attributes_aligned[(i * ATTRIBUTE_ALIGNED_HEIGHT + y) * map_attributes_aligned_width + x] =
+					map_attributes[(i * ATTRIBUTE_HEIGHT + y) * map_attributes_width + x];
+			}
+		}
+	}
+	// Overwrite old attributes
+	map_attributes_width = map_attributes_aligned_width;
+	map_attributes_height = num_vertical_nametables * ATTRIBUTE_ALIGNED_HEIGHT;
+	map_attributes = map_attributes_aligned;
+}
+
+//
 // Pack map attributes
-// (NES has packs multiple 2-bit entries into one byte)
+// (NES packs multiple 2-bit entries into one byte)
 //
 void PackMapAttributes()
 {
 	vector< unsigned char > map_attributes_packed;
 	map_attributes_packed_width = (map_attributes_width + 1) / 2;
-	map_attributes_packed_height = (map_attributes_width + 1) / 2;
+	map_attributes_packed_height = (map_attributes_height + 1) / 2;
 	map_attributes_packed.resize(map_attributes_packed_width * map_attributes_packed_height);
 	for (size_t y = 0; y < map_attributes_packed_height; y++)
 	{
@@ -1125,9 +1169,10 @@ int main(int argc, char* argv[])
 		// NES attribute map dimensions are half-resolution 
 		ReduceMapAttributes2x2(palettes);
 	}
-	// Optionally pack map attributes into NES PPU format
+	// Optionally align and pack map attributes into NES PPU format
 	if (pack_map_attributes)
 	{
+		AlignMapAttributes();
 		PackMapAttributes();
 	}
 	else
@@ -1213,8 +1258,9 @@ bool export_h_file(void) {
 
 				if (use_map_attributes)
 				{
-					fprintf(file, "#define %s_MAP_ATTRIBUTES_WIDTH %d\n", data_name.c_str(), (int)map_attributes_width);
-					fprintf(file, "#define %s_MAP_ATTRIBUTES_HEIGHT %d\n", data_name.c_str(), (int)map_attributes_height);
+					int scale = use_2x2_map_attributes ? 2 : 1;
+					fprintf(file, "#define %s_MAP_ATTRIBUTES_WIDTH %d\n", data_name.c_str(), (int)(scale * map_attributes_width));
+					fprintf(file, "#define %s_MAP_ATTRIBUTES_HEIGHT %d\n", data_name.c_str(), (int)(scale * map_attributes_height));
 					fprintf(file, "#define %s_MAP_ATTRIBUTES_PACKED_WIDTH %d\n", data_name.c_str(), (int)map_attributes_packed_width);
 					fprintf(file, "#define %s_MAP_ATTRIBUTES_PACKED_HEIGHT %d\n", data_name.c_str(), (int)map_attributes_packed_height);
 				}

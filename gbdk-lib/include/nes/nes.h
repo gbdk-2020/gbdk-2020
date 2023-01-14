@@ -487,7 +487,58 @@ void set_bkg_1bpp_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data
 void set_bkg_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles) OLDCALL;
 #define set_tile_map set_bkg_tiles
 
-void set_bkg_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *attributes) OLDCALL;
+/** Sets a rectangular region of Background Tile Map Attributes.
+
+    @param x      X Start position in Background Map tile coordinates. Range 0 - 15
+    @param y      Y Start position in Background Map tile coordinates. Range 0 - 14
+    @param w      Width of area to set in tiles. Range 1 - 16
+    @param h      Height of area to set in tiles. Range 1 - 15
+    @param tiles  Pointer to source tile map data
+
+    Entries are copied from map at __tiles__ to the Background Tile Map starting at
+    __x__, __y__ writing across for __w__ tiles and down for __h__ tiles.
+
+    NES 16x16 Tile Attributes are tightly packed into 4 attributes per byte,
+    with each 16x16 area of a 32x32 pixel block using the bits as follows:
+    D1-D0: Top-left 16x16 pixels
+    D3-D2: Top-right 16x16 pixels
+    D5-D4: Bottom-left 16x16 pixels
+    D7-D6: Bottom-right 16x16 pixels
+    
+    https://www.nesdev.org/wiki/PPU_attribute_tables
+
+    @see SHOW_BKG
+    @see set_bkg_data, set_bkg_submap_attributes, set_win_tiles, set_tiles
+*/
+void set_bkg_attributes_nes16x16(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *attributes) OLDCALL;
+
+/** Sets a rectangular region of Background Tile Map Attributes.
+
+    Entries are copied from map at __tiles__ to the Background Tile Map starting at
+    __x__, __y__ writing across for __w__ tiles and down for __h__ tiles.
+
+    Use @ref set_bkg_submap_attributes() instead when:
+    \li Source map is wider than 32 tiles.
+    \li Writing a width that does not match the source map width __and__ more
+    than one row high at a time.
+
+    One byte per source tile map entry.
+
+    Writes that exceed coordinate 31 on the x or y axis will wrap around to
+    the Left and Top edges.
+
+    Please note that this is just a wrapper function for set_bkg_attributes_nes16x16
+    and divides the coordinates and dimensions by 2 to achieve this.
+    It is intended to make code more portable by using the same coordinate system
+    that systems with the much more common 8x8 attribute resolution would use.
+
+    @see SHOW_BKG
+    @see set_bkg_data, set_bkg_submap_attributes, set_win_tiles, set_tiles
+*/
+inline void set_bkg_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *attributes)
+{
+    set_bkg_attributes_nes16x16(x >> 1, y >> 1, (w + 1) >> 1, (h + 1) >> 1, attributes);
+}
 
 extern uint8_t _map_tile_offset;
 

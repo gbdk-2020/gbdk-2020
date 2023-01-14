@@ -1,32 +1,32 @@
     .include    "global.s"
 
     .area   OSEG (PAG, OVR)
-    _set_bkg_attributes_PARM_3::    .ds 1
-    _set_bkg_attributes_PARM_4::    .ds 1
-    _set_bkg_attributes_PARM_5::    .ds 2
-    .xpos:                          .ds 1
-    .ypos:                          .ds 1
-    .num_columns:                   .ds 1
-    .num_rows:                      .ds 1
-    .src:                           .ds 2
-    .dst:                           .ds 2
-    .attribute_x_odd:               .ds 1
-    .attribute_y_odd:               .ds 1
-    .attribute_num_columns_odd:     .ds 1
-    .attribute_num_rows_odd:        .ds 1
-    .row_dirty_mask:                .ds 1
+    _set_bkg_attributes_nes16x16_PARM_3::   .ds 1
+    _set_bkg_attributes_nes16x16_PARM_4::   .ds 1
+    _set_bkg_attributes_nes16x16_PARM_5::   .ds 2
+    .xpos:                                  .ds 1
+    .ypos:                                  .ds 1
+    .num_columns:                           .ds 1
+    .num_rows:                              .ds 1
+    .src:                                   .ds 2
+    .dst:                                   .ds 2
+    .attribute_x_odd:                       .ds 1
+    .attribute_y_odd:                       .ds 1
+    .attribute_num_columns_odd:             .ds 1
+    .attribute_num_rows_odd:                .ds 1
+    .row_dirty_mask:                        .ds 1
 
     .area   _HOME
 
-.define .width  "_set_bkg_attributes_PARM_3"
-.define .height "_set_bkg_attributes_PARM_4"
-.define .tiles  "_set_bkg_attributes_PARM_5"
+.define .width  "_set_bkg_attributes_nes16x16_PARM_3"
+.define .height "_set_bkg_attributes_nes16x16_PARM_4"
+.define .tiles  "_set_bkg_attributes_nes16x16_PARM_5"
 
 ;
 ; Fast version writing directly to PPU memory.
 ; Does not handle unaligned x & y and assumes even number of columns / rows
 ;
-_set_bkg_attributes_fast::
+_set_bkg_attributes_nes16x16_fast::
 1$:
     lda *.ypos
     asl
@@ -62,7 +62,7 @@ _set_bkg_attributes_fast::
     bne 1$
     rts
 
-_set_bkg_attributes::
+_set_bkg_attributes_nes16x16::
     lsr                             ; Make xpos count 32x32 areas / full bytes
     ror *.attribute_x_odd           ; ...and potentially mark x as odd-numbered
     sta *.xpos
@@ -509,56 +509,6 @@ unaligned_xy_column_loop:
     UNALIGNED_XY_RIGHT_EDGE ATTRIBUTE_MASK_TL, ATTRIBUTE_MASK_BL+ATTRIBUTE_MASK_BR+ATTRIBUTE_MASK_TR
 1$:
     jmp _flush_shadow_attributes
-
-;
-; Writes every row of attributes from _shadow_attributes that's been marked
-; as dirty in the _attribute_row_dirty byte to PPU memory.
-;
-_flush_shadow_attributes:
-    lda #<PPU_AT0
-    sta *.tmp
-    lda #>PPU_AT0
-    sta *.tmp+1
-    ldy #0
-_flush_shadow_attributes_row_loop:
-    lsr *_attribute_row_dirty
-    bcc 1$
-    jmp _flush_shadow_attributes_update_row
-1$:
-    beq _flush_shadow_attributes_end
-_flush_shadow_attributes_next_row:
-    ; Y += 8
-    tya
-    clc
-    adc #8
-    tay
-    ; .tmp += 8
-    lda *.tmp
-    adc #8
-    sta *.tmp
-    jmp _flush_shadow_attributes_row_loop
-_flush_shadow_attributes_end:
-    rts
-
-;
-; Flushes all dirty rows of _attribute_shadow by writing them to PPU memory
-;
-_flush_shadow_attributes_update_row:
-    ; Update all 8 bytes of row for now, as each row in _attribute_row_dirty only stores 1 bit
-    ; TODO: Could store 8 bytes and update range, at expense of 7 more bytes.
-    lda *.tmp+1
-    tax
-    lda *.tmp
-    jsr .ppu_stripe_begin_horizontal
-    ; Write 8 bytes
-    i = 0
-    .rept 8
-    lda _attribute_shadow+i,y
-    jsr .ppu_stripe_write_byte
-    i = i + 1
-    .endm
-    jsr .ppu_stripe_end
-    jmp _flush_shadow_attributes_next_row
 
 .attribute_set_dirty:
     ; A = min(7, .num_rows + .attribute_num_rows_odd) << 3
