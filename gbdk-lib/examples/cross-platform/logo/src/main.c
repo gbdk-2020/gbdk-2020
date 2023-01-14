@@ -26,11 +26,11 @@ void main() {
         VBK_REG = VBK_TILES;
     }
 #elif defined(SYSTEM_NES)
-    // Make sure attribute coordinates are rounded to 2
-    set_bkg_attributes((((DEVICE_SCREEN_WIDTH - (GBDK_2020_logo_WIDTH >> 3)) >> 1) & 0xFE) >> 1, 
-                       (((DEVICE_SCREEN_HEIGHT - (GBDK_2020_logo_HEIGHT >> 3)) >> 1) & 0xFE) >> 1, 
-                       GBDK_2020_logo_MAP_ATTRIBUTES_WIDTH, 
-                       GBDK_2020_logo_MAP_ATTRIBUTES_HEIGHT, 
+    // Make sure tile coordinates are rounded to 2, to match attribute table
+    set_bkg_attributes(((DEVICE_SCREEN_WIDTH - (GBDK_2020_logo_WIDTH >> 3)) >> 1) & 0xFE,
+                       ((DEVICE_SCREEN_HEIGHT - (GBDK_2020_logo_HEIGHT >> 3)) >> 1) & 0xFE,
+                       GBDK_2020_logo_WIDTH >> 3, 
+                       GBDK_2020_logo_HEIGHT >> 3, 
                        GBDK_2020_logo_map_attributes);
 #endif
 #if defined(SYSTEM_NES)

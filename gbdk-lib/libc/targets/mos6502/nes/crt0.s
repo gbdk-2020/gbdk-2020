@@ -89,6 +89,7 @@ __crt0_textTemp:                        .ds 1
 _bkg_scroll_x::                         .ds 1
 _bkg_scroll_y::                         .ds 1
 _attribute_row_dirty::                  .ds 1
+_attribute_column_dirty::               .ds 1
 .crt0_textStringBegin:                  .ds 1
 .crt0_forced_blanking::                 .ds 1
 
