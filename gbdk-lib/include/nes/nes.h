@@ -539,6 +539,70 @@ inline void set_bkg_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const
 {
     set_bkg_attributes_nes16x16(x >> 1, y >> 1, (w + 1) >> 1, (h + 1) >> 1, attributes);
 }
+/** Sets a rectangular area of the Background Tile Map using a sub-region
+    from a source tile map. Useful for scrolling implementations of maps
+    larger than 32 x 30 tiles / 16x15 attributes.
+
+    @param x      X Start position in both the Source Attribute Map and hardware Background Map attribute coordinates. Range 0 - 255
+    @param y      Y Start position in both the Source Attribute Map and hardware Background Map attribute coordinates. Range 0 - 255
+    @param w      Width of area to set in Attributes. Range 1 - 127
+    @param h      Height of area to set in Attributes. Range 1 - 127
+    @param map    Pointer to source tile map data
+    @param map_w  Width of source tile map in tiles. Range 1 - 127
+
+    Entries are copied from __map__ to the Background Attribute Map starting at
+    __x__, __y__ writing across for __w__ tiles and down for __h__ attributes,
+    using __map_w__ as the rowstride for the source attribute map.
+
+    The __x__ and __y__ parameters are in Source Attribute Map Attribute
+    coordinates. The location tiles will be written to on the
+    hardware Background Map is derived from those, but only uses
+    the lower 5 bits of each axis, for range of 0-15 (they are
+    bit-masked: `x & 0xF` and `y & 0xF`). As a result the two
+    coordinate systems are aligned together.
+
+    In order to transfer tile map data in a way where the
+    coordinate systems are not aligned, an offset from the
+    Source Attribute Map pointer can be passed in:
+    `(map_ptr + x + (y * map_width))`.
+
+    For example, if you want the tile id at `1,2` from the source map to
+    show up at `0,0` on the hardware Background Map (instead of at `1,2`)
+    then modify the pointer address that is passed in:
+    `map_ptr + 1 + (2 * map_width)`
+
+    Use this instead of @ref set_bkg_tiles when the source map is wider than
+    32 tiles or when writing a width that does not match the source map width.
+
+    One byte per source attribute map entry.
+
+    Writes that exceed coordinate 15/14 on the x / y axis will wrap around to
+    the Left and Top edges.
+
+    See @ref set_bkg_tiles for setting CGB attribute maps with @ref VBK_REG.
+
+    @see SHOW_BKG
+    @see set_bkg_data, set_bkg_tiles, set_win_submap, set_tiles
+*/
+void set_bkg_submap_attributes_nes16x16(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w) OLDCALL;
+
+/** Sets a rectangular area of the Background Tile Map attributes using 
+    a sub-region from a source tile map. Useful for scrolling implementations
+    of maps larger than 32 x 30 tiles.
+
+    Please note that this is just a wrapper function for set_bkg_submap_attributes_nes16x16
+    and divides the coordinates and dimensions by 2 to achieve this.
+    It is intended to make code more portable by using the same coordinate system
+    that systems with the much more common 8x8 attribute resolution would use.
+
+    @see SHOW_BKG
+    @see set_bkg_data, set_bkg_tiles, set_win_submap, set_tiles
+*/
+inline void set_bkg_submap_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *attributes, uint8_t map_w)
+{
+    set_bkg_submap_attributes_nes16x16(x >> 1, y >> 1, (w + 1) >> 1, (h + 1) >> 1, attributes, map_w >> 1);
+}
+
 
 extern uint8_t _map_tile_offset;
 

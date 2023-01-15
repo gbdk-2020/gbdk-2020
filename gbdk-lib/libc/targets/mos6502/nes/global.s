@@ -23,6 +23,10 @@
         PPU_NT0         = 0x2000
         PPU_AT0         = 0x23C0
 
+        ATTRIBUTE_WIDTH                = 16
+        ATTRIBUTE_HEIGHT               = 15
+        ATTRIBUTE_PACKED_WIDTH         = 8
+        ATTRIBUTE_PACKED_HEIGHT        = 8
         ATTRIBUTE_MASK_TL = 0b00000011
         ATTRIBUTE_MASK_TR = 0b00001100
         ATTRIBUTE_MASK_BL = 0b00110000
