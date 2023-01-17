@@ -574,6 +574,13 @@ __crt0_RESET_bankSwitchValue:
     ; Clear RAM and VRAM
     jsr __crt0_clearRAM
     jsr __crt0_clearVRAM
+    ; Hide sprites in shadow OAM, and perform OAM DMA
+    ldx #0
+    txa
+    jsr _hide_sprites_range
+    stx OAMADDR
+    lda #>_shadow_OAM
+    sta OAMDMA
     ; Perform initialization of DATA area
     lda #<s_XINIT
     sta ___memcpy_PARM_2
