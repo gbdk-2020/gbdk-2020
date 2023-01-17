@@ -490,7 +490,7 @@ int FindOrCreateSubPalette(const SetPal& pal, vector< SetPal >& palettes)
 	}
 	//Check if it matches any palettes or create a new one
 	int i;
-	for (i = 0; i < palettes.size(); ++i)
+	for (i = 0; i < (int)palettes.size(); ++i)
 	{
 		//Try to merge this palette with any of the palettes (checking if they are equal is not enough since the palettes can have less than 4 colors)
 		SetPal merged(palettes[i]);
@@ -503,7 +503,7 @@ int FindOrCreateSubPalette(const SetPal& pal, vector< SetPal >& palettes)
 		}
 	}
 
-	if (i == palettes.size())
+	if (i == (int)palettes.size())
 	{
 		//Palette not found, add a new one
 		palettes.push_back(pal);
