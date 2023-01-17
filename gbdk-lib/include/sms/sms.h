@@ -592,6 +592,13 @@ inline void set_win_based_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, cons
     _map_tile_offset = 0;
 }
 
+inline void set_bkg_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles)
+{
+    VBK_REG = VBK_ATTRIBUTES;
+    set_bkg_tiles(x, y, w, h, tiles);
+    VBK_REG = VBK_TILES;
+}
+
 void set_tile_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t map_w, const uint8_t *map) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
 void set_tile_submap_compat(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t map_w, const uint8_t *map) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
 inline void set_bkg_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w) {
@@ -611,6 +618,13 @@ inline void set_win_based_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, con
     _submap_tile_offset = base_tile;
     set_tile_submap_compat(x, y, w, h, map_w, map);
     _submap_tile_offset = 0;
+}
+
+inline void set_bkg_submap_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w)
+{
+    VBK_REG = VBK_ATTRIBUTES;
+    set_bkg_submap(x, y, w, h, map, map_w);
+    VBK_REG = VBK_TILES;
 }
 
 void fill_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint16_t tile) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
