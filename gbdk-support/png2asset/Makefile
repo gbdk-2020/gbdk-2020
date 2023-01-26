@@ -41,7 +41,7 @@ endif
 TARGET = png2asset
 
 
-SRCS := lodepng.cpp png2asset.cpp rgb_to_nes_lut.cpp
+SRCS := lodepng.cpp png2asset.cpp rgb_to_nes_lut.cpp image_utils.cpp
 OBJS := $(SRCS:%.cpp=%.o)
 
 $(TARGET): $(OBJS)

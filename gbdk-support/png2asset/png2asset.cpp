@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <fstream>
 #include "lodepng.h"
+#include "image_utils.h"
 
 using namespace std;
 
@@ -663,30 +664,30 @@ bool GetSourceTileset(bool keep_palette_order, unsigned int max_palettes, vector
 
 	lodepng::load_file(buffer2, source_tileset);
 
-
+	// TODO: This code block below is mostly identical (aside from memcpy, var names) to the main indexed image load.
+	//       It should get deduplicated into a function.
 	if (keep_palette_order) {
 		//Calling with keep_palette_order means
-			//-The image is png8
-			//-Each 4 colors define a gbc palette, the first color is the transparent one
-			//-Each rectangle with dimension(8, tile_h) in the image has colors from one of those palettes only
+		//-The image should be png indexed (1-8 bits per pixel)
+		//-For CGB: Each 4 colors define a gbc palette, the first color is the transparent one
+		//-Each rectangle with dimension(tile_w, tile_h) in the image has colors from one of those palettes only
 		sourceTilesetState.info_raw.colortype = LCT_PALETTE;
 		sourceTilesetState.info_raw.bitdepth = 8;
 
-		// * Do *NOT* turn color_convert off here. That causes decode to ignore state.info_raw.bitdepth = 8, and
-		//   you'll end up with arbitrary bit packed pixels based on the source image and palette count.
+		// * Do *NOT* turn color_convert ON here.
+		// When sournce PNG is indexed with bit depth was less than 8 bits per pixel then
+		// color_convert may mangle the packed indexed values. Instead manually unpack them.
+		//
+		// This is necessary since some PNG encoders will use the minimum possible number of bits.
 		//   For example 2 colors in the palette -> 1bpp -> 4 pixels per byte in the decoded image.
 		//     Also see below about requirement to use palette from source image
-		//sourceTilesetState.decoder.color_convert = false;
+		sourceTilesetState.decoder.color_convert = false;
 
 		unsigned error = lodepng::decode(source_tileset_image.data, source_tileset_image.w, source_tileset_image.h, sourceTilesetState, buffer2);
-		// Check for incompatible palette type first, allows generating a more intuitive error than lodepng
-		if (sourceTilesetState.info_png.color.colortype != LCT_PALETTE)
-		{
-			printf("error: keep_palette_order only works with png8");
+		// Unpack the image if needed. Also checks and errors on incompatible palette type if needed
+		if (!image_indexed_ensure_8bpp(source_tileset_image.data, source_tileset_image.w, source_tileset_image.h, (int)sourceTilesetState.info_png.color.bitdepth, (int)sourceTilesetState.info_png.color.colortype))
 			return false;
-		}
-		else if (error)
-		{
+		else if(error) {
 			printf("decoder error %s\n", lodepng_error_text(error));
 			return false;
 		}
@@ -1023,29 +1024,29 @@ int main(int argc, char* argv[])
 	vector<unsigned char> buffer;
 	lodepng::load_file(buffer, argv[1]);
 	lodepng::State state;
-	if(keep_palette_order)
-	{
+
+	if (keep_palette_order) {
 		//Calling with keep_palette_order means
-		//-The image is png8
+		//-The image should be png indexed (1-8 bits per pixel)
 		//-For CGB: Each 4 colors define a gbc palette, the first color is the transparent one
 		//-Each rectangle with dimension(tile_w, tile_h) in the image has colors from one of those palettes only
 		state.info_raw.colortype = LCT_PALETTE;
 		state.info_raw.bitdepth = 8;
-		// * Do *NOT* turn color_convert off here. That causes decode to ignore state.info_raw.bitdepth = 8, and
-		//   you'll end up with arbitrary bit packed pixels based on the source image and palette count.
+
+		// * Do *NOT* turn color_convert ON here.
+		// When sournce PNG is indexed with bit depth was less than 8 bits per pixel then
+		// color_convert may mangle the packed indexed values. Instead manually unpack them.
+		//
+		// This is necessary since some PNG encoders will use the minimum possible number of bits.
 		//   For example 2 colors in the palette -> 1bpp -> 4 pixels per byte in the decoded image.
 		//     Also see below about requirement to use palette from source image
-		// state.decoder.color_convert = false;
+		state.decoder.color_convert = false;
 
 		unsigned error = lodepng::decode(image.data, image.w, image.h, state, buffer);
-		// Check for incompatible palette type first, that allows generating a more intuitive error than lodepng does
-		if(state.info_png.color.colortype != LCT_PALETTE)
-		{
-			printf("error: keep_palette_order only works with png8");
+		// Unpack the image if needed. Also checks and errors on incompatible palette type if needed
+		if (!image_indexed_ensure_8bpp(image.data, image.w, image.h, (int)state.info_png.color.bitdepth, (int)state.info_png.color.colortype))
 			return 1;
-		}
-		else if(error)
-		{
+		else if(error) {
 			printf("decoder error %s\n", lodepng_error_text(error));
 			return 1;
 		}
