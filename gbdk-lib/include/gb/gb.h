@@ -1843,7 +1843,7 @@ inline void hide_sprite(uint8_t nb) {
 
     @see set_bkg_data, set_win_data, set_bkg_tiles, set_win_tiles, set_tile_data, set_tiles
 */
-void set_data(uint8_t *vram_addr, const uint8_t *data, uint16_t len) OLDCALL PRESERVES_REGS(b, c);
+void set_data(uint8_t *vram_addr, const uint8_t *data, uint16_t len);
 
 
 /** Copies arbitrary data from an address in VRAM into a buffer
@@ -1861,7 +1861,7 @@ void set_data(uint8_t *vram_addr, const uint8_t *data, uint16_t len) OLDCALL PRE
 
     @see get_bkg_data, get_win_data, get_bkg_tiles, get_win_tiles, get_tiles
 */
-void get_data(uint8_t *data, uint8_t *vram_addr, uint16_t len) OLDCALL PRESERVES_REGS(b, c);
+void get_data(uint8_t *data, uint8_t *vram_addr, uint16_t len);
 
 /** Copies arbitrary data from an address in VRAM into a buffer
 
@@ -1875,7 +1875,7 @@ void get_data(uint8_t *data, uint8_t *vram_addr, uint16_t len) OLDCALL PRESERVES
     \li VBK_REG = @ref VBK_BANK_0 indicates the first bank
     \li VBK_REG = @ref VBK_BANK_1 indicates the second
 */
-void vmemcpy(uint8_t *dest, uint8_t *sour, uint16_t len) OLDCALL PRESERVES_REGS(b, c);
+void vmemcpy(uint8_t *dest, uint8_t *sour, uint16_t len);
 
 
 
