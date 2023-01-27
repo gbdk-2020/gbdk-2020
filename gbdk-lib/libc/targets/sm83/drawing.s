@@ -1,7 +1,7 @@
-;; Optimised Drawing library 
+;; Optimised Drawing library
 ;; By Jon Fuge (jonny@q-continuum.demon.co.uk) based on original file
 ;; Updates
-;;   990223 Michael     Removed mod_col, splitting it up into 
+;;   990223 Michael     Removed mod_col, splitting it up into
 ;;                      fg_colour, bg_colour, and draw_mode
 ;; Note: some optimisations are available with unneded PUSH DE/POP DE's
 
@@ -9,7 +9,7 @@
 
         .globl  .init_vram
         .globl  .copy_vram
-        
+
         .globl  .drawing_lcd, .drawing_vbl
         .globl  .bg_colour, .fg_colour, .draw_mode
 
@@ -37,30 +37,30 @@
         .area   _DATA
 
         ;; Fill style
-.style: 
+.style:
         .ds     0x01
         ;; Various varibles
-.x_s:   
+.x_s:
         .ds     2
-.y_s:   
+.y_s:
         .ds     2
-.delta_x:       
+.delta_x:
         .ds     1
-.delta_y:       
+.delta_y:
         .ds     1
-.l_inc: 
+.l_inc:
         .ds     1
-.l_d:   
+.l_d:
         .ds     2
-.dinc1: 
+.dinc1:
         .ds     2
-.dinc2: 
+.dinc2:
         .ds     2
-.tx:    
+.tx:
         .ds     1
-.ty:    
+.ty:
         .ds     1
-        
+
         .area   _HOME
 
         ;; Enter graphic mode
@@ -132,15 +132,15 @@
         LD      (.fg_colour),A
         LD      A,#0x00         ; White
         LD      (.bg_colour),A
-        
+
         EI                      ; Enable interrupts
 
         RET
 
         ;; Draw a full-screen image at (BC)
 .draw_image::
-        LD      HL,#0x8000+0x10*0x10
-        LD      DE,#0x1680
+        LD      DE,#0x8000+0x10*0x10
+        LD      BC,#0x1680
         CALL    .copy_vram      ; Move the charset
         RET
 
@@ -169,22 +169,20 @@
         LD      L,A
         ADD     HL,DE
 
-        LD      B,H             ; BC = src
-        LD      C,L
-        POP     HL              ; HL = dst
-        PUSH    BC              ; Save dst
+        POP     DE
+        PUSH    HL
         LD      A,H
         OR      L
         JR      Z,1$
-        LD      DE,#0x10
+        LD      BC,#0x10
         CALL    .copy_vram
 1$:
-        POP     HL              ; HL = dst
-        POP     BC              ; BC = src
-        LD      A,B
-        OR      C
+        POP     DE
+        POP     HL
+        LD      A,D
+        OR      E
         JR      Z,2$
-        LD      DE,#0x10
+        LD      BC,#0x10
         CALL    .copy_vram
 2$:
         RET
@@ -220,9 +218,9 @@
         LD      (.y_s),A
 
         XOR     A
-        LD      (.x_s+1),A 
+        LD      (.x_s+1),A
         LD      A,D
-        LD      (.y_s+1),A 
+        LD      (.y_s+1),A
         CPL
         LD      L,A
         LD      H,#0xFF
@@ -272,7 +270,7 @@ cloop$:
         LD      A,L
         LD      (.l_d+1),A
         JR      cloop$
-ycirc$: 
+ycirc$:
         LD      A,(.style)
         OR      A
         CALL    NZ,.verlin
@@ -483,7 +481,7 @@ ycirc$:
         CALL    .plot
         POP     DE
         POP     BC
-        
+
         LD      A,D
         OR      A
         RET     Z
@@ -642,7 +640,7 @@ dbox$:
         LD      (.fg_colour),A
         LD      A,C
         LD      (.bg_colour),A
-        .endif 
+        .endif
 filllp$:
         LD      A,(.x_s)
         LD      B,A
@@ -660,7 +658,7 @@ filllp$:
         INC     A
         LD      (.y_s),A
         JR      filllp$
-swap$:  
+swap$:
         .if     0
         LD      A,(.mod_col)    ;Swap fore + back colours.
         LD      D,A
@@ -810,7 +808,7 @@ dx1$:
         LD      A,(.mod_col)
         LD      D,A
         .endif
-        
+
         LD      A,(.delta_x)
         LD      E,A
 
@@ -915,7 +913,7 @@ nadj$:
         ;; Draw accelerated horizontal line
         .if     0
         ;; xxx needed?
-        LD      A,(.mod_col)    
+        LD      A,(.mod_col)
         LD      D,A
         .endif
 
@@ -1007,9 +1005,9 @@ y2$:
         SUB     E
         JR      Z,y2a$
         LD      A,#0x00
-        
+
 ;       JR      NC,y2a$ ; old code; fix draw to up-left below
-;       LD      A,#0xFF 
+;       LD      A,#0xFF
 
         LD      L,A     ; invert delta if x1 less than x2
         LD      A,B
@@ -1044,7 +1042,7 @@ y3$:
         LD      A,(.mod_col)
         LD      D,A
         .endif
-        
+
         LD      A,(.delta_y)
         LD      E,A
         INC     E
@@ -1262,7 +1260,7 @@ nchgy$:
         CP      #.M_XOR
         JR      Z,20$
         CP      #.M_AND
-        JR      Z,30$           
+        JR      Z,30$
         .endif
 
         ; Fall through to SOLID by default
@@ -1478,7 +1476,7 @@ nchgy$:
 
         LD      DE,#_font_ibm_fixed_tiles
         .endif
-        
+
         ADD     HL,DE
 
         LD      D,H
@@ -1538,7 +1536,7 @@ nchgy$:
         .endif
         JR      NZ,5$
         XOR     B
-5$:     
+5$:
         LD      E,A
         .if     1
         POP     HL
@@ -1697,7 +1695,7 @@ _plot::
         LD      (.fg_colour),A
         LD      A,(HL+)         ; mode
         LD      (.draw_mode),A
-        
+
         CALL    .plot
 
         POP     BC
@@ -1737,9 +1735,9 @@ _draw_image::                   ; Non banked as pointer
         CALL    NZ,.gmode
 
         LDA     HL,4(SP)        ; Skip return address and registers
-        LD      A,(HL+) ; HL = data
-        LD      C,A
-        LD      B,(HL)
+        LD      A,(HL+)
+        LD      H,(HL)
+        LD      L,A             ; HL = data
 
         CALL    .draw_image
 

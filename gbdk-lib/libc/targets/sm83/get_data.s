@@ -94,8 +94,8 @@ _get_sprite_data::
         ADD     HL,HL
         ADD     HL,HL
         ADD     HL,HL
-        LD      D,H             ; DE = nb_tiles
-        LD      E,L
+        LD      B,H             ; BC = nb_tiles
+        LD      C,L
 2$:
         POP     HL              ; HL = first_tile
         LD      H,A
@@ -104,15 +104,19 @@ _get_sprite_data::
         ADD     HL,HL
         ADD     HL,HL
 
-        LD      BC,#0x8000
-        ADD     HL,BC
-        LD      B,H
-        LD      C,L             ; BC = source
+        LD      DE,#0x8000
+        ADD     HL,DE
+        LD      D,H
+        LD      E,L             ; DE = dest
 
         LDA     HL,7(SP)
         LD      A,(HL-)
         LD      L,(HL)
-        LD      H, A            ; HL = data
+        LD      H,D
+        LD      D,A
+        LD      A,L
+        LD      L,E
+        LD      E,A             ; HL = sour, DE = dest
 
         CALL    .copy_vram
 

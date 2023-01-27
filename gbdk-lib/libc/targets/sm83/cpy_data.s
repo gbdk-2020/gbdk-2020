@@ -2,14 +2,23 @@
 
 	.area   _CODE
 
-	.globl	_vmemcpy, _set_data, _get_data
+	.globl	_vmemcpy, _set_data, _get_data, .copy_vram
 
+;DE: dest
+;HL: src
+;BC: len
+.copy_vram::
+	push	bc
+	ld      a, c
+	call	cpy_vram
+	ret
+
+;DE: dest
+;BC: src
+;sp+2: len
 _vmemcpy::
 _set_data::
 _get_data::
-	;dest in de
-	;src in bc
-	;n in sp+2,sp+3
 	ldhl	sp, #3
 	ld	a, (hl-)
 	ld	l, (hl)
@@ -17,15 +26,15 @@ _get_data::
 	ld	b, a
 	ld	a, l
 	ld	l, c
+
+;DE: dest
+;HL: src
+;B,A: len
+cpy_vram:
 	srl	b
 	rra
 	ld	c, a
-
-	;dest in de (backup in sp+0,sp+1)
-	;src in hl
-	;n/2 in bc
-	;LSB of bc in carry
-	jr nc, skip_one
+	jr	nc, skip_one
 
 	WAIT_STAT
 	ld	a, (hl+)
@@ -39,7 +48,7 @@ skip_one:
 	;n/4 in bc
 	inc	b
 	inc	c
-	jr nc, test
+	jr	nc, test
 	jr	copy_two
 .irp	idx,copy_four,copy_two
 	idx:
