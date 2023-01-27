@@ -2,11 +2,11 @@
 
 	.area   _CODE
 
-	.globl	_vmemcpy2, _set_data2, _get_data2
+	.globl	_vmemcpy, _set_data, _get_data
 
-_vmemcpy2::
-_set_data2::
-_get_data2::
+_vmemcpy::
+_set_data::
+_get_data::
 	;dest in de
 	;src in bc
 	;n in sp+2,sp+3
