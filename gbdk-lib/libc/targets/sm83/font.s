@@ -39,9 +39,7 @@
 
         .globl  .fg_colour, .bg_colour
 
-        .globl  .drawing_vbl, .drawing_lcd
-        .globl  .int_0x40, .int_0x48
-        .globl  .remove_int
+        .globl  .remove_VBL, .remove_LCD
         .globl  _set_bkg_1bpp_data, _set_bkg_data
 
         .area   _INITIALIZED
@@ -527,12 +525,10 @@ _posy::
         CALL    .display_off
 
         ;; Remove any interrupts setup by the drawing routine
-        LD      BC,#.drawing_vbl
-        LD      HL,#.int_0x40
-        CALL    .remove_int
-        LD      BC,#.drawing_lcd
-        LD      HL,#.int_0x48
-        CALL    .remove_int
+        LD      DE,#.drawing_vbl
+        CALL    .remove_VBL
+        LD      DE,#.drawing_lcd
+        CALL    .remove_LCD
 1$:
 
         CALL    .tmode_out

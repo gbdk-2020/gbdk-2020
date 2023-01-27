@@ -20,10 +20,10 @@
 	;; initialize SIO
 	LD	BC,#.serial_IO
 	CALL	.add_SIO
-	
+
 	XOR	A
 	LDH	(.IF),A
-	
+
 	LDH	A,(.IE)
 	OR	A,#0b00001000	; Serial I/O	=   On
 	LDH	(.IE),A
@@ -37,29 +37,11 @@
 	.area	_HOME
 
 _add_SIO::
-	PUSH	BC
-	LDA	HL,4(SP)	; Skip return address and registers
-	LD	C,(HL)
-	INC	HL
-	LD	B,(HL)
-	CALL	.add_SIO
-	POP	BC
-	RET
-
 .add_SIO::
 	LD	HL,#.int_0x58
 	JP	.add_int
 
 _remove_SIO::
-	PUSH	BC
-	LDA	HL,4(SP)	; Skip return address and registers
-	LD	C,(HL)
-	INC	HL
-	LD	B,(HL)
-	CALL	.remove_SIO
-	POP	BC
-	RET
-
 .remove_SIO::
 	LD	HL,#.int_0x58
 	JP	.remove_int

@@ -228,7 +228,7 @@ _reset::
         CALL    .refresh_OAM
 
         ;; Install interrupt routines
-        LD      BC,#.std_vbl
+        LD      DE,#.std_vbl
         CALL    .add_VBL
 
         ;; Standard color palettes
@@ -273,13 +273,10 @@ _exit::
 
 _set_interrupts::
         DI
-        LDA     HL,2(SP)        ; Skip return address
+        LDH     (.IE),A         ; interrupts are still disabled here
         XOR     A
         LDH     (.IF),A         ; Clear pending interrupts
-        LD      A,(HL)
-        EI                      ; Enable interrupts
-        LDH     (.IE),A         ; interrupts are still disabled here
-        RET
+        RETI
 
         ;; Copy OAM data to OAM RAM
 .start_refresh_OAM:
@@ -409,20 +406,21 @@ gsinit::
 4$:
         RET
 
-        ;; Remove interrupt routine in BC from the VBL interrupt list
+        ;; Remove interrupt routine in DE from the VBL interrupt list
         ;; falldown to .remove_int
+_remove_VBL::
 .remove_VBL::
         LD      HL,#.int_0x40
 
-        ;; Remove interrupt BC from interrupt list HL if it exists
+        ;; Remove interrupt DE from interrupt list HL if it exists
         ;; Abort if a 0000 is found (end of list)
 .remove_int::
 1$:
         LD      A,(HL+)
-        LD      E,A
-        LD      D,(HL)
-        INC     HL
-        OR      D
+        LD      C,A
+        LD      A,(HL+)
+        LD      B,A
+        OR      C
         RET     Z               ; No interrupt found
 
         LD      A,E
@@ -432,26 +430,27 @@ gsinit::
         CP      B
         JR      NZ,1$
 
-        LD      D,H
-        LD      E,L
-        DEC     DE
-        DEC     DE
+        LD      B,H
+        LD      C,L
+        DEC     BC
+        DEC     BC
 
         ;; Now do a memcpy from here until the end of the list
 2$:
         LD      A,(HL+)
-        LD      (DE),A
-        LD      B,A
-        INC     DE
+        LD      (BC),A
+        INC     BC
+        LD      D,A
         LD      A,(HL+)
-        LD      (DE),A
-        INC     DE
-        OR      B
-        RET     Z
-        JR      2$
+        LD      (BC),A
+        INC     BC
+        OR      D
+        JR      NZ, 2$
+        RET
 
         ;; Add interrupt routine in BC to the VBL interrupt list
         ;; falldown to .add_int
+_add_VBL::
 .add_VBL::
         LD      HL,#.int_0x40
 
@@ -506,24 +505,4 @@ _display_off::
         LDH     A,(.LCDC)
         AND     #~LCDCF_ON
         LDH     (.LCDC),A       ; Turn off screen
-        RET
-
-_remove_VBL::
-        PUSH    BC
-        LDA     HL,4(SP)        ; Skip return address and registers
-        LD      A,(HL+)
-        LD      C,A
-        LD      B,(HL)
-        CALL    .remove_VBL
-        POP     BC
-        RET
-
-_add_VBL::
-        PUSH    BC
-        LDA     HL, 4(SP)       ; Skip return address and registers
-        LD      A,(HL+)
-        LD      C,A
-        LD      B,(HL)
-        CALL    .add_VBL
-        POP     BC
         RET

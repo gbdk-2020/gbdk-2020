@@ -15,11 +15,4 @@
         .area   _HOME
 
 _add_TIM::
-        PUSH    BC
-        LDA     HL,4(SP)        ; Skip return address and registers
-        LD      C,(HL)
-        INC     HL
-        LD      B,(HL)
-        CALL    .add_TIM
-        POP     BC
-        RET
+        JP      .add_TIM

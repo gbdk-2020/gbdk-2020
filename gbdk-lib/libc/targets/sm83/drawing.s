@@ -81,9 +81,9 @@
         CALL    .init_vram      ; Init the charset at 0x8000
 
         ;; Install interrupt routines
-        LD      BC,#.drawing_vbl
+        LD      DE,#.drawing_vbl
         CALL    .add_VBL
-        LD      BC,#.drawing_lcd
+        LD      DE,#.drawing_lcd
         CALL    .add_LCD
 
         LD      A,#72           ; Set line at which LCD interrupt occurs

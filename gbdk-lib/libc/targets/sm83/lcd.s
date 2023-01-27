@@ -35,7 +35,7 @@
 	LD	L,A
 	OR      H
 	CALL    NZ, .call_hl
-1$:	
+1$:
 	POP     HL
 	POP	DE
 	POP	BC
@@ -48,29 +48,11 @@
 	RETI
 
 _add_LCD::
-	PUSH	BC
-	LDA	HL,4(SP)	; Skip return address and registers
-	LD	C,(HL)
-	INC	HL
-	LD	B,(HL)
-	CALL	.add_LCD
-	POP	BC
-	RET
-
 .add_LCD::
 	LD	HL,#.int_0x48
 	JP	.add_int
 
 _remove_LCD::
-	PUSH	BC
-	LDA	HL,4(SP)	; Skip return address and registers
-	LD	C,(HL)
-	INC	HL
-	LD	B,(HL)
-	CALL	.remove_LCD
-	POP	BC
-	RET
-
 .remove_LCD::
 	LD	HL,#.int_0x48
 	JP	.remove_int

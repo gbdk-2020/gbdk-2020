@@ -171,17 +171,17 @@ typedef void (*int_handler)(void) NONBANKED;
 
    Removes the VBL interrupt handler. @see add_VBL()
 */
-void remove_VBL(int_handler h) OLDCALL;
+void remove_VBL(int_handler h);
 
 /** Removes the LCD interrupt handler.
     @see add_LCD(), remove_VBL()
 */
-void remove_LCD(int_handler h) OLDCALL;
+void remove_LCD(int_handler h);
 
 /** Removes the TIM interrupt handler.
     @see add_TIM(), remove_VBL()
 */
-void remove_TIM(int_handler h) OLDCALL;
+void remove_TIM(int_handler h);
 
 /** Removes the Serial Link / SIO interrupt handler.
    @see add_SIO(), @see remove_VBL()
@@ -195,12 +195,12 @@ void remove_TIM(int_handler h) OLDCALL;
     Only secondary chained SIO ISRs (added with @ref add_SIO() )
     can be removed.
 */
-void remove_SIO(int_handler h) OLDCALL;
+void remove_SIO(int_handler h);
 
 /** Removes the JOY interrupt handler.
     @see add_JOY(), remove_VBL()
 */
-void remove_JOY(int_handler h) OLDCALL;
+void remove_JOY(int_handler h);
 
 /** Adds a Vertical Blanking interrupt handler.
 
@@ -225,7 +225,7 @@ void remove_JOY(int_handler h) OLDCALL;
 
     @see ISR_VECTOR()
 */
-void add_VBL(int_handler h) OLDCALL;
+void add_VBL(int_handler h);
 
 /** Adds a LCD interrupt handler.
 
@@ -242,7 +242,7 @@ void add_VBL(int_handler h) OLDCALL;
     This can be useful for dynamically controlling the
     @ref SCX_REG / @ref SCY_REG registers ($FF43/$FF42) to perform
     special video effects.
-    
+
     __Do not__ use the function definition attributes
     @ref CRITICAL and @ref INTERRUPT when declaring
     ISR functions added via add_VBL() (or LCD, etc).
@@ -260,7 +260,7 @@ void add_VBL(int_handler h) OLDCALL;
 
     @see add_VBL, nowait_int_handler, ISR_VECTOR()
 */
-void add_LCD(int_handler h) OLDCALL;
+void add_LCD(int_handler h);
 
 /** Adds a timer interrupt handler.
 
@@ -275,7 +275,7 @@ void add_LCD(int_handler h) OLDCALL;
     @see add_VBL
     @see set_interrupts() with TIM_IFLAG, ISR_VECTOR()
 */
-void add_TIM(int_handler h) OLDCALL;
+void add_TIM(int_handler h);
 
 /** Adds a timer interrupt handler, that could be
     interrupted by the other interrupts,
@@ -292,7 +292,7 @@ void add_TIM(int_handler h) OLDCALL;
     @see add_VBL
     @see set_interrupts() with TIM_IFLAG, ISR_VECTOR()
 */
-void add_low_priority_TIM(int_handler h) OLDCALL;
+void add_low_priority_TIM(int_handler h);
 
 /** Adds a Serial Link transmit complete interrupt handler.
 
@@ -305,7 +305,7 @@ void add_low_priority_TIM(int_handler h) OLDCALL;
     @see send_byte, receive_byte(), add_VBL()
     @see set_interrupts() with SIO_IFLAG
 */
-void add_SIO(int_handler h) OLDCALL;
+void add_SIO(int_handler h);
 
 
 /** Adds a joypad button change interrupt handler.
@@ -322,7 +322,7 @@ void add_SIO(int_handler h) OLDCALL;
 
     @see joypad(), add_VBL()
 */
-void add_JOY(int_handler h) OLDCALL;
+void add_JOY(int_handler h);
 
 
 /** Interrupt handler chain terminator that does __not__ wait for .STAT
@@ -757,7 +757,7 @@ inline void disable_interrupts() PRESERVES_REGS(a, b, c, d, e, h, l) {
     @see enable_interrupts(), disable_interrupts()
     @see VBL_IFLAG, LCD_IFLAG, TIM_IFLAG, SIO_IFLAG, JOY_IFLAG
 */
-void set_interrupts(uint8_t flags) OLDCALL PRESERVES_REGS(b, c, d, e);
+void set_interrupts(uint8_t flags) PRESERVES_REGS(b, c, d, e, h, l);
 
 /** Performs a warm reset by reloading the CPU value
     then jumping to the start of crt0 (0x0150)
