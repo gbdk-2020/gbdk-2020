@@ -11,11 +11,9 @@
 ; void __hide_metasprite(uint8_t id)
 
 ___hide_metasprite::
-        ldhl    sp, #2
-        ld      a, (hl)
         cp      #40
         ret     nc
-        
+
         add     a
         add     a
         ld      e, a

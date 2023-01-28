@@ -158,6 +158,7 @@ void main(void) {
     DISPLAY_OFF;
 
 #if defined(GAMEBOY)
+    cgb_compatibility();
     set_sprite_palette(OAMF_CGB_PAL0, 1, gray_pal);
     set_sprite_palette(OAMF_CGB_PAL1, 1, pink_pal);
     set_sprite_palette(OAMF_CGB_PAL2, 1, cyan_pal);
