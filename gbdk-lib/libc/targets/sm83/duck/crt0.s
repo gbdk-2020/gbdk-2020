@@ -213,10 +213,11 @@ _exit::
 
 _set_interrupts::
         DI
-        LDH     (.IE),A         ; interrupts are still disabled here
+        LDH     (.IE),A
         XOR     A
+        EI
         LDH     (.IF),A         ; Clear pending interrupts
-        RETI
+        RET
 
         ;; Copy OAM data to OAM RAM
 .start_refresh_OAM:
@@ -403,9 +404,9 @@ _add_VBL::
         INC     HL
         JR      1$
 2$:
-        LD      A,B
+        LD      A,D
         LD      (HL-),A
-        LD      (HL),C
+        LD      (HL),E
         RET
 
         ;; Wait for VBL interrupt to be finished

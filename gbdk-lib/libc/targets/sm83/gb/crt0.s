@@ -279,10 +279,11 @@ _exit::
 
 _set_interrupts::
         DI
-        LDH     (.IE),A         ; interrupts are still disabled here
+        LDH     (.IE),A
         XOR     A
+        EI
         LDH     (.IF),A         ; Clear pending interrupts
-        RETI
+        RET
 
         ;; Copy OAM data to OAM RAM
 .start_refresh_OAM:

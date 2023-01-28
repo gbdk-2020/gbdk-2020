@@ -11,6 +11,5 @@
 	LD	B,#0x00
 	ADD	HL,BC
 
-	LD	A,D		; Set sprite properties
-	LD	(HL),A
+	LD	(HL),D	; Set sprite properties
 	RET
