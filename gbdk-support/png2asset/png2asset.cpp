@@ -10,13 +10,11 @@
 
 using namespace std;
 
-#include "image_utils.h"
 #include "png2asset.h"
+#include "image_utils.h"
 
 int decodePNG(vector<unsigned char>& out_image, unsigned long& image_width, unsigned long& image_height, const unsigned char* in_png, size_t in_size, bool convert_to_rgba32 = true);
 void loadFile(vector<unsigned char>& buffer, const std::string& filename);
-
-#define RGBA32_SZ 4 // RGBA 8:8:8:8 is 4 bytes per pixel
 
 bool export_map_binary();
 bool export_h_file(void);
@@ -39,6 +37,7 @@ bool export_c_file(void);
 	string output_filename;
 	int  bank = 0;
 	bool keep_palette_order = false;
+	bool repair_indexed_pal = false;
 	bool output_binary = false;
 	bool output_transposed = false;
 	size_t max_palettes = 8;
@@ -520,7 +519,7 @@ void PackMapAttributes()
 	map_attributes = map_attributes_packed;
 }
 
-bool GetSourceTileset(bool keep_palette_order, unsigned int max_palettes, vector< SetPal >& palettes) {
+bool GetSourceTileset(bool repair_indexed_pal, bool keep_palette_order, unsigned int max_palettes, vector< SetPal >& palettes) {
 
 	lodepng::State sourceTilesetState;
 	vector<unsigned char> buffer2;
@@ -563,6 +562,10 @@ bool GetSourceTileset(bool keep_palette_order, unsigned int max_palettes, vector
 		if(source_tileset_image.palette) {
 			memcpy(source_tileset_image.palette, sourceTilesetState.info_png.color.palette, source_tileset_image.total_color_count * RGBA32_SZ);
 		}
+
+		if (repair_indexed_pal)
+			if (!image_indexed_repair_tile_palettes(source_tileset_image, use_2x2_map_attributes))
+				return 1;
 	}
 	else {
 
@@ -681,6 +684,7 @@ int main(int argc, char* argv[])
 		printf("-spr16x16msx        use SPRITES_16x16\n");
 		printf("-b <bank>           bank (default 0)\n");
 		printf("-keep_palette_order use png palette\n");
+		printf("-repair_indexed_pal try to repair tile palettes with \"-keep_palette_order\"\n");
 		printf("-noflip             disable tile flip\n");
 		printf("-map                Export as map (tileset + bg)\n");
 		printf("-use_map_attributes Use CGB BG Map attributes\n");
@@ -768,6 +772,10 @@ int main(int argc, char* argv[])
 		else if(!strcmp(argv[i], "-keep_palette_order"))
 		{
 			keep_palette_order = true;
+		}
+		else if(!strcmp(argv[i], "-repair_indexed_pal"))
+		{
+			repair_indexed_pal = true;
 		}
 		else if(!strcmp(argv[i], "-noflip"))
 		{
@@ -885,7 +893,7 @@ int main(int argc, char* argv[])
 
 	if (use_source_tileset) {
 
-		if (!GetSourceTileset(keep_palette_order, max_palettes, palettes)) {
+		if (!GetSourceTileset(repair_indexed_pal, keep_palette_order, max_palettes, palettes)) {
 			return 1;
 		}
 	}
@@ -927,6 +935,11 @@ int main(int argc, char* argv[])
 		unsigned int palette_count = PaletteCountApplyMaxLimit(max_palettes, state.info_png.color.palettesize / image.colors_per_pal);
 		image.total_color_count = palette_count * image.colors_per_pal;
 		image.palette = state.info_png.color.palette;
+
+
+		if (repair_indexed_pal)
+			if (!image_indexed_repair_tile_palettes(image, use_2x2_map_attributes))
+				return 1;
 
 		// TODO: Enable dimension check
 		// // Validate image dimensions

@@ -1,6 +1,7 @@
 #ifndef _PNG2ASSET_H
 #define _PNG2ASSET_H
 
+#define RGBA32_SZ 4 // RGBA 8:8:8:8 is 4 bytes per pixel
 
 enum {
     SPR_NONE,
@@ -96,6 +97,12 @@ struct PNGImage
     // Default tile size
     int tile_w = 8;
     int tile_h = 16;
+
+    // TODO: embed these instead of deriving them many places in the code
+    // int attribute_w_factor = 1;
+    // int attribute_h_factor = 1;
+    // int get_attribute_tile_w() { tile_w * attribute_w_factor; }
+    // int get_attribute_tile_h() { tile_h * attribute_h_factor; }
 
     size_t colors_per_pal;  // Number of colors per palette (ex: CGB has 4 colors per palette x 8 palettes total)
     size_t total_color_count; // Total number of colors across all palettes (palette_count x colors_per_pal)
