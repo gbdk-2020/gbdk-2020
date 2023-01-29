@@ -54,7 +54,7 @@ const uint8_t pattern[] = {0x80,0x80,0x40,0x40,0x20,0x20,0x10,0x10,0x08,0x08,0x0
 #define TILE_NUM_START 0
 
 // sprite coords
-uint16_t PosX, PosY;
+int16_t PosX, PosY;
 int16_t SpdX, SpdY;
 uint8_t PosF;
 uint8_t hide, jitter;

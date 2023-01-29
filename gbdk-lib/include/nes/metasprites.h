@@ -91,13 +91,13 @@ extern uint8_t __current_base_prop;
 extern uint8_t __render_shadow_OAM;
 
 
-static uint8_t __move_metasprite(uint8_t id, uint8_t x, uint8_t y) OLDCALL;
-static uint8_t __move_metasprite_flipx(uint8_t id, uint8_t x, uint8_t y) OLDCALL;
-static uint8_t __move_metasprite_flipy(uint8_t id, uint8_t x, uint8_t y) OLDCALL;
-static uint8_t __move_metasprite_flipxy(uint8_t id, uint8_t x, uint8_t y) OLDCALL;
-static uint8_t __move_metasprite_vflip(uint8_t id, uint8_t x, uint8_t y) OLDCALL;
-static uint8_t __move_metasprite_hflip(uint8_t id, uint8_t x, uint8_t y) OLDCALL;
-static uint8_t __move_metasprite_hvflip(uint8_t id, uint8_t x, uint8_t y) OLDCALL;
+static uint8_t __move_metasprite(uint8_t id, int16_t x, int16_t y) OLDCALL;
+static uint8_t __move_metasprite_flipx(uint8_t id, int16_t x, int16_t y) OLDCALL;
+static uint8_t __move_metasprite_flipy(uint8_t id, int16_t x, int16_t y) OLDCALL;
+static uint8_t __move_metasprite_flipxy(uint8_t id, int16_t x, int16_t y) OLDCALL;
+static uint8_t __move_metasprite_vflip(uint8_t id, int16_t x, int16_t y) OLDCALL;
+static uint8_t __move_metasprite_hflip(uint8_t id, int16_t x, int16_t y) OLDCALL;
+static uint8_t __move_metasprite_hvflip(uint8_t id, int16_t x, int16_t y) OLDCALL;
 static void __hide_metasprite(uint8_t id) OLDCALL;
 
 /**
@@ -129,7 +129,7 @@ void hide_sprites_range(UINT8 from, UINT8 to) OLDCALL;
 
     @return Number of hardware sprites used to draw this metasprite
  */
-inline uint8_t move_metasprite_ex(const metasprite_t * metasprite, uint8_t base_tile, uint8_t base_prop, uint8_t base_sprite, uint8_t x, uint8_t y) {
+inline uint8_t move_metasprite_ex(const metasprite_t * metasprite, uint8_t base_tile, uint8_t base_prop, uint8_t base_sprite, int16_t x, int16_t y) {
     base_prop;
     __current_metasprite = metasprite;
     __current_base_tile = base_tile;
@@ -139,7 +139,7 @@ inline uint8_t move_metasprite_ex(const metasprite_t * metasprite, uint8_t base_
 
 /** Obsolete
 */
-inline uint8_t move_metasprite(const metasprite_t * metasprite, uint8_t base_tile, uint8_t base_sprite, uint8_t x, uint8_t y) {
+inline uint8_t move_metasprite(const metasprite_t * metasprite, uint8_t base_tile, uint8_t base_sprite, int16_t x, int16_t y) {
     __current_metasprite = metasprite;
     __current_base_tile = base_tile;
     __current_base_prop = 0;
@@ -167,7 +167,7 @@ inline uint8_t move_metasprite(const metasprite_t * metasprite, uint8_t base_til
 
     @see move_metasprite()
 */
-inline uint8_t move_metasprite_flipx(const metasprite_t * metasprite, uint8_t base_tile, uint8_t base_prop, uint8_t base_sprite, uint8_t x, uint8_t y) {
+inline uint8_t move_metasprite_flipx(const metasprite_t * metasprite, uint8_t base_tile, uint8_t base_prop, uint8_t base_sprite, int16_t x, int16_t y) {
     base_prop;
     __current_metasprite = metasprite;
     __current_base_tile = base_tile;
@@ -177,7 +177,7 @@ inline uint8_t move_metasprite_flipx(const metasprite_t * metasprite, uint8_t ba
 
 /** Obsolete
 */
-inline uint8_t move_metasprite_vflip(const metasprite_t * metasprite, uint8_t base_tile, uint8_t base_sprite, uint8_t x, uint8_t y) {
+inline uint8_t move_metasprite_vflip(const metasprite_t * metasprite, uint8_t base_tile, uint8_t base_sprite, int16_t x, int16_t y) {
     __current_metasprite = metasprite;
     __current_base_tile = base_tile;
     __current_base_prop = 0;
@@ -206,7 +206,7 @@ inline uint8_t move_metasprite_vflip(const metasprite_t * metasprite, uint8_t ba
 
     @see move_metasprite()
 */
-inline uint8_t move_metasprite_flipy(const metasprite_t * metasprite, uint8_t base_tile, uint8_t base_prop, uint8_t base_sprite, uint8_t x, uint8_t y) {
+inline uint8_t move_metasprite_flipy(const metasprite_t * metasprite, uint8_t base_tile, uint8_t base_prop, uint8_t base_sprite, int16_t x, int16_t y) {
     base_prop;
     __current_metasprite = metasprite;
     __current_base_tile = base_tile;
@@ -216,7 +216,7 @@ inline uint8_t move_metasprite_flipy(const metasprite_t * metasprite, uint8_t ba
 
 /** Obsolete
 */
-inline uint8_t move_metasprite_hflip(const metasprite_t * metasprite, uint8_t base_tile, uint8_t base_sprite, uint8_t x, uint8_t y) {
+inline uint8_t move_metasprite_hflip(const metasprite_t * metasprite, uint8_t base_tile, uint8_t base_sprite, int16_t x, int16_t y) {
     __current_metasprite = metasprite;
     __current_base_tile = base_tile;
     __current_base_prop = 0;
@@ -244,7 +244,7 @@ inline uint8_t move_metasprite_hflip(const metasprite_t * metasprite, uint8_t ba
 
     @see move_metasprite()
 */
-inline uint8_t move_metasprite_flipxy(const metasprite_t * metasprite, uint8_t base_tile, uint8_t base_prop, uint8_t base_sprite, uint8_t x, uint8_t y) {
+inline uint8_t move_metasprite_flipxy(const metasprite_t * metasprite, uint8_t base_tile, uint8_t base_prop, uint8_t base_sprite, int16_t x, int16_t y) {
     base_prop;
     __current_metasprite = metasprite;
     __current_base_tile = base_tile;
@@ -254,7 +254,7 @@ inline uint8_t move_metasprite_flipxy(const metasprite_t * metasprite, uint8_t b
 
 /** Obsolete
 */
-inline uint8_t move_metasprite_hvflip(const metasprite_t * metasprite, uint8_t base_tile, uint8_t base_sprite, uint8_t x, uint8_t y) {
+inline uint8_t move_metasprite_hvflip(const metasprite_t * metasprite, uint8_t base_tile, uint8_t base_sprite, int16_t x, int16_t y) {
     __current_metasprite = metasprite;
     __current_base_tile = base_tile;
     __current_base_prop = 0;
