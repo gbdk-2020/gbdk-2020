@@ -435,7 +435,7 @@
         .DT_RECEIVING   = 0x55
 
         ;; Table of routines for modes
-        .MODE_TABLE     = 0x01E0
+        .MODE_TABLE     = 0x00F0
 
         ;; C related
         ;; Overheap of a banked call.  Used for parameters

@@ -121,9 +121,30 @@ _refresh_OAM::
         RST     0x28
         RET
 
-        ;; GameBoy Header
+        ;; Wait for VBL interrupt to be finished
+.wait_vbl_done::
+_wait_vbl_done::
+_vsync::
+        ;; Check if the screen is on
+        LDH     A,(.LCDC)
+        AND     #LCDCF_ON
+        RET     Z               ; Return if screen is off
+        XOR     A
+        LDH     (.vbl_done),A   ; Clear any previous sets of vbl_done
+1$:
+        HALT                    ; Wait for any interrupt
+        NOP                     ; HALT sometimes skips the next instruction
+        LDH     A,(.vbl_done)   ; Was it a VBlank interrupt?
+        ;; Warning: we may lose a VBlank interrupt, if it occurs now
+        OR      A
+        JR      Z,1$            ; No: back to sleep!
+        RET
 
-        ;; DO NOT CHANGE...
+        .org    .MODE_TABLE
+        ;; Jump table for modes: 4 modes, 4 bytes each 16 bytes total
+        RET
+
+        ;; GameBoy Header
         .org    0x100
 .header:
         JR      .code_start
@@ -299,8 +320,66 @@ _set_interrupts::
         RET
 .end_refresh_OAM:
 
-        .org    .MODE_TABLE
-        ;; Jump table for modes
+        ;; Remove interrupt routine in DE from the VBL interrupt list
+        ;; falldown to .remove_int
+_remove_VBL::
+.remove_VBL::
+        LD      HL,#.int_0x40
+
+        ;; Remove interrupt DE from interrupt list HL if it exists
+        ;; Abort if a 0000 is found (end of list)
+.remove_int::
+1$:
+        LD      A,(HL+)
+        LD      C,A
+        LD      A,(HL+)
+        LD      B,A
+        OR      C
+        RET     Z               ; No interrupt found
+
+        LD      A,E
+        CP      C
+        JR      NZ,1$
+        LD      A,D
+        CP      B
+        JR      NZ,1$
+
+        LD      B,H
+        LD      C,L
+        DEC     BC
+        DEC     BC
+
+        ;; Now do a memcpy from here until the end of the list
+2$:
+        LD      A,(HL+)
+        LD      (BC),A
+        INC     BC
+        LD      D,A
+        LD      A,(HL+)
+        LD      (BC),A
+        INC     BC
+        OR      D
+        JR      NZ, 2$
+        RET
+
+        ;; Add interrupt routine in DE to the VBL interrupt list
+        ;; falldown to .add_int
+_add_VBL::
+.add_VBL::
+        LD      HL,#.int_0x40
+
+        ;; Add interrupt routine in DE to the interrupt list in HL
+.add_int::
+1$:
+        LD      A,(HL+)
+        OR      (HL)
+        JR      Z,2$
+        INC     HL
+        JR      1$
+2$:
+        LD      A,D
+        LD      (HL-),A
+        LD      (HL),E
         RET
 
         ;; ****************************************
@@ -415,87 +494,6 @@ gsinit::
         DEC     B
         JR      NZ,1$
 4$:
-        RET
-
-        ;; Remove interrupt routine in DE from the VBL interrupt list
-        ;; falldown to .remove_int
-_remove_VBL::
-.remove_VBL::
-        LD      HL,#.int_0x40
-
-        ;; Remove interrupt DE from interrupt list HL if it exists
-        ;; Abort if a 0000 is found (end of list)
-.remove_int::
-1$:
-        LD      A,(HL+)
-        LD      C,A
-        LD      A,(HL+)
-        LD      B,A
-        OR      C
-        RET     Z               ; No interrupt found
-
-        LD      A,E
-        CP      C
-        JR      NZ,1$
-        LD      A,D
-        CP      B
-        JR      NZ,1$
-
-        LD      B,H
-        LD      C,L
-        DEC     BC
-        DEC     BC
-
-        ;; Now do a memcpy from here until the end of the list
-2$:
-        LD      A,(HL+)
-        LD      (BC),A
-        INC     BC
-        LD      D,A
-        LD      A,(HL+)
-        LD      (BC),A
-        INC     BC
-        OR      D
-        JR      NZ, 2$
-        RET
-
-        ;; Add interrupt routine in DE to the VBL interrupt list
-        ;; falldown to .add_int
-_add_VBL::
-.add_VBL::
-        LD      HL,#.int_0x40
-
-        ;; Add interrupt routine in DE to the interrupt list in HL
-.add_int::
-1$:
-        LD      A,(HL+)
-        OR      (HL)
-        JR      Z,2$
-        INC     HL
-        JR      1$
-2$:
-        LD      A,D
-        LD      (HL-),A
-        LD      (HL),E
-        RET
-
-        ;; Wait for VBL interrupt to be finished
-.wait_vbl_done::
-_wait_vbl_done::
-_vsync::
-        ;; Check if the screen is on
-        LDH     A,(.LCDC)
-        AND     #LCDCF_ON
-        RET     Z               ; Return if screen is off
-        XOR     A
-        LDH     (.vbl_done),A   ; Clear any previous sets of vbl_done
-1$:
-        HALT                    ; Wait for any interrupt
-        NOP                     ; HALT sometimes skips the next instruction
-        LDH     A,(.vbl_done)   ; Was it a VBlank interrupt?
-        ;; Warning: we may lose a VBlank interrupt, if it occurs now
-        OR      A
-        JR      Z,1$            ; No: back to sleep!
         RET
 
 .display_off::
