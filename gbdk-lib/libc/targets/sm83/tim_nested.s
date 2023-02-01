@@ -10,10 +10,13 @@
         EI
         PUSH    AF
         PUSH    HL
-        LD      HL, #.int_0x50
-        JP      .int
+        JP      .process_TIM_callbacks
 
         .area   _HOME
+
+.process_TIM_callbacks:
+        LD      HL, #.int_0x50
+        JP      .int
 
 _add_low_priority_TIM::
          JP      .add_TIM
