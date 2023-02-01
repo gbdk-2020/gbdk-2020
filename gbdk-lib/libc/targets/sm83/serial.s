@@ -18,7 +18,7 @@
 	.area	_GSINIT
 
 	;; initialize SIO
-	LD	BC,#.serial_IO
+	LD	DE,#.serial_IO
 	CALL	.add_SIO
 
 	XOR	A
