@@ -67,7 +67,7 @@ extern const void __bank_ ## VARNAME;
 */
 #if defined(__TARGET_nes)
 // mos6502 target does not support banking yet - omit "__banked" keyword, and assume bank is 0 in asm code
-#define INCBIN(VARNAME, FILEPATH) void __func_ ## VARNAME() __naked { \
+#define INCBIN(VARNAME, FILEPATH) void __func_ ## VARNAME(void) __naked { \
 __asm \
 _ ## VARNAME:: \
 1$: \
@@ -82,7 +82,7 @@ __endasm; \
 }
 #else
 // Use __banked keyword and 'b' prefix for other targets
-#define INCBIN(VARNAME, FILEPATH) void __func_ ## VARNAME() __banked __naked { \
+#define INCBIN(VARNAME, FILEPATH) void __func_ ## VARNAME(void) __banked __naked { \
 __asm \
 _ ## VARNAME:: \
 1$: \

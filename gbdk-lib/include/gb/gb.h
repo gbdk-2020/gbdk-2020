@@ -340,7 +340,7 @@ void add_JOY(int_handler h);
     \endcode
     @see wait_int_handler()
 */
-void nowait_int_handler();
+void nowait_int_handler(void);
 
 
 /** Default Interrupt handler chain terminator that waits for
@@ -355,11 +355,11 @@ void nowait_int_handler();
 
     @see nowait_int_handler()
 */
-void wait_int_handler();
+void wait_int_handler(void);
 
 /** Cancel pending interrupts
  */
-inline uint8_t cancel_pending_interrupts() {
+inline uint8_t cancel_pending_interrupts(void) {
     return IF_REG = 0;
 }
 
@@ -375,7 +375,7 @@ void mode(uint8_t m) OLDCALL;
 
     @see M_DRAWING, M_TEXT_OUT, M_TEXT_INOUT, M_NO_SCROLL, M_NO_INTERP
 */
-uint8_t get_mode() OLDCALL PRESERVES_REGS(b, c);
+uint8_t get_mode(void) OLDCALL PRESERVES_REGS(b, c);
 
 /** GB CPU type
 
@@ -427,7 +427,7 @@ extern volatile uint16_t sys_time;
     @see add_SIO(), remove_SIO()
     @see set_interrupts() with @ref SIO_IFLAG
 */
-void send_byte();
+void send_byte(void);
 
 /** Serial Link: Receive a byte from the serial port into @ref _io_in
 
@@ -436,7 +436,7 @@ void send_byte();
     @see add_SIO(), remove_SIO()
     @see set_interrupts() with @ref SIO_IFLAG
 */
-void receive_byte();
+void receive_byte(void);
 
 /** Serial Link: Current IO Status. An OR of IO_* */
 extern volatile uint8_t _io_status;
@@ -499,7 +499,7 @@ __REG _current_bank;
     Use @ref BANKREF_EXTERN() within another source file
     to make the variable and it's data accesible there.
 */
-#define BANKREF(VARNAME) void __func_ ## VARNAME() __banked __naked { \
+#define BANKREF(VARNAME) void __func_ ## VARNAME(void) __banked __naked { \
 __asm \
     .local b___func_ ## VARNAME \
     ___bank_ ## VARNAME = b___func_ ## VARNAME \
@@ -660,7 +660,7 @@ void delay(uint16_t d) PRESERVES_REGS(h, l);
 
     @see J_START, J_SELECT, J_A, J_B, J_UP, J_DOWN, J_LEFT, J_RIGHT
 */
-uint8_t joypad() PRESERVES_REGS(b, c, h, l);
+uint8_t joypad(void) PRESERVES_REGS(b, c, h, l);
 
 /** Waits until at least one of the buttons given in mask are pressed.
 
@@ -681,7 +681,7 @@ uint8_t waitpad(uint8_t mask) PRESERVES_REGS(b, c, h, l);
     Note: Checks in a loop that doesn't HALT at all, so the CPU
     will be maxed out until this call returns.
 */
-void waitpadup() PRESERVES_REGS(a, b, c, d, e, h, l);
+void waitpadup(void) PRESERVES_REGS(a, b, c, d, e, h, l);
 
 /** Multiplayer joypad structure.
 
@@ -727,7 +727,7 @@ void joypad_ex(joypads_t * joypads) PRESERVES_REGS(b, c);
 
     @see disable_interrupts, set_interrupts, CRITICAL
 */
-inline void enable_interrupts() PRESERVES_REGS(a, b, c, d, e, h, l) {
+inline void enable_interrupts(void) PRESERVES_REGS(a, b, c, d, e, h, l) {
     __asm__("ei");
 }
 
@@ -743,7 +743,7 @@ inline void enable_interrupts() PRESERVES_REGS(a, b, c, d, e, h, l) {
 
     @see enable_interrupts, set_interrupts, CRITICAL
 */
-inline void disable_interrupts() PRESERVES_REGS(a, b, c, d, e, h, l) {
+inline void disable_interrupts(void) PRESERVES_REGS(a, b, c, d, e, h, l) {
     __asm__("di");
 }
 
@@ -762,7 +762,7 @@ void set_interrupts(uint8_t flags) PRESERVES_REGS(b, c, d, e, h, l);
 /** Performs a warm reset by reloading the CPU value
     then jumping to the start of crt0 (0x0150)
 */
-void reset();
+void reset(void);
 
 /** HALTs the CPU and waits for the vertical blank interrupt.
 
@@ -774,22 +774,22 @@ void reset();
     never return. If the screen is off this function returns
     immediately.
 */
-void vsync() PRESERVES_REGS(b, c, d, e, h, l);
+void vsync(void) PRESERVES_REGS(b, c, d, e, h, l);
 
 /** Obsolete
 */
-void wait_vbl_done() PRESERVES_REGS(b, c, d, e, h, l);
+void wait_vbl_done(void) PRESERVES_REGS(b, c, d, e, h, l);
 
 /** Turns the display off.
 
     Waits until the VBL interrupt before turning the display off.
     @see DISPLAY_ON
 */
-void display_off() PRESERVES_REGS(b, c, d, e, h, l);
+void display_off(void) PRESERVES_REGS(b, c, d, e, h, l);
 
 /** Copies data from shadow OAM to OAM
  */
-void refresh_OAM() PRESERVES_REGS(b, c, d, e, h, l);
+void refresh_OAM(void) PRESERVES_REGS(b, c, d, e, h, l);
 
 
 /** Copies data from somewhere in the lower address space to part of hi-ram.

@@ -157,7 +157,7 @@ void set_sprite_palette_entry(uint8_t palette, uint8_t entry, uint16_t rgb_data)
 
     @see cpu_fast()
  */
-void cpu_slow();
+void cpu_slow(void);
 
 /** Set CPU speed to fast (CGB Double Speed) operation.
 
@@ -171,7 +171,7 @@ void cpu_slow();
 
     @see cpu_slow(), _cpu
 */
-void cpu_fast();
+void cpu_fast(void);
 
 /** Set palette, compatible with the DMG/GBP.
 
@@ -181,10 +181,10 @@ void cpu_fast();
 
     \li You can check to see if @ref _cpu == @ref CGB_TYPE before using this function.
  */
-void set_default_palette();
+void set_default_palette(void);
 
 /** This function is obsolete
  */
-void cgb_compatibility();
+void cgb_compatibility(void);
 
 #endif /* _CGB_H */

@@ -160,7 +160,7 @@ void mode(uint8_t m) OLDCALL;
 
     @see M_DRAWING, M_TEXT_OUT, M_TEXT_INOUT, M_NO_SCROLL, M_NO_INTERP
 */
-uint8_t get_mode() OLDCALL;
+uint8_t get_mode(void) OLDCALL;
 
 /** Global Time Counter in VBL periods (60Hz)
 
@@ -224,7 +224,7 @@ extern volatile uint8_t _current_bank;
 /** Dummy macro for no-bank-switching WIP prototype
     @param b   ROM bank to switch to
 */
-#define SWITCH_ROM_DUMMY(b) 
+#define SWITCH_ROM_DUMMY(b)
 
 /** Makes default mapper switch the active ROM bank
     @param b   ROM bank to switch to (max 255)
@@ -248,7 +248,7 @@ void delay(uint16_t d) OLDCALL;
 
     @see J_START, J_SELECT, J_A, J_B, J_UP, J_DOWN, J_LEFT, J_RIGHT
 */
-uint8_t joypad() OLDCALL;
+uint8_t joypad(void) OLDCALL;
 
 /** Waits until at least one of the buttons given in mask are pressed.
 
@@ -263,7 +263,7 @@ uint8_t waitpad(uint8_t mask) OLDCALL;
 /** Waits for the directional pad and all buttons to be released.
 
 */
-void waitpadup();
+void waitpadup(void);
 
 /** Multiplayer joypad structure.
 
@@ -306,7 +306,7 @@ void joypad_ex(joypads_t * joypads) OLDCALL;
 
     @see disable_interrupts, set_interrupts, CRITICAL
 */
-inline void enable_interrupts() {
+inline void enable_interrupts(void) {
     __asm__("cli");
 }
 
@@ -322,7 +322,7 @@ inline void enable_interrupts() {
 
     @see enable_interrupts, set_interrupts, CRITICAL
 */
-inline void disable_interrupts() {
+inline void disable_interrupts(void) {
     __asm__("sei");
 }
 
@@ -335,22 +335,22 @@ inline void disable_interrupts() {
     Warning: If the VBL interrupt is disabled, this function will
     never return.
 */
-void vsync();
+void vsync(void);
 
 /** Obsolete
 */
-void wait_vbl_done();
+void wait_vbl_done(void);
 
 /** Turns the display off.
 
     Waits until the VBL interrupt before turning the display off.
     @see DISPLAY_ON
 */
-void display_off();
+void display_off(void);
 
 /** Copies data from shadow OAM to OAM
  */
-void refresh_OAM();
+void refresh_OAM(void);
 
 /** Turns the display back on.
     @see display_off, DISPLAY_OFF
@@ -504,7 +504,7 @@ void set_bkg_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *ti
     D3-D2: Top-right 16x16 pixels
     D5-D4: Bottom-left 16x16 pixels
     D7-D6: Bottom-right 16x16 pixels
-    
+
     https://www.nesdev.org/wiki/PPU_attribute_tables
 
     @see SHOW_BKG
@@ -586,7 +586,7 @@ inline void set_bkg_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const
 */
 void set_bkg_submap_attributes_nes16x16(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w) OLDCALL;
 
-/** Sets a rectangular area of the Background Tile Map attributes using 
+/** Sets a rectangular area of the Background Tile Map attributes using
     a sub-region from a source tile map. Useful for scrolling implementations
     of maps larger than 32 x 30 tiles.
 

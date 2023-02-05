@@ -98,7 +98,7 @@ void mode(uint8_t m) OLDCALL;
 
     @see M_TEXT_OUT, M_TEXT_INOUT, M_NO_SCROLL, M_NO_INTERP
 */
-uint8_t get_mode() OLDCALL;
+uint8_t get_mode(void) OLDCALL;
 
 /* Interrupt flags */
 /** Disable calling of interrupt service routines
@@ -212,17 +212,17 @@ inline void scroll_bkg(int8_t x, int8_t y) {
     never return. If the screen is off this function returns
     immediately.
 */
-void vsync() PRESERVES_REGS(b, c, d, e, h, l, iyh, iyl);
+void vsync(void) PRESERVES_REGS(b, c, d, e, h, l, iyh, iyl);
 
 /** Obsolete
 */
-void wait_vbl_done() PRESERVES_REGS(b, c, d, e, h, l, iyh, iyl);
+void wait_vbl_done(void) PRESERVES_REGS(b, c, d, e, h, l, iyh, iyl);
 
 /** Turns the display off.
 
     @see DISPLAY_ON
 */
-inline void display_off() {
+inline void display_off(void) {
 	__WRITE_VDP_REG(VDP_R1, __READ_VDP_REG(VDP_R1) &= (~R1_DISP_ON));
 }
 
@@ -240,7 +240,7 @@ inline void display_off() {
 
 /** Copies data from shadow OAM to OAM
  */
-void refresh_OAM();
+void refresh_OAM(void);
 
 /** Blanks leftmost column, so it is not garbaged when you use horizontal scroll
     @see SHOW_LEFT_COLUMN
@@ -337,7 +337,7 @@ extern volatile uint8_t _current_bank;
     Use @ref BANKREF_EXTERN() within another source file
     to make the variable and it's data accesible there.
 */
-#define BANKREF(VARNAME) void __func_ ## VARNAME() __banked __naked { \
+#define BANKREF(VARNAME) void __func_ ## VARNAME(void) __banked __naked { \
 __asm \
     .local b___func_ ## VARNAME \
     ___bank_ ## VARNAME = b___func_ ## VARNAME \
@@ -396,7 +396,7 @@ void delay(uint16_t d) Z88DK_FASTCALL;
 
 /** Reads and returns the current state of the joypad.
 */
-uint8_t joypad() OLDCALL PRESERVES_REGS(b, c, d, e, h, iyh, iyl);
+uint8_t joypad(void) OLDCALL PRESERVES_REGS(b, c, d, e, h, iyh, iyl);
 
 /** Waits until at least one of the buttons given in mask are pressed.
 */
@@ -407,7 +407,7 @@ uint8_t waitpad(uint8_t mask) Z88DK_FASTCALL PRESERVES_REGS(b, c, d, e, iyh, iyl
     Note: Checks in a loop that doesn't HALT at all, so the CPU
     will be maxed out until this call returns.
 */
-void waitpadup() PRESERVES_REGS(b, c, d, e, iyh, iyl);
+void waitpadup(void) PRESERVES_REGS(b, c, d, e, iyh, iyl);
 
 /** Multiplayer joypad structure.
 
@@ -474,8 +474,8 @@ typedef uint8_t palette_color_t;
 #error Unrecognized port
 #endif
 
-void set_default_palette();
-inline void cpu_fast() {}
+void set_default_palette(void);
+inline void cpu_fast(void) {}
 
 void set_palette_entry(uint8_t palette, uint8_t entry, uint16_t rgb_data) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
 #define set_bkg_palette_entry set_palette_entry

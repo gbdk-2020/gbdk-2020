@@ -86,7 +86,7 @@ extern volatile FAR_PTR __call_banked_ptr;
 extern volatile void * __call_banked_addr;
 extern volatile uint8_t __call_banked_bank;
 
-void __call__banked();
+void __call__banked(void);
 
 /** Obtain a far pointer at runtime
     @param ofs    Memory address within the given Segment (Bank)

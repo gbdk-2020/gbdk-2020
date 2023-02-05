@@ -133,8 +133,8 @@ __endasm
 
 */
 #if defined(NINTENDO)
-void EMU_profiler_message();
-#define BGB_profiler_message() EMU_profiler_message()
+void EMU_profiler_message(void);
+#define BGB_profiler_message EMU_profiler_message()
 #endif // NINTENDO
 
 /** Print the string and arguments given by format to the emulator debug message window
