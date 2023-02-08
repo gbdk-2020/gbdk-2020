@@ -12,7 +12,7 @@ BANKREF(some_const_var_4)
 void func_4() BANKED
 {
     printf("Func4 not autobank\n"
-           " is in ROM bank %u\n", _current_bank);
+           " is in ROM bank %u\n", CURRENT_BANK);
 }
 BANKREF(func_4)
 

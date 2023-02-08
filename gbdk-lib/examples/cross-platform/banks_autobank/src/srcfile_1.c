@@ -13,7 +13,7 @@ const uint8_t some_const_var_1 = 1;
 BANKREF(func_1)
 void func_1() BANKED
 {
-    printf("Func1 in ROM bank %u\n", _current_bank);
+    printf("Func1 in ROM bank %u\n", CURRENT_BANK);
 }
 
 // A big constant array to take up space

@@ -53,7 +53,7 @@ void main(void)
   //
 
   // Save the currently active bank
-  _saved_bank = _current_bank;
+  _saved_bank = CURRENT_BANK;
 
   // Switch to the desired one
   SWITCH_ROM(BANK(some_const_var_4));

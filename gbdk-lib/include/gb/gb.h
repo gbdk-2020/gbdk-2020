@@ -533,7 +533,7 @@ __endasm; \
 
     @see SWITCH_ROM_MBC1, SWITCH_ROM_MBC5, SWITCH_ROM_MEGADUCK
 */
-#define SWITCH_ROM (_current_bank = (b), rROMB0 = (b))
+#define SWITCH_ROM(b) (_current_bank = (b), rROMB0 = (b))
 
 #define SWITCH_RAM(b) (rRAMB = (b))
 
