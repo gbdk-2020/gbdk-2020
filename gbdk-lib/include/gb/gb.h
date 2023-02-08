@@ -518,24 +518,6 @@ __endasm; \
 */
 #define BANKREF_EXTERN(VARNAME) extern const void __bank_ ## VARNAME;
 
-/** Makes MEGADUCK MBC switch the active ROM bank
-    @param b   ROM bank to switch to (max `3` for 64K, or `7` for 128K)
-*/
-#define SWITCH_ROM_MEGADUCK(b) \
-  _current_bank = (b), *(volatile uint8_t *)0x0001 = (b)
-
-
-/** Makes MBC1 and other compatible MBCs switch the active ROM bank
-    @param b   ROM bank to switch to
-
-    For MBC1 some banks in it's range are unavailable
-    (typically 0x20, 0x40, 0x60).
-
-    See pandocs for more details https://gbdev.io/pandocs/MBC1
-*/
-#define SWITCH_ROM_MBC1(b) \
-  _current_bank = (b), *(volatile uint8_t *)0x2000 = (b)
-
 /** Makes default platform MBC switch the active ROM bank
     @param b   ROM bank to switch to (max 255)
 
@@ -551,44 +533,51 @@ __endasm; \
 
     @see SWITCH_ROM_MBC1, SWITCH_ROM_MBC5, SWITCH_ROM_MEGADUCK
 */
-#if defined(__TARGET_duck)
-#define SWITCH_ROM SWITCH_ROM_MEGADUCK
-#else
-#define SWITCH_ROM SWITCH_ROM_MBC1
-#endif
+#define SWITCH_ROM (_current_bank = (b), rROMB0 = (b))
+
+#define SWITCH_RAM(b) (rRAMB = (b))
+
+#define ENABLE_RAM (rRAMG = 0x0A)
+
+#define DISABLE_RAM (rRAMG = 0x00)
+
+/** Makes MEGADUCK MBC switch the active ROM bank
+    @param b   ROM bank to switch to (max `3` for 64K, or `7` for 128K)
+*/
+#define SWITCH_ROM_MEGADUCK(b) SWITCH_ROM(b)
+
+/** Makes MBC1 and other compatible MBCs switch the active ROM bank
+    @param b   ROM bank to switch to
+
+    For MBC1 some banks in it's range are unavailable
+    (typically 0x20, 0x40, 0x60).
+
+    See pandocs for more details https://gbdev.io/pandocs/MBC1
+*/
+#define SWITCH_ROM_MBC1(b) SWITCH_ROM(b)
 
 /** Switches SRAM bank on MBC1 and other compaticle MBCs
     @param b   SRAM bank to switch to
 */
-#define SWITCH_RAM_MBC1(b) \
-  *(volatile uint8_t *)0x4000 = (b)
+#define SWITCH_RAM_MBC1(b) SWITCH_RAM(b)
 
 /** Switches SRAM bank on MBC1 and other compaticle MBCs
     @param b   SRAM bank to switch to
 
     @see SWITCH_RAM_MBC1, SWITCH_RAM_MBC5
 */
-#define SWITCH_RAM SWITCH_RAM_MBC1
 
 /** Enables SRAM on MBC1
 */
-#define ENABLE_RAM_MBC1 \
-  *(volatile uint8_t *)0x0000 = 0x0A
-
-#define ENABLE_RAM ENABLE_RAM_MBC1
+#define ENABLE_RAM_MBC1 ENABLE_RAM
 
 /** Disables SRAM on MBC1
 */
-#define DISABLE_RAM_MBC1 \
-  *(volatile uint8_t *)0x0000 = 0x00
+#define DISABLE_RAM_MBC1 DISABLE_RAM
 
-#define DISABLE_RAM DISABLE_RAM_MBC1
+#define SWITCH_16_8_MODE_MBC1 (*(volatile uint8_t *)0x6000 = 0x00)
 
-#define SWITCH_16_8_MODE_MBC1 \
-  *(volatile uint8_t *)0x6000 = 0x00
-
-#define SWITCH_4_32_MODE_MBC1 \
-  *(volatile uint8_t *)0x6000 = 0x01
+#define SWITCH_4_32_MODE_MBC1 (*(volatile uint8_t *)0x6000 = 0x01)
 
 /** Makes MBC5 switch to the active ROM bank
     @param b   ROM bank to switch to (max 255)
@@ -602,10 +591,7 @@ __endasm; \
 
     Note the order used here. Writing the other way around on a MBC1 always selects bank 1
 */
-#define SWITCH_ROM_MBC5(b) \
-  _current_bank = (b), \
-  *(volatile uint8_t *)0x3000 = 0, \
-  *(volatile uint8_t *)0x2000 = (b)
+#define SWITCH_ROM_MBC5(b) (_current_bank = (b), rROMB1 = 0, rROMB0 = (b))
 
 /** Makes MBC5 to switch the active ROM bank using the full 8MB size.
     @see _current_bank
@@ -620,25 +606,20 @@ __endasm; \
 
     Note the order used here. Writing the other way around on a MBC1 always selects bank 1
 */
-#define SWITCH_ROM_MBC5_8M(b) \
-  *(volatile uint8_t *)0x3000 = ((uint16_t)(b) >> 8), \
-  *(volatile uint8_t *)0x2000 = (b)
+#define SWITCH_ROM_MBC5_8M(b) (rROMB1 = ((uint16_t)(b) >> 8), rROMB0 = (b))
 
 /** Switches SRAM bank on MBC5
     @param b   SRAM bank to switch to
 */
-#define SWITCH_RAM_MBC5(b) \
-  *(volatile uint8_t *)0x4000 = (b)
+#define SWITCH_RAM_MBC5(b) SWITCH_RAM(b)
 
 /** Enables SRAM on MBC5
 */
-#define ENABLE_RAM_MBC5 \
-  *(volatile uint8_t *)0x0000 = 0x0A
+#define ENABLE_RAM_MBC5 ENABLE_RAM
 
 /** Disables SRAM on MBC5
 */
-#define DISABLE_RAM_MBC5 \
-  *(volatile uint8_t *)0x0000 = 0x00
+#define DISABLE_RAM_MBC5 DISABLE_RAM
 
 
 
