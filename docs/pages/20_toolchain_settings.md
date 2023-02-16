@@ -489,6 +489,7 @@ usage: png2asset    <file>.png [options]
 -spr16x16msx        use SPRITES_16x16
 -b <bank>           bank (default 0)
 -keep_palette_order use png palette
+-repair_indexed_pal try to repair indexed tile palettes (implies "-keep_palette_order")
 -noflip             disable tile flip
 -map                Export as map (tileset + bg)
 -use_map_attributes Use CGB BG Map attributes
