@@ -684,7 +684,7 @@ int main(int argc, char* argv[])
 		printf("-spr16x16msx        use SPRITES_16x16\n");
 		printf("-b <bank>           bank (default 0)\n");
 		printf("-keep_palette_order use png palette\n");
-		printf("-repair_indexed_pal try to repair tile palettes with \"-keep_palette_order\"\n");
+		printf("-repair_indexed_pal try to repair indexed tile palettes (implies \"-keep_palette_order\")\n");
 		printf("-noflip             disable tile flip\n");
 		printf("-map                Export as map (tileset + bg)\n");
 		printf("-use_map_attributes Use CGB BG Map attributes\n");
@@ -776,6 +776,7 @@ int main(int argc, char* argv[])
 		else if(!strcmp(argv[i], "-repair_indexed_pal"))
 		{
 			repair_indexed_pal = true;
+			keep_palette_order = true; // -repair_indexed_pal requires -keep_palette_order, so force it on
 		}
 		else if(!strcmp(argv[i], "-noflip"))
 		{
