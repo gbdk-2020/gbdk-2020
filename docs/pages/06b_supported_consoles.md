@@ -197,6 +197,46 @@ SMS/GG
 
 
 
+@anchor using_cgb_features
+# Using Game Boy Color (CGB) Features
+
+## Differences Versus the Regular Game Boy (DMG/GBP/SGB)
+These are some of the main hardware differences between the Regular Game Boy and the Game Boy Color.
+
+  - CPU: Optional 2x Speed mode
+  - Serial Link: Additional Speeds 2KB/s, 32KB/s, 64KB/s
+  - IR Port
+  - Sprites:
+    - 2 x 256 banks of tile patterns (2x as many) (typically upper 256 shared with background)
+    - 8 x 4 color palettes in CGB mode (BGR-555 per color, 32768 color choices)
+  - Background:
+    - 2 x 256 banks of tile patterns (2x as many) (typically upper 256 shared with sprites)
+    - Second map bank for tile attributes (color, flipping/mirroring, priority, bank)
+    - 8 x 4 color palettes in CGB mode (BGR-555 per color, 32768 color choices))
+    - BG and Window master priority
+  - WRAM: 8 x 4K WRAM banks in the 0xD000 - 0xDFFF region
+  - LCD VRAM DMA
+
+## CGB features in GBDK
+These are some of the main GBDK API features for the CGB. 
+Many of the items listed below link to additional information.
+
+  - Tile and Pattern data:
+    - Select VRAM Banks: @ref VBK_REG (used with `set_bkg/win/sprite_*()`)
+    - set_bkg_attributes(), set_bkg_submap_attributes()
+  - Color:
+    - set_bkg_palette(), set_bkg_palette_entry() 
+    - set_sprite_palette(), set_sprite_palette_entry() 
+    - set_default_palette()
+    - RGB(), RGB8(), RGBHTML()
+  - Detect and change CPU speed: if (@ref _cpu == @ref CGB_TYPE), cpu_fast()
+  - More details in @ref cgb.h (`#include <gb/cgb.h>`)
+
+## CGB Examples
+Several examples in GBDK show how to use CGB features, including the following:
+  - `gb/colorbar`, `gb/dscan`, `cross-platform/large_map`, `cross-platform/logo`, `cross-platform/metasprites`
+
+
 # Porting Between Supported Consoles
 
 ## From Game Boy to Analogue Pocket
@@ -213,7 +253,7 @@ The Analogue Pocket operating in `.pocket` mode is (for practical purposes) func
                 
 
 ### Observed differences:
-  - MBC1 and MBC5 are supported, MBC3 won't save, the HuC3 isn't supported at all (via JoseJX)
+  - MBC1 and MBC5 are supported, MBC3 won't save and RTC doesn't progress when game is not running, the HuC3 isn't supported at all (via JoseJX and sg).
   - The Serial Link port does not work
   - The IR port in CGB mode does not work as reliably as the Game Boy Color
 
@@ -267,7 +307,7 @@ This behavior is emulated for the SMS/GG when using @ref set_bkg_tiles() and @re
 ## From Game Boy to Mega Duck / Cougar Boy
 The Mega Duck is (for practical purposes) functionally identical to the Original Game Boy though it has a couple changes listed below.
 
-### Summary of changes:
+### Summary of Hardware changes:
   - Cartridge Boot Logo: not present on Mega Duck
   - Cartridge Header data: not present on Mega Duck
   - Program Entry Point: `0x0000` (on Game Boy: `0x0100` )
@@ -285,16 +325,16 @@ In order for software to be easily ported to the Mega Duck, or to run on both, u
 
 @anchor megaduck_sound_register_value_changes
 ### Sound Register Value Changes
-The only changes which will not be handled automatically with the practices mentioned above these two cases.
+There are two hardware changes which will not be handled automatically when following the practices mentioned above.
 
-These changes may be required when using existing Sound Effects and Music Drivers.
+These changes may be required when using existing Sound Effects and Music Drivers written for the Game Boy.
 
 1. Registers @ref NR12_REG, @ref NR22_REG, @ref NR42_REG, and @ref NR43_REG have their contents nybble swapped.
     - To maintain compatibility the value to write (or the value read) can be converted this way: `((uint8_t)(value << 4) | (uint8_t)(value >> 4))`
 2. Register @ref NR32_REG has the volume bit values changed.
     - `Game Boy:  Bits:6..5 : 00 = mute, 01 = 100%, 10 = 50%, 11 = 25%`
     - `Mega Duck: Bits:6..5 : 00 = mute, 01 = 25%,  10 = 50%, 11 = 100%`
-    - To maintain compatibility the value to write (or the value read) can be converted this way: `(((~(uint8_t)value) + 1u) & (uint8_t)0x60u)`
+    - To maintain compatibility the value to write (or the value read) can be converted this way: `(((~(uint8_t)value) + (uint8_t)0x20u) & (uint8_t)0x60u)`
 
 ### Graphics Register Bit Changes
 These changes are handled automatically when their GBDK definitions are used.

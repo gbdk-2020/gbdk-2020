@@ -337,7 +337,7 @@ inline void disable_interrupts(void) {
 */
 void vsync(void);
 
-/** Obsolete
+/** This function has been replaced by vsync(), which has identical behavior.
 */
 void wait_vbl_done(void);
 
@@ -493,7 +493,7 @@ void set_bkg_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *ti
     @param y      Y Start position in Background Map tile coordinates. Range 0 - 14
     @param w      Width of area to set in tiles. Range 1 - 16
     @param h      Height of area to set in tiles. Range 1 - 15
-    @param tiles  Pointer to source tile map data
+    @param tiles  Pointer to source tile map attribute data
 
     Entries are copied from map at __tiles__ to the Background Tile Map starting at
     __x__, __y__ writing across for __w__ tiles and down for __h__ tiles.
@@ -522,7 +522,7 @@ void set_bkg_attributes_nes16x16(uint8_t x, uint8_t y, uint8_t w, uint8_t h, con
     \li Writing a width that does not match the source map width __and__ more
     than one row high at a time.
 
-    One byte per source tile map entry.
+    One byte per source tile map attribute entry.
 
     Writes that exceed coordinate 31 on the x or y axis will wrap around to
     the Left and Top edges.

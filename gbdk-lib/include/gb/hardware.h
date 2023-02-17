@@ -292,11 +292,11 @@ __REG LYC_REG;          /**< LY compare */
 #define rLYC LYC_REG
 __REG DMA_REG;          /**< DMA transfer */
 #define rDMA DMA_REG
-__REG BGP_REG;          /**< BG palette data */
+__REG BGP_REG;          /**< Background palette data @see OBP0_REG, OBP1_REG, DMG_PALETTE, DMG_BLACK, DMG_DARK_GRAY, DMG_LITE_GRAY, DMG_WHITE */
 #define rBGP BGP_REG
-__REG OBP0_REG;         /**< OBJ palette 0 data */
+__REG OBP0_REG;         /**< OBJ (Sprite) palette 0 data @see OBP1_REG, BGP_REG, DMG_PALETTE, DMG_BLACK, DMG_DARK_GRAY, DMG_LITE_GRAY, DMG_WHITE */
 #define rOBP0 OBP0_REG
-__REG OBP1_REG;         /**< OBJ palette 1 data */
+__REG OBP1_REG;         /**< OBJ (Sprite) palette 1 data @see OBP0_REG, BGP_REG, DMG_PALETTE, DMG_BLACK, DMG_DARK_GRAY, DMG_LITE_GRAY, DMG_WHITE */
 #define rOBP1 OBP1_REG
 __REG WY_REG;           /**< Window Y coordinate */
 #define rWY WY_REG

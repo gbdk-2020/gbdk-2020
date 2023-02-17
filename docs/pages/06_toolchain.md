@@ -257,6 +257,9 @@ It is also posible to pass a indexed 8-bit png with the palette properly sorted 
   - Each tile can only have colors from one of these palettes per tile.
   - The maximum number of colors is 32.
 
+For indexed color images, sometimes RGB paint programs mix up indexed colors in tiles if the same color exists in multiple palettes.
+  - `-repair_indexed_pal` can be used to fix this problem, though tiles must still follow the rule of using only one palette per tile.
+  
 Using this image a tileset will be created
   - Duplicated tiles will be removed.
   - Tiles will be matched without mirror, using vertical mirror, horizontal mirror or both (use `-noflip` to turn off matching mirrored tiles).
