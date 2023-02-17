@@ -6,6 +6,14 @@ https://github.com/gbdk-2020/gbdk-2020/releases
 
 # GBDK-2020 Release Notes
 
+## GBDK-2020 4.2
+  2023/x
+  - Library
+    - wait_vbl_done() has been renamed to vsync(). The old name will continue to work for the time being, but migration to the new name is strongly encouraged.
+    - Added: set_bkg_attributes(), set_bkg_submap_attributes()
+  - Docs:
+    - Expanded @ref megaduck_sound_register_value_changes "MegaDuck hardware documentation"
+
 ## GBDK-2020 4.1.1
   2022/11
   - Library

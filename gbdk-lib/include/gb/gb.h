@@ -745,7 +745,8 @@ void set_interrupts(uint8_t flags) PRESERVES_REGS(b, c, d, e, h, l);
 */
 void reset(void);
 
-/** HALTs the CPU and waits for the vertical blank interrupt.
+/** HALTs the CPU and waits for the vertical blank interrupt and then
+    returns when all registered VBL ISRs have completed.
 
     This is often used in main loops to idle the CPU at low power
     until it's time to start the next frame. It's also useful for
@@ -757,7 +758,8 @@ void reset(void);
 */
 void vsync(void) PRESERVES_REGS(b, c, d, e, h, l);
 
-/** Obsolete
+/** This function has been replaced by vsync(), which has identical behavior.
+
 */
 void wait_vbl_done(void) PRESERVES_REGS(b, c, d, e, h, l);
 
@@ -1069,7 +1071,7 @@ inline void set_bkg_based_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, cons
     @param y      Y Start position in Background Map tile coordinates. Range 0 - 31
     @param w      Width of area to set in tiles. Range 1 - 32
     @param h      Height of area to set in tiles. Range 1 - 32
-    @param tiles  Pointer to source tile map data
+    @param tiles  Pointer to source tile map attribute data
 
     Entries are copied from map at __tiles__ to the Background Tile Map starting at
     __x__, __y__ writing across for __w__ tiles and down for __h__ tiles.
@@ -1202,7 +1204,7 @@ inline void set_bkg_based_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, con
     @param y      Y Start position in both the Source Tile Map and hardware Background Map tile coordinates. Range 0 - 255
     @param w      Width of area to set in tiles. Range 1 - 255
     @param h      Height of area to set in tiles. Range 1 - 255
-    @param map    Pointer to source tile map data
+    @param map    Pointer to source tile map attribute data
     @param map_w  Width of source tile map in tiles. Range 1 - 255
 
     Entries are copied from __map__ to the Background Tile Map starting at

@@ -173,7 +173,7 @@ void cpu_slow(void);
 */
 void cpu_fast(void);
 
-/** Set palette, compatible with the DMG/GBP.
+/** Sets CGB palette 0 to be compatible with the DMG/GBP.
 
     The default/first CGB palettes for sprites and backgrounds are
     set to a similar default appearance as on the DMG/Pocket/SGB models.
@@ -183,7 +183,7 @@ void cpu_fast(void);
  */
 void set_default_palette(void);
 
-/** This function is obsolete
+/** This function has been replaced by set_default_palette(), which has identical behavior.
  */
 void cgb_compatibility(void);
 

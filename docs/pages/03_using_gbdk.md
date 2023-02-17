@@ -181,3 +181,15 @@ See the `incbin` example project for a demo of how to use it.
   - Const arrays declared with `somevar[n] = {x}` will __NOT__ get initialized with value `x`. This may change when the SDCC RLE initializer is fixed. Use memset for now if you need it.
 
   - SDCC banked calls and @ref far_pointers in GBDK only save one byte for the ROM bank, so for example they are limited to __bank 15__ max for MBC1 and __bank 255__ max for MBC5. See @ref banked_calls for more details.
+  - In SDCC __pre-initializing a variable__ assigned to SRAM with `-Wf-ba*` will force that variable to be in WRAM instead.
+    - The following is a workaround for initializing a variable in SRAM. It assignes value `0xA5` to a variable in `bank 0` and assigned to address `0xA000` using the AT() directive:
+
+
+            // Workaround for initializing variable in SRAM
+            // (MBC RAM and Bank needs to get enabled during GSINIT loading)
+            static uint8_t AT(0x0000) __rRAMG = 0x0a; // Enable SRAM
+            static uint8_t AT(0x4000) __rRAMB = 0x00; // Set SRAM bank 0
+            // Now SRAM is enabled so the variable can get initialized
+            uint8_t AT(0xA000)      initialized_sram_var = 0xA5u;
+
+
