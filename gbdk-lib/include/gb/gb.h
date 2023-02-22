@@ -758,7 +758,7 @@ void reset(void);
 */
 void vsync(void) PRESERVES_REGS(b, c, d, e, h, l);
 
-/** This function has been replaced by vsync(), which has identical behavior.
+/** Obsolete. This function has been replaced by vsync(), which has identical behavior.
 
 */
 void wait_vbl_done(void) PRESERVES_REGS(b, c, d, e, h, l);

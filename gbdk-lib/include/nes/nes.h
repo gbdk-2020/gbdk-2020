@@ -337,7 +337,7 @@ inline void disable_interrupts(void) {
 */
 void vsync(void);
 
-/** This function has been replaced by vsync(), which has identical behavior.
+/** Obsolete. This function has been replaced by vsync(), which has identical behavior.
 */
 void wait_vbl_done(void);
 
@@ -489,11 +489,11 @@ void set_bkg_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *ti
 
 /** Sets a rectangular region of Background Tile Map Attributes.
 
-    @param x      X Start position in Background Map tile coordinates. Range 0 - 15
-    @param y      Y Start position in Background Map tile coordinates. Range 0 - 14
-    @param w      Width of area to set in tiles. Range 1 - 16
-    @param h      Height of area to set in tiles. Range 1 - 15
-    @param tiles  Pointer to source tile map attribute data
+    @param x          X Start position in Background Map tile coordinates. Range 0 - 15
+    @param y          Y Start position in Background Map tile coordinates. Range 0 - 14
+    @param w          Width of area to set in tiles. Range 1 - 16
+    @param h          Height of area to set in tiles. Range 1 - 15
+    @param attributes Pointer to source tile map attribute data
 
     Entries are copied from map at __tiles__ to the Background Tile Map starting at
     __x__, __y__ writing across for __w__ tiles and down for __h__ tiles.

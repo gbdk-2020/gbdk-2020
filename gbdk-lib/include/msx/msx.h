@@ -214,7 +214,7 @@ inline void scroll_bkg(int8_t x, int8_t y) {
 */
 void vsync(void) PRESERVES_REGS(b, c, d, e, h, l, iyh, iyl);
 
-/** This function has been replaced by vsync(), which has identical behavior.
+/** Obsolete. This function has been replaced by vsync(), which has identical behavior.
 */
 void wait_vbl_done(void) PRESERVES_REGS(b, c, d, e, h, l, iyh, iyl);
 

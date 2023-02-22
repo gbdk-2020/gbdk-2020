@@ -183,7 +183,7 @@ void cpu_fast(void);
  */
 void set_default_palette(void);
 
-/** This function has been replaced by set_default_palette(), which has identical behavior.
+/** Obsolete. This function has been replaced by set_default_palette(), which has identical behavior.
  */
 void cgb_compatibility(void);
 
