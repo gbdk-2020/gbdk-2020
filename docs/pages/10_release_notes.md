@@ -9,10 +9,34 @@ https://github.com/gbdk-2020/gbdk-2020/releases
 ## GBDK-2020 4.2
   2023/x
   - Library
-    - wait_vbl_done() has been renamed to vsync(). The old name will continue to work for the time being, but migration to the new name is strongly encouraged.
     - Added: set_bkg_attributes(), set_bkg_submap_attributes()
+    - The following new functions replace old ones. The old functions will continue to work for now, but migration to new versions is strongly encouraged.
+      - vsync(): replaces wait_vbl_done()
+      - set_default_palette(): replaces cgb_compatibility()
+    - metasprites: added metasprite functions which can set base sprite property parameter (`__current_base_prop`) for GB/GBC and NES
+      - move_metasprite_flipy(): replaces move_metasprite_hflip()
+      - move_metasprite_flipx(): replaces move_metasprite_vflip()
+      - move_metasprite_flipxy(): replaces move_metasprite_hvflip()
+      - move_metasprite_ex(): (replaces move_metasprite()
+    - GB: faster vmemcpy(), set_data(), get_data()
+    - Refactored interrupts to use less space
+  - Toolchain / Utilities
+    - @ref lcc "lcc": fix for `--sdccbindir`
+    - @ref utility_png2asset "png2asset"
+      - Added `-repair_index_pal`: Tries to repair tile palettes for indexed color pngs (such as when RGB paint programs mix up indexed colors if the same color exists in multiple palettes). Implies `-keep_palette_order`.
+      - Fixed support for indexed color pngs with less than 8 bits color depth
+      - Fixed incorrect palettes when different colors have same luma value (use RGB values as less-significant bits)
+      - Changed to use cross-platform constants for metasprite properties (S_FLIPX, S_FLIPY and S_PAL)
+  - Examples
+     - Sound Test: Added MegaDuck support
+     - Wav Playback: Improved support on AGB/AGS hardware
+     - Metasprites: Added sub-palette switching for GBC and NES, software metasprite flipping for sms/gg
+     - Large Map: Added color for supported platforms
   - Docs:
-    - Expanded @ref megaduck_sound_register_value_changes "MegaDuck hardware documentation"
+    - Added @ref using_cgb_features "Using Game Boy Color Features"
+    - Added SDAS assembler manual (asmlnk_manual.txt)
+    - Updated @ref megaduck_sound_register_value_changes "MegaDuck hardware documentation"
+    - Added @ref banked_calling_convention "Banked Calling Convention"
 
 ## GBDK-2020 4.1.1
   2022/11
@@ -126,7 +150,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
       - Fixed CGB `...s_map_attributes` type definition in output
       - Fixed values for `num_palettes` in output
       - Fixed incorrect `TILE_COUNT` value when not `-using_structs`
-    - @ref lcc
+    - @ref lcc "lcc"
       - Changed @ref makebin flags to turn off Nintendo logo copy for GB/CGB (use version in crt instead)
       - Fixed lcc handling of makebin `-x*` arguments
   - Examples
@@ -182,7 +206,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
       - Added export as map: tileset + bg (`-map`)
       - Added option to use CGB BG Map attributes (`-use_map_attributes`)
       - Added option to group the exported info into structs (`-use_structs`)
-    - @ref lcc
+    - @ref lcc "lcc"
       - Use `-m` to select target port and platform: "-m[port]:[plat]" ports:`gbz80,z80` plats:`ap,gb,sms,gg`
       - Changed default output format when not specified from `.ihx` to `.gb` (or other active rom extension)
       - Changed lcc to always use the linkerfile `-lkout=` option when calling bankpack
