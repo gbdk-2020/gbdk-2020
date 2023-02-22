@@ -1,19 +1,15 @@
 	.include	"global.s"
 
+	.module serial
+
 	.globl	.int
 
 	.globl	__io_out
 	.globl	__io_in
 	.globl	__io_status
+    .globl	.add_SIO
 
 	.area	_HEADER_SIO (ABS)
-
-	.org	0x58		; SIO
-.int_SIO:
-	PUSH	AF
-	PUSH	HL
-	LD	HL,#.int_0x58
-	JP	.int
 
 	.area	_GSINIT
 
@@ -35,16 +31,6 @@
 	LDH	(.SC),A		; Use external clock
 
 	.area	_HOME
-
-_add_SIO::
-.add_SIO::
-	LD	HL,#.int_0x58
-	JP	.add_int
-
-_remove_SIO::
-.remove_SIO::
-	LD	HL,#.int_0x58
-	JP	.remove_int
 
 	;; Serial interrupt
 .serial_IO::
