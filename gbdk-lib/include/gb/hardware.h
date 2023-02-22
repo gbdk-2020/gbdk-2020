@@ -292,11 +292,11 @@ __REG LYC_REG;          /**< LY compare */
 #define rLYC LYC_REG
 __REG DMA_REG;          /**< DMA transfer */
 #define rDMA DMA_REG
-__REG BGP_REG;          /**< Background palette data @see OBP0_REG, OBP1_REG, DMG_PALETTE, DMG_BLACK, DMG_DARK_GRAY, DMG_LITE_GRAY, DMG_WHITE */
+__REG BGP_REG;          /**< Set and Read the Background palette. \n \n Example with the DMG_PALETTE() helper function and constants: \n BGP_REG = DMG_PALETTE(DMG_BLACK, DMG_DARK_GRAY, DMG_LITE_GRAY, DMG_WHITE); */
 #define rBGP BGP_REG
-__REG OBP0_REG;         /**< OBJ (Sprite) palette 0 data @see OBP1_REG, BGP_REG, DMG_PALETTE, DMG_BLACK, DMG_DARK_GRAY, DMG_LITE_GRAY, DMG_WHITE */
+__REG OBP0_REG;         /**< Set and Read the OBJ (Sprite) palette 0. \n \n The first color entry is always transparent.  \n \n Example with the DMG_PALETTE() helper function and constants: \n OBP0_REG = DMG_PALETTE(DMG_BLACK, DMG_DARK_GRAY, DMG_LITE_GRAY, DMG_WHITE); */
 #define rOBP0 OBP0_REG
-__REG OBP1_REG;         /**< OBJ (Sprite) palette 1 data @see OBP0_REG, BGP_REG, DMG_PALETTE, DMG_BLACK, DMG_DARK_GRAY, DMG_LITE_GRAY, DMG_WHITE */
+__REG OBP1_REG;         /**< Set and Read the OBJ (Sprite) palette 1. \n \n The first color entry is always transparent.  \n \n Example with the DMG_PALETTE() helper function and constants: \n OBP1_REG = DMG_PALETTE(DMG_BLACK, DMG_DARK_GRAY, DMG_LITE_GRAY, DMG_WHITE); */
 #define rOBP1 OBP1_REG
 __REG WY_REG;           /**< Window Y coordinate */
 #define rWY WY_REG
