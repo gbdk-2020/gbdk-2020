@@ -1,23 +1,19 @@
-	.include        "global.s"
+        .include	"global.s"
 
-	.area _HOME
+        .area	_HOME
 
-.drawing_vbl::
-	LDH	A,(.LCDC)
-	OR	#LCDCF_BG8000	; Set BG Chr to 0x8000
-	LDH	(.LCDC),A
-
-	LD	A,#72		; Set line at which LCD interrupt occurs
-	LDH	(.LYC),A
-
-	RET
-
-	;; Is the STAT check required, as we are already in the HBL?
 .drawing_lcd::
-	WAIT_STAT
-
-	LDH	A,(.LCDC)
-	AND	#~LCDCF_BG8000  ; Set BG Chr to 0x8800
-	LDH	(.LCDC),A
-
-	RET
+        ld hl, #rLCDC
+        ldh a, (rLYC)
+        cp #72
+        jr z, 1$
+        set LCDCF_B_BG8000, (hl)
+        ld a, #72
+        ldh (rLYC), a
+        ret
+1$:
+        WAIT_STAT
+        res LCDCF_B_BG8000, (hl)
+        ld a, #144
+        ldh (rLYC), a
+        ret

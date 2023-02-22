@@ -10,6 +10,7 @@
         .globl  .adv_curs
         .globl  .cury, .curx
         .globl  .display_off
+        .globl  .drawing_lcd
 
         ; Structure offsets
         sfont_handle_sizeof     = 3
@@ -525,8 +526,6 @@ _posy::
         CALL    .display_off
 
         ;; Remove any interrupts setup by the drawing routine
-        LD      DE,#.drawing_vbl
-        CALL    .remove_VBL
         LD      DE,#.drawing_lcd
         CALL    .remove_LCD
 1$:

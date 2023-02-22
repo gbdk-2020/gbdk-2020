@@ -10,7 +10,7 @@
         .globl  .init_vram
         .globl  .copy_vram
 
-        .globl  .drawing_lcd, .drawing_vbl
+        .globl  .drawing_lcd
         .globl  .bg_colour, .fg_colour, .draw_mode
 
         .M_SOLID        = 0x00
@@ -81,8 +81,6 @@
         CALL    .init_vram      ; Init the charset at 0x8000
 
         ;; Install interrupt routines
-        LD      DE,#.drawing_vbl
-        CALL    .add_VBL
         LD      DE,#.drawing_lcd
         CALL    .add_LCD
 
