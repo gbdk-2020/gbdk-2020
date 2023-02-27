@@ -335,6 +335,15 @@ endif
 		cp $(GBDKDOCSDIR)/latex/refman.pdf $(GBDKDOCSDIR)/gbdk_manual.pdf;\
 	fi
 	rm -rf $(GBDKDOCSDIR)/latex
+# Patch in improved text search for Doxygen
+#
+# Create a combined array of all js search terms instead of the default arrays partitioned by first-letter index
+	echo "var searchData = [" > $(GBDKDOCSDIR)/api/search/combined.js
+	cat $(GBDKDOCSDIR)/api/search/all*.js | sed -e "s/var.*searchData.*//" | sed -e "s/^\[//" | sed -e "s/^\]\;//" | sed -e "s/\]\]\].*/\]\]\],/" >> $(GBDKDOCSDIR)/api/search/combined.js
+	echo "];" >> $(GBDKDOCSDIR)/api/search/combined.js
+# Override JS search functions to default doxygen search
+	cat $(GBDKDOCSDIR)/doxygen_search_override.js >> $(GBDKDOCSDIR)/api/search/search.js
+	cp $(GBDKDOCSDIR)/doxygen_search_combined.html $(GBDKDOCSDIR)/api/search/combined.html
 
 # Turn on Latex -> PDF conversion to run run at end of regular docs build
 # (which includes latex output but deletes it at the end).
