@@ -453,8 +453,6 @@
         .globl  __is_GBA
 
         ;; Global routines
-;       .globl  .set_mode       ;; don't link mode.o by default
-
         .globl  .reset
 
         .globl  .display_off

@@ -369,13 +369,13 @@ inline uint8_t cancel_pending_interrupts(void) {
 
     @see M_DRAWING, M_TEXT_OUT, M_TEXT_INOUT, M_NO_SCROLL, M_NO_INTERP
 */
-void mode(uint8_t m) OLDCALL;
+void mode(uint8_t m);
 
 /** Returns the current mode
 
     @see M_DRAWING, M_TEXT_OUT, M_TEXT_INOUT, M_NO_SCROLL, M_NO_INTERP
 */
-uint8_t get_mode(void) OLDCALL PRESERVES_REGS(b, c);
+uint8_t get_mode(void) PRESERVES_REGS(b, c, d, e, h, l);
 
 /** GB CPU type
 
