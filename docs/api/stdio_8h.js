@@ -5,5 +5,5 @@ var stdio_8h =
     [ "sprintf", "stdio_8h.html#a115dc49b90e8b9cd9971527fc75df944", null ],
     [ "puts", "stdio_8h.html#a299d0f9cb9e7b14e1278a4ed21e4d76f", null ],
     [ "gets", "stdio_8h.html#a00a5b27bc2e5280952b02c304d7b27bc", null ],
-    [ "getchar", "stdio_8h.html#a2c79157c8bc2db72fbf1e34f291ff5d8", null ]
+    [ "getchar", "stdio_8h.html#a59f236a67cfbffee7aff0c369bcf3f2b", null ]
 ];

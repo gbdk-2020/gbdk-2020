@@ -8,7 +8,7 @@ var font_8h =
     [ "font_t", "font_8h.html#a7c6b54e58c41763c66f15ec4528a1d4a", null ],
     [ "mfont_handle", "font_8h.html#aea1f63fe2ea8c7689b061ad93b485553", null ],
     [ "pmfont_handle", "font_8h.html#a82e0e078fc8a8b6a18538131625dba3a", null ],
-    [ "font_init", "font_8h.html#a6b0459241994d549ae90776cdacede2d", null ],
+    [ "font_init", "font_8h.html#a669b357bedc37be27d7549bd3b8b36f8", null ],
     [ "font_load", "font_8h.html#ad089c09492dbd0423f4dd28f1a49a995", null ],
     [ "font_set", "font_8h.html#a7dee0ba7beb261727340b8cce7c5afcd", null ],
     [ "font_color", "font_8h.html#a47b4964ef677dce9fdf1e9df29804721", null ],

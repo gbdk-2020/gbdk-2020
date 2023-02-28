@@ -28,8 +28,8 @@ var cgb_8h =
     [ "set_sprite_palette", "cgb_8h.html#a9ca9f825284da0db522d15aa2e42a4af", null ],
     [ "set_bkg_palette_entry", "cgb_8h.html#aa8881ff123f364f2e7d1e88c18f9fbca", null ],
     [ "set_sprite_palette_entry", "cgb_8h.html#aebeb7431ebd400baed34796a8f50ea58", null ],
-    [ "cpu_slow", "cgb_8h.html#a6a36fb9584e4a123f6164530a3b1e5e2", null ],
-    [ "cpu_fast", "cgb_8h.html#a884a743919b234cd9c37789380784d08", null ],
-    [ "set_default_palette", "cgb_8h.html#abd34836339579013c097ae4dea10c014", null ],
-    [ "cgb_compatibility", "cgb_8h.html#ac2dd234782ac786758952496b017ab97", null ]
+    [ "cpu_slow", "cgb_8h.html#a476d06d0fe64d7c5a1ec05b8ee859a56", null ],
+    [ "cpu_fast", "cgb_8h.html#a871b5b1aba74ab8764f72b73bc090adb", null ],
+    [ "set_default_palette", "cgb_8h.html#a2a89f4110072dbe76805e7b07299788d", null ],
+    [ "cgb_compatibility", "cgb_8h.html#a6b334e5e452d0650aded17199be1514a", null ]
 ];
