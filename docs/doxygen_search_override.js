@@ -120,7 +120,8 @@ SearchResults = function () {
       search = search.replace(/^ +/, ""); // strip leading spaces
       search = search.replace(/ +$/, ""); // strip trailing spaces
       search = search.toLowerCase();
-      search = convertToId(search);
+      // search = convertToId(search);
+      // Commented out above (CHANGED START & END)
 
       var resultRows = document.getElementsByTagName("div");
       var matches = 0;
