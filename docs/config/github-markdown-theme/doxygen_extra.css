@@ -411,6 +411,11 @@ img {
     background-color: #404448 !important;
     border-radius: 6px;
     margin-right:20px !important;
+
+	/* Required in 1.9.1 to fix incorrect search box position and page width */
+    float: none !important;
+    right: 0px !important;
+    box-shadow: unset !important;
 }
 
 /* Hide search icon */
@@ -420,6 +425,10 @@ img {
     background-image:unset !important;
     border:2px red solid !important;
     background:red  !important;
+
+	/* Required in 1.9.1 to fix incorrect search box position and page width */
+	/* Just hide it completely */
+	display:none !important;
 }
 /* And override it with a hamburger menu character */
 #MSearchBox span.left::after {
@@ -427,12 +436,24 @@ img {
     color:rgb(255,255,255,0.75) !important;
     font-size:15px !important;
     content:"\2630";
+
+	/* Just hide it completely since combined.js search breaks the filtering */
+	display:none !important;
 }
 
 /* Center it's text */
 #MSearchBox span.left {
     margin-top:4px;
     background:unset !important;
+
+	/* Required in 1.9.1 to fix incorrect search box position and page width */
+    display:block !important;
+    position:absolute !important;
+    left:10px;
+    width:20px;
+    height:19px;
+    vertical-align: unset !important;
+    height: unset !important;
 }
 
 /* Increase font size */
@@ -441,7 +462,24 @@ img {
     background:unset !important;
     height:unset !important;
     width:unset !important;
+
+	/* Required in 1.9.1 to fix incorrect search box position and page width */
+    display:block !important;
+    position:absolute !important;
+    margin-left:20px !important;
+    margin-top:unset !important;;
+    margin-right:unset !important;;
+    margin-bottom:unset !important;;
+    padding-left:4px !important;
+
+    vertical-align:unset !important;
+    line-height: unset !important;;
 }
+
+#FSearchBox #MSearchField {
+    margin-left:15px;
+}
+
 /* Change text color when it's being typed in */
 .MSearchBoxActive #MSearchField {
   color:rgb(255,255,255,0.75) !important;
@@ -452,10 +490,28 @@ img {
 #MSearchBox span.right {
     top:5px !important;
     background:unset !important;
+	/* Required in 1.9.1 to fix incorrect search box position and page width */
+    display:block !important;
+    position:absolute !important;
+    right:10px;
+    top:8px;
+    width:20px;
+    height:19px;
+    vertical-align: unset !important;
+    width: unset !important;
+    height: unset !important;
 }
 #MSearchClose {
     opacity:0.0;
+	/* Required in 1.9.1 to fix incorrect search box position and page width */
+    position: absolute !important;
+    margin: 0px 4px 0px 0px !important;
+    padding: 0px 0px !important;
 }
+.left #MSearchClose {
+    left: 6px;
+}
+
 #MSearchBox span.right::after {
     font-weight:bold !important;
     color:rgb(255,255,255,0.30) !important;
