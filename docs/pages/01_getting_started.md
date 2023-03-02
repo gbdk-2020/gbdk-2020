@@ -33,7 +33,9 @@ This should build all of the examples sequentially. You can also navigate into a
 
 @anchor macos_unsigned_security_workaround
 ### macOS security warnings
-If you get a security warning about unsigned binaries on macOS, you will need to unquarrantine the files in the bin folder. This can be fixed using the following steps.
+If you get a security warning on macOS that says ("`... developer cannot be verified, macOS cannot verify that this app is free from malware`"), it does not mean that GBDK is malware. It just means the GBDK toolchain binaries are not signed by Apple, so it won't run them without an additional step.
+
+You will need to unquarrantine the files in the bin folder in order to run them. This can be fixed using the following steps.
 
 Open a terminal and navigate to the gbdk bin folder (`"bin/"` under your GBDK-2020 install folder). Then type:
 
