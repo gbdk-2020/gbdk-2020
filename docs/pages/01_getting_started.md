@@ -24,12 +24,19 @@ or
 This should build the example project. You can also navigate into other example project folders and build in the same way.
 
 
-## Linux / MacOS / Windows with Make installed:
+## Linux / macOS / Windows with Make installed:
 Navigate to the example projects folder (`"examples/gb/"` under your GBDK-2020 install folder) and open a command line. Then type:
 
     make
 
 This should build all of the examples sequentially. You can also navigate into an individual example project's folder and build it by typing `make`.
+
+If you get a security warning about unsigned binaries on macOS, you will need to unquarrantine the files in the bin folder. You can do this by running:
+
+```bash
+cd $GBDKDIR
+xattr -d com.apple.quarantine bin/*
+```
 
 
 # 3. Use a Template
