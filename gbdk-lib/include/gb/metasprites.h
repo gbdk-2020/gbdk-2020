@@ -1,5 +1,6 @@
 /** @file gb/metasprites.h
 
+    @anchor metasprite_main_docs
     # Metasprite support
 
     A metasprite is a larger sprite made up from a
@@ -35,7 +36,7 @@
     // Hide rest of the hardware sprites, because amount
     // of sprites differ between animation frames.
     // (where hiwater == last hardware sprite used + 1)
-    for (uint8_t i = hiwater; i < 40; i++) shadow_OAM[i].y = 0;
+    hide_sprites_range(hiwater, MAX_HARDWARE_SPRITES);
     \endcode
 
     @anchor metasprite_and_sprite_properties
@@ -48,20 +49,25 @@
     will get overwritten.
 
     How to use sprite property flags with metasprites:
-    - Metsaprite structures can be copied into RAM so their
-      property flags can be modified at runtime.
-    - The metasprite structures can have the property flags
-      modified before compilation (such as with `-sp <props>`
-      in the @ref utility_png2asset "png2asset" tool).
-    - Update properties for the affected sprites after calling
-      a move_metasprite_*() function.
+    - Primary method: Use the `base_prop` parameter for the
+      move_metasprite_*() functions.
+    - Alternate method: The metasprite structures can have the
+      property flags modified before compilation (such as with
+      `-sp <props>` in the @ref utility_png2asset "png2asset" tool).
 
-    The following functions are only available for Game Boy and
-    related clone consoles due to lack of hardware support for
-    sprite flipping in other consoles. See @ref docs_consoles_supported_list
-    - @ref move_metasprite_vflip()
-    - @ref move_metasprite_hflip()
-    - @ref move_metasprite_hvflip()
+    The following functions only support hardware sprite flipping
+    on the Game Boy / Mega Duck and NES. For other consoles which
+    do not have hardware sprite flipping see the cross-platform
+    metasprite example for a workaround (with some performance penalty).
+
+    - @ref move_metasprite_flipx()
+    - @ref move_metasprite_flipy()
+    - @ref move_metasprite_flipxy()
+
+    To test for hardware support see
+    @ref HARDWARE_SPRITE_CAN_FLIP_X and @ref HARDWARE_SPRITE_CAN_FLIP_Y.
+    Also see @ref docs_consoles_supported_list for a brief summary of
+    console capabilities.
 */
 
 #ifndef _METASPRITES_H_INCLUDE

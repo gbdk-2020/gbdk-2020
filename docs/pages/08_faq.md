@@ -34,7 +34,7 @@
   - How do I set the ROM @ref MBC type, and what MBC values are available to use with the `-yt` @ref makebin flag?
     - See @ref setting_mbc_and_rom_ram_banks <!-- -->  
 
-# Errors / Compiling / Toolchain
+# Errors
   @anchor faq_gbz80_sm83_old_port_name_error
   - What does the error `old "gbz80" SDCC PORT name specified (in "-mgbz80:gb"). Use "sm83" instead. You must update your build settings.` mean?
     - The `PORT` name for the Game Boy and related clones changed from `gbz80` to `sm83` in the SDCC version used in GBDK-2020 4.1.0 and later. You must change your Makefile, Build settings, etc to use the new name. Additional details in the @ref console_port_plat_settings "Console Port and Platform Settings" section.  <!-- -->  
@@ -72,6 +72,14 @@
     - This may happen if you have large initialized arrays declared without the `const` keyword. It's important to use the const keyword for read-only data. See @ref const_gbtd_gbmb and @ref const_array_data
     - It can also happen if C source files are `#included` into other C source files, or if there is a very large source file.  <!-- -->  
 
+@anchor faq_error_mbc_size
+  - On macOS, what does `... developer cannot be verified, macOS cannot verify that this app is free from malware` mean?
+    - It does not mean that GBDK is malware. It just means the GBDK toolchain binaries are not signed by Apple, so it won't run them without an additional step.
+
+    - For the workaround, see the @ref macos_unsigned_security_workaround "macOS unsigned binary workaround" for details. <!-- -->  
+
+
+# Debugging / Compiling / Toolchain
   - What flags should be enabled for debugging?
     - You can use the @ref lcc_debug "lcc debug flag" `-debug`to turn on debug output. It covers most uses and removes the need to specify multiple flags such as `-Wa-l -Wl-m -Wl-j`. <!-- -->  
 
