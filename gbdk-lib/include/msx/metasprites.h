@@ -7,28 +7,8 @@
     Different frames of the same metasprites can share
     tile data.
 
-    The api supports metasprites in both
-    @ref SPRITES_8x8 and @ref SPRITES_8x16 mode. If
-    8x16 mode is used then the height of the metasprite
-    must be a multiple of 16.
-
-    The origin (pivot) for the metasprite is not required
-    to be in the upper left-hand corner as with regular
-    hardware sprites.
-
-    Use the @ref utility_png2asset tool to convert single
-    or multiple frames of graphics into metasprite
-    structured data for use with the ...metasprite...()
-    functions.
-
-    # Metasprites composed of variable numbers of sprites
-
-    When using png2asset, it's common for the output of
-    different frames to be composed of different numbers
-    of hardware sprites (since it's trying to create each
-    frame as efficiently as possible). Due to that, it's
-    good practice to clear out (hide) unused sprites in the
-    shadow_OAM that have been set by previous frames.
+    See the main @ref metasprite_main_docs "metasprite docs"
+    under the game Boy platform for additional details.
 */
 
 #ifndef _METASPRITES_H_INCLUDE

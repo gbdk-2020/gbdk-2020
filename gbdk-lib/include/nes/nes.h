@@ -823,11 +823,11 @@ extern uint8_t _shadow_OAM_base;
 */
 #define MAX_HARDWARE_SPRITES 64
 
-/** True if sprite hardware can flip sprites by X
+/** True if sprite hardware can flip sprites by X (horizontally)
 */
 #define HARDWARE_SPRITE_CAN_FLIP_X 1
 
-/** True if sprite hardware can flip sprites by Y
+/** True if sprite hardware can flip sprites by Y (vertically)
 */
 #define HARDWARE_SPRITE_CAN_FLIP_Y 1
 
