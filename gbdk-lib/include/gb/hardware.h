@@ -13,7 +13,7 @@
 #define __BYTE_REG extern volatile UBYTE
 #define __REG extern volatile SFR
 
-/** Memoty map */
+/** Memory map */
 
 __BYTES _VRAM[];
 __BYTES _VRAM8000[];
