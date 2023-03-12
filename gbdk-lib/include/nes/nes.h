@@ -872,29 +872,31 @@ inline uint8_t get_sprite_tile(uint8_t nb) {
     @param prop  Property setting (see bitfield description)
 
     The bits in __prop__ represent:
-    \li Bit 7 - Priority flag. When this is set the sprites appear behind the
+    \li Bit 7 - Vertical flip. Dictates which way up the sprite is drawn
+              vertically.
+              \n 0: normal
+              \n 1: upside down
+    \li Bit 6 - Horizontal flip. Dictates which way up the sprite is
+              drawn horizontally.
+              \n 0: normal
+              \n 1: back to front
+    \li Bit 5 - Priority flag. When this is set, the sprites appear behind the
               background and window layer.
               \n 0: infront
               \n 1: behind
-    \li Bit 6 - Vertical flip. Dictates which way up the sprite is drawn
-              vertically.
-              \n 0: normal
-              \n 1:upside down
-    \li Bit 5 - Horizontal flip. Dictates which way up the sprite is
-              drawn horizontally.
-              \n 0: normal
-              \n  1:back to front
-    \li Bit 4 - DMG/Non-CGB Mode Only. Assigns either one of the two b/w palettes to the sprite.
-              \n 0: OBJ palette 0
-              \n 1: OBJ palette 1
-    \li Bit 3 - GBC only. Dictates from which bank of Sprite Tile Patterns the tile
-              is taken.
-              \n 0: Bank 0
-              \n 1: Bank 1
-    \li Bit 2 - See bit 0.
+    \li Bit 4 - 
+    \li Bit 3 - Unimplemented
+    \li Bit 2 - Unimplemented
     \li Bit 1 - See bit 0.
-    \li Bit 0 - GBC only. Bits 0-2 indicate which of the 7 OBJ colour palettes the
-              sprite is assigned.
+    \li Bit 0 - Bits 0-1 indicate which color palette the sprite should use. Note: only palettes 4 to 7 will be available for NES sprites.
+    \code{.c}
+    // Load palette data into the first palette
+    set_sprite_palette(4, 1, exampleSprite_palettes)
+
+    // Set the OAM value for the sprite
+    // These flags tell the sprite to use the first sprite palette (palette 4) and to flip the sprite both vertically and horizontally.
+    set_sprite_prop(0, 0b11000000);
+    \endcode
 */
 inline void set_sprite_prop(uint8_t nb, uint8_t prop) {
     shadow_OAM[nb].prop=prop;
