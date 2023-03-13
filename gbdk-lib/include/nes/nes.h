@@ -884,11 +884,14 @@ inline uint8_t get_sprite_tile(uint8_t nb) {
               background and window layer.
               \n 0: infront
               \n 1: behind
-    \li Bit 4 - 
+    \li Bit 4 - Unimplemented
     \li Bit 3 - Unimplemented
     \li Bit 2 - Unimplemented
     \li Bit 1 - See bit 0.
     \li Bit 0 - Bits 0-1 indicate which color palette the sprite should use. Note: only palettes 4 to 7 will be available for NES sprites.
+
+    It's recommended to use GBDK constants (eg: S_FLIPY) to configure sprite properties as these are crossplatform.
+
     \code{.c}
     // Load palette data into the first palette
     set_sprite_palette(4, 1, exampleSprite_palettes)
@@ -896,7 +899,10 @@ inline uint8_t get_sprite_tile(uint8_t nb) {
     // Set the OAM value for the sprite
     // These flags tell the sprite to use the first sprite palette (palette 4) and to flip the sprite both vertically and horizontally.
     set_sprite_prop(0, 0b11000000);
+    set_sprite_prop(0, S_FLIPY + S_FLIPX);
     \endcode
+
+    @see S_PALETTE, S_FLIPX, S_FLIPY, S_PRIORITY
 */
 inline void set_sprite_prop(uint8_t nb, uint8_t prop) {
     shadow_OAM[nb].prop=prop;
