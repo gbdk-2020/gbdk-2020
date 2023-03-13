@@ -9,18 +9,13 @@
         .area _CODE
 
 _gb_decompress::
-        lda     hl,5(SP)
-        ld      a,(hl-)
-        ld      d,a
-        ld      a,(hl-)
-        ld      e,a
-        ld      a,(hl-)
-        ld      l,(hl)
-        ld      h,a
+        ld      h,d
+        ld      l,e
+        ld      d,b
+        ld      e,c
 
 ; hl = source; de = dest
 gb_decompress::
-        push    bc
         push    de
 1$:
         ld      a,(hl+) ; load command
@@ -88,7 +83,7 @@ gb_decompress::
         and     #63
         inc     a
         ld      b,a
-8$:                    
+8$:
         ld      a,(hl+)
         ld      (de),a
         inc     de
@@ -99,10 +94,9 @@ gb_decompress::
         pop     hl
         ld      a, e
         sub     l
-        ld      e, a
+        ld      c, a
         ld      a, d
         sbc     h
-        ld      d, a
-        pop     bc
-        
+        ld      b, a
+
         ret
