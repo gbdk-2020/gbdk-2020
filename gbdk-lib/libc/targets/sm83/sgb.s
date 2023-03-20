@@ -73,7 +73,7 @@ _sgb_transfer::
 .sgb_transfer::
         PUSH    BC
         LD      A,(HL)          ; Top of command data
-        AND     #0x03
+        AND     #0x07
         JR      Z,6$
 1$:
         PUSH    AF
