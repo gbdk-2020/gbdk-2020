@@ -1749,6 +1749,19 @@ inline uint8_t get_sprite_tile(uint8_t nb) {
     \li Bit 1 - See bit 0.
     \li Bit 0 - GBC only. Bits 0-2 indicate which of the 7 OBJ colour palettes the
               sprite is assigned.
+
+    It's recommended to use GBDK constants (eg: S_FLIPY) to configure sprite properties as these are crossplatform.
+
+    \code{.c}
+    // Load palette data into the first palette
+    set_sprite_palette(4, 1, exampleSprite_palettes)
+    // Set the OAM value for the sprite
+    // These flags tell the sprite to flip both vertically and horizontally.
+    set_sprite_prop(0, 0b01500000);
+    set_sprite_prop(0, S_FLIPY + S_FLIPX);
+    \endcode
+
+    @see S_PALETTE, S_FLIPX, S_FLIPY, S_PRIORITY
 */
 inline void set_sprite_prop(uint8_t nb, uint8_t prop) {
     shadow_OAM[nb].prop=prop;
