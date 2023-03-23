@@ -31,11 +31,11 @@ _hide_sprites_range::
 
         ld      de, #4
 
-        rra                     ; carry is never set here, because of ret c above
+        srl     a
         jr      nc, 0$
 
         ld      (hl), d
-        add     hl, de          ; carry is reset here because hl can't overflow
+        add     hl, de
 
         ret     z               ; z is not affected by 16-bit add
 
