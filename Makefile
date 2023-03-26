@@ -220,7 +220,7 @@ gbdk-lib-install: gbdk-lib-install-platforms
 gbdk-lib-install-prepare:
 	@rm -rf $(BUILDDIR)/lib
 
-gbdk-lib-install-ports:
+gbdk-lib-install-ports: gbdk-lib-build
 	@for port in $(PORTS); do \
 		echo Installing lib for port: $$port; \
 		mkdir -p $(BUILDDIR)/lib/$$port/; \
