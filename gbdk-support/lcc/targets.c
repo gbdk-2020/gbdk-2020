@@ -128,7 +128,7 @@ CLASS classes[] = {
       .bankpack     = "%bankpack% -plat=sms $1 $2",
       .ld           = "%ld_z80% -a sms -n -i $1 %libs_include% $3 %crt0dir% $2",
       .ihxcheck     = "%ihxcheck% $2 $1",
-      .mkbin        = "%mkbin% -S $1 $2 $3",
+      .mkbin        = "%mkbin% -G $1 $2 $3",
       .postproc     = "",
       .llist0_defaults    = llist0_defaults_sms,
       .llist0_defaults_len= ARRAY_LEN(llist0_defaults_sms),  // Use SMS linker list defaults
