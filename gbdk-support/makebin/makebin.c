@@ -734,6 +734,7 @@ main (int argc, char **argv)
   int ret;
   int gb = 0;
   int sms = 0;
+  int gg = 0;
   int nes = 0;
 
   struct gb_opt_s gb_opt = {.cart_name="",
@@ -753,6 +754,10 @@ main (int argc, char **argv)
   // 32KiB, SMS Export, version 0 <- should work with most emulaters (<32K was never used, GG accepts SMS)
   struct sms_opt_s sms_opt = {.rom_size=0xc,
                               .region_code=4,
+                              .version=0 };
+							  
+  struct sms_opt_s gg_opt = {.rom_size=0xc,
+                              .region_code=6,
                               .version=0 };
 
   struct nes_opt_s nes_opt = {
@@ -935,6 +940,11 @@ main (int argc, char **argv)
           /* generate SMS binary file */
           sms = 1;
           break;
+		  
+        case 'G':
+          /* generate GG binary file */
+          gg = 1;
+          break;
 
         case 'N':
           /* generate iNES binary file */
@@ -1058,6 +1068,8 @@ main (int argc, char **argv)
         gb_postproc (rom, size, &real_size, &gb_opt);
       else if (sms)
         sms_postproc (rom, size, &real_size, &sms_opt);
+	  else if (gg)
+        sms_postproc (rom, size, &real_size, &gg_opt);
 
       if (*argv)
         {
