@@ -1,4 +1,4 @@
-CC	= ../../../bin/lcc -Wa-l -Wl-m -Wl-j
+CC	= ../../../bin/lcc -Wl-j -Wm-yS
 
 BINS	= lcd_isr_wobble.gb
 
