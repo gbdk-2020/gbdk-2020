@@ -66,6 +66,10 @@ void main(void) {
     // show bkg and sprites
     SHOW_BKG; SHOW_SPRITES;
 
+    // Wait 4 frames
+    // For SGB on PAL SNES this delay is required on startup, otherwise borders don't show up
+    for (uint8_t i = 4; i != 0; i--) vsync();
+
     // init 2 joypads
     if (joypad_init(2, &joypads) != 2) {
         printf(" This program must\n  be executed  on\n   Super GameBoy");

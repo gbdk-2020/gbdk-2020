@@ -118,9 +118,9 @@ static void __hide_metasprite(uint8_t id);
 /**
     Hides all hardware sprites in range from <= X < to
     @param from start OAM index
-    @param to finish OAM index
+    @param to finish OAM index (must be <= MAX_HARDWARE_SPRITES)
 
-    @see hide_sprite
+    @see hide_sprite, MAX_HARDWARE_SPRITES
  */
 void hide_sprites_range(UINT8 from, UINT8 to);
 

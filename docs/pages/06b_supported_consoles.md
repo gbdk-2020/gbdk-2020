@@ -207,10 +207,10 @@ These are some of the main hardware differences between the Regular Game Boy and
   - Serial Link: Additional Speeds 2KB/s, 32KB/s, 64KB/s
   - IR Port
   - Sprites:
-    - 2 x 256 banks of tile patterns (2x as many) (typically upper 256 shared with background)
+    - 2 banks x 256 tile patterns (2x as many) (typically upper 128 of each bank shared with background)
     - 8 x 4 color palettes in CGB mode (BGR-555 per color, 32768 color choices)
   - Background:
-    - 2 x 256 banks of tile patterns (2x as many) (typically upper 256 shared with sprites)
+    - 2 banks x 256 tile patterns (2x as many) (typically upper 128 of each bank shared with sprites)
     - Second map bank for tile attributes (color, flipping/mirroring, priority, bank)
     - 8 x 4 color palettes in CGB mode (BGR-555 per color, 32768 color choices))
     - BG and Window master priority
