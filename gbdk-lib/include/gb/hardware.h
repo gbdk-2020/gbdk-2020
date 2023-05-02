@@ -369,7 +369,7 @@ __REG OCPS_REG;         /**< OBJ color palette specification */
 #define OCPSF_AUTOINC 0b10000000
 __REG OCPD_REG;         /**< OBJ color palette data */
 #define rOCPD OCPD_REG
-__REG SVBK_REG;         /**< WRAM bank */
+__REG SVBK_REG;         /**< Selects the WRAM upper region bank (CGB Only). WRAM Banking is NOT officially supported in GBDK and SDCC. The stack must be moved and other special care taken. */
 #define rSVBK SVBK_REG
 #define rSMBK SVBK_REG
 

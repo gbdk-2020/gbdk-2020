@@ -271,6 +271,7 @@ The use of segments/areas for code, data and variables is more noticeable in ass
 
 @anchor sdcc_calling_convention
 ## Calling convention
+_The following is primarily oriented toward the Game Boy and related clones (sm83 devices), other targets such as sms/gg may vary._
 
 SDCC in common with almost all C compilers prepends a `_` to any function names. For example the function `printf(...)` begins at the label `_printf::.` Note that all functions are declared global.
 

@@ -6,7 +6,8 @@ This section contains information that may be useful to know or important when u
 
 ## Porting to GBDK-2020 4.2
   - GBDK now requires SDCC 4.3 or higher with GBDK-2020 patches for the the z80 linker
-  - The following new functions replace old ones. The old functions will continue to work for now, but migration to new versions is strongly encouraged.
+  - The following new functions replace old ones.
+    - The old functions will continue to work for now, but migration to new versions is strongly encouraged.
     - vsync(): replaces wait_vbl_done()
     - set_default_palette(): replaces cgb_compatibility()
     - move_metasprite_flipy(): replaces move_metasprite_hflip()
