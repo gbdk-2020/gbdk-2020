@@ -111,7 +111,7 @@ CLASS classes[] = {
       .bankpack     = "%bankpack% -plat=sms $1 $2",
       .ld           = "%ld_z80% -a sms -n -i $1 %libs_include% $3 %crt0dir% $2",
       .ihxcheck     = "%ihxcheck% $2 $1",
-      .mkbin        = "%mkbin% -S -xj 4 $1 $2 $3",
+      .mkbin        = "%mkbin% -S -xj 4 $1 $2 $3",  // -xj 4 is SS_EXPORT region code
       .postproc     = "",
       .llist0_defaults    = llist0_defaults_sms,
       .llist0_defaults_len= ARRAY_LEN(llist0_defaults_sms),
@@ -128,7 +128,7 @@ CLASS classes[] = {
       .bankpack     = "%bankpack% -plat=sms $1 $2",
       .ld           = "%ld_z80% -a sms -n -i $1 %libs_include% $3 %crt0dir% $2",
       .ihxcheck     = "%ihxcheck% $2 $1",
-      .mkbin        = "%mkbin% -S $1 $2 $3",
+      .mkbin        = "%mkbin% -S -xj 6 $1 $2 $3",  // -xj 6 is GG_EXPORT region code, for better compatibility with some emulators
       .postproc     = "",
       .llist0_defaults    = llist0_defaults_sms,
       .llist0_defaults_len= ARRAY_LEN(llist0_defaults_sms),  // Use SMS linker list defaults
