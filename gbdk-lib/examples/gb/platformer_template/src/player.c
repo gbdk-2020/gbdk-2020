@@ -11,6 +11,7 @@
 #define MARIO_INCREASE_JUMP_TIMER_MAX 20
 #define MARIO_JUMP_VELOCITY 450
 #define MARIO_MOVE_VELOCITY 225
+#define MARIO_RUN_VELOCITY 325
 
 uint8_t facingRight =TRUE;
 
@@ -27,11 +28,17 @@ void SetupPlayer(){
     playerXVelocity=0;
     playerYVelocity=0;
 
+    OBP0_REG = 0x4E;
+
     set_sprite_data(0,Mario_TILE_COUNT,Mario_tiles);
 }
 void UpdatePlayer(){
 
-    threeFrameCounter+=5;
+    
+    int16_t moveSpeed = (joypadCurrent & J_B) ?MARIO_RUN_VELOCITY:MARIO_MOVE_VELOCITY;
+    uint8_t threeFrameCounterSpeed = (joypadCurrent & J_B) ? 6 : 3;
+
+    threeFrameCounter+=threeFrameCounterSpeed;
     uint8_t threeFrameCounterValue = threeFrameCounter>>4;
     if(threeFrameCounterValue>=3){
         threeFrameCounter=0;
@@ -49,7 +56,7 @@ void UpdatePlayer(){
             playerXVelocity+=GROUND_FRICTION;
             turning=TRUE;
         }else{
-            playerXVelocity=MARIO_MOVE_VELOCITY;
+            playerXVelocity=moveSpeed;
             facingRight=TRUE;
         }
     }else if(joypadCurrent &J_LEFT){
@@ -61,7 +68,7 @@ void UpdatePlayer(){
             playerXVelocity-=GROUND_FRICTION;
             turning=TRUE;
         }else{
-            playerXVelocity=-MARIO_MOVE_VELOCITY;
+            playerXVelocity=-moveSpeed;
             facingRight=FALSE;
         }
         
@@ -84,6 +91,15 @@ void UpdatePlayer(){
         playerRealY = playerY>>4;
     }
 
+    /**
+     * @brief Important Note: We need can't use the same x for horizontal collision as we do vertical.
+     * For the horizontal collisions, we'll use mario x + or - 5. 
+     * For the vertical collisions, we'll use mario x + or - 3.
+     * If we use the same offset value for both, you'll see mario getting stuck in the ground. 
+     * This would be because both are firing & succeeding, and as a result: Mario's
+     * x and y velocities are constantly being set to 0.
+     */
+
     // If the player is moving horizontally
     if(playerXVelocity!=0){
 
@@ -91,13 +107,13 @@ void UpdatePlayer(){
         if(playerXVelocity>0){
 
             // The mario sprite is sort of tall, we need to check in multiple places along the right edge
-            if(IsTileSolid(playerRealX+4,playerRealY+2)||IsTileSolid(playerRealX+4,playerRealY+12)||IsTileSolid(playerRealX+4,playerRealY+24))playerXVelocity=0;
+            if(IsTileSolid(playerRealX+5,playerRealY+2)||IsTileSolid(playerRealX+4,playerRealY+12)||IsTileSolid(playerRealX+5,playerRealY+24))playerXVelocity=0;
 
         // If the player is moving to the left
         }else if(playerXVelocity<0){
 
             // The mario sprite is sort of tall, we need to check in multiple places along the left edge
-            if(IsTileSolid(playerRealX-4,playerRealY+2)||IsTileSolid(playerRealX-4,playerRealY+12)||IsTileSolid(playerRealX-4,playerRealY+24))playerXVelocity=0;
+            if(IsTileSolid(playerRealX-5,playerRealY+2)||IsTileSolid(playerRealX-4,playerRealY+12)||IsTileSolid(playerRealX-5,playerRealY+24))playerXVelocity=0;
         }
     }
 
@@ -119,8 +135,12 @@ void UpdatePlayer(){
         }
     }
 
-    // If we are grounded, and the A button was JUST pressed
-    if(grounded && joypadCurrent & J_A && !(joypadPrevious & J_A)){
+    uint8_t pressedA = (joypadCurrent & J_A && !(joypadPrevious & J_A));
+    uint8_t pressedUp = (joypadCurrent & J_UP && !(joypadPrevious & J_UP));
+    uint8_t pressedAOrUp = pressedA||pressedUp;
+
+    // If we are grounded, and the A/Up button was JUST pressed
+    if(grounded && pressedAOrUp){
         playerYVelocity=-MARIO_JUMP_VELOCITY;
         playerJumpIncrease=MARIO_INCREASE_JUMP_TIMER_MAX;
     }
@@ -131,8 +151,8 @@ void UpdatePlayer(){
         // If we are in the air, increase the amount of time the player can increase the jump height
         if(playerJumpIncrease>0)playerJumpIncrease--;
 
-        // If we are not holding A, or if the amount of time we can increase our jump has ended
-        if(!(joypadCurrent & J_A)||playerJumpIncrease==0){
+        // If we are not holding A/Up, or if the amount of time we can increase our jump has ended
+        if(!((joypadCurrent & J_A||joypadCurrent & J_UP))||playerJumpIncrease==0){
 
             // Apply gravity
             playerYVelocity+=GRAVTY;
