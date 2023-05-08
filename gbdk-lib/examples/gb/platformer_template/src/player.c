@@ -10,8 +10,10 @@
 #define GROUND_FRICTION 15
 #define MARIO_INCREASE_JUMP_TIMER_MAX 20
 #define MARIO_JUMP_VELOCITY 450
-#define MARIO_MOVE_VELOCITY 225
+#define MARIO_WALK_VELOCITY 225
 #define MARIO_RUN_VELOCITY 325
+#define MARIO_WALK_TWO_FRAME_COUNTER 3
+#define MARIO_RUN_TWO_FRAME_COUNTER 5
 
 uint8_t facingRight =TRUE;
 
@@ -35,8 +37,8 @@ void SetupPlayer(){
 void UpdatePlayer(){
 
     
-    int16_t moveSpeed = (joypadCurrent & J_B) ?MARIO_RUN_VELOCITY:MARIO_MOVE_VELOCITY;
-    uint8_t threeFrameCounterSpeed = (joypadCurrent & J_B) ? 6 : 3;
+    int16_t moveSpeed = (joypadCurrent & J_B) ?MARIO_RUN_VELOCITY:MARIO_WALK_VELOCITY;
+    uint8_t threeFrameCounterSpeed = (joypadCurrent & J_B) ? MARIO_RUN_TWO_FRAME_COUNTER : MARIO_WALK_TWO_FRAME_COUNTER;
 
     threeFrameCounter+=threeFrameCounterSpeed;
     uint8_t threeFrameCounterValue = threeFrameCounter>>4;
