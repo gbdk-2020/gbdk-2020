@@ -6,7 +6,7 @@
 ; Also redirects arand / initarand to here, to avoid their extra memory cost.
 ;
 
-.area ZP (PAG)
+.area _ZP (PAG)
 ___rand_seed::
 .randlo: .ds 1
 .randhi: .ds 1

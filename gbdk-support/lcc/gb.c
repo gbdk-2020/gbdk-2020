@@ -60,6 +60,7 @@ static struct {
 		{ "bankpack",	"%bindir%bankpack" },
 		{ "ld_gb",		"%sdccdir%sdldgb" },
 		{ "ld_z80",		"%sdccdir%sdldz80" },
+		{ "ld_6808",	"%sdccdir%sdld6808" },
 		{ "ld",			"%sdccdir%sdld" },
 		{ "libdir",		"%prefix%lib/" },
 #ifndef GBDKBINDIR
