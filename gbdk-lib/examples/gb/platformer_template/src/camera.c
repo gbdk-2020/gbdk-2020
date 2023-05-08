@@ -23,9 +23,9 @@ void UpdateCamera(){
     map_pos_y = (uint8_t)(camera_y >> 3u);
     if (map_pos_y != old_map_pos_y) { 
         if (camera_y < old_camera_y) {
-            set_bkg_submap(map_pos_x, map_pos_y, MIN(21u, currentLevelWidthInTiles-map_pos_x), 1, currentLevelMap, currentLevelWidthInTiles);
+            set_bkg_submap(map_pos_x, map_pos_y, MIN(DEVICE_SCREEN_WIDTH+1, currentLevelWidthInTiles-map_pos_x), 1, currentLevelMap, currentLevelWidthInTiles);
         } else {
-            if ((currentLevelHeightInTiles - 18u) > map_pos_y) set_bkg_submap(map_pos_x, map_pos_y + 18u, MIN(21u, currentLevelWidthInTiles-map_pos_x), 1, currentLevelMap, currentLevelWidthInTiles);     
+            if ((currentLevelHeightInTiles - DEVICE_SCREEN_HEIGHT) > map_pos_y) set_bkg_submap(map_pos_x, map_pos_y + DEVICE_SCREEN_HEIGHT, MIN(DEVICE_SCREEN_WIDTH+1, currentLevelWidthInTiles-map_pos_x), 1, currentLevelMap, currentLevelWidthInTiles);     
         }
         old_map_pos_y = map_pos_y; 
     }
@@ -33,9 +33,9 @@ void UpdateCamera(){
     map_pos_x = (uint8_t)(camera_x >> 3u);
     if (map_pos_x != old_map_pos_x) {
         if (camera_x < old_camera_x) {
-            set_bkg_submap(map_pos_x, map_pos_y, 1, MIN(19u, currentLevelHeightInTiles - map_pos_y), currentLevelMap, currentLevelWidthInTiles);     
+            set_bkg_submap(map_pos_x, map_pos_y, 1, MIN(DEVICE_SCREEN_HEIGHT+1, currentLevelHeightInTiles - map_pos_y), currentLevelMap, currentLevelWidthInTiles);     
         } else {
-            if ((currentLevelWidthInTiles - 20u) > map_pos_x) set_bkg_submap(map_pos_x + 20u, map_pos_y, 1, MIN(19u, currentLevelHeightInTiles - map_pos_y), currentLevelMap, currentLevelWidthInTiles);     
+            if ((currentLevelWidthInTiles - DEVICE_SCREEN_WIDTH) > map_pos_x) set_bkg_submap(map_pos_x + DEVICE_SCREEN_WIDTH, map_pos_y, 1, MIN(DEVICE_SCREEN_HEIGHT+1, currentLevelHeightInTiles - map_pos_y), currentLevelMap, currentLevelWidthInTiles);     
         }
         old_map_pos_x = map_pos_x;
     }

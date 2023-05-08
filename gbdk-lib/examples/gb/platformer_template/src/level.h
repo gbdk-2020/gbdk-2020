@@ -9,6 +9,7 @@ extern uint16_t currentLevelWidthInTiles;
 extern uint16_t currentLevelHeight;
 extern uint16_t currentLevelHeightInTiles;
 extern uint8_t *currentLevelMap;
+extern uint8_t currentLevelNonSolidTileCount;
 
 extern uint8_t currentLevel;
 extern uint8_t nextLevel;

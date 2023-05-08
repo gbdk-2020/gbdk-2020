@@ -14,6 +14,7 @@ uint16_t currentLevelWidthInTiles;
 uint16_t currentLevelHeight;
 uint16_t currentLevelHeightInTiles;
 uint8_t *currentLevelMap;
+uint8_t currentLevelNonSolidTileCount;
 
 
 // What is the current and next level we are on
@@ -33,7 +34,7 @@ uint8_t IsTileSolid(uint16_t worldX,uint16_t worldY){
 
     uint8_t tile = currentLevelMap[index];
 
-    return tile>=1;
+    return tile>=currentLevelNonSolidTileCount;
 }
 
 void SetupCurrentLevel(){
@@ -45,6 +46,7 @@ void SetupCurrentLevel(){
 
             set_bkg_data(0,MapTileset_TILE_COUNT,MapTileset_tiles);
 
+            currentLevelNonSolidTileCount=1;
             currentLevelWidth = Map_WIDTH;
             currentLevelHeight = Map_HEIGHT;
             currentLevelWidthInTiles = Map_WIDTH>>3;
@@ -56,6 +58,7 @@ void SetupCurrentLevel(){
 
             set_bkg_data(0,MapTileset_TILE_COUNT,MapTileset_tiles);
 
+            currentLevelNonSolidTileCount=1;
             currentLevelWidth = Map2_WIDTH;
             currentLevelHeight = Map2_HEIGHT;
             currentLevelWidthInTiles = Map2_WIDTH>>3;
@@ -67,6 +70,7 @@ void SetupCurrentLevel(){
 
             set_bkg_data(0,MapTileset2_TILE_COUNT,MapTileset2_tiles);
 
+            currentLevelNonSolidTileCount=1;
             currentLevelWidth = Map3_WIDTH;
             currentLevelHeight = Map3_HEIGHT;
             currentLevelWidthInTiles = Map3_WIDTH>>3;

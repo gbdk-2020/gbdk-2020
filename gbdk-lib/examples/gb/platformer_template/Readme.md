@@ -1,18 +1,15 @@
+# GBDK-2020 Platformer Template
 
-A template project with a Makefile that supports sub-directories.
+A Basic "Mario-Style" Platformer Template
 
-The Makefile will automatically detect and compile new source files
-when they are added to the "src" and "res" directories.
+Mario can walk, run, and jump on the background of 3 different areas. Mario is rendered using metasprites.
 
-Project directories
-  - src: Main program source files (.c, .h, .s) can go here
-  - res: Program graphics and audio source files (.c, .h, .s) can go here
-  - obj: Compiled ROM (.gb) and debug files go in this directory
+Controls:
+  - D-pad left/right: Walk Horizontally
+  - D-pad up:         Jump (hold to increase jump height)
+  - A:                Jump (hold to increase jump height)
+  - B:                Sprint
 
+The "res" folder contains some PNGs that are converted to .c and .h files using [png2asset](https://gbdk-2020.github.io/gbdk-2020/docs/api/docs_toolchain_settings.html#png2asset-settings).
 
-== Sprite and Background tiles from: ==
-
-https://sondanielson.itch.io/gameboy-simple-rpg-tileset
-"Licence is under CCA so you can use these assets both privately and commercially"
-"You are free to use them as is or modify them to your liking. All i ask is you credit me if you do use them please :)"
-
+The level.c file defines a function for changing the level. The code expects all non-solid tiles be first in the tilesets. The amount of non-solid tiles should be specified in "currentLevelNonSolidTileCount" when changing level.

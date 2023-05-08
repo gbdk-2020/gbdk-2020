@@ -15,6 +15,12 @@
 #define MARIO_WALK_TWO_FRAME_COUNTER 3
 #define MARIO_RUN_TWO_FRAME_COUNTER 5
 
+#define MARIO_METASPRITE_PIVOT_X 12
+#define MARIO_METASPRITE_PIVOT_Y 6
+#define MARIO_BOUNDING_BOX_HALF_WIDTH 5
+#define MARIO_BOUNDING_BOX_HALF_HEIGHT 12
+#define MARIO_BOUNDING_BOX_HEIGHT 24
+
 uint8_t facingRight =TRUE;
 
 uint8_t playerJumpIncrease = 0;
@@ -35,7 +41,6 @@ void SetupPlayer(){
     set_sprite_data(0,Mario_TILE_COUNT,Mario_tiles);
 }
 void UpdatePlayer(){
-
     
     int16_t moveSpeed = (joypadCurrent & J_B) ?MARIO_RUN_VELOCITY:MARIO_WALK_VELOCITY;
     uint8_t threeFrameCounterSpeed = (joypadCurrent & J_B) ? MARIO_RUN_TWO_FRAME_COUNTER : MARIO_WALK_TWO_FRAME_COUNTER;
@@ -88,7 +93,7 @@ void UpdatePlayer(){
     uint8_t grounded = FALSE;
 
     // Prevent getting stuck in the ground
-    while(IsTileSolid(playerRealX,playerRealY+24)){
+    while(IsTileSolid(playerRealX,playerRealY+MARIO_BOUNDING_BOX_HEIGHT-1)){
         playerY--;
         playerRealY = playerY>>4;
     }
@@ -109,13 +114,15 @@ void UpdatePlayer(){
         if(playerXVelocity>0){
 
             // The mario sprite is sort of tall, we need to check in multiple places along the right edge
-            if(IsTileSolid(playerRealX+5,playerRealY+2)||IsTileSolid(playerRealX+4,playerRealY+12)||IsTileSolid(playerRealX+5,playerRealY+24))playerXVelocity=0;
+            // Subtract a little from the top & bottom edges so mario doesn't get caught in ceilings/floors
+            if(IsTileSolid(playerRealX+MARIO_BOUNDING_BOX_HALF_WIDTH,playerRealY+2)||IsTileSolid(playerRealX+MARIO_BOUNDING_BOX_HALF_WIDTH,playerRealY+MARIO_BOUNDING_BOX_HALF_HEIGHT)||IsTileSolid(playerRealX+MARIO_BOUNDING_BOX_HALF_WIDTH,playerRealY+(MARIO_BOUNDING_BOX_HEIGHT-2)))playerXVelocity=0;
 
         // If the player is moving to the left
         }else if(playerXVelocity<0){
 
             // The mario sprite is sort of tall, we need to check in multiple places along the left edge
-            if(IsTileSolid(playerRealX-5,playerRealY+2)||IsTileSolid(playerRealX-4,playerRealY+12)||IsTileSolid(playerRealX-5,playerRealY+24))playerXVelocity=0;
+            // Subtract a little from the top & bottom edges so mario doesn't get caught in ceilings/floors
+            if(IsTileSolid(playerRealX-MARIO_BOUNDING_BOX_HALF_WIDTH,playerRealY+2)||IsTileSolid(playerRealX-MARIO_BOUNDING_BOX_HALF_WIDTH,playerRealY+MARIO_BOUNDING_BOX_HALF_HEIGHT)||IsTileSolid(playerRealX-MARIO_BOUNDING_BOX_HALF_WIDTH,playerRealY+(MARIO_BOUNDING_BOX_HEIGHT-2)))playerXVelocity=0;
         }
     }
 
@@ -123,7 +130,8 @@ void UpdatePlayer(){
     if(playerYVelocity>=0){
 
         // Check both sides of mario's feet (left and right)
-        if(IsTileSolid(playerRealX+3,playerRealY+26)||IsTileSolid(playerRealX-3,playerRealY+26)){
+        // Subtract a little from the edge so mario doesn't get caught in walls
+        if(IsTileSolid(playerRealX+(MARIO_BOUNDING_BOX_HALF_WIDTH-2),playerRealY+MARIO_BOUNDING_BOX_HEIGHT)||IsTileSolid(playerRealX-(MARIO_BOUNDING_BOX_HALF_WIDTH-2),playerRealY+MARIO_BOUNDING_BOX_HEIGHT)){
             playerYVelocity=0;
             grounded=TRUE;
         }
@@ -132,7 +140,8 @@ void UpdatePlayer(){
     }else if(playerYVelocity<0){
         
             // Check both sides of mario's head (left and right)
-            if(IsTileSolid(playerRealX+3,playerRealY)||IsTileSolid(playerRealX-3,playerRealY)){
+            // Subtract a little from the edge so mario doesn't get caught in walls
+            if(IsTileSolid(playerRealX+(MARIO_BOUNDING_BOX_HALF_WIDTH-2),playerRealY)||IsTileSolid(playerRealX-(MARIO_BOUNDING_BOX_HALF_WIDTH-2),playerRealY)){
             playerYVelocity=0;
         }
     }
@@ -179,9 +188,9 @@ void UpdatePlayer(){
     playerRealY = playerY>>4;
 
     // if we've gone past the half-screen mark
-    if(playerRealX>=80){
-        uint16_t max = currentLevelWidth-160;
-        camera_x=playerRealX-80;
+    if(playerRealX>=(DEVICE_SCREEN_PX_WIDTH>>1)){
+        uint16_t max = currentLevelWidth-DEVICE_SCREEN_PX_WIDTH;
+        camera_x=playerRealX-(DEVICE_SCREEN_PX_WIDTH>>1);
 
         // Limit the camera position to avoid drawing offscreen/looping data
         if(camera_x>max)camera_x=max;
@@ -203,8 +212,8 @@ void UpdatePlayer(){
     uint16_t playerCameraY= playerRealY-camera_y;
 
     // Flip horizontally, if we aren't facing right
-    if(facingRight)move_metasprite(Mario_metasprites[frame],0,0,playerCameraX+8,playerCameraY+16);
-    else move_metasprite_vflip(Mario_metasprites[frame],0,0,playerCameraX+8,playerCameraY+16);
+    if(facingRight)move_metasprite(Mario_metasprites[frame],0,0,playerCameraX+DEVICE_SPRITE_PX_OFFSET_X,playerCameraY+DEVICE_SPRITE_PX_OFFSET_Y);
+    else move_metasprite_vflip(Mario_metasprites[frame],0,0,playerCameraX+DEVICE_SPRITE_PX_OFFSET_X,playerCameraY+DEVICE_SPRITE_PX_OFFSET_Y);
 
     // Increase the level if the player is at the end
     if(playerRealX>currentLevelWidth-32){
