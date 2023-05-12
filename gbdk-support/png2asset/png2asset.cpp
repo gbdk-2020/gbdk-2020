@@ -78,6 +78,7 @@ bool includedMapOrMetaspriteData = true;
 PNGImage source_tileset_image;
 bool use_source_tileset = false;
 bool keep_duplicate_tiles = false;
+bool include_palettes = true;
 
 typedef vector< MTTile > MetaSprite;
 vector< Tile > tiles;
@@ -702,6 +703,7 @@ int main(int argc, char* argv[])
 		printf("-metasprites_only   export metasprite descriptors only\n");
 		printf("-source_tileset     use source tileset (image with common tiles)\n");
 		printf("-keep_duplicate_tiles   do not remove duplicate tiles (default: not enabled)\n");
+		printf("-no_palettes        do not export palette data\n");
 
 		printf("-bin                export to binary format\n");
 		printf("-transposed         export transposed (column-by-column instead of row-by-row)\n");
@@ -845,6 +847,10 @@ int main(int argc, char* argv[])
 		else if (!strcmp(argv[i], "-keep_duplicate_tiles"))
 		{
 			keep_duplicate_tiles = true;
+		}
+		else if (!strcmp(argv[i], "-no_palettes"))
+		{
+			include_palettes = false;
 		}
 		else if (!strcmp(argv[i], "-source_tileset"))
 		{
@@ -1139,9 +1145,11 @@ bool export_h_file(void) {
 		// The TILE_COUNT calc here is referring to number of 8x8 tiles,
 		// so the >> 3 for each sizes axis is to get a multiplier for larger hardware sprites such as 8x16 and 16x16
 		fprintf(file, "#define %s_TILE_COUNT %d\n", data_name.c_str(), ((unsigned int)tiles.size() - source_tileset_size) * (image.tile_h >> 3) * (image.tile_w >> 3));
-		fprintf(file, "#define %s_PALETTE_COUNT %d\n", data_name.c_str(), (unsigned int)(image.total_color_count / image.colors_per_pal));
-		fprintf(file, "#define %s_COLORS_PER_PALETTE %d\n", data_name.c_str(), (unsigned int)image.colors_per_pal);
-		fprintf(file, "#define %s_TOTAL_COLORS %d\n", data_name.c_str(), (unsigned int)image.total_color_count);
+		if (include_palettes) {
+			fprintf(file, "#define %s_PALETTE_COUNT %d\n", data_name.c_str(), (unsigned int)(image.total_color_count / image.colors_per_pal));
+			fprintf(file, "#define %s_COLORS_PER_PALETTE %d\n", data_name.c_str(), (unsigned int)image.colors_per_pal);
+			fprintf(file, "#define %s_TOTAL_COLORS %d\n", data_name.c_str(), (unsigned int)image.total_color_count);
+		}
 
 		if (includedMapOrMetaspriteData) {
 
@@ -1184,7 +1192,7 @@ bool export_h_file(void) {
 		fprintf(file, "\n");
 
 		// If we are not using a source tileset, or if we have extra palettes defined
-		if (image.total_color_count - source_total_color_count > 0 || !use_source_tileset) {
+		if (include_palettes && (image.total_color_count - source_total_color_count > 0 || !use_source_tileset)) {
 			fprintf(file, "extern const palette_color_t %s_palettes[%d];\n", data_name.c_str(), (unsigned int)image.total_color_count - source_total_color_count);
 		}
 		if (includeTileData) {
@@ -1251,7 +1259,7 @@ bool export_c_file(void) {
 	fprintf(file, "BANKREF(%s)\n\n", data_name.c_str());
 
 	// Are we not using a source tileset, or do we have extra colors
-	if (image.total_color_count - source_total_color_count > 0||!use_source_tileset) {
+	if (include_palettes && (image.total_color_count - source_total_color_count > 0||!use_source_tileset)) {
 
 			// Subtract however many palettes we had in the source tileset
 			fprintf(file, "const palette_color_t %s_palettes[%d] = {\n", data_name.c_str(), (unsigned int)image.total_color_count - source_total_color_count);
