@@ -193,7 +193,7 @@ extern volatile uint8_t _current_bank;
     @see BANKREF_EXTERN(), BANKREF()
 */
 #ifndef BANK
-#define BANK(VARNAME) 0
+#define BANK(VARNAME) ( (uint8_t) & __bank_ ## VARNAME )
 #endif
 
 /** Creates a reference for retrieving the bank number of a variable or function
@@ -208,7 +208,13 @@ extern volatile uint8_t _current_bank;
     Use @ref BANKREF_EXTERN() within another source file
     to make the variable and it's data accesible there.
 */
-#define BANKREF(VARNAME)
+#define BANKREF(VARNAME) void __func_ ## VARNAME() __banked __naked { \
+__asm \
+    .local b___func_ ## VARNAME \
+    ___bank_ ## VARNAME = b___func_ ## VARNAME \
+    .globl ___bank_ ## VARNAME \
+__endasm; \
+}
 
 /** Creates extern references for accessing a BANKREF() generated variable.
 
@@ -226,12 +232,33 @@ extern volatile uint8_t _current_bank;
 */
 #define SWITCH_ROM_DUMMY(b)
 
+/** Macro for simple UNROM-like switching (write bank# to single 8-bit register)
+    @param b   ROM bank to switch to
+*/
+#define SWITCH_ROM_UNROM(b) _switch_prg0(b)
+
 /** Makes default mapper switch the active ROM bank
     @param b   ROM bank to switch to (max 255)
 
     @see SWITCH_ROM_UNROM
 */
-#define SWITCH_ROM SWITCH_ROM_DUMMY
+#define SWITCH_ROM SWITCH_ROM_UNROM
+
+/** No-op at the moment. Placeholder for future mappers / test compatibility.
+    @param b   SRAM bank to switch to
+
+*/
+#define SWITCH_RAM(b) 0
+
+/** No-op at the moment. Placeholder for future mappers / test compatibility.
+
+*/
+#define ENABLE_RAM
+
+/** No-op at the moment. Placeholder for future mappers / test compatibility.
+
+*/
+#define DISABLE_RAM
 
 /** Delays the given number of milliseconds.
     Uses no timers or interrupts, and can be called with
@@ -1037,5 +1064,7 @@ void vmemset (void *s, uint8_t c, size_t n) OLDCALL;
 */
 void fill_bkg_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t tile) OLDCALL;
 #define fill_rect fill_bkg_rect
+
+uint8_t _switch_prg0(uint8_t bank) OLDCALL;
 
 #endif /* _NES_H */

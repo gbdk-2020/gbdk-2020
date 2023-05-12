@@ -35,8 +35,7 @@ arg_entry llist0_defaults_msxdos[] = {
 // NES
 arg_entry llist0_defaults_nes[] = {
     {.searchkey= "_DATA=",       .addflag= "-b",.addvalue= "_DATA=0x0300",       .found = false},
-    {.searchkey= "_CODE=",       .addflag= "-b",.addvalue= "_CODE=0x8000",       .found = false},
-    {.searchkey= "CODEFIXED=",   .addflag= "-b",.addvalue= "CODEFIXED=0xE000",   .found = false},
+    {.searchkey= "_CODE=",       .addflag= "-b",.addvalue= "_CODE=0xC000",       .found = false},
     {.searchkey= "VECTORS=",     .addflag= "-b",.addvalue= "VECTORS=0xFFFA",     .found = false},
     {.searchkey= "OSEG=",        .addflag= "-b",.addvalue= "OSEG=0x00",          .found = false},
     {.searchkey= "_ZP=",         .addflag= "-b",.addvalue= "_ZP=0x30",           .found = false},
@@ -163,9 +162,9 @@ CLASS classes[] = {
       .com          = "%com% %comdefault% -Wa%asdefault% --no-peep -DINT_16_BITS $1 %comflag% $2 -o $3",
       .as           = "%as_6500% %asdefault% $1 $3 $2",
       .bankpack     = "%bankpack% -plat=nes $1 $2",
-      .ld           = "%ld_6808% -n -i -j $1 %libs_include% $3 %crt0dir% $2",
+      .ld           = "%ld_6808% -a nes -n -i -j $1 %libs_include% $3 %crt0dir% $2",
       .ihxcheck     = "%ihxcheck% $2 $1",
-      .mkbin        = "%mkbin% -N -yo 2 -yS $2 $3",
+      .mkbin        = "%mkbin% -N -yo A -yS $2 $3",
       .postproc     = "",
       .llist0_defaults    = llist0_defaults_nes,
       .llist0_defaults_len= ARRAY_LEN(llist0_defaults_nes),

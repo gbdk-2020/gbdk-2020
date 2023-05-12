@@ -1,5 +1,5 @@
 ;
-; crt0.s for NES, using NROM (no mapper)
+; crt0.s for NES, using UNROM-512 (mapper30) with single-screen mirroring variant
 ;
 ; Provides:
 ;  * Start-up code clearing RAM and VRAM
@@ -75,15 +75,8 @@ b_wait_frames = 0
         .area _HOME
         ;; Similar to _HOME
         .area _BASE
-        ;;
-        .area _RODATA
-        ;; #pragma bank 0 workaround
-        .area _CODE_0
         ;; Constant data
         .area _LIT
-        .area _CODE_1
-        .area _CODE_2
-        .area _CODE_3
         ;; Constant data, used to init _DATA
         .area _INITIALIZER
         .area _XINIT
@@ -125,8 +118,10 @@ _attribute_row_dirty::                  .ds 1
 _attribute_column_dirty::               .ds 1
 .crt0_textStringBegin:                  .ds 1
 .crt0_forced_blanking::                 .ds 1
+.tempA::                                .ds 1
 
- .area CODEFIXED
+;.area CODEFIXED
+.area _CODE
 
 .bndry 0x100
 .identity::
@@ -589,6 +584,9 @@ __crt0_RESET_bankSwitchValue:
     lda #<s__DATA
     ldx #>s__DATA
     jsr ___memcpy
+    ; Set bank to first
+    lda #0x00
+    sta *__current_bank
     ; Set palette shadow
     jsr __crt0_setPalette
     ; Initialize PPU address for printf output (start at 3rd row, 2nd column)
