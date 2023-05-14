@@ -8,8 +8,8 @@ BANKREF_EXTERN(some_bank2_proc0)
 extern void some_bank2_proc0(void) __banked;
 
 BANKREF_EXTERN(some_bank2_proc1)
-extern int some_bank2_proc1(int param1, int param2) __banked;
-typedef int (*some_bank2_proc_t)(int, int) __banked; // define type for some_bank2_proc1() function
+extern int some_bank2_proc1(uint8_t param1, uint8_t param2) __banked;
+typedef int (*some_bank2_proc_t)(uint8_t, uint8_t) __banked; // define type for some_bank2_proc1() function
 
 // far pointers
 FAR_PTR farptr_var0, farptr_var1, farptr_var2;
@@ -35,7 +35,15 @@ void run(void) {
     printf("CALL DIR: %d\n", res);
 
     // try calling far function by far pointer
+#ifdef __PORT_mos6502
+    // SDCC mos6502 port does not appear to handle cast to typedef:ed function type some_bank2_proc_t correctly.
+    // Address of __call__banked incorrectly evaluates to zero. Needs further investigation.
+    // As a work-around, supply the function type directly for now.
+    res = FAR_CALL(farptr_var1, int (*)(uint8_t, uint8_t), 100, 50);
+#else
+    // For other targets, just use convenience typedef some_bank2_proc_t
     res = FAR_CALL(farptr_var1, some_bank2_proc_t, 100, 50);
+#endif
 
     printf("CALL IND: %d\n", res);
 }

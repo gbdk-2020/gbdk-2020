@@ -23,7 +23,7 @@ void main(void)
 {
   uint8_t _saved_bank;
 
-  #ifndef MSXDOS // TODO
+  #if !defined(MSXDOS) && !defined(NINTENDO_ENTERTAINMENT_SYSTEM) // TODO
   set_default_palette();
   #endif
   printf("Program Start...\n\n");
