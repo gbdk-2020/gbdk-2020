@@ -253,6 +253,7 @@ ___HandleCrash::
 	xor a
 	ldh (.IF), a
 	halt
+	nop
 
 	jr	.loop
 
