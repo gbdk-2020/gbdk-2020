@@ -187,12 +187,11 @@ void remove_TIM(int_handler h);
    @see add_SIO(), @see remove_VBL()
 
     The default SIO ISR gets installed automatically if
-    any of the standard SIO calls are used. These calls
-    include @ref add_SIO(), @ref remove_SIO(),
-    @ref send_byte(), @ref receive_byte().
+    any of the standard SIO calls are used
+    (@ref send_byte(), @ref receive_byte()).
 
-    The default SIO ISR cannot be removed once installed.
-    Only secondary chained SIO ISRs (added with @ref add_SIO() )
+    Once installed the default SIO ISR cannot be removed.
+    Only secondary chained SIO ISRs (added with add_SIO())
     can be removed.
 */
 void remove_SIO(int_handler h);
@@ -301,6 +300,10 @@ void add_low_priority_TIM(int_handler h);
 
     Up to 4 handlers may be added, with the last added
     being called last.
+
+    The default SIO ISR gets installed automatically if
+    any of the standard SIO calls are used
+    (@ref send_byte(), @ref receive_byte()).
 
     @see send_byte, receive_byte(), add_VBL()
     @see set_interrupts() with SIO_IFLAG

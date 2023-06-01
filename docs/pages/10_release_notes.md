@@ -18,12 +18,21 @@ https://github.com/gbdk-2020/gbdk-2020/releases
       - move_metasprite_flipx(): replaces move_metasprite_vflip()
       - move_metasprite_flipxy(): replaces move_metasprite_hvflip()
       - move_metasprite_ex(): (replaces move_metasprite()
-    - GB: faster vmemcpy(), set_data(), get_data()
+    - Game Boy
+      - Faster vmemcpy(), set_data(), get_data()
+      - Fixed hide_sprites_range(39u, 40u); overflow shadow OAM
+      - Increased sgb_transfer() maximum packet length to 7 x 16 bytes
+      - Convert gb_decompress routines to the new calling convention
+      - Convert rle_decompress routines to the new calling convention
+      - Removed legacy MBC register definitions `.MBC1_ROM_PAGE`  and `.MBC_ROM_PAGE`
     - Refactored interrupts to use less space
   - Toolchain / Utilities
-    - @ref lcc "lcc": fix for `--sdccbindir`
+    - @ref lcc "lcc"
+      - Fixed `--sdccbindir`
+      - Improved improved Game Gear header compatibility (change header region code from 4 to 6)
     - @ref utility_png2asset "png2asset"
-      - Added `-repair_index_pal`: Tries to repair tile palettes for indexed color pngs (such as when RGB paint programs mix up indexed colors if the same color exists in multiple palettes). Implies `-keep_palette_order`.
+      - Added `-repair_index_pal`: Tries to repair tile palettes for indexed color pngs (such as when RGB paint programs mix up indexed colors if the same color exists in multiple palettes). Implies `-keep_palette_order`
+      - Added `-no_palettes`: Do not export palette data
       - Fixed support for indexed color pngs with less than 8 bits color depth
       - Fixed incorrect palettes when different colors have same luma value (use RGB values as less-significant bits)
       - Changed to use cross-platform constants for metasprite properties (S_FLIPX, S_FLIPY and S_PAL)
@@ -32,11 +41,13 @@ https://github.com/gbdk-2020/gbdk-2020/releases
      - Wav Playback: Improved support on AGB/AGS hardware
      - Metasprites: Added sub-palette switching for GBC and NES, software metasprite flipping for sms/gg
      - Large Map: Added color for supported platforms
+     - LCD ISR Wobble: Improved interrupt flag settings
   - Docs:
     - Added @ref using_cgb_features "Using Game Boy Color Features"
     - Added SDAS assembler manual (asmlnk_manual.txt)
     - Updated @ref megaduck_sound_register_value_changes "MegaDuck hardware documentation"
     - Added @ref banked_calling_convention "Banked Calling Convention"
+    - Added mention of @ref MAX_HARDWARE_SPRITES
 
 ## GBDK-2020 4.1.1
   2022/11
