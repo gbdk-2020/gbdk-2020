@@ -200,6 +200,8 @@ gbdk-support-clean:
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/gbcompress clean --no-print-directory
 	@echo Cleaning makecom
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/makecom clean
+	@echo Cleaning makebin
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/makebin clean
 	@echo
 
 # Rules for gbdk-lib
