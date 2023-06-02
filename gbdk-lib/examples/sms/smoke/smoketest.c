@@ -17,7 +17,7 @@ int8_t xspd = 0, yspd  = 0;
 uint8_t anim = 0, tick = 0;
 
 joypads_t joy;
-void main() {
+void main(void) {
     HIDE_LEFT_COLUMN;
     SPRITES_8x16;
     DISPLAY_ON;

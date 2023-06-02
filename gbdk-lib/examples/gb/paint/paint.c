@@ -259,7 +259,7 @@ uint8_t menu_cursor_pos;
 uint8_t cursor_x;
 uint8_t cursor_y;
 
-void set_cursor()
+void set_cursor(void)
 {
     uint8_t x, y, i;
 
@@ -279,7 +279,7 @@ void set_cursor()
     }
 }
 
-void move_cursor()
+void move_cursor(void)
 {
   uint8_t x, y;
 
@@ -290,7 +290,7 @@ void move_cursor()
 		  cursor_y+16 - cursors[current_cursor].hot_y + (y<<3));
 }
 
-void move_menu_cursor()
+void move_menu_cursor(void)
 {
   move_sprite(0,
 	      ((icons[menu_cursor_pos].x+icons[menu_cursor_pos].w)<<3) + 4,
@@ -337,7 +337,7 @@ void reset_icon(uint8_t icon)
 		  NULL);
 }
 
-void splash()
+void splash(void)
 {
   uint8_t x, y;
 
@@ -381,7 +381,7 @@ void splash()
   // HIDE_SPRITES;
 }
 
-void menu()
+void menu(void)
 {
   uint8_t i, key;
   uint8_t slowdown;
@@ -451,7 +451,7 @@ void menu()
   current_cursor = cursor;
 }
 
-void run()
+void run(void)
 {
   uint8_t key;
   uint8_t slowdown;
@@ -509,7 +509,7 @@ void run()
   }
 }
 
-void main()
+void main(void)
 {
   /* Initialize sprite palette */
   OBP1_REG = 0xE0U;

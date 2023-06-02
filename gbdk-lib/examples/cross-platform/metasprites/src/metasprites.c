@@ -117,7 +117,7 @@ uint8_t get_tile_offset(uint8_t flipx, uint8_t flipy)
 // Load metasprite tile data into VRAM, one tile at a time.
 // For each tile, create a duplicate flipped in X and/or Y
 // That's placed at tile index = get_tile_offset(flipX?, flipY?)
-void load_and_duplicate_sprite_tile_data()
+void load_and_duplicate_sprite_tile_data(void)
 {
     size_t i;
     num_tiles = sizeof(sprite_tiles) >> 4;

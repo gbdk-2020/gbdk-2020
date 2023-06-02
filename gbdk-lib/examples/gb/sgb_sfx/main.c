@@ -46,7 +46,7 @@ void sgb_sound_effect(uint8_t sfx_a, uint8_t sfx_b) {
 #define DISP_SFX_B_START 10
 
 // Display basic operation info on the screen
-void init_display() {
+void init_display(void) {
     gotoxy(0,1);
     printf("SGB BUILT-IN SFX");
 

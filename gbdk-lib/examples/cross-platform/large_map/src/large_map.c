@@ -79,7 +79,7 @@ inline uint8_t update_row_bottom(uint8_t map_pos_y)
     return map_pos_y + DEVICE_SCREEN_HEIGHT;
 }
 
-void set_camera()
+void set_camera(void)
 {
     // update hardware scroll position
     move_bkg(camera_x, WRAP_SCROLL_Y(camera_y + SCROLL_Y_OFFSET));
@@ -173,7 +173,7 @@ void set_camera()
     old_camera_x = camera_x, old_camera_y = camera_y;
 }
 
-void main(){
+void main(void){
     DISPLAY_OFF;
     //set_bkg_data(0, 241u, bigmap_tiles);
     set_native_tile_data(0, bigmap_TILE_COUNT, bigmap_tiles);

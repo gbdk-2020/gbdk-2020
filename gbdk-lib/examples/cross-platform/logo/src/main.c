@@ -2,7 +2,7 @@
 
 #include "GBDK_2020_logo.h"
 
-void main() {
+void main(void) {
     DISPLAY_OFF;
     fill_bkg_rect(0, 0, DEVICE_SCREEN_WIDTH, DEVICE_SCREEN_HEIGHT, 0);
 #if defined(SYSTEM_SEGA)

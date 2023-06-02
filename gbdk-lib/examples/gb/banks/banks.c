@@ -11,9 +11,9 @@ extern int var_1;  /* In external RAM bank 1 */
 extern int var_2;  /* In external RAM bank 2 */
 extern int var_3;  /* In external RAM bank 3 */
 
-void bank_1() BANKED;
-void bank_2() BANKED;
-void bank_3() BANKED;
+void bank_1(void) BANKED;
+void bank_2(void) BANKED;
+void bank_3(void) BANKED;
 
 void bank_fixed(void) NONBANKED
 {

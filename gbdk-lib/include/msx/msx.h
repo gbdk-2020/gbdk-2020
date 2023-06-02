@@ -187,7 +187,7 @@ void add_JOY(int_handler h) Z88DK_FASTCALL;
 
 /** Cancel pending interrupts
  */
-inline uint8_t cancel_pending_interrupts() {
+inline uint8_t cancel_pending_interrupts(void) {
     return VDP_STATUS;
 }
 

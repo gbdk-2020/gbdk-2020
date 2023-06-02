@@ -43,7 +43,7 @@
 @anchor sdcc-settings
 # sdcc settings
 ```
-SDCC : z80/sm83/mos6502 4.2.2 #13350 (Linux)
+SDCC : z80/sm83/mos6502 TD- 4.2.14 #13911 (Linux)
 published under GNU General Public License (GPL)
 Usage : sdcc [options] filename
 Options :-
@@ -77,15 +77,7 @@ General options:
       --Werror              Treat the warnings as errors
       --debug               Enable debugging symbol output
       --cyclomatic          Display complexity of compiled functions
-      --std-c89             Use ISO C90 (aka ANSI C89) standard (slightly incomplete)
-      --std-sdcc89          Use ISO C90 (aka ANSI C89) standard with SDCC extensions
-      --std-c95             Use ISO C95 (aka ISO C94) standard (slightly incomplete)
-      --std-c99             Use ISO C99 standard (incomplete)
-      --std-sdcc99          Use ISO C99 standard with SDCC extensions
-      --std-c11             Use ISO C11 standard (incomplete)
-      --std-sdcc11          Use ISO C11 standard with SDCC extensions (default)
-      --std-c2x             Use ISO C2X standard (incomplete)
-      --std-sdcc2x          Use ISO C2X standard with SDCC extensions
+      --std                 Determine the language standard (c89, c99, c11, c2x, sdcc89 etc.)
       --fdollars-in-identifiers  Permit '$' as an identifier character
       --fsigned-char        Make "char" signed by default
       --use-non-free        Search / include non-free licensed libraries and header files
@@ -506,6 +498,7 @@ usage: png2asset    <file>.png [options]
 -metasprites_only   export metasprite descriptors only
 -source_tileset     use source tileset (image with common tiles)
 -keep_duplicate_tiles   do not remove duplicate tiles (default: not enabled)
+-no_palettes        do not export palette data
 -bin                export to binary format
 -transposed         export transposed (column-by-column instead of row-by-row)
 ```

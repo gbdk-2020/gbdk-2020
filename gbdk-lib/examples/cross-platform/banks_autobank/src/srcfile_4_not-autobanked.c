@@ -9,7 +9,7 @@
 const uint8_t some_const_var_4 = 4;
 BANKREF(some_const_var_4)
 
-void func_4() BANKED
+void func_4(void) BANKED
 {
     printf("Func4 not autobank\n"
            " is in ROM bank %u\n", CURRENT_BANK);
