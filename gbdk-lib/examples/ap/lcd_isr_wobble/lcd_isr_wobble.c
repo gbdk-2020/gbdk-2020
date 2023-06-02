@@ -7,12 +7,12 @@
 const uint8_t scanline_offsets_tbl[] = {0, 1, 2, 3, 3, 2, 1, 0, 0, 1, 2, 3, 3, 2, 1, 0};
 const uint8_t * scanline_offsets = scanline_offsets_tbl;
 
-void scanline_isr() {
+void scanline_isr(void) {
     SCX_REG = scanline_offsets[(uint8_t)(LY_REG & 0x07u)];
 }
 
 
-void main() {
+void main(void) {
     printf("This is\na wobble\ntest\nfor DMG\n|\n|\n|\n|\n|");
     
     CRITICAL {

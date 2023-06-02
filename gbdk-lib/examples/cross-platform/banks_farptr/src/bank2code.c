@@ -10,7 +10,7 @@ static int local_bank2_proc(int param1, int param2) {
 }
 
 BANKREF(some_bank2_proc0)
-void some_bank2_proc0() __banked {
+void some_bank2_proc0(void) __banked {
     printf("some_bank2_proc0\n");
 }
 

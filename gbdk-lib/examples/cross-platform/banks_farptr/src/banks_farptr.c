@@ -5,7 +5,7 @@
 
 // functions from bank2code.c
 BANKREF_EXTERN(some_bank2_proc0)
-extern void some_bank2_proc0() __banked;
+extern void some_bank2_proc0(void) __banked;
 
 BANKREF_EXTERN(some_bank2_proc1)
 extern int some_bank2_proc1(int param1, int param2) __banked;
@@ -17,7 +17,7 @@ FAR_PTR farptr_var0, farptr_var1, farptr_var2;
 // result of a function call
 int res;
 
-void run() {
+void run(void) {
     // compose far pointer at runtime
     farptr_var0 = to_far_ptr(some_bank2_proc1, BANK(some_bank2_proc1));
     farptr_var1 = to_far_ptr(some_bank2_proc1, BANK(some_bank2_proc1));
@@ -40,7 +40,7 @@ void run() {
     printf("CALL IND: %d\n", res);
 }
 
-void main() {
+void main(void) {
     ENABLE_RAM;
     printf("START (bank=%d)\n", (int)CURRENT_BANK);
     run();
