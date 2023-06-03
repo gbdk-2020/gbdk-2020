@@ -120,6 +120,8 @@ void option_set_platform(char * platform_str) {
         option_platform = PLATFORM_GB;  // Analogue Pocket uses GB platform
     else if (strcmp(platform_str, PLATFORM_STR_DUCK) == 0)
         option_platform = PLATFORM_GB;  // Megaduck uses GB platform
+    else if (strcmp(platform_str, PLATFORM_STR_NES) == 0)
+        option_platform = PLATFORM_GB;  // NES uses GB platform
     else if (strcmp(platform_str, PLATFORM_STR_SMS) == 0)
         option_platform = PLATFORM_SMS;
     else if (strcmp(platform_str, PLATFORM_STR_GG) == 0)

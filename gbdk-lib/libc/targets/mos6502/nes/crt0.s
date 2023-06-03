@@ -1,5 +1,5 @@
 ;
-; crt0.s for NES, using NROM (no mapper)
+; crt0.s for NES, using UNROM-512 (mapper30) with single-screen mirroring variant
 ;
 ; Provides:
 ;  * Start-up code clearing RAM and VRAM
@@ -67,7 +67,33 @@ b_wait_frames = 0
     ror *__crt0_drawListValid
 .endm
 
-.area ZP (PAG)
+       ;; ****************************************
+
+        ;; Ordering of segments for the linker
+        ;; Code that really needs to be in the fixed bank
+        .area _CODE
+        .area _HOME
+        ;; Similar to _HOME
+        .area _BASE
+        ;; Constant data
+        .area _LIT
+        ;; Constant data, used to init _DATA
+        .area _INITIALIZER
+        .area _XINIT
+        ;; Code, used to init _DATA
+        .area _GSINIT 
+        .area _GSFINAL
+        ;; Uninitialised ram data
+        .area _DATA
+        .area _BSS
+        ;; Initialised in ram data
+        .area _INITIALIZED
+        ;; For malloc
+        .area _HEAP
+        .area _HEAP_END
+
+.area	OSEG    (PAG, OVR)
+.area _ZP (PAG)
 __shadow_OAM_base::                     .ds 1
 __current_bank::                        .ds 1
 _sys_time::                             .ds 2
@@ -92,45 +118,10 @@ _attribute_row_dirty::                  .ds 1
 _attribute_column_dirty::               .ds 1
 .crt0_textStringBegin:                  .ds 1
 .crt0_forced_blanking::                 .ds 1
+.tempA::                                .ds 1
 
-        ;; ****************************************
-
-        ;; Ordering of segments for the linker
-        ;; Code that really needs to be in the fixed bank
-        .area CODE
-        .area _CODE
-        .area _HOME
-        ;; Similar to _HOME
-        .area _BASE
-        ;;
-        .area RODATA
-        ;; #pragma bank 0 workaround
-        .area _CODE_0
-        ;; Constant data
-        .area _LIT
-;       ;; since _CODE_1 area base address is pre-defined in the linker from 0x4000, 
-;       ;; that moves initializer code and tables out of bank 0
-        .area _CODE_1
-        .area _CODE_2
-        .area _CODE_3
-        ;; Constant data, used to init _DATA
-        .area _INITIALIZER
-        .area XINIT
-        ;; Code, used to init _DATA
-        .area _GSINIT 
-        .area _GSFINAL
-        ;; Uninitialised ram data
-        .area DATA
-        .area _DATA
-        .area _BSS
-        .area BSS
-        ;; Initialised in ram data
-        .area _INITIALIZED
-        ;; For malloc
-        .area _HEAP
-        .area _HEAP_END
-
-.area CODEFIXED
+;.area CODEFIXED
+.area _CODE
 
 .bndry 0x100
 .identity::
@@ -582,17 +573,20 @@ __crt0_RESET_bankSwitchValue:
     lda #>_shadow_OAM
     sta OAMDMA
     ; Perform initialization of DATA area
-    lda #<s_XINIT
+    lda #<s__XINIT
     sta ___memcpy_PARM_2
-    lda #>s_XINIT
+    lda #>s__XINIT
     sta ___memcpy_PARM_2+1
-    lda #<l_XINIT
+    lda #<l__XINIT
     sta ___memcpy_PARM_3
-    lda #>l_XINIT
+    lda #>l__XINIT
     sta ___memcpy_PARM_3+1
-    lda #<s_DATA
-    ldx #>s_DATA
+    lda #<s__DATA
+    ldx #>s__DATA
     jsr ___memcpy
+    ; Set bank to first
+    lda #0x00
+    sta *__current_bank
     ; Set palette shadow
     jsr __crt0_setPalette
     ; Initialize PPU address for printf output (start at 3rd row, 2nd column)
