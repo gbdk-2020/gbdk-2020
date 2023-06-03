@@ -354,7 +354,7 @@ endif
 # Turn on Latex -> PDF conversion to run run at end of regular docs build
 # (which includes latex output but deletes it at the end).
 #
-# The conversion process requires a Latex install. 
+# The conversion process requires a Latex install.
 # For Windows there are various Latex packages to choose from.
 # For Linux this appears to be the minimum:
 #   sudo apt install texlive-latex-base
@@ -393,7 +393,13 @@ ifneq (,$(wildcard $(BUILDDIR)/bin/))
 	echo \@anchor sdasz80-settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \# sdasz80 settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
-	$(BUILDDIR)/bin/sdasgb -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true
+	$(BUILDDIR)/bin/sdasz80 -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+# sdas6500
+	echo \@anchor sdas6500-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# sdas6500 settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+	$(BUILDDIR)/bin/sdas6500 -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 # bankpack
 	echo \@anchor bankpack-settings >> $(TOOLCHAIN_DOCS_FILE);
@@ -410,6 +416,12 @@ ifneq (,$(wildcard $(BUILDDIR)/bin/))
 # sdldz80
 	echo \@anchor sdldz80-settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \# sdldz80 settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+	$(BUILDDIR)/bin/sdldgb >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+# sdld6808
+	echo \@anchor sdld6808-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# sdld6808 settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 	$(BUILDDIR)/bin/sdldgb >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
