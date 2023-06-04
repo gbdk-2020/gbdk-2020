@@ -1,19 +1,26 @@
-        .include        "global.s"
+        .include "global.s"
 
-        .globl  .int, .add_int, .remove_int
+        .module timer
+
+        .area   _GSINIT
+
+        ld de, #.int_call_chain
+        ld hl, #.int_0x50
+        ld c, #((.INT_CALL_CHAIN_SIZE + 1) * 3)
+        rst 0x30                ; memcpysmall
 
         .area   _HOME
 
 .add_TIM::
-        LD      HL,#.int_0x50
-        JP      .add_int
+        ld hl, #.int_0x50
+        jp .add_int
 
 _remove_TIM::
 .remove_TIM::
-        LD      HL,#.int_0x50
-        JP      .remove_int
+        ld hl, #.int_0x50
+        jp .remove_int
 
         .area   _DATA
 
 .int_0x50::
-        .blkw   0x05
+        .blkb ((.INT_CALL_CHAIN_SIZE + 1) * 3)

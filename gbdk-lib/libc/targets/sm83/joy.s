@@ -1,29 +1,37 @@
-	.include	"global.s"
+        .include "global.s"
 
-	.globl	.int
+        .module joypad_interrupts
 
-	.area	_HEADER_JOY (ABS)
+        .area	_HEADER_JOY (ABS)
 
-	.org	0x60		; JOY
+        .org	0x60        	; JOY
 .int_JOY:
-	PUSH	AF
-	PUSH	HL
-	LD	HL,#.int_0x60
-	JP	.int
+        push af
+        push hl
+        push bc
+        push de
+        jp .int_0x60
 
-	.area	_HOME
+        .area   _GSINIT
+
+        ld de, #.int_call_chain
+        ld hl, #.int_0x60
+        ld c, #((.INT_CALL_CHAIN_SIZE + 1) * 3)
+        rst 0x30                ; memcpysmall
+
+        .area	_HOME
 
 _add_JOY::
 .add_JOY::
-	LD	HL,#.int_0x60
-	JP	.add_int
+        ld hl, #.int_0x60
+        jp .add_int
 
 _remove_JOY::
 .remove_JOY::
-	LD	HL,#.int_0x60
-	JP	.remove_int
+        ld hl, #.int_0x60
+        jp .remove_int
 
-	.area	_DATA
+        .area        _DATA
 
 .int_0x60::
-	.blkw	0x05
+        .blkb ((.INT_CALL_CHAIN_SIZE + 1) * 3)

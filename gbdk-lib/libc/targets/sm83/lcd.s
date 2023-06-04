@@ -1,63 +1,37 @@
-	.include	"global.s"
+        .include "global.s"
 
+        .module lcd_interrupts
 
-	.area	_HEADER_LCD (ABS)
+        .area   _HEADER_LCD (ABS)
 
-	.org	0x48		; LCD
+        .org    0x48            ; LCD
 .int_LCD:
-	JP	.int_lcd_handler
+        push af
+        push hl
+        push bc
+        push de
+        jp .int_0x48
 
-	.area	_HOME
+        .area   _GSINIT
 
-.int_lcd_handler:
-	PUSH	AF
-	PUSH	HL
-	PUSH	BC
-	PUSH	DE
-	LD	HL, #.int_0x48 + 0
-	PUSH    HL		; for stack compatibility with std handler only!
-	LD	A,(HL+)
-	LD      H,(HL)
-	LD	L,A
-	OR	H
-	JR 	Z, 1$
-	RST     0x20		; .call_hl
-	LD	HL, #.int_0x48 + 2
-	LD	A,(HL+)
-	LD      H,(HL)
-	LD	L,A
-	OR      H
-	JR      Z, 1$
-	RST     0x20		; .call_hl
-	LD	HL, #.int_0x48 + 4
-	LD	A,(HL+)
-	LD      H,(HL)
-	LD	L,A
-	OR      H
-	CALL    NZ, .call_hl
-1$:
-	POP     HL
-	POP	DE
-	POP	BC
-	POP	HL
+        ld de, #.int_call_chain
+        ld hl, #.int_0x48
+        ld c, #((.INT_CALL_CHAIN_SIZE + 1) * 3)
+        rst 0x30                ; memcpysmall
 
-	;; we return at least at the beginning of mode 2
-	WAIT_STAT
-
-	POP	AF
-	RETI
+        .area   _HOME
 
 _add_LCD::
 .add_LCD::
-	LD	HL,#.int_0x48
-	JP	.add_int
+        ld hl, #.int_0x48
+        jp .add_int
 
 _remove_LCD::
 .remove_LCD::
-	LD	HL,#.int_0x48
-	JP	.remove_int
+        ld hl, #.int_0x48
+        jp .remove_int
 
-	.area	_DATA
+        .area   _DATA
 
 .int_0x48::
-	.blkw	0x04
+        .blkb ((.INT_CALL_CHAIN_SIZE + 1) * 3)

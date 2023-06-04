@@ -456,6 +456,8 @@
 
         .globl  .wait_vbl_done
 
+        .INT_CALL_CHAIN_SIZE = 3
+
         ;; Interrupt routines
         .globl  .add_VBL
 ;       .globl  .add_LCD        ;; don't link LCD.o by default
