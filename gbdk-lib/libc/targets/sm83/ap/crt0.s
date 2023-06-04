@@ -95,11 +95,10 @@ __standard_VBL_handler::
         INC     HL
         INC     (HL)
 2$:
-        CALL    .refresh_OAM
-
         LD      A, #1
         LDH     (.vbl_done),A
-        RET
+
+        JP      .refresh_OAM
 
 _refresh_OAM::
         WAIT_STAT
@@ -118,8 +117,7 @@ _refresh_OAM::
         XOR     A
         LD      L, A
         LD      C, #(40 << 2)   ; 40 entries 4 bytes each
-        RST     0x28
-        RET
+        JP      .MemsetSmall
 
         ;; Wait for VBL interrupt to be finished
 .wait_vbl_done::
@@ -265,20 +263,21 @@ _reset::
         ;; Turn the screen on
         LD      A,#(LCDCF_ON | LCDCF_WIN9C00 | LCDCF_WINOFF | LCDCF_BG8800 | LCDCF_BG9800 | LCDCF_OBJ8 | LCDCF_OBJOFF | LCDCF_BGOFF)
         LDH     (.LCDC),A
-        XOR     A
-        LDH     (.IF),A
+
         LD      A,#.VBL_IFLAG   ; switch on VBlank interrupt only
         LDH     (.IE),A
 
-        LDH     (__current_bank),A      ; current bank is 1 at startup
-
         XOR     A
+        LDH     (.IF),A
 
         LD      HL,#.sys_time
         LD      (HL+),A
         LD      (HL),A
 
         LDH     (.NR52),A       ; Turn sound off
+
+        INC     A
+        LDH     (__current_bank),A      ; current bank is 1 at startup
 
         CALL    gsinit
 
@@ -431,15 +430,17 @@ __shadow_OAM_base::
 
         ;; Runtime library
         .area   _GSINIT
+
 gsinit::
         ;; initialize static storage variables
         LD      BC, #l__INITIALIZER
         LD      HL, #s__INITIALIZER
         LD      DE, #s__INITIALIZED
-        call    .memcpy_simple
+        CALL    .memcpy_simple
 
         .area   _GSFINAL
-        ret
+
+        RET
 
         .area   _HOME
 
