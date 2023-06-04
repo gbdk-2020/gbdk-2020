@@ -8,6 +8,9 @@ https://github.com/gbdk-2020/gbdk-2020/releases
 
 ## GBDK-2020 4.2
   2023/x
+  - SDCC Compiler
+    - Updated to SDCC 14..TODO..
+    - ([Patched SDCC Builds](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases) with support for Sega GG/SMS and the Nintendo NES are used. See the [github workflow](https://github.com/gbdk-2020/gbdk-2020-sdcc/tree/main/.github/workflows) for details
   - Library
     - Added: set_bkg_attributes(), set_bkg_submap_attributes()
     - The following new functions replace old ones. The old functions will continue to work for now, but migration to new versions is strongly encouraged.
@@ -24,7 +27,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
       - Increased sgb_transfer() maximum packet length to 7 x 16 bytes
       - Convert gb_decompress routines to the new calling convention
       - Convert rle_decompress routines to the new calling convention
-      - Removed legacy MBC register definitions `.MBC1_ROM_PAGE`  and `.MBC_ROM_PAGE`
+      - Removed legacy MBC register definitions `.MBC1_ROM_PAGE`  and `.MBC_ROM_PAGE`  
     - Refactored interrupts to use less space
   - Toolchain / Utilities
     - @ref lcc "lcc"
@@ -56,6 +59,8 @@ https://github.com/gbdk-2020/gbdk-2020/releases
 
 ## GBDK-2020 4.1.0
   2022/10
+  - Known Issues
+    - The `compile.bat` batch files for Windows use the an incalid `-p` option for `mkdir`
   - Building GBDK
     - The linux port of SDCC is custom built on Ubuntu 16.04 due to reduced GLIBC compatibility issues in more recent SDCC project builds.
     - Added Windows 32-Bit build

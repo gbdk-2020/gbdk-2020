@@ -43,7 +43,7 @@
 @anchor sdcc-settings
 # sdcc settings
 ```
-SDCC : z80/sm83/mos6502 TD- 4.2.14 #13911 (Linux)
+SDCC : z80/sm83/mos6502/mos65c02 TD- 4.2.14 #14088 (Linux)
 published under GNU General Public License (GPL)
 Usage : sdcc [options] filename
 Options :-
@@ -179,6 +179,11 @@ Special options for the mos6502 port:
       --model-small         8-bit address space for data
       --model-large         16-bit address space for data (default)
       --no-std-crt0         Do not link default crt0.rel
+
+Special options for the mos65c02 port:
+      --model-small         8-bit address space for data
+      --model-large         16-bit address space for data (default)
+      --no-std-crt0         Do not link default crt0.rel
 ```
 @anchor sdasgb-settings
 # sdasgb settings
@@ -229,7 +234,52 @@ Debugging:
 # sdasz80 settings
 ```
 
-sdas Assembler V02.00 + NoICE + SDCC mods  (GameBoy)
+sdas Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180 / ZX-Next / eZ80)
+
+
+Copyright (C) 2012  Alan R. Baldwin
+This program comes with ABSOLUTELY NO WARRANTY.
+
+Usage: [-Options] [-Option with arg] file
+Usage: [-Options] [-Option with arg] outfile file1 [file2 ...]
+  -h   or NO ARGUMENTS  Show this help list
+Input:
+  -I   Add the named directory to the include file
+       search path.  This option may be used more than once.
+       Directories are searched in the order given.
+Output:
+  -l   Create list   file/outfile[.lst]
+  -o   Create object file/outfile[.rel]
+  -s   Create symbol file/outfile[.sym]
+Listing:
+  -d   Decimal listing
+  -q   Octal   listing
+  -x   Hex     listing (default)
+  -b   Display .define substitutions in listing
+  -bb  and display without .define substitutions
+  -c   Disable instruction cycle count in listing
+  -f   Flag relocatable references by  `   in listing file
+  -ff  Flag relocatable references by mode in listing file
+  -p   Disable automatic listing pagination
+  -u   Disable .list/.nlist processing
+  -w   Wide listing format for symbol table
+Assembly:
+  -v   Enable out of range signed / unsigned errors
+Symbols:
+  -a   All user symbols made global
+  -g   Undefined symbols made global
+  -n   Don't resolve global assigned value symbols
+  -z   Disable case sensitivity for symbols
+Debugging:
+  -j   Enable NoICE Debug Symbols
+  -y   Enable SDCC  Debug Symbols
+
+```
+@anchor sdas6500-settings
+# sdas6500 settings
+```
+
+sdas Assembler V02.00 + NoICE + SDCC mods  (Rockwell 6502/6510/65C02)
 
 
 Copyright (C) 2012  Alan R. Baldwin
@@ -315,7 +365,7 @@ S ___bank_<const name> Def0000FF
 # sdldgb settings
 ```
 
-sdld Linker V03.00 + NoICE + sdld
+sdld Linker V03.00/V05.40 + sdld
 
 Usage: [-Options] [-Option with arg] file
 Usage: [-Options] [-Option with arg] outfile file1 [file2 ...]
@@ -331,6 +381,7 @@ Libraries:
 Relocation:
   -b   area base address = expression
   -g   global symbol = expression
+  -a   (platform) Select platform specific virtual address translation
 Map format:
   -m   Map output generated as (out)file[.map]
   -w   Wide listing format for map file
@@ -354,7 +405,7 @@ End:
 # sdldz80 settings
 ```
 
-sdld Linker V03.00 + NoICE + sdld
+sdld Linker V03.00/V05.40 + sdld
 
 Usage: [-Options] [-Option with arg] file
 Usage: [-Options] [-Option with arg] outfile file1 [file2 ...]
@@ -370,6 +421,47 @@ Libraries:
 Relocation:
   -b   area base address = expression
   -g   global symbol = expression
+  -a   (platform) Select platform specific virtual address translation
+Map format:
+  -m   Map output generated as (out)file[.map]
+  -w   Wide listing format for map file
+  -x   Hexadecimal (default)
+  -d   Decimal
+  -q   Octal
+Output:
+  -i   Intel Hex as (out)file[.ihx]
+  -s   Motorola S Record as (out)file[.s19]
+  -j   NoICE Debug output as (out)file[.noi]
+  -y   SDCDB Debug output as (out)file[.cdb]
+List:
+  -u   Update listing file(s) with link data as file(s)[.rst]
+Case Sensitivity:
+  -z   Disable Case Sensitivity for Symbols
+End:
+  -e   or null line terminates input
+
+```
+@anchor sdld6808-settings
+# sdld6808 settings
+```
+
+sdld Linker V03.00/V05.40 + sdld
+
+Usage: [-Options] [-Option with arg] file
+Usage: [-Options] [-Option with arg] outfile file1 [file2 ...]
+Startup:
+  -p   Echo commands to stdout (default)
+  -n   No echo of commands to stdout
+Alternates to Command Line Input:
+  -c                   ASlink >> prompt input
+  -f   file[.lk]       Command File input
+Libraries:
+  -k   Library path specification, one per -k
+  -l   Library file specification, one per -l
+Relocation:
+  -b   area base address = expression
+  -g   global symbol = expression
+  -a   (platform) Select platform specific virtual address translation
 Map format:
   -m   Map output generated as (out)file[.map]
   -w   Wide listing format for map file
