@@ -21,13 +21,17 @@ https://github.com/gbdk-2020/gbdk-2020/releases
       - move_metasprite_flipx(): replaces move_metasprite_vflip()
       - move_metasprite_flipxy(): replaces move_metasprite_hvflip()
       - move_metasprite_ex(): (replaces move_metasprite()
+    - NES
+      - Banking support (library and sdcc toolchain)
     - Game Boy
+      - Minor crt0 optimizations
       - Faster vmemcpy(), set_data(), get_data()
       - Fixed hide_sprites_range(39u, 40u); overflow shadow OAM
       - Increased sgb_transfer() maximum packet length to 7 x 16 bytes
       - Convert gb_decompress routines to the new calling convention
       - Convert rle_decompress routines to the new calling convention
       - Removed legacy MBC register definitions `.MBC1_ROM_PAGE`  and `.MBC_ROM_PAGE`  
+      - Workaround for possible HALT bug in Crash Handler
     - Refactored interrupts to use less space
   - Toolchain / Utilities
     - @ref lcc "lcc"
@@ -39,7 +43,9 @@ https://github.com/gbdk-2020/gbdk-2020/releases
       - Fixed support for indexed color pngs with less than 8 bits color depth
       - Fixed incorrect palettes when different colors have same luma value (use RGB values as less-significant bits)
       - Changed to use cross-platform constants for metasprite properties (S_FLIPX, S_FLIPY and S_PAL)
+    - Added sdld6808 (for NES)
   - Examples
+     - Fixed mkdir broken in some compile.bat files (remove unsupported -p flag during bat file conversion)
      - Sound Test: Added MegaDuck support
      - Wav Playback: Improved support on AGB/AGS hardware
      - Metasprites: Added sub-palette switching for GBC and NES, software metasprite flipping for sms/gg
