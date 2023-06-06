@@ -80,6 +80,9 @@ The MBC settings below are available when using the makebin `-Wl-yt<N>` switch.
 
 Source: Pandocs. Additional details available at [Pandocs](https://gbdev.io/pandocs/The_Cartridge_Header.html#0147---cartridge-type "Pandocs")
 
+For SMS/GG, the ROM file size must be at least 64K to enable mapper support for RAM banks in emulators.
+  - If the generated ROM is too small then `-yo 4` for makebin (or `-Wm-yo4` for LCC) can be used to set the size to 64K.
+
 
 ## MBC Type Chart
 ```
