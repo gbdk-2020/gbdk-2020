@@ -190,6 +190,8 @@ GB/AP
   - VRAM and some other display data / registers should only be written to when the @ref STATF_B_BUSY bit of @ref STAT_REG is off. Most GBDK API calls manage this automatically.
 
 SMS/GG
+- The SMS/GG ROM file size must be at least 64K to enable mapper support for RAM banks in emulators.
+  - If the generated ROM is too small then `-yo 4` for makebin (or `-Wm-yo4` for LCC) can be used to set the size to 64K.
 - Display Controller (VDP)
   - Writing to the VDP should not be interrupted while an operation is already in progress (since that will interfere with the internal data pointer causing data to be written to the wrong location).
   - Recommended approach: Avoid writing to the VDP (tiles, map, scrolling, colors, etc) during an interrupt routine (ISR).
