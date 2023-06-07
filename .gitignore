@@ -69,9 +69,6 @@ gbdk-lib/examples/gb/platformer_template/obj/
 gbdk-lib/examples/gb/platformer_template/dist/
 gbdk-lib/examples/gb/platformer_template/gen/
 
-# These are generated via png2asset
-gbdk-lib/examples/gb/platformer_template/res/*.c
-gbdk-lib/examples/gb/platformer_template/res/*.h
 as/bin
 link/bin
 maccer
