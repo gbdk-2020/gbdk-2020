@@ -8,8 +8,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
 
 ## GBDK-2020 4.2
   2023/x
-  - SDCC Compiler
-    - Updated to SDCC 14..TODO..
+  - Includes SDCC version 14...TODO... with GBDK-2020 patches for Z80 and NES
     - ([Patched SDCC Builds](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases) with support for Sega GG/SMS and the Nintendo NES are used. See the [github workflow](https://github.com/gbdk-2020/gbdk-2020-sdcc/tree/main/.github/workflows) for details
   - Library
     - Added: set_bkg_attributes(), set_bkg_submap_attributes()
@@ -62,11 +61,13 @@ https://github.com/gbdk-2020/gbdk-2020/releases
 
 ## GBDK-2020 4.1.1
   2022/11
+  - Includes SDCC version 13350 with GBDK-2020 patches for Z80
   - Library
     - Fixed @ref RGB() and @ref RGB8() macros
 
 ## GBDK-2020 4.1.0
   2022/10
+  - Includes SDCC version 13350 with GBDK-2020 patches for Z80
   - Known Issues
     - The `compile.bat` batch files for Windows use the an incalid `-p` option for `mkdir`
   - Building GBDK
@@ -139,6 +140,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
 
 ## GBDK-2020 4.0.6
   2022/02
+  - Includes SDCC version 12539 with GBDK-2020 patches for Z80
   - Building GBDK
     - Changed to target older version of macOS (10.10) when building for better compatibility
   - Platforms

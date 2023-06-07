@@ -38,6 +38,17 @@ __Use of @ref toxa_gbtd_gbmb "toxa's updated GBTD/GBMB" is highly recommended.__
 
 If you wish to use the original tools, you must add the `const` keyword every time the graphics are re-exported to C source files.
 
+@anchor best_practice_dont_read_vram
+## Avoid Reading from VRAM
+In general avoid reading from VRAM since that memory is not accessible at all times. If GBDK a API function which reads from VRAM (such as @ref get_bkg_tile_xy()) is called during a video mode when VRAM is not accessible, then that function call will delay until VRAM becomes accessible again. This can cause unnecessary slowdowns when running programs on the Game Boy.
+
+Instead it is better to store things such as map data in general purpose RAM which does not have video mode access limitations.
+
+For more information about video modes and VRAM access see the pan docs:
+
+https://gbdev.io/pandocs/STAT.html#stat-modes
+
+
 
 ## Variables
   - Use 8-bit values as much as possible. They will be much more efficient and compact than 16 and 32 bit types.

@@ -114,6 +114,8 @@ Constants that describe properties of the console hardware are listed below. The
   - @ref DEVICE_SCREEN_MAP_ENTRY_SIZE
   - @ref DEVICE_SPRITE_PX_OFFSET_X, @ref DEVICE_SPRITE_PX_OFFSET_Y
   - @ref DEVICE_SCREEN_PX_WIDTH, @ref DEVICE_SCREEN_PX_HEIGHT
+  - @ref MAX_HARDWARE_SPRITES
+  - @ref HARDWARE_SPRITE_CAN_FLIP_X, @ref HARDWARE_SPRITE_CAN_FLIP_Y
 
 
 # Using <gbdk/...> headers
