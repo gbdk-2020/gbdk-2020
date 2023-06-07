@@ -66,6 +66,8 @@ gbdk-support/makebin/makebin
 gbdk-support/makecom/makecom
 
 gbdk-lib/examples/gb/platformer_template/obj/
+gbdk-lib/examples/gb/platformer_template/dist/
+gbdk-lib/examples/gb/platformer_template/gen/
 
 # These are generated via png2asset
 gbdk-lib/examples/gb/platformer_template/res/*.c

@@ -45,7 +45,11 @@ void UpdateCamera(){
 
 void InitialCameraDraw(){
 
-    set_bkg_submap(0,0,21,18,currentLevelMap,currentLevelWidthInTiles);
+    // Draw the initial area
+    // Draw one extra column to avoid a blank row when first scrolling.
+    // If scrolling vertically also, you should draw one extra row as well.
+    // The platformer template will only scroll horizontally
+    set_bkg_submap(0,0,DEVICE_SCREEN_WIDTH+1,DEVICE_SCREEN_HEIGHT,currentLevelMap,currentLevelWidthInTiles);
 }
 
 

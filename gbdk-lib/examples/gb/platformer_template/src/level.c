@@ -1,14 +1,16 @@
-
-
 #include <stdint.h>
 #include <gbdk/platform.h>
 #include "common.h"
-#include "Map.h"
-#include "Map2.h"
-#include "Map3.h"
-#include "MapTileset.h"
-#include "MapTileset2.h"
+#include "World1Area1.h"
+#include "World1Area2.h"
+#include "World2Area1.h"
+#include "World1Tileset.h"
+#include "World2Tileset.h"
 
+#define WORLD1_SOLID_TILE_COUNT 17
+#define WORLD2_SOLID_TILE_COUNT 68
+
+// Instead of directly referencing our map constants, camera and physica code will reference these which can be changed between levels
 uint16_t currentLevelWidth;
 uint16_t currentLevelWidthInTiles;
 uint16_t currentLevelHeight;
@@ -16,14 +18,19 @@ uint16_t currentLevelHeightInTiles;
 uint8_t *currentLevelMap;
 uint8_t currentLevelNonSolidTileCount;
 
-
 // What is the current and next level we are on
 // When they differ, we'll change levels
 uint8_t currentLevel = 255;
 uint8_t nextLevel = 0;
 
+/**
+ * @param worldX a (non-scaled) x position in the world
+ * @param worldY a (non-scaled) y position in the world
+ * @return uint8_t FALSE (0) if the tile is not solid, TRUE (1) if the tile is solid
+ */
 uint8_t IsTileSolid(uint16_t worldX,uint16_t worldY){
 
+    // Get convert the world position to a column and row by dividing by 8
     uint16_t column = worldX>>3;
     uint16_t row = worldY>>3;
 
@@ -34,7 +41,7 @@ uint8_t IsTileSolid(uint16_t worldX,uint16_t worldY){
 
     uint8_t tile = currentLevelMap[index];
 
-    return tile>=currentLevelNonSolidTileCount;
+    return tile<currentLevelNonSolidTileCount;
 }
 
 void SetupCurrentLevel(){
@@ -44,38 +51,38 @@ void SetupCurrentLevel(){
     switch(currentLevel % 3){
         case 0:
 
-            set_bkg_data(0,MapTileset_TILE_COUNT,MapTileset_tiles);
+            set_bkg_data(0,World1Tileset_TILE_COUNT,World1Tileset_tiles);
 
-            currentLevelNonSolidTileCount=1;
-            currentLevelWidth = Map_WIDTH;
-            currentLevelHeight = Map_HEIGHT;
-            currentLevelWidthInTiles = Map_WIDTH>>3;
-            currentLevelHeightInTiles = Map_HEIGHT>>3;
-            currentLevelMap= Map_map;
+            currentLevelNonSolidTileCount=WORLD1_SOLID_TILE_COUNT;
+            currentLevelWidth = World1Area1_WIDTH;
+            currentLevelHeight = World1Area1_HEIGHT;
+            currentLevelWidthInTiles = World1Area1_WIDTH>>3;
+            currentLevelHeightInTiles = World1Area1_HEIGHT>>3;
+            currentLevelMap= World1Area1_map;
 
             break;
         case 1:
 
-            set_bkg_data(0,MapTileset_TILE_COUNT,MapTileset_tiles);
+            set_bkg_data(0,World1Tileset_TILE_COUNT,World1Tileset_tiles);
 
-            currentLevelNonSolidTileCount=1;
-            currentLevelWidth = Map2_WIDTH;
-            currentLevelHeight = Map2_HEIGHT;
-            currentLevelWidthInTiles = Map2_WIDTH>>3;
-            currentLevelHeightInTiles = Map2_HEIGHT>>3;
-            currentLevelMap= Map2_map;
+            currentLevelNonSolidTileCount=WORLD1_SOLID_TILE_COUNT;
+            currentLevelWidth = World1Area2_WIDTH;
+            currentLevelHeight = World1Area2_HEIGHT;
+            currentLevelWidthInTiles = World1Area2_WIDTH>>3;
+            currentLevelHeightInTiles = World1Area2_HEIGHT>>3;
+            currentLevelMap= World1Area2_map;
 
             break;
         case 2:
 
-            set_bkg_data(0,MapTileset2_TILE_COUNT,MapTileset2_tiles);
+            set_bkg_data(0,World2Tileset_TILE_COUNT,World2Tileset_tiles);
 
-            currentLevelNonSolidTileCount=1;
-            currentLevelWidth = Map3_WIDTH;
-            currentLevelHeight = Map3_HEIGHT;
-            currentLevelWidthInTiles = Map3_WIDTH>>3;
-            currentLevelHeightInTiles = Map3_HEIGHT>>3;
-            currentLevelMap= Map3_map;
+            currentLevelNonSolidTileCount=WORLD2_SOLID_TILE_COUNT;
+            currentLevelWidth = World2Area1_WIDTH;
+            currentLevelHeight = World2Area1_HEIGHT;
+            currentLevelWidthInTiles = World2Area1_WIDTH>>3;
+            currentLevelHeightInTiles = World2Area1_HEIGHT>>3;
+            currentLevelMap= World2Area1_map;
 
             break;
     }
