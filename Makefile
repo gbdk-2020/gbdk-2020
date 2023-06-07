@@ -200,6 +200,8 @@ gbdk-support-clean:
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/gbcompress clean --no-print-directory
 	@echo Cleaning makecom
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/makecom clean
+	@echo Cleaning makebin
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/makebin clean
 	@echo
 
 # Rules for gbdk-lib
@@ -276,9 +278,12 @@ gbdk-dist-examples-clean:
 
 
 # Copy SDDC executable files
+# win 32 specific: libgcc_s_dw2-1.dll
+# win 64 specific: libgcc_s_seh-1.dll
 SDCC_BINS = packihx sdar sdasgb sdcc sdcdb sdcpp sdldgb sdnm sdobjcopy sdranlib sz80 sdasz80 sdldz80 sdas6500 sdld
 ifeq ($(OS),Windows_NT)
 MINGW64_RUNTIME = \
+	libgcc_s_dw2-1.dll \
 	libgcc_s_seh-1.dll \
 	libgcc_s_sjlj-1.dll \
 	libstdc++-6.dll \

@@ -1,4 +1,4 @@
-# bankcheck (auto bank tool) makefile
+# makebin makefile
 
 ifndef TARGETDIR
 TARGETDIR = /opt/gbdk
