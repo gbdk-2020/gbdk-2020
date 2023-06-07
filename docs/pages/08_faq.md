@@ -76,7 +76,7 @@
     - This may happen if you have large initialized arrays declared without the `const` keyword. It's important to use the const keyword for read-only data. See @ref const_gbtd_gbmb and @ref const_array_data
     - It can also happen if C source files are `#included` into other C source files, or if there is a very large source file.  <!-- -->  
 
-@anchor faq_error_mbc_size
+@anchor faq_macos_security_warning
   - On macOS, what does `... developer cannot be verified, macOS cannot verify that this app is free from malware` mean?
     - It does not mean that GBDK is malware. It just means the GBDK toolchain binaries are not signed by Apple, so it won't run them without an additional step.
 

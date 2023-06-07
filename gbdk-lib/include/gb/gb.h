@@ -220,7 +220,7 @@ void remove_JOY(int_handler h);
     called via the GBDK ISR dispatcher which makes
     the extra function attributes unecessary.
 
-    Note: The default GBDK VBL is installed automatically.
+    @note The default GBDK VBL is installed automatically.
 
     @see ISR_VECTOR()
 */
@@ -531,7 +531,7 @@ __endasm; \
     \li For MBC1 some banks in it's range are unavailable
     (typically 0x20, 0x40, 0x60).
 
-    Note: Using @ref SWITCH_ROM_MBC5_8M() should not be mixed with using
+    @note Using @ref SWITCH_ROM_MBC5_8M() should not be mixed with using
           @ref SWITCH_ROM_MBC5() and @ref SWITCH_ROM().
 
     @see SWITCH_ROM_MBC1, SWITCH_ROM_MBC5, SWITCH_ROM_MEGADUCK
@@ -589,7 +589,7 @@ __endasm; \
 
     @ref SWITCH_ROM_MBC5_8M may be used if the full 8MB size is needed.
 
-    Note: Using @ref SWITCH_ROM_MBC5_8M() should not be mixed with using
+    @note Using @ref SWITCH_ROM_MBC5_8M() should not be mixed with using
           @ref SWITCH_ROM_MBC5() and @ref SWITCH_ROM().
 
     Note the order used here. Writing the other way around on a MBC1 always selects bank 1
@@ -653,7 +653,7 @@ uint8_t joypad(void) PRESERVES_REGS(b, c, h, l);
     Normally only used for checking one key, but it will
     support many, even J_LEFT at the same time as J_RIGHT. :)
 
-    Note: Checks in a loop that doesn't HALT at all, so the CPU
+    @note Checks in a loop that doesn't HALT at all, so the CPU
     will be maxed out until this call returns.
     @see joypad
     @see J_START, J_SELECT, J_A, J_B, J_UP, J_DOWN, J_LEFT, J_RIGHT
@@ -662,7 +662,7 @@ uint8_t waitpad(uint8_t mask) PRESERVES_REGS(b, c, h, l);
 
 /** Waits for the directional pad and all buttons to be released.
 
-    Note: Checks in a loop that doesn't HALT at all, so the CPU
+    @note Checks in a loop that doesn't HALT at all, so the CPU
     will be maxed out until this call returns.
 */
 void waitpadup(void) PRESERVES_REGS(a, b, c, d, e, h, l);
@@ -735,8 +735,8 @@ inline void disable_interrupts(void) PRESERVES_REGS(a, b, c, d, e, h, l) {
     register IO to flags.
     @param flags	A logical OR of *_IFLAGS
 
-    @note: This disables and then re-enables interrupts so it
-           must be used outside of a critical section.
+    @note This disables and then re-enables interrupts so it
+          must be used outside of a critical section.
 
     @see enable_interrupts(), disable_interrupts()
     @see VBL_IFLAG, LCD_IFLAG, TIM_IFLAG, SIO_IFLAG, JOY_IFLAG
@@ -874,9 +874,13 @@ void set_vram_byte(uint8_t * addr, uint8_t v) OLDCALL PRESERVES_REGS(b, c);
 
 /**
  * Get byte from vram at given memory location
- *
  * @param addr address to read from
  * @return read value
+
+    @note In general **avoid reading from VRAM**
+          since that memory is not accessible at all times.
+          See @ref best_practice_dont_read_vram "coding guidelines"
+          for more details.
  */
 uint8_t get_vram_byte(uint8_t * addr) PRESERVES_REGS(b, c, h, l);
 
@@ -937,7 +941,7 @@ inline void set_1bpp_colors(uint8_t fgcolor, uint8_t bgcolor) {
     Writes __nb_tiles__ tiles to VRAM starting at __first_tile__, tile data
     is sourced from __data__. Each Tile is 16 bytes in size (8x8 pixels, 2 bits-per-pixel).
 
-    Note: Sprite Tiles 128-255 share the same memory region as Background Tiles 128-255.
+    @note Sprite Tiles 128-255 share the same memory region as Background Tiles 128-255.
 
     GBC only: @ref VBK_REG determines which bank of Background tile patterns are written to.
     \li VBK_REG = @ref VBK_BANK_0 indicates the first bank
@@ -974,6 +978,11 @@ void set_bkg_1bpp_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data
     @param nb_tiles    Number of Tiles to read
     @param data        Pointer to destination buffer for Tile Pattern data
 
+    @note In general **avoid reading from VRAM**
+          since that memory is not accessible at all times.
+          See @ref best_practice_dont_read_vram "coding guidelines"
+          for more details.
+
     Copies __nb_tiles__ tiles from VRAM starting at __first_tile__, Tile data
     is copied into __data__.
 
@@ -1006,7 +1015,7 @@ void get_bkg_data(uint8_t first_tile, uint8_t nb_tiles, uint8_t *data) OLDCALL P
     Writes that exceed coordinate 31 on the x or y axis will wrap around to
     the Left and Top edges.
 
-    Note: Patterns 128-255 overlap with patterns 128-255 of the sprite Tile Pattern table.
+    @note Patterns 128-255 overlap with patterns 128-255 of the sprite Tile Pattern table.
 
     GBC only: @ref VBK_REG determines whether Tile Numbers or Tile Attributes get set.
     \li VBK_REG = @ref VBK_TILES Tile Numbers are written
@@ -1260,6 +1269,10 @@ inline void set_bkg_submap_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h
     @param h      Height of area to copy in tiles. Range 0 - 31
     @param tiles  Pointer to destination buffer for Tile Map data
 
+    @note In general **avoid reading from VRAM**
+          since that memory is not accessible at all times.
+          See @ref best_practice_dont_read_vram "coding guidelines"
+          for more details.
 
     Entries are copied into __tiles__ from the Background Tile Map starting at
     __x__, __y__ reading across for __w__ tiles and down for __h__ tiles.
@@ -1287,7 +1300,14 @@ uint8_t * set_bkg_tile_xy(uint8_t x, uint8_t y, uint8_t t) OLDCALL PRESERVES_REG
  * Get single tile t on background layer at x,y
  * @param x X-coordinate
  * @param y Y-coordinate
+
  * @return returns tile index
+
+    @note In general **avoid reading from VRAM**
+      since that memory is not accessible at all times.
+      See @ref best_practice_dont_read_vram "coding guidelines"
+      for more details.
+
  */
 uint8_t get_bkg_tile_xy(uint8_t x, uint8_t y) OLDCALL PRESERVES_REGS(b, c);
 
@@ -1373,6 +1393,11 @@ void set_win_1bpp_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data
     @param nb_tiles    Number of Tiles to read
     @param data        Pointer to destination buffer for Tile Pattern Data
 
+    @note In general **avoid reading from VRAM**
+          since that memory is not accessible at all times.
+          See @ref best_practice_dont_read_vram "coding guidelines"
+          for more details.
+
     This is the same as @ref get_bkg_data, since the Window Layer and
     Background Layer share the same Tile pattern data.
 
@@ -1402,7 +1427,7 @@ void get_win_data(uint8_t first_tile, uint8_t nb_tiles, uint8_t *data) OLDCALL P
     Writes that exceed coordinate 31 on the x or y axis will wrap around to
     the Left and Top edges.
 
-    Note: Patterns 128-255 overlap with patterns 128-255 of the sprite Tile Pattern table.
+    @note Patterns 128-255 overlap with patterns 128-255 of the sprite Tile Pattern table.
 
     GBC only: @ref VBK_REG determines whether Tile Numbers or Tile Attributes get set.
     \li VBK_REG = @ref VBK_TILES Tile Numbers are written
@@ -1523,6 +1548,11 @@ inline void set_win_based_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, con
     @param h      Height of area to copy in tiles. Range 0 - 31
     @param tiles  Pointer to destination buffer for Tile Map data
 
+    @note In general **avoid reading from VRAM**
+          since that memory is not accessible at all times.
+          See @ref best_practice_dont_read_vram "coding guidelines"
+          for more details.
+
     Entries are copied into __tiles__ from the Window Tile Map starting at
     __x__, __y__ reading across for __w__ tiles and down for __h__ tiles.
 
@@ -1550,7 +1580,12 @@ uint8_t * set_win_tile_xy(uint8_t x, uint8_t y, uint8_t t) OLDCALL PRESERVES_REG
  * @param x X-coordinate
  * @param y Y-coordinate
  * @return returns the tile index
- */
+
+    @note In general **avoid reading from VRAM**
+          since that memory is not accessible at all times.
+          See @ref best_practice_dont_read_vram "coding guidelines"
+          for more details.
+*/
 uint8_t get_win_tile_xy(uint8_t x, uint8_t y) OLDCALL PRESERVES_REGS(b, c);
 
 
@@ -1594,7 +1629,7 @@ inline void scroll_win(int8_t x, int8_t y) {
     Writes __nb_tiles__ tiles to VRAM starting at __first_tile__, tile data
     is sourced from __data__. Each Tile is 16 bytes in size (8x8 pixels, 2 bits-per-pixel).
 
-    Note: Sprite Tiles 128-255 share the same memory region as Background Tiles 128-255.
+    @note Sprite Tiles 128-255 share the same memory region as Background Tiles 128-255.
 
     GBC only: @ref VBK_REG determines which bank of Background tile patterns are written to.
     \li VBK_REG = @ref VBK_BANK_0 indicates the first bank
@@ -1628,6 +1663,11 @@ void set_sprite_1bpp_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *d
     @param first_tile  Index of the first tile to read from
     @param nb_tiles    Number of tiles to read
     @param data        Pointer to destination buffer for Tile Pattern data
+
+    @note In general **avoid reading from VRAM**
+          since that memory is not accessible at all times.
+          See @ref best_practice_dont_read_vram "coding guidelines"
+          for more details.
 
     Copies __nb_tiles__ tiles from VRAM starting at __first_tile__, tile data
     is copied into __data__.
@@ -1839,6 +1879,11 @@ void set_data(uint8_t *vram_addr, const uint8_t *data, uint16_t len);
     @param data      Pointer to destination buffer
     @param len       Number of bytes to copy
 
+    @note In general **avoid reading from VRAM**
+          since that memory is not accessible at all times.
+          See @ref best_practice_dont_read_vram "coding guidelines"
+          for more details.
+
     Copies __len__ bytes from VRAM starting at __vram_addr__ into a buffer at __data__.
 
     GBC only: @ref VBK_REG determines which bank of Background tile patterns are written to.
@@ -1912,6 +1957,11 @@ void set_tile_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data, ui
     @param vram_addr Pointer to source VRAM Address
     @param tiles     Pointer to destination buffer for Tile Map data
 
+    @note In general **avoid reading from VRAM**
+          since that memory is not accessible at all times.
+          See @ref best_practice_dont_read_vram "coding guidelines"
+          for more details.
+
     Entries are copied into __tiles__ from the Background Tile Map starting at
     __x__, __y__ reading across for __w__ tiles and down for __h__ tiles.
 
@@ -1952,14 +2002,14 @@ inline void set_native_tile_data(uint16_t first_tile, uint8_t nb_tiles, const ui
 /** Initializes the entire Window Tile Map with Tile Number __c__
     @param c   Tile number to fill with
 
-    Note: This function avoids writes during modes 2 & 3
+    @note This function avoids writes during modes 2 & 3
 */
 void init_win(uint8_t c) OLDCALL PRESERVES_REGS(b, c);
 
 /** Initializes the entire Background Tile Map with Tile Number __c__
     @param c   Tile number to fill with
 
-    Note: This function avoids writes during modes 2 & 3
+    @note This function avoids writes during modes 2 & 3
 */
 void init_bkg(uint8_t c) OLDCALL PRESERVES_REGS(b, c);
 
@@ -1968,7 +2018,7 @@ void init_bkg(uint8_t c) OLDCALL PRESERVES_REGS(b, c);
     @param c   Tile number to fill with
     @param n   Size of memory region (in bytes) to fill
 
-    Note: This function avoids writes during modes 2 & 3
+    @note This function avoids writes during modes 2 & 3
 */
 void vmemset (void *s, uint8_t c, size_t n) OLDCALL PRESERVES_REGS(b, c);
 
