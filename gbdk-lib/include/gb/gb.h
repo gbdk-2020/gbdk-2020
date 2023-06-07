@@ -879,6 +879,7 @@ void set_vram_byte(uint8_t * addr, uint8_t v) OLDCALL PRESERVES_REGS(b, c);
 
     @note In general **avoid reading from VRAM**
           since that memory is not accessible at all times.
+          It is also not supported by GBDK on the NES platform.
           See @ref best_practice_dont_read_vram "coding guidelines"
           for more details.
  */
@@ -980,6 +981,7 @@ void set_bkg_1bpp_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data
 
     @note In general **avoid reading from VRAM**
           since that memory is not accessible at all times.
+          It is also not supported by GBDK on the NES platform.
           See @ref best_practice_dont_read_vram "coding guidelines"
           for more details.
 
@@ -1271,6 +1273,7 @@ inline void set_bkg_submap_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h
 
     @note In general **avoid reading from VRAM**
           since that memory is not accessible at all times.
+          It is also not supported by GBDK on the NES platform.
           See @ref best_practice_dont_read_vram "coding guidelines"
           for more details.
 
@@ -1305,6 +1308,7 @@ uint8_t * set_bkg_tile_xy(uint8_t x, uint8_t y, uint8_t t) OLDCALL PRESERVES_REG
 
     @note In general **avoid reading from VRAM**
       since that memory is not accessible at all times.
+      It is also not supported by GBDK on the NES platform.
       See @ref best_practice_dont_read_vram "coding guidelines"
       for more details.
 
@@ -1395,6 +1399,7 @@ void set_win_1bpp_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data
 
     @note In general **avoid reading from VRAM**
           since that memory is not accessible at all times.
+          It is also not supported by GBDK on the NES platform.
           See @ref best_practice_dont_read_vram "coding guidelines"
           for more details.
 
@@ -1550,6 +1555,7 @@ inline void set_win_based_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, con
 
     @note In general **avoid reading from VRAM**
           since that memory is not accessible at all times.
+          It is also not supported by GBDK on the NES platform.
           See @ref best_practice_dont_read_vram "coding guidelines"
           for more details.
 
@@ -1583,6 +1589,7 @@ uint8_t * set_win_tile_xy(uint8_t x, uint8_t y, uint8_t t) OLDCALL PRESERVES_REG
 
     @note In general **avoid reading from VRAM**
           since that memory is not accessible at all times.
+          It is also not supported by GBDK on the NES platform.
           See @ref best_practice_dont_read_vram "coding guidelines"
           for more details.
 */
@@ -1666,6 +1673,7 @@ void set_sprite_1bpp_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *d
 
     @note In general **avoid reading from VRAM**
           since that memory is not accessible at all times.
+          It is also not supported by GBDK on the NES platform.
           See @ref best_practice_dont_read_vram "coding guidelines"
           for more details.
 
@@ -1881,6 +1889,7 @@ void set_data(uint8_t *vram_addr, const uint8_t *data, uint16_t len);
 
     @note In general **avoid reading from VRAM**
           since that memory is not accessible at all times.
+          It is also not supported by GBDK on the NES platform.
           See @ref best_practice_dont_read_vram "coding guidelines"
           for more details.
 
@@ -1959,6 +1968,7 @@ void set_tile_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data, ui
 
     @note In general **avoid reading from VRAM**
           since that memory is not accessible at all times.
+          It is also not supported by GBDK on the NES platform.
           See @ref best_practice_dont_read_vram "coding guidelines"
           for more details.
 
