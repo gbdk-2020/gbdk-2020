@@ -97,11 +97,11 @@ _set_sprite_data::
     lda *.tmp
     jsr .ppu_stripe_begin_horizontal
     ;
-    ldx *__crt0_drawListPosW
+    ldx *__vram_transfer_buffer_pos_w
     ldy #0
     jsr .copy_tiles_indirect_2planes
     lda .identity+16,x
-    sta *__crt0_drawListPosW
+    sta *__vram_transfer_buffer_pos_w
     jsr .ppu_stripe_end
     ; src += 16
     lda *src
@@ -171,58 +171,58 @@ _set_sprite_data::
 .copy_tiles_indirect_2planes:
     lda [*src],y
     iny
-    sta _vram_transfer_buffer+0,x
+    sta __vram_transfer_buffer+0,x
     lda [*src],y
     iny
-    sta _vram_transfer_buffer+8,x
+    sta __vram_transfer_buffer+8,x
     ;
     lda [*src],y
     iny
-    sta _vram_transfer_buffer+1,x
+    sta __vram_transfer_buffer+1,x
     lda [*src],y
     iny
-    sta _vram_transfer_buffer+9,x
+    sta __vram_transfer_buffer+9,x
     ;
     lda [*src],y
     iny
-    sta _vram_transfer_buffer+2,x
+    sta __vram_transfer_buffer+2,x
     lda [*src],y
     iny
-    sta _vram_transfer_buffer+10,x
+    sta __vram_transfer_buffer+10,x
     ;
     lda [*src],y
     iny
-    sta _vram_transfer_buffer+3,x
+    sta __vram_transfer_buffer+3,x
     lda [*src],y
     iny
-    sta _vram_transfer_buffer+11,x
+    sta __vram_transfer_buffer+11,x
     ;
     lda [*src],y
     iny
-    sta _vram_transfer_buffer+4,x
+    sta __vram_transfer_buffer+4,x
     lda [*src],y
     iny
-    sta _vram_transfer_buffer+12,x
+    sta __vram_transfer_buffer+12,x
     ;
     lda [*src],y
     iny
-    sta _vram_transfer_buffer+5,x
+    sta __vram_transfer_buffer+5,x
     lda [*src],y
     iny
-    sta _vram_transfer_buffer+13,x
+    sta __vram_transfer_buffer+13,x
     ;
     lda [*src],y
     iny
-    sta _vram_transfer_buffer+6,x
+    sta __vram_transfer_buffer+6,x
     lda [*src],y
     iny
-    sta _vram_transfer_buffer+14,x
+    sta __vram_transfer_buffer+14,x
     ;
     lda [*src],y
     iny
-    sta _vram_transfer_buffer+7,x
+    sta __vram_transfer_buffer+7,x
     lda [*src],y
     iny
-    sta _vram_transfer_buffer+15,x
+    sta __vram_transfer_buffer+15,x
     ;
     rts
