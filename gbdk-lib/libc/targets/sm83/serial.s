@@ -2,12 +2,7 @@
 
 	.module serial
 
-	.globl	.int
-
-	.globl	__io_out
-	.globl	__io_in
-	.globl	__io_status
-    .globl	.add_SIO
+	.globl	.int, .add_SIO
 
 	.area	_HEADER_SIO (ABS)
 
