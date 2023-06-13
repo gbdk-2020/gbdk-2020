@@ -13,7 +13,7 @@ const uint8_t * scanline_offsets = scanline_offsets_tbl;
 
 uint8_t scroller_x = 0;
 
-void scanline_isr() {
+void scanline_isr(void) {
     switch (LYC_REG) {
         case 0: 
             SCX_REG = 0;
@@ -38,7 +38,7 @@ const uint8_t * scroller_next_char = scroller_text;
 uint8_t * scroller_vram_addr;
 uint16_t base, limit;
 
-void main() {
+void main(void) {
     printf("Scrolling %d chars", sizeof(scroller_text) - 1);
     
     CRITICAL {

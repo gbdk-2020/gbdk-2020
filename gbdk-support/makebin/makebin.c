@@ -27,6 +27,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
 #include <ctype.h>
@@ -41,6 +42,7 @@
 
 typedef unsigned char BYTE;
 
+#define BANK_SIZE 16384
 #define FILL_BYTE 0xff
 
 int
@@ -97,10 +99,12 @@ usage (void)
            "  -o bytes       skip amount of bytes in binary file\n"
 
            "SMS format options (applicable only with -S option):\n"
-           "  -xo n          rom size (0xa-0x2) (default: 0xc)\n"
+           "  -xo n          header rom size (0xa-0x2) (default: 0xc)\n"
            "  -xj n          set region code (3-7) (default: 4)\n"
            //"  -xc n          product code (0-159999)\n"
            "  -xv n          version number (0-15) (default: 0)\n"
+           "  -yo n          number of rom banks (default: 2) (autosize: A)\n"
+           "  -ya n          number of ram banks (default: 0)\n"
            //"  -xV n          SDSC version number\n"
            //"  -xd n          SDSC date\n"
            //"  -xA n          SDSC author pointer\n"
@@ -147,9 +151,10 @@ struct gb_opt_s
 
 struct sms_opt_s
 {
-  BYTE rom_size;                  /* Doesn't have to be the real size, needed for checksum */
-  BYTE region_code;               /* Region code Japan/Export/International and SMS/GG */
-  BYTE version;                   /* Game version */
+  uint8_t rom_size;                  /* Doesn't have to be the real size, needed for checksum */
+  uint8_t region_code;               /* Region code Japan/Export/International and SMS/GG */
+  uint8_t version;                   /* Game version */
+  uint8_t nb_ram_banks;              /* Number of ram banks (default: 0) */
 };
 
 struct nes_opt_s
@@ -393,6 +398,15 @@ sms_postproc (BYTE * rom, int size, int *real_size, struct sms_opt_s *o)
   short header_base = 0x7ff0;
   int chk = 0;
   unsigned long i;
+
+  // Emulators use ROM file size (var:size) (64K or greater) to determine whether a mapper is present, and RAM banks only work if a mapper is present.
+  // So warn if that criteria is not met.
+  // This is separate from the ROM size indicated in the header (var:o->rom_size) which reportedly is _not_ used for that detection.
+  if ((o->nb_ram_banks > 0) && (size < 0xffffu)) {
+    fprintf (stderr, "\nWARNING: SMS/GG ROM size (%d) must be at least 64K to enable mapper support for RAM banks (%d specified) in emulators."
+                     "\n         \"-yo 4\" for makebin (or \"-Wm-yo4\" for LCC) can be used to set the size to 64K\n\n", size, o->nb_ram_banks);
+  }
+
   // choose earlier positions for smaller roms
   if (header_base > size)
     header_base = 0x3ff0;
@@ -603,7 +617,7 @@ noi2sym (char *filename)
 }
 
 int
-read_ihx (FILE *fin, BYTE **rom, int *size, int *real_size, struct gb_opt_s *o, int rom_base_offset)
+read_ihx (FILE *fin, BYTE **rom, int *size, int *real_size, struct gb_opt_s *o)
 {
   int record_type;
 
@@ -650,8 +664,6 @@ read_ihx (FILE *fin, BYTE **rom, int *size, int *real_size, struct gb_opt_s *o, 
         }
       // add linear address extension
       addr |= extaddr;
-      // Subtract ROM base offset
-      addr -= rom_base_offset;
       // TODO: warn for unreachable banks according to chosen MBC
       if (record_type > 1)
         {
@@ -659,7 +671,7 @@ read_ihx (FILE *fin, BYTE **rom, int *size, int *real_size, struct gb_opt_s *o, 
           return 0;
         }
 
-      if (addr + nbytes > *size || (addr < 0 && nbytes > 0))
+      if (nbytes > 0 && (addr + nbytes > *size || (addr < 0 && nbytes > 0)))
         {
           // If auto-size is enabled, grow rom bank size by power of 2 when needed
           if (o->rom_banks_autosize)
@@ -673,7 +685,6 @@ read_ihx (FILE *fin, BYTE **rom, int *size, int *real_size, struct gb_opt_s *o, 
               return 0;
             }
         }
-
       while (nbytes--)
         {
           if (addr < *size)
@@ -753,11 +764,12 @@ main (int argc, char **argv)
   // 32KiB, SMS Export, version 0 <- should work with most emulaters (<32K was never used, GG accepts SMS)
   struct sms_opt_s sms_opt = {.rom_size=0xc,
                               .region_code=4,
-                              .version=0 };
+                              .version=0,
+                              .nb_ram_banks=0 };
 
   struct nes_opt_s nes_opt = {
                               .mapper = 30,
-                              .num_prg_banks = 2,
+                              .num_prg_banks = 8,
                               .num_chr_banks = 0,
                               .vertical_mirroring = 0,
                               .four_screen = 1,
@@ -833,7 +845,8 @@ main (int argc, char **argv)
                   usage ();
                   return 1;
                 }
-              gb_opt.nb_ram_banks = strtoul (*argv, NULL, 0);
+              gb_opt.nb_ram_banks  = strtoul (*argv, NULL, 0);
+              sms_opt.nb_ram_banks = strtoul (*argv, NULL, 0);
               break;
 
             case 't':
@@ -1048,7 +1061,7 @@ main (int argc, char **argv)
         }
     }
 
-  ret = read_ihx (fin, &rom, &size, &real_size, &gb_opt, nes ? 0x8000 : 0x0000);
+  ret = read_ihx (fin, &rom, &size, &real_size, &gb_opt);
 
   fclose (fin);
 
@@ -1079,8 +1092,19 @@ main (int argc, char **argv)
         }
 
       if (nes)
+      {
+        nes_opt.num_prg_banks = gb_opt.nb_rom_banks;
         write_ines_header(fout, &nes_opt);
-      fwrite (rom, 1, (pack ? real_size : size) - offset, fout);
+        // .ihx file has fixed bank incorrectly placed as first - we fix this when writing out the .nes file.
+        // Write the N-1 switchable banks at .nes file start, skipping the first (fixed) bank
+        fwrite (rom + BANK_SIZE, 1, (pack ? real_size : size) - offset - BANK_SIZE, fout);
+        // Write the fixed bank to end of .nes file
+        fwrite (rom, 1, BANK_SIZE, fout);
+      }
+      else
+      {
+        fwrite (rom, 1, (pack ? real_size : size) - offset, fout);
+      }
 
       fclose (fout);
 

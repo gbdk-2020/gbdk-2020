@@ -30,8 +30,8 @@ The GameBoy hardware can generate 5 types of interrupts. Custom Interrupt Servic
     - Example project: `tim`
 
   - SIO : Serial Link I/O transfer end
-    - The default SIO ISR gets installed automatically if any of the standard SIO calls are used. These calls include add_SIO(), remove_SIO(), send_byte(), receive_byte().
-    - The default SIO ISR cannot be removed once installed. Only secondary chained SIO ISRs (added with add_SIO() ) can be removed.
+    - The default SIO ISR gets installed automatically if any of the standard SIO calls are used (send_byte(), receive_byte()).
+    - Once installed the default SIO ISR cannot be removed. Only secondary chained SIO ISRs (added with add_SIO() ) can be removed.
     - See @ref add_SIO() and @ref remove_SIO()
     - Example project: `comm`
 

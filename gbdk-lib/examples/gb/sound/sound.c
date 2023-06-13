@@ -62,7 +62,7 @@ int8_t keys = 0;
 
 void show_register_channel(uint8_t mode);
 
-void clss()  {
+void clss(void)  {
 	uint8_t i = 0;
 	for(i = 0; i < 18; ++i) {
 		gotoxy(0, i);
@@ -355,94 +355,94 @@ struct SoundReg s = {
 	  0, 0, 0, 0, 0, 1 }
 };
 
-uint8_t NR10() {
+uint8_t NR10(void) {
 	return soundReg->mode1.sweepShifts | (soundReg->mode1.sweepMode << 3) | (soundReg->mode1.sweepTime << 4);
 }
 
-uint8_t NR11() {
+uint8_t NR11(void) {
 	return soundReg->mode1.soundLength | (soundReg->mode1.patternDuty << 6);
 }
 
-uint8_t NR12() {
+uint8_t NR12(void) {
 	return soundReg->mode1.envNbSweep | (soundReg->mode1.envMode << 3) | (soundReg->mode1.envInitialValue << 4);
 }
 
-uint8_t NR13() {
+uint8_t NR13(void) {
 	return soundReg->mode1.frequencyLow;
 }
 
-uint8_t NR14() {
+uint8_t NR14(void) {
 	return soundReg->mode1.frequencyHigh | (soundReg->mode1.counter_ConsSel << 6) | (soundReg->mode1.restart << 7);
 }
 
 //--------------------------
-uint8_t NR21() {
+uint8_t NR21(void) {
 	return soundReg->mode2.soundLength | (soundReg->mode2.patternDuty << 6);
 }
 
-uint8_t NR22() {
+uint8_t NR22(void) {
 	return soundReg->mode2.envNbStep | (soundReg->mode2.envMode << 3) | (soundReg->mode2.envInitialValue << 4);
 }
 
-uint8_t NR23() {
+uint8_t NR23(void) {
 	return soundReg->mode2.frequencyLow;
 }
 
-uint8_t NR24() {
+uint8_t NR24(void) {
 	return soundReg->mode2.frequencyHigh | (soundReg->mode2.counter_ConsSel << 6) | (soundReg->mode2.restart << 7);
 }
 
 //-------------------------------
-uint8_t NR30() {
+uint8_t NR30(void) {
 	return soundReg->mode3.on_Off << 7;
 }
 
-uint8_t NR31() {
+uint8_t NR31(void) {
 	return soundReg->mode3.soundLength;
 }
 
-uint8_t NR32() {
+uint8_t NR32(void) {
 	return soundReg->mode3.selOutputLevel << 5;
 }
 
-uint8_t NR33() {
+uint8_t NR33(void) {
 	return soundReg->mode3.frequencyLow;
 }
 
-uint8_t NR34() {
+uint8_t NR34(void) {
 	return soundReg->mode3.frequencyHigh | (soundReg->mode3.counter_ConsSel << 6) | (soundReg->mode3.restart << 7);
 }
 
 //-------------------------------
-uint8_t NR41() {
+uint8_t NR41(void) {
 	return soundReg->mode4.soundLength;
 }
 
-uint8_t NR42() {
+uint8_t NR42(void) {
 	return soundReg->mode4.envNbStep | (soundReg->mode4.envMode << 3) | (soundReg->mode4.envInitialValue << 4);
 }
 
-uint8_t NR43() {
+uint8_t NR43(void) {
 	return soundReg->mode4.polyCounterDiv | (soundReg->mode4.polyCounterStep << 3) | (soundReg->mode4.polyCounterFreq << 4);
 }
 
-uint8_t NR44() {
+uint8_t NR44(void) {
 	return (soundReg->mode4.counter_ConsSel << 6) | (soundReg->mode4.restart << 7);
 }
 
 //-------------------------------
-uint8_t NR50() {
+uint8_t NR50(void) {
 	return soundReg->control.SO1_OutputLevel | (soundReg->control.Vin_SO1 << 3u) | (soundReg->control.SO2_OutputLevel << 4u) |
 	           (soundReg->control.Vin_SO2 << 7u);
 }
 
-uint8_t NR51() {
+uint8_t NR51(void) {
 	return soundReg->control.Sound1_To_SO1 | (soundReg->control.Sound2_To_SO1 << 1) | (soundReg->control.Sound3_To_SO1 << 2) |
 	          (soundReg->control.Sound4_To_SO1 << 3) | (soundReg->control.Sound1_To_SO2 << 4) | (soundReg->control.Sound2_To_SO2 << 5) |
 			  (soundReg->control.Sound3_To_SO2 << 6)| (soundReg->control.Sound4_To_SO2 << 7);
 }
 
-uint8_t NR52() {
+uint8_t NR52(void) {
 	return soundReg->control.global_On_Off << 7;
 }
 
@@ -944,7 +944,7 @@ void show_register_channel(uint8_t mode) {
 }
 
 
-void dump_registers()
+void dump_registers(void)
 {
 	clss();
 	gotoxy(FIRST_X, TITLE_Y);
@@ -1062,7 +1062,7 @@ void wait_event(uint8_t mode)
   }
 }
 
-void main()
+void main(void)
 {
   //
   // Before modifying any sound register, sound must be turned on!

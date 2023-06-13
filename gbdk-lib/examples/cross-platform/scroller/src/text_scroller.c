@@ -10,7 +10,7 @@ const uint8_t * scanline_offsets = scanline_offsets_tbl;
 #define SCROLL_POS_PIX_END ((SCROLL_POS + DEVICE_SCREEN_X_OFFSET + 1) * 8) - 1
 
 uint8_t scroller_x = 0;
-void scanline_isr() {
+void scanline_isr(void) {
 #if defined(NINTENDO)
     switch (LYC_REG) {
         case 0: 
@@ -45,7 +45,7 @@ const uint8_t * scroller_next_char = scroller_text;
 uint8_t * scroller_vram_addr;
 uint8_t * base, * limit;
 
-void main() {
+void main(void) {
     printf(" Scrolling %d chars", sizeof(scroller_text) - 1);
 
     CRITICAL {

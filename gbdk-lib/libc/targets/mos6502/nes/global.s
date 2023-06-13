@@ -1,3 +1,8 @@
+        ;; Transfer buffer (lower half of hardware stack)
+        __vram_transfer_buffer = 0x100
+        ;; Number of 8-cycles available each frame for transfer buffer
+        VRAM_DELAY_CYCLES_X8  = 170
+
         ;;  Keypad
         .UP             = 0x10
         .DOWN           = 0x20
@@ -122,7 +127,7 @@
         .globl  .writeNametableByte
 
         ;; Symbols defined at link time
-        .globl _shadow_OAM, _vram_transfer_buffer
+        .globl _shadow_OAM, __vram_transfer_buffer
 
         ;; Main user routine
         .globl  _main

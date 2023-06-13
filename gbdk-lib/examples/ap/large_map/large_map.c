@@ -18,7 +18,7 @@ uint8_t map_pos_x, map_pos_y, old_map_pos_x, old_map_pos_y;
 // redraw flag, indicates that camera position was changed
 uint8_t redraw;
 
-void set_camera() {
+void set_camera(void) {
     // update hardware scroll position
     SCY_REG = camera_y; SCX_REG = camera_x; 
     // up or down
@@ -45,7 +45,7 @@ void set_camera() {
     old_camera_x = camera_x, old_camera_y = camera_y;
 }
 
-void main(){
+void main(void){
     DISPLAY_OFF;
     SHOW_BKG;
     set_bkg_data(0, 241u, bigmap_tiles);

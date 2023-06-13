@@ -11,7 +11,7 @@ const uint8_t some_const_var_1 = 1;
 
 
 BANKREF(func_1)
-void func_1() BANKED
+void func_1(void) BANKED
 {
     printf("Func1 in ROM bank %u\n", CURRENT_BANK);
 }

@@ -8,6 +8,8 @@ https://github.com/gbdk-2020/gbdk-2020/releases
 
 ## GBDK-2020 4.2
   2023/x
+  - Includes SDCC version 14...TODO... with GBDK-2020 patches for Z80 and NES
+    - ([Patched SDCC Builds](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases) with support for Sega GG/SMS and the Nintendo NES are used. See the [github workflow](https://github.com/gbdk-2020/gbdk-2020-sdcc/tree/main/.github/workflows) for details
   - Library
     - Added: set_bkg_attributes(), set_bkg_submap_attributes()
     - The following new functions replace old ones. The old functions will continue to work for now, but migration to new versions is strongly encouraged.
@@ -18,33 +20,56 @@ https://github.com/gbdk-2020/gbdk-2020/releases
       - move_metasprite_flipx(): replaces move_metasprite_vflip()
       - move_metasprite_flipxy(): replaces move_metasprite_hvflip()
       - move_metasprite_ex(): (replaces move_metasprite()
-    - GB: faster vmemcpy(), set_data(), get_data()
+    - NES
+      - Banking support (library and sdcc toolchain)
+    - Game Boy
+      - Minor crt0 optimizations
+      - Faster vmemcpy(), set_data(), get_data()
+      - Fixed hide_sprites_range(39u, 40u); overflow shadow OAM
+      - Increased sgb_transfer() maximum packet length to 7 x 16 bytes
+      - Convert gb_decompress routines to the new calling convention
+      - Convert rle_decompress routines to the new calling convention
+      - Removed legacy MBC register definitions `.MBC1_ROM_PAGE`  and `.MBC_ROM_PAGE`  
+      - Workaround for possible HALT bug in Crash Handler
     - Refactored interrupts to use less space
   - Toolchain / Utilities
-    - @ref lcc "lcc": fix for `--sdccbindir`
+    - @ref lcc "lcc"
+      - Fixed `--sdccbindir`
+      - Improved improved Game Gear header compatibility (change header region code from 4 to 6)
     - @ref utility_png2asset "png2asset"
-      - Added `-repair_index_pal`: Tries to repair tile palettes for indexed color pngs (such as when RGB paint programs mix up indexed colors if the same color exists in multiple palettes). Implies `-keep_palette_order`.
+      - Added `-repair_index_pal`: Tries to repair tile palettes for indexed color pngs (such as when RGB paint programs mix up indexed colors if the same color exists in multiple palettes). Implies `-keep_palette_order`
+      - Added `-no_palettes`: Do not export palette data
       - Fixed support for indexed color pngs with less than 8 bits color depth
       - Fixed incorrect palettes when different colors have same luma value (use RGB values as less-significant bits)
       - Changed to use cross-platform constants for metasprite properties (S_FLIPX, S_FLIPY and S_PAL)
+    - @ref makebin
+      - Warn if RAM banks specified and file size of ROM is less than the 64K required to enable them with in emulators
+    - Added sdld6808 (for NES)
   - Examples
+     - Fixed mkdir broken in some compile.bat files (remove unsupported -p flag during bat file conversion)
      - Sound Test: Added MegaDuck support
      - Wav Playback: Improved support on AGB/AGS hardware
      - Metasprites: Added sub-palette switching for GBC and NES, software metasprite flipping for sms/gg
      - Large Map: Added color for supported platforms
+     - LCD ISR Wobble: Improved interrupt flag settings
   - Docs:
     - Added @ref using_cgb_features "Using Game Boy Color Features"
     - Added SDAS assembler manual (asmlnk_manual.txt)
     - Updated @ref megaduck_sound_register_value_changes "MegaDuck hardware documentation"
     - Added @ref banked_calling_convention "Banked Calling Convention"
+    - Added mention of @ref MAX_HARDWARE_SPRITES
 
 ## GBDK-2020 4.1.1
   2022/11
+  - Includes SDCC version 13350 with GBDK-2020 patches for Z80
   - Library
     - Fixed @ref RGB() and @ref RGB8() macros
 
 ## GBDK-2020 4.1.0
   2022/10
+  - Includes SDCC version 13350 with GBDK-2020 patches for Z80
+  - Known Issues
+    - The `compile.bat` batch files for Windows use the an incalid `-p` option for `mkdir`
   - Building GBDK
     - The linux port of SDCC is custom built on Ubuntu 16.04 due to reduced GLIBC compatibility issues in more recent SDCC project builds.
     - Added Windows 32-Bit build
@@ -115,6 +140,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
 
 ## GBDK-2020 4.0.6
   2022/02
+  - Includes SDCC version 12539 with GBDK-2020 patches for Z80
   - Building GBDK
     - Changed to target older version of macOS (10.10) when building for better compatibility
   - Platforms

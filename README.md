@@ -63,7 +63,7 @@ The sources in this repo are only needed if you want to re-compile GBDK-2020 you
 ## Current status
 - Updated CRT and library that suits better for game development
 - SDCC Versions
-  - Current GBDK-2020 versions require SDCC patches for z80 SMS/Game Gear support (only `sdldz80` in GBDK-2020 4.1.0). So SDCC nightlies/snapshot builds cannot be used if you want to target SMS/Game Gear. Instead use the [Patched SDCC Builds](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases). 
+  - A [custom build of SDCC]([Patched SDCC Builds](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases) with support for Sega GG/SMS and the Nintendo NES is used. See the [github workflow](https://github.com/gbdk-2020/gbdk-2020-sdcc/tree/main/.github/workflows) for details of how to patch and build SDCC.
   - The default calling convention changed in `SDCC 4.2`. This is supported starting with `GBDK-2020 4.1.0`. Older versions of GBDK should use SDCC builds #12539 or older (see per-version GBDK notes).
 - The compiler driver **lcc** supports the latest sdcc toolchain.
 

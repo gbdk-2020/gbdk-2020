@@ -16,7 +16,7 @@ LCCFLAGS_duck    = -Wl-yt0x1B -autobank # Usually the same as required for .gb
 LCCFLAGS_gbc     = -Wl-yt0x1B -Wm-yc -autobank # Same as .gb with: -Wm-yc (gb & gbc) or Wm-yC (gbc exclusive)
 LCCFLAGS_sms     =
 LCCFLAGS_gg      =
-LCCFLAGS_nes     =
+LCCFLAGS_nes     = -Wl-yt0x1B -autobank
 
 LCCFLAGS += $(LCCFLAGS_$(EXT)) # This adds the current platform specific LCC Flags
 
@@ -30,7 +30,7 @@ P2AFLAGS_pocket = -map -bpp 2 -max_palettes 4 -pack_mode gb -noflip
 P2AFLAGS_duck   = -map -bpp 2 -max_palettes 4 -pack_mode gb -noflip
 P2AFLAGS_sms    = -map -use_map_attributes -bpp 4 -max_palettes 2 -pack_mode sms
 P2AFLAGS_gg     = -map -use_map_attributes -bpp 4 -max_palettes 2 -pack_mode sms
-P2AFLAGS_nes    = -map -bpp 2 -max_palettes 4 -pack_mode gb -noflip -use_nes_attributes
+P2AFLAGS_nes    = -map -bpp 2 -max_palettes 4 -pack_mode gb -noflip -use_nes_attributes -b 0
 
 P2AFLAGS = $(P2AFLAGS_$(EXT))
 

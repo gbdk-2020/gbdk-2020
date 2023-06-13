@@ -2,12 +2,7 @@
 
 	.module serial
 
-	.globl	.int
-
-	.globl	__io_out
-	.globl	__io_in
-	.globl	__io_status
-    .globl	.add_SIO
+	.globl	.int, .add_SIO
 
 	.area	_HEADER_SIO (ABS)
 
@@ -76,8 +71,6 @@ __io_in::
 	.ds	0x01		; Received byte
 __io_status::
 	.ds	0x01		; Status of serial IO
-.int_0x58::
-	.blkw	0x05
 
 	.area	_CODE
 

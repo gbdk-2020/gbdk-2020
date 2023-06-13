@@ -8,7 +8,7 @@ TOPDIR = $(shell pwd)
 # Package name, used for tarballs
 PKG = gbdk
 # Version, used for tarballs & docs
-VER = 4.1.1
+VER = 4.2.0
 
 PORTS=sm83 z80 mos6502
 PLATFORMS=gb ap duck gg sms msxdos nes
@@ -280,7 +280,7 @@ gbdk-dist-examples-clean:
 # Copy SDDC executable files
 # win 32 specific: libgcc_s_dw2-1.dll
 # win 64 specific: libgcc_s_seh-1.dll
-SDCC_BINS = packihx sdar sdasgb sdcc sdcdb sdcpp sdldgb sdnm sdobjcopy sdranlib sz80 sdasz80 sdldz80 sdas6500 sdld
+SDCC_BINS = packihx sdar sdasgb sdcc sdcpp sdldgb sdnm sdobjcopy sdranlib sdasz80 sdldz80 sdas6500 sdld6808 sdld
 ifeq ($(OS),Windows_NT)
 MINGW64_RUNTIME = \
 	libgcc_s_dw2-1.dll \
@@ -297,6 +297,7 @@ sdcc-install: check-SDCCDIR
 	@for i in $(SDCC_BINS); do \
 	cp $(SDCCDIR)/bin/$$i $(BUILDDIR)/bin/ && echo "-> $$i" ; \
 	done
+	cp -r $(SDCCDIR)/libexec $(BUILDDIR) && echo "-> cc1"
 
 # Final binary
 binary:
@@ -353,7 +354,7 @@ endif
 # Turn on Latex -> PDF conversion to run run at end of regular docs build
 # (which includes latex output but deletes it at the end).
 #
-# The conversion process requires a Latex install. 
+# The conversion process requires a Latex install.
 # For Windows there are various Latex packages to choose from.
 # For Linux this appears to be the minimum:
 #   sudo apt install texlive-latex-base
@@ -392,7 +393,13 @@ ifneq (,$(wildcard $(BUILDDIR)/bin/))
 	echo \@anchor sdasz80-settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \# sdasz80 settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
-	$(BUILDDIR)/bin/sdasgb -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true
+	$(BUILDDIR)/bin/sdasz80 -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+# sdas6500
+	echo \@anchor sdas6500-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# sdas6500 settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+	$(BUILDDIR)/bin/sdas6500 -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 # bankpack
 	echo \@anchor bankpack-settings >> $(TOOLCHAIN_DOCS_FILE);
@@ -409,6 +416,12 @@ ifneq (,$(wildcard $(BUILDDIR)/bin/))
 # sdldz80
 	echo \@anchor sdldz80-settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \# sdldz80 settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+	$(BUILDDIR)/bin/sdldgb >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+# sdld6808
+	echo \@anchor sdld6808-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# sdld6808 settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 	$(BUILDDIR)/bin/sdldgb >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
