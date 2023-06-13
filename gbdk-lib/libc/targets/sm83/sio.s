@@ -24,3 +24,8 @@ _remove_SIO::
 .remove_SIO::
 	LD	HL,#.int_0x58
 	JP	.remove_int
+
+	.area	_DATA
+
+.int_0x58::
+	.blkw	0x05

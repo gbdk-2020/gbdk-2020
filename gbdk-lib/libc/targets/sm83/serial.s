@@ -76,8 +76,6 @@ __io_in::
 	.ds	0x01		; Received byte
 __io_status::
 	.ds	0x01		; Status of serial IO
-.int_0x58::
-	.blkw	0x05
 
 	.area	_CODE
 
