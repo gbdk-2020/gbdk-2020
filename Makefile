@@ -283,7 +283,6 @@ gbdk-dist-examples-clean:
 SDCC_BINS = packihx sdar sdasgb sdcc sdcpp sdldgb sdnm sdobjcopy sdranlib sdasz80 sdldz80 sdas6500 sdld6808 sdld
 ifeq ($(OS),Windows_NT)
 MINGW64_RUNTIME = \
-	libgcc_s_dw2-1.dll \
 	libgcc_s_seh-1.dll \
 	libgcc_s_sjlj-1.dll \
 	libstdc++-6.dll \
