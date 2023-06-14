@@ -284,9 +284,10 @@ set_char_no_encoding:
         txa
         clc
         adc font_current+sfont_handle_first_tile
-        ldx .curx
-        ldy .cury
-        jsr .writeNametableByte
+        sta _set_bkg_tile_xy_PARM_3
+        lda .curx
+        ldx .cury
+        jsr _set_bkg_tile_xy
         rts
 
 

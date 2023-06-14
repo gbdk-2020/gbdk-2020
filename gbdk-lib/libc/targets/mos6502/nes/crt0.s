@@ -74,7 +74,6 @@ __crt0_spritePageValid:                 .ds 1
 __crt0_NMI_Done:                        .ds 1
 __crt0_NMI_insideNMI:                   .ds 1
 __crt0_ScrollHV:                        .ds 1
-__crt0_textPPUAddr::                    .ds 2
 __crt0_NMITEMP:                         .ds 4
 .mode::                                 .ds 1
 .tmp::                                  .ds 2
@@ -82,7 +81,6 @@ _bkg_scroll_x::                         .ds 1
 _bkg_scroll_y::                         .ds 1
 _attribute_row_dirty::                  .ds 1
 _attribute_column_dirty::               .ds 1
-.crt0_textStringBegin::                 .ds 1
 .crt0_forced_blanking::                 .ds 1
 .tempA::                                .ds 1
 
@@ -399,11 +397,6 @@ __crt0_RESET_bankSwitchValue:
     sta *__current_bank
     ; Set palette shadow
     jsr __crt0_setPalette
-    ; Initialize PPU address for printf output (start at 3rd row, 2nd column)
-    lda #<0x2041
-    sta *__crt0_textPPUAddr
-    lda #>0x2041
-    sta *(__crt0_textPPUAddr+1)
     lda #VRAM_DELAY_CYCLES_X8
     sta *__vram_transfer_buffer_num_cycles_x8
     lda #0

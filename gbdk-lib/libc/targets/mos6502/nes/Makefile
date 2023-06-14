@@ -13,7 +13,7 @@ ASSRC =	f_ibm_full.s f_ibm_sh.s f_italic.s f_min.s f_spect.s \
 	metasprites_common.s \
 	metasprites_hide.s metasprites_hide_spr.s \
 	vram_transfer_buffer.s \
-	set_bk_ts.s set_tile_submap.s fill_rect_bk.s \
+	set_tile.s set_bk_ts.s set_tile_submap.s fill_rect_bk.s \
 	set_bk_attributes.s set_tile_submap_attributes.s flush_attributes.s \
 	nes_palettes.s \
 	pad.s pad_ex.s \
