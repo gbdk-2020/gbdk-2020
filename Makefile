@@ -277,19 +277,31 @@ gbdk-dist-examples-clean:
 	$(MAKE) -C $(BUILDDIR)/examples/gb clean
 
 
-# Copy SDDC executable files
+# Copy SDDC executable files and DLLs
 # win 32 specific: libgcc_s_dw2-1.dll
 # win 64 specific: libgcc_s_seh-1.dll
 SDCC_BINS = packihx sdar sdasgb sdcc sdcpp sdldgb sdnm sdobjcopy sdranlib sdasz80 sdldz80 sdas6500 sdld6808 sdld
 ifeq ($(OS),Windows_NT)
+
+# Check for 32 bit Windows target a couple different ways and select the matching SDCC DLL
+WIN_TARGET = $(firstword $(subst -, ,$(shell $(TARGETCC) -dumpmachine)))
+ifeq ($(OS_TARGET),Win_x32)
+SDCC_OS_DLL = libgcc_s_dw2-1.dll
+else ifeq ($(WIN_TARGET),mingw32)
+SDCC_OS_DLL = libgcc_s_dw2-1.dll
+else ifeq ($(WIN_TARGET),i686)
+SDCC_OS_DLL = libgcc_s_dw2-1.dll
+else
+# Otherwise default 64 bit Windows SDCC DLL
+SDCC_OS_DLL = libgcc_s_seh-1.dll
+endif
+
 MINGW64_RUNTIME = \
-	libgcc_s_dw2-1.dll \
-	libgcc_s_seh-1.dll \
 	libgcc_s_sjlj-1.dll \
 	libstdc++-6.dll \
 	libwinpthread-1.dll \
 	readline5.dll
-SDCC_BINS := $(addsuffix .exe, $(SDCC_BINS)) $(MINGW64_RUNTIME)
+SDCC_BINS := $(addsuffix .exe, $(SDCC_BINS)) $(MINGW64_RUNTIME) $(SDCC_OS_DLL)
 endif
 
 sdcc-install: check-SDCCDIR
