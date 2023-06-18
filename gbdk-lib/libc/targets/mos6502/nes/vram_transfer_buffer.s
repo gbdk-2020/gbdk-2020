@@ -39,10 +39,14 @@ VRAM_MAX_STRIPE_SIZE    = VRAM_HDR_SIZEOF + VRAM_MAX_BYTES
     ror *__vram_transfer_buffer_valid
 .endm
 
+.area   OSEG (PAG, OVR)
+_set_vram_byte_PARM_3:: .ds 1
+    
 .area _ZP (PAG)
 __vram_transfer_buffer_valid::          .ds 1
 __vram_transfer_buffer_num_cycles_x8::  .ds 1
 __vram_transfer_buffer_pos_w::          .ds 1
+__vram_transfer_buffer_pos_old::        .ds 1
 __vram_transfer_buffer_temp::           .ds 1
 
 .area   _HOME
@@ -79,6 +83,7 @@ __vram_transfer_buffer_temp::           .ds 1
     sta PPUCTRL
     rts
 1$:
+.ppu_stripe_begin_indirect:
     ; Indirect write via transfer buffer
     sty *__vram_transfer_buffer_temp
     pha
@@ -98,7 +103,7 @@ __vram_transfer_buffer_temp::           .ds 1
     ; Lock buffer and store current write pointer for later
     VRAM_BUFFER_LOCK
     ldy *__vram_transfer_buffer_pos_w
-    sty *.crt0_textStringBegin
+    sty *__vram_transfer_buffer_pos_old
     ; Write direction
     pla
     sta __vram_transfer_buffer+VRAM_HDR_DIRECTION,y
@@ -127,6 +132,7 @@ __vram_transfer_buffer_temp::           .ds 1
     ; For direct writes there's nothing more to do
     rts
 1$:
+.ppu_stripe_end_indirect:
     sty *__vram_transfer_buffer_temp
     ldy *__vram_transfer_buffer_pos_w
     ; Write terminator byte
@@ -135,9 +141,9 @@ __vram_transfer_buffer_temp::           .ds 1
     ; Write number of data bytes
     tya
     sec
-    sbc *.crt0_textStringBegin
+    sbc *__vram_transfer_buffer_pos_old
     sbc #VRAM_HDR_SIZEOF
-    ldy *.crt0_textStringBegin
+    ldy *__vram_transfer_buffer_pos_old
     sta __vram_transfer_buffer+VRAM_HDR_LENGTH,y
     lda *__vram_transfer_buffer_num_cycles_x8
     sbc __vram_transfer_buffer+VRAM_HDR_LENGTH,y
@@ -155,6 +161,7 @@ __vram_transfer_buffer_temp::           .ds 1
     sta PPUDATA     ; Direct write
     rts
 1$:
+.ppu_stripe_write_byte_indirect:
     sty *__vram_transfer_buffer_temp
     ldy *__vram_transfer_buffer_pos_w
     sta __vram_transfer_buffer,y
@@ -162,157 +169,167 @@ __vram_transfer_buffer_temp::           .ds 1
     ldy *__vram_transfer_buffer_temp
     rts
 
-.writeNametableByte::
-_writeNametableByte::
-    pha
-    lda #(0x20 >> 5)
-    sta *__crt0_textPPUAddr+1
-    tya
-    asl
-    rol *__crt0_textPPUAddr+1
-    asl
-    rol *__crt0_textPPUAddr+1
-    asl
-    rol *__crt0_textPPUAddr+1
-    asl
-    rol *__crt0_textPPUAddr+1
-    asl
-    rol *__crt0_textPPUAddr+1
-    ora .identity,x
-    sta *__crt0_textPPUAddr
-    ; If we're currently in forced blanking mode, use direct writes instead of transfer buffer
+;
+; Appends a single byte to the last finished stripe when possible, temporarily re-opening it.
+;
+; The last stripe will only be re-used if it is possible to do so. 
+; The following conditions must be true:
+; - The transfer buffer is not empty (a "last stripe" must exist in buffer)
+; - The last stripe's number of bytes isn't already VRAM_MAX_BYTES number of bytes
+; - The last stripe is either horizontal or single-byte, and the new byte's address is last_address+1
+; - The last stripe is either vertical or single-byte, and the next byte's address is last_address+32
+;
+; If any of these conditions aren't true, a new stripe will be created instead.
+;
+; The current version has a further simplification: The high byte of PPU address must be unchanged.
+; This simplification is there to avoid doing exhaustive and slow 16-bit comparisons.
+; This means a vertical stripe which is automatically appended to by this code can be no longer than 8 bytes.
+;
+_set_vram_byte::
+.ppu_stripe_append::
+    .define ppu_addr ".tmp"
+    ;
     bit *.crt0_forced_blanking
-    bpl 1$
-    lda *__crt0_textPPUAddr+1
+    bpl .ppu_stripe_append_indirect
+    ; Direct write
+    stx PPUADDR
     sta PPUADDR
-    lda *__crt0_textPPUAddr
-    sta PPUADDR
-    lda #0
-    rol
-    asl
-    asl
-    ora *_shadow_PPUCTRL
-    sta PPUCTRL
-    pla
-    sta PPUDATA
-    ; Increment PPU addr
-    lda *__crt0_textPPUAddr
-    clc
-    adc #1
-    sta *__crt0_textPPUAddr
-    lda *(__crt0_textPPUAddr+1)
-    adc #0
-    sta *(__crt0_textPPUAddr+1)
+    ldy *_set_vram_byte_PARM_3
+    sty PPUDATA
     rts
-1$:
-_writeNametableByteWaitForFlush:
-    ldy *__vram_transfer_buffer_pos_w
-    tya
-    ; Limit when (slightly more than) equal to 80 bytes, to avoid overrunning vblank time
-    cmp #80
-    bcs _writeNametableByteWaitForFlush
-    VRAM_BUFFER_LOCK
-    ; First check if we can append to previously added stripe
-    ldy *.crt0_textStringBegin
-    ; Only append if current vram buffer pointer directly follows previous stripe
-    tya
-    clc
-    adc __vram_transfer_buffer+VRAM_HDR_LENGTH,y
-    adc #VRAM_HDR_SIZEOF
-    cmp *__vram_transfer_buffer_pos_w
-    bne 2$
-    ; Only append if previous stripe was horizontal
-    lda __vram_transfer_buffer+VRAM_HDR_DIRECTION,y
-    bne 2$
-    ; Only append if PPU address following previous stripe matches desired PPU address
-    lda __vram_transfer_buffer+VRAM_HDR_PPULO,y
-    clc
-    adc __vram_transfer_buffer+VRAM_HDR_LENGTH,y
-    sta *.tmp
-    lda __vram_transfer_buffer+VRAM_HDR_PPUHI,y
-    adc #0
-    ; Check against textPPUAddr
-    cmp *__crt0_textPPUAddr+1
-    bne 2$
-    lda *.tmp
-    cmp *__crt0_textPPUAddr
-    bne 2$
-    jmp _writeNametableByte_continue
-2$:
-    jmp _writeNametableByte_new
 
-_writeNametableByte_end:
-    ; Increment PPU addr
-    lda *__crt0_textPPUAddr
-    clc
-    adc #1
-    sta *__crt0_textPPUAddr
-    lda *(__crt0_textPPUAddr+1)
-    adc #0
-    sta *(__crt0_textPPUAddr+1)
-    sty *__vram_transfer_buffer_pos_w
+.ppu_stripe_wait_for_flush:
+    ; Unlock and wait for flush by NMI handler
     VRAM_BUFFER_UNLOCK
-    ldy *__vram_transfer_buffer_temp
+1$:
+    ldx *__vram_transfer_buffer_pos_w
+    bmi 1$
+    ; Re-lock buffer and jump straight to new-stripe code
+    VRAM_BUFFER_LOCK
+    jmp .ppu_stripe_append_failed
+    
+.ppu_stripe_append_indirect:
+    ; Indirect write via transfer buffer
+    sta *ppu_addr
+    stx *ppu_addr+1
+    ; Lock buffer first, to make sure our checks don't get invalidated by NMI
+    VRAM_BUFFER_LOCK
+    ; Now that buffer is safely locked, first check if it's almost full
+    ldx *__vram_transfer_buffer_pos_w
+    bmi .ppu_stripe_wait_for_flush
+    ; check that it's not empty
+    beq .ppu_stripe_append_failed
+    ldx *__vram_transfer_buffer_pos_old
+    ; Don't handle appending when high address changed
+    lda __vram_transfer_buffer+VRAM_HDR_PPUHI,x
+    cmp *ppu_addr+1
+    bne .ppu_stripe_append_failed
+    lda __vram_transfer_buffer+VRAM_HDR_LENGTH,x
+    cmp #VRAM_MAX_BYTES
+    beq .ppu_stripe_append_failed
+    ; if last stripe only contains a single byte, branch to go-either-direction routine
+    cmp #1
+    beq .ppu_stripe_append_second_byte
+    ; Test for horizontal stripe
+    lda __vram_transfer_buffer+VRAM_HDR_DIRECTION,x
+    bne 2$
+    ; Horizontal stripe - check if new address is 1*LENGTH
+    lda *ppu_addr
+    sec
+    sbc __vram_transfer_buffer+VRAM_HDR_PPULO,x
+    cmp __vram_transfer_buffer+VRAM_HDR_LENGTH,x
+    beq 0$
+    jmp .ppu_stripe_append_failed
+0$:
+    ; Append byte
+    jmp .ppu_stripe_append_1byte
+2$:
+    ; Vertical stripe - check if new address is 32*LENGTH
+    lda *ppu_addr
+    lsr
+    lsr
+    lsr
+    lsr
+    lsr
+    sec
+    sbc __vram_transfer_buffer+VRAM_HDR_PPULO,x
+    cmp __vram_transfer_buffer+VRAM_HDR_LENGTH,x
+    bne .ppu_stripe_append_failed
+    ; Append 1 byte
+    jmp .ppu_stripe_append_1byte
+
+.ppu_stripe_append_failed:
+    ; Just create a new stripe with a single byte
+    ldy *__vram_transfer_buffer_pos_w
+    sty *__vram_transfer_buffer_pos_old
+    ; Write direction (assume horizontal) and new terminator byte
+    lda #0
+    sta __vram_transfer_buffer+VRAM_HDR_DIRECTION,y
+    sta __vram_transfer_buffer+VRAM_HDR_SIZEOF+1,y
+    ; Write length
+    lda #1
+    sta __vram_transfer_buffer+VRAM_HDR_LENGTH,y
+    ; Write address
+    lda *ppu_addr+1
+    sta __vram_transfer_buffer+VRAM_HDR_PPUHI,y
+    lda *ppu_addr
+    sta __vram_transfer_buffer+VRAM_HDR_PPULO,y
+    ; write data byte
+    lda *_set_vram_byte_PARM_3
+    sta __vram_transfer_buffer+VRAM_HDR_SIZEOF,y
+    ; Increase write pointer
+    tya
+    clc
+    adc #VRAM_HDR_SIZEOF+1
+    ; store new write pointer
+    sta *__vram_transfer_buffer_pos_w
+    ; __vram_transfer_buffer_num_cycles_x8 -= 7 (assumes carry clear)
+    lda *__vram_transfer_buffer_num_cycles_x8
+    sbc #6
+    sta *__vram_transfer_buffer_num_cycles_x8
+    VRAM_BUFFER_UNLOCK
+    ; Return PPU address
+    lda *ppu_addr
+    ldx *ppu_addr+1
     rts
 
-;
-; Writes a new nametable byte, effectively beginning a new stripe
-;
-_writeNametableByte_new:
-    ldy *__vram_transfer_buffer_pos_w
-    sty *.crt0_textStringBegin
-    ; Number of bytes
-    lda #1
-    sta __vram_transfer_buffer,y
-    iny
-    ; Horizontal mode
-    lda #0
-    sta __vram_transfer_buffer,y
-    iny
-    ; PPU hi
-    lda *(__crt0_textPPUAddr+1)
-    sta __vram_transfer_buffer,y
-    iny
-    ; PPU lo
-    lda *__crt0_textPPUAddr
-    sta __vram_transfer_buffer,y
-    iny
-    pla
-    sta __vram_transfer_buffer,y
-    iny
-    ; zero byte at end
-    lda #0
-    sta __vram_transfer_buffer,y
-    ; decrease total delay in NMI by 7 * 8 cycles for each individually written byte
-    ;
-    ; Each new write operation adds 48 cycles + 8 cycles per written byte, i.e.:
-    ; _cycles_x8 -= 6 * numberOfWriteCommands + numWrittenBytes
-    ;
-    ; __vram_transfer_buffer_num_cycles_x8 -= 7
-    lda *__vram_transfer_buffer_num_cycles_x8
+.ppu_stripe_append_second_byte:
+    ; We only have one previous byte, so ppu_addr being +1 or +32 would both work
+    lda *ppu_addr
     sec
-    sbc #7
-    sta *__vram_transfer_buffer_num_cycles_x8
-    jmp _writeNametableByte_end
-
-;
-; Continues the previously started stripe by adding an additional byte to it
-;
-_writeNametableByte_continue:
-    ; Increase number of bytes in header
-    ldy *.crt0_textStringBegin
-    lda __vram_transfer_buffer,y
-    clc
-    adc #1
-    sta __vram_transfer_buffer,y
-    ; Write new byte
-    ldy *__vram_transfer_buffer_pos_w
-    pla
-    sta __vram_transfer_buffer,y
-    iny
-    ; zero byte at end
+    sbc __vram_transfer_buffer+VRAM_HDR_PPULO,x
+    cmp #1
+    bne 1$
+    ; Convert to horizontal stripe
     lda #0
-    sta __vram_transfer_buffer,y
+    sta __vram_transfer_buffer+VRAM_HDR_DIRECTION,x
+    jmp .ppu_stripe_append_1byte
+1$:
+    cmp #32
+    bne 2$
+    ; Convert to vertical stripe
+    lda #4
+    sta __vram_transfer_buffer+VRAM_HDR_DIRECTION,x
+    jmp .ppu_stripe_append_1byte
+2$:
+    jmp .ppu_stripe_append_failed
+
+.ppu_stripe_append_1byte:
+    ; Append 1 byte
+    inc __vram_transfer_buffer+VRAM_HDR_LENGTH,x
+    lda *_set_vram_byte_PARM_3
+    ldx *__vram_transfer_buffer_pos_w
+    sta __vram_transfer_buffer,x
+    inx
+    ; Write terminator byte
+    lda #0
+    sta __vram_transfer_buffer,x
+    stx *__vram_transfer_buffer_pos_w
     ; Decrease x8 cycle delay by 1
     dec *__vram_transfer_buffer_num_cycles_x8
-    jmp _writeNametableByte_end
+    ; unlock buffer
+    VRAM_BUFFER_UNLOCK
+    ; Return PPU address
+    lda *ppu_addr
+    ldx *ppu_addr+1
+    rts

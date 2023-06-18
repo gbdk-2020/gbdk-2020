@@ -124,7 +124,6 @@
 
         .globl  .display_off, .display_on
         .globl  .wait_vbl_done
-        .globl  .writeNametableByte
 
         ;; Symbols defined at link time
         .globl _shadow_OAM, __vram_transfer_buffer
