@@ -166,6 +166,64 @@ bool FindTile(const Tile& t, size_t& idx, unsigned char& props)
 	return false;
 }
 
+void GetMetaspriteLayeredTiles(Tile &tile, MetaSprite& mt_sprite, int *last_x, int *last_y, int x, int y) {
+
+	size_t idx;
+	unsigned char props;
+
+	if(tile.extraPaletteInfo.size() > 0) {
+
+		for(int z = 0; z < tile.extraPaletteInfo.size(); z++) {
+
+			ExtraPalette epp = tile.extraPaletteInfo[z];
+
+			// Create a new tile with the given palette
+			Tile extraTile(image.tile_h * image.tile_w);
+			extraTile.pal = epp.palette;
+
+			// Copy over the pixel data from the extra palette struct
+			for(int b = 0; b < epp.pixelData.size(); b++) {
+				extraTile.data[b]=(epp.pixelData[b]);
+			}
+
+			if(keep_duplicate_tiles)
+			{
+				tiles.push_back(extraTile);
+				idx = tiles.size() - 1;
+				props = props_default;
+			}
+			else
+			{
+				if(!FindTile(extraTile, idx, props))
+				{
+					if(use_source_tileset) {
+						printf("found a tile not in the source tileset at %d,%d. The target tileset has %d extra tiles.\n", x, y, extra_tile_count + 1);
+						extra_tile_count++;
+						includeTileData = true;
+					}
+					tiles.push_back(extraTile);
+					idx = tiles.size() - 1;
+					props = props_default;
+				}
+			}
+
+			props |= epp.palette;
+
+			// Scale up index based on 8x8 tiles-per-hardware sprite
+			if(sprite_mode == SPR_8x16)
+				idx *= 2;
+			else if(sprite_mode == SPR_16x16_MSX)
+				idx *= 4;
+
+			mt_sprite.push_back(MTTile(x - *last_x, y - *last_y, (unsigned char)idx, props));
+
+			*last_x = x;
+			*last_y = y;
+		}
+	}
+
+}
+
 void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y)
 {
 	int last_x = _x + pivot_x;
@@ -182,6 +240,11 @@ void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y)
 			{
 				size_t idx;
 				unsigned char props;
+
+				if(keep_palette_order) {
+					GetMetaspriteLayeredTiles(tile, mt_sprite, &last_x, &last_y, x, y);
+				}
+
 				unsigned char pal_idx = image.data[y * image.w + x] >> 2; //We can pick the palette from the first pixel of this tile
 
 				if(keep_duplicate_tiles)
