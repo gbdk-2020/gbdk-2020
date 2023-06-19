@@ -20,6 +20,16 @@ using namespace std;
 #include "png2asset.h"
 #include "image_utils.h"
 
+void GetAllMetasprites() {
+	//Extract metasprites
+	for(int y = 0; y < (int)image.h; y += sprite_h)
+	{
+		for(int x = 0; x < (int)image.w; x += sprite_w)
+		{
+			GetMetaSprite(x, y, sprite_w, sprite_h, pivot_x, pivot_y);
+		}
+	}
+}
 
 
 void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y)

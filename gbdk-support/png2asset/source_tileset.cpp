@@ -20,6 +20,20 @@ using namespace std;
 #include "image_utils.h"
 #include "palettes.h"
 
+int HandleSourceTileset(vector< SetPal > palettes) {
+
+	// Copy some settings into optional source tileset image
+	source_tileset_image.colors_per_pal = image.colors_per_pal;
+	source_tileset_image.tile_w = image.tile_w;
+	source_tileset_image.tile_h = image.tile_h;
+
+	if(!GetSourceTileset(repair_indexed_pal, keep_palette_order, max_palettes, palettes)) {
+		return 1;
+	}
+	
+	return 0;
+}
+
 bool GetSourceTileset(bool repair_indexed_pal, bool keep_palette_order, unsigned int max_palettes, vector< SetPal >& palettes) {
 
 	lodepng::State sourceTilesetState;
@@ -125,7 +139,7 @@ bool GetSourceTileset(bool repair_indexed_pal, bool keep_palette_order, unsigned
 	PNGImage temp = image;
 	image = source_tileset_image;
 	use_source_tileset = false;
-	GetMap();
+	GetMap(palettes);
 
 	// Our source tileset shouldn't build the map arrays up
 	// Clear anything from the previous 'GetMap' call

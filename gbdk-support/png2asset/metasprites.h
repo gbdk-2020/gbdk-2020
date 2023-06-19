@@ -29,4 +29,5 @@ using namespace std;
 
 typedef vector< MTTile > MetaSprite;
 
+void GetAllMetasprites();
 void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y);

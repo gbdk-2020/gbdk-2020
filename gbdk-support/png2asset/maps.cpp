@@ -21,7 +21,7 @@ using namespace std;
 #include "image_utils.h"
 
 
-void GetMap()
+void GetMap(vector< SetPal > palettes)
 {
 	for(int y = 0; y < (int)image.h; y += image.tile_h)
 	{
@@ -87,5 +87,9 @@ void GetMap()
 
 		}
 	}
+
+
+
+	HandleMapAttributes(palettes);
 }
 

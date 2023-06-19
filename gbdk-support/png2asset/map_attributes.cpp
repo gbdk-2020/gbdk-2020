@@ -104,3 +104,27 @@ void PackMapAttributes()
 	// Overwrite old attributes
 	map_attributes = map_attributes_packed;
 }
+
+void HandleMapAttributes(vector< SetPal > palettes) {
+	map_attributes_width = image.w / 8;
+	map_attributes_height = image.h / 8;
+
+	// Optionally perform 2x2 reduction on attributes (NES attribute table has this format)
+	if(use_2x2_map_attributes)
+	{
+		// NES attribute map dimensions are half-resolution 
+		ReduceMapAttributes2x2(palettes);
+	}
+	// Optionally align and pack map attributes into NES PPU format
+	if(pack_map_attributes)
+	{
+		AlignMapAttributes();
+		PackMapAttributes();
+	}
+	else
+	{
+		// Use original attribute dimensions for packed
+		map_attributes_packed_width = map_attributes_width;
+		map_attributes_packed_height = map_attributes_height;
+	}
+}

@@ -17,7 +17,26 @@
 using namespace std;
 
 #include "png2asset.h"
+#include "export.h"
 #include "image_utils.h"
+
+int HandleExport() {
+	// === EXPORT ===
+
+	// Header file export
+	if(export_h_file() == false) return 1; // Exit with Fail
+
+	if((export_as_map) && (output_binary)) {
+		// Handle special case of binary map export
+		export_map_binary();
+	}
+	else {
+		// Normal source file export
+		if(export_c_file() == false) return 1; // Exit with Fail
+	}
+
+	return 0;
+}
 
 void Export(const PNGImage& image, const char* path)
 {

@@ -12,17 +12,20 @@
 #include "global.h"
 #include "mttile.h"
 #include "export.h"
+#include "map_attributes.h"
+#include "palettes.h"
+#include "source_tileset.h"
 
 #include "cmp_int_color.h"
+#include "process_arguments.h"
 
 using namespace std;
 
 #include "png2asset.h"
 #include "image_utils.h"
+#include "maps.h"
+#include "metasprites.h"
 
-void Export(const PNGImage& image, const char* path);
-bool export_h_file(void);
-bool export_c_file(void);
-bool export_map_binary();
 
-int HandleExport();
+int ReadImageData(int argc, char* argv[], vector< SetPal > palettes);
+
