@@ -28,48 +28,16 @@ using namespace std;
 #include "metasprites_functions.h"
 
 
-int RunPNG2Asset(PNG2AssetData* png2AssetData){
-
-	// This was moved from outside the upcoming else statement when not using keep_palette_order
-	// So the 'GetSourceTileset' function can pre-populate it from the source tileset
-	vector< SetPal > palettes;
-
-	// if we are using a source tileset
-	if(png2AssetData->use_source_tileset) {
-
-		// Handle generation of the source tileset
-		int handleSourceTilesetValue = HandleSourceTileset(palettes, png2AssetData);
-
-		// Return the error code if the function returns non-zero
-		if(handleSourceTilesetValue != 0) {
-			return handleSourceTilesetValue;
-		}
-	}
-
-	int readImageDataValue = ReadImageData(palettes, png2AssetData);
-
-	// Return the error code if the function returns non-zero
-	if(readImageDataValue != 0) {
-		return readImageDataValue;
-	}
-
-	// Get the data depending on the type
-	if(png2AssetData->export_as_map)GetMap(palettes, png2AssetData);
-	else GetAllMetasprites( png2AssetData);
-
-	return HandleExport(png2AssetData);
-}
-
 int main(int argc, char* argv[])
 {
-	PNG2AssetData png2AssetData;
+	PNG2AssetData png2AssetData(argc, argv);
 
-	int proccesArgValue = ProcessArguments(argc, argv, &png2AssetData);
+	int proccesArgValue = png2AssetData.errorCode;
 
 	// Return the error code if the function returns non-zero
 	if(proccesArgValue != 0) {
 		return proccesArgValue;
 	}
 
-	return RunPNG2Asset(&png2AssetData);
+	return png2AssetData.Execute();
 }

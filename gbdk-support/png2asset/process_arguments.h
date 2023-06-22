@@ -13,6 +13,15 @@ class PNG2AssetData {
 
 public:
 
+	PNG2AssetData(int argc, char* argv[]);
+	int Execute();
+
+	int errorCode;
+
+	// This was moved from outside the upcoming else statement when not using keep_palette_order
+	// So the 'GetSourceTileset' function can pre-populate it from the source tileset
+	vector< SetPal > palettes;
+
 	string output_filename_h;
 	string output_filename_bin;
 	string output_filename_attributes_bin;

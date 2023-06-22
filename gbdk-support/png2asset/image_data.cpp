@@ -28,7 +28,7 @@ using namespace std;
 int decodePNG(vector<unsigned char>& out_image, unsigned long& image_width, unsigned long& image_height, const unsigned char* in_png, size_t in_size, bool convert_to_rgba32 = true);
 void loadFile(vector<unsigned char>& buffer, const std::string& filename);
 
-int ReadImageData_KeepPaletteOrder(vector< SetPal > palettes, vector<unsigned char> buffer, lodepng::State state, PNG2AssetData* png2AssetData) {
+int ReadImageData_KeepPaletteOrder( vector<unsigned char> buffer, lodepng::State state, PNG2AssetData* png2AssetData) {
 	//Calling with keep_palette_order means
 		//-The image should be png indexed (1-8 bits per pixel)
 		//-For CGB: Each 4 colors define a gbc palette, the first color is the transparent one
@@ -94,7 +94,7 @@ int ReadImageData_KeepPaletteOrder(vector< SetPal > palettes, vector<unsigned ch
 	return 0;
 }
 
-int ReadImageData_Default(vector< SetPal > palettes, vector<unsigned char> buffer, lodepng::State state, PNG2AssetData* png2AssetData) {
+int ReadImageData_Default(vector<unsigned char> buffer, lodepng::State state, PNG2AssetData* png2AssetData) {
 	PNGImage image32;
 	image32.colors_per_pal = png2AssetData->image.colors_per_pal;
 	image32.tile_w = png2AssetData->image.tile_w;
@@ -114,14 +114,14 @@ int ReadImageData_Default(vector< SetPal > palettes, vector<unsigned char> buffe
 		return 1;
 	}
 
-	int* palettes_per_tile = BuildPalettesAndAttributes(image32, palettes, png2AssetData->use_2x2_map_attributes);
+	int* palettes_per_tile = BuildPalettesAndAttributes(image32, png2AssetData->palettes, png2AssetData->use_2x2_map_attributes);
 
 	//Create the indexed image
 	png2AssetData->image.data.clear();
 	png2AssetData->image.w = image32.w;
 	png2AssetData->image.h = image32.h;
 
-	unsigned int palette_count = PaletteCountApplyMaxLimit(png2AssetData->max_palettes, palettes.size());
+	unsigned int palette_count = PaletteCountApplyMaxLimit(png2AssetData->max_palettes, png2AssetData->palettes.size());
 
 	png2AssetData->image.total_color_count = palette_count * png2AssetData->image.colors_per_pal;
 	png2AssetData->image.palette = new unsigned char[palette_count * png2AssetData->image.colors_per_pal * RGBA32_SZ]; // total color count * 4 bytes each
@@ -136,7 +136,7 @@ int ReadImageData_Default(vector< SetPal > palettes, vector<unsigned char> buffe
 
 		//TODO: if palettes[p].size() != image.colors_per_pal we should probably try to fill the gaps based on grayscale values
 
-		for(SetPal::iterator it = palettes[p].begin(); it != palettes[p].end(); ++it, color_ptr++)
+		for(SetPal::iterator it = png2AssetData->palettes[p].begin(); it != png2AssetData->palettes[p].end(); ++it, color_ptr++)
 		{
 			unsigned char* c = (unsigned char*)&(*it);
 			*color_ptr = (c[0] << 24) | (c[1] << 16) | (c[2] << 8) | c[3];
@@ -150,7 +150,7 @@ int ReadImageData_Default(vector< SetPal > palettes, vector<unsigned char> buffe
 			unsigned char* c32ptr = &image32.data[(image32.w * y + x) * RGBA32_SZ];
 			int color32 = (c32ptr[0] << 24) | (c32ptr[1] << 16) | (c32ptr[2] << 8) | c32ptr[3];
 			unsigned char palette = palettes_per_tile[(y / image32.tile_h) * (image32.w / image32.tile_w) + (x / image32.tile_w)];
-			unsigned char index = std::distance(palettes[palette].begin(), palettes[palette].find(color32));
+			unsigned char index = std::distance(png2AssetData->palettes[palette].begin(), png2AssetData->palettes[palette].find(color32));
 			png2AssetData->image.data.push_back((palette << png2AssetData->bpp) + index);
 		}
 	}
@@ -160,7 +160,7 @@ int ReadImageData_Default(vector< SetPal > palettes, vector<unsigned char> buffe
 	return 0;
 }
 
-int ReadImageData( vector< SetPal > palettes, PNG2AssetData* png2AssetData) {
+int ReadImageData( PNG2AssetData* png2AssetData) {
 
 	png2AssetData->image.colors_per_pal = 1 << png2AssetData->bpp;
 
@@ -183,13 +183,13 @@ int ReadImageData( vector< SetPal > palettes, PNG2AssetData* png2AssetData) {
 	if(png2AssetData->keep_palette_order) {
 		
 		// Save the error code
-		errorCode= ReadImageData_KeepPaletteOrder(palettes, buffer, state,png2AssetData);
+		errorCode= ReadImageData_KeepPaletteOrder( buffer, state,png2AssetData);
 	}
 	else
 	{
 
 		// Save the error code
-		errorCode= ReadImageData_Default( palettes, buffer, state,png2AssetData);
+		errorCode= ReadImageData_Default( buffer, state,png2AssetData);
 	}
 
 	if(errorCode != 0)return errorCode;

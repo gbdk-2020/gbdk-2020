@@ -7,5 +7,5 @@ using namespace std;
 #include "cmp_int_color.h"
 #include "process_arguments.h"
 
-int ReadImageData( vector< SetPal > palettes, PNG2AssetData* png2AssetData);
+int ReadImageData(  PNG2AssetData* png2AssetData);
 

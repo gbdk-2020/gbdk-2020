@@ -22,7 +22,7 @@ using namespace std;
 #include "process_arguments.h"
 #include "maps.h"
 
-bool GetSourceTileset(bool repair_indexed_pal, bool keep_palette_order, unsigned int max_palettes, vector< SetPal >& palettes, PNG2AssetData* png2AssetData) {
+bool GetSourceTileset(bool repair_indexed_pal, bool keep_palette_order, unsigned int max_palettes,  PNG2AssetData* png2AssetData) {
 
 	lodepng::State sourceTilesetState;
 	vector<unsigned char> buffer2;
@@ -83,14 +83,14 @@ bool GetSourceTileset(bool repair_indexed_pal, bool keep_palette_order, unsigned
 		image32.colors_per_pal = png2AssetData->source_tileset_image.colors_per_pal;
 		image32.tile_w = png2AssetData->source_tileset_image.tile_w;
 		image32.tile_h = png2AssetData->source_tileset_image.tile_h;
-		int* palettes_per_tile = BuildPalettesAndAttributes(image32, palettes, png2AssetData->use_2x2_map_attributes);
+		int* palettes_per_tile = BuildPalettesAndAttributes(image32, png2AssetData->palettes, png2AssetData->use_2x2_map_attributes);
 
 		//Create the indexed image
 		png2AssetData->source_tileset_image.data.clear();
 		png2AssetData->source_tileset_image.w = image32.w;
 		png2AssetData->source_tileset_image.h = image32.h;
 
-		unsigned int palette_count = PaletteCountApplyMaxLimit(max_palettes, palettes.size());
+		unsigned int palette_count = PaletteCountApplyMaxLimit(max_palettes, png2AssetData->palettes.size());
 
 		png2AssetData->source_tileset_image.total_color_count = palette_count * png2AssetData->source_tileset_image.colors_per_pal;
 		png2AssetData->source_tileset_image.palette = new unsigned char[palette_count * png2AssetData->source_tileset_image.colors_per_pal * RGBA32_SZ]; //colors_per_pal colors * 4 bytes each
@@ -102,7 +102,7 @@ bool GetSourceTileset(bool repair_indexed_pal, bool keep_palette_order, unsigned
 
 			//TODO: if palettes[p].size() != colors_per_pal we should probably try to fill the gaps based on grayscale values
 
-			for(SetPal::iterator it = palettes[p].begin(); it != palettes[p].end(); ++it, color_ptr++)
+			for(SetPal::iterator it = png2AssetData->palettes[p].begin(); it != png2AssetData->palettes[p].end(); ++it, color_ptr++)
 			{
 				unsigned char* c = (unsigned char*)&(*it);
 				*color_ptr = (c[0] << 24) | (c[1] << 16) | (c[2] << 8) | c[3];
@@ -116,7 +116,7 @@ bool GetSourceTileset(bool repair_indexed_pal, bool keep_palette_order, unsigned
 				unsigned char* c32ptr = &image32.data[(image32.w * y + x) * RGBA32_SZ];
 				int color32 = (c32ptr[0] << 24) | (c32ptr[1] << 16) | (c32ptr[2] << 8) | c32ptr[3];
 				unsigned char palette = palettes_per_tile[(y / image32.tile_h) * (image32.w / image32.tile_w) + (x / image32.tile_w)];
-				unsigned char index = std::distance(palettes[palette].begin(), palettes[palette].find(color32));
+				unsigned char index = std::distance(png2AssetData->palettes[palette].begin(), png2AssetData->palettes[palette].find(color32));
 				png2AssetData->source_tileset_image.data.push_back((palette << png2AssetData->bpp) + index);
 			}
 		}
@@ -127,7 +127,7 @@ bool GetSourceTileset(bool repair_indexed_pal, bool keep_palette_order, unsigned
 	PNGImage temp = png2AssetData->image;
 	png2AssetData->image = png2AssetData->source_tileset_image;
 	png2AssetData->use_source_tileset = false;
-	GetMap(palettes,png2AssetData);
+	GetMap(png2AssetData);
 
 	// Our source tileset shouldn't build the map arrays up
 	// Clear anything from the previous 'GetMap' call
@@ -147,14 +147,14 @@ bool GetSourceTileset(bool repair_indexed_pal, bool keep_palette_order, unsigned
 
 }
 
-int HandleSourceTileset(vector< SetPal > palettes, PNG2AssetData* png2AssetData) {
+int HandleSourceTileset(PNG2AssetData* png2AssetData) {
 
 	// Copy some settings into optional source tileset image
 	png2AssetData->source_tileset_image.colors_per_pal = png2AssetData->image.colors_per_pal;
 	png2AssetData->source_tileset_image.tile_w = png2AssetData->image.tile_w;
 	png2AssetData->source_tileset_image.tile_h = png2AssetData->image.tile_h;
 
-	if(!GetSourceTileset(png2AssetData->repair_indexed_pal, png2AssetData->keep_palette_order, png2AssetData->max_palettes, palettes, png2AssetData)) {
+	if(!GetSourceTileset(png2AssetData->repair_indexed_pal, png2AssetData->keep_palette_order, png2AssetData->max_palettes,  png2AssetData)) {
 		return 1;
 	}
 

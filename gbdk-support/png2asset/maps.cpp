@@ -23,7 +23,7 @@ using namespace std;
 #include "process_arguments.h"
 
 
-void GetMap(vector< SetPal > palettes, PNG2AssetData* png2AssetData)
+void GetMap( PNG2AssetData* png2AssetData)
 {
 	for(int y = 0; y < (int)png2AssetData->image.h; y += png2AssetData->image.tile_h)
 	{
@@ -92,6 +92,6 @@ void GetMap(vector< SetPal > palettes, PNG2AssetData* png2AssetData)
 
 
 
-	HandleMapAttributes(palettes, png2AssetData);
+	HandleMapAttributes( png2AssetData);
 }
 

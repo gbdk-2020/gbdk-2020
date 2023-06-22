@@ -21,11 +21,43 @@ using namespace std;
 
 #include "png2asset.h"
 #include "image_utils.h"
+#include "image_data.h"
 #include "maps.h"
 #include "metasprites.h"
+#include "metasprites_functions.h"
 #include "process_arguments.h"
 
-int ProcessArguments(int argc, char* argv[], PNG2AssetData* png2AssetData) {
+
+
+int PNG2AssetData::Execute() {
+
+	// if we are using a source tileset
+	if(this->use_source_tileset) {
+
+		// Handle generation of the source tileset
+		int handleSourceTilesetValue = HandleSourceTileset(this);
+
+		// Return the error code if the function returns non-zero
+		if(handleSourceTilesetValue != 0) {
+			return handleSourceTilesetValue;
+		}
+	}
+
+	int readImageDataValue = ReadImageData(this);
+
+	// Return the error code if the function returns non-zero
+	if(readImageDataValue != 0) {
+		return readImageDataValue;
+	}
+
+	// Get the data depending on the type
+	if(this->export_as_map)GetMap(this);
+	else GetAllMetasprites(this);
+
+	return HandleExport(this);
+}
+
+PNG2AssetData::PNG2AssetData(int argc, char* argv[]) {
 
 	if(argc < 2)
 	{
@@ -65,180 +97,183 @@ int ProcessArguments(int argc, char* argv[], PNG2AssetData* png2AssetData) {
 
 		printf("-bin                export to binary format\n");
 		printf("-transposed         export transposed (column-by-column instead of row-by-row)\n");
-		return 0;
+		errorCode = 0;
+		return;
 	}
 
 	//default params
-	png2AssetData->input_filename = argv[1];
-	png2AssetData->output_filename = argv[1];
-	png2AssetData->output_filename = png2AssetData->output_filename.substr(0, png2AssetData->output_filename.size() - 4) + ".c";
+	this->input_filename = argv[1];
+	this->output_filename = argv[1];
+	this->output_filename = this->output_filename.substr(0, this->output_filename.size() - 4) + ".c";
 
 	//Parse argv
 	for(int i = 2; i < argc; ++i)
 	{
 		if(!strcmp(argv[i], "-sw"))
 		{
-			png2AssetData->sprite_w = atoi(argv[++i]);
+			this->sprite_w = atoi(argv[++i]);
 		}
 		else if(!strcmp(argv[i], "-sh"))
 		{
-			png2AssetData->sprite_h = atoi(argv[++i]);
+			this->sprite_h = atoi(argv[++i]);
 		}
 		else if(!strcmp(argv[i], "-sp"))
 		{
-			png2AssetData->props_default = strtol(argv[++i], NULL, 16);
+			this->props_default = strtol(argv[++i], NULL, 16);
 		}
 		if(!strcmp(argv[i], "-px"))
 		{
-			png2AssetData->pivot_x = atoi(argv[++i]);
+			this->pivot_x = atoi(argv[++i]);
 		}
 		else if(!strcmp(argv[i], "-py"))
 		{
-			png2AssetData->pivot_y = atoi(argv[++i]);
+			this->pivot_y = atoi(argv[++i]);
 		}
 		else if(!strcmp(argv[i], "-pw"))
 		{
-			png2AssetData->pivot_w = atoi(argv[++i]);
+			this->pivot_w = atoi(argv[++i]);
 		}
 		else if(!strcmp(argv[i], "-ph"))
 		{
-			png2AssetData->pivot_h = atoi(argv[++i]);
+			this->pivot_h = atoi(argv[++i]);
 		}
 		else if(!strcmp(argv[i], "-spr8x8"))
 		{
-			png2AssetData->image.tile_w = 8;
-			png2AssetData->image.tile_h = 8;
-			png2AssetData->sprite_mode = SPR_8x8;
+			this->image.tile_w = 8;
+			this->image.tile_h = 8;
+			this->sprite_mode = SPR_8x8;
 		}
 		else if(!strcmp(argv[i], "-spr8x16"))
 		{
-			png2AssetData->image.tile_w = 8;
-			png2AssetData->image.tile_h = 16;
-			png2AssetData->sprite_mode = SPR_8x16;
+			this->image.tile_w = 8;
+			this->image.tile_h = 16;
+			this->sprite_mode = SPR_8x16;
 		}
 		else if(!strcmp(argv[i], "-spr16x16msx"))
 		{
-			png2AssetData->image.tile_w = 16;
-			png2AssetData->image.tile_h = 16;
-			png2AssetData->sprite_mode = SPR_16x16_MSX;
+			this->image.tile_w = 16;
+			this->image.tile_h = 16;
+			this->sprite_mode = SPR_16x16_MSX;
 		}
 		else if(!strcmp(argv[i], "-c"))
 		{
-			png2AssetData->output_filename = argv[++i];
+			this->output_filename = argv[++i];
 		}
 		else if(!strcmp(argv[i], "-b"))
 		{
-			png2AssetData->bank = atoi(argv[++i]);
+			this->bank = atoi(argv[++i]);
 		}
 		else if(!strcmp(argv[i], "-keep_palette_order"))
 		{
-			png2AssetData->keep_palette_order = true;
+			this->keep_palette_order = true;
 		}
 		else if(!strcmp(argv[i], "-repair_indexed_pal"))
 		{
-			png2AssetData->repair_indexed_pal = true;
-			png2AssetData->keep_palette_order = true; // -repair_indexed_pal requires -keep_palette_order, so force it on
+			this->repair_indexed_pal = true;
+			this->keep_palette_order = true; // -repair_indexed_pal requires -keep_palette_order, so force it on
 		}
 		else if(!strcmp(argv[i], "-noflip"))
 		{
-			png2AssetData->flip_tiles = false;
+			this->flip_tiles = false;
 		}
 		else if(!strcmp(argv[i], "-map"))
 		{
-			png2AssetData->export_as_map = true;
+			this->export_as_map = true;
 		}
 		else if(!strcmp(argv[i], "-use_map_attributes"))
 		{
-			png2AssetData->use_map_attributes = true;
+			this->use_map_attributes = true;
 		}
 		else if(!strcmp(argv[i], "-use_nes_attributes"))
 		{
-			png2AssetData->use_map_attributes = true;
-			png2AssetData->use_2x2_map_attributes = true;
-			png2AssetData->pack_map_attributes = true;
+			this->use_map_attributes = true;
+			this->use_2x2_map_attributes = true;
+			this->pack_map_attributes = true;
 		}
 		else if(!strcmp(argv[i], "-use_nes_colors"))
 		{
-			png2AssetData->convert_rgb_to_nes = true;
+			this->convert_rgb_to_nes = true;
 		}
 		else if(!strcmp(argv[i], "-use_structs"))
 		{
-			png2AssetData->use_structs = true;
+			this->use_structs = true;
 		}
 		else if(!strcmp(argv[i], "-bpp"))
 		{
-			png2AssetData->bpp = atoi(argv[++i]);
+			this->bpp = atoi(argv[++i]);
 		}
 		else if(!strcmp(argv[i], "-max_palettes"))
 		{
-			png2AssetData->max_palettes = atoi(argv[++i]);
-			if(png2AssetData->max_palettes == 0)
+			this->max_palettes = atoi(argv[++i]);
+			if(this->max_palettes == 0)
 			{
 				printf("-max_palettes must be larger than zero\n");
-				return 1;
+				this->errorCode = 1;
+				return;
 			}
 		}
 		else if(!strcmp(argv[i], "-pack_mode"))
 		{
 			std::string pack_mode_str = argv[++i];
-			if(pack_mode_str == "gb")  png2AssetData->pack_mode = Tile::GB;
-			else if(pack_mode_str == "sgb") png2AssetData->pack_mode = Tile::SGB;
-			else if(pack_mode_str == "sms") png2AssetData->pack_mode = Tile::SMS;
-			else if(pack_mode_str == "1bpp") png2AssetData->pack_mode = Tile::BPP1;
+			if(pack_mode_str == "gb")  this->pack_mode = Tile::GB;
+			else if(pack_mode_str == "sgb") this->pack_mode = Tile::SGB;
+			else if(pack_mode_str == "sms") this->pack_mode = Tile::SMS;
+			else if(pack_mode_str == "1bpp") this->pack_mode = Tile::BPP1;
 			else
 			{
 				printf("-pack_mode must be one of gb, sgb, sms, 1bpp\n");
-				return 1;
+				this->errorCode = 1;
+				return;
 			}
 		}
 		else if(!strcmp(argv[i], "-tile_origin"))
 		{
-			png2AssetData->tile_origin = atoi(argv[++i]);
+			this->tile_origin = atoi(argv[++i]);
 		}
 		else if(!strcmp(argv[i], "-maps_only") || !strcmp(argv[i], "-metasprites_only"))
 		{
-			png2AssetData->includeTileData = false;
+			this->includeTileData = false;
 		}
 		else if(!strcmp(argv[i], "-tiles_only"))
 		{
-			png2AssetData->includedMapOrMetaspriteData = false;
+			this->includedMapOrMetaspriteData = false;
 		}
 		else if(!strcmp(argv[i], "-keep_duplicate_tiles"))
 		{
-			png2AssetData->keep_duplicate_tiles = true;
+			this->keep_duplicate_tiles = true;
 		}
 		else if(!strcmp(argv[i], "-no_palettes"))
 		{
-			png2AssetData->include_palettes = false;
+			this->include_palettes = false;
 		}
 		else if(!strcmp(argv[i], "-source_tileset"))
 		{
-			png2AssetData->use_source_tileset = true;
-			png2AssetData->includeTileData = false;
-			png2AssetData->source_tileset = argv[++i];
+			this->use_source_tileset = true;
+			this->includeTileData = false;
+			this->source_tileset = argv[++i];
 		}
 		else if(!strcmp(argv[i], "-bin"))
 		{
-			png2AssetData->output_binary = true;
+			this->output_binary = true;
 		}
 		else if(!strcmp(argv[i], "-transposed"))
 		{
-			png2AssetData->output_transposed = true;
+			this->output_transposed = true;
 		}
 	}
 
 
-	int slash_pos = (int)png2AssetData->output_filename.find_last_of('/');
+	int slash_pos = (int)this->output_filename.find_last_of('/');
 	if(slash_pos == -1)
-		slash_pos = (int)png2AssetData->output_filename.find_last_of('\\');
-	int dot_pos = (int)png2AssetData->output_filename.find_first_of('.', slash_pos == -1 ? 0 : slash_pos);
+		slash_pos = (int)this->output_filename.find_last_of('\\');
+	int dot_pos = (int)this->output_filename.find_first_of('.', slash_pos == -1 ? 0 : slash_pos);
 
-	png2AssetData->output_filename_h = png2AssetData->output_filename.substr(0, dot_pos) + ".h";
-	png2AssetData->output_filename_bin = png2AssetData->output_filename.substr(0, dot_pos) + "_map.bin";
-	png2AssetData->output_filename_attributes_bin = png2AssetData->output_filename.substr(0, dot_pos) + "_map_attributes.bin";
-	png2AssetData->output_filename_tiles_bin = png2AssetData->output_filename.substr(0, dot_pos) + "_tiles.bin";
-	png2AssetData->data_name = png2AssetData->output_filename.substr(slash_pos + 1, dot_pos - 1 - slash_pos);
-	replace(png2AssetData->data_name.begin(), png2AssetData->data_name.end(), '-', '_');
+	this->output_filename_h = this->output_filename.substr(0, dot_pos) + ".h";
+	this->output_filename_bin = this->output_filename.substr(0, dot_pos) + "_map.bin";
+	this->output_filename_attributes_bin = this->output_filename.substr(0, dot_pos) + "_map_attributes.bin";
+	this->output_filename_tiles_bin = this->output_filename.substr(0, dot_pos) + "_tiles.bin";
+	this->data_name = this->output_filename.substr(slash_pos + 1, dot_pos - 1 - slash_pos);
+	replace(this->data_name.begin(), this->data_name.end(), '-', '_');
 
-	return 0;
+	this->errorCode = 0;
 }
