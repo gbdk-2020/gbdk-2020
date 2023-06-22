@@ -1,26 +1,10 @@
 #pragma once
 #include <vector>
-#include <string>
-#include <algorithm>
-#include <cstring>
-#include <set>
-#include <stdio.h>
-#include <fstream>
-#include <cstdint>
-
-#include "lodepng.h"
-#include "global.h"
-#include "mttile.h"
-#include "export.h"
 
 #include "cmp_int_color.h"
+#include "png2asset.h"
 
 using namespace std;
-
-#include "png2asset.h"
-#include "image_utils.h"
-#include "maps.h"
-#include "metasprites.h"
 
 
 unsigned int PaletteCountApplyMaxLimit(unsigned int max_palettes, unsigned int cur_palette_size);

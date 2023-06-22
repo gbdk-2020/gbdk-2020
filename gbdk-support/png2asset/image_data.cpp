@@ -28,7 +28,7 @@ using namespace std;
 int decodePNG(vector<unsigned char>& out_image, unsigned long& image_width, unsigned long& image_height, const unsigned char* in_png, size_t in_size, bool convert_to_rgba32 = true);
 void loadFile(vector<unsigned char>& buffer, const std::string& filename);
 
-int ReadImageData_KeepPaletteOrder(int argc, char* argv[], vector< SetPal > palettes, vector<unsigned char> buffer, lodepng::State state) {
+int ReadImageData_KeepPaletteOrder(vector< SetPal > palettes, vector<unsigned char> buffer, lodepng::State state, PNG2AssetData* png2AssetData) {
 	//Calling with keep_palette_order means
 		//-The image should be png indexed (1-8 bits per pixel)
 		//-For CGB: Each 4 colors define a gbc palette, the first color is the transparent one
@@ -45,9 +45,9 @@ int ReadImageData_KeepPaletteOrder(int argc, char* argv[], vector< SetPal > pale
 	//     Also see below about requirement to use palette from source image
 	state.decoder.color_convert = false;
 
-	unsigned error = lodepng::decode(image.data, image.w, image.h, state, buffer);
+	unsigned error = lodepng::decode(png2AssetData->image.data, png2AssetData->image.w, png2AssetData->image.h, state, buffer);
 	// Unpack the image if needed. Also checks and errors on incompatible palette type if needed
-	if(!image_indexed_ensure_8bpp(image.data, image.w, image.h, (int)state.info_png.color.bitdepth, (int)state.info_png.color.colortype))
+	if(!image_indexed_ensure_8bpp(png2AssetData->image.data, png2AssetData->image.w, png2AssetData->image.h, (int)state.info_png.color.bitdepth, (int)state.info_png.color.colortype))
 		return 1;
 	else if(error) {
 		printf("decoder error %s\n", lodepng_error_text(error));
@@ -56,13 +56,13 @@ int ReadImageData_KeepPaletteOrder(int argc, char* argv[], vector< SetPal > pale
 
 	// Use source image palette since lodepng conversion to indexed (LCT_PALETTE) won't create a palette
 	// So: state.info_png.color.palette/size instead of state.info_raw.palette/size
-	unsigned int palette_count = PaletteCountApplyMaxLimit(max_palettes, state.info_png.color.palettesize / image.colors_per_pal);
-	image.total_color_count = palette_count * image.colors_per_pal;
-	image.palette = state.info_png.color.palette;
+	unsigned int palette_count = PaletteCountApplyMaxLimit(png2AssetData->max_palettes, state.info_png.color.palettesize / png2AssetData->image.colors_per_pal);
+	png2AssetData->image.total_color_count = palette_count * png2AssetData->image.colors_per_pal;
+	png2AssetData->image.palette = state.info_png.color.palette;
 
 
-	if(repair_indexed_pal)
-		if(!image_indexed_repair_tile_palettes(image, use_2x2_map_attributes))
+	if(png2AssetData->repair_indexed_pal)
+		if(!image_indexed_repair_tile_palettes(png2AssetData->image, png2AssetData->use_2x2_map_attributes))
 			return 1;
 
 	// TODO: Enable dimension check
@@ -73,19 +73,19 @@ int ReadImageData_KeepPaletteOrder(int argc, char* argv[], vector< SetPal > pale
 	// 	return 1;
 	// }
 
-	if(use_source_tileset) {
+	if(png2AssetData->use_source_tileset) {
 
 		// Make sure these two values match when keeping palette order
-		if(image.total_color_count != source_tileset_image.total_color_count) {
+		if(png2AssetData->image.total_color_count != png2AssetData->source_tileset_image.total_color_count) {
 
-			printf("error: The number of color palette's for your source tileset (%d) and target image (%d) do not match.", (unsigned int)source_tileset_image.total_color_count, (unsigned int)image.total_color_count);
+			printf("error: The number of color palette's for your source tileset (%d) and target image (%d) do not match.", (unsigned int)png2AssetData->source_tileset_image.total_color_count, (unsigned int)png2AssetData->image.total_color_count);
 			return 1;
 		}
 
-		size_t size = max(image.total_color_count, source_tileset_image.total_color_count);
+		size_t size = max(png2AssetData->image.total_color_count, png2AssetData->source_tileset_image.total_color_count);
 
 		// Make sure these two values match when keeping palette order
-		if(memcmp(image.palette, source_tileset_image.palette, size) != 0) {
+		if(memcmp(png2AssetData->image.palette, png2AssetData->source_tileset_image.palette, size) != 0) {
 
 			printf("error: The palette's for your source tileset and target image do not match.");
 			return 1;
@@ -94,11 +94,11 @@ int ReadImageData_KeepPaletteOrder(int argc, char* argv[], vector< SetPal > pale
 	return 0;
 }
 
-int ReadImageData_Default(int argc, char* argv[], vector< SetPal > palettes, vector<unsigned char> buffer, lodepng::State state) {
+int ReadImageData_Default(vector< SetPal > palettes, vector<unsigned char> buffer, lodepng::State state, PNG2AssetData* png2AssetData) {
 	PNGImage image32;
-	image32.colors_per_pal = image.colors_per_pal;
-	image32.tile_w = image.tile_w;
-	image32.tile_h = image.tile_h;
+	image32.colors_per_pal = png2AssetData->image.colors_per_pal;
+	image32.tile_w = png2AssetData->image.tile_w;
+	image32.tile_h = png2AssetData->image.tile_h;
 
 	unsigned error = lodepng::decode(image32.data, image32.w, image32.h, state, buffer); //decode as 32 bit
 	if(error)
@@ -114,25 +114,25 @@ int ReadImageData_Default(int argc, char* argv[], vector< SetPal > palettes, vec
 		return 1;
 	}
 
-	int* palettes_per_tile = BuildPalettesAndAttributes(image32, palettes, use_2x2_map_attributes);
+	int* palettes_per_tile = BuildPalettesAndAttributes(image32, palettes, png2AssetData->use_2x2_map_attributes);
 
 	//Create the indexed image
-	image.data.clear();
-	image.w = image32.w;
-	image.h = image32.h;
+	png2AssetData->image.data.clear();
+	png2AssetData->image.w = image32.w;
+	png2AssetData->image.h = image32.h;
 
-	unsigned int palette_count = PaletteCountApplyMaxLimit(max_palettes, palettes.size());
+	unsigned int palette_count = PaletteCountApplyMaxLimit(png2AssetData->max_palettes, palettes.size());
 
-	image.total_color_count = palette_count * image.colors_per_pal;
-	image.palette = new unsigned char[palette_count * image.colors_per_pal * RGBA32_SZ]; // total color count * 4 bytes each
+	png2AssetData->image.total_color_count = palette_count * png2AssetData->image.colors_per_pal;
+	png2AssetData->image.palette = new unsigned char[palette_count * png2AssetData->image.colors_per_pal * RGBA32_SZ]; // total color count * 4 bytes each
 
 	// If we are using a sourcetileset and have more palettes than it defines
-	if(use_source_tileset && (image.total_color_count > source_total_color_count)) {
-		printf("Found %d extra palette(s) for target tilemap.\n", (unsigned int)((image.total_color_count - source_total_color_count) / image.colors_per_pal));
+	if(png2AssetData->use_source_tileset && (png2AssetData->image.total_color_count > png2AssetData->source_total_color_count)) {
+		printf("Found %d extra palette(s) for target tilemap.\n", (unsigned int)((png2AssetData->image.total_color_count - png2AssetData->source_total_color_count) / png2AssetData->image.colors_per_pal));
 	}
 	for(size_t p = 0; p < palette_count; ++p)
 	{
-		int* color_ptr = (int*)&image.palette[p * image.colors_per_pal * RGBA32_SZ];
+		int* color_ptr = (int*)&png2AssetData->image.palette[p * png2AssetData->image.colors_per_pal * RGBA32_SZ];
 
 		//TODO: if palettes[p].size() != image.colors_per_pal we should probably try to fill the gaps based on grayscale values
 
@@ -151,7 +151,7 @@ int ReadImageData_Default(int argc, char* argv[], vector< SetPal > palettes, vec
 			int color32 = (c32ptr[0] << 24) | (c32ptr[1] << 16) | (c32ptr[2] << 8) | c32ptr[3];
 			unsigned char palette = palettes_per_tile[(y / image32.tile_h) * (image32.w / image32.tile_w) + (x / image32.tile_w)];
 			unsigned char index = std::distance(palettes[palette].begin(), palettes[palette].find(color32));
-			image.data.push_back((palette << bpp) + index);
+			png2AssetData->image.data.push_back((palette << png2AssetData->bpp) + index);
 		}
 	}
 
@@ -160,47 +160,47 @@ int ReadImageData_Default(int argc, char* argv[], vector< SetPal > palettes, vec
 	return 0;
 }
 
-int ReadImageData(int argc, char* argv[], vector< SetPal > palettes) {
+int ReadImageData( vector< SetPal > palettes, PNG2AssetData* png2AssetData) {
 
-	image.colors_per_pal = 1 << bpp;
+	png2AssetData->image.colors_per_pal = 1 << png2AssetData->bpp;
 
-	if(export_as_map)
+	if(png2AssetData->export_as_map)
 	{
-		image.tile_w = 8; //Force tiles_w to 8 on maps
-		image.tile_h = 8; //Force tiles_h to 8 on maps
-		sprite_mode = SPR_NONE;
+		png2AssetData->image.tile_w = 8; //Force tiles_w to 8 on maps
+		png2AssetData->image.tile_h = 8; //Force tiles_h to 8 on maps
+		png2AssetData->sprite_mode = SPR_NONE;
 	}
 
 
 	//load and decode png
 	vector<unsigned char> buffer;
-	lodepng::load_file(buffer, argv[1]);
+	lodepng::load_file(buffer, png2AssetData->input_filename);
 	lodepng::State state;
 
 	int errorCode = 0;
 
 	// Will the specified PNG have a palette provided with it?
-	if(keep_palette_order) {
+	if(png2AssetData->keep_palette_order) {
 		
 		// Save the error code
-		errorCode= ReadImageData_KeepPaletteOrder(argc, argv, palettes, buffer, state);
+		errorCode= ReadImageData_KeepPaletteOrder(palettes, buffer, state,png2AssetData);
 	}
 	else
 	{
 
 		// Save the error code
-		errorCode= ReadImageData_Default(argc, argv, palettes, buffer, state);
+		errorCode= ReadImageData_Default( palettes, buffer, state,png2AssetData);
 	}
 
 	if(errorCode != 0)return errorCode;
 
 
-	if(sprite_w == 0) sprite_w = (int)image.w;
-	if(sprite_h == 0) sprite_h = (int)image.h;
-	if(pivot_x == 0xFFFFFF) pivot_x = sprite_w / 2;
-	if(pivot_y == 0xFFFFFF) pivot_y = sprite_h / 2;
-	if(pivot_w == 0xFFFFFF) pivot_w = sprite_w;
-	if(pivot_h == 0xFFFFFF) pivot_h = sprite_h;
+	if(png2AssetData->sprite_w == 0) png2AssetData->sprite_w = (int)png2AssetData->image.w;
+	if(png2AssetData->sprite_h == 0) png2AssetData->sprite_h = (int)png2AssetData->image.h;
+	if(png2AssetData->pivot_x == 0xFFFFFF) png2AssetData->pivot_x = png2AssetData->sprite_w / 2;
+	if(png2AssetData->pivot_y == 0xFFFFFF) png2AssetData->pivot_y = png2AssetData->sprite_h / 2;
+	if(png2AssetData->pivot_w == 0xFFFFFF) png2AssetData->pivot_w = png2AssetData->sprite_w;
+	if(png2AssetData->pivot_h == 0xFFFFFF) png2AssetData->pivot_h = png2AssetData->sprite_h;
 
 	return 0;
 }

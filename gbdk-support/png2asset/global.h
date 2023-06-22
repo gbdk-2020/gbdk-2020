@@ -16,7 +16,7 @@ using namespace std;
 #include "mttile.h"
 #include "metasprites.h"
 #include "image_utils.h"
-
+/*
 extern string output_filename_h;
 extern string output_filename_bin;
 extern string output_filename_attributes_bin;
@@ -72,3 +72,7 @@ extern bool flip_tiles;
 extern Tile::PackMode pack_mode;
 
 extern unsigned char rgb_to_nes[64];
+
+*/
+
+

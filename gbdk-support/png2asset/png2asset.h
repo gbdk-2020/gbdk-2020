@@ -2,6 +2,8 @@
 #define _PNG2ASSET_H
 
 #define RGBA32_SZ 4 // RGBA 8:8:8:8 is 4 bytes per pixel
+#include <vector>
+using namespace std;
 
 enum {
     SPR_NONE,

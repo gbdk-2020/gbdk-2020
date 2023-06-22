@@ -16,6 +16,7 @@ using namespace std;
 
 #include "png2asset.h"
 #include "image_utils.h"
+#include "process_arguments.h"
 
 
 Tile FlipH(const Tile& tile)
@@ -46,43 +47,43 @@ Tile FlipV(const Tile& tile)
 	return ret;
 }
 
-bool FindTile(const Tile& t, size_t& idx, unsigned char& props)
+bool FindTile(const Tile& t, size_t& idx, unsigned char& props,PNG2AssetData* png2AssetData)
 {
 	vector< Tile >::iterator it;
-	it = find(tiles.begin(), tiles.end(), t);
-	if(it != tiles.end())
+	it = find(png2AssetData->tiles.begin(), png2AssetData->tiles.end(), t);
+	if(it != png2AssetData->tiles.end())
 	{
-		idx = (size_t)(it - tiles.begin());
-		props = props_default;
+		idx = (size_t)(it - png2AssetData->tiles.begin());
+		props = png2AssetData->props_default;
 		return true;
 	}
 
-	if(flip_tiles)
+	if(png2AssetData->flip_tiles)
 	{
 		Tile tile = FlipV(t);
-		it = find(tiles.begin(), tiles.end(), tile);
-		if(it != tiles.end())
+		it = find(png2AssetData->tiles.begin(), png2AssetData->tiles.end(), tile);
+		if(it != png2AssetData->tiles.end())
 		{
-			idx = (size_t)(it - tiles.begin());
-			props = props_default | (1 << 5);
+			idx = (size_t)(it - png2AssetData->tiles.begin());
+			props = png2AssetData->props_default | (1 << 5);
 			return true;
 		}
 
 		tile = FlipH(tile);
-		it = find(tiles.begin(), tiles.end(), tile);
-		if(it != tiles.end())
+		it = find(png2AssetData->tiles.begin(), png2AssetData->tiles.end(), tile);
+		if(it != png2AssetData->tiles.end())
 		{
-			idx = (size_t)(it - tiles.begin());
-			props = props_default | (1 << 5) | (1 << 6);
+			idx = (size_t)(it - png2AssetData->tiles.begin());
+			props = png2AssetData->props_default | (1 << 5) | (1 << 6);
 			return true;
 		}
 
 		tile = FlipV(tile);
-		it = find(tiles.begin(), tiles.end(), tile);
-		if(it != tiles.end())
+		it = find(png2AssetData->tiles.begin(), png2AssetData->tiles.end(), tile);
+		if(it != png2AssetData->tiles.end())
 		{
-			idx = (size_t)(it - tiles.begin());
-			props = props_default | (1 << 6);
+			idx = (size_t)(it - png2AssetData->tiles.begin());
+			props = png2AssetData->props_default | (1 << 6);
 			return true;
 		}
 	}

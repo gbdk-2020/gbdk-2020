@@ -19,27 +19,15 @@ using namespace std;
 #include "png2asset.h"
 #include "image_utils.h"
 #include "palettes.h"
+#include "process_arguments.h"
+#include "maps.h"
 
-int HandleSourceTileset(vector< SetPal > palettes) {
-
-	// Copy some settings into optional source tileset image
-	source_tileset_image.colors_per_pal = image.colors_per_pal;
-	source_tileset_image.tile_w = image.tile_w;
-	source_tileset_image.tile_h = image.tile_h;
-
-	if(!GetSourceTileset(repair_indexed_pal, keep_palette_order, max_palettes, palettes)) {
-		return 1;
-	}
-	
-	return 0;
-}
-
-bool GetSourceTileset(bool repair_indexed_pal, bool keep_palette_order, unsigned int max_palettes, vector< SetPal >& palettes) {
+bool GetSourceTileset(bool repair_indexed_pal, bool keep_palette_order, unsigned int max_palettes, vector< SetPal >& palettes, PNG2AssetData* png2AssetData) {
 
 	lodepng::State sourceTilesetState;
 	vector<unsigned char> buffer2;
 
-	lodepng::load_file(buffer2, source_tileset);
+	lodepng::load_file(buffer2, png2AssetData->source_tileset);
 
 	// TODO: This code block below is mostly identical (aside from memcpy, var names) to the main indexed image load.
 	//       It should get deduplicated into a function.
@@ -60,9 +48,9 @@ bool GetSourceTileset(bool repair_indexed_pal, bool keep_palette_order, unsigned
 		//     Also see below about requirement to use palette from source image
 		sourceTilesetState.decoder.color_convert = false;
 
-		unsigned error = lodepng::decode(source_tileset_image.data, source_tileset_image.w, source_tileset_image.h, sourceTilesetState, buffer2);
+		unsigned error = lodepng::decode(png2AssetData->source_tileset_image.data, png2AssetData->source_tileset_image.w, png2AssetData->source_tileset_image.h, sourceTilesetState, buffer2);
 		// Unpack the image if needed. Also checks and errors on incompatible palette type if needed
-		if(!image_indexed_ensure_8bpp(source_tileset_image.data, source_tileset_image.w, source_tileset_image.h, (int)sourceTilesetState.info_png.color.bitdepth, (int)sourceTilesetState.info_png.color.colortype))
+		if(!image_indexed_ensure_8bpp(png2AssetData->source_tileset_image.data, png2AssetData->source_tileset_image.w, png2AssetData->source_tileset_image.h, (int)sourceTilesetState.info_png.color.bitdepth, (int)sourceTilesetState.info_png.color.colortype))
 			return false;
 		else if(error) {
 			printf("decoder error %s\n", lodepng_error_text(error));
@@ -71,15 +59,15 @@ bool GetSourceTileset(bool repair_indexed_pal, bool keep_palette_order, unsigned
 
 		// Use source image palette since lodepng conversion to indexed (LCT_PALETTE) won't create a palette
 		// So: source_tileset_image.info_png.color.palette/size instead of source_tileset_image.info_raw.palette/size
-		unsigned int palette_count = PaletteCountApplyMaxLimit(max_palettes, sourceTilesetState.info_png.color.palettesize / source_tileset_image.colors_per_pal);
-		source_tileset_image.total_color_count = palette_count * source_tileset_image.colors_per_pal;
-		source_tileset_image.palette = (uint8_t*)malloc(source_tileset_image.total_color_count * RGBA32_SZ);
-		if(source_tileset_image.palette) {
-			memcpy(source_tileset_image.palette, sourceTilesetState.info_png.color.palette, source_tileset_image.total_color_count * RGBA32_SZ);
+		unsigned int palette_count = PaletteCountApplyMaxLimit(max_palettes, sourceTilesetState.info_png.color.palettesize / png2AssetData->source_tileset_image.colors_per_pal);
+		png2AssetData->source_tileset_image.total_color_count = palette_count * png2AssetData->source_tileset_image.colors_per_pal;
+		png2AssetData->source_tileset_image.palette = (uint8_t*)malloc(png2AssetData->source_tileset_image.total_color_count * RGBA32_SZ);
+		if(png2AssetData->source_tileset_image.palette) {
+			memcpy(png2AssetData->source_tileset_image.palette, sourceTilesetState.info_png.color.palette, png2AssetData->source_tileset_image.total_color_count * RGBA32_SZ);
 		}
 
 		if(repair_indexed_pal)
-			if(!image_indexed_repair_tile_palettes(source_tileset_image, use_2x2_map_attributes))
+			if(!image_indexed_repair_tile_palettes(png2AssetData->source_tileset_image, png2AssetData->use_2x2_map_attributes))
 				return 1;
 	}
 	else {
@@ -92,25 +80,25 @@ bool GetSourceTileset(bool repair_indexed_pal, bool keep_palette_order, unsigned
 			return false;
 		}
 
-		image32.colors_per_pal = source_tileset_image.colors_per_pal;
-		image32.tile_w = source_tileset_image.tile_w;
-		image32.tile_h = source_tileset_image.tile_h;
-		int* palettes_per_tile = BuildPalettesAndAttributes(image32, palettes, use_2x2_map_attributes);
+		image32.colors_per_pal = png2AssetData->source_tileset_image.colors_per_pal;
+		image32.tile_w = png2AssetData->source_tileset_image.tile_w;
+		image32.tile_h = png2AssetData->source_tileset_image.tile_h;
+		int* palettes_per_tile = BuildPalettesAndAttributes(image32, palettes, png2AssetData->use_2x2_map_attributes);
 
 		//Create the indexed image
-		source_tileset_image.data.clear();
-		source_tileset_image.w = image32.w;
-		source_tileset_image.h = image32.h;
+		png2AssetData->source_tileset_image.data.clear();
+		png2AssetData->source_tileset_image.w = image32.w;
+		png2AssetData->source_tileset_image.h = image32.h;
 
 		unsigned int palette_count = PaletteCountApplyMaxLimit(max_palettes, palettes.size());
 
-		source_tileset_image.total_color_count = palette_count * source_tileset_image.colors_per_pal;
-		source_tileset_image.palette = new unsigned char[palette_count * source_tileset_image.colors_per_pal * RGBA32_SZ]; //colors_per_pal colors * 4 bytes each
-		source_total_color_count = source_tileset_image.total_color_count;
+		png2AssetData->source_tileset_image.total_color_count = palette_count * png2AssetData->source_tileset_image.colors_per_pal;
+		png2AssetData->source_tileset_image.palette = new unsigned char[palette_count * png2AssetData->source_tileset_image.colors_per_pal * RGBA32_SZ]; //colors_per_pal colors * 4 bytes each
+		png2AssetData->source_total_color_count = png2AssetData->source_tileset_image.total_color_count;
 
 		for(size_t p = 0; p < palette_count; ++p)
 		{
-			int* color_ptr = (int*)&source_tileset_image.palette[p * source_tileset_image.colors_per_pal * RGBA32_SZ];
+			int* color_ptr = (int*)&png2AssetData->source_tileset_image.palette[p * png2AssetData->source_tileset_image.colors_per_pal * RGBA32_SZ];
 
 			//TODO: if palettes[p].size() != colors_per_pal we should probably try to fill the gaps based on grayscale values
 
@@ -129,32 +117,46 @@ bool GetSourceTileset(bool repair_indexed_pal, bool keep_palette_order, unsigned
 				int color32 = (c32ptr[0] << 24) | (c32ptr[1] << 16) | (c32ptr[2] << 8) | c32ptr[3];
 				unsigned char palette = palettes_per_tile[(y / image32.tile_h) * (image32.w / image32.tile_w) + (x / image32.tile_w)];
 				unsigned char index = std::distance(palettes[palette].begin(), palettes[palette].find(color32));
-				source_tileset_image.data.push_back((palette << bpp) + index);
+				png2AssetData->source_tileset_image.data.push_back((palette << png2AssetData->bpp) + index);
 			}
 		}
 	}
 
 	// We'll change the image variable
 	// So we don't have to change any of the existing code
-	PNGImage temp = image;
-	image = source_tileset_image;
-	use_source_tileset = false;
-	GetMap(palettes);
+	PNGImage temp = png2AssetData->image;
+	png2AssetData->image = png2AssetData->source_tileset_image;
+	png2AssetData->use_source_tileset = false;
+	GetMap(palettes,png2AssetData);
 
 	// Our source tileset shouldn't build the map arrays up
 	// Clear anything from the previous 'GetMap' call
-	map.clear();
-	map_attributes.clear();
-	use_source_tileset = true;
+	png2AssetData->map.clear();
+	png2AssetData->map_attributes.clear();
+	png2AssetData->use_source_tileset = true;
 
 	// Change the image variable back
-	image = temp;
+	png2AssetData->image = temp;
 
-	source_tileset_size = tiles.size();
+	png2AssetData->source_tileset_size = png2AssetData->tiles.size();
 
-	printf("Got %d tiles from the source tileset.\n", (unsigned int)tiles.size());
-	printf("Got %d palettes from the source tileset.\n", (unsigned int)(source_tileset_image.total_color_count / source_tileset_image.colors_per_pal));
+	printf("Got %d tiles from the source tileset.\n", (unsigned int)png2AssetData->tiles.size());
+	printf("Got %d palettes from the source tileset.\n", (unsigned int)(png2AssetData->source_tileset_image.total_color_count / png2AssetData->source_tileset_image.colors_per_pal));
 
 	return true;
 
+}
+
+int HandleSourceTileset(vector< SetPal > palettes, PNG2AssetData* png2AssetData) {
+
+	// Copy some settings into optional source tileset image
+	png2AssetData->source_tileset_image.colors_per_pal = png2AssetData->image.colors_per_pal;
+	png2AssetData->source_tileset_image.tile_w = png2AssetData->image.tile_w;
+	png2AssetData->source_tileset_image.tile_h = png2AssetData->image.tile_h;
+
+	if(!GetSourceTileset(png2AssetData->repair_indexed_pal, png2AssetData->keep_palette_order, png2AssetData->max_palettes, palettes, png2AssetData)) {
+		return 1;
+	}
+
+	return 0;
 }

@@ -23,8 +23,9 @@ using namespace std;
 #include "image_utils.h"
 #include "maps.h"
 #include "metasprites.h"
+#include "process_arguments.h"
 
-int ProcessArguments(int argc, char* argv[]) {
+int ProcessArguments(int argc, char* argv[], PNG2AssetData* png2AssetData) {
 
 	if(argc < 2)
 	{
@@ -68,109 +69,110 @@ int ProcessArguments(int argc, char* argv[]) {
 	}
 
 	//default params
-	output_filename = argv[1];
-	output_filename = output_filename.substr(0, output_filename.size() - 4) + ".c";
+	png2AssetData->input_filename = argv[1];
+	png2AssetData->output_filename = argv[1];
+	png2AssetData->output_filename = png2AssetData->output_filename.substr(0, png2AssetData->output_filename.size() - 4) + ".c";
 
 	//Parse argv
 	for(int i = 2; i < argc; ++i)
 	{
 		if(!strcmp(argv[i], "-sw"))
 		{
-			sprite_w = atoi(argv[++i]);
+			png2AssetData->sprite_w = atoi(argv[++i]);
 		}
 		else if(!strcmp(argv[i], "-sh"))
 		{
-			sprite_h = atoi(argv[++i]);
+			png2AssetData->sprite_h = atoi(argv[++i]);
 		}
 		else if(!strcmp(argv[i], "-sp"))
 		{
-			props_default = strtol(argv[++i], NULL, 16);
+			png2AssetData->props_default = strtol(argv[++i], NULL, 16);
 		}
 		if(!strcmp(argv[i], "-px"))
 		{
-			pivot_x = atoi(argv[++i]);
+			png2AssetData->pivot_x = atoi(argv[++i]);
 		}
 		else if(!strcmp(argv[i], "-py"))
 		{
-			pivot_y = atoi(argv[++i]);
+			png2AssetData->pivot_y = atoi(argv[++i]);
 		}
 		else if(!strcmp(argv[i], "-pw"))
 		{
-			pivot_w = atoi(argv[++i]);
+			png2AssetData->pivot_w = atoi(argv[++i]);
 		}
 		else if(!strcmp(argv[i], "-ph"))
 		{
-			pivot_h = atoi(argv[++i]);
+			png2AssetData->pivot_h = atoi(argv[++i]);
 		}
 		else if(!strcmp(argv[i], "-spr8x8"))
 		{
-			image.tile_w = 8;
-			image.tile_h = 8;
-			sprite_mode = SPR_8x8;
+			png2AssetData->image.tile_w = 8;
+			png2AssetData->image.tile_h = 8;
+			png2AssetData->sprite_mode = SPR_8x8;
 		}
 		else if(!strcmp(argv[i], "-spr8x16"))
 		{
-			image.tile_w = 8;
-			image.tile_h = 16;
-			sprite_mode = SPR_8x16;
+			png2AssetData->image.tile_w = 8;
+			png2AssetData->image.tile_h = 16;
+			png2AssetData->sprite_mode = SPR_8x16;
 		}
 		else if(!strcmp(argv[i], "-spr16x16msx"))
 		{
-			image.tile_w = 16;
-			image.tile_h = 16;
-			sprite_mode = SPR_16x16_MSX;
+			png2AssetData->image.tile_w = 16;
+			png2AssetData->image.tile_h = 16;
+			png2AssetData->sprite_mode = SPR_16x16_MSX;
 		}
 		else if(!strcmp(argv[i], "-c"))
 		{
-			output_filename = argv[++i];
+			png2AssetData->output_filename = argv[++i];
 		}
 		else if(!strcmp(argv[i], "-b"))
 		{
-			bank = atoi(argv[++i]);
+			png2AssetData->bank = atoi(argv[++i]);
 		}
 		else if(!strcmp(argv[i], "-keep_palette_order"))
 		{
-			keep_palette_order = true;
+			png2AssetData->keep_palette_order = true;
 		}
 		else if(!strcmp(argv[i], "-repair_indexed_pal"))
 		{
-			repair_indexed_pal = true;
-			keep_palette_order = true; // -repair_indexed_pal requires -keep_palette_order, so force it on
+			png2AssetData->repair_indexed_pal = true;
+			png2AssetData->keep_palette_order = true; // -repair_indexed_pal requires -keep_palette_order, so force it on
 		}
 		else if(!strcmp(argv[i], "-noflip"))
 		{
-			flip_tiles = false;
+			png2AssetData->flip_tiles = false;
 		}
 		else if(!strcmp(argv[i], "-map"))
 		{
-			export_as_map = true;
+			png2AssetData->export_as_map = true;
 		}
 		else if(!strcmp(argv[i], "-use_map_attributes"))
 		{
-			use_map_attributes = true;
+			png2AssetData->use_map_attributes = true;
 		}
 		else if(!strcmp(argv[i], "-use_nes_attributes"))
 		{
-			use_map_attributes = true;
-			use_2x2_map_attributes = true;
-			pack_map_attributes = true;
+			png2AssetData->use_map_attributes = true;
+			png2AssetData->use_2x2_map_attributes = true;
+			png2AssetData->pack_map_attributes = true;
 		}
 		else if(!strcmp(argv[i], "-use_nes_colors"))
 		{
-			convert_rgb_to_nes = true;
+			png2AssetData->convert_rgb_to_nes = true;
 		}
 		else if(!strcmp(argv[i], "-use_structs"))
 		{
-			use_structs = true;
+			png2AssetData->use_structs = true;
 		}
 		else if(!strcmp(argv[i], "-bpp"))
 		{
-			bpp = atoi(argv[++i]);
+			png2AssetData->bpp = atoi(argv[++i]);
 		}
 		else if(!strcmp(argv[i], "-max_palettes"))
 		{
-			max_palettes = atoi(argv[++i]);
-			if(max_palettes == 0)
+			png2AssetData->max_palettes = atoi(argv[++i]);
+			if(png2AssetData->max_palettes == 0)
 			{
 				printf("-max_palettes must be larger than zero\n");
 				return 1;
@@ -179,10 +181,10 @@ int ProcessArguments(int argc, char* argv[]) {
 		else if(!strcmp(argv[i], "-pack_mode"))
 		{
 			std::string pack_mode_str = argv[++i];
-			if(pack_mode_str == "gb")  pack_mode = Tile::GB;
-			else if(pack_mode_str == "sgb") pack_mode = Tile::SGB;
-			else if(pack_mode_str == "sms") pack_mode = Tile::SMS;
-			else if(pack_mode_str == "1bpp") pack_mode = Tile::BPP1;
+			if(pack_mode_str == "gb")  png2AssetData->pack_mode = Tile::GB;
+			else if(pack_mode_str == "sgb") png2AssetData->pack_mode = Tile::SGB;
+			else if(pack_mode_str == "sms") png2AssetData->pack_mode = Tile::SMS;
+			else if(pack_mode_str == "1bpp") png2AssetData->pack_mode = Tile::BPP1;
 			else
 			{
 				printf("-pack_mode must be one of gb, sgb, sms, 1bpp\n");
@@ -191,52 +193,52 @@ int ProcessArguments(int argc, char* argv[]) {
 		}
 		else if(!strcmp(argv[i], "-tile_origin"))
 		{
-			tile_origin = atoi(argv[++i]);
+			png2AssetData->tile_origin = atoi(argv[++i]);
 		}
 		else if(!strcmp(argv[i], "-maps_only") || !strcmp(argv[i], "-metasprites_only"))
 		{
-			includeTileData = false;
+			png2AssetData->includeTileData = false;
 		}
 		else if(!strcmp(argv[i], "-tiles_only"))
 		{
-			includedMapOrMetaspriteData = false;
+			png2AssetData->includedMapOrMetaspriteData = false;
 		}
 		else if(!strcmp(argv[i], "-keep_duplicate_tiles"))
 		{
-			keep_duplicate_tiles = true;
+			png2AssetData->keep_duplicate_tiles = true;
 		}
 		else if(!strcmp(argv[i], "-no_palettes"))
 		{
-			include_palettes = false;
+			png2AssetData->include_palettes = false;
 		}
 		else if(!strcmp(argv[i], "-source_tileset"))
 		{
-			use_source_tileset = true;
-			includeTileData = false;
-			source_tileset = argv[++i];
+			png2AssetData->use_source_tileset = true;
+			png2AssetData->includeTileData = false;
+			png2AssetData->source_tileset = argv[++i];
 		}
 		else if(!strcmp(argv[i], "-bin"))
 		{
-			output_binary = true;
+			png2AssetData->output_binary = true;
 		}
 		else if(!strcmp(argv[i], "-transposed"))
 		{
-			output_transposed = true;
+			png2AssetData->output_transposed = true;
 		}
 	}
 
 
-	int slash_pos = (int)output_filename.find_last_of('/');
+	int slash_pos = (int)png2AssetData->output_filename.find_last_of('/');
 	if(slash_pos == -1)
-		slash_pos = (int)output_filename.find_last_of('\\');
-	int dot_pos = (int)output_filename.find_first_of('.', slash_pos == -1 ? 0 : slash_pos);
+		slash_pos = (int)png2AssetData->output_filename.find_last_of('\\');
+	int dot_pos = (int)png2AssetData->output_filename.find_first_of('.', slash_pos == -1 ? 0 : slash_pos);
 
-	output_filename_h = output_filename.substr(0, dot_pos) + ".h";
-	output_filename_bin = output_filename.substr(0, dot_pos) + "_map.bin";
-	output_filename_attributes_bin = output_filename.substr(0, dot_pos) + "_map_attributes.bin";
-	output_filename_tiles_bin = output_filename.substr(0, dot_pos) + "_tiles.bin";
-	data_name = output_filename.substr(slash_pos + 1, dot_pos - 1 - slash_pos);
-	replace(data_name.begin(), data_name.end(), '-', '_');
+	png2AssetData->output_filename_h = png2AssetData->output_filename.substr(0, dot_pos) + ".h";
+	png2AssetData->output_filename_bin = png2AssetData->output_filename.substr(0, dot_pos) + "_map.bin";
+	png2AssetData->output_filename_attributes_bin = png2AssetData->output_filename.substr(0, dot_pos) + "_map_attributes.bin";
+	png2AssetData->output_filename_tiles_bin = png2AssetData->output_filename.substr(0, dot_pos) + "_tiles.bin";
+	png2AssetData->data_name = png2AssetData->output_filename.substr(slash_pos + 1, dot_pos - 1 - slash_pos);
+	replace(png2AssetData->data_name.begin(), png2AssetData->data_name.end(), '-', '_');
 
 	return 0;
 }

@@ -17,19 +17,20 @@ using namespace std;
 
 #include "png2asset.h"
 #include "image_utils.h"
+#include "process_arguments.h"
 
-unsigned char GetMapAttribute(size_t x, size_t y)
+unsigned char GetMapAttribute(size_t x, size_t y,PNG2AssetData* p2ad)
 {
-	if(x < map_attributes_width && y < map_attributes_height)
-		return map_attributes[y * map_attributes_width + x];
+	if(x < p2ad->map_attributes_width && y < p2ad->map_attributes_height)
+		return p2ad->map_attributes[y * p2ad->map_attributes_width + x];
 	else
 		return 0;
 }
 
-void ReduceMapAttributes2x2(const vector< SetPal >& palettes)
+void ReduceMapAttributes2x2(const vector< SetPal >& palettes,PNG2AssetData* p2ad)
 {
-	size_t w = (map_attributes_width + 1) / 2;
-	size_t h = (map_attributes_height + 1) / 2;
+	size_t w = (p2ad->map_attributes_width + 1) / 2;
+	size_t h = (p2ad->map_attributes_height + 1) / 2;
 	vector< unsigned char > map_attributes_2x2;
 	map_attributes_2x2.resize(w * h);
 	for(size_t y = 0; y < h; y++)
@@ -37,13 +38,13 @@ void ReduceMapAttributes2x2(const vector< SetPal >& palettes)
 		for(size_t x = 0; x < w; x++)
 		{
 			// Use only Top-left attribute, ignoring the other three as they should now be identical
-			map_attributes_2x2[y * w + x] = GetMapAttribute(2 * x, 2 * y);
+			map_attributes_2x2[y * w + x] = GetMapAttribute(2 * x, 2 * y,p2ad);
 		}
 	}
 	// Overwrite old attributes
-	map_attributes_width = w;
-	map_attributes_height = h;
-	map_attributes = map_attributes_2x2;
+	p2ad->map_attributes_width = w;
+	p2ad->map_attributes_height = h;
+	p2ad->map_attributes = map_attributes_2x2;
 }
 
 //
@@ -52,79 +53,79 @@ void ReduceMapAttributes2x2(const vector< SetPal >& palettes)
 // * Width aligned to multiples of 2 to reflect the NES's packed attribute table
 // * Every 16th row is blank to reflect the unused row in the NES's packed attribute table
 //
-void AlignMapAttributes()
+void AlignMapAttributes(PNG2AssetData* p2ad)
 {
 	const size_t ATTRIBUTE_HEIGHT = 15;
 	const size_t ATTRIBUTE_ALIGNED_HEIGHT = 16;
 	vector< unsigned char > map_attributes_aligned;
-	size_t map_attributes_aligned_width = 2 * ((map_attributes_width + 1) / 2);
-	size_t num_vertical_nametables = (map_attributes_height + ATTRIBUTE_HEIGHT - 1) / ATTRIBUTE_HEIGHT;
+	size_t map_attributes_aligned_width = 2 * ((p2ad->map_attributes_width + 1) / 2);
+	size_t num_vertical_nametables = (p2ad->map_attributes_height + ATTRIBUTE_HEIGHT - 1) / ATTRIBUTE_HEIGHT;
 	map_attributes_aligned.resize(map_attributes_aligned_width * (num_vertical_nametables * ATTRIBUTE_ALIGNED_HEIGHT));
 	for(size_t i = 0; i < num_vertical_nametables; i++)
 	{
 		bool last_nametable = (i == num_vertical_nametables - 1);
-		size_t height = last_nametable ? (map_attributes_height - i * ATTRIBUTE_HEIGHT) : ATTRIBUTE_HEIGHT;
+		size_t height = last_nametable ? (p2ad->map_attributes_height - i * ATTRIBUTE_HEIGHT) : ATTRIBUTE_HEIGHT;
 		for(size_t y = 0; y < height; y++)
 		{
-			for(size_t x = 0; x < map_attributes_width; x++)
+			for(size_t x = 0; x < p2ad->map_attributes_width; x++)
 			{
 				map_attributes_aligned[(i * ATTRIBUTE_ALIGNED_HEIGHT + y) * map_attributes_aligned_width + x] =
-					map_attributes[(i * ATTRIBUTE_HEIGHT + y) * map_attributes_width + x];
+					p2ad->map_attributes[(i * ATTRIBUTE_HEIGHT + y) * p2ad->map_attributes_width + x];
 			}
 		}
 	}
 	// Overwrite old attributes
-	map_attributes_width = map_attributes_aligned_width;
-	map_attributes_height = num_vertical_nametables * ATTRIBUTE_ALIGNED_HEIGHT;
-	map_attributes = map_attributes_aligned;
+	p2ad->map_attributes_width = map_attributes_aligned_width;
+	p2ad->map_attributes_height = num_vertical_nametables * ATTRIBUTE_ALIGNED_HEIGHT;
+	p2ad->map_attributes = map_attributes_aligned;
 }
 
 //
 // Pack map attributes
 // (NES packs multiple 2-bit entries into one byte)
 //
-void PackMapAttributes()
+void PackMapAttributes(PNG2AssetData *p2ad)
 {
 	vector< unsigned char > map_attributes_packed;
-	map_attributes_packed_width = (map_attributes_width + 1) / 2;
-	map_attributes_packed_height = (map_attributes_height + 1) / 2;
-	map_attributes_packed.resize(map_attributes_packed_width * map_attributes_packed_height);
-	for(size_t y = 0; y < map_attributes_packed_height; y++)
+	p2ad->map_attributes_packed_width = (p2ad->map_attributes_width + 1) / 2;
+	p2ad->map_attributes_packed_height = (p2ad->map_attributes_height + 1) / 2;
+	map_attributes_packed.resize(p2ad->map_attributes_packed_width * p2ad->map_attributes_packed_height);
+	for(size_t y = 0; y < p2ad->map_attributes_packed_height; y++)
 	{
-		for(size_t x = 0; x < map_attributes_packed_width; x++)
+		for(size_t x = 0; x < p2ad->map_attributes_packed_width; x++)
 		{
-			unsigned char a_tl = GetMapAttribute(2 * x + 0, 2 * y + 0);
-			unsigned char a_tr = GetMapAttribute(2 * x + 1, 2 * y + 0);
-			unsigned char a_bl = GetMapAttribute(2 * x + 0, 2 * y + 1);
-			unsigned char a_br = GetMapAttribute(2 * x + 1, 2 * y + 1);
+			unsigned char a_tl = GetMapAttribute(2 * x + 0, 2 * y + 0, p2ad);
+			unsigned char a_tr = GetMapAttribute(2 * x + 1, 2 * y + 0, p2ad);
+			unsigned char a_bl = GetMapAttribute(2 * x + 0, 2 * y + 1, p2ad);
+			unsigned char a_br = GetMapAttribute(2 * x + 1, 2 * y + 1, p2ad);
 			unsigned char packed_bits = (a_br << 6) | (a_bl << 4) | (a_tr << 2) | (a_tl << 0);
-			map_attributes_packed[map_attributes_packed_width * y + x] = packed_bits;
+			map_attributes_packed[p2ad->map_attributes_packed_width * y + x] = packed_bits;
 		}
 	}
 	// Overwrite old attributes
-	map_attributes = map_attributes_packed;
+	p2ad->map_attributes = map_attributes_packed;
 }
 
-void HandleMapAttributes(vector< SetPal > palettes) {
-	map_attributes_width = image.w / 8;
-	map_attributes_height = image.h / 8;
+void HandleMapAttributes(vector< SetPal > palettes, PNG2AssetData* p2ad) {
+	p2ad->map_attributes_width = p2ad->image.w / 8;
+	p2ad->map_attributes_height = p2ad->image.h / 8;
 
 	// Optionally perform 2x2 reduction on attributes (NES attribute table has this format)
-	if(use_2x2_map_attributes)
+	if(p2ad->use_2x2_map_attributes)
 	{
 		// NES attribute map dimensions are half-resolution 
-		ReduceMapAttributes2x2(palettes);
+		ReduceMapAttributes2x2(palettes, p2ad);
 	}
 	// Optionally align and pack map attributes into NES PPU format
-	if(pack_map_attributes)
+	if(p2ad->pack_map_attributes)
 	{
-		AlignMapAttributes();
-		PackMapAttributes();
+		AlignMapAttributes(p2ad);
+		PackMapAttributes(p2ad);
 	}
 	else
 	{
 		// Use original attribute dimensions for packed
-		map_attributes_packed_width = map_attributes_width;
-		map_attributes_packed_height = map_attributes_height;
+		p2ad->map_attributes_packed_width = p2ad->map_attributes_width;
+		p2ad->map_attributes_packed_height = p2ad->map_attributes_height;
 	}
 }

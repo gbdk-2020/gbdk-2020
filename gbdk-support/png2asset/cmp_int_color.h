@@ -1,4 +1,10 @@
 #pragma once
+
+#include <set>
+#include "png2asset.h"
+
+using namespace std;
+
 //Functor to compare entries in SetPal
 struct CmpIntColor {
 	bool operator() (unsigned int const& c1, unsigned int const& c2) const
