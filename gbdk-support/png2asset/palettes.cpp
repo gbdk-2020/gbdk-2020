@@ -8,7 +8,6 @@
 #include <cstdint>
 
 #include "lodepng.h"
-#include "global.h"
 #include "mttile.h"
 #include "export.h"
 #include "map_attributes.h"

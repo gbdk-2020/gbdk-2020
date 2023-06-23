@@ -8,7 +8,6 @@
 #include <cstdint>
 
 #include "lodepng.h"
-#include "global.h"
 #include "mttile.h"
 
 #include "cmp_int_color.h"

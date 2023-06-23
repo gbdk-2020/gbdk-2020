@@ -8,7 +8,6 @@
 #include <cstdint>
 
 #include "lodepng.h"
-#include "global.h"
 #include "mttile.h"
 
 
@@ -54,18 +53,18 @@ bool FindTile(const Tile& t, size_t& idx, unsigned char& props,PNG2AssetData* pn
 	if(it != png2AssetData->tiles.end())
 	{
 		idx = (size_t)(it - png2AssetData->tiles.begin());
-		props = png2AssetData->props_default;
+		props = png2AssetData->arguments.props_default;
 		return true;
 	}
 
-	if(png2AssetData->flip_tiles)
+	if(png2AssetData->arguments.flip_tiles)
 	{
 		Tile tile = FlipV(t);
 		it = find(png2AssetData->tiles.begin(), png2AssetData->tiles.end(), tile);
 		if(it != png2AssetData->tiles.end())
 		{
 			idx = (size_t)(it - png2AssetData->tiles.begin());
-			props = png2AssetData->props_default | (1 << 5);
+			props = png2AssetData->arguments.props_default | (1 << 5);
 			return true;
 		}
 
@@ -74,7 +73,7 @@ bool FindTile(const Tile& t, size_t& idx, unsigned char& props,PNG2AssetData* pn
 		if(it != png2AssetData->tiles.end())
 		{
 			idx = (size_t)(it - png2AssetData->tiles.begin());
-			props = png2AssetData->props_default | (1 << 5) | (1 << 6);
+			props = png2AssetData->arguments.props_default | (1 << 5) | (1 << 6);
 			return true;
 		}
 
@@ -83,7 +82,7 @@ bool FindTile(const Tile& t, size_t& idx, unsigned char& props,PNG2AssetData* pn
 		if(it != png2AssetData->tiles.end())
 		{
 			idx = (size_t)(it - png2AssetData->tiles.begin());
-			props = png2AssetData->props_default | (1 << 6);
+			props = png2AssetData->arguments.props_default | (1 << 6);
 			return true;
 		}
 	}

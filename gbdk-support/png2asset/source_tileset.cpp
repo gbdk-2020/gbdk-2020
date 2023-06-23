@@ -8,7 +8,6 @@
 #include <cstdint>
 
 #include "lodepng.h"
-#include "global.h"
 #include "mttile.h"
 #include "export.h"
 
@@ -27,7 +26,7 @@ bool GetSourceTileset(bool repair_indexed_pal, bool keep_palette_order, unsigned
 	lodepng::State sourceTilesetState;
 	vector<unsigned char> buffer2;
 
-	lodepng::load_file(buffer2, png2AssetData->source_tileset);
+	lodepng::load_file(buffer2, png2AssetData->arguments.source_tileset);
 
 	// TODO: This code block below is mostly identical (aside from memcpy, var names) to the main indexed image load.
 	//       It should get deduplicated into a function.
@@ -67,7 +66,7 @@ bool GetSourceTileset(bool repair_indexed_pal, bool keep_palette_order, unsigned
 		}
 
 		if(repair_indexed_pal)
-			if(!image_indexed_repair_tile_palettes(png2AssetData->source_tileset_image, png2AssetData->use_2x2_map_attributes))
+			if(!image_indexed_repair_tile_palettes(png2AssetData->source_tileset_image, png2AssetData->arguments.use_2x2_map_attributes))
 				return 1;
 	}
 	else {
@@ -83,7 +82,7 @@ bool GetSourceTileset(bool repair_indexed_pal, bool keep_palette_order, unsigned
 		image32.colors_per_pal = png2AssetData->source_tileset_image.colors_per_pal;
 		image32.tile_w = png2AssetData->source_tileset_image.tile_w;
 		image32.tile_h = png2AssetData->source_tileset_image.tile_h;
-		int* palettes_per_tile = BuildPalettesAndAttributes(image32, png2AssetData->palettes, png2AssetData->use_2x2_map_attributes);
+		int* palettes_per_tile = BuildPalettesAndAttributes(image32, png2AssetData->palettes, png2AssetData->arguments.use_2x2_map_attributes);
 
 		//Create the indexed image
 		png2AssetData->source_tileset_image.data.clear();
@@ -94,7 +93,7 @@ bool GetSourceTileset(bool repair_indexed_pal, bool keep_palette_order, unsigned
 
 		png2AssetData->source_tileset_image.total_color_count = palette_count * png2AssetData->source_tileset_image.colors_per_pal;
 		png2AssetData->source_tileset_image.palette = new unsigned char[palette_count * png2AssetData->source_tileset_image.colors_per_pal * RGBA32_SZ]; //colors_per_pal colors * 4 bytes each
-		png2AssetData->source_total_color_count = png2AssetData->source_tileset_image.total_color_count;
+		png2AssetData->arguments.source_total_color_count = png2AssetData->source_tileset_image.total_color_count;
 
 		for(size_t p = 0; p < palette_count; ++p)
 		{
@@ -117,7 +116,7 @@ bool GetSourceTileset(bool repair_indexed_pal, bool keep_palette_order, unsigned
 				int color32 = (c32ptr[0] << 24) | (c32ptr[1] << 16) | (c32ptr[2] << 8) | c32ptr[3];
 				unsigned char palette = palettes_per_tile[(y / image32.tile_h) * (image32.w / image32.tile_w) + (x / image32.tile_w)];
 				unsigned char index = std::distance(png2AssetData->palettes[palette].begin(), png2AssetData->palettes[palette].find(color32));
-				png2AssetData->source_tileset_image.data.push_back((palette << png2AssetData->bpp) + index);
+				png2AssetData->source_tileset_image.data.push_back((palette << png2AssetData->arguments.bpp) + index);
 			}
 		}
 	}
@@ -126,19 +125,19 @@ bool GetSourceTileset(bool repair_indexed_pal, bool keep_palette_order, unsigned
 	// So we don't have to change any of the existing code
 	PNGImage temp = png2AssetData->image;
 	png2AssetData->image = png2AssetData->source_tileset_image;
-	png2AssetData->use_source_tileset = false;
+	png2AssetData->arguments.use_source_tileset = false;
 	GetMap(png2AssetData);
 
 	// Our source tileset shouldn't build the map arrays up
 	// Clear anything from the previous 'GetMap' call
 	png2AssetData->map.clear();
 	png2AssetData->map_attributes.clear();
-	png2AssetData->use_source_tileset = true;
+	png2AssetData->arguments.use_source_tileset = true;
 
 	// Change the image variable back
 	png2AssetData->image = temp;
 
-	png2AssetData->source_tileset_size = png2AssetData->tiles.size();
+	png2AssetData->arguments.source_tileset_size = png2AssetData->tiles.size();
 
 	printf("Got %d tiles from the source tileset.\n", (unsigned int)png2AssetData->tiles.size());
 	printf("Got %d palettes from the source tileset.\n", (unsigned int)(png2AssetData->source_tileset_image.total_color_count / png2AssetData->source_tileset_image.colors_per_pal));
@@ -154,7 +153,7 @@ int HandleSourceTileset(PNG2AssetData* png2AssetData) {
 	png2AssetData->source_tileset_image.tile_w = png2AssetData->image.tile_w;
 	png2AssetData->source_tileset_image.tile_h = png2AssetData->image.tile_h;
 
-	if(!GetSourceTileset(png2AssetData->repair_indexed_pal, png2AssetData->keep_palette_order, png2AssetData->max_palettes,  png2AssetData)) {
+	if(!GetSourceTileset(png2AssetData->arguments.repair_indexed_pal, png2AssetData->arguments.keep_palette_order, png2AssetData->arguments.max_palettes,  png2AssetData)) {
 		return 1;
 	}
 

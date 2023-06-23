@@ -9,18 +9,7 @@
 #include "png2asset.h"
 using namespace std;
 
-class PNG2AssetData {
-
-public:
-
-	PNG2AssetData(int argc, char* argv[]);
-	int Execute();
-
-	int errorCode;
-
-	// This was moved from outside the upcoming else statement when not using keep_palette_order
-	// So the 'GetSourceTileset' function can pre-populate it from the source tileset
-	vector< SetPal > palettes;
+struct PNG2AssetArguments {
 
 	string output_filename_h;
 	string output_filename_bin;
@@ -62,22 +51,35 @@ public:
 	unsigned int source_tileset_size;
 	bool includeTileData;
 	bool includedMapOrMetaspriteData;
-	PNGImage source_tileset_image;
 	bool use_source_tileset;
 	bool keep_duplicate_tiles;
 	bool include_palettes;
 
-	vector< Tile > tiles;
-	vector<	MetaSprite > sprites;
-	vector< unsigned char > map;
-	vector< unsigned char > map_attributes;
-	PNGImage image;
 	int props_default;  // Default Sprite props has no attributes enabled
 	bool use_structs;
 	bool flip_tiles;
 	Tile::PackMode pack_mode;
 
-	unsigned char rgb_to_nes[64];
 };
 
-int ProcessArguments(int argc, char* argv[], PNG2AssetData* png2AssetData);
+class PNG2AssetData {
+
+public:
+
+	PNG2AssetData(int argc, char* argv[]);
+	int Execute();
+
+	int errorCode;
+
+	PNG2AssetArguments arguments;
+
+	vector< SetPal > palettes;
+	PNGImage source_tileset_image;
+	vector< Tile > tiles;
+	vector<	MetaSprite > sprites;
+	vector< unsigned char > map;
+	vector< unsigned char > map_attributes;
+	PNGImage image;
+
+	unsigned char rgb_to_nes[64];
+};
