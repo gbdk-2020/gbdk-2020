@@ -15,6 +15,7 @@
 using namespace std;
 
 #include "png2asset.h"
+#include "png_image.h"
 #include "image_utils.h"
 
 SetPal GetPaletteColors(const PNGImage& image, int x, int y, int w, int h)

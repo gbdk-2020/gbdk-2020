@@ -1,7 +1,7 @@
 #pragma once
 
 #include <set>
-#include "png2asset.h"
+#include "png_image.h"
 
 using namespace std;
 

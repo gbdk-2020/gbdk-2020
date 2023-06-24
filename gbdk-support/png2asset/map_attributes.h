@@ -5,6 +5,6 @@
 using namespace std;
 unsigned char GetMapAttribute(size_t x, size_t y);
 void ReduceMapAttributes2x2(const vector< SetPal >& palettes);
-void AlignMapAttributes(PNG2AssetData* png2AssetData);
-void PackMapAttributes(PNG2AssetData* png2AssetData);
-void HandleMapAttributes( PNG2AssetData* png2AssetData);
+void AlignMapAttributes(PNG2AssetData* assetData);
+void PackMapAttributes(PNG2AssetData* assetData);
+void HandleMapAttributes( PNG2AssetData* assetData);

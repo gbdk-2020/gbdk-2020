@@ -12,7 +12,6 @@
 #include "export.h"
 #include "map_attributes.h"
 #include "palettes.h"
-#include "source_tileset.h"
 
 #include "cmp_int_color.h"
 

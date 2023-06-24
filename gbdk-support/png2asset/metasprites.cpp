@@ -18,51 +18,51 @@
 
 using namespace std;
 
-void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y, PNG2AssetData* png2AssetData)
+void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y, PNG2AssetData* assetData)
 {
 	int last_x = _x + pivot_x;
 	int last_y = _y + pivot_y;
 
-	png2AssetData->sprites.push_back(MetaSprite());
-	MetaSprite& mt_sprite = png2AssetData->sprites.back();
-	for(int y = _y; y < _y + _h && y < (int)png2AssetData->image.h; y += png2AssetData->image.tile_h)
+	assetData->sprites.push_back(MetaSprite());
+	MetaSprite& mt_sprite = assetData->sprites.back();
+	for(int y = _y; y < _y + _h && y < (int)assetData->image.h; y += assetData->image.tile_h)
 	{
-		for(int x = _x; x < _x + _w && x < (int)png2AssetData->image.w; x += png2AssetData->image.tile_w)
+		for(int x = _x; x < _x + _w && x < (int)assetData->image.w; x += assetData->image.tile_w)
 		{
-			Tile tile(png2AssetData->image.tile_h * png2AssetData->image.tile_w);
-			if(png2AssetData->image.ExtractTile(x, y, tile, png2AssetData->arguments.sprite_mode, png2AssetData->arguments.export_as_map, png2AssetData->arguments.use_map_attributes))
+			Tile tile(assetData->image.tile_h * assetData->image.tile_w);
+			if(assetData->image.ExtractTile(x, y, tile, assetData->args->sprite_mode, assetData->args->export_as_map, assetData->args->use_map_attributes))
 			{
 				size_t idx;
 				unsigned char props;
-				unsigned char pal_idx = png2AssetData->image.data[y * png2AssetData->image.w + x] >> 2; //We can pick the palette from the first pixel of this tile
+				unsigned char pal_idx = assetData->image.data[y * assetData->image.w + x] >> 2; //We can pick the palette from the first pixel of this tile
 
-				if(png2AssetData->arguments.keep_duplicate_tiles)
+				if(assetData->args->keep_duplicate_tiles)
 				{
-					png2AssetData->tiles.push_back(tile);
-					idx = png2AssetData->tiles.size() - 1;
-					props = png2AssetData->arguments.props_default;
+					assetData->tiles.push_back(tile);
+					idx = assetData->tiles.size() - 1;
+					props = assetData->args->props_default;
 				}
 				else
 				{
-					if(!FindTile(tile, idx, props, png2AssetData))
+					if(!FindTile(tile, idx, props, assetData))
 					{
-						if(png2AssetData->arguments.use_source_tileset) {
-							printf("found a tile not in the source tileset at %d,%d. The target tileset has %d extra tiles.\n", x, y, png2AssetData->arguments.extra_tile_count + 1);
-							png2AssetData->arguments.extra_tile_count++;
-							png2AssetData->arguments.includeTileData = true;
+						if(assetData->args->source_tilesets.size() > 0) {
+							printf("found a tile not in the source tileset at %d,%d. The target tileset has %d extra tiles.\n", x, y, assetData->args->extra_tile_count + 1);
+							assetData->args->extra_tile_count++;
+							assetData->args->includeTileData = true;
 						}
-						png2AssetData->tiles.push_back(tile);
-						idx = png2AssetData->tiles.size() - 1;
-						props = png2AssetData->arguments.props_default;
+						assetData->tiles.push_back(tile);
+						idx = assetData->tiles.size() - 1;
+						props = assetData->args->props_default;
 					}
 				}
 
 				props |= pal_idx;
 
 				// Scale up index based on 8x8 tiles-per-hardware sprite
-				if(png2AssetData->arguments.sprite_mode == SPR_8x16)
+				if(assetData->args->sprite_mode == SPR_8x16)
 					idx *= 2;
-				else if(png2AssetData->arguments.sprite_mode == SPR_16x16_MSX)
+				else if(assetData->args->sprite_mode == SPR_16x16_MSX)
 					idx *= 4;
 
 				mt_sprite.push_back(MTTile(x - last_x, y - last_y, (unsigned char)idx, props));
@@ -74,13 +74,13 @@ void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y, PNG
 }
 
 
-void GetAllMetasprites(PNG2AssetData* png2AssetData) {
+void GetAllMetasprites(PNG2AssetData* assetData) {
 	//Extract metasprites
-	for(int y = 0; y < (int)png2AssetData->image.h; y += png2AssetData->arguments.sprite_h)
+	for(int y = 0; y < (int)assetData->image.h; y += assetData->args->spriteSize.height)
 	{
-		for(int x = 0; x < (int)png2AssetData->image.w; x += png2AssetData->arguments.sprite_w)
+		for(int x = 0; x < (int)assetData->image.w; x += assetData->args->spriteSize.width)
 		{
-			GetMetaSprite(x, y, png2AssetData->arguments.sprite_w, png2AssetData->arguments.sprite_h, png2AssetData->arguments.pivot_x, png2AssetData->arguments.pivot_y, png2AssetData);
+			GetMetaSprite(x, y, assetData->args->spriteSize.width, assetData->args->spriteSize.height, assetData->args->pivot.x, assetData->args->pivot.y, assetData);
 		}
 	}
 }

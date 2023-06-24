@@ -6,4 +6,4 @@
 using namespace std;
 
 
-void GetMap( PNG2AssetData* png2AssetData);
+void GetMap( PNG2AssetData* assetData);

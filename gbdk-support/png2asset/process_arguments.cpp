@@ -12,51 +12,54 @@
 #include "export.h"
 #include "map_attributes.h"
 #include "palettes.h"
-#include "source_tileset.h"
 
 #include "cmp_int_color.h"
 
-using namespace std;
-
-#include "png2asset.h"
 #include "image_utils.h"
 #include "image_data.h"
 #include "maps.h"
 #include "metasprites.h"
 #include "metasprites_functions.h"
 #include "process_arguments.h"
+#include "png_image.h"
+#include "tiles.h"
 
 
+using namespace std;
 
-int PNG2AssetData::Execute() {
+int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) {
 
-	// if we are using a source tileset
-	if(this->arguments.use_source_tileset) {
+	//default values for some params
+	args->spriteSize.width = 0;
+	args->spriteSize.height = 0;
+	args->pivot.x = 0xFFFFFF;
+	args->pivot.y = 0xFFFFFF;
+	args->pivot.width = 0xFFFFFF;
+	args->pivot.height = 0xFFFFFF;
+	args->bank = -1;
+	args->keep_palette_order = false;
+	args->repair_indexed_pal = false;
+	args->output_binary = false;
+	args->output_transposed = false;
+	args->max_palettes = 8;
 
-		// Handle generation of the source tileset
-		int handleSourceTilesetValue = HandleSourceTileset(this);
+	args->use_structs = false;
+	args->export_as_map = false;
+	args->use_map_attributes = false;
+	args->use_2x2_map_attributes = false;
+	args->pack_map_attributes = false;
+	args->convert_rgb_to_nes = false;
+	args->map_attributes_size.width = 0;
+	args->map_attributes_size.height = 0;
+	args->map_attributes_packed_size.width = 0;
+	args->map_attributes_packed_size.height = 0;
+	args->sprite_mode = SPR_8x16;
+	args->source_tileset_size = 0;
+	args->source_total_color_count = 0;
 
-		// Return the error code if the function returns non-zero
-		if(handleSourceTilesetValue != 0) {
-			return handleSourceTilesetValue;
-		}
-	}
+	args->bpp = 2;
+	args->tile_origin = 0; // Default to no tile index offset
 
-	int readImageDataValue = ReadImageData(this);
-
-	// Return the error code if the function returns non-zero
-	if(readImageDataValue != 0) {
-		return readImageDataValue;
-	}
-
-	// Get the data depending on the type
-	if(this->arguments.export_as_map)GetMap(this);
-	else GetAllMetasprites(this);
-
-	return HandleExport(this);
-}
-
-PNG2AssetData::PNG2AssetData(int argc, char* argv[]) {
 
 	if(argc < 2)
 	{
@@ -96,183 +99,175 @@ PNG2AssetData::PNG2AssetData(int argc, char* argv[]) {
 
 		printf("-bin                export to binary format\n");
 		printf("-transposed         export transposed (column-by-column instead of row-by-row)\n");
-		errorCode = 0;
-		return;
+
+		return 0;
 	}
 
 	//default params
-	this->arguments.input_filename = argv[1];
-	this->arguments.output_filename = argv[1];
-	this->arguments.output_filename = this->arguments.output_filename.substr(0, this->arguments.output_filename.size() - 4) + ".c";
+	args->input_filename = argv[1];
+	args->output_filename = argv[1];
+	args->output_filename = args->output_filename.substr(0, args->output_filename.size() - 4) + ".c";
 
 	//Parse argv
 	for(int i = 2; i < argc; ++i)
 	{
 		if(!strcmp(argv[i], "-sw"))
 		{
-			this->arguments.sprite_w = atoi(argv[++i]);
+			args->spriteSize.width = atoi(argv[++i]);
 		}
 		else if(!strcmp(argv[i], "-sh"))
 		{
-			this->arguments.sprite_h = atoi(argv[++i]);
+			args->spriteSize.height = atoi(argv[++i]);
 		}
 		else if(!strcmp(argv[i], "-sp"))
 		{
-			this->arguments.props_default = strtol(argv[++i], NULL, 16);
+			args->props_default = strtol(argv[++i], NULL, 16);
 		}
 		if(!strcmp(argv[i], "-px"))
 		{
-			this->arguments.pivot_x = atoi(argv[++i]);
+			args->pivot.x = atoi(argv[++i]);
 		}
 		else if(!strcmp(argv[i], "-py"))
 		{
-			this->arguments.pivot_y = atoi(argv[++i]);
+			args->pivot.y = atoi(argv[++i]);
 		}
 		else if(!strcmp(argv[i], "-pw"))
 		{
-			this->arguments.pivot_w = atoi(argv[++i]);
+			args->pivot.width = atoi(argv[++i]);
 		}
 		else if(!strcmp(argv[i], "-ph"))
 		{
-			this->arguments.pivot_h = atoi(argv[++i]);
+			args->pivot.height = atoi(argv[++i]);
 		}
 		else if(!strcmp(argv[i], "-spr8x8"))
 		{
-			this->image.tile_w = 8;
-			this->image.tile_h = 8;
-			this->arguments.sprite_mode = SPR_8x8;
+			args->sprite_mode = SPR_8x8;
 		}
 		else if(!strcmp(argv[i], "-spr8x16"))
 		{
-			this->image.tile_w = 8;
-			this->image.tile_h = 16;
-			this->arguments.sprite_mode = SPR_8x16;
+			args->sprite_mode = SPR_8x16;
 		}
 		else if(!strcmp(argv[i], "-spr16x16msx"))
 		{
-			this->image.tile_w = 16;
-			this->image.tile_h = 16;
-			this->arguments.sprite_mode = SPR_16x16_MSX;
+			args->sprite_mode = SPR_16x16_MSX;
 		}
 		else if(!strcmp(argv[i], "-c"))
 		{
-			this->arguments.output_filename = argv[++i];
+			args->output_filename = argv[++i];
 		}
 		else if(!strcmp(argv[i], "-b"))
 		{
-			this->arguments.bank = atoi(argv[++i]);
+			args->bank = atoi(argv[++i]);
 		}
 		else if(!strcmp(argv[i], "-keep_palette_order"))
 		{
-			this->arguments.keep_palette_order = true;
+			args->keep_palette_order = true;
 		}
 		else if(!strcmp(argv[i], "-repair_indexed_pal"))
 		{
-			this->arguments.repair_indexed_pal = true;
-			this->arguments.keep_palette_order = true; // -repair_indexed_pal requires -keep_palette_order, so force it on
+			args->repair_indexed_pal = true;
+			args->keep_palette_order = true; // -repair_indexed_pal requires -keep_palette_order, so force it on
 		}
 		else if(!strcmp(argv[i], "-noflip"))
 		{
-			this->arguments.flip_tiles = false;
+			args->flip_tiles = false;
 		}
 		else if(!strcmp(argv[i], "-map"))
 		{
-			this->arguments.export_as_map = true;
+			args->export_as_map = true;
 		}
 		else if(!strcmp(argv[i], "-use_map_attributes"))
 		{
-			this->arguments.use_map_attributes = true;
+			args->use_map_attributes = true;
 		}
 		else if(!strcmp(argv[i], "-use_nes_attributes"))
 		{
-			this->arguments.use_map_attributes = true;
-			this->arguments.use_2x2_map_attributes = true;
-			this->arguments.pack_map_attributes = true;
+			args->use_map_attributes = true;
+			args->use_2x2_map_attributes = true;
+			args->pack_map_attributes = true;
 		}
 		else if(!strcmp(argv[i], "-use_nes_colors"))
 		{
-			this->arguments.convert_rgb_to_nes = true;
+			args->convert_rgb_to_nes = true;
 		}
 		else if(!strcmp(argv[i], "-use_structs"))
 		{
-			this->arguments.use_structs = true;
+			args->use_structs = true;
 		}
 		else if(!strcmp(argv[i], "-bpp"))
 		{
-			this->arguments.bpp = atoi(argv[++i]);
+			args->bpp = atoi(argv[++i]);
 		}
 		else if(!strcmp(argv[i], "-max_palettes"))
 		{
-			this->arguments.max_palettes = atoi(argv[++i]);
-			if(this->arguments.max_palettes == 0)
+			args->max_palettes = atoi(argv[++i]);
+			if(args->max_palettes == 0)
 			{
 				printf("-max_palettes must be larger than zero\n");
-				this->errorCode = 1;
-				return;
+				return 1;
 			}
 		}
 		else if(!strcmp(argv[i], "-pack_mode"))
 		{
 			std::string pack_mode_str = argv[++i];
-			if(pack_mode_str == "gb")  this->arguments.pack_mode = Tile::GB;
-			else if(pack_mode_str == "sgb") this->arguments.pack_mode = Tile::SGB;
-			else if(pack_mode_str == "sms") this->arguments.pack_mode = Tile::SMS;
-			else if(pack_mode_str == "1bpp") this->arguments.pack_mode = Tile::BPP1;
+			if(pack_mode_str == "gb")  args->pack_mode = Tile::GB;
+			else if(pack_mode_str == "sgb") args->pack_mode = Tile::SGB;
+			else if(pack_mode_str == "sms") args->pack_mode = Tile::SMS;
+			else if(pack_mode_str == "1bpp") args->pack_mode = Tile::BPP1;
 			else
 			{
 				printf("-pack_mode must be one of gb, sgb, sms, 1bpp\n");
-				this->errorCode = 1;
-				return;
+				return 1;
 			}
 		}
 		else if(!strcmp(argv[i], "-tile_origin"))
 		{
-			this->arguments.tile_origin = atoi(argv[++i]);
+			args->tile_origin = atoi(argv[++i]);
 		}
 		else if(!strcmp(argv[i], "-maps_only") || !strcmp(argv[i], "-metasprites_only"))
 		{
-			this->arguments.includeTileData = false;
+			args->includeTileData = false;
 		}
 		else if(!strcmp(argv[i], "-tiles_only"))
 		{
-			this->arguments.includedMapOrMetaspriteData = false;
+			args->includedMapOrMetaspriteData = false;
 		}
 		else if(!strcmp(argv[i], "-keep_duplicate_tiles"))
 		{
-			this->arguments.keep_duplicate_tiles = true;
+			args->keep_duplicate_tiles = true;
 		}
 		else if(!strcmp(argv[i], "-no_palettes"))
 		{
-			this->arguments.include_palettes = false;
+			args->include_palettes = false;
 		}
 		else if(!strcmp(argv[i], "-source_tileset"))
 		{
-			this->arguments.use_source_tileset = true;
-			this->arguments.includeTileData = false;
-			this->arguments.source_tileset = argv[++i];
+			args->includeTileData = false;
+			args->source_tilesets.push_back(argv[++i]);
 		}
 		else if(!strcmp(argv[i], "-bin"))
 		{
-			this->arguments.output_binary = true;
+			args->output_binary = true;
 		}
 		else if(!strcmp(argv[i], "-transposed"))
 		{
-			this->arguments.output_transposed = true;
+			args->output_transposed = true;
 		}
 	}
 
 
-	int slash_pos = (int)this->arguments.output_filename.find_last_of('/');
+	int slash_pos = (int)args->output_filename.find_last_of('/');
 	if(slash_pos == -1)
-		slash_pos = (int)this->arguments.output_filename.find_last_of('\\');
-	int dot_pos = (int)this->arguments.output_filename.find_first_of('.', slash_pos == -1 ? 0 : slash_pos);
+		slash_pos = (int)args->output_filename.find_last_of('\\');
+	int dot_pos = (int)args->output_filename.find_first_of('.', slash_pos == -1 ? 0 : slash_pos);
 
-	this->arguments.output_filename_h = this->arguments.output_filename.substr(0, dot_pos) + ".h";
-	this->arguments.output_filename_bin = this->arguments.output_filename.substr(0, dot_pos) + "_map.bin";
-	this->arguments.output_filename_attributes_bin = this->arguments.output_filename.substr(0, dot_pos) + "_map_attributes.bin";
-	this->arguments.output_filename_tiles_bin = this->arguments.output_filename.substr(0, dot_pos) + "_tiles.bin";
-	this->arguments.data_name = this->arguments.output_filename.substr(slash_pos + 1, dot_pos - 1 - slash_pos);
-	replace(this->arguments.data_name.begin(), this->arguments.data_name.end(), '-', '_');
+	args->output_filename_h = args->output_filename.substr(0, dot_pos) + ".h";
+	args->output_filename_bin = args->output_filename.substr(0, dot_pos) + "_map.bin";
+	args->output_filename_attributes_bin = args->output_filename.substr(0, dot_pos) + "_map_attributes.bin";
+	args->output_filename_tiles_bin = args->output_filename.substr(0, dot_pos) + "_tiles.bin";
+	args->data_name = args->output_filename.substr(slash_pos + 1, dot_pos - 1 - slash_pos);
+	replace(args->data_name.begin(), args->data_name.end(), '-', '_');
 
-	this->errorCode = 0;
+	return 0;
 }
+
