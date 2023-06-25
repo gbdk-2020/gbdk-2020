@@ -34,10 +34,8 @@ int main(int argc, char* argv[])
 	// Read all arguments
 	PNG2AssetArguments arguments;
 
-	errorCode = processPNG2AssetArguments(argc, argv, &arguments);
-
 	// Make sure we had no errors
-	if(errorCode != 0) {
+	if((errorCode = processPNG2AssetArguments(argc, argv, &arguments)) != 0) {
 		return errorCode;
 	}
 
@@ -46,20 +44,13 @@ int main(int argc, char* argv[])
 	// If we have a source tilest
 	if(arguments.source_tilesets.size()>0) {
 
-		// Create an exact copy of our tileset arguments
-		PNG2AssetArguments sourceTilesetArguments;
-		sourceTilesetArguments = arguments;
-
 		vector<string>::iterator sourceTilesetsIterator = arguments.source_tilesets.begin();
 
 		// Iterate through each source tileset and execute
 		for(sourceTilesetsIterator; sourceTilesetsIterator < arguments.source_tilesets.end(); sourceTilesetsIterator++) {
 
-			// Change our input filename to our current source tileset
-			sourceTilesetArguments.input_filename = *sourceTilesetsIterator;
-
-			// Run with our source tileset arguments
-			errorCode = png2AssetInstance.Execute(&sourceTilesetArguments);
+			// Run with our source tileset filename 
+			errorCode = png2AssetInstance.Execute(&arguments, *sourceTilesetsIterator);
 
 			// Return the error code if the function returns non-zero
 			if(errorCode != 0) {
@@ -73,7 +64,7 @@ int main(int argc, char* argv[])
 	}
 
 	// Return the error code if the function returns non-zero
-	if((errorCode = png2AssetInstance.Execute(&arguments)) != 0) {
+	if((errorCode = png2AssetInstance.Execute(&arguments, arguments.input_filename)) != 0) {
 		return errorCode;
 	}
 
@@ -81,7 +72,7 @@ int main(int argc, char* argv[])
 }
 
 
-int PNG2AssetData::Execute(PNG2AssetArguments* arguments){
+int PNG2AssetData::Execute(PNG2AssetArguments* arguments, string  input_filename){
 
 	this->args = arguments;
 
@@ -101,7 +92,7 @@ int PNG2AssetData::Execute(PNG2AssetArguments* arguments){
 		this->image.tile_h = 16;
 	}
 
-	int readImageDataValue = ReadImageData(this);
+	int readImageDataValue = ReadImageData(this, input_filename);
 
 	// Return the error code if the function returns non-zero
 	if(readImageDataValue != 0) {

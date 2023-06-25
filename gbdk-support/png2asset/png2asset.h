@@ -16,7 +16,7 @@ class PNG2AssetData {
 
 public:
 
-	int Execute(PNG2AssetArguments* arguments);
+	int Execute(PNG2AssetArguments* arguments, string  input_filename);
 	int Export();
 
 	int errorCode;

@@ -28,11 +28,11 @@ using namespace std;
 int decodePNG(vector<unsigned char>& out_image, unsigned long& image_width, unsigned long& image_height, const unsigned char* in_png, size_t in_size, bool convert_to_rgba32 = true);
 void loadFile(vector<unsigned char>& buffer, const std::string& filename);
 
-int ReadImageData_KeepPaletteOrder(  PNG2AssetData* assetData) {
+int ReadImageData_KeepPaletteOrder(  PNG2AssetData* assetData, string  input_filename) {
 
 	//load and decode png
 	vector<unsigned char> buffer;
-	lodepng::load_file(buffer, assetData->args->input_filename);
+	lodepng::load_file(buffer, input_filename);
 	lodepng::State state;
 
 
@@ -101,7 +101,7 @@ int ReadImageData_KeepPaletteOrder(  PNG2AssetData* assetData) {
 	return 0;
 }
 
-int ReadImageData_Default(PNG2AssetData* assetData) {
+int ReadImageData_Default(PNG2AssetData* assetData, string  input_filename) {
 
 
 
@@ -175,7 +175,7 @@ int ReadImageData_Default(PNG2AssetData* assetData) {
 	return 0;
 }
 
-int ReadImageData( PNG2AssetData* assetData) {
+int ReadImageData( PNG2AssetData* assetData, string  input_filename) {
 
 	assetData->image.colors_per_pal = 1 << assetData->args->bpp;
 
@@ -193,13 +193,13 @@ int ReadImageData( PNG2AssetData* assetData) {
 	if(assetData->args->keep_palette_order) {
 		
 		// Save the error code
-		errorCode= ReadImageData_KeepPaletteOrder(assetData);
+		errorCode= ReadImageData_KeepPaletteOrder(assetData,  input_filename);
 	}
 	else
 	{
 
 		// Save the error code
-		errorCode= ReadImageData_Default(assetData);
+		errorCode= ReadImageData_Default(assetData,  input_filename);
 	}
 
 	if(errorCode != 0)return errorCode;
