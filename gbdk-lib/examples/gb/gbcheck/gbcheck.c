@@ -1,6 +1,6 @@
 #include <gbdk/platform.h>
 #include <stdio.h>
-void main()
+void main(void)
 {
     // Wait 4 frames
     // For PAL SNES(SGB) this delay is required on startup
