@@ -56,33 +56,35 @@ __vram_transfer_buffer_temp::           .ds 1
 ;
 .ppu_stripe_begin_horizontal::
     clc
-    jmp .ppu_stripe_begin
+    bit *.crt0_forced_blanking
+    bpl .ppu_stripe_begin_indirect
+    ; Direct write
+    stx PPUADDR
+    sta PPUADDR
+    ; Clear inc-by-32 bit in both PPUCTRL and _shadow_PPUCTRL, as NMI may re-write PPUCTRL
+    lda *_shadow_PPUCTRL
+    and #0xFB
+    sta *_shadow_PPUCTRL
+    sta PPUCTRL
+    rts
 
 ;
 ; Begin a vertical stripe
 ;
 .ppu_stripe_begin_vertical::
     sec
-    jmp .ppu_stripe_begin
-
-;
-; Begin a stripe (carry indicates vertical stripe)
-;
-.ppu_stripe_begin::
     bit *.crt0_forced_blanking
-    bpl 1$
+    bpl .ppu_stripe_begin_indirect
     ; Direct write
     stx PPUADDR
     sta PPUADDR
-    ; Set inc-by-32 bit in PPUCTRL as well
-    lda #0
-    rol
-    asl
-    asl
+    ; Set inc-by-32 bit in both PPUCTRL and _shadow_PPUCTRL, as NMI may re-write PPUCTRL
     lda *_shadow_PPUCTRL
+    ora #0x04
+    sta *_shadow_PPUCTRL
     sta PPUCTRL
     rts
-1$:
+
 .ppu_stripe_begin_indirect:
     ; Indirect write via transfer buffer
     sty *__vram_transfer_buffer_temp
