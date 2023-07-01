@@ -215,9 +215,14 @@ Compression utility.
 
 For detailed settings see @ref gbcompress-settings
 
-Compresses (and decompresses) binary file data with the gbcompress algorithm (also used in GBTD/GBMB). Decompression support is available in GBDK, see @ref gb_decompress().
+Compresses (and decompresses) binary file data with the gbcompress algorithm (also used in GBTD/GBMB). Decompression support is available in GBDK:
+- gb_decompress(), gb_decompress_bkg_data(),  gb_decompress_win_data(), gb_decompress_sprite_data()
+- The `cross-platform/gbdecompress` example demonstrates how to use this compression
 
-Can also compress (and decompress) using block style RLE encoding with the `--alg=rle` flag. Decompression support is available in GBDK, see @ref rle_decompress().
+
+The utility can also compress (and decompress) using block style RLE encoding with the `--alg=rle` flag. Decompression support is available in GBDK:
+- rle_init(), rle_decompress()
+- The `cross-platform/rle_map` example demonstrates how to use this compression
 
 
 @anchor utility_png2asset

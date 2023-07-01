@@ -8,7 +8,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
 
 ## GBDK-2020 4.2
   2023/x
-  - Includes SDCC version 14...TODO... with GBDK-2020 patches for Z80 and NES
+  - Includes SDCC version ~4.3 with GBDK-2020 patches for Z80 and NES
     - ([Patched SDCC Builds](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases) with support for Sega GG/SMS and the Nintendo NES are used. See the [github workflow](https://github.com/gbdk-2020/gbdk-2020-sdcc/tree/main/.github/workflows) for details
   - Library
     - Added: set_bkg_attributes(), set_bkg_submap_attributes()
@@ -52,6 +52,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
      - Metasprites: Added sub-palette switching for GBC and NES, software metasprite flipping for sms/gg
      - Large Map: Added color for supported platforms
      - LCD ISR Wobble: Improved interrupt flag settings
+     - Added GB-Type example:
   - Docs:
     - Added @ref using_cgb_features "Using Game Boy Color Features"
     - Added SDAS assembler manual (asmlnk_manual.txt)
