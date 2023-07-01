@@ -8,12 +8,15 @@ GBDK_HOME = ../../../
 
 LCC = $(GBDK_HOME)bin/lcc 
 
+# Flag to enable optional Super Game Boy support in the ROM Cartridge header
+LCCFLAGS =  -Wm-ys
+
 # You can uncomment the line below to turn on debug output
 # LCCFLAGS += -debug # Uncomment to enable debug output
 # LCCFLAGS += -v     # Uncomment for lcc verbose output
 
 # You can set the name of the .gb ROM file here
-PROJECTNAME    = Example
+PROJECTNAME    = gbtype
 
 BINS	    = $(PROJECTNAME).gb
 CSOURCES   := $(wildcard *.c)
