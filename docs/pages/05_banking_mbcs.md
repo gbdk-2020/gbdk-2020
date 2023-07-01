@@ -29,7 +29,7 @@ For most projects we recommend __MBC5__.
   - __MBC1 is not recommended__. Some banks in it's range are unavailable. See pandocs for more details. https://gbdev.io/pandocs/MBC1
 
   
-### Bank 0 Size Limit and Overlows When Using MBCs
+### Bank 0 Size Limit and Overflows When Using MBCs
 When using MBCs and bank switching the space used in the lower fixed Bank `0` **must be <= 16K bytes**. Otherwise it's data will overflow into Bank `1` and may be overwriten or overwrite other data, and can get switched out when banks are changed.
 
 See the @ref faq_bank_overflow_errors "FAQ entry about bank overflow errors".
@@ -190,6 +190,7 @@ Banked functions (located in a switchable ROM bank)
   - May use data in any bank: __NO__
     - May only use data from fixed Bank 0 and the currently active bank.
     - A @ref wrapped_function_for_banked_data "NONBANKED wrapper function" may be used to access data in other banks.
+    - Banks cannot be switched manually from inside a BANKED function (otherwise it will switch out it's own function code as it is executing it, likely leading to a crash).
 
 Limitations:
   - SDCC banked calls and far_pointers in GBDK only save one byte for the ROM bank. So, for example, they are limited to __bank 31__ max for MBC1 and __bank 255__ max for MBC5. This is due to the bank switching for those MBCs requiring a second, additional write to select the upper bits for more banks (banks 32+ in MBC1 and banks 256+ in MBC5).

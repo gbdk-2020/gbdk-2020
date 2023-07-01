@@ -40,7 +40,7 @@ If you wish to use the original tools, you must add the `const` keyword every ti
 
 @anchor best_practice_dont_read_vram
 ## Avoid Reading from VRAM
-In general avoid reading from VRAM since that memory is not accessible at all times. If GBDK a API function which reads from VRAM (such as @ref get_bkg_tile_xy()) is called during a video mode when VRAM is not accessible, then that function call will delay until VRAM becomes accessible again. This can cause unnecessary slowdowns when running programs on the Game Boy.
+In general avoid reading from VRAM since that memory is not accessible at all times. If GBDK a API function which reads from VRAM (such as @ref get_bkg_tile_xy()) is called during a video mode when VRAM is not accessible, then that function call will delay until VRAM becomes accessible again. This can cause unnecessary slowdowns when running programs on the Game Boy. It is also not supported by GBDK on the NES platform.
 
 Instead it is better to store things such as map data in general purpose RAM which does not have video mode access limitations.
 

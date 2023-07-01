@@ -309,7 +309,7 @@ sdcc-install: check-SDCCDIR
 	@for i in $(SDCC_BINS); do \
 	cp $(SDCCDIR)/bin/$$i $(BUILDDIR)/bin/ && echo "-> $$i" ; \
 	done
-	cp -r $(SDCCDIR)/libexec $(BUILDDIR) && echo "-> cc1"
+	@cp -r $(SDCCDIR)/libexec $(BUILDDIR) && echo "-> cc1"
 
 # Final binary
 binary:
