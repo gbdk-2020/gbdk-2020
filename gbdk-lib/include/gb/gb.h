@@ -538,6 +538,13 @@ __endasm; \
 */
 #define SWITCH_ROM(b) (_current_bank = (b), rROMB0 = (b))
 
+/** Switches SRAM bank on MBC1 and other compatible MBCs
+    @param b   SRAM bank to switch to
+
+    Before switching SRAM banks enable it using @ref ENABLE_RAM
+
+    @see SWITCH_RAM_MBC1, SWITCH_RAM_MBC5
+*/
 #define SWITCH_RAM(b) (rRAMB = (b))
 
 #define ENABLE_RAM (rRAMG = 0x0A)
@@ -559,16 +566,14 @@ __endasm; \
 */
 #define SWITCH_ROM_MBC1(b) SWITCH_ROM(b)
 
-/** Switches SRAM bank on MBC1 and other compaticle MBCs
+/** Switches SRAM bank on MBC1 and other compatible MBCs
     @param b   SRAM bank to switch to
+
+    Before switching SRAM banks enable it using @ref ENABLE_RAM
+
+    @see SWITCH_RAM, SWITCH_RAM_MBC5
 */
 #define SWITCH_RAM_MBC1(b) SWITCH_RAM(b)
-
-/** Switches SRAM bank on MBC1 and other compaticle MBCs
-    @param b   SRAM bank to switch to
-
-    @see SWITCH_RAM_MBC1, SWITCH_RAM_MBC5
-*/
 
 /** Enables SRAM on MBC1
 */
@@ -613,6 +618,8 @@ __endasm; \
 
 /** Switches SRAM bank on MBC5
     @param b   SRAM bank to switch to
+
+    Before switching SRAM banks enable it using @ref ENABLE_RAM
 */
 #define SWITCH_RAM_MBC5(b) SWITCH_RAM(b)
 
@@ -1385,7 +1392,7 @@ void set_win_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) OLD
 
     See @ref set_1bpp_colors for details about setting the Foreground and Background colors.
 
-    @see set_bkg_data, set_bkg_1bpp_data, set_win_data, set_1bpp_colors
+    @see set_bkg_data, set_win_data, set_1bpp_colors
     @see set_bkg_1bpp_data, set_sprite_1bpp_data
 */
 void set_win_1bpp_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) OLDCALL PRESERVES_REGS(b, c);
