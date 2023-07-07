@@ -110,7 +110,7 @@
 
         ;; Global variables
         .globl  .mode
-        .globl  .tmp
+        .define .tmp "__TEMP"
 
         .globl _shadow_PPUCTRL, _shadow_PPUMASK
         .globl _bkg_scroll_x, _bkg_scroll_y

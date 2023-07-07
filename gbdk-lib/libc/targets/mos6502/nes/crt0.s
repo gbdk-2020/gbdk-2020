@@ -74,15 +74,14 @@ __crt0_spritePageValid:                 .ds 1
 __crt0_NMI_Done:                        .ds 1
 __crt0_NMI_insideNMI:                   .ds 1
 __crt0_ScrollHV:                        .ds 1
-__crt0_NMITEMP:                         .ds 4
 .mode::                                 .ds 1
-.tmp::                                  .ds 2
 _bkg_scroll_x::                         .ds 1
 _bkg_scroll_y::                         .ds 1
 _attribute_row_dirty::                  .ds 1
 _attribute_column_dirty::               .ds 1
 .crt0_forced_blanking::                 .ds 1
-.tempA::                                .ds 1
+
+.define __crt0_NMITEMP "___SDCC_m6502_ret4"
 
 .area _CODE
 
@@ -215,8 +214,8 @@ DoUpdateVRAM_valid_loop:
 ;                        = 8 * (6*NumTransfers + NumBytesTransferred + 7)
 ;
 ProcessDrawList:
-    ProcessDrawList_tempX  = __crt0_NMITEMP+2
-    ProcessDrawList_addr   = __crt0_NMITEMP+0
+    .define ProcessDrawList_tempX "__crt0_NMITEMP+2"
+    .define ProcessDrawList_addr  "__crt0_NMITEMP+0"
     lda #>ProcessDrawList_UnrolledCopyLoop  ; +2
     sta *ProcessDrawList_addr+1             ; +3
     tsx                                     ; +2

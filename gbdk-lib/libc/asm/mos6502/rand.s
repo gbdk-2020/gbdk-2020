@@ -13,6 +13,8 @@ ___rand_seed::
 
 .area _HOME
 
+.define .tmp "__TEMP"
+
 ;
 ; Returns an 8-bit / 16-bit rand value and updates the seed.
 ;

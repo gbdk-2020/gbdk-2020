@@ -38,7 +38,7 @@ arg_entry llist0_defaults_nes[] = {
     {.searchkey= "_CODE=",       .addflag= "-b",.addvalue= "_CODE=0xC000",       .found = false},
     {.searchkey= "VECTORS=",     .addflag= "-b",.addvalue= "VECTORS=0xFFFA",     .found = false},
     {.searchkey= "OSEG=",        .addflag= "-b",.addvalue= "OSEG=0x00",          .found = false},
-    {.searchkey= "_ZP=",         .addflag= "-b",.addvalue= "_ZP=0x30",           .found = false},
+    {.searchkey= "_ZP=",         .addflag= "-b",.addvalue= "_ZP=0x10",           .found = false},
 };
 
 // Port/Platform specific settings

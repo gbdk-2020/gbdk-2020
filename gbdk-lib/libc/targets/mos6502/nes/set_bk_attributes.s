@@ -14,7 +14,6 @@
     .attribute_y_odd:                       .ds 1
     .attribute_num_columns_odd:             .ds 1
     .attribute_num_rows_odd:                .ds 1
-    .row_dirty_mask:                        .ds 1
 
     .area   _HOME
 
