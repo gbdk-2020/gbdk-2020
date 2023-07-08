@@ -1,7 +1,7 @@
         ;; Transfer buffer (lower half of hardware stack)
         __vram_transfer_buffer = 0x100
         ;; Number of 8-cycles available each frame for transfer buffer
-        VRAM_DELAY_CYCLES_X8  = 170
+        VRAM_DELAY_CYCLES_X8  = 167
 
         ;;  Keypad
         .UP             = 0x10

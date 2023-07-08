@@ -23,15 +23,15 @@ b_wait_frames = 0
     sta PPUADDR
     lda #<0x3F00
     sta PPUADDR
-    ldx *__crt0_paletteShadow
+    ldx __crt0_paletteShadow
     i = 0
 .rept 8
     stx PPUDATA
-    lda *(__crt0_paletteShadow+1+3*i+0)
+    lda (__crt0_paletteShadow+1+3*i+0)
     sta PPUDATA
-    lda *(__crt0_paletteShadow+1+3*i+1)
+    lda (__crt0_paletteShadow+1+3*i+1)
     sta PPUDATA
-    lda *(__crt0_paletteShadow+1+3*i+2)
+    lda (__crt0_paletteShadow+1+3*i+2)
     sta PPUDATA
     i = i + 1
 .endm
@@ -69,7 +69,6 @@ __current_bank::                        .ds 1
 _sys_time::                             .ds 2
 _shadow_PPUCTRL::                       .ds 1
 _shadow_PPUMASK::                       .ds 1
-__crt0_paletteShadow::                  .ds 25
 __crt0_spritePageValid:                 .ds 1
 __crt0_NMI_Done:                        .ds 1
 __crt0_NMI_insideNMI:                   .ds 1
@@ -82,6 +81,9 @@ _attribute_column_dirty::               .ds 1
 .crt0_forced_blanking::                 .ds 1
 
 .define __crt0_NMITEMP "___SDCC_m6502_ret4"
+
+.area _BSS
+__crt0_paletteShadow::                  .ds 25
 
 .area _CODE
 
@@ -273,39 +275,21 @@ __crt0_IRQ:
 __crt0_setPalette:
     ; Set background color to 30 (white)
     lda #0x30
-    sta *__crt0_paletteShadow
+    sta __crt0_paletteShadow
     ; set all background / sprite sub-palettes to 10, 00, 1D
+    ldx #0x1F
+1$:
+    lda #0x1D
+    sta __crt0_paletteShadow,x
+    dex
+    lda #0x00
+    sta __crt0_paletteShadow,x
+    dex
     lda #0x10
-    ldx #0x00
-    ldy #0x1D
-    ;
-    sta *(__crt0_paletteShadow+1)
-    sta *(__crt0_paletteShadow+1+12)
-    stx *(__crt0_paletteShadow+2)
-    stx *(__crt0_paletteShadow+2+12)
-    sty *(__crt0_paletteShadow+3)
-    sty *(__crt0_paletteShadow+3+12)
-    ;
-    sta *(__crt0_paletteShadow+4)
-    sta *(__crt0_paletteShadow+4+12)
-    stx *(__crt0_paletteShadow+5)
-    stx *(__crt0_paletteShadow+5+12)
-    sty *(__crt0_paletteShadow+6)
-    sty *(__crt0_paletteShadow+6+12)
-    ;
-    sta *(__crt0_paletteShadow+7)
-    sta *(__crt0_paletteShadow+7+12)
-    stx *(__crt0_paletteShadow+8)
-    stx *(__crt0_paletteShadow+8+12)
-    sty *(__crt0_paletteShadow+9)
-    sty *(__crt0_paletteShadow+9+12)
-    ;
-    sta *(__crt0_paletteShadow+10)
-    sta *(__crt0_paletteShadow+10+12)
-    stx *(__crt0_paletteShadow+11)
-    stx *(__crt0_paletteShadow+11+12)
-    sty *(__crt0_paletteShadow+12)
-    sty *(__crt0_paletteShadow+12+12)
+    sta __crt0_paletteShadow,x
+    dex
+    dex
+    bpl 1$
     rts
 
 __crt0_waitPPU:
