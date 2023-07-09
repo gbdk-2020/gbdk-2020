@@ -40,7 +40,7 @@ VRAM_MAX_STRIPE_SIZE    = VRAM_HDR_SIZEOF + VRAM_MAX_BYTES
 .endm
 
 .area   OSEG (PAG, OVR)
-_set_vram_byte_PARM_3:: .ds 1
+_set_vram_byte_PARM_2:: .ds 1
     
 .area _ZP (PAG)
 __vram_transfer_buffer_valid::          .ds 1
@@ -197,7 +197,7 @@ _set_vram_byte::
     ; Direct write
     stx PPUADDR
     sta PPUADDR
-    ldy *_set_vram_byte_PARM_3
+    ldy *_set_vram_byte_PARM_2
     sty PPUDATA
     rts
 
@@ -278,7 +278,7 @@ _set_vram_byte::
     lda *ppu_addr
     sta __vram_transfer_buffer+VRAM_HDR_PPULO,y
     ; write data byte
-    lda *_set_vram_byte_PARM_3
+    lda *_set_vram_byte_PARM_2
     sta __vram_transfer_buffer+VRAM_HDR_SIZEOF,y
     ; Increase write pointer
     tya
@@ -320,7 +320,7 @@ _set_vram_byte::
 .ppu_stripe_append_1byte:
     ; Append 1 byte
     inc __vram_transfer_buffer+VRAM_HDR_LENGTH,x
-    lda *_set_vram_byte_PARM_3
+    lda *_set_vram_byte_PARM_2
     ldx *__vram_transfer_buffer_pos_w
     sta __vram_transfer_buffer,x
     inx
