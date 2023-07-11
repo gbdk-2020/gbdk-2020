@@ -148,6 +148,88 @@ void set_sprite_palette_entry(uint8_t palette, uint8_t entry, palette_color_t rg
  */
 #define SCREENHEIGHT DEVICE_SCREEN_PX_HEIGHT
 
+/** Interrupt handlers
+ */
+typedef void (*int_handler)(void) NONBANKED;
+
+/** The remove functions will remove any interrupt handler.
+
+   A handler of NULL will cause bad things
+   to happen if the given interrupt is enabled.
+
+   Removes the VBL interrupt handler. @see add_VBL()
+*/
+void remove_VBL(int_handler h);
+
+/** Removes the LCD interrupt handler.
+    @see add_LCD(), remove_VBL()
+*/
+void remove_LCD(int_handler h);
+
+/** Adds a Vertical Blanking interrupt handler.
+
+    @param h  The handler to be called whenever a V-blank
+    interrupt occurs.
+
+    Only a single handler is currently supported for NES.
+
+    __Do not__ use the function definition attributes
+    @ref CRITICAL and @ref INTERRUPT when declaring
+    ISR functions added via add_VBL() (or LCD, etc).
+    Those attributes are only required when constructing
+    a bare jump from the interrupt vector itself (such as
+    with @ref ISR_VECTOR()).
+
+    ISR handlers added using add_VBL()/etc are instead
+    called via the GBDK ISR dispatcher which makes
+    the extra function attributes unecessary.
+
+    @note The default GBDK VBL is installed automatically.
+
+    @note On the current NES implementation, this handler
+    is actually faked, and called before vblank occurs, by 
+    wait_vbl_done. Writes to PPU registers should be done to
+    the shadow_ versions, so they are updated by the default 
+    VBL handler only when vblank actually occurs.
+
+    @see ISR_VECTOR()
+*/
+void add_VBL(int_handler h);
+
+/** Adds a LCD interrupt handler.
+
+    Called when the scanline matches the _lcd_scanline variables.
+
+    Only a single handler is currently supported for NES.
+
+    The use-case is to indicate to the user when the
+    video hardware is about to redraw a given LCD line.
+    This can be useful for dynamically controlling the
+    scrolling registers to perform special video effects.
+
+    __Do not__ use the function definition attributes
+    @ref CRITICAL and @ref INTERRUPT when declaring
+    ISR functions added via add_VBL() (or LCD, etc).
+    Those attributes are only required when constructing
+    a bare jump from the interrupt vector itself (such as
+    with @ref ISR_VECTOR()).
+
+    ISR handlers added using add_VBL()/etc are instead
+    called via the GBDK ISR dispatcher which makes
+    the extra function attributes unecessary.
+
+    @note On the current NES implementation, this handler
+    is actually faked, and called by the default VBL handler
+    after a manual delay loop. Only one such faked "interrupt"
+    is possible per frame.
+    This means the CPU cycles wasted in the delay loop increase
+    with higher values of _lcd_scanline. In practice, it makes
+    this functionality mostly suited for a top status bar.
+
+    @see add_VBL, nowait_int_handler, ISR_VECTOR()
+*/
+void add_LCD(int_handler h);
+
 /** Set the current screen mode - one of M_* modes
 
     Normally used by internal functions only.
