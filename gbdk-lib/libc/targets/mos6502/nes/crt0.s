@@ -134,6 +134,18 @@ NotInsideNMI:
     ora *__crt0_ScrollHV
     sta PPUCTRL
 
+    ; Call fake LCD isr
+    ldx *__lcd_scanline
+    beq 1$
+    jsr .delay_to_lcd_scanline
+1$:
+    ; Adjust to align to just-before-hblank
+    nop
+    nop
+    nop
+    ; Call the handler
+    jsr .jmp_to_LCD_isr
+
     pla
     tay
     pla
@@ -261,6 +273,45 @@ ProcessDrawList_EndOfList:
     rts                                 ; +6
     ; = 3 + 2 + 2 + 3 + 3 + 6 = 19
 
+;
+; Delays until specified (non-zero) scanline is reached
+;
+; First scanline's delay needs adjusting for cycle cost of subroutine execution:
+; beq-not-taken -1
+; jsr           +6
+; lda #0        +2
+; sta *.acc     +3
+; ldy #N        +2
+; nop           +2
+; nop           +2
+; bne-taken     +3
+; rts           +6
+; -> 25 cycles less
+; -> N = 19-25/5 = 19-5
+;
+.define .acc "___SDCC_m6502_ret4"
+.delay_to_lcd_scanline::
+    lda #0
+    sta *.acc
+    ldy #(19-5) 
+    nop
+    nop
+    bne 2$
+1$:
+    ldy #19
+2$:
+    dey
+    bne 2$      ; -> 2 + 18*5 + 4 = 91 cycles
+    lda *.acc
+    clc
+    adc #85
+    bcc 3$
+3$:
+    sta *.acc   ; -> 12.666 cycles
+    dex
+    bne 1$      ; -> 5 cycles
+    rts
+
 .bndry 0x100
 ProcessDrawList_NumBytesToAddress:
 i = 0
@@ -331,6 +382,7 @@ __crt0_clearVRAM_loop:
 .wait_vbl_done::
 _wait_vbl_done::
 _vsync::
+    jsr .jmp_to_VBL_isr
     lda *_sys_time
 _wait_vbl_done_waitForNextFrame_loop:
     cmp *_sys_time
