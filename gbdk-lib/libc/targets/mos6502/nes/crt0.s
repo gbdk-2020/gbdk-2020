@@ -328,7 +328,7 @@ __crt0_setPalette:
     lda #0x30
     sta __crt0_paletteShadow
     ; set all background / sprite sub-palettes to 10, 00, 1D
-    ldx #0x1F
+    ldx #0x18
 1$:
     lda #0x1D
     sta __crt0_paletteShadow,x
@@ -339,8 +339,7 @@ __crt0_setPalette:
     lda #0x10
     sta __crt0_paletteShadow,x
     dex
-    dex
-    bpl 1$
+    bne 1$
     rts
 
 __crt0_waitPPU:
@@ -415,6 +414,7 @@ __crt0_RESET_bankSwitchValue:
     stx OAMADDR
     lda #>_shadow_OAM
     sta OAMDMA
+
     ; Perform initialization of DATA area
     lda #<s__XINIT
     sta ___memcpy_PARM_2
@@ -427,6 +427,7 @@ __crt0_RESET_bankSwitchValue:
     lda #<s__DATA
     ldx #>s__DATA
     jsr ___memcpy
+
     ; Set bank to first
     lda #0x00
     sta *__current_bank
