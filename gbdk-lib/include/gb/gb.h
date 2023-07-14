@@ -228,19 +228,24 @@ void add_VBL(int_handler h);
 
 /** Adds a LCD interrupt handler.
 
-    Called when the LCD interrupt occurs, which is normally
-    when @ref LY_REG == @ref LYC_REG.
+    Called when the LCD interrupt occurs.
 
     Up to 3 handlers may be added, with the last added
     being called last.
 
-    There are various reasons for this interrupt to occur
-    as described by the @ref STAT_REG register ($FF41). One very
-    popular reason is to indicate to the user when the
-    video hardware is about to redraw a given LCD line.
-    This can be useful for dynamically controlling the
-    @ref SCX_REG / @ref SCY_REG registers ($FF43/$FF42) to perform
-    special video effects.
+    There are various sources controlled by the
+    @ref STAT_REG register ($FF41) which can trigger
+    this interrupt. Common examples include triggering
+    on specific scanlines using @ref LY_REG == @ref LYC_REG.
+    Another is applying graphics effects on a per-scanline
+    basis such as modifying the X and Y scroll registers
+    (@ref SCX_REG / @ref SCY_REG registers).
+
+    @note LYC may not trigger with scanline 0 in the same
+    way as other scanlines due to particular behavior
+    with scanlines 153 and 0. Instead, using an add_VBL()
+    interrupt handler for start of frame behavior may be
+    more suitable.
 
     __Do not__ use the function definition attributes
     @ref CRITICAL and @ref INTERRUPT when declaring
@@ -249,7 +254,7 @@ void add_VBL(int_handler h);
     a bare jump from the interrupt vector itself (such as
     with @ref ISR_VECTOR()).
 
-    ISR handlers added using add_VBL()/etc are instead
+    ISR handlers added using add_VBL/LCD/etc are instead
     called via the GBDK ISR dispatcher which makes
     the extra function attributes unecessary.
 

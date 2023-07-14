@@ -63,7 +63,7 @@ The sources in this repo are only needed if you want to re-compile GBDK-2020 you
 ## Current status
 - Updated CRT and library that suits better for game development
 - SDCC Versions
-  - A [custom build of SDCC]([Patched SDCC Builds](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases) with support for Sega GG/SMS and the Nintendo NES is used. See the [github workflow](https://github.com/gbdk-2020/gbdk-2020-sdcc/tree/main/.github/workflows) for details of how to patch and build SDCC.
+  - A [custom build of SDCC](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases) is used with [patches](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/tag/patches) to support Sega GG/SMS and the Nintendo NES. See the [github workflow](https://github.com/gbdk-2020/gbdk-2020-sdcc/tree/main/.github/workflows) for details of how to patch and build SDCC.
   - The default calling convention changed in `SDCC 4.2`. This is supported starting with `GBDK-2020 4.1.0`. Older versions of GBDK should use SDCC builds #12539 or older (see per-version GBDK notes).
 - The compiler driver **lcc** supports the latest sdcc toolchain.
 
@@ -79,7 +79,7 @@ Unless you are interested on recompiling the sources for some reason (like fixin
 
 - **Windows only**: Download and install [mingw](http://mingw-w64.org/)
 - Clone, download this repo or just get the source from the [releases](https://github.com/gbdk-2020/gbdk-2020/releases)
-- Download and install the **PATCHED** [sdcc builds](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases) from the separate repo for that (https://github.com/gbdk-2020/gbdk-2020-sdcc/releases).
+- Download and install the **PATCHED** [sdcc builds](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases) from the separate repo for that (https://github.com/gbdk-2020/gbdk-2020-sdcc).
 - On Linux **don't use package managers** The latest release available won't work, you need to compile or download one of the nightlies
 - Create **SDCCDIR** environment variable, that points into the folder, where you installed sdcc
 - Open command prompt or a terminal, go to the root directory of the repo and run **make**
