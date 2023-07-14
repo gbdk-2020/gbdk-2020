@@ -290,7 +290,7 @@ extern volatile uint8_t _current_bank;
     Use @ref BANKREF_EXTERN() within another source file
     to make the variable and it's data accesible there.
 */
-#define BANKREF(VARNAME) void __func_ ## VARNAME() __banked __naked { \
+#define BANKREF(VARNAME) void __func_ ## VARNAME(void) __banked __naked { \
 __asm \
     .local b___func_ ## VARNAME \
     ___bank_ ## VARNAME = b___func_ ## VARNAME \
@@ -449,6 +449,12 @@ void vsync(void);
 /** Obsolete. This function has been replaced by vsync(), which has identical behavior.
 */
 void wait_vbl_done(void);
+
+/** Turns the display on.
+
+    @see DISPLAY_ON
+*/
+void display_on(void);
 
 /** Turns the display off.
 
