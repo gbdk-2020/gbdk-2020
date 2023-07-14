@@ -5,10 +5,10 @@
 
     .globl  ___render_shadow_OAM
 
-    .area   _INITIALIZED
+    .area   _DATA
     ___render_shadow_OAM:: .ds     0x01
 
-    .area   _INITIALIZER
+    .area   _XINIT
     .db     #>_shadow_OAM
 
     .area   _HOME
