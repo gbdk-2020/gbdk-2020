@@ -5,11 +5,11 @@
 .area _ZP (PAG)
 __lcd_scanline::    .ds 1
 
-.area _DATA
+.area _INITIALIZED
 .jmp_to_VBL_isr::   .ds 3
 .jmp_to_LCD_isr::   .ds 3
 
-.area _XINIT
+.area _INITIALIZER
 ; .jmp_to_VBL_isr
 rts
 nop

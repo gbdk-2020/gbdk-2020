@@ -328,7 +328,7 @@ __crt0_setPalette:
     lda #0x30
     sta __crt0_paletteShadow
     ; set all background / sprite sub-palettes to 10, 00, 1D
-    ldx #0x1F
+    ldx #0x18
 1$:
     lda #0x1D
     sta __crt0_paletteShadow,x
@@ -339,8 +339,7 @@ __crt0_setPalette:
     lda #0x10
     sta __crt0_paletteShadow,x
     dex
-    dex
-    bpl 1$
+    bne 1$
     rts
 
 __crt0_waitPPU:
@@ -426,6 +425,18 @@ __crt0_RESET_bankSwitchValue:
     sta ___memcpy_PARM_3+1
     lda #<s__DATA
     ldx #>s__DATA
+    jsr ___memcpy
+    ; Perform initialization of INITIALIZED area
+    lda #<s__INITIALIZER
+    sta ___memcpy_PARM_2
+    lda #>s__INITIALIZER
+    sta ___memcpy_PARM_2+1
+    lda #<l__INITIALIZER
+    sta ___memcpy_PARM_3
+    lda #>l__INITIALIZER
+    sta ___memcpy_PARM_3+1
+    lda #<s__INITIALIZED
+    ldx #>s__INITIALIZED
     jsr ___memcpy
     ; Set bank to first
     lda #0x00
