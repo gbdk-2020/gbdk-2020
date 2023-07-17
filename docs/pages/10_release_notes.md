@@ -10,6 +10,8 @@ https://github.com/gbdk-2020/gbdk-2020/releases
   2023/x
   - Includes SDCC version ~4.3 with GBDK-2020 patches for Z80 and NES
     - ([Patched SDCC Builds](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases) with support for Sega GG/SMS and the Nintendo NES are used. See the [github workflow](https://github.com/gbdk-2020/gbdk-2020-sdcc/tree/main/.github/workflows) for details
+  - Known Issues
+    - SDCC may fail on Windows when @ref windows_sdcc_non_c_drive_path_spaces "run from folder names with spaces on non-C drives".
   - Library
     - Added: set_bkg_attributes(), set_bkg_submap_attributes()
     - The following new functions replace old ones. The old functions will continue to work for now, but migration to new versions is strongly encouraged.
@@ -70,7 +72,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
   2022/10
   - Includes SDCC version 13350 with GBDK-2020 patches for Z80
   - Known Issues
-    - The `compile.bat` batch files for Windows use the an incalid `-p` option for `mkdir`
+    - The `compile.bat` batch files for Windows use the an invalid `-p` option for `mkdir`
   - Building GBDK
     - The linux port of SDCC is custom built on Ubuntu 16.04 due to reduced GLIBC compatibility issues in more recent SDCC project builds.
     - Added Windows 32-Bit build
