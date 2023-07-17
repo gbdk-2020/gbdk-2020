@@ -6,6 +6,21 @@ Follow the steps in this section to start using GBDK-2020.
 # 1. Download a Release and unzip it
 You can get the latest releases from here: https://github.com/gbdk-2020/gbdk-2020/releases
 
+@anchor windows_sdcc_non_c_drive_path_spaces
+## Known Issue: Windows and folder names with spaces on non-C drives 
+There is a known issue on Windows where sdcc will fail when run from folder names with spaces on non-C drives.
+
+For the time being the workaround is as follows (with `D:\My Stuff\` as an example folder):
+  - Run Windows Command as administrator
+  - Run: `fsutil.exe 8dot3name query D:`
+    - Output: The volume state is: 1 (8dot3 name creation is disabled). The registry state is: 2 (Per volume setting - the default). Based on the above settings, 8dot3 name creation is disabled on D:
+  - Run: `fsutil 8dot3name set D: 0`
+    - Output: Successfully enabled 8dot3name generation on D:
+  - Run: `fsutil.exe 8dot3name query D:`
+    - Output: The volume state is: 0 (8dot3 name creation is enabled). The registry state is: 2 (Per volume setting - the default). Based on the above settings, 8dot3 name creation is enabled on D:
+  - Only folders created AFTER the setting has been enabled will get 8.3 filename support, renaming folders does NOT appear to generate 8.3 filename support. However it is possible to manually generate a short path name for an existing folder:
+    - Run: `D:\>fsutil file setshortname "D:\My stuff" "mystuf~1"`
+
 
 # 2. Compile Example projects
 Make sure your GBDK-2020 installation is working correctly by compiling some of the included @ref docs_example_programs "example projects".
