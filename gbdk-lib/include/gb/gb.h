@@ -1136,6 +1136,8 @@ inline void set_bkg_based_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, cons
 
     @see SHOW_BKG
     @see set_bkg_data, set_bkg_submap_attributes, set_win_tiles, set_tiles
+
+    @note On the Game Boy this is only usable in Game Boy Color mode
 */
 inline void set_bkg_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles)
 {
@@ -1266,6 +1268,8 @@ inline void set_bkg_based_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, con
 
     @see SHOW_BKG
     @see set_bkg_data, set_bkg_attributes, set_win_submap, set_tiles
+
+    @note On the Game Boy this is only usable in Game Boy Color mode
 */
 inline void set_bkg_submap_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w)
 {
@@ -1301,23 +1305,24 @@ inline void set_bkg_submap_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h
 void get_bkg_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *tiles) OLDCALL PRESERVES_REGS(b, c);
 
 
-/**
- * Set single tile t on background layer at x,y
- * @param x X-coordinate
- * @param y Y-coordinate
- * @param t tile index
- * @return returns the address of tile, so you may use faster set_vram_byte() later
- */
+/** Set single tile t on background layer at x,y
+    @param x X-coordinate
+    @param y Y-coordinate
+    @param t tile index
+
+    @return returns the address of tile, so you may use faster set_vram_byte() later
+*/
 uint8_t * set_bkg_tile_xy(uint8_t x, uint8_t y, uint8_t t) OLDCALL PRESERVES_REGS(b, c);
 #define set_tile_xy set_bkg_tile_xy
 
-/**
- * Set single attribute data a on background layer at x,y
- * @param x X-coordinate
- * @param y Y-coordinate
- * @param a tile attributes
- * @return returns the address of tile attribute, so you may use faster set_vram_byte() later
- */
+/** Set single attribute data a on background layer at x,y
+    @param x X-coordinate
+    @param y Y-coordinate
+    @param a tile attributes
+    @return returns the address of tile attribute, so you may use faster set_vram_byte() later
+
+    @note On the Game Boy this is only usable in Game Boy Color mode
+*/
 inline uint8_t * set_bkg_attribute_xy(uint8_t x, uint8_t y, uint8_t a)
 {
     uint8_t* addr;
@@ -1329,11 +1334,11 @@ inline uint8_t * set_bkg_attribute_xy(uint8_t x, uint8_t y, uint8_t a)
 #define set_attribute_xy set_bkg_attribute_xy
 
 /**
- * Get single tile t on background layer at x,y
- * @param x X-coordinate
- * @param y Y-coordinate
+    Get single tile t on background layer at x,y
+    @param x X-coordinate
+    @param y Y-coordinate
 
- * @return returns tile index
+    @return returns tile index
 
     @note In general **avoid reading from VRAM**
       since that memory is not accessible at all times.
@@ -1341,7 +1346,7 @@ inline uint8_t * set_bkg_attribute_xy(uint8_t x, uint8_t y, uint8_t a)
       See @ref best_practice_dont_read_vram "coding guidelines"
       for more details.
 
- */
+*/
 uint8_t get_bkg_tile_xy(uint8_t x, uint8_t y) OLDCALL PRESERVES_REGS(b, c);
 
 
