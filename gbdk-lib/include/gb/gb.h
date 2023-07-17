@@ -1307,6 +1307,23 @@ uint8_t * set_bkg_tile_xy(uint8_t x, uint8_t y, uint8_t t) OLDCALL PRESERVES_REG
 #define set_tile_xy set_bkg_tile_xy
 
 /**
+ * Set single attribute data a on background layer at x,y
+ * @param x X-coordinate
+ * @param y Y-coordinate
+ * @param a tile attributes
+ * @return returns the address of tile attribute, so you may use faster set_vram_byte() later
+ */
+inline uint8_t * set_bkg_attribute_xy(uint8_t x, uint8_t y, uint8_t a)
+{
+    uint8_t* addr;
+    VBK_REG = VBK_ATTRIBUTES;
+    addr = set_bkg_tile_xy(x, y, a);
+    VBK_REG = VBK_TILES;
+    return addr;
+}
+#define set_attribute_xy set_bkg_attribute_xy
+
+/**
  * Get single tile t on background layer at x,y
  * @param x X-coordinate
  * @param y Y-coordinate

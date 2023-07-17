@@ -806,6 +806,17 @@ uint8_t * set_tile_xy(uint8_t x, uint8_t y, uint8_t t) Z88DK_CALLEE PRESERVES_RE
 #define set_win_tile_xy set_tile_xy
 
 /**
+ * Set single attribute data a on background layer at x,y
+ * @param x X-coordinate
+ * @param y Y-coordinate
+ * @param a tile attributes
+ * @return returns the address of tile attribute, so you may use faster set_vram_byte() later
+ */
+inline uint8_t * set_attribute_xy(uint8_t x, uint8_t y, uint8_t a) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
+#define set_bkg_attribute_xy set_attribute_xy
+#define set_win_attribute_xy set_attribute_xy
+
+/**
  * Get address of X,Y tile of background map
  */
 uint8_t * get_bkg_xy_addr(uint8_t x, uint8_t y) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
