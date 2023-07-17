@@ -181,7 +181,7 @@ aligned_xy_column_loop:
     ; If columns were odd, we have one more byte where only top corner should be modified
     ALIGNED_XY_RIGHT_EDGE ATTRIBUTE_MASK_TL, ATTRIBUTE_MASK_BL+ATTRIBUTE_MASK_BR+ATTRIBUTE_MASK_TR
 1$:
-    jmp _flush_shadow_attributes
+    rts
 
 ;
 ; Version for when x is misaligned with attribute byte-grid
@@ -268,7 +268,7 @@ unaligned_x_column_loop:
     ; If columns were odd, we have one more byte where only top-left corner should be modified
     UNALIGNED_X_RIGHT_EDGE ATTRIBUTE_MASK_TL, ATTRIBUTE_MASK_BL+ATTRIBUTE_MASK_BR+ATTRIBUTE_MASK_TR
 5$:
-    jmp _flush_shadow_attributes
+    rts
 
 ;
 ; Version for when y is misaligned with attribute byte-grid
@@ -366,7 +366,7 @@ unaligned_y_column_loop:
     ; If columns were odd, we have one more byte where only top-left corner should be modified
     UNALIGNED_Y_RIGHT_EDGE ATTRIBUTE_MASK_TL, ATTRIBUTE_MASK_BL+ATTRIBUTE_MASK_BR+ATTRIBUTE_MASK_TR
 1$:
-    jmp _flush_shadow_attributes
+    rts
 
 ;
 ; Version for when x & y are both misaligned with attribute byte-grid
@@ -507,7 +507,7 @@ unaligned_xy_column_loop:
     ; If columns were NOT odd, we have one more byte where only top-left corner should be modified
     UNALIGNED_XY_RIGHT_EDGE ATTRIBUTE_MASK_TL, ATTRIBUTE_MASK_BL+ATTRIBUTE_MASK_BR+ATTRIBUTE_MASK_TR
 1$:
-    jmp _flush_shadow_attributes
+    rts
 
 .attribute_set_dirty:
     ; A = min(7, .num_rows + .attribute_num_rows_odd) << 3

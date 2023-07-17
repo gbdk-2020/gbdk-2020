@@ -25,6 +25,7 @@ void main(void) {
                  GBDK_2020_logo_WIDTH >> 3, 
                  GBDK_2020_logo_HEIGHT >> 3, 
                  GBDK_2020_logo_map);
+    wait_vbl_done();
     SHOW_BKG;
     DISPLAY_ON;
 }

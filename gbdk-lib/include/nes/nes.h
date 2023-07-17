@@ -831,6 +831,33 @@ uint8_t * set_bkg_tile_xy(uint8_t x, uint8_t y, uint8_t t) OLDCALL;
 #define set_tile_xy set_bkg_tile_xy
 
 /**
+    Set single attribute data a on background layer at x,y
+
+    @param x X-coordinate
+    @param y Y-coordinate
+    @param a tile attributes
+ */
+void set_bkg_attribute_xy_nes16x16(uint8_t x, uint8_t y, uint8_t a);
+
+/**
+    Set single attribute data a on background layer at x,y
+
+    Please note that this is just a wrapper function for set_bkg_submap_attributes_nes16x16
+    and divides the coordinates and dimensions by 2 to achieve this.
+    It is intended to make code more portable by using the same coordinate system
+    that systems with the much more common 8x8 attribute resolution would use.
+
+    @param x X-coordinate
+    @param y Y-coordinate
+    @param a tile attributes
+ */
+inline void set_bkg_attribute_xy(uint8_t x, uint8_t y, uint8_t a)
+{
+    set_bkg_attribute_xy_nes16x16(x >> 1, y >> 1, a);
+}
+#define set_attribute_xy set_bkg_attribute_xy
+
+/**
  * Get single tile t on background layer at x,y
  * @param x X-coordinate
  * @param y Y-coordinate
@@ -1152,6 +1179,15 @@ void vmemset (void *s, uint8_t c, size_t n) OLDCALL;
 */
 void fill_bkg_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t tile) OLDCALL;
 #define fill_rect fill_bkg_rect
+
+/** "Flushes" the updates to the shadow attributes so they are written
+    to the transfer buffer, and then written to PPU memory on next vblank.
+
+    This function must be called to see visible changes to attributes
+    on the NES target. But it will automatically be called by wait_vbl_done,
+    so the use-cases for calling it manually are rare in practice.
+*/
+void flush_shadow_attributes() OLDCALL;
 
 uint8_t _switch_prg0(uint8_t bank) OLDCALL;
 
