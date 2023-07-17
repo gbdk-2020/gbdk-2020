@@ -37,6 +37,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
   - Toolchain / Utilities
     - @ref lcc "lcc"
       - Fixed `--sdccbindir`
+      - Removed the unused `-DINT_16_BITS` from the default SDCC compiler and preprocessor arguments
       - Improved improved Game Gear header compatibility (change header region code from 4 to 6)
     - @ref utility_png2asset "png2asset"
       - Added `-repair_index_pal`: Tries to repair tile palettes for indexed color pngs (such as when RGB paint programs mix up indexed colors if the same color exists in multiple palettes). Implies `-keep_palette_order`
