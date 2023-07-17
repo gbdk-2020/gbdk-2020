@@ -13,7 +13,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
   - Known Issues
     - SDCC may fail on Windows when @ref windows_sdcc_non_c_drive_path_spaces "run from folder names with spaces on non-C drives".
   - Library
-    - Added: set_bkg_attributes(), set_bkg_submap_attributes()
+    - Added: set_bkg_attributes(), set_bkg_submap_attributes(), set_bkg_attribute_xy()
     - The following new functions replace old ones. The old functions will continue to work for now, but migration to new versions is strongly encouraged.
       - vsync(): replaces wait_vbl_done()
       - set_default_palette(): replaces cgb_compatibility()

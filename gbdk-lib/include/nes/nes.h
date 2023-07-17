@@ -187,9 +187,9 @@ void remove_LCD(int_handler h);
     @note The default GBDK VBL is installed automatically.
 
     @note On the current NES implementation, this handler
-    is actually faked, and called before vblank occurs, by 
-    wait_vbl_done. Writes to PPU registers should be done to
-    the shadow_ versions, so they are updated by the default 
+    is actually faked, and called before vblank occurs, by
+    @ref vsync(). Writes to PPU registers should be done to
+    the shadow_ versions, so they are updated by the default
     VBL handler only when vblank actually occurs.
 
     @see ISR_VECTOR()
@@ -642,7 +642,7 @@ void set_bkg_attributes_nes16x16(uint8_t x, uint8_t y, uint8_t w, uint8_t h, con
     Writes that exceed coordinate 31 on the x or y axis will wrap around to
     the Left and Top edges.
 
-    Please note that this is just a wrapper function for set_bkg_attributes_nes16x16
+    Please note that this is just a wrapper function for set_bkg_attributes_nes16x16()
     and divides the coordinates and dimensions by 2 to achieve this.
     It is intended to make code more portable by using the same coordinate system
     that systems with the much more common 8x8 attribute resolution would use.
@@ -705,7 +705,7 @@ void set_bkg_submap_attributes_nes16x16(uint8_t x, uint8_t y, uint8_t w, uint8_t
     a sub-region from a source tile map. Useful for scrolling implementations
     of maps larger than 32 x 30 tiles.
 
-    Please note that this is just a wrapper function for set_bkg_submap_attributes_nes16x16
+    Please note that this is just a wrapper function for set_bkg_submap_attributes_nes16x16()
     and divides the coordinates and dimensions by 2 to achieve this.
     It is intended to make code more portable by using the same coordinate system
     that systems with the much more common 8x8 attribute resolution would use.
@@ -842,7 +842,7 @@ void set_bkg_attribute_xy_nes16x16(uint8_t x, uint8_t y, uint8_t a);
 /**
     Set single attribute data a on background layer at x,y
 
-    Please note that this is just a wrapper function for set_bkg_submap_attributes_nes16x16
+    Please note that this is just a wrapper function for set_bkg_submap_attributes_nes16x16()
     and divides the coordinates and dimensions by 2 to achieve this.
     It is intended to make code more portable by using the same coordinate system
     that systems with the much more common 8x8 attribute resolution would use.
@@ -1184,7 +1184,7 @@ void fill_bkg_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t tile) OLD
     to the transfer buffer, and then written to PPU memory on next vblank.
 
     This function must be called to see visible changes to attributes
-    on the NES target. But it will automatically be called by wait_vbl_done,
+    on the NES target. But it will automatically be called by @ref vsync(),
     so the use-cases for calling it manually are rare in practice.
 */
 void flush_shadow_attributes() OLDCALL;
