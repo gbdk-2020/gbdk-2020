@@ -696,7 +696,7 @@ int main(int argc, char* argv[])
 		printf("-bpp                bits per pixel: 1, 2, 4 (default: 2)\n");
 		printf("-max_palettes       max number of palettes allowed (default: 8)\n");
 		printf("                    (note: max colors = max_palettes x num colors per palette)\n");
-		printf("-pack_mode          gb, sgb, sms, 1bpp (default: gb)\n");
+		printf("-pack_mode          gb, nes, sgb, sms, 1bpp (default: gb)\n");
 		printf("-tile_origin        tile index offset for maps (default: 0)\n");
 
 		printf("-tiles_only         export tile data only\n");
@@ -824,12 +824,13 @@ int main(int argc, char* argv[])
 		{
 			std::string pack_mode_str = argv[++ i];
 			if     (pack_mode_str == "gb")  pack_mode = Tile::GB;
+			else if (pack_mode_str == "nes")  pack_mode = Tile::NES;
 			else if(pack_mode_str == "sgb") pack_mode = Tile::SGB;
 			else if(pack_mode_str == "sms") pack_mode = Tile::SMS;
 			else if(pack_mode_str == "1bpp") pack_mode = Tile::BPP1;
 			else
 			{
-				printf("-pack_mode must be one of gb, sgb, sms, 1bpp\n");
+				printf("-pack_mode must be one of gb, nes, sgb, sms, 1bpp\n");
 				return 1;
 			}
 		}

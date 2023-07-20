@@ -30,7 +30,7 @@ P2AFLAGS_pocket = -map -bpp 2 -max_palettes 4 -pack_mode gb -noflip
 P2AFLAGS_duck   = -map -bpp 2 -max_palettes 4 -pack_mode gb -noflip
 P2AFLAGS_sms    = -map -use_map_attributes -bpp 4 -max_palettes 2 -pack_mode sms
 P2AFLAGS_gg     = -map -use_map_attributes -bpp 4 -max_palettes 2 -pack_mode sms
-P2AFLAGS_nes    = -map -bpp 2 -max_palettes 4 -pack_mode gb -noflip -use_nes_attributes -b 0
+P2AFLAGS_nes    = -map -bpp 2 -max_palettes 4 -pack_mode nes -noflip -use_nes_attributes -b 0
 
 P2AFLAGS = $(P2AFLAGS_$(EXT))
 
