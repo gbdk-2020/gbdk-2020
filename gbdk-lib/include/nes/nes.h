@@ -1129,8 +1129,39 @@ void set_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *vram_addr, c
 
     @see set_bkg_data, set_data
 */
-void set_tile_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data, uint8_t base) OLDCALL;
+inline void set_tile_data(uint16_t first_tile, uint8_t nb_tiles, const uint8_t *data) {
+    if (first_tile < 256) {
+        set_bkg_data(first_tile, nb_tiles, data);
+        if(first_tile + nb_tiles > 256)
+            set_sprite_data(first_tile - 256, nb_tiles, data);
+    } else {
+        set_sprite_data(first_tile - 256, nb_tiles, data);
+    }
+}
 
+/** Sets VRAM Tile Pattern data for the Background in the native format
+
+    @param first_tile  Index of the first tile to write
+    @param nb_tiles    Number of tiles to write
+    @param data        Pointer to source tile data
+
+    Writes __nb_tiles__ tiles to VRAM starting at __first_tile__, tile data
+    is sourced from __data__.
+
+    @see set_tile_data
+*/
+void set_bkg_native_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data);
+
+/** Sets VRAM Tile Pattern data for Sprites in the native format
+
+    @param first_tile  Index of the first tile to write
+    @param nb_tiles    Number of tiles to write
+    @param data        Pointer to source tile data
+
+    Writes __nb_tiles__ tiles to VRAM starting at __first_tile__, tile data
+    is sourced from __data__.
+*/
+void set_sprite_native_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data);
 
 /** Sets VRAM Tile Pattern data in the native format
 
@@ -1147,9 +1178,11 @@ void set_tile_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data, ui
  */
 inline void set_native_tile_data(uint16_t first_tile, uint8_t nb_tiles, const uint8_t *data) {
     if (first_tile < 256) {
-        set_bkg_data(first_tile, nb_tiles, data);
+        set_bkg_native_data(first_tile, nb_tiles, data);
+        if(first_tile + nb_tiles > 256)
+            set_sprite_native_data(first_tile - 256, nb_tiles, data);
     } else {
-        set_sprite_data(first_tile - 256, nb_tiles, data);
+        set_sprite_native_data(first_tile - 256, nb_tiles, data);
     }
 }
 

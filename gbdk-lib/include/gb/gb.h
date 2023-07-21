@@ -2042,6 +2042,41 @@ inline void set_native_tile_data(uint16_t first_tile, uint8_t nb_tiles, const ui
     }
 }
 
+/** Sets VRAM Tile Pattern data for the Background / Window in the native format
+
+    @param first_tile  Index of the first tile to write
+    @param nb_tiles    Number of tiles to write
+    @param data        Pointer to source tile data
+
+    Writes __nb_tiles__ tiles to VRAM starting at __first_tile__, tile data
+    is sourced from __data__.
+
+    GBC only: @ref VBK_REG determines which bank of Background tile patterns are written to.
+    \li VBK_REG = @ref VBK_BANK_0 indicates the first bank
+    \li VBK_REG = @ref VBK_BANK_1 indicates the second
+
+    @see set_win_data, set_tile_data
+*/
+inline void set_bkg_native_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) {
+    set_bkg_data(first_tile, nb_tiles, data);
+}
+
+/** Sets VRAM Tile Pattern data for Sprites in the native format
+
+    @param first_tile  Index of the first tile to write
+    @param nb_tiles    Number of tiles to write
+    @param data        Pointer to source tile data
+
+    Writes __nb_tiles__ tiles to VRAM starting at __first_tile__, tile data
+    is sourced from __data__.
+
+    GBC only: @ref VBK_REG determines which bank of Background tile patterns are written to.
+    \li VBK_REG = @ref VBK_BANK_0 indicates the first bank
+    \li VBK_REG = @ref VBK_BANK_1 indicates the second
+*/
+inline void set_sprite_native_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) {
+    set_sprite_data(first_tile, nb_tiles, data);
+}
 
 /** Initializes the entire Window Tile Map with Tile Number __c__
     @param c   Tile number to fill with
