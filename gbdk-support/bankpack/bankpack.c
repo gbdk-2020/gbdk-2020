@@ -95,6 +95,8 @@ static int handle_args(int argc, char * argv[]) {
                 files_set_out_path(argv[i] + 6);
             } else if (strstr(argv[i], "-mbc=") == argv[i]) {
                 option_set_mbc(atoi(argv[i] + 5));
+            } else if (strstr(argv[i], "-mapper=") == argv[i]) {
+                option_set_nes_mapper(atoi(argv[i] + 8));
             } else if (strstr(argv[i], "-yt") == argv[i]) {
                 option_mbc_by_rom_byte_149(strtol(argv[i] + 3, NULL, 0));
             } else if (strstr(argv[i], "-v") == argv[i]) {
