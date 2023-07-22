@@ -38,6 +38,8 @@ int  option_get_mbc_type(void);
 void option_set_mbc(int);
 void option_mbc_by_rom_byte_149(int);
 
+void option_set_nes_mapper(int mapper_type);
+
 uint32_t option_banks_calc_cart_size(void);
 
 bool option_banks_set_min(uint16_t bank_num);
