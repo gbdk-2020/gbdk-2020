@@ -673,7 +673,8 @@ int main(int argc, char* argv[])
 	if (argc < 2)
 	{
 		printf("usage: png2asset    <file>.png [options]\n");
-		printf("-c                  ouput file (default: <png file>.c)\n");
+		printf("-o                  ouput file (default: <png file>.c)\n");
+		printf("-c                  deprecated, same as -o\n");
 		printf("-sw <width>         metasprites width size (default: png width)\n");
 		printf("-sh <height>        metasprites height size (default: png height)\n");
 		printf("-sp <props>         change default for sprite OAM property bytes (in hex) (default: 0x00)\n");
@@ -764,7 +765,7 @@ int main(int argc, char* argv[])
 			image.tile_h = 16;
 			sprite_mode = SPR_16x16_MSX;
 		}
-		else if(!strcmp(argv[i], "-c"))
+		else if(!strcmp(argv[i], "-c") || !strcmp(argv[i], "-o"))
 		{
 			output_filename = argv[++ i];
 		}
