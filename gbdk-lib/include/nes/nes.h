@@ -10,7 +10,7 @@
 #include <nes/hardware.h>
 #include <nes/rgb_to_nes_macro.h>
 
-#define NINTENDO_ENTERTAINMENT_SYSTEM
+#define NINTENDO_NES
 #ifdef SEGA
 #undef SEGA
 #endif

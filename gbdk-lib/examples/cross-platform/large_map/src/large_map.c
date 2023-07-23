@@ -184,7 +184,7 @@ void main(void){
     if (_cpu == CGB_TYPE) {
         set_bkg_palette(BKGF_CGB_PAL0, bigmap_PALETTE_COUNT, bigmap_palettes);
     }
-#elif defined(NINTENDO_ENTERTAINMENT_SYSTEM)
+#elif defined(NINTENDO_NES)
     set_bkg_palette(0, bigmap_PALETTE_COUNT, bigmap_palettes);
 #endif 
 

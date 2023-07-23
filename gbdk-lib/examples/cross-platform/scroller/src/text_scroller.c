@@ -11,7 +11,7 @@ const uint8_t * scanline_offsets = scanline_offsets_tbl;
 
 uint8_t scroller_x = 0;
 void scanline_isr(void) {
-#if defined(NINTENDO_ENTERTAINMENT_SYSTEM)
+#if defined(NINTENDO_NES)
     // Write directly to hardware scroll registers (only first write will have an effect)
     PPUSCROLL = scroller_x;
     PPUSCROLL = 0; // 2nd write (dummy)
@@ -89,7 +89,7 @@ void main(void) {
             // put next char
             set_vram_byte(scroller_vram_addr, *scroller_next_char - 0x20);
         }
-#ifdef NINTENDO_ENTERTAINMENT_SYSTEM
+#ifdef NINTENDO_NES
         // Normal indirect setting of scroll via shadow registers (written by vblank handler)
         move_bkg(0,0);
         _lcd_scanline = SCROLL_POS;
