@@ -16,7 +16,7 @@ LCCFLAGS_duck    = -Wl-yt0x1B -autobank # Usually the same as required for .gb
 LCCFLAGS_gbc     = -Wl-yt0x1B -Wm-yc -autobank # Same as .gb with: -Wm-yc (gb & gbc) or Wm-yC (gbc exclusive)
 LCCFLAGS_sms     =
 LCCFLAGS_gg      =
-LCCFLAGS_nes     = -Wl-yt0x1B -autobank
+LCCFLAGS_nes     = -autobank
 
 LCCFLAGS += $(LCCFLAGS_$(EXT)) # This adds the current platform specific LCC Flags
 

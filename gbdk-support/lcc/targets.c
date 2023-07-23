@@ -161,7 +161,7 @@ CLASS classes[] = {
       .include      = "%includedefault%",
       .com          = "%com% %comdefault% -Wa%asdefault% --no-peep $1 %comflag% $2 -o $3",
       .as           = "%as_6500% %asdefault% $1 $3 $2",
-      .bankpack     = "%bankpack% -plat=nes $1 $2",
+      .bankpack     = "%bankpack% -plat=nes -mapper=30 $1 $2",
       .ld           = "%ld_6808% -a nes -n -i -j $1 %libs_include% $3 %crt0dir% $2",
       .ihxcheck     = "%ihxcheck% $2 $1",
       .mkbin        = "%mkbin% -N -yo A -yS $2 $3",
