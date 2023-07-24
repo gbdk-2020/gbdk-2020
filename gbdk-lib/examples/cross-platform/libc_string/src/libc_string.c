@@ -11,8 +11,7 @@
 
 void main(void)
 {
-    font_t ibm_font, italic_font, min_font;
-    int i;
+    font_t ibm_font;
 
     // init the font system to use IBM font
     font_init();

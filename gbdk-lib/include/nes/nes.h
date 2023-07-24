@@ -1220,7 +1220,7 @@ void fill_bkg_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t tile) OLD
     on the NES target. But it will automatically be called by @ref vsync(),
     so the use-cases for calling it manually are rare in practice.
 */
-void flush_shadow_attributes() OLDCALL;
+void flush_shadow_attributes(void) OLDCALL;
 
 uint8_t _switch_prg0(uint8_t bank) OLDCALL;
 
