@@ -389,6 +389,19 @@ gb_postproc (BYTE * rom, int size, int *real_size, struct gb_opt_s *o)
     *real_size = 0x150;
 }
 
+
+void
+sms_preproc (struct gb_opt_s * gb_opt, struct sms_opt_s * sms_opt, int *size) {
+
+    // If auto-banking is enabled, and RAM banks specified, auto-fix up min ROM size for mapper support if needed
+    //
+    // Emulators use ROM file size (var:size) (64K or greater) to determine whether a mapper is present, and RAM banks only work if a mapper is present.
+    // This is separate from the ROM size indicated in the header (var:o->rom_size) which reportedly is _not_ used for that detection.
+    if (gb_opt->rom_banks_autosize && (sms_opt->nb_ram_banks > 0) && (*size < 0x10000)) {
+        *size = 0x10000; // force size to 64K
+    }
+}
+
 void
 sms_postproc (BYTE * rom, int size, int *real_size, struct sms_opt_s *o)
 {
@@ -402,7 +415,7 @@ sms_postproc (BYTE * rom, int size, int *real_size, struct sms_opt_s *o)
   // Emulators use ROM file size (var:size) (64K or greater) to determine whether a mapper is present, and RAM banks only work if a mapper is present.
   // So warn if that criteria is not met.
   // This is separate from the ROM size indicated in the header (var:o->rom_size) which reportedly is _not_ used for that detection.
-  if ((o->nb_ram_banks > 0) && (size < 0xffffu)) {
+  if ((o->nb_ram_banks > 0) && (size < 0x10000)) {
     fprintf (stderr, "\nWARNING: SMS/GG ROM size (%d) must be at least 64K to enable mapper support for RAM banks (%d specified) in emulators."
                      "\n         \"-yo 4\" for makebin (or \"-Wm-yo4\" for LCC) can be used to set the size to 64K\n\n", size, o->nb_ram_banks);
   }
@@ -1041,6 +1054,9 @@ main (int argc, char **argv)
       usage ();
       return 1;
     }
+
+  // If auto-banking is enabled, and sms/gg has RAM banks specified, fix up min ROM size if needed
+  sms_preproc(&gb_opt, &sms_opt, &size);
 
   rom = malloc (size);
   if (rom == NULL)
