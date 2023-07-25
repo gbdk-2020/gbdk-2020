@@ -46,7 +46,10 @@ all: $(TARGETS)
 # Compile .c files in "src/" to .o object files
 $(OBJDIR)/%.o:	$(SRCDIR)/%.c
 	$(eval BOFLAG = $(shell echo "$<" | sed -n 's/.*\.bo\([0-9]\+\).*/\-Wf-bo\1/p'))
+# RAM bank flag is not supported for the NES, the other platforms can use it
+ifneq ($(strip $(PLAT)),nes)
 	$(eval BAFLAG = $(shell echo "$<" | sed -n 's/.*\.ba\([0-9]\+\).*/\-Wf-ba\1/p'))
+endif
 	$(LCC) -v $(CFLAGS) $(BOFLAG) $(BAFLAG) -c -o $@ $<
 
 # Compile .c files in "res/" to .o object files
