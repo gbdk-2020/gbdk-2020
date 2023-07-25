@@ -480,7 +480,7 @@ inline void cpu_fast(void) {}
 void set_palette_entry(uint8_t palette, uint8_t entry, uint16_t rgb_data) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
 #define set_bkg_palette_entry set_palette_entry
 #define set_sprite_palette_entry(palette,entry,rgb_data) set_palette_entry(1,entry,rgb_data)
-void set_palette(uint8_t first_palette, uint8_t nb_palettes, palette_color_t *rgb_data) Z88DK_CALLEE;
+void set_palette(uint8_t first_palette, uint8_t nb_palettes, const palette_color_t *rgb_data) Z88DK_CALLEE;
 #define set_bkg_palette set_palette
 #define set_sprite_palette(first_palette,nb_palettes,rgb_data) set_palette(1,1,rgb_data)
 
