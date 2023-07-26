@@ -824,7 +824,7 @@ main (int argc, char **argv)
 
         case 'Z':
           /* generate GameBoy binary file */
-          gb = 1;
+          gb = 1, sms = 0, nes = 0;
           break;
 
         case 'y':
@@ -959,12 +959,12 @@ main (int argc, char **argv)
 
         case 'S':
           /* generate SMS binary file */
-          sms = 1;
+          gb = 0, sms = 1, nes = 0;
           break;
 
         case 'N':
           /* generate iNES binary file */
-          nes = 1;
+          gb = 0, sms = 0, nes = 1;
           break;
 
         case 'x':
@@ -1056,7 +1056,7 @@ main (int argc, char **argv)
     }
 
   // If auto-banking is enabled, and sms/gg has RAM banks specified, fix up min ROM size if needed
-  sms_preproc(&gb_opt, &sms_opt, &size);
+  if (sms) sms_preproc(&gb_opt, &sms_opt, &size);
 
   rom = malloc (size);
   if (rom == NULL)
