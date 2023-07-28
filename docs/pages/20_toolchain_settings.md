@@ -43,7 +43,7 @@
 @anchor sdcc-settings
 # sdcc settings
 ```
-SDCC : z80/sm83/mos6502/mos65c02 TD- 4.2.14 #14088 (Linux)
+SDCC : z80/sm83/mos6502/mos65c02 TD- 4.3.2 #14228 (Linux)
 published under GNU General Public License (GPL)
 Usage : sdcc [options] filename
 Options :-
@@ -102,24 +102,25 @@ Code generation options:
       --dataseg             <name> use this name for the data segment
 
 Optimization options:
+      --opt-code-speed      Optimize for code speed rather than size
+      --opt-code-size       Optimize for code size rather than speed
+      --max-allocs-per-node  Maximum number of register assignments considered at each node of the tree decomposition
+      --no-reg-params       On some ports, disable passing some parameters in registers
+      --nostdlibcall        Disable optimization of calls to standard library
       --nooverlay           Disable overlaying leaf function auto variables
       --nogcse              Disable the GCSE optimisation
+      --nolospre            Disable lospre
+      --nogenconstprop      Disable generalized constant propagation
       --nolabelopt          Disable label optimisation
       --noinvariant         Disable optimisation of invariants
       --noinduction         Disable loop variable induction
       --noloopreverse       Disable the loop reverse optimisation
       --no-peep             Disable the peephole assembly file optimisation
-      --no-reg-params       On some ports, disable passing some parameters in registers
       --peep-asm            Enable peephole optimization on inline assembly
       --peep-return         Enable peephole optimization for return instructions
       --no-peep-return      Disable peephole optimization for return instructions
       --peep-file           <file> use this extra peephole file
-      --opt-code-speed      Optimize for code speed rather than size
-      --opt-code-size       Optimize for code size rather than speed
-      --max-allocs-per-node  Maximum number of register assignments considered at each node of the tree decomposition
-      --nolospre            Disable lospre
       --allow-unsafe-read   Allow optimizations to read any memory location anytime
-      --nostdlibcall        Disable optimization of calls to standard library
 
 Internal debugging options:
       --dump-ast            Dump front-end AST before generating i-code
@@ -507,9 +508,11 @@ Options:
   -N             generate Famicom/NES format binary file
   -o bytes       skip amount of bytes in binary file
 SMS format options (applicable only with -S option):
-  -xo n          rom size (0xa-0x2) (default: 0xc)
+  -xo n          header rom size (0xa-0x2) (default: 0xc)
   -xj n          set region code (3-7) (default: 4)
   -xv n          version number (0-15) (default: 0)
+  -yo n          number of rom banks (default: 2) (autosize: A)
+  -ya n          number of ram banks (default: 0)
 GameBoy format options (applicable only with -Z option):
   -yo n          number of rom banks (default: 2) (autosize: A)
   -ya n          number of ram banks (default: 0)
@@ -560,7 +563,8 @@ The rle compression is Amiga IFF style
 # png2asset settings
 ```
 usage: png2asset    <file>.png [options]
--c                  ouput file (default: <png file>.c)
+-o                  ouput file (default: <png file>.c)
+-c                  deprecated, same as -o
 -sw <width>         metasprites width size (default: png width)
 -sh <height>        metasprites height size (default: png height)
 -sp <props>         change default for sprite OAM property bytes (in hex) (default: 0x00)
@@ -571,7 +575,7 @@ usage: png2asset    <file>.png [options]
 -spr8x8             use SPRITES_8x8
 -spr8x16            use SPRITES_8x16 (this is the default)
 -spr16x16msx        use SPRITES_16x16
--b <bank>           bank (default 0)
+-b <bank>           bank (default: fixed bank)
 -keep_palette_order use png palette
 -repair_indexed_pal try to repair indexed tile palettes (implies "-keep_palette_order")
 -noflip             disable tile flip
@@ -583,7 +587,7 @@ usage: png2asset    <file>.png [options]
 -bpp                bits per pixel: 1, 2, 4 (default: 2)
 -max_palettes       max number of palettes allowed (default: 8)
                     (note: max colors = max_palettes x num colors per palette)
--pack_mode          gb, sgb, sms, 1bpp (default: gb)
+-pack_mode          gb, nes, sgb, sms, 1bpp (default: gb)
 -tile_origin        tile index offset for maps (default: 0)
 -tiles_only         export tile data only
 -maps_only          export map tilemap only

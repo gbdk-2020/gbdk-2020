@@ -11,9 +11,20 @@
 #include <nes/rgb_to_nes_macro.h>
 
 #define NINTENDO_NES
+
+// Here NINTENDO means Game Boy & related clones
+#ifdef NINTENDO
+#undef NINTENDO
+#endif
+
 #ifdef SEGA
 #undef SEGA
 #endif
+
+#ifdef MSX
+#undef MSX
+#endif
+
 
 #define RGB(r,g,b)        RGB_TO_NES(((r) | ((g) << 2) | ((b) << 4)))
 #define RGB8(r,g,b)       RGB_TO_NES((((r) >> 6) | (((g) >> 6) << 2) | (((b) >> 6) << 4)))
@@ -905,7 +916,7 @@ inline void scroll_bkg(int8_t x, int8_t y) {
 
     Note: Sprite Tiles 128-255 share the same memory region as Background Tiles 128-255.
 
-    GBC only: @ref VBK_REG determines which bank of Background tile patterns are written to.
+    GBC only: @ref VBK_REG determines which bank of tile patterns are written to.
     \li VBK_REG=0 indicates the first bank
     \li VBK_REG=1 indicates the second
 */
