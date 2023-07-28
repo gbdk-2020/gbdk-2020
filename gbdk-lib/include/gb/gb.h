@@ -882,7 +882,7 @@ void hiramcpy(uint8_t dst, const void *src, uint8_t n) OLDCALL PRESERVES_REGS(b,
  * @param addr address to write to
  * @param v value
  */
-void set_vram_byte(uint8_t * addr, uint8_t v) OLDCALL PRESERVES_REGS(b, c);
+void set_vram_byte(uint8_t * addr, uint8_t v) PRESERVES_REGS(b, c);
 
 /**
  * Get byte from vram at given memory location

@@ -479,6 +479,12 @@ lbl:    LDH     A, (.STAT)
         JR      NZ, lbl
 .endm
 
+.macro WAIT_STAT_HL ?lbl
+        LD      HL, #rSTAT
+lbl:    BIT     #STATF_B_BUSY, (HL)
+        JR      NZ, lbl
+.endm
+
 .macro ADD_A_REG16 regH regL
         ADD     regL
         LD      regL, A
