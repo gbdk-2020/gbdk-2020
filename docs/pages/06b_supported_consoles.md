@@ -2,7 +2,7 @@
   
 @anchor docs_consoles_supported_list
 # Consoles Supported by GBDK
-As of version `4.1.0` GBDK includes support for other consoles in addition to the Game Boy.
+As of version `4.2.0` GBDK includes support for other consoles in addition to the Game Boy.
 
   - Game Boy and related clones
     - Nintendo Game Boy / Game Boy Color (GB/GBC)
@@ -13,8 +13,9 @@ As of version `4.1.0` GBDK includes support for other consoles in addition to th
     - Sega Master System (SMS)
     - Sega Game Gear (GG)
 
+  - NES (NES)
+
   - MSX DOS (MSXDOS) (partial support)
-  - NES (NES) (partial support)
 
 While the GBDK API has many convenience functions that work the same or similar across different consoles, it's important to keep their different capabilities in mind when writing code intended to run on more than one. Some (but not all) of the differences are screen sizes, color capabilities, memory layouts, processor type (z80 vs gbz80/sm83) and speed.
 
@@ -23,7 +24,7 @@ While the GBDK API has many convenience functions that work the same or similar 
 # Cross Compiling for Different Consoles
 
 ## lcc
-When compiling and building through @ref lcc use the `-m<port>:<plat>` flag to select the desired console via its port and platform combination.
+When compiling and building through @ref lcc use the `-m<port>:<plat>` flag to select the desired console via its port and platform combination. See below for available settings.
 
 
 ## sdcc
@@ -33,20 +34,26 @@ When building directly with the sdcc toolchain, the following must be specified 
 When compiling with @ref sdcc-settings "sdcc":
   - `-m<port>`, `-D__PORT_<port>` and `-D__TARGET_<plat> `
 
-When assembling with @ref sdasgb-settings "sdasgb" (for GB/AP) and @ref sdasz80-settings "sdasz80" (for SMS/GG):
-  - Select the appropriate include path: `-I<gbdk-path>lib/<plat>`
+When assembling select the appropriate include path: `-I<gbdk-path>lib/<plat>`.
 
-When linking with @ref sdldgb-settings "sdldgb" (for GB/AP) and @ref sdldz80-settings "sdldz80" (for SMS/GG or MSXDOS):
+The assemblers used are:
+  - @ref sdasgb-settings "sdasgb" (for GB/AP)
+  - @ref sdasz80-settings "sdasz80" (for SMS/GG)
+  - @ref sdas6500-settings "sdas6500" (for NES)
+
+When linking:
   - Select the appropriate include paths: `-k <gbdk-path>lib/<port>`, `-k <gbdk-path>lib/<plat>`
   - Include the appropriate library files `-l <port>.lib`, `-l <plat>.lib`
   - The crt will be under `  <gbdk-path>lib/<plat>/crt0.o`
 
+The linkers used are:
+   - @ref sdldgb-settings "sdldgb" (for GB/AP)
+   - @ref sdldz80-settings "sdldz80" (for SMS/GG or MSXDOS)
+   - @ref sdld6808-settings "sdld6808" (for NES)
+
 MSXDOS requires an additional build step with @ref utility_makecom "makecom" after @ref makebin to create the final binary:
   - `makecom <image.bin> [<image.noi>] <output.com>`
 
-The NES port has `--no-peep` specified (in @ref lcc) due to a peephole related codegen bug in SDCC that has not yet been merged.
-  - If you wish to build without that flag then SDCC can be called directly instead of through lcc.
-  - Alternately, custom peephole rules from a file can be passed in using `-Wf--peep-file` (lcc) or `--peep-file` (sdcc).
 
 @anchor console_port_plat_settings
 ## Console Port and Platform Settings
@@ -69,13 +76,13 @@ Note: Starting with GBDK-2020 4.1.0 and SDCC 4.2, the Game Boy and related clone
     - @ref lcc : `-mz80:gg`
     - port:`z80`, plat:`gg`
 
-  - MSX DOS
-    - @ref lcc : `-mz80:msxdos`
-    - port:`z80`, plat:`msxdos`
-
   - NES
     - @ref lcc : `-mmos6502:nes`
     - port:`mos6502`, plat:`nes`
+
+  - MSX DOS
+    - @ref lcc : `-mz80:msxdos`
+    - port:`z80`, plat:`msxdos`
 
 
 # Cross-Platform Constants
@@ -93,7 +100,6 @@ There are several constant \#defines that can be used to help select console spe
       - `NINTENDO` will be \#defined
       - `MEGADUCK` will be \#defined
 
-
   - When `<sms/sms.h>` is included (either directly or through `<gbdk/platform.h>`)
     - When building for Master System
       - `SEGA` will be \#defined
@@ -101,6 +107,9 @@ There are several constant \#defines that can be used to help select console spe
     - When building for Game Gear
       - `SEGA` will be \#defined
       - `GAMEGEAR` will be \#defined
+
+  - When `<nes/nes.h>` is included (either directly or through `<gbdk/platform.h>`)
+    - `NINTENDO_NES` will be \#defined
 
   - When `<msx/msx.h>` is included (either directly or through `<gbdk/platform.h>`)
     - `MSXDOS` will be \#defined
@@ -183,6 +192,16 @@ SMS/GG
   - Screen: 160 x 144
   - Hardware Map: 256 x 224
 
+NES
+- Sprites:
+  - ...
+- Background: 512 tiles (upper 256 are shared with sprites)
+  - ...
+- Window "layer":
+  - ...
+- Screen: ...
+- Hardware Map: ...
+
 
 @anchor docs_consoles_safe_display_controller_access
 ## Safe VRAM / Display Controller Access
@@ -200,6 +219,8 @@ SMS/GG
   - Alternative (requires careful implementation): Make sure writes to the VDP during an ISR are only performed when the @ref _shadow_OAM_OFF flag indicates it is safe to do so.
 
 
+NES
+- ...
 
 @anchor using_cgb_features
 # Using Game Boy Color (CGB) Features
@@ -216,7 +237,7 @@ These are some of the main hardware differences between the Regular Game Boy and
   - Background:
     - 2 banks x 256 tile patterns (2x as many) (typically upper 128 of each bank shared with sprites)
     - Second map bank for tile attributes (color, flipping/mirroring, priority, bank)
-    - 8 x 4 color palettes in CGB mode (BGR-555 per color, 32768 color choices))
+    - 8 x 4 color palettes in CGB mode (BGR-555 per color, 32,768 color choices))
     - BG and Window master priority
   - WRAM: 8 x 4K WRAM banks in the 0xD000 - 0xDFFF region
   - LCD VRAM DMA
@@ -279,7 +300,7 @@ As long as the target console is @ref docs_consoles_compiling "set during build 
 ### Tile Data and Tile Map loading
 
 #### Tile and Map Data in 2bpp Game Boy Format
-- @ref set_bkg_data() and @ref set_sprite_data() will load 2bpp tile data in "game boy" format on both GB and SMS/GG.
+- @ref set_bkg_data() and @ref set_sprite_data() will load 2bpp tile data in "Game Boy" format on both GB and SMS/GG.
 - On the SMS/GG @ref set_2bpp_palette() sets 4 colors that will be used when loading 2bpp assets with set_bkg_data(). This allows GB assets to be easily colorized without changing the asset format. There is some performance penalty for using the conversion.
 - @ref set_bkg_tiles() loads 1-byte-per-tile tilemaps both for the GB and SMS/GG.
 
@@ -306,6 +327,48 @@ This behavior is emulated for the SMS/GG when using @ref set_bkg_tiles() and @re
 
 @note Tile map attributes on SMS/Game Gear use different control bits than the Game Boy Color, so a modified attribute map must be used.
 
+
+## From Game Boy to NES
+
+### Tile Data and Tile Map loading
+
+#### Tile and Map Data in 2bpp Game Boy Format
+- @ref set_bkg_data() and @ref set_sprite_data() will load 2bpp tile data in "Game Boy" format on both GB and NES.
+<!--- On the NES @ref set_2bpp_palette() ... not support.  -->
+- @ref set_bkg_tiles() loads 1-byte-per-tile tilemaps both for the GB and NES.
+
+#### Tile and Map Data in Native Format
+Use the following api calls when assets are avaialble in the native format for each platform.
+
+@ref set_native_tile_data()
+  - GB/AP: loads 2bpp tiles data
+  - NES: loads 2bpp tiles data
+
+@ref set_tile_map()
+  - GB/AP: loads 1-byte-per-tile tilemaps
+  - NES: loads 1-byte-per-tile tilemaps
+
+Bit-depth specific API calls:
+- 1bpp: @ref set_1bpp_colors, @ref set_bkg_1bpp_data, @ref set_sprite_1bpp_data
+- 2bpp: @ref set_2bpp_palette, @ref set_bkg_2bpp_data, @ref set_sprite_2bpp_data
+
+Platform specific API calls:
+- set_bkg_attributes_nes16x16(), set_bkg_submap_attributes_nes16x16()
+- set_bkg_attribute_xy_nes16x16()
+
+
+#### Game Boy Color map attributes on the NES
+On the Game Boy Color, @ref VBK_REG is used to select between the regular background tile map and the background attribute tile map (for setting tile color palette and other properties).
+
+This behavior is ... on the NES.
+
+@note Tile map attributes on NES are on a 16x16 grid and use different control bits than the Game Boy Color.
+- NES 16x16 Tile Attributes are bit packed into 4 attributes per byte with each 16x16 area of a 32x32 pixel block using the bits as follows:
+  - D1-D0: Top-left 16x16 pixels
+  - D3-D2: Top-right 16x16 pixels
+  - D5-D4: Bottom-left 16x16 pixels
+  - D7-D6: Bottom-right 16x16 pixels
+  - https://www.nesdev.org/wiki/PPU_attribute_tables
 
 
 ## From Game Boy to Mega Duck / Cougar Boy

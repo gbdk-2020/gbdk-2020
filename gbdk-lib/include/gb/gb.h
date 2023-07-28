@@ -956,7 +956,7 @@ inline void set_1bpp_colors(uint8_t fgcolor, uint8_t bgcolor) {
 
     @note Sprite Tiles 128-255 share the same memory region as Background Tiles 128-255.
 
-    GBC only: @ref VBK_REG determines which bank of Background tile patterns are written to.
+    GBC only: @ref VBK_REG determines which bank of tile patterns are written to.
     \li VBK_REG = @ref VBK_BANK_0 indicates the first bank
     \li VBK_REG = @ref VBK_BANK_1 indicates the second
 
@@ -1672,7 +1672,7 @@ inline void scroll_win(int8_t x, int8_t y) {
 
     @note Sprite Tiles 128-255 share the same memory region as Background Tiles 128-255.
 
-    GBC only: @ref VBK_REG determines which bank of Background tile patterns are written to.
+    GBC only: @ref VBK_REG determines which bank of tile patterns are written to.
     \li VBK_REG = @ref VBK_BANK_0 indicates the first bank
     \li VBK_REG = @ref VBK_BANK_1 indicates the second
 */
@@ -1905,7 +1905,7 @@ inline void hide_sprite(uint8_t nb) {
 
     Copies __len__ bytes from a buffer at __data__ to VRAM starting at __vram_addr__.
 
-    GBC only: @ref VBK_REG determines which bank of Background tile patterns are written to.
+    GBC only: @ref VBK_REG determines which bank of tile patterns are written to.
     \li VBK_REG = @ref VBK_BANK_0 indicates the first bank
     \li VBK_REG = @ref VBK_BANK_1 indicates the second
 
@@ -1929,7 +1929,7 @@ void set_data(uint8_t *vram_addr, const uint8_t *data, uint16_t len);
 
     Copies __len__ bytes from VRAM starting at __vram_addr__ into a buffer at __data__.
 
-    GBC only: @ref VBK_REG determines which bank of Background tile patterns are written to.
+    GBC only: @ref VBK_REG determines which bank of tile patterns are written to.
     \li VBK_REG = @ref VBK_BANK_0 indicates the first bank
     \li VBK_REG = @ref VBK_BANK_1 indicates the second
 
@@ -1945,7 +1945,7 @@ void get_data(uint8_t *data, uint8_t *vram_addr, uint16_t len);
 
     Copies __len__ bytes from or to VRAM starting at __sour__ into a buffer or to VRAM at __dest__.
 
-    GBC only: @ref VBK_REG determines which bank of Background tile patterns are written to.
+    GBC only: @ref VBK_REG determines which bank of tile patterns are written to.
     \li VBK_REG = @ref VBK_BANK_0 indicates the first bank
     \li VBK_REG = @ref VBK_BANK_1 indicates the second
 */
@@ -2051,7 +2051,7 @@ inline void set_native_tile_data(uint16_t first_tile, uint8_t nb_tiles, const ui
     Writes __nb_tiles__ tiles to VRAM starting at __first_tile__, tile data
     is sourced from __data__.
 
-    GBC only: @ref VBK_REG determines which bank of Background tile patterns are written to.
+    GBC only: @ref VBK_REG determines which bank of tile patterns are written to.
     \li VBK_REG = @ref VBK_BANK_0 indicates the first bank
     \li VBK_REG = @ref VBK_BANK_1 indicates the second
 
@@ -2070,7 +2070,7 @@ inline void set_bkg_native_data(uint8_t first_tile, uint8_t nb_tiles, const uint
     Writes __nb_tiles__ tiles to VRAM starting at __first_tile__, tile data
     is sourced from __data__.
 
-    GBC only: @ref VBK_REG determines which bank of Background tile patterns are written to.
+    GBC only: @ref VBK_REG determines which bank of tile patterns are written to.
     \li VBK_REG = @ref VBK_BANK_0 indicates the first bank
     \li VBK_REG = @ref VBK_BANK_1 indicates the second
 */

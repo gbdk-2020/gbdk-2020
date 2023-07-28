@@ -905,7 +905,7 @@ inline void scroll_bkg(int8_t x, int8_t y) {
 
     Note: Sprite Tiles 128-255 share the same memory region as Background Tiles 128-255.
 
-    GBC only: @ref VBK_REG determines which bank of Background tile patterns are written to.
+    GBC only: @ref VBK_REG determines which bank of tile patterns are written to.
     \li VBK_REG=0 indicates the first bank
     \li VBK_REG=1 indicates the second
 */
