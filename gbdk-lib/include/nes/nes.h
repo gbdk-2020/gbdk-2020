@@ -11,9 +11,20 @@
 #include <nes/rgb_to_nes_macro.h>
 
 #define NINTENDO_NES
+
+// Here NINTENDO means Game Boy & related clones
+#ifdef NINTENDO
+#undef NINTENDO
+#endif
+
 #ifdef SEGA
 #undef SEGA
 #endif
+
+#ifdef MSX
+#undef MSX
+#endif
+
 
 #define RGB(r,g,b)        RGB_TO_NES(((r) | ((g) << 2) | ((b) << 4)))
 #define RGB8(r,g,b)       RGB_TO_NES((((r) >> 6) | (((g) >> 6) << 2) | (((b) >> 6) << 4)))

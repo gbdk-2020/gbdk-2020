@@ -9,10 +9,21 @@
 #include <gbdk/version.h>
 #include <gb/hardware.h>
 
+// Here NINTENDO means Game Boy & related clones
 #define NINTENDO
+
 #ifdef SEGA
 #undef SEGA
 #endif
+
+#ifdef NINTENDO_NES
+#undef NINTENDO_NES
+#endif
+
+#ifdef MSX
+#undef MSX
+#endif
+
 #if defined(__TARGET_ap)
 #define ANALOGUEPOCKET
 #elif defined(__TARGET_gb)

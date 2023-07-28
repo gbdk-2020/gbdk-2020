@@ -10,12 +10,20 @@
 #include <msx/hardware.h>
 
 #define MSX
+
+// Here NINTENDO means Game Boy & related clones
 #ifdef NINTENDO
 #undef NINTENDO
 #endif
+
+#ifdef NINTENDO_NES
+#undef NINTENDO_NES
+#endif
+
 #ifdef SEGA
 #undef SEGA
 #endif
+
 #if defined(__TARGET_msxdos)
 #define MSXDOS
 #endif
