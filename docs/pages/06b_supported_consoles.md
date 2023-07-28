@@ -353,8 +353,7 @@ Bit-depth specific API calls:
 - 2bpp: @ref set_2bpp_palette, @ref set_bkg_2bpp_data, @ref set_sprite_2bpp_data
 
 Platform specific API calls:
-- set_bkg_attributes_nes16x16(), set_bkg_submap_attributes_nes16x16()
-- set_bkg_attribute_xy_nes16x16()
+- set_bkg_attributes_nes16x16(), set_bkg_submap_attributes_nes16x16(), set_bkg_attribute_xy_nes16x16()
 
 
 #### Game Boy Color map attributes on the NES

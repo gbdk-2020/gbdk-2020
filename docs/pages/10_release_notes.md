@@ -13,6 +13,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
   - Known Issues
     - SDCC may fail on Windows when @ref windows_sdcc_non_c_drive_path_spaces "run from folder names with spaces on non-C drives".
   - Library
+    - Added `NORETURN` definition (for `_Noreturn`)
     - Added: set_bkg_attributes(), set_bkg_submap_attributes(), set_bkg_attribute_xy()
     - The following new functions replace old ones. The old functions will continue to work for now, but migration to new versions is strongly encouraged.
       - vsync(): replaces wait_vbl_done()
@@ -23,7 +24,9 @@ https://github.com/gbdk-2020/gbdk-2020/releases
       - move_metasprite_flipxy(): replaces move_metasprite_hvflip()
       - move_metasprite_ex(): (replaces move_metasprite()
     - NES
+      - Added support for much of the GBDK API
       - Banking support (library and sdcc toolchain)
+      - Added set_bkg_attributes_nes16x16(), set_bkg_submap_attributes_nes16x16(), set_bkg_attribute_xy_nes16x16()
     - Game Boy
       - Minor crt0 optimizations
       - Faster vmemcpy(), set_data(), get_data()
@@ -40,6 +43,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
       - Removed the unused `-DINT_16_BITS` from the default SDCC compiler and preprocessor arguments
       - Improved improved Game Gear header compatibility (change header region code from 4 to 6)
     - @ref utility_png2asset "png2asset"
+      - Added `-o` as a more standard version of the `-c` argument
       - Added `-repair_index_pal`: Tries to repair tile palettes for indexed color pngs (such as when RGB paint programs mix up indexed colors if the same color exists in multiple palettes). Implies `-keep_palette_order`
       - Added `-no_palettes`: Do not export palette data
       - Fixed support for indexed color pngs with less than 8 bits color depth
