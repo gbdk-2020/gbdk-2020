@@ -13,7 +13,7 @@ As of version `4.2.0` GBDK includes support for other consoles in addition to th
     - Sega Master System (SMS)
     - Sega Game Gear (GG)
 
-  - NES (NES)
+  - NES/Famicom (NES)
 
   - MSX DOS (MSXDOS) (partial support)
 
@@ -155,7 +155,7 @@ They also show how to build for multiple target consoles with a single build com
 ## Cross Platform Asset Example
 The cross-platform `Logo` example project shows how assets can be managed for multiple different console targets together.
 
-In the example @ref utility_png2asset is used to generate assets in the native format for each console at compile-time from separate source PNG images. The Makefile is set to use the source PNG folder which matches the current console being compiled, and the source code uses @ref set_native_tile_data() to load the assets tiles in native format.
+In the example @ref utility_png2asset is used to generate assets in the native format for each console at compile-time from separate source PNG images. The Makefile is set to use the source PNG folder which matches the current console being compiled, and the source code uses @ref set_bkg_native_data() to load the assets tiles in native format to the tile memory used for background tiles on that platform.
 
 
 # Hardware Summaries
@@ -192,16 +192,23 @@ SMS/GG
   - Screen: 160 x 144
   - Hardware Map: 256 x 224
 
-NES
+NES/Famicom
 - Sprites:
-  - ...
-- Background: 512 tiles (upper 256 are shared with sprites)
-  - ...
-- Window "layer":
-  - ...
-- Screen: ...
-- Hardware Map: ...
-
+  - 8x8 or 8x16
+  - 256 tiles
+  - tile flipping/mirroring: yes
+  - 64 total, max 8 per line
+  - 4 x 4 color palette (color 0 transparent)
+- Background: 256 tiles
+  - tile flipping/mirroring: no
+  - 4 x 4 color palette (color 0 same for all sub-palettes)
+- Window "layer": not available
+- Screen: 256 x 240
+- Hardware Map: Depends on mirroring mode
+  - 256 x 240 (single-screen mirroring)
+  - 512 x 240 (vertical mirroring / horizontal scrolling)
+  - 256 x 480 (horizontal mirroring / vertical scrolling)
+  - 512 x 480 (4-screen layout. Requires additional RAM on cartridge)
 
 @anchor docs_consoles_safe_display_controller_access
 ## Safe VRAM / Display Controller Access
