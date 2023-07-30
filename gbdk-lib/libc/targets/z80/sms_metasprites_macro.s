@@ -1,14 +1,7 @@
-        .include    "global.s"
-
-        .title  "Metasprites"
-        .module Metasprites
-
-        .area   _DATA
-
-        .globl ___current_metasprite, ___current_base_tile, ___render_shadow_OAM
-
-        .area   _CODE
-
+;
+; Helper macro to remove code duplication in sms_metasprites[_flipx|_flipy_flipxy]
+; While still allowing them to be linked separately.
+;
 .macro MOVE_METASPRITE_BODY neg_dx neg_dy
         ld      hl, #4
         add     hl, sp
@@ -75,12 +68,3 @@
         ld      l, a
         ret
 .endm
-
-___move_metasprite_flipx::
-    MOVE_METASPRITE_BODY 1,0
-
-___move_metasprite_flipy::
-    MOVE_METASPRITE_BODY 0,1
-
-___move_metasprite_flipxy::
-    MOVE_METASPRITE_BODY 1,1
