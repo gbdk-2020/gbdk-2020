@@ -366,7 +366,18 @@ Platform specific API calls:
 #### Game Boy Color map attributes on the NES
 On the Game Boy Color, @ref VBK_REG is used to select between the regular background tile map and the background attribute tile map (for setting tile color palette and other properties).
 
-This behavior is ... on the NES.
+This behavior of setting VBK_REG to specify tile indices/attributes is not supported on the NES platform. Instead the dedicated functions for attribute setting should be used. These will work on other platforms as well and are the preferred way to set attributes.
+
+To maintain API compatibility with other platforms that have attributes on an 8x8 grid specified with a whole byte per attribute, the NES platform supports the dedicated calls for setting attributes on an 8x8 grid:
+- set_bkg_attributes()
+- set_bkg_submap_attributes()
+- set_bkg_attribute_xy()
+
+This allows code to for attribute setting to remain unchanged between platforms. The effect of using these calls is that some attribute setting will be redundant due to the coarser attribute grid. i.e., setting the attribute at coordinates (4, 4), (4,5), (5, 4) and (5, 5) will all set the same attribute.
+
+There is one more platform specific difference to note: While the set_bkg_attribute_xy function takes coordinates on a 8x8 grid, the set_bkg_attributes and set_bkg_submap_attributes functions take a pointer to data in NES packed attribute format, where each byte contains data for 4 16x16 attribute. i.e. a 32x32 region. 
+
+While this implementation detail of how the attribute map is encoded is usually hidden by the API functions it does mean that code which manually tries to read the attribute data is *NOT* portable between NES/other platforms, and is not recommended.
 
 @note Tile map attributes on NES are on a 16x16 grid and use different control bits than the Game Boy Color.
 - NES 16x16 Tile Attributes are bit packed into 4 attributes per byte with each 16x16 area of a 32x32 pixel block using the bits as follows:
