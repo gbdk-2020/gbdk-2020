@@ -694,7 +694,7 @@ read_ihx (FILE *fin, BYTE **rom, int *size, int *real_size, struct gb_opt_s *o)
             }
           else
             {
-              fprintf (stderr, "error: size of the buffer is too small.\n");
+              fprintf (stderr, "error: ROM is too large for number of banks specified\n");
               return 0;
             }
         }
