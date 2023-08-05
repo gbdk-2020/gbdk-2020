@@ -159,16 +159,16 @@
 #define SCREENHEIGHT DEVICE_SCREEN_PX_HEIGHT
 /** The Minimum X position of the Window Layer (Left edge of screen) @see move_win()
  */
-#define MINWNDPOSX   0x07U
+#define MINWNDPOSX   DEVICE_WINDOW_PX_OFFSET_X
 /** The Minimum Y position of the Window Layer (Top edge of screen) @see move_win()
  */
-#define MINWNDPOSY   0x00U
+#define MINWNDPOSY   DEVICE_WINDOW_PX_OFFSET_Y
 /** The Maximum X position of the Window Layer (Right edge of screen) @see move_win()
  */
-#define MAXWNDPOSX   0xA6U
+#define MAXWNDPOSX   (DEVICE_WINDOW_PX_OFFSET_X + DEVICE_SCREEN_PX_WIDTH - 1)
 /** The Maximum Y position of the Window Layer (Bottom edge of screen) @see move_win()
  */
-#define MAXWNDPOSY   0x8FU
+#define MAXWNDPOSY   (DEVICE_WINDOW_PX_OFFSET_Y + DEVICE_SCREEN_PX_HEIGHT - 1)
 
 
 /** Interrupt handlers
