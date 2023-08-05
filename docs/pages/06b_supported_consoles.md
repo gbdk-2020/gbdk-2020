@@ -224,8 +224,6 @@ GB/AP
   - VRAM and some other display data / registers should only be written to when the @ref STATF_B_BUSY bit of @ref STAT_REG is off. Most GBDK API calls manage this automatically.
 
 SMS/GG
-- The SMS/GG ROM file size must be at least 64K to enable mapper support for RAM banks in emulators.
-  - If the generated ROM is too small then `-yo 4` for makebin (or `-Wm-yo4` for LCC) can be used to set the size to 64K.
 - Display Controller (VDP)
   - Writing to the VDP should not be interrupted while an operation is already in progress (since that will interfere with the internal data pointer causing data to be written to the wrong location).
   - Recommended approach: Avoid writing to the VDP (tiles, map, scrolling, colors, etc) during an interrupt routine (ISR).
@@ -233,7 +231,7 @@ SMS/GG
 
 
 NES/Famicom
-- ...
+- See @ref nes_technical_details "NES technical details"
 
 @anchor using_cgb_features
 # Using Game Boy Color (CGB) Features
@@ -309,6 +307,10 @@ As long as the target console is @ref docs_consoles_compiling "set during build 
 
 ## From Game Boy to SMS/GG
 
+### RAM Banks
+- The SMS/GG ROM file size must be at least 64K to enable mapper support for RAM banks in emulators.
+  - If the generated ROM is too small then `-yo 4` for makebin (or `-Wm-yo4` for LCC) can be used to set the size to 64K.
+
 ### Tile Data and Tile Map loading
 
 #### Tile and Map Data in 2bpp Game Boy Format
@@ -340,6 +342,7 @@ This behavior is emulated for the SMS/GG when using @ref set_bkg_tiles() and @re
 @note Tile map attributes on SMS/Game Gear use different control bits than the Game Boy Color, so a modified attribute map must be used.
 
 
+@anchor nes_technical_details
 ## From Game Boy to NES
 
 The NES graphics architecture is similar to the GB's. However, there are a number of design choices in the NES hardware that make the NES a particularly cumbersome platform to develop for, and that will require special attention.
