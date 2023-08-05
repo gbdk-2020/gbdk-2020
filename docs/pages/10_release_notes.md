@@ -61,8 +61,10 @@ https://github.com/gbdk-2020/gbdk-2020/releases
      - LCD ISR Wobble: Improved interrupt flag settings
      - Added GB-Type example:
   - Docs:
-    - Added @ref using_cgb_features "Using Game Boy Color Features"
+    - Improved search to do partial matches instead of matching start of string only
     - Added SDAS assembler manual (asmlnk_manual.txt)
+    - Added section on @ref nes_technical_details "NES support"
+    - Added @ref using_cgb_features "Using Game Boy Color Features"
     - Updated @ref megaduck_sound_register_value_changes "MegaDuck hardware documentation"
     - Added @ref banked_calling_convention "Banked Calling Convention"
     - Added mention of @ref MAX_HARDWARE_SPRITES

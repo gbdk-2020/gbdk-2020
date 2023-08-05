@@ -15,6 +15,7 @@ This section contains information that may be useful to know or important when u
     - move_metasprite_flipxy(): replaces move_metasprite_hvflip()
     - move_metasprite_ex(): replaces move_metasprite()
   - The unused `-DINT_16_BITS` argument was removed from the default SDCC compiler and preprocessor arguments (used in pre-GBDK2020 `gbdk/include-gb/types.h`)
+  - Removed legacy MBC register definitions `.MBC1_ROM_PAGE` and `.MBC_ROM_PAGE`
 
 
 ## Porting to GBDK-2020 4.1.1

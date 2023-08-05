@@ -65,6 +65,9 @@ You can change this behavior using @ref nowait_int_handler() which does not chec
 
 # What GBDK does automatically and behind the scenes
 
+## NES console
+For implementation details on the NES console in GBDK, see the @ref nes_technical_details "NES entry" in @ref docs_supported_consoles "Supported Consoles & Cross Compiling"
+
 ## OAM (VRAM Sprite Attribute Table)
 GBDK sets up a Shadow OAM which gets copied automatically to the hardware OAM by the default V-Blank ISR. The Shadow OAM allows updating sprites without worrying about whether it is safe to write to them or not based on the hardware LCD mode.
 

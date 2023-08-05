@@ -168,6 +168,8 @@ GB/AP/DUCK
   - 40 total, max 10 per line
   - 2 x 4 color palette (color 0 transparent). 8 x 4 color palettes in CGB mode
 - Background: 256 tiles (typical setup: upper 128 are shared with sprites) (amount is doubled in CGB mode)
+  - tile grid size: 8x8
+  - tile attribute grid size: 8x8 (CGB mode only)
   - tile flipping/mirroring: no (yes in CGB mode)
   - 1 x 4 color palette. 8 x 4 color palettes in CGB mode
 - Window "layer": available
@@ -182,6 +184,8 @@ SMS/GG
   - 64 total, max 8 per line
   - 1 x 16 color palette (color 0 transparent)
 - Background: 512 tiles (upper 256 are shared with sprites)
+  - tile grid size: 8x8
+  - tile attribute grid size: 8x8
   - tile flipping/mirroring: yes
   - 2 x 16 color palettes
 - Window "layer": not available
@@ -200,6 +204,8 @@ NES/Famicom
   - 64 total, max 8 per line
   - 4 x 4 color palette (color 0 transparent)
 - Background: 256 tiles
+  - tile grid size: 8x8
+  - tile attribute grid size: 16x16 (bit packed into 32x32)
   - tile flipping/mirroring: no
   - 4 x 4 color palette (color 0 same for all sub-palettes)
 - Window "layer": not available
@@ -218,16 +224,14 @@ GB/AP
   - VRAM and some other display data / registers should only be written to when the @ref STATF_B_BUSY bit of @ref STAT_REG is off. Most GBDK API calls manage this automatically.
 
 SMS/GG
-- The SMS/GG ROM file size must be at least 64K to enable mapper support for RAM banks in emulators.
-  - If the generated ROM is too small then `-yo 4` for makebin (or `-Wm-yo4` for LCC) can be used to set the size to 64K.
 - Display Controller (VDP)
   - Writing to the VDP should not be interrupted while an operation is already in progress (since that will interfere with the internal data pointer causing data to be written to the wrong location).
   - Recommended approach: Avoid writing to the VDP (tiles, map, scrolling, colors, etc) during an interrupt routine (ISR).
   - Alternative (requires careful implementation): Make sure writes to the VDP during an ISR are only performed when the @ref _shadow_OAM_OFF flag indicates it is safe to do so.
 
 
-NES
-- ...
+NES/Famicom
+- See @ref nes_technical_details "NES technical details"
 
 @anchor using_cgb_features
 # Using Game Boy Color (CGB) Features
@@ -283,7 +287,6 @@ The Analogue Pocket operating in `.pocket` mode is (for practical purposes) func
    - Different logo data in the header at address `0x0104`:
      - `0x01, 0x10, 0xCE, 0xEF, 0x00, 0x00, 0x44, 0xAA, 0x00, 0x74, 0x00, 0x18, 0x11, 0x95, 0x00, 0x34, 0x00, 0x1A, 0x00, 0xD5, 0x00, 0x22, 0x00, 0x69, 0x6F, 0xF6, 0xF7, 0x73, 0x09, 0x90, 0xE1, 0x10, 0x44, 0x40, 0x9A, 0x90, 0xD5, 0xD0, 0x44, 0x30, 0xA9, 0x21, 0x5D, 0x48, 0x22, 0xE0, 0xF8, 0x60`
                 
-
 ### Observed differences:
   - MBC1 and MBC5 are supported, MBC3 won't save and RTC doesn't progress when game is not running, the HuC3 isn't supported at all (via JoseJX and sg).
   - The Serial Link port does not work
@@ -303,6 +306,10 @@ As long as the target console is @ref docs_consoles_compiling "set during build 
 
 
 ## From Game Boy to SMS/GG
+
+### RAM Banks
+- The SMS/GG ROM file size must be at least 64K to enable mapper support for RAM banks in emulators.
+  - If the generated ROM is too small then `-yo 4` for makebin (or `-Wm-yo4` for LCC) can be used to set the size to 64K.
 
 ### Tile Data and Tile Map loading
 
@@ -335,6 +342,7 @@ This behavior is emulated for the SMS/GG when using @ref set_bkg_tiles() and @re
 @note Tile map attributes on SMS/Game Gear use different control bits than the Game Boy Color, so a modified attribute map must be used.
 
 
+@anchor nes_technical_details
 ## From Game Boy to NES
 
 The NES graphics architecture is similar to the GB's. However, there are a number of design choices in the NES hardware that make the NES a particularly cumbersome platform to develop for, and that will require special attention.
@@ -487,7 +495,7 @@ To maintain API compatibility with other platforms that have attributes on an 8x
 
 This allows code to for attribute setting to remain unchanged between platforms. The effect of using these calls is that some attribute setting will be redundant due to the coarser attribute grid. i.e., setting the attribute at coordinates (4, 4), (4,5), (5, 4) and (5, 5) will all set the same attribute.
 
-There is one more platform specific difference to note: While the set_bkg_attribute_xy function takes coordinates on a 8x8 grid, the set_bkg_attributes and set_bkg_submap_attributes functions take a pointer to data in NES packed attribute format, where each byte contains data for 4 16x16 attribute. i.e. a 32x32 region. 
+There is one more platform specific difference to note: While the set_bkg_attribute_xy() function takes coordinates on a 8x8 grid, the set_bkg_attributes() and set_bkg_submap_attributes() functions take a pointer to data in NES packed attribute format, where each byte contains data for 4 16x16 attribute. i.e. a 32x32 region. 
 
 While this implementation detail of how the attribute map is encoded is usually hidden by the API functions it does mean that code which manually tries to read the attribute data is *NOT* portable between NES/other platforms, and is not recommended.
 
