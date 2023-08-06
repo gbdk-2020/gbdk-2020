@@ -184,7 +184,7 @@ void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y)
 				unsigned char props;
 				unsigned char pal_idx = image.data[y * image.w + x] >> 2; //We can pick the palette from the first pixel of this tile
 
-				if(keep_duplicate_tiles)
+				if((!use_source_tileset) && keep_duplicate_tiles)
 				{
 					tiles.push_back(tile);
 					idx = tiles.size() - 1;
@@ -233,7 +233,7 @@ void GetMap()
 			size_t idx;
 			unsigned char props;
 
-			if(keep_duplicate_tiles)
+			if((!use_source_tileset) && keep_duplicate_tiles)
 			{
 				tiles.push_back(tile);
 				idx = tiles.size() - 1;
