@@ -38,6 +38,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
       - Workaround for possible HALT bug in Crash Handler
     - Refactored interrupts to use less space
   - Toolchain / Utilities
+    - Added @ref utility_png2hiclorgb "png2hicolorgb"
     - @ref lcc "lcc"
       - Fixed `--sdccbindir`
       - Removed the unused `-DINT_16_BITS` from the default SDCC compiler and preprocessor arguments
@@ -59,7 +60,8 @@ https://github.com/gbdk-2020/gbdk-2020/releases
      - Metasprites: Added sub-palette switching for GBC and NES, software metasprite flipping for sms/gg
      - Large Map: Added color for supported platforms
      - LCD ISR Wobble: Improved interrupt flag settings
-     - Added GB-Type example:
+     - Added GB-Type example
+     - Added Game Boy Color Hi-Color example using @ref utility_png2hiclorgb "png2hicolorgb"
   - Docs:
     - Improved search to do partial matches instead of matching start of string only
     - Added SDAS assembler manual (asmlnk_manual.txt)
