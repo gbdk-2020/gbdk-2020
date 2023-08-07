@@ -151,6 +151,8 @@ endif
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/makecom TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
 	@echo Building makebin
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/makebin TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
+	@echo Building png2hicolorgb
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/png2hicolorgb TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
 	@echo
 
 gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
@@ -184,6 +186,9 @@ gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
 	@echo Installing makebin
 	@cp $(GBDKSUPPORTDIR)/makebin/makebin$(EXEEXTENSION) $(BUILDDIR)/bin/makebin$(EXEEXTENSION)
 	@$(TARGETSTRIP) $(BUILDDIR)/bin/makebin$(EXEEXTENSION)
+	@echo Installing png2hicolorgb
+	@cp $(GBDKSUPPORTDIR)/png2hicolorgb/png2hicolorgb$(EXEEXTENSION) $(BUILDDIR)/bin/png2hicolorgb$(EXEEXTENSION)
+	@$(TARGETSTRIP) $(BUILDDIR)/bin/png2hicolorgb$(EXEEXTENSION)
 	@echo
 
 gbdk-support-clean:
@@ -202,6 +207,8 @@ gbdk-support-clean:
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/makecom clean
 	@echo Cleaning makebin
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/makebin clean
+	@echo Cleaning png2hicolorgb
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/png2hicolorgb clean
 	@echo
 
 # Rules for gbdk-lib
@@ -467,6 +474,12 @@ ifneq (,$(wildcard $(BUILDDIR)/bin/))
 	echo \# png2asset settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 	$(BUILDDIR)/bin/png2asset >> $(TOOLCHAIN_DOCS_FILE) 2>&1
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE)
+# png2hicolorgb
+	echo \@anchor png2hicolorgb-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# png2hicolorgb settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+	$(BUILDDIR)/bin/png2hicolorgb -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE)
 endif
 

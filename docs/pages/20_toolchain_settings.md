@@ -598,3 +598,42 @@ usage: png2asset    <file>.png [options]
 -bin                export to binary format
 -transposed         export transposed (column-by-column instead of row-by-row)
 ```
+@anchor png2hicolorgb-settings
+# png2hicolorgb settings
+```
+
+png2hicolorgb input_image.png [options]
+version 1.4.1: bbbbbr. Based on Glen Cook's Windows GUI "hicolour.exe" 1.2
+Convert an image to Game Boy Hi-Color format
+
+Options
+-h         : Show this help
+-v*        : Set log level: "-v" verbose, "-vQ" quiet, "-vE" only errors, "-vD" debug
+-o <file>  : Set base output filename (otherwise from input image)
+--csource  : Export C source format with incbins for data files
+--bank=N   : Set bank number for C source output where N is decimal bank number 1-511
+--type=N   : Set conversion type where N is one of below 
+              1: Median Cut - No Dither (*Default*)
+              2: Median Cut - With Dither
+              3: Wu Quantiser
+-p         : Show screen attribute pattern options (no processing)
+-L=N       : Set Left  screen attribute pattern where N is decimal entry (-p to show patterns)
+-R=N       : Set Right screen attribute pattern where N is decimal entry (-p to show patterns)
+--vaddrid  : Map uses vram id (128->255->0->127) instead of (*Default*) sequential tile order (0->255)
+--nodedupe : Turn off tile pattern deduplication
+
+Example 1: "png2hicolorgb myimage.png"
+Example 2: "png2hicolorgb myimage.png --csource -o=my_output_filename"
+* Default settings provide good results. Better quality but slower: "--type=3 -L=2 -R=2"
+
+Historical credits and info:
+   Original Concept : Icarus Productions
+   Original Code : Jeff Frohwein
+   Full Screen Modification : Anon
+   Adaptive Code : Glen Cook
+   Windows Interface : Glen Cook
+   Additional Windows Programming : Rob Jones
+   Original Quantiser Code : Benny
+   Quantiser Conversion : Glen Cook
+
+```

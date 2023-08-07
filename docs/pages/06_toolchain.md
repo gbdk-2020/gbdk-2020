@@ -308,3 +308,30 @@ Converts a binary .rom file to .msxdos com format, including splitting the banks
 
 - For detailed settings see @ref makecom-settings
 
+
+@anchor utility_png2hicolorgb
+## png2hicolorgb
+An updated version of Glen Cook's Windows GUI "hicolour.exe" 1.2 conversion tool for the Game Boy Color. The starting code base was the 1.2 release.
+
+- For detailed settings see @ref png2hicolorgb-settings
+
+"Hi Color" on the Game Boy Color is a technique for displaying backgrounds with thousands of colors instead being limtied to 32 colors for the entire screen background. It achieves this by changing ~16 colors of the background palette per scanline. The main tradeoffs are that it uses much of the Game Boy's available cpu processing per frame and requires more ROM space. The tile patterns, map, attributes and per-scanline palettes are pre-calculated using the PC based conversion tool.
+
+Example: `png2hicolorgb myimage.png --csource -o=my_output_filename`
+Example with higher quality (slower conversion): `png2hicolorgb myimage.png --csource -o=my_output_filename --type=3 -L=2 -R=2`
+
+```
+Historical credits and info:
+   Original Concept : Icarus Productions
+   Original Code : Jeff Frohwein
+   Full Screen Modification : Anon
+   Adaptive Code : Glen Cook
+   Windows Interface : Glen Cook
+   Additional Windows Programming : Rob Jones
+   Original Quantiser Code : Benny
+   Quantiser Conversion : Glen Cook
+```
+
+### Additional Details
+For technical details about the conversion process and rendering, see:
+https://github.com/bbbbbr/png2hicolorgb
