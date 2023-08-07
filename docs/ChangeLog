@@ -26,6 +26,7 @@ gbdk-4.2.0
       - Added `-no_palettes`: Do not export palette data
       - Fixed support for indexed color pngs with less than 8 bits color depth
       - Fixed incorrect palettes when different colors have same luma value
+      - Fixed -keep_duplicate_tiles not working with -source_tileset
     - Added png2hicolorgb
     - Added sdld6808 (for NES)
     - Examples

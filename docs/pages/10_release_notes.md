@@ -49,6 +49,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
       - Added `-no_palettes`: Do not export palette data
       - Fixed support for indexed color pngs with less than 8 bits color depth
       - Fixed incorrect palettes when different colors have same luma value (use RGB values as less-significant bits)
+      - Fixed `-keep_duplicate_tiles` not working with `-source_tileset`
       - Changed to use cross-platform constants for metasprite properties (S_FLIPX, S_FLIPY and S_PAL)
     - @ref makebin
       - Warn if RAM banks specified and file size of ROM is less than the 64K required to enable them with in emulators
