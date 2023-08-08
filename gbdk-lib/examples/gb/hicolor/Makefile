@@ -1,10 +1,9 @@
-# If you move this project you can change the directory 
+# If you move this project you can change the directory
 # to match your GBDK root directory (ex: GBDK_HOME = "C:/GBDK/"
 ifndef GBDK_HOME
 GBDK_HOME = ../../../
 endif
 
-LCC = $(GBDK_HOME)bin/lcc 
 LCC = $(GBDK_HOME)bin/lcc
 
 # You can set flags for LCC here
@@ -39,15 +38,15 @@ HICOLORDIR  = $(RESDIR)/hicolor
 MKDIRS      = $(OBJDIR) $(BINDIR) # See bottom of Makefile for directory auto-creation
 
 
-BINS	    = $(BINDIR)/$(PROJECTNAME).gb
+BINS	    = $(BINDIR)/$(PROJECTNAME).gbc
 CSOURCES    = $(foreach dir,$(SRCDIR),$(notdir $(wildcard $(dir)/*.c))) $(foreach dir,$(RESDIR),$(notdir $(wildcard $(dir)/*.c)))
 ASMSOURCES  = $(foreach dir,$(SRCDIR),$(notdir $(wildcard $(dir)/*.s)))
 
 # For Hi Color:
 # The HICOLORS entries should be first in the OBJS list so they get generated before anything which might depend on them
 HICOLORS     = $(foreach dir,$(HICOLORDIR),$(notdir $(wildcard $(dir)/*.png)))
-HICOLOR_SRCS = $(HICOLORS:%.png=$(OBJDIR)/%.c) $(HICOLORS:%.png=$(OBJDIR)/%_pal.c)
-OBJS         = $(HICOLOR_SRCS:%.c=%.o) $(CSOURCES:%.c=$(OBJDIR)/%.o) $(ASMSOURCES:%.s=$(OBJDIR)/%.o)
+HICOLOR_SRCS = $(HICOLORS:%.png=$(OBJDIR)/%.c)
+OBJS         = $(HICOLORS:%.png=$(OBJDIR)/%.o) $(CSOURCES:%.c=$(OBJDIR)/%.o) $(ASMSOURCES:%.s=$(OBJDIR)/%.o)
 
 all: $(BINS)
 

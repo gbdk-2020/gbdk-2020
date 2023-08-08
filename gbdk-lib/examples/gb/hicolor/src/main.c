@@ -20,17 +20,16 @@ uint8_t buttons, buttons_prev;
 #define BUTTON_TOGGLED(BUTTON_MASK) ((buttons & (~buttons_prev)) & (BUTTON_MASK))
 #define BUTTON_PRESSED(BUTTON_MASK) (buttons & (BUTTON_MASK))
 
-typedef struct hicolor_rec_t {
+typedef struct far_ptr_t {
     uint8_t bank;
-    uint8_t bank_pal;
     const void * ptr;
-} hicolor_rec_t;
+} far_ptr_t;
 
 // Array of pointers to the generated hicolor data structures
-const hicolor_rec_t hicolors[] = {
-    { BANK(test_pattern_tall),  BANK(test_pattern_tall_pal),  &HICOLOR_VAR(test_pattern_tall) },
-    { BANK(example_image),      BANK(example_image_pal),      &HICOLOR_VAR(example_image) },
-    { BANK(test_pattern_short), BANK(test_pattern_short_pal), &HICOLOR_VAR(test_pattern_short) }
+const far_ptr_t hicolors[] = {
+    { BANK(test_pattern_tall),  &HICOLOR_VAR(test_pattern_tall) },
+    { BANK(example_image),      &HICOLOR_VAR(example_image) },
+    { BANK(test_pattern_short), &HICOLOR_VAR(test_pattern_short) }
 };
 
 
@@ -41,7 +40,6 @@ void main(void) {
     uint8_t  scroll_limit = 0;
     const    hicolor_data * p_hicolor;
     uint8_t  hicolor_bank;
-    uint8_t  hicolor_bank_pal;
 
     SHOW_BKG;
 
@@ -63,7 +61,6 @@ void main(void) {
 
                 // Set current image to show
                 hicolor_bank = hicolors[img_select].bank;
-                hicolor_bank_pal = hicolors[img_select].bank_pal;
                 p_hicolor = (const hicolor_data *)hicolors[img_select].ptr;
 
                 uint8_t bank_save = _current_bank;
@@ -92,7 +89,7 @@ void main(void) {
                 SWITCH_ROM(bank_save);
 
                 // Load and display the HiColor image
-                hicolor_start(p_hicolor, hicolor_bank, hicolor_bank_pal);
+                hicolor_start(p_hicolor, hicolor_bank);
 
                 DISPLAY_ON;
 
