@@ -213,7 +213,7 @@ static int handle_args(int argc, char * argv[]) {
             }
 
             // Require colon and filename to be present
-             if (*argv[i] == '-')
+            if (*argv[i] == '-')
                 log_standard("Warning: -o specified but filename has dash and looks like an option argument. Usage: -o my_base_output_filename\n");
             snprintf(opt_filename_out, sizeof(opt_filename_out), "%s", argv[i]);
 
