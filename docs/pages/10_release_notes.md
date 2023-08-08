@@ -38,7 +38,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
       - Workaround for possible HALT bug in Crash Handler
     - Refactored interrupts to use less space
   - Toolchain / Utilities
-    - Added @ref utility_png2hiclorgb "png2hicolorgb"
+    - Added @ref utility_png2hicolorgb "png2hicolorgb"
     - @ref lcc "lcc"
       - Fixed `--sdccbindir`
       - Removed the unused `-DINT_16_BITS` from the default SDCC compiler and preprocessor arguments
@@ -62,7 +62,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
      - Large Map: Added color for supported platforms
      - LCD ISR Wobble: Improved interrupt flag settings
      - Added GB-Type example
-     - Added Game Boy Color Hi-Color example using @ref utility_png2hiclorgb "png2hicolorgb"
+     - Added Game Boy Color Hi-Color example using @ref utility_png2hicolorgb "png2hicolorgb"
   - Docs:
     - Improved search to do partial matches instead of matching start of string only
     - Added SDAS assembler manual (asmlnk_manual.txt)
@@ -288,7 +288,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
       - Fixed -yt mbc specifier to also accept Decimal
       - Improved: bank ID can be used in same file it is declared. Requires SDCC 12238+ with `-n` option to defer symbol resolution to link time.
     - gbcompress
-      - Added C source input (expirimental) and output
+      - Added C source input (experimental) and output
       - Added size `#defines`
     - lcc
       - Added `-no-libs` and `-no-crt` options
