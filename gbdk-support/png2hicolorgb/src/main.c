@@ -204,9 +204,16 @@ static int handle_args(int argc, char * argv[]) {
             hicolor_set_convert_right_pattern( strtol(argv[i] + strlen("-R="), NULL, 10));
 
         } else if (strstr(argv[i], "-o") == argv[i]) {
-            i++; // Move to next argument
+            if (i < (argc -1))
+                i++; // Move to next argument if one is available
+            else {
+                log_standard("Error: -o specified but filename is missing\n");
+                show_help_and_exit = true;
+                return false; // Abort
+            }
+
             // Require colon and filename to be present
-             if (*argv[i] == '-')
+            if (*argv[i] == '-')
                 log_standard("Warning: -o specified but filename has dash and looks like an option argument. Usage: -o my_base_output_filename\n");
             snprintf(opt_filename_out, sizeof(opt_filename_out), "%s", argv[i]);
 
