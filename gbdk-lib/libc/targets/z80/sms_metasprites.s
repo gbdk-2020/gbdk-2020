@@ -21,7 +21,7 @@ ___render_shadow_OAM::
 
         .area   _CODE
 
-; uint8_t __move_metasprite(uint8_t id, uint8_t x, uint8_t y);
+; uint8_t __move_metasprite(uint8_t id, uint16_t x, uint16_t y);
 ; a      == id
 ; de     == x
 ; (sp+2) == y
