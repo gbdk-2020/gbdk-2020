@@ -13,6 +13,9 @@ gbdk-4.2.0
       - Added support for much of the GBDK API
       - Banking support (library and sdcc toolchain)
       - Added set_bkg_attributes_nes16x16(), set_bkg_submap_attributes_nes16x16(), set_bkg_attribute_xy_nes16x16()
+    - SMS/GG
+      - Swapped A and B buttons to match game boy buttons
+      - X coordinate metasprite clipping on the screen edges
     - Game Boy
       - Faster vmemcpy(), set_data(), get_data()
       - Fixed hide_sprites_range(39u, 40u) overflow shadow OAM
@@ -27,13 +30,12 @@ gbdk-4.2.0
       - Fixed support for indexed color pngs with less than 8 bits color depth
       - Fixed incorrect palettes when different colors have same luma value
       - Fixed -keep_duplicate_tiles not working with -source_tileset
-    - Added png2hicolorgb
+    - Added png2hicolorgb + example project
     - Added sdld6808 (for NES)
     - Examples
       - Wav Playback: Improved support on AGB/AGS hardware
       - Large Map: Added color for supported platforms
       - Added GB-Type example
-      - Added Game Boy Color Hi-Color example using png2hicolorgb
     - Updated documentation and improved search
 
 gbdk-4.1.1
