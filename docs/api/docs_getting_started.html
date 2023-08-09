@@ -29,7 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.1.1</span>
+   &#160;<span id="projectnumber">4.2.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -91,23 +91,52 @@ $(document).ready(function(){initNavTree('docs_getting_started.html',''); initRe
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p>Follow the steps in this section to start using GBDK-2020.</p>
-<h1><a class="anchor" id="autotoc_md11"></a>
+<h1><a class="anchor" id="autotoc_md7"></a>
 1. Download a Release and unzip it</h1>
 <p>You can get the latest releases from here: <a href="https://github.com/gbdk-2020/gbdk-2020/releases">https://github.com/gbdk-2020/gbdk-2020/releases</a></p>
-<h1><a class="anchor" id="autotoc_md12"></a>
+<p><a class="anchor" id="windows_sdcc_non_c_drive_path_spaces"></a></p>
+<h2><a class="anchor" id="autotoc_md8"></a>
+Known Issue: Windows and folder names with spaces on non-C drives</h2>
+<p>There is a known issue on Windows where sdcc will fail when run from folder names with spaces on non-C drives.</p>
+<p>For the time being the workaround is as follows (with <code>D:\My Stuff\</code> as an example folder):</p><ul>
+<li>Run Windows Command as administrator</li>
+<li>Run: <code>fsutil.exe 8dot3name query D:</code><ul>
+<li>Output: The volume state is: 1 (8dot3 name creation is disabled). The registry state is: 2 (Per volume setting - the default). Based on the above settings, 8dot3 name creation is disabled on D:</li>
+</ul>
+</li>
+<li>Run: <code>fsutil 8dot3name set D: 0</code><ul>
+<li>Output: Successfully enabled 8dot3name generation on D:</li>
+</ul>
+</li>
+<li>Run: <code>fsutil.exe 8dot3name query D:</code><ul>
+<li>Output: The volume state is: 0 (8dot3 name creation is enabled). The registry state is: 2 (Per volume setting - the default). Based on the above settings, 8dot3 name creation is enabled on D:</li>
+</ul>
+</li>
+<li>Only folders created AFTER the setting has been enabled will get 8.3 filename support, renaming folders does NOT appear to generate 8.3 filename support. However it is possible to manually generate a short path name for an existing folder:<ul>
+<li>Run: <code>D:\&gt;fsutil file setshortname "D:\My stuff" "mystuf~1"</code></li>
+</ul>
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md9"></a>
 2. Compile Example projects</h1>
 <p>Make sure your GBDK-2020 installation is working correctly by compiling some of the included <a class="el" href="docs_example_programs.html">example projects</a>.</p>
 <p>If everything works in the steps below and there are no errors reported then each project that was built should have its own .gb ROM file (or suitable extension for the other supported targets).</p>
-<h2><a class="anchor" id="autotoc_md13"></a>
+<h2><a class="anchor" id="autotoc_md10"></a>
 Windows (without Make installed):</h2>
 <p>Navigate to a project within the example projects folder (<code>"examples\gb\"</code> under your GBDK-2020 install folder) and open a command line. Then type: </p><pre class="fragment">compile
 </pre><p> or </p><pre class="fragment">compile.bat
 </pre><p> This should build the example project. You can also navigate into other example project folders and build in the same way.</p>
-<h2><a class="anchor" id="autotoc_md14"></a>
-Linux / MacOS / Windows with Make installed:</h2>
+<h2><a class="anchor" id="autotoc_md11"></a>
+Linux / macOS / Windows with Make installed:</h2>
 <p>Navigate to the example projects folder (<code>"examples/gb/"</code> under your GBDK-2020 install folder) and open a command line. Then type: </p><pre class="fragment">make
 </pre><p> This should build all of the examples sequentially. You can also navigate into an individual example project's folder and build it by typing <code>make</code>.</p>
-<h1><a class="anchor" id="autotoc_md15"></a>
+<p><a class="anchor" id="macos_unsigned_security_workaround"></a></p>
+<h3><a class="anchor" id="autotoc_md12"></a>
+macOS security warnings</h3>
+<p>If you get a security warning on macOS that says ("`... developer cannot be verified, macOS cannot verify that this app is free from malware`"), it does not mean that GBDK is malware. It just means the GBDK toolchain binaries are not signed by Apple, so it won't run them without an additional step.</p>
+<p>You will need to unquarrantine the files in the bin folder in order to run them. This can be fixed using the following steps.</p>
+<p>Open a terminal and navigate to the gbdk bin folder (<code>"bin/"</code> under your GBDK-2020 install folder). Then type: </p><pre class="fragment">xattr -d com.apple.quarantine *
+</pre><h1><a class="anchor" id="autotoc_md13"></a>
 3. Use a Template</h1>
 <p><b>To create a new project use a template!</b></p>
 <p>There are template projects included in the <a class="el" href="docs_example_programs.html">GBDK example projects</a> to help you get up and running. Their folder names start with <code>template_</code>.</p>
@@ -117,14 +146,14 @@ Linux / MacOS / Windows with Make installed:</h2>
 <li>Type <code>make</code> on the command line in that folder to verify it still builds.</li>
 <li>Open main.c to start making changes.</li>
 </ol>
-<h1><a class="anchor" id="autotoc_md16"></a>
+<h1><a class="anchor" id="autotoc_md14"></a>
 4. If you use GBTD / GBMB, get the fixed version</h1>
 <p>If you plan to use GBTD / GBMB for making graphics, make sure to get the version with the <code>const</code> fix and other improvements. See <a class="el" href="docs_coding_guidelines.html#const_gbtd_gbmb">const_gbtd_gbmb</a>.</p>
-<h1><a class="anchor" id="autotoc_md17"></a>
+<h1><a class="anchor" id="autotoc_md15"></a>
 5. Review Coding Guidelines</h1>
 <p>Take a look at the <a class="el" href="docs_coding_guidelines.html">coding guidelines</a>, even if you have experience writing software for other platforms. There is important information to help you get good results and performance on the Game Boy.</p>
 <p>If you haven't written programs in C before, check the <a class="el" href="docs_coding_guidelines.html#docs_c_tutorials">C tutorials section</a>.</p>
-<h1><a class="anchor" id="autotoc_md18"></a>
+<h1><a class="anchor" id="autotoc_md16"></a>
 6. Hardware and Resources</h1>
 <p>If you have a specific project in mind, consider what hardware you want to target. It isn't something that has to be decided up front, but it can influence design and implementation.</p>
 <p>What size will your game or program be?</p><ul>
@@ -146,48 +175,48 @@ Linux / MacOS / Windows with Make installed:</h2>
 <li>Game Boy &amp; Super Game Boy</li>
 <li>See how to <a class="el" href="docs_faq.html#faq_gb_type_header_setting">set the compatibility type in the cartridge header</a>. Read more about hardware differences in the <a class="el" href="docs_links_and_tools.html#Pandocs">Pandocs</a></li>
 </ul>
-<h1><a class="anchor" id="autotoc_md19"></a>
+<h1><a class="anchor" id="autotoc_md17"></a>
 7. Set up C Source debugging</h1>
 <p>Tracking down problems in code is easier with a debugger. Emulicious has a <a class="el" href="docs_links_and_tools.html#Emulicious_debug">debug adapter</a> that provides C source debugging with GBDK-2020.</p>
-<h1><a class="anchor" id="autotoc_md20"></a>
+<h1><a class="anchor" id="autotoc_md18"></a>
 8. Try a GBDK Tutorial</h1>
 <p>You might want to start off with a guided GBDK tutorial from the <a class="el" href="docs_links_and_tools.html#links_gbdk_tutorials">GBDK Tutorials section</a>.</p>
 <ul>
 <li><b>Note:</b> Tutorials (or parts of them) may be based on the older GBDK from the 2000's before it was updated to be GBDK-2020. The general principles are all the same, but the setup and parts of the <a class="el" href="docs_toolchain.html">toolchain</a> (compiler/etc) may be somewhat different and some links may be outdated (pointing to the old GBDK or old tools).</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md21"></a>
+<h1><a class="anchor" id="autotoc_md19"></a>
 9. Read up!</h1>
 <ul>
 <li>It is strongly encouraged to read more <a class="el" href="index.html#docs_index">GBDK-2020 General Documentation</a>.</li>
 <li>Learn about the Game Boy hardware by reading through the <a class="el" href="docs_links_and_tools.html#Pandocs">Pandocs</a> technical reference.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md22"></a>
+<h1><a class="anchor" id="autotoc_md20"></a>
 10. Need help?</h1>
 <p>Check out the links for <a class="el" href="docs_links_and_tools.html#links_help_and_community">online community and support</a> and read the <a class="el" href="docs_faq.html">FAQ</a>.</p>
-<h1><a class="anchor" id="autotoc_md23"></a>
+<h1><a class="anchor" id="autotoc_md21"></a>
 Migrating From Pre-GBDK-2020 Tutorials</h1>
 <p>Several popular GBDK Tutorials, Videos and How-to's were made before GBDK-2020 was available, as a result some information they include is outdated or incompatible. The following summarizes changes that should be made for best results.</p>
-<h2><a class="anchor" id="autotoc_md24"></a>
+<h2><a class="anchor" id="autotoc_md22"></a>
 Also see:</h2>
 <ul>
 <li><a class="el" href="docs_migrating_versions.html">Migrating to new GBDK Versions</a></li>
 <li><a class="el" href="docs_coding_guidelines.html">Coding Guidelines</a></li>
 <li><a class="el" href="docs_getting_started.html">Getting Started</a> (the section above this)</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md25"></a>
+<h2><a class="anchor" id="autotoc_md23"></a>
 Use auto-banking</h2>
 <p>GBDK-2020 now supports auto-banking (<a class="el" href="docs_rombanking_mbcs.html#rom_autobanking">rom_autobanking</a>). In most cases using auto-banking will be easier and less error prone than manually assigning source and assets to banks.</p><ul>
 <li>There is a source example <code>banks_autobank</code> project.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md26"></a>
+<h2><a class="anchor" id="autotoc_md24"></a>
 Non-standard types (UINT8, etc)</h2>
 <p>The old GBDK types <code>UINT8</code>, <code>INT8</code>, <code>UINT16</code>, <code>INT16</code> are non-standard and less portable.</p>
 <p>The following should be used instead: <code>uint8_t</code>, <code>int16_t</code>, <code>uint16_t</code>, <code>int32_t</code>, <code>uint32_t</code> and <code>bool</code>.</p>
 <p>These are standard types defined in <code>stdint.h</code> (<code>#include &lt;stdint.h&gt;</code>) and <code>stdbool.h</code> (<code>#include &lt;stdbool.h&gt;</code>).</p>
-<h2><a class="anchor" id="autotoc_md27"></a>
+<h2><a class="anchor" id="autotoc_md25"></a>
 If using GBTD / GBMB, get the fixed version</h2>
 <p>If you plan to use GBTD / GBMB for making graphics, make sure to get the version with the <code>const</code> fix and other improvements. See <a class="el" href="docs_coding_guidelines.html#const_gbtd_gbmb">const_gbtd_gbmb</a>.</p>
-<h2><a class="anchor" id="autotoc_md28"></a>
+<h2><a class="anchor" id="autotoc_md26"></a>
 LCC and SDCC flags that are not needed</h2>
 <p>The following flag is no longer needed with <a class="el" href="docs_toolchain.html#lcc">lcc</a> and <a class="el" href="docs_toolchain.html#sdcc">sdcc</a>, it can be removed without any loss of performance.</p><ul>
 <li><code>-DUSE_SFR</code><ul>
@@ -195,23 +224,23 @@ LCC and SDCC flags that are not needed</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md29"></a>
+<h2><a class="anchor" id="autotoc_md27"></a>
 ROM Header Settings (such as Color, SGB, etc)</h2>
 <p>Setting ROM bytes directly with <code>-Wl-yp0x&lt;address&gt;=0x&lt;value&gt;</code> is no longer supported. Instead use <a class="el" href="docs_toolchain.html#makebin">makebin</a> flags. For example, use <code>-Wm-yC</code> instead of <code>-Wl-yp0x143=0xC0</code>. See <a class="el" href="docs_faq.html#faq_gb_type_header_setting">faq_gb_type_header_setting</a>.</p>
-<h2><a class="anchor" id="autotoc_md30"></a>
+<h2><a class="anchor" id="autotoc_md28"></a>
 GBDK Header include changes</h2>
 <p>The following header files which are now cross platform were moved from <code>gb/</code> to <code>gbdk/</code>: <code>bcd.h</code>, <code>console.h</code>, <code>far_ptr.h</code>, <code>font.h</code>, <code>gbdecompress.h</code>, <code>gbdk-lib.h</code>, <code>incbin.h</code>, <code>metasprites.h</code>, <code>platform.h</code>, <code>version.h</code></p><ul>
 <li>When including them use <code>#include &lt;gbdk/...&gt;</code> instead of <code>#include &lt;gb/&gt;</code></li>
 </ul>
-<h2><a class="anchor" id="autotoc_md31"></a>
+<h2><a class="anchor" id="autotoc_md29"></a>
 Include .h headers, not .c source files</h2>
 <p>Do not <code>#include</code> <code>.c</code> source files into other <code>.c</code> source files. Instead create <code>.h</code> header files for them and include those.</p><ul>
 <li><a href="https://www.tutorialspoint.com/cprogramming/c_header_files.htm">https://www.tutorialspoint.com/cprogramming/c_header_files.htm</a></li>
 </ul>
-<h2><a class="anchor" id="autotoc_md32"></a>
+<h2><a class="anchor" id="autotoc_md30"></a>
 Use the Template Projects</h2>
 <p>Modern project templates are included with GBDK-2020. Using them (and their Makefile or compile.bat) as a starting point for projects is recommended and can help ensure better default settings and project organization.</p>
-<h2><a class="anchor" id="autotoc_md33"></a>
+<h2><a class="anchor" id="autotoc_md31"></a>
 Use hUGEtracker instead of gbt_player</h2>
 <p>hUGEtracker and its driver <a class="el" href="docs_links_and_tools.html#hUGEdriver">hUGEdriver</a> are smaller, more efficient and more versatile than gbt_player. </p>
 </div></div><!-- contents -->
