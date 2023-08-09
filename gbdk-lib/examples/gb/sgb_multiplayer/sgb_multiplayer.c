@@ -22,7 +22,7 @@ void main(void) {
 
     // Wait 4 frames
     // For SGB on PAL SNES this delay is required on startup, otherwise borders don't show up
-    for (uint8_t i = 4; i != 0; i--) wait_vbl_done();
+    for (uint8_t i = 4; i != 0; i--) vsync();
 
     // init joypads
     joypad_init(4, &joypads);
@@ -42,6 +42,6 @@ void main(void) {
         if (joypads.joy0 & J_START) {
             for (uint8_t i = 0; i < 4; i++) move_sprite(i, (i << 3) + 64, 64);
         }
-        wait_vbl_done();
+        vsync();
     }
 }

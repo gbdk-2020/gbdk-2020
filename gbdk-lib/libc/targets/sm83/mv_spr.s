@@ -13,6 +13,5 @@
 	LD	A,E		; Set Y
 	LD	(HL+),A
 
-	LD	A,D		; Set X
-	LD	(HL+),A
+	LD	(HL),D  ; Set X
 	RET

@@ -13,7 +13,7 @@
 ;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 ;  GNU General Public License for more details.
 ;
-;  You should have received a copy of the GNU General Public License 
+;  You should have received a copy of the GNU General Public License
 ;  along with this library; see the file COPYING. If not, write to the
 ;  Free Software Foundation, 51 Franklin Street, Fifth Floor, Boston,
 ;   MA 02110-1301, USA.
@@ -29,9 +29,9 @@
         .module far_ptr
 
         .include        "global.s"
-        
+
         .area   _HOME
-                
+
 ___call__banked::
 
         ld      a, (#.MAP_FRAME1)
@@ -47,16 +47,11 @@ ___call__banked::
         ret
 
 _to_far_ptr::
-        pop bc
-        pop hl
-        pop de
-        push de
-        push hl
-        push bc
+        ex      de, hl
         ret
 
         .area   _DATA
-        
+
 ___call_banked_ptr::
 ___call_banked_addr::
         .ds     0x02            ; far pointer offset

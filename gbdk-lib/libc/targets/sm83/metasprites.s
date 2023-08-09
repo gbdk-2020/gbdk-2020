@@ -5,35 +5,36 @@
 
         .area   _DATA
 
-___current_metasprite:: 
+___current_metasprite::
         .ds     0x02
 ___current_base_tile::
         .ds     0x01
+___current_base_prop::
+	.ds     0x01
 
         .area   _INITIALIZED
 ___render_shadow_OAM::
         .ds     0x01
-        
+
         .area   _INITIALIZER
         .db     #>_shadow_OAM
 
         .area   _CODE
 
-; uint8_t __move_metasprite(uint8_t id, uint8_t x, uint8_t y)
+; uint8_t __move_metasprite(uint8_t id, uint16_t yx)
+; a: id
+; de: yx
 
 ___move_metasprite::
-        ldhl    sp, #4
-        ld      a, (hl-)
-        ld      b, a
-        ld      a, (hl-)
-        ld      c, a
-        ld      a, (hl)
         cp      #40
-        jr      nc, 3$
-
+        jr      c, 0$
+        xor     a
+        ret
+0$:
+        push    af
         add     a
         add     a
-        ld      e, a
+        ld      c, a
 
         ld      hl, #___current_metasprite
         ld      a, (hl+)
@@ -41,42 +42,42 @@ ___move_metasprite::
         ld      l, a
 
         ld      a, (___render_shadow_OAM)
-        ld      d, a
+        ld      b, a
 1$:
         ld      a, (hl+)    ; dy
         cp      #0x80
         jr      z, 2$
-        add     b
-        ld      b, a
-        ld      (de), a
-        inc     e
+        add     d
+        ld      d, a
+        ld      (bc), a
+        inc     c
 
         ld      a, (hl+)    ; dx
-        add     c
-        ld      c, a
-        ld      (de), a
-        inc     e
+        add     e
+        ld      e, a
+        ld      (bc), a
+        inc     c
 
         ld      a, (___current_base_tile)
         add     (hl)        ; tile
         inc     hl
-        ld      (de), a
-        inc     e
+        ld      (bc), a
+        inc     c
 
-        ld      a, (hl+)    ; props
-        ld      (de), a
-        inc     e
+	ld      a, (___current_base_prop)
+        add     (hl)        ; props
+        inc     hl
+        ld      (bc), a
+        inc     c
 
-        ld      a, e
+        ld      a, c
         cp      #160
         jr      c, 1$
 2$:
-        ld      a, e
+        ld      a, c
         srl     a
         srl     a
-        ldhl    sp, #2
-3$:
-        sub     (hl)
-        ld      e, a
+        pop     de
+        sub     d
 
         ret

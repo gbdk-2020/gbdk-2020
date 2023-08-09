@@ -215,9 +215,14 @@ Compression utility.
 
 For detailed settings see @ref gbcompress-settings
 
-Compresses (and decompresses) binary file data with the gbcompress algorithm (also used in GBTD/GBMB). Decompression support is available in GBDK, see @ref gb_decompress().
+Compresses (and decompresses) binary file data with the gbcompress algorithm (also used in GBTD/GBMB). Decompression support is available in GBDK:
+- gb_decompress(), gb_decompress_bkg_data(),  gb_decompress_win_data(), gb_decompress_sprite_data()
+- The `cross-platform/gbdecompress` example demonstrates how to use this compression
 
-Can also compress (and decompress) using block style RLE encoding with the `--alg=rle` flag. Decompression support is available in GBDK, see @ref rle_decompress().
+
+The utility can also compress (and decompress) using block style RLE encoding with the `--alg=rle` flag. Decompression support is available in GBDK:
+- rle_init(), rle_decompress()
+- The `cross-platform/rle_map` example demonstrates how to use this compression
 
 
 @anchor utility_png2asset
@@ -257,6 +262,9 @@ It is also posible to pass a indexed 8-bit png with the palette properly sorted 
   - Each tile can only have colors from one of these palettes per tile.
   - The maximum number of colors is 32.
 
+For indexed color images, sometimes RGB paint programs mix up indexed colors in tiles if the same color exists in multiple palettes.
+  - `-repair_indexed_pal` can be used to fix this problem, though tiles must still follow the rule of using only one palette per tile.
+  
 Using this image a tileset will be created
   - Duplicated tiles will be removed.
   - Tiles will be matched without mirror, using vertical mirror, horizontal mirror or both (use `-noflip` to turn off matching mirrored tiles).
@@ -300,3 +308,30 @@ Converts a binary .rom file to .msxdos com format, including splitting the banks
 
 - For detailed settings see @ref makecom-settings
 
+
+@anchor utility_png2hicolorgb
+## png2hicolorgb
+An updated version of Glen Cook's Windows GUI "hicolour.exe" 1.2 conversion tool for the Game Boy Color. The starting code base was the 1.2 release.
+
+- For detailed settings see @ref png2hicolorgb-settings
+
+"Hi Color" on the Game Boy Color is a technique for displaying backgrounds with thousands of colors instead being limtied to 32 colors for the entire screen background. It achieves this by changing ~16 colors of the background palette per scanline. The main tradeoffs are that it uses much of the Game Boy's available cpu processing per frame and requires more ROM space. The tile patterns, map, attributes and per-scanline palettes are pre-calculated using the PC based conversion tool.
+
+Example: `png2hicolorgb myimage.png --csource -o=my_output_filename`
+Example with higher quality (slower conversion): `png2hicolorgb myimage.png --csource -o=my_output_filename --type=3 -L=2 -R=2`
+
+```
+Historical credits and info:
+   Original Concept : Icarus Productions
+   Original Code : Jeff Frohwein
+   Full Screen Modification : Anon
+   Adaptive Code : Glen Cook
+   Windows Interface : Glen Cook
+   Additional Windows Programming : Rob Jones
+   Original Quantiser Code : Benny
+   Quantiser Conversion : Glen Cook
+```
+
+### Additional Details
+For technical details about the conversion process and rendering, see:
+https://github.com/bbbbbr/png2hicolorgb

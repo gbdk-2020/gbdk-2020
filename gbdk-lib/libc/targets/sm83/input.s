@@ -2,7 +2,7 @@
 
         ;; Note that while gets uses a pointer, the pointer had better
         ;; be in non-banked RAM else bad things will happen.
-        
+
         .globl  .copy_vram
         .globl  .set_xy_wtt
         .globl  .mv_sprite
@@ -76,9 +76,9 @@
         AND     #.T_MODE
         CALL    Z,.tmode_out
 
-        LD      BC,#.tp1        ; Move pointer
-        LD      HL,#0x8000
-        LD      DE,#.endtp1-.tp1
+        LD      HL,#.tp1
+        LD      DE,#0x8000
+        LD      BC,#.endtp1-.tp1
         CALL    .copy_vram
 
         LD      A,#<.MINACCEL   ; Acceleration
@@ -96,7 +96,7 @@
         LD      DE,#.KBDSIZE
         LD      HL,#(0x20 * 2 + 2)      ; X=2, Y=2
         CALL    set_recoded_win_tiles
-        
+
         LD      A,#.MINWNDPOSX
         LDH     (.WX),A
         LD      A,#.MAXWNDPOSY  ; Hide window
@@ -138,12 +138,12 @@ set_recoded_win_tiles::
         LD      H,A
         PUSH    DE
         PUSH    HL
-4$:     
+4$:
         LD      A,(BC)
         INC     BC
         PUSH    BC
         PUSH    HL
-        
+
         LD      C,A
         LD      HL,#(font_current+1)    ; font_current+sfont_handle_font
         LD      A,(HL+)
@@ -159,19 +159,19 @@ set_recoded_win_tiles::
         LD      C,(HL)
 5$:
         POP     HL
-        
+
         WAIT_STAT
         LD      A,C
         LD      (HL+),A
-        
+
         POP     BC
-        
+
         DEC     D
         JR      NZ,4$
-        
+
         POP     HL
         POP     DE
-        
+
         LD      A,L
         ADD     #0x20
         LD      L,A
@@ -186,7 +186,7 @@ set_recoded_win_tiles::
 
         ADD     SP,#4
         RET
-        
+
         ;; Prompt the user for a char and return it in A
 .get_char:
         PUSH    BC
@@ -631,7 +631,7 @@ _gets::
         .db     0x20,0x21,0x22,0x23,0x24,0x25,0x26,0x27
         .db     0x28,0x29,0x2A,0x2B,0x2C,0x2D,0x2E,0x2F
         .ascii  "0123456789:"
-        .db     0x3B            
+        .db     0x3B
         .ascii  "<=>?"
         .ascii  "@ABCDEFGHIJKLMNO"
         .ascii  "PQRSTUVWXYZ[\]^_"

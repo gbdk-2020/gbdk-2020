@@ -1,11 +1,12 @@
     .include    "global.s"
 
     .area   OSEG (PAG, OVR)
-    _set_bkg_palette_PARM_3::   .ds 2
+    _set_bkg_palette_PARM_3::
+    _set_sprite_palette_PARM_3::
+    _set_bkg_palette_entry_PARM_3::
+    _set_sprite_palette_entry_PARM_3::
+    .ds 2
     .num_entries:               .ds 1
-    .define _set_sprite_palette_PARM_3 "_set_bkg_palette_PARM_3"
-    .define _set_bkg_palette_entry_PARM_3 "_set_bkg_palette_PARM_3"
-    .define _set_sprite_palette_entry_PARM_3 "_set_bkg_palette_PARM_3"
     .define .src "_set_bkg_palette_PARM_3"
 
     .area   _HOME
@@ -46,7 +47,7 @@ _set_sprite_palette::
     stx *.tmp
     tax
     lda [*.src],y
-    sta *__crt0_paletteShadow,x
+    sta __crt0_paletteShadow,x
     ldx *.tmp
 1$:
     inx
@@ -71,12 +72,12 @@ _set_bkg_palette_entry::
     adc .identity,x
     tax
     lda *.src
-    sta *__crt0_paletteShadow+1,x
+    sta __crt0_paletteShadow+1,x
     rts
 2$:
     ; Set UBC
     lda *.src
-    sta *__crt0_paletteShadow
+    sta __crt0_paletteShadow
     rts
 
 ; void set_sprite_palette_entry(uint8_t palette, uint8_t entry, palette_color_t rgb_data) OLDCALL;
@@ -93,7 +94,7 @@ _set_sprite_palette_entry::
     adc .identity,x
     tax
     lda *.src
-    sta *__crt0_paletteShadow+13,x
+    sta __crt0_paletteShadow+13,x
     rts
 
 .paletteShadowLUT:

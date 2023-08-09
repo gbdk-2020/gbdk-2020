@@ -68,3 +68,29 @@ _set_tile_xy::
 
         ENABLE_VBLANK_COPY
         ret
+
+; uint8_t * set_attribute_xy(uint8_t x, uint8_t y, uint8_t a) __z88dk_callee __preserves_regs(iyh, iyl);
+_set_attribute_xy::
+        pop hl          ; HL = ret
+        pop de          ; DE = YX
+        dec sp
+        ex (sp), hl     ; HL = data
+
+        ld a, d
+
+        ld bc, #.VDP_TILEMAP
+        call .coords_to_address
+        ex de, hl
+
+        ld a, (.vdp_shift)
+        ADD_A_REG16 h, l
+
+        DISABLE_VBLANK_COPY
+        WRITE_VDP_CMD_HL
+
+        in a, (.VDP_DATA)   ; skip tile index
+        ld a, d
+        out (.VDP_DATA), a
+
+        ENABLE_VBLANK_COPY
+        ret

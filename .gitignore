@@ -64,6 +64,7 @@ gbdk-support/png2mtspr/png2mtspr
 gbdk-support/png2asset/png2asset
 gbdk-support/makebin/makebin
 gbdk-support/makecom/makecom
+gbdk-support/png2hicolorgb/png2hicolorgb
 as/bin
 link/bin
 maccer

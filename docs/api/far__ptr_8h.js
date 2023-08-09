@@ -7,8 +7,8 @@ var far__ptr_8h =
     [ "FAR_FUNC", "far__ptr_8h.html#a048cfacb5d37ab758a74f44e86c1dbc6", null ],
     [ "FAR_CALL", "far__ptr_8h.html#a7f4ab1893ea392f8bf042a3b97de4730", null ],
     [ "FAR_PTR", "far__ptr_8h.html#a7c6f52121dd07af29b477f4e64314842", null ],
-    [ "__call__banked", "far__ptr_8h.html#aa45a2312a2584abb8733a052f66b4a90", null ],
-    [ "to_far_ptr", "far__ptr_8h.html#a23ab15f7eb85a48d72f717183badb110", null ],
+    [ "__call__banked", "far__ptr_8h.html#aedacafa73ba2c54e49976dccfc83b40b", null ],
+    [ "to_far_ptr", "far__ptr_8h.html#ad5987288bdbbd891b56754122a2d53d3", null ],
     [ "__call_banked_ptr", "far__ptr_8h.html#a27792b7fc3796a1e1828d4c5812e5b21", null ],
     [ "__call_banked_addr", "far__ptr_8h.html#a1344c26ca298a9eadea4bcfea6442ae3", null ],
     [ "__call_banked_bank", "far__ptr_8h.html#a892433d652420445a9a6aebf1a256623", null ]

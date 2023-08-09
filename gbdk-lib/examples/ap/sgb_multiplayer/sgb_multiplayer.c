@@ -38,6 +38,6 @@ void main(void) {
         if (joypads.joy0 & J_START) {
             for (uint8_t i = 0; i < 4; i++) move_sprite(i, (i << 3) + 64, 64);
         }
-        wait_vbl_done();
+        vsync();
     }
 }

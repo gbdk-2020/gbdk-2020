@@ -43,7 +43,7 @@
 @anchor sdcc-settings
 # sdcc settings
 ```
-SDCC : z80/sm83/mos6502 4.2.2 #13350 (Linux)
+SDCC : z80/sm83/mos6502/mos65c02 TD- 4.3.2 #14228 (Linux)
 published under GNU General Public License (GPL)
 Usage : sdcc [options] filename
 Options :-
@@ -77,15 +77,7 @@ General options:
       --Werror              Treat the warnings as errors
       --debug               Enable debugging symbol output
       --cyclomatic          Display complexity of compiled functions
-      --std-c89             Use ISO C90 (aka ANSI C89) standard (slightly incomplete)
-      --std-sdcc89          Use ISO C90 (aka ANSI C89) standard with SDCC extensions
-      --std-c95             Use ISO C95 (aka ISO C94) standard (slightly incomplete)
-      --std-c99             Use ISO C99 standard (incomplete)
-      --std-sdcc99          Use ISO C99 standard with SDCC extensions
-      --std-c11             Use ISO C11 standard (incomplete)
-      --std-sdcc11          Use ISO C11 standard with SDCC extensions (default)
-      --std-c2x             Use ISO C2X standard (incomplete)
-      --std-sdcc2x          Use ISO C2X standard with SDCC extensions
+      --std                 Determine the language standard (c89, c99, c11, c2x, sdcc89 etc.)
       --fdollars-in-identifiers  Permit '$' as an identifier character
       --fsigned-char        Make "char" signed by default
       --use-non-free        Search / include non-free licensed libraries and header files
@@ -110,24 +102,25 @@ Code generation options:
       --dataseg             <name> use this name for the data segment
 
 Optimization options:
+      --opt-code-speed      Optimize for code speed rather than size
+      --opt-code-size       Optimize for code size rather than speed
+      --max-allocs-per-node  Maximum number of register assignments considered at each node of the tree decomposition
+      --no-reg-params       On some ports, disable passing some parameters in registers
+      --nostdlibcall        Disable optimization of calls to standard library
       --nooverlay           Disable overlaying leaf function auto variables
       --nogcse              Disable the GCSE optimisation
+      --nolospre            Disable lospre
+      --nogenconstprop      Disable generalized constant propagation
       --nolabelopt          Disable label optimisation
       --noinvariant         Disable optimisation of invariants
       --noinduction         Disable loop variable induction
       --noloopreverse       Disable the loop reverse optimisation
       --no-peep             Disable the peephole assembly file optimisation
-      --no-reg-params       On some ports, disable passing some parameters in registers
       --peep-asm            Enable peephole optimization on inline assembly
       --peep-return         Enable peephole optimization for return instructions
       --no-peep-return      Disable peephole optimization for return instructions
       --peep-file           <file> use this extra peephole file
-      --opt-code-speed      Optimize for code speed rather than size
-      --opt-code-size       Optimize for code size rather than speed
-      --max-allocs-per-node  Maximum number of register assignments considered at each node of the tree decomposition
-      --nolospre            Disable lospre
       --allow-unsafe-read   Allow optimizations to read any memory location anytime
-      --nostdlibcall        Disable optimization of calls to standard library
 
 Internal debugging options:
       --dump-ast            Dump front-end AST before generating i-code
@@ -187,6 +180,11 @@ Special options for the mos6502 port:
       --model-small         8-bit address space for data
       --model-large         16-bit address space for data (default)
       --no-std-crt0         Do not link default crt0.rel
+
+Special options for the mos65c02 port:
+      --model-small         8-bit address space for data
+      --model-large         16-bit address space for data (default)
+      --no-std-crt0         Do not link default crt0.rel
 ```
 @anchor sdasgb-settings
 # sdasgb settings
@@ -237,7 +235,52 @@ Debugging:
 # sdasz80 settings
 ```
 
-sdas Assembler V02.00 + NoICE + SDCC mods  (GameBoy)
+sdas Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180 / ZX-Next / eZ80)
+
+
+Copyright (C) 2012  Alan R. Baldwin
+This program comes with ABSOLUTELY NO WARRANTY.
+
+Usage: [-Options] [-Option with arg] file
+Usage: [-Options] [-Option with arg] outfile file1 [file2 ...]
+  -h   or NO ARGUMENTS  Show this help list
+Input:
+  -I   Add the named directory to the include file
+       search path.  This option may be used more than once.
+       Directories are searched in the order given.
+Output:
+  -l   Create list   file/outfile[.lst]
+  -o   Create object file/outfile[.rel]
+  -s   Create symbol file/outfile[.sym]
+Listing:
+  -d   Decimal listing
+  -q   Octal   listing
+  -x   Hex     listing (default)
+  -b   Display .define substitutions in listing
+  -bb  and display without .define substitutions
+  -c   Disable instruction cycle count in listing
+  -f   Flag relocatable references by  `   in listing file
+  -ff  Flag relocatable references by mode in listing file
+  -p   Disable automatic listing pagination
+  -u   Disable .list/.nlist processing
+  -w   Wide listing format for symbol table
+Assembly:
+  -v   Enable out of range signed / unsigned errors
+Symbols:
+  -a   All user symbols made global
+  -g   Undefined symbols made global
+  -n   Don't resolve global assigned value symbols
+  -z   Disable case sensitivity for symbols
+Debugging:
+  -j   Enable NoICE Debug Symbols
+  -y   Enable SDCC  Debug Symbols
+
+```
+@anchor sdas6500-settings
+# sdas6500 settings
+```
+
+sdas Assembler V02.00 + NoICE + SDCC mods  (Rockwell 6502/6510/65C02)
 
 
 Copyright (C) 2012  Alan R. Baldwin
@@ -323,7 +366,7 @@ S ___bank_<const name> Def0000FF
 # sdldgb settings
 ```
 
-sdld Linker V03.00 + NoICE + sdld
+sdld Linker V03.00/V05.40 + sdld
 
 Usage: [-Options] [-Option with arg] file
 Usage: [-Options] [-Option with arg] outfile file1 [file2 ...]
@@ -339,6 +382,7 @@ Libraries:
 Relocation:
   -b   area base address = expression
   -g   global symbol = expression
+  -a   (platform) Select platform specific virtual address translation
 Map format:
   -m   Map output generated as (out)file[.map]
   -w   Wide listing format for map file
@@ -362,7 +406,7 @@ End:
 # sdldz80 settings
 ```
 
-sdld Linker V03.00 + NoICE + sdld
+sdld Linker V03.00/V05.40 + sdld
 
 Usage: [-Options] [-Option with arg] file
 Usage: [-Options] [-Option with arg] outfile file1 [file2 ...]
@@ -378,6 +422,47 @@ Libraries:
 Relocation:
   -b   area base address = expression
   -g   global symbol = expression
+  -a   (platform) Select platform specific virtual address translation
+Map format:
+  -m   Map output generated as (out)file[.map]
+  -w   Wide listing format for map file
+  -x   Hexadecimal (default)
+  -d   Decimal
+  -q   Octal
+Output:
+  -i   Intel Hex as (out)file[.ihx]
+  -s   Motorola S Record as (out)file[.s19]
+  -j   NoICE Debug output as (out)file[.noi]
+  -y   SDCDB Debug output as (out)file[.cdb]
+List:
+  -u   Update listing file(s) with link data as file(s)[.rst]
+Case Sensitivity:
+  -z   Disable Case Sensitivity for Symbols
+End:
+  -e   or null line terminates input
+
+```
+@anchor sdld6808-settings
+# sdld6808 settings
+```
+
+sdld Linker V03.00/V05.40 + sdld
+
+Usage: [-Options] [-Option with arg] file
+Usage: [-Options] [-Option with arg] outfile file1 [file2 ...]
+Startup:
+  -p   Echo commands to stdout (default)
+  -n   No echo of commands to stdout
+Alternates to Command Line Input:
+  -c                   ASlink >> prompt input
+  -f   file[.lk]       Command File input
+Libraries:
+  -k   Library path specification, one per -k
+  -l   Library file specification, one per -l
+Relocation:
+  -b   area base address = expression
+  -g   global symbol = expression
+  -a   (platform) Select platform specific virtual address translation
 Map format:
   -m   Map output generated as (out)file[.map]
   -w   Wide listing format for map file
@@ -423,9 +508,11 @@ Options:
   -N             generate Famicom/NES format binary file
   -o bytes       skip amount of bytes in binary file
 SMS format options (applicable only with -S option):
-  -xo n          rom size (0xa-0x2) (default: 0xc)
+  -xo n          header rom size (0xa-0x2) (default: 0xc)
   -xj n          set region code (3-7) (default: 4)
   -xv n          version number (0-15) (default: 0)
+  -yo n          number of rom banks (default: 2) (autosize: A)
+  -ya n          number of ram banks (default: 0)
 GameBoy format options (applicable only with -Z option):
   -yo n          number of rom banks (default: 2) (autosize: A)
   -ya n          number of ram banks (default: 0)
@@ -476,7 +563,8 @@ The rle compression is Amiga IFF style
 # png2asset settings
 ```
 usage: png2asset    <file>.png [options]
--c                  ouput file (default: <png file>.c)
+-o                  ouput file (default: <png file>.c)
+-c                  deprecated, same as -o
 -sw <width>         metasprites width size (default: png width)
 -sh <height>        metasprites height size (default: png height)
 -sp <props>         change default for sprite OAM property bytes (in hex) (default: 0x00)
@@ -487,8 +575,9 @@ usage: png2asset    <file>.png [options]
 -spr8x8             use SPRITES_8x8
 -spr8x16            use SPRITES_8x16 (this is the default)
 -spr16x16msx        use SPRITES_16x16
--b <bank>           bank (default 0)
+-b <bank>           bank (default: fixed bank)
 -keep_palette_order use png palette
+-repair_indexed_pal try to repair indexed tile palettes (implies "-keep_palette_order")
 -noflip             disable tile flip
 -map                Export as map (tileset + bg)
 -use_map_attributes Use CGB BG Map attributes
@@ -498,13 +587,53 @@ usage: png2asset    <file>.png [options]
 -bpp                bits per pixel: 1, 2, 4 (default: 2)
 -max_palettes       max number of palettes allowed (default: 8)
                     (note: max colors = max_palettes x num colors per palette)
--pack_mode          gb, sgb, sms, 1bpp (default: gb)
+-pack_mode          gb, nes, sgb, sms, 1bpp (default: gb)
 -tile_origin        tile index offset for maps (default: 0)
 -tiles_only         export tile data only
 -maps_only          export map tilemap only
 -metasprites_only   export metasprite descriptors only
 -source_tileset     use source tileset (image with common tiles)
 -keep_duplicate_tiles   do not remove duplicate tiles (default: not enabled)
+-no_palettes        do not export palette data
 -bin                export to binary format
 -transposed         export transposed (column-by-column instead of row-by-row)
+```
+@anchor png2hicolorgb-settings
+# png2hicolorgb settings
+```
+
+png2hicolorgb input_image.png [options]
+version 1.4.1: bbbbbr. Based on Glen Cook's Windows GUI "hicolour.exe" 1.2
+Convert an image to Game Boy Hi-Color format
+
+Options
+-h         : Show this help
+-v*        : Set log level: "-v" verbose, "-vQ" quiet, "-vE" only errors, "-vD" debug
+-o <file>  : Set base output filename (otherwise from input image)
+--csource  : Export C source format with incbins for data files
+--bank=N   : Set bank number for C source output where N is decimal bank number 1-511
+--type=N   : Set conversion type where N is one of below 
+              1: Median Cut - No Dither (*Default*)
+              2: Median Cut - With Dither
+              3: Wu Quantiser
+-p         : Show screen attribute pattern options (no processing)
+-L=N       : Set Left  screen attribute pattern where N is decimal entry (-p to show patterns)
+-R=N       : Set Right screen attribute pattern where N is decimal entry (-p to show patterns)
+--vaddrid  : Map uses vram id (128->255->0->127) instead of (*Default*) sequential tile order (0->255)
+--nodedupe : Turn off tile pattern deduplication
+
+Example 1: "png2hicolorgb myimage.png"
+Example 2: "png2hicolorgb myimage.png --csource -o=my_output_filename"
+* Default settings provide good results. Better quality but slower: "--type=3 -L=2 -R=2"
+
+Historical credits and info:
+   Original Concept : Icarus Productions
+   Original Code : Jeff Frohwein
+   Full Screen Modification : Anon
+   Adaptive Code : Glen Cook
+   Windows Interface : Glen Cook
+   Additional Windows Programming : Rob Jones
+   Original Quantiser Code : Benny
+   Quantiser Conversion : Glen Cook
+
 ```

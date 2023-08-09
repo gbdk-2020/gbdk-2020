@@ -1,29 +1,20 @@
 	.include	"global.s"
 
-	.globl	.int
+	.module serial
 
-	.globl	__io_out
-	.globl	__io_in
-	.globl	__io_status
+	.globl	.int, .add_SIO
 
 	.area	_HEADER_SIO (ABS)
-
-	.org	0x58		; SIO
-.int_SIO:
-	PUSH	AF
-	PUSH	HL
-	LD	HL,#.int_0x58
-	JP	.int
 
 	.area	_GSINIT
 
 	;; initialize SIO
-	LD	BC,#.serial_IO
+	LD	DE,#.serial_IO
 	CALL	.add_SIO
-	
+
 	XOR	A
 	LDH	(.IF),A
-	
+
 	LDH	A,(.IE)
 	OR	A,#0b00001000	; Serial I/O	=   On
 	LDH	(.IE),A
@@ -35,34 +26,6 @@
 	LDH	(.SC),A		; Use external clock
 
 	.area	_HOME
-
-_add_SIO::
-	PUSH	BC
-	LDA	HL,4(SP)	; Skip return address and registers
-	LD	C,(HL)
-	INC	HL
-	LD	B,(HL)
-	CALL	.add_SIO
-	POP	BC
-	RET
-
-.add_SIO::
-	LD	HL,#.int_0x58
-	JP	.add_int
-
-_remove_SIO::
-	PUSH	BC
-	LDA	HL,4(SP)	; Skip return address and registers
-	LD	C,(HL)
-	INC	HL
-	LD	B,(HL)
-	CALL	.remove_SIO
-	POP	BC
-	RET
-
-.remove_SIO::
-	LD	HL,#.int_0x58
-	JP	.remove_int
 
 	;; Serial interrupt
 .serial_IO::
@@ -108,8 +71,6 @@ __io_in::
 	.ds	0x01		; Received byte
 __io_status::
 	.ds	0x01		; Status of serial IO
-.int_0x58::
-	.blkw	0x05
 
 	.area	_CODE
 

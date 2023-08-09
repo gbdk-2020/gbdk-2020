@@ -7,7 +7,7 @@ ___sdcc_bcall_ehl::                     ; Performs a long call.
         push    af                      ; Push the current bank onto the stack
         ld      a, e
         ldh     (__current_bank), a
-        ld      (.MBC_ROM_PAGE), a      ; Perform the switch
+        ld      (rROMB0), a             ; Perform the switch
         rst     0x20
         push    hl
         ldhl    sp, #3
@@ -15,7 +15,7 @@ ___sdcc_bcall_ehl::                     ; Performs a long call.
         ld      l, a
         ld      a, h
         ldh     (__current_bank), a
-        ld      (.MBC_ROM_PAGE), a
+        ld      (rROMB0), a
         ld      a, l
         pop     hl
         add     sp, #2

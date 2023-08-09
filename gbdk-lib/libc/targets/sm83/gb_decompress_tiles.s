@@ -25,35 +25,30 @@ loc:
 
 _gb_decompress_bkg_data::
 _gb_decompress_win_data::
-        ld      d, #0x90
-        ldh     a, (.LCDC)
-        and     #LCDCF_BG8000
-        jr      z, .load_params
+        ld      b, #0x90
+        ld      hl, #.LCDC
+        bit     LCDCF_B_BG8000, (hl)
+        jr      nz, .load_params
 _gb_decompress_sprite_data::
-        ld      d, #0x80
+        ld      b, #0x80
 
 .load_params:
-        ldhl    sp, #2
-        ld      a, (hl+)
-        
+        ld      h, d
+        ld      l, e
+
         ; Compute dest ptr
         swap    a       ; *16 (size of a tile)
         ld      e, a
         and     #0x0F   ; Get high bits
-        add     d       ; Add base offset of target tile "block"
+        add     b       ; Add base offset of target tile "block"
         ld      d, a
         ld      a, e
         and     #0xF0   ; Get low bits only
         ld      e, a
         WRAP_VRAM d
 
-        ld      a, (hl+)
-        ld      h, (hl)
-        ld      l, a
-
 ; hl = source; de = dest
 gb_decompress_vram::
-        push    bc
         push    de
 1$:
         ld      a,(hl+) ; load command
@@ -78,7 +73,7 @@ gb_decompress_vram::
         dec     c
         jr      nz,2$
         jr      1$      ; next command
-        
+
 3$:                     ; RLE word
         and     #63
         inc     a
@@ -98,7 +93,7 @@ gb_decompress_vram::
         WRAP_VRAM d
         dec     c
         jr      nz,4$
-        inc     hl      
+        inc     hl
         jr      1$      ; next command
 
 5$:
@@ -161,5 +156,4 @@ gb_decompress_vram::
         jp      1$      ; next command
 9$:
         pop     de
-        pop     bc
         ret

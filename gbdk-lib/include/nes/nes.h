@@ -10,10 +10,21 @@
 #include <nes/hardware.h>
 #include <nes/rgb_to_nes_macro.h>
 
-#define NINTENDO_ENTERTAINMENT_SYSTEM
+#define NINTENDO_NES
+
+// Here NINTENDO means Game Boy & related clones
+#ifdef NINTENDO
+#undef NINTENDO
+#endif
+
 #ifdef SEGA
 #undef SEGA
 #endif
+
+#ifdef MSX
+#undef MSX
+#endif
+
 
 #define RGB(r,g,b)        RGB_TO_NES(((r) | ((g) << 2) | ((b) << 4)))
 #define RGB8(r,g,b)       RGB_TO_NES((((r) >> 6) | (((g) >> 6) << 2) | (((b) >> 6) << 4)))
@@ -43,9 +54,9 @@
 
 typedef uint8_t palette_color_t;
 
-void set_bkg_palette(uint8_t first_palette, uint8_t nb_palettes, palette_color_t *rgb_data) OLDCALL;
+void set_bkg_palette(uint8_t first_palette, uint8_t nb_palettes, const palette_color_t *rgb_data) OLDCALL;
 
-void set_sprite_palette(uint8_t first_palette, uint8_t nb_palettes, palette_color_t *rgb_data) OLDCALL;
+void set_sprite_palette(uint8_t first_palette, uint8_t nb_palettes, const palette_color_t *rgb_data) OLDCALL;
 
 void set_bkg_palette_entry(uint8_t palette, uint8_t entry, palette_color_t rgb_data) OLDCALL;
 
@@ -109,6 +120,10 @@ void set_sprite_palette_entry(uint8_t palette, uint8_t entry, palette_color_t rg
     @see set_sprite_prop()
 */
 #define S_PRIORITY   0x20U
+/** Defines how palette number is encoded in OAM.
+    Required for the png2asset tool's metasprite output.
+*/
+#define S_PAL(n)     n
 
 /* DMG Palettes */
 #define DMG_BLACK     0x03
@@ -144,6 +159,88 @@ void set_sprite_palette_entry(uint8_t palette, uint8_t entry, palette_color_t rg
  */
 #define SCREENHEIGHT DEVICE_SCREEN_PX_HEIGHT
 
+/** Interrupt handlers
+ */
+typedef void (*int_handler)(void) NONBANKED;
+
+/** The remove functions will remove any interrupt handler.
+
+   A handler of NULL will cause bad things
+   to happen if the given interrupt is enabled.
+
+   Removes the VBL interrupt handler. @see add_VBL()
+*/
+void remove_VBL(int_handler h);
+
+/** Removes the LCD interrupt handler.
+    @see add_LCD(), remove_VBL()
+*/
+void remove_LCD(int_handler h);
+
+/** Adds a Vertical Blanking interrupt handler.
+
+    @param h  The handler to be called whenever a V-blank
+    interrupt occurs.
+
+    Only a single handler is currently supported for NES.
+
+    __Do not__ use the function definition attributes
+    @ref CRITICAL and @ref INTERRUPT when declaring
+    ISR functions added via add_VBL() (or LCD, etc).
+    Those attributes are only required when constructing
+    a bare jump from the interrupt vector itself (such as
+    with @ref ISR_VECTOR()).
+
+    ISR handlers added using add_VBL()/etc are instead
+    called via the GBDK ISR dispatcher which makes
+    the extra function attributes unecessary.
+
+    @note The default GBDK VBL is installed automatically.
+
+    @note On the current NES implementation, this handler
+    is actually faked, and called before vblank occurs, by
+    @ref vsync(). Writes to PPU registers should be done to
+    the shadow_ versions, so they are updated by the default
+    VBL handler only when vblank actually occurs.
+
+    @see ISR_VECTOR()
+*/
+void add_VBL(int_handler h);
+
+/** Adds a LCD interrupt handler.
+
+    Called when the scanline matches the _lcd_scanline variables.
+
+    Only a single handler is currently supported for NES.
+
+    The use-case is to indicate to the user when the
+    video hardware is about to redraw a given LCD line.
+    This can be useful for dynamically controlling the
+    scrolling registers to perform special video effects.
+
+    __Do not__ use the function definition attributes
+    @ref CRITICAL and @ref INTERRUPT when declaring
+    ISR functions added via add_VBL() (or LCD, etc).
+    Those attributes are only required when constructing
+    a bare jump from the interrupt vector itself (such as
+    with @ref ISR_VECTOR()).
+
+    ISR handlers added using add_VBL()/etc are instead
+    called via the GBDK ISR dispatcher which makes
+    the extra function attributes unecessary.
+
+    @note On the current NES implementation, this handler
+    is actually faked, and called by the default VBL handler
+    after a manual delay loop. Only one such faked "interrupt"
+    is possible per frame.
+    This means the CPU cycles wasted in the delay loop increase
+    with higher values of _lcd_scanline. In practice, it makes
+    this functionality mostly suited for a top status bar.
+
+    @see add_VBL, nowait_int_handler, ISR_VECTOR()
+*/
+void add_LCD(int_handler h);
+
 /** Set the current screen mode - one of M_* modes
 
     Normally used by internal functions only.
@@ -156,7 +253,7 @@ void mode(uint8_t m) OLDCALL;
 
     @see M_DRAWING, M_TEXT_OUT, M_TEXT_INOUT, M_NO_SCROLL, M_NO_INTERP
 */
-uint8_t get_mode() OLDCALL;
+uint8_t get_mode(void) OLDCALL;
 
 /** Global Time Counter in VBL periods (60Hz)
 
@@ -189,7 +286,7 @@ extern volatile uint8_t _current_bank;
     @see BANKREF_EXTERN(), BANKREF()
 */
 #ifndef BANK
-#define BANK(VARNAME) 0
+#define BANK(VARNAME) ( (uint8_t) & __bank_ ## VARNAME )
 #endif
 
 /** Creates a reference for retrieving the bank number of a variable or function
@@ -204,7 +301,13 @@ extern volatile uint8_t _current_bank;
     Use @ref BANKREF_EXTERN() within another source file
     to make the variable and it's data accesible there.
 */
-#define BANKREF(VARNAME)
+#define BANKREF(VARNAME) void __func_ ## VARNAME(void) __banked __naked { \
+__asm \
+    .local b___func_ ## VARNAME \
+    ___bank_ ## VARNAME = b___func_ ## VARNAME \
+    .globl ___bank_ ## VARNAME \
+__endasm; \
+}
 
 /** Creates extern references for accessing a BANKREF() generated variable.
 
@@ -220,14 +323,35 @@ extern volatile uint8_t _current_bank;
 /** Dummy macro for no-bank-switching WIP prototype
     @param b   ROM bank to switch to
 */
-#define SWITCH_ROM_DUMMY(b) 
+#define SWITCH_ROM_DUMMY(b)
+
+/** Macro for simple UNROM-like switching (write bank# to single 8-bit register)
+    @param b   ROM bank to switch to
+*/
+#define SWITCH_ROM_UNROM(b) _switch_prg0(b)
 
 /** Makes default mapper switch the active ROM bank
     @param b   ROM bank to switch to (max 255)
 
     @see SWITCH_ROM_UNROM
 */
-#define SWITCH_ROM SWITCH_ROM_DUMMY
+#define SWITCH_ROM SWITCH_ROM_UNROM
+
+/** No-op at the moment. Placeholder for future mappers / test compatibility.
+    @param b   SRAM bank to switch to
+
+*/
+#define SWITCH_RAM(b) 0
+
+/** No-op at the moment. Placeholder for future mappers / test compatibility.
+
+*/
+#define ENABLE_RAM
+
+/** No-op at the moment. Placeholder for future mappers / test compatibility.
+
+*/
+#define DISABLE_RAM
 
 /** Delays the given number of milliseconds.
     Uses no timers or interrupts, and can be called with
@@ -244,7 +368,7 @@ void delay(uint16_t d) OLDCALL;
 
     @see J_START, J_SELECT, J_A, J_B, J_UP, J_DOWN, J_LEFT, J_RIGHT
 */
-uint8_t joypad() OLDCALL;
+uint8_t joypad(void) OLDCALL;
 
 /** Waits until at least one of the buttons given in mask are pressed.
 
@@ -259,7 +383,7 @@ uint8_t waitpad(uint8_t mask) OLDCALL;
 /** Waits for the directional pad and all buttons to be released.
 
 */
-void waitpadup();
+void waitpadup(void);
 
 /** Multiplayer joypad structure.
 
@@ -302,7 +426,7 @@ void joypad_ex(joypads_t * joypads) OLDCALL;
 
     @see disable_interrupts, set_interrupts, CRITICAL
 */
-inline void enable_interrupts() {
+inline void enable_interrupts(void) {
     __asm__("cli");
 }
 
@@ -318,11 +442,11 @@ inline void enable_interrupts() {
 
     @see enable_interrupts, set_interrupts, CRITICAL
 */
-inline void disable_interrupts() {
+inline void disable_interrupts(void) {
     __asm__("sei");
 }
 
-/** Waits for the vertical blank interrupt (VBL) to finish.
+/** Waits for the vertical blank interrupt.
 
     This is often used in main loops to idle the CPU
     until it's time to start the next frame. It's also useful for
@@ -331,18 +455,28 @@ inline void disable_interrupts() {
     Warning: If the VBL interrupt is disabled, this function will
     never return.
 */
-void wait_vbl_done();
+void vsync(void);
+
+/** Obsolete. This function has been replaced by vsync(), which has identical behavior.
+*/
+void wait_vbl_done(void);
+
+/** Turns the display on.
+
+    @see DISPLAY_ON
+*/
+void display_on(void);
 
 /** Turns the display off.
 
     Waits until the VBL interrupt before turning the display off.
     @see DISPLAY_ON
 */
-void display_off();
+void display_off(void);
 
 /** Copies data from shadow OAM to OAM
  */
-void refresh_OAM();
+void refresh_OAM(void);
 
 /** Turns the display back on.
     @see display_off, DISPLAY_OFF
@@ -479,7 +613,122 @@ void set_bkg_1bpp_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data
 void set_bkg_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles) OLDCALL;
 #define set_tile_map set_bkg_tiles
 
-void set_bkg_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *attributes) OLDCALL;
+/** Sets a rectangular region of Background Tile Map Attributes.
+
+    @param x          X Start position in Background Map tile coordinates. Range 0 - 15
+    @param y          Y Start position in Background Map tile coordinates. Range 0 - 14
+    @param w          Width of area to set in tiles. Range 1 - 16
+    @param h          Height of area to set in tiles. Range 1 - 15
+    @param attributes Pointer to source tile map attribute data
+
+    Entries are copied from map at __tiles__ to the Background Tile Map starting at
+    __x__, __y__ writing across for __w__ tiles and down for __h__ tiles.
+
+    NES 16x16 Tile Attributes are tightly packed into 4 attributes per byte,
+    with each 16x16 area of a 32x32 pixel block using the bits as follows:
+    D1-D0: Top-left 16x16 pixels
+    D3-D2: Top-right 16x16 pixels
+    D5-D4: Bottom-left 16x16 pixels
+    D7-D6: Bottom-right 16x16 pixels
+
+    https://www.nesdev.org/wiki/PPU_attribute_tables
+
+    @see SHOW_BKG
+    @see set_bkg_data, set_bkg_submap_attributes, set_win_tiles, set_tiles
+*/
+void set_bkg_attributes_nes16x16(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *attributes) OLDCALL;
+
+/** Sets a rectangular region of Background Tile Map Attributes.
+
+    Entries are copied from map at __tiles__ to the Background Tile Map starting at
+    __x__, __y__ writing across for __w__ tiles and down for __h__ tiles.
+
+    Use @ref set_bkg_submap_attributes() instead when:
+    \li Source map is wider than 32 tiles.
+    \li Writing a width that does not match the source map width __and__ more
+    than one row high at a time.
+
+    One byte per source tile map attribute entry.
+
+    Writes that exceed coordinate 31 on the x or y axis will wrap around to
+    the Left and Top edges.
+
+    Please note that this is just a wrapper function for set_bkg_attributes_nes16x16()
+    and divides the coordinates and dimensions by 2 to achieve this.
+    It is intended to make code more portable by using the same coordinate system
+    that systems with the much more common 8x8 attribute resolution would use.
+
+    @see SHOW_BKG
+    @see set_bkg_data, set_bkg_submap_attributes, set_win_tiles, set_tiles
+*/
+inline void set_bkg_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *attributes)
+{
+    set_bkg_attributes_nes16x16(x >> 1, y >> 1, (w + 1) >> 1, (h + 1) >> 1, attributes);
+}
+/** Sets a rectangular area of the Background Tile Map using a sub-region
+    from a source tile map. Useful for scrolling implementations of maps
+    larger than 32 x 30 tiles / 16x15 attributes.
+
+    @param x      X Start position in both the Source Attribute Map and hardware Background Map attribute coordinates. Range 0 - 255
+    @param y      Y Start position in both the Source Attribute Map and hardware Background Map attribute coordinates. Range 0 - 255
+    @param w      Width of area to set in Attributes. Range 1 - 127
+    @param h      Height of area to set in Attributes. Range 1 - 127
+    @param map    Pointer to source tile map data
+    @param map_w  Width of source tile map in tiles. Range 1 - 127
+
+    Entries are copied from __map__ to the Background Attribute Map starting at
+    __x__, __y__ writing across for __w__ tiles and down for __h__ attributes,
+    using __map_w__ as the rowstride for the source attribute map.
+
+    The __x__ and __y__ parameters are in Source Attribute Map Attribute
+    coordinates. The location tiles will be written to on the
+    hardware Background Map is derived from those, but only uses
+    the lower 5 bits of each axis, for range of 0-15 (they are
+    bit-masked: `x & 0xF` and `y & 0xF`). As a result the two
+    coordinate systems are aligned together.
+
+    In order to transfer tile map data in a way where the
+    coordinate systems are not aligned, an offset from the
+    Source Attribute Map pointer can be passed in:
+    `(map_ptr + x + (y * map_width))`.
+
+    For example, if you want the tile id at `1,2` from the source map to
+    show up at `0,0` on the hardware Background Map (instead of at `1,2`)
+    then modify the pointer address that is passed in:
+    `map_ptr + 1 + (2 * map_width)`
+
+    Use this instead of @ref set_bkg_tiles when the source map is wider than
+    32 tiles or when writing a width that does not match the source map width.
+
+    One byte per source attribute map entry.
+
+    Writes that exceed coordinate 15/14 on the x / y axis will wrap around to
+    the Left and Top edges.
+
+    See @ref set_bkg_tiles for setting CGB attribute maps with @ref VBK_REG.
+
+    @see SHOW_BKG
+    @see set_bkg_data, set_bkg_tiles, set_win_submap, set_tiles
+*/
+void set_bkg_submap_attributes_nes16x16(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w) OLDCALL;
+
+/** Sets a rectangular area of the Background Tile Map attributes using
+    a sub-region from a source tile map. Useful for scrolling implementations
+    of maps larger than 32 x 30 tiles.
+
+    Please note that this is just a wrapper function for set_bkg_submap_attributes_nes16x16()
+    and divides the coordinates and dimensions by 2 to achieve this.
+    It is intended to make code more portable by using the same coordinate system
+    that systems with the much more common 8x8 attribute resolution would use.
+
+    @see SHOW_BKG
+    @see set_bkg_data, set_bkg_tiles, set_win_submap, set_tiles
+*/
+inline void set_bkg_submap_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *attributes, uint8_t map_w)
+{
+    set_bkg_submap_attributes_nes16x16(x >> 1, y >> 1, (w + 1) >> 1, (h + 1) >> 1, attributes, map_w >> 1);
+}
+
 
 extern uint8_t _map_tile_offset;
 
@@ -593,6 +842,33 @@ uint8_t * set_bkg_tile_xy(uint8_t x, uint8_t y, uint8_t t) OLDCALL;
 #define set_tile_xy set_bkg_tile_xy
 
 /**
+    Set single attribute data a on background layer at x,y
+
+    @param x X-coordinate
+    @param y Y-coordinate
+    @param a tile attributes
+ */
+void set_bkg_attribute_xy_nes16x16(uint8_t x, uint8_t y, uint8_t a);
+
+/**
+    Set single attribute data a on background layer at x,y
+
+    Please note that this is just a wrapper function for set_bkg_submap_attributes_nes16x16()
+    and divides the coordinates and dimensions by 2 to achieve this.
+    It is intended to make code more portable by using the same coordinate system
+    that systems with the much more common 8x8 attribute resolution would use.
+
+    @param x X-coordinate
+    @param y Y-coordinate
+    @param a tile attributes
+ */
+inline void set_bkg_attribute_xy(uint8_t x, uint8_t y, uint8_t a)
+{
+    set_bkg_attribute_xy_nes16x16(x >> 1, y >> 1, a);
+}
+#define set_attribute_xy set_bkg_attribute_xy
+
+/**
  * Get single tile t on background layer at x,y
  * @param x X-coordinate
  * @param y Y-coordinate
@@ -640,7 +916,7 @@ inline void scroll_bkg(int8_t x, int8_t y) {
 
     Note: Sprite Tiles 128-255 share the same memory region as Background Tiles 128-255.
 
-    GBC only: @ref VBK_REG determines which bank of Background tile patterns are written to.
+    GBC only: @ref VBK_REG determines which bank of tile patterns are written to.
     \li VBK_REG=0 indicates the first bank
     \li VBK_REG=1 indicates the second
 */
@@ -699,6 +975,14 @@ extern uint8_t _shadow_OAM_base;
 /** Amount of hardware sprites in OAM
 */
 #define MAX_HARDWARE_SPRITES 64
+
+/** True if sprite hardware can flip sprites by X (horizontally)
+*/
+#define HARDWARE_SPRITE_CAN_FLIP_X 1
+
+/** True if sprite hardware can flip sprites by Y (vertically)
+*/
+#define HARDWARE_SPRITE_CAN_FLIP_Y 1
 
 /** Enable OAM DMA copy each VBlank and set it to transfer any 256-byte aligned array
 */
@@ -856,8 +1140,39 @@ void set_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *vram_addr, c
 
     @see set_bkg_data, set_data
 */
-void set_tile_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data, uint8_t base) OLDCALL;
+inline void set_tile_data(uint16_t first_tile, uint8_t nb_tiles, const uint8_t *data) {
+    if (first_tile < 256) {
+        set_bkg_data(first_tile, nb_tiles, data);
+        if(first_tile + nb_tiles > 256)
+            set_sprite_data(first_tile - 256, nb_tiles, data);
+    } else {
+        set_sprite_data(first_tile - 256, nb_tiles, data);
+    }
+}
 
+/** Sets VRAM Tile Pattern data for the Background in the native format
+
+    @param first_tile  Index of the first tile to write
+    @param nb_tiles    Number of tiles to write
+    @param data        Pointer to source tile data
+
+    Writes __nb_tiles__ tiles to VRAM starting at __first_tile__, tile data
+    is sourced from __data__.
+
+    @see set_tile_data
+*/
+void set_bkg_native_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data);
+
+/** Sets VRAM Tile Pattern data for Sprites in the native format
+
+    @param first_tile  Index of the first tile to write
+    @param nb_tiles    Number of tiles to write
+    @param data        Pointer to source tile data
+
+    Writes __nb_tiles__ tiles to VRAM starting at __first_tile__, tile data
+    is sourced from __data__.
+*/
+void set_sprite_native_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data);
 
 /** Sets VRAM Tile Pattern data in the native format
 
@@ -874,9 +1189,11 @@ void set_tile_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data, ui
  */
 inline void set_native_tile_data(uint16_t first_tile, uint8_t nb_tiles, const uint8_t *data) {
     if (first_tile < 256) {
-        set_bkg_data(first_tile, nb_tiles, data);
+        set_bkg_native_data(first_tile, nb_tiles, data);
+        if(first_tile + nb_tiles > 256)
+            set_sprite_native_data(first_tile - 256, nb_tiles, data);
     } else {
-        set_sprite_data(first_tile - 256, nb_tiles, data);
+        set_sprite_native_data(first_tile - 256, nb_tiles, data);
     }
 }
 
@@ -906,5 +1223,16 @@ void vmemset (void *s, uint8_t c, size_t n) OLDCALL;
 */
 void fill_bkg_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t tile) OLDCALL;
 #define fill_rect fill_bkg_rect
+
+/** "Flushes" the updates to the shadow attributes so they are written
+    to the transfer buffer, and then written to PPU memory on next vblank.
+
+    This function must be called to see visible changes to attributes
+    on the NES target. But it will automatically be called by @ref vsync(),
+    so the use-cases for calling it manually are rare in practice.
+*/
+void flush_shadow_attributes(void) OLDCALL;
+
+uint8_t _switch_prg0(uint8_t bank) OLDCALL;
 
 #endif /* _NES_H */

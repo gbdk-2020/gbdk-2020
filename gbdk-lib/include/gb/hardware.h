@@ -13,7 +13,7 @@
 #define __BYTE_REG extern volatile UBYTE
 #define __REG extern volatile SFR
 
-/** Memoty map */
+/** Memory map */
 
 __BYTES _VRAM[];
 __BYTES _VRAM8000[];
@@ -292,11 +292,11 @@ __REG LYC_REG;          /**< LY compare */
 #define rLYC LYC_REG
 __REG DMA_REG;          /**< DMA transfer */
 #define rDMA DMA_REG
-__REG BGP_REG;          /**< BG palette data */
+__REG BGP_REG;          /**< Set and Read the Background palette. \n \n Example with the DMG_PALETTE() helper function and constants: \n BGP_REG = DMG_PALETTE(DMG_BLACK, DMG_DARK_GRAY, DMG_LITE_GRAY, DMG_WHITE); */
 #define rBGP BGP_REG
-__REG OBP0_REG;         /**< OBJ palette 0 data */
+__REG OBP0_REG;         /**< Set and Read the OBJ (Sprite) palette 0. \n \n The first color entry is always transparent.  \n \n Example with the DMG_PALETTE() helper function and constants: \n OBP0_REG = DMG_PALETTE(DMG_BLACK, DMG_DARK_GRAY, DMG_LITE_GRAY, DMG_WHITE); */
 #define rOBP0 OBP0_REG
-__REG OBP1_REG;         /**< OBJ palette 1 data */
+__REG OBP1_REG;         /**< Set and Read the OBJ (Sprite) palette 1. \n \n The first color entry is always transparent.  \n \n Example with the DMG_PALETTE() helper function and constants: \n OBP1_REG = DMG_PALETTE(DMG_BLACK, DMG_DARK_GRAY, DMG_LITE_GRAY, DMG_WHITE); */
 #define rOBP1 OBP1_REG
 __REG WY_REG;           /**< Window Y coordinate */
 #define rWY WY_REG
@@ -369,7 +369,7 @@ __REG OCPS_REG;         /**< OBJ color palette specification */
 #define OCPSF_AUTOINC 0b10000000
 __REG OCPD_REG;         /**< OBJ color palette data */
 #define rOCPD OCPD_REG
-__REG SVBK_REG;         /**< WRAM bank */
+__REG SVBK_REG;         /**< Selects the WRAM upper region bank (CGB Only). WRAM Banking is NOT officially supported in GBDK and SDCC. The stack must be moved and other special care taken. */
 #define rSVBK SVBK_REG
 #define rSMBK SVBK_REG
 

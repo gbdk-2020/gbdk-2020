@@ -7,19 +7,19 @@
 // counters are 16-bit so we need a mutual exclusion access
 unsigned int vbl_cnt, tim_cnt;
 
-void vbl()
+void vbl(void)
 {
   // Upon IRQ, interrupts are automatically disabled 
   vbl_cnt++;
 }
 
-void tim()
+void tim(void)
 {
   // Upon IRQ, interrupts are automatically disabled
   tim_cnt++;
 }
 
-void print_counter()
+void print_counter(void)
 {
     unsigned int cnt;
 
@@ -39,7 +39,7 @@ void print_counter()
     printf("- VBL %u\n", cnt);
 }
 
-void main()
+void main(void)
 {
     // Ensure mutual exclusion
     CRITICAL {

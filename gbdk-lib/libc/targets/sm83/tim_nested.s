@@ -10,20 +10,13 @@
         EI
         PUSH    AF
         PUSH    HL
-        JP      .tim_isr_jump
+        JP      .process_TIM_callbacks
 
         .area   _HOME
 
-.tim_isr_jump:
+.process_TIM_callbacks:
         LD      HL, #.int_0x50
         JP      .int
 
 _add_low_priority_TIM::
-        PUSH    BC
-        LDA     HL, 4(SP)       ; Skip return address and registers
-        LD      C, (HL)
-        INC     HL
-        LD      B,(HL)
-        CALL    .add_TIM
-        POP     BC
-        RET
+         JP      .add_TIM

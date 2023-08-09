@@ -3,7 +3,7 @@
         .module RLE_DECOMPRESS
 
         .area _DATA
- 
+
 rle_cursor:
         .ds 0x02
 rle_counter:
@@ -14,38 +14,27 @@ rle_current:
         .area _CODE
 
 _rle_init::
-        ldhl sp, #2
-        ld a, (hl+)
-        ld e, (hl)
         ld hl, #rle_cursor
-        ld (hl+), a
-        ld a, e
-        ld (hl+), a
+        ld (hl), e
+        inc hl
+        ld (hl), d
+        inc hl
         xor a
         ld (hl+), a
         ld (hl), a
-        ld e, #1
+        inc a
         ret
 
 _rle_decompress::
-        ;; Pop the return address
-        ldhl sp, #2
-        ld a, (hl+)
-        ld c, a
-        ld a, (hl+)
-        ld d, a         ; de == dest
-        ld b, (hl)      ; b == count
-        
+        ld b, a         ; b == count
+
         ld hl, #rle_cursor
         ld a, (hl+)
         ld h, (hl)
         ld l, a         ; hl == cursor
 
         or h
-        ld e, a
-        ret z
-
-        ld e, c
+        ret z           ; return 0
 
         ld a, (rle_counter)
         or a
@@ -74,7 +63,7 @@ _rle_decompress::
         jr z, 6$
 10$:
         inc c
-        jr NZ, 3$
+        jr nz, 3$
         jr 1$
 2$:
         ;; Zero means end of a block
@@ -91,7 +80,7 @@ _rle_decompress::
         jr z, 6$
 11$:
         dec c
-        jr NZ, 5$
+        jr nz, 5$
         jr 1$
 4$:
         ;; save state and exit
@@ -99,8 +88,7 @@ _rle_decompress::
         xor a
         ld (hl+), a
         ld (hl), a
-        ld e, a
-        ret
+        ret             ; return 0
 6$:
         ;; save state and exit
         ld d, h
@@ -112,5 +100,5 @@ _rle_decompress::
         ld a, d
         ld (hl-), a
         ld (hl), e
-        ld e, #1
-        ret
+        ld a, #1
+        ret             ; return 1

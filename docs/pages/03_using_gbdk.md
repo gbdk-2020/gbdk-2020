@@ -30,8 +30,8 @@ The GameBoy hardware can generate 5 types of interrupts. Custom Interrupt Servic
     - Example project: `tim`
 
   - SIO : Serial Link I/O transfer end
-    - The default SIO ISR gets installed automatically if any of the standard SIO calls are used. These calls include add_SIO(), remove_SIO(), send_byte(), receive_byte().
-    - The default SIO ISR cannot be removed once installed. Only secondary chained SIO ISRs (added with add_SIO() ) can be removed.
+    - The default SIO ISR gets installed automatically if any of the standard SIO calls are used (send_byte(), receive_byte()).
+    - Once installed the default SIO ISR cannot be removed. Only secondary chained SIO ISRs (added with add_SIO() ) can be removed.
     - See @ref add_SIO() and @ref remove_SIO()
     - Example project: `comm`
 
@@ -65,8 +65,18 @@ You can change this behavior using @ref nowait_int_handler() which does not chec
 
 # What GBDK does automatically and behind the scenes
 
+## NES console
+For implementation details on the NES console in GBDK, see the @ref nes_technical_details "NES entry" in @ref docs_supported_consoles "Supported Consoles & Cross Compiling"
+
 ## OAM (VRAM Sprite Attribute Table)
 GBDK sets up a Shadow OAM which gets copied automatically to the hardware OAM by the default V-Blank ISR. The Shadow OAM allows updating sprites without worrying about whether it is safe to write to them or not based on the hardware LCD mode.
+
+## Graphics Tile Maps and Data on Startup
+By default for the Game Boy GBDK assigns:
+- Background and Window Tile data starting at `0x8800`
+- Background Tile Map starting at `0x9800`
+- Window Tile Map starting at `0x9C00`
+- Sprites to `8x8` mode
 
 ## Font tiles when using stdio.h
 Including @ref stdio.h and using functions such as @ref printf() will use a large number of the background tiles for font characters. If stdio.h is not included then that space will be available for use with other tiles instead.
@@ -85,6 +95,20 @@ The ISR return behavior @ref isr_nowait_info "can be turned off" using the @ref 
 For more details see the related Pandocs section: https://gbdev.io/pandocs/Accessing_VRAM_and_OAM.html
 
 
+@anchor using_compression
+# Compression
+For programs that would benefit from compression GBDK includes the @ref utility_gbcompress "gbcompress" utility and companion API functions.
+
+In addition to the built-in compression unapack is another option:
+- UnaPACK aPack decompression by Toxa: https://github.com/untoxa
+- apultra aPack compression: https://github.com/emmanuel-marty/apultra
+
+Another way to save space is using 1 bit-per-pixel (bpp) tile pattern data instead of 2-bpp or 4-bpp data. This can reduce the ROM size for groups of tiles which only require two shades of color.
+- See: set_1bpp_colors(), set_bkg_1bpp_data(), set_win_1bpp_data(), set_sprite_1bpp_data()
+
+Use of 1-bpp tile pattern data may be combined with the compression described above to save even more space, however that approach requires using an intermediary RAM buffer before the tile pattern data can be written to VRAM with the set_*_1bpp_data() functions.
+
+
 # Copying Functions to RAM and HIRAM
 See the `ram_function` example project included with GBDK which demonstrates copying functions to RAM and HIRAM.
 
@@ -101,9 +125,14 @@ The second approach is slightly more efficient. Both approaches are demonstrated
 
 
 # Mixing C and Assembly
-You can mix C and assembly (ASM) in two ways as described below. For additional detail see the @ref links_sdcc_docs.
+_The following is primarily oriented toward the Game Boy and related clones (sm83 devices), other targets such as sms/gg may vary._
+
+You can mix C and assembly (ASM) in two ways as described below.
+- For additional detail see the @ref links_sdcc_docs and @ref sdcc_calling_convention "SDCC Calling Conventions".
 
 ## Inline ASM within C source files
+- The optional `NAKED` keyword may be used to indicate that the funtion setup and return should have no handling done by the compiler, and will instead be handled entirely by user code.
+- If the entire function preserves some registers the optional `PRESERVES_REGS` keyword may be used as additional hinting for the compiler. For example `PRESERVES_REGS(b, c)`. By default it is assumed by the compiler that no registers are preserved.
 
 Example:  
 
@@ -122,25 +151,22 @@ Another Example:
 
 ## In Separate ASM files
 
-@todo This is from GBDK 2.x docs, verify it with GBDK-2020 and modern SDCC
-
 It is possible to assemble and link files written in ASM alongside files written in C.
 
   - A C identifier `i` will be called `_i` in assembly.
-  - Results are always returned into the `DE` register.
-  - Parameters are passed on the stack (starting at `SP+2` because the return address is also saved on the stack).
+  - Parameters will be passed, registers saved and results returned in a manner based on the @ref sdcc_calling_convention "SDCC Calling Convention" used and how the function is declared.
   - Assembly identifiers are exported using the `.globl` directive.
-  - You can access GameBoy hardware registers using `_reg_0xXX` where `XX` is the register number (see `sound.c` for an example).
-  - Registers must be preserved across function calls (you must store them at function begin, and restore them at the end), except `HL` (and `DE` when the function returns a result).
+  - See global.s for examples of hardware register deginitions.
 
 Here is an example of how to mix assembly with C:
 
 `main.c`
 
+    uint16_t add(uint16_t, uint16_t);
+
     main()
     {
-      int16_t i;
-      int16_t add(int16_t, int16_t);
+      uint16_t i;
 
       i = add(1, 3);
     }
@@ -148,25 +174,28 @@ Here is an example of how to mix assembly with C:
 `add.s`
 
     .globl _add
-    _add:         ; int16_t add(int16_t a, int16_t b)
-                  ; There is no register to save:
-                  ;  BC is not used
-                  ;  DE is the return register
-                  ;  HL needs never to be saved
-    LDA  HL,2(SP)
-    LD   E,(HL)   ; Get a in DE
-    INC  HL
-    LD   D,(HL)
-    INC  HL
-    LD   A,(HL)   ; Get b in HL
-    INC  HL
-    LD   H,(HL)
-    LD   L,A
-    ADD  HL,DE    ; Add DE to HL
-    LD   D,H
-    LD   E,L
-                  ; There is no register to restore
-    RET           ; Return result in DE
+
+    .area _CODE    
+    _add:         ; uint16_t add(uint16_t First, uint16_t Second)
+                  ;
+                  ; In this particular example there is no use and modification of the stack
+                  ; No need to save and restore registers
+                  ;
+                  ; For calling convention __sdcccall(1)
+                  ; - first 16 bit param is passed in DE
+                  ; - second 16 bit param is passed in BC
+             
+    ; Load Second Parameter ("Second") into HL
+    ld  l,  c
+    ld  h,  b
+
+    ; Add Parameters "Second" + "First"
+    add hl, de
+
+    ; Return result in BC
+    ld  c,  l
+    ld  b,  h
+    ret           ; 16 bit values are returned in BC
 
 
 # Including binary files in C source with incbin
@@ -181,3 +210,15 @@ See the `incbin` example project for a demo of how to use it.
   - Const arrays declared with `somevar[n] = {x}` will __NOT__ get initialized with value `x`. This may change when the SDCC RLE initializer is fixed. Use memset for now if you need it.
 
   - SDCC banked calls and @ref far_pointers in GBDK only save one byte for the ROM bank, so for example they are limited to __bank 15__ max for MBC1 and __bank 255__ max for MBC5. See @ref banked_calls for more details.
+  - In SDCC __pre-initializing a variable__ assigned to SRAM with `-Wf-ba*` will force that variable to be in WRAM instead.
+    - The following is a workaround for initializing a variable in SRAM. It assignes value `0xA5` to a variable in `bank 0` and assigned to address `0xA000` using the AT() directive:
+
+
+            // Workaround for initializing variable in SRAM
+            // (MBC RAM and Bank needs to get enabled during GSINIT loading)
+            static uint8_t AT(0x0000) __rRAMG = 0x0a; // Enable SRAM
+            static uint8_t AT(0x4000) __rRAMB = 0x00; // Set SRAM bank 0
+            // Now SRAM is enabled so the variable can get initialized
+            uint8_t AT(0xA000)      initialized_sram_var = 0xA5u;
+
+

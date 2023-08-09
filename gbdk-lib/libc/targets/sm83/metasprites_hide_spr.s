@@ -10,33 +10,32 @@
 ; void hide_sprites_range(UINT8 from, UINT8 to)
 
 _hide_sprites_range::
-        ldhl    sp, #2
-        ld      a, (hl+)
-
         cp      #40
         ret     nc
 
-        add     a
-        add     a
-        ld      e, a
+        ld      d, a
 
-        ld      a, (hl-)
-        sub     (hl)
+        add     a
+        add     a
+        ld      c, a
+
+        ld      a, e
+        sub     d
 
         ret     c
         ret     z
 
         ld      hl, #___render_shadow_OAM
         ld      h, (hl)
-        ld      l, e
+        ld      l, c
 
         ld      de, #4
 
-        rra                     ; carry is never set here, because of ret c above
+        srl     a
         jr      nc, 0$
 
         ld      (hl), d
-        add     hl, de          ; carry is reset here because hl can't overflow
+        add     hl, de
 
         ret     z               ; z is not affected by 16-bit add
 

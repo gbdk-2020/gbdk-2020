@@ -8,7 +8,7 @@ TOPDIR = $(shell pwd)
 # Package name, used for tarballs
 PKG = gbdk
 # Version, used for tarballs & docs
-VER = 4.1.1
+VER = 4.2.0
 
 PORTS=sm83 z80 mos6502
 PLATFORMS=gb ap duck gg sms msxdos nes
@@ -151,6 +151,8 @@ endif
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/makecom TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
 	@echo Building makebin
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/makebin TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
+	@echo Building png2hicolorgb
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/png2hicolorgb TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
 	@echo
 
 gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
@@ -184,6 +186,9 @@ gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
 	@echo Installing makebin
 	@cp $(GBDKSUPPORTDIR)/makebin/makebin$(EXEEXTENSION) $(BUILDDIR)/bin/makebin$(EXEEXTENSION)
 	@$(TARGETSTRIP) $(BUILDDIR)/bin/makebin$(EXEEXTENSION)
+	@echo Installing png2hicolorgb
+	@cp $(GBDKSUPPORTDIR)/png2hicolorgb/png2hicolorgb$(EXEEXTENSION) $(BUILDDIR)/bin/png2hicolorgb$(EXEEXTENSION)
+	@$(TARGETSTRIP) $(BUILDDIR)/bin/png2hicolorgb$(EXEEXTENSION)
 	@echo
 
 gbdk-support-clean:
@@ -200,6 +205,10 @@ gbdk-support-clean:
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/gbcompress clean --no-print-directory
 	@echo Cleaning makecom
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/makecom clean
+	@echo Cleaning makebin
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/makebin clean
+	@echo Cleaning png2hicolorgb
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/png2hicolorgb clean
 	@echo
 
 # Rules for gbdk-lib
@@ -220,7 +229,7 @@ gbdk-lib-install: gbdk-lib-install-platforms
 gbdk-lib-install-prepare:
 	@rm -rf $(BUILDDIR)/lib
 
-gbdk-lib-install-ports:
+gbdk-lib-install-ports: gbdk-lib-build
 	@for port in $(PORTS); do \
 		echo Installing lib for port: $$port; \
 		mkdir -p $(BUILDDIR)/lib/$$port/; \
@@ -275,16 +284,31 @@ gbdk-dist-examples-clean:
 	$(MAKE) -C $(BUILDDIR)/examples/gb clean
 
 
-# Copy SDDC executable files
-SDCC_BINS = packihx sdar sdasgb sdcc sdcdb sdcpp sdldgb sdnm sdobjcopy sdranlib sz80 sdasz80 sdldz80 sdas6500 sdld
+# Copy SDDC executable files and DLLs
+# win 32 specific: libgcc_s_dw2-1.dll
+# win 64 specific: libgcc_s_seh-1.dll
+SDCC_BINS = packihx sdar sdasgb sdcc sdcpp sdldgb sdnm sdobjcopy sdranlib sdasz80 sdldz80 sdas6500 sdld6808 sdld
 ifeq ($(OS),Windows_NT)
+
+# Check for 32 bit Windows target a couple different ways and select the matching SDCC DLL
+WIN_TARGET = $(firstword $(subst -, ,$(shell $(TARGETCC) -dumpmachine)))
+ifeq ($(OS_TARGET),Win_x32)
+SDCC_OS_DLL = libgcc_s_dw2-1.dll
+else ifeq ($(WIN_TARGET),mingw32)
+SDCC_OS_DLL = libgcc_s_dw2-1.dll
+else ifeq ($(WIN_TARGET),i686)
+SDCC_OS_DLL = libgcc_s_dw2-1.dll
+else
+# Otherwise default 64 bit Windows SDCC DLL
+SDCC_OS_DLL = libgcc_s_seh-1.dll
+endif
+
 MINGW64_RUNTIME = \
-	libgcc_s_seh-1.dll \
 	libgcc_s_sjlj-1.dll \
 	libstdc++-6.dll \
 	libwinpthread-1.dll \
 	readline5.dll
-SDCC_BINS := $(addsuffix .exe, $(SDCC_BINS)) $(MINGW64_RUNTIME)
+SDCC_BINS := $(addsuffix .exe, $(SDCC_BINS)) $(MINGW64_RUNTIME) $(SDCC_OS_DLL)
 endif
 
 sdcc-install: check-SDCCDIR
@@ -292,6 +316,7 @@ sdcc-install: check-SDCCDIR
 	@for i in $(SDCC_BINS); do \
 	cp $(SDCCDIR)/bin/$$i $(BUILDDIR)/bin/ && echo "-> $$i" ; \
 	done
+	@cp -r $(SDCCDIR)/libexec $(BUILDDIR) && echo "-> cc1"
 
 # Final binary
 binary:
@@ -335,11 +360,20 @@ endif
 		cp $(GBDKDOCSDIR)/latex/refman.pdf $(GBDKDOCSDIR)/gbdk_manual.pdf;\
 	fi
 	rm -rf $(GBDKDOCSDIR)/latex
+# Patch in improved text search for Doxygen
+#
+# Create a combined array of all js search terms instead of the default arrays partitioned by first-letter index
+	echo "var searchData = [" > $(GBDKDOCSDIR)/api/search/combined.js
+	cat $(GBDKDOCSDIR)/api/search/all*.js | sed -e "s/var.*searchData.*//" | sed -e "s/^\[//" | sed -e "s/^\]\;//" | sed -e "s/\]\]\].*/\]\]\],/" >> $(GBDKDOCSDIR)/api/search/combined.js
+	echo "];" >> $(GBDKDOCSDIR)/api/search/combined.js
+# Override JS search functions to default doxygen search
+	cat $(GBDKDOCSDIR)/doxygen_search_override.js >> $(GBDKDOCSDIR)/api/search/search.js
+	cp $(GBDKDOCSDIR)/doxygen_search_combined.html $(GBDKDOCSDIR)/api/search/combined.html
 
 # Turn on Latex -> PDF conversion to run run at end of regular docs build
 # (which includes latex output but deletes it at the end).
 #
-# The conversion process requires a Latex install. 
+# The conversion process requires a Latex install.
 # For Windows there are various Latex packages to choose from.
 # For Linux this appears to be the minimum:
 #   sudo apt install texlive-latex-base
@@ -378,7 +412,13 @@ ifneq (,$(wildcard $(BUILDDIR)/bin/))
 	echo \@anchor sdasz80-settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \# sdasz80 settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
-	$(BUILDDIR)/bin/sdasgb -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true
+	$(BUILDDIR)/bin/sdasz80 -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+# sdas6500
+	echo \@anchor sdas6500-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# sdas6500 settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+	$(BUILDDIR)/bin/sdas6500 -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 # bankpack
 	echo \@anchor bankpack-settings >> $(TOOLCHAIN_DOCS_FILE);
@@ -395,6 +435,12 @@ ifneq (,$(wildcard $(BUILDDIR)/bin/))
 # sdldz80
 	echo \@anchor sdldz80-settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \# sdldz80 settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+	$(BUILDDIR)/bin/sdldgb >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+# sdld6808
+	echo \@anchor sdld6808-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# sdld6808 settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 	$(BUILDDIR)/bin/sdldgb >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
@@ -428,6 +474,12 @@ ifneq (,$(wildcard $(BUILDDIR)/bin/))
 	echo \# png2asset settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 	$(BUILDDIR)/bin/png2asset >> $(TOOLCHAIN_DOCS_FILE) 2>&1
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE)
+# png2hicolorgb
+	echo \@anchor png2hicolorgb-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# png2hicolorgb settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+	$(BUILDDIR)/bin/png2hicolorgb -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE)
 endif
 

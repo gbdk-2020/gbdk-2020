@@ -96,11 +96,10 @@ __standard_VBL_handler::
         INC     HL
         INC     (HL)
 2$:
-        CALL    .refresh_OAM
-
         LD      A, #1
         LDH     (.vbl_done),A
-        RET
+
+        JP      .refresh_OAM
 
 _refresh_OAM::
         WAIT_STAT
@@ -119,7 +118,29 @@ _refresh_OAM::
         XOR     A
         LD      L, A
         LD      C, #(40 << 2)   ; 40 entries 4 bytes each
-        RST     0x28
+        JP      .MemsetSmall
+
+        ;; Wait for VBL interrupt to be finished
+.wait_vbl_done::
+_wait_vbl_done::
+_vsync::
+        ;; Check if the screen is on
+        LDH     A,(.LCDC)
+        AND     #LCDCF_ON
+        RET     Z               ; Return if screen is off
+        XOR     A
+        LDH     (.vbl_done),A   ; Clear any previous sets of vbl_done
+1$:
+        HALT                    ; Wait for any interrupt
+        NOP                     ; HALT sometimes skips the next instruction
+        LDH     A,(.vbl_done)   ; Was it a VBlank interrupt?
+        ;; Warning: we may lose a VBlank interrupt, if it occurs now
+        OR      A
+        JR      Z,1$            ; No: back to sleep!
+        RET
+
+        .org    .MODE_TABLE
+        ;; Jump table for modes
         RET
 
         .org    0x150
@@ -168,7 +189,7 @@ _reset::
         CALL    .refresh_OAM
 
         ;; Install interrupt routines
-        LD      BC,#.std_vbl
+        LD      DE,#.std_vbl
         CALL    .add_VBL
 
         ;; Standard color palettes
@@ -184,20 +205,21 @@ _reset::
         ;; Turn the screen on
         LD      A,#(LCDCF_ON | LCDCF_WIN9C00 | LCDCF_WINOFF | LCDCF_BG8800 | LCDCF_BG9800 | LCDCF_OBJ8 | LCDCF_OBJOFF | LCDCF_BGOFF)
         LDH     (.LCDC),A
-        XOR     A
-        LDH     (.IF),A
+
         LD      A,#.VBL_IFLAG   ; switch on VBlank interrupt only
         LDH     (.IE),A
 
-        LDH     (__current_bank),A      ; current bank is 1 at startup
-
         XOR     A
+        LDH     (.IF),A
 
         LD      HL,#.sys_time
         LD      (HL+),A
         LD      (HL),A
 
         LDH     (.NR52),A       ; Turn sound off
+
+        INC     A
+        LDH     (__current_bank),A      ; current bank is 1 at startup
 
         CALL    gsinit
 
@@ -213,12 +235,10 @@ _exit::
 
 _set_interrupts::
         DI
-        LDA     HL,2(SP)        ; Skip return address
+        LDH     (.IE),A
         XOR     A
+        EI
         LDH     (.IF),A         ; Clear pending interrupts
-        LD      A,(HL)
-        EI                      ; Enable interrupts
-        LDH     (.IE),A         ; interrupts are still disabled here
         RET
 
         ;; Copy OAM data to OAM RAM
@@ -235,8 +255,66 @@ _set_interrupts::
         RET
 .end_refresh_OAM:
 
-        .org    .MODE_TABLE
-        ;; Jump table for modes
+        ;; Remove interrupt routine in DE from the VBL interrupt list
+        ;; falldown to .remove_int
+_remove_VBL::
+.remove_VBL::
+        LD      HL,#.int_0x40
+
+        ;; Remove interrupt DE from interrupt list HL if it exists
+        ;; Abort if a 0000 is found (end of list)
+.remove_int::
+1$:
+        LD      A,(HL+)
+        LD      C,A
+        LD      A,(HL+)
+        LD      B,A
+        OR      C
+        RET     Z               ; No interrupt found
+
+        LD      A,E
+        CP      C
+        JR      NZ,1$
+        LD      A,D
+        CP      B
+        JR      NZ,1$
+
+        LD      B,H
+        LD      C,L
+        DEC     BC
+        DEC     BC
+
+        ;; Now do a memcpy from here until the end of the list
+2$:
+        LD      A,(HL+)
+        LD      (BC),A
+        INC     BC
+        LD      D,A
+        LD      A,(HL+)
+        LD      (BC),A
+        INC     BC
+        OR      D
+        JR      NZ, 2$
+        RET
+
+        ;; Add interrupt routine in BC to the VBL interrupt list
+        ;; falldown to .add_int
+_add_VBL::
+.add_VBL::
+        LD      HL,#.int_0x40
+
+        ;; Add interrupt routine in BC to the interrupt list in HL
+.add_int::
+1$:
+        LD      A,(HL+)
+        OR      (HL)
+        JR      Z,2$
+        INC     HL
+        JR      1$
+2$:
+        LD      A,D
+        LD      (HL-),A
+        LD      (HL),E
         RET
 
         ;; ****************************************
@@ -294,15 +372,17 @@ __shadow_OAM_base::
 
         ;; Runtime library
         .area   _GSINIT
+
 gsinit::
         ;; initialize static storage variables
         LD      BC, #l__INITIALIZER
         LD      HL, #s__INITIALIZER
         LD      DE, #s__INITIALIZED
-        call    .memcpy_simple
+        CALL    .memcpy_simple
 
         .area   _GSFINAL
-        ret
+
+        RET
 
         .area   _HOME
 
@@ -349,84 +429,6 @@ gsinit::
 4$:
         RET
 
-        ;; Remove interrupt routine in BC from the VBL interrupt list
-        ;; falldown to .remove_int
-.remove_VBL::
-        LD      HL,#.int_0x40
-
-        ;; Remove interrupt BC from interrupt list HL if it exists
-        ;; Abort if a 0000 is found (end of list)
-.remove_int::
-1$:
-        LD      A,(HL+)
-        LD      E,A
-        LD      D,(HL)
-        INC     HL
-        OR      D
-        RET     Z               ; No interrupt found
-
-        LD      A,E
-        CP      C
-        JR      NZ,1$
-        LD      A,D
-        CP      B
-        JR      NZ,1$
-
-        LD      D,H
-        LD      E,L
-        DEC     DE
-        DEC     DE
-
-        ;; Now do a memcpy from here until the end of the list
-2$:
-        LD      A,(HL+)
-        LD      (DE),A
-        LD      B,A
-        INC     DE
-        LD      A,(HL+)
-        LD      (DE),A
-        INC     DE
-        OR      B
-        RET     Z
-        JR      2$
-
-        ;; Add interrupt routine in BC to the VBL interrupt list
-        ;; falldown to .add_int
-.add_VBL::
-        LD      HL,#.int_0x40
-
-        ;; Add interrupt routine in BC to the interrupt list in HL
-.add_int::
-1$:
-        LD      A,(HL+)
-        OR      (HL)
-        JR      Z,2$
-        INC     HL
-        JR      1$
-2$:
-        LD      A,B
-        LD      (HL-),A
-        LD      (HL),C
-        RET
-
-        ;; Wait for VBL interrupt to be finished
-.wait_vbl_done::
-_wait_vbl_done::
-        ;; Check if the screen is on
-        LDH     A,(.LCDC)
-        AND     #LCDCF_ON
-        RET     Z               ; Return if screen is off
-        XOR     A
-        LDH     (.vbl_done),A   ; Clear any previous sets of vbl_done
-1$:
-        HALT                    ; Wait for any interrupt
-        NOP                     ; HALT sometimes skips the next instruction
-        LDH     A,(.vbl_done)   ; Was it a VBlank interrupt?
-        ;; Warning: we may lose a VBlank interrupt, if it occurs now
-        OR      A
-        JR      Z,1$            ; No: back to sleep!
-        RET
-
 .display_off::
 _display_off::
         ;; Check if the screen is on
@@ -445,24 +447,4 @@ _display_off::
         LDH     A,(.LCDC)
         AND     #~LCDCF_ON
         LDH     (.LCDC),A       ; Turn off screen
-        RET
-
-_remove_VBL::
-        PUSH    BC
-        LDA     HL,4(SP)        ; Skip return address and registers
-        LD      A,(HL+)
-        LD      C,A
-        LD      B,(HL)
-        CALL    .remove_VBL
-        POP     BC
-        RET
-
-_add_VBL::
-        PUSH    BC
-        LDA     HL, 4(SP)       ; Skip return address and registers
-        LD      A,(HL+)
-        LD      C,A
-        LD      B,(HL)
-        CALL    .add_VBL
-        POP     BC
         RET

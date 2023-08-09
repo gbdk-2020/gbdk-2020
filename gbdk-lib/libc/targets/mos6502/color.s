@@ -3,7 +3,7 @@
         .title  "Colors"
         .module colors
 
-        .area   _INITIALIZED
+        .area   _DATA
 
 __current_1bpp_colors::
 .fg_colour::
@@ -11,7 +11,6 @@ __current_1bpp_colors::
 .bg_colour::
         .ds     1
 
-        .area   _INITIALIZER
-
+        .area   _XINIT
         .db     0x03    ; .fg_colour
         .db     0x00    ; .bg_color
