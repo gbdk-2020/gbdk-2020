@@ -7,7 +7,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
 # GBDK-2020 Release Notes
 
 ## GBDK-2020 4.2
-  2023/x
+  2023/08
   - Includes SDCC version ~4.3 with GBDK-2020 patches for Z80 and NES
     - ([Patched SDCC Builds](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases) with support for Sega GG/SMS and the Nintendo NES are used. See the [github workflow](https://github.com/gbdk-2020/gbdk-2020-sdcc/tree/main/.github/workflows) for details
   - Known Issues
@@ -27,6 +27,9 @@ https://github.com/gbdk-2020/gbdk-2020/releases
       - Added support for much of the GBDK API
       - Banking support (library and sdcc toolchain)
       - Added set_bkg_attributes_nes16x16(), set_bkg_submap_attributes_nes16x16(), set_bkg_attribute_xy_nes16x16()
+    - SMS/GG
+      - Swapped A and B buttons to match game boy buttons
+      - X coordinate metasprite clipping on the screen edges
     - Game Boy
       - Minor crt0 optimizations
       - Faster vmemcpy(), set_data(), get_data()
