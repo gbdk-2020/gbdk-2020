@@ -165,7 +165,7 @@ int main( int argc, char *argv[] )  {
         // Require MBC for Game Boy
         // SMS doesn't require an MBC setting
         if ((option_get_platform() == PLATFORM_GB) && (option_get_mbc_type() == MBC_TYPE_NONE))
-            printf("BankPack: ERROR: auto-banking does not work with unbanked ROMS (no MBC for Game Boy)\n");
+            printf("BankPack: ERROR: auto-banking does not work with nonbanked ROMS (no MBC for Game Boy)\n");
         else {
             // Extract areas, sort and assign them to banks
             // then rewrite object files as needed
