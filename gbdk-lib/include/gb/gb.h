@@ -1851,10 +1851,10 @@ inline uint8_t get_sprite_tile(uint8_t nb) {
     \code{.c}
     // Load palette data into the first palette
     set_sprite_palette(4, 1, exampleSprite_palettes)
+
     // Set the OAM value for the sprite
     // These flags tell the sprite to flip both vertically and horizontally.
-    set_sprite_prop(0, 0b01500000);
-    set_sprite_prop(0, S_FLIPY + S_FLIPX);
+    set_sprite_prop(0, S_FLIPY | S_FLIPX);
     \endcode
 
     @see S_PALETTE, S_FLIPX, S_FLIPY, S_PRIORITY

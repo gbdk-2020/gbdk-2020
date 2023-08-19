@@ -1051,8 +1051,7 @@ inline uint8_t get_sprite_tile(uint8_t nb) {
 
     // Set the OAM value for the sprite
     // These flags tell the sprite to use the first sprite palette (palette 4) and to flip the sprite both vertically and horizontally.
-    set_sprite_prop(0, 0b11000000);
-    set_sprite_prop(0, S_FLIPY + S_FLIPX);
+    set_sprite_prop(0, S_FLIPY | S_FLIPX);
     \endcode
 
     @see S_PALETTE, S_FLIPX, S_FLIPY, S_PRIORITY

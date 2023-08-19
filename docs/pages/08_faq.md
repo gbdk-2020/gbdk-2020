@@ -34,7 +34,7 @@
   - How do I set the ROM @ref MBC type, and what MBC values are available to use with the `-yt` @ref makebin flag?
     - See @ref setting_mbc_and_rom_ram_banks <!-- -->  
 
-# Errors
+# Errors and Warnings
   @anchor faq_gbz80_sm83_old_port_name_error
   - What does the error `old "gbz80" SDCC PORT name specified (in "-mgbz80:gb"). Use "sm83" instead. You must update your build settings.` mean?
     - The `PORT` name for the Game Boy and related clones changed from `gbz80` to `sm83` in the SDCC version used in GBDK-2020 4.1.0 and later. You must change your Makefile, Build settings, etc to use the new name. Additional details in the @ref console_port_plat_settings "Console Port and Platform Settings" section.  <!-- -->  
@@ -75,6 +75,13 @@
   - Why is the compiler so slow, or why did it suddenly get much slower?
     - This may happen if you have large initialized arrays declared without the `const` keyword. It's important to use the const keyword for read-only data. See @ref const_gbtd_gbmb and @ref const_array_data
     - It can also happen if C source files are `#included` into other C source files, or if there is a very large source file.  <!-- -->  
+
+  - What does `warning 283: function declarator with no prototype` mean?
+    - Function forward declarations and definitions which have no arguments should be changed from `func()` to `func(void)`.
+    - In C `func()` and `func(void)` do not mean the same thing. `()` means any number of parameters, `(void)` means no parameters. For example if a function with no arguments is declared with `()` then there may not be an error or warning when mistakenly trying to pass arguments to it.   <!-- -->  
+
+  - What do the warnings `warning 126: unreachable code` and `warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG` mean?
+    - There is source code which the compiler has determined will never get executed based on the input values. So either a warning is omitted, or in some cases the optimizer has changed the program so that it skips code that will never run.  <!-- -->  
 
 @anchor faq_macos_security_warning
   - On macOS, what does `... developer cannot be verified, macOS cannot verify that this app is free from malware` mean?
