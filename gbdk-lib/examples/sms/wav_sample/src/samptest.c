@@ -26,11 +26,13 @@ void main(void) {
             bank_save = _current_bank;
             SWITCH_ROM(BANK(cowbell_8bit_pcm_unsigned));
             play_sample(cowbell_8bit_pcm_unsigned, sizeof(cowbell_8bit_pcm_unsigned));
+            cut_sample();
             SWITCH_ROM(bank_save);
         } else if (KEY_PRESSED(J_B)) {
             bank_save = _current_bank;
             SWITCH_ROM(BANK(risset_drum_8bit_pcm_unsigned));
             play_sample(risset_drum_8bit_pcm_unsigned, sizeof(risset_drum_8bit_pcm_unsigned));
+            cut_sample();
             SWITCH_ROM(bank_save);
         }
         vsync();

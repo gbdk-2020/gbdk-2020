@@ -13,5 +13,6 @@
 #define PSG_VOLDDATA    0b00010000
 
 void play_sample(uint8_t * sample, uint16_t size);
+void cut_sample(void);
 
 #endif
