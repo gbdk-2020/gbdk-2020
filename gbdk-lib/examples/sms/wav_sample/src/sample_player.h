@@ -2,17 +2,14 @@
 #define SAMPLE_PLAYER_H_INCLUDE
 
 #include <gbdk/platform.h>
+#include <stdint.h>
 
-#define PSG_LATCH       0x80
-#define PSG_DATA        0x40
-
-#define PSG_CH0         0b00000000
-#define PSG_CH1         0b00100000
-#define PSG_CH2         0b01000000
-#define PSG_CH3         0b01100000
-#define PSG_VOLDDATA    0b00010000
+#define SFX_CH_1        (1 << (PSG_CH0 >> 5))
+#define SFX_CH_2        (1 << (PSG_CH1 >> 5))
+#define SFX_CH_3        (1 << (PSG_CH2 >> 5))
+#define SFX_CH_4        (1 << (PSG_CH3 >> 5))
 
 void play_sample(uint8_t * sample, uint16_t size);
-void cut_sample(void);
+void cut_sample(uint8_t mask);
 
 #endif
