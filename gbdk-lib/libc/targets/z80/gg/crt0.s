@@ -3,7 +3,7 @@
         .title  "Runtime"
         .module Runtime
         .area   _HEADER (ABS)
-        
+
         .globl  _set_default_palette
 
         .org    0x00            ; Reset 00h
@@ -11,11 +11,11 @@
         im 1                    ; interrupt mode 1 (this won't change)
         jp .init
 
-;        .org    0x08            ; --profile handler 
+;        .org    0x08            ; --profile handler
 
         .org    0x10            ; RST 0x10: VDP_WRITE_CMD
 
-_WRITE_VDP_CMD::        
+_WRITE_VDP_CMD::
         VDP_WRITE_CMD h, l
         ret
 
@@ -23,7 +23,7 @@ _WRITE_VDP_CMD::
 
         .org    0x20            ; RST 0x20: VDP_WRITE_DATA
 
-_WRITE_VDP_DATA::        
+_WRITE_VDP_DATA::
         VDP_WRITE_DATA h, l
         ret
 
@@ -89,12 +89,12 @@ _WRITE_VDP_DATA::
         ld a, b
         or #.VDP_REG_MASK
         out (c), a
-            
+
         ld a, b
         or a
         jr nz, 1$
 
-        ;; detect PAL/NTSC        
+        ;; detect PAL/NTSC
         in a, (.GG_STATE)
         and #.GGSTATE_NNTS
         jr nz, 2$
@@ -163,7 +163,7 @@ _WRITE_VDP_DATA::
 
         ;; fills memory at HL of length BC with A, clobbers DE
 .memset_simple::
-        ld e, a        
+        ld e, a
         ld a, c
         or b
         ret z
@@ -188,7 +188,7 @@ _vsync::
         ld  a, (_shadow_VDP_R1)
         and #.R1_DISP_ON
         ret z
-        
+
         xor a
         ld (.vbl_done), a
 1$:
@@ -199,7 +199,7 @@ _vsync::
         ret
 
         .area   _DATA
-        
+
 .start_crt_globals:
 __BIOS::
         .ds     0x01            ; GB type (GB, PGB, CGB)
@@ -234,7 +234,7 @@ _shadow_VDP_RSCY::
         .ds     0x01
 _shadow_VDP_R10::
         .ds     0x01
-.shadow_VDP_end::   
+.shadow_VDP_end::
 
 .sys_time::
 _sys_time::
@@ -250,15 +250,15 @@ __shadow_OAM_OFF::
         .ds     0x01
 .mode::
         .ds     0x01            ; Current mode
-    
+
         .area _INITIALIZER
 
         .db .R0_DEFAULT
-        .db #(.R1_DEFAULT | .R1_DISP_ON | .R1_IE)     ; VBLANK
-        .db .R2_MAP_0x3800
-        .db 0xFF 
+        .db #(.R1_DEFAULT | .R1_DISP_ON | .R1_IE)       ; VBLANK
+        .db .R2_MAP_0x1800                              ; .R2_MAP_0x3800
         .db 0xFF
-        .db .R5_SAT_0x3F00
+        .db 0xFF
+        .db .R5_SAT_0x1F00                              ; .R5_SAT_0x3F00
         .db .R6_DATA_0x2000
         .db #(0 | .R7_COLOR_MASK)
         .db 0                   ; SCX

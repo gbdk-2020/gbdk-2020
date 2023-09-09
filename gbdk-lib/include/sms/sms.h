@@ -593,8 +593,8 @@ inline void set_sprite_1bpp_data(uint16_t start, uint16_t ntiles, const void *sr
 void set_data(uint16_t dst, const void *src, uint16_t size) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
 void vmemcpy(uint16_t dst, const void *src, uint16_t size) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
 
-void set_tile_map(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
-void set_tile_map_compat(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
+void set_tile_map(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles) Z88DK_CALLEE;
+void set_tile_map_compat(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles) Z88DK_CALLEE;
 #define set_bkg_tiles set_tile_map_compat
 #define set_win_tiles set_tile_map_compat
 
@@ -617,8 +617,8 @@ inline void set_bkg_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const
     VBK_REG = VBK_TILES;
 }
 
-void set_tile_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t map_w, const uint8_t *map) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
-void set_tile_submap_compat(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t map_w, const uint8_t *map) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
+void set_tile_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t map_w, const uint8_t *map) Z88DK_CALLEE;
+void set_tile_submap_compat(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t map_w, const uint8_t *map) Z88DK_CALLEE;
 inline void set_bkg_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w) {
     set_tile_submap_compat(x, y, w, h, map_w, map);
 }
@@ -645,8 +645,8 @@ inline void set_bkg_submap_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h
     VBK_REG = VBK_TILES;
 }
 
-void fill_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint16_t tile) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
-void fill_rect_compat(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint16_t tile) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
+void fill_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint16_t tile) Z88DK_CALLEE;
+void fill_rect_compat(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint16_t tile) Z88DK_CALLEE;
 #define fill_bkg_rect fill_rect_compat
 #define fill_win_rect fill_rect_compat
 

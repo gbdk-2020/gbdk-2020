@@ -27,9 +27,6 @@ _set_attributed_tile_xy::
         pop de          ; DE = YX
         ex (sp), hl     ; HL = data
 
-        ld a, d
-
-        ld bc, #.VDP_TILEMAP
         call .coords_to_address
         ex de, hl
 
@@ -51,9 +48,6 @@ _set_tile_xy::
         dec sp
         ex (sp), hl     ; HL = data
 
-        ld a, d
-
-        ld bc, #.VDP_TILEMAP
         call .coords_to_address
         ex de, hl
 
@@ -76,9 +70,6 @@ _set_attribute_xy::
         dec sp
         ex (sp), hl     ; HL = data
 
-        ld a, d
-
-        ld bc, #.VDP_TILEMAP
         call .coords_to_address
         ex de, hl
 
