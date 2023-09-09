@@ -98,6 +98,10 @@
 
         ld a, ixh
         and #0b00000111
+        cp #0x07
+        jp nz, 8$
+        xor a
+8$:
         or iyh
         ld ixh, a
 

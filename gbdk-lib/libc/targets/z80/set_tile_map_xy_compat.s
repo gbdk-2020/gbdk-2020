@@ -112,6 +112,10 @@ __map_tile_offset::
 
         ld a, ixh
         and #0b00000111
+        cp #0x07
+        jp nz, 9$
+        xor a
+9$:
         or iyh
         ld ixh, a
 
