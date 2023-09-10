@@ -77,7 +77,7 @@ union __far_ptr {
         uint16_t seg;
     } segofs;
     struct {
-        void (*fn)();
+        void (*fn)(void);
         uint16_t seg;
     } segfn;
 };

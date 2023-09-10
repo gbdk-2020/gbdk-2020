@@ -43,17 +43,17 @@
 
         .globl  _set_bkg_1bpp_data, _set_bkg_data
 
-        .area   _INITIALIZED
+        .area   _DATA
 .curx::                         ; Cursor position
         .ds     0x01
 .cury::
         .ds     0x01
 
-        .area   _INITIALIZER
+        .area   _XINIT
         .db     0x00            ; .curx
         .db     0x00            ; .cury
 
-        .area   _DATA
+        .area   _BSS
         ; The current font
 font_handle_base:
 font_current::
@@ -284,9 +284,10 @@ set_char_no_encoding:
         txa
         clc
         adc font_current+sfont_handle_first_tile
-        ldx .curx
-        ldy .cury
-        jsr .writeNametableByte
+        sta _set_bkg_tile_xy_PARM_3
+        lda .curx
+        ldx .cury
+        jsr _set_bkg_tile_xy
         rts
 
 

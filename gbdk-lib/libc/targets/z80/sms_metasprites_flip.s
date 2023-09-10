@@ -3,6 +3,8 @@
         .title  "Metasprites"
         .module Metasprites
 
+        .ez80
+
         .area   _DATA
 
         .globl ___current_metasprite, ___current_base_tile, ___render_shadow_OAM
@@ -10,69 +12,85 @@
         .area   _CODE
 
 .macro MOVE_METASPRITE_BODY neg_dx neg_dy
-        ld      hl, #4
-        add     hl, sp
+        ld      iyl, a
 
-        ld      b, (hl)
-        dec     hl
-        ld      c, (hl)
-        dec     hl
-        ld      e, (hl)
+        pop     hl
+        pop     bc
+        push    hl
 
-        ld      hl, (___current_metasprite)
+        push    af
+        push    ix
+
+        ld      ix, (___current_metasprite)
 
         ld      a, (___render_shadow_OAM)
-        ld      d, a
+        ld      iyh, a
 1$:
-        ld      a, (hl)         ; dy
-        inc     hl
+        ld      a, 0(ix)        ; dy
         cp      #0x80
         jp      z, 2$
 .ifne neg_dy
         neg                     ; apply flipy (or no-op)
 .endif
-        add     b        
-        ld      b, a
+        inc     ix
+
+        add     c
+        ld      c, a
         cp      #0xD0
-        jp      nz, 3$
-        ld      a, #0xC0
-3$:
-        ld      (de), a
+        jp      z, 3$
 
-        push    de
+        ld      0(iy), a
 
-        ld      a, e
-        add     a
-        add     #0x40
-        ld      e, a
-
-        ld      a, (hl)         ; dx
-        inc     hl
+        ld      a, 0(ix)        ; dx
 .ifne neg_dx
         neg                     ; apply flipx (or no-op)
 .endif
-        add     c
-        ld      c, a
-        ld      (de), a
-        inc     e
+        add     a, a
+        sbc     a, a
+        ld      h, a
+        ld      a, 0(ix)
+.ifne neg_dx
+        neg                     ; apply flipx (or no-op)
+.endif
+        ld      l, a
+        inc     ix
+        add     hl, de
+        ex      de, hl
+        ld      a, d
+        or      a
+        jp      nz, 4$
+
+        ld      a, iyl
+        rlca
+        ld      iyl, a
+
+        ld      0x40(iy), e
 
         ld      a, (___current_base_tile)
-        add     (hl)            ; tile
-        inc     hl
-        ld      (de), a
+        add     0(ix)           ; tile
+        inc     ix
+        ld      0x41(iy), a
 
-        pop     de
-        inc     e
+        ld      a, iyl
+        rrca
+        inc     a
+        ld      iyl, a
 
         jp      1$
+3$:
+        inc     ix
+4$:
+        ld      0(iy), #0xC0
+        inc     ix
+        inc     iyl
+        jp      1$
+
 2$:
-        pop     hl
+        pop     ix
         pop     bc
-        inc     sp
-        push    hl
-        ld      a, e
-        sub     c
-        ld      l, a
+
+        ld      a, iyl
+        sub     b
         ret
 .endm
 

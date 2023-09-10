@@ -2,7 +2,7 @@
 
     .module RLE_DECOMPRESS
 
-    .area ZP (PAG)
+    .area _ZP (PAG)
 rle_cursor:
         .ds 0x02
 rle_counter:

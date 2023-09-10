@@ -10,9 +10,20 @@
 #include <sms/hardware.h>
 
 #define SEGA
+
+// Here NINTENDO means Game Boy & related clones
 #ifdef NINTENDO
 #undef NINTENDO
 #endif
+
+#ifdef NINTENDO_NES
+#undef NINTENDO_NES
+#endif
+
+#ifdef MSX
+#undef MSX
+#endif
+
 #if defined(__TARGET_sms)
 #define MASTERSYSTEM
 #elif defined(__TARGET_gg)
@@ -39,8 +50,8 @@
 #define	J_DOWN       0b00000010
 #define	J_LEFT       0b00000100
 #define	J_RIGHT      0b00001000
-#define	J_A          0b00010000
-#define	J_B          0b00100000
+#define	J_B          0b00010000
+#define	J_A          0b00100000
 #if defined(__TARGET_sms)
 #define	J_SELECT     0b00100000
 #define	J_START      0b00010000
@@ -520,7 +531,7 @@ inline void cpu_fast(void) {}
 void set_palette_entry(uint8_t palette, uint8_t entry, uint16_t rgb_data) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
 #define set_bkg_palette_entry set_palette_entry
 #define set_sprite_palette_entry(palette,entry,rgb_data) set_palette_entry(1,entry,rgb_data)
-void set_palette(uint8_t first_palette, uint8_t nb_palettes, palette_color_t *rgb_data) Z88DK_CALLEE;
+void set_palette(uint8_t first_palette, uint8_t nb_palettes, const palette_color_t *rgb_data) Z88DK_CALLEE;
 #define set_bkg_palette set_palette
 #define set_sprite_palette(first_palette,nb_palettes,rgb_data) set_palette(1,1,rgb_data)
 
@@ -528,8 +539,15 @@ void set_native_tile_data(uint16_t start, uint16_t ntiles, const void *src) Z88D
 inline void set_bkg_4bpp_data(uint16_t start, uint16_t ntiles, const void *src) {
     set_native_tile_data(start, ntiles, src);
 }
+inline void set_bkg_native_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) {
+    set_bkg_4bpp_data(first_tile, nb_tiles, data);
+}
+
 inline void set_sprite_4bpp_data(uint16_t start, uint16_t ntiles, const void *src) {
     set_native_tile_data((uint8_t)(start) + 0x100u, ntiles, src);
+}
+inline void set_sprite_native_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) {
+    set_sprite_4bpp_data(first_tile, nb_tiles, data);
 }
 
 #define COMPAT_PALETTE(C0,C1,C2,C3) (((uint16_t)(C3) << 12) | ((uint16_t)(C2) << 8) | ((uint16_t)(C1) << 4) | (uint16_t)(C0))
@@ -575,8 +593,8 @@ inline void set_sprite_1bpp_data(uint16_t start, uint16_t ntiles, const void *sr
 void set_data(uint16_t dst, const void *src, uint16_t size) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
 void vmemcpy(uint16_t dst, const void *src, uint16_t size) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
 
-void set_tile_map(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
-void set_tile_map_compat(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
+void set_tile_map(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles) Z88DK_CALLEE;
+void set_tile_map_compat(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles) Z88DK_CALLEE;
 #define set_bkg_tiles set_tile_map_compat
 #define set_win_tiles set_tile_map_compat
 
@@ -599,8 +617,8 @@ inline void set_bkg_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const
     VBK_REG = VBK_TILES;
 }
 
-void set_tile_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t map_w, const uint8_t *map) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
-void set_tile_submap_compat(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t map_w, const uint8_t *map) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
+void set_tile_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t map_w, const uint8_t *map) Z88DK_CALLEE;
+void set_tile_submap_compat(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t map_w, const uint8_t *map) Z88DK_CALLEE;
 inline void set_bkg_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w) {
     set_tile_submap_compat(x, y, w, h, map_w, map);
 }
@@ -627,8 +645,8 @@ inline void set_bkg_submap_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h
     VBK_REG = VBK_TILES;
 }
 
-void fill_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint16_t tile) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
-void fill_rect_compat(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint16_t tile) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
+void fill_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint16_t tile) Z88DK_CALLEE;
+void fill_rect_compat(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint16_t tile) Z88DK_CALLEE;
 #define fill_bkg_rect fill_rect_compat
 #define fill_win_rect fill_rect_compat
 
@@ -804,6 +822,17 @@ uint8_t * set_attributed_tile_xy(uint8_t x, uint8_t y, uint16_t t) Z88DK_CALLEE 
 uint8_t * set_tile_xy(uint8_t x, uint8_t y, uint8_t t) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
 #define set_bkg_tile_xy set_tile_xy
 #define set_win_tile_xy set_tile_xy
+
+/**
+ * Set single attribute data a on background layer at x,y
+ * @param x X-coordinate
+ * @param y Y-coordinate
+ * @param a tile attributes
+ * @return returns the address of tile attribute, so you may use faster set_vram_byte() later
+ */
+inline uint8_t * set_attribute_xy(uint8_t x, uint8_t y, uint8_t a) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
+#define set_bkg_attribute_xy set_attribute_xy
+#define set_win_attribute_xy set_attribute_xy
 
 /**
  * Get address of X,Y tile of background map

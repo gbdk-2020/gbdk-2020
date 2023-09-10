@@ -1,15 +1,15 @@
 # GBDK-2020
-GBDK is a cross-platform development kit for sm83 and z80 based gaming consoles. It includes libraries, toolchain utilities and the [SDCC](http://sdcc.sourceforge.net/) C compiler suite.
+GBDK is a cross-platform development kit for sm83, z80 and 6502 based gaming consoles. It includes libraries, toolchain utilities and the [SDCC](http://sdcc.sourceforge.net/) C compiler suite.
 
 __Supported Consoles:__ [(see docs)](https://gbdk-2020.github.io/gbdk-2020/docs/api/docs_supported_consoles.html)
-- Nintendo Gameboy / Game Boy Color
+- Nintendo Game Boy / Game Boy Color
 - Analogue Pocket
 - Sega Master System & Game Gear
 - Mega Duck / Cougar Boy
+- NES
 
-Expirimental consoles (not yet fully functional)
+Experimental consoles (not yet fully functional)
   - MSXDOS
-  - NES
 
 
 ## Current Release
@@ -63,13 +63,13 @@ The sources in this repo are only needed if you want to re-compile GBDK-2020 you
 ## Current status
 - Updated CRT and library that suits better for game development
 - SDCC Versions
-  - Current GBDK-2020 versions require SDCC patches for z80 SMS/Game Gear support (only `sdldz80` in GBDK-2020 4.1.0). So SDCC nightlies/snapshot builds cannot be used if you want to target SMS/Game Gear. Instead use the [Patched SDCC Builds](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases). 
+  - A [custom build of SDCC](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases) is used with [patches](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/tag/patches) to support Sega GG/SMS and the Nintendo NES. See the [github workflow](https://github.com/gbdk-2020/gbdk-2020-sdcc/tree/main/.github/workflows) for details of how to patch and build SDCC.
   - The default calling convention changed in `SDCC 4.2`. This is supported starting with `GBDK-2020 4.1.0`. Older versions of GBDK should use SDCC builds #12539 or older (see per-version GBDK notes).
 - The compiler driver **lcc** supports the latest sdcc toolchain.
 
 
 ## Origin
-Over the years people have been complaining about all the GBDK issues caused by a very old version of SDCC (the compiler). This is a proper attempt of updating it while also keeping all the old functionallity working, like support for banked code and data and so on.
+Over the years people have been complaining about all the GBDK issues caused by a very old version of SDCC (the compiler). This is a proper attempt of updating it while also keeping all the old functionality working, like support for banked code and data and so on.
 
 The last version in the OLD repo is [2.96](https://sourceforge.net/projects/gbdk/files/gbdk/2.96/) although releases are available until 2.95-3. Version [2.96](https://sourceforge.net/projects/gbdk/files/gbdk/2.96/) is the starting point of this repo.
 
@@ -78,8 +78,8 @@ The last version in the OLD repo is [2.96](https://sourceforge.net/projects/gbdk
 Unless you are interested on recompiling the sources for some reason (like fixing some bugs) **you don't need to build GBDK**
 
 - **Windows only**: Download and install [mingw](http://mingw-w64.org/)
-- Clone, download this repo or just get the source form the [releases](https://github.com/gbdk-2020/gbdk-2020/releases)
-- Download and install the **PATCHED** [sdcc builds](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases) from the separate repo for that (https://github.com/gbdk-2020/gbdk-2020-sdcc/releases).
+- Clone, download this repo or just get the source from the [releases](https://github.com/gbdk-2020/gbdk-2020/releases)
+- Download and install the **PATCHED** [sdcc builds](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases) from the separate repo for that (https://github.com/gbdk-2020/gbdk-2020-sdcc).
 - On Linux **don't use package managers** The latest release available won't work, you need to compile or download one of the nightlies
 - Create **SDCCDIR** environment variable, that points into the folder, where you installed sdcc
 - Open command prompt or a terminal, go to the root directory of the repo and run **make**

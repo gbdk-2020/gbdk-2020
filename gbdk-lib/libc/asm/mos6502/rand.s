@@ -6,12 +6,14 @@
 ; Also redirects arand / initarand to here, to avoid their extra memory cost.
 ;
 
-.area ZP (PAG)
+.area _ZP (PAG)
 ___rand_seed::
 .randlo: .ds 1
 .randhi: .ds 1
 
 .area _HOME
+
+.define .tmp "__TEMP"
 
 ;
 ; Returns an 8-bit / 16-bit rand value and updates the seed.

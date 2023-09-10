@@ -7,7 +7,7 @@
 #include "samples_bank3.h" 
 
 
-void main()
+void main(void)
 {
 
     NR52_REG = 0x80u;

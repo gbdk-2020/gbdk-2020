@@ -79,7 +79,7 @@ inline uint8_t update_row_bottom(uint8_t map_pos_y)
     return map_pos_y + DEVICE_SCREEN_HEIGHT;
 }
 
-void set_camera()
+void set_camera(void)
 {
     // update hardware scroll position
     move_bkg(camera_x, WRAP_SCROLL_Y(camera_y + SCROLL_Y_OFFSET));
@@ -173,7 +173,7 @@ void set_camera()
     old_camera_x = camera_x, old_camera_y = camera_y;
 }
 
-void main(){
+void main(void){
     DISPLAY_OFF;
     //set_bkg_data(0, 241u, bigmap_tiles);
     set_native_tile_data(0, bigmap_TILE_COUNT, bigmap_tiles);
@@ -184,7 +184,7 @@ void main(){
     if (_cpu == CGB_TYPE) {
         set_bkg_palette(BKGF_CGB_PAL0, bigmap_PALETTE_COUNT, bigmap_palettes);
     }
-#elif defined(NINTENDO_ENTERTAINMENT_SYSTEM)
+#elif defined(NINTENDO_NES)
     set_bkg_palette(0, bigmap_PALETTE_COUNT, bigmap_palettes);
 #endif 
 

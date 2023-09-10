@@ -574,3 +574,10 @@ th,
 table.markdownTable tr:hover {
     background-color: rgb(231, 236, 242);
 }
+
+/* @note styling */
+dl.note {
+    padding-left: 8px !important;
+    border-color: rgba(0, 210, 0, 0.40) !important;
+    background-color: rgba(0, 255, 0, 0.12) !important;
+}

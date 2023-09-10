@@ -14,6 +14,7 @@
 #define PLATFORM_STR_GB             "gb"
 #define PLATFORM_STR_AP             "ap"     // Uses PLATFORM_GB
 #define PLATFORM_STR_DUCK           "duck"   // Uses PLATFORM_GB
+#define PLATFORM_STR_NES            "nes"    // Uses PLATFORM_GB
 #define PLATFORM_STR_SMS            "sms"
 #define PLATFORM_STR_GG             "gg"     // Uses PLATFORM_SMS
 #define PLATFORM_STR_MSXDOS         "msxdos" // Uses PLATFORM_SMS
@@ -36,6 +37,8 @@ int  option_get_platform(void);
 int  option_get_mbc_type(void);
 void option_set_mbc(int);
 void option_mbc_by_rom_byte_149(int);
+
+void option_set_nes_mapper(int mapper_type);
 
 uint32_t option_banks_calc_cart_size(void);
 

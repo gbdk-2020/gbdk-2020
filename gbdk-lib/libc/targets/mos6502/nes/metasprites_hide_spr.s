@@ -1,9 +1,15 @@
     .include    "global.s"
 
-    .title  "Metasprites"
-    .module Metasprites
+    .title  "Sprites"
+    .module Sprites
 
     .globl  ___render_shadow_OAM
+
+    .area   _DATA
+    ___render_shadow_OAM:: .ds     0x01
+
+    .area   _XINIT
+    .db     #>_shadow_OAM
 
     .area   _HOME
 

@@ -95,6 +95,8 @@ static int handle_args(int argc, char * argv[]) {
                 files_set_out_path(argv[i] + 6);
             } else if (strstr(argv[i], "-mbc=") == argv[i]) {
                 option_set_mbc(atoi(argv[i] + 5));
+            } else if (strstr(argv[i], "-mapper=") == argv[i]) {
+                option_set_nes_mapper(atoi(argv[i] + 8));
             } else if (strstr(argv[i], "-yt") == argv[i]) {
                 option_mbc_by_rom_byte_149(strtol(argv[i] + 3, NULL, 0));
             } else if (strstr(argv[i], "-v") == argv[i]) {
@@ -163,7 +165,7 @@ int main( int argc, char *argv[] )  {
         // Require MBC for Game Boy
         // SMS doesn't require an MBC setting
         if ((option_get_platform() == PLATFORM_GB) && (option_get_mbc_type() == MBC_TYPE_NONE))
-            printf("BankPack: ERROR: auto-banking does not work with unbanked ROMS (no MBC for Game Boy)\n");
+            printf("BankPack: ERROR: auto-banking does not work with nonbanked ROMS (no MBC for Game Boy)\n");
         else {
             // Extract areas, sort and assign them to banks
             // then rewrite object files as needed

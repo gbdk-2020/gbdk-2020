@@ -30,8 +30,8 @@ The GameBoy hardware can generate 5 types of interrupts. Custom Interrupt Servic
     - Example project: `tim`
 
   - SIO : Serial Link I/O transfer end
-    - The default SIO ISR gets installed automatically if any of the standard SIO calls are used. These calls include add_SIO(), remove_SIO(), send_byte(), receive_byte().
-    - The default SIO ISR cannot be removed once installed. Only secondary chained SIO ISRs (added with add_SIO() ) can be removed.
+    - The default SIO ISR gets installed automatically if any of the standard SIO calls are used (send_byte(), receive_byte()).
+    - Once installed the default SIO ISR cannot be removed. Only secondary chained SIO ISRs (added with add_SIO() ) can be removed.
     - See @ref add_SIO() and @ref remove_SIO()
     - Example project: `comm`
 
@@ -65,8 +65,18 @@ You can change this behavior using @ref nowait_int_handler() which does not chec
 
 # What GBDK does automatically and behind the scenes
 
+## NES console
+For implementation details on the NES console in GBDK, see the @ref nes_technical_details "NES entry" in @ref docs_supported_consoles "Supported Consoles & Cross Compiling"
+
 ## OAM (VRAM Sprite Attribute Table)
 GBDK sets up a Shadow OAM which gets copied automatically to the hardware OAM by the default V-Blank ISR. The Shadow OAM allows updating sprites without worrying about whether it is safe to write to them or not based on the hardware LCD mode.
+
+## Graphics Tile Maps and Data on Startup
+By default for the Game Boy GBDK assigns:
+- Background and Window Tile data starting at `0x8800`
+- Background Tile Map starting at `0x9800`
+- Window Tile Map starting at `0x9C00`
+- Sprites to `8x8` mode
 
 ## Font tiles when using stdio.h
 Including @ref stdio.h and using functions such as @ref printf() will use a large number of the background tiles for font characters. If stdio.h is not included then that space will be available for use with other tiles instead.
@@ -83,6 +93,20 @@ There are certain times during each video frame when memory and registers relati
 The ISR return behavior @ref isr_nowait_info "can be turned off" using the @ref nowait_int_handler.
 
 For more details see the related Pandocs section: https://gbdev.io/pandocs/Accessing_VRAM_and_OAM.html
+
+
+@anchor using_compression
+# Compression
+For programs that would benefit from compression GBDK includes the @ref utility_gbcompress "gbcompress" utility and companion API functions.
+
+In addition to the built-in compression unapack is another option:
+- UnaPACK aPack decompression by Toxa: https://github.com/untoxa
+- apultra aPack compression: https://github.com/emmanuel-marty/apultra
+
+Another way to save space is using 1 bit-per-pixel (bpp) tile pattern data instead of 2-bpp or 4-bpp data. This can reduce the ROM size for groups of tiles which only require two shades of color.
+- See: set_1bpp_colors(), set_bkg_1bpp_data(), set_win_1bpp_data(), set_sprite_1bpp_data()
+
+Use of 1-bpp tile pattern data may be combined with the compression described above to save even more space, however that approach requires using an intermediary RAM buffer before the tile pattern data can be written to VRAM with the set_*_1bpp_data() functions.
 
 
 # Copying Functions to RAM and HIRAM

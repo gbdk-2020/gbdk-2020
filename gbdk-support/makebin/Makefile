@@ -16,7 +16,8 @@ ifeq ($(BUILD_OS),Darwin)
 endif
 
 CC = $(TOOLSPREFIX)gcc
-CFLAGS = -ggdb -O -Wno-incompatible-pointer-types -DGBDKLIBDIR=\"$(TARGETDIR)\"
+CFLAGS = -g3 -O0 -Wno-incompatible-pointer-types -DGBDKLIBDIR=\"$(TARGETDIR)\"
+LDFLAGS = -g3
 OBJ = makebin.o
 BIN = makebin
 

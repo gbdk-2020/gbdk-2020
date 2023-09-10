@@ -209,7 +209,7 @@ static int ihx_parse_and_validate_record(char * p_str, ihx_record * p_rec) {
             return false;
         }
 
-        // For records that start in banks above the unbanked region (0x000 - 0x3FFF)
+        // For records that start in banks above the nonbanked region (0x000 - 0x3FFF)
         // Warn (but don't error) if they cross the boundary between different banks
         if ((p_rec->address & 0xFFFFC000U) != (p_rec->address_end & 0xFFFFC000U)) {
 

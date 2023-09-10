@@ -95,11 +95,10 @@ __standard_VBL_handler::
         INC     HL
         INC     (HL)
 2$:
-        CALL    .refresh_OAM
-
         LD      A, #1
         LDH     (.vbl_done),A
-        RET
+
+        JP      .refresh_OAM
 
 _refresh_OAM::
         WAIT_STAT
@@ -118,27 +117,29 @@ _refresh_OAM::
         XOR     A
         LD      L, A
         LD      C, #(40 << 2)   ; 40 entries 4 bytes each
-        RST     0x28
+        JP      .MemsetSmall
+
+_set_interrupts::
+        DI
+        LDH     (.IE),A
+        XOR     A
+        EI
+        LDH     (.IF),A         ; Clear pending interrupts
         RET
 
-        ;; Wait for VBL interrupt to be finished
-.wait_vbl_done::
-_wait_vbl_done::
-_vsync::
-        ;; Check if the screen is on
-        LDH     A,(.LCDC)
-        AND     #LCDCF_ON
-        RET     Z               ; Return if screen is off
-        XOR     A
-        LDH     (.vbl_done),A   ; Clear any previous sets of vbl_done
-1$:
-        HALT                    ; Wait for any interrupt
-        NOP                     ; HALT sometimes skips the next instruction
-        LDH     A,(.vbl_done)   ; Was it a VBlank interrupt?
-        ;; Warning: we may lose a VBlank interrupt, if it occurs now
+        ;; Copy OAM data to OAM RAM
+.start_refresh_OAM:
+        LDH     A,(__shadow_OAM_base)
         OR      A
-        JR      Z,1$            ; No: back to sleep!
+        RET     Z
+.refresh_OAM_DMA:
+        LDH     (.DMA),A        ; Put A into DMA registers
+        LD      A,#0x28         ; We need to wait 160 ns
+1$:
+        DEC     A
+        JR      NZ,1$
         RET
+.end_refresh_OAM:
 
         .org    .MODE_TABLE
         ;; Jump table for modes: 4 modes, 4 bytes each 16 bytes total
@@ -271,20 +272,21 @@ _reset::
         ;; Turn the screen on
         LD      A,#(LCDCF_ON | LCDCF_WIN9C00 | LCDCF_WINOFF | LCDCF_BG8800 | LCDCF_BG9800 | LCDCF_OBJ8 | LCDCF_OBJOFF | LCDCF_BGOFF)
         LDH     (.LCDC),A
-        XOR     A
-        LDH     (.IF),A
+
         LD      A,#.VBL_IFLAG   ; switch on VBlank interrupt only
         LDH     (.IE),A
 
-        LDH     (__current_bank),A      ; current bank is 1 at startup
-
         XOR     A
+        LDH     (.IF),A
 
         LD      HL,#.sys_time
         LD      (HL+),A
         LD      (HL),A
 
         LDH     (.NR52),A       ; Turn sound off
+
+        INC     A
+        LDH     (__current_bank),A      ; current bank is 1 at startup
 
         CALL    gsinit
 
@@ -298,27 +300,24 @@ _exit::
         NOP
         JR      99$             ; Wait forever
 
-_set_interrupts::
-        DI
-        LDH     (.IE),A
+        ;; Wait for VBL interrupt to be finished
+.wait_vbl_done::
+_wait_vbl_done::
+_vsync::
+        ;; Check if the screen is on
+        LDH     A,(.LCDC)
+        AND     #LCDCF_ON
+        RET     Z               ; Return if screen is off
         XOR     A
-        EI
-        LDH     (.IF),A         ; Clear pending interrupts
-        RET
-
-        ;; Copy OAM data to OAM RAM
-.start_refresh_OAM:
-        LDH     A,(__shadow_OAM_base)
-        OR      A
-        RET     Z
-.refresh_OAM_DMA:
-        LDH     (.DMA),A        ; Put A into DMA registers
-        LD      A,#0x28         ; We need to wait 160 ns
+        LDH     (.vbl_done),A   ; Clear any previous sets of vbl_done
 1$:
-        DEC     A
-        JR      NZ,1$
+        HALT                    ; Wait for any interrupt
+        NOP                     ; HALT sometimes skips the next instruction
+        LDH     A,(.vbl_done)   ; Was it a VBlank interrupt?
+        ;; Warning: we may lose a VBlank interrupt, if it occurs now
+        OR      A
+        JR      Z,1$            ; No: back to sleep!
         RET
-.end_refresh_OAM:
 
         ;; Remove interrupt routine in DE from the VBL interrupt list
         ;; falldown to .remove_int
@@ -441,15 +440,17 @@ __shadow_OAM_base::
 
         ;; Runtime library
         .area   _GSINIT
+
 gsinit::
         ;; initialize static storage variables
         LD      BC, #l__INITIALIZER
         LD      HL, #s__INITIALIZER
         LD      DE, #s__INITIALIZED
-        call    .memcpy_simple
+        CALL    .memcpy_simple
 
         .area   _GSFINAL
-        ret
+
+        RET
 
         .area   _HOME
 

@@ -76,7 +76,7 @@
     - This may happen if you have large initialized arrays declared without the `const` keyword. It's important to use the const keyword for read-only data. See @ref const_gbtd_gbmb and @ref const_array_data
     - It can also happen if C source files are `#included` into other C source files, or if there is a very large source file.  <!-- -->  
 
-@anchor faq_error_mbc_size
+@anchor faq_macos_security_warning
   - On macOS, what does `... developer cannot be verified, macOS cannot verify that this app is free from malware` mean?
     - It does not mean that GBDK is malware. It just means the GBDK toolchain binaries are not signed by Apple, so it won't run them without an additional step.
 
@@ -99,8 +99,9 @@
   - What does this warning mean?
     `WARNING: overflow in implicit constant conversion`
     - See @ref docs_constant_signedness "Constants, Signed-ness and Overflows"
-    <!-- -->  
 
+  - Known issue: SDCC may fail on Windows when @ref windows_sdcc_non_c_drive_path_spaces "run from folder names with spaces on non-C drives".
+    <!-- -->  
 
 # API / Utilities
   - Is there a list of all functions in the API?

@@ -5,12 +5,6 @@
 
     .area   _HOME
 
-    .area   _INITIALIZED
-    ___render_shadow_OAM:: .ds     0x01
-
-    .area   _INITIALIZER
-    .db     #>_shadow_OAM
-
 .define id    ".tmp+1"
 
 .move_metasprite_prologue::

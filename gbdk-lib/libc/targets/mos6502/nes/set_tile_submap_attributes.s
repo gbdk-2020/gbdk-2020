@@ -138,7 +138,7 @@ _set_bkg_submap_attributes_horizontalStripes_rowLoop:
     jsr .inc_row
     dec *.num_rows
     bne _set_bkg_submap_attributes_horizontalStripes_rowLoop  
-    jmp _flush_shadow_attributes
+    rts
 
 _set_bkg_submap_attributes_verticalStripes:
     jsr .inc_height_if_wrap
@@ -157,7 +157,7 @@ _set_bkg_submap_attributes_verticalStripes_columnLoop:
     iny
     dec *.num_columns
     bne _set_bkg_submap_attributes_verticalStripes_columnLoop  
-    jmp _flush_shadow_attributes
+    rts
 
 .inc_row:
     lda *.ypos

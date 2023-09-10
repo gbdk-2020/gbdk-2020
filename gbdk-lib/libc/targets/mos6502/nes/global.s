@@ -1,3 +1,8 @@
+        ;; Transfer buffer (lower half of hardware stack)
+        __vram_transfer_buffer = 0x100
+        ;; Number of 8-cycles available each frame for transfer buffer
+        VRAM_DELAY_CYCLES_X8  = 167
+
         ;;  Keypad
         .UP             = 0x10
         .DOWN           = 0x20
@@ -105,7 +110,7 @@
 
         ;; Global variables
         .globl  .mode
-        .globl  .tmp
+        .define .tmp "__TEMP"
 
         .globl _shadow_PPUCTRL, _shadow_PPUMASK
         .globl _bkg_scroll_x, _bkg_scroll_y
@@ -119,10 +124,9 @@
 
         .globl  .display_off, .display_on
         .globl  .wait_vbl_done
-        .globl  .writeNametableByte
 
         ;; Symbols defined at link time
-        .globl _shadow_OAM, _vram_transfer_buffer
+        .globl _shadow_OAM, __vram_transfer_buffer
 
         ;; Main user routine
         .globl  _main
