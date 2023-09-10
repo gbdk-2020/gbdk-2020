@@ -199,7 +199,7 @@ void remove_TIM(int_handler h);
 
     The default SIO ISR gets installed automatically if
     any of the standard SIO calls are used
-    (@ref send_byte(), @ref receive_byte()).
+    (@ref send_byte(), @ref receive_byte(), @ref trade_byte()).
 
     Once installed the default SIO ISR cannot be removed.
     Only secondary chained SIO ISRs (added with add_SIO())
@@ -319,9 +319,9 @@ void add_low_priority_TIM(int_handler h);
 
     The default SIO ISR gets installed automatically if
     any of the standard SIO calls are used
-    (@ref send_byte(), @ref receive_byte()).
+    (@ref send_byte(), @ref receive_byte(), @ref trade_byte()).
 
-    @see send_byte, receive_byte(), add_VBL()
+    @see send_byte(), receive_byte(), trade_byte(), add_VBL()
     @see set_interrupts() with SIO_IFLAG
 */
 void add_SIO(int_handler h);

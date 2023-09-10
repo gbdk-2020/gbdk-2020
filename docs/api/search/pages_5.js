@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['migrating_20to_20new_20gbdk_20versions_2408',['Migrating to new GBDK Versions',['../docs_migrating_versions.html',1,'index']]]
+  ['faq_0',['Frequently Asked Questions (FAQ)',['../docs_faq.html',1,'index']]],
+  ['frequently_20asked_20questions_20faq_1',['Frequently Asked Questions (FAQ)',['../docs_faq.html',1,'index']]]
 ];

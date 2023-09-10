@@ -27,7 +27,6 @@ var NAVTREE =
   [ "GBDK 2020 Docs", "index.html", [
     [ "General Documentation", "index.html", "index" ],
     [ "Todo List", "todo.html", null ],
-    [ "C modules", "modules.html", "modules" ],
     [ "Data Structures", "annotated.html", [
       [ "Data Structures", "annotated.html", "annotated_dup" ],
       [ "Data Structure Index", "classes.html", null ],
@@ -55,12 +54,12 @@ var NAVTREEINDEX =
 "docs_getting_started.html#autotoc_md12",
 "drawing_8h.html#aef65e5faa0adb82768fca06aafbe50e8",
 "gb_2hardware_8h.html#aaed4a07f441ddeecae520e76eb7b7e27",
-"gb_8h.html#aa5d64e386a00b373f22ffdc5a152c7ba",
-"msx_2hardware_8h.html#a2121cb75e0d570b0f92c7630bc1af25f",
-"msx_8h.html#aca2855edd2d28f66be551a0f7ec23f07",
-"nes_8h.html#afe26f09c824742428c6435e87d179020",
-"sms_8h.html#a2f829cf27d6e3e24c875e9b82dfcb280",
-"stdlib_8h.html#a83798998ad669e85a8f75d6490191760"
+"gb_8h.html#aa6bcf24d97f93307b30f2906251f39a0",
+"msx_2hardware_8h.html#a221db76cb39200a948234330ed309af7",
+"msx_8h.html#ad2ec9831813c5e7069917aa4455af682",
+"nes_8h.html#afe5714734a8fea7b1617ba377b3c0a06",
+"sms_8h.html#a2ca7720b9a5da9b2173e1f74dba85541",
+"stdlib_8h.html#aad7352ea9374d44ceeb8ce43b28ead3d"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
