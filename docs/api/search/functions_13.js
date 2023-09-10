@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['uint2bcd_0',['uint2bcd',['../gb_2bcd_8h.html#af3d125e9dbb48d630cf7e2f7d1343ba1',1,'bcd.h']]],
-  ['uitoa_1',['uitoa',['../stdlib_8h.html#aa0c7dfc0d7cbe70b55d666f932936c03',1,'stdlib.h']]],
-  ['ultoa_2',['ultoa',['../stdlib_8h.html#ac9ed3277a16730242d0679b74c5e6c43',1,'stdlib.h']]]
+  ['uint2bcd_1475',['uint2bcd',['../gb_2bcd_8h.html#af3d125e9dbb48d630cf7e2f7d1343ba1',1,'bcd.h']]],
+  ['uitoa_1476',['uitoa',['../stdlib_8h.html#a38c070016cb06132360cfa5bacc2ed19',1,'stdlib.h']]],
+  ['ultoa_1477',['ultoa',['../stdlib_8h.html#ac22b79fe0c1279eabc3daf57328008d2',1,'stdlib.h']]]
 ];
