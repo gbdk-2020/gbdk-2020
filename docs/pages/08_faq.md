@@ -99,8 +99,9 @@
   - What does this warning mean?
     `WARNING: overflow in implicit constant conversion`
     - See @ref docs_constant_signedness "Constants, Signed-ness and Overflows"
-    <!-- -->  
 
+  - Known issue: SDCC may fail on Windows when @ref windows_sdcc_non_c_drive_path_spaces "run from folder names with spaces on non-C drives".
+    <!-- -->  
 
 # API / Utilities
   - Is there a list of all functions in the API?

@@ -5,7 +5,7 @@ This section contains information that may be useful to know or important when u
 # GBDK-2020 versions
 
 ## Porting to GBDK-2020 4.2.0
-  - GBDK now requires SDCC 4.3 or higher with GBDK-2020 patches for the the z80 linker
+  - GBDK now requires ~SDCC 4.3 or higher with GBDK-2020 patches for the z80 and NES
   - The following new functions replace old ones:
     - While the old functions will continue to work for now, migration to new versions is strongly encouraged
     - vsync(): replaces wait_vbl_done()
@@ -14,13 +14,18 @@ This section contains information that may be useful to know or important when u
     - move_metasprite_flipx(): replaces move_metasprite_vflip()
     - move_metasprite_flipxy(): replaces move_metasprite_hvflip()
     - move_metasprite_ex(): replaces move_metasprite()
+  - The unused `-DINT_16_BITS` argument was removed from the default SDCC compiler and preprocessor arguments (used in pre-GBDK2020 `gbdk/include-gb/types.h`)
+  - Removed legacy MBC register definitions `.MBC1_ROM_PAGE` and `.MBC_ROM_PAGE`
+  - SMS/GG
+    - Swapped A and B buttons to match game boy buttons
+
 
 ## Porting to GBDK-2020 4.1.1
   - No significant changes required
 
 
 ## Porting to GBDK-2020 4.1.0
-  - GBDK now requires SDCC 4.2 or higher with GBDK-2020 patches for the the z80 linker
+  - GBDK now requires SDCC 4.2 or higher with GBDK-2020 patches for the z80 linker
   - The default calling convention changed in SDCC 4.2, see @ref sdcc_calling_convention "Calling Conventions" for more details.
     - If you are linking to libraries compiled with an older version of SDCC / GBDK then you may have to recompile them.
     - If there are existing functions written in ASM which __receive parameters__ they should also be reviewed to make sure they work with the new `__sdcccall(1)` calling convention, or have their header declaration changed to use `OLDCALL`.

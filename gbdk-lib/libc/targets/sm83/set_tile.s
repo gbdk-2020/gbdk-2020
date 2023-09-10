@@ -3,17 +3,9 @@
 .area _CODE
 
 _set_vram_byte::
-        ; de = addr, hl = &t
-        ldhl    sp,#2
-        ld      a,(hl+)
-        ld      e, a
-        ld      a,(hl+)
-        ld      d, a
-
-        WAIT_STAT
+        WAIT_STAT_HL
 
         ; Write tile
-        ld      a,(hl)
         ld      (de),a
         ret
 

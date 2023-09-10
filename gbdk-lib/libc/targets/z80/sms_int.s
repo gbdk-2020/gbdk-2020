@@ -3,7 +3,7 @@
         .title  "INT Handler"
         .module INTHandler
 
-        .globl  .sys_time, .vbl_done
+        .globl  .sys_time, .vbl_done, _shadow_VDP_R5
         .globl  .OUTI128, .OUTI64, __shadow_OAM_base
 
         .area   _HOME
@@ -20,7 +20,7 @@ _INT_ISR::
         and #.STATF_INT_VBL
         jp z, 2$
         ;; handle VBlank
-        
+
         ld hl, (.sys_time)
         inc hl
         ld (.sys_time), hl
@@ -38,18 +38,19 @@ _INT_ISR::
         or h
         jp z, 1$
 
+        ld a, (_shadow_VDP_R5)
+        srl a
+        ld d, a
         ld c, #.VDP_CMD
-        ld a, #<.VDP_SAT
+        xor a
         out (c), a
-        ld a, #>.VDP_SAT
-        out (c), a
+        out (c), d
         dec c                           ; c == .VDP_DATA
         call .OUTI64
         inc c                           ; c == .VDP_CMD
-        ld a, #<(.VDP_SAT + 0x80)
+        ld a, #0x80
         out (c), a
-        ld a, #>(.VDP_SAT + 0x80)
-        out (c), a
+        out (c), d
         dec c                           ; c == .VDP_DATA
         call .OUTI128
 1$:
@@ -75,7 +76,7 @@ _INT_ISR::
         jp 3$
 
         ;; handle HBlank
-2$:             
+2$:
         ld hl, (.HBLANK_HANDLER0)
         CALL_HL
 
@@ -87,26 +88,26 @@ _INT_ISR::
         pop bc
         pop af
         ei
-        reti        
-        
+        reti
+
 ; void remove_LCD (int_handler h) __z88dk_fastcall __preserves_regs(b, c, iyh, iyl);
 _remove_LCD::
 .remove_LCD::
-        ld hl, #.empty_function 
+        ld hl, #.empty_function
 
 ; void add_LCD (int_handler h) __z88dk_fastcall __preserves_regs(b, c, iyh, iyl);
 _add_LCD::
 .add_LCD::
         ld (.HBLANK_HANDLER0), hl
         ret
-           
+
 ; void add_VBL(int_handler h) __z88dk_fastcall __preserves_regs(d, e, iyh, iyl);
 _add_VBL::
         ld b, h
         ld c, l
 
 .add_VBL::
-        ld hl, #.VBLANK_HANDLER0 
+        ld hl, #.VBLANK_HANDLER0
 
         ;; Add interrupt routine in BC to the interrupt list in HL
 .add_int::
@@ -120,7 +121,7 @@ _add_VBL::
 2$:
         ld (hl), b
         dec hl
-        ld (hl), c        
+        ld (hl), c
         ret
 
 ; void remove_VBL(int_handler h) __z88dk_fastcall __preserves_regs(iyh, iyl);
@@ -148,7 +149,7 @@ _remove_VBL::
         ld a, e
         cp c
         jr nz, 1$
-        
+
         ld a, d
         cp b
         jr nz, 1$
@@ -173,12 +174,12 @@ _remove_JOY::
 _add_TIM::
 _add_SIO::
 _add_JOY::
-.empty_function:      
+.empty_function:
         ret
-   
+
         .area   _INITIALIZED
-        
-.HBLANK_HANDLER0: 
+
+.HBLANK_HANDLER0:
         .ds     0x02
 .VBLANK_HANDLER0:
         .ds     0x02
@@ -187,11 +188,11 @@ _add_JOY::
 .VBLANK_HANDLER2:
         .ds     0x02
         .ds     0x02
-        
+
         .area   _INITIALIZER
-        
+
         .dw     .empty_function
-        .dw     0x0000 
-        .dw     0x0000 
+        .dw     0x0000
+        .dw     0x0000
         .dw     0x0000
         .dw     0x0000

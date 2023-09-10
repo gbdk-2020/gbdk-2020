@@ -29,7 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.1.1</span>
+   &#160;<span id="projectnumber">4.2.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -91,7 +91,7 @@ $(document).ready(function(){initNavTree('docs_toolchain_settings.html',''); ini
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="lcc-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md241"></a>
+<h1><a class="anchor" id="autotoc_md260"></a>
 lcc settings</h1>
 <div class="fragment"><div class="line">./lcc [ option | file ]...</div>
 <div class="line">    except for -l, options are processed left-to-right before files</div>
@@ -131,9 +131,9 @@ lcc settings</h1>
 <div class="line">-Woarg  specify system-specific `arg&#39;</div>
 <div class="line">-W[pfablim]arg  pass `arg&#39; to the preprocessor, compiler, assembler, bankpack, linker, ihxcheck, or makebin</div>
 </div><!-- fragment --><p> <a class="anchor" id="sdcc-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md242"></a>
+<h1><a class="anchor" id="autotoc_md261"></a>
 sdcc settings</h1>
-<div class="fragment"><div class="line">SDCC : z80/sm83/mos6502 4.2.2 #13350 (Linux)</div>
+<div class="fragment"><div class="line">SDCC : z80/sm83/mos6502/mos65c02 TD- 4.3.2 #14228 (Linux)</div>
 <div class="line">published under GNU General Public License (GPL)</div>
 <div class="line">Usage : sdcc [options] filename</div>
 <div class="line">Options :-</div>
@@ -167,15 +167,7 @@ sdcc settings</h1>
 <div class="line">      --Werror              Treat the warnings as errors</div>
 <div class="line">      --debug               Enable debugging symbol output</div>
 <div class="line">      --cyclomatic          Display complexity of compiled functions</div>
-<div class="line">      --std-c89             Use ISO C90 (aka ANSI C89) standard (slightly incomplete)</div>
-<div class="line">      --std-sdcc89          Use ISO C90 (aka ANSI C89) standard with SDCC extensions</div>
-<div class="line">      --std-c95             Use ISO C95 (aka ISO C94) standard (slightly incomplete)</div>
-<div class="line">      --std-c99             Use ISO C99 standard (incomplete)</div>
-<div class="line">      --std-sdcc99          Use ISO C99 standard with SDCC extensions</div>
-<div class="line">      --std-c11             Use ISO C11 standard (incomplete)</div>
-<div class="line">      --std-sdcc11          Use ISO C11 standard with SDCC extensions (default)</div>
-<div class="line">      --std-c2x             Use ISO C2X standard (incomplete)</div>
-<div class="line">      --std-sdcc2x          Use ISO C2X standard with SDCC extensions</div>
+<div class="line">      --std                 Determine the language standard (c89, c99, c11, c2x, sdcc89 etc.)</div>
 <div class="line">      --fdollars-in-identifiers  Permit &#39;$&#39; as an identifier character</div>
 <div class="line">      --fsigned-char        Make &quot;char&quot; signed by default</div>
 <div class="line">      --use-non-free        Search / include non-free licensed libraries and header files</div>
@@ -200,24 +192,25 @@ sdcc settings</h1>
 <div class="line">      --dataseg             &lt;name&gt; use this name for the data segment</div>
 <div class="line"> </div>
 <div class="line">Optimization options:</div>
+<div class="line">      --opt-code-speed      Optimize for code speed rather than size</div>
+<div class="line">      --opt-code-size       Optimize for code size rather than speed</div>
+<div class="line">      --max-allocs-per-node  Maximum number of register assignments considered at each node of the tree decomposition</div>
+<div class="line">      --no-reg-params       On some ports, disable passing some parameters in registers</div>
+<div class="line">      --nostdlibcall        Disable optimization of calls to standard library</div>
 <div class="line">      --nooverlay           Disable overlaying leaf function auto variables</div>
 <div class="line">      --nogcse              Disable the GCSE optimisation</div>
+<div class="line">      --nolospre            Disable lospre</div>
+<div class="line">      --nogenconstprop      Disable generalized constant propagation</div>
 <div class="line">      --nolabelopt          Disable label optimisation</div>
 <div class="line">      --noinvariant         Disable optimisation of invariants</div>
 <div class="line">      --noinduction         Disable loop variable induction</div>
 <div class="line">      --noloopreverse       Disable the loop reverse optimisation</div>
 <div class="line">      --no-peep             Disable the peephole assembly file optimisation</div>
-<div class="line">      --no-reg-params       On some ports, disable passing some parameters in registers</div>
 <div class="line">      --peep-asm            Enable peephole optimization on inline assembly</div>
 <div class="line">      --peep-return         Enable peephole optimization for return instructions</div>
 <div class="line">      --no-peep-return      Disable peephole optimization for return instructions</div>
 <div class="line">      --peep-file           &lt;file&gt; use this extra peephole file</div>
-<div class="line">      --opt-code-speed      Optimize for code speed rather than size</div>
-<div class="line">      --opt-code-size       Optimize for code size rather than speed</div>
-<div class="line">      --max-allocs-per-node  Maximum number of register assignments considered at each node of the tree decomposition</div>
-<div class="line">      --nolospre            Disable lospre</div>
 <div class="line">      --allow-unsafe-read   Allow optimizations to read any memory location anytime</div>
-<div class="line">      --nostdlibcall        Disable optimization of calls to standard library</div>
 <div class="line"> </div>
 <div class="line">Internal debugging options:</div>
 <div class="line">      --dump-ast            Dump front-end AST before generating i-code</div>
@@ -277,8 +270,13 @@ sdcc settings</h1>
 <div class="line">      --model-small         8-bit address space for data</div>
 <div class="line">      --model-large         16-bit address space for data (default)</div>
 <div class="line">      --no-std-crt0         Do not link default crt0.rel</div>
+<div class="line"> </div>
+<div class="line">Special options for the mos65c02 port:</div>
+<div class="line">      --model-small         8-bit address space for data</div>
+<div class="line">      --model-large         16-bit address space for data (default)</div>
+<div class="line">      --no-std-crt0         Do not link default crt0.rel</div>
 </div><!-- fragment --><p> <a class="anchor" id="sdasgb-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md243"></a>
+<h1><a class="anchor" id="autotoc_md262"></a>
 sdasgb settings</h1>
 <div class="fragment"><div class="line">sdas Assembler V02.00 + NoICE + SDCC mods  (GameBoy)</div>
 <div class="line"> </div>
@@ -320,9 +318,51 @@ sdasgb settings</h1>
 <div class="line">  -j   Enable NoICE Debug Symbols</div>
 <div class="line">  -y   Enable SDCC  Debug Symbols</div>
 </div><!-- fragment --><p> <a class="anchor" id="sdasz80-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md244"></a>
+<h1><a class="anchor" id="autotoc_md263"></a>
 sdasz80 settings</h1>
-<div class="fragment"><div class="line">sdas Assembler V02.00 + NoICE + SDCC mods  (GameBoy)</div>
+<div class="fragment"><div class="line">sdas Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180 / ZX-Next / eZ80)</div>
+<div class="line"> </div>
+<div class="line"> </div>
+<div class="line">Copyright (C) 2012  Alan R. Baldwin</div>
+<div class="line">This program comes with ABSOLUTELY NO WARRANTY.</div>
+<div class="line"> </div>
+<div class="line">Usage: [-Options] [-Option with arg] file</div>
+<div class="line">Usage: [-Options] [-Option with arg] outfile file1 [file2 ...]</div>
+<div class="line">  -h   or NO ARGUMENTS  Show this help list</div>
+<div class="line">Input:</div>
+<div class="line">  -I   Add the named directory to the include file</div>
+<div class="line">       search path.  This option may be used more than once.</div>
+<div class="line">       Directories are searched in the order given.</div>
+<div class="line">Output:</div>
+<div class="line">  -l   Create list   file/outfile[.lst]</div>
+<div class="line">  -o   Create object file/outfile[.rel]</div>
+<div class="line">  -s   Create symbol file/outfile[.sym]</div>
+<div class="line">Listing:</div>
+<div class="line">  -d   Decimal listing</div>
+<div class="line">  -q   Octal   listing</div>
+<div class="line">  -x   Hex     listing (default)</div>
+<div class="line">  -b   Display .define substitutions in listing</div>
+<div class="line">  -bb  and display without .define substitutions</div>
+<div class="line">  -c   Disable instruction cycle count in listing</div>
+<div class="line">  -f   Flag relocatable references by  `   in listing file</div>
+<div class="line">  -ff  Flag relocatable references by mode in listing file</div>
+<div class="line">  -p   Disable automatic listing pagination</div>
+<div class="line">  -u   Disable .list/.nlist processing</div>
+<div class="line">  -w   Wide listing format for symbol table</div>
+<div class="line">Assembly:</div>
+<div class="line">  -v   Enable out of range signed / unsigned errors</div>
+<div class="line">Symbols:</div>
+<div class="line">  -a   All user symbols made global</div>
+<div class="line">  -g   Undefined symbols made global</div>
+<div class="line">  -n   Don&#39;t resolve global assigned value symbols</div>
+<div class="line">  -z   Disable case sensitivity for symbols</div>
+<div class="line">Debugging:</div>
+<div class="line">  -j   Enable NoICE Debug Symbols</div>
+<div class="line">  -y   Enable SDCC  Debug Symbols</div>
+</div><!-- fragment --><p> <a class="anchor" id="sdas6500-settings"></a></p>
+<h1><a class="anchor" id="autotoc_md264"></a>
+sdas6500 settings</h1>
+<div class="fragment"><div class="line">sdas Assembler V02.00 + NoICE + SDCC mods  (Rockwell 6502/6510/65C02)</div>
 <div class="line"> </div>
 <div class="line"> </div>
 <div class="line">Copyright (C) 2012  Alan R. Baldwin</div>
@@ -362,7 +402,7 @@ sdasz80 settings</h1>
 <div class="line">  -j   Enable NoICE Debug Symbols</div>
 <div class="line">  -y   Enable SDCC  Debug Symbols</div>
 </div><!-- fragment --><p> <a class="anchor" id="bankpack-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md245"></a>
+<h1><a class="anchor" id="autotoc_md265"></a>
 bankpack settings</h1>
 <div class="fragment"><div class="line">bankalloc [options] objfile1 objfile2 etc</div>
 <div class="line">Use: Read .o files and auto-assign areas with bank=255.</div>
@@ -402,9 +442,9 @@ bankpack settings</h1>
 <div class="line">S ___bank_&lt;const name&gt; Def0000FF</div>
 <div class="line">    (Above can be made by: const void __at(255) __bank_&lt;const name&gt;;</div>
 </div><!-- fragment --><p> <a class="anchor" id="sdldgb-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md246"></a>
+<h1><a class="anchor" id="autotoc_md266"></a>
 sdldgb settings</h1>
-<div class="fragment"><div class="line">sdld Linker V03.00 + NoICE + sdld</div>
+<div class="fragment"><div class="line">sdld Linker V03.00/V05.40 + sdld</div>
 <div class="line"> </div>
 <div class="line">Usage: [-Options] [-Option with arg] file</div>
 <div class="line">Usage: [-Options] [-Option with arg] outfile file1 [file2 ...]</div>
@@ -420,6 +460,7 @@ sdldgb settings</h1>
 <div class="line">Relocation:</div>
 <div class="line">  -b   area base address = expression</div>
 <div class="line">  -g   global symbol = expression</div>
+<div class="line">  -a   (platform) Select platform specific virtual address translation</div>
 <div class="line">Map format:</div>
 <div class="line">  -m   Map output generated as (out)file[.map]</div>
 <div class="line">  -w   Wide listing format for map file</div>
@@ -438,9 +479,9 @@ sdldgb settings</h1>
 <div class="line">End:</div>
 <div class="line">  -e   or null line terminates input</div>
 </div><!-- fragment --><p> <a class="anchor" id="sdldz80-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md247"></a>
+<h1><a class="anchor" id="autotoc_md267"></a>
 sdldz80 settings</h1>
-<div class="fragment"><div class="line">sdld Linker V03.00 + NoICE + sdld</div>
+<div class="fragment"><div class="line">sdld Linker V03.00/V05.40 + sdld</div>
 <div class="line"> </div>
 <div class="line">Usage: [-Options] [-Option with arg] file</div>
 <div class="line">Usage: [-Options] [-Option with arg] outfile file1 [file2 ...]</div>
@@ -456,6 +497,44 @@ sdldz80 settings</h1>
 <div class="line">Relocation:</div>
 <div class="line">  -b   area base address = expression</div>
 <div class="line">  -g   global symbol = expression</div>
+<div class="line">  -a   (platform) Select platform specific virtual address translation</div>
+<div class="line">Map format:</div>
+<div class="line">  -m   Map output generated as (out)file[.map]</div>
+<div class="line">  -w   Wide listing format for map file</div>
+<div class="line">  -x   Hexadecimal (default)</div>
+<div class="line">  -d   Decimal</div>
+<div class="line">  -q   Octal</div>
+<div class="line">Output:</div>
+<div class="line">  -i   Intel Hex as (out)file[.ihx]</div>
+<div class="line">  -s   Motorola S Record as (out)file[.s19]</div>
+<div class="line">  -j   NoICE Debug output as (out)file[.noi]</div>
+<div class="line">  -y   SDCDB Debug output as (out)file[.cdb]</div>
+<div class="line">List:</div>
+<div class="line">  -u   Update listing file(s) with link data as file(s)[.rst]</div>
+<div class="line">Case Sensitivity:</div>
+<div class="line">  -z   Disable Case Sensitivity for Symbols</div>
+<div class="line">End:</div>
+<div class="line">  -e   or null line terminates input</div>
+</div><!-- fragment --><p> <a class="anchor" id="sdld6808-settings"></a></p>
+<h1><a class="anchor" id="autotoc_md268"></a>
+sdld6808 settings</h1>
+<div class="fragment"><div class="line">sdld Linker V03.00/V05.40 + sdld</div>
+<div class="line"> </div>
+<div class="line">Usage: [-Options] [-Option with arg] file</div>
+<div class="line">Usage: [-Options] [-Option with arg] outfile file1 [file2 ...]</div>
+<div class="line">Startup:</div>
+<div class="line">  -p   Echo commands to stdout (default)</div>
+<div class="line">  -n   No echo of commands to stdout</div>
+<div class="line">Alternates to Command Line Input:</div>
+<div class="line">  -c                   ASlink &gt;&gt; prompt input</div>
+<div class="line">  -f   file[.lk]       Command File input</div>
+<div class="line">Libraries:</div>
+<div class="line">  -k   Library path specification, one per -k</div>
+<div class="line">  -l   Library file specification, one per -l</div>
+<div class="line">Relocation:</div>
+<div class="line">  -b   area base address = expression</div>
+<div class="line">  -g   global symbol = expression</div>
+<div class="line">  -a   (platform) Select platform specific virtual address translation</div>
 <div class="line">Map format:</div>
 <div class="line">  -m   Map output generated as (out)file[.map]</div>
 <div class="line">  -w   Wide listing format for map file</div>
@@ -474,7 +553,7 @@ sdldz80 settings</h1>
 <div class="line">End:</div>
 <div class="line">  -e   or null line terminates input</div>
 </div><!-- fragment --><p> <a class="anchor" id="ihxcheck-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md248"></a>
+<h1><a class="anchor" id="autotoc_md269"></a>
 ihxcheck settings</h1>
 <div class="fragment"><div class="line">ihx_check input_file.ihx [options]</div>
 <div class="line"> </div>
@@ -485,7 +564,7 @@ ihxcheck settings</h1>
 <div class="line">Use: Read a .ihx and warn about overlapped areas.</div>
 <div class="line">Example: &quot;ihx_check build/MyProject.ihx&quot;</div>
 </div><!-- fragment --><p> <a class="anchor" id="makebin-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md249"></a>
+<h1><a class="anchor" id="autotoc_md270"></a>
 makebin settings</h1>
 <p>Also see <a class="el" href="docs_rombanking_mbcs.html#setting_mbc_and_rom_ram_banks">setting_mbc_and_rom_ram_banks</a> </p><div class="fragment"><div class="line">makebin: convert a Intel IHX file to binary or GameBoy format binary.</div>
 <div class="line">Usage: makebin [options] [&lt;in_file&gt; [&lt;out_file&gt;]]</div>
@@ -497,9 +576,11 @@ makebin settings</h1>
 <div class="line">  -N             generate Famicom/NES format binary file</div>
 <div class="line">  -o bytes       skip amount of bytes in binary file</div>
 <div class="line">SMS format options (applicable only with -S option):</div>
-<div class="line">  -xo n          rom size (0xa-0x2) (default: 0xc)</div>
+<div class="line">  -xo n          header rom size (0xa-0x2) (default: 0xc)</div>
 <div class="line">  -xj n          set region code (3-7) (default: 4)</div>
 <div class="line">  -xv n          version number (0-15) (default: 0)</div>
+<div class="line">  -yo n          number of rom banks (default: 2) (autosize: A)</div>
+<div class="line">  -ya n          number of ram banks (default: 0)</div>
 <div class="line">GameBoy format options (applicable only with -Z option):</div>
 <div class="line">  -yo n          number of rom banks (default: 2) (autosize: A)</div>
 <div class="line">  -ya n          number of ram banks (default: 0)</div>
@@ -518,12 +599,12 @@ makebin settings</h1>
 <div class="line">  &lt;in_file&gt;      optional IHX input file, &#39;-&#39; means stdin. (default: stdin)</div>
 <div class="line">  &lt;out_file&gt;     optional output file, &#39;-&#39; means stdout. (default: stdout)</div>
 </div><!-- fragment --><p> <a class="anchor" id="makecom-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md250"></a>
+<h1><a class="anchor" id="autotoc_md271"></a>
 makecom settings</h1>
 <div class="fragment"><div class="line">makecom image.rom image.noi output.com</div>
 <div class="line">Use: convert a binary .rom file to .msxdos com format.</div>
 </div><!-- fragment --><p> <a class="anchor" id="gbcompress-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md251"></a>
+<h1><a class="anchor" id="autotoc_md272"></a>
 gbcompress settings</h1>
 <div class="fragment"><div class="line">gbcompress [options] infile outfile</div>
 <div class="line">Use: compress a binary file and write it out.</div>
@@ -544,10 +625,11 @@ gbcompress settings</h1>
 <div class="line">The default compression (gb) is the type used by gbtd/gbmb</div>
 <div class="line">The rle compression is Amiga IFF style</div>
 </div><!-- fragment --><p> <a class="anchor" id="png2asset-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md252"></a>
+<h1><a class="anchor" id="autotoc_md273"></a>
 png2asset settings</h1>
 <div class="fragment"><div class="line">usage: png2asset    &lt;file&gt;.png [options]</div>
-<div class="line">-c                  ouput file (default: &lt;png file&gt;.c)</div>
+<div class="line">-o                  ouput file (default: &lt;png file&gt;.c)</div>
+<div class="line">-c                  deprecated, same as -o</div>
 <div class="line">-sw &lt;width&gt;         metasprites width size (default: png width)</div>
 <div class="line">-sh &lt;height&gt;        metasprites height size (default: png height)</div>
 <div class="line">-sp &lt;props&gt;         change default for sprite OAM property bytes (in hex) (default: 0x00)</div>
@@ -558,7 +640,7 @@ png2asset settings</h1>
 <div class="line">-spr8x8             use SPRITES_8x8</div>
 <div class="line">-spr8x16            use SPRITES_8x16 (this is the default)</div>
 <div class="line">-spr16x16msx        use SPRITES_16x16</div>
-<div class="line">-b &lt;bank&gt;           bank (default 0)</div>
+<div class="line">-b &lt;bank&gt;           bank (default: fixed bank)</div>
 <div class="line">-keep_palette_order use png palette</div>
 <div class="line">-repair_indexed_pal try to repair indexed tile palettes (implies &quot;-keep_palette_order&quot;)</div>
 <div class="line">-noflip             disable tile flip</div>
@@ -570,15 +652,52 @@ png2asset settings</h1>
 <div class="line">-bpp                bits per pixel: 1, 2, 4 (default: 2)</div>
 <div class="line">-max_palettes       max number of palettes allowed (default: 8)</div>
 <div class="line">                    (note: max colors = max_palettes x num colors per palette)</div>
-<div class="line">-pack_mode          gb, sgb, sms, 1bpp (default: gb)</div>
+<div class="line">-pack_mode          gb, nes, sgb, sms, 1bpp (default: gb)</div>
 <div class="line">-tile_origin        tile index offset for maps (default: 0)</div>
 <div class="line">-tiles_only         export tile data only</div>
 <div class="line">-maps_only          export map tilemap only</div>
 <div class="line">-metasprites_only   export metasprite descriptors only</div>
 <div class="line">-source_tileset     use source tileset (image with common tiles)</div>
 <div class="line">-keep_duplicate_tiles   do not remove duplicate tiles (default: not enabled)</div>
+<div class="line">-no_palettes        do not export palette data</div>
 <div class="line">-bin                export to binary format</div>
 <div class="line">-transposed         export transposed (column-by-column instead of row-by-row)</div>
+</div><!-- fragment --><p> <a class="anchor" id="png2hicolorgb-settings"></a></p>
+<h1><a class="anchor" id="autotoc_md274"></a>
+png2hicolorgb settings</h1>
+<div class="fragment"><div class="line">png2hicolorgb input_image.png [options]</div>
+<div class="line">version 1.4.1: bbbbbr. Based on Glen Cook&#39;s Windows GUI &quot;hicolour.exe&quot; 1.2</div>
+<div class="line">Convert an image to Game Boy Hi-Color format</div>
+<div class="line"> </div>
+<div class="line">Options</div>
+<div class="line">-h         : Show this help</div>
+<div class="line">-v*        : Set log level: &quot;-v&quot; verbose, &quot;-vQ&quot; quiet, &quot;-vE&quot; only errors, &quot;-vD&quot; debug</div>
+<div class="line">-o &lt;file&gt;  : Set base output filename (otherwise from input image)</div>
+<div class="line">--csource  : Export C source format with incbins for data files</div>
+<div class="line">--bank=N   : Set bank number for C source output where N is decimal bank number 1-511</div>
+<div class="line">--type=N   : Set conversion type where N is one of below </div>
+<div class="line">              1: Median Cut - No Dither (*Default*)</div>
+<div class="line">              2: Median Cut - With Dither</div>
+<div class="line">              3: Wu Quantiser</div>
+<div class="line">-p         : Show screen attribute pattern options (no processing)</div>
+<div class="line">-L=N       : Set Left  screen attribute pattern where N is decimal entry (-p to show patterns)</div>
+<div class="line">-R=N       : Set Right screen attribute pattern where N is decimal entry (-p to show patterns)</div>
+<div class="line">--vaddrid  : Map uses vram id (128-&gt;255-&gt;0-&gt;127) instead of (*Default*) sequential tile order (0-&gt;255)</div>
+<div class="line">--nodedupe : Turn off tile pattern deduplication</div>
+<div class="line"> </div>
+<div class="line">Example 1: &quot;png2hicolorgb myimage.png&quot;</div>
+<div class="line">Example 2: &quot;png2hicolorgb myimage.png --csource -o=my_output_filename&quot;</div>
+<div class="line">* Default settings provide good results. Better quality but slower: &quot;--type=3 -L=2 -R=2&quot;</div>
+<div class="line"> </div>
+<div class="line">Historical credits and info:</div>
+<div class="line">   Original Concept : Icarus Productions</div>
+<div class="line">   Original Code : Jeff Frohwein</div>
+<div class="line">   Full Screen Modification : Anon</div>
+<div class="line">   Adaptive Code : Glen Cook</div>
+<div class="line">   Windows Interface : Glen Cook</div>
+<div class="line">   Additional Windows Programming : Rob Jones</div>
+<div class="line">   Original Quantiser Code : Benny</div>
+<div class="line">   Quantiser Conversion : Glen Cook</div>
 </div><!-- fragment --> </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->

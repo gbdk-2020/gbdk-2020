@@ -43,17 +43,17 @@
 
         .globl  _set_bkg_1bpp_data, _set_bkg_data
 
-        .area   _INITIALIZED
+        .area   _DATA
 .curx::                         ; Cursor position
         .ds     0x01
 .cury::
         .ds     0x01
 
-        .area   _INITIALIZER
+        .area   _XINIT
         .db     0x00            ; .curx
         .db     0x00            ; .cury
 
-        .area   _DATA
+        .area   _BSS
         ; The current font
 font_handle_base:
 font_current::

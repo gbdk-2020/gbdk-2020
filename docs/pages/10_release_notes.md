@@ -7,11 +7,14 @@ https://github.com/gbdk-2020/gbdk-2020/releases
 # GBDK-2020 Release Notes
 
 ## GBDK-2020 4.2
-  2023/x
-  - Includes SDCC version 14...TODO... with GBDK-2020 patches for Z80 and NES
+  2023/08
+  - Includes SDCC version ~4.3 with GBDK-2020 patches for Z80 and NES
     - ([Patched SDCC Builds](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases) with support for Sega GG/SMS and the Nintendo NES are used. See the [github workflow](https://github.com/gbdk-2020/gbdk-2020-sdcc/tree/main/.github/workflows) for details
+  - Known Issues
+    - SDCC may fail on Windows when @ref windows_sdcc_non_c_drive_path_spaces "run from folder names with spaces on non-C drives".
   - Library
-    - Added: set_bkg_attributes(), set_bkg_submap_attributes()
+    - Added `NORETURN` definition (for `_Noreturn`)
+    - Added: set_bkg_attributes(), set_bkg_submap_attributes(), set_bkg_attribute_xy()
     - The following new functions replace old ones. The old functions will continue to work for now, but migration to new versions is strongly encouraged.
       - vsync(): replaces wait_vbl_done()
       - set_default_palette(): replaces cgb_compatibility()
@@ -21,7 +24,12 @@ https://github.com/gbdk-2020/gbdk-2020/releases
       - move_metasprite_flipxy(): replaces move_metasprite_hvflip()
       - move_metasprite_ex(): (replaces move_metasprite()
     - NES
+      - Added support for much of the GBDK API
       - Banking support (library and sdcc toolchain)
+      - Added set_bkg_attributes_nes16x16(), set_bkg_submap_attributes_nes16x16(), set_bkg_attribute_xy_nes16x16()
+    - SMS/GG
+      - Swapped A and B buttons to match game boy buttons
+      - X coordinate metasprite clipping on the screen edges
     - Game Boy
       - Minor crt0 optimizations
       - Faster vmemcpy(), set_data(), get_data()
@@ -33,14 +41,18 @@ https://github.com/gbdk-2020/gbdk-2020/releases
       - Workaround for possible HALT bug in Crash Handler
     - Refactored interrupts to use less space
   - Toolchain / Utilities
+    - Added @ref utility_png2hicolorgb "png2hicolorgb"
     - @ref lcc "lcc"
       - Fixed `--sdccbindir`
+      - Removed the unused `-DINT_16_BITS` from the default SDCC compiler and preprocessor arguments
       - Improved improved Game Gear header compatibility (change header region code from 4 to 6)
     - @ref utility_png2asset "png2asset"
+      - Added `-o` as a more standard version of the `-c` argument
       - Added `-repair_index_pal`: Tries to repair tile palettes for indexed color pngs (such as when RGB paint programs mix up indexed colors if the same color exists in multiple palettes). Implies `-keep_palette_order`
       - Added `-no_palettes`: Do not export palette data
       - Fixed support for indexed color pngs with less than 8 bits color depth
       - Fixed incorrect palettes when different colors have same luma value (use RGB values as less-significant bits)
+      - Fixed `-keep_duplicate_tiles` not working with `-source_tileset`
       - Changed to use cross-platform constants for metasprite properties (S_FLIPX, S_FLIPY and S_PAL)
     - @ref makebin
       - Warn if RAM banks specified and file size of ROM is less than the 64K required to enable them with in emulators
@@ -52,9 +64,13 @@ https://github.com/gbdk-2020/gbdk-2020/releases
      - Metasprites: Added sub-palette switching for GBC and NES, software metasprite flipping for sms/gg
      - Large Map: Added color for supported platforms
      - LCD ISR Wobble: Improved interrupt flag settings
+     - Added GB-Type example
+     - Added Game Boy Color Hi-Color example using @ref utility_png2hicolorgb "png2hicolorgb"
   - Docs:
-    - Added @ref using_cgb_features "Using Game Boy Color Features"
+    - Improved search to do partial matches instead of matching start of string only
     - Added SDAS assembler manual (asmlnk_manual.txt)
+    - Added section on @ref nes_technical_details "NES support"
+    - Added @ref using_cgb_features "Using Game Boy Color Features"
     - Updated @ref megaduck_sound_register_value_changes "MegaDuck hardware documentation"
     - Added @ref banked_calling_convention "Banked Calling Convention"
     - Added mention of @ref MAX_HARDWARE_SPRITES
@@ -69,7 +85,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
   2022/10
   - Includes SDCC version 13350 with GBDK-2020 patches for Z80
   - Known Issues
-    - The `compile.bat` batch files for Windows use the an incalid `-p` option for `mkdir`
+    - The `compile.bat` batch files for Windows use the an invalid `-p` option for `mkdir`
   - Building GBDK
     - The linux port of SDCC is custom built on Ubuntu 16.04 due to reduced GLIBC compatibility issues in more recent SDCC project builds.
     - Added Windows 32-Bit build
@@ -275,7 +291,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
       - Fixed -yt mbc specifier to also accept Decimal
       - Improved: bank ID can be used in same file it is declared. Requires SDCC 12238+ with `-n` option to defer symbol resolution to link time.
     - gbcompress
-      - Added C source input (expirimental) and output
+      - Added C source input (experimental) and output
       - Added size `#defines`
     - lcc
       - Added `-no-libs` and `-no-crt` options

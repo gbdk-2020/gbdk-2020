@@ -2172,7 +2172,10 @@ INCLUDE_FILE_PATTERNS  =
 # Define __PORT_sm83 fixes some functions that would get missed in
 # headers that are shared by multiple platforms. Use the Game Boy
 # versions by default
-PREDEFINED=__PORT_sm83 __TARGET_gb
+#
+# Define NINTENDO (meaning Game Boy) to ensure functions in some headers are enabled
+#
+PREDEFINED=__PORT_sm83 __TARGET_gb NINTENDO
 
 # If the MACRO_EXPANSION and EXPAND_ONLY_PREDEF tags are set to YES then this
 # tag can be used to specify a list of macro names that should be expanded. The

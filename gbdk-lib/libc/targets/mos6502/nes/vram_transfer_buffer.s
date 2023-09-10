@@ -40,14 +40,15 @@ VRAM_MAX_STRIPE_SIZE    = VRAM_HDR_SIZEOF + VRAM_MAX_BYTES
 .endm
 
 .area   OSEG (PAG, OVR)
-_set_vram_byte_PARM_3:: .ds 1
+_set_vram_byte_PARM_2:: .ds 1
     
 .area _ZP (PAG)
 __vram_transfer_buffer_valid::          .ds 1
 __vram_transfer_buffer_num_cycles_x8::  .ds 1
 __vram_transfer_buffer_pos_w::          .ds 1
 __vram_transfer_buffer_pos_old::        .ds 1
-__vram_transfer_buffer_temp::           .ds 1
+
+.define __vram_transfer_buffer_temp     "(__TEMP+6)"
 
 .area   _HOME
 
@@ -56,33 +57,35 @@ __vram_transfer_buffer_temp::           .ds 1
 ;
 .ppu_stripe_begin_horizontal::
     clc
-    jmp .ppu_stripe_begin
+    bit *.crt0_forced_blanking
+    bpl .ppu_stripe_begin_indirect
+    ; Direct write
+    stx PPUADDR
+    sta PPUADDR
+    ; Clear inc-by-32 bit in both PPUCTRL and _shadow_PPUCTRL, as NMI may re-write PPUCTRL
+    lda *_shadow_PPUCTRL
+    and #0xFB
+    sta *_shadow_PPUCTRL
+    sta PPUCTRL
+    rts
 
 ;
 ; Begin a vertical stripe
 ;
 .ppu_stripe_begin_vertical::
     sec
-    jmp .ppu_stripe_begin
-
-;
-; Begin a stripe (carry indicates vertical stripe)
-;
-.ppu_stripe_begin::
     bit *.crt0_forced_blanking
-    bpl 1$
+    bpl .ppu_stripe_begin_indirect
     ; Direct write
     stx PPUADDR
     sta PPUADDR
-    ; Set inc-by-32 bit in PPUCTRL as well
-    lda #0
-    rol
-    asl
-    asl
+    ; Set inc-by-32 bit in both PPUCTRL and _shadow_PPUCTRL, as NMI may re-write PPUCTRL
     lda *_shadow_PPUCTRL
+    ora #0x04
+    sta *_shadow_PPUCTRL
     sta PPUCTRL
     rts
-1$:
+
 .ppu_stripe_begin_indirect:
     ; Indirect write via transfer buffer
     sty *__vram_transfer_buffer_temp
@@ -194,7 +197,7 @@ _set_vram_byte::
     ; Direct write
     stx PPUADDR
     sta PPUADDR
-    ldy *_set_vram_byte_PARM_3
+    ldy *_set_vram_byte_PARM_2
     sty PPUDATA
     rts
 
@@ -275,7 +278,7 @@ _set_vram_byte::
     lda *ppu_addr
     sta __vram_transfer_buffer+VRAM_HDR_PPULO,y
     ; write data byte
-    lda *_set_vram_byte_PARM_3
+    lda *_set_vram_byte_PARM_2
     sta __vram_transfer_buffer+VRAM_HDR_SIZEOF,y
     ; Increase write pointer
     tya
@@ -317,7 +320,7 @@ _set_vram_byte::
 .ppu_stripe_append_1byte:
     ; Append 1 byte
     inc __vram_transfer_buffer+VRAM_HDR_LENGTH,x
-    lda *_set_vram_byte_PARM_3
+    lda *_set_vram_byte_PARM_2
     ldx *__vram_transfer_buffer_pos_w
     sta __vram_transfer_buffer,x
     inx

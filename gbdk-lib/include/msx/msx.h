@@ -10,12 +10,20 @@
 #include <msx/hardware.h>
 
 #define MSX
+
+// Here NINTENDO means Game Boy & related clones
 #ifdef NINTENDO
 #undef NINTENDO
 #endif
+
+#ifdef NINTENDO_NES
+#undef NINTENDO_NES
+#endif
+
 #ifdef SEGA
 #undef SEGA
 #endif
+
 #if defined(__TARGET_msxdos)
 #define MSXDOS
 #endif
@@ -358,7 +366,7 @@ __endasm; \
 
 
 /** Makes switch the active ROM bank in frame 1
-    @param b   ROM bank to switch to
+    @param bank   ROM bank to switch to
 */
 
 void SWITCH_ROM(uint8_t bank) Z88DK_FASTCALL PRESERVES_REGS(b, c, d, e, iyh, iyl);
@@ -480,7 +488,7 @@ inline void cpu_fast(void) {}
 void set_palette_entry(uint8_t palette, uint8_t entry, uint16_t rgb_data) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
 #define set_bkg_palette_entry set_palette_entry
 #define set_sprite_palette_entry(palette,entry,rgb_data) set_palette_entry(1,entry,rgb_data)
-void set_palette(uint8_t first_palette, uint8_t nb_palettes, palette_color_t *rgb_data) Z88DK_CALLEE;
+void set_palette(uint8_t first_palette, uint8_t nb_palettes, const palette_color_t *rgb_data) Z88DK_CALLEE;
 #define set_bkg_palette set_palette
 #define set_sprite_palette(first_palette,nb_palettes,rgb_data) set_palette(1,1,rgb_data)
 

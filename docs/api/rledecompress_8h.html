@@ -29,7 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.1.1</span>
+   &#160;<span id="projectnumber">4.2.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -105,10 +105,10 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a95560a74a89bab26cb6265dcc2bf54f6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rledecompress_8h.html#a95560a74a89bab26cb6265dcc2bf54f6">rle_init</a> (void *data) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:a95560a74a89bab26cb6265dcc2bf54f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad60bf95ddad142d8d81e5e1f0a0bb6e0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rledecompress_8h.html#ad60bf95ddad142d8d81e5e1f0a0bb6e0">rle_decompress</a> (void *dest, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> len) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:ad60bf95ddad142d8d81e5e1f0a0bb6e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37405d6a4fdb8c43031be8eae02c85a3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rledecompress_8h.html#a37405d6a4fdb8c43031be8eae02c85a3">rle_init</a> (void *data)</td></tr>
+<tr class="separator:a37405d6a4fdb8c43031be8eae02c85a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02fe4c30c8bc890a80aa3c5d09853038"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rledecompress_8h.html#a02fe4c30c8bc890a80aa3c5d09853038">rle_decompress</a> (void *dest, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> len)</td></tr>
+<tr class="separator:a02fe4c30c8bc890a80aa3c5d09853038"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Decompressor for RLE encoded data</p>
@@ -129,8 +129,8 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a95560a74a89bab26cb6265dcc2bf54f6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a95560a74a89bab26cb6265dcc2bf54f6">&#9670;&nbsp;</a></span>rle_init()</h2>
+<a id="a37405d6a4fdb8c43031be8eae02c85a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37405d6a4fdb8c43031be8eae02c85a3">&#9670;&nbsp;</a></span>rle_init()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -151,12 +151,12 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="rledecompress_8h.html#ad60bf95ddad142d8d81e5e1f0a0bb6e0">rle_decompress</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="rledecompress_8h.html#a02fe4c30c8bc890a80aa3c5d09853038">rle_decompress</a> </dd></dl>
 
 </div>
 </div>
-<a id="ad60bf95ddad142d8d81e5e1f0a0bb6e0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad60bf95ddad142d8d81e5e1f0a0bb6e0">&#9670;&nbsp;</a></span>rle_decompress()</h2>
+<a id="a02fe4c30c8bc890a80aa3c5d09853038"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a02fe4c30c8bc890a80aa3c5d09853038">&#9670;&nbsp;</a></span>rle_decompress()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -189,9 +189,9 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns <code>0</code> if compression is complete, <code>1</code> if there is more data to decompress</dd></dl>
-<p>Before calling this function <a class="el" href="rledecompress_8h.html#a95560a74a89bab26cb6265dcc2bf54f6">rle_init</a> must be called one time to initialize the RLE decompressor.</p>
+<p>Before calling this function <a class="el" href="rledecompress_8h.html#a37405d6a4fdb8c43031be8eae02c85a3">rle_init</a> must be called one time to initialize the RLE decompressor.</p>
 <p>Decompresses data which has been compressed with <a class="el" href="docs_toolchain.html#utility_gbcompress">gbcompress</a> using the <code>--alg=rle</code> argument.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="rledecompress_8h.html#a95560a74a89bab26cb6265dcc2bf54f6">rle_init</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="rledecompress_8h.html#a37405d6a4fdb8c43031be8eae02c85a3">rle_init</a> </dd></dl>
 
 </div>
 </div>

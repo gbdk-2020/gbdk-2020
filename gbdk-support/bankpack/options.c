@@ -245,7 +245,30 @@ void option_set_mbc(int mbc_type) {
         bank_limit_rom_max = mbc_bank_limit_rom_max;
 }
 
+// Set NES mapper type directly
+void option_set_nes_mapper(int mapper_type) {
 
+    uint16_t mapper_bank_limit_rom_max;
+
+    switch (mapper_type) {
+    case NES_MAPPER_TYPE_NONE:
+        option_mbc_type = NES_MAPPER_TYPE_NONE;
+        break;
+    case NES_MAPPER_TYPE_UXROM:
+        option_mbc_type = mapper_type;
+        mapper_bank_limit_rom_max = BANK_NUM_ROM_MAX_UXROM;
+        break;
+    case NES_MAPPER_TYPE_MAPPER30:
+        option_mbc_type = mapper_type;
+        mapper_bank_limit_rom_max = BANK_NUM_ROM_MAX_MAPPER30;
+        break;
+    default:
+        printf("BankPack: Warning: unrecognized NES mapper option -mapper%d!\n", mapper_type);
+        break;
+    }
+    if (mapper_bank_limit_rom_max < bank_limit_rom_max)
+        bank_limit_rom_max = mapper_bank_limit_rom_max;
+}
 
 // From makebin
 //  Byte

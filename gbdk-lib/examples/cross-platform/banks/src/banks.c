@@ -20,12 +20,6 @@ void bank_fixed(void) NONBANKED
   puts("I'm in fixed ROM");
 }
 
-void print_var(uint8_t bank)
-{
-  SWITCH_RAM(bank);
-  printf("Var_%u is %u\n");
-}
-
 void main(void)
 {
   puts("Program Start...");

@@ -17,7 +17,7 @@ LCCFLAGS_duck    = -Wl-yt0x1B # Usually the same as required for .gb
 LCCFLAGS_gbc     = -Wl-yt0x1B -Wm-yc # Same as .gb with: -Wm-yc (gb & gbc) or Wm-yC (gbc exclusive)
 LCCFLAGS_sms     =
 LCCFLAGS_gg      =
-LCCFLAGS_nes     = -Wl-yt0x1B
+LCCFLAGS_nes     =
 
 LCCFLAGS += $(LCCFLAGS_$(EXT)) # This adds the current platform specific LCC Flags
 
@@ -46,7 +46,10 @@ all: $(TARGETS)
 # Compile .c files in "src/" to .o object files
 $(OBJDIR)/%.o:	$(SRCDIR)/%.c
 	$(eval BOFLAG = $(shell echo "$<" | sed -n 's/.*\.bo\([0-9]\+\).*/\-Wf-bo\1/p'))
+# RAM bank flag is not supported for the NES, the other platforms can use it
+ifneq ($(strip $(PLAT)),nes)
 	$(eval BAFLAG = $(shell echo "$<" | sed -n 's/.*\.ba\([0-9]\+\).*/\-Wf-ba\1/p'))
+endif
 	$(LCC) -v $(CFLAGS) $(BOFLAG) $(BAFLAG) -c -o $@ $<
 
 # Compile .c files in "res/" to .o object files

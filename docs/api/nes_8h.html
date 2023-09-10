@@ -29,7 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.1.1</span>
+   &#160;<span id="projectnumber">4.2.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -113,8 +113,8 @@ Data Structures</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:aeaa6e975056958216c8308f25e95758d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#aeaa6e975056958216c8308f25e95758d">NINTENDO_ENTERTAINMENT_SYSTEM</a></td></tr>
-<tr class="separator:aeaa6e975056958216c8308f25e95758d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a418f95f7c7744aa18840d4101388916a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a418f95f7c7744aa18840d4101388916a">NINTENDO_NES</a></td></tr>
+<tr class="separator:a418f95f7c7744aa18840d4101388916a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4a118ad3ee36468a3fa616977a64864e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a4a118ad3ee36468a3fa616977a64864e">RGB</a>(r,  g,  <a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>)&#160;&#160;&#160;<a class="el" href="rgb__to__nes__macro_8h.html#aa83d79eaa6230c94a1326b9f88d6b0ad">RGB_TO_NES</a>(((r) | ((g) &lt;&lt; 2) | ((<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>) &lt;&lt; 4)))</td></tr>
 <tr class="separator:a4a118ad3ee36468a3fa616977a64864e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7d2ed0f10b2b74123a544327bbfd7564"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a7d2ed0f10b2b74123a544327bbfd7564">RGB8</a>(r,  g,  <a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>)&#160;&#160;&#160;<a class="el" href="rgb__to__nes__macro_8h.html#aa83d79eaa6230c94a1326b9f88d6b0ad">RGB_TO_NES</a>((((r) &gt;&gt; 6) | (((g) &gt;&gt; 6) &lt;&lt; 2) | (((<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>) &gt;&gt; 6) &lt;&lt; 4)))</td></tr>
@@ -205,7 +205,7 @@ Macros</h2></td></tr>
 <tr class="separator:ae189e98d0ef9263c37869ce1ff3710a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae042588f20bf5a2349c8ad8716245233"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ae042588f20bf5a2349c8ad8716245233">CURRENT_BANK</a>&#160;&#160;&#160;<a class="el" href="nes_8h.html#a06bab3f8bce032de0d21fbd86e14c3f3">_current_bank</a></td></tr>
 <tr class="separator:ae042588f20bf5a2349c8ad8716245233"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a42705001e2b9897f5167b67fb36c69dd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a42705001e2b9897f5167b67fb36c69dd">BANK</a>(VARNAME)&#160;&#160;&#160;0</td></tr>
+<tr class="memitem:a42705001e2b9897f5167b67fb36c69dd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a42705001e2b9897f5167b67fb36c69dd">BANK</a>(VARNAME)&#160;&#160;&#160;( (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>) &amp; __bank_ ## VARNAME )</td></tr>
 <tr class="separator:a42705001e2b9897f5167b67fb36c69dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a086293f2afb4c7945460a4496b20aea3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a086293f2afb4c7945460a4496b20aea3">BANKREF</a>(VARNAME)</td></tr>
 <tr class="separator:a086293f2afb4c7945460a4496b20aea3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -213,9 +213,17 @@ Macros</h2></td></tr>
 <tr class="separator:a261bba55a07b802baf99346feadd9852"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a412db28bcf6bda7f235d7c5d3c9d52c0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a412db28bcf6bda7f235d7c5d3c9d52c0">SWITCH_ROM_DUMMY</a>(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>)</td></tr>
 <tr class="separator:a412db28bcf6bda7f235d7c5d3c9d52c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e22a3b60368bb5f3705d625ac2d09cc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a1e22a3b60368bb5f3705d625ac2d09cc">SWITCH_ROM</a>&#160;&#160;&#160;<a class="el" href="nes_8h.html#a412db28bcf6bda7f235d7c5d3c9d52c0">SWITCH_ROM_DUMMY</a></td></tr>
+<tr class="memitem:a2d29df5dc3791dbf77488b3322b71d6c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a2d29df5dc3791dbf77488b3322b71d6c">SWITCH_ROM_UNROM</a>(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>)&#160;&#160;&#160;<a class="el" href="nes_8h.html#adf417314f63b45c36d04800866911b9f">_switch_prg0</a>(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>)</td></tr>
+<tr class="separator:a2d29df5dc3791dbf77488b3322b71d6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e22a3b60368bb5f3705d625ac2d09cc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a1e22a3b60368bb5f3705d625ac2d09cc">SWITCH_ROM</a>&#160;&#160;&#160;<a class="el" href="nes_8h.html#a2d29df5dc3791dbf77488b3322b71d6c">SWITCH_ROM_UNROM</a></td></tr>
 <tr class="separator:a1e22a3b60368bb5f3705d625ac2d09cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5ae6b05b3e1559c97f0d1b2daaaa0ee4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a5ae6b05b3e1559c97f0d1b2daaaa0ee4">DISPLAY_ON</a>&#160;&#160;&#160;  display_on();</td></tr>
+<tr class="memitem:a121feb0c32d124562f52398aa9656e7b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a121feb0c32d124562f52398aa9656e7b">SWITCH_RAM</a>(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>)&#160;&#160;&#160;0</td></tr>
+<tr class="separator:a121feb0c32d124562f52398aa9656e7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e9c88657beaac946231a4801481b97f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a0e9c88657beaac946231a4801481b97f">ENABLE_RAM</a></td></tr>
+<tr class="separator:a0e9c88657beaac946231a4801481b97f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a649d27b5587de16a66176e03a1b8ebd5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a649d27b5587de16a66176e03a1b8ebd5">DISABLE_RAM</a></td></tr>
+<tr class="separator:a649d27b5587de16a66176e03a1b8ebd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ae6b05b3e1559c97f0d1b2daaaa0ee4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a5ae6b05b3e1559c97f0d1b2daaaa0ee4">DISPLAY_ON</a>&#160;&#160;&#160;  <a class="el" href="nes_8h.html#aacdf9e1bdb75f04b68032b228d23e3e3">display_on</a>();</td></tr>
 <tr class="separator:a5ae6b05b3e1559c97f0d1b2daaaa0ee4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad2ec9831813c5e7069917aa4455af682"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ad2ec9831813c5e7069917aa4455af682">DISPLAY_OFF</a>&#160;&#160;&#160;  <a class="el" href="sms_8h.html#afe5714734a8fea7b1617ba377b3c0a06">display_off</a>();</td></tr>
 <tr class="separator:ad2ec9831813c5e7069917aa4455af682"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -245,6 +253,8 @@ Macros</h2></td></tr>
 <tr class="separator:adb5d0970167b81401113812773c90838"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3b235c526c517fb02d20cdea780ee2c5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a3b235c526c517fb02d20cdea780ee2c5">set_tile_xy</a>&#160;&#160;&#160;<a class="el" href="nes_8h.html#a8c294fe74e18b5a1b228f3ca7357dee7">set_bkg_tile_xy</a></td></tr>
 <tr class="separator:a3b235c526c517fb02d20cdea780ee2c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7a73323735000cf26196e073cbbdcbf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ad7a73323735000cf26196e073cbbdcbf">set_attribute_xy</a>&#160;&#160;&#160;<a class="el" href="nes_8h.html#a7cd23c81062d37753a4429b794907524">set_bkg_attribute_xy</a></td></tr>
+<tr class="separator:ad7a73323735000cf26196e073cbbdcbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a43b4f0ba65856deef626c0d9e7e41ed4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a43b4f0ba65856deef626c0d9e7e41ed4">set_sprite_2bpp_data</a>&#160;&#160;&#160;<a class="el" href="sms_8h.html#a216a3e3d320ee4d8cf4845600487ae39">set_sprite_data</a></td></tr>
 <tr class="separator:a43b4f0ba65856deef626c0d9e7e41ed4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a47607089a434dcda7a8583cfca03b604"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a47607089a434dcda7a8583cfca03b604">DISABLE_OAM_DMA</a>&#160;&#160;&#160;    <a class="el" href="sms_8h.html#a5435fd985412934e96a490e103c6bc49">_shadow_OAM_base</a> = 0</td></tr>
@@ -268,19 +278,29 @@ Macros</h2></td></tr>
 Typedefs</h2></td></tr>
 <tr class="memitem:aa1843c9b694489b612595631315c1c21"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#aa1843c9b694489b612595631315c1c21">palette_color_t</a></td></tr>
 <tr class="separator:aa1843c9b694489b612595631315c1c21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9508f919d9482d1d51534ccac212454d"><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a>) (void) <a class="el" href="asm_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td></tr>
+<tr class="separator:a9508f919d9482d1d51534ccac212454d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e5ea12b86bdfc812448c2f5c4336c03"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="struct_o_a_m__item__t.html">OAM_item_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a8e5ea12b86bdfc812448c2f5c4336c03">OAM_item_t</a></td></tr>
 <tr class="separator:a8e5ea12b86bdfc812448c2f5c4336c03"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aa8851ca1f515ca55cbf9f6ff53b08e8a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#aa8851ca1f515ca55cbf9f6ff53b08e8a">set_bkg_palette</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_palette, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_palettes, <a class="el" href="cgb_8h.html#af868d7cdbd052c6b972ef137e02f6495">palette_color_t</a> *rgb_data) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:aa8851ca1f515ca55cbf9f6ff53b08e8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ca9f825284da0db522d15aa2e42a4af"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a9ca9f825284da0db522d15aa2e42a4af">set_sprite_palette</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_palette, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_palettes, <a class="el" href="cgb_8h.html#af868d7cdbd052c6b972ef137e02f6495">palette_color_t</a> *rgb_data) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:a9ca9f825284da0db522d15aa2e42a4af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11902cb1c4de48a1992f5cd595c1da38"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a11902cb1c4de48a1992f5cd595c1da38">set_bkg_palette</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_palette, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_palettes, const <a class="el" href="cgb_8h.html#af868d7cdbd052c6b972ef137e02f6495">palette_color_t</a> *rgb_data) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
+<tr class="separator:a11902cb1c4de48a1992f5cd595c1da38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70244637bddfbb327c9684455fa8ffa6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a70244637bddfbb327c9684455fa8ffa6">set_sprite_palette</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_palette, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_palettes, const <a class="el" href="cgb_8h.html#af868d7cdbd052c6b972ef137e02f6495">palette_color_t</a> *rgb_data) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
+<tr class="separator:a70244637bddfbb327c9684455fa8ffa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adfaa20c59f6c2cd94d9e9047f34c1719"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#adfaa20c59f6c2cd94d9e9047f34c1719">set_bkg_palette_entry</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> palette, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> entry, <a class="el" href="cgb_8h.html#af868d7cdbd052c6b972ef137e02f6495">palette_color_t</a> rgb_data) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
 <tr class="separator:adfaa20c59f6c2cd94d9e9047f34c1719"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaf51ac64e2ff2d20a9c6d65091d76d7f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#aaf51ac64e2ff2d20a9c6d65091d76d7f">set_sprite_palette_entry</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> palette, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> entry, <a class="el" href="cgb_8h.html#af868d7cdbd052c6b972ef137e02f6495">palette_color_t</a> rgb_data) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
 <tr class="separator:aaf51ac64e2ff2d20a9c6d65091d76d7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6b62210da8713ab1fca7cb3ff6e80c5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ac6b62210da8713ab1fca7cb3ff6e80c5">remove_VBL</a> (<a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>)</td></tr>
+<tr class="separator:ac6b62210da8713ab1fca7cb3ff6e80c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67ef797ca230a941c1cc0c580720327b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a67ef797ca230a941c1cc0c580720327b">remove_LCD</a> (<a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>)</td></tr>
+<tr class="separator:a67ef797ca230a941c1cc0c580720327b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83bce4c8764eddefd9ab8af88669065e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a83bce4c8764eddefd9ab8af88669065e">add_VBL</a> (<a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>)</td></tr>
+<tr class="separator:a83bce4c8764eddefd9ab8af88669065e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2dae907ea199eee9abb0eb4b831778f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ae2dae907ea199eee9abb0eb4b831778f">add_LCD</a> (<a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>)</td></tr>
+<tr class="separator:ae2dae907ea199eee9abb0eb4b831778f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3ea524204d839377cf39842eec23e202"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a3ea524204d839377cf39842eec23e202">mode</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> m) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
 <tr class="separator:a3ea524204d839377cf39842eec23e202"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f49bc517509dbff3b7f8fae4373b1f0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a6f49bc517509dbff3b7f8fae4373b1f0">get_mode</a> (void) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
@@ -305,6 +325,8 @@ Functions</h2></td></tr>
 <tr class="separator:a580135f94ed0c4efeb28933097953bcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a21e24279db2c5866f7d3dac45ce0d633"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a21e24279db2c5866f7d3dac45ce0d633">wait_vbl_done</a> (void)</td></tr>
 <tr class="separator:a21e24279db2c5866f7d3dac45ce0d633"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aacdf9e1bdb75f04b68032b228d23e3e3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#aacdf9e1bdb75f04b68032b228d23e3e3">display_on</a> (void)</td></tr>
+<tr class="separator:aacdf9e1bdb75f04b68032b228d23e3e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afe5714734a8fea7b1617ba377b3c0a06"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#afe5714734a8fea7b1617ba377b3c0a06">display_off</a> (void)</td></tr>
 <tr class="separator:afe5714734a8fea7b1617ba377b3c0a06"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac23dbe69b5ee241af2da4f77bb580fa5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ac23dbe69b5ee241af2da4f77bb580fa5">refresh_OAM</a> (void)</td></tr>
@@ -343,6 +365,10 @@ Functions</h2></td></tr>
 <tr class="separator:adf2374063c8c63b60916f0dbf8255a9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8c294fe74e18b5a1b228f3ca7357dee7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a8c294fe74e18b5a1b228f3ca7357dee7">set_bkg_tile_xy</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> t) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
 <tr class="separator:a8c294fe74e18b5a1b228f3ca7357dee7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9dea209bacf188e54d76cae68034c3b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ac9dea209bacf188e54d76cae68034c3b">set_bkg_attribute_xy_nes16x16</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> a)</td></tr>
+<tr class="separator:ac9dea209bacf188e54d76cae68034c3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7cd23c81062d37753a4429b794907524"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a7cd23c81062d37753a4429b794907524">set_bkg_attribute_xy</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> a)</td></tr>
+<tr class="separator:a7cd23c81062d37753a4429b794907524"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acecd46833168c4d32db97b82bc3388a6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#acecd46833168c4d32db97b82bc3388a6">get_bkg_tile_xy</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
 <tr class="separator:acecd46833168c4d32db97b82bc3388a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6261537edc74068e3f7f057e6a3e8a57"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a6261537edc74068e3f7f057e6a3e8a57">move_bkg</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y)</td></tr>
@@ -373,8 +399,12 @@ Functions</h2></td></tr>
 <tr class="separator:a39071a53e4f4b7986c26138fab0d4182"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6224b2e4b72c062a2bb2959b0aaf860a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a6224b2e4b72c062a2bb2959b0aaf860a">set_tiles</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *vram_addr, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *tiles) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
 <tr class="separator:a6224b2e4b72c062a2bb2959b0aaf860a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aabdefd0207b7bfb37ac41a402197d006"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#aabdefd0207b7bfb37ac41a402197d006">set_tile_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> base) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:aabdefd0207b7bfb37ac41a402197d006"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2539f237ce7da8ff6eb0bad4c8c48a4c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a2539f237ce7da8ff6eb0bad4c8c48a4c">set_tile_data</a> (<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data)</td></tr>
+<tr class="separator:a2539f237ce7da8ff6eb0bad4c8c48a4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb5c235def5988696724051c5f838e74"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#acb5c235def5988696724051c5f838e74">set_bkg_native_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data)</td></tr>
+<tr class="separator:acb5c235def5988696724051c5f838e74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9e3edd5311290cba933c382cf2f5898"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#aa9e3edd5311290cba933c382cf2f5898">set_sprite_native_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data)</td></tr>
+<tr class="separator:aa9e3edd5311290cba933c382cf2f5898"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a68651e50243349b48164a8ad983dca4e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a68651e50243349b48164a8ad983dca4e">set_native_tile_data</a> (<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data)</td></tr>
 <tr class="separator:a68651e50243349b48164a8ad983dca4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad76a59fc3f7f9a33308776dd04f2750a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ad76a59fc3f7f9a33308776dd04f2750a">init_bkg</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#a0b3366755f3276b0243c1e0497471b7a">c</a>) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
@@ -383,6 +413,10 @@ Functions</h2></td></tr>
 <tr class="separator:a2b3faccbd50433879557ee0736f3906e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8c21e725f7de2cb86926c09202a80965"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a8c21e725f7de2cb86926c09202a80965">fill_bkg_rect</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> tile) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
 <tr class="separator:a8c21e725f7de2cb86926c09202a80965"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a367d476bfb522a81d045fc7509da7134"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a367d476bfb522a81d045fc7509da7134">flush_shadow_attributes</a> (void) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
+<tr class="separator:a367d476bfb522a81d045fc7509da7134"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf417314f63b45c36d04800866911b9f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#adf417314f63b45c36d04800866911b9f">_switch_prg0</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> bank) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
+<tr class="separator:adf417314f63b45c36d04800866911b9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -404,14 +438,14 @@ Variables</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>NES specific functions. </p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="aeaa6e975056958216c8308f25e95758d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeaa6e975056958216c8308f25e95758d">&#9670;&nbsp;</a></span>NINTENDO_ENTERTAINMENT_SYSTEM</h2>
+<a id="a418f95f7c7744aa18840d4101388916a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a418f95f7c7744aa18840d4101388916a">&#9670;&nbsp;</a></span>NINTENDO_NES</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define NINTENDO_ENTERTAINMENT_SYSTEM</td>
+          <td class="memname">#define NINTENDO_NES</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1103,11 +1137,11 @@ Variables</h2></td></tr>
 </dl>
 <p>The resulting format is four greyscale colors packed into a single unsigned byte.</p>
 <p>Example: </p><div class="fragment"><div class="line">REG_BGP = <a class="code" href="gb_8h.html#a9727caafc483ba6ec65e9344b033d684">DMG_PALETTE</a>(<a class="code" href="gb_8h.html#ab311e53739c992294ae07ca506a924ad">DMG_BLACK</a>, <a class="code" href="gb_8h.html#a45d13a674e169dd83df7e1f46513ccba">DMG_DARK_GRAY</a>, <a class="code" href="gb_8h.html#a8ccd6732d3bdf390cc0943e8567341f3">DMG_LITE_GRAY</a>, <a class="code" href="gb_8h.html#a11cedc2ee58acfbbfc48dfb2b9a551b3">DMG_WHITE</a>);</div>
-<div class="ttc" id="agb_8h_html_a11cedc2ee58acfbbfc48dfb2b9a551b3"><div class="ttname"><a href="gb_8h.html#a11cedc2ee58acfbbfc48dfb2b9a551b3">DMG_WHITE</a></div><div class="ttdeci">#define DMG_WHITE</div><div class="ttdef"><b>Definition:</b> gb.h:120</div></div>
-<div class="ttc" id="agb_8h_html_a45d13a674e169dd83df7e1f46513ccba"><div class="ttname"><a href="gb_8h.html#a45d13a674e169dd83df7e1f46513ccba">DMG_DARK_GRAY</a></div><div class="ttdeci">#define DMG_DARK_GRAY</div><div class="ttdef"><b>Definition:</b> gb.h:118</div></div>
-<div class="ttc" id="agb_8h_html_a8ccd6732d3bdf390cc0943e8567341f3"><div class="ttname"><a href="gb_8h.html#a8ccd6732d3bdf390cc0943e8567341f3">DMG_LITE_GRAY</a></div><div class="ttdeci">#define DMG_LITE_GRAY</div><div class="ttdef"><b>Definition:</b> gb.h:119</div></div>
-<div class="ttc" id="agb_8h_html_a9727caafc483ba6ec65e9344b033d684"><div class="ttname"><a href="gb_8h.html#a9727caafc483ba6ec65e9344b033d684">DMG_PALETTE</a></div><div class="ttdeci">#define DMG_PALETTE(C0, C1, C2, C3)</div><div class="ttdef"><b>Definition:</b> gb.h:140</div></div>
-<div class="ttc" id="agb_8h_html_ab311e53739c992294ae07ca506a924ad"><div class="ttname"><a href="gb_8h.html#ab311e53739c992294ae07ca506a924ad">DMG_BLACK</a></div><div class="ttdeci">#define DMG_BLACK</div><div class="ttdef"><b>Definition:</b> gb.h:117</div></div>
+<div class="ttc" id="agb_8h_html_a11cedc2ee58acfbbfc48dfb2b9a551b3"><div class="ttname"><a href="gb_8h.html#a11cedc2ee58acfbbfc48dfb2b9a551b3">DMG_WHITE</a></div><div class="ttdeci">#define DMG_WHITE</div><div class="ttdef"><b>Definition:</b> gb.h:131</div></div>
+<div class="ttc" id="agb_8h_html_a45d13a674e169dd83df7e1f46513ccba"><div class="ttname"><a href="gb_8h.html#a45d13a674e169dd83df7e1f46513ccba">DMG_DARK_GRAY</a></div><div class="ttdeci">#define DMG_DARK_GRAY</div><div class="ttdef"><b>Definition:</b> gb.h:129</div></div>
+<div class="ttc" id="agb_8h_html_a8ccd6732d3bdf390cc0943e8567341f3"><div class="ttname"><a href="gb_8h.html#a8ccd6732d3bdf390cc0943e8567341f3">DMG_LITE_GRAY</a></div><div class="ttdeci">#define DMG_LITE_GRAY</div><div class="ttdef"><b>Definition:</b> gb.h:130</div></div>
+<div class="ttc" id="agb_8h_html_a9727caafc483ba6ec65e9344b033d684"><div class="ttname"><a href="gb_8h.html#a9727caafc483ba6ec65e9344b033d684">DMG_PALETTE</a></div><div class="ttdeci">#define DMG_PALETTE(C0, C1, C2, C3)</div><div class="ttdef"><b>Definition:</b> gb.h:151</div></div>
+<div class="ttc" id="agb_8h_html_ab311e53739c992294ae07ca506a924ad"><div class="ttname"><a href="gb_8h.html#ab311e53739c992294ae07ca506a924ad">DMG_BLACK</a></div><div class="ttdeci">#define DMG_BLACK</div><div class="ttdef"><b>Definition:</b> gb.h:128</div></div>
 </div><!-- fragment --><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_2hardware_8h.html#a13f3e89f7b92258d825292e5058815c7">OBP0_REG</a>, <a class="el" href="gb_2hardware_8h.html#a9da545164e049ef773128f869daece13">OBP1_REG</a>, <a class="el" href="gb_2hardware_8h.html#af577ba87ec3d13d7415e4c4a53cdf997">BGP_REG</a> </dd>
 <dd>
 <a class="el" href="nes_8h.html#ab311e53739c992294ae07ca506a924ad">DMG_BLACK</a>, <a class="el" href="nes_8h.html#a45d13a674e169dd83df7e1f46513ccba">DMG_DARK_GRAY</a>, <a class="el" href="nes_8h.html#a8ccd6732d3bdf390cc0943e8567341f3">DMG_LITE_GRAY</a>, <a class="el" href="nes_8h.html#a11cedc2ee58acfbbfc48dfb2b9a551b3">DMG_WHITE</a> </dd></dl>
@@ -1169,7 +1203,7 @@ Variables</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">VARNAME</td><td>)</td>
-          <td>&#160;&#160;&#160;0</td>
+          <td>&#160;&#160;&#160;( (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>) &amp; __bank_ ## VARNAME )</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1200,7 +1234,14 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Creates a reference for retrieving the bank number of a variable or function</p>
+<b>Value:</b><div class="fragment"><div class="line"><span class="keywordtype">void</span> __func_ ## VARNAME(<span class="keywordtype">void</span>) __banked __naked { \</div>
+<div class="line">__asm \</div>
+<div class="line">    .local b___func_ ## VARNAME \</div>
+<div class="line">    ___bank_ ## VARNAME = b___func_ ## VARNAME \</div>
+<div class="line">    .globl ___bank_ ## VARNAME \</div>
+<div class="line">__endasm; \</div>
+<div class="line">}</div>
+</div><!-- fragment --><p>Creates a reference for retrieving the bank number of a variable or function</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">VARNAME</td><td>Variable name to use, which may be an existing identifier</td></tr>
@@ -1264,6 +1305,30 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a2d29df5dc3791dbf77488b3322b71d6c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d29df5dc3791dbf77488b3322b71d6c">&#9670;&nbsp;</a></span>SWITCH_ROM_UNROM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SWITCH_ROM_UNROM</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td><td>)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="nes_8h.html#adf417314f63b45c36d04800866911b9f">_switch_prg0</a>(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Macro for simple UNROM-like switching (write bank# to single 8-bit register) </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">b</td><td>ROM bank to switch to </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a1e22a3b60368bb5f3705d625ac2d09cc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1e22a3b60368bb5f3705d625ac2d09cc">&#9670;&nbsp;</a></span>SWITCH_ROM</h2>
 
@@ -1271,7 +1336,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define SWITCH_ROM&#160;&#160;&#160;<a class="el" href="nes_8h.html#a412db28bcf6bda7f235d7c5d3c9d52c0">SWITCH_ROM_DUMMY</a></td>
+          <td class="memname">#define SWITCH_ROM&#160;&#160;&#160;<a class="el" href="nes_8h.html#a2d29df5dc3791dbf77488b3322b71d6c">SWITCH_ROM_UNROM</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1281,7 +1346,61 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd>SWITCH_ROM_UNROM </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a2d29df5dc3791dbf77488b3322b71d6c">SWITCH_ROM_UNROM</a> </dd></dl>
+
+</div>
+</div>
+<a id="a121feb0c32d124562f52398aa9656e7b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a121feb0c32d124562f52398aa9656e7b">&#9670;&nbsp;</a></span>SWITCH_RAM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SWITCH_RAM</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td><td>)</td>
+          <td>&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>No-op at the moment. Placeholder for future mappers / test compatibility. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">b</td><td>SRAM bank to switch to </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a0e9c88657beaac946231a4801481b97f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e9c88657beaac946231a4801481b97f">&#9670;&nbsp;</a></span>ENABLE_RAM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ENABLE_RAM</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>No-op at the moment. Placeholder for future mappers / test compatibility. </p>
+
+</div>
+</div>
+<a id="a649d27b5587de16a66176e03a1b8ebd5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a649d27b5587de16a66176e03a1b8ebd5">&#9670;&nbsp;</a></span>DISABLE_RAM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DISABLE_RAM</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>No-op at the moment. Placeholder for future mappers / test compatibility. </p>
 
 </div>
 </div>
@@ -1292,7 +1411,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define DISPLAY_ON&#160;&#160;&#160;  display_on();</td>
+          <td class="memname">#define DISPLAY_ON&#160;&#160;&#160;  <a class="el" href="nes_8h.html#aacdf9e1bdb75f04b68032b228d23e3e3">display_on</a>();</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1531,6 +1650,20 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="ad7a73323735000cf26196e073cbbdcbf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7a73323735000cf26196e073cbbdcbf">&#9670;&nbsp;</a></span>set_attribute_xy</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define set_attribute_xy&#160;&#160;&#160;<a class="el" href="nes_8h.html#a7cd23c81062d37753a4429b794907524">set_bkg_attribute_xy</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a43b4f0ba65856deef626c0d9e7e41ed4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a43b4f0ba65856deef626c0d9e7e41ed4">&#9670;&nbsp;</a></span>set_sprite_2bpp_data</h2>
 
@@ -1629,7 +1762,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>True if sprite hardware can flip sprites by X </p>
+<p>True if sprite hardware can flip sprites by X (horizontally) </p>
 
 </div>
 </div>
@@ -1644,7 +1777,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>True if sprite hardware can flip sprites by Y </p>
+<p>True if sprite hardware can flip sprites by Y (vertically) </p>
 
 </div>
 </div>
@@ -1677,6 +1810,21 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a9508f919d9482d1d51534ccac212454d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9508f919d9482d1d51534ccac212454d">&#9670;&nbsp;</a></span>int_handler</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef void(* int_handler) (void) <a class="el" href="asm_2types_8h.html#a7ed081d8dfb6902784b2fc730bbb7f96">NONBANKED</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Interrupt handlers </p>
+
+</div>
+</div>
 <a id="a8e5ea12b86bdfc812448c2f5c4336c03"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8e5ea12b86bdfc812448c2f5c4336c03">&#9670;&nbsp;</a></span>OAM_item_t</h2>
 
@@ -1701,8 +1849,8 @@ Variables</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="aa8851ca1f515ca55cbf9f6ff53b08e8a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa8851ca1f515ca55cbf9f6ff53b08e8a">&#9670;&nbsp;</a></span>set_bkg_palette()</h2>
+<a id="a11902cb1c4de48a1992f5cd595c1da38"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11902cb1c4de48a1992f5cd595c1da38">&#9670;&nbsp;</a></span>set_bkg_palette()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1722,7 +1870,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="cgb_8h.html#af868d7cdbd052c6b972ef137e02f6495">palette_color_t</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="cgb_8h.html#af868d7cdbd052c6b972ef137e02f6495">palette_color_t</a> *&#160;</td>
           <td class="paramname"><em>rgb_data</em>&#160;</td>
         </tr>
         <tr>
@@ -1735,8 +1883,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a9ca9f825284da0db522d15aa2e42a4af"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9ca9f825284da0db522d15aa2e42a4af">&#9670;&nbsp;</a></span>set_sprite_palette()</h2>
+<a id="a70244637bddfbb327c9684455fa8ffa6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70244637bddfbb327c9684455fa8ffa6">&#9670;&nbsp;</a></span>set_sprite_palette()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1756,7 +1904,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="cgb_8h.html#af868d7cdbd052c6b972ef137e02f6495">palette_color_t</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="cgb_8h.html#af868d7cdbd052c6b972ef137e02f6495">palette_color_t</a> *&#160;</td>
           <td class="paramname"><em>rgb_data</em>&#160;</td>
         </tr>
         <tr>
@@ -1834,6 +1982,107 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac6b62210da8713ab1fca7cb3ff6e80c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6b62210da8713ab1fca7cb3ff6e80c5">&#9670;&nbsp;</a></span>remove_VBL()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void remove_VBL </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a>&#160;</td>
+          <td class="paramname"><em>h</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The remove functions will remove any interrupt handler.</p>
+<p>A handler of NULL will cause bad things to happen if the given interrupt is enabled.</p>
+<p>Removes the VBL interrupt handler. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="msx_8h.html#ae59628e2237f301df1341e22bfc8296e">add_VBL()</a></dd></dl>
+<p>Removes the VBL interrupt handler. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="msx_8h.html#ae59628e2237f301df1341e22bfc8296e">add_VBL()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a67ef797ca230a941c1cc0c580720327b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67ef797ca230a941c1cc0c580720327b">&#9670;&nbsp;</a></span>remove_LCD()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void remove_LCD </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a>&#160;</td>
+          <td class="paramname"><em>h</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Removes the LCD interrupt handler. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#ae2dae907ea199eee9abb0eb4b831778f">add_LCD()</a>, <a class="el" href="nes_8h.html#ac6b62210da8713ab1fca7cb3ff6e80c5">remove_VBL()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a83bce4c8764eddefd9ab8af88669065e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83bce4c8764eddefd9ab8af88669065e">&#9670;&nbsp;</a></span>add_VBL()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void add_VBL </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a>&#160;</td>
+          <td class="paramname"><em>h</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Adds a Vertical Blanking interrupt handler.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">h</td><td>The handler to be called whenever a V-blank interrupt occurs.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Only a single handler is currently supported for NES.</p>
+<p><b>Do not</b> use the function definition attributes <a class="el" href="asm_2types_8h.html#ae0233515480e60d29bcc731469976e02">CRITICAL</a> and <a class="el" href="asm_2types_8h.html#ac950c0db046e2f86d15e7ae1f558b017">INTERRUPT</a> when declaring ISR functions added via <a class="el" href="msx_8h.html#ae59628e2237f301df1341e22bfc8296e">add_VBL()</a> (or LCD, etc). Those attributes are only required when constructing a bare jump from the interrupt vector itself (such as with <a class="el" href="isr_8h.html#a73769fed9338af86fdb7df35d7b82620">ISR_VECTOR()</a>).</p>
+<p>ISR handlers added using <a class="el" href="msx_8h.html#ae59628e2237f301df1341e22bfc8296e">add_VBL()</a>/etc are instead called via the GBDK ISR dispatcher which makes the extra function attributes unecessary.</p>
+<dl class="section note"><dt>Note</dt><dd>The default GBDK VBL is installed automatically.</dd>
+<dd>
+On the current NES implementation, this handler is actually faked, and called before vblank occurs, by <a class="el" href="gb_8h.html#af57b77452ef377da18e4fbf0288013d1">vsync()</a>. Writes to PPU registers should be done to the shadow_ versions, so they are updated by the default VBL handler only when vblank actually occurs.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="isr_8h.html#a73769fed9338af86fdb7df35d7b82620">ISR_VECTOR()</a></dd></dl>
+<p>Adds a V-blank interrupt handler. </p>
+
+</div>
+</div>
+<a id="ae2dae907ea199eee9abb0eb4b831778f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2dae907ea199eee9abb0eb4b831778f">&#9670;&nbsp;</a></span>add_LCD()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void add_LCD </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a>&#160;</td>
+          <td class="paramname"><em>h</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Adds a LCD interrupt handler.</p>
+<p>Called when the scanline matches the _lcd_scanline variables.</p>
+<p>Only a single handler is currently supported for NES.</p>
+<p>The use-case is to indicate to the user when the video hardware is about to redraw a given LCD line. This can be useful for dynamically controlling the scrolling registers to perform special video effects.</p>
+<p><b>Do not</b> use the function definition attributes <a class="el" href="asm_2types_8h.html#ae0233515480e60d29bcc731469976e02">CRITICAL</a> and <a class="el" href="asm_2types_8h.html#ac950c0db046e2f86d15e7ae1f558b017">INTERRUPT</a> when declaring ISR functions added via <a class="el" href="msx_8h.html#ae59628e2237f301df1341e22bfc8296e">add_VBL()</a> (or LCD, etc). Those attributes are only required when constructing a bare jump from the interrupt vector itself (such as with <a class="el" href="isr_8h.html#a73769fed9338af86fdb7df35d7b82620">ISR_VECTOR()</a>).</p>
+<p>ISR handlers added using <a class="el" href="msx_8h.html#ae59628e2237f301df1341e22bfc8296e">add_VBL()</a>/etc are instead called via the GBDK ISR dispatcher which makes the extra function attributes unecessary.</p>
+<dl class="section note"><dt>Note</dt><dd>On the current NES implementation, this handler is actually faked, and called by the default VBL handler after a manual delay loop. Only one such faked "interrupt" is possible per frame. This means the CPU cycles wasted in the delay loop increase with higher values of _lcd_scanline. In practice, it makes this functionality mostly suited for a top status bar.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="msx_8h.html#ae59628e2237f301df1341e22bfc8296e">add_VBL</a>, <a class="el" href="gb_8h.html#a4e4afc51edff293a392211cb8d836591">nowait_int_handler</a>, <a class="el" href="isr_8h.html#a73769fed9338af86fdb7df35d7b82620">ISR_VECTOR()</a></dd></dl>
+<p>Adds a LCD interrupt handler. </p>
 
 </div>
 </div>
@@ -1950,7 +2199,8 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <p>Normally only used for checking one key, but it will support many, even J_LEFT at the same time as J_RIGHT. :)</p>
-<p>Note: Checks in a loop that doesn't HALT at all, so the CPU will be maxed out until this call returns. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="msx_8h.html#a5d30da8cdcfa644b7f6dc331cce6de5b">joypad</a> </dd>
+<dl class="section note"><dt>Note</dt><dd>Checks in a loop that doesn't HALT at all, so the CPU will be maxed out until this call returns. </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="msx_8h.html#a5d30da8cdcfa644b7f6dc331cce6de5b">joypad</a> </dd>
 <dd>
 <a class="el" href="msx_8h.html#ab769c6e20778298be8bc3321476ceb53">J_START</a>, <a class="el" href="msx_8h.html#ab416a9d96d1582490828f4bac78a8b5b">J_SELECT</a>, <a class="el" href="msx_8h.html#a31af766e3b598eb7a6b63f55a4988e7a">J_A</a>, <a class="el" href="msx_8h.html#ae47e59a309120f9420993f26816b5e6d">J_B</a>, <a class="el" href="msx_8h.html#a05ca817ab32f6da612c3ae26db5abf02">J_UP</a>, <a class="el" href="msx_8h.html#ae032c5c544196e37ec0432f6cfad7904">J_DOWN</a>, <a class="el" href="msx_8h.html#ac70894fecac30c1ca9917f07373cf81c">J_LEFT</a>, <a class="el" href="msx_8h.html#a3bad91d11ae09ffcbb3cb0a81873d325">J_RIGHT</a></dd></dl>
 <p>Waits until at least one of the buttons given in mask are pressed. </p>
@@ -1973,6 +2223,8 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Waits for the directional pad and all buttons to be released.</p>
+<p>Waits for the directional pad and all buttons to be released.</p>
+<dl class="section note"><dt>Note</dt><dd>Checks in a loop that doesn't HALT at all, so the CPU will be maxed out until this call returns.</dd></dl>
 <p>Waits for the directional pad and all buttons to be released.</p>
 <p>Note: Checks in a loop that doesn't HALT at all, so the CPU will be maxed out until this call returns. </p>
 
@@ -2151,6 +2403,26 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Obsolete. This function has been replaced by <a class="el" href="nes_8h.html#a580135f94ed0c4efeb28933097953bcb">vsync()</a>, which has identical behavior. </p>
+
+</div>
+</div>
+<a id="aacdf9e1bdb75f04b68032b228d23e3e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aacdf9e1bdb75f04b68032b228d23e3e3">&#9670;&nbsp;</a></span>display_on()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void display_on </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Turns the display on.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a5ae6b05b3e1559c97f0d1b2daaaa0ee4">DISPLAY_ON</a> </dd></dl>
 
 </div>
 </div>
@@ -2410,8 +2682,8 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <p>Writes <b>nb_tiles</b> tiles to VRAM starting at <b>first_tile</b>, tile data is sourced from <b>data</b>. Each Tile is 16 bytes in size (8x8 pixels, 2 bits-per-pixel).</p>
-<p>Note: Sprite Tiles 128-255 share the same memory region as Background Tiles 128-255.</p>
-<p>GBC only: <a class="el" href="gb_2hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a> determines which bank of Background tile patterns are written to. </p><ul>
+<dl class="section note"><dt>Note</dt><dd>Sprite Tiles 128-255 share the same memory region as Background Tiles 128-255.</dd></dl>
+<p>GBC only: <a class="el" href="gb_2hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a> determines which bank of tile patterns are written to. </p><ul>
 <li>VBK_REG = <a class="el" href="gb_2hardware_8h.html#ad21d032f4ab5d5cf21c4d455c4513046">VBK_BANK_0</a> indicates the first bank </li>
 <li>VBK_REG = <a class="el" href="gb_2hardware_8h.html#afb1c02277ab645e83e2ee339e2f6a64f">VBK_BANK_1</a> indicates the second</li>
 </ul>
@@ -2550,7 +2822,7 @@ Variables</h2></td></tr>
 </ul>
 <p>One byte per source tile map entry.</p>
 <p>Writes that exceed coordinate 31 on the x or y axis will wrap around to the Left and Top edges.</p>
-<p>Note: Patterns 128-255 overlap with patterns 128-255 of the sprite Tile Pattern table.</p>
+<dl class="section note"><dt>Note</dt><dd>Patterns 128-255 overlap with patterns 128-255 of the sprite Tile Pattern table.</dd></dl>
 <p>GBC only: <a class="el" href="gb_2hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a> determines whether Tile Numbers or Tile Attributes get set. </p><ul>
 <li>VBK_REG = <a class="el" href="sms_2hardware_8h.html#a6b6b917fd4f396ba028bb18631165781">VBK_TILES</a> Tile Numbers are written </li>
 <li>VBK_REG = <a class="el" href="sms_2hardware_8h.html#a418a105f4c7d4bf1cbc556eab72c27ca">VBK_ATTRIBUTES</a> Tile Attributes are written</li>
@@ -2702,7 +2974,7 @@ Variables</h2></td></tr>
 </ul>
 <p>One byte per source tile map attribute entry.</p>
 <p>Writes that exceed coordinate 31 on the x or y axis will wrap around to the Left and Top edges.</p>
-<p>Please note that this is just a wrapper function for set_bkg_attributes_nes16x16 and divides the coordinates and dimensions by 2 to achieve this. It is intended to make code more portable by using the same coordinate system that systems with the much more common 8x8 attribute resolution would use.</p>
+<p>Please note that this is just a wrapper function for <a class="el" href="nes_8h.html#a19776bb563b6f64890f9933e67bda7ed">set_bkg_attributes_nes16x16()</a> and divides the coordinates and dimensions by 2 to achieve this. It is intended to make code more portable by using the same coordinate system that systems with the much more common 8x8 attribute resolution would use.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a8e3f36aa68ac036695816757f2a1322c">SHOW_BKG</a> </dd>
 <dd>
 <a class="el" href="nes_8h.html#afe26f09c824742428c6435e87d179020">set_bkg_data</a>, <a class="el" href="nes_8h.html#a34490cffc1e857ac41c880b6bca92c4f">set_bkg_submap_attributes</a>, <a class="el" href="gb_8h.html#a5c59b4ee6323af9832998906d087266b">set_win_tiles</a>, <a class="el" href="nes_8h.html#a6224b2e4b72c062a2bb2959b0aaf860a">set_tiles</a> </dd></dl>
@@ -2842,7 +3114,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Sets a rectangular area of the Background Tile Map attributes using a sub-region from a source tile map. Useful for scrolling implementations of maps larger than 32 x 30 tiles.</p>
-<p>Please note that this is just a wrapper function for set_bkg_submap_attributes_nes16x16 and divides the coordinates and dimensions by 2 to achieve this. It is intended to make code more portable by using the same coordinate system that systems with the much more common 8x8 attribute resolution would use.</p>
+<p>Please note that this is just a wrapper function for <a class="el" href="nes_8h.html#a04f245645e941991e3f8f82eef488847">set_bkg_submap_attributes_nes16x16()</a> and divides the coordinates and dimensions by 2 to achieve this. It is intended to make code more portable by using the same coordinate system that systems with the much more common 8x8 attribute resolution would use.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a8e3f36aa68ac036695816757f2a1322c">SHOW_BKG</a> </dd>
 <dd>
 <a class="el" href="nes_8h.html#afe26f09c824742428c6435e87d179020">set_bkg_data</a>, <a class="el" href="nes_8h.html#a349526a46416c9345415532cbf0fac87">set_bkg_tiles</a>, <a class="el" href="sms_8h.html#abb50a392ca0d0419a080413287ee5d79">set_win_submap</a>, <a class="el" href="nes_8h.html#a6224b2e4b72c062a2bb2959b0aaf860a">set_tiles</a> </dd></dl>
@@ -3156,6 +3428,7 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section note"><dt>Note</dt><dd>In general <b>avoid reading from VRAM</b> since that memory is not accessible at all times. It is also not supported by GBDK on the NES platform. See <a class="el" href="docs_coding_guidelines.html#best_practice_dont_read_vram">coding guidelines</a> for more details.</dd></dl>
 <p>Entries are copied into <b>tiles</b> from the Background Tile Map starting at <b>x</b>, <b>y</b> reading across for <b>w</b> tiles and down for <b>h</b> tiles.</p>
 <p>One byte per tile.</p>
 <p>The buffer pointed to by <b>tiles</b> should be at least <b>x</b> x <b>y</b> bytes in size.</p>
@@ -3206,6 +3479,101 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="ac9dea209bacf188e54d76cae68034c3b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac9dea209bacf188e54d76cae68034c3b">&#9670;&nbsp;</a></span>set_bkg_attribute_xy_nes16x16()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void set_bkg_attribute_xy_nes16x16 </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>a</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Set single attribute data a on background layer at x,y</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>X-coordinate </td></tr>
+    <tr><td class="paramname">y</td><td>Y-coordinate </td></tr>
+    <tr><td class="paramname">a</td><td>tile attributes </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a7cd23c81062d37753a4429b794907524"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7cd23c81062d37753a4429b794907524">&#9670;&nbsp;</a></span>set_bkg_attribute_xy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void set_bkg_attribute_xy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>a</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Set single attribute data a on background layer at x,y</p>
+<p>Please note that this is just a wrapper function for <a class="el" href="nes_8h.html#a04f245645e941991e3f8f82eef488847">set_bkg_submap_attributes_nes16x16()</a> and divides the coordinates and dimensions by 2 to achieve this. It is intended to make code more portable by using the same coordinate system that systems with the much more common 8x8 attribute resolution would use.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>X-coordinate </td></tr>
+    <tr><td class="paramname">y</td><td>Y-coordinate </td></tr>
+    <tr><td class="paramname">a</td><td>tile attributes </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="acecd46833168c4d32db97b82bc3388a6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acecd46833168c4d32db97b82bc3388a6">&#9670;&nbsp;</a></span>get_bkg_tile_xy()</h2>
 
@@ -3238,7 +3606,16 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>returns tile index </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>returns tile index</dd></dl>
+<p>Get single tile t on background layer at x,y </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>X-coordinate </td></tr>
+    <tr><td class="paramname">y</td><td>Y-coordinate</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>returns tile index</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>In general <b>avoid reading from VRAM</b> since that memory is not accessible at all times. It is also not supported by GBDK on the NES platform. See <a class="el" href="docs_coding_guidelines.html#best_practice_dont_read_vram">coding guidelines</a> for more details. </dd></dl>
 
 </div>
 </div>
@@ -3370,7 +3747,7 @@ Variables</h2></td></tr>
 <p>Sets VRAM Tile Pattern data for Sprites</p>
 <p>Writes <b>nb_tiles</b> tiles to VRAM starting at <b>first_tile</b>, tile data is sourced from <b>data</b>. Each Tile is 16 bytes in size (8x8 pixels, 2 bits-per-pixel).</p>
 <p>Note: Sprite Tiles 128-255 share the same memory region as Background Tiles 128-255.</p>
-<p>GBC only: <a class="el" href="gb_2hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a> determines which bank of Background tile patterns are written to. </p><ul>
+<p>GBC only: <a class="el" href="gb_2hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a> determines which bank of tile patterns are written to. </p><ul>
 <li>VBK_REG=0 indicates the first bank </li>
 <li>VBK_REG=1 indicates the second</li>
 </ul>
@@ -3384,8 +3761,8 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <p>Writes <b>nb_tiles</b> tiles to VRAM starting at <b>first_tile</b>, tile data is sourced from <b>data</b>. Each Tile is 16 bytes in size (8x8 pixels, 2 bits-per-pixel).</p>
-<p>Note: Sprite Tiles 128-255 share the same memory region as Background Tiles 128-255.</p>
-<p>GBC only: <a class="el" href="gb_2hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a> determines which bank of Background tile patterns are written to. </p><ul>
+<dl class="section note"><dt>Note</dt><dd>Sprite Tiles 128-255 share the same memory region as Background Tiles 128-255.</dd></dl>
+<p>GBC only: <a class="el" href="gb_2hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a> determines which bank of tile patterns are written to. </p><ul>
 <li>VBK_REG = <a class="el" href="gb_2hardware_8h.html#ad21d032f4ab5d5cf21c4d455c4513046">VBK_BANK_0</a> indicates the first bank </li>
 <li>VBK_REG = <a class="el" href="gb_2hardware_8h.html#afb1c02277ab645e83e2ee339e2f6a64f">VBK_BANK_1</a> indicates the second </li>
 </ul>
@@ -3832,7 +4209,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>Copies arbitrary data to an address in VRAM without taking into account the state of LCDC bits 3 or 4.</p>
 <p>Copies <b>len</b> bytes from a buffer at <b>data</b> to VRAM starting at <b>vram_addr</b>.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#afe26f09c824742428c6435e87d179020">set_bkg_data</a>, <a class="el" href="gb_8h.html#ac2bf0c4919c30d322fa5853c896e710f">set_win_data</a>, <a class="el" href="nes_8h.html#a349526a46416c9345415532cbf0fac87">set_bkg_tiles</a>, <a class="el" href="gb_8h.html#a5c59b4ee6323af9832998906d087266b">set_win_tiles</a>, <a class="el" href="nes_8h.html#aabdefd0207b7bfb37ac41a402197d006">set_tile_data</a>, <a class="el" href="nes_8h.html#a6224b2e4b72c062a2bb2959b0aaf860a">set_tiles</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#afe26f09c824742428c6435e87d179020">set_bkg_data</a>, <a class="el" href="gb_8h.html#ac2bf0c4919c30d322fa5853c896e710f">set_win_data</a>, <a class="el" href="nes_8h.html#a349526a46416c9345415532cbf0fac87">set_bkg_tiles</a>, <a class="el" href="gb_8h.html#a5c59b4ee6323af9832998906d087266b">set_win_tiles</a>, <a class="el" href="nes_8h.html#a2539f237ce7da8ff6eb0bad4c8c48a4c">set_tile_data</a>, <a class="el" href="nes_8h.html#a6224b2e4b72c062a2bb2959b0aaf860a">set_tiles</a> </dd></dl>
 
 </div>
 </div>
@@ -3904,14 +4281,61 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="aabdefd0207b7bfb37ac41a402197d006"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aabdefd0207b7bfb37ac41a402197d006">&#9670;&nbsp;</a></span>set_tile_data()</h2>
+<a id="a2539f237ce7da8ff6eb0bad4c8c48a4c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2539f237ce7da8ff6eb0bad4c8c48a4c">&#9670;&nbsp;</a></span>set_tile_data()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void set_tile_data </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>&#160;</td>
+          <td class="paramname"><em>first_tile</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>nb_tiles</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Sets VRAM Tile Pattern data starting from given base address without taking into account the state of PPUMASK.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#afe26f09c824742428c6435e87d179020">set_bkg_data</a>, <a class="el" href="nes_8h.html#a39071a53e4f4b7986c26138fab0d4182">set_data</a> </dd></dl>
+
+</div>
+</div>
+<a id="acb5c235def5988696724051c5f838e74"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb5c235def5988696724051c5f838e74">&#9670;&nbsp;</a></span>set_bkg_native_data()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void set_bkg_native_data </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td>
           <td class="paramname"><em>first_tile</em>, </td>
@@ -3926,13 +4350,7 @@ Variables</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *&#160;</td>
-          <td class="paramname"><em>data</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td>
-          <td class="paramname"><em>base</em>&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -3940,20 +4358,104 @@ Variables</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-<p>Sets VRAM Tile Pattern data starting from given base address without taking into account the state of PPUMASK.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a1f5101f2b7bb0123c26a3e257f843626">set_bkg_data</a>, <a class="el" href="gb_8h.html#a6148e40610bc542991df842c6b19e4c9">set_data</a></dd></dl>
-<p>Sets VRAM Tile Pattern data starting from given base address without taking into account the state of LCDC bit 4.</p>
+<p>Sets VRAM Tile Pattern data for the Background in the native format</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">first_tile</td><td>Index of the first tile to write </td></tr>
     <tr><td class="paramname">nb_tiles</td><td>Number of tiles to write </td></tr>
-    <tr><td class="paramname">data</td><td>Pointer to (2 bpp) source Tile Pattern data. </td></tr>
-    <tr><td class="paramname">base</td><td>MSB of the destination address in VRAM (usually 0x80 or 0x90 which gives 0x8000 or 0x9000)</td></tr>
+    <tr><td class="paramname">data</td><td>Pointer to source tile data</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a1f5101f2b7bb0123c26a3e257f843626">set_bkg_data</a>, <a class="el" href="gb_8h.html#ac2bf0c4919c30d322fa5853c896e710f">set_win_data</a>, <a class="el" href="gb_8h.html#a6148e40610bc542991df842c6b19e4c9">set_data</a> </dd></dl>
+<p>Writes <b>nb_tiles</b> tiles to VRAM starting at <b>first_tile</b>, tile data is sourced from <b>data</b>.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#abe4846d4570b4880b0e54b9e503f4d30">set_tile_data</a></dd></dl>
+<p>Sets VRAM Tile Pattern data for the Background / Window in the native format</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first_tile</td><td>Index of the first tile to write </td></tr>
+    <tr><td class="paramname">nb_tiles</td><td>Number of tiles to write </td></tr>
+    <tr><td class="paramname">data</td><td>Pointer to source tile data</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Writes <b>nb_tiles</b> tiles to VRAM starting at <b>first_tile</b>, tile data is sourced from <b>data</b>.</p>
+<p>GBC only: <a class="el" href="gb_2hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a> determines which bank of tile patterns are written to. </p><ul>
+<li>VBK_REG = <a class="el" href="gb_2hardware_8h.html#ad21d032f4ab5d5cf21c4d455c4513046">VBK_BANK_0</a> indicates the first bank </li>
+<li>VBK_REG = <a class="el" href="gb_2hardware_8h.html#afb1c02277ab645e83e2ee339e2f6a64f">VBK_BANK_1</a> indicates the second</li>
+</ul>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#ac2bf0c4919c30d322fa5853c896e710f">set_win_data</a>, <a class="el" href="gb_8h.html#abe4846d4570b4880b0e54b9e503f4d30">set_tile_data</a> </dd></dl>
+
+</div>
+</div>
+<a id="aa9e3edd5311290cba933c382cf2f5898"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9e3edd5311290cba933c382cf2f5898">&#9670;&nbsp;</a></span>set_sprite_native_data()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void set_sprite_native_data </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>first_tile</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>nb_tiles</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Sets VRAM Tile Pattern data for Sprites in the native format</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first_tile</td><td>Index of the first tile to write </td></tr>
+    <tr><td class="paramname">nb_tiles</td><td>Number of tiles to write </td></tr>
+    <tr><td class="paramname">data</td><td>Pointer to source tile data</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Writes <b>nb_tiles</b> tiles to VRAM starting at <b>first_tile</b>, tile data is sourced from <b>data</b>.</p>
+<p>Sets VRAM Tile Pattern data for Sprites in the native format</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first_tile</td><td>Index of the first tile to write </td></tr>
+    <tr><td class="paramname">nb_tiles</td><td>Number of tiles to write </td></tr>
+    <tr><td class="paramname">data</td><td>Pointer to source tile data</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Writes <b>nb_tiles</b> tiles to VRAM starting at <b>first_tile</b>, tile data is sourced from <b>data</b>.</p>
+<p>GBC only: <a class="el" href="gb_2hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a> determines which bank of tile patterns are written to. </p><ul>
+<li>VBK_REG = <a class="el" href="gb_2hardware_8h.html#ad21d032f4ab5d5cf21c4d455c4513046">VBK_BANK_0</a> indicates the first bank </li>
+<li>VBK_REG = <a class="el" href="gb_2hardware_8h.html#afb1c02277ab645e83e2ee339e2f6a64f">VBK_BANK_1</a> indicates the second </li>
+</ul>
 
 </div>
 </div>
@@ -4033,7 +4535,14 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
-<p>Note: This function avoids writes during modes 2 &amp; 3 </p>
+<p>Note: This function avoids writes during modes 2 &amp; 3</p>
+<p>Initializes the entire Background Tile Map with Tile Number <b>c</b> </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">c</td><td>Tile number to fill with</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>This function avoids writes during modes 2 &amp; 3 </dd></dl>
 
 </div>
 </div>
@@ -4076,7 +4585,16 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
-<p>Note: This function avoids writes during modes 2 &amp; 3 </p>
+<p>Note: This function avoids writes during modes 2 &amp; 3</p>
+<p>Fills the VRAM memory region <b>s</b> of size <b>n</b> with Tile Number <b>c</b> </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">s</td><td>Start address in VRAM </td></tr>
+    <tr><td class="paramname">c</td><td>Tile number to fill with </td></tr>
+    <tr><td class="paramname">n</td><td>Size of memory region (in bytes) to fill</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>This function avoids writes during modes 2 &amp; 3 </dd></dl>
 
 </div>
 </div>
@@ -4134,6 +4652,44 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a367d476bfb522a81d045fc7509da7134"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a367d476bfb522a81d045fc7509da7134">&#9670;&nbsp;</a></span>flush_shadow_attributes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void flush_shadow_attributes </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>"Flushes" the updates to the shadow attributes so they are written to the transfer buffer, and then written to PPU memory on next vblank.</p>
+<p>This function must be called to see visible changes to attributes on the NES target. But it will automatically be called by <a class="el" href="gb_8h.html#af57b77452ef377da18e4fbf0288013d1">vsync()</a>, so the use-cases for calling it manually are rare in practice. </p>
+
+</div>
+</div>
+<a id="adf417314f63b45c36d04800866911b9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf417314f63b45c36d04800866911b9f">&#9670;&nbsp;</a></span>_switch_prg0()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> _switch_prg0 </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>bank</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>

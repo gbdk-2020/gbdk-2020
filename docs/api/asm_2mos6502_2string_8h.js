@@ -1,8 +1,9 @@
 var asm_2mos6502_2string_8h =
 [
+    [ "memcpy", "asm_2mos6502_2string_8h.html#a216d2a9dfabd49eb459363d672a4512f", null ],
     [ "strcpy", "asm_2mos6502_2string_8h.html#af5b1fe1ca3f2aca8ad215962460d15a6", null ],
     [ "strcmp", "asm_2mos6502_2string_8h.html#a11bd144d7d44914099a3aeddf1c8567d", null ],
-    [ "memcpy", "asm_2mos6502_2string_8h.html#ab68eb7b07f8ada1c6c8bde74731d3de7", null ],
+    [ "__memcpy", "asm_2mos6502_2string_8h.html#a97bb9679dcf75637f53813a940beeab9", null ],
     [ "memmove", "asm_2mos6502_2string_8h.html#a854ba725a4e429439ccf93b1f5ad7b3a", null ],
     [ "memset", "asm_2mos6502_2string_8h.html#ace6ee45c30e71865e6eb635200379db9", null ],
     [ "reverse", "asm_2mos6502_2string_8h.html#a81863156a28fd2eefeee6859d768bdb1", null ],
