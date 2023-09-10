@@ -63,8 +63,9 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
 
 	if(argc < 2)
 	{
-		printf("usage: png2asset    <file>.png [options]\n");
-		printf("-c                  ouput file (default: <png file>.c)\n");
+		printf("usage: png2asset    <file>.png [options]\n");		
+		printf("-o                  ouput file (default: <png file>.c)\n");
+		printf("-c                  deprecated, same as -o\n");
 		printf("-sw <width>         metasprites width size (default: png width)\n");
 		printf("-sh <height>        metasprites height size (default: png height)\n");
 		printf("-sp <props>         change default for sprite OAM property bytes (in hex) (default: 0x00)\n");
@@ -87,7 +88,7 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
 		printf("-bpp                bits per pixel: 1, 2, 4 (default: 2)\n");
 		printf("-max_palettes       max number of palettes allowed (default: 8)\n");
 		printf("                    (note: max colors = max_palettes x num colors per palette)\n");
-		printf("-pack_mode          gb, sgb, sms, 1bpp (default: gb)\n");
+		printf("-pack_mode          gb, nes, sgb, sms, 1bpp (default: gb)\n");
 		printf("-tile_origin        tile index offset for maps (default: 0)\n");
 
 		printf("-tiles_only         export tile data only\n");
@@ -151,7 +152,7 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
 		{
 			args->sprite_mode = SPR_16x16_MSX;
 		}
-		else if(!strcmp(argv[i], "-c"))
+		else if(!strcmp(argv[i], "-c") || !strcmp(argv[i], "-o"))
 		{
 			args->output_filename = argv[++i];
 		}
@@ -211,12 +212,13 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
 		{
 			std::string pack_mode_str = argv[++i];
 			if(pack_mode_str == "gb")  args->pack_mode = Tile::GB;
+			else if(pack_mode_str == "nes") args->pack_mode = Tile::NES;
 			else if(pack_mode_str == "sgb") args->pack_mode = Tile::SGB;
 			else if(pack_mode_str == "sms") args->pack_mode = Tile::SMS;
 			else if(pack_mode_str == "1bpp") args->pack_mode = Tile::BPP1;
 			else
 			{
-				printf("-pack_mode must be one of gb, sgb, sms, 1bpp\n");
+				printf("-pack_mode must be one of gb, nes, sgb, sms, 1bpp\n");
 				return 1;
 			}
 		}

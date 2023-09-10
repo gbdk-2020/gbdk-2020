@@ -25,6 +25,7 @@ struct Tile
 
     enum PackMode {
         GB,
+        NES,
         SGB,
         SMS,
         BPP1
@@ -38,6 +39,15 @@ struct Tile
                     unsigned char col = data[8 * j + i];
                     ret[j * 2] |= BIT(col, 0) << (7 - i);
                     ret[j * 2 + 1] |= BIT(col, 1) << (7 - i);
+                }
+            }
+        }        
+        else if(pack_mode == NES) {
+            for(int j = 0; j < tile_h; ++j) {
+                for(int i = 0; i < 8; ++i) {
+                    unsigned char col = data[8 * j + i];
+                    ret[j] |= BIT(col, 0) << (7 - i);
+                    ret[j + 8] |= BIT(col, 1) << (7 - i);
                 }
             }
         }
