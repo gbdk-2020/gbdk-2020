@@ -99,3 +99,16 @@ _receive_byte::			; Banked
 	LD	A,#0x80
 	LDH	(.SC),A		; Use external clock
 	RET
+
+	;; Receive and Send byte from the serial port in __io_in and send __io_out
+.trade_byte:
+_trade_byte::			; Banked
+	LD	A,#.IO_RECEIVING
+	LD	(__io_status),A ; Store status
+	LD	A,#0x01
+	LDH	(.SC),A		; Use external clock
+	LD	A,(__io_out)
+	LDH	(.SB),A		; Send RECEIVING byte
+	LD	A,#0x81
+	LDH	(.SC),A		; Use external clock
+	RET

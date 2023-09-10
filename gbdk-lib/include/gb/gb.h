@@ -457,6 +457,15 @@ void send_byte(void);
 */
 void receive_byte(void);
 
+/** Serial Link: Receive and send a byte from the serial port into @ref _io_in and from @ref _io_out
+
+    Make sure to enable interrupts for the
+    Serial Link before trying to transfer data.
+    @see add_SIO(), remove_SIO()
+    @see set_interrupts() with @ref SIO_IFLAG
+*/
+void trade_byte(void);
+
 /** Serial Link: Current IO Status. An OR of IO_* */
 extern volatile uint8_t _io_status;
 
