@@ -34,7 +34,7 @@ list_type arealist;
 list_type symbollist;
 list_type symbol_matchlist;
 
-uint16_t bank_limit_rom_min = BANK_NUM_ROM_MIN;
+uint16_t bank_limit_rom_min = BANK_NUM_ROM_DEFAULT;
 uint16_t bank_limit_rom_max = BANK_NUM_ROM_MAX;
 
 
