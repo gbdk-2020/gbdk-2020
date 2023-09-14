@@ -8,7 +8,7 @@
     .ypos:                      .ds 1
     .num_rows:                  .ds 1
     .src_tiles:                 .ds 2
-    __map_tile_offset:          .ds 1
+    __map_tile_offset::         .ds 1
 
     .area   _HOME
 
