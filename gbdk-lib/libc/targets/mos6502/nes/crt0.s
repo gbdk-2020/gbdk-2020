@@ -342,12 +342,12 @@ __crt0_waitPPU_loop:
     bpl __crt0_waitPPU_loop
     rts
 
-__crt0_clearRAM:
+.macro CRT0_CLEAR_RAM
     ldx #0x00
     txa
 __crt0_clearRAM_loop:
     sta 0x0000,x
-    ;sta 0x0100,x
+    sta 0x0100,x
     sta 0x0200,x
     sta 0x0300,x
     sta 0x0400,x
@@ -356,7 +356,7 @@ __crt0_clearRAM_loop:
     sta 0x0700,x
     inx
     bne __crt0_clearRAM_loop
-    rts
+.endm
 
 __crt0_clearVRAM:
     lda #0x00
@@ -400,7 +400,7 @@ __crt0_RESET_bankSwitchValue:
     jsr __crt0_waitPPU
     jsr __crt0_waitPPU
     ; Clear RAM and VRAM
-    jsr __crt0_clearRAM
+    CRT0_CLEAR_RAM
     jsr __crt0_clearVRAM
     ; Hide sprites in shadow OAM, and perform OAM DMA
     ldx #0
