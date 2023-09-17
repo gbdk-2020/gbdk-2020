@@ -1003,9 +1003,7 @@ inline void SET_SHADOW_OAM_ADDRESS(void * address) {
         the lower 8x8 tile is (__tile__ | 0x01).
     \li See: @ref SPRITES_8x16
 */
-inline void set_sprite_tile(uint8_t nb, uint8_t tile) {
-    shadow_OAM[nb].tile=tile;
-}
+void set_sprite_tile(uint8_t nb, uint8_t tile) NO_OVERLAY_LOCALS;
 
 
 /** Returns the tile number of sprite number __nb__ in the OAM.
@@ -1014,9 +1012,7 @@ inline void set_sprite_tile(uint8_t nb, uint8_t tile) {
 
 @see set_sprite_tile for more details
 */
-inline uint8_t get_sprite_tile(uint8_t nb) {
-    return shadow_OAM[nb].tile;
-}
+uint8_t get_sprite_tile(uint8_t nb) NO_OVERLAY_LOCALS;
 
 
 /** Sets the OAM Property Flags of sprite number __nb__ to those defined in __prop__.
@@ -1056,9 +1052,7 @@ inline uint8_t get_sprite_tile(uint8_t nb) {
 
     @see S_PALETTE, S_FLIPX, S_FLIPY, S_PRIORITY
 */
-inline void set_sprite_prop(uint8_t nb, uint8_t prop) {
-    shadow_OAM[nb].prop=prop;
-}
+void set_sprite_prop(uint8_t nb, uint8_t prop) NO_OVERLAY_LOCALS;
 
 
 /** Returns the OAM Property Flags of sprite number __nb__.
@@ -1066,9 +1060,7 @@ inline void set_sprite_prop(uint8_t nb, uint8_t prop) {
     @param nb    Sprite number, range 0 - 39
     @see set_sprite_prop for property bitfield settings
 */
-inline uint8_t get_sprite_prop(uint8_t nb) {
-    return shadow_OAM[nb].prop;
-}
+uint8_t get_sprite_prop(uint8_t nb) NO_OVERLAY_LOCALS;
 
 
 /** Moves sprite number __nb__ to the __x__, __y__ position on the screen.
@@ -1080,10 +1072,7 @@ inline uint8_t get_sprite_prop(uint8_t nb) {
 
     Moving the sprite to 0,0 (or similar off-screen location) will hide it.
 */
-inline void move_sprite(uint8_t nb, uint8_t x, uint8_t y) {
-    OAM_item_t * itm = &shadow_OAM[nb];
-    itm->y=y, itm->x=x;
-}
+void move_sprite(uint8_t nb, uint8_t x, uint8_t y) NO_OVERLAY_LOCALS;
 
 
 /** Moves sprite number __nb__ relative to its current position.
@@ -1096,19 +1085,14 @@ inline void move_sprite(uint8_t nb, uint8_t x, uint8_t y) {
 
     @see move_sprite for more details about the X and Y position
  */
-inline void scroll_sprite(uint8_t nb, int8_t x, int8_t y) {
-    OAM_item_t * itm = &shadow_OAM[nb];
-    itm->y+=y, itm->x+=x;
-}
+void scroll_sprite(uint8_t nb, int8_t x, int8_t y) NO_OVERLAY_LOCALS;
 
 
 /** Hides sprite number __nb__ by moving it to Y position 240.
 
     @param nb  Sprite number, range 0 - 63
  */
-inline void hide_sprite(uint8_t nb) {
-    shadow_OAM[nb].y = 240;
-}
+void hide_sprite(uint8_t nb) NO_OVERLAY_LOCALS;
 
 
 
