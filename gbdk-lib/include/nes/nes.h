@@ -75,14 +75,14 @@ void set_sprite_palette_entry(uint8_t palette, uint8_t entry, palette_color_t rg
 
     @see joypad
  */
-#define J_UP         0x10U
-#define J_DOWN       0x20U
-#define J_LEFT       0x40U
-#define J_RIGHT      0x80U
-#define J_A          0x01U
-#define J_B          0x02U
-#define J_SELECT     0x04U
-#define J_START      0x08U
+#define J_UP         0x08U
+#define J_DOWN       0x04U
+#define J_LEFT       0x02U
+#define J_RIGHT      0x01U
+#define J_A          0x80U
+#define J_B          0x40U
+#define J_SELECT     0x20U
+#define J_START      0x10U
 
 /** Screen modes.
     Normally used by internal functions only.
