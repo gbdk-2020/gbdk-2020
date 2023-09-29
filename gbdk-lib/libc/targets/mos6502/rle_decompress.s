@@ -12,7 +12,7 @@ rle_current:
 rle_code_ptr:
         .ds 0x02
 
-    .area   OSEG (PAG, OVR)
+    .area   GBDKOVR (PAG, OVR)
 _rle_decompress_PARM_2::        .ds 1
 .rle_output:                   .ds 2
 

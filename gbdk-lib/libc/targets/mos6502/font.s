@@ -6,7 +6,7 @@
 ;
         .include        "global.s"
 
-        .area	OSEG (PAG, OVR)
+        .area	GBDKOVR (PAG, OVR)
         _temp_word:                 .ds 2
 
         .globl  .cr_curs

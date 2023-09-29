@@ -54,13 +54,13 @@
 
 typedef uint8_t palette_color_t;
 
-void set_bkg_palette(uint8_t first_palette, uint8_t nb_palettes, const palette_color_t *rgb_data);
+void set_bkg_palette(uint8_t first_palette, uint8_t nb_palettes, const palette_color_t *rgb_data) NO_OVERLAY_LOCALS;
 
-void set_sprite_palette(uint8_t first_palette, uint8_t nb_palettes, const palette_color_t *rgb_data);
+void set_sprite_palette(uint8_t first_palette, uint8_t nb_palettes, const palette_color_t *rgb_data) NO_OVERLAY_LOCALS;
 
-void set_bkg_palette_entry(uint8_t palette, uint8_t entry, palette_color_t rgb_data);
+void set_bkg_palette_entry(uint8_t palette, uint8_t entry, palette_color_t rgb_data) NO_OVERLAY_LOCALS;
 
-void set_sprite_palette_entry(uint8_t palette, uint8_t entry, palette_color_t rgb_data);
+void set_sprite_palette_entry(uint8_t palette, uint8_t entry, palette_color_t rgb_data) NO_OVERLAY_LOCALS;
 
 /** Joypad bits.
     A logical OR of these is used in the wait_pad and joypad
@@ -170,12 +170,12 @@ typedef void (*int_handler)(void) NONBANKED;
 
    Removes the VBL interrupt handler. @see add_VBL()
 */
-void remove_VBL(int_handler h);
+void remove_VBL(int_handler h) NO_OVERLAY_LOCALS;
 
 /** Removes the LCD interrupt handler.
     @see add_LCD(), remove_VBL()
 */
-void remove_LCD(int_handler h);
+void remove_LCD(int_handler h) NO_OVERLAY_LOCALS;
 
 /** Adds a Vertical Blanking interrupt handler.
 
@@ -205,7 +205,7 @@ void remove_LCD(int_handler h);
 
     @see ISR_VECTOR()
 */
-void add_VBL(int_handler h);
+void add_VBL(int_handler h) NO_OVERLAY_LOCALS;
 
 /** Adds a LCD interrupt handler.
 
@@ -239,7 +239,7 @@ void add_VBL(int_handler h);
 
     @see add_VBL, nowait_int_handler, ISR_VECTOR()
 */
-void add_LCD(int_handler h);
+void add_LCD(int_handler h) NO_OVERLAY_LOCALS;
 
 /** Set the current screen mode - one of M_* modes
 
@@ -247,13 +247,13 @@ void add_LCD(int_handler h);
 
     @see M_DRAWING, M_TEXT_OUT, M_TEXT_INOUT, M_NO_SCROLL, M_NO_INTERP
 */
-void mode(uint8_t m);
+void mode(uint8_t m) NO_OVERLAY_LOCALS;
 
 /** Returns the current mode
 
     @see M_DRAWING, M_TEXT_OUT, M_TEXT_INOUT, M_NO_SCROLL, M_NO_INTERP
 */
-uint8_t get_mode(void);
+uint8_t get_mode(void) NO_OVERLAY_LOCALS;
 
 /** Global Time Counter in VBL periods (60Hz)
 
@@ -357,7 +357,7 @@ __endasm; \
     Uses no timers or interrupts, and can be called with
     interrupts disabled
  */
-void delay(uint16_t d);
+void delay(uint16_t d) NO_OVERLAY_LOCALS;
 
 /** Reads and returns the current state of the joypad.
     Return value is an OR of J_*
@@ -368,7 +368,7 @@ void delay(uint16_t d);
 
     @see J_START, J_SELECT, J_A, J_B, J_UP, J_DOWN, J_LEFT, J_RIGHT
 */
-uint8_t joypad(void);
+uint8_t joypad(void) NO_OVERLAY_LOCALS;
 
 /** Waits until at least one of the buttons given in mask are pressed.
 
@@ -378,12 +378,12 @@ uint8_t joypad(void);
     @see joypad
     @see J_START, J_SELECT, J_A, J_B, J_UP, J_DOWN, J_LEFT, J_RIGHT
 */
-uint8_t waitpad(uint8_t mask);
+uint8_t waitpad(uint8_t mask) NO_OVERLAY_LOCALS;
 
 /** Waits for the directional pad and all buttons to be released.
 
 */
-void waitpadup(void);
+void waitpadup(void) NO_OVERLAY_LOCALS;
 
 /** Multiplayer joypad structure.
 
@@ -408,13 +408,13 @@ typedef struct {
     @returns number of joypads avaliable
     @see joypad_ex(), joypads_t
 */
-uint8_t joypad_init(uint8_t npads, joypads_t * joypads);
+uint8_t joypad_init(uint8_t npads, joypads_t * joypads) NO_OVERLAY_LOCALS;
 
 /** Polls all avaliable joypads
 
     @see joypad_init(), joypads_t
 */
-void joypad_ex(joypads_t * joypads);
+void joypad_ex(joypads_t * joypads) NO_OVERLAY_LOCALS;
 
 
 
@@ -455,28 +455,28 @@ inline void disable_interrupts(void) {
     Warning: If the VBL interrupt is disabled, this function will
     never return.
 */
-void vsync(void);
+void vsync(void) NO_OVERLAY_LOCALS;
 
 /** Obsolete. This function has been replaced by vsync(), which has identical behavior.
 */
-void wait_vbl_done(void);
+void wait_vbl_done(void) NO_OVERLAY_LOCALS;
 
 /** Turns the display on.
 
     @see DISPLAY_ON
 */
-void display_on(void);
+void display_on(void) NO_OVERLAY_LOCALS;
 
 /** Turns the display off.
 
     Waits until the VBL interrupt before turning the display off.
     @see DISPLAY_ON
 */
-void display_off(void);
+void display_off(void) NO_OVERLAY_LOCALS;
 
 /** Copies data from shadow OAM to OAM
  */
-void refresh_OAM(void);
+void refresh_OAM(void) NO_OVERLAY_LOCALS;
 
 /** Turns the display back on.
     @see display_off, DISPLAY_OFF
@@ -546,12 +546,12 @@ void refresh_OAM(void);
  * @param addr address to write to
  * @param v value
  */
-void set_vram_byte(uint8_t * addr, uint8_t v);
+void set_vram_byte(uint8_t * addr, uint8_t v) NO_OVERLAY_LOCALS;
 
 /**
  * Get address of X,Y tile of background map
  */
-uint8_t * get_bkg_xy_addr(uint8_t x, uint8_t y);
+uint8_t * get_bkg_xy_addr(uint8_t x, uint8_t y) NO_OVERLAY_LOCALS;
 
 #define COMPAT_PALETTE(C0,C1,C2,C3) ((uint8_t)(((C3) << 6) | ((C2) << 4) | ((C1) << 2) | (C0)))
 
@@ -562,7 +562,7 @@ inline void set_2bpp_palette(uint16_t palette) {
 }
 
 extern uint16_t _current_1bpp_colors;
-void set_1bpp_colors_ex(uint8_t fgcolor, uint8_t bgcolor, uint8_t mode);
+void set_1bpp_colors_ex(uint8_t fgcolor, uint8_t bgcolor, uint8_t mode) NO_OVERLAY_LOCALS;
 inline void set_1bpp_colors(uint8_t fgcolor, uint8_t bgcolor) {
     set_1bpp_colors_ex(fgcolor, bgcolor, 0);
 }
@@ -576,7 +576,7 @@ inline void set_1bpp_colors(uint8_t fgcolor, uint8_t bgcolor) {
 
     @see set_tile_data
 */
-void set_bkg_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data);
+void set_bkg_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) NO_OVERLAY_LOCALS;
 #define set_bkg_2bpp_data set_bkg_data
 
 /** Sets VRAM Tile Pattern data for the Background using 1bpp source data
@@ -590,7 +590,7 @@ void set_bkg_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data);
 
     @see SHOW_BKG, HIDE_BKG, set_bkg_tiles
 */
-void set_bkg_1bpp_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data);
+void set_bkg_1bpp_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) NO_OVERLAY_LOCALS;
 
 /** Sets a rectangular region of Background Tile Map.
 
@@ -610,7 +610,7 @@ void set_bkg_1bpp_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data
     @see SHOW_BKG
     @see set_bkg_data, set_bkg_submap, set_win_tiles, set_tiles
 */
-void set_bkg_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles);
+void set_bkg_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles) NO_OVERLAY_LOCALS;
 #define set_tile_map set_bkg_tiles
 
 /** Sets a rectangular region of Background Tile Map Attributes.
@@ -636,7 +636,7 @@ void set_bkg_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *ti
     @see SHOW_BKG
     @see set_bkg_data, set_bkg_submap_attributes, set_win_tiles, set_tiles
 */
-void set_bkg_attributes_nes16x16(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *attributes);
+void set_bkg_attributes_nes16x16(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *attributes) NO_OVERLAY_LOCALS;
 
 /** Sets a rectangular region of Background Tile Map Attributes.
 
@@ -710,7 +710,7 @@ inline void set_bkg_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const
     @see SHOW_BKG
     @see set_bkg_data, set_bkg_tiles, set_win_submap, set_tiles
 */
-void set_bkg_submap_attributes_nes16x16(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w);
+void set_bkg_submap_attributes_nes16x16(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w) NO_OVERLAY_LOCALS;
 
 /** Sets a rectangular area of the Background Tile Map attributes using
     a sub-region from a source tile map. Useful for scrolling implementations
@@ -785,7 +785,7 @@ inline void set_bkg_based_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, cons
     @see SHOW_BKG
     @see set_bkg_data, set_bkg_tiles, set_win_submap, set_tiles
 */
-void set_bkg_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w);
+void set_bkg_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w) NO_OVERLAY_LOCALS;
 #define set_tile_submap set_bkg_submap
 
 
@@ -828,7 +828,7 @@ inline void set_bkg_based_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, con
 
     @see get_bkg_tile_xy, get_tiles
 */
-void get_bkg_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *tiles);
+void get_bkg_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *tiles) NO_OVERLAY_LOCALS;
 
 
 /**
@@ -838,7 +838,7 @@ void get_bkg_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *tiles);
  * @param t tile index
  * @return returns the address of tile, so you may use faster set_vram_byte() later
  */
-uint8_t * set_bkg_tile_xy(uint8_t x, uint8_t y, uint8_t t);
+uint8_t * set_bkg_tile_xy(uint8_t x, uint8_t y, uint8_t t) NO_OVERLAY_LOCALS;
 #define set_tile_xy set_bkg_tile_xy
 
 /**
@@ -848,7 +848,7 @@ uint8_t * set_bkg_tile_xy(uint8_t x, uint8_t y, uint8_t t);
     @param y Y-coordinate
     @param a tile attributes
  */
-void set_bkg_attribute_xy_nes16x16(uint8_t x, uint8_t y, uint8_t a);
+void set_bkg_attribute_xy_nes16x16(uint8_t x, uint8_t y, uint8_t a) NO_OVERLAY_LOCALS;
 
 /**
     Set single attribute data a on background layer at x,y
@@ -874,7 +874,7 @@ inline void set_bkg_attribute_xy(uint8_t x, uint8_t y, uint8_t a)
  * @param y Y-coordinate
  * @return returns tile index
  */
-uint8_t get_bkg_tile_xy(uint8_t x, uint8_t y);
+uint8_t get_bkg_tile_xy(uint8_t x, uint8_t y) NO_OVERLAY_LOCALS;
 
 
 /** Moves the Background Layer to the position specified in __x__ and __y__ in pixels.
@@ -920,7 +920,7 @@ inline void scroll_bkg(int8_t x, int8_t y) {
     \li VBK_REG=0 indicates the first bank
     \li VBK_REG=1 indicates the second
 */
-void set_sprite_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data);
+void set_sprite_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) NO_OVERLAY_LOCALS;
 #define set_sprite_2bpp_data set_sprite_data
 
 /** Sets VRAM Tile Pattern data for Sprites using 1bpp source data
@@ -934,7 +934,7 @@ void set_sprite_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data);
 
     @see SHOW_SPRITES, HIDE_SPRITES, set_sprite_tile
 */
-void set_sprite_1bpp_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data);
+void set_sprite_1bpp_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) NO_OVERLAY_LOCALS;
 
 /** Sprite Attributes structure
     @param x     X Coordinate of the sprite on screen
@@ -1119,7 +1119,7 @@ inline void hide_sprite(uint8_t nb) {
 
     @see set_bkg_data, set_win_data, set_bkg_tiles, set_win_tiles, set_tile_data, set_tiles
 */
-void set_data(uint8_t *vram_addr, const uint8_t *data, uint16_t len);
+void set_data(uint8_t *vram_addr, const uint8_t *data, uint16_t len) NO_OVERLAY_LOCALS;
 
 
 /** Sets a rectangular region of Tile Map entries at a given VRAM Address.
@@ -1140,7 +1140,7 @@ void set_data(uint8_t *vram_addr, const uint8_t *data, uint16_t len);
 
     @see set_bkg_tiles
 */
-void set_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *vram_addr, const uint8_t *tiles);
+void set_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *vram_addr, const uint8_t *tiles) NO_OVERLAY_LOCALS;
 
 /** Sets VRAM Tile Pattern data starting from given base address
     without taking into account the state of PPUMASK.
@@ -1168,7 +1168,7 @@ inline void set_tile_data(uint16_t first_tile, uint8_t nb_tiles, const uint8_t *
 
     @see set_tile_data
 */
-void set_bkg_native_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data);
+void set_bkg_native_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) NO_OVERLAY_LOCALS;
 
 /** Sets VRAM Tile Pattern data for Sprites in the native format
 
@@ -1179,7 +1179,7 @@ void set_bkg_native_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *da
     Writes __nb_tiles__ tiles to VRAM starting at __first_tile__, tile data
     is sourced from __data__.
 */
-void set_sprite_native_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data);
+void set_sprite_native_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) NO_OVERLAY_LOCALS;
 
 /** Sets VRAM Tile Pattern data in the native format
 
@@ -1209,7 +1209,7 @@ inline void set_native_tile_data(uint16_t first_tile, uint8_t nb_tiles, const ui
 
     Note: This function avoids writes during modes 2 & 3
 */
-void init_bkg(uint8_t c);
+void init_bkg(uint8_t c) NO_OVERLAY_LOCALS;
 
 /** Fills the VRAM memory region __s__ of size __n__ with Tile Number __c__
     @param s   Start address in VRAM
@@ -1218,7 +1218,7 @@ void init_bkg(uint8_t c);
 
     Note: This function avoids writes during modes 2 & 3
 */
-void vmemset (void *s, uint8_t c, size_t n);
+void vmemset (void *s, uint8_t c, size_t n) NO_OVERLAY_LOCALS;
 
 /** Fills a rectangular region of Tile Map entries for the Background layer with tile.
 
@@ -1228,7 +1228,7 @@ void vmemset (void *s, uint8_t c, size_t n);
     @param h      Height of area to set in tiles. Range 0 - 31
     @param tile   Fill value
 */
-void fill_bkg_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t tile);
+void fill_bkg_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t tile) NO_OVERLAY_LOCALS;
 #define fill_rect fill_bkg_rect
 
 /** "Flushes" the updates to the shadow attributes so they are written
@@ -1238,8 +1238,8 @@ void fill_bkg_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t tile);
     on the NES target. But it will automatically be called by @ref vsync(),
     so the use-cases for calling it manually are rare in practice.
 */
-void flush_shadow_attributes(void);
+void flush_shadow_attributes(void) NO_OVERLAY_LOCALS;
 
-uint8_t _switch_prg0(uint8_t bank);
+uint8_t _switch_prg0(uint8_t bank) NO_OVERLAY_LOCALS;
 
 #endif /* _NES_H */

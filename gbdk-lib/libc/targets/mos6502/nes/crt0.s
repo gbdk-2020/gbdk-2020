@@ -62,7 +62,8 @@ b_wait_frames = 0
         .area _HEAP
         .area _HEAP_END
 
-.area	OSEG    (PAG, OVR)
+.area	OSEG (PAG, OVR)
+.area	GBDKOVR (PAG, OVR)
 .area _ZP (PAG)
 __shadow_OAM_base::                     .ds 1
 __current_bank::                        .ds 1
