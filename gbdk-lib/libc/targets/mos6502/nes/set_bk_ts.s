@@ -9,6 +9,9 @@
     .num_rows:                  .ds 1
     .src_tiles:                 .ds 2
 
+    .area   _ZP
+    __map_tile_offset::         .ds 1
+
     .area   _HOME
 
 _set_bkg_tiles::
@@ -54,6 +57,8 @@ _set_bkg_tiles_horizontalStripes:
     ldy #0
 2$:
     lda [*.src_tiles],y
+    clc
+    adc *__map_tile_offset
     iny
     jsr .ppu_stripe_write_byte
     dex
@@ -108,6 +113,8 @@ _set_bkg_tiles_verticalStripes::
     ldx *.height
 2$:
     lda [*.src_tiles],y
+    clc
+    adc *__map_tile_offset
     jsr .ppu_stripe_write_byte
     ; .src_tiles += width
     lda *.width

@@ -1,6 +1,6 @@
     .include    "global.s"
 
-    MAX_JOYPADS = 2
+    MAX_JOYPADS = 4
     .globl _read_joypad
 
     .area   OSEG (PAG, OVR)
@@ -30,16 +30,34 @@ _joypad_init_loop:
 
 _joypad_ex::
 .joypad_ex::
-    sta *_joypad_init_PARM_2
-    stx *_joypad_init_PARM_2+1
-    ; Joypad #0
-    ldx #0
-    jsr _read_joypad
-    ldy #1
-    sta [*_joypad_init_PARM_2],y
-    ; Joypad #1
-    ldx #1
-    jsr _read_joypad
-    ldy #2
-    sta [*_joypad_init_PARM_2],y
+    .define .joypads_ptr    "___SDCC_m6502_ret0"
+    .define .joypads_endof  ".tmp"
+    sta *.joypads_ptr
+    stx *.joypads_ptr+1
+    ; endof = Number of joypads + 1
+    ldy #0
+    lda [*.joypads_ptr],y
+    iny
+    sta *.joypads_endof
+    inc *.joypads_endof
+    ;
+    jsr _strobe_joypads
+.joypad_ex_loop:
+    lda .joypad_ex_lut,y
+    tax
+    jsr _read_joypad_no_strobe
+    sta [*.joypads_ptr],y
+    iny
+    cpy *.joypads_endof
+    bne .joypad_ex_loop
     rts
+
+;
+; Look-up table for getting joypad port offset from offset into joypads_t (=joypad index + 1)
+;
+.joypad_ex_lut:
+.db 0
+.db 0
+.db 1
+.db 0
+.db 1
