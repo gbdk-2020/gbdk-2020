@@ -179,6 +179,8 @@ void main(void){
     set_native_tile_data(0, bigmap_TILE_COUNT, bigmap_tiles);
     
 #if defined(SEGA)
+    __WRITE_VDP_REG(VDP_R2, R2_MAP_0x3800);
+    __WRITE_VDP_REG(VDP_R5, R5_SAT_0x3F00);
     set_palette(0, bigmap_PALETTE_COUNT, bigmap_palettes);
 #elif defined(GAMEBOY)
     if (_cpu == CGB_TYPE) {
