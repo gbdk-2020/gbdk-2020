@@ -43,6 +43,9 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
 	args->output_transposed = false;
 	args->max_palettes = 8;
 
+	args->flip_tiles = true;
+	args->includedMapOrMetaspriteData = true;
+	args->includeTileData = true;
 	args->use_structs = false;
 	args->export_as_map = false;
 	args->use_map_attributes = false;
