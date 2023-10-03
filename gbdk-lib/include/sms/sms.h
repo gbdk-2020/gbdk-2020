@@ -743,6 +743,11 @@ inline uint8_t get_sprite_tile(uint8_t nb) {
     return shadow_OAM[0x41+(nb << 1)];
 }
 
+/** Function has no affect on sms. 
+    
+  This function is only here to enable game portability
+*/
+
 inline void set_sprite_prop(uint8_t nb, uint8_t prop) {
     nb; prop;
 }
