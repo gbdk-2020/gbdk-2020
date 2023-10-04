@@ -43,7 +43,10 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
 	args->output_transposed = false;
 	args->max_palettes = 8;
 
+	args->pack_mode = Tile::GB;
 	args->flip_tiles = true;
+	args->keep_duplicate_tiles = false;
+	args->include_palettes = true;
 	args->includedMapOrMetaspriteData = true;
 	args->includeTileData = true;
 	args->use_structs = false;
