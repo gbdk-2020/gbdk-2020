@@ -56,8 +56,8 @@ struct PNG2AssetArguments {
 	int props_default;  // Default Sprite props has no attributes enabled
 
 	unsigned int tile_origin; // Default to no tile index offset
-	unsigned int extra_tile_count;
-	unsigned int source_total_color_count;  // Total number of colors (palette_count x colors_per_palette)
+	size_t extra_tile_count;
+	size_t source_total_color_count;  // Total number of colors (palette_count x colors_per_palette)
 	unsigned int source_tileset_size;
 
 	Tile::PackMode pack_mode;

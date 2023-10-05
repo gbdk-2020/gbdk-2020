@@ -60,7 +60,7 @@ int main(int argc, char* argv[])
 		}
 
 		// Save these values for later usage on the main execution
-		arguments.source_tileset_size = png2AssetInstance.tiles.size();
+		arguments.source_tileset_size = (unsigned int)png2AssetInstance.tiles.size();
 		arguments.source_total_color_count = png2AssetInstance.image.total_color_count;
 	}
 

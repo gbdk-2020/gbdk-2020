@@ -47,7 +47,7 @@ void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y, PNG
 					if(!FindTile(tile, idx, props, assetData))
 					{
 						if(assetData->args->source_tilesets.size() > 0) {
-							printf("found a tile not in the source tileset at %d,%d. The target tileset has %d extra tiles.\n", x, y, assetData->args->extra_tile_count + 1);
+							printf("found a tile not in the source tileset at %d,%d. The target tileset has %d extra tiles.\n", x, y, (unsigned int)assetData->args->extra_tile_count + 1);
 							assetData->args->extra_tile_count++;
 							assetData->args->includeTileData = true;
 						}
@@ -76,11 +76,11 @@ void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y, PNG
 
 void GetAllMetasprites(PNG2AssetData* assetData) {
 	//Extract metasprites
-	for(int y = 0; y < (int)assetData->image.h; y += assetData->args->spriteSize.height)
+	for(int y = 0; y < (int)assetData->image.h; y += (unsigned int)assetData->args->spriteSize.height)
 	{
-		for(int x = 0; x < (int)assetData->image.w; x += assetData->args->spriteSize.width)
+		for(int x = 0; x < (int)assetData->image.w; x += (unsigned int)assetData->args->spriteSize.width)
 		{
-			GetMetaSprite(x, y, assetData->args->spriteSize.width, assetData->args->spriteSize.height, assetData->args->pivot.x, assetData->args->pivot.y, assetData);
+			GetMetaSprite(x, y, (unsigned int)assetData->args->spriteSize.width, (unsigned int)assetData->args->spriteSize.height, assetData->args->pivot.x, assetData->args->pivot.y, assetData);
 		}
 	}
 }

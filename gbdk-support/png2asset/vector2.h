@@ -8,11 +8,12 @@ struct Vector2Position {
 
 struct Vector2Size {
 
-	int width,height;
+	size_t width,height;
 };
 
 
 struct Rectangle {
 
-	int x, y,width,height;
+	int x, y;
+	size_t width, height;
 };

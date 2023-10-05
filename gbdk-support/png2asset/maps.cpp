@@ -45,7 +45,7 @@ void GetMap( PNG2AssetData* assetData)
 				if(!FindTile(tile, idx, props,assetData))
 				{
 					if(assetData->args->source_tilesets.size() > 0) {
-						printf("found a tile not in the source tileset at %d,%d. The target tileset has %d extra tiles.\n", x, y, assetData->args->extra_tile_count + 1);
+						printf("found a tile not in the source tileset at %d,%d. The target tileset has %d extra tiles.\n", x, y, (unsigned int)assetData->args->extra_tile_count + 1);
 						assetData->args->extra_tile_count++;
 						assetData->args->includeTileData = true;
 					}

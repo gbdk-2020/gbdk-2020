@@ -72,7 +72,7 @@ bool image_indexed_ensure_8bpp(vector<uint8_t> & src_image_data, int width, int 
 // Returns the sub-palette number for a pixel in a indexed 8bpp image
 static int pixel_get_palette_num(const PNGImage& image, int x, int y) {
 
-    return image.data[(y * image.w) + x] / image.colors_per_pal;
+    return image.data[(y * image.w) + x] / (unsigned int)image.colors_per_pal;
 }
 
 

@@ -63,7 +63,7 @@ int ReadImageData_KeepPaletteOrder(  PNG2AssetData* assetData, string  input_fil
 
 	// Use source image palette since lodepng conversion to indexed (LCT_PALETTE) won't create a palette
 	// So: state->info_png.color.palette/size instead of state->info_raw.palette/size
-	unsigned int palette_count = PaletteCountApplyMaxLimit(assetData->args->max_palettes, state.info_png.color.palettesize / assetData->image.colors_per_pal);
+	unsigned int palette_count = PaletteCountApplyMaxLimit((unsigned int)assetData->args->max_palettes, (unsigned int)(state.info_png.color.palettesize / assetData->image.colors_per_pal));
 	assetData->image.total_color_count = palette_count * assetData->image.colors_per_pal;
 	assetData->image.palette = state.info_png.color.palette;
 
@@ -136,7 +136,7 @@ int ReadImageData_Default(PNG2AssetData* assetData, string  input_filename) {
 	assetData->image.w = image32.w;
 	assetData->image.h = image32.h;
 
-	unsigned int palette_count = PaletteCountApplyMaxLimit(assetData->args->max_palettes, assetData->palettes.size());
+	unsigned int palette_count = PaletteCountApplyMaxLimit((unsigned int)assetData->args->max_palettes, (unsigned int)assetData->palettes.size());
 
 	assetData->image.total_color_count = palette_count * assetData->image.colors_per_pal;
 	assetData->image.palette = new unsigned char[palette_count * assetData->image.colors_per_pal * RGBA32_SZ]; // total color count * 4 bytes each
@@ -165,7 +165,7 @@ int ReadImageData_Default(PNG2AssetData* assetData, string  input_filename) {
 			unsigned char* c32ptr = &image32.data[(image32.w * y + x) * RGBA32_SZ];
 			int color32 = (c32ptr[0] << 24) | (c32ptr[1] << 16) | (c32ptr[2] << 8) | c32ptr[3];
 			unsigned char palette = palettes_per_tile[(y / image32.tile_h) * (image32.w / image32.tile_w) + (x / image32.tile_w)];
-			unsigned char index = std::distance(assetData->palettes[palette].begin(), assetData->palettes[palette].find(color32));
+			unsigned char index = (unsigned char)std::distance(assetData->palettes[palette].begin(), assetData->palettes[palette].find(color32));
 			assetData->image.data.push_back((palette << assetData->args->bpp) + index);
 		}
 	}
@@ -177,7 +177,7 @@ int ReadImageData_Default(PNG2AssetData* assetData, string  input_filename) {
 
 int ReadImageData( PNG2AssetData* assetData, string  input_filename) {
 
-	assetData->image.colors_per_pal = 1 << assetData->args->bpp;
+	assetData->image.colors_per_pal = static_cast<size_t>(1) << assetData->args->bpp;
 
 	if(assetData->args->export_as_map)
 	{
@@ -207,8 +207,8 @@ int ReadImageData( PNG2AssetData* assetData, string  input_filename) {
 
 	if(assetData->args->spriteSize.width == 0) assetData->args->spriteSize.width = (int)assetData->image.w;
 	if(assetData->args->spriteSize.height == 0) assetData->args->spriteSize.height = (int)assetData->image.h;
-	if(assetData->args->pivot.x == 0xFFFFFF) assetData->args->pivot.x = assetData->args->spriteSize.width / 2;
-	if(assetData->args->pivot.y == 0xFFFFFF) assetData->args->pivot.y = assetData->args->spriteSize.height / 2;
+	if(assetData->args->pivot.x == 0xFFFFFF) assetData->args->pivot.x = (unsigned int)assetData->args->spriteSize.width / 2;
+	if(assetData->args->pivot.y == 0xFFFFFF) assetData->args->pivot.y = (unsigned int)assetData->args->spriteSize.height / 2;
 	if(assetData->args->pivot.width == 0xFFFFFF) assetData->args->pivot.width = assetData->args->spriteSize.width;
 	if(assetData->args->pivot.height == 0xFFFFFF) assetData->args->pivot.height = assetData->args->spriteSize.height;
 

@@ -63,8 +63,8 @@ bool export_h_file( PNG2AssetData* assetData) {
 		fprintf(file, "#define %s_TILE_ORIGIN %d\n", assetData->args->data_name.c_str(), assetData->args->tile_origin);
 		fprintf(file, "#define %s_TILE_W %d\n", assetData->args->data_name.c_str(), assetData->image.tile_w);
 		fprintf(file, "#define %s_TILE_H %d\n", assetData->args->data_name.c_str(), assetData->image.tile_h);
-		fprintf(file, "#define %s_WIDTH %d\n", assetData->args->data_name.c_str(), assetData->args->spriteSize.width);
-		fprintf(file, "#define %s_HEIGHT %d\n", assetData->args->data_name.c_str(), assetData->args->spriteSize.height);
+		fprintf(file, "#define %s_WIDTH %d\n", assetData->args->data_name.c_str(), (unsigned int)assetData->args->spriteSize.width);
+		fprintf(file, "#define %s_HEIGHT %d\n", assetData->args->data_name.c_str(), (unsigned int)assetData->args->spriteSize.height);
 		// The TILE_COUNT calc here is referring to number of 8x8 tiles,
 		// so the >> 3 for each sizes axis is to get a multiplier for larger hardware sprites such as 8x16 and 16x16
 		fprintf(file, "#define %s_TILE_COUNT %d\n", assetData->args->data_name.c_str(), ((unsigned int)assetData->tiles.size() - assetData->args->source_tileset_size) * (assetData->image.tile_h >> 3) * (assetData->image.tile_w >> 3));
@@ -106,8 +106,8 @@ bool export_h_file( PNG2AssetData* assetData) {
 			{
 				fprintf(file, "#define %s_pivot_x %d\n", assetData->args->data_name.c_str(), assetData->args->pivot.x);
 				fprintf(file, "#define %s_pivot_y %d\n", assetData->args->data_name.c_str(), assetData->args->pivot.y);
-				fprintf(file, "#define %s_pivot_width %d\n", assetData->args->data_name.c_str(), assetData->args->pivot.width);
-				fprintf(file, "#define %s_pivot_height %d\n", assetData->args->data_name.c_str(), assetData->args->pivot.height);
+				fprintf(file, "#define %s_pivot_width %d\n", assetData->args->data_name.c_str(), (unsigned int)assetData->args->pivot.width);
+				fprintf(file, "#define %s_pivot_height %d\n", assetData->args->data_name.c_str(), (unsigned int)assetData->args->pivot.height);
 			}
 		}
 		fprintf(file, "\n");
@@ -116,7 +116,7 @@ bool export_h_file( PNG2AssetData* assetData) {
 
 		// If we are not using a source tileset, or if we have extra palettes defined
 		if(assetData->args->include_palettes && (assetData->image.total_color_count - assetData->args->source_total_color_count > 0 || assetData->args->source_tilesets.size()==0)) {
-			fprintf(file, "extern const palette_color_t %s_palettes[%d];\n", assetData->args->data_name.c_str(), (unsigned int)assetData->image.total_color_count - assetData->args->source_total_color_count);
+			fprintf(file, "extern const palette_color_t %s_palettes[%d];\n", assetData->args->data_name.c_str(), (unsigned int)assetData->image.total_color_count - (unsigned int)assetData->args->source_total_color_count);
 		}
 		if(assetData->args->includeTileData) {
 			fprintf(file, "extern const uint8_t %s_tiles[%d];\n", assetData->args->data_name.c_str(), (unsigned int)((assetData->tiles.size() - assetData->args->source_tileset_size) * (assetData->image.tile_w * assetData->image.tile_h * assetData->args->bpp / 8)));
@@ -185,7 +185,7 @@ bool export_c_file( PNG2AssetData* assetData) {
 	if(assetData->args->include_palettes && (assetData->image.total_color_count - assetData->args->source_total_color_count > 0 || !assetData->args->source_tilesets.size() == 0)) {
 
 		// Subtract however many palettes we had in the source tileset
-		fprintf(file, "const palette_color_t %s_palettes[%d] = {\n", assetData->args->data_name.c_str(), (unsigned int)assetData->image.total_color_count - assetData->args->source_total_color_count);
+		fprintf(file, "const palette_color_t %s_palettes[%d] = {\n", assetData->args->data_name.c_str(), (unsigned int)assetData->image.total_color_count - (unsigned int)assetData->args->source_total_color_count);
 
 		// Offset by however many palettes we had in the source tileset
 		for(size_t i = assetData->args->source_total_color_count / assetData->image.colors_per_pal; i < assetData->image.total_color_count / assetData->image.colors_per_pal; ++i)
@@ -278,8 +278,8 @@ bool export_c_file( PNG2AssetData* assetData) {
 				fprintf(file, "\n");
 				fprintf(file, "#include \"MetaSpriteInfo.h\"\n");
 				fprintf(file, "const struct MetaSpriteInfo %s = {\n", assetData->args->data_name.c_str());
-				fprintf(file, "\t%d, //width\n", assetData->args->pivot.width);
-				fprintf(file, "\t%d, //height\n", assetData->args->pivot.height);
+				fprintf(file, "\t%d, //width\n", (unsigned int)assetData->args->pivot.width);
+				fprintf(file, "\t%d, //height\n", (unsigned int)assetData->args->pivot.height);
 				fprintf(file, "\t%d, //num tiles\n", (unsigned int)assetData->tiles.size() * (assetData->image.tile_h >> 3));
 				fprintf(file, "\t%s_tiles, //tiles\n", assetData->args->data_name.c_str());
 				fprintf(file, "\t%d, //num palettes\n", (unsigned int)(assetData->image.total_color_count / assetData->image.colors_per_pal));
