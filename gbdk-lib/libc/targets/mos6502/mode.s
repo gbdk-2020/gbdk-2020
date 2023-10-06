@@ -3,7 +3,7 @@
     .title  "screen modes"
     .module Modes
 
-    .area   OSEG (PAG, OVR)
+    .area   GBDKOVR (PAG, OVR)
     temp_word:                  .ds 2
 
     ;; BANKED:  checked

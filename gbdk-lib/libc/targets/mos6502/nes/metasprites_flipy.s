@@ -3,7 +3,7 @@
     .title  "Metasprites"
     .module Metasprites
 
-    .area	OSEG (PAG, OVR)
+    .area	GBDKOVR (PAG, OVR)
     ___move_metasprite_hflip_PARM_2::
     ___move_metasprite_flipy_PARM_2:: .ds 2
     ___move_metasprite_hflip_PARM_3::

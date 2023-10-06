@@ -2,7 +2,7 @@
 
     .include "global.s"
 
-    .area	OSEG (PAG, OVR)
+    .area	GBDKOVR (PAG, OVR)
     _set_sprite_native_data_PARM_3::
     _set_bkg_native_data_PARM_3::       .ds 2
     .ppu_addr_lo:                       .ds 1

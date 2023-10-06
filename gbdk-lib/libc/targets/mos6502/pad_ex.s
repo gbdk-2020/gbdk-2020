@@ -3,7 +3,7 @@
     MAX_JOYPADS = 4
     .globl _read_joypad
 
-    .area   OSEG (PAG, OVR)
+    .area   GBDKOVR (PAG, OVR)
     _joypad_init_PARM_2::       .ds 2
 
     .area   _HOME

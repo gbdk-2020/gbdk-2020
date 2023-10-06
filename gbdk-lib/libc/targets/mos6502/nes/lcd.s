@@ -1,6 +1,6 @@
 .include "global.s"
 
-.area OSEG (PAG, OVR)
+.area GBDKOVR (PAG, OVR)
 
 .area _ZP (PAG)
 __lcd_scanline::    .ds 1

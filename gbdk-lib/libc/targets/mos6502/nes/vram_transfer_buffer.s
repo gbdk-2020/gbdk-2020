@@ -39,7 +39,7 @@ VRAM_MAX_STRIPE_SIZE    = VRAM_HDR_SIZEOF + VRAM_MAX_BYTES
     ror *__vram_transfer_buffer_valid
 .endm
 
-.area   OSEG (PAG, OVR)
+.area   GBDKOVR (PAG, OVR)
 _set_vram_byte_PARM_2:: .ds 1
     
 .area _ZP (PAG)
