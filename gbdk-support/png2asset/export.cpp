@@ -1,3 +1,11 @@
+// This prevents windows build errors regarding the 'fopen' function
+// Example: 'fopen': This function or variable may be unsafe.Consider using fopen_s instead.To disable deprecation, use _CRT_SECURE_NO_WARNINGS.See online help for details.
+// More info: https://stackoverflow.com/questions/14386/fopen-deprecated-warning
+// From bbbbbr: `Looks like some of the benefits are concurrency protection, but that probably isn't an issue for png2asset`
+#ifdef _WIN32
+#define _CRT_SECURE_NO_DEPRECATE
+#endif
+
 #include <vector>
 #include <string>
 #include <algorithm>
@@ -20,8 +28,6 @@
 #include "process_arguments.h"
 
 using namespace std;
-
-
 
 bool export_h_file( PNG2AssetData* assetData) {
 
@@ -104,10 +110,10 @@ bool export_h_file( PNG2AssetData* assetData) {
 			}
 			else
 			{
-				fprintf(file, "#define %s_pivot_x %d\n", assetData->args->data_name.c_str(), assetData->args->pivot.x);
-				fprintf(file, "#define %s_pivot_y %d\n", assetData->args->data_name.c_str(), assetData->args->pivot.y);
-				fprintf(file, "#define %s_pivot_width %d\n", assetData->args->data_name.c_str(), (unsigned int)assetData->args->pivot.width);
-				fprintf(file, "#define %s_pivot_height %d\n", assetData->args->data_name.c_str(), (unsigned int)assetData->args->pivot.height);
+				fprintf(file, "#define %s_PIVOT_x %d\n", assetData->args->data_name.c_str(), assetData->args->pivot.x);
+				fprintf(file, "#define %s_PIVOT_y %d\n", assetData->args->data_name.c_str(), assetData->args->pivot.y);
+				fprintf(file, "#define %s_PIVOT_width %d\n", assetData->args->data_name.c_str(), (unsigned int)assetData->args->pivot.width);
+				fprintf(file, "#define %s_PIVOT_height %d\n", assetData->args->data_name.c_str(), (unsigned int)assetData->args->pivot.height);
 			}
 		}
 		fprintf(file, "\n");
