@@ -65,7 +65,10 @@ int ReadImageData_KeepPaletteOrder(  PNG2AssetData* assetData, string  input_fil
 	// So: state->info_png.color.palette/size instead of state->info_raw.palette/size
 	unsigned int palette_count = PaletteCountApplyMaxLimit((unsigned int)assetData->args->max_palettes, (unsigned int)(state.info_png.color.palettesize / assetData->image.colors_per_pal));
 	assetData->image.total_color_count = palette_count * assetData->image.colors_per_pal;
-	assetData->image.palette = state.info_png.color.palette;
+	// Copy the palette data since the source buffer (state...) won't exist outside the scope of this function
+	assetData->image.palette = new unsigned char[assetData->image.total_color_count * RGBA32_SZ];
+	memcpy(assetData->image.palette, state.info_png.color.palette, assetData->image.total_color_count * RGBA32_SZ);
+
 
 
 	if(assetData->args->repair_indexed_pal)

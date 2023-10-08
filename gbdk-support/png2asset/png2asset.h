@@ -31,7 +31,6 @@ public:
 	PNGImage source_tileset_image;
 	PNGImage image;
 
-	unsigned char rgb_to_nes[64];
 };
 
 

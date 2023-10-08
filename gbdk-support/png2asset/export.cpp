@@ -26,6 +26,7 @@
 #include "export.h"
 #include "image_utils.h"
 #include "process_arguments.h"
+#include "rgb_to_nes_lut.h"
 
 using namespace std;
 
@@ -206,8 +207,9 @@ bool export_c_file( PNG2AssetData* assetData) {
 				size_t rgb222 = (((pal_ptr[2] >> 6) & 0x3) << 4) |
 					(((pal_ptr[1] >> 6) & 0x3) << 2) |
 					(((pal_ptr[0] >> 6) & 0x3) << 0);
-				if(assetData->args->convert_rgb_to_nes)
-					fprintf(file, "0x%0X", assetData->rgb_to_nes[rgb222]);
+				if(assetData->args->convert_rgb_to_nes) {
+					fprintf(file, "0x%0X", rgb_to_nes[rgb222]);
+				}
 				else
 					fprintf(file, "RGB8(%3d,%3d,%3d)", pal_ptr[0], pal_ptr[1], pal_ptr[2]);
 				if(c != (int)assetData->image.colors_per_pal - 1)
