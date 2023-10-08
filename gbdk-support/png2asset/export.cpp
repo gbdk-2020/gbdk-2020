@@ -110,10 +110,10 @@ bool export_h_file( PNG2AssetData* assetData) {
 			}
 			else
 			{
-				fprintf(file, "#define %s_PIVOT_x %d\n", assetData->args->data_name.c_str(), assetData->args->pivot.x);
-				fprintf(file, "#define %s_PIVOT_y %d\n", assetData->args->data_name.c_str(), assetData->args->pivot.y);
-				fprintf(file, "#define %s_PIVOT_width %d\n", assetData->args->data_name.c_str(), (unsigned int)assetData->args->pivot.width);
-				fprintf(file, "#define %s_PIVOT_height %d\n", assetData->args->data_name.c_str(), (unsigned int)assetData->args->pivot.height);
+				fprintf(file, "#define %s_PIVOT_X %d\n", assetData->args->data_name.c_str(), assetData->args->pivot.x);
+				fprintf(file, "#define %s_PIVOT_Y %d\n", assetData->args->data_name.c_str(), assetData->args->pivot.y);
+				fprintf(file, "#define %s_PIVOT_W %d\n", assetData->args->data_name.c_str(), (unsigned int)assetData->args->pivot.width);
+				fprintf(file, "#define %s_PIVOT_H %d\n", assetData->args->data_name.c_str(), (unsigned int)assetData->args->pivot.height);
 			}
 		}
 		fprintf(file, "\n");
