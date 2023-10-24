@@ -15,7 +15,7 @@ const uint8_t sprite_data[] = {
 };
 
 // update user input macro
-#define INPUT_PROCESS (joy=old_joy,joy=joypad()) 
+#define INPUT_PROCESS (old_joy=joy,joy=joypad()) 
 // check putton down
 #define INPUT_KEY(key) (joy&(key))
 // check button press
