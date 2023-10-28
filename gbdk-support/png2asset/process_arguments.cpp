@@ -45,6 +45,7 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
 
 	args->pack_mode = Tile::GB;
 	args->flip_tiles = true;
+	args->props_default = 0;
 	args->keep_duplicate_tiles = false;
 	args->include_palettes = true;
 	args->includedMapOrMetaspriteData = true;
