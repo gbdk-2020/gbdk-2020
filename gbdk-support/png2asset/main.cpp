@@ -47,7 +47,7 @@ int main(int argc, char* argv[])
 		vector<string>::iterator sourceTilesetsIterator = arguments.source_tilesets.begin();
 
 		// Iterate through each source tileset and execute
-		for(sourceTilesetsIterator; sourceTilesetsIterator < arguments.source_tilesets.end(); sourceTilesetsIterator++) {
+        while (sourceTilesetsIterator < arguments.source_tilesets.end()) {
 
 			// Run with our source tileset filename 
 			errorCode = png2AssetInstance.Execute(&arguments, *sourceTilesetsIterator);
@@ -57,6 +57,7 @@ int main(int argc, char* argv[])
 				return errorCode;
 			}
 
+            sourceTilesetsIterator++;
 		}
 
 		// Save these values for later usage on the main execution

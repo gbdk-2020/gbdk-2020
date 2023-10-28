@@ -143,6 +143,8 @@ int ReadImageData_Default(PNG2AssetData* assetData, string  input_filename) {
 
 	assetData->image.total_color_count = palette_count * assetData->image.colors_per_pal;
 	assetData->image.palette = new unsigned char[palette_count * assetData->image.colors_per_pal * RGBA32_SZ]; // total color count * 4 bytes each
+    // Pre-fill palette to all black. Prevents garbage in palette color slots that are unused (ex: only 3 colors when colors-per-pal is 4)
+    memset(assetData->image.palette, 0, palette_count * assetData->image.colors_per_pal * RGBA32_SZ);
 
 	// If we are using a sourcetileset and have more palettes than it defines
 	if(assetData->args->source_tilesets.size() > 0 && (assetData->image.total_color_count > assetData->args->source_total_color_count)) {
@@ -152,8 +154,7 @@ int ReadImageData_Default(PNG2AssetData* assetData, string  input_filename) {
 	{
 		int* color_ptr = (int*)&assetData->image.palette[p * assetData->image.colors_per_pal * RGBA32_SZ];
 
-		//TODO: if palettes[p].size() != image.colors_per_pal we should probably try to fill the gaps based on grayscale values
-
+		// When palettes[p].size() != image.colors_per_pal the unused colors are left as black (see memset above)
 		for(SetPal::iterator it = assetData->palettes[p].begin(); it != assetData->palettes[p].end(); ++it, color_ptr++)
 		{
 			unsigned char* c = (unsigned char*)&(*it);
