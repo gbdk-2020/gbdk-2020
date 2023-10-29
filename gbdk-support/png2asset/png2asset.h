@@ -20,6 +20,7 @@ public:
 	int Export();
 
 	int errorCode;
+	int layeredSpritesCount = 0;
 
 	PNG2AssetArguments* args;
 

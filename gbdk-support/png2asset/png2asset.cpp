@@ -56,7 +56,9 @@ int PNG2AssetData::Execute(PNG2AssetArguments* arguments, string  input_filename
 
 	// Get the data depending on the type
 	if(this->args->export_as_map)GetMap(this);
-	else GetAllMetasprites(this);
+	else if(!GetAllMetasprites(this)) {
+		return 1;
+	}
 
 	return 0;
 }
