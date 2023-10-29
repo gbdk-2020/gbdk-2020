@@ -41,6 +41,44 @@ public:
         return data[w * y + x] % colors_per_pal;
     }
 
+    void BuildExtraTileInfo(Tile& tile, int pixelPalette, int pixelIndex, int extract_tile_w, int extract_tile_h, int i, int j) {
+        signed int index = -1;
+
+        // Check each item for extra palettes
+        for(int k = 0; k < tile.extraPaletteInfo.size(); k++) {
+
+            // if this object has the same palette as the pixel, we'll us it's index
+            if(tile.extraPaletteInfo[k].palette == pixelPalette) {
+
+                // Stop here
+                index = k;
+                break;
+            }
+        }
+
+        // If we didn't find an existing palette struct, create a new one and add it
+        if(index == -1) {
+            ExtraPalette newEp;
+            newEp.palette = pixelPalette;
+
+            // Fill with empty first pallete colors for transparency
+            for(int i2 = 0; i2 < extract_tile_h * extract_tile_w; i2++) {
+                newEp.pixelData.push_back(0);
+
+            }
+
+            tile.extraPaletteInfo.push_back(newEp);
+
+            // Set the index for the latest addition
+            index = tile.extraPaletteInfo.size() - 1;
+        }
+
+
+        int dataIndex = i + (j * extract_tile_w);
+
+        tile.extraPaletteInfo[index].pixelData[dataIndex] = pixelIndex - (4 * pixelPalette);
+    }
+
 
     // This needs separate tile_w and tile_h params since
     // MSX tile extraction uses it to pull out the 4 sub-tiles
@@ -54,7 +92,16 @@ public:
         {
             for(int i = 0; i < extract_tile_w; ++i)
             {
+                int pixelIndex = data[w * (y + j) + (x + i)];
+                int pixelPalette = pixelIndex >> 2;
+
                 unsigned char color_idx = GetGBColor(x + i, y + j);
+
+                // if this pixel's palette is different than the previously decided palette
+                if(pixelPalette != tile.pal) {
+                    BuildExtraTileInfo(tile,pixelPalette,pixelIndex,extract_tile_w, extract_tile_h,i,j);
+                }
+
                 tile.data[(j * extract_tile_w) + i + buffer_offset] = color_idx;
                 all_zero = all_zero && (color_idx == 0);
             }
