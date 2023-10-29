@@ -147,47 +147,43 @@ bool GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y, PNG
 			}
 		}
 
+		int currentRow = y / assetData->image.tile_h;
 
-		if(layeredSpritesCount > 0) {
+		int max = 10;
 
-			int currentRow = y / assetData->image.tile_h;
+		// As Per: https://gbdk-2020.github.io/gbdk-2020/docs/api/docs_supported_consoles.html
+		// GB, AP, Duck all support 10 sprites per line
+		// SMS, and GG support 8 per line.
+		if(assetData->args->pack_mode == Tile::SMS|| assetData->args->pack_mode == Tile::NES){
+			max = 8;
+		}
 
-			int max = 10;
+		int totalLayeredSprites = layeredSpritesCount + nonLayeredSpritesCount;
 
-			// As Per: https://gbdk-2020.github.io/gbdk-2020/docs/api/docs_supported_consoles.html
-			// GB, AP, Duck all support 10 sprites per line
-			// SMS, and GG support 8 per line.
-			if(assetData->args->pack_mode == Tile::SMS|| assetData->args->pack_mode == Tile::NES){
-				max = 8;
-			}
+		// If we've exceeded the maxium amount
+		if(totalLayeredSprites > max) {
+			printf("\n//////////////////////////////////////////////////////////////////////////////////////////////////////////\n");
+			printf("\ERROR: You have %d total sprites on row %d! This is %d above the maximum of %d. Not All sprites will be shown!\n", totalLayeredSprites, currentRow,totalLayeredSprites-max,max);
+			printf("//////////////////////////////////////////////////////////////////////////////////////////////////////////\n\n");
+			printf("Ending the process early!\n\n");
 
-			int totalLayeredSprites = layeredSpritesCount + nonLayeredSpritesCount;
+			// Return false so the process ends early
+			return false;
 
-			// If we've exceeded the maxium amount
-			if(totalLayeredSprites > max) {
-				printf("\n//////////////////////////////////////////////////////////////////////////////////////////////////////////\n");
-				printf("\ERROR: You have %d total sprites on row %d! This is %d above the maximum of %d. Not All sprites will be shown!\n", totalLayeredSprites, currentRow,totalLayeredSprites-max,max);
-				printf("//////////////////////////////////////////////////////////////////////////////////////////////////////////\n\n");
-				printf("Ending the process early!\n\n");
+		// If we're at the maximum amount
+		}else if(totalLayeredSprites == max) {
 
-				// Return false so the process ends early
-				return false;
+			printf("\n//////////////////////////////////////////////////////////////////////////////////////////////////////////\n");
+			printf("\nWARNING: You have %d total sprites on row %d! This is the maximum amount your hardware can support. No other sprites will be drawn that share a scanline (wording?)\n", totalLayeredSprites, currentRow);
+			printf("//////////////////////////////////////////////////////////////////////////////////////////////////////////\n");
+		}
 
-			// If we're at the maximum amount
-			}else if(totalLayeredSprites == max) {
+		else if(layeredSpritesCount > 0) {
 
-				printf("\n//////////////////////////////////////////////////////////////////////////////////////////////////////////\n");
-				printf("\nWARNING: You have %d total sprites on row %d! This is the maximum amount your hardware can support. No other sprites will be drawn that share a scanline (wording?)\n", totalLayeredSprites, currentRow);
-				printf("//////////////////////////////////////////////////////////////////////////////////////////////////////////\n");
-			}
-
-			else {
-
-				printf("\nYou have %d extra layered sprites on row: %d. Making a total of %d sprites.\n\n", layeredSpritesCount, currentRow, totalLayeredSprites);
-				printf("//////////////////////////////////////////////////////////////////////////////////////////////////////////\n");
-				printf("WARNING: There are hardware limits on how many sprites can be drawn per scanline. Take that into consideration when using heavily-layered metasprites.\n");
-				printf("//////////////////////////////////////////////////////////////////////////////////////////////////////////\n\n");
-			}
+			printf("\nYou have %d extra layered sprites on row: %d. Making a total of %d sprites.\n\n", layeredSpritesCount, currentRow, totalLayeredSprites);
+			printf("//////////////////////////////////////////////////////////////////////////////////////////////////////////\n");
+			printf("WARNING: There are hardware limits on how many sprites can be drawn per scanline. Take that into consideration when using heavily-layered metasprites.\n");
+			printf("//////////////////////////////////////////////////////////////////////////////////////////////////////////\n\n");
 		}
 	}
 
