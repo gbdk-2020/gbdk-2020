@@ -11,7 +11,7 @@
 
 #ifdef __SDCC
 
-#define NONBANKED			__nonbanked
+#define NONBANKED           /* __nonbanked */ /** < __nonbanked directive does not exist in sdcc for target mos6502 */
 #define BANKED				__banked
 #define REENTRANT			__reentrant /**< Needed for mos6502 target when functions take too many parameters. */
 #define NO_OVERLAY_LOCALS	__no_overlay_locals /**< Optimization for mos6502 target, indicating locals won't conflict with compiler's overlay segment */
