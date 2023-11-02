@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
 
 	PNG2AssetData png2AssetInstance;
 
-	// If we have a source tilest
+	// If we have a source tileset
 	if(arguments.source_tilesets.size() > 0) {
 
 		vector<string>::iterator sourceTilesetsIterator = arguments.source_tilesets.begin();
@@ -49,7 +49,7 @@ int main(int argc, char* argv[])
 		// Iterate through each source tileset and execute
         while (sourceTilesetsIterator < arguments.source_tilesets.end()) {
 
-			// Run with our source tileset filename 
+			// Run with our source tileset filename
 			errorCode = png2AssetInstance.Execute(&arguments, *sourceTilesetsIterator);
 
 			// Return the error code if the function returns non-zero

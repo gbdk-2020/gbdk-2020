@@ -44,6 +44,7 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
 	args->max_palettes = 8;
 
 	args->pack_mode = Tile::GB;
+    args->map_entry_size_bytes = 1;
 	args->flip_tiles = true;
 	args->props_default = 0;
 	args->keep_duplicate_tiles = false;
@@ -220,8 +221,16 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
 			std::string pack_mode_str = argv[++i];
 			if(pack_mode_str == "gb")  args->pack_mode = Tile::GB;
 			else if(pack_mode_str == "nes") args->pack_mode = Tile::NES;
-			else if(pack_mode_str == "sgb") args->pack_mode = Tile::SGB;
-			else if(pack_mode_str == "sms") args->pack_mode = Tile::SMS;
+			else if(pack_mode_str == "sgb") {
+                args->pack_mode = Tile::SGB;
+                 // SGB attributes are packed in map data, so 2 bytes per map tile
+                args->map_entry_size_bytes = 2;
+            }
+			else if(pack_mode_str == "sms") {
+                args->pack_mode = Tile::SMS;
+                 // SMS attributes are packed in map data, so 2 bytes per map tile
+                args->map_entry_size_bytes = 2;
+            }
 			else if(pack_mode_str == "1bpp") args->pack_mode = Tile::BPP1;
 			else
 			{
