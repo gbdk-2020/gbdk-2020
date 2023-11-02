@@ -61,6 +61,7 @@ struct PNG2AssetArguments {
 	unsigned int source_tileset_size;
 
 	Tile::PackMode pack_mode;
+    int map_entry_size_bytes;
 
 };
 
