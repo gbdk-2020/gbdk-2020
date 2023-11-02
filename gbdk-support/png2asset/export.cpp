@@ -426,65 +426,71 @@ bool export_c_file( PNG2AssetData* assetData) {
 bool export_map_binary( PNG2AssetData* assetData) {
 
 	std::ofstream mapBinaryFile, mapAttributesBinaryfile, tilesBinaryFile;
-	mapBinaryFile.open(assetData->args->output_filename_bin, std::ios_base::binary);
-	tilesBinaryFile.open(assetData->args->output_filename_tiles_bin, std::ios_base::binary);
 
-	for(vector< Tile >::iterator it = assetData->tiles.begin() + assetData->args->source_tileset_size; it != assetData->tiles.end(); ++it)
-	{
+	if (assetData->args->includeTileData) {
+		tilesBinaryFile.open(assetData->args->output_filename_tiles_bin, std::ios_base::binary);
 
-		vector< unsigned char > packed_data = (*it).GetPackedData(assetData->args->pack_mode, assetData->image.tile_w, assetData->image.tile_h, assetData->args->bpp);
-		for(vector< unsigned char >::iterator it2 = packed_data.begin(); it2 != packed_data.end(); ++it2)
+		for(vector< Tile >::iterator it = assetData->tiles.begin() + assetData->args->source_tileset_size; it != assetData->tiles.end(); ++it)
 		{
 
-			const char chars[] = { (const char)(*it2) };
-			tilesBinaryFile.write(chars, 1);
+			vector< unsigned char > packed_data = (*it).GetPackedData(assetData->args->pack_mode, assetData->image.tile_w, assetData->image.tile_h, assetData->args->bpp);
+			for(vector< unsigned char >::iterator it2 = packed_data.begin(); it2 != packed_data.end(); ++it2)
+			{
+
+				const char chars[] = { (const char)(*it2) };
+				tilesBinaryFile.write(chars, 1);
+			}
+
+		}
+		// Finalize the files
+		tilesBinaryFile.close();
+	}
+
+	if (assetData->args->includedMapOrMetaspriteData) {
+		mapBinaryFile.open(assetData->args->output_filename_bin, std::ios_base::binary);
+
+		// Open our file for writing attributes if specified
+		if (assetData->args->use_map_attributes && assetData->map_attributes.size()) {
+			mapAttributesBinaryfile.open(assetData->args->output_filename_attributes_bin, std::ios_base::binary);
 		}
 
-	}
+		int columns = assetData->image.w >> 3;
+		int rows = assetData->image.h >> 3;
 
+		// If we want the values to be column-by-column
+		if(assetData->args->output_transposed) {
 
-	// Open our file for writing attributes if specified
-	if (assetData->args->use_map_attributes && assetData->map_attributes.size()) {
-		mapAttributesBinaryfile.open(assetData->args->output_filename_attributes_bin, std::ios_base::binary);
-	}
+			int map_entry_size = assetData->args->map_entry_size_bytes;
+			// Swap the column/row for loops
+			for(int column = 0; column < columns; column++) {
+				for(int row = 0; row < rows; ++row) {
 
-	int columns = assetData->image.w >> 3;
-	int rows = assetData->image.h >> 3;
+					int tile = (column + row * columns) * map_entry_size;
 
-	// If we want the values to be column-by-column
-	if(assetData->args->output_transposed) {
+					// Write map items column-by-column
+					mapBinaryFile.write( (const char *) &(assetData->map[tile]), map_entry_size);
 
-		int map_entry_size = assetData->args->map_entry_size_bytes;
-		// Swap the column/row for loops
-		for(int column = 0; column < columns; column++) {
-			for(int row = 0; row < rows; ++row) {
-
-				int tile = (column + row * columns) * map_entry_size;
-
-				// Write map items column-by-column
-				mapBinaryFile.write( (const char *) &(assetData->map[tile]), map_entry_size);
-
-				if (assetData->args->use_map_attributes && assetData->map_attributes.size()) {
-				   mapAttributesBinaryfile.write( (const char*) &(assetData->map_attributes[tile]), map_entry_size);
+					if (assetData->args->use_map_attributes && assetData->map_attributes.size()) {
+					   mapAttributesBinaryfile.write( (const char*) &(assetData->map_attributes[tile]), map_entry_size);
+					}
 				}
 			}
 		}
-	}
-	else {
-		// Write the arrays as-is, row-by-row
-		mapBinaryFile.write((const char*)(&assetData->map[0]), assetData->map.size());
+		else {
+			// Write the arrays as-is, row-by-row
+			mapBinaryFile.write((const char*)(&assetData->map[0]), assetData->map.size());
 
+			if (assetData->args->use_map_attributes && assetData->map_attributes.size()) {
+				mapAttributesBinaryfile.write((const char*)(&assetData->map_attributes[0]), assetData->map_attributes.size());
+			}
+		}
+		// Finalize the files
+		mapBinaryFile.close();
 		if (assetData->args->use_map_attributes && assetData->map_attributes.size()) {
-			mapAttributesBinaryfile.write((const char*)(&assetData->map_attributes[0]), assetData->map_attributes.size());
+			mapAttributesBinaryfile.close();
 		}
 	}
 
-	// Finalize the files
-	mapBinaryFile.close();
-	tilesBinaryFile.close();
-	if (assetData->args->use_map_attributes && assetData->map_attributes.size()) {
-		mapAttributesBinaryfile.close();
-	}
 
 	return true; // success
 }
