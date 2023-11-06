@@ -71,7 +71,7 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
 
 	if(argc < 2)
 	{
-		printf("usage: png2asset    <file>.png [options]\n");		
+		printf("usage: png2asset    <file>.png [options]\n");
 		printf("-o                  ouput file (default: <png file>.c)\n");
 		printf("-c                  deprecated, same as -o\n");
 		printf("-sw <width>         metasprites width size (default: png width)\n");
@@ -88,7 +88,7 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
 		printf("-keep_palette_order use png palette\n");
 		printf("-repair_indexed_pal try to repair indexed tile palettes (implies \"-keep_palette_order\")\n");
 		printf("-noflip             disable tile flip\n");
-		printf("-map                Export as map (tileset + bg)\n");
+		printf("-map                Export as map (tileset + bg) instead of default metasprite output\n");
 		printf("-use_map_attributes Use CGB BG Map attributes\n");
 		printf("-use_nes_attributes Use NES BG Map attributes\n");
 		printf("-use_nes_colors     Convert RGB color values to NES PPU colors\n");
