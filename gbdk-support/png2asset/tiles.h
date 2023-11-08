@@ -5,8 +5,16 @@ using namespace std;
 
 #define BIT(VALUE, INDEX) (1 & ((VALUE) >> (INDEX)))
 
+
+struct ExtraPalette {
+
+    unsigned char palette;
+    vector< unsigned char> pixelData;
+};
+
 struct Tile
 {
+    vector< ExtraPalette> extraPaletteInfo;
     vector< unsigned char > data;
     unsigned char pal;
 
