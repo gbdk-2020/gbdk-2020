@@ -36,8 +36,9 @@ _waitpadup::
         ;; Wait for the key to be pressed
 _waitpad::
 .wait_pad::
+        ld h, l
 1$:
         call .jpad      ; read pad
-        and l           ; compare with mask?
+        and h           ; compare with mask?
         jr z,1$         ; loop if no intersection
         ret

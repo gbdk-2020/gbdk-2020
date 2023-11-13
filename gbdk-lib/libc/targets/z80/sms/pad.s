@@ -32,7 +32,9 @@ _waitpadup::
 _waitpad::
 .wait_pad::
 1$:
+        ld h, l
+1$:
         call .jpad      ; read pad
-        and l           ; compare with mask?
+        and h           ; compare with mask?
         jr z,1$         ; loop if no intersection
         ret
