@@ -31,7 +31,6 @@ _waitpadup::
         ;; Wait for the key to be pressed
 _waitpad::
 .wait_pad::
-1$:
         ld h, l
 1$:
         call .jpad      ; read pad
