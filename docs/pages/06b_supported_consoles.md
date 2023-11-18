@@ -355,7 +355,11 @@ Most notably:
 * The base NES system has no support for any scanline interrupts. And cartridge mappers that add scanline interrupts do so using wildly varying solutions
 * There's no easy way to determine the current scanline or CPU-to-PPU alignment meaning timed code is often required on the NES
 * The PAL variant of the NES has very different CPU / PPU timings, as do the Dendy clone and other clone systems
-
+* The stock 2 kB CPU RAM is just 1/4th the 8kB CPU RAM on a Game Boy
+  - Free RAM after accounting for ZP, stack, OAM page and system variables further cuts this in half
+  - This means a lot of GB code will need to be carefully optimized for RAM usage when ported to the NES
+  - In particular, make sure to use the "const" modifier for arrays that are read-only, to make sure they don't end up in RAM
+  
 To provide an easier experience, gbdk-nes attempts to hide most of these quirks so that in theory the programming experience for gbdk-nes should be as close as possible to that of the GB/GBC. However, to avoid surprises it is recommended to familiarize yourself with the NES-specific quirks and implementation choices mentioned here.
 
 This entire section is written as a guide on porting GB projects to NES. If you are new to GBDK, you may wish to familiarize yourself with using GBDK for GB development first as the topics covered will make a lot more sense after gaining experience with GB development.
