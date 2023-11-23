@@ -13,11 +13,6 @@ _shadow_OAM             = 0x200
 ; Attribute shadow (64 bytes, leaving 56 bytes available for CPU stack)
 _attribute_shadow       = 0x188
 
-; Declare a dummy symbol for banking
-; TODO: Make banking actually work
-b_wait_frames = 0
-.globl b_wait_frames
-
 .macro WRITE_PALETTE_SHADOW
     lda #>0x3F00
     sta PPUADDR
