@@ -44,14 +44,14 @@ _rle_decompress::
 
         ld a, (rle_current)
         bit 7, c
-        jr nz, 10$
-        jr 11$
+        jr nz, 7$
+        jp 8$
 1$:
         ;; Fetch the run
         ld c, (hl)
         inc hl
+
         ;; Negative means a run
-8$:
         bit 7, c
         jr z, 2$
         ;; Expanding a run
@@ -63,10 +63,10 @@ _rle_decompress::
 
         dec b
         jr z, 6$
-10$:
+7$:
         inc c
-        jr NZ, 3$
-        jr 1$
+        jp NZ, 3$
+        jp 1$
 2$:
         ;; Zero means end of a block
         inc c
@@ -79,10 +79,10 @@ _rle_decompress::
 
         dec b
         jr z, 6$
-11$:
+8$:
         dec c
-        jr NZ, 5$
-        jr 1$
+        jp NZ, 5$
+        jp 1$
 4$:
         ;; save state and exit
         ld hl, #0
