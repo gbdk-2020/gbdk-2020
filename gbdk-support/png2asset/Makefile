@@ -5,7 +5,7 @@
 # LFLAGS = -s -static
 
 CXX = $(TOOLSPREFIX)g++
-CXXFLAGS = -Os -Wall -g
+CXXFLAGS = -Os -Wall -g # -Wextra -pedantic
 LFLAGS = -g
 
 ifeq ($(OS),Windows_NT)

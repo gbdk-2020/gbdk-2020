@@ -28,13 +28,12 @@ using namespace std;
 int decodePNG(vector<unsigned char>& out_image, unsigned long& image_width, unsigned long& image_height, const unsigned char* in_png, size_t in_size, bool convert_to_rgba32 = true);
 void loadFile(vector<unsigned char>& buffer, const std::string& filename);
 
-int ReadImageData_KeepPaletteOrder(  PNG2AssetData* assetData, string  input_filename) {
+int ReadImageData_KeepPaletteOrder(  PNG2AssetData* assetData, string input_filename) {
 
     //load and decode png
     vector<unsigned char> buffer;
     lodepng::load_file(buffer, input_filename);
     lodepng::State state;
-
 
     //Calling with keep_palette_order means
         //-The image should be png indexed (1-8 bits per pixel)
@@ -54,7 +53,7 @@ int ReadImageData_KeepPaletteOrder(  PNG2AssetData* assetData, string  input_fil
 
     unsigned error = lodepng::decode(assetData->image.data, assetData->image.w, assetData->image.h, state, buffer);
     // Unpack the image if needed. Also checks and errors on incompatible palette type if needed
-    if(!image_indexed_ensure_8bpp(assetData->image.data, assetData->image.w, assetData->image.h, (int)state.info_png.color.bitdepth, (int)state.info_png.color.colortype))
+    if(!image_indexed_ensure_8bpp(assetData->image.data, (int)state.info_png.color.bitdepth, (int)state.info_png.color.colortype))
         return 1;
     else if(error) {
         printf("decoder error %s\n", lodepng_error_text(error));
@@ -83,7 +82,8 @@ int ReadImageData_KeepPaletteOrder(  PNG2AssetData* assetData, string  input_fil
     //     return 1;
     // }
 
-    if(assetData->args->source_tilesets.size()>0) {
+    // TODO: Only check this for the main image, not for source tilesets
+    if (assetData->args->source_tilesets.size() > 0) {
 
         // Make sure these two values match when keeping palette order
         if(assetData->image.total_color_count != assetData->source_tileset_image.total_color_count) {
@@ -106,11 +106,10 @@ int ReadImageData_KeepPaletteOrder(  PNG2AssetData* assetData, string  input_fil
 
 int ReadImageData_Default(PNG2AssetData* assetData, string  input_filename) {
 
-
-
     //load and decode png
     vector<unsigned char> buffer;
     lodepng::load_file(buffer, assetData->args->input_filename);
+    // TODO: lodepng::load_file(buffer, input_filename);  // Use argument filename instead, should be needed for source tileset feature. Unclear why it is not used
     lodepng::State state;
 
     PNGImage image32;
@@ -146,7 +145,7 @@ int ReadImageData_Default(PNG2AssetData* assetData, string  input_filename) {
     // Pre-fill palette to all black. Prevents garbage in palette color slots that are unused (ex: only 3 colors when colors-per-pal is 4)
     memset(assetData->image.palette, 0, palette_count * assetData->image.colors_per_pal * RGBA32_SZ);
 
-    // If we are using a sourcetileset and have more palettes than it defines
+    // TODO: If we are using a sourcetileset and have more palettes than it defines
     if(assetData->args->source_tilesets.size() > 0 && (assetData->image.total_color_count > assetData->args->source_total_color_count)) {
         printf("Found %d extra palette(s) for target tilemap.\n", (unsigned int)((assetData->image.total_color_count - assetData->args->source_total_color_count) / assetData->image.colors_per_pal));
     }
@@ -197,13 +196,13 @@ int ReadImageData( PNG2AssetData* assetData, string  input_filename) {
     if(assetData->args->keep_palette_order) {
         
         // Save the error code
-        errorCode= ReadImageData_KeepPaletteOrder(assetData,  input_filename);
+        errorCode= ReadImageData_KeepPaletteOrder(assetData, input_filename);
     }
     else
     {
 
         // Save the error code
-        errorCode= ReadImageData_Default(assetData,  input_filename);
+        errorCode= ReadImageData_Default(assetData, input_filename);
     }
 
     if(errorCode != 0)return errorCode;

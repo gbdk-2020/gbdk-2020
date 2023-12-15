@@ -122,7 +122,8 @@ bool export_h_file( PNG2AssetData* assetData) {
         fprintf(file, "\n");
 
         // If we are not using a source tileset, or if we have extra palettes defined
-        if(assetData->args->include_palettes && (assetData->image.total_color_count - assetData->args->source_total_color_count > 0 || assetData->args->source_tilesets.size()==0)) {
+        if (assetData->args->include_palettes &&
+            ((assetData->image.total_color_count - assetData->args->source_total_color_count > 0) || (assetData->args->source_tilesets.size()==0)) ) {
             fprintf(file, "extern const palette_color_t %s_palettes[%d];\n", assetData->args->data_name.c_str(), (unsigned int)assetData->image.total_color_count - (unsigned int)assetData->args->source_total_color_count);
         }
         if(assetData->args->includeTileData) {
@@ -189,7 +190,8 @@ bool export_c_file( PNG2AssetData* assetData) {
     fprintf(file, "BANKREF(%s)\n\n", assetData->args->data_name.c_str());
 
     // Are we not using a source tileset, or do we have extra colors
-    if(assetData->args->include_palettes && (assetData->image.total_color_count - assetData->args->source_total_color_count > 0 || !assetData->args->source_tilesets.size() == 0)) {
+    if (assetData->args->include_palettes &&
+        ((assetData->image.total_color_count - assetData->args->source_total_color_count > 0) || (!assetData->args->source_tilesets.size() == 0)) ) {
 
         // Subtract however many palettes we had in the source tileset
         fprintf(file, "const palette_color_t %s_palettes[%d] = {\n", assetData->args->data_name.c_str(), (unsigned int)assetData->image.total_color_count - (unsigned int)assetData->args->source_total_color_count);

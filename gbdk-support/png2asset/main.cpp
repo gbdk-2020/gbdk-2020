@@ -44,20 +44,20 @@ int main(int argc, char* argv[])
     // If we have a source tileset
     if(arguments.source_tilesets.size() > 0) {
 
-        vector<string>::iterator sourceTilesetsIterator = arguments.source_tilesets.begin();
+        vector<string>::iterator sourceTilesetFileNameIter = arguments.source_tilesets.begin();
 
         // Iterate through each source tileset and execute
-        while (sourceTilesetsIterator < arguments.source_tilesets.end()) {
+        while (sourceTilesetFileNameIter < arguments.source_tilesets.end()) {
 
             // Run with our source tileset filename
-            errorCode = png2AssetInstance.Execute(&arguments, *sourceTilesetsIterator);
+            errorCode = png2AssetInstance.Execute(&arguments, *sourceTilesetFileNameIter);
 
             // Return the error code if the function returns non-zero
             if(errorCode != 0) {
                 return errorCode;
             }
 
-            sourceTilesetsIterator++;
+            sourceTilesetFileNameIter++;
         }
 
         // Save these values for later usage on the main execution

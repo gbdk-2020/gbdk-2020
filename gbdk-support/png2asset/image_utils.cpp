@@ -41,7 +41,7 @@ static void image_bitunpack(const vector<uint8_t> & src_image_data, vector<uint8
 
 // Converts indexed image with bit depths 1- 8 bpp to indexed 8 bits per pixel
 // Replaces incoming image buffer with unpacked image buffer if successful
-bool image_indexed_ensure_8bpp(vector<uint8_t> & src_image_data, int width, int height, int bitdepth, int colortype) {
+bool image_indexed_ensure_8bpp(vector<uint8_t> & src_image_data, int bitdepth, int colortype) {
 
     vector<uint8_t> unpacked_image_data;
 
