@@ -26,7 +26,7 @@ unsigned char GetMapAttribute(size_t x, size_t y,PNG2AssetData* assetData)
         return 0;
 }
 
-void ReduceMapAttributes2x2(const vector< SetPal >& palettes,PNG2AssetData* assetData)
+void ReduceMapAttributes2x2(PNG2AssetData* assetData)
 {
     size_t w = (assetData->args->map_attributes_size.width + 1) / 2;
     size_t h = (assetData->args->map_attributes_size.height + 1) / 2;
@@ -113,7 +113,7 @@ void HandleMapAttributes(PNG2AssetData* assetData) {
     if(assetData->args->use_2x2_map_attributes)
     {
         // NES attribute map dimensions are half-resolution 
-        ReduceMapAttributes2x2(assetData->palettes, assetData);
+        ReduceMapAttributes2x2(assetData);
     }
     // Optionally align and pack map attributes into NES PPU format
     if(assetData->args->pack_map_attributes)

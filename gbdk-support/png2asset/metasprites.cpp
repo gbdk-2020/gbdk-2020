@@ -36,8 +36,10 @@ void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y, PNG
                 unsigned char props;
                 unsigned char pal_idx = assetData->image.data[y * assetData->image.w + x] >> 2; //We can pick the palette from the first pixel of this tile
 
-                if(assetData->args->keep_duplicate_tiles)
-                {
+                // When both -keep_duplicate_tiles and source tilesets are used then
+                // keep_duplicate_tiles should only apply to source tilesets, not the main image
+                if ((assetData->args->keep_duplicate_tiles) &&
+                    ((assetData->args->has_source_tilesets == false) || (assetData->args->processing_mode == MODE_SOURCE_TILESET))) {
                     assetData->tiles.push_back(tile);
                     idx = assetData->tiles.size() - 1;
                     props = assetData->args->props_default;
@@ -46,7 +48,7 @@ void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y, PNG
                 {
                     if(!FindTile(tile, idx, props, assetData))
                     {
-                        if(assetData->args->source_tilesets.size() > 0) {
+                        if ((assetData->args->processing_mode == MODE_MAIN_IMAGE) && (assetData->args->has_source_tilesets)) {
                             printf("found a tile not in the source tileset at %d,%d. The target tileset has %d extra tiles.\n", x, y, (unsigned int)assetData->args->extra_tile_count + 1);
                             assetData->args->extra_tile_count++;
                             assetData->args->includeTileData = true;
@@ -57,17 +59,21 @@ void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y, PNG
                     }
                 }
 
-                props |= pal_idx;
+                // Don't add metasprite tiles for source tilesets
+                if (assetData->args->processing_mode == MODE_MAIN_IMAGE) {
 
-                // Scale up index based on 8x8 tiles-per-hardware sprite
-                if(assetData->args->sprite_mode == SPR_8x16)
-                    idx *= 2;
-                else if(assetData->args->sprite_mode == SPR_16x16_MSX)
-                    idx *= 4;
+                    props |= pal_idx;
 
-                mt_sprite.push_back(MTTile(x - last_x, y - last_y, (unsigned char)idx, props));
-                last_x = x;
-                last_y = y;
+                    // Scale up index based on 8x8 tiles-per-hardware sprite
+                    if(assetData->args->sprite_mode == SPR_8x16)
+                        idx *= 2;
+                    else if(assetData->args->sprite_mode == SPR_16x16_MSX)
+                        idx *= 4;
+
+                    mt_sprite.push_back(MTTile(x - last_x, y - last_y, (unsigned char)idx, props));
+                    last_x = x;
+                    last_y = y;
+                }
             }
         }
     }

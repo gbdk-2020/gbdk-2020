@@ -32,41 +32,50 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
     //default values for some params
     args->spriteSize.width = 0;
     args->spriteSize.height = 0;
+    args->map_attributes_size.width = 0;
+    args->map_attributes_size.height = 0;
+    args->map_attributes_packed_size.width = 0;
+    args->map_attributes_packed_size.height = 0;
+
     args->pivot.x = 0xFFFFFF;
     args->pivot.y = 0xFFFFFF;
     args->pivot.width = 0xFFFFFF;
     args->pivot.height = 0xFFFFFF;
-    args->bank = -1;
+
+
+    args->max_palettes = 8;
+
     args->keep_palette_order = false;
     args->repair_indexed_pal = false;
     args->output_binary = false;
     args->output_transposed = false;
-    args->max_palettes = 8;
-
-    args->pack_mode = Tile::GB;
-    args->map_entry_size_bytes = 1;
-    args->flip_tiles = true;
-    args->props_default = 0;
-    args->keep_duplicate_tiles = false;
-    args->include_palettes = true;
-    args->includedMapOrMetaspriteData = true;
-    args->includeTileData = true;
-    args->use_structs = false;
     args->export_as_map = false;
     args->use_map_attributes = false;
     args->use_2x2_map_attributes = false;
     args->pack_map_attributes = false;
     args->convert_rgb_to_nes = false;
-    args->map_attributes_size.width = 0;
-    args->map_attributes_size.height = 0;
-    args->map_attributes_packed_size.width = 0;
-    args->map_attributes_packed_size.height = 0;
-    args->sprite_mode = SPR_8x16;
-    args->source_tileset_size = 0;
-    args->source_total_color_count = 0;
+    args->includeTileData = true;
+    args->includedMapOrMetaspriteData = true;
+    args->keep_duplicate_tiles = false;
+    args->include_palettes = true;
+    args->use_structs = false;
+    args->flip_tiles = true;
 
+    // args->errorCode;
+    args->bank = -1;
+    args->sprite_mode = SPR_8x16;
     args->bpp = 2;
+    args->props_default = 0;
+
     args->tile_origin = 0; // Default to no tile index offset
+    // args->extra_tile_count;
+    args->source_total_color_count = 0;
+    args->source_tileset_size = 0;
+    args->has_source_tilesets = false;
+    args->processing_mode = MODE_MAIN_IMAGE;
+
+    args->pack_mode = Tile::GB;
+    args->map_entry_size_bytes = 1;
 
 
     if(argc < 2)

@@ -4,7 +4,7 @@
 #include "cmp_int_color.h"
 using namespace std;
 unsigned char GetMapAttribute(size_t x, size_t y);
-void ReduceMapAttributes2x2(const vector< SetPal >& palettes);
+void ReduceMapAttributes2x2(PNG2AssetData* assetData);
 void AlignMapAttributes(PNG2AssetData* assetData);
 void PackMapAttributes(PNG2AssetData* assetData);
 void HandleMapAttributes( PNG2AssetData* assetData);

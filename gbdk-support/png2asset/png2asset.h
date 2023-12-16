@@ -28,7 +28,6 @@ public:
     vector< MetaSprite > sprites;
     vector< unsigned char > map;
     vector< unsigned char > map_attributes;
-    PNGImage source_tileset_image;
     PNGImage image;
 
 };
