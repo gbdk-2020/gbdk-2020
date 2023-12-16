@@ -122,9 +122,10 @@ bool export_h_file( PNG2AssetData* assetData) {
         fprintf(file, "\n");
 
         // If we are not using a source tileset, or if we have extra palettes defined
-        if (assetData->args->include_palettes &&
-            ((assetData->image.total_color_count - assetData->args->source_total_color_count > 0) || (assetData->args->source_tilesets.size()==0)) ) {
-            fprintf(file, "extern const palette_color_t %s_palettes[%d];\n", assetData->args->data_name.c_str(), (unsigned int)assetData->image.total_color_count - (unsigned int)assetData->args->source_total_color_count);
+        if (((assetData->image.total_color_count - assetData->args->source_total_color_count) > 0) || (assetData->args->has_source_tilesets == false)) {
+            if (assetData->args->include_palettes) {
+                fprintf(file, "extern const palette_color_t %s_palettes[%d];\n", assetData->args->data_name.c_str(), (unsigned int)assetData->image.total_color_count - (unsigned int)assetData->args->source_total_color_count);
+            }
         }
         if(assetData->args->includeTileData) {
             fprintf(file, "extern const uint8_t %s_tiles[%d];\n", assetData->args->data_name.c_str(), (unsigned int)((assetData->tiles.size() - assetData->args->source_tileset_size) * (assetData->image.tile_w * assetData->image.tile_h * assetData->args->bpp / 8)));
@@ -190,38 +191,39 @@ bool export_c_file( PNG2AssetData* assetData) {
     fprintf(file, "BANKREF(%s)\n\n", assetData->args->data_name.c_str());
 
     // Are we not using a source tileset, or do we have extra colors
-    if (assetData->args->include_palettes &&
-        ((assetData->image.total_color_count - assetData->args->source_total_color_count > 0) || (!assetData->args->source_tilesets.size() == 0)) ) {
+    if (((assetData->image.total_color_count - assetData->args->source_total_color_count) > 0) || (assetData->args->has_source_tilesets == false)) {
+        if (assetData->args->include_palettes) {
 
         // Subtract however many palettes we had in the source tileset
         fprintf(file, "const palette_color_t %s_palettes[%d] = {\n", assetData->args->data_name.c_str(), (unsigned int)assetData->image.total_color_count - (unsigned int)assetData->args->source_total_color_count);
 
-        // Offset by however many palettes we had in the source tileset
-        for(size_t i = assetData->args->source_total_color_count / assetData->image.colors_per_pal; i < assetData->image.total_color_count / assetData->image.colors_per_pal; ++i)
-        {
-            if(i != 0)
-                fprintf(file, ",\n");
-            fprintf(file, "\t");
-
-            unsigned char* pal_ptr = &assetData->image.palette[i * (assetData->image.colors_per_pal * RGBA32_SZ)];
-            for(int c = 0; c < (int)assetData->image.colors_per_pal; ++c, pal_ptr += RGBA32_SZ)
+            // Offset by however many palettes we had in the source tileset
+            for(size_t i = assetData->args->source_total_color_count / assetData->image.colors_per_pal; i < assetData->image.total_color_count / assetData->image.colors_per_pal; ++i)
             {
-                size_t rgb222 = (((pal_ptr[2] >> 6) & 0x3) << 4) |
-                    (((pal_ptr[1] >> 6) & 0x3) << 2) |
-                    (((pal_ptr[0] >> 6) & 0x3) << 0);
-                if(assetData->args->convert_rgb_to_nes) {
-                    fprintf(file, "0x%0X", rgb_to_nes[rgb222]);
+                if(i != 0)
+                    fprintf(file, ",\n");
+                fprintf(file, "\t");
+
+                unsigned char* pal_ptr = &assetData->image.palette[i * (assetData->image.colors_per_pal * RGBA32_SZ)];
+                for(int c = 0; c < (int)assetData->image.colors_per_pal; ++c, pal_ptr += RGBA32_SZ)
+                {
+                    size_t rgb222 = (((pal_ptr[2] >> 6) & 0x3) << 4) |
+                        (((pal_ptr[1] >> 6) & 0x3) << 2) |
+                        (((pal_ptr[0] >> 6) & 0x3) << 0);
+                    if(assetData->args->convert_rgb_to_nes) {
+                        fprintf(file, "0x%0X", rgb_to_nes[rgb222]);
+                    }
+                    else
+                        fprintf(file, "RGB8(%3d,%3d,%3d)", pal_ptr[0], pal_ptr[1], pal_ptr[2]);
+                    if(c != (int)assetData->image.colors_per_pal - 1)
+                        fprintf(file, ", ");
+                    // Line break every 4 color entries, to keep line width down
+                    if(((c + 1) % 4) == 0)
+                        fprintf(file, "\n\t");
                 }
-                else
-                    fprintf(file, "RGB8(%3d,%3d,%3d)", pal_ptr[0], pal_ptr[1], pal_ptr[2]);
-                if(c != (int)assetData->image.colors_per_pal - 1)
-                    fprintf(file, ", ");
-                // Line break every 4 color entries, to keep line width down
-                if(((c + 1) % 4) == 0)
-                    fprintf(file, "\n\t");
             }
+            fprintf(file, "\n};\n");
         }
-        fprintf(file, "\n};\n");
     }
 
     if(assetData->args->includeTileData) {

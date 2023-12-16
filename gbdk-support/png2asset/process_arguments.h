@@ -59,6 +59,8 @@ struct PNG2AssetArguments {
     size_t extra_tile_count;
     size_t source_total_color_count;  // Total number of colors (palette_count x colors_per_palette)
     unsigned int source_tileset_size;
+    bool has_source_tilesets;
+    int processing_mode;  // Whether the current image being processed is a source tileset is (MODE_SOURCE_TILESET) or the main image (MODE_MAIN_IMAGE)
 
     Tile::PackMode pack_mode;
     int map_entry_size_bytes;

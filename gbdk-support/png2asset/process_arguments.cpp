@@ -71,6 +71,8 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
     // args->extra_tile_count;
     args->source_total_color_count = 0;
     args->source_tileset_size = 0;
+    args->has_source_tilesets = false;
+    args->processing_mode = MODE_MAIN_IMAGE;
 
     args->pack_mode = Tile::GB;
     args->map_entry_size_bytes = 1;

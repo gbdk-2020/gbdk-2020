@@ -51,6 +51,10 @@ int ReadImageData_KeepPaletteOrder(  PNG2AssetData* assetData, string input_file
     //     Also see below about requirement to use palette from source image
     state.decoder.color_convert = false;
 
+    // Clearing is needed to ensure loading the png works
+    // (in cases where a previous png was loaded for source tilesets)
+    assetData->image.data.clear();
+
     unsigned error = lodepng::decode(assetData->image.data, assetData->image.w, assetData->image.h, state, buffer);
     // Unpack the image if needed. Also checks and errors on incompatible palette type if needed
     if(!image_indexed_ensure_8bpp(assetData->image.data, (int)state.info_png.color.bitdepth, (int)state.info_png.color.colortype))
@@ -68,6 +72,12 @@ int ReadImageData_KeepPaletteOrder(  PNG2AssetData* assetData, string input_file
     assetData->image.palette = new unsigned char[assetData->image.total_color_count * RGBA32_SZ];
     memcpy(assetData->image.palette, state.info_png.color.palette, assetData->image.total_color_count * RGBA32_SZ);
 
+    // Save a copy of the palette data if it's the source palette (free first if already allocated)
+    if (assetData->args->processing_mode == MODE_SOURCE_TILESET) {
+        if (assetData->image.source_tileset_palette) free(assetData->image.source_tileset_palette);
+        assetData->image.source_tileset_palette = new unsigned char[assetData->image.total_color_count * RGBA32_SZ];
+        memcpy(assetData->image.source_tileset_palette, state.info_png.color.palette, assetData->image.total_color_count * RGBA32_SZ);
+    }
 
 
     if(assetData->args->repair_indexed_pal)
@@ -82,22 +92,24 @@ int ReadImageData_KeepPaletteOrder(  PNG2AssetData* assetData, string input_file
     //     return 1;
     // }
 
-    // TODO: Only check this for the main image, not for source tilesets
-    if (assetData->args->source_tilesets.size() > 0) {
+    // Only check this for the main image, not for source tilesets
+    if ((assetData->args->processing_mode == MODE_MAIN_IMAGE) && (assetData->args->has_source_tilesets)) {
 
         // Make sure these two values match when keeping palette order
-        if(assetData->image.total_color_count != assetData->source_tileset_image.total_color_count) {
+        if(assetData->image.total_color_count != assetData->args->source_total_color_count) {
 
-            printf("error: The number of color palette's for your source tileset (%d) and target image (%d) do not match.", (unsigned int)assetData->source_tileset_image.total_color_count, (unsigned int)assetData->image.total_color_count);
+            printf("error: The number of color palettes for your source tileset (%d) and target image (%d) do not match.",
+                   (unsigned int)assetData->args->source_total_color_count, (unsigned int)assetData->image.total_color_count);
             return 1;
         }
 
-        size_t size = max(assetData->image.total_color_count, assetData->source_tileset_image.total_color_count);
+        size_t size = max(assetData->image.total_color_count, assetData->args->source_total_color_count);
+        // size_t size = max(assetData->image.total_color_count, assetData->source_tileset_image.total_color_count);
 
         // Make sure these two values match when keeping palette order
-        if(memcmp(assetData->image.palette, assetData->source_tileset_image.palette, size) != 0) {
+        if (memcmp(assetData->image.palette, assetData->image.source_tileset_palette, size) != 0) {
 
-            printf("error: The palette's for your source tileset and target image do not match.");
+            printf("error: The palettes for your source tileset and target image do not match.");
             return 1;
         }
     }
@@ -108,8 +120,7 @@ int ReadImageData_Default(PNG2AssetData* assetData, string  input_filename) {
 
     //load and decode png
     vector<unsigned char> buffer;
-    lodepng::load_file(buffer, assetData->args->input_filename);
-    // TODO: lodepng::load_file(buffer, input_filename);  // Use argument filename instead, should be needed for source tileset feature. Unclear why it is not used
+    lodepng::load_file(buffer, input_filename);
     lodepng::State state;
 
     PNGImage image32;
@@ -133,7 +144,9 @@ int ReadImageData_Default(PNG2AssetData* assetData, string  input_filename) {
 
     int* palettes_per_tile = BuildPalettesAndAttributes(image32, assetData->palettes, assetData->args->use_2x2_map_attributes);
 
-    //Create the indexed image
+    // Create the indexed image
+    // Clearing is needed to ensure loading the png works
+    // (in cases where a previous png was loaded for source tilesets)    
     assetData->image.data.clear();
     assetData->image.w = image32.w;
     assetData->image.h = image32.h;
@@ -145,9 +158,12 @@ int ReadImageData_Default(PNG2AssetData* assetData, string  input_filename) {
     // Pre-fill palette to all black. Prevents garbage in palette color slots that are unused (ex: only 3 colors when colors-per-pal is 4)
     memset(assetData->image.palette, 0, palette_count * assetData->image.colors_per_pal * RGBA32_SZ);
 
-    // TODO: If we are using a sourcetileset and have more palettes than it defines
-    if(assetData->args->source_tilesets.size() > 0 && (assetData->image.total_color_count > assetData->args->source_total_color_count)) {
-        printf("Found %d extra palette(s) for target tilemap.\n", (unsigned int)((assetData->image.total_color_count - assetData->args->source_total_color_count) / assetData->image.colors_per_pal));
+    // If using a source tileset and have more palettes than it defines
+    // (only check for main image data, not source tilesets)
+    if ((assetData->args->processing_mode == MODE_MAIN_IMAGE) && (assetData->args->has_source_tilesets)) {
+        if (assetData->image.total_color_count > assetData->args->source_total_color_count) {
+            printf("Found %d extra palette(s) for target tilemap.\n", (unsigned int)((assetData->image.total_color_count - assetData->args->source_total_color_count) / assetData->image.colors_per_pal));
+        }
     }
     for(size_t p = 0; p < palette_count; ++p)
     {
@@ -181,11 +197,14 @@ int ReadImageData_Default(PNG2AssetData* assetData, string  input_filename) {
 int ReadImageData( PNG2AssetData* assetData, string  input_filename) {
 
     assetData->image.colors_per_pal = static_cast<size_t>(1) << assetData->args->bpp;
+    // assetData->source_tileset_image.colors_per_pal = static_cast<size_t>(1) << assetData->args->bpp;
 
     if(assetData->args->export_as_map)
     {
         assetData->image.tile_w = 8; //Force tiles_w to 8 on maps
         assetData->image.tile_h = 8; //Force tiles_h to 8 on maps
+        // assetData->source_tileset_image.tile_w = 8; //Force tiles_w to 8 on maps
+        // assetData->source_tileset_image.tile_h = 8; //Force tiles_h to 8 on maps
         assetData->args->sprite_mode = SPR_NONE;
     }
 
@@ -208,13 +227,15 @@ int ReadImageData( PNG2AssetData* assetData, string  input_filename) {
     if(errorCode != 0)return errorCode;
 
 
-    if(assetData->args->spriteSize.width == 0) assetData->args->spriteSize.width = (int)assetData->image.w;
-    if(assetData->args->spriteSize.height == 0) assetData->args->spriteSize.height = (int)assetData->image.h;
-    if(assetData->args->pivot.x == 0xFFFFFF) assetData->args->pivot.x = (unsigned int)assetData->args->spriteSize.width / 2;
-    if(assetData->args->pivot.y == 0xFFFFFF) assetData->args->pivot.y = (unsigned int)assetData->args->spriteSize.height / 2;
-    if(assetData->args->pivot.width == 0xFFFFFF) assetData->args->pivot.width = assetData->args->spriteSize.width;
-    if(assetData->args->pivot.height == 0xFFFFFF) assetData->args->pivot.height = assetData->args->spriteSize.height;
-
+    // Only set this data when processing the main image
+    if (assetData->args->processing_mode == MODE_MAIN_IMAGE) {
+        if(assetData->args->spriteSize.width == 0)    assetData->args->spriteSize.width = (int)assetData->image.w;
+        if(assetData->args->spriteSize.height == 0)   assetData->args->spriteSize.height = (int)assetData->image.h;
+        if(assetData->args->pivot.x == 0xFFFFFF)      assetData->args->pivot.x = (unsigned int)assetData->args->spriteSize.width / 2;
+        if(assetData->args->pivot.y == 0xFFFFFF)      assetData->args->pivot.y = (unsigned int)assetData->args->spriteSize.height / 2;
+        if(assetData->args->pivot.width == 0xFFFFFF)  assetData->args->pivot.width = assetData->args->spriteSize.width;
+        if(assetData->args->pivot.height == 0xFFFFFF) assetData->args->pivot.height = assetData->args->spriteSize.height;
+    }
     return 0;
 }
 

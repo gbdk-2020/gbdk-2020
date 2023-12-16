@@ -34,8 +34,10 @@ void GetMap( PNG2AssetData* assetData)
             size_t idx;
             unsigned char props;
 
-            if(assetData->args->keep_duplicate_tiles)
-            {
+            // When both -keep_duplicate_tiles and source tilesets are used then
+            // keep_duplicate_tiles should only apply to source tilesets, not the main image
+            if ((assetData->args->keep_duplicate_tiles) &&
+                ((assetData->args->has_source_tilesets == false) || (assetData->args->processing_mode == MODE_SOURCE_TILESET))) {
                 assetData->tiles.push_back(tile);
                 idx = assetData->tiles.size() - 1;
                 props = assetData->args->props_default;
@@ -44,7 +46,7 @@ void GetMap( PNG2AssetData* assetData)
             {
                 if(!FindTile(tile, idx, props,assetData))
                 {
-                    if(assetData->args->source_tilesets.size() > 0) {
+                    if ((assetData->args->processing_mode == MODE_MAIN_IMAGE) && (assetData->args->has_source_tilesets)) {
                         printf("found a tile not in the source tileset at %d,%d. The target tileset has %d extra tiles.\n", x, y, (unsigned int)assetData->args->extra_tile_count + 1);
                         assetData->args->extra_tile_count++;
                         assetData->args->includeTileData = true;
@@ -61,36 +63,41 @@ void GetMap( PNG2AssetData* assetData)
                 }
             }
 
-            assetData->map.push_back((unsigned char)idx + assetData->args->tile_origin);
 
-            if(assetData->args->use_map_attributes)
-            {
-                unsigned char pal_idx = assetData->image.data[y * assetData->image.w + x] >> assetData->args->bpp; //We can pick the palette from the first pixel of this tile
-                if(assetData->args->pack_mode == Tile::SGB)
+            // Don't add map tiles and attributes for source tilesets
+            if (assetData->args->processing_mode == MODE_MAIN_IMAGE) {
+                assetData->map.push_back((unsigned char)idx + assetData->args->tile_origin);
+
+                if(assetData->args->use_map_attributes)
                 {
-                    props = props << 1; //Mirror flags in SGB are on bit 7
-                    props |= (pal_idx + 4) << 2; //Pals are in bits 2,3,4 and need to go from 4 to 7
-                    assetData->map.push_back(props); //Also they are stored within the map tiles
-                }
-                else if(assetData->args->pack_mode == Tile::SMS)
-                {
-                    props = props >> 4;
-                    if(idx > 255)
-                        props |= 1;
-                    assetData->map.push_back(props);
-                }
-                else
-                {
-                    props |= pal_idx;
-                    assetData->map_attributes.push_back(props);
+                    unsigned char pal_idx = assetData->image.data[y * assetData->image.w + x] >> assetData->args->bpp; //We can pick the palette from the first pixel of this tile
+                    if(assetData->args->pack_mode == Tile::SGB)
+                    {
+                        props = props << 1; //Mirror flags in SGB are on bit 7
+                        props |= (pal_idx + 4) << 2; //Pals are in bits 2,3,4 and need to go from 4 to 7
+                        assetData->map.push_back(props); //Also they are stored within the map tiles
+                    }
+                    else if(assetData->args->pack_mode == Tile::SMS)
+                    {
+                        props = props >> 4;
+                        if(idx > 255)
+                            props |= 1;
+                        assetData->map.push_back(props);
+                    }
+                    else
+                    {
+                        props |= pal_idx;
+                        assetData->map_attributes.push_back(props);
+                    }
                 }
             }
-
         }
     }
 
 
-
-    HandleMapAttributes( assetData);
+    // Don't add map tiles and attributes for source tilesets
+    if (assetData->args->processing_mode == MODE_MAIN_IMAGE) {
+        HandleMapAttributes( assetData);
+    }
 }
 

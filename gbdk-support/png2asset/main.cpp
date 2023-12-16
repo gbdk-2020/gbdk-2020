@@ -39,17 +39,20 @@ int main(int argc, char* argv[])
         return errorCode;
     }
 
+    // The png2AssetInstance tile and palette data is retained after
+    // processing source tilesets and so is shared with the main image
     PNG2AssetData png2AssetInstance;
 
     // If we have a source tileset
-    if(arguments.source_tilesets.size() > 0) {
+    if (arguments.source_tilesets.size() > 0) {
 
         vector<string>::iterator sourceTilesetFileNameIter = arguments.source_tilesets.begin();
 
         // Iterate through each source tileset and execute
         while (sourceTilesetFileNameIter < arguments.source_tilesets.end()) {
 
-            // Run with our source tileset filename
+            // Run with current source tileset filename
+            arguments.processing_mode = MODE_SOURCE_TILESET;
             errorCode = png2AssetInstance.Execute(&arguments, *sourceTilesetFileNameIter);
 
             // Return the error code if the function returns non-zero
@@ -61,12 +64,22 @@ int main(int argc, char* argv[])
         }
 
         // Save these values for later usage on the main execution
-        arguments.source_tileset_size = (unsigned int)png2AssetInstance.tiles.size();
+        arguments.source_tileset_size      = (unsigned int)png2AssetInstance.tiles.size();
         arguments.source_total_color_count = png2AssetInstance.image.total_color_count;
+
+        // Clearing map and attributes isn't needed here since adding them is blocked for source tileset data
+        // (pre-refactor png2asset used map.clear() and map_attributes.clear() )
+
+        arguments.has_source_tilesets = true;
+        printf("Got %d tiles from the source tileset.\n", (unsigned int)arguments.source_tileset_size);
+        printf("Got %d palettes from the source tileset.\n", (unsigned int)(arguments.source_total_color_count / png2AssetInstance.image.colors_per_pal));        
     }
+
+
 
     // Run the primary input file
     // Return the error code if the function returns non-zero
+    arguments.processing_mode = MODE_MAIN_IMAGE;
     if((errorCode = png2AssetInstance.Execute(&arguments, arguments.input_filename)) != 0) {
         return errorCode;
     }
