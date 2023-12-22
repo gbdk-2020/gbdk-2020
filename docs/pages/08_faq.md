@@ -92,9 +92,9 @@
 
 # Debugging / Compiling / Toolchain
   - What flags should be enabled for debugging?
-    - You can use the @ref lcc_debug "lcc debug flag" `-debug`to turn on debug output. It covers most uses and removes the need to specify multiple flags such as `-Wa-l -Wl-m -Wl-j`. <!-- -->  
+    - You can use the @ref lcc_debug "lcc debug flag" `-debug`to turn on debug output. It covers most uses and removes the need to specify multiple flags such as `-Wa-l -Wl-m -Wl-j`. Also see @ref tools_debug. <!-- -->  
 
-  - Is it possible to generate a debug symbol file (`.sym`) compatible with the @ref bgb emulator?
+  - Is it possible to generate a debug symbol file (`.sym`) compatible with an emulator?
     - Yes, turn on `.noi` output (LCC argument: `-Wl-j` or `-debug` and then use `-Wm-yS` with LCC (or `-yS` with makebin directly). <!-- -->  
 
   - How do I move the start of the `DATA` section and the `Shadow OAM` location?

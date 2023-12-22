@@ -119,23 +119,25 @@ This is a brief list of useful tools and information. It is not meant to be comp
 
 @anchor tools_emulators
 # Emulators
+  - @anchor emulicious
+    __Emulicious__  
+    An accurate emulator with extensive tools including source level debugging.
+    https://emulicious.net/
+
   - @anchor bgb
     __BGB__  
     Accurate emulator, has useful debugging tools.  
     http://bgb.bircd.org/
-
-  - @anchor emulicious
-    __Emulicious__  
-    An accurate emulator with extensive tools including source level debugging.  
-    https://emulicious.net/
 
 
 @anchor tools_debug
 # Debugging tools
   - @anchor Emulicious_debug
     __Emulicious debug adapter__  
-    Provides source-level debugging in VS Code that works with GBDK2020.  
+    Provides source-level debugging in VS Code and Sublime Text that works with GBDK2020.  
     https://marketplace.visualstudio.com/items?itemName=emulicious.emulicious-debugger
+    - If compiler optimization is making the program source hard to step through in the debugger then adding this flag to @ref lcc can help. Note that using this flag will likely reduce code performance and increase code size while enabled, so it is best to only use it temporarily.
+        - `-Wf--max-allocs-per-node0`
 
   - @anchor romusage
     __romusage__  
