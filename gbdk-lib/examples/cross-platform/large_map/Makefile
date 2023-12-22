@@ -37,7 +37,7 @@ P2AFLAGS = $(P2AFLAGS_$(EXT))
 # You can set the name of the ROM file here
 PROJECTNAME = large-map
 
-CFLAGS = -Wf-MMD
+CFLAGS = -Wf-MMD -Wf-Wp-MP # Header file dependency output (-MMD) for Makefile use + per-header Phoney rules (-MP)
 
 # EXT?=gb # Only sets extension to default (game boy .gb) if not populated
 SRCDIR      = src
@@ -75,7 +75,7 @@ $(RESOBJSRC)/%.c:	$(RESDIR)/%.png
 $(OBJDIR)/%.o:	$(RESOBJSRC)/%.c
 	$(LCC) $(CFLAGS) -c -o $@ $<
 
-# Dependencies
+# Dependencies (using output from -Wf-MMD -Wf-Wp-MP)
 DEPS = $(OBJS:%.o=%.d)
 
 -include $(DEPS)
