@@ -579,7 +579,7 @@ usage: png2asset    <file>.png [options]
 -keep_palette_order use png palette
 -repair_indexed_pal try to repair indexed tile palettes (implies "-keep_palette_order")
 -noflip             disable tile flip
--map                Export as map (tileset + bg)
+-map                Export as map (tileset + bg) instead of default metasprite output
 -use_map_attributes Use CGB BG Map attributes
 -use_nes_attributes Use NES BG Map attributes
 -use_nes_colors     Convert RGB color values to NES PPU colors
@@ -597,6 +597,7 @@ usage: png2asset    <file>.png [options]
 -no_palettes        do not export palette data
 -bin                export to binary format
 -transposed         export transposed (column-by-column instead of row-by-row)
+decoder error empty input buffer given to decoder. Maybe caused by non-existing file?
 ```
 @anchor png2hicolorgb-settings
 # png2hicolorgb settings
@@ -636,4 +637,60 @@ Historical credits and info:
    Original Quantiser Code : Benny
    Quantiser Conversion : Glen Cook
 
+```
+@anchor romusage-settings
+# romusage settings
+```
+romusage input_file.[map|noi|ihx|cdb|.gb[c]|.pocket|.duck|.gg|.sms] [options]
+version 1.2.8, by bbbbbr
+
+Options
+-h  : Show this help
+-p:SMS_GG : Set platform to GBDK SMS/Game Gear (changes memory map templates)
+
+-a  : Show Areas in each Bank. Optional sort by, address:"-aA" or size:"-aS" 
+-g  : Show a small usage graph per bank (-gA for ascii style)
+-G  : Show a large usage graph per bank (-GA for ascii style)
+-B  : Brief (summarized) output for banked regions. Auto scales max bank
+      shows [Region]_[Max Used Bank] / [auto-sized Max Bank Num]
+-F  : Force Max ROM and SRAM bank num for -B. (0 based) -F:ROM:SRAM (ex: -F:255:15)
+
+-m  : Manually specify an Area -m:NAME:HEXADDR:HEXLENGTH
+-e  : Manually specify an Area that should not overlap -e:NAME:HEXADDR:HEXLENGTH
+-E  : All areas are exclusive (except HEADERs), warn for any overlaps
+-q  : Quiet, no output except warnings and errors
+-Q  : Suppress output of warnings and errors
+-R  : Return error code for Area warnings and errors
+
+-sR : [Rainbow] Color output (-sRe for Row Ends, -sRd for Center Dimmed, -sRp % based)
+-sP : Custom Color Palette. Colon separated entries are decimal VT100 color codes
+      -sP:DEFAULT:ROM:VRAM:SRAM:WRAM:HRAM (section based color only)
+-sC : Show Compact Output, hide non-essential columns
+-sH : Show HEADER Areas (normally hidden)
+-smROM  : Show Merged ROM_0  and ROM_1  output (i.e. bare 32K ROM)
+-smWRAM : Show Merged WRAM_0 and WRAM_1 output (i.e DMG/MGB not CGB)
+          -sm* compatible with banked ROM_x or WRAM_x when used with -B
+-sJ : Show JSON output. Some options not applicable. When used, -Q recommended
+-nB : Hide warning banner (for .cdb output)
+-nA : Hide areas (shown by default in .cdb output)
+-z  : Hide areas smaller than SIZE -z:DECSIZE
+
+Use: Read a .map, .noi, .cdb or .ihx file to display area sizes
+Example 1: "romusage build/MyProject.map"
+Example 2: "romusage build/MyProject.noi -a -e:STACK:DEFF:100 -e:SHADOW_OAM:C000:A0"
+Example 3: "romusage build/MyProject.ihx -g"
+Example 4: "romusage build/MyProject.map -q -R"
+Example 5: "romusage build/MyProject.noi -sR -sP:90:32:90:35:33:36"
+Example 6: "romusage build/MyProject.map -sRp -g -B -F:255:15 -smROM -smWRAM"
+
+Notes:
+  * GBDK / RGBDS map file format detection is automatic.
+  * Estimates are as close as possible, but may not be complete.
+    Unless specified with -m/-e they *do not* factor regions lacking
+    complete ranges in the Map/Noi/Ihx file, for example Shadow OAM and Stack.
+  * IHX files can only detect overlaps, not detect memory region overflows.
+  * CDB file output ONLY counts (most) data from C sources.
+    It cannot count functions and data from ASM and LIBs,
+    so bank totals may be incorrect/missing.
+  * GB/GBC/ROM files are just guessing, no promises.
 ```

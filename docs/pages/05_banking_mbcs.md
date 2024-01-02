@@ -321,12 +321,12 @@ A _bank overflow_ during compile/link time (in @ref makebin) is when more code a
 
 See the @ref faq_bank_overflow_errors "FAQ entry about bank overflow errors".
 
-The current toolchain can only detect and warn (using @ref ihxcheck) when one bank overflows into another bank that has data at its start. It cannot warn if a bank overflows into an empty one. For more complete detection, you can use the third-party @ref romusage tool.
+The current toolchain can only detect and warn (using @ref ihxcheck) when one bank overflows into another bank that has data at its start. It cannot warn if a bank overflows into an empty one. For more complete detection, you can use the @ref romusage tool.
 
 
 
 # Bank space usage
-In order to see how much space is used or remains available in a bank, you can use the third-party @ref romusage tool.
+In order to see how much space is used or remains available in a bank you can use the @ref romusage tool.
 
 
 ## Other important notes
