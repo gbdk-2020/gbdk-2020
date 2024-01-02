@@ -142,7 +142,7 @@ This is a brief list of useful tools and information. It is not meant to be comp
   - @anchor romusage
     __romusage__  
     Calculate used and free space in banks (ROM/RAM) and warn about errors such as bank overflows.  
-    https://github.com/bbbbbr/romusage
+    See @ref romusage-settings
 
   - @anchor bgb_symbol_conversion
     __noi file to sym conversion for bgb__  
