@@ -299,7 +299,7 @@ unaligned_x_column_loop:
 lbl:
 .endm
 unaligned_y:
-.define pRow    "__TEMP"
+.define pRow    "REGTEMP"
 ; Round num_rows
     lda *.attribute_num_rows_odd
     bpl 9$

@@ -13,7 +13,7 @@ ___rand_seed::
 
 .area _HOME
 
-.define .tmp "__TEMP"
+.define .tmp "REGTEMP"
 
 ;
 ; Returns an 8-bit / 16-bit rand value and updates the seed.

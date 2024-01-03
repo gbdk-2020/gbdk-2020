@@ -1,8 +1,8 @@
 ;-------------------------------------------------------------------------
-;   _muluchar.s - routine for multiplication of 16 bit (unsigned) int
+;   _muluchar.s - routine for multiplication of 8 bit (unsigned char)
 ;
 ;   Copyright (C) 2009, Ullrich von Bassewitz
-;   Copyright (C) 2022, Gabriele Gorla
+;   Copyright (C) 2022-2023, Gabriele Gorla
 ;
 ;   This library is free software; you can redistribute it and/or modify it
 ;   under the terms of the GNU General Public License as published by the
@@ -32,11 +32,11 @@
 ;--------------------------------------------------------
 ; exported symbols
 ;--------------------------------------------------------
-	.globl __muluchar
-	.globl ___umul8
-	
+	.globl __muluchar   ; arguments in A and X, result in AX
+	.globl ___umul8     ; arguments in ret0 and ret1, result in AX
+
 ;--------------------------------------------------------
-; overlayable function paramters in zero page
+; overlayable function parameters in zero page
 ;--------------------------------------------------------
 	.area	OSEG    (PAG, OVR)
 
@@ -52,20 +52,19 @@
 	.area _CODE
 
 __muluchar:
-	sta     arg1
-	stx	arg2
+	sta     *arg1
+	stx	*arg2
 ___umul8:
         lda     #0              ; Clear byte 1
         ldy     #8              ; Number of bits
-        lsr     arg2            ; Get first bit of RHS into carry
+        lsr     *arg2           ; Get first bit of RHS into carry
 L0:    	bcc	L1
         clc
-        adc     arg1
+        adc     *arg1
 L1:    	ror
-        ror     arg2
+        ror     *arg2
         dey
         bne    	L0
-        tax
-;//        stx     arg2+1          ; Result in .XA and ptr1
-        lda     arg2            ; Load the result
+        tax                     ; Load the result MSB
+        lda     *arg2           ; Load the result LSB
         rts                     ; Done

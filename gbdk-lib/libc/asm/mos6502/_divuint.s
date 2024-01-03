@@ -40,7 +40,7 @@
 	.globl ___udivmod16
 
 ;--------------------------------------------------------
-; overlayable function paramters in zero page
+; overlayable function parameters in zero page
 ;--------------------------------------------------------
 	.area	OSEG    (PAG, OVR)
 __divuint_PARM_2:

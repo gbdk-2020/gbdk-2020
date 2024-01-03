@@ -1,8 +1,9 @@
 ;-------------------------------------------------------------------------
-;   _mulint.s - routine for multiplication of 16 bit (unsigned) int
+;   memcpy.s - standarc C library
 ;
-;   Copyright (C) 2009, Ullrich von Bassewitz
-;   Copyright (C) 2022, Gabriele Gorla
+;   Copyright (C) 2003, Ullrich von Bassewitz
+;   Copyright (C) 2009, Christian Krueger
+;   Copyright (C) 2022-2023, Gabriele Gorla
 ;
 ;   This library is free software; you can redistribute it and/or modify it
 ;   under the terms of the GNU General Public License as published by the
@@ -27,56 +28,74 @@
 ;   might be covered by the GNU General Public License.
 ;-------------------------------------------------------------------------
 
-	.module _mulint
+;	.module __memcpy
 
 ;--------------------------------------------------------
 ; exported symbols
 ;--------------------------------------------------------
-	.globl __mulint_PARM_2
-	.globl __mulint
+	.globl ___memcpy_PARM_2
+	.globl ___memcpy_PARM_3
+	.globl ___memcpy
+	.globl _memcpy_PARM_2
+	.globl _memcpy_PARM_3
+	.globl _memcpy
 
 ;--------------------------------------------------------
 ; overlayable function parameters in zero page
 ;--------------------------------------------------------
 	.area	OSEG    (PAG, OVR)
-__mulint_PARM_2:
+_memcpy_PARM_2:
+___memcpy_PARM_2:
+	.ds 2
+_memcpy_PARM_3:
+___memcpy_PARM_3:
 	.ds 2
 
 ;--------------------------------------------------------
 ; local aliases
 ;--------------------------------------------------------
-	.define tmp "___SDCC_m6502_ret2"
+	.define save  "REGTEMP+0"
+	.define dst   "DPTR"
+	.define src   "___memcpy_PARM_2"
+	.define count "___memcpy_PARM_3"
 
 ;--------------------------------------------------------
 ; code
 ;--------------------------------------------------------
 	.area _CODE
 
-__mulint:
-	sta	*___SDCC_m6502_ret0
-	stx	*___SDCC_m6502_ret1
-	lda	#0
-	sta	*tmp
-	ldy	#16
-	lsr	*___SDCC_m6502_ret1
-	ror	*___SDCC_m6502_ret0
-next_bit:
-	bcc	skip
-	clc
-	adc	*__mulint_PARM_2+0
-	tax
-	lda	*__mulint_PARM_2+1
-	adc	*tmp
-	sta	*tmp
-	txa
-skip:
-	ror	*tmp
-	ror	a
-	ror	*___SDCC_m6502_ret1
-	ror	*___SDCC_m6502_ret0
-	dey
-	bne	next_bit
+_memcpy:
+___memcpy:
+	sta	*save+0
+	stx	*save+1
+	sta	*dst+0
+	stx	*dst+1
 
-	lda	*___SDCC_m6502_ret0
-	ldx	*___SDCC_m6502_ret1
+	ldy	#0
+	ldx	*count+1
+	beq	00002$
+00001$:
+	lda	[src],y
+	sta	[dst],y
+	iny
+	lda	[src],y
+	sta	[dst],y
+	iny
+	bne	00001$
+	inc	*src+1
+	inc	*dst+1
+	dex
+	bne	00001$
+00002$:
+	ldx	*count+0
+	beq	00004$
+00003$:
+	lda	[src],y
+	sta	[dst],y
+	iny
+	dex
+	bne	00003$
+00004$:
+	lda	*save+0
+	ldx	*save+1
 	rts

@@ -36,7 +36,7 @@
 	.globl _strcpy
 
 ;--------------------------------------------------------
-; overlayable function paramters in zero page
+; overlayable function parameters in zero page
 ;--------------------------------------------------------
 	.area	OSEG    (PAG, OVR)
 _strcpy_PARM_2:
@@ -46,7 +46,7 @@ _strcpy_PARM_2:
 ; local aliases
 ;--------------------------------------------------------
 	.define _src "_strcpy_PARM_2"
-	.define _dst "___SDCC_m6502_ret0"
+	.define _dst "DPTR"
 	
 ;--------------------------------------------------------
 ; code
@@ -56,15 +56,11 @@ _strcpy_PARM_2:
 _strcpy:
 	sta	*_dst+0
 	stx	*_dst+1
-;//	lda	_strcpy_PARM_2+0
-;//	sta	*_src+0
-;//	ldx	_strcpy_PARM_2+1
-;//	stx	*_src+1
 
 	ldy	#0
 cpy_loop:
-	lda	[*_src],y
-	sta	[*_dst],y
+	lda	[_src],y
+	sta	[_dst],y
 	beq	end
 	iny
 	bne	cpy_loop

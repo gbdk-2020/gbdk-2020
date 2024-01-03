@@ -29,26 +29,26 @@ jobs:
       - name: Linux Depends
         if: matrix.name == 'Linux-x64'
         run: |
-          curl -Lo sdcc.tar.gz https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-patched-gbdk-4.2.0-Next/sdcc-14228-Linux-x64.tar.gz
+          curl -Lo sdcc.tar.gz https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-patched-gbdk-4.2.0-Next/sdcc-14581-Linux-x64.tar.gz
           tar xvfz sdcc.tar.gz
 
       - name: MacOS Depends
         if: matrix.name == 'MacOS-x64'
         run: |
-          curl -Lo sdcc.tar.gz https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-patched-gbdk-4.2.0-Next/sdcc-14228-MacOS-x64.tar.gz
+          curl -Lo sdcc.tar.gz https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-patched-gbdk-4.2.0-Next/sdcc-14581-MacOS-x64.tar.gz
           tar xvfz sdcc.tar.gz
 
       - name: Windows-x64 Depends
         if: matrix.name == 'Windows-x64'
         run: |
-          curl -Lo sdcc.tar.gz https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-patched-gbdk-4.2.0-Next/sdcc-14228-Win64-On-Linux.tar.gz
+          curl -Lo sdcc.tar.gz https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-patched-gbdk-4.2.0-Next/sdcc-14581-Win64-On-Linux.tar.gz
           7z x sdcc.tar.gz
           7z x sdcc.tar
 
       - name: Windows-x32 Depends
         if: matrix.name == 'Windows-x32'
         run: |
-          curl -Lo sdcc.tar.gz https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-patched-gbdk-4.2.0-Next/sdcc-14228-Win32-On-Linux.tar.gz
+          curl -Lo sdcc.tar.gz https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-patched-gbdk-4.2.0-Next/sdcc-14581-Win32-On-Linux.tar.gz
           7z x sdcc.tar.gz
           7z x sdcc.tar
 

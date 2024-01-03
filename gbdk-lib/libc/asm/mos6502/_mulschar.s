@@ -1,8 +1,8 @@
 ;-------------------------------------------------------------------------
-;   _mulschar.s - routine for multiplication of 16 bit (unsigned) int
+;   _mulschar.s - routine for multiplication of 8 bit signed char
 ;
 ;   Copyright (C) 2009, Ullrich von Bassewitz
-;   Copyright (C) 2022, Gabriele Gorla
+;   Copyright (C) 2022-2023, Gabriele Gorla
 ;
 ;   This library is free software; you can redistribute it and/or modify it
 ;   under the terms of the GNU General Public License as published by the
@@ -37,7 +37,7 @@
 	.globl __mulsuchar
 
 ;--------------------------------------------------------
-; overlayable function paramters in zero page
+; overlayable function parameters in zero page
 ;--------------------------------------------------------
 	.area	OSEG    (PAG, OVR)
 
@@ -55,26 +55,26 @@
 	.area _CODE
 
 __mulschar:
-	sta	s1
+	sta	*s1
 	cmp	#0x00
 	bpl 	pos1
 	sec
 	eor	#0xff
 	adc	#0x00
 pos1:	
-	sta     arg1
+	sta     *arg1
 	txa
-	sta	s2
+	sta	*s2
 	bpl 	pos2
 	sec
 	eor	#0xff
 	adc	#0x00
 pos2:	
-	sta     arg2
+	sta     *arg2
 	
 	jsr 	___umul8
-	lda	s1
-	eor	s2
+	lda	*s1
+	eor	*s2
 	bpl	skip
 	lda	arg2
 	jmp	___negax
@@ -83,9 +83,9 @@ skip:	lda 	arg2
 	rts
 
 __muluschar:
-	stx	__mulint_PARM_2
+	stx	*__mulint_PARM_2
 	ldx	#0x00
-	stx	__mulint_PARM_2+1
+	stx	*__mulint_PARM_2+1
 	cmp	#0x00
 	bpl	pos1m
 	ldx 	#0xff
@@ -93,10 +93,10 @@ pos1m:
 	jmp	__mulint
 	
 __mulsuchar:
-	sta	__mulint_PARM_2
+	sta	*__mulint_PARM_2
 	txa
 	ldx	#0x00
-	stx	__mulint_PARM_2+1
+	stx	*__mulint_PARM_2+1
 	cmp	#0x00
 	bpl	pos2m
 	ldx 	#0xff

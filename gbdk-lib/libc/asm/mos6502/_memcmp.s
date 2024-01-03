@@ -1,8 +1,9 @@
 ;-------------------------------------------------------------------------
-;   _mulint.s - routine for multiplication of 16 bit (unsigned) int
+;   memcmp.s - standarc C library
 ;
-;   Copyright (C) 2009, Ullrich von Bassewitz
-;   Copyright (C) 2022, Gabriele Gorla
+;   Copyright (C) 2003, Ullrich von Bassewitz
+;   Copyright (C) 2009, Christian Krueger
+;   Copyright (C) 2023, Gabriele Gorla
 ;
 ;   This library is free software; you can redistribute it and/or modify it
 ;   under the terms of the GNU General Public License as published by the
@@ -27,56 +28,73 @@
 ;   might be covered by the GNU General Public License.
 ;-------------------------------------------------------------------------
 
-	.module _mulint
+	.module memcmp
 
 ;--------------------------------------------------------
 ; exported symbols
 ;--------------------------------------------------------
-	.globl __mulint_PARM_2
-	.globl __mulint
+	.globl _memcmp_PARM_2
+	.globl _memcmp_PARM_3
+	.globl _memcmp
 
 ;--------------------------------------------------------
 ; overlayable function parameters in zero page
 ;--------------------------------------------------------
 	.area	OSEG    (PAG, OVR)
-__mulint_PARM_2:
+_memcmp_PARM_2:
+	.ds 2
+_memcmp_PARM_3:
 	.ds 2
 
 ;--------------------------------------------------------
 ; local aliases
 ;--------------------------------------------------------
-	.define tmp "___SDCC_m6502_ret2"
+	.define s1    "DPTR"
+	.define s2    "_memcmp_PARM_2"
+	.define count "_memcmp_PARM_3"
 
 ;--------------------------------------------------------
 ; code
 ;--------------------------------------------------------
 	.area _CODE
+	
+;--------------------------------------------------------
+; int memcmp (int *s1, int *s2, int count)
+;--------------------------------------------------------
 
-__mulint:
-	sta	*___SDCC_m6502_ret0
-	stx	*___SDCC_m6502_ret1
-	lda	#0
-	sta	*tmp
-	ldy	#16
-	lsr	*___SDCC_m6502_ret1
-	ror	*___SDCC_m6502_ret0
-next_bit:
-	bcc	skip
-	clc
-	adc	*__mulint_PARM_2+0
-	tax
-	lda	*__mulint_PARM_2+1
-	adc	*tmp
-	sta	*tmp
+_memcmp:
+	sta	*s1+0
+	stx	*s1+1
+	ldy	#0
+	ldx	*count+1
+	beq	endhi
+hiloop:
+	lda	[s1],y
+	cmp	[s2],y
+	bne	noteq
+	iny
+	bne	hiloop
+	inc	*s1+1
+	inc	*s2+1
+	dex
+	bne	hiloop
+endhi:
+	ldx	*count+0
+	beq	end
+loloop:
+	lda	[s1],y
+	cmp	[s2],y
+	bne	noteq
+	iny
+	dex
+	bne	loloop
+end:
 	txa
-skip:
-	ror	*tmp
-	ror	a
-	ror	*___SDCC_m6502_ret1
-	ror	*___SDCC_m6502_ret0
-	dey
-	bne	next_bit
-
-	lda	*___SDCC_m6502_ret0
-	ldx	*___SDCC_m6502_ret1
+	rts
+noteq:
+	bcs	L2
+	ldx	#0xFF
+	rts
+L2:
+	ldx	#0x01
 	rts
