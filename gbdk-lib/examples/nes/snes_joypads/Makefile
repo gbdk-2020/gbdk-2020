@@ -1,4 +1,4 @@
-CC	= ../../../bin/lcc -mmos6502:nes -Wm-yoA -Wl-j
+CC	= ../../../bin/lcc -mmos6502:nes -Wm-yoA -Wl-j -debug -v -Wl-u -Wl-w
 
 BINS	= snes_joypads.nes
 

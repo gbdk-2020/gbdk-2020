@@ -22,8 +22,10 @@ LCCFLAGS += $(LCCFLAGS_$(EXT)) # This adds the current platform specific LCC Fla
 
 # If -autobank is specified then lcc will automatically add -Wm-yoA if no -yo* entry is present
 LCCFLAGS += -Wl-j -Wm-ya4 -autobank -Wb-ext=.rel -Wb-v # MBC + Autobanking related flags
-# LCCFLAGS += -debug # Uncomment to enable debug output
-# LCCFLAGS += -v     # Uncomment for lcc verbose output
+LCCFLAGS += -debug # Enable debug output
+LCCFLAGS += -v     # Enable lcc verbose output
+LCCFLAGS += -Wl-u  # Enable .lst -> .rst address update
+LCCFLAGS += -Wl-w  # Enable wide listing in .map file
 
 CFLAGS      = -Iinclude
 

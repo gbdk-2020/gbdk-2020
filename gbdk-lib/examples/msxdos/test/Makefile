@@ -1,4 +1,4 @@
-CC	= ../../../bin/lcc -mz80:msxdos -Wm-yoA -Wl-j
+CC	= ../../../bin/lcc -mz80:msxdos -Wm-yoA -Wl-j -debug -v -Wl-u -Wl-w
 
 BINS	= test.com
 

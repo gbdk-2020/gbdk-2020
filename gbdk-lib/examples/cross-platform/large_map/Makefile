@@ -21,8 +21,10 @@ LCCFLAGS_nes     = -autobank
 LCCFLAGS += $(LCCFLAGS_$(EXT)) # This adds the current platform specific LCC Flags
 
 LCCFLAGS += -Wl-j -Wm-yoA -Wm-ya4 -Wb-ext=.rel -Wb-v # MBC + Autobanking related flags
-#LCCFLAGS += -debug # Uncomment to enable debug output
-#LCCFLAGS += -v     # Uncomment for lcc verbose output
+LCCFLAGS += -debug # Enable debug output
+LCCFLAGS += -v     # Enable lcc verbose output
+LCCFLAGS += -Wl-u  # Enable .lst -> .rst address update
+LCCFLAGS += -Wl-w  # Enable wide listing in .map file
 
 P2AFLAGS_gb     = -map -bpp 2 -max_palettes 4 -pack_mode gb -noflip
 P2AFLAGS_gbc    = -map -use_map_attributes -bpp 2 -max_palettes 8 -pack_mode gb

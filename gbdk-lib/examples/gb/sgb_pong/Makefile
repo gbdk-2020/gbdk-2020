@@ -1,4 +1,4 @@
-CC	= ../../../bin/lcc -Wa-l -Wl-m -Wl-j -Wm-ys
+CC	= ../../../bin/lcc -Wa-l -Wl-m -Wl-j -Wm-ys -debug -v -Wl-u -Wl-w
 
 BINS	= sgb_pong.gb
 

@@ -1,4 +1,4 @@
-CC	= ../../../bin/lcc -Wa-l -Wl-m -Wl-j
+CC	= ../../../bin/lcc -Wa-l -Wl-m -Wl-j -debug -v -Wl-u -Wl-w
 
 BINS	= sound.gb sound.duck
 # BINS	= sound.gb sound.duck sound.pocket

@@ -1,4 +1,4 @@
-CC	= ../../../bin/lcc -Wa-l -Wl-m
+CC	= ../../../bin/lcc -Wa-l -Wl-m -debug -v -Wl-u -Wl-w
 
 BINS	= gb-dtmf.gb
 

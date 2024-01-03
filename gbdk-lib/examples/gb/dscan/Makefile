@@ -1,4 +1,4 @@
-CC	= ../../../bin/lcc -Wm-yc
+CC	= ../../../bin/lcc -Wm-yc -debug -v -Wl-u -Wl-w
 
 BINS	= dscan.gb
 

@@ -20,8 +20,10 @@ LCCFLAGS_nes     =
 LCCFLAGS += $(LCCFLAGS_$(EXT)) # This adds the current platform specific LCC Flags
 
 LCCFLAGS += -Wl-j -Wm-yoA -Wm-ya4 -Wb-ext=.rel -Wb-v # MBC + Autobanking related flags
-# LCCFLAGS += -debug # Uncomment to enable debug output
-# LCCFLAGS += -v     # Uncomment for lcc verbose output
+LCCFLAGS += -debug # Enable debug output
+LCCFLAGS += -v     # Enable lcc verbose output
+LCCFLAGS += -Wl-u  # Enable .lst -> .rst address update
+LCCFLAGS += -Wl-w  # Enable wide listing in .map file
 
 # You can set the name of the ROM file here
 PROJECTNAME = pong

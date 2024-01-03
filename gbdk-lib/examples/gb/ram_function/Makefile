@@ -1,4 +1,4 @@
-CC	= ../../../bin/lcc -Wa-l -Wl-m -Wl-j
+CC	= ../../../bin/lcc -Wa-l -Wl-m -Wl-j -debug -v -Wl-u -Wl-w
 
 BINS	= ram_fn.gb
 

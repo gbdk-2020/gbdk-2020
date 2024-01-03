@@ -10,8 +10,10 @@ GBDK_HOME = ../../../
 LCC = $(GBDK_HOME)bin/lcc 
 
 # You can set flags for LCC here
-# For example, you can uncomment the line below to turn on debug output
-# LCCFLAGS += -debug
+LCCFLAGS += -debug # Enable debug output
+LCCFLAGS += -v     # Enable lcc verbose output
+LCCFLAGS += -Wl-u  # Enable .lst -> .rst address update
+LCCFLAGS += -Wl-w  # Enable wide listing in .map file
 LCCFLAGS += -mz80:sms -autobank
 
 # You can set the name of the .gb ROM file here

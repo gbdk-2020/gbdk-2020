@@ -1,4 +1,4 @@
-CC	= ../../../bin/lcc -mz80:msxdos -Wm-yoA -Wl-j
+CC	= ../../../bin/lcc -mz80:msxdos -Wm-yoA -Wl-j -Wa-l -debug -v -Wl-u -Wl-w
 
 BINS	= smoketest.com
 

@@ -7,8 +7,10 @@ endif
 LCC = $(GBDK_HOME)bin/lcc
 
 # You can set flags for LCC here
-LCCFLAGS += -debug # Uncomment to enable debug output
-# LCCFLAGS += -v     # Uncomment for lcc verbose output
+LCCFLAGS += -debug # Enable debug output
+LCCFLAGS += -v     # Enable lcc verbose output
+LCCFLAGS += -Wl-u  # Enable .lst -> .rst address update
+LCCFLAGS += -Wl-w  # Enable wide listing in .map file
 LCCFLAGS += -Wm-yC # GB Color required for Hi Color
 LCCFLAGS += -Wf-MMD -Wf-Wp-MP # Header file dependency output (-MMD) for Makefile use + per-header Phoney rules (-MP)
 LCCFLAGS += -Wl-yt0x19        # MBC5

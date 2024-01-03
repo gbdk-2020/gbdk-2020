@@ -11,8 +11,10 @@ LCC = $(GBDK_HOME)bin/lcc
 PNG2ASSET = $(GBDK_HOME)bin/png2asset
 
 # You can set flags for LCC here
-# For example, you can uncomment the line below to turn on debug output
-# LCCFLAGS += -debug
+LCCFLAGS += -debug # Enable debug output
+LCCFLAGS += -v     # Enable lcc verbose output
+LCCFLAGS += -Wl-u  # Enable .lst -> .rst address update
+LCCFLAGS += -Wl-w  # Enable wide listing in .map file
 
 # Add directory where image gets converted into (obj/)
 # So they can be included with "#include <res/somefile.h>"

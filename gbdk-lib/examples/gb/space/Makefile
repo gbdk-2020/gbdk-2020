@@ -1,5 +1,5 @@
 GBDK	= ../../..
-CC	= $(GBDK)/bin/lcc -Wl-m -Wl-w -Wl-j -Wm-yS
+CC	= $(GBDK)/bin/lcc -Wl-m -Wl-w -Wl-j -Wm-yS -Wa-l -debug -v -Wl-u -Wl-w
 
 BINS	= space.gb
 
