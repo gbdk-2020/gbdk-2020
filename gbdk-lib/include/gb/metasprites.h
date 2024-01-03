@@ -122,7 +122,7 @@ static void __hide_metasprite(uint8_t id);
 
     @see hide_sprite, MAX_HARDWARE_SPRITES
  */
-void hide_sprites_range(UINT8 from, UINT8 to);
+void hide_sprites_range(uint8_t from, uint8_t to);
 
 /** Moves metasprite to the absolute position x and y
 
