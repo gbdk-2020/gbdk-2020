@@ -11,7 +11,7 @@
 
 _mode::
 .set_mode::
-    sta *.mode
+    sta .mode
     ;; AND to get rid of the extra flags
     and #0x03
     asl                     ; Multiply mode by 4
@@ -25,5 +25,5 @@ _mode::
     jmp [*temp_word]        ; Jump to initialization routine
 
 _get_mode::
-    lda *.mode
+    lda .mode
     rts

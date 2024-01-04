@@ -114,7 +114,7 @@ font_load_found:
         tya
         pha
         ; Only copy the tiles in if were in text mode
-        lda *.mode
+        lda .mode
         and #.T_MODE
         beq font_load_skip_copy_current
         jsr font_copy_current
@@ -217,7 +217,7 @@ font_set::
         bne 1$
 
 ; Now see if were checking special chars
-        lda *.mode
+        lda .mode
         and #.M_NO_INTERP
         bne 2$
         jsr .cr_curs
@@ -339,7 +339,7 @@ _gotoxy::
         rts
 
 _posx::
-        lda *.mode
+        lda .mode
         and #.T_MODE
         bne 1$
         jsr .tmode
@@ -348,7 +348,7 @@ _posx::
         rts
 
 _posy::
-        lda *.mode
+        lda .mode
         and #.T_MODE
         bne 1$
         jsr .tmode
@@ -401,7 +401,7 @@ _posy::
         jmp 99$
 2$:
         ;; See if scrolling is disabled
-        lda *.mode
+        lda .mode
         and #.M_NO_SCROLL
         beq 3$
         ;; Nope - reset the cursor to (0,0)
@@ -437,5 +437,5 @@ _posy::
         ;; Clear screen
         jsr .cls_no_reset_pos
         lda #.T_MODE
-        sta *.mode
+        sta .mode
         rts
