@@ -42,6 +42,7 @@ _attribute_shadow       = 0x188
         .area _BASE
         ;; Constant data
         .area _LIT
+        .area _RODATA
         ;; Constant data, used to init _DATA
         .area _INITIALIZER
         .area _XINIT
@@ -66,10 +67,8 @@ _sys_time::                             .ds 2
 _shadow_PPUCTRL::                       .ds 1
 _shadow_PPUMASK::                       .ds 1
 __crt0_spritePageValid:                 .ds 1
-__crt0_NMI_Done:                        .ds 1
 __crt0_NMI_insideNMI:                   .ds 1
 __crt0_ScrollHV:                        .ds 1
-.mode::                                 .ds 1
 _bkg_scroll_x::                         .ds 1
 _bkg_scroll_y::                         .ds 1
 _attribute_row_dirty::                  .ds 1
@@ -80,6 +79,7 @@ _attribute_column_dirty::               .ds 1
 
 .area _BSS
 __crt0_paletteShadow::                  .ds 25
+.mode::                                 .ds 1
 
 .area _CODE
 
@@ -232,9 +232,6 @@ NotInsideNMI:
     lda *(_sys_time+1)
     adc #0
     sta *(_sys_time+1)
-
-    lda #0x80
-    sta __crt0_NMI_Done
     
     lda *_shadow_PPUCTRL
     ora *__crt0_ScrollHV
@@ -249,6 +246,8 @@ NotInsideNMI:
     nop
     nop
     nop
+    lda #0x00
+    lda 0x0000
     ; Call the handler
     jsr .jmp_to_LCD_isr
 
