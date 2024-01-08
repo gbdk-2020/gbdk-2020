@@ -21,7 +21,7 @@ int some_bank2_proc1(uint8_t param1, uint8_t param2) BANKED {
 }
 
 BANKREF(some_bank2_proc2)
-int some_bank2_proc2(uint8_t param1, uint8_t param2, uint8_t param3) __banked REENTRANT {
+int some_bank2_proc2(uint8_t param1, uint8_t param2, uint8_t param3) BANKED REENTRANT {
     printf("some_bank2_proc2\n");
     return local_bank2_proc(param1, param2 * param3);
 }

@@ -12,7 +12,7 @@ extern int some_bank2_proc1(uint8_t param1, uint8_t param2) BANKED;
 typedef int (*some_bank2_proc_t)(uint8_t, uint8_t) BANKED; // define type for some_bank2_proc1() function
 
 BANKREF_EXTERN(some_bank2_proc2)
-extern int some_bank2_proc2(uint8_t param1, uint8_t param2, uint8_t param3) __banked REENTRANT;
+extern int some_bank2_proc2(uint8_t param1, uint8_t param2, uint8_t param3) BANKED REENTRANT;
 
 // far pointers
 FAR_PTR farptr_var0, farptr_var1, farptr_var2, farptr_var3;
