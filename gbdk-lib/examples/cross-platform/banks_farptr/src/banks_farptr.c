@@ -5,11 +5,11 @@
 
 // functions from bank2code.c
 BANKREF_EXTERN(some_bank2_proc0)
-extern void some_bank2_proc0(void) __banked;
+extern void some_bank2_proc0(void) BANKED;
 
 BANKREF_EXTERN(some_bank2_proc1)
-extern int some_bank2_proc1(uint8_t param1, uint8_t param2) __banked;
-typedef int (*some_bank2_proc_t)(uint8_t, uint8_t) __banked; // define type for some_bank2_proc1() function
+extern int some_bank2_proc1(uint8_t param1, uint8_t param2) BANKED;
+typedef int (*some_bank2_proc_t)(uint8_t, uint8_t) BANKED; // define type for some_bank2_proc1() function
 
 // far pointers
 FAR_PTR farptr_var0, farptr_var1, farptr_var2;
