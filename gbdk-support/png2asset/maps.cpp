@@ -79,7 +79,7 @@ void GetMap( PNG2AssetData* assetData)
                     }
                     else if(assetData->args->pack_mode == Tile::SMS)
                     {
-                        props = props >> 4;
+                        props = (props >> 4) | ((pal_idx & 1) << 3);
                         if(idx > 255)
                             props |= 1;
                         assetData->map.push_back(props);
