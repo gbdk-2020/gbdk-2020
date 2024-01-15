@@ -12,4 +12,4 @@ unsigned int PaletteCountApplyMaxLimit(unsigned int max_palettes, unsigned int c
 int FindOrCreateSubPalette(const SetPal& pal, vector< SetPal >& palettes, size_t colors_per_pal);
 
 
-int* BuildPalettesAndAttributes(const PNGImage& image32, vector< SetPal >& palettes, bool half_resolution);
+vector<int> BuildPalettesAndAttributes(const PNGImage& image32, vector< SetPal >& palettes, bool half_resolution);
