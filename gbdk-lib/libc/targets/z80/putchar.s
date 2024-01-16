@@ -72,6 +72,8 @@ _putchar::
         add a, e
         ld e, a
 
+        DISABLE_VBLANK_COPY     ; switch OFF copy shadow SAT
+
         ld a, (.cury)
         ld l, a
         ld h, #0
@@ -97,7 +99,6 @@ _putchar::
         ld c, #0
         add hl, bc
 
-        DISABLE_VBLANK_COPY     ; switch OFF copy shadow SAT
         WRITE_VDP_CMD_HL
 
         ld a, e

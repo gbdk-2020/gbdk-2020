@@ -41,6 +41,8 @@
         or iyh
         ld b, a
 
+        DISABLE_VBLANK_COPY     ; switch OFF copy shadow SAT
+
         pop hl                  ; HL = source
         pop de                  ; DE = HW
         push ix                 ; save IX
@@ -49,8 +51,6 @@
         ld ixh, b
         ld ixl, c
         push ix                 ; store dest
-
-        DISABLE_VBLANK_COPY     ; switch OFF copy shadow SAT
 
 1$:                             ; copy H rows
         VDP_WRITE_CMD ixh, ixl

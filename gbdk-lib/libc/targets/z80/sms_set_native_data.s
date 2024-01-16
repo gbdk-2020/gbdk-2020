@@ -6,6 +6,8 @@
 
 ; void set_native_tile_data(uint16_t start, uint16_t ntiles, const void *src) __z88dk_callee __preserves_regs(iyh,iyl);
 _set_native_tile_data::
+        DISABLE_VBLANK_COPY        ; switch OFF copy shadow SAT
+
         pop de          ; pop ret address
         pop hl
 
@@ -17,8 +19,6 @@ _set_native_tile_data::
 
         ld bc, #.VDP_VRAM
         add hl, bc
-
-        DISABLE_VBLANK_COPY        ; switch OFF copy shadow SAT
 
         VDP_WRITE_CMD h, l
 

@@ -7,11 +7,11 @@
 ; void vmemcpy (unsigned int dst, const void *src, unsigned int size) __z88dk_callee __preserves_regs(iyh,iyl);
 _set_data::
 _vmemcpy::
+        DISABLE_VBLANK_COPY
+
         pop de          ; pop ret address
         pop hl          ; dst
         
-        DISABLE_VBLANK_COPY
-
         VDP_WRITE_CMD h, l
         
         pop hl          ; src

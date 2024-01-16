@@ -40,6 +40,9 @@ _set_palette_entry::
 _set_palette::
         pop de
         pop bc
+
+        DISABLE_VBLANK_COPY             ; switch OFF copy shadow SAT
+
         ld hl, #.VDP_CRAM
         bit 0, c
         ld a, b
@@ -50,8 +53,6 @@ _set_palette::
         add hl, bc
 
         ld c, a
-
-        DISABLE_VBLANK_COPY             ; switch OFF copy shadow SAT
 
         ld a, i
         di

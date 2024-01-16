@@ -9,6 +9,8 @@
 
 ; void set_tile_1bpp_data(uint16_t start, uint16_t ntiles, const void *src, uint16_t colors) __z88dk_callee __preserves_regs(iyh,iyl);
 _set_tile_1bpp_data::
+        DISABLE_VBLANK_COPY     ; switch OFF copy shadow SAT
+
         pop de                  ; pop ret address
         pop hl
                 
@@ -21,8 +23,6 @@ _set_tile_1bpp_data::
         ld bc, #.VDP_VRAM
         add hl, bc
                 
-        DISABLE_VBLANK_COPY     ; switch OFF copy shadow SAT
-
         VDP_WRITE_CMD h, l
 
         ex de, hl               ; hl = ret
