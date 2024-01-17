@@ -78,7 +78,7 @@ jobs:
 
       # ==== Build Steps ====
       - name: Check out GBDK-2020
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           path: gbdk-2020
           submodules: false
@@ -142,7 +142,7 @@ jobs:
 
       - name: Store build
         if: (matrix.name == 'Linux-64') || (matrix.name == 'MacOS-64') || ('Windows-x64') || ('Windows-x32')
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.name }} build
           path: gbdk-2020/package/${{ env.BUILD_PACKAGE_FILENAME }}
