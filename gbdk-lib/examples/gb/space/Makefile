@@ -1,7 +1,13 @@
 GBDK	= ../../..
-CC	= $(GBDK)/bin/lcc -Wl-m -Wl-w -Wl-j -Wm-yS
+LCC	= $(GBDK)/bin/lcc -Wl-m -Wl-w -Wl-j -Wm-yS
 
 BINS	= space.gb
+
+# GBDK_DEBUG = ON
+ifdef GBDK_DEBUG
+	LCCFLAGS += -debug -v
+endif
+
 
 all:	$(BINS)
 
@@ -11,8 +17,8 @@ compile.bat: Makefile
 
 # Compile and link single file in one pass
 %.gb:	%.s
-	$(CC) -o $@ $<
+	$(LCC) $(LCCFLAGS) -o $@ $<
 
 clean:
-	rm -f *.o *.lst *.map *.gb *~ *.rel *.cdb *.ihx *.lnk *.sym *.asm *.noi
+	rm -f *.o *.lst *.map *.gb *~ *.rel *.cdb *.ihx *.lnk *.sym *.asm *.noi *.rst
 

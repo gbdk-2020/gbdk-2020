@@ -1,4 +1,9 @@
-CC	= ../../../bin/lcc -Wa-l -Wl-m
+LCC	= ../../../bin/lcc -Wa-l -Wl-m
+
+# GBDK_DEBUG = ON
+ifdef GBDK_DEBUG
+	LCCFLAGS += -debug -v
+endif
 
 # CFLAGS	=
 
@@ -11,20 +16,20 @@ compile.bat: Makefile
 	@make -sn | sed y/\\//\\\\/ | sed s/mkdir\ -p\/mkdir\/ | grep -v make >> compile.bat
 
 %.o:	%.c
-	$(CC) $(CFLAGS) -c -o $@ $<
+	$(LCC) $(LCCFLAGS) $(CFLAGS) -c -o $@ $<
 
 %.o:	%.s
-	$(CC) $(CFLAGS) -c -o $@ $<
+	$(LCC) $(LCCFLAGS) $(CFLAGS) -c -o $@ $<
 
 %.s:	%.c
-	$(CC) $(CFLAGS) -S -o $@ $<
+	$(LCC) $(LCCFLAGS) $(CFLAGS) -S -o $@ $<
 
 %.gb:	%.o
-	$(CC) -o $@ $<
+	$(LCC) $(LCCFLAGS) -o $@ $<
 
 clean:
-	rm -f *.o *.lst *.map *.gb *.ihx *.sym *.cdb *.adb *.asm
+	rm -f *.o *.lst *.map *.gb *.ihx *.sym *.cdb *.adb *.asm *.noi *.rst
 
 # Link file, and write 0x80 at position 0x143 in header
 colorbar.gb:	colorbar.o
-	$(CC) $(CFLAGS) -Wm-yC -o colorbar.gb colorbar.o
+	$(LCC) $(LCCFLAGS) $(CFLAGS) -Wm-yC -o colorbar.gb colorbar.o

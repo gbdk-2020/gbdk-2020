@@ -1,6 +1,12 @@
-CC	= ../../../bin/lcc -Wm-yc
+LCC	= ../../../bin/lcc -Wm-yc
 
 BINS	= dscan.gb
+
+# GBDK_DEBUG = ON
+ifdef GBDK_DEBUG
+	LCCFLAGS += -debug -v
+endif
+
 
 all:	$(BINS)
 
@@ -9,16 +15,16 @@ compile.bat: Makefile
 	@make -sn | sed y/\\//\\\\/ | sed s/mkdir\ -p\/mkdir\/ | grep -v make >> compile.bat
 
 %.o:	%.c
-	$(CC) -c -o $@ $<
+	$(LCC) $(LCCFLAGS) -c -o $@ $<
 
 %.s:	%.c
-	$(CC) -S -o $@ $<
+	$(LCC) $(LCCFLAGS) -S -o $@ $<
 
 %.o:	%.s
-	$(CC) -c -o $@ $<
+	$(LCC) $(LCCFLAGS) -c -o $@ $<
 
 %.gb:	%.o
-	$(CC) -o $@ $<
+	$(LCC) $(LCCFLAGS) -o $@ $<
 
 clean:
-	rm -f *.o *.lst *.map *.gb *.ihx *.sym *.cdb *.adb *.asm
+	rm -f *.o *.lst *.map *.gb *.ihx *.sym *.cdb *.adb *.asm *.noi *.rst

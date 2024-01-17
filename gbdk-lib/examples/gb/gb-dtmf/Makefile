@@ -1,4 +1,4 @@
-CC	= ../../../bin/lcc -Wa-l -Wl-m
+LCC	= ../../../bin/lcc -Wa-l -Wl-m
 
 BINS	= gb-dtmf.gb
 
@@ -9,16 +9,16 @@ compile.bat: Makefile
 	@make -sn | sed y/\\//\\\\/ | sed s/mkdir\ -p\/mkdir\/ | grep -v make >> compile.bat
 
 %.s:	%.c
-	$(CC) -S -o $@ $<
+	$(LCC) $(LCCFLAGS) -S -o $@ $<
 
 %.o:	%.c
-	$(CC) -c -o $@ $<
+	$(LCC) $(LCCFLAGS) -c -o $@ $<
 
 %.o:	%.s
-	$(CC) -c -o $@ $<
+	$(LCC) $(LCCFLAGS) -c -o $@ $<
 
 %.gb:	%.o
-	$(CC) -o $@ $<
+	$(LCC) $(LCCFLAGS) -o $@ $<
 
 clean:
-	rm -f *.o *.lst *.map *.gb *.ihx *.sym *.cdb *.adb *.asm
+	rm -f *.o *.lst *.map *.gb *.ihx *.sym *.cdb *.adb *.asm *.noi *.rst

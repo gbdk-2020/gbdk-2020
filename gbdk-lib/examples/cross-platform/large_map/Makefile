@@ -21,8 +21,6 @@ LCCFLAGS_nes     = -autobank
 LCCFLAGS += $(LCCFLAGS_$(EXT)) # This adds the current platform specific LCC Flags
 
 LCCFLAGS += -Wl-j -Wm-yoA -Wm-ya4 -Wb-ext=.rel -Wb-v # MBC + Autobanking related flags
-#LCCFLAGS += -debug # Uncomment to enable debug output
-#LCCFLAGS += -v     # Uncomment for lcc verbose output
 
 P2AFLAGS_gb     = -map -bpp 2 -max_palettes 4 -pack_mode gb -noflip
 P2AFLAGS_gbc    = -map -use_map_attributes -bpp 2 -max_palettes 8 -pack_mode gb
@@ -33,6 +31,12 @@ P2AFLAGS_gg     = -map -use_map_attributes -bpp 4 -max_palettes 2 -pack_mode sms
 P2AFLAGS_nes    = -map -bpp 2 -max_palettes 4 -pack_mode nes -noflip -use_nes_attributes -b 0
 
 P2AFLAGS = $(P2AFLAGS_$(EXT))
+
+# GBDK_DEBUG = ON
+ifdef GBDK_DEBUG
+	LCCFLAGS += -debug -v
+endif
+
 
 # You can set the name of the ROM file here
 PROJECTNAME = large-map
@@ -73,7 +77,7 @@ $(RESOBJSRC)/%.c:	$(RESDIR)/%.png
 # Compile the map pngs that were converted to .c files
 # .c files in obj/<platform ext>/src/ -> .o files in obj/
 $(OBJDIR)/%.o:	$(RESOBJSRC)/%.c
-	$(LCC) $(CFLAGS) -c -o $@ $<
+	$(LCC) $(LCCFLAGS) $(CFLAGS) -c -o $@ $<
 
 # Dependencies (using output from -Wf-MMD -Wf-Wp-MP)
 DEPS = $(OBJS:%.o=%.d)
@@ -82,20 +86,20 @@ DEPS = $(OBJS:%.o=%.d)
 
 # Compile .c files in "src/" to .o object files
 $(OBJDIR)/%.o:	$(SRCDIR)/%.c
-	$(LCC) $(CFLAGS) -c -o $@ $<
+	$(LCC) $(LCCFLAGS) $(CFLAGS) -c -o $@ $<
 
 # Compile .c files in "res/" to .o object files
 $(OBJDIR)/%.o:	$(RESDIR)/%.c
-	$(LCC) $(CFLAGS) -c -o $@ $<
+	$(LCC) $(LCCFLAGS) $(CFLAGS) -c -o $@ $<
 
 # Compile .s assembly files in "src/" to .o object files
 $(OBJDIR)/%.o:	$(SRCDIR)/%.s
-	$(LCC) $(CFLAGS) -c -o $@ $<
+	$(LCC) $(LCCFLAGS) $(CFLAGS) -c -o $@ $<
 
 # If needed, compile .c files in "src/" to .s assembly files
 # (not required if .c is compiled directly to .o)
 $(OBJDIR)/%.s:	$(SRCDIR)/%.c
-	$(LCC) $(CFLAGS) -S -o $@ $<
+	$(LCC) $(LCCFLAGS) $(CFLAGS) -S -o $@ $<
 
 # Convert and build maps first so they're available when compiling the main sources
 $(OBJS):	$(MAPOBJS)

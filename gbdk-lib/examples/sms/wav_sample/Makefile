@@ -9,9 +9,14 @@ GBDK_HOME = ../../../
 
 LCC = $(GBDK_HOME)bin/lcc 
 
+
+# GBDK_DEBUG = ON
+ifdef GBDK_DEBUG
+	LCCFLAGS += -debug -v
+endif
+
 # You can set flags for LCC here
 # For example, you can uncomment the line below to turn on debug output
-# LCCFLAGS += -debug
 LCCFLAGS += -mz80:sms -autobank
 
 # You can set the name of the .gb ROM file here
