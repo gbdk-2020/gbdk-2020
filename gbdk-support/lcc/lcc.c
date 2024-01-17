@@ -779,7 +779,8 @@ static void help(void) {
 "-Bdir/	use the compiler named `dir/rcc'\n",
 "-c	compile only\n",
 "-dn	set switch statement density to `n'\n",
-"-debug	Turns on --debug for compiler, -y (.cdb) and -j (.noi) for linker\n",
+"-debug   Turns on --debug for compiler, -y (.cdb), -j (.noi), -w (wide .map format) for linker\n",
+"                  -Wa-l (assembler .lst), -Wl-u (.lst -> .rst address update)",
 "-Dname -Dname=def	define the preprocessor symbol `name'\n",
 "-E	only run preprocessor on named .c and .h files files -> stdout\n",
 "--save-preproc  Use with -E for output to *.i files instead of stdout\n",
@@ -970,8 +971,12 @@ static void opt(char *arg) {
 		if (strcmp(arg, "-debug") == 0) {
 			// Load default debug options
 			clist	= append("--debug", clist);  // Debug for sdcc compiler
-			llist[L_ARGS] = append("-y", llist[L_ARGS]);	// Enable .cdb output for sdldgb linker
-			llist[L_ARGS] = append("-j", llist[L_ARGS]);	// Enable .noi output
+			llist[L_ARGS] = append("-y", llist[L_ARGS]);	// linker: .cdb output for sdldgb
+			llist[L_ARGS] = append("-j", llist[L_ARGS]);	// linker: .noi output
+
+			alist         = append("-l", alist);            // assembler: .lst output
+			llist[L_ARGS] = append("-u", llist[L_ARGS]);    // linker: .lst -> .rst address update
+			llist[L_ARGS] = append("-w", llist[L_ARGS]);    // linker: wide listing in .map file
 			return;
 		}
 
