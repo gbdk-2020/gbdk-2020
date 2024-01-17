@@ -48,7 +48,7 @@ __vram_transfer_buffer_num_cycles_x8::  .ds 1
 __vram_transfer_buffer_pos_w::          .ds 1
 __vram_transfer_buffer_pos_old::        .ds 1
 
-.define __vram_transfer_buffer_temp     "(__TEMP+6)"
+.define __vram_transfer_buffer_temp     "(REGTEMP+6)"
 
 .area   _HOME
 

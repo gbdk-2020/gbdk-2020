@@ -36,7 +36,7 @@
 	.globl _strcmp
 
 ;--------------------------------------------------------
-; overlayable function paramters in zero page
+; overlayable function parameters in zero page
 ;--------------------------------------------------------
 	.area	OSEG    (PAG, OVR)
 _strcmp_PARM_2:
@@ -46,7 +46,7 @@ _strcmp_PARM_2:
 ; local aliases
 ;--------------------------------------------------------
 	.define _str2 "_strcmp_PARM_2"
-	.define _str1 "___SDCC_m6502_ret0"
+	.define _str1 "DPTR"
 ;--------------------------------------------------------
 ; code
 ;--------------------------------------------------------
@@ -58,8 +58,8 @@ _strcmp:
 
 	ldy	#0
 loop:
-	lda	[*_str1],y
-	cmp	[*_str2],y
+	lda	[_str1],y
+	cmp	[_str2],y
 	bne	L1
 	tax
 	beq	end

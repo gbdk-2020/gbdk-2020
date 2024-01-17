@@ -1,8 +1,8 @@
 ;-------------------------------------------------------------------------
-;   _mulint.s - routine for multiplication of 16 bit (unsigned) int
+;   setjmp.s - source file for ANSI routines setjmp & longjmp
 ;
-;   Copyright (C) 2009, Ullrich von Bassewitz
-;   Copyright (C) 2022, Gabriele Gorla
+;   Copyright (C) 2020, Steven Hugg. hugg@efasterlight.com
+;   Copyright (C) 2023, Gabriele Gorla
 ;
 ;   This library is free software; you can redistribute it and/or modify it
 ;   under the terms of the GNU General Public License as published by the
@@ -27,56 +27,89 @@
 ;   might be covered by the GNU General Public License.
 ;-------------------------------------------------------------------------
 
-	.module _mulint
+	.module _setjmp
 
 ;--------------------------------------------------------
 ; exported symbols
 ;--------------------------------------------------------
-	.globl __mulint_PARM_2
-	.globl __mulint
-
+	.globl ___setjmp    ; 
+        .globl _longjmp
+        .globl _longjmp_PARM_2
+	
 ;--------------------------------------------------------
 ; overlayable function parameters in zero page
 ;--------------------------------------------------------
 	.area	OSEG    (PAG, OVR)
-__mulint_PARM_2:
-	.ds 2
+_longjmp_PARM_2:
+        .ds 2
 
 ;--------------------------------------------------------
 ; local aliases
 ;--------------------------------------------------------
-	.define tmp "___SDCC_m6502_ret2"
+	.define ptr "DPTR"
+	.define rv "_longjmp_PARM_2"
 
 ;--------------------------------------------------------
 ; code
 ;--------------------------------------------------------
-	.area _CODE
+        .area _CODE
 
-__mulint:
-	sta	*___SDCC_m6502_ret0
-	stx	*___SDCC_m6502_ret1
-	lda	#0
-	sta	*tmp
-	ldy	#16
-	lsr	*___SDCC_m6502_ret1
-	ror	*___SDCC_m6502_ret0
-next_bit:
-	bcc	skip
-	clc
-	adc	*__mulint_PARM_2+0
-	tax
-	lda	*__mulint_PARM_2+1
-	adc	*tmp
-	sta	*tmp
-	txa
-skip:
-	ror	*tmp
-	ror	a
-	ror	*___SDCC_m6502_ret1
-	ror	*___SDCC_m6502_ret0
-	dey
-	bne	next_bit
+;------------------------------------------------------------
+; int __setjmp (jmp_buf buf)
+;------------------------------------------------------------
 
-	lda	*___SDCC_m6502_ret0
-	ldx	*___SDCC_m6502_ret1
-	rts
+___setjmp:
+        stx	*(ptr + 1)		; msb(buf)
+        sta	*(ptr + 0)		; lsb(buf)
+
+        ; save stack pointer
+        tsx
+        ldy	#0
+        txa
+        sta	[ptr],y
+
+        ; save return address
+        lda	0x101,x
+        iny
+        sta	[ptr],y
+        lda	0x102,x
+        iny
+        sta	[ptr],y
+
+        ; return 0
+        lda	#0
+        tax
+        rts
+
+;------------------------------------------------------------
+; int longjmp (jmp_buf buf, int rv)
+;------------------------------------------------------------
+
+_longjmp:
+        stx	*(ptr + 1)		; msb(buf)
+        sta	*(ptr + 0)		; lsb(buf)
+
+        ; restore stack pointer
+        ldy	#0
+        lda	[ptr],y
+        tax
+        txs
+
+        ; set return address
+        iny
+        lda	[ptr],y
+        sta	0x101,x
+        iny
+        lda	[ptr],y
+        sta	0x102,x
+
+;_setjmp.c:224: return rv ? rv : 1;
+        ldx    *(rv + 1)
+        txa
+        ora    *(rv + 0)
+        beq     0001$
+        lda    *(rv + 0)
+        rts
+0001$:
+        lda     #0x01
+        rts

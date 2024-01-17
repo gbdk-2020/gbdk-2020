@@ -1,7 +1,7 @@
 .include "global.s"
 .include "mapper_macros.s"
 
-.define .tempA "(__TEMP+7)"
+.define .tempA "(REGTEMP+7)"
 
 ;
 ; Banked call support function.
