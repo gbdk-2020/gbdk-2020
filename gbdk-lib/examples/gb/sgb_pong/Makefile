@@ -1,4 +1,10 @@
-LCC	= ../../../bin/lcc -Wa-l -Wl-m -Wl-j -Wm-ys
+# If you move this project you can change the directory
+# to match your GBDK root directory (ex: GBDK_HOME = "C:/GBDK/"
+ifndef GBDK_HOME
+	GBDK_HOME = ../../../
+endif
+
+LCC = $(GBDK_HOME)bin/lcc -Wa-l -Wl-m -Wl-j -Wm-ys
 
 BINS	= sgb_pong.gb
 
