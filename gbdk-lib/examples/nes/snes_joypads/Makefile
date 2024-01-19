@@ -1,6 +1,12 @@
-CC	= ../../../bin/lcc -mmos6502:nes -Wm-yoA -Wl-j
+LCC	= ../../../bin/lcc -mmos6502:nes -Wm-yoA -Wl-j
 
 BINS	= snes_joypads.nes
+
+# GBDK_DEBUG = ON
+ifdef GBDK_DEBUG
+	LCCFLAGS += -debug -v
+endif
+
 
 all:	$(BINS)
 
@@ -16,15 +22,15 @@ compile.bat: Makefile
 # Compile and link single file in one pass
 
 %.o:	%.c
-	$(CC) -c -o $@ $<
+	$(LCC) $(LCCFLAGS) -c -o $@ $<
 
 %.o:	%.s
-	$(CC) -c -o $@ $<
+	$(LCC) $(LCCFLAGS) -c -o $@ $<
 
 $(BINS):	$(OBJS)
-	$(CC) -Wm-yS -o $@ $^
-	rm -f *.map *.noi *.ihx *.lst
+	$(LCC) $(LCCFLAGS) -Wm-yS -o $@ $^
+	rm -f *.map *.noi *.ihx *.lst *.rst
 
 clean:
-	rm -f *.o *.lst *.map *.nes *~ *.rel *.cdb *.ihx *.lnk *.sym *.asm *.noi
+	rm -f *.o *.lst *.map *.nes *~ *.rel *.cdb *.adb *.ihx *.lnk *.sym *.asm *.noi *.rst
 

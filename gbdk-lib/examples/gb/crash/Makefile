@@ -1,6 +1,12 @@
-CC	= ../../../bin/lcc -Wa-l -Wl-m -Wl-j
+LCC	= ../../../bin/lcc -Wa-l -Wl-m -Wl-j
 
 BINS	= crash.gb
+
+# GBDK_DEBUG = ON
+ifdef GBDK_DEBUG
+	LCCFLAGS += -debug -v
+endif
+
 
 all:	$(BINS)
 
@@ -10,8 +16,8 @@ compile.bat: Makefile
 
 # Compile and link single file in one pass
 %.gb:	%.c
-	$(CC) -o $@ $<
+	$(LCC) $(LCCFLAGS) -o $@ $<
 
 clean:
-	rm -f *.o *.lst *.map *.gb *~ *.rel *.cdb *.ihx *.lnk *.sym *.asm *.noi
+	rm -f *.o *.lst *.map *.gb *~ *.rel *.cdb *.ihx *.lnk *.sym *.asm *.noi *.rst
 

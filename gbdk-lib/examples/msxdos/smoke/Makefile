@@ -1,6 +1,12 @@
-CC	= ../../../bin/lcc -mz80:msxdos -Wm-yoA -Wl-j
+LCC	= ../../../bin/lcc -mz80:msxdos -Wm-yoA -Wl-j
 
 BINS	= smoketest.com
+
+# GBDK_DEBUG = ON
+ifdef GBDK_DEBUG
+	LCCFLAGS += -debug -v
+endif
+
 
 all:	$(BINS)
 
@@ -16,15 +22,15 @@ compile.bat: Makefile
 # Compile and link single file in one pass
 
 %.o:	%.c
-	$(CC) -c -o $@ $<
+	$(LCC) $(LCCFLAGS) -c -o $@ $<
 
 %.o:	%.s
-	$(CC) -c -o $@ $<
+	$(LCC) $(LCCFLAGS) -c -o $@ $<
 
 $(BINS):	$(OBJS)
-	$(CC) -Wm-yS -o $@ $^
-	rm -f *.map *.noi *.ihx *.lst
+	$(LCC) $(LCCFLAGS) -Wm-yS -o $@ $^
+	rm -f *.map *.noi *.ihx *.lst *.rst
 
 clean:
-	rm -f *.o *.lst *.map *.com *~ *.rel *.cdb *.ihx *.lnk *.sym *.asm *.noi *.0?? *.rom
+	rm -f *.o *.lst *.map *.com *~ *.rel *.cdb *.adb *.ihx *.lnk *.sym *.asm *.noi *.0?? *.rom *.rst
 
