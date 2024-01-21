@@ -174,7 +174,7 @@ void set_camera(void)
 }
 
 
-void init_map(void) {
+void init_camera(uint8_t x, uint8_t y) {
 
     // Set up tile data
     set_native_tile_data(0, bigmap_TILE_COUNT, bigmap_tiles);
@@ -193,11 +193,9 @@ void init_map(void) {
     #endif 
 
 
-    // Initial camera position can be set in pixels here.
-    // The coordinates + camera viewport size should be within the map boundaries.
-    // Map starts at 0
-    camera_x = 0;
-    camera_y = 0;
+    // Initial camera position in pixels set here.
+    camera_x = x;
+    camera_y = y;
     // Enforce map limits on initial camera position
     if (camera_x > camera_max_x) camera_x = camera_max_x;
     if (camera_y > camera_max_y) camera_y = camera_max_y;
@@ -238,7 +236,7 @@ void init_map(void) {
 
 void main(void){
     DISPLAY_OFF;
-    init_map();
+    init_camera(0, 0);
 
     SHOW_BKG;
     DISPLAY_ON;
