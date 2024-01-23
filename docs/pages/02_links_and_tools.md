@@ -1,4 +1,4 @@
-@page docs_links_and_tools Links and Third-Party Tools
+@page docs_links_and_tools Links, Tools and Debugging
 
 
 This is a brief list of useful tools and information. It is not meant to be complete or exhaustive, for a larger list see the @ref awesome_gb "Awesome Game Boy Development" list.
@@ -96,7 +96,6 @@ This is a brief list of useful tools and information. It is not meant to be comp
     __hUGEtracker__ and __hUGEdriver__  
     A tracker and music driver that work with GBDK and RGBDS.
     It is smaller, more efficient and more versatile than gbt_player.  
-    https://github.com/untoxa/hUGEBuild  
     https://github.com/SuperDisk/hUGEDriver  
     https://github.com/SuperDisk/hUGETracker
 
@@ -128,6 +127,34 @@ This is a brief list of useful tools and information. It is not meant to be comp
     __BGB__  
     Accurate emulator, has useful debugging tools.  
     http://bgb.bircd.org/
+
+@anchor code_editors_hinting
+Intellisense in VSCode may have trouble identifying some GBDK types or functions, and therefore flag them as warnings or unidentified.
+
+GBDK platform constants can be declared so that header files are parsed more completely in VSCode. The following `c_cpp_properties.json` example may be adapted for your own project.
+
+        {
+            "configurations": [
+                {
+                    "name": "gameboy",
+                    "includePath": [
+                        "${workspaceFolder}/src/**",
+                        "${workspaceFolder}/res/**",
+                        "${workspaceFolder}/include/**",
+                        "${workspaceFolder}/../../../gbdk/include/**"
+                    ],
+                    "defines": ["__PORT_sm83", "__TARGET_gb"],
+                    "compilerPath": "",
+                    "cStandard": "c11",
+                    "intelliSenseMode": "${default}",
+                    "compilerArgs": [],
+                    "browse": {
+                        "limitSymbolsToIncludedHeaders": true
+                    }
+                }
+            ],
+            "version": 4
+        }
 
 
 @anchor tools_debug

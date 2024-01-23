@@ -233,7 +233,7 @@ An example function which can :
 // This function is NONBANKED so it resides in fixed Bank 0
 void set_banked_bkg_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data, uint8_t bank) NONBANKED 
 {
-    uint8_t save = _current_bank;
+    uint8_t save = CURRENT_BANK;
     SWITCH_ROM(bank);
     set_bkg_data(first_tile, nb_tiles, data);
     SWITCH_ROM(save);
@@ -245,14 +245,14 @@ set_banked_bkg_data(<first tile>, <num tiles>, tile_data, BANK(tile_data));
 
 
 @anchor banking_current_bank
-## Currently active bank: _current_bank
-The global variable @ref _current_bank is updated automatically when calling @ref SWITCH_ROM(), @ref SWITCH_ROM_MBC1() and @ref SWITCH_ROM_MBC5, or when a `BANKED` function is called.
+## Currently active bank: CURRENT_BANK
+The global variable @ref CURRENT_BANK (a macro for @ref _current_bank) is updated automatically when calling @ref SWITCH_ROM(), @ref SWITCH_ROM_MBC1() and @ref SWITCH_ROM_MBC5, or when a `BANKED` function is called.
 
 Normaly banked calls are used and the active bank does not need to be directly managed, but in the case that it does the following shows how to save and restore it.
 
 ```{.c}
 // The current bank can be saved
-uint8_t _saved_bank = _current_bank;
+uint8_t _saved_bank = CURRENT_BANK;
 
 // Call some function which changes the bank but does not restore it
 // ...
