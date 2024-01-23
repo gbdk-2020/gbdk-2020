@@ -17,6 +17,10 @@
     - The two main options are:
       - Use @ref set_bkg_based_tiles(), @ref set_bkg_based_submap(), @ref set_win_based_tiles(), @ref set_win_based_submap() and provide a tile origin offset.
       - Use @ref utility_png2asset with `-tile_origin` to create a map with the tile index offsets built in.
+
+  - Is it normal for sprites to disappear when they reach the left border of the screen? (NES/SMS/MSX)
+    - You can hide the leftmost column using @ref HIDE_LEFT_COLUMN to work around this.
+    - The behavior is due to NES/SMS/MSX having 8-bit Sprite x coordinates while the screen width is also 256 pixels. GB/GG don't have this problem since their screen is smaller and the x-coordinates are larger than the visible screen.
       <!-- -->  
 
 # ROM Header Settings
@@ -33,6 +37,11 @@
 
   - How do I set the ROM @ref MBC type, and what MBC values are available to use with the `-yt` @ref makebin flag?
     - See @ref setting_mbc_and_rom_ram_banks <!-- -->  
+
+# Editors
+  - Why is VSCode flagging some GBDK types or functions as unidentified or giving warnings about them?
+    - See @ref code_editors_hinting
+    - GBDK platform constants can be declared so that header files are parsed more completely in VSCode.
 
 # Errors and Warnings
   @anchor faq_gbz80_sm83_old_port_name_error
