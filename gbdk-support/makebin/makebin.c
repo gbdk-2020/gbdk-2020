@@ -519,7 +519,7 @@ noi2sym (char *filename)
   FILE *noi, *sym;
   char *nname, *sname;
   //ssize_t read;
-  char read = ' ';
+  int read = ' ';
   // no$gmb's implementation is limited to 32 character labels
   // we can safely throw away the rest
   #define SYM_FILE_NAME_LEN_MAX 32
