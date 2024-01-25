@@ -357,7 +357,7 @@ static void DedupeTileset(void)
             // Update map data and attributes to new index
             // Mask out everything except palettes and then apply the new attribs (bank, vflip, hflip)
             MapTileIDs[mapx][mapy]    = new_tile_id;
-            MapAttributes[mapx][mapy] = (MapAttributes[mapx][mapy] & CGB_ATTR_PALLETES_ONLY) | new_attribs;
+            MapAttributes[mapx][mapy] = (MapAttributes[mapx][mapy] & CGB_ATTR_PALETTES_ONLY) | new_attribs;
         }
     }
     log_verbose("DedupeTileset(): Reduced tiles from %d (%d bytes) to %d (%d bytes) = %d bytes saved. %%%d of original size\n",

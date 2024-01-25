@@ -22,8 +22,8 @@ typedef struct tagRGBQUAD {
 #define CGB_ATTR_NO_FLIP        0x00u
 #define CGB_ATTR_VFLIP          0x40u
 #define CGB_ATTR_HFLIP          0x20u
-#define CGB_ATTR_PALLETES_ONLY     0x07u
-#define CGB_ATTR_WITHOUT_PALLETES  (~(CGB_ATTR_PALLETES_ONLY))
+#define CGB_ATTR_PALETTES_ONLY     0x07u
+#define CGB_ATTR_WITHOUT_PALETTES  (~(CGB_ATTR_PALETTES_ONLY))
 
 #define CGB_TILES_START_BANK_0  0u
 #define CGB_TILES_START_BANK_1  256u
