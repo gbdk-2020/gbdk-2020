@@ -12,6 +12,13 @@ PNG2ASSETS = $(GBDK_HOME)bin/png2asset
 # Possible are: gb gbc pocket megaduck sms gg
 TARGETS=gb gbc pocket megaduck sms gg nes
 
+# You can set the name of the resulting ROM file here
+PROJECTNAME = logo
+
+# You can set the name of the ROM title embedded in the ROM header here
+TITLE = LOGO # must be all upper case, maximum 15 characters
+
+
 # Configure platform specific LCC flags here:
 LCCFLAGS_gb      = -Wl-yt0x1B -autobank # Set an MBC for banking (1B-ROM+MBC5+RAM+BATT)
 LCCFLAGS_pocket  = -Wl-yt0x1B -autobank # Usually the same as required for .gb
@@ -25,18 +32,28 @@ LCCFLAGS += $(LCCFLAGS_$(EXT)) # This adds the current platform specific LCC Fla
 
 LCCFLAGS += -Wl-j -Wm-yoA -Wm-ya4 -Wb-ext=.rel -Wb-v # MBC + Autobanking related flags
 
+LCCFLAGS += -Wm-yn"$(TITLE)"
+
 # GBDK_DEBUG = ON
 ifdef GBDK_DEBUG
 	LCCFLAGS += -debug -v
 endif
 
+# Configure platform specific png2Assets flags here
+# Note for GBC: --noflip is required for DMG compatibility, but is less space efficient
+PNG2ASSETSFLAGS_gb      = -map -noflip -bpp 2 -max_palettes 1 -pack_mode gb
+PNG2ASSETSFLAGS_pocket  = -map -noflip -bpp 2 -max_palettes 1 -pack_mode gb
+PNG2ASSETSFLAGS_duck    = -map -noflip -bpp 2 -max_palettes 1 -pack_mode gb
+PNG2ASSETSFLAGS_gbc     = -map -noflip -use_map_attributes -bpp 2 -max_palettes 8 -pack_mode gb
+PNG2ASSETSFLAGS_sms     = -map -use_map_attributes -bpp 4 -max_palettes 2 -pack_mode sms
+PNG2ASSETSFLAGS_gg      = -map -use_map_attributes -bpp 4 -max_palettes 2 -pack_mode sms
+PNG2ASSETSFLAGS_nes     = -map -use_nes_attributes -use_nes_colors -noflip -bpp 2 -max_palettes 4 -pack_mode nes
+
+PNG2ASSETSFLAGS += $(PNG2ASSETSFLAGS_$(EXT)) # This adds the current platform specific png2Assets flags
 
 RESFLAGS += $(RESFLAGS_$(TYP))
 
 CFLAGS += -I$(OBJDIR) -DSYSTEM_$(TYP)
-
-# You can set the name of the ROM file here
-PROJECTNAME = logo
 
 # EXT?=gb # Only sets extension to default (game boy .gb) if not populated
 SRCDIR      = src
@@ -56,7 +73,7 @@ all: $(TARGETS)
 
 .SECONDEXPANSION:
 $(OBJDIR)/%.c: $(RESDIR)/%.png $$(wildcard $(RESDIR)/gfx/$(PLAT)/backgrounds/%.png.meta)
-	$(PNG2ASSETS) $< `cat <$<.meta 2>/dev/null` -c $@
+	$(PNG2ASSETS) $< $(PNG2ASSETSFLAGS) -c $@
 
 $(OBJDIR)/%.o:	$(OBJDIR)/%.c
 	$(LCC) $(LCCFLAGS) $(CFLAGS) -c -o $@ $<
