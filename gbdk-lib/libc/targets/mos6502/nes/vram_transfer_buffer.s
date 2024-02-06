@@ -119,9 +119,9 @@ __vram_transfer_buffer_pos_old::        .ds 1
     clc
     adc #VRAM_HDR_SIZEOF
     sta *__vram_transfer_buffer_pos_w
-    ; __vram_transfer_buffer_num_cycles_x8 -= 6 (assumes carry clear)
+    ; __vram_transfer_buffer_num_cycles_x8 -= 5 (assumes carry clear)
     lda *__vram_transfer_buffer_num_cycles_x8
-    sbc #5
+    sbc #4
     sta *__vram_transfer_buffer_num_cycles_x8
     ldy *__vram_transfer_buffer_temp
     rts
@@ -146,10 +146,18 @@ __vram_transfer_buffer_pos_old::        .ds 1
     sec
     sbc *__vram_transfer_buffer_pos_old
     sbc #VRAM_HDR_SIZEOF
+    pha
+    ; branchaddr = 128-4*num_bytes + 1 = NOT(4*num_bytes)+1+128 + 1 = NOT(4*num_bytes)+130
+    asl
+    asl
+    eor #0xFF
+    adc #130
     ldy *__vram_transfer_buffer_pos_old
     sta __vram_transfer_buffer+VRAM_HDR_LENGTH,y
-    lda *__vram_transfer_buffer_num_cycles_x8
-    sbc __vram_transfer_buffer+VRAM_HDR_LENGTH,y
+    pla
+    eor #0xFF
+    sec
+    adc *__vram_transfer_buffer_num_cycles_x8
     sta *__vram_transfer_buffer_num_cycles_x8
     VRAM_BUFFER_UNLOCK
     ldy *__vram_transfer_buffer_temp
@@ -270,7 +278,7 @@ _set_vram_byte::
     sta __vram_transfer_buffer+VRAM_HDR_DIRECTION,y
     sta __vram_transfer_buffer+VRAM_HDR_SIZEOF+1,y
     ; Write length
-    lda #1
+    lda #(128-4*1 + 1)
     sta __vram_transfer_buffer+VRAM_HDR_LENGTH,y
     ; Write address
     lda *ppu_addr+1
@@ -286,9 +294,9 @@ _set_vram_byte::
     adc #VRAM_HDR_SIZEOF+1
     ; store new write pointer
     sta *__vram_transfer_buffer_pos_w
-    ; __vram_transfer_buffer_num_cycles_x8 -= 7 (assumes carry clear)
+    ; __vram_transfer_buffer_num_cycles_x8 -= 6 (assumes carry clear)
     lda *__vram_transfer_buffer_num_cycles_x8
-    sbc #6
+    sbc #5
     sta *__vram_transfer_buffer_num_cycles_x8
     VRAM_BUFFER_UNLOCK
     ; Return PPU address
@@ -319,7 +327,10 @@ _set_vram_byte::
 
 .ppu_stripe_append_1byte:
     ; Append 1 byte
-    inc __vram_transfer_buffer+VRAM_HDR_LENGTH,x
+    dec __vram_transfer_buffer+VRAM_HDR_LENGTH,x
+    dec __vram_transfer_buffer+VRAM_HDR_LENGTH,x
+    dec __vram_transfer_buffer+VRAM_HDR_LENGTH,x
+    dec __vram_transfer_buffer+VRAM_HDR_LENGTH,x
     lda *_set_vram_byte_PARM_2
     ldx *__vram_transfer_buffer_pos_w
     sta __vram_transfer_buffer,x

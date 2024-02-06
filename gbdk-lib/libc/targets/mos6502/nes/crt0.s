@@ -96,6 +96,7 @@ i = i + 1
 .define ProcessDrawList_addr  "__crt0_NMITEMP+0"
 
 .bndry 0x100
+    nop         ; Pad to offset, to support zero-terminator value
 ProcessDrawList_UnrolledCopyLoop:
 .rept 32
 pla             ; +4
@@ -104,11 +105,6 @@ sta PPUDATA     ; +4
 ProcessDrawList_DoOneTransfer:
     pla                                         ; +4
     beq ProcessDrawList_EndOfList               ; +2/3
-    ; branchaddr = 128-4*num_bytes = NOT(4*num_bytes)+1+128 = NOT(4*num_bytes)+129
-    asl                                         ; +2
-    asl                                         ; +2
-    eor #0xFF                                   ; +2
-    adc #129                                    ; +2
     sta *ProcessDrawList_addr                   ; +3
     pla                                         ; +4
     sta PPUCTRL                                 ; +4
@@ -288,7 +284,7 @@ DoUpdateVRAM:
     bit *__vram_transfer_buffer_valid
     bmi DoUpdateVRAM_drawListValid
 DoUpdateVRAM_drawListInvalid:
-    ; Delay exactly 1633 cycles to keep timing consistent
+    ; Delay for remaining cycles to keep timing consistent
     ldx #(VRAM_DELAY_CYCLES_X8+7)
 DoUpdateVRAM_invalid_loop:
     lda *__vram_transfer_buffer_num_cycles_x8
@@ -298,7 +294,7 @@ DoUpdateVRAM_invalid_loop:
     rts
 DoUpdateVRAM_drawListValid:
     jsr ProcessDrawList
-    ; Delay up to 167*8-1 = 1575 cycles (value set by draw list creation code)
+    ; Delay for remaining cycles to keep timing consistent
     ; ...plus fixed-cost of 56 cycles
     ldx *__vram_transfer_buffer_num_cycles_x8
 DoUpdateVRAM_valid_loop:
