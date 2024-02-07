@@ -16,7 +16,7 @@
 ; 4: ...N data bytes...
 ;
 VRAM_HDR_SIZEOF         = 4
-VRAM_HDR_LENGTH         = 0
+VRAM_HDR_JMPADDR        = 0
 VRAM_HDR_DIRECTION      = 1
 VRAM_HDR_PPUHI          = 2
 VRAM_HDR_PPULO          = 3
@@ -37,6 +37,18 @@ VRAM_MAX_STRIPE_SIZE    = VRAM_HDR_SIZEOF + VRAM_MAX_BYTES
 .macro VRAM_BUFFER_UNLOCK
     sec
     ror *__vram_transfer_buffer_valid
+.endm
+
+;
+; Converts data length into JMP address for unrolled loop
+;
+; jmp addr = 128-4*num_bytes + 1 = NOT(4*num_bytes)+1+128 + 1 = NOT(4*num_bytes)+130
+;
+.macro LENGTH_TO_JMPADDR
+    asl
+    asl
+    eor #0xFF
+    adc #130
 .endm
 
 .area   GBDKOVR (PAG, OVR)
@@ -147,13 +159,9 @@ __vram_transfer_buffer_pos_old::        .ds 1
     sbc *__vram_transfer_buffer_pos_old
     sbc #VRAM_HDR_SIZEOF
     pha
-    ; branchaddr = 128-4*num_bytes + 1 = NOT(4*num_bytes)+1+128 + 1 = NOT(4*num_bytes)+130
-    asl
-    asl
-    eor #0xFF
-    adc #130
+    LENGTH_TO_JMPADDR
     ldy *__vram_transfer_buffer_pos_old
-    sta __vram_transfer_buffer+VRAM_HDR_LENGTH,y
+    sta __vram_transfer_buffer+VRAM_HDR_JMPADDR,y
     pla
     eor #0xFF
     sec
@@ -235,11 +243,12 @@ _set_vram_byte::
     lda __vram_transfer_buffer+VRAM_HDR_PPUHI,x
     cmp *ppu_addr+1
     bne .ppu_stripe_append_failed
-    lda __vram_transfer_buffer+VRAM_HDR_LENGTH,x
-    cmp #VRAM_MAX_BYTES
+    ; Don't handle appending if old size has reached VRAM_MAX_BYTES
+    lda __vram_transfer_buffer+VRAM_HDR_JMPADDR,x
+    cmp #(128-4*VRAM_MAX_BYTES + 1)
     beq .ppu_stripe_append_failed
     ; if last stripe only contains a single byte, branch to go-either-direction routine
-    cmp #1
+    cmp #(128-4*1 + 1)
     beq .ppu_stripe_append_second_byte
     ; Test for horizontal stripe
     lda __vram_transfer_buffer+VRAM_HDR_DIRECTION,x
@@ -248,7 +257,8 @@ _set_vram_byte::
     lda *ppu_addr
     sec
     sbc __vram_transfer_buffer+VRAM_HDR_PPULO,x
-    cmp __vram_transfer_buffer+VRAM_HDR_LENGTH,x
+    LENGTH_TO_JMPADDR
+    cmp __vram_transfer_buffer+VRAM_HDR_JMPADDR,x
     beq 0$
     jmp .ppu_stripe_append_failed
 0$:
@@ -264,7 +274,8 @@ _set_vram_byte::
     lsr
     sec
     sbc __vram_transfer_buffer+VRAM_HDR_PPULO,x
-    cmp __vram_transfer_buffer+VRAM_HDR_LENGTH,x
+    LENGTH_TO_JMPADDR
+    cmp __vram_transfer_buffer+VRAM_HDR_JMPADDR,x
     bne .ppu_stripe_append_failed
     ; Append 1 byte
     jmp .ppu_stripe_append_1byte
@@ -277,9 +288,9 @@ _set_vram_byte::
     lda #0
     sta __vram_transfer_buffer+VRAM_HDR_DIRECTION,y
     sta __vram_transfer_buffer+VRAM_HDR_SIZEOF+1,y
-    ; Write length
+    ; Write jmp addr
     lda #(128-4*1 + 1)
-    sta __vram_transfer_buffer+VRAM_HDR_LENGTH,y
+    sta __vram_transfer_buffer+VRAM_HDR_JMPADDR,y
     ; Write address
     lda *ppu_addr+1
     sta __vram_transfer_buffer+VRAM_HDR_PPUHI,y
@@ -327,10 +338,10 @@ _set_vram_byte::
 
 .ppu_stripe_append_1byte:
     ; Append 1 byte
-    dec __vram_transfer_buffer+VRAM_HDR_LENGTH,x
-    dec __vram_transfer_buffer+VRAM_HDR_LENGTH,x
-    dec __vram_transfer_buffer+VRAM_HDR_LENGTH,x
-    dec __vram_transfer_buffer+VRAM_HDR_LENGTH,x
+    dec __vram_transfer_buffer+VRAM_HDR_JMPADDR,x
+    dec __vram_transfer_buffer+VRAM_HDR_JMPADDR,x
+    dec __vram_transfer_buffer+VRAM_HDR_JMPADDR,x
+    dec __vram_transfer_buffer+VRAM_HDR_JMPADDR,x
     lda *_set_vram_byte_PARM_2
     ldx *__vram_transfer_buffer_pos_w
     sta __vram_transfer_buffer,x
