@@ -49,7 +49,7 @@
 
 #define EMU_MESSAGE1(name, message_text) \
 __asm \
-.MACRO name msg_t, ?llbl\
+.MACRO name msg_t, ?llbl \
   ld d, d \
   jr llbl \
   .dw 0x6464 \
@@ -63,7 +63,7 @@ __endasm
 #define EMU_MESSAGE_SUFFIX(message_text, message_suffix) EMU_MESSAGE3(EMU_MACRONAME(__LINE__), message_text, message_suffix)
 #define EMU_MESSAGE3(name, message_text, message_suffix) \
 __asm \
-.MACRO name msg_t, msg_s, ?llbl\
+.MACRO name msg_t, msg_s, ?llbl \
   ld d, d \
   jr llbl \
   .dw 0x6464 \
