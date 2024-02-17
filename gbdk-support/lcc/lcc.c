@@ -780,7 +780,7 @@ static void help(void) {
 "-c	compile only\n",
 "-dn	set switch statement density to `n'\n",
 "-debug   Turns on --debug for compiler, -y (.cdb), -j (.noi), -w (wide .map format) for linker\n",
-"                  -Wa-l (assembler .lst), -Wl-u (.lst -> .rst address update)",
+"                  -Wa-l (assembler .lst), -Wl-u (.lst -> .rst address update)\n",
 "-Dname -Dname=def	define the preprocessor symbol `name'\n",
 "-E	only run preprocessor on named .c and .h files files -> stdout\n",
 "--save-preproc  Use with -E for output to *.i files instead of stdout\n",
