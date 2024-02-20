@@ -18,7 +18,7 @@ void main(void) {
         waitpad(J_A);
 	if (gbprinter_detect(PRINTER_DETECT_TIMEOUT) == PRN_STATUS_OK) {
             if (gbprinter_print_image(scene00001_map, scene00001_tiles,
-                                      0,
+                                      (PRN_TILE_WIDTH - (scene00001_WIDTH / scene00001_TILE_W)) / 2,
                                       (scene00001_WIDTH / scene00001_TILE_W), (scene00001_HEIGHT / scene00001_TILE_H)) == PRN_STATUS_OK) {
                 puts("Printed OK!");
             } else {

@@ -95,7 +95,7 @@ uint8_t gbprinter_detect(uint8_t delay) {
     return printer_wait(delay, PRN_STATUS_MASK_ANY, PRN_STATUS_OK);
 }
 
-uint8_t gbprinter_print_image(const uint8_t * image_map, const uint8_t * image, uint8_t pos_x, uint8_t width, uint8_t height) {
+uint8_t gbprinter_print_image(const uint8_t * image_map, const uint8_t * image, int8_t pos_x, uint8_t width, uint8_t height) {
     static const uint8_t * img;
     static uint8_t error;
 
@@ -108,7 +108,7 @@ uint8_t gbprinter_print_image(const uint8_t * image_map, const uint8_t * image, 
     printer_tile_num = 0;
 
     for (uint8_t y = 0; y != rows; y++) {
-        for (uint8_t x = 0; x != PRN_TILE_WIDTH; x++) {
+        for (int16_t x = 0; x != PRN_TILE_WIDTH; x++) {
             // overlay the picture tile if in range
             if ((y < height) && (x >= pos_x) && (x < (pos_x + width))) {
                 uint8_t tile = image_map[(y * width) + (x - pos_x)];
