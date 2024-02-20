@@ -566,6 +566,16 @@ __endasm; \
 */
 #define SWITCH_ROM(b) (_current_bank = (b), rROMB0 = (b))
 
+#if defined(__TARGET_duck)
+
+#define SWITCH_RAM(b)
+
+#define ENABLE_RAM
+
+#define DISABLE_RAM
+
+#else
+
 /** Switches SRAM bank on MBC1 and other compatible MBCs
     @param b   SRAM bank to switch to
 
@@ -575,9 +585,15 @@ __endasm; \
 */
 #define SWITCH_RAM(b) (rRAMB = (b))
 
+/** Enables SRAM on MBC1 and other compatible MBCs
+*/
 #define ENABLE_RAM (rRAMG = 0x0A)
 
+/** Disables SRAM on MBC1 and other compatible MBCs
+*/
 #define DISABLE_RAM (rRAMG = 0x00)
+
+#endif
 
 /** Makes MEGADUCK MBC switch the active ROM bank
     @param b   ROM bank to switch to (max `3` for 64K, or `7` for 128K)
