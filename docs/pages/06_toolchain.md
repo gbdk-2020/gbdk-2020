@@ -231,7 +231,7 @@ Tool for converting PNGs into GBDK format MetaSprites and Tile Maps.
 
 - Convert single or multiple frames of graphics into metasprite structured data for use with the ...metasprite...() functions.
 - When `-map` is used, converts images into Tile Maps and matching Tile Sets
-- Supports Game Boy 2bpp, GBC 4bpp, SGB 4bpp, and SMS/GG 4bpp
+- Supports Game Boy / Color, SGB borders, SMS/GG, NES
 
 For detailed settings see @ref png2asset-settings  
 For working with sprite properties (including cgb palettes), see @ref metasprite_and_sprite_properties  

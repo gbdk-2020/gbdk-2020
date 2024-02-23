@@ -36,7 +36,7 @@
 	.globl __mulint
 
 ;--------------------------------------------------------
-; overlayable function paramters in zero page
+; overlayable function parameters in zero page
 ;--------------------------------------------------------
 	.area	OSEG    (PAG, OVR)
 __mulint_PARM_2:

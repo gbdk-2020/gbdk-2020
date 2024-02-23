@@ -12,6 +12,7 @@
 ; void refresh_OAM(); 
 _refresh_OAM::
         DISABLE_VBLANK_COPY     ; switch OFF copy shadow SAT
+
         ld de, #.VDP_SAT
         VDP_WRITE_CMD d, e
 

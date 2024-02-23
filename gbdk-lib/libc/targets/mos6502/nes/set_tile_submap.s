@@ -1,6 +1,6 @@
     .include    "global.s"
 
-    .area   OSEG (PAG, OVR)
+    .area   GBDKOVR (PAG, OVR)
     _set_bkg_submap_PARM_3::    .ds 1
     _set_bkg_submap_PARM_4::    .ds 1
     _set_bkg_submap_PARM_5::    .ds 2

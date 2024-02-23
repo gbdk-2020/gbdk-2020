@@ -3,7 +3,7 @@
     .title  "Metasprites"
     .module Metasprites
 
-    .area	OSEG (PAG, OVR)
+    .area	GBDKOVR (PAG, OVR)
     ___move_metasprite_PARM_2:: .ds 2
     ___move_metasprite_PARM_3:: .ds 2
     ___current_metasprite::     .ds 2

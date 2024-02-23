@@ -37,7 +37,7 @@
 	.globl __mullong
 
 ;--------------------------------------------------------
-; overlayable function paramters in zero page
+; overlayable function parameters in zero page
 ;--------------------------------------------------------
 	.area	OSEG    (PAG, OVR)
 __mullong_PARM_1:

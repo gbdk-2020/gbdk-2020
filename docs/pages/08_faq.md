@@ -17,6 +17,10 @@
     - The two main options are:
       - Use @ref set_bkg_based_tiles(), @ref set_bkg_based_submap(), @ref set_win_based_tiles(), @ref set_win_based_submap() and provide a tile origin offset.
       - Use @ref utility_png2asset with `-tile_origin` to create a map with the tile index offsets built in.
+
+  - Is it normal for sprites to disappear when they reach the left border of the screen? (NES/SMS/MSX)
+    - You can hide the leftmost column using @ref HIDE_LEFT_COLUMN to work around this.
+    - The behavior is due to NES/SMS/MSX having 8-bit Sprite x coordinates while the screen width is also 256 pixels. GB/GG don't have this problem since their screen is smaller and the x-coordinates are larger than the visible screen.
       <!-- -->  
 
 # ROM Header Settings
@@ -34,7 +38,12 @@
   - How do I set the ROM @ref MBC type, and what MBC values are available to use with the `-yt` @ref makebin flag?
     - See @ref setting_mbc_and_rom_ram_banks <!-- -->  
 
-# Errors
+# Editors
+  - Why is VSCode flagging some GBDK types or functions as unidentified or giving warnings about them?
+    - See @ref code_editors_hinting
+    - GBDK platform constants can be declared so that header files are parsed more completely in VSCode.
+
+# Errors and Warnings
   @anchor faq_gbz80_sm83_old_port_name_error
   - What does the error `old "gbz80" SDCC PORT name specified (in "-mgbz80:gb"). Use "sm83" instead. You must update your build settings.` mean?
     - The `PORT` name for the Game Boy and related clones changed from `gbz80` to `sm83` in the SDCC version used in GBDK-2020 4.1.0 and later. You must change your Makefile, Build settings, etc to use the new name. Additional details in the @ref console_port_plat_settings "Console Port and Platform Settings" section.  <!-- -->  
@@ -76,6 +85,13 @@
     - This may happen if you have large initialized arrays declared without the `const` keyword. It's important to use the const keyword for read-only data. See @ref const_gbtd_gbmb and @ref const_array_data
     - It can also happen if C source files are `#included` into other C source files, or if there is a very large source file.  <!-- -->  
 
+  - What does `warning 283: function declarator with no prototype` mean?
+    - Function forward declarations and definitions which have no arguments should be changed from `func()` to `func(void)`.
+    - In C `func()` and `func(void)` do not mean the same thing. `()` means any number of parameters, `(void)` means no parameters. For example if a function with no arguments is declared with `()` then there may not be an error or warning when mistakenly trying to pass arguments to it.   <!-- -->  
+
+  - What do the warnings `warning 126: unreachable code` and `warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG` mean?
+    - There is source code which the compiler has determined will never get executed based on the input values. So either a warning is omitted, or in some cases the optimizer has changed the program so that it skips code that will never run.  <!-- -->  
+
 @anchor faq_macos_security_warning
   - On macOS, what does `... developer cannot be verified, macOS cannot verify that this app is free from malware` mean?
     - It does not mean that GBDK is malware. It just means the GBDK toolchain binaries are not signed by Apple, so it won't run them without an additional step.
@@ -85,9 +101,9 @@
 
 # Debugging / Compiling / Toolchain
   - What flags should be enabled for debugging?
-    - You can use the @ref lcc_debug "lcc debug flag" `-debug`to turn on debug output. It covers most uses and removes the need to specify multiple flags such as `-Wa-l -Wl-m -Wl-j`. <!-- -->  
+    - You can use the @ref lcc_debug "lcc debug flag" `-debug`to turn on debug output. It covers most uses and removes the need to specify multiple flags such as `-Wa-l -Wl-m -Wl-j`. Also see @ref tools_debug. <!-- -->  
 
-  - Is it possible to generate a debug symbol file (`.sym`) compatible with the @ref bgb emulator?
+  - Is it possible to generate a debug symbol file (`.sym`) compatible with an emulator?
     - Yes, turn on `.noi` output (LCC argument: `-Wl-j` or `-debug` and then use `-Wm-yS` with LCC (or `-yS` with makebin directly). <!-- -->  
 
   - How do I move the start of the `DATA` section and the `Shadow OAM` location?

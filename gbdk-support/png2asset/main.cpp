@@ -29,46 +29,60 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-	int errorCode = 0;
+    int errorCode = 0;
 
-	// Read all arguments
-	PNG2AssetArguments arguments;
+    // Read all arguments
+    PNG2AssetArguments arguments;
 
-	// Make sure we had no errors
-	if((errorCode = processPNG2AssetArguments(argc, argv, &arguments)) != 0) {
-		return errorCode;
-	}
+    // Make sure we had no errors
+    if((errorCode = processPNG2AssetArguments(argc, argv, &arguments)) != 0) {
+        return errorCode;
+    }
 
-	PNG2AssetData png2AssetInstance;
+    // The png2AssetInstance tile and palette data is retained after
+    // processing source tilesets and so is shared with the main image
+    PNG2AssetData png2AssetInstance;
 
-	// If we have a source tilest
-	if(arguments.source_tilesets.size() > 0) {
+    // If we have a source tileset
+    if (arguments.source_tilesets.size() > 0) {
 
-		vector<string>::iterator sourceTilesetsIterator = arguments.source_tilesets.begin();
+        vector<string>::iterator sourceTilesetFileNameIter = arguments.source_tilesets.begin();
 
-		// Iterate through each source tileset and execute
-		for(sourceTilesetsIterator; sourceTilesetsIterator < arguments.source_tilesets.end(); sourceTilesetsIterator++) {
+        // Iterate through each source tileset and execute
+        while (sourceTilesetFileNameIter < arguments.source_tilesets.end()) {
 
-			// Run with our source tileset filename 
-			errorCode = png2AssetInstance.Execute(&arguments, *sourceTilesetsIterator);
+            // Run with current source tileset filename
+            arguments.processing_mode = MODE_SOURCE_TILESET;
+            errorCode = png2AssetInstance.Execute(&arguments, *sourceTilesetFileNameIter);
 
-			// Return the error code if the function returns non-zero
-			if(errorCode != 0) {
-				return errorCode;
-			}
+            // Return the error code if the function returns non-zero
+            if(errorCode != 0) {
+                return errorCode;
+            }
 
-		}
+            sourceTilesetFileNameIter++;
+        }
 
-		// Save these values for later usage on the main execution
-		arguments.source_tileset_size = png2AssetInstance.tiles.size();
-		arguments.source_total_color_count = png2AssetInstance.image.total_color_count;
-	}
+        // Save these values for later usage on the main execution
+        arguments.source_tileset_size      = (unsigned int)png2AssetInstance.tiles.size();
+        arguments.source_total_color_count = png2AssetInstance.image.total_color_count;
 
-	// Run the primary input file
-	// Return the error code if the function returns non-zero
-	if((errorCode = png2AssetInstance.Execute(&arguments, arguments.input_filename)) != 0) {
-		return errorCode;
-	}
+        // Clearing map and attributes isn't needed here since adding them is blocked for source tileset data
+        // (pre-refactor png2asset used map.clear() and map_attributes.clear() )
 
-	return png2AssetInstance.Export();
+        arguments.has_source_tilesets = true;
+        printf("Got %d tiles from the source tileset.\n", (unsigned int)arguments.source_tileset_size);
+        printf("Got %d palettes from the source tileset.\n", (unsigned int)(arguments.source_total_color_count / png2AssetInstance.image.colors_per_pal));        
+    }
+
+
+
+    // Run the primary input file
+    // Return the error code if the function returns non-zero
+    arguments.processing_mode = MODE_MAIN_IMAGE;
+    if((errorCode = png2AssetInstance.Execute(&arguments, arguments.input_filename)) != 0) {
+        return errorCode;
+    }
+
+    return png2AssetInstance.Export();
 }

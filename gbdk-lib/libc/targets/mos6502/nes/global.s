@@ -4,14 +4,14 @@
         VRAM_DELAY_CYCLES_X8  = 167
 
         ;;  Keypad
-        .UP             = 0x10
-        .DOWN           = 0x20
-        .LEFT           = 0x40
-        .RIGHT          = 0x80
-        .A              = 0x01
-        .B              = 0x02
-        .SELECT         = 0x04
-        .START          = 0x08
+        .UP             = 0x08
+        .DOWN           = 0x04
+        .LEFT           = 0x02
+        .RIGHT          = 0x01
+        .A              = 0x80
+        .B              = 0x40
+        .SELECT         = 0x20
+        .START          = 0x10
 
         ;;  Screen dimensions (in tiles)
         .DEVICE_SCREEN_WIDTH            = 32
@@ -110,7 +110,7 @@
 
         ;; Global variables
         .globl  .mode
-        .define .tmp "__TEMP"
+        .define .tmp "REGTEMP"
 
         .globl _shadow_PPUCTRL, _shadow_PPUMASK
         .globl _bkg_scroll_x, _bkg_scroll_y

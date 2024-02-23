@@ -2,17 +2,18 @@
 
 struct Vector2Position {
 
-	int x, y;
+    int x, y;
 };
 
 
 struct Vector2Size {
 
-	int width,height;
+    size_t width,height;
 };
 
 
 struct Rectangle {
 
-	int x, y,width,height;
+    int x, y;
+    size_t width, height;
 };

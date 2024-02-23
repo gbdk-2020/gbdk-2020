@@ -16,22 +16,20 @@ class PNG2AssetData {
 
 public:
 
-	int Execute(PNG2AssetArguments* arguments, string  input_filename);
-	int Export();
+    int Execute(PNG2AssetArguments* arguments, string  input_filename);
+    int Export();
 
-	int errorCode;
+    int errorCode;
 
-	PNG2AssetArguments* args;
+    PNG2AssetArguments* args;
 
-	vector< SetPal > palettes;
-	vector< Tile > tiles;
-	vector<	MetaSprite > sprites;
-	vector< unsigned char > map;
-	vector< unsigned char > map_attributes;
-	PNGImage source_tileset_image;
-	PNGImage image;
+    vector< SetPal > palettes;
+    vector< Tile > tiles;
+    vector< MetaSprite > sprites;
+    vector< unsigned char > map;
+    vector< unsigned char > map_attributes;
+    PNGImage image;
 
-	unsigned char rgb_to_nes[64];
 };
 
 

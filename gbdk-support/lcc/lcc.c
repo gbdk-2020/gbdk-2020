@@ -769,47 +769,49 @@ static int filename(char *name, char *base) {
 static void help(void) {
 	static char *msgs[] = {
 "", " [ option | file ]...\n",
-"	except for -l, options are processed left-to-right before files\n",
-"	unrecognized options are taken to be linker options\n",
-"-A	warn about nonANSI usage; 2nd -A warns more\n",
-"-b	emit expression-level profiling code; see bprint(1)\n",
+"    except for -l, options are processed left-to-right before files\n",
+"    unrecognized options are taken to be linker options\n",
+"-A             warn about nonANSI usage; 2nd -A warns more\n",
+"-b             emit expression-level profiling code; see bprint(1)\n",
 #ifdef sparc
-"-Bstatic -Bdynamic	specify static or dynamic libraries\n",
+"-Bstatic       specify static libraries\n",
+"-Bdynamic      specify dynamic libraries\n",
 #endif
-"-Bdir/	use the compiler named `dir/rcc'\n",
-"-c	compile only\n",
-"-dn	set switch statement density to `n'\n",
-"-debug	Turns on --debug for compiler, -y (.cdb) and -j (.noi) for linker\n",
-"-Dname -Dname=def	define the preprocessor symbol `name'\n",
-"-E	only run preprocessor on named .c and .h files files -> stdout\n",
-"--save-preproc  Use with -E for output to *.i files instead of stdout\n",
-"-g	produce symbol table information for debuggers\n",
-"-help or -?	print this message\n",
-"-Idir	add `dir' to the beginning of the list of #include directories\n",
-"-K don't run ihxcheck test on linker ihx output\n",
-"-lx	search library `x'\n",
-"-m	select port and platform: \"-m[port]:[plat]\" ports:sm83,z80,mos6502 plats:ap,duck,gb,sms,gg,nes\n",
-"-N	do not search the standard directories for #include files\n",
-"-n	emit code to check for dereferencing zero pointers\n",
-"-no-crt do not auto-include the gbdk crt0.o runtime in linker list\n",
-"-no-libs do not auto-include the gbdk libs in linker list\n",
-"-O	is ignored\n",
-"-o file	leave the output in `file'\n",
-"-P	print ANSI-style declarations for globals\n",
-"-p -pg	emit profiling code; see prof(1) and gprof(1)\n",
-"-S	compile to assembly language\n",
-"-autobank auto-assign banks set to 255 (bankpack)\n"
+"-Bdir/         use the compiler named `dir/rcc'\n",
+"-c             compile only\n",
+"-dn            set switch statement density to `n'\n",
+"-debug         Turns on --debug for compiler, -y (.cdb), -j (.noi), -w (wide .map format) for linker\n",
+"                       -Wa-l (assembler .lst), -Wl-u (.lst -> .rst address update)\n",
+"-Dname=def     define the preprocessor symbol `name'\n",
+"-E             only run preprocessor on named .c and .h files files -> stdout\n",
+"--save-preproc Use with -E for output to *.i files instead of stdout\n",
+"-g             produce symbol table information for debuggers\n",
+"-help or -?    print this message\n",
+"-Idir          add `dir' to the beginning of the list of #include directories\n",
+"-K             don't run ihxcheck test on linker ihx output\n",
+"-lx            search library `x'\n",
+"-m             select port and platform: \"-m[port]:[plat]\" ports:sm83,z80,mos6502 plats:ap,duck,gb,sms,gg,nes\n",
+"-N             do not search the standard directories for #include files\n",
+"-n             emit code to check for dereferencing zero pointers\n",
+"-no-crt        do not auto-include the gbdk crt0.o runtime in linker list\n",
+"-no-libs       do not auto-include the gbdk libs in linker list\n",
+"-O             is ignored\n",
+"-o file        leave the output in `file'\n",
+"-P             print ANSI-style declarations for globals\n",
+"-p -pg         emit profiling code; see prof(1) and gprof(1)\n",
+"-S             compile to assembly language\n",
+"-autobank      auto-assign banks set to 255 (bankpack)\n"
 #ifdef linux
-"-static	specify static libraries (default is dynamic)\n",
+"-static        specify static libraries (default is dynamic)\n",
 #endif
-"-t -tname	emit function tracing calls to printf or to `name'\n",
-"-target name	is ignored\n",
-"-tempdir=dir	place temporary files in `dir/'", "\n"
-"-Uname	undefine the preprocessor symbol `name'\n",
-"-v	show commands as they are executed; 2nd -v suppresses execution\n",
-"-w	suppress warnings\n",
-"-Woarg	specify system-specific `arg'\n",
-"-W[pfablim]arg	pass `arg' to the preprocessor, compiler, assembler, bankpack, linker, ihxcheck, or makebin\n",
+"-t -tname      emit function tracing calls to printf or to `name'\n",
+"-target name   is ignored\n",
+"-tempdir=dir   place temporary files in `dir/'", "\n"
+"-Uname         undefine the preprocessor symbol `name'\n",
+"-v             show commands as they are executed; 2nd -v suppresses execution\n",
+"-w             suppress warnings\n",
+"-Woarg         specify system-specific `arg'\n",
+"-W[pfablim]arg pass `arg' to the preprocessor, compiler, assembler, bankpack, linker, ihxcheck, or makebin\n",
 	0 };
 	int i;
 	char *s;
@@ -970,8 +972,12 @@ static void opt(char *arg) {
 		if (strcmp(arg, "-debug") == 0) {
 			// Load default debug options
 			clist	= append("--debug", clist);  // Debug for sdcc compiler
-			llist[L_ARGS] = append("-y", llist[L_ARGS]);	// Enable .cdb output for sdldgb linker
-			llist[L_ARGS] = append("-j", llist[L_ARGS]);	// Enable .noi output
+			llist[L_ARGS] = append("-y", llist[L_ARGS]);	// linker: .cdb output for sdldgb
+			llist[L_ARGS] = append("-j", llist[L_ARGS]);	// linker: .noi output
+
+			alist         = append("-l", alist);            // assembler: .lst output
+			llist[L_ARGS] = append("-u", llist[L_ARGS]);    // linker: .lst -> .rst address update
+			llist[L_ARGS] = append("-w", llist[L_ARGS]);    // linker: wide listing in .map file
 			return;
 		}
 

@@ -10,6 +10,7 @@
 _set_palette_entry::
         pop de
         pop bc
+
         ld hl, #.VDP_CRAM
         bit 0, c
         jr z, 1$
@@ -36,6 +37,7 @@ _set_palette_entry::
         jp po, 2$
         ei
 2$:        
+
         ld h, d
         ld l, e
         jp (hl)
@@ -44,6 +46,9 @@ _set_palette_entry::
 _set_palette::
         pop de
         pop bc
+
+        DISABLE_VBLANK_COPY              ; switch OFF copy shadow SAT
+
         ld hl, #.VDP_CRAM
         bit 0, c
         ld a, b
@@ -54,8 +59,6 @@ _set_palette::
         add hl, bc
         
         ld c, a
-
-        DISABLE_VBLANK_COPY              ; switch OFF copy shadow SAT
 
         ld a, i
         di

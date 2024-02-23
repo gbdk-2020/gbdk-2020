@@ -13,11 +13,6 @@ _shadow_OAM             = 0x200
 ; Attribute shadow (64 bytes, leaving 56 bytes available for CPU stack)
 _attribute_shadow       = 0x188
 
-; Declare a dummy symbol for banking
-; TODO: Make banking actually work
-b_wait_frames = 0
-.globl b_wait_frames
-
 .macro WRITE_PALETTE_SHADOW
     lda #>0x3F00
     sta PPUADDR
@@ -47,6 +42,7 @@ b_wait_frames = 0
         .area _BASE
         ;; Constant data
         .area _LIT
+        .area _RODATA
         ;; Constant data, used to init _DATA
         .area _INITIALIZER
         .area _XINIT
@@ -62,7 +58,8 @@ b_wait_frames = 0
         .area _HEAP
         .area _HEAP_END
 
-.area	OSEG    (PAG, OVR)
+.area	OSEG (PAG, OVR)
+.area	GBDKOVR (PAG, OVR)
 .area _ZP (PAG)
 __shadow_OAM_base::                     .ds 1
 __current_bank::                        .ds 1
@@ -70,10 +67,8 @@ _sys_time::                             .ds 2
 _shadow_PPUCTRL::                       .ds 1
 _shadow_PPUMASK::                       .ds 1
 __crt0_spritePageValid:                 .ds 1
-__crt0_NMI_Done:                        .ds 1
 __crt0_NMI_insideNMI:                   .ds 1
 __crt0_ScrollHV:                        .ds 1
-.mode::                                 .ds 1
 _bkg_scroll_x::                         .ds 1
 _bkg_scroll_y::                         .ds 1
 _attribute_row_dirty::                  .ds 1
@@ -84,6 +79,7 @@ _attribute_column_dirty::               .ds 1
 
 .area _BSS
 __crt0_paletteShadow::                  .ds 25
+.mode::                                 .ds 1
 
 .area _CODE
 
@@ -100,6 +96,7 @@ i = i + 1
 .define ProcessDrawList_addr  "__crt0_NMITEMP+0"
 
 .bndry 0x100
+    nop         ; Pad to offset, to support zero-terminator value
 ProcessDrawList_UnrolledCopyLoop:
 .rept 32
 pla             ; +4
@@ -108,11 +105,6 @@ sta PPUDATA     ; +4
 ProcessDrawList_DoOneTransfer:
     pla                                         ; +4
     beq ProcessDrawList_EndOfList               ; +2/3
-    ; branchaddr = 128-4*num_bytes = NOT(4*num_bytes)+1+128 = NOT(4*num_bytes)+129
-    asl                                         ; +2
-    asl                                         ; +2
-    eor #0xFF                                   ; +2
-    adc #129                                    ; +2
     sta *ProcessDrawList_addr                   ; +3
     pla                                         ; +4
     sta PPUCTRL                                 ; +4
@@ -236,9 +228,6 @@ NotInsideNMI:
     lda *(_sys_time+1)
     adc #0
     sta *(_sys_time+1)
-
-    lda #0x80
-    sta __crt0_NMI_Done
     
     lda *_shadow_PPUCTRL
     ora *__crt0_ScrollHV
@@ -253,6 +242,8 @@ NotInsideNMI:
     nop
     nop
     nop
+    lda #0x00
+    lda 0x0000
     ; Call the handler
     jsr .jmp_to_LCD_isr
 
@@ -293,7 +284,7 @@ DoUpdateVRAM:
     bit *__vram_transfer_buffer_valid
     bmi DoUpdateVRAM_drawListValid
 DoUpdateVRAM_drawListInvalid:
-    ; Delay exactly 1633 cycles to keep timing consistent
+    ; Delay for remaining cycles to keep timing consistent
     ldx #(VRAM_DELAY_CYCLES_X8+7)
 DoUpdateVRAM_invalid_loop:
     lda *__vram_transfer_buffer_num_cycles_x8
@@ -303,7 +294,7 @@ DoUpdateVRAM_invalid_loop:
     rts
 DoUpdateVRAM_drawListValid:
     jsr ProcessDrawList
-    ; Delay up to 167*8-1 = 1575 cycles (value set by draw list creation code)
+    ; Delay for remaining cycles to keep timing consistent
     ; ...plus fixed-cost of 56 cycles
     ldx *__vram_transfer_buffer_num_cycles_x8
 DoUpdateVRAM_valid_loop:
@@ -342,12 +333,12 @@ __crt0_waitPPU_loop:
     bpl __crt0_waitPPU_loop
     rts
 
-__crt0_clearRAM:
+.macro CRT0_CLEAR_RAM
     ldx #0x00
     txa
 __crt0_clearRAM_loop:
     sta 0x0000,x
-    ;sta 0x0100,x
+    sta 0x0100,x
     sta 0x0200,x
     sta 0x0300,x
     sta 0x0400,x
@@ -356,7 +347,7 @@ __crt0_clearRAM_loop:
     sta 0x0700,x
     inx
     bne __crt0_clearRAM_loop
-    rts
+.endm
 
 __crt0_clearVRAM:
     lda #0x00
@@ -400,7 +391,7 @@ __crt0_RESET_bankSwitchValue:
     jsr __crt0_waitPPU
     jsr __crt0_waitPPU
     ; Clear RAM and VRAM
-    jsr __crt0_clearRAM
+    CRT0_CLEAR_RAM
     jsr __crt0_clearVRAM
     ; Hide sprites in shadow OAM, and perform OAM DMA
     ldx #0

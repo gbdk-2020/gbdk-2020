@@ -5,7 +5,7 @@
 # LFLAGS = -s -static
 
 CXX = $(TOOLSPREFIX)g++
-CXXFLAGS = -Os -Wall -g
+CXXFLAGS = -Os -Wall -g # -Wextra -pedantic
 LFLAGS = -g
 
 ifeq ($(OS),Windows_NT)
@@ -41,7 +41,7 @@ endif
 TARGET = png2asset
 
 
-SRCS := lodepng.cpp png2asset.cpp rgb_to_nes_lut.cpp image_utils.cpp
+SRCS := cmp_int_color.cpp  image_data.cpp lodepng.cpp  map_attributes.cpp  metasprites.cpp png2asset.cpp rgb_to_nes_lut.cpp export.cpp image_utils.cpp main.cpp maps.cpp palettes.cpp process_arguments.cpp tiles.cpp
 OBJS := $(SRCS:%.cpp=%.o)
 
 $(TARGET): $(OBJS)

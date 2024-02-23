@@ -3,7 +3,7 @@
     .include "global.s"
     .include "mapper_macros.s"   
 
-    .area   OSEG (PAG, OVR)
+    .area   GBDKOVR (PAG, OVR)
     _to_far_ptr_PARM_2::    .ds 2
     
     .area _ZP

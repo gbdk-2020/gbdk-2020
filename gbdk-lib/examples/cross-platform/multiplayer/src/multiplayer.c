@@ -1,6 +1,5 @@
-#include <gb/gb.h>
-#include <stdint.h>
-#include <gb/sgb.h>
+//#include <stdint.h>
+#include <gbdk/platform.h>
 
 uint8_t sprite_data[] = {
     0x3C,0x3C,0x42,0x7E,0x99,0xFF,0xA9,0xFF,0x89,0xFF,0x89,0xFF,0x42,0x7E,0x3C,0x3C,
@@ -12,11 +11,12 @@ uint8_t sprite_data[] = {
 joypads_t joypads;
 
 void main(void) {
-    BGP_REG = OBP0_REG = OBP1_REG = 0xE4;
     set_sprite_data(0, 4, sprite_data);
     for (uint8_t i = 0; i < 4; i++) {
         set_sprite_tile(i, i);
-        move_sprite(i, (i << 3) + 64, 64);
+        move_sprite(i,
+                    DEVICE_SPRITE_PX_OFFSET_X + (i << 3) + ((DEVICE_SCREEN_PX_WIDTH - (4 * 8)) / 2), 
+                    DEVICE_SPRITE_PX_OFFSET_Y + ((DEVICE_SCREEN_PX_HEIGHT - 8) / 2));
     }
     SHOW_SPRITES;
 

@@ -330,16 +330,25 @@ void add_SIO(int_handler h);
 /** Adds a joypad button change interrupt handler.
 
     This interrupt occurs on a transition of any of the
-    keypad input lines from high to low. Due to the fact
-    that keypad "bounce" is virtually always present,
-    software should expect this interrupt to occur one
-    or more times for every button press and one or more
+    keypad input lines from high to low, if the relevant
+    @ref P1_REG bits 4 or 5 are set.
+
+    For details about configuring flags or reading the data see:
+    https://gbdev.io/pandocs/Interrupt_Sources.html#int-60--joypad-interrupt
+    https://gbdev.io/pandocs/Joypad_Input.html#ff00--p1joyp-joypad
+
+    Due to the fact that keypad "bounce" is virtually always
+    present, software should expect this interrupt to occur
+    one or more times for every button press and one or more
     times for every button release.
 
     Up to 4 handlers may be added, with the last added
     being called last.
 
-    @see joypad(), add_VBL()
+    An example use of this is allowing the user to trigger an
+    exit from the lower-power STOP cpu state.
+
+    @see joypad(), add_VBL(), IEF_HILO, P1F_5, P1F_4, P1F_3, P1F_2, P1F_1, P1F_0, P1F_GET_DPAD, P1F_GET_BTN, P1F_GET_NONE
 */
 void add_JOY(int_handler h);
 
@@ -482,6 +491,9 @@ extern volatile uint8_t _io_out;
 
 /** Tracks current active ROM bank
 
+    In most cases the @ref CURRENT_BANK macro for this variable
+    is recommended for use instead of the variable itself.
+
     The active bank number is not tracked by @ref _current_bank when
     @ref SWITCH_ROM_MBC5_8M is used.
 
@@ -554,6 +566,16 @@ __endasm; \
 */
 #define SWITCH_ROM(b) (_current_bank = (b), rROMB0 = (b))
 
+#if defined(__TARGET_duck)
+
+#define SWITCH_RAM(b)
+
+#define ENABLE_RAM
+
+#define DISABLE_RAM
+
+#else
+
 /** Switches SRAM bank on MBC1 and other compatible MBCs
     @param b   SRAM bank to switch to
 
@@ -563,9 +585,15 @@ __endasm; \
 */
 #define SWITCH_RAM(b) (rRAMB = (b))
 
+/** Enables SRAM on MBC1 and other compatible MBCs
+*/
 #define ENABLE_RAM (rRAMG = 0x0A)
 
+/** Disables SRAM on MBC1 and other compatible MBCs
+*/
 #define DISABLE_RAM (rRAMG = 0x00)
+
+#endif
 
 /** Makes MEGADUCK MBC switch the active ROM bank
     @param b   ROM bank to switch to (max `3` for 64K, or `7` for 128K)
@@ -618,14 +646,14 @@ __endasm; \
 #define SWITCH_ROM_MBC5(b) (_current_bank = (b), rROMB1 = 0, rROMB0 = (b))
 
 /** Makes MBC5 to switch the active ROM bank using the full 8MB size.
-    @see _current_bank
+    @see CURRENT_BANK
     @param b   ROM bank to switch to
 
     This is an alternate to @ref SWITCH_ROM_MBC5 which is limited to 4MB.
 
     Note:
     \li Banked SDCC calls are not supported if you use this macro.
-    \li The active bank number is not tracked by @ref _current_bank if you use this macro.
+    \li The active bank number is not tracked by @ref CURRENT_BANK if you use this macro.
     \li Using @ref SWITCH_ROM_MBC5_8M() should not be mixed with using @ref SWITCH_ROM_MBC5() and @ref SWITCH_ROM().
 
     Note the order used here. Writing the other way around on a MBC1 always selects bank 1
@@ -766,8 +794,16 @@ inline void disable_interrupts(void) PRESERVES_REGS(a, b, c, d, e, h, l) {
 */
 void set_interrupts(uint8_t flags) PRESERVES_REGS(b, c, d, e, h, l);
 
-/** Performs a warm reset by reloading the CPU value
-    then jumping to the start of crt0 (0x0150)
+/** Performs a soft reset.
+
+    For the Game Boy and related it does this by jumping to address 0x0150
+    which is in crt0.s (the c-runtime that executes before main() is called).
+
+    This performs various startup steps such as resetting the stack,
+    clearing WRAM and OAM, resetting initialized variables and some
+    display registers (scroll, window, LCDC), etc.
+
+    This is not the same a hard power reset.
 */
 void reset(void);
 
@@ -1845,6 +1881,19 @@ inline uint8_t get_sprite_tile(uint8_t nb) {
     \li Bit 1 - See bit 0.
     \li Bit 0 - GBC only. Bits 0-2 indicate which of the 7 OBJ colour palettes the
               sprite is assigned.
+
+    It's recommended to use GBDK constants (eg: S_FLIPY) to configure sprite properties as these are crossplatform.
+
+    \code{.c}
+    // Load palette data into the first palette
+    set_sprite_palette(4, 1, exampleSprite_palettes)
+
+    // Set the OAM value for the sprite
+    // These flags tell the sprite to flip both vertically and horizontally.
+    set_sprite_prop(0, S_FLIPY | S_FLIPX);
+    \endcode
+
+    @see S_PALETTE, S_FLIPX, S_FLIPY, S_PRIORITY
 */
 inline void set_sprite_prop(uint8_t nb, uint8_t prop) {
     shadow_OAM[nb].prop=prop;

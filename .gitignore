@@ -70,6 +70,7 @@ gbdk-lib/examples/gb/platformer_template/dist/
 gbdk-lib/examples/gb/platformer_template/gen/
 
 gbdk-support/png2hicolorgb/png2hicolorgb
+gbdk-support/romusage/romusage
 as/bin
 link/bin
 maccer

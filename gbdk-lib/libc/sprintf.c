@@ -4,7 +4,11 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-typedef void (*emitter_t)(char, char **) OLDCALL REENTRANT;
+#if defined(__PORT_mos6502)
+typedef void (*emitter_t)(char, char **) REENTRANT;
+#else
+typedef void (*emitter_t)(char, char **) OLDCALL;
+#endif
 
 static const char _hex[] = "0123456789ABCDEF";
 
@@ -98,12 +102,17 @@ void __printf(const char *format, emitter_t emitter, char **pData, va_list va)
     }
 }
 
-static void _sprintf_emitter(char c, char ** pData) OLDCALL REENTRANT {
+#if defined(__PORT_mos6502)
+static void _sprintf_emitter(char c, char ** pData) REENTRANT
+#else
+static void _sprintf_emitter(char c, char ** pData) OLDCALL
+#endif
+{
     **pData = c;
     (*pData)++;
 }
 
-void sprintf(char *into, const char *format, ...) OLDCALL {
+void sprintf(char *into, const char *format, ...) {
     va_list va;
     va_start(va, format);
 
