@@ -1,5 +1,5 @@
-#include <gb/gb.h>
-#include <gb/metasprites.h>
+#include <gbdk/platform.h>
+#include <gbdk/metasprites.h>
 #include <stdint.h>
 #include "common.h"
 #include "PlayerCharacter.h"
@@ -214,12 +214,12 @@ void UpdatePlayer(){
     uint8_t frame = grounded ? (turning ? 5 :((playerXVelocity>>4)==0 ? 0 : threeFrameCounterValue)) : (playerYVelocity<0 ? 3 : 4);
 
     // Get the player's position relative to the camera's position
-    uint16_t playerCameraX = playerRealX-camera_x;
-    uint16_t playerCameraY= playerRealY-camera_y;
+    uint16_t playerCameraX = (playerRealX-camera_x)+DEVICE_SPRITE_PX_OFFSET_X;
+    uint16_t playerCameraY= (playerRealY-camera_y)+DEVICE_SPRITE_PX_OFFSET_Y;
 
     // Flip horizontally, if we aren't facing right
-    if(facingRight)move_metasprite(PlayerCharacter_metasprites[frame],0,0,playerCameraX+DEVICE_SPRITE_PX_OFFSET_X,playerCameraY+DEVICE_SPRITE_PX_OFFSET_Y);
-    else move_metasprite_vflip(PlayerCharacter_metasprites[frame],0,0,playerCameraX+DEVICE_SPRITE_PX_OFFSET_X,playerCameraY+DEVICE_SPRITE_PX_OFFSET_Y);
+    if(facingRight)move_metasprite(PlayerCharacter_metasprites[frame],0,0,playerCameraX,playerCameraY);
+    else move_metasprite_vflip(PlayerCharacter_metasprites[frame],0,0,playerCameraX,playerCameraY);
 
     // Increase the level if the player is at the end
     if(playerRealX>currentLevelWidth-32){

@@ -3,7 +3,6 @@
 #include <gbdk/platform.h>
 #include "level.h"
 
-#include <gb/gb.h>
 #include <stdint.h>
 
 #define MIN(A,B) ((A)<(B)?(A):(B))

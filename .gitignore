@@ -65,9 +65,9 @@ gbdk-support/png2asset/png2asset
 gbdk-support/makebin/makebin
 gbdk-support/makecom/makecom
 
-gbdk-lib/examples/gb/platformer_template/obj/
-gbdk-lib/examples/gb/platformer_template/dist/
-gbdk-lib/examples/gb/platformer_template/gen/
+gbdk-lib/examples/cross-platform/platformer_template/obj/
+gbdk-lib/examples/cross-platform/platformer_template/dist/
+gbdk-lib/examples/cross-platform/platformer_template/gen/
 
 gbdk-support/png2hicolorgb/png2hicolorgb
 gbdk-support/romusage/romusage

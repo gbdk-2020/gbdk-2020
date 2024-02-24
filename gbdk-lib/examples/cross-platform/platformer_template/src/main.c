@@ -1,4 +1,4 @@
-#include <gb/gb.h>
+#include <gbdk/platform.h>
 #include <stdint.h>
 #include "player.h"
 #include "common.h"
@@ -43,6 +43,6 @@ void main(void)
         UpdateCamera();
 
 		// Done processing, yield CPU and wait for start of next frame
-        wait_vbl_done();
+        vsync();
     }
 }
