@@ -6,7 +6,7 @@
 # If you move this project you can change the directory 
 # to match your GBDK root directory (ex: GBDK_HOME = "C:/GBDK/"
 ifndef GBDK_HOME
-	GBDK_HOME = C:/gbdk/
+	GBDK_HOME = D:/Business/LaroldsJubilantJunkyard/projects/gbdk-2020-platformer-template/build/gbdk/
 endif
 
 PNG2ASSET = $(GBDK_HOME)bin/png2asset 
@@ -47,7 +47,8 @@ compile.bat: Makefile
 
 
 png2asset:
-	$(PNG2ASSET) res/player-character.png -c $(GENDIR)/PlayerCharacter.c -px 12 -py 6 -noflip -spr8x16 -keep_palette_order -sw 24 -sh 32 $(PNG2ASSET_SETTINGS)
+	$(PNG2ASSET) res/player-character-$(SPRITES)-left.png -c $(GENDIR)/PlayerCharacterLeft.c -px 12 -py 6 -spr8x16 -keep_palette_order -sw 24 -sh 32 $(PNG2ASSET_SETTINGS)
+	$(PNG2ASSET) res/player-character-$(SPRITES)-right.png -c $(GENDIR)/PlayerCharacterRight.c -px 12 -py 6 -spr8x16 -keep_palette_order -sw 24 -sh 32 $(PNG2ASSET_SETTINGS)
 	$(PNG2ASSET) res/world1-tileset.png -c $(GENDIR)/World1Tileset.c -noflip -map -tileset_only -keep_duplicate_tiles $(PNG2ASSET_SETTINGS)
 	$(PNG2ASSET) res/world2-tileset.png -c $(GENDIR)/World2Tileset.c -noflip -map -tileset_only -keep_duplicate_tiles $(PNG2ASSET_SETTINGS)
 	$(PNG2ASSET) res/world1-area1.png -c $(GENDIR)/World1Area1.c -noflip -map -maps_only -source_tileset res/world1-tileset.png $(PNG2ASSET_SETTINGS)
@@ -57,7 +58,7 @@ png2asset:
 
 # Compile .c files in "src/" to .o object files
 $(OBJDIR)/%.o:	$(SRCDIR)/%.c 
-	$(LCC) $(LCCFLAGS) -I$(GENDIR) -Ires -c -o $@ $<
+	$(LCC) $(LCCFLAGS) $(CFLAGS) -I$(GENDIR) -Ires -c -o $@ $<
 
 # Compile .s assembly files in "src/" to .o object files
 $(OBJDIR)/%.o:	$(SRCDIR)/%.s
@@ -70,7 +71,7 @@ $(OBJDIR)/%.s:	$(SRCDIR)/%.c
 
 # Link the compiled object files into a .gb ROM file
 $(BINS):	$(OBJS) 
-	$(LCC) $(LCCFLAGS) -I$(GENDIR) -o $(BINDIR)/$(PROJECTNAME).$(EXT) $(OBJS) $(GENSOURCES)
+	$(LCC) $(LCCFLAGS) $(CFLAGS) -I$(GENDIR) -o $(BINDIR)/$(PROJECTNAME).$(EXT) $(OBJS) $(GENSOURCES)
 
 
 prepare:

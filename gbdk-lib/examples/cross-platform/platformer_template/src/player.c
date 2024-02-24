@@ -2,7 +2,8 @@
 #include <gbdk/metasprites.h>
 #include <stdint.h>
 #include "common.h"
-#include "PlayerCharacter.h"
+#include "PlayerCharacterLeft.h"
+#include "PlayerCharacterRight.h"
 #include "camera.h"
 #include "level.h"
 
@@ -39,10 +40,12 @@ void SetupPlayer(){
     playerYVelocity=0;
 
     // Set the DMG color palette that fits PlayerCharacter's spriteset
+    #ifdef GAMEBOY
     OBP0_REG = 0x4E;
+    #endif
 
     // Put the PlayerCharacter's tiles in VRAM
-    set_sprite_data(0,PlayerCharacter_TILE_COUNT,PlayerCharacter_tiles);
+     set_sprite_data (0,PlayerCharacterRight_TILE_COUNT,PlayerCharacterRight_tiles);
 }
 void UpdatePlayer(){
     
@@ -70,6 +73,10 @@ void UpdatePlayer(){
             turning=TRUE;
         }else{
             playerXVelocity=moveSpeed;
+
+            // Switch our vram data for the player
+            if(!facingRight)set_sprite_data (0,PlayerCharacterRight_TILE_COUNT,PlayerCharacterRight_tiles);
+            
             facingRight=TRUE;
         }
     }else if(joypadCurrent &J_LEFT){
@@ -82,6 +89,10 @@ void UpdatePlayer(){
             turning=TRUE;
         }else{
             playerXVelocity=-moveSpeed;
+
+            // Switch our vram data for the player
+            if(facingRight)set_sprite_data (0,PlayerCharacterLeft_TILE_COUNT,PlayerCharacterLeft_tiles);
+            
             facingRight=FALSE;
         }
         
@@ -218,8 +229,9 @@ void UpdatePlayer(){
     uint16_t playerCameraY= (playerRealY-camera_y)+DEVICE_SPRITE_PX_OFFSET_Y;
 
     // Flip horizontally, if we aren't facing right
-    if(facingRight)move_metasprite(PlayerCharacter_metasprites[frame],0,0,playerCameraX,playerCameraY);
-    else move_metasprite_vflip(PlayerCharacter_metasprites[frame],0,0,playerCameraX,playerCameraY);
+    
+    if(facingRight)move_metasprite(PlayerCharacterRight_metasprites[frame],0,0,playerCameraX,playerCameraY);
+    else move_metasprite(PlayerCharacterLeft_metasprites[frame],0,0,playerCameraX,playerCameraY);
 
     // Increase the level if the player is at the end
     if(playerRealX>currentLevelWidth-32){

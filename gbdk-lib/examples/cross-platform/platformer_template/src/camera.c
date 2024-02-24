@@ -1,9 +1,6 @@
-
 #include <stdint.h>
 #include <gbdk/platform.h>
 #include "level.h"
-
-#include <stdint.h>
 
 #define MIN(A,B) ((A)<(B)?(A):(B))
 
@@ -17,7 +14,8 @@ uint8_t redraw;
 void UpdateCamera(){
 
     // update hardware scroll position
-    SCY_REG = camera_y; SCX_REG = camera_x; 
+    move_bkg(camera_x,camera_y);
+
     // up or down
     map_pos_y = (uint8_t)(camera_y >> 3u);
     if (map_pos_y != old_map_pos_y) { 
