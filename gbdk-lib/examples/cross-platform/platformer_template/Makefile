@@ -47,16 +47,32 @@ compile.bat: Makefile
 	@make -sn | sed y/\\//\\\\/ | grep -v make >> compile.bat
 
 
+# png2asset settings for backgrounds
+PNG2ASSET_BKG_SETTINGS_nes=-noflip -bpp 2 -pack_mode nes
+PNG2ASSET_BKG_SETTINGS_gg=
+PNG2ASSET_BKG_SETTINGS_gb=
+PNG2ASSET_BKG_SETTINGS_duck=
+PNG2ASSET_BKG_SETTINGS_pocket=
+PNG2ASSET_BKG_SETTINGS_sms=
+
+# png2asset settings for sprites
+PNG2ASSET_SPRITE_SETTINGS_gg=-noflip
+PNG2ASSET_SPRITE_SETTINGS_sms=-noflip
+PNG2ASSET_SPRITE_SETTINGS_nes=
+PNG2ASSET_SPRITE_SETTINGS_gb=
+PNG2ASSET_SPRITE_SETTINGS_duck=
+PNG2ASSET_SPRITE_SETTINGS_pocket=
+
 png2asset:
-	$(PNG2ASSET) res/player-character-$(SPRITES)-left.png -c $(GENDIR)/PlayerCharacterLeft.c -px 12 -py 6 -spr8x16 -keep_palette_order -sw 24 -sh 32 $(PNG2ASSET_SETTINGS)
-	$(PNG2ASSET) res/player-character-$(SPRITES)-right.png -c $(GENDIR)/PlayerCharacterRight.c -px 12 -py 6 -spr8x16 -keep_palette_order -sw 24 -sh 32 $(PNG2ASSET_SETTINGS)
-	$(PNG2ASSET) res/world1-tileset.png -c $(GENDIR)/World1Tileset.c -noflip -map -tileset_only -keep_duplicate_tiles $(PNG2ASSET_SETTINGS)
-	$(PNG2ASSET) res/world2-tileset.png -c $(GENDIR)/World2Tileset.c -noflip -map -tileset_only -keep_duplicate_tiles $(PNG2ASSET_SETTINGS)
-	$(PNG2ASSET) res/world1-area1.png -c $(GENDIR)/World1Area1.c -noflip -map -maps_only -source_tileset res/world1-tileset.png $(PNG2ASSET_SETTINGS)
-	$(PNG2ASSET) res/world1-area2.png -c $(GENDIR)/World1Area2.c -noflip -map -maps_only -source_tileset res/world1-tileset.png $(PNG2ASSET_SETTINGS)
-	$(PNG2ASSET) res/world2-area1.png -c $(GENDIR)/World2Area1.c -noflip -map -maps_only -source_tileset res/world2-tileset.png $(PNG2ASSET_SETTINGS)
-	$(PNG2ASSET) res/title-screen.png -c $(GENDIR)/TitleScreen.c -noflip -map $(PNG2ASSET_SETTINGS)
-	$(PNG2ASSET) res/next-level.png -c $(GENDIR)/NextLevel.c -noflip -map $(PNG2ASSET_SETTINGS)
+	$(PNG2ASSET) res/player-character-$(SPRITES)-left.png -c $(GENDIR)/PlayerCharacterLeft.c -px 12 -py 6 -spr8x16 -keep_palette_order -sw 24 -sh 32 $(PNG2ASSET_SPRITE_SETTINGS_$(EXT))
+	$(PNG2ASSET) res/player-character-$(SPRITES)-right.png -c $(GENDIR)/PlayerCharacterRight.c -px 12 -py 6 -spr8x16 -keep_palette_order -sw 24 -sh 32 $(PNG2ASSET_SPRITE_SETTINGS_$(EXT))
+	$(PNG2ASSET) res/world1-tileset.png -c $(GENDIR)/World1Tileset.c -noflip -map -tileset_only -keep_duplicate_tiles $(PNG2ASSET_BKG_SETTINGS_$(EXT))
+	$(PNG2ASSET) res/world2-tileset.png -c $(GENDIR)/World2Tileset.c -noflip -map -tileset_only -keep_duplicate_tiles $(PNG2ASSET_BKG_SETTINGS_$(EXT))
+	$(PNG2ASSET) res/world1-area1.png -c $(GENDIR)/World1Area1.c -noflip -map -maps_only -source_tileset res/world1-tileset.png $(PNG2ASSET_BKG_SETTINGS_$(EXT)) 
+	$(PNG2ASSET) res/world1-area2.png -c $(GENDIR)/World1Area2.c -noflip -map -maps_only -source_tileset res/world1-tileset.png $(PNG2ASSET_BKG_SETTINGS_$(EXT))
+	$(PNG2ASSET) res/world2-area1.png -c $(GENDIR)/World2Area1.c -noflip -map -maps_only -source_tileset res/world2-tileset.png $(PNG2ASSET_BKG_SETTINGS_$(EXT))
+	$(PNG2ASSET) res/title-screen.png -c $(GENDIR)/TitleScreen.c -noflip -map $(PNG2ASSET_BKG_SETTINGS_$(EXT)) 
+	$(PNG2ASSET) res/next-level.png -c $(GENDIR)/NextLevel.c -noflip -map $(PNG2ASSET_BKG_SETTINGS_$(EXT))
 
 
 # Compile .c files in "src/" to .o object files

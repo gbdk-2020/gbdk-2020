@@ -41,16 +41,16 @@ megaduck:
 sms-clean:
 	${MAKE} clean-target EXT=sms
 sms:
-	${MAKE} build-target PORT=z80 PLAT=sms EXT=sms SPRITES=ggsms PNG2ASSET_SETTINGS="-noflip"
+	${MAKE} build-target PORT=z80 PLAT=sms EXT=sms SPRITES=ggsms
 
 
 gg-clean:
 	${MAKE} clean-target EXT=gg
 gg:
-	${MAKE} build-target PORT=z80 PLAT=gg EXT=gg SPRITES=ggsms PNG2ASSET_SETTINGS="-noflip"
+	${MAKE} build-target PORT=z80 PLAT=gg EXT=gg SPRITES=ggsms
 
 
 nes-clean:
 	${MAKE} clean-target EXT=nes
 nes:
-	${MAKE} build-target PORT=mos6502 PLAT=nes EXT=nes SPRITES=gbapduck PNG2ASSET_SETTINGS="-pack_mode nes -use_nes_colors"
+	${MAKE} build-target PORT=mos6502 PLAT=nes EXT=nes SPRITES=nes

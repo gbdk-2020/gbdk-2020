@@ -9,6 +9,12 @@
 
 void main(void)
 {
+    
+    #ifdef NINTENDO
+        // init palettes
+        BGP_REG = OBP0_REG = OBP1_REG = DMG_PALETTE(DMG_WHITE, DMG_LITE_GRAY, DMG_DARK_GRAY, DMG_BLACK);
+    #endif
+    
 	// Turn the background map on to make it visible
     SHOW_BKG;
     SHOW_SPRITES;

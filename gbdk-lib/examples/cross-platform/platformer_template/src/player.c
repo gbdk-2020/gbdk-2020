@@ -49,12 +49,7 @@ void SetupPlayer(){
 
     playerXVelocity=0;
     playerYVelocity=0;
-
-    // Set the DMG color palette that fits PlayerCharacter's spriteset
-    #ifdef GAMEBOY
-    OBP0_REG = 0x4E;
-    #endif
-
+    
     UpdatePlayerVRAMTiles();
 
 }
