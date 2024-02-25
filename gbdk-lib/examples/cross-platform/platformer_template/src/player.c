@@ -29,6 +29,17 @@ uint8_t threeFrameCounter=0;
 uint16_t playerX, playerY;
 int16_t playerXVelocity, playerYVelocity;
 
+/**
+ * @brief We'll Put the PlayerCharacter's tiles in VRAM.
+ * Not every platform supports tile-flipping. We want To avoid wasting vram space with both left & right animations.
+ * we'll keep tiles only for the direction we are facing.
+ */
+void UpdatePlayerVRAMTiles(){
+
+    if(facingRight)set_sprite_data (0,PlayerCharacterRight_TILE_COUNT,PlayerCharacterRight_tiles);
+    else set_sprite_data (0,PlayerCharacterLeft_TILE_COUNT,PlayerCharacterLeft_tiles);
+}
+
 void SetupPlayer(){
 
     // Player will start at 40,40
@@ -44,8 +55,8 @@ void SetupPlayer(){
     OBP0_REG = 0x4E;
     #endif
 
-    // Put the PlayerCharacter's tiles in VRAM
-     set_sprite_data (0,PlayerCharacterRight_TILE_COUNT,PlayerCharacterRight_tiles);
+    UpdatePlayerVRAMTiles();
+
 }
 void UpdatePlayer(){
     
@@ -75,7 +86,7 @@ void UpdatePlayer(){
             playerXVelocity=moveSpeed;
 
             // Switch our vram data for the player
-            if(!facingRight)set_sprite_data (0,PlayerCharacterRight_TILE_COUNT,PlayerCharacterRight_tiles);
+            if(!facingRight)UpdatePlayerVRAMTiles();
             
             facingRight=TRUE;
         }
@@ -91,7 +102,7 @@ void UpdatePlayer(){
             playerXVelocity=-moveSpeed;
 
             // Switch our vram data for the player
-            if(facingRight)set_sprite_data (0,PlayerCharacterLeft_TILE_COUNT,PlayerCharacterLeft_tiles);
+            if(facingRight)UpdatePlayerVRAMTiles();
             
             facingRight=FALSE;
         }

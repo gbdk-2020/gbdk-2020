@@ -55,6 +55,8 @@ png2asset:
 	$(PNG2ASSET) res/world1-area1.png -c $(GENDIR)/World1Area1.c -noflip -map -maps_only -source_tileset res/world1-tileset.png $(PNG2ASSET_SETTINGS)
 	$(PNG2ASSET) res/world1-area2.png -c $(GENDIR)/World1Area2.c -noflip -map -maps_only -source_tileset res/world1-tileset.png $(PNG2ASSET_SETTINGS)
 	$(PNG2ASSET) res/world2-area1.png -c $(GENDIR)/World2Area1.c -noflip -map -maps_only -source_tileset res/world2-tileset.png $(PNG2ASSET_SETTINGS)
+	$(PNG2ASSET) res/title-screen.png -c $(GENDIR)/TitleScreen.c -noflip -map $(PNG2ASSET_SETTINGS)
+	$(PNG2ASSET) res/next-level.png -c $(GENDIR)/NextLevel.c -noflip -map $(PNG2ASSET_SETTINGS)
 
 
 # Compile .c files in "src/" to .o object files

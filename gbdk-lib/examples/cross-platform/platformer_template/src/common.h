@@ -3,4 +3,6 @@
 
 
 extern uint8_t joypadCurrent, joypadPrevious;
+
+void WaitForStartOrA();
 #endif

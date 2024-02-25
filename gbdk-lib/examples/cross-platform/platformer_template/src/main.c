@@ -2,6 +2,8 @@
 #include <stdint.h>
 #include "player.h"
 #include "common.h"
+#include "title_screen.h"
+#include "next_level.h"
 #include "level.h"
 #include "Camera.h"
 
@@ -12,6 +14,8 @@ void main(void)
     SHOW_SPRITES;
     SPRITES_8x16;
 
+    ShowTitleScreen();
+
     // Make sure these are initially different so the "setupcurrentLevel" logic is triggered
     currentLevel=255;
     nextLevel=0;
@@ -21,6 +25,12 @@ void main(void)
 
         // if we want to change levels
         if(nextLevel!=currentLevel){
+
+            // if we're not starting the game (where currentLevel = 255)
+            if(currentLevel!=255){
+
+                ShowNextLevel();
+            }
 
             // Update what our current level is
             currentLevel=nextLevel;
