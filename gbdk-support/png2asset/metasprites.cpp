@@ -34,7 +34,7 @@ void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y, PNG
             {
                 size_t idx;
                 unsigned char props;
-                unsigned char pal_idx = assetData->image.data[y * assetData->image.w + x] >> 2; //We can pick the palette from the first pixel of this tile
+                unsigned char pal_idx = assetData->image.data[y * assetData->image.w + x] >> assetData->args->bpp; //We can pick the palette from the first pixel of this tile
 
                 // When both -keep_duplicate_tiles and source tilesets are used then
                 // keep_duplicate_tiles should only apply to source tilesets, not the main image
