@@ -568,7 +568,7 @@ __endasm; \
 
 #if defined(__TARGET_duck)
 
-#define SWITCH_RAM(b)
+#define SWITCH_RAM(b) (0)
 
 #define ENABLE_RAM
 
