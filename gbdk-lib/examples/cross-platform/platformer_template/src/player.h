@@ -5,7 +5,7 @@
 extern uint16_t playerX, playerY;
 extern int16_t playerXVelocity, playerYVelocity;
 
-void SetupPlayer();
-void UpdatePlayer();
+void SetupPlayer() BANKED;
+void UpdatePlayer() BANKED;
 
 #endif

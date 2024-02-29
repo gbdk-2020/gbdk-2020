@@ -23,7 +23,7 @@ gb:
 gbc-clean:
 	${MAKE} clean-target EXT=gbc
 gbc:
-	${MAKE} build-target PORT=sm83 PLAT=gb EXT=gbc SPRITES=gbapduck
+	${MAKE} build-target PORT=sm83 PLAT=gb EXT=gbc SPRITES=gbc
 
 
 pocket-clean:

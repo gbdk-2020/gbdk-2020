@@ -6,7 +6,7 @@
 # If you move this project you can change the directory 
 # to match your GBDK root directory (ex: GBDK_HOME = "C:/GBDK/"
 ifndef GBDK_HOME
-	GBDK_HOME = ../../../../
+	GBDK_HOME = ../../../
 endif
 	
 
@@ -38,7 +38,17 @@ GENSOURCES    = $(foreach dir,$(GENDIR), $(wildcard $(dir)/*.c))
 ASMSOURCES  = $(foreach dir,$(SRCDIR),$(notdir $(wildcard $(dir)/*.s)))
 OBJS       = $(CSOURCES:%.c=$(OBJDIR)/%.o) $(ASMSOURCES:%.s=$(OBJDIR)/%.o)
 
-LCCFLAGS += $(LCCFLAGS_$(EXT)) # This adds the current platform specific LCC Flags
+LCCFLAGS += -Wl-j -Wm-yoA -Wm-ya4 -Wb-ext=.rel -Wb- $(LCCFLAGS_$(EXT)) # This adds the current platform specific LCC Flags
+
+
+# Configure platform specific LCC flags here:
+LCCFLAGS_gb      = -Wm-ys -Wl-yt0x1B -autobank # Set an MBC for banking (1B-ROM+MBC5+RAM+BATT)
+LCCFLAGS_pocket  = -Wm-ys -Wl-yt0x1B -autobank # Usually the same as required for .gb
+LCCFLAGS_duck    = -Wm-ys -Wl-yt0x1B -autobank # Usually the same as required for .gb
+LCCFLAGS_gbc     = -Wm-ys -Wl-yt0x1B -Wm-yc -autobank # Same as .gb with: -Wm-yc (gb & gbc) or Wm-yC (gbc exclusive)
+LCCFLAGS_sms     = -autobank
+LCCFLAGS_gg      = -autobank
+LCCFLAGS_nes     = -autobank 
 
 all: $(TARGETS)
 
@@ -51,6 +61,7 @@ compile.bat: Makefile
 PNG2ASSET_BKG_SETTINGS_nes=-noflip -bpp 2 -pack_mode nes
 PNG2ASSET_BKG_SETTINGS_gg=
 PNG2ASSET_BKG_SETTINGS_gb=
+PNG2ASSET_BKG_SETTINGS_gbc=
 PNG2ASSET_BKG_SETTINGS_duck=
 PNG2ASSET_BKG_SETTINGS_pocket=
 PNG2ASSET_BKG_SETTINGS_sms=
@@ -60,19 +71,23 @@ PNG2ASSET_SPRITE_SETTINGS_gg=-noflip
 PNG2ASSET_SPRITE_SETTINGS_sms=-noflip
 PNG2ASSET_SPRITE_SETTINGS_nes=
 PNG2ASSET_SPRITE_SETTINGS_gb=
+PNG2ASSET_SPRITE_SETTINGS_gbc=
 PNG2ASSET_SPRITE_SETTINGS_duck=
 PNG2ASSET_SPRITE_SETTINGS_pocket=
 
+
+
 png2asset:
-	$(PNG2ASSET) res/player-character-$(SPRITES)-left.png -c $(GENDIR)/PlayerCharacterLeft.c -px 12 -py 6 -spr8x16 -keep_palette_order -sw 24 -sh 32 $(PNG2ASSET_SPRITE_SETTINGS_$(EXT))
-	$(PNG2ASSET) res/player-character-$(SPRITES)-right.png -c $(GENDIR)/PlayerCharacterRight.c -px 12 -py 6 -spr8x16 -keep_palette_order -sw 24 -sh 32 $(PNG2ASSET_SPRITE_SETTINGS_$(EXT))
-	$(PNG2ASSET) res/world1-tileset.png -c $(GENDIR)/World1Tileset.c -noflip -map -tileset_only -keep_duplicate_tiles $(PNG2ASSET_BKG_SETTINGS_$(EXT))
-	$(PNG2ASSET) res/world2-tileset.png -c $(GENDIR)/World2Tileset.c -noflip -map -tileset_only -keep_duplicate_tiles $(PNG2ASSET_BKG_SETTINGS_$(EXT))
-	$(PNG2ASSET) res/world1-area1.png -c $(GENDIR)/World1Area1.c -noflip -map -maps_only -source_tileset res/world1-tileset.png $(PNG2ASSET_BKG_SETTINGS_$(EXT)) 
-	$(PNG2ASSET) res/world1-area2.png -c $(GENDIR)/World1Area2.c -noflip -map -maps_only -source_tileset res/world1-tileset.png $(PNG2ASSET_BKG_SETTINGS_$(EXT))
-	$(PNG2ASSET) res/world2-area1.png -c $(GENDIR)/World2Area1.c -noflip -map -maps_only -source_tileset res/world2-tileset.png $(PNG2ASSET_BKG_SETTINGS_$(EXT))
-	$(PNG2ASSET) res/title-screen.png -c $(GENDIR)/TitleScreen.c -noflip -map $(PNG2ASSET_BKG_SETTINGS_$(EXT)) 
-	$(PNG2ASSET) res/next-level.png -c $(GENDIR)/NextLevel.c -noflip -map $(PNG2ASSET_BKG_SETTINGS_$(EXT))
+	$(PNG2ASSET) res/graphics/player-character-$(SPRITES)-left.png -c $(GENDIR)/PlayerCharacterLeft.c -px 12 -py 6 -spr8x16 -keep_palette_order -sw 24 -sh 32 $(PNG2ASSET_SPRITE_SETTINGS_$(EXT)) -b 255
+	$(PNG2ASSET) res/graphics/player-character-$(SPRITES)-right.png -c $(GENDIR)/PlayerCharacterRight.c -px 12 -py 6 -spr8x16 -keep_palette_order -sw 24 -sh 32 $(PNG2ASSET_SPRITE_SETTINGS_$(EXT)) -b 255
+	$(PNG2ASSET) res/graphics/world1-tileset.png -c $(GENDIR)/World1Tileset.c -noflip -map -keep_duplicate_tiles $(PNG2ASSET_BKG_SETTINGS_$(EXT)) -b 255
+	$(PNG2ASSET) res/graphics/world1-waves.png -c $(GENDIR)/World1Waves.c -noflip -map -keep_duplicate_tiles $(PNG2ASSET_BKG_SETTINGS_$(EXT)) -b 255
+	$(PNG2ASSET) res/graphics/world2-tileset.png -c $(GENDIR)/World2Tileset.c -noflip -map -keep_duplicate_tiles $(PNG2ASSET_BKG_SETTINGS_$(EXT)) -b 255
+	$(PNG2ASSET) res/graphics/world1-area1.png -c $(GENDIR)/World1Area1.c -noflip -map -maps_only -source_tileset res/graphics/world1-tileset.png $(PNG2ASSET_BKG_SETTINGS_$(EXT))  -b 255
+	$(PNG2ASSET) res/graphics/world1-area2.png -c $(GENDIR)/World1Area2.c -noflip -map -maps_only -source_tileset res/graphics/world1-tileset.png $(PNG2ASSET_BKG_SETTINGS_$(EXT)) -b 255
+	$(PNG2ASSET) res/graphics/world2-area1.png -c $(GENDIR)/World2Area1.c -noflip -map -maps_only -source_tileset res/graphics/world2-tileset.png $(PNG2ASSET_BKG_SETTINGS_$(EXT)) -b 255
+	$(PNG2ASSET) res/graphics/title-screen.png -c $(GENDIR)/TitleScreen.c -noflip -map $(PNG2ASSET_BKG_SETTINGS_$(EXT))  -b 255
+	$(PNG2ASSET) res/graphics/next-level.png -c $(GENDIR)/NextLevel.c -noflip -map $(PNG2ASSET_BKG_SETTINGS_$(EXT)) -b 255
 
 
 # Compile .c files in "src/" to .o object files

@@ -12,6 +12,7 @@ extern uint8_t *currentLevelMap;
 extern uint8_t currentLevelNonSolidTileCount;
 
 extern uint8_t currentLevel;
+extern uint8_t currentAreaBank;
 extern uint8_t nextLevel;
 
 uint8_t IsTileSolid(uint16_t worldX,uint16_t worldY);

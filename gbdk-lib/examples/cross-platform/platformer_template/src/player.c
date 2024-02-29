@@ -1,3 +1,5 @@
+#pragma bank 255
+
 #include <gbdk/platform.h>
 #include <gbdk/metasprites.h>
 #include <stdint.h>
@@ -6,6 +8,10 @@
 #include "PlayerCharacterRight.h"
 #include "camera.h"
 #include "level.h"
+
+BANKREF_EXTERN(PlayerCharacterLeft)
+BANKREF_EXTERN(PlayerCharacterRight)
+
 
 #define GRAVTY 15
 #define GROUND_FRICTION 15
@@ -34,13 +40,22 @@ int16_t playerXVelocity, playerYVelocity;
  * Not every platform supports tile-flipping. We want To avoid wasting vram space with both left & right animations.
  * we'll keep tiles only for the direction we are facing.
  */
-void UpdatePlayerVRAMTiles(){
+void UpdatePlayerVRAMTiles() NONBANKED{
+    uint8_t _previous_bank = _current_bank;
 
-    if(facingRight)set_sprite_data (0,PlayerCharacterRight_TILE_COUNT,PlayerCharacterRight_tiles);
-    else set_sprite_data (0,PlayerCharacterLeft_TILE_COUNT,PlayerCharacterLeft_tiles);
+    if(facingRight){
+
+        SWITCH_ROM(BANK(PlayerCharacterRight));
+        set_sprite_data (0,PlayerCharacterRight_TILE_COUNT,PlayerCharacterRight_tiles);
+    } else {
+
+        SWITCH_ROM(BANK(PlayerCharacterLeft));
+        set_sprite_data (0,PlayerCharacterLeft_TILE_COUNT,PlayerCharacterLeft_tiles);
+    }
+    SWITCH_ROM(_previous_bank);
 }
 
-void SetupPlayer(){
+void SetupPlayer() BANKED{
 
     // Player will start at 40,40
     // the playerX and playerY variables are scaled, so we shift to the left by 4
@@ -51,9 +66,47 @@ void SetupPlayer(){
     playerYVelocity=0;
     
     UpdatePlayerVRAMTiles();
+        
+    // Set up color palettes
+    #if defined(SEGA)
+        __WRITE_VDP_REG(VDP_R2, R2_MAP_0x3800);
+        __WRITE_VDP_REG(VDP_R5, R5_SAT_0x3F00);
+        set_sprite_palette(0, PlayerCharacterLeft_PALETTE_COUNT, PlayerCharacterLeft_palettes);
+    #elif defined(GAMEBOY)
+        if (_cpu == CGB_TYPE) {
+            set_sprite_palette(OAMF_CGB_PAL0, PlayerCharacterLeft_PALETTE_COUNT, PlayerCharacterLeft_palettes);
+        }
+    #elif defined(NINTENDO_NES)
+        set_sprite_palette(0, PlayerCharacterLeft_PALETTE_COUNT, PlayerCharacterLeft_palettes);
+    #endif 
 
 }
-void UpdatePlayer(){
+
+void DrawPlayer(uint16_t playerRealX, uint16_t playerRealY, uint8_t frame) NONBANKED{
+    uint8_t _previous_bank = _current_bank;
+
+
+    // Get the player's position relative to the camera's position
+    uint16_t playerCameraX = (playerRealX-camera_x)+DEVICE_SPRITE_PX_OFFSET_X;
+    uint16_t playerCameraY= (playerRealY-camera_y)+DEVICE_SPRITE_PX_OFFSET_Y;
+
+    // Flip horizontally, if we aren't facing right
+    
+    if(facingRight){
+
+        SWITCH_ROM(BANK(PlayerCharacterRight));
+        move_metasprite(PlayerCharacterRight_metasprites[frame],0,0,playerCameraX,playerCameraY);
+
+   } else {
+
+        SWITCH_ROM(BANK(PlayerCharacterLeft));
+        move_metasprite(PlayerCharacterLeft_metasprites[frame],0,0,playerCameraX,playerCameraY);
+   }
+
+    SWITCH_ROM(_previous_bank);
+}
+
+void UpdatePlayer() BANKED{
     
     // Use the run velocity if the B button is held
     // Animate the threeFrameCounter faster when B is held
@@ -230,14 +283,7 @@ void UpdatePlayer(){
     //   Falling        = Frame 4
     uint8_t frame = grounded ? (turning ? 5 :((playerXVelocity>>4)==0 ? 0 : threeFrameCounterValue)) : (playerYVelocity<0 ? 3 : 4);
 
-    // Get the player's position relative to the camera's position
-    uint16_t playerCameraX = (playerRealX-camera_x)+DEVICE_SPRITE_PX_OFFSET_X;
-    uint16_t playerCameraY= (playerRealY-camera_y)+DEVICE_SPRITE_PX_OFFSET_Y;
-
-    // Flip horizontally, if we aren't facing right
-    
-    if(facingRight)move_metasprite(PlayerCharacterRight_metasprites[frame],0,0,playerCameraX,playerCameraY);
-    else move_metasprite(PlayerCharacterLeft_metasprites[frame],0,0,playerCameraX,playerCameraY);
+    DrawPlayer(playerRealX,playerRealY,frame);
 
     // Increase the level if the player is at the end
     if(playerRealX>currentLevelWidth-32){

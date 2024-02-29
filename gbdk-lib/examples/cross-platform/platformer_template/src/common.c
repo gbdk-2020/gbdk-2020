@@ -1,4 +1,6 @@
+
 #include <gbdk/platform.h>
+#include <gbdk/metasprites.h>
 #include <stdint.h>
 #include "common.h"
 
@@ -17,4 +19,26 @@ void WaitForStartOrA(){
         vsync();
         
     }
+}
+
+void ShowCentered(uint8_t widthInTiles,uint8_t heightInTiles,uint8_t bank, uint8_t* tileData, uint8_t tileCount, uint8_t* mapData) NONBANKED{
+
+uint8_t _previous_bank = CURRENT_BANK;
+    
+
+    // Hide any remainder sprites
+    hide_sprites_range(0,MAX_HARDWARE_SPRITES);
+
+    move_bkg(0,0);
+
+    // Make sure the graphic is centered on the screen
+    uint8_t titleRow = (DEVICE_SCREEN_HEIGHT-(heightInTiles>>3))/2;
+    uint8_t titleColumn = (DEVICE_SCREEN_WIDTH-(widthInTiles>>3))/2;
+
+    SWITCH_ROM(bank);
+
+    set_native_tile_data(0,tileCount,tileData);
+    fill_bkg_rect(0,0,DEVICE_SCREEN_WIDTH,DEVICE_SCREEN_HEIGHT,0);
+    set_bkg_tiles(titleColumn,titleRow,widthInTiles>>3,heightInTiles>>3,mapData);
+    SWITCH_ROM(_previous_bank);
 }
