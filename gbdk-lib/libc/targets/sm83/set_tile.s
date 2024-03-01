@@ -10,43 +10,48 @@ _set_vram_byte::
         ret
 
 _set_win_tile_xy::
-        ldh     a,(.LCDC)
+        ld      d, a
+        ldh     a, (.LCDC)
         and     #LCDCF_WIN9C00
-        jr      z,.is98
+        jr      z, .is98
         jr      .is9c
+
 _set_bkg_tile_xy::
-        ldh     a,(.LCDC)
+        ld      d, a
+        ldh     a, (.LCDC)
         and     #LCDCF_BG9C00
-        jr      nz,.is9c
+        jr      nz, .is9c
 .is98:
-        ld      d,#0x98         ; DE = origin
+        ld      b, #0x98
         jr      .set_tile_xy
 .is9c:
-        ld      d,#0x9C         ; DE = origin
+        ld      b,#0x9C
 
-.set_tile_xy:
-        push    bc
-        ldhl    sp,#4
+.set_tile_xy:                   ; DE = XY; B = origin
+        ld      l, #0x1f
+        ld      a, d
+        and     l
+        ld      d, a
+        ld      a, e
+        and     l
 
-        ld      a, (hl+)
-        ld      b, a
-        ld      a, (hl+)
-
-        ld      e, d
+        ld      c, b
         swap    a
         rlca
-        ld      c, a
+        ld      e, a
         and     #0x03
-        add     e
-        ld      d, a
+        add     c
+        ld      b, a
         ld      a, #0xE0
-        and     c
-        add     b
-        ld      e, a            ; dest DE = BASE + 0x20 * Y + X
+        and     e
+        add     d
+        ld      c, a            ; dest BC = (BASE << 8) + 0x20 * Y + X
 
+        ldhl    sp, #2
         WAIT_STAT
         ld      a, (hl)
-        ld      (de), a
+        ld      (bc), a         ; return BC as result
 
-        pop     bc
-        ret
+        pop     hl
+        inc     sp
+        jp      (hl)

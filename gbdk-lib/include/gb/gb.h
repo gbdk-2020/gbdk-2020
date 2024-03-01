@@ -1359,7 +1359,7 @@ void get_bkg_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *tiles) O
 
     @return returns the address of tile, so you may use faster set_vram_byte() later
 */
-uint8_t * set_bkg_tile_xy(uint8_t x, uint8_t y, uint8_t t) OLDCALL PRESERVES_REGS(b, c);
+uint8_t * set_bkg_tile_xy(uint8_t x, uint8_t y, uint8_t t);
 #define set_tile_xy set_bkg_tile_xy
 
 /** Set single attribute data a on background layer at x,y
@@ -1659,7 +1659,7 @@ void get_win_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *tiles) O
  * @param t tile index
  * @return returns the address of tile, so you may use faster set_vram_byte() later
  */
-uint8_t * set_win_tile_xy(uint8_t x, uint8_t y, uint8_t t) OLDCALL PRESERVES_REGS(b, c);
+uint8_t * set_win_tile_xy(uint8_t x, uint8_t y, uint8_t t);
 
 
 /**
