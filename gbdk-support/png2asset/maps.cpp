@@ -29,7 +29,7 @@ void GetMap( PNG2AssetData* assetData)
         for(int x = 0; x < (int)assetData->image.w; x += assetData->image.tile_w)
         {
             Tile tile(assetData->image.tile_w * assetData->image.tile_h);
-            assetData->image.ExtractTile(x, y, tile, assetData->args->sprite_mode, assetData->args->export_as_map, assetData->args->use_map_attributes);
+            assetData->image.ExtractTile(x, y, tile, assetData->args->sprite_mode, assetData->args->export_as_map, assetData->args->use_map_attributes, assetData->args->bpp);
 
             size_t idx;
             unsigned char props;
