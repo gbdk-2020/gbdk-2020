@@ -531,6 +531,32 @@ inline void cpu_fast(void) {}
 void set_palette_entry(uint8_t palette, uint8_t entry, uint16_t rgb_data) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
 #define set_bkg_palette_entry set_palette_entry
 #define set_sprite_palette_entry(palette,entry,rgb_data) set_palette_entry(1,entry,rgb_data)
+
+
+/** Set color palette(s)
+
+    @param first_palette  Index of the first 16 color palette to write (0-1)
+    @param nb_palettes    Number of palettes to write (1-2, max depends on first_palette)
+    @param rgb_data       Pointer to source palette data
+
+    Writes __nb_palettes__ to palette data starting
+    at __first_palette__, Palette data is sourced from __rgb_data__.
+
+    \li Palette 0 can be used for the Background.
+    \li Palette 1 is shared between Background and Sprites.
+
+    On the Game Gear
+    \li Each Palette is 32 bytes in size: 16 colors x 2 bytes per palette color entry.
+    \li Each color (16 per palette) is packed as BGR-444 format (x:4:4:4, MSBits [15..12] are unused).
+    \li Each component (R, G, B) may have values from 0 - 15 (4 bits), 15 is brightest.
+
+    On the SMS
+    \li On SMS each Palette is 16 bytes in size: 16 colors x 1 byte per palette color entry.
+    \li Each color (16 per palette) is packed as BGR-222 format (x:2:2:2, MSBits [7..6] are unused).
+    \li Each component (R, G, B) may have values from 0 - 3 (2 bits), 3 is brightest.
+
+    @see RGB(), set_sprite_palette(), set_bkg_palette(), set_palette_entry(), set_sprite_palette_entry(), set_bkg_palette_entry(), set_sprite_palette()
+*/
 void set_palette(uint8_t first_palette, uint8_t nb_palettes, const palette_color_t *rgb_data) Z88DK_CALLEE;
 #define set_bkg_palette set_palette
 #define set_sprite_palette(first_palette,nb_palettes,rgb_data) set_palette(1,1,rgb_data)

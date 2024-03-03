@@ -811,7 +811,7 @@ void wait_vbl_done(void) PRESERVES_REGS(b, c, d, e, h, l);
 
 /** Turns the display off.
 
-    Waits until the VBL interrupt before turning the display off.
+    Waits until the VBL before turning the display off.
     @see DISPLAY_ON
 */
 void display_off(void) PRESERVES_REGS(b, c, d, e, h, l);
@@ -835,7 +835,9 @@ void hiramcpy(uint8_t dst, const void *src, uint8_t n) OLDCALL PRESERVES_REGS(b,
 #define DISPLAY_ON \
   LCDC_REG|=LCDCF_ON
 
-/** Turns the display off immediately.
+/** Turns the display off
+
+    Waits until the VBL before turning the display off.
     @see display_off, DISPLAY_ON
 */
 #define DISPLAY_OFF \
