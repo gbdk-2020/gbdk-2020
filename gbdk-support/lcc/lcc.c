@@ -781,7 +781,7 @@ static void help(void) {
 "-c             compile only\n",
 "-dn            set switch statement density to `n'\n",
 "-debug         Turns on --debug for compiler, -y (.cdb), -j (.noi), -w (wide .map format) for linker\n",
-"                       -Wa-l (assembler .lst), -Wl-u (.lst -> .rst address update)\n",
+"                       -Wa-l (assembler .lst)\n",
 "-Dname=def     define the preprocessor symbol `name'\n",
 "-E             only run preprocessor on named .c and .h files files -> stdout\n",
 "--save-preproc Use with -E for output to *.i files instead of stdout\n",
@@ -976,7 +976,11 @@ static void opt(char *arg) {
 			llist[L_ARGS] = append("-j", llist[L_ARGS]);	// linker: .noi output
 
 			alist         = append("-l", alist);            // assembler: .lst output
-			llist[L_ARGS] = append("-u", llist[L_ARGS]);    // linker: .lst -> .rst address update
+			// -Wl-u is turned off for now because SDCC generates a build error if no matching
+			// .lst file is present for an object file. It does not fail gracefully.
+			// For example when the user includes a pre-built object file for a music driver
+			//
+			// llist[L_ARGS] = append("-u", llist[L_ARGS]);    // linker: .lst -> .rst address update
 			llist[L_ARGS] = append("-w", llist[L_ARGS]);    // linker: wide listing in .map file
 			return;
 		}
