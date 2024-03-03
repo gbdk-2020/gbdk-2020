@@ -64,22 +64,6 @@ uint8_t IsTileSolid(uint16_t worldX,uint16_t worldY) NONBANKED{
 
     return tile<currentLevelNonSolidTileCount;
 }
-
-void setBKGPalettes(uint8_t count, const palette_color_t *palettes) NONBANKED{
-    // Set up color palettes
-    #if defined(SEGA)
-        __WRITE_VDP_REG(VDP_R2, R2_MAP_0x3800);
-        __WRITE_VDP_REG(VDP_R5, R5_SAT_0x3F00);
-        set_bkg_palette(0, count, palettes);
-    #elif defined(GAMEBOY)
-        if (_cpu == CGB_TYPE) {
-            set_bkg_palette(OAMF_CGB_PAL0, count, palettes);
-        }
-    #elif defined(NINTENDO_NES)
-        set_bkg_palette(0, count, palettes);
-    #endif 
-}
-
 uint8_t waterFrame=0;
 
 void World1VBL() NONBANKED{
@@ -109,8 +93,8 @@ void World1VBL() NONBANKED{
     SWITCH_ROM(_previous_bank);
 }
 
-
-void SetupCurrentLevel() NONBANKED{
+void RemoveVerticalBlankHandlers(){
+    
 
     // If we have a vertical blank handler set
     if(currentLevelVBL!=0){
@@ -123,9 +107,20 @@ void SetupCurrentLevel() NONBANKED{
         // Reset our value
         currentLevelVBL=0;
     }
+}
+
+void SetupCurrentLevel() NONBANKED{
+    
+    RemoveVerticalBlankHandlers();
     
 
     uint8_t _previous_bank = _current_bank;
+
+    for(uint8_t i=0;i<DEVICE_SCREEN_BUFFER_WIDTH;i++){
+        for(uint8_t j=0;j<DEVICE_SCREEN_BUFFER_HEIGHT;j++){
+            set_attribute_xy(i,j,0);
+            }
+    }
 
 
     // We only have 3 levels
@@ -217,5 +212,6 @@ void SetupCurrentLevel() NONBANKED{
 
             break;
     }
+
     SWITCH_ROM(_previous_bank);
 }

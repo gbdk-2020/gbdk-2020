@@ -21,9 +21,25 @@ void WaitForStartOrA(){
     }
 }
 
-void ShowCentered(uint8_t widthInTiles,uint8_t heightInTiles,uint8_t bank, uint8_t* tileData, uint8_t tileCount, uint8_t* mapData) NONBANKED{
+void setBKGPalettes(uint8_t count, const palette_color_t *palettes) NONBANKED{
+    // Set up color palettes
+    #if defined(SEGA)
+        __WRITE_VDP_REG(VDP_R2, R2_MAP_0x3800);
+        __WRITE_VDP_REG(VDP_R5, R5_SAT_0x3F00);
+        set_bkg_palette(0, count, palettes);
+    #elif defined(GAMEBOY)
+        if (_cpu == CGB_TYPE) {
+            set_bkg_palette(OAMF_CGB_PAL0, count, palettes);
+        }
+    #elif defined(NINTENDO_NES)
+        set_bkg_palette(0, count, palettes);
+    #endif 
+}
 
-uint8_t _previous_bank = CURRENT_BANK;
+
+void ShowCentered(uint8_t widthInTiles,uint8_t heightInTiles,uint8_t bank, uint8_t* tileData, uint8_t tileCount, uint8_t* mapData, const palette_color_t* palettes) NONBANKED{
+
+    uint8_t _previous_bank = CURRENT_BANK;
     
 
     // Hide any remainder sprites
@@ -36,6 +52,8 @@ uint8_t _previous_bank = CURRENT_BANK;
     uint8_t titleColumn = (DEVICE_SCREEN_WIDTH-(widthInTiles>>3))/2;
 
     SWITCH_ROM(bank);
+
+    setBKGPalettes(1,palettes);
 
     set_native_tile_data(0,tileCount,tileData);
     fill_bkg_rect(0,0,DEVICE_SCREEN_WIDTH,DEVICE_SCREEN_HEIGHT,0);

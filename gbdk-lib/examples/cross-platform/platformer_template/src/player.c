@@ -35,6 +35,14 @@ uint8_t threeFrameCounter=0;
 uint16_t playerX, playerY;
 int16_t playerXVelocity, playerYVelocity;
 
+    // Flip horizontally, if we aren't facing right
+
+#if defined(NINTENDO_NES)
+    const uint8_t baseProp=4;
+#else
+    const uint8_t baseProp=0;
+#endif
+
 /**
  * @brief We'll Put the PlayerCharacter's tiles in VRAM.
  * Not every platform supports tile-flipping. We want To avoid wasting vram space with both left & right animations.
@@ -46,11 +54,12 @@ void UpdatePlayerVRAMTiles() NONBANKED{
     if(facingRight){
 
         SWITCH_ROM(BANK(PlayerCharacterRight));
-        set_sprite_data (0,PlayerCharacterRight_TILE_COUNT,PlayerCharacterRight_tiles);
+
+        set_sprite_native_data (0,PlayerCharacterRight_TILE_COUNT,PlayerCharacterRight_tiles);
     } else {
 
         SWITCH_ROM(BANK(PlayerCharacterLeft));
-        set_sprite_data (0,PlayerCharacterLeft_TILE_COUNT,PlayerCharacterLeft_tiles);
+        set_sprite_native_data (0,PlayerCharacterLeft_TILE_COUNT,PlayerCharacterLeft_tiles);
     }
     SWITCH_ROM(_previous_bank);
 }
@@ -66,7 +75,7 @@ void SetupPlayer() BANKED{
     playerYVelocity=0;
     
     UpdatePlayerVRAMTiles();
-        
+        /*
     // Set up color palettes
     #if defined(SEGA)
         __WRITE_VDP_REG(VDP_R2, R2_MAP_0x3800);
@@ -77,8 +86,8 @@ void SetupPlayer() BANKED{
             set_sprite_palette(OAMF_CGB_PAL0, PlayerCharacterLeft_PALETTE_COUNT, PlayerCharacterLeft_palettes);
         }
     #elif defined(NINTENDO_NES)
-        set_sprite_palette(0, PlayerCharacterLeft_PALETTE_COUNT, PlayerCharacterLeft_palettes);
-    #endif 
+        set_sprite_palette(baseProp, PlayerCharacterLeft_PALETTE_COUNT, PlayerCharacterLeft_palettes);
+    #endif */
 
 }
 
@@ -88,19 +97,19 @@ void DrawPlayer(uint16_t playerRealX, uint16_t playerRealY, uint8_t frame) NONBA
 
     // Get the player's position relative to the camera's position
     uint16_t playerCameraX = (playerRealX-camera_x)+DEVICE_SPRITE_PX_OFFSET_X;
-    uint16_t playerCameraY= (playerRealY-camera_y)+DEVICE_SPRITE_PX_OFFSET_Y;
+    uint16_t playerCameraY= (playerRealY)+DEVICE_SPRITE_PX_OFFSET_Y;
 
     // Flip horizontally, if we aren't facing right
     
     if(facingRight){
 
         SWITCH_ROM(BANK(PlayerCharacterRight));
-        move_metasprite(PlayerCharacterRight_metasprites[frame],0,0,playerCameraX,playerCameraY);
+        move_metasprite_ex(PlayerCharacterRight_metasprites[frame],0,baseProp,0,playerCameraX,playerCameraY);
 
    } else {
 
         SWITCH_ROM(BANK(PlayerCharacterLeft));
-        move_metasprite(PlayerCharacterLeft_metasprites[frame],0,0,playerCameraX,playerCameraY);
+        move_metasprite_ex(PlayerCharacterLeft_metasprites[frame],0,baseProp,0,playerCameraX,playerCameraY);
    }
 
     SWITCH_ROM(_previous_bank);
@@ -134,9 +143,11 @@ void UpdatePlayer() BANKED{
             playerXVelocity=moveSpeed;
 
             // Switch our vram data for the player
-            if(!facingRight)UpdatePlayerVRAMTiles();
+            if(!facingRight){
+                facingRight=TRUE;
+                UpdatePlayerVRAMTiles();
+            }
             
-            facingRight=TRUE;
         }
     }else if(joypadCurrent &J_LEFT){
 
@@ -150,9 +161,11 @@ void UpdatePlayer() BANKED{
             playerXVelocity=-moveSpeed;
 
             // Switch our vram data for the player
-            if(facingRight)UpdatePlayerVRAMTiles();
+            if(facingRight){
+                facingRight=FALSE;
+                UpdatePlayerVRAMTiles();
+            }
             
-            facingRight=FALSE;
         }
         
     }else{

@@ -46,9 +46,9 @@ LCCFLAGS_gb      = -Wm-ys -Wl-yt0x1B -autobank # Set an MBC for banking (1B-ROM+
 LCCFLAGS_pocket  = -Wm-ys -Wl-yt0x1B -autobank # Usually the same as required for .gb
 LCCFLAGS_duck    = -Wm-ys -Wl-yt0x1B -autobank # Usually the same as required for .gb
 LCCFLAGS_gbc     = -Wm-ys -Wl-yt0x1B -Wm-yc -autobank # Same as .gb with: -Wm-yc (gb & gbc) or Wm-yC (gbc exclusive)
-LCCFLAGS_sms     = -autobank
-LCCFLAGS_gg      = -autobank
-LCCFLAGS_nes     = -autobank 
+LCCFLAGS_sms     = -Wm-ys -Wl-yt0x1B -autobank
+LCCFLAGS_gg      = -Wm-ys -Wl-yt0x1B -autobank
+LCCFLAGS_nes     = -Wm-ys -Wl-yt0x1B -autobank
 
 all: $(TARGETS)
 
@@ -59,16 +59,16 @@ compile.bat: Makefile
 
 # png2asset settings for backgrounds
 PNG2ASSET_BKG_SETTINGS_nes=-noflip -bpp 2 -pack_mode nes
-PNG2ASSET_BKG_SETTINGS_gg=
+PNG2ASSET_BKG_SETTINGS_gg=-pack_mode sms -bpp 4
 PNG2ASSET_BKG_SETTINGS_gb=
 PNG2ASSET_BKG_SETTINGS_gbc=
 PNG2ASSET_BKG_SETTINGS_duck=
 PNG2ASSET_BKG_SETTINGS_pocket=
-PNG2ASSET_BKG_SETTINGS_sms=
+PNG2ASSET_BKG_SETTINGS_sms=-pack_mode sms -bpp 4
 
 # png2asset settings for sprites
-PNG2ASSET_SPRITE_SETTINGS_gg=-noflip
-PNG2ASSET_SPRITE_SETTINGS_sms=-noflip
+PNG2ASSET_SPRITE_SETTINGS_gg=-noflip -pack_mode sms -bpp 4
+PNG2ASSET_SPRITE_SETTINGS_sms=-noflip -pack_mode sms -bpp 4
 PNG2ASSET_SPRITE_SETTINGS_nes=
 PNG2ASSET_SPRITE_SETTINGS_gb=
 PNG2ASSET_SPRITE_SETTINGS_gbc=
@@ -80,9 +80,9 @@ PNG2ASSET_SPRITE_SETTINGS_pocket=
 png2asset:
 	$(PNG2ASSET) res/graphics/player-character-$(SPRITES)-left.png -c $(GENDIR)/PlayerCharacterLeft.c -px 12 -py 6 -spr8x16 -keep_palette_order -sw 24 -sh 32 $(PNG2ASSET_SPRITE_SETTINGS_$(EXT)) -b 255
 	$(PNG2ASSET) res/graphics/player-character-$(SPRITES)-right.png -c $(GENDIR)/PlayerCharacterRight.c -px 12 -py 6 -spr8x16 -keep_palette_order -sw 24 -sh 32 $(PNG2ASSET_SPRITE_SETTINGS_$(EXT)) -b 255
-	$(PNG2ASSET) res/graphics/world1-tileset.png -c $(GENDIR)/World1Tileset.c -noflip -map -keep_duplicate_tiles $(PNG2ASSET_BKG_SETTINGS_$(EXT)) -b 255
-	$(PNG2ASSET) res/graphics/world1-waves.png -c $(GENDIR)/World1Waves.c -noflip -map -keep_duplicate_tiles $(PNG2ASSET_BKG_SETTINGS_$(EXT)) -b 255
-	$(PNG2ASSET) res/graphics/world2-tileset.png -c $(GENDIR)/World2Tileset.c -noflip -map -keep_duplicate_tiles $(PNG2ASSET_BKG_SETTINGS_$(EXT)) -b 255
+	$(PNG2ASSET) res/graphics/world1-tileset.png -c $(GENDIR)/World1Tileset.c -keep_palette_order -noflip -map -keep_duplicate_tiles $(PNG2ASSET_BKG_SETTINGS_$(EXT)) -b 255
+	$(PNG2ASSET) res/graphics/world1-waves.png -c $(GENDIR)/World1Waves.c -keep_palette_order -noflip -map -keep_duplicate_tiles $(PNG2ASSET_BKG_SETTINGS_$(EXT)) -b 255
+	$(PNG2ASSET) res/graphics/world2-tileset.png -c $(GENDIR)/World2Tileset.c -keep_palette_order -noflip -map -keep_duplicate_tiles $(PNG2ASSET_BKG_SETTINGS_$(EXT)) -b 255
 	$(PNG2ASSET) res/graphics/world1-area1.png -c $(GENDIR)/World1Area1.c -noflip -map -maps_only -source_tileset res/graphics/world1-tileset.png $(PNG2ASSET_BKG_SETTINGS_$(EXT))  -b 255
 	$(PNG2ASSET) res/graphics/world1-area2.png -c $(GENDIR)/World1Area2.c -noflip -map -maps_only -source_tileset res/graphics/world1-tileset.png $(PNG2ASSET_BKG_SETTINGS_$(EXT)) -b 255
 	$(PNG2ASSET) res/graphics/world2-area1.png -c $(GENDIR)/World2Area1.c -noflip -map -maps_only -source_tileset res/graphics/world2-tileset.png $(PNG2ASSET_BKG_SETTINGS_$(EXT)) -b 255
