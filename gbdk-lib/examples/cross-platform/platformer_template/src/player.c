@@ -43,6 +43,34 @@ int16_t playerXVelocity, playerYVelocity;
     const uint8_t baseProp=0;
 #endif
 
+#if defined(SEGA)
+    #define set_player_sprite_data set_sprite_native_data
+#else
+    #define set_player_sprite_data set_sprite_data
+#endif
+
+#if defined(SEGA)
+    #define PLAYER_PALETTES_BANK _current_bank
+    #define PLAYER_PALETTES PlayerPalettesGGSMS
+
+#else
+    #define PLAYER_PALETTES_BANK BANK(PlayerCharacterLeft)
+    #define PLAYER_PALETTES PlayerCharacterLeft_palettes
+#endif
+
+
+
+const palette_color_t PlayerPalettesGGSMS[16] = {
+	RGB8(255,128, 64), RGB8(248,248,248), RGB8(168,168,168), RGB8(  0,  0,  0)
+	,
+	RGB8(143,  0,  0), RGB8(  6,112,  0), RGB8(  0, 31,173), RGB8(122,134,  0)
+	,
+	RGB8(  0,138,111), RGB8( 75,  0, 82), RGB8(255,  0,  0), RGB8( 33,255,  0)
+	,
+	RGB8(  0, 46,255), RGB8(255,238,  0), RGB8(  0,225,255), RGB8(253,132,255)
+	
+};
+
 /**
  * @brief We'll Put the PlayerCharacter's tiles in VRAM.
  * Not every platform supports tile-flipping. We want To avoid wasting vram space with both left & right animations.
@@ -55,12 +83,35 @@ void UpdatePlayerVRAMTiles() NONBANKED{
 
         SWITCH_ROM(BANK(PlayerCharacterRight));
 
-        set_sprite_native_data (0,PlayerCharacterRight_TILE_COUNT,PlayerCharacterRight_tiles);
+        set_player_sprite_data (0,PlayerCharacterRight_TILE_COUNT,PlayerCharacterRight_tiles);
     } else {
 
         SWITCH_ROM(BANK(PlayerCharacterLeft));
-        set_sprite_native_data (0,PlayerCharacterLeft_TILE_COUNT,PlayerCharacterLeft_tiles);
+
+        set_player_sprite_data (0,PlayerCharacterLeft_TILE_COUNT,PlayerCharacterLeft_tiles);
     }
+    SWITCH_ROM(_previous_bank);
+}
+
+void SetPlayerPalettes() NONBANKED{
+    uint8_t _previous_bank = _current_bank;
+
+        SWITCH_ROM(PLAYER_PALETTES_BANK);
+    
+    // Set up color palettes
+    #if defined(SEGA)
+        __WRITE_VDP_REG(VDP_R2, R2_MAP_0x3800);
+        __WRITE_VDP_REG(VDP_R5, R5_SAT_0x3F00);
+        set_sprite_palette(baseProp, 1, PLAYER_PALETTES);
+    #elif defined(GAMEBOY)
+        if (_cpu == CGB_TYPE) {
+            set_sprite_palette(OAMF_CGB_PAL0, 1, PLAYER_PALETTES);
+        }
+    #elif defined(NINTENDO_NES)
+        set_sprite_palette(baseProp, 4, PLAYER_PALETTES);
+    #endif
+
+
     SWITCH_ROM(_previous_bank);
 }
 
@@ -75,19 +126,10 @@ void SetupPlayer() BANKED{
     playerYVelocity=0;
     
     UpdatePlayerVRAMTiles();
-        /*
-    // Set up color palettes
-    #if defined(SEGA)
-        __WRITE_VDP_REG(VDP_R2, R2_MAP_0x3800);
-        __WRITE_VDP_REG(VDP_R5, R5_SAT_0x3F00);
-        set_sprite_palette(0, PlayerCharacterLeft_PALETTE_COUNT, PlayerCharacterLeft_palettes);
-    #elif defined(GAMEBOY)
-        if (_cpu == CGB_TYPE) {
-            set_sprite_palette(OAMF_CGB_PAL0, PlayerCharacterLeft_PALETTE_COUNT, PlayerCharacterLeft_palettes);
-        }
-    #elif defined(NINTENDO_NES)
-        set_sprite_palette(baseProp, PlayerCharacterLeft_PALETTE_COUNT, PlayerCharacterLeft_palettes);
-    #endif */
+
+
+    SetPlayerPalettes();
+ 
 
 }
 

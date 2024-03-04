@@ -11,6 +11,13 @@
 #define WORLD1_SOLID_TILE_COUNT 17
 #define WORLD2_SOLID_TILE_COUNT 68
 
+#if defined(SEGA)
+    #define TILE_BYTE_SIZE 32
+#else
+    #define TILE_BYTE_SIZE 16
+#endif
+
+
 BANKREF_EXTERN(World1Tileset)
 BANKREF_EXTERN(World1Waves)
 BANKREF_EXTERN(World2Tileset)
@@ -79,6 +86,11 @@ void World1VBL() NONBANKED{
         waterFrame=0;
     }
 
+    #if defined(SEGA)
+
+    // For GG and SMS, make sure main is not imploding anything
+	if (_shadow_OAM_OFF != 0) return;
+    #endif
 
     // There are 4 water background tiles.
     const uint8_t waterBackgroundTileCount = 4;
@@ -88,7 +100,7 @@ void World1VBL() NONBANKED{
 
     SWITCH_ROM((BANK(World1Waves)));
 
-    set_native_tile_data(waterBackgroundTileStart,waterBackgroundTileCount,World1Waves_tiles+waterBackgroundTileCount*16*waterTrueFrame);
+    set_native_tile_data(waterBackgroundTileStart,waterBackgroundTileCount,World1Waves_tiles+waterBackgroundTileCount*TILE_BYTE_SIZE*waterTrueFrame);
 
     SWITCH_ROM(_previous_bank);
 }

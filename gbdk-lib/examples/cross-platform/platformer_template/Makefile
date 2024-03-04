@@ -58,13 +58,13 @@ compile.bat: Makefile
 
 
 # png2asset settings for backgrounds
-PNG2ASSET_BKG_SETTINGS_nes=-noflip -bpp 2 -pack_mode nes
 PNG2ASSET_BKG_SETTINGS_gg=-pack_mode sms -bpp 4
+PNG2ASSET_BKG_SETTINGS_sms=-pack_mode sms -bpp 4
+PNG2ASSET_BKG_SETTINGS_nes=-noflip -bpp 2 -pack_mode nes
 PNG2ASSET_BKG_SETTINGS_gb=
 PNG2ASSET_BKG_SETTINGS_gbc=
 PNG2ASSET_BKG_SETTINGS_duck=
 PNG2ASSET_BKG_SETTINGS_pocket=
-PNG2ASSET_BKG_SETTINGS_sms=-pack_mode sms -bpp 4
 
 # png2asset settings for sprites
 PNG2ASSET_SPRITE_SETTINGS_gg=-noflip -pack_mode sms -bpp 4

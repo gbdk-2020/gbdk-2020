@@ -37,6 +37,9 @@ void main(void)
     // Loop forever
     while(1) {
 
+		// yield CPU and wait for start of next frame
+        vsync();
+
         // if we want to change levels
         if(nextLevel!=currentLevel){
 
@@ -76,9 +79,6 @@ void main(void)
             // Setup the player
             SetupPlayer();
         }
-
-		// Done processing, yield CPU and wait for start of next frame
-        vsync();
 
         // Get the joypad input
         joypadPrevious = joypadCurrent;
