@@ -174,6 +174,9 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
             if ((i + 1) >= argc) {
                 printf("Error: -c or -o requires a filename, none specified\n");
                 return 1;
+            } else if (argv[i+1][0] == '-') {
+                printf("Error: next argument after -o looks like an option instead of a filename (\"%s\")\n", argv[i + 1]);
+                return 1;
             }
 
             args->output_filename = argv[++i];
