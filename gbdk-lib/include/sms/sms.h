@@ -290,14 +290,14 @@ void refresh_OAM(void);
 #define HIDE_WIN
 
 /** Turns on the sprites layer.
-    Not yet implemented
 */
-#define SHOW_SPRITES
+#define SHOW_SPRITES \
+    (_sprites_OFF = 0)
 
 /** Turns off the sprites layer.
-    Not yet implemented
 */
-#define HIDE_SPRITES
+#define HIDE_SPRITES \
+    (_sprites_OFF = 1)
 
 /** Sets sprite size to 8x16 pixels, two tiles one above the other.
 */
@@ -709,6 +709,8 @@ extern volatile uint8_t _shadow_OAM_base;
     @see @ref docs_consoles_safe_display_controller_access
 */
 extern volatile uint8_t _shadow_OAM_OFF;
+
+extern volatile uint8_t _sprites_OFF;
 
 /** Disable shadow OAM to VRAM copy on each VBlank
 */

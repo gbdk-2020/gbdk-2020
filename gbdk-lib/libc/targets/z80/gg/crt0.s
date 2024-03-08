@@ -248,6 +248,8 @@ __shadow_OAM_base::
         .ds     0x01
 __shadow_OAM_OFF::
         .ds     0x01
+__sprites_OFF::
+        .ds     0x01
 .mode::
         .ds     0x01            ; Current mode
 
@@ -269,4 +271,5 @@ __shadow_OAM_OFF::
         .db 0                   ; _VDP_ATTR_SHIFT
         .db #>_shadow_OAM       ; __shadow_OAM_base
         .db 0                   ; __shadow_OAM_OFF
+        .db 0                   ; __sprites_OFF
         .db .T_MODE_INOUT       ; .mode
