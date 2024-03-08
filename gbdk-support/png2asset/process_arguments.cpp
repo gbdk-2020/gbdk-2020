@@ -81,8 +81,8 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
     if(argc < 2)
     {
         printf("usage: png2asset    <file>.png [options]\n");
-        printf("-o                  ouput file (default: <png file>.c)\n");
-        printf("-c                  deprecated, same as -o\n");
+        printf("-o <filename>       ouput file (if not used then default is <png file>.c)\n");
+        printf("-c <filename>       deprecated, same as -o\n");
         printf("-sw <width>         metasprites width size (default: png width)\n");
         printf("-sh <height>        metasprites height size (default: png height)\n");
         printf("-sp <props>         change default for sprite OAM property bytes (in hex) (default: 0x00)\n");
@@ -171,6 +171,11 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
         }
         else if(!strcmp(argv[i], "-c") || !strcmp(argv[i], "-o"))
         {
+            if ((i + 1) >= argc) {
+                printf("Error: -c or -o requires a filename, none specified\n");
+                return 1;
+            }
+
             args->output_filename = argv[++i];
         }
         else if(!strcmp(argv[i], "-b"))
