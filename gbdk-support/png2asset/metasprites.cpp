@@ -30,7 +30,10 @@ void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y, PNG
         for(int x = _x; x < _x + _w && x < (int)assetData->image.w; x += assetData->image.tile_w)
         {
             Tile tile(assetData->image.tile_h * assetData->image.tile_w);
-            if(assetData->image.ExtractTile(x, y, tile, assetData->args->sprite_mode, assetData->args->export_as_map, assetData->args->use_map_attributes, assetData->args->bpp))
+            // For sprites, unlike maps, Tiles are only kept and processed if NOT Empty
+            // This default behavior can be overridden with -spr_no_optimize (which sets keep_empty_sprite_tiles and keep_duplicate_tiles to TRUE) 
+            bool tile_not_empty = (assetData->image.ExtractTile(x, y, tile, assetData->args->sprite_mode, assetData->args->export_as_map, assetData->args->use_map_attributes, assetData->args->bpp));
+            if (tile_not_empty || (assetData->args->keep_empty_sprite_tiles))
             {
                 size_t idx;
                 unsigned char props;

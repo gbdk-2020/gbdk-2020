@@ -45,6 +45,7 @@ struct PNG2AssetArguments {
     bool includeTileData;
     bool includedMapOrMetaspriteData;
     bool keep_duplicate_tiles;
+    bool keep_empty_sprite_tiles;
     bool include_palettes;
     bool use_structs;
     bool flip_tiles;
