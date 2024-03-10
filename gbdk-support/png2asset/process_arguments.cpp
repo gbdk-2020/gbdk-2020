@@ -143,7 +143,7 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
         {
             args->props_default = strtol(argv[++i], NULL, 16);
         }
-        if(!strcmp(argv[i], "-px"))
+        else if(!strcmp(argv[i], "-px"))
         {
             args->pivot.x = atoi(argv[++i]);
         }
@@ -294,6 +294,9 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
         else if(!strcmp(argv[i], "-transposed"))
         {
             args->output_transposed = true;
+        }
+        else {
+            printf("Warning: Argument \"%s\" not recognized\n", argv[i]);
         }
     }
 
