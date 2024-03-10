@@ -223,10 +223,18 @@ void UpdatePlayer() BANKED{
 
     uint8_t grounded = FALSE;
 
-    // Prevent getting stuck in the ground
-    while(IsTileSolid(playerRealX,playerRealY+PLAYER_CHARACTER_BOUNDING_BOX_HEIGHT-1)){
-        playerY--;
-        playerRealY = playerY>>4;
+    // The Player Y is the top of the bounding box.
+    // If the player starts to go above the top of the screen
+    // then the unsigned integer will wrap. This will cause this loop
+    // to fire for a long time until 'playerRealY+PLAYER_CHARACTER_BOUNDING_BOX_HEIGHT-1' wraps around to the bottom of the level.
+    // For that reason, because we only scroll horizontally, make sure the player's y position isn't higher than the screen is tall
+    if(playerRealY<(DEVICE_SCREEN_HEIGHT>>3)){
+
+        // Prevent getting stuck in the ground
+        while(IsTileSolid(playerRealX,playerRealY+PLAYER_CHARACTER_BOUNDING_BOX_HEIGHT-1)){
+            playerY--;
+            playerRealY = playerY>>4;
+        }
     }
 
     /**
@@ -269,12 +277,18 @@ void UpdatePlayer() BANKED{
 
     // If the player is moving upwards
     }else if(playerYVelocity<0){
-        
-            // Check both sides of player's head (left and right)
-            // Subtract a little from the edge so player doesn't get caught in walls
-            if(IsTileSolid(playerRealX+(PLAYER_CHARACTER_BOUNDING_BOX_HALF_WIDTH-2),playerRealY)||IsTileSolid(playerRealX-(PLAYER_CHARACTER_BOUNDING_BOX_HALF_WIDTH-2),playerRealY)){
+
+       
+        // Check both sides of player's head (left and right)
+        // Subtract a little from the edge so player doesn't get caught in walls
+        // To prevent getting stuck, move the player downward also and loop until there's no overlap
+        while(IsTileSolid(playerRealX+(PLAYER_CHARACTER_BOUNDING_BOX_HALF_WIDTH-2),playerRealY)||IsTileSolid(playerRealX-(PLAYER_CHARACTER_BOUNDING_BOX_HALF_WIDTH-2),playerRealY)){
             playerYVelocity=0;
+            playerY++;
+            playerRealY = playerY>>4;
         }
+
+
     }
 
     uint8_t pressedA = (joypadCurrent & J_A && !(joypadPrevious & J_A));

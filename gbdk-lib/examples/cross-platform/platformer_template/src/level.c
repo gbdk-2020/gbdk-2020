@@ -122,6 +122,11 @@ void RemoveVerticalBlankHandlers(){
 }
 
 void SetupCurrentLevel() NONBANKED{
+
+    CRITICAL{
+
+        DISPLAY_OFF;
+    }
     
     RemoveVerticalBlankHandlers();
     
@@ -226,4 +231,10 @@ void SetupCurrentLevel() NONBANKED{
     }
 
     SWITCH_ROM(_previous_bank);
+
+    CRITICAL{
+
+        DISPLAY_ON;
+    }
+    
 }

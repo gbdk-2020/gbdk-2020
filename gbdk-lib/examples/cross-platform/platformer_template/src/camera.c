@@ -64,7 +64,7 @@ void UpdateCamera() BANKED {
     if (map_pos_x != old_map_pos_x) {
         if (camera_x < old_camera_x) {
             SetCurrentLevelSubmap(
-                    update_column_right(map_pos_x), 
+                    update_column_left(map_pos_x), 
                     0, 
                     1, 
                     MIN(DEVICE_SCREEN_HEIGHT, currentLevelHeightInTiles ));     
