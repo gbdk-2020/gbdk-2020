@@ -57,6 +57,7 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
     args->includeTileData = true;
     args->includedMapOrMetaspriteData = true;
     args->keep_duplicate_tiles = false;
+    args->keep_empty_sprite_tiles = false;
     args->include_palettes = true;
     args->use_structs = false;
     args->flip_tiles = true;
@@ -93,6 +94,7 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
         printf("-spr8x8             use SPRITES_8x8\n");
         printf("-spr8x16            use SPRITES_8x16 (this is the default)\n");
         printf("-spr16x16msx        use SPRITES_16x16\n");
+        printf("-sprite_no_optimize keep empty sprite tiles, do not remote duplicate tiles\n");
         printf("-b <bank>           bank (default: fixed bank)\n");
         printf("-keep_palette_order use png palette\n");
         printf("-repair_indexed_pal try to repair indexed tile palettes (implies \"-keep_palette_order\")\n");
@@ -141,7 +143,7 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
         {
             args->props_default = strtol(argv[++i], NULL, 16);
         }
-        if(!strcmp(argv[i], "-px"))
+        else if(!strcmp(argv[i], "-px"))
         {
             args->pivot.x = atoi(argv[++i]);
         }
@@ -271,6 +273,11 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
         {
             args->keep_duplicate_tiles = true;
         }
+        else if(!strcmp(argv[i], "-sprite_no_optimize"))
+        {
+            args->keep_duplicate_tiles = true;
+            args->keep_empty_sprite_tiles = true;
+        }
         else if(!strcmp(argv[i], "-no_palettes"))
         {
             args->include_palettes = false;
@@ -287,6 +294,9 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
         else if(!strcmp(argv[i], "-transposed"))
         {
             args->output_transposed = true;
+        }
+        else {
+            printf("Warning: Argument \"%s\" not recognized\n", argv[i]);
         }
     }
 
