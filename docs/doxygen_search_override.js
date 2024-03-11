@@ -140,7 +140,7 @@ SearchResults = function () {
           // {
           // CHANGED START
           rowMatchName = rowMatchName.replace(/^[sr\d_]*5f_/, ''); // strip 'sr123_5f'
-          rowMatchName = rowMatchName.replace(/5f/, ''); // strip '5f' chars
+          rowMatchName = rowMatchName.replace(/5f/g, ''); // strip '5f' chars
           // rowMatchName = rowMatchName.replace(/_/, ' '); // underscores to spaces
 
           if (rowMatchName.includes(search))
