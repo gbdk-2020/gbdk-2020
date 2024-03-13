@@ -50,7 +50,7 @@ int16_t playerXVelocity, playerYVelocity;
 #endif
 
 #if defined(SEGA)
-    #define PLAYER_PALETTES_BANK _current_bank
+    #define PLAYER_PALETTES_BANK CURRENT_BANK
     #define PLAYER_PALETTES PlayerPalettesGGSMS
 
 #else
@@ -77,7 +77,7 @@ const palette_color_t PlayerPalettesGGSMS[16] = {
  * we'll keep tiles only for the direction we are facing.
  */
 void UpdatePlayerVRAMTiles() NONBANKED{
-    uint8_t _previous_bank = _current_bank;
+    uint8_t _previous_bank = CURRENT_BANK;
 
     if(facingRight){
 
@@ -94,7 +94,7 @@ void UpdatePlayerVRAMTiles() NONBANKED{
 }
 
 void SetPlayerPalettes() NONBANKED{
-    uint8_t _previous_bank = _current_bank;
+    uint8_t _previous_bank = CURRENT_BANK;
 
         SWITCH_ROM(PLAYER_PALETTES_BANK);
     
@@ -134,7 +134,7 @@ void SetupPlayer() BANKED{
 }
 
 void DrawPlayer(uint16_t playerRealX, uint16_t playerRealY, uint8_t frame) NONBANKED{
-    uint8_t _previous_bank = _current_bank;
+    uint8_t _previous_bank = CURRENT_BANK;
 
 
     // Get the player's position relative to the camera's position
@@ -228,7 +228,7 @@ void UpdatePlayer() BANKED{
     // then the unsigned integer will wrap. This will cause this loop
     // to fire for a long time until 'playerRealY+PLAYER_CHARACTER_BOUNDING_BOX_HEIGHT-1' wraps around to the bottom of the level.
     // For that reason, because we only scroll horizontally, make sure the player's y position isn't higher than the screen is tall
-    if(playerRealY<(DEVICE_SCREEN_HEIGHT>>3)){
+    if(playerRealY<DEVICE_SCREEN_PX_HEIGHT){
 
         // Prevent getting stuck in the ground
         while(IsTileSolid(playerRealX,playerRealY+PLAYER_CHARACTER_BOUNDING_BOX_HEIGHT-1)){

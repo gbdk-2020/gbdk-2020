@@ -4,16 +4,15 @@
 #include <gbdk/platform.h>
 #include "level.h"
 
+#define WRAP_SCROLL_Y(y) ((y) % DEVICE_SCREEN_PX_HEIGHT)
+
 #if defined(SEGA)
-  #define WRAP_SCROLL_Y(y) ((y) % 224u)
   // For SMS, artifacts are already invisible as screen buffer size is larger than screen size
   #define SCROLL_Y_OFFSET 0
 #elif defined(NINTENDO)
-  #define WRAP_SCROLL_Y(y) y
   // For GB, artifacts are already invisible as screen buffer size is larger than screen size
   #define SCROLL_Y_OFFSET 0
 #else
-  #define WRAP_SCROLL_Y(y) ((y) % 240u)
   // For other systems assume height of 240 and adjust Y-scroll 4 pixels down to partly hide artifacts in NTSC overscan
   #define SCROLL_Y_OFFSET 4
 #endif
@@ -30,7 +29,7 @@ uint8_t redraw;
 
 void SetCurrentLevelSubmap(uint8_t x, uint8_t y, uint8_t w, uint8_t h) NONBANKED{
     
-    uint8_t _previous_bank = _current_bank;
+    uint8_t _previous_bank = CURRENT_BANK;
 
     SWITCH_ROM(currentAreaBank);
 

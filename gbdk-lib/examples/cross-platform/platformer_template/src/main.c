@@ -46,10 +46,7 @@ void main(void)
 
             // if we're not starting the game (where currentLevel = 255)
             if(currentLevel!=255){
-            
-                // Remove the vertical blank handlers before we show the next level graphic
-                RemoveVerticalBlankHandlers();
-
+                
                 ShowCentered(NextLevel_WIDTH,NextLevel_HEIGHT,BANK(NextLevel),NextLevel_tiles,NextLevel_TILE_COUNT,NextLevel_map,NextLevel_palettes);
 
                 WaitForStartOrA();

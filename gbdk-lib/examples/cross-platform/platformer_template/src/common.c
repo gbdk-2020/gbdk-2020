@@ -39,10 +39,8 @@ void setBKGPalettes(uint8_t count, const palette_color_t *palettes) NONBANKED{
 
 void ShowCentered(uint8_t widthInTiles,uint8_t heightInTiles,uint8_t bank, uint8_t* tileData, uint8_t tileCount, uint8_t* mapData, const palette_color_t* palettes) NONBANKED{
 
-    CRITICAL{
 
-        DISPLAY_OFF;
-    }
+    DISPLAY_OFF;
 
     uint8_t _previous_bank = CURRENT_BANK;
     
@@ -65,8 +63,5 @@ void ShowCentered(uint8_t widthInTiles,uint8_t heightInTiles,uint8_t bank, uint8
     set_bkg_tiles(titleColumn,titleRow,widthInTiles>>3,heightInTiles>>3,mapData);
     SWITCH_ROM(_previous_bank);
 
-    CRITICAL{
-
-        DISPLAY_ON;
-    }
+    DISPLAY_ON;
 }
