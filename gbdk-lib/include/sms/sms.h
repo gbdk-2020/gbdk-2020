@@ -561,20 +561,12 @@ void set_palette(uint8_t first_palette, uint8_t nb_palettes, const palette_color
 #define set_bkg_palette set_palette
 #define set_sprite_palette(first_palette,nb_palettes,rgb_data) set_palette(1,1,rgb_data)
 
-void set_native_tile_data(uint16_t start, uint16_t ntiles, const void *src) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
-inline void set_bkg_4bpp_data(uint16_t start, uint16_t ntiles, const void *src) {
-    set_native_tile_data(start, ntiles, src);
-}
-inline void set_bkg_native_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) {
-    set_bkg_4bpp_data(first_tile, nb_tiles, data);
-}
+void set_native_tile_data(uint16_t start, uint16_t ntiles, const void *src) PRESERVES_REGS(iyh, iyl);
+void set_bkg_4bpp_data(uint16_t start, uint16_t ntiles, const void *src) PRESERVES_REGS(iyh, iyl);
+void set_bkg_native_data(uint16_t start, uint16_t ntiles, const void *src) PRESERVES_REGS(iyh, iyl);
 
-inline void set_sprite_4bpp_data(uint16_t start, uint16_t ntiles, const void *src) {
-    set_native_tile_data((uint8_t)(start) + 0x100u, ntiles, src);
-}
-inline void set_sprite_native_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) {
-    set_sprite_4bpp_data(first_tile, nb_tiles, data);
-}
+void set_sprite_4bpp_data(uint8_t start, uint16_t ntiles, const void *src) PRESERVES_REGS(iyh, iyl);
+void set_sprite_native_data(uint8_t start, uint16_t ntiles, const void *src) PRESERVES_REGS(iyh, iyl);
 
 #define COMPAT_PALETTE(C0,C1,C2,C3) (((uint16_t)(C3) << 12) | ((uint16_t)(C2) << 8) | ((uint16_t)(C1) << 4) | (uint16_t)(C0))
 extern uint16_t _current_2bpp_palette;
