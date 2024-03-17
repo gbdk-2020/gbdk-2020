@@ -260,17 +260,21 @@ bool export_c_file( PNG2AssetData* assetData) {
                 fprintf(file, "const metasprite_t %s_metasprite%d[] = {\n", assetData->args->data_name.c_str(), (int)(it - assetData->sprites.begin()));
                 for(MetaSprite::iterator it2 = (*it).begin(); it2 != (*it).end(); ++it2)
                 {
-                    int pal_idx = (*it2).props & 0xF;
-                    int flip_x = ((*it2).props >> 5) & 1;
-                    int flip_y = ((*it2).props >> 6) & 1;
+                    int pal_idx  = (*it2).props & 0xF;
+                    int dmg_pal  = ((*it2).props >> 4) & 1;
+                    int flip_x   = ((*it2).props >> 5) & 1;
+                    int flip_y   = ((*it2).props >> 6) & 1;
+                    int priority = ((*it2).props >> 7) & 1;
                     fprintf(file,
-                        "\tMETASPR_ITEM(%d, %d, %d, S_PAL(%d)%s%s),\n",
+                        "\tMETASPR_ITEM(%d, %d, %d, S_PAL(%d)%s%s%s%s),\n",
                         (*it2).offset_y,
                         (*it2).offset_x,
                         (*it2).offset_idx,
                         pal_idx,
-                        flip_x ? " | S_FLIPX" : "",
-                        flip_y ? " | S_FLIPY" : "");
+			(dmg_pal)  ? " | S_PALETTE" : "",
+                        (flip_x)   ? " | S_FLIPX" : "",
+                        (flip_y)   ? " | S_FLIPY" : "",
+                        (priority) ? " | S_PRIORITY" : "");
                 }
                 fprintf(file, "\tMETASPR_TERM\n");
                 fprintf(file, "};\n\n");
