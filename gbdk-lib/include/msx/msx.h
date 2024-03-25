@@ -315,6 +315,15 @@ void refresh_OAM(void);
 */
 extern volatile uint16_t sys_time;
 
+/** Return R register for the DIV_REG emulation 
+
+    Increments once per CPU instruction (fetches the Z80 CPU R register)
+
+*/
+uint8_t get_r_reg(void) PRESERVES_REGS(b, c, d, e, h, l, iyh, iyl);
+
+#define DIV_REG get_r_reg()
+
 /** Tracks current active ROM bank in frame 1
 */
 extern volatile uint8_t _current_bank;
