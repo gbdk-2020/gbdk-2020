@@ -95,7 +95,7 @@
 /** Dummy function used by other platforms.
     Required for the png2asset tool's metasprite output.
 */
-#define S_PAL(n)     0
+#define S_PAL(n)     (((n) & 0x01U) << 3)
 
 // VDP helper macros
 #define __WRITE_VDP_REG(REG, v) shadow_##REG=(v);__critical{VDP_CMD=(shadow_##REG),VDP_CMD=REG;}

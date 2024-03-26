@@ -70,6 +70,9 @@
 */
 #define M_NO_INTERP  0x08U
 
+/** The nineth bit of the tile id
+*/
+#define S_BANK       0x01U
 /** If set the background tile will be flipped horizontally.
  */
 #define S_FLIPX      0x02U
@@ -85,7 +88,7 @@
 /** Defines how palette number is encoded in OAM.
     Required for the png2asset tool's metasprite output.
 */
-#define S_PAL(n)     n
+#define S_PAL(n)     (((n) & 0x01U) << 3)
 
 // VDP helper macros
 #define __WRITE_VDP_REG(REG, v) shadow_##REG=(v);__critical{VDP_CMD=(shadow_##REG),VDP_CMD=REG;}
@@ -315,7 +318,7 @@ void refresh_OAM(void);
 */
 extern volatile uint16_t sys_time;
 
-/** Return R register for the DIV_REG emulation 
+/** Return R register for the DIV_REG emulation
 
     Increments once per CPU instruction (fetches the Z80 CPU R register)
 
