@@ -73,6 +73,11 @@
 */
 #define M_NO_INTERP  0x08U
 
+/** If this bit set clear, the tile from the second
+    VRAM bank is used
+    @see set_sprite_prop()
+*/
+#define S_BANK       0x08U
 /** If this is set, sprite colours come from OBJ1PAL. Else
     they come from OBJ0PAL
     @see set_sprite_prop().
