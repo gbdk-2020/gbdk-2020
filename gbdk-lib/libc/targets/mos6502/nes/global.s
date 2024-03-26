@@ -93,8 +93,10 @@
         .T_MODE         = 0x02  ; Text mode (bit 2)
         .T_MODE_OUT     = 0x02  ; Text mode output only
         .T_MODE_INOUT   = 0x03  ; Text mode with input
+        .S_MODE_MASK    = 0x03  ; Mask screen modes above
         .M_NO_SCROLL    = 0x04  ; Disables scrolling of the screen in text mode
         .M_NO_INTERP    = 0x08  ; Disables special character interpretation
+        .S_M_MASK       = 0x0C  ; Mask special modes above
 
         ;; Table of routines for modes
         .MODE_TABLE     = 0xFFE0
