@@ -36,8 +36,8 @@ struct PNGImage
 
     size_t colors_per_pal;  // Number of colors per palette (ex: CGB has 4 colors per palette x 8 palettes total)
     size_t total_color_count; // Total number of colors across all palettes (palette_count x colors_per_pal)
-    unsigned char * palette = NULL; //palette colors in RGBA (1 color == 4 bytes)
-    unsigned char * source_tileset_palette = NULL;  // Mostly used for ensuring source tileset and primary image palettes match sufficiently
+    std::vector<unsigned char> palette; //palette colors in RGBA (1 color == 4 bytes)
+    std::vector<unsigned char> source_tileset_palette;  // Mostly used for ensuring source tileset and primary image palettes match sufficiently
 
 private:
     bool zero_palette = false;
