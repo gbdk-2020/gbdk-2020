@@ -872,6 +872,10 @@ void hiramcpy(uint8_t dst, const void *src, uint8_t n) OLDCALL PRESERVES_REGS(b,
  */
 #define SHOW_LEFT_COLUMN
 
+/** Does nothing for GB
+ */
+#define SET_BORDER_COLOR(C)
+
 /** Turns on the background layer.
     Sets bit 0 of the LCDC register to 1.
 */

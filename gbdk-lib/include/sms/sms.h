@@ -272,6 +272,10 @@ void refresh_OAM(void);
 #define SHOW_LEFT_COLUMN \
 	__WRITE_VDP_REG(VDP_R0, __READ_VDP_REG(VDP_R0) &= (~R0_LCB))
 
+/** Sets border color
+ */
+#define SET_BORDER_COLOR(C) __WRITE_VDP_REG(VDP_R7, ((C) | 0xf0u))
+
 /** Turns on the background layer.
     Not yet implemented
 */

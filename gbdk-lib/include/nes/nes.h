@@ -500,6 +500,11 @@ void refresh_OAM(void) NO_OVERLAY_LOCALS;
 #define SHOW_LEFT_COLUMN \
     shadow_PPUMASK |= (PPUMASK_SHOW_BG_LC | PPUMASK_SHOW_SPR_LC);
 
+/** Does nothing for NES
+    not implemented yet
+ */
+#define SET_BORDER_COLOR(C)
+
 /** Turns on the background layer.
     Sets bit 0 of the LCDC register to 1.
 */
