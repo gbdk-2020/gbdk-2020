@@ -98,7 +98,7 @@
 #define S_PAL(n)     (((n) & 0x01U) << 3)
 
 // VDP helper macros
-#define __WRITE_VDP_REG(REG, v) shadow_##REG=(v);__critical{VDP_CMD=(shadow_##REG),VDP_CMD=REG;}
+#define __WRITE_VDP_REG(REG, v) shadow_##REG=(v);CRITICAL{VDP_CMD=(shadow_##REG),VDP_CMD=REG;}
 #define __READ_VDP_REG(REG) shadow_##REG
 
 void WRITE_VDP_CMD(uint16_t cmd) Z88DK_FASTCALL PRESERVES_REGS(b, c, d, e, iyh, iyl);
