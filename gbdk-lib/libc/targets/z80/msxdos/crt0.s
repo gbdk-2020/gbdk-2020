@@ -432,19 +432,12 @@ _shadow_OAM::
         ld de, #__old_int_vector
 .restore_ldir:
         ld bc, #0x0005
-        ld a, i
-        push af
         di
         ldir
-        pop af
-        jp po, 1$
         ei
-1$:
         ret
 
 .setup_video_mode:
-        ld a, i
-        push af
         di
         ;; Initialize VDP
         ld c, #.VDP_CMD
@@ -462,10 +455,7 @@ _shadow_OAM::
         or a
         jr nz, 1$
 
-        pop af
-        jp po, 2$
         ei
-2$:
         ret
 
 .shadow_VDP:

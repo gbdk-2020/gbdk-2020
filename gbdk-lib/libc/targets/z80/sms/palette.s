@@ -10,6 +10,7 @@
 _set_palette_entry::
         pop de
         pop bc
+
         ld hl, #.VDP_CRAM
         bit 0, c
         jr z, 1$
@@ -20,20 +21,16 @@ _set_palette_entry::
         add hl, bc
         pop bc
 
-        ld a, i
-        di
         ld a, l
+        di
         out (#.VDP_CMD), a
         ld a, h
         out (#.VDP_CMD), a
         ld a, c
-        jp po, 2$
         ei
-2$:
         out (#.VDP_DATA), a
         
-        ld h, d
-        ld l, e
+        ex de, hl
         jp (hl)
 
 ; void set_palette(uint8_t first_palette, uint8_t nb_palettes, uint16_t *rgb_data) __z88dk_callee;
@@ -54,15 +51,12 @@ _set_palette::
 
         ld c, a
 
-        ld a, i
-        di
         ld a, l
+        di
         out (#.VDP_CMD), a
         ld a, h
-        out (#.VDP_CMD), a
-        jp po, 2$
         ei
-2$:
+        out (#.VDP_CMD), a
         ld a, c
         or a
         jr z, 3$
@@ -80,8 +74,7 @@ _set_palette::
 3$:        
         ENABLE_VBLANK_COPY              ; switch ON copy shadow SAT
 
-        ld h, d
-        ld l, e
+        ex de, hl
         jp (hl)
 
 .CRT_DEFAULT_PALETTE::

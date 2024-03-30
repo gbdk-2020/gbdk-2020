@@ -98,7 +98,7 @@
 #define S_PAL(n)     (((n) & 0x01U) << 3)
 
 // VDP helper macros
-#define __WRITE_VDP_REG(REG, v) shadow_##REG=(v);CRITICAL{VDP_CMD=(shadow_##REG),VDP_CMD=REG;}
+#define __WRITE_VDP_REG(REG, v) shadow_##REG=(v);__asm__("di");VDP_CMD=(shadow_##REG);VDP_CMD=REG;__asm__("ei")
 #define __READ_VDP_REG(REG) shadow_##REG
 
 void WRITE_VDP_CMD(uint16_t cmd) Z88DK_FASTCALL PRESERVES_REGS(b, c, d, e, iyh, iyl);
@@ -473,6 +473,34 @@ uint8_t joypad_init(uint8_t npads, joypads_t * joypads) Z88DK_CALLEE;
     @see joypad_init(), joypads_t
 */
 void joypad_ex(joypads_t * joypads) Z88DK_FASTCALL PRESERVES_REGS(iyh, iyl);
+
+/** Enables unmasked interrupts
+
+    @note Use @ref CRITICAL {...} instead for creating a block of
+          of code which should execute with interrupts  temporarily
+          turned off.
+
+    @see disable_interrupts, set_interrupts, CRITICAL
+*/
+inline void enable_interrupts(void) PRESERVES_REGS(a, b, c, d, e, h, l, iyh, iyl) {
+    __asm__("ei");
+}
+
+/** Disables interrupts
+
+    @note Use @ref CRITICAL {...} instead for creating a block of
+          of code which should execute with interrupts  temporarily
+          turned off.
+
+    This function may be called as many times as you like;
+    however the first call to @ref enable_interrupts will re-enable
+    them.
+
+    @see enable_interrupts, set_interrupts, CRITICAL
+*/
+inline void disable_interrupts(void) PRESERVES_REGS(a, b, c, d, e, h, l, iyh, iyl) {
+    __asm__("di");
+}
 
 
 #if defined(__TARGET_sms)
