@@ -91,6 +91,7 @@
 #define S_PAL(n)     (((n) & 0x01U) << 3)
 
 // VDP helper macros
+#define __WRITE_VDP_REG_UNSAFE(REG, v) shadow_##REG=(v),VDP_CMD=(shadow_##REG),VDP_CMD=REG
 #define __WRITE_VDP_REG(REG, v) shadow_##REG=(v);__asm__("di");VDP_CMD=(shadow_##REG);VDP_CMD=REG;__asm__("ei")
 #define __READ_VDP_REG(REG) shadow_##REG
 
