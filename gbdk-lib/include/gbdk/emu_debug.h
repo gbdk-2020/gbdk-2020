@@ -10,6 +10,9 @@
 
 */
 
+// Suppress SDCC "info 128" warnings that are a non-issue
+#pragma disable_warning 218
+
 #ifndef __GBDK_EMU_DEBUG_H_INCLUDE
 #define __GBDK_EMU_DEBUG_H_INCLUDE
 
