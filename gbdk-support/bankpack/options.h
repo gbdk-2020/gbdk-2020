@@ -7,6 +7,10 @@
 #define ARG_BANK_RESERVE_SIZE_REC_COUNT_MATCH 3u
 #define ARG_BANK_RESERVE_SIZE_MAX_SPLIT_WORDS (ARG_BANK_RESERVE_SIZE_REC_COUNT_MATCH + 1u)
 
+#define ARG_BANK_SET_TYPE_MAX_LEN 256u   //  -banktype=255:LIT
+#define ARG_BANK_SET_TYPE_REC_COUNT_MATCH 3u
+#define ARG_BANK_SET_TYPE_MAX_SPLIT_WORDS (ARG_BANK_RESERVE_SIZE_REC_COUNT_MATCH + 1u)
+
 #define PLATFORM_GB                 0
 #define PLATFORM_SMS                1
 #define PLATFORM_DEFAULT            PLATFORM_GB
@@ -30,6 +34,7 @@ void option_set_random_assign(bool is_enabled);
 bool option_get_random_assign(void);
 
 int  option_bank_reserve_bytes(char * arg_str);
+int option_bank_set_type(char * arg_str);
 
 void option_set_platform(char * platform_str);
 int  option_get_platform(void);

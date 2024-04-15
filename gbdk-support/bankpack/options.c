@@ -107,6 +107,56 @@ int option_bank_reserve_bytes(char * arg_str) {
 }
 
 
+// Format: -banktype=DECIMAL_BANKNUM:BANK_TYPE_STRING
+// Force a given bank to a specific type (mainly for SMS/GG with CODE and LIT types)
+// Should be called *after* obj_data_init() has initialized banks
+int option_bank_set_type(char * arg_str) {
+
+    bank_item * banks = (bank_item *)banklist.p_array;
+
+    char cols;
+    char * p_str;
+    char * p_words[ARG_BANK_SET_TYPE_MAX_SPLIT_WORDS];
+    char arg_str_copy[ARG_BANK_SET_TYPE_MAX_LEN]; // copy arg since strtok modifies strings it operates on
+    snprintf(arg_str_copy, sizeof(arg_str_copy), "%s", arg_str);
+
+    // Split string into words using "-:=" as delimiters
+    cols = 0;
+    p_str = strtok(arg_str_copy,"-:=");
+    while (p_str != NULL)
+    {
+        p_words[cols++] = p_str;
+        p_str = strtok(NULL, "-:=");
+        if (cols >= ARG_BANK_SET_TYPE_MAX_SPLIT_WORDS) break;
+    }
+
+    if (cols == ARG_BANK_SET_TYPE_REC_COUNT_MATCH) {
+
+        uint32_t bank_num = strtol(p_words[1], NULL, 10); // [1] Decimal Bank Number
+        uint32_t bank_type = BANK_TYPE_UNSET;
+
+        if (strncmp(p_words[2], "CODE", strlen("CODE") + 1) == 0) {
+            bank_type = BANK_TYPE_CODE;
+        } else if (strncmp(p_words[2], "LIT", strlen("LIT") + 1) == 0) {
+            bank_type = BANK_TYPE_LIT_EXCLUSIVE;
+        } else {
+            printf("BankPack: ERROR! Bank type %s for %s is invalid\n", p_words[2], arg_str);
+            exit(EXIT_FAILURE);
+        }
+
+        if ((bank_num < BANK_NUM_ROM_MIN) || (bank_num > BANK_NUM_ROM_MAX)) {
+            printf("BankPack: ERROR! Bank number %d for %s is invalid (min: %d, max: %d)\n", bank_num, arg_str, BANK_NUM_ROM_MIN, BANK_NUM_ROM_MAX);
+            exit(EXIT_FAILURE);
+        }
+
+        // Params were valid, set the bank type
+        banks[bank_num].type = bank_type;
+        return true;
+    } else
+        return false; // Signal failure
+}
+
+
 int option_get_platform(void) {
     return option_platform;
 }
