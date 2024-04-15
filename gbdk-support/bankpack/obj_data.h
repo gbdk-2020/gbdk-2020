@@ -13,7 +13,7 @@
 #define SYMBOL_REWRITE_RECORDS 2 // Name, DefVal
 
 #define BANK_TYPE_UNSET             0
-#define BANK_TYPE_DEFAULT           1
+#define BANK_TYPE_CODE              1 // Default type is CODE
 #define BANK_TYPE_LIT_EXCLUSIVE     2
 
 
