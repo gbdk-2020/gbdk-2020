@@ -16,7 +16,8 @@ ASSRC = __strreverse.s strcpy.s strlen.s \
 	rand.s arand.s \
 	__sdcc_call_hl.s __sdcc_call_iy.s \
 	atomic_flag_test_and_set.s __sdcc_critical.s \
-	crtenter.s 
+	crtenter.s \
+	bcd.s
 
 include $(TOPDIR)/Makefile.common
 
