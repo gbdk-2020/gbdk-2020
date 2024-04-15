@@ -95,16 +95,34 @@ jobs:
       # Needs to be in a separate step than build so that setting the environment var takes effect
       #
       - name: Pre-Build Linux/MacOS
-        if: (matrix.name == 'Linux-x64') || (matrix.name == 'MacOS-x64') || (matrix.name == 'MacOS-arm64')
+        if: (matrix.name == 'Linux-x64')
         shell: bash
         run: |
-          echo "BUILD_PACKAGE_FILENAME=gbdk-2020-${{ matrix.name }}.tar.gz" >> $GITHUB_ENV
+          echo "BUILD_PACKAGE_FILENAME=gbdk-linux64.tar.gz" >> $GITHUB_ENV
+
+      - name: Pre-Build Linux/MacOS
+        if: (matrix.name == 'MacOS-x64')
+        shell: bash
+        run: |
+          echo "BUILD_PACKAGE_FILENAME=gbdk-macos.tar.gz" >> $GITHUB_ENV
+
+      - name: Pre-Build Linux/MacOS
+        if: (matrix.name == 'MacOS-arm64')
+        shell: bash
+        run: |
+          echo "BUILD_PACKAGE_FILENAME=gbdk-macos-arm64.tar.gz" >> $GITHUB_ENV
 
       - name: Pre-Build Windows
-        if: (matrix.name == 'Windows-x64') || (matrix.name == 'Windows-x32')
+        if: (matrix.name == 'Windows-x64')
         shell: bash
         run: |
-          echo "BUILD_PACKAGE_FILENAME=gbdk-2020-${{ matrix.name }}.zip" >> $GITHUB_ENV
+          echo "BUILD_PACKAGE_FILENAME=gbdk-win64.zip" >> $GITHUB_ENV
+
+      - name: Pre-Build Windows
+        if: (matrix.name == 'Windows-x32')
+        shell: bash
+        run: |
+          echo "BUILD_PACKAGE_FILENAME=gbdk-win32.zip" >> $GITHUB_ENV
 
       # ==== Builds ====
       - name: Build GBDK-2020 Linux/MacOS
