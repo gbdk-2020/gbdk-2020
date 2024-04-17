@@ -73,6 +73,9 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
     args->source_total_color_count = 0;
     args->source_tileset_size = 0;
     args->has_source_tilesets = false;
+
+    args->has_entity_tileset = false;
+
     args->processing_mode = MODE_MAIN_IMAGE;
 
     args->pack_mode = Tile::GB;
@@ -114,6 +117,7 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
         printf("-maps_only          export map tilemap only\n");
         printf("-metasprites_only   export metasprite descriptors only\n");
         printf("-source_tileset     use source tileset (image with common tiles)\n");
+        printf("-entity_tileset     (maps only) mark matching tiles counting from 255 down, entity patterns not exported\n");
         printf("-keep_duplicate_tiles   do not remove duplicate tiles (default: not enabled)\n");
         printf("-no_palettes        do not export palette data\n");
 
@@ -286,6 +290,10 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
         {
             args->includeTileData = false;
             args->source_tilesets.push_back(argv[++i]);
+        }
+        else if(!strcmp(argv[i], "-entity_tileset"))
+        {
+            args->entity_tileset_filename = argv[++i];
         }
         else if(!strcmp(argv[i], "-bin"))
         {

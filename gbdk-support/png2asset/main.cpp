@@ -72,10 +72,24 @@ int main(int argc, char* argv[])
 
         arguments.has_source_tilesets = true;
         printf("Got %d tiles from the source tileset.\n", (unsigned int)arguments.source_tileset_size);
-        printf("Got %d palettes from the source tileset.\n", (unsigned int)(arguments.source_total_color_count / png2AssetInstance.image.colors_per_pal));        
+        printf("Got %d palettes from the source tileset.\n", (unsigned int)(arguments.source_total_color_count / png2AssetInstance.image.colors_per_pal));
     }
 
+    // If there is an entity tileset
+    if (!arguments.entity_tileset_filename.empty()) {
 
+        // Run with entity tileset filename
+        arguments.processing_mode = MODE_ENTITY_TILESET;
+        errorCode = png2AssetInstance.Execute(&arguments, arguments.entity_tileset_filename);
+
+        // Return the error code if the function returns non-zero
+        if(errorCode != 0) {
+            return errorCode;
+        }
+
+        arguments.has_entity_tileset = true;
+        printf("Got %d tiles from the entity tileset.\n", (unsigned int)(unsigned int)png2AssetInstance.entity_tiles.size());
+    }
 
     // Run the primary input file
     // Return the error code if the function returns non-zero
