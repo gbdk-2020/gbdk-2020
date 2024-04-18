@@ -15,7 +15,8 @@ enum {
 // processing_mode states
 enum {
     MODE_MAIN_IMAGE,
-    MODE_SOURCE_TILESET
+    MODE_SOURCE_TILESET,
+    MODE_ENTITY_TILESET
 };
 
 struct PNGImage

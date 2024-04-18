@@ -30,6 +30,7 @@ struct PNG2AssetArguments {
     string output_filename;
     string input_filename;
     vector<string> source_tilesets;
+    string entity_tileset_filename;
 
     size_t max_palettes;
 
@@ -61,7 +62,8 @@ struct PNG2AssetArguments {
     size_t source_total_color_count;  // Total number of colors (palette_count x colors_per_palette)
     unsigned int source_tileset_size;
     bool has_source_tilesets;
-    int processing_mode;  // Whether the current image being processed is a source tileset is (MODE_SOURCE_TILESET) or the main image (MODE_MAIN_IMAGE)
+    bool has_entity_tileset;
+    int processing_mode;  // Whether the current image being processed is a source tileset (MODE_SOURCE_TILESET), entity_tileset (MODE_ENTITY_TILESET), or the main image (MODE_MAIN_IMAGE)
 
     Tile::PackMode pack_mode;
     int map_entry_size_bytes;
