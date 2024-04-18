@@ -30,9 +30,49 @@
 
 using namespace std;
 
+size_t export_color_count, export_color_start;
+size_t export_tiles_count, export_tiles_start;
+bool use_structs_with_source_tileset;
+bool has_palette_data_to_export;
+
+
+// Calculate some shared export settings (.c, .h, binary)
+// This gets called at the start of each export output function
+static void calc_palette_and_tileset_export_size(PNG2AssetData* assetData) {
+
+    use_structs_with_source_tileset = (assetData->args->has_source_tilesets == true) && (assetData->args->use_structs == true);
+
+    // (source_tileset + use_structs is a special combination for ZGB
+    if (use_structs_with_source_tileset) {
+        // Export all colors and tiles, including those from source tileset
+        export_color_start = 0;
+        export_color_count = (unsigned int)assetData->image.total_color_count;
+        export_tiles_start = 0;
+        export_tiles_count = assetData->tiles.size();
+    } else {
+        // Otherwise default behavior is to skip past/offset however many
+        // palettes and tiles were present in the source tileset
+        export_color_start = assetData->args->source_total_color_count;
+        export_color_count = assetData->image.total_color_count - assetData->args->source_total_color_count;
+        export_tiles_start = assetData->args->source_tileset_size;
+        export_tiles_count = assetData->tiles.size() - assetData->args->source_tileset_size;
+    }
+
+    // When to export palette data:
+    //   - Not using a source tileset                        : include all colors
+    //   - Using a source tileset and there are extra colors : include only colors not present in source tileset
+    //   - Using a source tileset + zgb's use_structs mode   : include all source tileset and colors not present in source tileset
+    //
+    //   AND it's not turned off via include_palettes = false
+    has_palette_data_to_export = (assetData->args->include_palettes &
+                                  ((assetData->args->has_source_tilesets == false) || (export_color_count > 0) || (use_structs_with_source_tileset == true)));
+}
+
+
 bool export_h_file( PNG2AssetData* assetData) {
 
     FILE* file;
+    calc_palette_and_tileset_export_size(assetData);
 
     file = fopen(assetData->args->output_filename_h.c_str(), "w");
     if(!file) {
@@ -74,7 +114,7 @@ bool export_h_file( PNG2AssetData* assetData) {
         fprintf(file, "#define %s_HEIGHT %d\n", assetData->args->data_name.c_str(), (unsigned int)assetData->args->spriteSize.height);
         // The TILE_COUNT calc here is referring to number of 8x8 tiles,
         // so the >> 3 for each sizes axis is to get a multiplier for larger hardware sprites such as 8x16 and 16x16
-        fprintf(file, "#define %s_TILE_COUNT %d\n", assetData->args->data_name.c_str(), ((unsigned int)assetData->tiles.size() - assetData->args->source_tileset_size) * (assetData->image.tile_h >> 3) * (assetData->image.tile_w >> 3));
+        fprintf(file, "#define %s_TILE_COUNT %d\n", assetData->args->data_name.c_str(), ((unsigned int)export_tiles_count) * (assetData->image.tile_h >> 3) * (assetData->image.tile_w >> 3));
         if(assetData->args->include_palettes) {
             fprintf(file, "#define %s_PALETTE_COUNT %d\n", assetData->args->data_name.c_str(), (unsigned int)(assetData->image.total_color_count / assetData->image.colors_per_pal));
             fprintf(file, "#define %s_COLORS_PER_PALETTE %d\n", assetData->args->data_name.c_str(), (unsigned int)assetData->image.colors_per_pal);
@@ -100,6 +140,7 @@ bool export_h_file( PNG2AssetData* assetData) {
                     fprintf(file, "#define %s_MAP_ATTRIBUTES_PACKED_HEIGHT %d\n", assetData->args->data_name.c_str(), (int)assetData->args->map_attributes_packed_size.height);
                 }
 
+                // TODO: FIXME: Based on above if statement, this code will never be reached if (assetData->args->use_structs) is true (despite being tested in code below)
                 if(assetData->args->use_structs)
                 {
                     fprintf(file, "#define %s_TILE_PALS ", assetData->args->data_name.c_str());
@@ -121,14 +162,11 @@ bool export_h_file( PNG2AssetData* assetData) {
         fprintf(file, "BANKREF_EXTERN(%s)\n", assetData->args->data_name.c_str());
         fprintf(file, "\n");
 
-        // If we are not using a source tileset, or if we have extra palettes defined
-        if (((assetData->image.total_color_count - assetData->args->source_total_color_count) > 0) || (assetData->args->has_source_tilesets == false)) {
-            if (assetData->args->include_palettes) {
-                fprintf(file, "extern const palette_color_t %s_palettes[%d];\n", assetData->args->data_name.c_str(), (unsigned int)assetData->image.total_color_count - (unsigned int)assetData->args->source_total_color_count);
-            }
+        if (has_palette_data_to_export) {
+            fprintf(file, "extern const palette_color_t %s_palettes[%d];\n", assetData->args->data_name.c_str(), (unsigned int)export_color_count);
         }
         if(assetData->args->includeTileData) {
-            fprintf(file, "extern const uint8_t %s_tiles[%d];\n", assetData->args->data_name.c_str(), (unsigned int)((assetData->tiles.size() - assetData->args->source_tileset_size) * (assetData->image.tile_w * assetData->image.tile_h * assetData->args->bpp / 8)));
+            fprintf(file, "extern const uint8_t %s_tiles[%d];\n", assetData->args->data_name.c_str(), (unsigned int)(export_tiles_count * (assetData->image.tile_w * assetData->image.tile_h * assetData->args->bpp / 8)));
         }
 
         fprintf(file, "\n");
@@ -147,6 +185,7 @@ bool export_h_file( PNG2AssetData* assetData) {
                     // so that set_bkg_attributes can work the same on these platforms
                     fprintf(file, "#define %s_map_attributes %s_map\n", assetData->args->data_name.c_str(), assetData->args->data_name.c_str());
                 }
+                // TODO: FIXME: Based on above if statement, this code will never be reached if (assetData->args->use_structs) is true (despite being tested in code below)
                 if(!assetData->args->use_map_attributes && (assetData->args->includeTileData) && (assetData->args->use_structs)) {
                     fprintf(file, "extern const unsigned char* %s_tile_pals[%d];\n", assetData->args->data_name.c_str(), (unsigned int)(assetData->tiles).size());
                 }
@@ -172,6 +211,7 @@ bool export_h_file( PNG2AssetData* assetData) {
 bool export_c_file( PNG2AssetData* assetData) {
 
     FILE* file;
+    calc_palette_and_tileset_export_size(assetData);
 
     file = fopen(assetData->args->output_filename.c_str(), "w");
     if(!file) {
@@ -190,47 +230,42 @@ bool export_c_file( PNG2AssetData* assetData) {
 
     fprintf(file, "BANKREF(%s)\n\n", assetData->args->data_name.c_str());
 
-    // Are we not using a source tileset, or do we have extra colors
-    if (((assetData->image.total_color_count - assetData->args->source_total_color_count) > 0) || (assetData->args->has_source_tilesets == false)) {
-        if (assetData->args->include_palettes) {
+    if (has_palette_data_to_export) {
 
-        // Subtract however many palettes we had in the source tileset
-        fprintf(file, "const palette_color_t %s_palettes[%d] = {\n", assetData->args->data_name.c_str(), (unsigned int)assetData->image.total_color_count - (unsigned int)assetData->args->source_total_color_count);
+        fprintf(file, "const palette_color_t %s_palettes[%d] = {\n", assetData->args->data_name.c_str(), (unsigned int)export_color_count);
 
-            // Offset by however many palettes we had in the source tileset
-            for(size_t i = assetData->args->source_total_color_count / assetData->image.colors_per_pal; i < assetData->image.total_color_count / assetData->image.colors_per_pal; ++i)
+        for(size_t i = export_color_start / assetData->image.colors_per_pal; i < assetData->image.total_color_count / assetData->image.colors_per_pal; ++i)
+        {
+            if(i != 0)
+                fprintf(file, ",\n");
+            fprintf(file, "\t");
+
+            unsigned char* pal_ptr = &assetData->image.palette[i * (assetData->image.colors_per_pal * RGBA32_SZ)];
+            for(int c = 0; c < (int)assetData->image.colors_per_pal; ++c, pal_ptr += RGBA32_SZ)
             {
-                if(i != 0)
-                    fprintf(file, ",\n");
-                fprintf(file, "\t");
-
-                unsigned char* pal_ptr = &assetData->image.palette[i * (assetData->image.colors_per_pal * RGBA32_SZ)];
-                for(int c = 0; c < (int)assetData->image.colors_per_pal; ++c, pal_ptr += RGBA32_SZ)
-                {
-                    size_t rgb222 = (((pal_ptr[2] >> 6) & 0x3) << 4) |
-                        (((pal_ptr[1] >> 6) & 0x3) << 2) |
-                        (((pal_ptr[0] >> 6) & 0x3) << 0);
-                    if(assetData->args->convert_rgb_to_nes) {
-                        fprintf(file, "0x%0X", rgb_to_nes[rgb222]);
-                    }
-                    else
-                        fprintf(file, "RGB8(%3d,%3d,%3d)", pal_ptr[0], pal_ptr[1], pal_ptr[2]);
-                    if(c != (int)assetData->image.colors_per_pal - 1)
-                        fprintf(file, ", ");
-                    // Line break every 4 color entries, to keep line width down
-                    if(((c + 1) % 4) == 0)
-                        fprintf(file, "\n\t");
+                size_t rgb222 = (((pal_ptr[2] >> 6) & 0x3) << 4) |
+                    (((pal_ptr[1] >> 6) & 0x3) << 2) |
+                    (((pal_ptr[0] >> 6) & 0x3) << 0);
+                if(assetData->args->convert_rgb_to_nes) {
+                    fprintf(file, "0x%0X", rgb_to_nes[rgb222]);
                 }
+                else
+                    fprintf(file, "RGB8(%3d,%3d,%3d)", pal_ptr[0], pal_ptr[1], pal_ptr[2]);
+                if(c != (int)assetData->image.colors_per_pal - 1)
+                    fprintf(file, ", ");
+                // Line break every 4 color entries, to keep line width down
+                if(((c + 1) % 4) == 0)
+                    fprintf(file, "\n\t");
             }
-            fprintf(file, "\n};\n");
         }
+        fprintf(file, "\n};\n");
     }
 
     if(assetData->args->includeTileData) {
         fprintf(file, "\n");
-        fprintf(file, "const uint8_t %s_tiles[%d] = {\n", assetData->args->data_name.c_str(), (unsigned int)((assetData->tiles.size() - assetData->args->source_tileset_size) * assetData->image.tile_w * assetData->image.tile_h * assetData->args->bpp / 8));
+        fprintf(file, "const uint8_t %s_tiles[%d] = {\n", assetData->args->data_name.c_str(), (unsigned int)(export_tiles_count * assetData->image.tile_w * assetData->image.tile_h * assetData->args->bpp / 8));
         fprintf(file, "\t");
-        for(vector< Tile >::iterator it = assetData->tiles.begin() + assetData->args->source_tileset_size; it != assetData->tiles.end(); ++it)
+        for(vector< Tile >::iterator it = assetData->tiles.begin() + export_tiles_start; it != assetData->tiles.end(); ++it)
         {
 
             int line_break = 1; // Start with 1 to prevent line break on first iteration
@@ -314,8 +349,8 @@ bool export_c_file( PNG2AssetData* assetData) {
                     if(!assetData->args->use_map_attributes)
                     {
                         fprintf(file, "\n");
-                        fprintf(file, "const uint8_t %s_tile_pals[%d] = {\n\t", assetData->args->data_name.c_str(), (unsigned int)(assetData->tiles.size()) - assetData->args->source_tileset_size);
-                        for(vector< Tile >::iterator it = assetData->tiles.begin() + assetData->args->source_tileset_size; it != assetData->tiles.end(); ++it)
+                        fprintf(file, "const uint8_t %s_tile_pals[%d] = {\n\t", assetData->args->data_name.c_str(), (unsigned int)export_tiles_count);
+                        for(vector< Tile >::iterator it = assetData->tiles.begin() + export_tiles_start; it != assetData->tiles.end(); ++it)
                         {
                             if(it != assetData->tiles.begin())
                                 fprintf(file, ", ");
@@ -434,11 +469,12 @@ bool export_c_file( PNG2AssetData* assetData) {
 bool export_map_binary( PNG2AssetData* assetData) {
 
     std::ofstream mapBinaryFile, mapAttributesBinaryfile, tilesBinaryFile;
+    calc_palette_and_tileset_export_size(assetData);
 
     if (assetData->args->includeTileData) {
         tilesBinaryFile.open(assetData->args->output_filename_tiles_bin, std::ios_base::binary);
 
-        for(vector< Tile >::iterator it = assetData->tiles.begin() + assetData->args->source_tileset_size; it != assetData->tiles.end(); ++it)
+        for(vector< Tile >::iterator it = assetData->tiles.begin() + export_tiles_start; it != assetData->tiles.end(); ++it)
         {
 
             vector< unsigned char > packed_data = (*it).GetPackedData(assetData->args->pack_mode, assetData->image.tile_w, assetData->image.tile_h, assetData->args->bpp);
