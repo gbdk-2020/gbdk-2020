@@ -64,7 +64,7 @@ void GetMap(PNG2AssetData* assetData)
             if (assetData->args->has_entity_tileset && FindTile(tile, idx, props, assetData->entity_tiles, assetData)) {
                 // Entity tilesets index counts from 255 down instead of 0 up,
                 // so invert the tile ID on the 8 bit boundary
-                idx = 255 - idx;
+                idx = (256 - assetData->entity_tiles.size()) + idx;
                 props = assetData->args->props_default;
             }
             // When both -keep_duplicate_tiles and source tilesets are used then
