@@ -289,7 +289,7 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
         }
         else if(!strcmp(argv[i], "-source_tileset"))
         {
-//            args->includeTileData = false;
+            args->includeTileData = false;
             args->source_tilesets.push_back(argv[++i]);
         }
         else if(!strcmp(argv[i], "-entity_tileset"))
@@ -312,12 +312,6 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
             printf("Warning: Argument \"%s\" not recognized\n", argv[i]);
         }
     }
-
-    // if not use_structs then always don't include tiledata from the source dataset(s)
-    if ((args->source_tilesets.size()) && (!args->use_structs)) {
-        args->includeTileData = false;        
-    }
-
 
     int slash_pos = (int)args->output_filename.find_last_of('/');
     if(slash_pos == -1)
