@@ -69,7 +69,6 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
     args->props_default = 0;
 
     args->tile_origin = 0; // Default to no tile index offset
-    // args->extra_tile_count;
     args->source_total_color_count = 0;
     args->source_tileset_size = 0;
     args->has_source_tilesets = false;
@@ -81,6 +80,7 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
     args->pack_mode = Tile::GB;
     args->map_entry_size_bytes = 1;
 
+    args->relative_paths = false;
 
     if(argc < 2)
     {
@@ -124,6 +124,7 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
         printf("-bin                export to binary format\n");
         printf("-transposed         export transposed (column-by-column instead of row-by-row)\n");
 
+        printf("-rel_paths          paths to tilesets are relative to the input file path\n");
         return 0;
     }
 
@@ -294,6 +295,7 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
         else if(!strcmp(argv[i], "-entity_tileset"))
         {
             args->entity_tileset_filename = argv[++i];
+            args->has_entity_tileset = true;
         }
         else if(!strcmp(argv[i], "-bin"))
         {
@@ -302,6 +304,9 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
         else if(!strcmp(argv[i], "-transposed"))
         {
             args->output_transposed = true;
+        }
+        else if(!strcmp(argv[i], "-rel_paths")) {
+            args->relative_paths = true;
         }
         else {
             printf("Warning: Argument \"%s\" not recognized\n", argv[i]);

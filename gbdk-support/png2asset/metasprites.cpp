@@ -51,8 +51,7 @@ void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y, PNG
                     if(!FindTile(tile, idx, props, assetData->tiles, assetData))
                     {
                         if (assetData->args->has_source_tilesets) {
-                            printf("found a tile not in the source tileset at %d,%d. The target tileset has %d extra tiles.\n", x, y, (unsigned int)assetData->args->extra_tile_count + 1);
-                            assetData->args->extra_tile_count++;
+                            printf("found a tile not in the source tileset at %d,%d\n", x, y);
                             assetData->args->includeTileData = true;
                         }
                         assetData->tiles.push_back(tile);
