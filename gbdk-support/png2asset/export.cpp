@@ -241,33 +241,34 @@ bool export_c_file( PNG2AssetData* assetData) {
 
     if (has_palette_data_to_export) {
 
-        fprintf(file, "const palette_color_t %s_palettes[%d] = {\n", assetData->args->data_name.c_str(), (unsigned int)export_color_count);
-
-        for(size_t i = export_color_start / assetData->image.colors_per_pal; i < assetData->image.total_color_count / assetData->image.colors_per_pal; ++i)
-        {
-            if(i != 0)
-                fprintf(file, ",\n");
-            fprintf(file, "\t");
-
-            unsigned char* pal_ptr = &assetData->image.palette[i * (assetData->image.colors_per_pal * RGBA32_SZ)];
-            for(int c = 0; c < (int)assetData->image.colors_per_pal; ++c, pal_ptr += RGBA32_SZ)
+        if (!(assetData->args->use_structs) || (assetData->args->includeTileData)) {
+            fprintf(file, "const palette_color_t %s_palettes[%d] = {\n", assetData->args->data_name.c_str(), (unsigned int)export_color_count);
+            for(size_t i = export_color_start / assetData->image.colors_per_pal; i < assetData->image.total_color_count / assetData->image.colors_per_pal; ++i)
             {
-                size_t rgb222 = (((pal_ptr[2] >> 6) & 0x3) << 4) |
-                    (((pal_ptr[1] >> 6) & 0x3) << 2) |
-                    (((pal_ptr[0] >> 6) & 0x3) << 0);
-                if(assetData->args->convert_rgb_to_nes) {
-                    fprintf(file, "0x%0X", rgb_to_nes[rgb222]);
+                if(i != 0)
+                    fprintf(file, ",\n");
+                fprintf(file, "\t");
+
+                unsigned char* pal_ptr = &assetData->image.palette[i * (assetData->image.colors_per_pal * RGBA32_SZ)];
+                for(int c = 0; c < (int)assetData->image.colors_per_pal; ++c, pal_ptr += RGBA32_SZ)
+                {
+                    size_t rgb222 = (((pal_ptr[2] >> 6) & 0x3) << 4) |
+                        (((pal_ptr[1] >> 6) & 0x3) << 2) |
+                        (((pal_ptr[0] >> 6) & 0x3) << 0);
+                    if(assetData->args->convert_rgb_to_nes) {
+                        fprintf(file, "0x%0X", rgb_to_nes[rgb222]);
+                    }
+                    else
+                        fprintf(file, "RGB8(%3d,%3d,%3d)", pal_ptr[0], pal_ptr[1], pal_ptr[2]);
+                    if(c != (int)assetData->image.colors_per_pal - 1)
+                        fprintf(file, ", ");
+                    // Line break every 4 color entries, to keep line width down
+                    if(((c + 1) % 4) == 0)
+                        fprintf(file, "\n\t");
                 }
-                else
-                    fprintf(file, "RGB8(%3d,%3d,%3d)", pal_ptr[0], pal_ptr[1], pal_ptr[2]);
-                if(c != (int)assetData->image.colors_per_pal - 1)
-                    fprintf(file, ", ");
-                // Line break every 4 color entries, to keep line width down
-                if(((c + 1) % 4) == 0)
-                    fprintf(file, "\n\t");
             }
+            fprintf(file, "\n};\n");
         }
-        fprintf(file, "\n};\n");
     }
 
     if(assetData->args->includeTileData) {
@@ -372,14 +373,14 @@ bool export_c_file( PNG2AssetData* assetData) {
                     fprintf(file, "#include \"TilesInfo.h\"\n");
                     fprintf(file, "BANKREF(%s_tiles_info)\n", assetData->args->data_name.c_str());
                     fprintf(file, "const struct TilesInfo %s_tiles_info = {\n", assetData->args->data_name.c_str());
-                    fprintf(file, "\t%d, //num tiles\n", (unsigned int)assetData->tiles.size() * (assetData->image.tile_h >> 3));
-                    fprintf(file, "\t%s_tiles, //tiles\n", assetData->args->data_name.c_str());
-                    fprintf(file, "\t%d, //num palettes\n", (unsigned int)(assetData->image.total_color_count / assetData->image.colors_per_pal));
-                    fprintf(file, "\t%s_palettes, //palettes\n", assetData->args->data_name.c_str());
+                    fprintf(file, "\t.num_frames=%d, //num tiles\n", (unsigned int)assetData->tiles.size() * (assetData->image.tile_h >> 3));
+                    fprintf(file, "\t.data=%s_tiles, //tiles\n", assetData->args->data_name.c_str());
+                    fprintf(file, "\t.num_pals=%d, //num palettes\n", (unsigned int)(assetData->image.total_color_count / assetData->image.colors_per_pal));
+                    fprintf(file, "\t.pals=%s_palettes, //palettes\n", assetData->args->data_name.c_str());
                     if(!assetData->args->use_map_attributes)
-                        fprintf(file, "\t%s_tile_pals, //tile palettes\n", assetData->args->data_name.c_str());
+                        fprintf(file, "\t.color_data=%s_tile_pals, //tile palettes\n", assetData->args->data_name.c_str());
                     else
-                        fprintf(file, "\t0 //tile palettes\n");
+                        fprintf(file, "\t.color_data=0 //tile palettes\n");
                     fprintf(file, "};\n");
                 }
             } else {
@@ -464,21 +465,21 @@ bool export_c_file( PNG2AssetData* assetData) {
                     fprintf(file, "BANKREF_EXTERN(%s_tiles_info)\n", assetData->args->data_name.c_str());
                 }
                 fprintf(file, "const struct MapInfo %s = {\n", assetData->args->data_name.c_str());
-                fprintf(file, "\t%s_map, //map\n", assetData->args->data_name.c_str());
-                fprintf(file, "\t%d, //with\n", assetData->image.w >> 3);
-                fprintf(file, "\t%d, //height\n", assetData->image.h >> 3);
+                fprintf(file, "\t.data=%s_map, //map\n", assetData->args->data_name.c_str());
+                fprintf(file, "\t.width=%d, //with\n", assetData->image.w >> 3);
+                fprintf(file, "\t.height=%d, //height\n", assetData->image.h >> 3);
                 if(assetData->args->use_map_attributes && assetData->map_attributes.size())
-                    fprintf(file, "\t%s_map_attributes, //map attributes\n", assetData->args->data_name.c_str());
+                    fprintf(file, "\t.attributes=%s_map_attributes, //map attributes\n", assetData->args->data_name.c_str());
                 else
-                    fprintf(file, "\t%s, //map attributes\n", "0");
+                    fprintf(file, "\t.attributes=0, //map attributes\n");
 
                 if(assetData->args->includeTileData) {
-                    fprintf(file, "\tBANK(%s_tiles_info), //tiles bank\n", assetData->args->data_name.c_str());
-                    fprintf(file, "\t&%s_tiles_info, //tiles info\n", assetData->args->data_name.c_str());
+                    fprintf(file, "\t.tiles_bank=BANK(%s_tiles_info), //tiles bank\n", assetData->args->data_name.c_str());
+                    fprintf(file, "\t.tiles=&%s_tiles_info, //tiles info\n", assetData->args->data_name.c_str());
                 } else {
                     if (assetData->args->source_tilesets.size()) {
-                        fprintf(file, "\tBANK(%s), //tiles bank\n", extract_name(assetData->args->source_tilesets[0]).c_str());
-                        fprintf(file, "\t&%s, //tiles info\n", extract_name(assetData->args->source_tilesets[0]).c_str());
+                        fprintf(file, "\t.tiles_bank=BANK(%s), //tiles bank\n", extract_name(assetData->args->source_tilesets[0]).c_str());
+                        fprintf(file, "\t.tiles=&%s, //tiles info\n", extract_name(assetData->args->source_tilesets[0]).c_str());
                     }
                 }
                 fprintf(file, "};\n");
@@ -506,14 +507,14 @@ bool export_c_file( PNG2AssetData* assetData) {
                 fprintf(file, "\n");
                 fprintf(file, "#include \"TilesInfo.h\"\n");
                 fprintf(file, "const struct TilesInfo %s = {\n", assetData->args->data_name.c_str());
-                fprintf(file, "\t%d, //num tiles\n", (unsigned int)assetData->tiles.size() * (assetData->image.tile_h >> 3));
-                fprintf(file, "\t%s_tiles, //tiles\n", assetData->args->data_name.c_str());
-                fprintf(file, "\t%d, //num palettes\n", (unsigned int)(assetData->image.total_color_count / assetData->image.colors_per_pal));
-                fprintf(file, "\t%s_palettes, //palettes\n", assetData->args->data_name.c_str());
+                fprintf(file, "\t.num_frames=%d, //num tiles\n", (unsigned int)assetData->tiles.size() * (assetData->image.tile_h >> 3));
+                fprintf(file, "\t.data=%s_tiles, //tiles\n", assetData->args->data_name.c_str());
+                fprintf(file, "\t.num_pals=%d, //num palettes\n", (unsigned int)(assetData->image.total_color_count / assetData->image.colors_per_pal));
+                fprintf(file, "\t.pals=%s_palettes, //palettes\n", assetData->args->data_name.c_str());
                 if(!assetData->args->use_map_attributes)
-                    fprintf(file, "\t%s_tile_pals, //tile palettes\n", assetData->args->data_name.c_str());
+                    fprintf(file, "\t.color_data=%s_tile_pals, //tile palettes\n", assetData->args->data_name.c_str());
                 else
-                    fprintf(file, "\t0 //tile palettes\n");
+                    fprintf(file, "\t.color_data=0 //tile palettes\n");
                 fprintf(file, "};\n");
             }
         }            
