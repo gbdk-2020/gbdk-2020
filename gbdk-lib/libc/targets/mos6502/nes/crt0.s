@@ -284,25 +284,22 @@ DoUpdateVRAM:
     bit *__vram_transfer_buffer_valid
     bmi DoUpdateVRAM_drawListValid
 DoUpdateVRAM_drawListInvalid:
-    ; Delay for remaining cycles to keep timing consistent
-    ldx #(VRAM_DELAY_CYCLES_X8+7)
-DoUpdateVRAM_invalid_loop:
-    lda *__vram_transfer_buffer_num_cycles_x8
-    dex
-    bne DoUpdateVRAM_invalid_loop
+    ; Delay for all unused cycles and ProcessDrawList overhead to keep timing consistent
+    lda *0x00
     nop
-    rts
+    ldx #(VRAM_DELAY_CYCLES_X8+6)
+    bne DoUpdateVRAM_loop
 DoUpdateVRAM_drawListValid:
     jsr ProcessDrawList
-    ; Delay for remaining cycles to keep timing consistent
-    ; ...plus fixed-cost of 56 cycles
+    ; Delay for remaining unused cycles to keep timing consistent
     ldx *__vram_transfer_buffer_num_cycles_x8
-DoUpdateVRAM_valid_loop:
-    stx *__vram_transfer_buffer_num_cycles_x8
-    dex
-    bne DoUpdateVRAM_valid_loop
+    ; Reset available cycles to initial value
     lda #VRAM_DELAY_CYCLES_X8
     sta *__vram_transfer_buffer_num_cycles_x8
+DoUpdateVRAM_loop:
+    lda *0x00
+    dex
+    bne DoUpdateVRAM_loop
     rts
 
 __crt0_IRQ:
