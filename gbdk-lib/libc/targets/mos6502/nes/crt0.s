@@ -212,49 +212,14 @@ NotInsideNMI:
 
     lda #0x80
     sta *__crt0_NMI_insideNMI
-
-    jsr __crt0_doSpriteDMA
-    jsr __crt0_NMI_doUpdateVRAM
-
-    nop
-    ; Write shadow_PPUMASK to PPUMASK, in case it was disabled
-    lda *_shadow_PPUMASK
-    sta PPUMASK
-
-    lda *_sys_time
-    clc
-    adc #1
-    sta *_sys_time
-    lda *(_sys_time+1)
-    adc #0
-    sta *(_sys_time+1)
     
-    ; Re-write PPUCTRL (clobbered by vram transfer buffer code)
-    lda *_shadow_PPUCTRL
-    ora *__crt0_ScrollHV
-    sta PPUCTRL
-
-    ; Call fake LCD isr
-    ldx *__lcd_scanline
-    beq 1$
-    jsr .delay_to_lcd_scanline
-1$:
-    ; Call the handler
-    jsr .jmp_to_LCD_isr
-
-    pla
-    tay
-    pla
-    tax
-    pla
-    asl *__crt0_NMI_insideNMI
-    rti
-
-__crt0_NMI_doUpdateVRAM:
+    ; Skip graphics updates if blanked, to allow main code to do VRAM address / scroll updates
     lda *_shadow_PPUMASK
     and #(PPUMASK_SHOW_BG | PPUMASK_SHOW_SPR)
-    beq __crt0_NMI_doUpdateVRAM_blanked
-    ; Not manually blanked - do updates
+    beq __crt0_NMI_skip
+    ; Do Sprite DMA or delay equivalent cycles
+    jsr __crt0_doSpriteDMA
+    ; Update VRAM
     lda PPUSTATUS
     lda #PPUCTRL_SPR_CHR
     sta PPUCTRL
@@ -264,9 +229,52 @@ __crt0_NMI_doUpdateVRAM:
     sta PPUSCROLL
     lda _bkg_scroll_y
     sta PPUSCROLL
-__crt0_NMI_doUpdateVRAM_blanked:
-    ; Early-out if blanked to allow main code to do VRAM address / scroll updates
-    rts
+  
+    ; Re-write PPUCTRL (clobbered by vram transfer buffer code)
+    lda *_shadow_PPUCTRL
+    ora *__crt0_ScrollHV
+    sta PPUCTRL
+
+    ; Write shadow_PPUMASK to PPUMASK, in case it was disabled
+    lda *_shadow_PPUMASK
+    sta PPUMASK
+
+    ; Call fake LCD isr if present (0x60 = RTS means no LCD) and
+    lda .jmp_to_LCD_isr
+    cmp #0x60
+    beq __crt0_NMI_skip
+    ; First delay until end-of-vblank, depending on transfer buffer contents...
+    ; (X set to correct delay value by DoUpdateVRAM)
+1$:
+    lda *0x00
+    dex
+    bne 1$
+    ; ...then delay for desired number of scanlines
+    ldx *__lcd_scanline
+    jsr .delay_to_lcd_scanline
+    ; Additional alignment
+    nop
+    nop
+    ; Call the handler
+    jsr .jmp_to_LCD_isr
+__crt0_NMI_skip:
+
+    ; Update frame counter
+    lda *_sys_time
+    clc
+    adc #1
+    sta *_sys_time
+    lda *(_sys_time+1)
+    adc #0
+    sta *(_sys_time+1)
+
+    pla
+    tay
+    pla
+    tax
+    pla
+    asl *__crt0_NMI_insideNMI
+    rti
 
 DoUpdateVRAM:
     WRITE_PALETTE_SHADOW
@@ -277,7 +285,7 @@ DoUpdateVRAM_drawListInvalid:
     lda *0x00
     nop
     ldx #(VRAM_DELAY_CYCLES_X8+6)
-    bne DoUpdateVRAM_loop
+    bne DoUpdateVRAM_end
 DoUpdateVRAM_drawListValid:
     jsr ProcessDrawList
     ; Delay for remaining unused cycles to keep timing consistent
@@ -285,10 +293,7 @@ DoUpdateVRAM_drawListValid:
     ; Reset available cycles to initial value
     lda #VRAM_DELAY_CYCLES_X8
     sta *__vram_transfer_buffer_num_cycles_x8
-DoUpdateVRAM_loop:
-    lda *0x00
-    dex
-    bne DoUpdateVRAM_loop
+DoUpdateVRAM_end:
     rts
 
 __crt0_IRQ:
