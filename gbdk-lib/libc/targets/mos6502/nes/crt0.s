@@ -217,7 +217,7 @@ NotInsideNMI:
     jsr __crt0_NMI_doUpdateVRAM
 
     nop
-    ; Enable screen to get normal dot crawl pattern
+    ; Write shadow_PPUMASK to PPUMASK, in case it was disabled
     lda *_shadow_PPUMASK
     sta PPUMASK
 
@@ -229,6 +229,7 @@ NotInsideNMI:
     adc #0
     sta *(_sys_time+1)
     
+    ; Re-write PPUCTRL (clobbered by vram transfer buffer code)
     lda *_shadow_PPUCTRL
     ora *__crt0_ScrollHV
     sta PPUCTRL
@@ -238,12 +239,6 @@ NotInsideNMI:
     beq 1$
     jsr .delay_to_lcd_scanline
 1$:
-    ; Adjust to align to just-before-hblank
-    nop
-    nop
-    nop
-    lda #0x00
-    lda 0x0000
     ; Call the handler
     jsr .jmp_to_LCD_isr
 
@@ -263,20 +258,14 @@ __crt0_NMI_doUpdateVRAM:
     lda PPUSTATUS
     lda #PPUCTRL_SPR_CHR
     sta PPUCTRL
-    lda #0
-    sta PPUMASK
     jsr DoUpdateVRAM
     ; Set scroll address
     lda _bkg_scroll_x
     sta PPUSCROLL
     lda _bkg_scroll_y
     sta PPUSCROLL
-    rts
 __crt0_NMI_doUpdateVRAM_blanked:
     ; Early-out if blanked to allow main code to do VRAM address / scroll updates
-    nop
-    nop
-    nop
     rts
 
 DoUpdateVRAM:
