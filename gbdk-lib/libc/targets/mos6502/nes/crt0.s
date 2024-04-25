@@ -67,8 +67,6 @@ _sys_time::                             .ds 2
 _shadow_PPUCTRL::                       .ds 1
 _shadow_PPUMASK::                       .ds 1
 __crt0_spritePageValid:                 .ds 1
-__crt0_NMI_insideNMI:                   .ds 1
-__crt0_ScrollHV:                        .ds 1
 _bkg_scroll_x::                         .ds 1
 _bkg_scroll_y::                         .ds 1
 _attribute_row_dirty::                  .ds 1
@@ -199,19 +197,11 @@ ProcessDrawList:
     rts
 
 __crt0_NMI:
-    ; Prevent NMI re-entry
-    bit *__crt0_NMI_insideNMI
-    bpl NotInsideNMI
-    rti
-NotInsideNMI:
     pha
     txa
     pha
     tya
     pha
-
-    lda #0x80
-    sta *__crt0_NMI_insideNMI
     
     ; Skip graphics updates if blanked, to allow main code to do VRAM address / scroll updates
     lda *_shadow_PPUMASK
@@ -232,7 +222,6 @@ NotInsideNMI:
   
     ; Re-write PPUCTRL (clobbered by vram transfer buffer code)
     lda *_shadow_PPUCTRL
-    ora *__crt0_ScrollHV
     sta PPUCTRL
 
     ; Write shadow_PPUMASK to PPUMASK, in case it was disabled
@@ -273,7 +262,6 @@ __crt0_NMI_skip:
     pla
     tax
     pla
-    asl *__crt0_NMI_insideNMI
     rti
 
 DoUpdateVRAM:
