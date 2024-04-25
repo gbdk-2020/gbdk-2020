@@ -37,6 +37,7 @@ extern const UBYTE _SYSTEM;
 
 #define SYSTEM_PAL     0x00
 #define SYSTEM_NTSC    0x01
+#define SYSTEM_DENDY   0x02
 
 #define VBK_REG VDP_ATTR_SHIFT
 
@@ -120,6 +121,13 @@ void mode(uint8_t m) OLDCALL;
     @see M_TEXT_OUT, M_TEXT_INOUT, M_NO_SCROLL, M_NO_INTERP
 */
 uint8_t get_mode(void) OLDCALL;
+
+/** Returns the system gbdk is running on.
+
+*/
+inline uint8_t get_system(void) {
+    return _SYSTEM;
+}
 
 /* Interrupt flags */
 /** Disable calling of interrupt service routines
