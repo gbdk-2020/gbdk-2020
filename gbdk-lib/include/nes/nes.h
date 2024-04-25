@@ -255,6 +255,17 @@ void mode(uint8_t m) NO_OVERLAY_LOCALS;
 */
 uint8_t get_mode(void) NO_OVERLAY_LOCALS;
 
+#define DISPLAY_SYSTEM_NTSC 0
+#define DISPLAY_SYSTEM_PAL 1
+#define DISPLAY_SYSTEM_DENDY 2
+extern uint8_t _system_bits;
+/** Returns the display system gbdk-nes is running on.
+
+*/
+inline uint8_t get_display_system(void) {
+    return _system_bits >> 6;
+}
+
 /** Global Time Counter in VBL periods (60Hz)
 
     Increments once per Frame
