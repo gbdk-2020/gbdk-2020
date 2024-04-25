@@ -58,3 +58,11 @@ clean:
 	rm -f *.exe
 	rm -f TARGET
 
+test:
+	$(MAKE) -C testing
+
+test-clean:
+	$(MAKE) -C testing clean
+
+test-update:
+	$(MAKE) -C testing update
