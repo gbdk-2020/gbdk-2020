@@ -10,6 +10,42 @@
 #define __BYTES extern UBYTE
 #define __BYTE_REG extern volatile UBYTE
 
+static volatile SFR AT(0x00) GG_STATE;
+
+#define GGSTATE_STT    0b10000000
+#define GGSTATE_NJAP   0b01000000
+#define GGSTATE_NNTS   0b00100000
+
+static volatile SFR AT(0x01) GG_EXT_7BIT;
+
+static volatile SFR AT(0x02) GG_EXT_CTL;
+
+#define GGEXT_NINIT    0b10000000
+
+static volatile SFR AT(0x03) GG_SIO_SEND;
+static volatile SFR AT(0x04) GG_SIO_RECV;
+static volatile SFR AT(0x05) GG_SIO_CTL;
+
+#define SIOCTL_TXFL    0b00000001
+#define SIOCTL_RXRD    0b00000010
+#define SIOCTL_FRER    0b00000100
+#define SIOCTL_INT     0b00001000
+#define SIOCTL_TON     0b00010000
+#define SIOCTL_RON     0b00100000
+#define SIOCTL_BS0     0b01000000
+#define SIOCTL_BS1     0b10000000
+
+static volatile SFR AT(0x06) GG_SOUND_PAN;
+
+#define SOUNDPAN_TN1R  0b00000001
+#define SOUNDPAN_TN2R  0b00000010
+#define SOUNDPAN_TN3R  0b00000100
+#define SOUNDPAN_NOSR  0b00001000
+#define SOUNDPAN_TN1L  0b00010000
+#define SOUNDPAN_TN2L  0b00100000
+#define SOUNDPAN_TN3L  0b01000000
+#define SOUNDPAN_NOSL  0b10000000
+
 static volatile SFR AT(0x3E) MEMORY_CTL;
 
 #define MEMCTL_JOYON   0b00000000
@@ -186,8 +222,8 @@ extern const UBYTE _SYSTEM;
 
 extern volatile UBYTE VDP_ATTR_SHIFT;
 
-#define VBK_TILES       0
-#define VBK_ATTRIBUTES  1
+#define VBK_TILES      0
+#define VBK_ATTRIBUTES 1
 
 #define VDP_SAT_TERM   0xD0
 

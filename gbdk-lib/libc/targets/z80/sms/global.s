@@ -1,3 +1,39 @@
+        .GG_STATE       = 0x00
+
+        .GGSTATE_STT    = 0b10000000
+        .GGSTATE_NJAP   = 0b01000000
+        .GGSTATE_NNTS   = 0b00100000
+
+        .GG_EXT_7BIT    = 0x01
+
+        .GG_EXT_CTL     = 0x02
+
+        .GGEXT_NINIT    = 0b10000000
+
+        .GG_SIO_SEND    = 0x03
+        .GG_SIO_RECV    = 0x04
+        .GG_SIO_CTL     = 0x05
+
+        .SIOCTL_TXFL    = 0b00000001
+        .SIOCTL_RXRD    = 0b00000010
+        .SIOCTL_FRER    = 0b00000100
+        .SIOCTL_INT     = 0b00001000
+        .SIOCTL_TON     = 0b00010000
+        .SIOCTL_RON     = 0b00100000
+        .SIOCTL_BS0     = 0b01000000
+        .SIOCTL_BS1     = 0b10000000
+
+        .GG_SOUND_PAN   = 0x06
+
+        .SOUNDPAN_TN1R  = 0b00000001
+        .SOUNDPAN_TN2R  = 0b00000010
+        .SOUNDPAN_TN3R  = 0b00000100
+        .SOUNDPAN_NOSR  = 0b00001000
+        .SOUNDPAN_TN1L  = 0b00010000
+        .SOUNDPAN_TN2L  = 0b00100000
+        .SOUNDPAN_TN3L  = 0b01000000
+        .SOUNDPAN_NOSL  = 0b10000000
+
         .MEMORY_CTL     = 0x3E
 
         .MEMCTL_JOYON   = 0b00000000
