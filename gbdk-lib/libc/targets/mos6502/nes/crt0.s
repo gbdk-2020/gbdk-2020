@@ -72,6 +72,7 @@ _bkg_scroll_y::                         .ds 1
 _attribute_row_dirty::                  .ds 1
 _attribute_column_dirty::               .ds 1
 .crt0_forced_blanking::                 .ds 1
+__system_bits::                         .ds 1
 
 .define __crt0_NMITEMP "___SDCC_m6502_ret4"
 
@@ -177,21 +178,36 @@ ProcessDrawList:
 .delay_to_lcd_scanline::
     lda #0
     sta *.acc
-    ldy #(19-5) 
+    ldy #(19-5)
     nop
     nop
     bne 2$
 1$:
-    ldy #19
+    ldy #15
 2$:
     dey
-    bne 2$      ; -> 2 + 18*5 + 4 = 91 cycles
-    lda *.acc
+    bne 2$      ; -> 2 + 14*5 + 4 = 76 cycles
+
+    nop
+    nop         ; -> 4 cycles
+
+    lda #144 ; Initialize A with PAL fractional cycle count
+    ; +7 cycles for NTSC scanlines
+    bit *__system_bits
+    bvs 3$
+    lda #171 ; NTSC fractional cycle count
+    nop
+    nop
+    nop
+3$:             ; -> 15 NTSC cycles / 8 PAL cycles
+    ; Add fractional cycles and branch on carry
     clc
-    adc #85
-    bcc 3$
-3$:
-    sta *.acc   ; -> 12.666 cycles
+    adc *.acc
+    sta *.acc
+    bcs 4$
+4$:
+    sta *.acc   ; -> 13.666 NTSC cycles / 13.5625 PAL cycles
+    
     dex
     bne 1$      ; -> 5 cycles
     rts
@@ -238,12 +254,22 @@ __crt0_NMI:
     lda *0x00
     dex
     bne 1$
+    ; Do additional delay of 5186 cycles if running on a PAL system, and -5*7 + 2 = -33 for alignment
+    ; This is to compensate for the longer vblank period of 7459 vs NTSC's 2273
+    bit *__system_bits
+    bvc 2$
+    nop
+    ldy #5
+    ldx #(14-7)
+3$:
+    dex
+    bne 3$
+    dey
+    bne 3$
+2$:
     ; ...then delay for desired number of scanlines
     ldx *__lcd_scanline
     jsr .delay_to_lcd_scanline
-    ; Additional alignment
-    nop
-    nop
     ; Call the handler
     jsr .jmp_to_LCD_isr
 __crt0_NMI_skip:
@@ -306,11 +332,42 @@ __crt0_setPalette:
     bne 1$
     rts
 
-__crt0_waitPPU:
-__crt0_waitPPU_loop:
+
+.macro CRT0_WAIT_PPU ?.loop
+.loop:
     lda PPUSTATUS
-    bpl __crt0_waitPPU_loop
-    rts
+    bpl .loop
+.endm
+
+;
+; Detects system. After execution, A contains the following values:
+;
+; 0: NTSC NES/Famicom
+; 1: PAL NES
+; 2: Dendy-like Famiclone
+;
+.macro CRT0_WAIT_PPU_AND_DETECT_SYSTEM ?.loop, ?.end_of_loop, ?.end
+    ldx #0
+    ldy #0
+; 256 iterations of the inner loop (X) takes 256 * (4 + 2 + 2 + 3) - 1 = 2816 cycles
+; 1 iteration of the outer loop takes 2816 + 2 + 3 = 2821 cycles
+; And different systems will have the following contents in Y:
+; NTSC:   29780 / 2821 = 10
+; PAL:    33247 / 2821 = 11
+; Dendy:  35464 / 2821 = 12
+.loop:
+    bit PPUSTATUS
+    bmi .end_of_loop
+    inx
+    bne .loop
+    iny
+    bne .loop
+.end_of_loop:
+    tya
+    sec
+    sbc #10
+.end:
+.endm
 
 .macro CRT0_CLEAR_RAM
     ldx #0x00
@@ -366,11 +423,19 @@ __crt0_RESET_bankSwitchValue:
     ; Disable NMIs and rendering
     sta PPUCTRL
     sta PPUMASK
-    ; Wait for PPU warm-up
-    jsr __crt0_waitPPU
-    jsr __crt0_waitPPU
-    ; Clear RAM and VRAM
+    ; Clear RAM
     CRT0_CLEAR_RAM
+    ; Wait for PPU warm-up / detect system
+    bit PPUSTATUS
+    CRT0_WAIT_PPU
+    CRT0_WAIT_PPU_AND_DETECT_SYSTEM
+    ; Store system in upper two bits of __system_bits, to allow bit instruction to quickly test for PAL
+    clc
+    ror
+    ror
+    ror
+    sta *__system_bits
+    ; Clear VRAM
     jsr __crt0_clearVRAM
     ; Hide sprites in shadow OAM, and perform OAM DMA
     ldx #0
