@@ -1735,11 +1735,11 @@ const uint8_t zgb_sgb_border_1_tiles[3424] = {
 #include "TilesInfo.h"
 BANKREF(zgb_sgb_border_1_tiles_info)
 const struct TilesInfo zgb_sgb_border_1_tiles_info = {
-	107, //num tiles
-	zgb_sgb_border_1_tiles, //tiles
-	1, //num palettes
-	zgb_sgb_border_1_palettes, //palettes
-	0 //tile palettes
+	.num_frames=107, //num tiles
+	.data=zgb_sgb_border_1_tiles, //tiles
+	.num_pals=1, //num palettes
+	.pals=zgb_sgb_border_1_palettes, //palettes
+	.color_data=0 //tile palettes
 };
 
 const unsigned char zgb_sgb_border_1_map[1792] = {
@@ -1776,10 +1776,10 @@ const unsigned char zgb_sgb_border_1_map[1792] = {
 #include "MapInfo.h"
 BANKREF_EXTERN(zgb_sgb_border_1_tiles_info)
 const struct MapInfo zgb_sgb_border_1 = {
-	zgb_sgb_border_1_map, //map
-	32, //with
-	28, //height
-	0, //map attributes
-	BANK(zgb_sgb_border_1_tiles_info), //tiles bank
-	&zgb_sgb_border_1_tiles_info, //tiles info
+	.data=zgb_sgb_border_1_map, //map
+	.width=32, //with
+	.height=28, //height
+	.attributes=0, //map attributes
+	.tiles_bank=BANK(zgb_sgb_border_1_tiles_info), //tiles bank
+	.tiles=&zgb_sgb_border_1_tiles_info, //tiles info
 };
