@@ -489,6 +489,8 @@ __shadow_OAM_OFF::
         .db 0
 .mode::
         .ds .T_MODE_INOUT       ; Current mode
+__SYSTEM::
+        .db .SYSTEM_NTSC        ; Detection not implemented yet
 __old_int_vector::
         .ds 5
 
