@@ -18,7 +18,7 @@ _joypad::
         in a, (.JOY_PORT1)
         ld h, a
         and #(.JOY_P1_LEFT | .JOY_P1_RIGHT)
-        jp z, 1$
+        jp nz, 1$
 
         ld a, h                 ; three button controller detected
         cpl
