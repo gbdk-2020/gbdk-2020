@@ -31,6 +31,13 @@
 #endif
 
 
+extern const UBYTE _BIOS;
+
+extern const UBYTE _SYSTEM;
+
+#define SYSTEM_PAL     0x00
+#define SYSTEM_NTSC    0x01
+
 #define VBK_REG VDP_ATTR_SHIFT
 
 /** Joypad bits.
@@ -52,13 +59,8 @@
 #define	J_RIGHT      0b00001000
 #define	J_B          0b00010000
 #define	J_A          0b00100000
-#if defined(__TARGET_sms)
-#define	J_SELECT     0b00100000
-#define	J_START      0b00010000
-#elif defined(__TARGET_gg)
-#define	J_SELECT     0b00100000
-#define	J_START      0b10000000
-#endif
+#define	J_START      0b01000000
+#define	J_SELECT     0b10000000
 
 /** Screen modes.
     Normally used by internal functions only.
