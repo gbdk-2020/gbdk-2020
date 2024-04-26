@@ -55,6 +55,16 @@ generate-assets:
 	$(PNG2ASSET) $(RES)/nums8x8_map_0_to_39.png -o $(OUTDIR)/nums_map_6.c -map -keep_duplicate_tiles -source_tileset $(RES)/nums8x8_9_to_0.png
 	$(PNG2ASSET) $(RES)/nums8x8_map_0_to_39.png -o $(OUTDIR)/nums_map_7.c -map -keep_duplicate_tiles -entity_tileset $(RES)/nums8x8_30_to_39.png
 	$(PNG2ASSET) $(RES)/nums8x8_map_0_to_39.png -o $(OUTDIR)/nums_map_8.c -map -keep_duplicate_tiles -source_tileset $(RES)/nums8x8_9_to_0.png -entity_tileset $(RES)/nums8x8_30_to_39.png
+# ZGB flavor of above
+	$(PNG2ASSET) $(RES)/nums8x8_map_0_to_39.png -o $(OUTDIR)/zgb_nums_map_1.c -map -use_structs
+	$(PNG2ASSET) $(RES)/nums8x8_map_0_to_39.png -o $(OUTDIR)/zgb_nums_map_2.c -map -use_structs -source_tileset $(RES)/nums8x8_9_to_0.png
+	$(PNG2ASSET) $(RES)/nums8x8_map_0_to_39.png -o $(OUTDIR)/zgb_nums_map_3.c -map -use_structs -entity_tileset $(RES)/nums8x8_30_to_39.png
+	$(PNG2ASSET) $(RES)/nums8x8_map_0_to_39.png -o $(OUTDIR)/zgb_nums_map_4.c -map -use_structs -source_tileset $(RES)/nums8x8_9_to_0.png -entity_tileset $(RES)/nums8x8_30_to_39.png
+	$(PNG2ASSET) $(RES)/nums8x8_map_0_to_39.png -o $(OUTDIR)/zgb_nums_map_5.c -map -use_structs
+	$(PNG2ASSET) $(RES)/nums8x8_map_0_to_39.png -o $(OUTDIR)/zgb_nums_map_6.c -map -use_structs -keep_duplicate_tiles -source_tileset $(RES)/nums8x8_9_to_0.png
+	$(PNG2ASSET) $(RES)/nums8x8_map_0_to_39.png -o $(OUTDIR)/zgb_nums_map_7.c -map -use_structs -keep_duplicate_tiles -entity_tileset $(RES)/nums8x8_30_to_39.png
+	$(PNG2ASSET) $(RES)/nums8x8_map_0_to_39.png -o $(OUTDIR)/zgb_nums_map_8.c -map -use_structs -keep_duplicate_tiles -source_tileset $(RES)/nums8x8_9_to_0.png -entity_tileset $(RES)/nums8x8_30_to_39.png
+
 
 # keep_palette_order + source_tileset + noflip + map (gbphoto)
 	$(PNG2ASSET) $(RES)/remote.png      -c $(OUTDIR)/remote.c      -keep_palette_order -map -noflip

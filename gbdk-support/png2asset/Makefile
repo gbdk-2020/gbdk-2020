@@ -66,3 +66,6 @@ test-clean:
 
 test-update:
 	$(MAKE) -C testing update
+
+test-compare:
+	$(MAKE) -C testing compare-output
