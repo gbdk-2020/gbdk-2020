@@ -6,10 +6,6 @@
 
 BANKREF(remote_down)
 
-const palette_color_t remote_down_palettes[4] = {
-	RGB8(255,255,255), RGB8(171,171,171), RGB8( 84, 84, 84), RGB8(  0,  0,  0)
-	
-};
 
 const uint8_t remote_down_tiles[528] = {
 	0xff,0x00,0x00,0x00,

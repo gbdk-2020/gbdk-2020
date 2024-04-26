@@ -37,7 +37,7 @@ generate-assets:
 	$(PNG2ASSET) $(RES)/sprite_slon.png -c $(OUTDIR)/zgb_sprite_2.c -use_structs -b 255 -spr8x16 -px 0 -py 0 -pw 32 -ph 24 -sw 64 -sh 48 -noflip -pack_mode sms -bpp 4 -keep_palette_order
 
 	# SGB
-	$(PNG2ASSET) $(RES)/SGB/sgb_border.png -c $(OUTDIR)/zgb_sgb_border_1.c -b 255 -bpp 4 -max_palettes 4 -use_map_attributes -use_structs -pack_mode sgb
+	$(PNG2ASSET) $(RES)/SGB/sgb_border.png -c $(OUTDIR)/zgb_sgb_border_1.c -b 255 -map -bpp 4 -max_palettes 4 -use_map_attributes -use_structs -pack_mode sgb
 
 	# Map
 	# - GB
