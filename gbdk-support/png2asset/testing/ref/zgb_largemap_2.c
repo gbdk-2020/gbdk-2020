@@ -3845,17 +3845,17 @@ const uint8_t zgb_largemap_2_tiles[7648] = {
 
 
 const uint8_t zgb_largemap_2_tile_pals[239] = {
-	0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 2, 2, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 2, 3, 3, 2, 2, 3, 3, 2, 2, 2, 2, 3, 3, 3, 0, 0, 2, 2, 3, 3, 3, 3, 1, 1, 1, 1, 3, 2, 2, 2, 3, 3, 2, 2, 1, 1, 1, 1, 2, 2, 3, 3, 1, 1, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 0, 0, 2, 1, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 1, 0, 0, 2, 2, 2, 1, 1, 1, 2, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 1, 1, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 2, 2, 3, 3, 1, 1, 3, 3, 3, 3, 3, 3, 2, 2, 2, 3, 1, 1, 3, 3, 1, 2, 2, 3, 3, 1, 1, 3, 3, 2, 2, 1, 1, 1, 1, 3, 3, 3, 0, 0, 0, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
 #include "TilesInfo.h"
 BANKREF(zgb_largemap_2_tiles_info)
 const struct TilesInfo zgb_largemap_2_tiles_info = {
-	239, //num tiles
-	zgb_largemap_2_tiles, //tiles
-	1, //num palettes
-	zgb_largemap_2_palettes, //palettes
-	zgb_largemap_2_tile_pals, //tile palettes
+	.num_frames=239, //num tiles
+	.data=zgb_largemap_2_tiles, //tiles
+	.num_pals=1, //num palettes
+	.pals=zgb_largemap_2_palettes, //palettes
+	.color_data=zgb_largemap_2_tile_pals, //tile palettes
 };
 
 const unsigned char zgb_largemap_2_map[10296] = {
@@ -3930,10 +3930,10 @@ const unsigned char zgb_largemap_2_map[10296] = {
 #include "MapInfo.h"
 BANKREF_EXTERN(zgb_largemap_2_tiles_info)
 const struct MapInfo zgb_largemap_2 = {
-	zgb_largemap_2_map, //map
-	156, //with
-	66, //height
-	0, //map attributes
-	BANK(zgb_largemap_2_tiles_info), //tiles bank
-	&zgb_largemap_2_tiles_info, //tiles info
+	.data=zgb_largemap_2_map, //map
+	.width=156, //with
+	.height=66, //height
+	.attributes=0, //map attributes
+	.tiles_bank=BANK(zgb_largemap_2_tiles_info), //tiles bank
+	.tiles=&zgb_largemap_2_tiles_info, //tiles info
 };

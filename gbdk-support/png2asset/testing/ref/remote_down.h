@@ -19,7 +19,6 @@
 
 BANKREF_EXTERN(remote_down)
 
-extern const palette_color_t remote_down_palettes[4];
 extern const uint8_t remote_down_tiles[528];
 
 extern const unsigned char remote_down_map[360];

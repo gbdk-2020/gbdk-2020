@@ -11,7 +11,7 @@
 #define nums_map_7_TILE_H 8
 #define nums_map_7_WIDTH 80
 #define nums_map_7_HEIGHT 40
-#define nums_map_7_TILE_COUNT 50
+#define nums_map_7_TILE_COUNT 40
 #define nums_map_7_PALETTE_COUNT 1
 #define nums_map_7_COLORS_PER_PALETTE 4
 #define nums_map_7_TOTAL_COLORS 4
@@ -20,7 +20,7 @@
 BANKREF_EXTERN(nums_map_7)
 
 extern const palette_color_t nums_map_7_palettes[4];
-extern const uint8_t nums_map_7_tiles[800];
+extern const uint8_t nums_map_7_tiles[640];
 
 extern const unsigned char nums_map_7_map[50];
 #define nums_map_7_map_attributes nums_map_7_map

@@ -966,11 +966,11 @@ const uint8_t zgb_largemap_1_tile_pals[234] = {
 #include "TilesInfo.h"
 BANKREF(zgb_largemap_1_tiles_info)
 const struct TilesInfo zgb_largemap_1_tiles_info = {
-	234, //num tiles
-	zgb_largemap_1_tiles, //tiles
-	4, //num palettes
-	zgb_largemap_1_palettes, //palettes
-	zgb_largemap_1_tile_pals, //tile palettes
+	.num_frames=234, //num tiles
+	.data=zgb_largemap_1_tiles, //tiles
+	.num_pals=4, //num palettes
+	.pals=zgb_largemap_1_palettes, //palettes
+	.color_data=zgb_largemap_1_tile_pals, //tile palettes
 };
 
 const unsigned char zgb_largemap_1_map[10296] = {
@@ -1045,10 +1045,10 @@ const unsigned char zgb_largemap_1_map[10296] = {
 #include "MapInfo.h"
 BANKREF_EXTERN(zgb_largemap_1_tiles_info)
 const struct MapInfo zgb_largemap_1 = {
-	zgb_largemap_1_map, //map
-	156, //with
-	66, //height
-	0, //map attributes
-	BANK(zgb_largemap_1_tiles_info), //tiles bank
-	&zgb_largemap_1_tiles_info, //tiles info
+	.data=zgb_largemap_1_map, //map
+	.width=156, //with
+	.height=66, //height
+	.attributes=0, //map attributes
+	.tiles_bank=BANK(zgb_largemap_1_tiles_info), //tiles bank
+	.tiles=&zgb_largemap_1_tiles_info, //tiles info
 };

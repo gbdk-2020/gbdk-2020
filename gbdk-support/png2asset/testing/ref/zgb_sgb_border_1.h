@@ -6,8 +6,10 @@
 #include <gbdk/platform.h>
 #include <gbdk/metasprites.h>
 
-#include "MetaSpriteInfo.h"
+#include "TilesInfo.h"
+#include "MapInfo.h"
 
-extern const struct MetaSpriteInfo zgb_sgb_border_1;
+extern const struct TilesInfo zgb_sgb_border_1_tiles_info;
+extern const struct MapInfo zgb_sgb_border_1;
 
 #endif
