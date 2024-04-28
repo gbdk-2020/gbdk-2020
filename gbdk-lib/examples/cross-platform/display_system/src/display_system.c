@@ -23,11 +23,11 @@ const char* get_system_name(uint8_t system)
             return "60 Hz";
         case SYSTEM_50HZ:
 #if defined(NINTENDO_NES)
-            // For gbdk-nes, we can also inspect the _system_bits to more specifically
+            // For gbdk-nes, we can also inspect the bits in _SYSTEM to more specifically
             // report the console as a Dendy-like Famiclone instead of an official PAL NES.
             // This distinction is rarely useful as both run on 50Hz, but can be a
             // useful feature for running this detection program on unknown hardware.
-            if((_system_bits & 0xC0) == SYSTEM_BITS_DENDY)
+            if((_SYSTEM & 0xC0) == SYSTEM_BITS_DENDY)
                 return "50 Hz (Dendy-like)";
             else
                 return "50 Hz";

@@ -25,10 +25,10 @@
 #undef MSX
 #endif
 
-#define SYSTEM_BITS_NTSC    0x00
-#define SYSTEM_BITS_PAL     0x40
-#define SYSTEM_BITS_DENDY   0x80
-extern const uint8_t _system_bits;
+#define SYSTEM_BITS_NTSC        0x00
+#define SYSTEM_BITS_PAL         0x40
+#define SYSTEM_BITS_DENDY       0x80
+extern const uint8_t _SYSTEM;
 
 #define SYSTEM_60HZ    0x00
 #define SYSTEM_50HZ    0x01
@@ -266,7 +266,7 @@ uint8_t get_mode(void) NO_OVERLAY_LOCALS;
 
 */
 inline uint8_t get_system(void) {
-    if(_system_bits == SYSTEM_BITS_NTSC)
+    if(_SYSTEM == SYSTEM_BITS_NTSC)
         return SYSTEM_60HZ;
     else
         return SYSTEM_50HZ;

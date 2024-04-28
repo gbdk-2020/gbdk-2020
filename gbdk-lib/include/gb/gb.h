@@ -24,8 +24,8 @@
 #undef MSX
 #endif
 
-#define SYSTEM_50HZ     0x00
-#define SYSTEM_60HZ     0x01
+#define SYSTEM_60HZ     0x00
+#define SYSTEM_50HZ     0x01
 
 #if defined(__TARGET_ap)
 #define ANALOGUEPOCKET

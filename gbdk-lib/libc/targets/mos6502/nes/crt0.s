@@ -72,7 +72,7 @@ _bkg_scroll_y::                         .ds 1
 _attribute_row_dirty::                  .ds 1
 _attribute_column_dirty::               .ds 1
 .crt0_forced_blanking::                 .ds 1
-__system_bits::                         .ds 1
+__SYSTEM::                              .ds 1
 
 .define __crt0_NMITEMP "___SDCC_m6502_ret4"
 
@@ -193,7 +193,7 @@ ProcessDrawList:
 
     lda #144 ; Initialize A with PAL fractional cycle count
     ; +7 cycles for NTSC scanlines
-    bit *__system_bits
+    bit *__SYSTEM
     bvs 3$
     lda #171 ; NTSC fractional cycle count
     nop
@@ -256,7 +256,7 @@ __crt0_NMI:
     bne 1$
     ; Do additional delay of 5186 cycles if running on a PAL system, and -5*7 + 2 = -33 for alignment
     ; This is to compensate for the longer vblank period of 7459 vs NTSC's 2273
-    bit *__system_bits
+    bit *__SYSTEM
     bvc 2$
     nop
     ldy #5
@@ -429,12 +429,12 @@ __crt0_RESET_bankSwitchValue:
     bit PPUSTATUS
     CRT0_WAIT_PPU
     CRT0_WAIT_PPU_AND_DETECT_SYSTEM
-    ; Store system in upper two bits of __system_bits, to allow bit instruction to quickly test for PAL
+    ; Store system in upper two bits of __SYSTEM, to allow bit instruction to quickly test for PAL
     clc
     ror
     ror
     ror
-    sta *__system_bits
+    sta *__SYSTEM
     ; Clear VRAM
     jsr __crt0_clearVRAM
     ; Hide sprites in shadow OAM, and perform OAM DMA

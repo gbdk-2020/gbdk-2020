@@ -33,10 +33,10 @@
 
 extern const UBYTE _BIOS;
 
-extern const UBYTE _SYSTEM;
+extern const uint8_t _SYSTEM;
 
-#define SYSTEM_50HZ     0x00
-#define SYSTEM_60HZ     0x01
+#define SYSTEM_60HZ     0x00
+#define SYSTEM_50HZ     0x01
 
 #define VBK_REG VDP_ATTR_SHIFT
 
