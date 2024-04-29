@@ -46,10 +46,12 @@ int16_t playerXVelocity, playerYVelocity;
 #if defined(SEGA)
     #define PLAYER_PALETTES_BANK CURRENT_BANK
     #define PLAYER_PALETTES PlayerPalettesGGSMS
+    #define set_player_sprite_data set_sprite_native_data
 
 #else
     #define PLAYER_PALETTES_BANK BANK(PlayerCharacterLeft)
     #define PLAYER_PALETTES PlayerCharacterLeft_palettes
+    #define set_player_sprite_data set_sprite_data
 #endif
 
 
@@ -77,12 +79,12 @@ void UpdatePlayerVRAMTiles() NONBANKED{
 
         SWITCH_ROM(BANK(PlayerCharacterRight));
 
-        set_sprite_data (0,PlayerCharacterRight_TILE_COUNT,PlayerCharacterRight_tiles);
+        set_player_sprite_data (0,PlayerCharacterRight_TILE_COUNT,PlayerCharacterRight_tiles);
     } else {
 
         SWITCH_ROM(BANK(PlayerCharacterLeft));
 
-        set_sprite_data (0,PlayerCharacterLeft_TILE_COUNT,PlayerCharacterLeft_tiles);
+        set_player_sprite_data (0,PlayerCharacterLeft_TILE_COUNT,PlayerCharacterLeft_tiles);
     }
     SWITCH_ROM(_previous_bank);
 }
