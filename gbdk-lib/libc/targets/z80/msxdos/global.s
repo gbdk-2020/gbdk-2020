@@ -287,8 +287,8 @@
         .MAP_FRAME2     = 0xfffe
         .MAP_FRAME3     = 0xffff
 
-        .SYSTEM_PAL     = 0x00
-        .SYSTEM_NTSC    = 0x01
+        .SYSTEM_NTSC    = 0x00
+        .SYSTEM_PAL     = 0x01
 
         .CPU_CLOCK      = 3579545
 

@@ -24,6 +24,9 @@
 #undef MSX
 #endif
 
+#define SYSTEM_60HZ     0x00
+#define SYSTEM_50HZ     0x01
+
 #if defined(__TARGET_ap)
 #define ANALOGUEPOCKET
 #elif defined(__TARGET_gb)
@@ -409,6 +412,13 @@ void mode(uint8_t m);
     @see M_DRAWING, M_TEXT_OUT, M_TEXT_INOUT, M_NO_SCROLL, M_NO_INTERP
 */
 uint8_t get_mode(void) PRESERVES_REGS(b, c, d, e, h, l);
+
+/** Returns the system gbdk is running on.
+
+*/
+inline uint8_t get_system(void) {
+    return SYSTEM_60HZ;
+}
 
 /** GB CPU type
 
