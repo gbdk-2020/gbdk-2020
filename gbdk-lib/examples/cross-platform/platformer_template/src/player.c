@@ -44,12 +44,6 @@ int16_t playerXVelocity, playerYVelocity;
 #endif
 
 #if defined(SEGA)
-    #define set_player_sprite_data set_sprite_native_data
-#else
-    #define set_player_sprite_data set_sprite_data
-#endif
-
-#if defined(SEGA)
     #define PLAYER_PALETTES_BANK CURRENT_BANK
     #define PLAYER_PALETTES PlayerPalettesGGSMS
 
@@ -83,12 +77,12 @@ void UpdatePlayerVRAMTiles() NONBANKED{
 
         SWITCH_ROM(BANK(PlayerCharacterRight));
 
-        set_player_sprite_data (0,PlayerCharacterRight_TILE_COUNT,PlayerCharacterRight_tiles);
+        set_sprite_data (0,PlayerCharacterRight_TILE_COUNT,PlayerCharacterRight_tiles);
     } else {
 
         SWITCH_ROM(BANK(PlayerCharacterLeft));
 
-        set_player_sprite_data (0,PlayerCharacterLeft_TILE_COUNT,PlayerCharacterLeft_tiles);
+        set_sprite_data (0,PlayerCharacterLeft_TILE_COUNT,PlayerCharacterLeft_tiles);
     }
     SWITCH_ROM(_previous_bank);
 }
@@ -100,9 +94,7 @@ void SetPlayerPalettes() NONBANKED{
     
     // Set up color palettes
     #if defined(SEGA)
-        __WRITE_VDP_REG(VDP_R2, R2_MAP_0x3800);
-        __WRITE_VDP_REG(VDP_R5, R5_SAT_0x3F00);
-        set_sprite_palette(baseProp, 1, PLAYER_PALETTES);
+            set_sprite_palette(baseProp, 1, PLAYER_PALETTES);
     #elif defined(GAMEBOY)
         if (_cpu == CGB_TYPE) {
             set_sprite_palette(OAMF_CGB_PAL0, 1, PLAYER_PALETTES);

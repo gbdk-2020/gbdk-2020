@@ -10,13 +10,6 @@
 #define WORLD1_SOLID_TILE_COUNT 17
 #define WORLD2_SOLID_TILE_COUNT 68
 
-#if defined(SEGA)
-    #define TILE_BYTE_SIZE 32
-#else
-    #define TILE_BYTE_SIZE 16
-#endif
-
-
 BANKREF_EXTERN(World1Tileset)
 BANKREF_EXTERN(World2Tileset)
 BANKREF_EXTERN(World1Area1)
