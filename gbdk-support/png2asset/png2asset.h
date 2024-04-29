@@ -25,6 +25,7 @@ public:
 
     vector< SetPal > palettes;
     vector< Tile > tiles;
+    vector< Tile > entity_tiles;
     vector< MetaSprite > sprites;
     vector< unsigned char > map;
     vector< unsigned char > map_attributes;
@@ -33,4 +34,4 @@ public:
 };
 
 
-bool FindTile(const Tile& t, size_t& idx, unsigned char& props, PNG2AssetData* assetData);
+bool FindTile(const Tile& t, size_t& idx, unsigned char& props, vector< Tile > & tiles, PNG2AssetData* assetData);

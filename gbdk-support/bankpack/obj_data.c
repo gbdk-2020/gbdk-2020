@@ -95,7 +95,7 @@ int areas_add(char * area_str, uint32_t file_id) {
     // Only match areas which are banked ("_CODE_" vs "_CODE") and ("_LIT_")
     if (AREA_LINE_RECORDS == sscanf(area_str,"A _CODE _%3d size %4x flags %*4x addr %*4x",
                                     &newarea.bank_num_in, &newarea.size)) {
-        newarea.type = BANK_TYPE_DEFAULT;
+        newarea.type = BANK_TYPE_CODE;
     }
     else if (AREA_LINE_RECORDS == sscanf(area_str,"A _LIT_%3d size %4x flags %*4x addr %*4x",
                                         &newarea.bank_num_in, &newarea.size)) {
@@ -222,7 +222,7 @@ static void bank_report_mixed_area_error(bank_item * p_bank, uint16_t bank_num, 
 
     printf("BankPack: ERROR! Bank %d already assigned different area type.\n"
            "  Can't mix _CODE_ and _LIT_ areas in the same bank for this platform.\n"
-           "  Area %s, bank %d, file:%s\n",
+           "  Rejecting: Area %s, bank %d, file:%s\n",
            p_area->bank_num_in, p_area->name, bank_num, file_get_name_in_by_id(p_area->file_id));
 
     if (option_get_verbose())
@@ -230,7 +230,7 @@ static void bank_report_mixed_area_error(bank_item * p_bank, uint16_t bank_num, 
 }
 
 
-// Checks whether mixing area types in the same bankshould be rejected
+// Checks whether mixing area types in the same bank should be rejected
 static bool bank_check_mixed_area_types_ok(bank_item * p_bank, uint16_t bank_num, area_item * p_area) {
 
     // Don't allow mixing of _CODE_ and _LIT_ for sms/gg ports

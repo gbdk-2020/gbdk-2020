@@ -9,9 +9,7 @@
         .area   _HOME
 
 _set_interrupts::
-        ld a, i
         di
-        push af
 
         ld a, (_shadow_VDP_R1)
         bit 0, l
@@ -39,8 +37,5 @@ _set_interrupts::
         ld a, #.VDP_R0
         out (.VDP_CMD), a
 
-        pop af
-        jp po, 5$
         ei
-5$:        
         ret

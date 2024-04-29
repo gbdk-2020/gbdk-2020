@@ -21,28 +21,26 @@ _INT_ISR::
         jp z, 2$
         ;; handle VBlank
 
-        ld hl, (.sys_time)
-        inc hl
-        ld (.sys_time), hl
-
-        ld a, #1
-        ld (.vbl_done), a
-
         ;; transfer shadow OAM
         ld a, (__shadow_OAM_OFF)        ; check transfer is OFF
         or a
         jp nz, 1$
-        ld hl, #__shadow_OAM_base
-        ld h, (hl)
-        ld l, a                         ; a == 0 here
-        or h
-        jp z, 1$
 
         ld a, (_shadow_VDP_R5)
         srl a
-        ld d, a
+        ld d, a                         ; d == high byte of SAT address
         ld c, #.VDP_CMD
-        xor a
+
+        ld a, (__sprites_OFF)
+        or a
+        jp nz, 4$
+
+        ld hl, #__shadow_OAM_base
+        ld h, (hl)
+        ld l, a
+        cp h
+        jp z, 1$
+
         out (c), a
         out (c), d
         dec c                           ; c == .VDP_DATA
@@ -53,7 +51,23 @@ _INT_ISR::
         out (c), d
         dec c                           ; c == .VDP_DATA
         call .OUTI128
+        jp 1$
+4$:
+        xor a
+        out (c), a
+        out (c), d
+        dec c                           ; c == .VDP_DATA
+        ld a, #0xd0                     ; disable sprites
+        out (c), a
 1$:
+        ;; tick time
+        ld hl, (.sys_time)
+        inc hl
+        ld (.sys_time), hl
+
+        ;; set VBlank done flag
+        ld a, #1
+        ld (.vbl_done), a
 
         ;; call user-defined VBlank handlers
         ld hl, (.VBLANK_HANDLER0)
@@ -75,8 +89,9 @@ _INT_ISR::
         CALL_HL
         jp 3$
 
-        ;; handle HBlank
 2$:
+        ;; handle HBlank
+
         ld hl, (.HBLANK_HANDLER0)
         CALL_HL
 

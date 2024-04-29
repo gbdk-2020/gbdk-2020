@@ -41,7 +41,9 @@ _set_attributed_tile_xy::
         VDP_DELAY
         out (c), d
 
+        ex de, hl
         ENABLE_VBLANK_COPY
+        ex de, hl
         ret
 
 ; uint8_t * set_tile_xy(uint8_t x, uint8_t y, uint8_t t) __z88dk_callee __preserves_regs(iyh, iyl);
@@ -64,7 +66,9 @@ _set_tile_xy::
         ld a, d
         out (.VDP_DATA), a
 
+        ex de, hl
         ENABLE_VBLANK_COPY
+        ex de, hl
         ret
 
 ; uint8_t * set_attribute_xy(uint8_t x, uint8_t y, uint8_t a) __z88dk_callee __preserves_regs(iyh, iyl);
@@ -88,5 +92,7 @@ _set_attribute_xy::
         ld a, d
         out (.VDP_DATA), a
 
+        ex de, hl
         ENABLE_VBLANK_COPY
+        ex de, hl
         ret

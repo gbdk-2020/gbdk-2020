@@ -52,7 +52,7 @@ int ReadImageData_KeepPaletteOrder(  PNG2AssetData* assetData, string input_file
     state.decoder.color_convert = false;
 
     // Clearing is needed to ensure loading the png works
-    // (in cases where a previous png was loaded for source tilesets)
+    // (in cases where a previous png was loaded for source or entity tilesets)
     assetData->image.data.clear();
 
     unsigned error = lodepng::decode(assetData->image.data, assetData->image.w, assetData->image.h, state, buffer);
@@ -66,7 +66,7 @@ int ReadImageData_KeepPaletteOrder(  PNG2AssetData* assetData, string input_file
 
     // Use source image palette since lodepng conversion to indexed (LCT_PALETTE) won't create a palette
     // So: state->info_png.color.palette/size instead of state->info_raw.palette/size
-    unsigned int palette_count = PaletteCountApplyMaxLimit((unsigned int)assetData->args->max_palettes, (unsigned int)(state.info_png.color.palettesize / assetData->image.colors_per_pal));
+    unsigned int palette_count = PaletteCountApplyMaxLimit((unsigned int)assetData->args->max_palettes, (unsigned int)((state.info_png.color.palettesize + assetData->image.colors_per_pal - 1) / assetData->image.colors_per_pal));
     assetData->image.total_color_count = palette_count * assetData->image.colors_per_pal;
     // Copy the palette data since the source buffer (state...) won't exist outside the scope of this function
     assetData->image.palette = new unsigned char[assetData->image.total_color_count * RGBA32_SZ];
@@ -146,7 +146,7 @@ int ReadImageData_Default(PNG2AssetData* assetData, string  input_filename) {
 
     // Create the indexed image
     // Clearing is needed to ensure loading the png works
-    // (in cases where a previous png was loaded for source tilesets)    
+    // (in cases where a previous png was loaded for source or entity tilesets)
     assetData->image.data.clear();
     assetData->image.w = image32.w;
     assetData->image.h = image32.h;

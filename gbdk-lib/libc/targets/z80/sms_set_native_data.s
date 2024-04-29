@@ -4,12 +4,26 @@
         .module VRAMUtils
         .area   _HOME
 
-; void set_native_tile_data(uint16_t start, uint16_t ntiles, const void *src) __z88dk_callee __preserves_regs(iyh,iyl);
+; void set_sprite_4bpp_data(uint8_t start, uint16_t ntiles, const void *src) __preserves_regs(iyh,iyl);
+_set_sprite_4bpp_data::
+; void set_sprite_native_data(uint8_t start, uint16_t ntiles, const void *src) __preserves_regs(iyh,iyl);
+_set_sprite_native_data::
+	ld h, #1
+        ld l, a
+
+; void set_bkg_native_data(uint16_t start, uint16_t ntiles, const void *src) __preserves_regs(iyh,iyl);
+_set_bkg_native_data::
+; void set_bkg_4bpp_data(uint16_t start, uint16_t ntiles, const void *src) __preserves_regs(iyh,iyl);
+_set_bkg_4bpp_data::
+; void set_native_tile_data(uint16_t start, uint16_t ntiles, const void *src) __preserves_regs(iyh,iyl);
 _set_native_tile_data::
+        ld b, h
+        ld c, l
+
         DISABLE_VBLANK_COPY        ; switch OFF copy shadow SAT
 
-        pop de          ; pop ret address
-        pop hl
+        ld h, b
+        ld l, c
 
         add hl, hl
         add hl, hl
@@ -22,13 +36,9 @@ _set_native_tile_data::
 
         VDP_WRITE_CMD h, l
 
-        pop bc
         pop hl
-        push de
+        ex (sp), hl
 
-        ld e, c
-        ld d, b
-        
         ld c, #.VDP_DATA
         inc d
         inc e
@@ -36,16 +46,16 @@ _set_native_tile_data::
 
 1$:
         ld b, #32
-3$:        
+3$:
         outi
         jr nz, 3$
 2$:
         dec e
-        jr  nz, 1$
+        jp  nz, 1$
 
         dec d
-        jr nz, 1$
-        
+        jp nz, 1$
+
         ENABLE_VBLANK_COPY         ; switch ON copy shadow SAT
 
         ret

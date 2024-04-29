@@ -30,27 +30,28 @@ void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y, PNG
         for(int x = _x; x < _x + _w && x < (int)assetData->image.w; x += assetData->image.tile_w)
         {
             Tile tile(assetData->image.tile_h * assetData->image.tile_w);
-            if(assetData->image.ExtractTile(x, y, tile, assetData->args->sprite_mode, assetData->args->export_as_map, assetData->args->use_map_attributes))
+            // For sprites, unlike maps, Tiles are only kept and processed if NOT Empty
+            // This default behavior can be overridden with -spr_no_optimize (which sets keep_empty_sprite_tiles and keep_duplicate_tiles to TRUE)
+            bool tile_not_empty = (assetData->image.ExtractTile(x, y, tile, assetData->args->sprite_mode, assetData->args->export_as_map, assetData->args->use_map_attributes, assetData->args->bpp));
+            if (tile_not_empty || (assetData->args->keep_empty_sprite_tiles))
             {
                 size_t idx;
                 unsigned char props;
-                unsigned char pal_idx = assetData->image.data[y * assetData->image.w + x] >> 2; //We can pick the palette from the first pixel of this tile
+                unsigned char pal_idx = assetData->image.data[y * assetData->image.w + x] >> assetData->args->bpp; //We can pick the palette from the first pixel of this tile
 
                 // When both -keep_duplicate_tiles and source tilesets are used then
                 // keep_duplicate_tiles should only apply to source tilesets, not the main image
-                if ((assetData->args->keep_duplicate_tiles) &&
-                    ((assetData->args->has_source_tilesets == false) || (assetData->args->processing_mode == MODE_SOURCE_TILESET))) {
+                if ((assetData->args->keep_duplicate_tiles) && (assetData->args->has_source_tilesets == false)) {
                     assetData->tiles.push_back(tile);
                     idx = assetData->tiles.size() - 1;
                     props = assetData->args->props_default;
                 }
                 else
                 {
-                    if(!FindTile(tile, idx, props, assetData))
+                    if(!FindTile(tile, idx, props, assetData->tiles, assetData))
                     {
-                        if ((assetData->args->processing_mode == MODE_MAIN_IMAGE) && (assetData->args->has_source_tilesets)) {
-                            printf("found a tile not in the source tileset at %d,%d. The target tileset has %d extra tiles.\n", x, y, (unsigned int)assetData->args->extra_tile_count + 1);
-                            assetData->args->extra_tile_count++;
+                        if (assetData->args->has_source_tilesets) {
+                            printf("found a tile not in the source tileset at %d,%d\n", x, y);
                             assetData->args->includeTileData = true;
                         }
                         assetData->tiles.push_back(tile);
@@ -59,21 +60,17 @@ void GetMetaSprite(int _x, int _y, int _w, int _h, int pivot_x, int pivot_y, PNG
                     }
                 }
 
-                // Don't add metasprite tiles for source tilesets
-                if (assetData->args->processing_mode == MODE_MAIN_IMAGE) {
+                props |= pal_idx;
 
-                    props |= pal_idx;
+                // Scale up index based on 8x8 tiles-per-hardware sprite
+                if(assetData->args->sprite_mode == SPR_8x16)
+                    idx *= 2;
+                else if(assetData->args->sprite_mode == SPR_16x16_MSX)
+                    idx *= 4;
 
-                    // Scale up index based on 8x8 tiles-per-hardware sprite
-                    if(assetData->args->sprite_mode == SPR_8x16)
-                        idx *= 2;
-                    else if(assetData->args->sprite_mode == SPR_16x16_MSX)
-                        idx *= 4;
-
-                    mt_sprite.push_back(MTTile(x - last_x, y - last_y, (unsigned char)idx, props));
-                    last_x = x;
-                    last_y = y;
-                }
+                mt_sprite.push_back(MTTile(x - last_x, y - last_y, (unsigned char)idx, props));
+                last_x = x;
+                last_y = y;
             }
         }
     }

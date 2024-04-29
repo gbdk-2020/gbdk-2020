@@ -22,21 +22,21 @@ _joypad_init::
         ld e, (hl)
         inc hl
         ld d, (hl)
-        
+
         inc hl
         pop bc          ; pop return address
         ld sp, hl       ; dispose params
-        push bc         ; push return address back 
-        
+        push bc         ; push return address back
+
         ld (de), a      ; number of joypads
         ld l, a         ; return number of joypads in l
         xor a
         inc de
-        ld (de), a        
+        ld (de), a
         inc de
-        ld (de), a        
+        ld (de), a
         inc de
-        ld (de), a        
+        ld (de), a
         inc de
         ld (de), a
 
@@ -45,9 +45,11 @@ _joypad_init::
 ;void joypad_ex(joypads_t * joypads) __z88dk_fastcall;
 
 _joypad_ex::
+        inc hl                  ; hl = joypads[]
         in a, (.GG_STATE)
         cpl
         and #.GGSTATE_STT
+        rrca                    ; .START = .GGSTATE_STT
         ld b, a
         ld c, #.JOY_PORT1
         in e, (c)
@@ -60,17 +62,24 @@ _joypad_ex::
         rl d
         ld a, e
         cpl
-        and #0b00111111
-        or b
+        and #(.JOY_P1_UP | .JOY_P1_DOWN | .JOY_P1_LEFT | .JOY_P1_RIGHT | .JOY_P1_SW1 | .JOY_P1_SW2)
         ld e, a
+        and #.JOY_P1_SW2
+        rlca
+        rlca
+        or e
+        or b
+        ld (hl), a              ; joypads[0] = buttons1
+        inc hl
+
         ld a, d
         cpl
-        and #0b00111111
+        and #(.JOY_P1_UP | .JOY_P1_DOWN | .JOY_P1_LEFT | .JOY_P1_RIGHT | .JOY_P1_SW1 | .JOY_P1_SW2)
         ld d, a
-        
-        inc hl
-        ld (hl), e
-        inc hl
-        ld (hl), d
-        
+        and #(.JOY_P1_SW1 | .JOY_P1_SW2)
+        rlca
+        rlca
+        or d
+        ld (hl), a              ; joypads[1] = buttons2
+
         ret
