@@ -24,6 +24,9 @@
 #undef MSX
 #endif
 
+#define SYSTEM_60HZ     0x00
+#define SYSTEM_50HZ     0x01
+
 #if defined(__TARGET_ap)
 #define ANALOGUEPOCKET
 #elif defined(__TARGET_gb)
@@ -73,6 +76,11 @@
 */
 #define M_NO_INTERP  0x08U
 
+/** If this bit set clear, the tile from the second
+    VRAM bank is used
+    @see set_sprite_prop()
+*/
+#define S_BANK       0x08U
 /** If this is set, sprite colours come from OBJ1PAL. Else
     they come from OBJ0PAL
     @see set_sprite_prop().
@@ -405,6 +413,13 @@ void mode(uint8_t m);
 */
 uint8_t get_mode(void) PRESERVES_REGS(b, c, d, e, h, l);
 
+/** Returns the system gbdk is running on.
+
+*/
+inline uint8_t get_system(void) {
+    return SYSTEM_60HZ;
+}
+
 /** GB CPU type
 
     @see DMG_TYPE, MGB_TYPE, CGB_TYPE, cpu_fast(), cpu_slow(), _is_GBA
@@ -568,7 +583,7 @@ __endasm; \
 
 #if defined(__TARGET_duck)
 
-#define SWITCH_RAM(b)
+#define SWITCH_RAM(b) (0)
 
 #define ENABLE_RAM
 
@@ -827,7 +842,7 @@ void wait_vbl_done(void) PRESERVES_REGS(b, c, d, e, h, l);
 
 /** Turns the display off.
 
-    Waits until the VBL interrupt before turning the display off.
+    Waits until the VBL before turning the display off.
     @see DISPLAY_ON
 */
 void display_off(void) PRESERVES_REGS(b, c, d, e, h, l);
@@ -851,7 +866,9 @@ void hiramcpy(uint8_t dst, const void *src, uint8_t n) OLDCALL PRESERVES_REGS(b,
 #define DISPLAY_ON \
   LCDC_REG|=LCDCF_ON
 
-/** Turns the display off immediately.
+/** Turns the display off
+
+    Waits until the VBL before turning the display off.
     @see display_off, DISPLAY_ON
 */
 #define DISPLAY_OFF \
@@ -864,6 +881,10 @@ void hiramcpy(uint8_t dst, const void *src, uint8_t n) OLDCALL PRESERVES_REGS(b,
 /** Does nothing for GB
  */
 #define SHOW_LEFT_COLUMN
+
+/** Does nothing for GB
+ */
+#define SET_BORDER_COLOR(C)
 
 /** Turns on the background layer.
     Sets bit 0 of the LCDC register to 1.
@@ -1359,7 +1380,7 @@ void get_bkg_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *tiles) O
 
     @return returns the address of tile, so you may use faster set_vram_byte() later
 */
-uint8_t * set_bkg_tile_xy(uint8_t x, uint8_t y, uint8_t t) OLDCALL PRESERVES_REGS(b, c);
+uint8_t * set_bkg_tile_xy(uint8_t x, uint8_t y, uint8_t t);
 #define set_tile_xy set_bkg_tile_xy
 
 /** Set single attribute data a on background layer at x,y
@@ -1659,7 +1680,7 @@ void get_win_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *tiles) O
  * @param t tile index
  * @return returns the address of tile, so you may use faster set_vram_byte() later
  */
-uint8_t * set_win_tile_xy(uint8_t x, uint8_t y, uint8_t t) OLDCALL PRESERVES_REGS(b, c);
+uint8_t * set_win_tile_xy(uint8_t x, uint8_t y, uint8_t t);
 
 
 /**

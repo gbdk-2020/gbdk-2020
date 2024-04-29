@@ -15,7 +15,8 @@ enum {
 // processing_mode states
 enum {
     MODE_MAIN_IMAGE,
-    MODE_SOURCE_TILESET
+    MODE_SOURCE_TILESET,
+    MODE_ENTITY_TILESET
 };
 
 struct PNGImage
@@ -51,10 +52,10 @@ public:
 
     // This needs separate tile_w and tile_h params since
     // MSX tile extraction uses it to pull out the 4 sub-tiles
-    bool ExtractGBTile(int x, int y, int extract_tile_w, int extract_tile_h, Tile& tile, int buffer_offset)
+    bool ExtractGBTile(int x, int y, int extract_tile_w, int extract_tile_h, Tile& tile, int buffer_offset, int bpp)
     {
         // Set the palette to 0 when pals are not stored in tiles to allow tiles to be equal even when their palettes are different
-        tile.pal = zero_palette ? 0 : data[w * y + x] >> 2;
+        tile.pal = zero_palette ? 0 : data[w * y + x] >> bpp;
 
         bool all_zero = true;
         for(int j = 0; j < extract_tile_h; ++j)
@@ -69,29 +70,29 @@ public:
         return !all_zero;
     }
 
-    bool ExtractTile_MSX16x16(int x, int y, Tile& tile)
+    bool ExtractTile_MSX16x16(int x, int y, Tile& tile, int bpp)
     {
         // MSX 16x16 sprite tiles are composed of four 8x8 tiles in this order UL, LL, UR, LR
         bool UL_notempty, LL_notempty, UR_notempty, LR_notempty;
 
         // Call these separately since otherwise some get optimized out during
         // runtime if any single one before it returns false
-        UL_notempty = ExtractGBTile(x, y, 8, 8, tile, 0);
-        LL_notempty = ExtractGBTile(x, y + 8, 8, 8, tile, ((8 * 8) * 1));
-        UR_notempty = ExtractGBTile(x + 8, y, 8, 8, tile, ((8 * 8) * 2));
-        LR_notempty = ExtractGBTile(x + 8, y + 8, 8, 8, tile, ((8 * 8) * 3));
+        UL_notempty = ExtractGBTile(x, y, 8, 8, tile, 0, bpp);
+        LL_notempty = ExtractGBTile(x, y + 8, 8, 8, tile, ((8 * 8) * 1), bpp);
+        UR_notempty = ExtractGBTile(x + 8, y, 8, 8, tile, ((8 * 8) * 2), bpp);
+        LR_notempty = ExtractGBTile(x + 8, y + 8, 8, 8, tile, ((8 * 8) * 3), bpp);
         return (UL_notempty || LL_notempty || UR_notempty || LR_notempty);
     }
 
-    bool ExtractTile(int x, int y, Tile& tile, int sprite_mode, bool export_as_map, bool use_map_attributes)
+    bool ExtractTile(int x, int y, Tile& tile, int sprite_mode, bool export_as_map, bool use_map_attributes, int bpp)
     {
         // Set the palette to 0 when pals are not stored in tiles to allow tiles to be equal even when their palettes are different
         zero_palette = !(export_as_map && !use_map_attributes);
 
         if(sprite_mode == SPR_16x16_MSX)
-            return ExtractTile_MSX16x16(x, y, tile);
+            return ExtractTile_MSX16x16(x, y, tile, bpp);
         else
-            return ExtractGBTile(x, y, tile_w, tile_h, tile, 0); // No buffer offset for normal tile extraction
+            return ExtractGBTile(x, y, tile_w, tile_h, tile, 0, bpp); // No buffer offset for normal tile extraction
     }
     // private:
     //     bool zero_palette = false;

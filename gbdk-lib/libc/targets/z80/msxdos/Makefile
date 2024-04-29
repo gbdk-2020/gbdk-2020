@@ -18,7 +18,7 @@ ASSRC =	set_interrupts.s \
 	msx_metasprites.s msx_metasprites_hide.s msx_metasprites_hide_spr.s \
 	pad.s \
 	msx_int.s \
-	mode.s clock.s \
+	mode.s clock.s get_r_reg.s \
 	delay.s \
 	memset_small.s \
 	far_ptr.s \

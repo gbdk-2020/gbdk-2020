@@ -57,6 +57,7 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
     args->includeTileData = true;
     args->includedMapOrMetaspriteData = true;
     args->keep_duplicate_tiles = false;
+    args->keep_empty_sprite_tiles = false;
     args->include_palettes = true;
     args->use_structs = false;
     args->flip_tiles = true;
@@ -68,21 +69,24 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
     args->props_default = 0;
 
     args->tile_origin = 0; // Default to no tile index offset
-    // args->extra_tile_count;
     args->source_total_color_count = 0;
     args->source_tileset_size = 0;
     args->has_source_tilesets = false;
+
+    args->has_entity_tileset = false;
+
     args->processing_mode = MODE_MAIN_IMAGE;
 
     args->pack_mode = Tile::GB;
     args->map_entry_size_bytes = 1;
 
+    args->relative_paths = false;
 
     if(argc < 2)
     {
         printf("usage: png2asset    <file>.png [options]\n");
-        printf("-o                  ouput file (default: <png file>.c)\n");
-        printf("-c                  deprecated, same as -o\n");
+        printf("-o <filename>       ouput file (if not used then default is <png file>.c)\n");
+        printf("-c <filename>       deprecated, same as -o\n");
         printf("-sw <width>         metasprites width size (default: png width)\n");
         printf("-sh <height>        metasprites height size (default: png height)\n");
         printf("-sp <props>         change default for sprite OAM property bytes (in hex) (default: 0x00)\n");
@@ -93,6 +97,7 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
         printf("-spr8x8             use SPRITES_8x8\n");
         printf("-spr8x16            use SPRITES_8x16 (this is the default)\n");
         printf("-spr16x16msx        use SPRITES_16x16\n");
+        printf("-sprite_no_optimize keep empty sprite tiles, do not remote duplicate tiles\n");
         printf("-b <bank>           bank (default: fixed bank)\n");
         printf("-keep_palette_order use png palette\n");
         printf("-repair_indexed_pal try to repair indexed tile palettes (implies \"-keep_palette_order\")\n");
@@ -112,12 +117,14 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
         printf("-maps_only          export map tilemap only\n");
         printf("-metasprites_only   export metasprite descriptors only\n");
         printf("-source_tileset     use source tileset (image with common tiles)\n");
+        printf("-entity_tileset     (maps only) mark matching tiles counting from 255 down, entity patterns not exported\n");
         printf("-keep_duplicate_tiles   do not remove duplicate tiles (default: not enabled)\n");
         printf("-no_palettes        do not export palette data\n");
 
         printf("-bin                export to binary format\n");
         printf("-transposed         export transposed (column-by-column instead of row-by-row)\n");
 
+        printf("-rel_paths          paths to tilesets are relative to the input file path\n");
         return 0;
     }
 
@@ -141,7 +148,7 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
         {
             args->props_default = strtol(argv[++i], NULL, 16);
         }
-        if(!strcmp(argv[i], "-px"))
+        else if(!strcmp(argv[i], "-px"))
         {
             args->pivot.x = atoi(argv[++i]);
         }
@@ -171,6 +178,14 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
         }
         else if(!strcmp(argv[i], "-c") || !strcmp(argv[i], "-o"))
         {
+            if ((i + 1) >= argc) {
+                printf("Error: -c or -o requires a filename, none specified\n");
+                return 1;
+            } else if (argv[i+1][0] == '-') {
+                printf("Error: next argument after -o looks like an option instead of a filename (\"%s\")\n", argv[i + 1]);
+                return 1;
+            }
+
             args->output_filename = argv[++i];
         }
         else if(!strcmp(argv[i], "-b"))
@@ -263,6 +278,11 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
         {
             args->keep_duplicate_tiles = true;
         }
+        else if(!strcmp(argv[i], "-sprite_no_optimize"))
+        {
+            args->keep_duplicate_tiles = true;
+            args->keep_empty_sprite_tiles = true;
+        }
         else if(!strcmp(argv[i], "-no_palettes"))
         {
             args->include_palettes = false;
@@ -272,6 +292,11 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
             args->includeTileData = false;
             args->source_tilesets.push_back(argv[++i]);
         }
+        else if(!strcmp(argv[i], "-entity_tileset"))
+        {
+            args->entity_tileset_filename = argv[++i];
+            args->has_entity_tileset = true;
+        }
         else if(!strcmp(argv[i], "-bin"))
         {
             args->output_binary = true;
@@ -280,8 +305,13 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
         {
             args->output_transposed = true;
         }
+        else if(!strcmp(argv[i], "-rel_paths")) {
+            args->relative_paths = true;
+        }
+        else {
+            printf("Warning: Argument \"%s\" not recognized\n", argv[i]);
+        }
     }
-
 
     int slash_pos = (int)args->output_filename.find_last_of('/');
     if(slash_pos == -1)

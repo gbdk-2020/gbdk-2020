@@ -10,6 +10,9 @@
 
 */
 
+// Suppress SDCC "info 128" warnings that are a non-issue
+#pragma disable_warning 218
+
 #ifndef __GBDK_EMU_DEBUG_H_INCLUDE
 #define __GBDK_EMU_DEBUG_H_INCLUDE
 
@@ -142,8 +145,6 @@ void EMU_profiler_message(void);
     @param format   The format string as per printf
 
     Does not return the number of characters printed.
-    Result string MUST BE LESS OR EQUAL THAN 128 BYTES LONG, INCLUDING THE TRAILIG ZERO BYTE!
-
     Currently supported:
     \li \%hx (char as hex)
     \li \%hu (unsigned char)
@@ -157,9 +158,22 @@ void EMU_profiler_message(void);
     Warning: to correctly pass chars for printing as chars, they *must*
     be explicitly re-cast as such when calling the function.
     See @ref docs_chars_varargs for more details.
+
+    Currently supported in the Emulicious emulator
  */
-void EMU_printf(const char *format, ...) OLDCALL;
+void EMU_printf(const char *format, ...) PRESERVES_REGS(a, b, c);
 #define BGB_printf(...) EMU_printf(__VA_ARGS__)
+
+/** Print the string and arguments in the buffer buffer by the pointer given by format to the emulator debug message window
+
+    @param format   The format string as per printf
+    @param data     Buffer containing arguments, for example some struct
+
+    @see EMU_printf for the format string description
+
+    Currently supported in the Emulicious emulator
+*/
+void EMU_fmtbuf(const unsigned char * format, void * data) PRESERVES_REGS(a, b, c);
 
 #ifdef NINTENDO
 static void * __EMU_PROFILER_INIT = &EMU_profiler_message;

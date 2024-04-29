@@ -976,6 +976,9 @@ static void opt(char *arg) {
 			llist[L_ARGS] = append("-j", llist[L_ARGS]);	// linker: .noi output
 
 			alist         = append("-l", alist);            // assembler: .lst output
+			// -Wl-u currently requires a patch to SDCC so it warns instead errors out and
+			// build fails if no matching .lst file is present for an object file.
+			// For example: When the user includes a pre-built object file for a music driver
 			llist[L_ARGS] = append("-u", llist[L_ARGS]);    // linker: .lst -> .rst address update
 			llist[L_ARGS] = append("-w", llist[L_ARGS]);    // linker: wide listing in .map file
 			return;

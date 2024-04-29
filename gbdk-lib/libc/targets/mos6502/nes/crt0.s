@@ -67,13 +67,12 @@ _sys_time::                             .ds 2
 _shadow_PPUCTRL::                       .ds 1
 _shadow_PPUMASK::                       .ds 1
 __crt0_spritePageValid:                 .ds 1
-__crt0_NMI_insideNMI:                   .ds 1
-__crt0_ScrollHV:                        .ds 1
 _bkg_scroll_x::                         .ds 1
 _bkg_scroll_y::                         .ds 1
 _attribute_row_dirty::                  .ds 1
 _attribute_column_dirty::               .ds 1
 .crt0_forced_blanking::                 .ds 1
+__SYSTEM::                              .ds 1
 
 .define __crt0_NMITEMP "___SDCC_m6502_ret4"
 
@@ -179,48 +178,103 @@ ProcessDrawList:
 .delay_to_lcd_scanline::
     lda #0
     sta *.acc
-    ldy #(19-5) 
+    ldy #(19-5)
     nop
     nop
     bne 2$
 1$:
-    ldy #19
+    ldy #15
 2$:
     dey
-    bne 2$      ; -> 2 + 18*5 + 4 = 91 cycles
-    lda *.acc
+    bne 2$      ; -> 2 + 14*5 + 4 = 76 cycles
+
+    nop
+    nop         ; -> 4 cycles
+
+    lda #144 ; Initialize A with PAL fractional cycle count
+    ; +7 cycles for NTSC scanlines
+    bit *__SYSTEM
+    bvs 3$
+    lda #171 ; NTSC fractional cycle count
+    nop
+    nop
+    nop
+3$:             ; -> 15 NTSC cycles / 8 PAL cycles
+    ; Add fractional cycles and branch on carry
     clc
-    adc #85
-    bcc 3$
-3$:
-    sta *.acc   ; -> 12.666 cycles
+    adc *.acc
+    sta *.acc
+    bcs 4$
+4$:
+    sta *.acc   ; -> 13.666 NTSC cycles / 13.5625 PAL cycles
+    
     dex
     bne 1$      ; -> 5 cycles
     rts
 
 __crt0_NMI:
-    ; Prevent NMI re-entry
-    bit *__crt0_NMI_insideNMI
-    bpl NotInsideNMI
-    rti
-NotInsideNMI:
     pha
     txa
     pha
     tya
     pha
-
-    lda #0x80
-    sta *__crt0_NMI_insideNMI
-
+    
+    ; Skip graphics updates if blanked, to allow main code to do VRAM address / scroll updates
+    lda *_shadow_PPUMASK
+    and #(PPUMASK_SHOW_BG | PPUMASK_SHOW_SPR)
+    beq __crt0_NMI_skip
+    ; Do Sprite DMA or delay equivalent cycles
     jsr __crt0_doSpriteDMA
-    jsr __crt0_NMI_doUpdateVRAM
+    ; Update VRAM
+    lda PPUSTATUS
+    lda #PPUCTRL_SPR_CHR
+    sta PPUCTRL
+    jsr DoUpdateVRAM
+    ; Set scroll address
+    lda _bkg_scroll_x
+    sta PPUSCROLL
+    lda _bkg_scroll_y
+    sta PPUSCROLL
+  
+    ; Re-write PPUCTRL (clobbered by vram transfer buffer code)
+    lda *_shadow_PPUCTRL
+    sta PPUCTRL
 
-    nop
-    ; Enable screen to get normal dot crawl pattern
+    ; Write shadow_PPUMASK to PPUMASK, in case it was disabled
     lda *_shadow_PPUMASK
     sta PPUMASK
 
+    ; Call fake LCD isr if present (0x60 = RTS means no LCD) and
+    lda .jmp_to_LCD_isr
+    cmp #0x60
+    beq __crt0_NMI_skip
+    ; First delay until end-of-vblank, depending on transfer buffer contents...
+    ; (X set to correct delay value by DoUpdateVRAM)
+1$:
+    lda *0x00
+    dex
+    bne 1$
+    ; Do additional delay of 5186 cycles if running on a PAL system, and -5*7 + 2 = -33 for alignment
+    ; This is to compensate for the longer vblank period of 7459 vs NTSC's 2273
+    bit *__SYSTEM
+    bvc 2$
+    nop
+    ldy #5
+    ldx #(14-7)
+3$:
+    dex
+    bne 3$
+    dey
+    bne 3$
+2$:
+    ; ...then delay for desired number of scanlines
+    ldx *__lcd_scanline
+    jsr .delay_to_lcd_scanline
+    ; Call the handler
+    jsr .jmp_to_LCD_isr
+__crt0_NMI_skip:
+
+    ; Update frame counter
     lda *_sys_time
     clc
     adc #1
@@ -228,81 +282,32 @@ NotInsideNMI:
     lda *(_sys_time+1)
     adc #0
     sta *(_sys_time+1)
-    
-    lda *_shadow_PPUCTRL
-    ora *__crt0_ScrollHV
-    sta PPUCTRL
-
-    ; Call fake LCD isr
-    ldx *__lcd_scanline
-    beq 1$
-    jsr .delay_to_lcd_scanline
-1$:
-    ; Adjust to align to just-before-hblank
-    nop
-    nop
-    nop
-    lda #0x00
-    lda 0x0000
-    ; Call the handler
-    jsr .jmp_to_LCD_isr
 
     pla
     tay
     pla
     tax
     pla
-    asl *__crt0_NMI_insideNMI
     rti
-
-__crt0_NMI_doUpdateVRAM:
-    lda *_shadow_PPUMASK
-    and #(PPUMASK_SHOW_BG | PPUMASK_SHOW_SPR)
-    beq __crt0_NMI_doUpdateVRAM_blanked
-    ; Not manually blanked - do updates
-    lda PPUSTATUS
-    lda #PPUCTRL_SPR_CHR
-    sta PPUCTRL
-    lda #0
-    sta PPUMASK
-    jsr DoUpdateVRAM
-    ; Set scroll address
-    lda _bkg_scroll_x
-    sta PPUSCROLL
-    lda _bkg_scroll_y
-    sta PPUSCROLL
-    rts
-__crt0_NMI_doUpdateVRAM_blanked:
-    ; Early-out if blanked to allow main code to do VRAM address / scroll updates
-    nop
-    nop
-    nop
-    rts
 
 DoUpdateVRAM:
     WRITE_PALETTE_SHADOW
     bit *__vram_transfer_buffer_valid
     bmi DoUpdateVRAM_drawListValid
 DoUpdateVRAM_drawListInvalid:
-    ; Delay for remaining cycles to keep timing consistent
-    ldx #(VRAM_DELAY_CYCLES_X8+7)
-DoUpdateVRAM_invalid_loop:
-    lda *__vram_transfer_buffer_num_cycles_x8
-    dex
-    bne DoUpdateVRAM_invalid_loop
+    ; Delay for all unused cycles and ProcessDrawList overhead to keep timing consistent
+    lda *0x00
     nop
-    rts
+    ldx #(VRAM_DELAY_CYCLES_X8+6)
+    bne DoUpdateVRAM_end
 DoUpdateVRAM_drawListValid:
     jsr ProcessDrawList
-    ; Delay for remaining cycles to keep timing consistent
-    ; ...plus fixed-cost of 56 cycles
+    ; Delay for remaining unused cycles to keep timing consistent
     ldx *__vram_transfer_buffer_num_cycles_x8
-DoUpdateVRAM_valid_loop:
-    stx *__vram_transfer_buffer_num_cycles_x8
-    dex
-    bne DoUpdateVRAM_valid_loop
+    ; Reset available cycles to initial value
     lda #VRAM_DELAY_CYCLES_X8
     sta *__vram_transfer_buffer_num_cycles_x8
+DoUpdateVRAM_end:
     rts
 
 __crt0_IRQ:
@@ -327,11 +332,42 @@ __crt0_setPalette:
     bne 1$
     rts
 
-__crt0_waitPPU:
-__crt0_waitPPU_loop:
+
+.macro CRT0_WAIT_PPU ?.loop
+.loop:
     lda PPUSTATUS
-    bpl __crt0_waitPPU_loop
-    rts
+    bpl .loop
+.endm
+
+;
+; Detects system. After execution, A contains the following values:
+;
+; 0: NTSC NES/Famicom
+; 1: PAL NES
+; 2: Dendy-like Famiclone
+;
+.macro CRT0_WAIT_PPU_AND_DETECT_SYSTEM ?.loop, ?.end_of_loop, ?.end
+    ldx #0
+    ldy #0
+; 256 iterations of the inner loop (X) takes 256 * (4 + 2 + 2 + 3) - 1 = 2816 cycles
+; 1 iteration of the outer loop takes 2816 + 2 + 3 = 2821 cycles
+; And different systems will have the following contents in Y:
+; NTSC:   29780 / 2821 = 10
+; PAL:    33247 / 2821 = 11
+; Dendy:  35464 / 2821 = 12
+.loop:
+    bit PPUSTATUS
+    bmi .end_of_loop
+    inx
+    bne .loop
+    iny
+    bne .loop
+.end_of_loop:
+    tya
+    sec
+    sbc #10
+.end:
+.endm
 
 .macro CRT0_CLEAR_RAM
     ldx #0x00
@@ -387,11 +423,19 @@ __crt0_RESET_bankSwitchValue:
     ; Disable NMIs and rendering
     sta PPUCTRL
     sta PPUMASK
-    ; Wait for PPU warm-up
-    jsr __crt0_waitPPU
-    jsr __crt0_waitPPU
-    ; Clear RAM and VRAM
+    ; Clear RAM
     CRT0_CLEAR_RAM
+    ; Wait for PPU warm-up / detect system
+    bit PPUSTATUS
+    CRT0_WAIT_PPU
+    CRT0_WAIT_PPU_AND_DETECT_SYSTEM
+    ; Store system in upper two bits of __SYSTEM, to allow bit instruction to quickly test for PAL
+    clc
+    ror
+    ror
+    ror
+    sta *__SYSTEM
+    ; Clear VRAM
     jsr __crt0_clearVRAM
     ; Hide sprites in shadow OAM, and perform OAM DMA
     ldx #0

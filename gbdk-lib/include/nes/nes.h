@@ -25,6 +25,13 @@
 #undef MSX
 #endif
 
+#define SYSTEM_BITS_NTSC        0x00
+#define SYSTEM_BITS_PAL         0x40
+#define SYSTEM_BITS_DENDY       0x80
+extern const uint8_t _SYSTEM;
+
+#define SYSTEM_60HZ    0x00
+#define SYSTEM_50HZ    0x01
 
 #define RGB(r,g,b)        RGB_TO_NES(((r) | ((g) << 2) | ((b) << 4)))
 #define RGB8(r,g,b)       RGB_TO_NES((((r) >> 6) | (((g) >> 6) << 2) | (((b) >> 6) << 4)))
@@ -255,6 +262,16 @@ void mode(uint8_t m) NO_OVERLAY_LOCALS;
 */
 uint8_t get_mode(void) NO_OVERLAY_LOCALS;
 
+/** Returns the system gbdk is running on.
+
+*/
+inline uint8_t get_system(void) {
+    if(_SYSTEM == SYSTEM_BITS_NTSC)
+        return SYSTEM_60HZ;
+    else
+        return SYSTEM_50HZ;
+}
+
 /** Global Time Counter in VBL periods (60Hz)
 
     Increments once per Frame
@@ -467,9 +484,7 @@ void wait_vbl_done(void) NO_OVERLAY_LOCALS;
 */
 void display_on(void) NO_OVERLAY_LOCALS;
 
-/** Turns the display off.
-
-    Waits until the VBL interrupt before turning the display off.
+/** Turns the display off immediately.
     @see DISPLAY_ON
 */
 void display_off(void) NO_OVERLAY_LOCALS;
@@ -501,6 +516,11 @@ void refresh_OAM(void) NO_OVERLAY_LOCALS;
 */
 #define SHOW_LEFT_COLUMN \
     shadow_PPUMASK |= (PPUMASK_SHOW_BG_LC | PPUMASK_SHOW_SPR_LC);
+
+/** Does nothing for NES
+    not implemented yet
+ */
+#define SET_BORDER_COLOR(C)
 
 /** Turns on the background layer.
     Sets bit 0 of the LCDC register to 1.

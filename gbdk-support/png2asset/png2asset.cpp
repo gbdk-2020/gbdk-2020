@@ -54,9 +54,18 @@ int PNG2AssetData::Execute(PNG2AssetArguments* arguments, string  input_filename
         return readImageDataValue;
     }
 
-    // Get the data depending on the type
-    if(this->args->export_as_map)GetMap(this);
-    else GetAllMetasprites(this);
+    // Extract the data depending on what type it is
+    if (this->args->processing_mode == MODE_ENTITY_TILESET) {
+        // Entity tileset extracts into a separate tileset
+        // For entity tilesets ALWAYS keep all of it's tiles, never deduplicate them
+        ExtractTileset(this, this->entity_tiles, true);
+    } else if (this->args->processing_mode == MODE_SOURCE_TILESET) {
+        // Source tileset extracts into the main shared tileset
+        ExtractTileset(this, this->tiles, this->args->keep_duplicate_tiles);
+    } else if (this->args->export_as_map)
+        GetMap(this);
+    else
+        GetAllMetasprites(this);
 
     return 0;
 }
@@ -79,42 +88,41 @@ int PNG2AssetData::Export() {
 }
 
 
-bool FindTile(const Tile& t, size_t& idx, unsigned char& props, PNG2AssetData* assetData)
+bool FindTile(const Tile& t, size_t& idx, unsigned char& props, vector< Tile > & tileset, PNG2AssetData* assetData)
 {
     vector< Tile >::iterator it;
-    it = find(assetData->tiles.begin(), assetData->tiles.end(), t);
-    if(it != assetData->tiles.end())
+    it = find(tileset.begin(), tileset.end(), t);
+    if(it != tileset.end())
     {
-        idx = (size_t)(it - assetData->tiles.begin());
+        idx = (size_t)(it - tileset.begin());
         props = assetData->args->props_default;
         return true;
     }
-
     if(assetData->args->flip_tiles)
     {
         Tile tile = FlipV(t);
-        it = find(assetData->tiles.begin(), assetData->tiles.end(), tile);
-        if(it != assetData->tiles.end())
+        it = find(tileset.begin(), tileset.end(), tile);
+        if(it != tileset.end())
         {
-            idx = (size_t)(it - assetData->tiles.begin());
+            idx = (size_t)(it - tileset.begin());
             props = assetData->args->props_default | (1 << 5);
             return true;
         }
 
         tile = FlipH(tile);
-        it = find(assetData->tiles.begin(), assetData->tiles.end(), tile);
-        if(it != assetData->tiles.end())
+        it = find(tileset.begin(), tileset.end(), tile);
+        if(it != tileset.end())
         {
-            idx = (size_t)(it - assetData->tiles.begin());
+            idx = (size_t)(it - tileset.begin());
             props = assetData->args->props_default | (1 << 5) | (1 << 6);
             return true;
         }
 
         tile = FlipV(tile);
-        it = find(assetData->tiles.begin(), assetData->tiles.end(), tile);
-        if(it != assetData->tiles.end())
+        it = find(tileset.begin(), tileset.end(), tile);
+        if(it != tileset.end())
         {
-            idx = (size_t)(it - assetData->tiles.begin());
+            idx = (size_t)(it - tileset.begin());
             props = assetData->args->props_default | (1 << 6);
             return true;
         }

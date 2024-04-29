@@ -27,6 +27,12 @@
 
 using namespace std;
 
+string extract_path(bool extract, string const & path, string const & name)
+{
+    int p = path.find_last_of("/\\");
+    return ((extract) && (p > 0)) ? path.substr(0, p + 1) + name: name;
+}
+
 int main(int argc, char* argv[])
 {
     int errorCode = 0;
@@ -50,10 +56,9 @@ int main(int argc, char* argv[])
 
         // Iterate through each source tileset and execute
         while (sourceTilesetFileNameIter < arguments.source_tilesets.end()) {
-
             // Run with current source tileset filename
             arguments.processing_mode = MODE_SOURCE_TILESET;
-            errorCode = png2AssetInstance.Execute(&arguments, *sourceTilesetFileNameIter);
+            errorCode = png2AssetInstance.Execute(&arguments, extract_path(arguments.relative_paths, arguments.input_filename, *sourceTilesetFileNameIter));
 
             // Return the error code if the function returns non-zero
             if(errorCode != 0) {
@@ -72,10 +77,23 @@ int main(int argc, char* argv[])
 
         arguments.has_source_tilesets = true;
         printf("Got %d tiles from the source tileset.\n", (unsigned int)arguments.source_tileset_size);
-        printf("Got %d palettes from the source tileset.\n", (unsigned int)(arguments.source_total_color_count / png2AssetInstance.image.colors_per_pal));        
+        printf("Got %d palettes from the source tileset.\n", (unsigned int)(arguments.source_total_color_count / png2AssetInstance.image.colors_per_pal));
     }
 
+    // If there is an entity tileset
+    if (!arguments.entity_tileset_filename.empty()) {
+        // Run with entity tileset filename
+        arguments.processing_mode = MODE_ENTITY_TILESET;
+        errorCode = png2AssetInstance.Execute(&arguments, extract_path(arguments.relative_paths, arguments.input_filename, arguments.entity_tileset_filename));
 
+        // Return the error code if the function returns non-zero
+        if(errorCode != 0) {
+            return errorCode;
+        }
+
+        arguments.has_entity_tileset = true;
+        printf("Got %d tiles from the entity tileset.\n", (unsigned int)(unsigned int)png2AssetInstance.entity_tiles.size());
+    }
 
     // Run the primary input file
     // Return the error code if the function returns non-zero
