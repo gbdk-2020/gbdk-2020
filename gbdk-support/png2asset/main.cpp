@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <fstream>
 #include <cstdint>
+#include <cstdlib>
 
 #include "lodepng.h"
 #include "mttile.h"
@@ -35,13 +36,13 @@ string extract_path(bool extract, string const & path, string const & name)
 
 int main(int argc, char* argv[])
 {
-    int errorCode = 0;
+    int errorCode = EXIT_SUCCESS;
 
     // Read all arguments
     PNG2AssetArguments arguments;
 
     // Make sure we had no errors
-    if((errorCode = processPNG2AssetArguments(argc, argv, &arguments)) != 0) {
+    if ((errorCode = processPNG2AssetArguments(argc, argv, &arguments)) != EXIT_SUCCESS) {
         return errorCode;
     }
 
@@ -61,7 +62,7 @@ int main(int argc, char* argv[])
             errorCode = png2AssetInstance.Execute(&arguments, extract_path(arguments.relative_paths, arguments.input_filename, *sourceTilesetFileNameIter));
 
             // Return the error code if the function returns non-zero
-            if(errorCode != 0) {
+            if (errorCode != EXIT_SUCCESS) {
                 return errorCode;
             }
 
@@ -87,7 +88,7 @@ int main(int argc, char* argv[])
         errorCode = png2AssetInstance.Execute(&arguments, extract_path(arguments.relative_paths, arguments.input_filename, arguments.entity_tileset_filename));
 
         // Return the error code if the function returns non-zero
-        if(errorCode != 0) {
+        if (errorCode != EXIT_SUCCESS) {
             return errorCode;
         }
 
@@ -98,7 +99,7 @@ int main(int argc, char* argv[])
     // Run the primary input file
     // Return the error code if the function returns non-zero
     arguments.processing_mode = MODE_MAIN_IMAGE;
-    if((errorCode = png2AssetInstance.Execute(&arguments, arguments.input_filename)) != 0) {
+    if ((errorCode = png2AssetInstance.Execute(&arguments, arguments.input_filename)) != EXIT_SUCCESS) {
         return errorCode;
     }
 

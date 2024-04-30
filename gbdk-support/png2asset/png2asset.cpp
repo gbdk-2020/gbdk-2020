@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <fstream>
 #include <cstdint>
+#include <cstdlib>
 
 #include "lodepng.h"
 #include "mttile.h"
@@ -47,11 +48,11 @@ int PNG2AssetData::Execute(PNG2AssetArguments* arguments, string  input_filename
         this->image.tile_h = 16;
     }
 
-    int readImageDataValue = ReadImageData(this, input_filename);
+    int errorCode = ReadImageData(this, input_filename);
 
     // Return the error code if the function returns non-zero
-    if(readImageDataValue != 0) {
-        return readImageDataValue;
+    if (errorCode != EXIT_SUCCESS) {
+        return errorCode;
     }
 
     // Extract the data depending on what type it is
@@ -67,13 +68,13 @@ int PNG2AssetData::Execute(PNG2AssetArguments* arguments, string  input_filename
     else
         GetAllMetasprites(this);
 
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 int PNG2AssetData::Export() {
 
     // Header file export
-    if(export_h_file(this) == false) return 1; // Exit with Fail
+    if(export_h_file(this) == false) return EXIT_FAILURE;
 
     if((this->args->export_as_map) && (this->args->output_binary)) {
         // Handle special case of binary map export
@@ -81,10 +82,10 @@ int PNG2AssetData::Export() {
     }
     else {
         // Normal source file export
-        if(export_c_file(this) == false) return 1; // Exit with Fail
+        if(export_c_file(this) == false) return EXIT_FAILURE;
     }
 
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 

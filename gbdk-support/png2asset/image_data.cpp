@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <fstream>
 #include <cstdint>
+#include <cstdlib>
 
 #include "lodepng.h"
 #include "mttile.h"
@@ -56,13 +57,15 @@ int ReadImageData_KeepPaletteOrder(  PNG2AssetData* assetData, string input_file
     assetData->image.data.clear();
 
     unsigned error = lodepng::decode(assetData->image.data, assetData->image.w, assetData->image.h, state, buffer);
+    if(error)
+    {
+        printf("decoder error %s\n", lodepng_error_text(error));
+        return EXIT_FAILURE;
+    }
+
     // Unpack the image if needed. Also checks and errors on incompatible palette type if needed
     if(!image_indexed_ensure_8bpp(assetData->image.data, (int)state.info_png.color.bitdepth, (int)state.info_png.color.colortype))
-        return 1;
-    else if(error) {
-        printf("decoder error %s\n", lodepng_error_text(error));
-        return 1;
-    }
+        return EXIT_FAILURE;
 
     // Use source image palette since lodepng conversion to indexed (LCT_PALETTE) won't create a palette
     // So: state->info_png.color.palette/size instead of state->info_raw.palette/size
@@ -82,14 +85,14 @@ int ReadImageData_KeepPaletteOrder(  PNG2AssetData* assetData, string input_file
 
     if(assetData->args->repair_indexed_pal)
         if(!image_indexed_repair_tile_palettes(assetData->image, assetData->args->use_2x2_map_attributes))
-            return 1;
+            return EXIT_FAILURE;
 
     // TODO: Enable dimension check
     // // Validate image dimensions
     // if (((image.w % tile_w) != 0) || ((image.h % tile_h) != 0))
     // {
     //     printf("Error: Image size %d x %d isn't an even multiple of tile size %d x %d\n", image.w, image.h, tile_w, tile_h);
-    //     return 1;
+    //     return EXIT_FAILURE;
     // }
 
     // Only check this for the main image, not for source tilesets
@@ -100,7 +103,7 @@ int ReadImageData_KeepPaletteOrder(  PNG2AssetData* assetData, string input_file
 
             printf("error: The number of color palettes for your source tileset (%d) and target image (%d) do not match.",
                    (unsigned int)assetData->args->source_total_color_count, (unsigned int)assetData->image.total_color_count);
-            return 1;
+            return EXIT_FAILURE;
         }
 
         size_t size = max(assetData->image.total_color_count, assetData->args->source_total_color_count);
@@ -110,10 +113,10 @@ int ReadImageData_KeepPaletteOrder(  PNG2AssetData* assetData, string input_file
         if (memcmp(assetData->image.palette, assetData->image.source_tileset_palette, size) != 0) {
 
             printf("error: The palettes for your source tileset and target image do not match.");
-            return 1;
+            return EXIT_FAILURE;
         }
     }
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 int ReadImageData_Default(PNG2AssetData* assetData, string  input_filename) {
@@ -132,14 +135,14 @@ int ReadImageData_Default(PNG2AssetData* assetData, string  input_filename) {
     if(error)
     {
         printf("decoder error %s\n", lodepng_error_text(error));
-        return 1;
+        return EXIT_FAILURE;
     }
 
     // Validate image dimensions
     if(((image32.w % image32.tile_w) != 0) || ((image32.h % image32.tile_h) != 0))
     {
         printf("Error: Image size %d x %d isn't an even multiple of tile size %d x %d\n", image32.w, image32.h, image32.tile_w, image32.tile_h);
-        return 1;
+        return EXIT_FAILURE;
     }
 
     int* palettes_per_tile = BuildPalettesAndAttributes(image32, assetData->palettes, assetData->args->use_2x2_map_attributes);
@@ -191,7 +194,7 @@ int ReadImageData_Default(PNG2AssetData* assetData, string  input_filename) {
 
     //Test: output png to see how it looks
     //Export(image, "temp.png");
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 int ReadImageData( PNG2AssetData* assetData, string  input_filename) {
@@ -209,22 +212,22 @@ int ReadImageData( PNG2AssetData* assetData, string  input_filename) {
     }
 
 
-    int errorCode = 0;
+    int errorCode = EXIT_SUCCESS;
 
     // Will the specified PNG have a palette provided with it?
-    if(assetData->args->keep_palette_order) {
-        
+    if (assetData->args->keep_palette_order) {
+
         // Save the error code
-        errorCode= ReadImageData_KeepPaletteOrder(assetData, input_filename);
+        errorCode = ReadImageData_KeepPaletteOrder(assetData, input_filename);
     }
     else
     {
 
         // Save the error code
-        errorCode= ReadImageData_Default(assetData, input_filename);
+        errorCode = ReadImageData_Default(assetData, input_filename);
     }
 
-    if(errorCode != 0)return errorCode;
+    if (errorCode != EXIT_SUCCESS) return errorCode;
 
 
     // Only set this data when processing the main image
@@ -236,6 +239,6 @@ int ReadImageData( PNG2AssetData* assetData, string  input_filename) {
         if(assetData->args->pivot.width == 0xFFFFFF)  assetData->args->pivot.width = assetData->args->spriteSize.width;
         if(assetData->args->pivot.height == 0xFFFFFF) assetData->args->pivot.height = assetData->args->spriteSize.height;
     }
-    return 0;
+    return EXIT_SUCCESS;
 }
 
