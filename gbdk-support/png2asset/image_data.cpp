@@ -56,13 +56,15 @@ int ReadImageData_KeepPaletteOrder(  PNG2AssetData* assetData, string input_file
     assetData->image.data.clear();
 
     unsigned error = lodepng::decode(assetData->image.data, assetData->image.w, assetData->image.h, state, buffer);
-    // Unpack the image if needed. Also checks and errors on incompatible palette type if needed
-    if(!image_indexed_ensure_8bpp(assetData->image.data, (int)state.info_png.color.bitdepth, (int)state.info_png.color.colortype))
-        return 1;
-    else if(error) {
+    if(error)
+    {
         printf("decoder error %s\n", lodepng_error_text(error));
         return 1;
     }
+
+    // Unpack the image if needed. Also checks and errors on incompatible palette type if needed
+    if(!image_indexed_ensure_8bpp(assetData->image.data, (int)state.info_png.color.bitdepth, (int)state.info_png.color.colortype))
+        return 1;
 
     // Use source image palette since lodepng conversion to indexed (LCT_PALETTE) won't create a palette
     // So: state->info_png.color.palette/size instead of state->info_raw.palette/size
