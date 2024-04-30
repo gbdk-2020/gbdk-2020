@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <fstream>
 #include <cstdint>
+#include <cstdlib>
 
 #include "lodepng.h"
 #include "mttile.h"
@@ -125,7 +126,7 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
         printf("-transposed         export transposed (column-by-column instead of row-by-row)\n");
 
         printf("-rel_paths          paths to tilesets are relative to the input file path\n");
-        return 0;
+        return EXIT_SUCCESS;
     }
 
     //default params
@@ -180,10 +181,10 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
         {
             if ((i + 1) >= argc) {
                 printf("Error: -c or -o requires a filename, none specified\n");
-                return 1;
+                return EXIT_FAILURE;
             } else if (argv[i+1][0] == '-') {
                 printf("Error: next argument after -o looks like an option instead of a filename (\"%s\")\n", argv[i + 1]);
-                return 1;
+                return EXIT_FAILURE;
             }
 
             args->output_filename = argv[++i];
@@ -237,7 +238,7 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
             if(args->max_palettes == 0)
             {
                 printf("-max_palettes must be larger than zero\n");
-                return 1;
+                return EXIT_FAILURE;
             }
         }
         else if(!strcmp(argv[i], "-pack_mode"))
@@ -259,7 +260,7 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
             else
             {
                 printf("-pack_mode must be one of gb, nes, sgb, sms, 1bpp\n");
-                return 1;
+                return EXIT_FAILURE;
             }
         }
         else if(!strcmp(argv[i], "-tile_origin"))
@@ -325,6 +326,6 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
     args->data_name = args->output_filename.substr(slash_pos + 1, dot_pos - 1 - slash_pos);
     replace(args->data_name.begin(), args->data_name.end(), '-', '_');
 
-    return 0;
+    return EXIT_SUCCESS;
 }
 
