@@ -234,7 +234,7 @@ NES/Famicom
 - See @ref nes_technical_details "NES technical details"
 
 @anchor using_cgb_features
-# Using Game Boy Color (CGB) Features
+# Using Game Boy Color (GBC/CGB) Features
 
 ## Differences Versus the Regular Game Boy (DMG/GBP/SGB)
 These are some of the main hardware differences between the Regular Game Boy and the Game Boy Color.
@@ -253,10 +253,12 @@ These are some of the main hardware differences between the Regular Game Boy and
   - WRAM: 8 x 4K WRAM banks in the 0xD000 - 0xDFFF region
   - LCD VRAM DMA
 
-## CGB features in GBDK
+## Game Boy Color features in GBDK
 These are some of the main GBDK API features for the CGB. 
 Many of the items listed below link to additional information.
 
+  - ROM header settings:
+    - See the FAQ entry @ref faq_gb_type_header_setting "How do I set SGB, Color only and Color compatibility in the ROM header?"
   - Tile and Pattern data:
     - Select VRAM Banks: @ref VBK_REG (used with `set_bkg/win/sprite_*()`)
     - set_bkg_attributes(), set_bkg_submap_attributes()
@@ -363,6 +365,10 @@ Most notably:
 To provide an easier experience, gbdk-nes attempts to hide most of these quirks so that in theory the programming experience for gbdk-nes should be as close as possible to that of the GB/GBC. However, to avoid surprises it is recommended to familiarize yourself with the NES-specific quirks and implementation choices mentioned here.
 
 This entire section is written as a guide on porting GB projects to NES. If you are new to GBDK, you may wish to familiarize yourself with using GBDK for GB development first as the topics covered will make a lot more sense after gaining experience with GB development.
+
+### Mapper
+
+Currently the NES support in GBDK uses UNROM-512 (Mapper30) with single-screen mirroring (the mapper2 subset of Mapper30).
 
 ### Buffered mode vs direct mode
 

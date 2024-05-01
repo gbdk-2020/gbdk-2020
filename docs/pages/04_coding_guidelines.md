@@ -59,6 +59,11 @@ https://gbdev.io/pandocs/STAT.html#stat-modes
   These are standard types defined in `stdint.h` (`#include <stdint.h>`) and `stdbool.h` (`#include <stdbool.h>`).
 
   - Global and local static variables are generally more efficient than local non-static variables (which go on the stack and are slower and can result in slower code).
+    - An exception to this when there are a small number of local variables (one or two) and the code is not complex. Then the compiler may allocate those variables to CPU registers instead which may be faster.
+    - Functions which use global or static local variables will loose re-entrancy. In most cases it is not a problem, but important to keep in mind.
+    - In particular avoid putting big arrays on the stack, consider static local or global.
+
+  - Keep the number of arguments passed to functions small (ideally one or two arguments at most). When there are a large number of arguments they get pushed onto the stack and result in more overhead for function calls. See the Calling Conventions in the SDCC compiler manual for details.
 
   - @anchor const_array_data
   `const` keyword: use const for arrays, structs and variables with read-only (constant) data. It will reduce ROM, RAM and CPU usage significantly. Non-`const` values are loaded from ROM into RAM inefficiently, and there is no benefit in loading them into the limited available RAM if they aren't going to be changed.
@@ -70,7 +75,7 @@ https://gbdev.io/pandocs/STAT.html#stat-modes
     - https://codeforwin.org/2017/11/constant-pointer-and-pointer-to-constant-in-c.html
     - https://stackoverflow.com/questions/21476869/constant-pointer-vs-pointer-to-constant
 
-  - For calculated values that don't change, pre-compute results once and store the result. Using lookup-tables and the like can improve speed and reduce code size. Macros can sometimes help. It may be beneficial to do the calculations with an outside tool and then include the result as C code in a const array.
+  - For calculated values that don't change, pre-compute results once and store the result. Using lookup-tables and similar approaches can improve speed and reduce code size. Macros can sometimes help. It may be beneficial to do the calculations with an outside tool and then include the result as C code in a const array.
 
   - Use an advancing pointer (`someStruct->var = x; someStruct++`) to loop through arrays of structs instead of using indexing each time in the loop `someStruct[i].var = x`.
 
@@ -252,7 +257,16 @@ Also See:
 
 
 #  When C isn't fast enough
-For many applications C is fast enough but in intensive functions are sometimes better written in assembly. This section deals with interfacing your core C program with fast assembly sub routines. 
+For many applications C is fast enough but in intensive functions are sometimes better written in assembly. This section deals with interfacing your core C program with fast assembly sub routines.
+
+## Reusable Local Labels and Inline ASM
+
+When functions are written assembly it's generally better to not mix the inline ASM with C code and instead write the whole function in assembly.
+
+If they are mixed then descriptive named labels should not be used for inline ASM. This is due to descriptive labels interfering with the expected scope of the reusable local labels generated from the compiled C code. The compiler will not detect this problem and the resulting code may fail to execute correctly without warning.
+
+Instead use reusable local symbols/labels (for example `1$:`). To learn more about them check the SDAS manual section "1.3.3  Reusable Symbols"
+
 
 ## Variables and registers
 <!-- C normally expects registers to be preserved across a function call. However in the case above as DE is used as the return value and HL is used for anything, only BC needs to be preserved. -->
