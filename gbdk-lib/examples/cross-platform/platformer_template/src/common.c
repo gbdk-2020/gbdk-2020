@@ -6,7 +6,7 @@
 
 uint8_t joypadCurrent=0, joypadPrevious=0;
 
-void WaitForStartOrA(){
+void WaitForStartOrA(void){
     while(1){
 
         // Get the joypad input

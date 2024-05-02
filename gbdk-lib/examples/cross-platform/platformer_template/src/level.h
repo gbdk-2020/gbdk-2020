@@ -16,5 +16,5 @@ extern uint8_t currentAreaBank;
 extern uint8_t nextLevel;
 
 uint8_t IsTileSolid(uint16_t worldX,uint16_t worldY);
-void SetupCurrentLevel();
+void SetupCurrentLevel(void);
 #endif

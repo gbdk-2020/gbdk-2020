@@ -22,7 +22,7 @@ uint16_t currentLevelWidth;
 uint16_t currentLevelWidthInTiles;
 uint16_t currentLevelHeight;
 uint16_t currentLevelHeightInTiles;
-uint8_t *currentLevelMap;
+const uint8_t *currentLevelMap;
 uint8_t currentLevelNonSolidTileCount;
 uint8_t currentAreaBank;
 
@@ -69,7 +69,7 @@ uint8_t IsTileSolid(uint16_t worldX,uint16_t worldY) NONBANKED{
 
 
 
-void SetupCurrentLevel() NONBANKED{
+void SetupCurrentLevel(void) NONBANKED{
 
     DISPLAY_OFF;
 

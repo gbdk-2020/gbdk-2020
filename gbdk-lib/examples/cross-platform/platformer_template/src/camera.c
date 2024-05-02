@@ -53,7 +53,7 @@ inline uint8_t update_column_right(uint8_t map_pos_x)
     return map_pos_x + DEVICE_SCREEN_WIDTH;
 }
 
-void UpdateCamera() BANKED {
+void UpdateCamera(void) BANKED {
 
     // update hardware scroll position
     move_bkg(camera_x, 0);

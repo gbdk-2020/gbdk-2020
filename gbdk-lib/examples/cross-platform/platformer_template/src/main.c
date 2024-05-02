@@ -3,7 +3,7 @@
 #include "player.h"
 #include "common.h"
 #include "level.h"
-#include "Camera.h"
+#include "camera.h"
 #include "NextLevel.h"
 #include "TitleScreen.h"
 

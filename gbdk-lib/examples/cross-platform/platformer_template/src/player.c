@@ -72,7 +72,7 @@ const palette_color_t PlayerPalettesGGSMS[16] = {
  * Not every platform supports tile-flipping. We want To avoid wasting vram space with both left & right animations.
  * we'll keep tiles only for the direction we are facing.
  */
-void UpdatePlayerVRAMTiles() NONBANKED{
+void UpdatePlayerVRAMTiles(void) NONBANKED{
     uint8_t _previous_bank = CURRENT_BANK;
 
     if(facingRight){
@@ -89,7 +89,7 @@ void UpdatePlayerVRAMTiles() NONBANKED{
     SWITCH_ROM(_previous_bank);
 }
 
-void SetPlayerPalettes() NONBANKED{
+void SetPlayerPalettes(void) NONBANKED{
     uint8_t _previous_bank = CURRENT_BANK;
 
         SWITCH_ROM(PLAYER_PALETTES_BANK);
@@ -109,7 +109,7 @@ void SetPlayerPalettes() NONBANKED{
     SWITCH_ROM(_previous_bank);
 }
 
-void SetupPlayer() BANKED{
+void SetupPlayer(void) BANKED{
 
     // Player will start at 40,40
     // the playerX and playerY variables are scaled, so we shift to the left by 4
@@ -151,7 +151,7 @@ void DrawPlayer(uint16_t playerRealX, uint16_t playerRealY, uint8_t frame) NONBA
     SWITCH_ROM(_previous_bank);
 }
 
-void UpdatePlayer() BANKED{
+void UpdatePlayer(void) BANKED{
     
     // Use the run velocity if the B button is held
     // Animate the threeFrameCounter faster when B is held
@@ -174,7 +174,9 @@ void UpdatePlayer() BANKED{
 
             // Just decrease the velocity, and save that we are turning
             playerXVelocity+=GROUND_FRICTION;
-            turning=TRUE;
+
+            // We are turning, IF we didn't just finish changing direction.
+            if(playerXVelocity<0)turning=TRUE;
         }else{
             playerXVelocity=moveSpeed;
 
@@ -192,7 +194,9 @@ void UpdatePlayer() BANKED{
 
             // Just decrease the velocity, and save that we are turning
             playerXVelocity-=GROUND_FRICTION;
-            turning=TRUE;
+
+            // We are turning, IF we didn't just finish changing direction.
+            if(playerXVelocity>0)turning=TRUE;
         }else{
             playerXVelocity=-moveSpeed;
 

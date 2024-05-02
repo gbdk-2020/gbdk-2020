@@ -7,7 +7,7 @@
 extern uint16_t camera_x, camera_y;
 
 
-void UpdateCamera() BANKED;
+void UpdateCamera(void) BANKED;
 void SetCurrentLevelSubmap(uint8_t x, uint8_t y, uint8_t w, uint8_t h) NONBANKED;
 
 #endif

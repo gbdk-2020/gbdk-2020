@@ -38,7 +38,7 @@ GENSOURCES    = $(foreach dir,$(GENDIR), $(wildcard $(dir)/*.c))
 ASMSOURCES  = $(foreach dir,$(SRCDIR),$(notdir $(wildcard $(dir)/*.s)))
 OBJS       = $(CSOURCES:%.c=$(OBJDIR)/%.o) $(ASMSOURCES:%.s=$(OBJDIR)/%.o)
 
-LCCFLAGS += -Wl-j -Wm-yoA -Wm-ya4 -Wb-ext=.rel -Wb- $(LCCFLAGS_$(EXT)) # This adds the current platform specific LCC Flags
+LCCFLAGS += -Wl-j -Wm-yoA -Wm-ya4 -Wb-ext=.rel $(LCCFLAGS_$(EXT)) # This adds the current platform specific LCC Flags
 
 
 # Configure platform specific LCC flags here:
