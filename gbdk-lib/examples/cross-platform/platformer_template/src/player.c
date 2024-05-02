@@ -13,12 +13,12 @@ BANKREF_EXTERN(PlayerCharacterLeft)
 BANKREF_EXTERN(PlayerCharacterRight)
 
 
-#define GRAVTY 15
+#define GRAVTY 45
 #define GROUND_FRICTION 15
 #define PLAYER_CHARACTER_INCREASE_JUMP_TIMER_MAX 20
-#define PLAYER_CHARACTER_JUMP_VELOCITY 450
-#define PLAYER_CHARACTER_WALK_VELOCITY 225
-#define PLAYER_CHARACTER_RUN_VELOCITY 325
+#define PLAYER_CHARACTER_JUMP_VELOCITY 550
+#define PLAYER_CHARACTER_WALK_VELOCITY 325
+#define PLAYER_CHARACTER_RUN_VELOCITY 425
 #define PLAYER_CHARACTER_WALK_TWO_FRAME_COUNTER 3
 #define PLAYER_CHARACTER_RUN_TWO_FRAME_COUNTER 5
 
@@ -210,10 +210,15 @@ void UpdatePlayer(void) BANKED{
         
     }else{
 
-        // Move the x velocity towards 0
-        if(playerXVelocity>=GROUND_FRICTION)playerXVelocity-=GROUND_FRICTION;
-        else if(playerXVelocity<=GROUND_FRICTION)playerXVelocity+=GROUND_FRICTION;
-        else playerXVelocity=0;
+          // Move the x velocity towards 0
+        if (playerXVelocity > 0) {
+          if (playerXVelocity >= GROUND_FRICTION) playerXVelocity -= GROUND_FRICTION;
+          else playerXVelocity=0;
+        }
+        else if (playerXVelocity < 0) {
+            if (playerXVelocity <= GROUND_FRICTION) playerXVelocity += GROUND_FRICTION;
+            else playerXVelocity=0;
+        }
     }
 
     uint16_t playerRealX = playerX>>4;
