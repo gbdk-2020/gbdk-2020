@@ -208,17 +208,6 @@ static void export_h_map_mode(PNG2AssetData* assetData, FILE* file) {
         fprintf(file, "#define %s_MAP_ATTRIBUTES_PACKED_HEIGHT %d\n", assetData->args->data_name.c_str(), (int)assetData->args->map_attributes_packed_size.height);
     }
 
-    // TODO: FIXME: Based on previous if statements, this code will never be reached if (assetData->args->use_structs) is true (despite being tested in code below)
-    // if (assetData->args->use_structs)
-    // {
-    //     fprintf(file, "#define %s_TILE_PALS ", assetData->args->data_name.c_str());
-    //     if (assetData->args->use_map_attributes)
-    //         fprintf(file, "0\n");
-    //     else
-    //         fprintf(file, "%s_tile_pals\n", assetData->args->data_name.c_str());
-    // }
-
-    // --
     fprintf(file, "extern const unsigned char %s_map[%d];\n", assetData->args->data_name.c_str(), (unsigned int)(assetData->map).size());
 
     if (assetData->args->use_map_attributes && assetData->map_attributes.size()) {
@@ -230,10 +219,6 @@ static void export_h_map_mode(PNG2AssetData* assetData, FILE* file) {
         // so that set_bkg_attributes can work the same on these platforms
         fprintf(file, "#define %s_map_attributes %s_map\n", assetData->args->data_name.c_str(), assetData->args->data_name.c_str());
     }
-    // TODO: FIXME: Based on previous if statements, this code will never be reached if (assetData->args->use_structs) is true (despite being tested in code below)
-    // if (!assetData->args->use_map_attributes && (assetData->args->includeTileData) && (assetData->args->use_structs)) {
-    //     fprintf(file, "extern const unsigned char* %s_tile_pals[%d];\n", assetData->args->data_name.c_str(), (unsigned int)(assetData->tiles).size());
-    // }
 }
 
 
@@ -244,7 +229,6 @@ static void export_h_metasprite_mode(PNG2AssetData* assetData, FILE* file) {
     fprintf(file, "#define %s_PIVOT_W %d\n", assetData->args->data_name.c_str(), (unsigned int)assetData->args->pivot.width);
     fprintf(file, "#define %s_PIVOT_H %d\n", assetData->args->data_name.c_str(), (unsigned int)assetData->args->pivot.height);
 
-    // --
     fprintf(file, "extern const metasprite_t* const %s_metasprites[%d];\n", assetData->args->data_name.c_str(), (unsigned int)(assetData->sprites.size()));
 }
 
