@@ -35,6 +35,11 @@ size_t export_tiles_count, export_tiles_start;
 bool use_structs_with_source_tileset;
 bool has_palette_data_to_export;
 
+static void export_h_use_structs(PNG2AssetData* assetData, FILE* file);
+static void export_h_map_and_metasprite_shared_defines(PNG2AssetData* assetData, FILE* file);
+static void export_h_map_and_metasprite_shared_externs(PNG2AssetData* assetData, FILE* file);
+static void export_h_map_mode(PNG2AssetData* assetData, FILE* file);
+static void export_h_metasprite_mode(PNG2AssetData* assetData, FILE* file);
 
 static void export_c_palette_data(PNG2AssetData* assetData, FILE* file);
 static void export_c_tile_data(PNG2AssetData* assetData, FILE* file);
@@ -88,13 +93,16 @@ static void calc_palette_and_tileset_export_size(PNG2AssetData* assetData) {
 }
 
 
+
+// === H FILE EXPORT ===
+
 bool export_h_file( PNG2AssetData* assetData) {
 
     FILE* file;
     calc_palette_and_tileset_export_size(assetData);
 
     file = fopen(assetData->args->output_filename_h.c_str(), "w");
-    if(!file) {
+    if (!file) {
         printf("Error writing file: %s", assetData->args->output_filename_h.c_str());
         return false;
     }
@@ -107,113 +115,21 @@ bool export_h_file( PNG2AssetData* assetData) {
     fprintf(file, "#include <gbdk/platform.h>\n");
     fprintf(file, "#include <gbdk/metasprites.h>\n");
     fprintf(file, "\n");
-    if(assetData->args->use_structs)
-    {
-        if(assetData->args->export_as_map)
-        {
-            fprintf(file, "#include \"TilesInfo.h\"\n");
-            fprintf(file, "#include \"MapInfo.h\"\n");
-            fprintf(file, "\n");
-            fprintf(file, "extern const struct TilesInfo %s_tiles_info;\n", assetData->args->data_name.c_str());
-            fprintf(file, "extern const struct MapInfo %s;\n", assetData->args->data_name.c_str());
-        }
-        else
-        {
-            fprintf(file, "#include \"MetaSpriteInfo.h\"\n");
-            fprintf(file, "\n");
-            fprintf(file, "extern const struct MetaSpriteInfo %s;\n", assetData->args->data_name.c_str());
-        }
+
+    if (assetData->args->use_structs) {
+        export_h_use_structs(assetData, file);
     }
-    else
-    {
-        fprintf(file, "#define %s_TILE_ORIGIN %d\n", assetData->args->data_name.c_str(), assetData->args->tile_origin);
-        fprintf(file, "#define %s_TILE_W %d\n", assetData->args->data_name.c_str(), assetData->image.tile_w);
-        fprintf(file, "#define %s_TILE_H %d\n", assetData->args->data_name.c_str(), assetData->image.tile_h);
-        fprintf(file, "#define %s_WIDTH %d\n", assetData->args->data_name.c_str(), (unsigned int)assetData->args->spriteSize.width);
-        fprintf(file, "#define %s_HEIGHT %d\n", assetData->args->data_name.c_str(), (unsigned int)assetData->args->spriteSize.height);
-        // The TILE_COUNT calc here is referring to number of 8x8 tiles,
-        // so the >> 3 for each sizes axis is to get a multiplier for larger hardware sprites such as 8x16 and 16x16
-        fprintf(file, "#define %s_TILE_COUNT %d\n", assetData->args->data_name.c_str(), ((unsigned int)export_tiles_count) * (assetData->image.tile_h >> 3) * (assetData->image.tile_w >> 3));
-        if(assetData->args->include_palettes) {
-            fprintf(file, "#define %s_PALETTE_COUNT %d\n", assetData->args->data_name.c_str(), (unsigned int)(assetData->image.total_color_count / assetData->image.colors_per_pal));
-            fprintf(file, "#define %s_COLORS_PER_PALETTE %d\n", assetData->args->data_name.c_str(), (unsigned int)assetData->image.colors_per_pal);
-            fprintf(file, "#define %s_TOTAL_COLORS %d\n", assetData->args->data_name.c_str(), (unsigned int)assetData->image.total_color_count);
-        }
+    else {
+        export_h_map_and_metasprite_shared_defines(assetData, file);
 
-        if(assetData->args->includedMapOrMetaspriteData) {
-
-            if(assetData->args->export_as_map)
-            {
-                fprintf(file, "#define %s_MAP_ATTRIBUTES ", assetData->args->data_name.c_str());
-                if(assetData->args->use_map_attributes && assetData->map_attributes.size())
-                    fprintf(file, "%s_map_attributes\n", assetData->args->data_name.c_str());
-                else
-                    fprintf(file, "0\n");
-
-                if(assetData->args->use_map_attributes)
-                {
-                    int scale = assetData->args->use_2x2_map_attributes ? 2 : 1;
-                    fprintf(file, "#define %s_MAP_ATTRIBUTES_WIDTH %d\n", assetData->args->data_name.c_str(), (int)(scale * assetData->args->map_attributes_size.width));
-                    fprintf(file, "#define %s_MAP_ATTRIBUTES_HEIGHT %d\n", assetData->args->data_name.c_str(), (int)(scale * assetData->args->map_attributes_size.height));
-                    fprintf(file, "#define %s_MAP_ATTRIBUTES_PACKED_WIDTH %d\n", assetData->args->data_name.c_str(), (int)assetData->args->map_attributes_packed_size.width);
-                    fprintf(file, "#define %s_MAP_ATTRIBUTES_PACKED_HEIGHT %d\n", assetData->args->data_name.c_str(), (int)assetData->args->map_attributes_packed_size.height);
-                }
-
-                // TODO: FIXME: Based on above if statement, this code will never be reached if (assetData->args->use_structs) is true (despite being tested in code below)
-                if(assetData->args->use_structs)
-                {
-                    fprintf(file, "#define %s_TILE_PALS ", assetData->args->data_name.c_str());
-                    if(assetData->args->use_map_attributes)
-                        fprintf(file, "0\n");
-                    else
-                        fprintf(file, "%s_tile_pals\n", assetData->args->data_name.c_str());
-                }
-            }
+        if (assetData->args->includedMapOrMetaspriteData) {
+            if (assetData->args->export_as_map)
+                export_h_map_mode(assetData, file);
             else
-            {
-                fprintf(file, "#define %s_PIVOT_X %d\n", assetData->args->data_name.c_str(), assetData->args->pivot.x);
-                fprintf(file, "#define %s_PIVOT_Y %d\n", assetData->args->data_name.c_str(), assetData->args->pivot.y);
-                fprintf(file, "#define %s_PIVOT_W %d\n", assetData->args->data_name.c_str(), (unsigned int)assetData->args->pivot.width);
-                fprintf(file, "#define %s_PIVOT_H %d\n", assetData->args->data_name.c_str(), (unsigned int)assetData->args->pivot.height);
-            }
-        }
-        fprintf(file, "\n");
-        fprintf(file, "BANKREF_EXTERN(%s)\n", assetData->args->data_name.c_str());
-        fprintf(file, "\n");
-
-        if (has_palette_data_to_export) {
-            fprintf(file, "extern const palette_color_t %s_palettes[%d];\n", assetData->args->data_name.c_str(), (unsigned int)export_color_count);
-        }
-        if(assetData->args->includeTileData) {
-            fprintf(file, "extern const uint8_t %s_tiles[%d];\n", assetData->args->data_name.c_str(), (unsigned int)(export_tiles_count * (assetData->image.tile_w * assetData->image.tile_h * assetData->args->bpp / 8)));
+                export_h_metasprite_mode(assetData, file);
         }
 
-        fprintf(file, "\n");
-        if(assetData->args->includedMapOrMetaspriteData) {
-            if(assetData->args->export_as_map)
-            {
-                fprintf(file, "extern const unsigned char %s_map[%d];\n", assetData->args->data_name.c_str(), (unsigned int)(assetData->map).size());
-
-                if(assetData->args->use_map_attributes && assetData->map_attributes.size()) {
-                    fprintf(file, "extern const unsigned char %s_map_attributes[%d];\n", assetData->args->data_name.c_str(), (unsigned int)(assetData->map_attributes).size());
-                }
-                else
-                {
-                    // Some platforms (like SMS/GG) encode attributes as part of map
-                    // For compatibility, add a define that makes _map_attributes equal _map,
-                    // so that set_bkg_attributes can work the same on these platforms
-                    fprintf(file, "#define %s_map_attributes %s_map\n", assetData->args->data_name.c_str(), assetData->args->data_name.c_str());
-                }
-                // TODO: FIXME: Based on above if statement, this code will never be reached if (assetData->args->use_structs) is true (despite being tested in code below)
-                if(!assetData->args->use_map_attributes && (assetData->args->includeTileData) && (assetData->args->use_structs)) {
-                    fprintf(file, "extern const unsigned char* %s_tile_pals[%d];\n", assetData->args->data_name.c_str(), (unsigned int)(assetData->tiles).size());
-                }
-            }
-            else
-            {
-                fprintf(file, "extern const metasprite_t* const %s_metasprites[%d];\n", assetData->args->data_name.c_str(), (unsigned int)(assetData->sprites.size()));
-            }
-        }
+        export_h_map_and_metasprite_shared_externs(assetData, file);
     }
     fprintf(file, "\n");
     fprintf(file, "#endif\n");
@@ -226,6 +142,114 @@ bool export_h_file( PNG2AssetData* assetData) {
 }
 
 
+static void export_h_use_structs(PNG2AssetData* assetData, FILE* file) {
+
+    if (assetData->args->export_as_map) {
+        fprintf(file, "#include \"TilesInfo.h\"\n");
+        fprintf(file, "#include \"MapInfo.h\"\n");
+        fprintf(file, "\n");
+        fprintf(file, "extern const struct TilesInfo %s_tiles_info;\n", assetData->args->data_name.c_str());
+        fprintf(file, "extern const struct MapInfo %s;\n", assetData->args->data_name.c_str());
+    }
+    else {
+        fprintf(file, "#include \"MetaSpriteInfo.h\"\n");
+        fprintf(file, "\n");
+        fprintf(file, "extern const struct MetaSpriteInfo %s;\n", assetData->args->data_name.c_str());
+    }
+
+}
+
+
+static void export_h_map_and_metasprite_shared_defines(PNG2AssetData* assetData, FILE* file) {
+
+    // Non use-structs output mode
+    fprintf(file, "#define %s_TILE_ORIGIN %d\n", assetData->args->data_name.c_str(), assetData->args->tile_origin);
+    fprintf(file, "#define %s_TILE_W %d\n", assetData->args->data_name.c_str(), assetData->image.tile_w);
+    fprintf(file, "#define %s_TILE_H %d\n", assetData->args->data_name.c_str(), assetData->image.tile_h);
+    fprintf(file, "#define %s_WIDTH %d\n", assetData->args->data_name.c_str(), (unsigned int)assetData->args->spriteSize.width);
+    fprintf(file, "#define %s_HEIGHT %d\n", assetData->args->data_name.c_str(), (unsigned int)assetData->args->spriteSize.height);
+    // The TILE_COUNT calc here is referring to number of 8x8 tiles,
+    fprintf(file, "#define %s_TILE_COUNT %d\n", assetData->args->data_name.c_str(), ((unsigned int)export_tiles_count) * (assetData->image.tile_h >> 3) * (assetData->image.tile_w >> 3));
+    if (assetData->args->include_palettes) {
+        fprintf(file, "#define %s_PALETTE_COUNT %d\n", assetData->args->data_name.c_str(), (unsigned int)(assetData->image.total_color_count / assetData->image.colors_per_pal));
+        fprintf(file, "#define %s_COLORS_PER_PALETTE %d\n", assetData->args->data_name.c_str(), (unsigned int)assetData->image.colors_per_pal);
+        fprintf(file, "#define %s_TOTAL_COLORS %d\n", assetData->args->data_name.c_str(), (unsigned int)assetData->image.total_color_count);
+    }
+}
+
+static void export_h_map_and_metasprite_shared_externs(PNG2AssetData* assetData, FILE* file) {
+
+    fprintf(file, "\n");
+    fprintf(file, "BANKREF_EXTERN(%s)\n", assetData->args->data_name.c_str());
+    fprintf(file, "\n");
+
+    if (has_palette_data_to_export) {
+        fprintf(file, "extern const palette_color_t %s_palettes[%d];\n", assetData->args->data_name.c_str(), (unsigned int)export_color_count);
+    }
+    if (assetData->args->includeTileData) {
+        fprintf(file, "extern const uint8_t %s_tiles[%d];\n", assetData->args->data_name.c_str(), (unsigned int)(export_tiles_count * (assetData->image.tile_w * assetData->image.tile_h * assetData->args->bpp / 8)));
+    }
+}
+
+
+static void export_h_map_mode(PNG2AssetData* assetData, FILE* file) {
+
+    fprintf(file, "#define %s_MAP_ATTRIBUTES ", assetData->args->data_name.c_str());
+    if (assetData->args->use_map_attributes && assetData->map_attributes.size())
+        fprintf(file, "%s_map_attributes\n", assetData->args->data_name.c_str());
+    else
+        fprintf(file, "0\n");
+
+    if (assetData->args->use_map_attributes) {
+        int scale = assetData->args->use_2x2_map_attributes ? 2 : 1;
+        fprintf(file, "#define %s_MAP_ATTRIBUTES_WIDTH %d\n", assetData->args->data_name.c_str(), (int)(scale * assetData->args->map_attributes_size.width));
+        fprintf(file, "#define %s_MAP_ATTRIBUTES_HEIGHT %d\n", assetData->args->data_name.c_str(), (int)(scale * assetData->args->map_attributes_size.height));
+        fprintf(file, "#define %s_MAP_ATTRIBUTES_PACKED_WIDTH %d\n", assetData->args->data_name.c_str(), (int)assetData->args->map_attributes_packed_size.width);
+        fprintf(file, "#define %s_MAP_ATTRIBUTES_PACKED_HEIGHT %d\n", assetData->args->data_name.c_str(), (int)assetData->args->map_attributes_packed_size.height);
+    }
+
+    // TODO: FIXME: Based on previous if statements, this code will never be reached if (assetData->args->use_structs) is true (despite being tested in code below)
+    // if (assetData->args->use_structs)
+    // {
+    //     fprintf(file, "#define %s_TILE_PALS ", assetData->args->data_name.c_str());
+    //     if (assetData->args->use_map_attributes)
+    //         fprintf(file, "0\n");
+    //     else
+    //         fprintf(file, "%s_tile_pals\n", assetData->args->data_name.c_str());
+    // }
+
+    // --
+    fprintf(file, "extern const unsigned char %s_map[%d];\n", assetData->args->data_name.c_str(), (unsigned int)(assetData->map).size());
+
+    if (assetData->args->use_map_attributes && assetData->map_attributes.size()) {
+        fprintf(file, "extern const unsigned char %s_map_attributes[%d];\n", assetData->args->data_name.c_str(), (unsigned int)(assetData->map_attributes).size());
+    }
+    else {
+        // Some platforms (like SMS/GG) encode attributes as part of map
+        // For compatibility, add a define that makes _map_attributes equal _map,
+        // so that set_bkg_attributes can work the same on these platforms
+        fprintf(file, "#define %s_map_attributes %s_map\n", assetData->args->data_name.c_str(), assetData->args->data_name.c_str());
+    }
+    // TODO: FIXME: Based on previous if statements, this code will never be reached if (assetData->args->use_structs) is true (despite being tested in code below)
+    // if (!assetData->args->use_map_attributes && (assetData->args->includeTileData) && (assetData->args->use_structs)) {
+    //     fprintf(file, "extern const unsigned char* %s_tile_pals[%d];\n", assetData->args->data_name.c_str(), (unsigned int)(assetData->tiles).size());
+    // }
+}
+
+
+static void export_h_metasprite_mode(PNG2AssetData* assetData, FILE* file) {
+
+    fprintf(file, "#define %s_PIVOT_X %d\n", assetData->args->data_name.c_str(), assetData->args->pivot.x);
+    fprintf(file, "#define %s_PIVOT_Y %d\n", assetData->args->data_name.c_str(), assetData->args->pivot.y);
+    fprintf(file, "#define %s_PIVOT_W %d\n", assetData->args->data_name.c_str(), (unsigned int)assetData->args->pivot.width);
+    fprintf(file, "#define %s_PIVOT_H %d\n", assetData->args->data_name.c_str(), (unsigned int)assetData->args->pivot.height);
+
+    // --
+    fprintf(file, "extern const metasprite_t* const %s_metasprites[%d];\n", assetData->args->data_name.c_str(), (unsigned int)(assetData->sprites.size()));
+}
+
+
+// === C FILE EXPORT ===
 
 bool export_c_file( PNG2AssetData* assetData) {
 
@@ -557,6 +581,8 @@ static void export_c_use_structs_tiles_only_mode(PNG2AssetData* assetData, FILE*
     fprintf(file, "};\n");
 }
 
+
+// === BINARY FILE EXPORT ===
 
 bool export_map_binary(PNG2AssetData* assetData) {
 

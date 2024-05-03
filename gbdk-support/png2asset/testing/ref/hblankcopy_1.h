@@ -21,5 +21,4 @@ BANKREF_EXTERN(hblankcopy_1)
 extern const palette_color_t hblankcopy_1_palettes[4];
 extern const uint8_t hblankcopy_1_tiles[2016];
 
-
 #endif

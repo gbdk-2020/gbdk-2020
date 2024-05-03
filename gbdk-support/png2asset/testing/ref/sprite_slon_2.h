@@ -19,12 +19,11 @@
 #define sprite_slon_2_PIVOT_Y 24
 #define sprite_slon_2_PIVOT_W 64
 #define sprite_slon_2_PIVOT_H 48
+extern const metasprite_t* const sprite_slon_2_metasprites[5];
 
 BANKREF_EXTERN(sprite_slon_2)
 
 extern const palette_color_t sprite_slon_2_palettes[4];
 extern const uint8_t sprite_slon_2_tiles[960];
-
-extern const metasprite_t* const sprite_slon_2_metasprites[5];
 
 #endif

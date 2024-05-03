@@ -16,13 +16,12 @@
 #define remote_COLORS_PER_PALETTE 4
 #define remote_TOTAL_COLORS 4
 #define remote_MAP_ATTRIBUTES 0
+extern const unsigned char remote_map[360];
+#define remote_map_attributes remote_map
 
 BANKREF_EXTERN(remote)
 
 extern const palette_color_t remote_palettes[4];
 extern const uint8_t remote_tiles[2256];
-
-extern const unsigned char remote_map[360];
-#define remote_map_attributes remote_map
 
 #endif

@@ -21,5 +21,4 @@ BANKREF_EXTERN(apaimage_1)
 extern const palette_color_t apaimage_1_palettes[4];
 extern const uint8_t apaimage_1_tiles[5760];
 
-
 #endif

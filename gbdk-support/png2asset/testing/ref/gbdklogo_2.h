@@ -20,13 +20,12 @@
 #define gbdklogo_2_MAP_ATTRIBUTES_HEIGHT 18
 #define gbdklogo_2_MAP_ATTRIBUTES_PACKED_WIDTH 20
 #define gbdklogo_2_MAP_ATTRIBUTES_PACKED_HEIGHT 18
+extern const unsigned char gbdklogo_2_map[360];
+extern const unsigned char gbdklogo_2_map_attributes[360];
 
 BANKREF_EXTERN(gbdklogo_2)
 
 extern const palette_color_t gbdklogo_2_palettes[16];
 extern const uint8_t gbdklogo_2_tiles[656];
-
-extern const unsigned char gbdklogo_2_map[360];
-extern const unsigned char gbdklogo_2_map_attributes[360];
 
 #endif

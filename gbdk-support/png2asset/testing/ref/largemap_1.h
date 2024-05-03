@@ -16,13 +16,12 @@
 #define largemap_1_COLORS_PER_PALETTE 4
 #define largemap_1_TOTAL_COLORS 16
 #define largemap_1_MAP_ATTRIBUTES 0
+extern const unsigned char largemap_1_map[10296];
+#define largemap_1_map_attributes largemap_1_map
 
 BANKREF_EXTERN(largemap_1)
 
 extern const palette_color_t largemap_1_palettes[16];
 extern const uint8_t largemap_1_tiles[3744];
-
-extern const unsigned char largemap_1_map[10296];
-#define largemap_1_map_attributes largemap_1_map
 
 #endif

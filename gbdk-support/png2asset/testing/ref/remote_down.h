@@ -16,12 +16,11 @@
 #define remote_down_COLORS_PER_PALETTE 4
 #define remote_down_TOTAL_COLORS 4
 #define remote_down_MAP_ATTRIBUTES 0
+extern const unsigned char remote_down_map[360];
+#define remote_down_map_attributes remote_down_map
 
 BANKREF_EXTERN(remote_down)
 
 extern const uint8_t remote_down_tiles[528];
-
-extern const unsigned char remote_down_map[360];
-#define remote_down_map_attributes remote_down_map
 
 #endif

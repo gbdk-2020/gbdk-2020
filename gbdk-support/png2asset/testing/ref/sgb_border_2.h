@@ -17,12 +17,11 @@
 #define sgb_border_2_MAP_ATTRIBUTES_HEIGHT 28
 #define sgb_border_2_MAP_ATTRIBUTES_PACKED_WIDTH 32
 #define sgb_border_2_MAP_ATTRIBUTES_PACKED_HEIGHT 28
+extern const unsigned char sgb_border_2_map[1792];
+#define sgb_border_2_map_attributes sgb_border_2_map
 
 BANKREF_EXTERN(sgb_border_2)
 
 extern const uint8_t sgb_border_2_tiles[3424];
-
-extern const unsigned char sgb_border_2_map[1792];
-#define sgb_border_2_map_attributes sgb_border_2_map
 
 #endif

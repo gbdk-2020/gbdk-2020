@@ -16,13 +16,12 @@
 #define nums_map_7_COLORS_PER_PALETTE 4
 #define nums_map_7_TOTAL_COLORS 4
 #define nums_map_7_MAP_ATTRIBUTES 0
+extern const unsigned char nums_map_7_map[50];
+#define nums_map_7_map_attributes nums_map_7_map
 
 BANKREF_EXTERN(nums_map_7)
 
 extern const palette_color_t nums_map_7_palettes[4];
 extern const uint8_t nums_map_7_tiles[640];
-
-extern const unsigned char nums_map_7_map[50];
-#define nums_map_7_map_attributes nums_map_7_map
 
 #endif
