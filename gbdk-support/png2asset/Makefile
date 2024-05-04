@@ -69,3 +69,6 @@ test-update:
 
 test-compare:
 	$(MAKE) -C testing compare-output
+
+test-reset-ref:
+	$(MAKE) -C testing reset-ref
