@@ -9,7 +9,6 @@ struct exportOptions_t {
 
     size_t color_count, color_start;
     size_t tiles_count, tiles_start;
-    bool use_structs_with_source_tileset;
     bool has_palette_data_to_export;
 };
 

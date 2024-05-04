@@ -67,6 +67,7 @@ const struct MapInfo zgb_sushi_level07 = {
 	.width=93, // width
 	.height=45, // height
 	.attributes=0, // map attributes
-	.tiles_bank=BANK(sushi_tiles), // tiles bank
-	.tiles=&sushi_tiles, // tiles info
+	.tiles_bank=BANK(sushi_tiles), // source tiles bank
+	.tiles=&sushi_tiles, // source tiles info
+	.extra_tiles=0, // map tiles info (no map tiles were found that were not in the source tileset)
 };

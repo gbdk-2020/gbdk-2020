@@ -44,30 +44,26 @@ string extract_name(string const & name)
 // This gets called at the start of each export output function
 void calc_palette_and_tileset_export_size(PNG2AssetData* assetData, exportOptions_t* exportOptions) {
 
-    exportOptions->use_structs_with_source_tileset = (assetData->args->has_source_tilesets == true) && (assetData->args->use_structs == true);
-
-    // (source_tileset + use_structs is a special combination for ZGB
-    if (exportOptions->use_structs_with_source_tileset) {
-        // Export all colors and tiles, including those from source tileset
-        exportOptions->color_start = 0;
-        exportOptions->color_count = (unsigned int)assetData->image.total_color_count;
-        exportOptions->tiles_start = 0;
-        exportOptions->tiles_count = assetData->tiles.size();
-    } else {
-        // Otherwise default behavior is to skip past/offset however many
-        // palettes and tiles were present in the source tileset
-        exportOptions->color_start = assetData->args->source_total_color_count;
-        exportOptions->color_count = assetData->image.total_color_count - assetData->args->source_total_color_count;
-        exportOptions->tiles_start = assetData->args->source_tileset_size;
-        exportOptions->tiles_count = assetData->tiles.size() - assetData->args->source_tileset_size;
-    }
+    // Default behavior is to skip past/offset however many
+    // palettes and tiles were present in the source tileset
+    //
+    // Note: source_tileset + use_structs for ZGB no longer has special source tile/palette inclusion behavior
+    exportOptions->color_start = assetData->args->source_total_color_count;
+    exportOptions->color_count = assetData->image.total_color_count - assetData->args->source_total_color_count;
+    exportOptions->tiles_start = assetData->args->source_tileset_size;
+    exportOptions->tiles_count = assetData->tiles.size() - assetData->args->source_tileset_size;
 
     // When to export palette data:
     //   - Not using a source tileset                        : include all colors
     //   - Using a source tileset and there are extra colors : include only colors not present in source tileset
-    //   - Using a source tileset + zgb's use_structs mode   : include all source tileset and colors not present in source tileset
     //
     //   AND it's not turned off via include_palettes = false
-    exportOptions->has_palette_data_to_export = (assetData->args->include_palettes &
-                                  ((assetData->args->has_source_tilesets == false) || (exportOptions->color_count > 0) || (exportOptions->use_structs_with_source_tileset == true)));
+    // exportOptions->has_palette_data_to_export = (assetData->args->include_palettes &&
+    //                               ((assetData->args->has_source_tilesets == false) || (exportOptions->color_count > 0)) );
+
+    bool use_structs_with_source_tileset = (assetData->args->has_source_tilesets == true) && (assetData->args->use_structs == true);
+
+   exportOptions->has_palette_data_to_export = (assetData->args->include_palettes &
+                                  ((assetData->args->has_source_tilesets == false) || (exportOptions->color_count > 0) || (use_structs_with_source_tileset == true)));
+
 }

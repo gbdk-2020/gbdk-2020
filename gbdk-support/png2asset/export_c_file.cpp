@@ -228,6 +228,8 @@ static void export_c_map_mode(PNG2AssetData* assetData, FILE* file) {
             export_c_zgb_tiles_struct(assetData, file, ZGB_TILES_MODE_NORMAL);
         }
     } else {
+        // For ZGB Structs with source_tileset enabled, the tile data points to the EXTERNAL source tileset
+        // so add the required externs used to reference them in the struct
         if((assetData->args->use_structs) && (assetData->args->source_tilesets.size())) {
             fprintf(file, "\n");
             fprintf(file, "#include \"TilesInfo.h\"\n");
@@ -349,6 +351,20 @@ static void export_c_zgb_tiles_struct(PNG2AssetData* assetData, FILE* file, int 
 }
 
 
+// "-use_structs" map output behavior
+//
+//   "-source_tileset" NOT enabled:
+//     - tile data -> TileInfo struct, point .tiles to it
+//     - .tiles points to TileInfo struct, .extra_tiles is NULL
+//
+//   "-source_tileset" IS enabled
+//     - .tiles -> the external source tileset
+//     - .extra_tiles -> map TileInfo
+//       - contains unique tiles not found in source tileset (not in entity tiles)
+//         - if none of those tiles were found then
+//           - map TileInfo will not be emitted
+//           - .extra_tiles == NULL then
+//
 static void export_c_zgb_map_struct(PNG2AssetData* assetData, FILE* file) {
     //Export Map Info
     fprintf(file, "\n");
@@ -356,6 +372,7 @@ static void export_c_zgb_map_struct(PNG2AssetData* assetData, FILE* file) {
     if(assetData->args->includeTileData) {
         fprintf(file, "BANKREF_EXTERN(%s_tiles_info)\n", assetData->args->data_name.c_str());
     }
+
     fprintf(file, "const struct MapInfo %s = {\n",                       assetData->args->data_name.c_str());
     fprintf(file, "\t.data=%s_map,"                      " // map\n",    assetData->args->data_name.c_str());
     fprintf(file, "\t.width=%d,"                         " // width\n",  assetData->image.w >> 3);
@@ -370,9 +387,15 @@ static void export_c_zgb_map_struct(PNG2AssetData* assetData, FILE* file) {
         fprintf(file, "\t.tiles_bank=BANK(%s_tiles_info), // tiles bank\n", assetData->args->data_name.c_str());
         fprintf(file, "\t.tiles=&%s_tiles_info,"        " // tiles info\n", assetData->args->data_name.c_str());
     } else {
+        // For ZGB Structs with source_tileset enabled, the tile data points to the EXTERNAL source tileset
         if (assetData->args->source_tilesets.size()) {
-            fprintf(file, "\t.tiles_bank=BANK(%s),"     " // tiles bank\n", extract_name(assetData->args->source_tilesets[0]).c_str());
-            fprintf(file, "\t.tiles=&%s,"               " // tiles info\n", extract_name(assetData->args->source_tilesets[0]).c_str());
+            fprintf(file, "\t.tiles_bank=BANK(%s),"     " // source tiles bank\n", extract_name(assetData->args->source_tilesets[0]).c_str());
+            fprintf(file, "\t.tiles=&%s,"               " // source tiles info\n", extract_name(assetData->args->source_tilesets[0]).c_str());
+
+            if (exportOpt.color_count > 0)
+                fprintf(file, "\t.extra_tiles=&%s_tiles_info,"  " // map tiles info (for map tiles not found in the source tileset) \n", assetData->args->data_name.c_str());
+            else
+                fprintf(file, "\t.extra_tiles=0,"               " // map tiles info (no map tiles were found that were not in the source tileset)\n");
         }
     }
     fprintf(file, "};\n");
