@@ -20,13 +20,12 @@
 #define largemap_7_MAP_ATTRIBUTES_HEIGHT 96
 #define largemap_7_MAP_ATTRIBUTES_PACKED_WIDTH 39
 #define largemap_7_MAP_ATTRIBUTES_PACKED_HEIGHT 24
+extern const unsigned char largemap_7_map[10296];
+extern const unsigned char largemap_7_map_attributes[936];
 
 BANKREF_EXTERN(largemap_7)
 
 extern const palette_color_t largemap_7_palettes[16];
 extern const uint8_t largemap_7_tiles[3600];
-
-extern const unsigned char largemap_7_map[10296];
-extern const unsigned char largemap_7_map_attributes[936];
 
 #endif

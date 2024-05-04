@@ -11,6 +11,9 @@
 #include "lodepng.h"
 #include "mttile.h"
 #include "export.h"
+#include "export_h_file.h"
+#include "export_c_file.h"
+#include "export_binary.h"
 #include "map_attributes.h"
 #include "palettes.h"
 

@@ -290,6 +290,9 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
         }
         else if(!strcmp(argv[i], "-source_tileset"))
         {
+            // Warning / TODO:FIXME
+            // includeTileData gets overridden back to TRUE if any tiles not present in the source tileset are found.
+            // This makes understanding it's full export behavior much harder. Would be better to remove it and try to simplify logic.
             args->includeTileData = false;
             args->source_tilesets.push_back(argv[++i]);
         }

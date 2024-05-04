@@ -21,5 +21,4 @@ BANKREF_EXTERN(sprite_slon_4)
 extern const palette_color_t sprite_slon_4_palettes[4];
 extern const uint8_t sprite_slon_4_tiles[960];
 
-
 #endif

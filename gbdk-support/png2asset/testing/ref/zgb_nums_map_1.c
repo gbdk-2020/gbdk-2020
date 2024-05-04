@@ -182,11 +182,11 @@ const uint8_t zgb_nums_map_1_tile_pals[40] = {
 #include "TilesInfo.h"
 BANKREF(zgb_nums_map_1_tiles_info)
 const struct TilesInfo zgb_nums_map_1_tiles_info = {
-	.num_frames=40, //num tiles
-	.data=zgb_nums_map_1_tiles, //tiles
-	.num_pals=1, //num palettes
-	.pals=zgb_nums_map_1_palettes, //palettes
-	.color_data=zgb_nums_map_1_tile_pals, //tile palettes
+	.num_frames=40, // num tiles
+	.data=zgb_nums_map_1_tiles, // tiles
+	.num_pals=1, // num palettes
+	.pals=zgb_nums_map_1_palettes, // palettes
+	.color_data=zgb_nums_map_1_tile_pals, // tile palettes
 };
 
 const unsigned char zgb_nums_map_1_map[50] = {
@@ -200,10 +200,10 @@ const unsigned char zgb_nums_map_1_map[50] = {
 #include "MapInfo.h"
 BANKREF_EXTERN(zgb_nums_map_1_tiles_info)
 const struct MapInfo zgb_nums_map_1 = {
-	.data=zgb_nums_map_1_map, //map
-	.width=10, //with
-	.height=5, //height
-	.attributes=0, //map attributes
-	.tiles_bank=BANK(zgb_nums_map_1_tiles_info), //tiles bank
-	.tiles=&zgb_nums_map_1_tiles_info, //tiles info
+	.data=zgb_nums_map_1_map, // map
+	.width=10, // width
+	.height=5, // height
+	.attributes=0, // map attributes
+	.tiles_bank=BANK(zgb_nums_map_1_tiles_info), // tiles bank
+	.tiles=&zgb_nums_map_1_tiles_info, // tiles info
 };

@@ -20,13 +20,12 @@
 #define largemap_6_MAP_ATTRIBUTES_HEIGHT 66
 #define largemap_6_MAP_ATTRIBUTES_PACKED_WIDTH 156
 #define largemap_6_MAP_ATTRIBUTES_PACKED_HEIGHT 66
+extern const unsigned char largemap_6_map[20592];
+#define largemap_6_map_attributes largemap_6_map
 
 BANKREF_EXTERN(largemap_6)
 
 extern const palette_color_t largemap_6_palettes[16];
 extern const uint8_t largemap_6_tiles[6944];
-
-extern const unsigned char largemap_6_map[20592];
-#define largemap_6_map_attributes largemap_6_map
 
 #endif

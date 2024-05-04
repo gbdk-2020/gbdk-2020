@@ -16,10 +16,9 @@
 #define binout_PIVOT_Y 48
 #define binout_PIVOT_W 56
 #define binout_PIVOT_H 96
+extern const metasprite_t* const binout_metasprites[1];
 
 BANKREF_EXTERN(binout)
 
-
-extern const metasprite_t* const binout_metasprites[1];
 
 #endif
