@@ -1450,9 +1450,9 @@ const uint8_t zgb_sushi_tiles_tile_pals[89] = {
 
 #include "TilesInfo.h"
 const struct TilesInfo zgb_sushi_tiles = {
-	.num_frames=89, //num tiles
-	.data=zgb_sushi_tiles_tiles, //tiles
-	.num_pals=1, //num palettes
-	.pals=zgb_sushi_tiles_palettes, //palettes
-	.color_data=zgb_sushi_tiles_tile_pals, //tile palettes
+	.num_frames=89, // num tiles
+	.data=zgb_sushi_tiles_tiles, // tiles
+	.num_pals=1, // num palettes
+	.pals=zgb_sushi_tiles_palettes, // palettes
+	.color_data=zgb_sushi_tiles_tile_pals, // tile palettes
 };

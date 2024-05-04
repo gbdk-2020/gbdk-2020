@@ -63,10 +63,10 @@ const unsigned char zgb_sushi_level07_map[4185] = {
 
 #include "MapInfo.h"
 const struct MapInfo zgb_sushi_level07 = {
-	.data=zgb_sushi_level07_map, //map
-	.width=93, //with
-	.height=45, //height
-	.attributes=0, //map attributes
-	.tiles_bank=BANK(sushi_tiles), //tiles bank
-	.tiles=&sushi_tiles, //tiles info
+	.data=zgb_sushi_level07_map, // map
+	.width=93, // width
+	.height=45, // height
+	.attributes=0, // map attributes
+	.tiles_bank=BANK(sushi_tiles), // tiles bank
+	.tiles=&sushi_tiles, // tiles info
 };

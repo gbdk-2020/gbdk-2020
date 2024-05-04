@@ -30,13 +30,22 @@
 
 using namespace std;
 
+enum {
+    ZGB_TILES_MODE_NORMAL,
+    ZGB_TILES_MODE_TILESONLY
+};
+
 static exportOptions_t exportOpt;
 
 static void export_c_palette_data(PNG2AssetData* assetData, FILE* file);
 static void export_c_tile_data(PNG2AssetData* assetData, FILE* file);
 static void export_c_metasprite_mode(PNG2AssetData* assetData, FILE* file);
 static void export_c_map_mode(PNG2AssetData* assetData, FILE* file);
-static void export_c_use_structs_tiles_only_mode(PNG2AssetData* assetData, FILE* file);
+
+static void export_c_zgb_metasprite_struct(PNG2AssetData* assetData, FILE* file);
+static void export_c_zgb_palette_data(PNG2AssetData* assetData, FILE* file);
+static void export_c_zgb_tiles_struct(PNG2AssetData* assetData, FILE* file, int output_mode);
+static void export_c_zgb_map_struct(PNG2AssetData* assetData, FILE* file);
 
 
 bool export_c_file( PNG2AssetData* assetData) {
@@ -78,8 +87,10 @@ bool export_c_file( PNG2AssetData* assetData) {
     }
     else {
         // "-use_structs -tiles_only" case
-        if ((assetData->args->includeTileData) && (assetData->args->use_structs))
-            export_c_use_structs_tiles_only_mode(assetData, file);
+        if ((assetData->args->includeTileData) && (assetData->args->use_structs)) {
+            export_c_zgb_palette_data(assetData, file);
+            export_c_zgb_tiles_struct(assetData, file, ZGB_TILES_MODE_TILESONLY);
+        }
     }
 
     fclose(file);
@@ -185,55 +196,36 @@ static void export_c_metasprite_mode(PNG2AssetData* assetData, FILE* file) {
     fprintf(file, "\n};\n");
 
     if(assetData->args->use_structs)
-    {
-        fprintf(file, "\n");
-        fprintf(file, "#include \"MetaSpriteInfo.h\"\n");
-        fprintf(file, "const struct MetaSpriteInfo %s = {\n", assetData->args->data_name.c_str());
-        fprintf(file, "\t%d, //width\n", (unsigned int)assetData->args->pivot.width);
-        fprintf(file, "\t%d, //height\n", (unsigned int)assetData->args->pivot.height);
-        fprintf(file, "\t%d, //num tiles\n", (unsigned int)assetData->tiles.size() * (assetData->image.tile_h >> 3));
-        fprintf(file, "\t%s_tiles, //tiles\n", assetData->args->data_name.c_str());
-        fprintf(file, "\t%d, //num palettes\n", (unsigned int)(assetData->image.total_color_count / assetData->image.colors_per_pal));
-        fprintf(file, "\t%s_palettes, //CGB palette\n", assetData->args->data_name.c_str());
-        fprintf(file, "\t%d, //num sprites\n", (unsigned int)assetData->sprites.size());
-        fprintf(file, "\t%s_metasprites, //metasprites\n", assetData->args->data_name.c_str());
-        fprintf(file, "};\n");
-    }
+        export_c_zgb_metasprite_struct(assetData, file);
+
+}
+
+static void export_c_zgb_metasprite_struct(PNG2AssetData* assetData, FILE* file) {
+    // Export ZGB Metasprite Struct
+    fprintf(file, "\n");
+    fprintf(file, "#include \"MetaSpriteInfo.h\"\n");
+    fprintf(file, "const struct MetaSpriteInfo %s = {\n",   assetData->args->data_name.c_str());
+    fprintf(file, "\t%d,"             " // width\n",        (unsigned int)assetData->args->pivot.width);
+    fprintf(file, "\t%d,"             " // height\n",       (unsigned int)assetData->args->pivot.height);
+    fprintf(file, "\t%d,"             " // num tiles\n",    (unsigned int)assetData->tiles.size() * (assetData->image.tile_h >> 3));
+    fprintf(file, "\t%s_tiles,"       " // tiles\n",        assetData->args->data_name.c_str());
+    fprintf(file, "\t%d,"             " // num palettes\n", (unsigned int)(assetData->image.total_color_count / assetData->image.colors_per_pal));
+    fprintf(file, "\t%s_palettes,"    " // CGB palette\n",  assetData->args->data_name.c_str());
+    fprintf(file, "\t%d,"             " // num sprites\n",  (unsigned int)assetData->sprites.size());
+    fprintf(file, "\t%s_metasprites," " // metasprites\n",  assetData->args->data_name.c_str());
+    fprintf(file, "};\n");
 }
 
 
 static void export_c_map_mode(PNG2AssetData* assetData, FILE* file) {
 
     if(assetData->args->includeTileData) {
+
+        // ZGB export mode
         if(assetData->args->use_structs)
         {
-            //Export tiles pals (if any)
-            if(!assetData->args->use_map_attributes)
-            {
-                fprintf(file, "\n");
-                fprintf(file, "const uint8_t %s_tile_pals[%d] = {\n\t", assetData->args->data_name.c_str(), (unsigned int)exportOpt.tiles_count);
-                for(vector< Tile >::iterator it = assetData->tiles.begin() + exportOpt.tiles_start; it != assetData->tiles.end(); ++it)
-                {
-                    if(it != assetData->tiles.begin())
-                        fprintf(file, ", ");
-                    fprintf(file, "%d", it->pal);
-                }
-                fprintf(file, "\n};\n");
-            }
-            //Export Tiles Info
-            fprintf(file, "\n");
-            fprintf(file, "#include \"TilesInfo.h\"\n");
-            fprintf(file, "BANKREF(%s_tiles_info)\n", assetData->args->data_name.c_str());
-            fprintf(file, "const struct TilesInfo %s_tiles_info = {\n", assetData->args->data_name.c_str());
-            fprintf(file, "\t.num_frames=%d, //num tiles\n", (unsigned int)assetData->tiles.size() * (assetData->image.tile_h >> 3));
-            fprintf(file, "\t.data=%s_tiles, //tiles\n", assetData->args->data_name.c_str());
-            fprintf(file, "\t.num_pals=%d, //num palettes\n", (unsigned int)(assetData->image.total_color_count / assetData->image.colors_per_pal));
-            fprintf(file, "\t.pals=%s_palettes, //palettes\n", assetData->args->data_name.c_str());
-            if(!assetData->args->use_map_attributes)
-                fprintf(file, "\t.color_data=%s_tile_pals, //tile palettes\n", assetData->args->data_name.c_str());
-            else
-                fprintf(file, "\t.color_data=0 //tile palettes\n");
-            fprintf(file, "};\n");
+            export_c_zgb_palette_data(assetData, file);
+            export_c_zgb_tiles_struct(assetData, file, ZGB_TILES_MODE_NORMAL);
         }
     } else {
         if((assetData->args->use_structs) && (assetData->args->source_tilesets.size())) {
@@ -309,38 +301,11 @@ static void export_c_map_mode(PNG2AssetData* assetData, FILE* file) {
     }
 
     if(assetData->args->use_structs)
-    {
-        //Export Map Info
-        fprintf(file, "\n");
-        fprintf(file, "#include \"MapInfo.h\"\n");
-        if(assetData->args->includeTileData) {
-            fprintf(file, "BANKREF_EXTERN(%s_tiles_info)\n", assetData->args->data_name.c_str());
-        }
-        fprintf(file, "const struct MapInfo %s = {\n", assetData->args->data_name.c_str());
-        fprintf(file, "\t.data=%s_map, //map\n", assetData->args->data_name.c_str());
-        fprintf(file, "\t.width=%d, //with\n", assetData->image.w >> 3);
-        fprintf(file, "\t.height=%d, //height\n", assetData->image.h >> 3);
-        if(assetData->args->use_map_attributes && assetData->map_attributes.size())
-            fprintf(file, "\t.attributes=%s_map_attributes, //map attributes\n", assetData->args->data_name.c_str());
-        else
-            fprintf(file, "\t.attributes=0, //map attributes\n");
-
-        if(assetData->args->includeTileData) {
-            fprintf(file, "\t.tiles_bank=BANK(%s_tiles_info), //tiles bank\n", assetData->args->data_name.c_str());
-            fprintf(file, "\t.tiles=&%s_tiles_info, //tiles info\n", assetData->args->data_name.c_str());
-        } else {
-            if (assetData->args->source_tilesets.size()) {
-                fprintf(file, "\t.tiles_bank=BANK(%s), //tiles bank\n", extract_name(assetData->args->source_tilesets[0]).c_str());
-                fprintf(file, "\t.tiles=&%s, //tiles info\n", extract_name(assetData->args->source_tilesets[0]).c_str());
-            }
-        }
-        fprintf(file, "};\n");
-    }
+        export_c_zgb_map_struct(assetData, file);
 }
 
 
-static void export_c_use_structs_tiles_only_mode(PNG2AssetData* assetData, FILE* file) {
-
+static void export_c_zgb_palette_data(PNG2AssetData* assetData, FILE* file) {
     //Export tiles pals (if any)
     if(!assetData->args->use_map_attributes)
     {
@@ -354,17 +319,61 @@ static void export_c_use_structs_tiles_only_mode(PNG2AssetData* assetData, FILE*
         }
         fprintf(file, "\n};\n");
     }
-    //Export Tiles Info
+}
+
+
+static void export_c_zgb_tiles_struct(PNG2AssetData* assetData, FILE* file, int output_mode) {
+    // Export Tiles Info
     fprintf(file, "\n");
     fprintf(file, "#include \"TilesInfo.h\"\n");
-    fprintf(file, "const struct TilesInfo %s = {\n", assetData->args->data_name.c_str());
-    fprintf(file, "\t.num_frames=%d, //num tiles\n", (unsigned int)assetData->tiles.size() * (assetData->image.tile_h >> 3));
-    fprintf(file, "\t.data=%s_tiles, //tiles\n", assetData->args->data_name.c_str());
-    fprintf(file, "\t.num_pals=%d, //num palettes\n", (unsigned int)(assetData->image.total_color_count / assetData->image.colors_per_pal));
-    fprintf(file, "\t.pals=%s_palettes, //palettes\n", assetData->args->data_name.c_str());
+
+    // ZGB Tiles-only mode doesn't append "_tiles_info" to the struct name and lacks a BANKREF output.
+    if (output_mode == ZGB_TILES_MODE_TILESONLY) {
+        fprintf(file, "const struct TilesInfo %s = {\n",                   assetData->args->data_name.c_str());
+    }
+    else { // implied (output_mode == ZGB_TILES_MODE_NORMAL)
+        fprintf(file, "BANKREF(%s_tiles_info)\n", assetData->args->data_name.c_str());
+        fprintf(file, "const struct TilesInfo %s_tiles_info = {\n",        assetData->args->data_name.c_str());
+    }
+
+    fprintf(file, "\t.num_frames=%d,"            " // num tiles\n",    (unsigned int)assetData->tiles.size() * (assetData->image.tile_h >> 3));
+    fprintf(file, "\t.data=%s_tiles,"            " // tiles\n",        assetData->args->data_name.c_str());
+    fprintf(file, "\t.num_pals=%d,"              " // num palettes\n", (unsigned int)(assetData->image.total_color_count / assetData->image.colors_per_pal));
+    fprintf(file, "\t.pals=%s_palettes,"         " // palettes\n",     assetData->args->data_name.c_str());
+
     if(!assetData->args->use_map_attributes)
-        fprintf(file, "\t.color_data=%s_tile_pals, //tile palettes\n", assetData->args->data_name.c_str());
+        fprintf(file, "\t.color_data=%s_tile_pals, // tile palettes\n", assetData->args->data_name.c_str());
     else
-        fprintf(file, "\t.color_data=0 //tile palettes\n");
+        fprintf(file, "\t.color_data=0 "         " // tile palettes\n");
+    fprintf(file, "};\n");
+}
+
+
+static void export_c_zgb_map_struct(PNG2AssetData* assetData, FILE* file) {
+    //Export Map Info
+    fprintf(file, "\n");
+    fprintf(file, "#include \"MapInfo.h\"\n");
+    if(assetData->args->includeTileData) {
+        fprintf(file, "BANKREF_EXTERN(%s_tiles_info)\n", assetData->args->data_name.c_str());
+    }
+    fprintf(file, "const struct MapInfo %s = {\n",                       assetData->args->data_name.c_str());
+    fprintf(file, "\t.data=%s_map,"                      " // map\n",    assetData->args->data_name.c_str());
+    fprintf(file, "\t.width=%d,"                         " // width\n",  assetData->image.w >> 3);
+    fprintf(file, "\t.height=%d,"                        " // height\n", assetData->image.h >> 3);
+
+    if(assetData->args->use_map_attributes && assetData->map_attributes.size())
+        fprintf(file, "\t.attributes=%s_map_attributes," " // map attributes\n", assetData->args->data_name.c_str());
+    else
+        fprintf(file, "\t.attributes=0,"                 " // map attributes\n");
+
+    if(assetData->args->includeTileData) {
+        fprintf(file, "\t.tiles_bank=BANK(%s_tiles_info), // tiles bank\n", assetData->args->data_name.c_str());
+        fprintf(file, "\t.tiles=&%s_tiles_info,"        " // tiles info\n", assetData->args->data_name.c_str());
+    } else {
+        if (assetData->args->source_tilesets.size()) {
+            fprintf(file, "\t.tiles_bank=BANK(%s),"     " // tiles bank\n", extract_name(assetData->args->source_tilesets[0]).c_str());
+            fprintf(file, "\t.tiles=&%s,"               " // tiles info\n", extract_name(assetData->args->source_tilesets[0]).c_str());
+        }
+    }
     fprintf(file, "};\n");
 }

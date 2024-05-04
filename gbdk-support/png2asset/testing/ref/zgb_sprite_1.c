@@ -393,12 +393,12 @@ const metasprite_t* const zgb_sprite_1_metasprites[5] = {
 
 #include "MetaSpriteInfo.h"
 const struct MetaSpriteInfo zgb_sprite_1 = {
-	32, //width
-	24, //height
-	56, //num tiles
-	zgb_sprite_1_tiles, //tiles
-	1, //num palettes
-	zgb_sprite_1_palettes, //CGB palette
-	5, //num sprites
-	zgb_sprite_1_metasprites, //metasprites
+	32, // width
+	24, // height
+	56, // num tiles
+	zgb_sprite_1_tiles, // tiles
+	1, // num palettes
+	zgb_sprite_1_palettes, // CGB palette
+	5, // num sprites
+	zgb_sprite_1_metasprites, // metasprites
 };
