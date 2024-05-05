@@ -219,22 +219,22 @@ static void export_c_zgb_metasprite_struct(PNG2AssetData* assetData, FILE* file)
 
 static void export_c_map_mode(PNG2AssetData* assetData, FILE* file) {
 
-    if(assetData->args->includeTileData) {
-
-        // ZGB export mode
-        if(assetData->args->use_structs)
-        {
-            export_c_zgb_palette_data(assetData, file);
-            export_c_zgb_tiles_struct(assetData, file, ZGB_TILES_MODE_NORMAL);
-        }
-    } else {
-        // For ZGB Structs with source_tileset enabled, the tile data points to the EXTERNAL source tileset
+    // ZGB export mode
+    if(assetData->args->use_structs)
+    {
+        // For ZGB Structs with source_tileset enabled, the primary tile data points to the EXTERNAL source tileset
         // so add the required externs used to reference them in the struct
-        if((assetData->args->use_structs) && (assetData->args->source_tilesets.size())) {
+        if( (assetData->args->has_source_tilesets)) {
             fprintf(file, "\n");
             fprintf(file, "#include \"TilesInfo.h\"\n");
             fprintf(file, "extern const void __bank_%s;\n", extract_name(assetData->args->source_tilesets[0]).c_str());
             fprintf(file, "extern const struct TilesInfo %s;\n", extract_name(assetData->args->source_tilesets[0]).c_str());
+        }
+
+        // Map's own tile data, if any present
+        if(assetData->args->includeTileData) {
+            export_c_zgb_palette_data(assetData, file);
+            export_c_zgb_tiles_struct(assetData, file, ZGB_TILES_MODE_NORMAL);
         }
     }
 
@@ -369,6 +369,7 @@ static void export_c_zgb_map_struct(PNG2AssetData* assetData, FILE* file) {
     //Export Map Info
     fprintf(file, "\n");
     fprintf(file, "#include \"MapInfo.h\"\n");
+
     if(assetData->args->includeTileData) {
         fprintf(file, "BANKREF_EXTERN(%s_tiles_info)\n", assetData->args->data_name.c_str());
     }
@@ -383,20 +384,21 @@ static void export_c_zgb_map_struct(PNG2AssetData* assetData, FILE* file) {
     else
         fprintf(file, "\t.attributes=0,"                 " // map attributes\n");
 
-    if(assetData->args->includeTileData) {
+    // For ZGB Structs with source_tileset enabled, the tile data points to the EXTERNAL source tileset
+    if (assetData->args->has_source_tilesets == true) {
+        fprintf(file, "\t.tiles_bank=BANK(%s),"     " // source tiles bank\n", extract_name(assetData->args->source_tilesets[0]).c_str());
+        fprintf(file, "\t.tiles=&%s,"               " // source tiles info\n", extract_name(assetData->args->source_tilesets[0]).c_str());
+
+        // If map tiles were found that were not in the source tileset (or entity tileset)
+        // then point ".extra_tiles" to them. Otherwise set it to null to indicate none found.
+        if (exportOpt.tiles_count > 0)
+            fprintf(file, "\t.extra_tiles=&%s_tiles_info,"  " // map tiles info (for map tiles not found in the source tileset) \n", assetData->args->data_name.c_str());
+        else
+            fprintf(file, "\t.extra_tiles=0,"               " // map tiles info (no map tiles were found that were not in the source tileset)\n");
+    }
+    else if(assetData->args->includeTileData) {
         fprintf(file, "\t.tiles_bank=BANK(%s_tiles_info), // tiles bank\n", assetData->args->data_name.c_str());
         fprintf(file, "\t.tiles=&%s_tiles_info,"        " // tiles info\n", assetData->args->data_name.c_str());
-    } else {
-        // For ZGB Structs with source_tileset enabled, the tile data points to the EXTERNAL source tileset
-        if (assetData->args->source_tilesets.size()) {
-            fprintf(file, "\t.tiles_bank=BANK(%s),"     " // source tiles bank\n", extract_name(assetData->args->source_tilesets[0]).c_str());
-            fprintf(file, "\t.tiles=&%s,"               " // source tiles info\n", extract_name(assetData->args->source_tilesets[0]).c_str());
-
-            if (exportOpt.color_count > 0)
-                fprintf(file, "\t.extra_tiles=&%s_tiles_info,"  " // map tiles info (for map tiles not found in the source tileset) \n", assetData->args->data_name.c_str());
-            else
-                fprintf(file, "\t.extra_tiles=0,"               " // map tiles info (no map tiles were found that were not in the source tileset)\n");
-        }
     }
     fprintf(file, "};\n");
 }

@@ -94,6 +94,10 @@ const uint8_t zgb_nums_map_4_tiles[320] = {
 	};
 
 
+#include "TilesInfo.h"
+extern const void __bank_nums8x8_9_to_0.png;
+extern const struct TilesInfo nums8x8_9_to_0.png;
+
 const uint8_t zgb_nums_map_4_tile_pals[20] = {
 	, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
@@ -123,6 +127,7 @@ const struct MapInfo zgb_nums_map_4 = {
 	.width=10, // width
 	.height=5, // height
 	.attributes=0, // map attributes
-	.tiles_bank=BANK(zgb_nums_map_4_tiles_info), // tiles bank
-	.tiles=&zgb_nums_map_4_tiles_info, // tiles info
+	.tiles_bank=BANK(nums8x8_9_to_0.png), // source tiles bank
+	.tiles=&nums8x8_9_to_0.png, // source tiles info
+	.extra_tiles=&zgb_nums_map_4_tiles_info, // map tiles info (for map tiles not found in the source tileset) 
 };
