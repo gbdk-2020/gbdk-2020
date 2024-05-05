@@ -98,7 +98,7 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
         printf("-spr8x8             use SPRITES_8x8\n");
         printf("-spr8x16            use SPRITES_8x16 (this is the default)\n");
         printf("-spr16x16msx        use SPRITES_16x16\n");
-        printf("-sprite_no_optimize keep empty sprite tiles, do not remote duplicate tiles\n");
+        printf("-sprite_no_optimize keep empty sprite tiles, do not remove duplicate tiles\n");
         printf("-b <bank>           bank (default: fixed bank)\n");
         printf("-keep_palette_order use png palette\n");
         printf("-repair_indexed_pal try to repair indexed tile palettes (implies \"-keep_palette_order\")\n");

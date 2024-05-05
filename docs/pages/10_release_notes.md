@@ -6,7 +6,32 @@ https://github.com/gbdk-2020/gbdk-2020/releases
 
 # GBDK-2020 Release Notes
 
-## GBDK-2020 4.2
+## GBDK-2020 4.3.0
+  ~2024/05
+  - Includes SDCC version ~4.4 (14635) with GBDK-2020 patches for Z80 and NES
+    - ([Patched SDCC Builds](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases) with support for Sega GG/SMS and the Nintendo NES are used. See the [github workflow](https://github.com/gbdk-2020/gbdk-2020-sdcc/tree/main/.github/workflows) for details
+  - Known Issues
+    - SDCC may fail on Windows when @ref windows_sdcc_non_c_drive_path_spaces "run from folder names with spaces on non-C drives".
+
+  - Library
+    - The following new functions replace old ones. The old functions will continue to work for now, but migration to new versions is strongly encouraged.
+    - NES
+    - SMS/GG
+    - Game Boy
+  - Toolchain / Utilities
+    - Added @ref utility_romusage "romusage"
+    - @ref lcc "lcc"
+    - @ref utility_png2asset "png2asset"
+      - Improved png2asset codebase (refactor, some cleanup)
+    - @ref makebin
+  - Examples
+    - Removed Analogue Pocket examples that were just duplicates of Game Boy ones
+  - Docs:
+    - Fixed search where some exact matches didn't return a result
+    - Various doc updates and improvements
+
+
+## GBDK-2020 4.2.0
   2023/08
   - Includes SDCC version ~4.3 with GBDK-2020 patches for Z80 and NES
     - ([Patched SDCC Builds](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases) with support for Sega GG/SMS and the Nintendo NES are used. See the [github workflow](https://github.com/gbdk-2020/gbdk-2020-sdcc/tree/main/.github/workflows) for details
