@@ -107,7 +107,7 @@ BANKREF(zgb_nums_map_8_tiles_info)
 const struct TilesInfo zgb_nums_map_8_tiles_info = {
 	.num_frames=30, // num tiles
 	.data=zgb_nums_map_8_tiles, // tiles
-	.num_pals=1, // num palettes
+	.num_pals=0, // num palettes
 	.pals=zgb_nums_map_8_palettes, // palettes
 	.color_data=zgb_nums_map_8_tile_pals, // tile palettes
 };

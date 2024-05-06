@@ -340,7 +340,7 @@ static void export_c_zgb_tiles_struct(PNG2AssetData* assetData, FILE* file, int 
 
     fprintf(file, "\t.num_frames=%d,"            " // num tiles\n",    (unsigned int)assetData->tiles.size() * (assetData->image.tile_h >> 3));
     fprintf(file, "\t.data=%s_tiles,"            " // tiles\n",        assetData->args->data_name.c_str());
-    fprintf(file, "\t.num_pals=%d,"              " // num palettes\n", (unsigned int)(assetData->image.total_color_count / assetData->image.colors_per_pal));
+    fprintf(file, "\t.num_pals=%d,"              " // num palettes\n", (unsigned int)(exportOpt.color_count / assetData->image.colors_per_pal));
     fprintf(file, "\t.pals=%s_palettes,"         " // palettes\n",     assetData->args->data_name.c_str());
 
     if(!assetData->args->use_map_attributes)
