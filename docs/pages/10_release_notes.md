@@ -8,33 +8,108 @@ https://github.com/gbdk-2020/gbdk-2020/releases
 
 ## GBDK-2020 4.3.0
   ~2024/05
-  - Includes SDCC version ~4.4 (14635) with GBDK-2020 patches for Z80 and NES
-    - ([Patched SDCC Builds](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases) with support for Sega GG/SMS and the Nintendo NES are used. See the [github workflow](https://github.com/gbdk-2020/gbdk-2020-sdcc/tree/main/.github/workflows) for details
+  - Includes SDCC version ~4.4 (~14635) with GBDK-2020 patches for Z80 and NES
+    - [Patched SDCC Builds](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases) with support for Sega GG/SMS and the Nintendo NES are used.
+    - See the [github workflow](https://github.com/gbdk-2020/gbdk-2020-sdcc/tree/main/.github/workflows) for details.
+  - Added native GBDK build for Apple ARM cpus
   - Known Issues
     - SDCC may fail on Windows when @ref windows_sdcc_non_c_drive_path_spaces "run from folder names with spaces on non-C drives".
-
   - Library
-    - The following new functions replace old ones. The old functions will continue to work for now, but migration to new versions is strongly encouraged.
+    - Added @ref get_system() which indicates system speed
+      - @ref SYSTEM_60HZ, @ref  SYSTEM_50HZ, @ref SYSTEM_BITS_DENDY, @ref SYSTEM_BITS_NTSC, @ref SYSTEM_BITS_PAL, @ref SYSTEM_NTSC
+    - Changed calling convention for @ref printf() and @ref sprintf() to be `REENTRANT`
+    - Changed @ref EMU_printf() to remove dependency on stdio.h added similar @ref EMU_fmtbuf()
+    - Fixed @ref emu_debug.h macros missing a trailing space
     - NES
+      - Added PAL support
+      - Fixed `_map_tile_offset` not being applied for @ref set_bkg_based_tiles()
+      - Fixed VRAM transfer buffer bug (ensure stack page cleared on reset)
+      - Fixed support for 4-player controllers using fourscore
+      - Updated libc to latest from sdcc 4.4.0
     - SMS/GG
+      - Added @ref SHOW_SPRITES, @ref HIDE_SPRITES (no hiding mid-frame)
+      - Added @ref DIV_REG emulation for the Z80 systems, may be useful for seeding RNG (also for MSX)
+      - Added @ref S_BANK tile attribute
+      - Added 6 button controller support in @ref joypad()
+      - Added @ref bcd.h implementation
+      - Added ability to move VDP SAT and name table to other locations by writing to VDP R2 and VDP R5.
+        - Set name table to 0x1800 and SAT to 0x1F00 by default to free up some sprite tile space
+        - Added R5_SAT_0x1F00 definition for the R5 value controlling SAT position in VRAM
+      - Added @ref __WRITE_VDP_REG_UNSAFE() VDP macro while interrupts are disabled (such as in ISR handlers)
+      - Added Game Gear registers and definitions
+        - `GG_STATE`: @ref GGSTATE_STT, @ref GGSTATE_NJAP, @ref GGSTATE_NNTS
+        - `GG_EXT_7BIT`
+        - `GG_EXT_CTL`: @ref GGEXT_NINIT
+        - `GG_SIO_SEND`
+        - `GG_SIO_RECV`
+        - `GG_SIO_CTL`: @ref SIOCTL_TXFL, @ref SIOCTL_RXRD, @ref SIOCTL_FRER, @ref SIOCTL_INT, @ref SIOCTL_TON, @ref SIOCTL_RON, @ref SIOCTL_BS0, @ref SIOCTL_BS1
+        - `GG_SOUND_PAN`: @ref SOUNDPAN_TN1R, @ref SOUNDPAN_TN2R, @ref SOUNDPAN_TN3R, @ref SOUNDPAN_NOSR, @ref SOUNDPAN_TN1L, @ref SOUNDPAN_TN2L, @ref SOUNDPAN_TN3L, @ref SOUNDPAN_NOSL
+      - Changed to allow nested locking of the shadow SAT copying on VBlank (also for MSX)
+      - Changed VDP to reduce chances of dangerous ISR nesting (see SDCC issue https://sourceforge.net/p/sdcc/bugs/3721/) (also for MSX)
+      - Optimized native tile data loading routines
+      - Fixed tilemap wrapping over the low bound of the VDP name table
+      - Fixed @ref waitpad() (also for MSX)
+      - Fixed @ref scroll_sprite()
+      - Fixed missing sms.h in sms/metasprites.h
+      - Fixed return result of "`set_tile x, y`" family functions (also for MSX)
     - Game Boy
+      - Added HBlank copy routines: @ref hblank_copy_vram(), @ref hblank_cpy_vram(), @ref hblank_copy()
+      - Added @ref SCF_START, @ref SCF_SOURCE, @ref SCF_SPEED aliases for SIO (Serial/Link port) control register control constants
+      - Added clamping and changed to new SDCC calling convention for @ref set_bkg_tile_xy(), @ref set_win_tile_xy()
+      - Added @ref S_BANK tile attribute
+      - Fixed 8-bit signed modulus
+    - MegaDuck
+      - Fixed ROM bank switching on hardware when trying to enable or switch SRAM banks
   - Toolchain / Utilities
-    - Added @ref utility_romusage "romusage"
+    - Added @ref utility_romusage "romusage" utility for viewing free/used ROM and RAM in compiled programs
     - @ref lcc "lcc"
+      - Changed `-debug` to add the following flags: `-Wa-l -Wl-u -Wl-w`
     - @ref utility_png2asset "png2asset"
-      - Improved png2asset codebase (refactor, some cleanup)
+      - Added `-sprite_no_optimize`: sprite conversion will keep duplicate and empty sprite tiles
+      - Added `-entity_tileset`: mark entity locations on maps during conversion with an entity tileset
+      - Added `-rel_paths`: paths to tilesets are relative to the input file path
+      - Changed `-keep_palette_order` to round up to at least one palette
+      - Changed `-use_structs` + `-source_tileset` behavior
+        - Point tile data to external source tileset
+        - Add `extra_tiles` struct member pointing to map tiles not found in source tileset (null if none found)
+      - Changed `-use_structs` to use designated initializers
+      - Fixed garbage in unused colors of palettes (set unused colors to black)
+      - Fixed `-bin` mode not honoring `-tiles_only` and `-maps_only`
+      - Fixed segfault and wrong data size for `-pack_mode sgb` + `-bin`
+      - Fixed missing Palette ID in attributes for multi-palette SMS/GG backgrounds
+      - Fixed not taking `-bpp` into account when converting metasprites and emitting `<symbol>_tile_pals[]`
+      - Fixed crash when filename for -o and -c not specified
+      - Fixed some attributes missing for metasprite export
     - @ref makebin
+      - Fixed crash when using `-yS` (`-Wm-yS` with lcc)
+    - @ref bankpack
+      - Added `-banktype=` to allow forcing a bank type to CODE or LIT before packing starts
+      - Changed minimum bank for auto packing from `1` to `0` (required for the NES)
   - Examples
+    - Added HBlank copy example for GB/AP/Duck
+    - Added Reading SNES joypads on NES example
+    - Added Game Boy Printer example
+    - Added Joypad testing example
+    - Added Display System example to demonstrate @ref get_system()
+    - Added `GBDK_DEBUG` Makefile environment var for turning on/off debug flags
+    - Changed wav sample: play waveforms on the SMS/GG PSG
+    - Changed Random Number example: only call @ref initrand() once
+    - Changed Large Map: support modified initial camera position
+    - Changed all examples: use @ref BANKED macro instead of `__banked`
+      - Also change some to use @ref CURRENT_BANK instead of `_current_bank`
+    - Fixes for SMS/GG: Fonts, Large Map, gbdecompress
+    - Fixed Simple Physics: joypad input caching was wrong
     - Removed Analogue Pocket examples that were just duplicates of Game Boy ones
   - Docs:
     - Fixed search where some exact matches didn't return a result
-    - Various doc updates and improvements
+    - Various updates and improvements
+    - Added more historical release notes
 
 
 ## GBDK-2020 4.2.0
   2023/08
   - Includes SDCC version ~4.3 with GBDK-2020 patches for Z80 and NES
-    - ([Patched SDCC Builds](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases) with support for Sega GG/SMS and the Nintendo NES are used. See the [github workflow](https://github.com/gbdk-2020/gbdk-2020-sdcc/tree/main/.github/workflows) for details
+    - [Patched SDCC Builds](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases) with support for Sega GG/SMS and the Nintendo NES are used. See the [github workflow](https://github.com/gbdk-2020/gbdk-2020-sdcc/tree/main/.github/workflows) for details
   - Known Issues
     - SDCC may fail on Windows when @ref windows_sdcc_non_c_drive_path_spaces "run from folder names with spaces on non-C drives".
   - Library

@@ -415,6 +415,8 @@ uint8_t get_mode(void) PRESERVES_REGS(b, c, d, e, h, l);
 
 /** Returns the system gbdk is running on.
 
+    @see SYSTEM_50HZ, SYSTEM_60HZ, SYSTEM_BITS_DENDY, SYSTEM_BITS_NTSC, SYSTEM_BITS_PAL, SYSTEM_NTSC
+SYSTEM_PAL
 */
 inline uint8_t get_system(void) {
     return SYSTEM_60HZ;
