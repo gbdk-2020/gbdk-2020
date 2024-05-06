@@ -4,13 +4,11 @@
 #include <gbdk/metasprites.h>
 #include <stdint.h>
 #include "common.h"
-#include "PlayerCharacterLeft.h"
-#include "PlayerCharacterRight.h"
+#include "PlayerCharacterSprites.h"
 #include "camera.h"
 #include "level.h"
 
-BANKREF_EXTERN(PlayerCharacterLeft)
-BANKREF_EXTERN(PlayerCharacterRight)
+BANKREF_EXTERN(PlayerCharacterSprites)
 
 
 #define GRAVTY 45
@@ -49,8 +47,8 @@ int16_t playerXVelocity, playerYVelocity;
     #define set_player_sprite_data set_sprite_native_data
 
 #else
-    #define PLAYER_PALETTES_BANK BANK(PlayerCharacterLeft)
-    #define PLAYER_PALETTES PlayerCharacterLeft_palettes
+    #define PLAYER_PALETTES_BANK BANK(PlayerCharacterSprites)
+    #define PLAYER_PALETTES PlayerCharacterSprites_palettes
     #define set_player_sprite_data set_sprite_data
 #endif
 
@@ -75,17 +73,11 @@ const palette_color_t PlayerPalettesGGSMS[16] = {
 void UpdatePlayerVRAMTiles(void) NONBANKED{
     uint8_t _previous_bank = CURRENT_BANK;
 
-    if(facingRight){
 
-        SWITCH_ROM(BANK(PlayerCharacterRight));
+    SWITCH_ROM(BANK(PlayerCharacterSprites));
+   
+    set_player_sprite_data (0,PlayerCharacterSprites_TILE_COUNT,PlayerCharacterSprites_tiles);
 
-        set_player_sprite_data (0,PlayerCharacterRight_TILE_COUNT,PlayerCharacterRight_tiles);
-    } else {
-
-        SWITCH_ROM(BANK(PlayerCharacterLeft));
-
-        set_player_sprite_data (0,PlayerCharacterLeft_TILE_COUNT,PlayerCharacterLeft_tiles);
-    }
     SWITCH_ROM(_previous_bank);
 }
 
@@ -135,19 +127,11 @@ void DrawPlayer(uint16_t playerRealX, uint16_t playerRealY, uint8_t frame) NONBA
     uint16_t playerCameraX = (playerRealX-camera_x)+DEVICE_SPRITE_PX_OFFSET_X;
     uint16_t playerCameraY= (playerRealY)+DEVICE_SPRITE_PX_OFFSET_Y;
 
-    // Flip horizontally, if we aren't facing right
-    
-    if(facingRight){
+    SWITCH_ROM(BANK(PlayerCharacterSprites));
 
-        SWITCH_ROM(BANK(PlayerCharacterRight));
-        move_metasprite_ex(PlayerCharacterRight_metasprites[frame],0,baseProp,0,playerCameraX,playerCameraY);
+    move_metasprite_ex(PlayerCharacterSprites_metasprites[frame],0,baseProp,0,playerCameraX,playerCameraY);
 
-   } else {
-
-        SWITCH_ROM(BANK(PlayerCharacterLeft));
-        move_metasprite_ex(PlayerCharacterLeft_metasprites[frame],0,baseProp,0,playerCameraX,playerCameraY);
-   }
-
+ 
     SWITCH_ROM(_previous_bank);
 }
 
@@ -177,13 +161,16 @@ void UpdatePlayer(void) BANKED{
 
             // We are turning, IF we didn't just finish changing direction.
             if(playerXVelocity<0)turning=TRUE;
+            else{
+                
+                facingRight=TRUE;
+            }
         }else{
             playerXVelocity=moveSpeed;
 
             // Switch our vram data for the player
             if(!facingRight){
                 facingRight=TRUE;
-                UpdatePlayerVRAMTiles();
             }
             
         }
@@ -197,13 +184,18 @@ void UpdatePlayer(void) BANKED{
 
             // We are turning, IF we didn't just finish changing direction.
             if(playerXVelocity>0)turning=TRUE;
+             else{
+                
+                facingRight=FALSE;
+                
+            }
         }else{
             playerXVelocity=-moveSpeed;
 
             // Switch our vram data for the player
             if(facingRight){
                 facingRight=FALSE;
-                UpdatePlayerVRAMTiles();
+                
             }
             
         }
@@ -354,8 +346,9 @@ void UpdatePlayer(void) BANKED{
     //   Rising         = Frame 3
     //   Falling        = Frame 4
     uint8_t frame = grounded ? (turning ? 5 :((playerXVelocity>>4)==0 ? 0 : threeFrameCounterValue)) : (playerYVelocity<0 ? 3 : 4);
-
-    DrawPlayer(playerRealX,playerRealY,frame);
+    uint8_t directionOffset = facingRight ? 0 : 6;
+    
+    DrawPlayer(playerRealX,playerRealY,frame+directionOffset);
 
     // Increase the level if the player is at the end
     if(playerRealX>currentLevelWidth-32){

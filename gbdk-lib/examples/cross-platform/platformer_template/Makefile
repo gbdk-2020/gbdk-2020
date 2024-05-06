@@ -78,8 +78,7 @@ PNG2ASSET_SPRITE_SETTINGS_pocket=
 
 
 png2asset:
-	$(PNG2ASSET) res/graphics/player-character-$(SPRITES)-left.png -c $(GENDIR)/PlayerCharacterLeft.c -px 12 -py 6 -spr8x16 -keep_palette_order -sw 24 -sh 32 $(PNG2ASSET_SPRITE_SETTINGS_$(EXT)) -b 255
-	$(PNG2ASSET) res/graphics/player-character-$(SPRITES)-right.png -c $(GENDIR)/PlayerCharacterRight.c -px 12 -py 6 -spr8x16 -keep_palette_order -sw 24 -sh 32 $(PNG2ASSET_SPRITE_SETTINGS_$(EXT)) -b 255
+	$(PNG2ASSET) res/graphics/player-character-$(SPRITES)-sprites.png -c $(GENDIR)/PlayerCharacterSprites.c -px 12 -py 6 -spr8x16 -keep_palette_order -sw 24 -sh 32 $(PNG2ASSET_SPRITE_SETTINGS_$(EXT)) -b 255
 	$(PNG2ASSET) res/graphics/world1-tileset.png -c $(GENDIR)/World1Tileset.c -keep_palette_order -noflip -map -keep_duplicate_tiles $(PNG2ASSET_BKG_SETTINGS_$(EXT)) -b 255
 	$(PNG2ASSET) res/graphics/world2-tileset.png -c $(GENDIR)/World2Tileset.c -keep_palette_order -noflip -map -keep_duplicate_tiles $(PNG2ASSET_BKG_SETTINGS_$(EXT)) -b 255
 	$(PNG2ASSET) res/graphics/world1-area1.png -c $(GENDIR)/World1Area1.c -noflip -map -maps_only -source_tileset res/graphics/world1-tileset.png $(PNG2ASSET_BKG_SETTINGS_$(EXT))  -b 255
