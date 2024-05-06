@@ -337,3 +337,13 @@ Historical credits and info:
 ### Additional Details
 For technical details about the conversion process and rendering, see:
 https://github.com/bbbbbr/png2hicolorgb
+
+
+@anchor utility_romusage
+## romusage
+A utility for estimating usage of Game Boy and SMS/GG ROMs from .noi and .map files, binary ROMs and more.
+
+- For detailed settings see @ref romusage-settings
+
+Example: `romusage myprogram.noi -g`
+

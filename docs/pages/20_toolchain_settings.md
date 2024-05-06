@@ -3,47 +3,48 @@
 # lcc settings
 ```
 ./lcc [ option | file ]...
-	except for -l, options are processed left-to-right before files
-	unrecognized options are taken to be linker options
--A	warn about nonANSI usage; 2nd -A warns more
--b	emit expression-level profiling code; see bprint(1)
--Bdir/	use the compiler named `dir/rcc'
--c	compile only
--dn	set switch statement density to `n'
--debug	Turns on --debug for compiler, -y (.cdb) and -j (.noi) for linker
--Dname -Dname=def	define the preprocessor symbol `name'
--E	only run preprocessor on named .c and .h files files -> stdout
---save-preproc  Use with -E for output to *.i files instead of stdout
--g	produce symbol table information for debuggers
--help or -?	print this message
--Idir	add `dir' to the beginning of the list of #include directories
--K don't run ihxcheck test on linker ihx output
--lx	search library `x'
--m	select port and platform: "-m[port]:[plat]" ports:sm83,z80,mos6502 plats:ap,duck,gb,sms,gg,nes
--N	do not search the standard directories for #include files
--n	emit code to check for dereferencing zero pointers
--no-crt do not auto-include the gbdk crt0.o runtime in linker list
--no-libs do not auto-include the gbdk libs in linker list
--O	is ignored
--o file	leave the output in `file'
--P	print ANSI-style declarations for globals
--p -pg	emit profiling code; see prof(1) and gprof(1)
--S	compile to assembly language
--autobank auto-assign banks set to 255 (bankpack)
--static	specify static libraries (default is dynamic)
--t -tname	emit function tracing calls to printf or to `name'
--target name	is ignored
--tempdir=dir	place temporary files in `dir/'; default=/tmp
--Uname	undefine the preprocessor symbol `name'
--v	show commands as they are executed; 2nd -v suppresses execution
--w	suppress warnings
--Woarg	specify system-specific `arg'
--W[pfablim]arg	pass `arg' to the preprocessor, compiler, assembler, bankpack, linker, ihxcheck, or makebin
+    except for -l, options are processed left-to-right before files
+    unrecognized options are taken to be linker options
+-A             warn about nonANSI usage; 2nd -A warns more
+-b             emit expression-level profiling code; see bprint(1)
+-Bdir/         use the compiler named `dir/rcc'
+-c             compile only
+-dn            set switch statement density to `n'
+-debug         Turns on --debug for compiler, -y (.cdb), -j (.noi), -w (wide .map format) for linker
+                       -Wa-l (assembler .lst), -Wl-u (.lst -> .rst address update)
+-Dname=def     define the preprocessor symbol `name'
+-E             only run preprocessor on named .c and .h files files -> stdout
+--save-preproc Use with -E for output to *.i files instead of stdout
+-g             produce symbol table information for debuggers
+-help or -?    print this message
+-Idir          add `dir' to the beginning of the list of #include directories
+-K             don't run ihxcheck test on linker ihx output
+-lx            search library `x'
+-m             select port and platform: "-m[port]:[plat]" ports:sm83,z80,mos6502 plats:ap,duck,gb,sms,gg,nes
+-N             do not search the standard directories for #include files
+-n             emit code to check for dereferencing zero pointers
+-no-crt        do not auto-include the gbdk crt0.o runtime in linker list
+-no-libs       do not auto-include the gbdk libs in linker list
+-O             is ignored
+-o file        leave the output in `file'
+-P             print ANSI-style declarations for globals
+-p -pg         emit profiling code; see prof(1) and gprof(1)
+-S             compile to assembly language
+-autobank      auto-assign banks set to 255 (bankpack)
+-static        specify static libraries (default is dynamic)
+-t -tname      emit function tracing calls to printf or to `name'
+-target name   is ignored
+-tempdir=dir   place temporary files in `dir/'; default=/tmp
+-Uname         undefine the preprocessor symbol `name'
+-v             show commands as they are executed; 2nd -v suppresses execution
+-w             suppress warnings
+-Woarg         specify system-specific `arg'
+-W[pfablim]arg pass `arg' to the preprocessor, compiler, assembler, bankpack, linker, ihxcheck, or makebin
 ```
 @anchor sdcc-settings
 # sdcc settings
 ```
-SDCC : z80/sm83/mos6502/mos65c02 TD- 4.3.2 #14228 (Linux)
+SDCC : z80/sm83/mos6502/mos65c02 TD- 4.4.0 #14620 (Linux)
 published under GNU General Public License (GPL)
 Usage : sdcc [options] filename
 Options :-
@@ -61,9 +62,10 @@ General options:
   -M                        Preprocessor option
   -W                        Pass through options to the pre-processor (p), assembler (a) or linker (l)
       --include             Pre-include a file during pre-processing
+  -E  --preprocessonly      Preprocess only, do not compile
+      --syntax-only         Parse and verify syntax only, do not compile
   -S                        Compile only; do not assemble or link
   -c  --compile-only        Compile and assemble, but do not link
-  -E  --preprocessonly      Preprocess only, do not compile
       --c1mode              Act in c1 mode.  The standard input is preprocessed code, the output is assembly code.
   -o                        Place the output into the given path resp. file
   -x                        Optional file type override (c, c-header or none), valid until the next -x
@@ -77,7 +79,7 @@ General options:
       --Werror              Treat the warnings as errors
       --debug               Enable debugging symbol output
       --cyclomatic          Display complexity of compiled functions
-      --std                 Determine the language standard (c89, c99, c11, c2x, sdcc89 etc.)
+      --std                 Determine the language standard (c89, c99, c11, c23, sdcc89 etc.)
       --fdollars-in-identifiers  Permit '$' as an identifier character
       --fsigned-char        Make "char" signed by default
       --use-non-free        Search / include non-free licensed libraries and header files
@@ -179,11 +181,13 @@ Special options for the sm83 port:
 Special options for the mos6502 port:
       --model-small         8-bit address space for data
       --model-large         16-bit address space for data (default)
+      --no-zp-spill         place register spills in 16-bit address space
       --no-std-crt0         Do not link default crt0.rel
 
 Special options for the mos65c02 port:
       --model-small         8-bit address space for data
       --model-large         16-bit address space for data (default)
+      --no-zp-spill         place register spills in 16-bit address space
       --no-std-crt0         Do not link default crt0.rel
 ```
 @anchor sdasgb-settings
@@ -235,7 +239,7 @@ Debugging:
 # sdasz80 settings
 ```
 
-sdas Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180 / ZX-Next / eZ80)
+sdas Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180 / ZX-Next / eZ80 / R800)
 
 
 Copyright (C) 2012  Alan R. Baldwin
@@ -329,27 +333,29 @@ Use: Read .o files and auto-assign areas with bank=255.
      Typically called by Lcc compiler driver before linker.
 
 Options
--h            : Show this help
--lkin=<file>  : Load object files specified in linker file <file>
--lkout=<file> : Write list of object files out to linker file <file>
--yt<mbctype>  : Set MBC type per ROM byte 149 in Decimal or Hex (0xNN)
-               ([see pandocs](https://gbdev.io/pandocs/The_Cartridge_Header.html#0147---cartridge-type))
--mbc=N        : Similar to -yt, but sets MBC type directly to N instead
-               of by intepreting ROM byte 149
-               mbc1 will exclude banks {0x20,0x40,0x60} max=127, 
-               mbc2 max=15, mbc3 max=127, mbc5 max=255 (not 511!) 
--min=N        : Min assigned ROM bank is N (default 1)
--max=N        : Max assigned ROM bank is N, error if exceeded
--ext=<.ext>   : Write files out with <.ext> instead of source extension
--path=<path>  : Write files out to <path> (<path> *MUST* already exist)
--sym=<prefix> : Add symbols starting with <prefix> to match + update list.
-               Default entry is "___bank_" (see below)
--cartsize     : Print min required cart size as "autocartsize:<NNN>"
--plat=<plat>  : Select platform specific behavior (default:gb) (gb,sms)
--random       : Distribute banks randomly for testing (honors -min/-max)
--reserve=<b:n>: Reserve N bytes (hex) in bank B (decimal)
-                Ex: -reserve=105:30F reserves 0x30F bytes in bank 105
--v            : Verbose output, show assignments
+-h             : Show this help
+-lkin=<file>   : Load object files specified in linker file <file>
+-lkout=<file>  : Write list of object files out to linker file <file>
+-yt<mbctype>   : Set MBC type per ROM byte 149 in Decimal or Hex (0xNN)
+                ([see pandocs](https://gbdev.io/pandocs/The_Cartridge_Header.html#0147---cartridge-type))
+-mbc=N         : Similar to -yt, but sets MBC type directly to N instead
+                of by intepreting ROM byte 149
+                mbc1 will exclude banks {0x20,0x40,0x60} max=127, 
+                mbc2 max=15, mbc3 max=127, mbc5 max=255 (not 511!) 
+-min=N         : Min assigned ROM bank is N (default 1)
+-max=N         : Max assigned ROM bank is N, error if exceeded
+-ext=<.ext>    : Write files out with <.ext> instead of source extension
+-path=<path>   : Write files out to <path> (<path> *MUST* already exist)
+-sym=<prefix>  : Add symbols starting with <prefix> to match + update list
+                 Default entry is "___bank_" (see below)
+-cartsize      : Print min required cart size as "autocartsize:<NNN>"
+-plat=<plat>   : Select platform specific behavior (default:gb) (gb,sms)
+-random        : Distribute banks randomly for testing (honors -min/-max)
+-reserve=<b:n> : Reserve N bytes (hex) in bank B (decimal)
+                 Ex: -reserve=105:30F reserves 0x30F bytes in bank 105
+-banktype=<b:t>: Set bank B (decimal) to use type T (CODE or LIT). For sms/gg
+                 Ex: -banktype=2:LIT sets bank 2 to type LIT
+-v             : Verbose output, show assignments
 
 Example: "bankpack -ext=.rel -path=some/newpath/ file1.o file2.o"
 Unless -ext or -path specify otherwise, input files are overwritten.
@@ -563,8 +569,8 @@ The rle compression is Amiga IFF style
 # png2asset settings
 ```
 usage: png2asset    <file>.png [options]
--o                  ouput file (default: <png file>.c)
--c                  deprecated, same as -o
+-o <filename>       ouput file (if not used then default is <png file>.c)
+-c <filename>       deprecated, same as -o
 -sw <width>         metasprites width size (default: png width)
 -sh <height>        metasprites height size (default: png height)
 -sp <props>         change default for sprite OAM property bytes (in hex) (default: 0x00)
@@ -575,6 +581,7 @@ usage: png2asset    <file>.png [options]
 -spr8x8             use SPRITES_8x8
 -spr8x16            use SPRITES_8x16 (this is the default)
 -spr16x16msx        use SPRITES_16x16
+-sprite_no_optimize keep empty sprite tiles, do not remove duplicate tiles
 -b <bank>           bank (default: fixed bank)
 -keep_palette_order use png palette
 -repair_indexed_pal try to repair indexed tile palettes (implies "-keep_palette_order")
@@ -593,10 +600,12 @@ usage: png2asset    <file>.png [options]
 -maps_only          export map tilemap only
 -metasprites_only   export metasprite descriptors only
 -source_tileset     use source tileset (image with common tiles)
+-entity_tileset     (maps only) mark matching tiles counting from 255 down, entity patterns not exported
 -keep_duplicate_tiles   do not remove duplicate tiles (default: not enabled)
 -no_palettes        do not export palette data
 -bin                export to binary format
 -transposed         export transposed (column-by-column instead of row-by-row)
+-rel_paths          paths to tilesets are relative to the input file path
 decoder error empty input buffer given to decoder. Maybe caused by non-existing file?
 ```
 @anchor png2hicolorgb-settings

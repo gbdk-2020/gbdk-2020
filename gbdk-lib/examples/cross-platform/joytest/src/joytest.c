@@ -37,7 +37,7 @@ void reset_object_pos(void) {
         set_sprite_tile(i, i);
         move_sprite(i,
                     DEVICE_SPRITE_PX_OFFSET_X + (i << 3) + ((DEVICE_SCREEN_PX_WIDTH - (4 * 8)) >> 1), 
-                    (DEVICE_SPRITE_PX_OFFSET_Y + 48u) + ((DEVICE_SCREEN_PX_HEIGHT - 8) >> 1)
+                    (uint8_t)(DEVICE_SPRITE_PX_OFFSET_Y + 48u) + ((DEVICE_SCREEN_PX_HEIGHT - 8) >> 1)
                    );
     }
 }

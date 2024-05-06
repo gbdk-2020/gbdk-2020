@@ -10,21 +10,21 @@
 #define __BYTES extern UBYTE
 #define __BYTE_REG extern volatile UBYTE
 
-static volatile SFR AT(0x00) GG_STATE;
+static volatile SFR AT(0x00) GG_STATE;  /**< Game Gear status register for Start/Pause, Japan vs Overseas mode (NJAP), NTSC/PAL mode */
 
 #define GGSTATE_STT    0b10000000
 #define GGSTATE_NJAP   0b01000000
 #define GGSTATE_NNTS   0b00100000
 
-static volatile SFR AT(0x01) GG_EXT_7BIT;
+static volatile SFR AT(0x01) GG_EXT_7BIT;  /**< Game Gear Serial port register used to read/write data when the EXT connector used as 7-bit input/output port */
 
-static volatile SFR AT(0x02) GG_EXT_CTL;
+static volatile SFR AT(0x02) GG_EXT_CTL;  /**< Game Gear Serial port register for configuring external NMI */
 
 #define GGEXT_NINIT    0b10000000
 
-static volatile SFR AT(0x03) GG_SIO_SEND;
-static volatile SFR AT(0x04) GG_SIO_RECV;
-static volatile SFR AT(0x05) GG_SIO_CTL;
+static volatile SFR AT(0x03) GG_SIO_SEND;  /**< Game Gear Serial Data Send register */
+static volatile SFR AT(0x04) GG_SIO_RECV;  /**< Game Gear Serial Data Receive register */
+static volatile SFR AT(0x05) GG_SIO_CTL;   /**< Game Gear Serial Port control register */
 
 #define SIOCTL_TXFL    0b00000001
 #define SIOCTL_RXRD    0b00000010
@@ -35,7 +35,7 @@ static volatile SFR AT(0x05) GG_SIO_CTL;
 #define SIOCTL_BS0     0b01000000
 #define SIOCTL_BS1     0b10000000
 
-static volatile SFR AT(0x06) GG_SOUND_PAN;
+static volatile SFR AT(0x06) GG_SOUND_PAN; /**< Game Gear Sound panning (left / right) register */
 
 #define SOUNDPAN_TN1R  0b00000001
 #define SOUNDPAN_TN2R  0b00000010
