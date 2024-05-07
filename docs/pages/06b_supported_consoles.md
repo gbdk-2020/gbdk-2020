@@ -368,7 +368,7 @@ This entire section is written as a guide on porting GB projects to NES. If you 
 
 ### Mapper
 
-Currently the NES support in GBDK uses UNROM-512 (Mapper30) with single-screen mirroring (the mapper2 subset of Mapper30).
+Currently the NES support in GBDK uses UNROM-512 (Mapper30) with single-screen mirroring.
 
 ### Buffered mode vs direct mode
 
