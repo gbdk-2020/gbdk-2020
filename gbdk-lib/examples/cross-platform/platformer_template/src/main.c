@@ -81,7 +81,9 @@ void main(void)
         joypadPrevious = joypadCurrent;
         joypadCurrent = joypad();
 
-        UpdatePlayer();
+        uint8_t spritesUsed = UpdatePlayer();
+        hide_sprites_range(spritesUsed,MAX_HARDWARE_SPRITES);
+        
         UpdateCamera();
     }
 }

@@ -119,7 +119,9 @@ void SetupPlayer(void) BANKED{
 
 }
 
-void DrawPlayer(uint16_t playerRealX, uint16_t playerRealY, uint8_t frame) NONBANKED{
+uint8_t DrawPlayer(uint16_t playerRealX, uint16_t playerRealY, uint8_t frame) NONBANKED{
+
+    uint8_t spritesUsed=0;
     uint8_t _previous_bank = CURRENT_BANK;
 
 
@@ -129,13 +131,14 @@ void DrawPlayer(uint16_t playerRealX, uint16_t playerRealY, uint8_t frame) NONBA
 
     SWITCH_ROM(BANK(PlayerCharacterSprites));
 
-    move_metasprite_ex(PlayerCharacterSprites_metasprites[frame],0,baseProp,0,playerCameraX,playerCameraY);
-
+    spritesUsed = move_metasprite_ex(PlayerCharacterSprites_metasprites[frame],0,baseProp,0,playerCameraX,playerCameraY);
  
     SWITCH_ROM(_previous_bank);
+
+    return spritesUsed;
 }
 
-void UpdatePlayer(void) BANKED{
+uint8_t UpdatePlayer(void) BANKED{
     
     // Use the run velocity if the B button is held
     // Animate the threeFrameCounter faster when B is held
@@ -227,7 +230,7 @@ void UpdatePlayer(void) BANKED{
 
         // Prevent getting stuck in the ground
         while(IsTileSolid(playerRealX,playerRealY+PLAYER_CHARACTER_BOUNDING_BOX_HEIGHT-1)){
-            playerY--;
+            playerY-=16;
             playerRealY = playerY>>4;
         }
     }
@@ -279,7 +282,7 @@ void UpdatePlayer(void) BANKED{
         // To prevent getting stuck, move the player downward also and loop until there's no overlap
         while(IsTileSolid(playerRealX+(PLAYER_CHARACTER_BOUNDING_BOX_HALF_WIDTH-2),playerRealY)||IsTileSolid(playerRealX-(PLAYER_CHARACTER_BOUNDING_BOX_HALF_WIDTH-2),playerRealY)){
             playerYVelocity=0;
-            playerY++;
+            playerY+=16;
             playerRealY = playerY>>4;
         }
 
@@ -348,10 +351,12 @@ void UpdatePlayer(void) BANKED{
     uint8_t frame = grounded ? (turning ? 5 :((playerXVelocity>>4)==0 ? 0 : threeFrameCounterValue)) : (playerYVelocity<0 ? 3 : 4);
     uint8_t directionOffset = facingRight ? 0 : 6;
     
-    DrawPlayer(playerRealX,playerRealY,frame+directionOffset);
+    uint8_t spritesUsed = DrawPlayer(playerRealX,playerRealY,frame+directionOffset);
 
     // Increase the level if the player is at the end
     if(playerRealX>currentLevelWidth-32){
         nextLevel++;
     }
+
+    return spritesUsed;
 }

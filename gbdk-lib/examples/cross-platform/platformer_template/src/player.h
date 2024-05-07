@@ -6,6 +6,6 @@ extern uint16_t playerX, playerY;
 extern int16_t playerXVelocity, playerYVelocity;
 
 void SetupPlayer(void) BANKED;
-void UpdatePlayer(void) BANKED;
+uint8_t UpdatePlayer(void) BANKED;
 
 #endif
