@@ -177,9 +177,9 @@ static void export_c_metasprite_mode(PNG2AssetData* assetData, FILE* file) {
                 (*it2).offset_x,
                 (*it2).offset_idx,
                 pal_idx,
-    (dmg_pal)  ? " | S_PALETTE" : "",
-                (flip_x)   ? " | S_FLIPX" : "",
-                (flip_y)   ? " | S_FLIPY" : "",
+                (dmg_pal)  ? " | S_PALETTE"  : "",
+                (flip_x)   ? " | S_FLIPX"    : "",
+                (flip_y)   ? " | S_FLIPY"    : "",
                 (priority) ? " | S_PRIORITY" : "");
         }
         fprintf(file, "\tMETASPR_TERM\n");
@@ -205,14 +205,14 @@ static void export_c_zgb_metasprite_struct(PNG2AssetData* assetData, FILE* file)
     fprintf(file, "\n");
     fprintf(file, "#include \"MetaSpriteInfo.h\"\n");
     fprintf(file, "const struct MetaSpriteInfo %s = {\n",   assetData->args->data_name.c_str());
-    fprintf(file, "\t%d,"             " // width\n",        (unsigned int)assetData->args->pivot.width);
-    fprintf(file, "\t%d,"             " // height\n",       (unsigned int)assetData->args->pivot.height);
-    fprintf(file, "\t%d,"             " // num tiles\n",    (unsigned int)assetData->tiles.size() * (assetData->image.tile_h >> 3));
-    fprintf(file, "\t%s_tiles,"       " // tiles\n",        assetData->args->data_name.c_str());
-    fprintf(file, "\t%d,"             " // num palettes\n", (unsigned int)(assetData->image.total_color_count / assetData->image.colors_per_pal));
-    fprintf(file, "\t%s_palettes,"    " // CGB palette\n",  assetData->args->data_name.c_str());
-    fprintf(file, "\t%d,"             " // num sprites\n",  (unsigned int)assetData->sprites.size());
-    fprintf(file, "\t%s_metasprites," " // metasprites\n",  assetData->args->data_name.c_str());
+    fprintf(file, "\t.width=%d,"                   " // width\n",        (unsigned int)assetData->args->pivot.width);
+    fprintf(file, "\t.height=%d,"                  " // height\n",       (unsigned int)assetData->args->pivot.height);
+    fprintf(file, "\t.num_tiles=%d,"               " // num tiles\n",    (unsigned int)assetData->tiles.size() * (assetData->image.tile_h >> 3));
+    fprintf(file, "\t.data=%s_tiles,"              " // tiles\n",        assetData->args->data_name.c_str());
+    fprintf(file, "\t.num_palettes=%d,"            " // num palettes\n", (unsigned int)(assetData->image.total_color_count / assetData->image.colors_per_pal));
+    fprintf(file, "\t.palettes=%s_palettes,"       " // CGB palette\n",  assetData->args->data_name.c_str());
+    fprintf(file, "\t.num_sprites=%d,"             " // num sprites\n",  (unsigned int)assetData->sprites.size());
+    fprintf(file, "\t.metasprites=%s_metasprites," " // metasprites\n",  assetData->args->data_name.c_str());
     fprintf(file, "};\n");
 }
 
@@ -227,7 +227,7 @@ static void export_c_map_mode(PNG2AssetData* assetData, FILE* file) {
         if( (assetData->args->has_source_tilesets)) {
             fprintf(file, "\n");
             fprintf(file, "#include \"TilesInfo.h\"\n");
-            fprintf(file, "extern const void __bank_%s;\n", extract_name(assetData->args->source_tilesets[0]).c_str());
+            fprintf(file, "BANKREF_EXTERN(%s)\n", extract_name(assetData->args->source_tilesets[0]).c_str());
             fprintf(file, "extern const struct TilesInfo %s;\n", extract_name(assetData->args->source_tilesets[0]).c_str());
         }
 
