@@ -17,7 +17,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
   - Library
     - Added @ref get_system() which indicates system speed
       - @ref SYSTEM_60HZ, @ref  SYSTEM_50HZ, @ref SYSTEM_BITS_DENDY, @ref SYSTEM_BITS_NTSC, @ref SYSTEM_BITS_PAL, @ref SYSTEM_NTSC
-    - Changed calling convention for @ref printf() and @ref sprintf() to be `REENTRANT`
+    - Changed to new calling convention for @ref printf(), @ref sprintf(), @ref abs()
     - Changed @ref EMU_printf() to remove dependency on stdio.h added similar @ref EMU_fmtbuf()
     - Fixed @ref emu_debug.h macros missing a trailing space
     - NES
@@ -91,6 +91,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
     - Added Game Boy Printer example
     - Added Joypad testing example
     - Added Display System example to demonstrate @ref get_system()
+    - Added Platformer example
     - Added `GBDK_DEBUG` Makefile environment var for turning on/off debug flags
     - Changed wav sample: play waveforms on the SMS/GG PSG
     - Changed Random Number example: only call @ref initrand() once
