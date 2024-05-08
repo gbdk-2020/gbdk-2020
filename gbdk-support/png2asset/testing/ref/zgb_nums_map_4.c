@@ -101,12 +101,12 @@ BANKREF_EXTERN(nums8x8_9_to_0.png)
 extern const struct TilesInfo nums8x8_9_to_0.png;
 
 const uint8_t zgb_nums_map_4_tile_pals[20] = {
-	, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
 BANKREF(zgb_nums_map_4_tiles_info)
 const struct TilesInfo zgb_nums_map_4_tiles_info = {
-	.num_frames=30, // num tiles
+	.num_frames=20, // num tiles
 	.data=zgb_nums_map_4_tiles, // tiles
 	.num_pals=1, // num palettes
 	.pals=zgb_nums_map_4_palettes, // palettes

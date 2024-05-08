@@ -108,7 +108,7 @@ extern const struct TilesInfo color_indexed_nums8x8_9_to_0.png;
 
 BANKREF(zgb_color_indexed_nums_map_4_tiles_info)
 const struct TilesInfo zgb_color_indexed_nums_map_4_tiles_info = {
-	.num_frames=30, // num tiles
+	.num_frames=20, // num tiles
 	.data=zgb_color_indexed_nums_map_4_tiles, // tiles
 	.num_pals=4, // num palettes
 	.pals=zgb_color_indexed_nums_map_4_palettes, // palettes
