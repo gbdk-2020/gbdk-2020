@@ -10,7 +10,7 @@ BANKREF(zgb_sushi_level07)
 
 
 #include "TilesInfo.h"
-extern const void __bank_sushi_tiles;
+BANKREF_EXTERN(sushi_tiles)
 extern const struct TilesInfo sushi_tiles;
 
 const unsigned char zgb_sushi_level07_map[4185] = {

@@ -136,7 +136,7 @@ const uint8_t zgb_nums_map_6_tiles[480] = {
 
 
 #include "TilesInfo.h"
-extern const void __bank_nums8x8_9_to_0.png;
+BANKREF_EXTERN(nums8x8_9_to_0.png)
 extern const struct TilesInfo nums8x8_9_to_0.png;
 
 const uint8_t zgb_nums_map_6_tile_pals[30] = {
