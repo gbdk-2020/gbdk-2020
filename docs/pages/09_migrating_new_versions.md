@@ -6,7 +6,7 @@ This section contains information that may be useful to know or important when u
 
 ## Porting to GBDK-2020 4.3.0
   - GBDK now requires ~SDCC 4.4 or higher with GBDK-2020 patches for the z80 and NES
-  - Changed calling convention for @ref printf() and @ref sprintf() to be `REENTRANT`
+  - Changed to new calling convention for @ref printf(), @ref sprintf(), @ref abs()
   - Changed to new SDCC calling convention for @ref set_bkg_tile_xy(), @ref set_win_tile_xy()
   - Recommend using:
     - @ref CURRENT_BANK instead of `_current_bank`
