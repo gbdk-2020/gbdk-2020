@@ -345,7 +345,7 @@ static void export_c_zgb_tiles_struct(PNG2AssetData* assetData, FILE* file, int 
         fprintf(file, "const struct TilesInfo %s_tiles_info = {\n",        assetData->args->data_name.c_str());
     }
 
-    fprintf(file, "\t.num_frames=%d,"            " // num tiles\n",    (unsigned int)assetData->tiles.size() * (assetData->image.tile_h >> 3));
+    fprintf(file, "\t.num_frames=%d,"            " // num tiles\n",    (unsigned int)exportOpt.tiles_count);
     fprintf(file, "\t.data=%s_tiles,"            " // tiles\n",        assetData->args->data_name.c_str());
     fprintf(file, "\t.num_pals=%d,"              " // num palettes\n", (unsigned int)(exportOpt.color_count / assetData->image.colors_per_pal));
     fprintf(file, "\t.pals=%s_palettes,"         " // palettes\n",     assetData->args->data_name.c_str());
