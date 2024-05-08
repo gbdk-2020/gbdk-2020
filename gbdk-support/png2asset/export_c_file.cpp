@@ -324,9 +324,9 @@ static void export_c_zgb_per_tile_palette_ids(PNG2AssetData* assetData, FILE* fi
         fprintf(file, "const uint8_t %s_tile_pals[%d] = {\n\t", assetData->args->data_name.c_str(), (unsigned int)exportOpt.tiles_count);
         for(vector< Tile >::iterator it = assetData->tiles.begin() + exportOpt.tiles_start; it != assetData->tiles.end(); ++it)
         {
-            if(it != assetData->tiles.begin())
-                fprintf(file, ", ");
             fprintf(file, "%d", it->pal);
+            if (it + 1 != assetData->tiles.end())
+                fprintf(file, ", ");
         }
         fprintf(file, "\n};\n");
     }
