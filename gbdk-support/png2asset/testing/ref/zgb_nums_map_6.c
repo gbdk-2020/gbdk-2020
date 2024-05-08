@@ -3,6 +3,8 @@
 #include <stdint.h>
 #include <gbdk/platform.h>
 #include <gbdk/metasprites.h>
+#include "TilesInfo.h"
+#include "MapInfo.h"
 
 BANKREF(zgb_nums_map_6)
 
@@ -135,7 +137,6 @@ const uint8_t zgb_nums_map_6_tiles[480] = {
 	};
 
 
-#include "TilesInfo.h"
 BANKREF_EXTERN(nums8x8_9_to_0.png)
 extern const struct TilesInfo nums8x8_9_to_0.png;
 
@@ -143,7 +144,6 @@ const uint8_t zgb_nums_map_6_tile_pals[30] = {
 	, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
-#include "TilesInfo.h"
 BANKREF(zgb_nums_map_6_tiles_info)
 const struct TilesInfo zgb_nums_map_6_tiles_info = {
 	.num_frames=40, // num tiles
@@ -161,7 +161,6 @@ const unsigned char zgb_nums_map_6_map[50] = {
 	0x1e,0x1f,0x20,0x21,0x22,0x23,0x24,0x25,0x26,0x27,
 };
 
-#include "MapInfo.h"
 BANKREF_EXTERN(zgb_nums_map_6_tiles_info)
 const struct MapInfo zgb_nums_map_6 = {
 	.data=zgb_nums_map_6_map, // map

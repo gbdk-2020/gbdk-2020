@@ -66,6 +66,17 @@ bool export_c_file( PNG2AssetData* assetData) {
     fprintf(file, "#include <stdint.h>\n");
     fprintf(file, "#include <gbdk/platform.h>\n");
     fprintf(file, "#include <gbdk/metasprites.h>\n");
+
+    if (assetData->args->use_structs) {
+        fprintf(file, "#include \"TilesInfo.h\"\n");
+        if (assetData->args->includedMapOrMetaspriteData) {
+            if (assetData->args->export_as_map)
+                fprintf(file, "#include \"MapInfo.h\"\n");
+            else
+                fprintf(file, "#include \"MetaSpriteInfo.h\"\n");
+        }
+    }
+
     fprintf(file, "\n");
 
     fprintf(file, "BANKREF(%s)\n\n", assetData->args->data_name.c_str());
@@ -203,7 +214,6 @@ static void export_c_metasprite_mode(PNG2AssetData* assetData, FILE* file) {
 static void export_c_zgb_metasprite_struct(PNG2AssetData* assetData, FILE* file) {
     // Export ZGB Metasprite Struct
     fprintf(file, "\n");
-    fprintf(file, "#include \"MetaSpriteInfo.h\"\n");
     fprintf(file, "const struct MetaSpriteInfo %s = {\n",   assetData->args->data_name.c_str());
     fprintf(file, "\t.width=%d,"                   " // width\n",        (unsigned int)assetData->args->pivot.width);
     fprintf(file, "\t.height=%d,"                  " // height\n",       (unsigned int)assetData->args->pivot.height);
@@ -226,7 +236,6 @@ static void export_c_map_mode(PNG2AssetData* assetData, FILE* file) {
         // so add the required externs used to reference them in the struct
         if( (assetData->args->has_source_tilesets)) {
             fprintf(file, "\n");
-            fprintf(file, "#include \"TilesInfo.h\"\n");
             fprintf(file, "BANKREF_EXTERN(%s)\n", extract_name(assetData->args->source_tilesets[0]).c_str());
             fprintf(file, "extern const struct TilesInfo %s;\n", extract_name(assetData->args->source_tilesets[0]).c_str());
         }
@@ -327,8 +336,6 @@ static void export_c_zgb_per_tile_palette_ids(PNG2AssetData* assetData, FILE* fi
 static void export_c_zgb_tiles_struct(PNG2AssetData* assetData, FILE* file, int output_mode) {
     // Export Tiles Info
     fprintf(file, "\n");
-    fprintf(file, "#include \"TilesInfo.h\"\n");
-
     // ZGB Tiles-only mode doesn't append "_tiles_info" to the struct name and lacks a BANKREF output.
     if (output_mode == ZGB_TILES_MODE_TILESONLY) {
         fprintf(file, "const struct TilesInfo %s = {\n",                   assetData->args->data_name.c_str());
@@ -371,7 +378,6 @@ static void export_c_zgb_tiles_struct(PNG2AssetData* assetData, FILE* file, int 
 static void export_c_zgb_map_struct(PNG2AssetData* assetData, FILE* file) {
     //Export Map Info
     fprintf(file, "\n");
-    fprintf(file, "#include \"MapInfo.h\"\n");
 
     if(assetData->args->includeTileData) {
         fprintf(file, "BANKREF_EXTERN(%s_tiles_info)\n", assetData->args->data_name.c_str());
