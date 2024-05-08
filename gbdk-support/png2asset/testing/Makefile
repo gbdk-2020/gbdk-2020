@@ -27,6 +27,7 @@ clean:
 	rm -rf $(OUTDIR)
 
 reset-ref:
+	rm -rf $(REF)
 	git checkout $(REF)/*
 
 generate-assets:
@@ -64,6 +65,25 @@ generate-assets:
 	$(PNG2ASSET) $(RES)/nums8x8_map_0_to_39.png -o $(OUTDIR)/nums_map_6.c -map -keep_duplicate_tiles -source_tileset $(RES)/nums8x8_9_to_0.png
 	$(PNG2ASSET) $(RES)/nums8x8_map_0_to_39.png -o $(OUTDIR)/nums_map_7.c -map -keep_duplicate_tiles -entity_tileset $(RES)/nums8x8_30_to_39.png
 	$(PNG2ASSET) $(RES)/nums8x8_map_0_to_39.png -o $(OUTDIR)/nums_map_8.c -map -keep_duplicate_tiles -source_tileset $(RES)/nums8x8_9_to_0.png -entity_tileset $(RES)/nums8x8_30_to_39.png
+# above + color
+	$(PNG2ASSET) $(RES)/color_nums8x8_map_0_to_39.png -o $(OUTDIR)/color_nums_map_1.c -map -use_map_attributes
+	$(PNG2ASSET) $(RES)/color_nums8x8_map_0_to_39.png -o $(OUTDIR)/color_nums_map_2.c -map -use_map_attributes -source_tileset $(RES)/color_nums8x8_9_to_0.png
+	$(PNG2ASSET) $(RES)/color_nums8x8_map_0_to_39.png -o $(OUTDIR)/color_nums_map_3.c -map -use_map_attributes -entity_tileset $(RES)/color_nums8x8_30_to_39.png
+	$(PNG2ASSET) $(RES)/color_nums8x8_map_0_to_39.png -o $(OUTDIR)/color_nums_map_4.c -map -use_map_attributes -source_tileset $(RES)/color_nums8x8_9_to_0.png -entity_tileset $(RES)/color_nums8x8_30_to_39.png
+	$(PNG2ASSET) $(RES)/color_nums8x8_map_0_to_39.png -o $(OUTDIR)/color_nums_map_5.c -map -use_map_attributes
+	$(PNG2ASSET) $(RES)/color_nums8x8_map_0_to_39.png -o $(OUTDIR)/color_nums_map_6.c -map -use_map_attributes -keep_duplicate_tiles -source_tileset $(RES)/color_nums8x8_9_to_0.png
+	$(PNG2ASSET) $(RES)/color_nums8x8_map_0_to_39.png -o $(OUTDIR)/color_nums_map_7.c -map -use_map_attributes -keep_duplicate_tiles -entity_tileset $(RES)/color_nums8x8_30_to_39.png
+	$(PNG2ASSET) $(RES)/color_nums8x8_map_0_to_39.png -o $(OUTDIR)/color_nums_map_8.c -map -use_map_attributes -keep_duplicate_tiles -source_tileset $(RES)/color_nums8x8_9_to_0.png -entity_tileset $(RES)/nums8x8_30_to_39.png
+# above + color + indexed
+	$(PNG2ASSET) $(RES)/color_indexed_nums8x8_map_0_to_39.png -o $(OUTDIR)/color_indexed_nums_map_1.c -map -use_map_attributes -keep_palette_order
+	$(PNG2ASSET) $(RES)/color_indexed_nums8x8_map_0_to_39.png -o $(OUTDIR)/color_indexed_nums_map_2.c -map -use_map_attributes -keep_palette_order -source_tileset $(RES)/color_indexed_nums8x8_9_to_0.png
+	$(PNG2ASSET) $(RES)/color_indexed_nums8x8_map_0_to_39.png -o $(OUTDIR)/color_indexed_nums_map_3.c -map -use_map_attributes -keep_palette_order -entity_tileset $(RES)/color_indexed_nums8x8_30_to_39.png
+	$(PNG2ASSET) $(RES)/color_indexed_nums8x8_map_0_to_39.png -o $(OUTDIR)/color_indexed_nums_map_4.c -map -use_map_attributes -keep_palette_order -source_tileset $(RES)/color_indexed_nums8x8_9_to_0.png -entity_tileset $(RES)/color_indexed_nums8x8_30_to_39.png
+	$(PNG2ASSET) $(RES)/color_indexed_nums8x8_map_0_to_39.png -o $(OUTDIR)/color_indexed_nums_map_5.c -map -use_map_attributes -keep_palette_order
+	$(PNG2ASSET) $(RES)/color_indexed_nums8x8_map_0_to_39.png -o $(OUTDIR)/color_indexed_nums_map_6.c -map -use_map_attributes -keep_palette_order -keep_duplicate_tiles -source_tileset $(RES)/color_indexed_nums8x8_9_to_0.png
+	$(PNG2ASSET) $(RES)/color_indexed_nums8x8_map_0_to_39.png -o $(OUTDIR)/color_indexed_nums_map_7.c -map -use_map_attributes -keep_palette_order -keep_duplicate_tiles -entity_tileset $(RES)/color_indexed_nums8x8_30_to_39.png
+	$(PNG2ASSET) $(RES)/color_indexed_nums8x8_map_0_to_39.png -o $(OUTDIR)/color_indexed_nums_map_8.c -map -use_map_attributes -keep_palette_order -keep_duplicate_tiles -source_tileset $(RES)/color_indexed_nums8x8_9_to_0.png -entity_tileset $(RES)/nums8x8_30_to_39.png
+
 # ZGB flavor of above
 	$(PNG2ASSET) $(RES)/nums8x8_map_0_to_39.png -o $(OUTDIR)/zgb_nums_map_1.c -map -use_structs
 	$(PNG2ASSET) $(RES)/nums8x8_map_0_to_39.png -o $(OUTDIR)/zgb_nums_map_2.c -map -use_structs -source_tileset $(RES)/nums8x8_9_to_0.png
@@ -73,6 +93,16 @@ generate-assets:
 	$(PNG2ASSET) $(RES)/nums8x8_map_0_to_39.png -o $(OUTDIR)/zgb_nums_map_6.c -map -use_structs -keep_duplicate_tiles -source_tileset $(RES)/nums8x8_9_to_0.png
 	$(PNG2ASSET) $(RES)/nums8x8_map_0_to_39.png -o $(OUTDIR)/zgb_nums_map_7.c -map -use_structs -keep_duplicate_tiles -entity_tileset $(RES)/nums8x8_30_to_39.png
 	$(PNG2ASSET) $(RES)/nums8x8_map_0_to_39.png -o $(OUTDIR)/zgb_nums_map_8.c -map -use_structs -keep_duplicate_tiles -source_tileset $(RES)/nums8x8_9_to_0.png -entity_tileset $(RES)/nums8x8_30_to_39.png
+# ZGB flavor of above + color
+	$(PNG2ASSET) $(RES)/color_nums8x8_map_0_to_39.png -o $(OUTDIR)/zgb_color_nums_map_1.c -map -use_map_attributes -use_structs
+	$(PNG2ASSET) $(RES)/color_nums8x8_map_0_to_39.png -o $(OUTDIR)/zgb_color_nums_map_2.c -map -use_map_attributes -use_structs -source_tileset $(RES)/color_nums8x8_9_to_0.png
+	$(PNG2ASSET) $(RES)/color_nums8x8_map_0_to_39.png -o $(OUTDIR)/zgb_color_nums_map_3.c -map -use_map_attributes -use_structs -entity_tileset $(RES)/color_nums8x8_30_to_39.png
+	$(PNG2ASSET) $(RES)/color_nums8x8_map_0_to_39.png -o $(OUTDIR)/zgb_color_nums_map_4.c -map -use_map_attributes -use_structs -source_tileset $(RES)/color_nums8x8_9_to_0.png -entity_tileset $(RES)/color_nums8x8_30_to_39.png
+# above + color + indexed
+	$(PNG2ASSET) $(RES)/color_indexed_nums8x8_map_0_to_39.png -o $(OUTDIR)/zgb_color_indexed_nums_map_1.c -map -use_map_attributes -keep_palette_order -use_structs
+	$(PNG2ASSET) $(RES)/color_indexed_nums8x8_map_0_to_39.png -o $(OUTDIR)/zgb_color_indexed_nums_map_2.c -map -use_map_attributes -keep_palette_order -use_structs -source_tileset $(RES)/color_indexed_nums8x8_9_to_0.png
+	$(PNG2ASSET) $(RES)/color_indexed_nums8x8_map_0_to_39.png -o $(OUTDIR)/zgb_color_indexed_nums_map_3.c -map -use_map_attributes -keep_palette_order -use_structs -entity_tileset $(RES)/color_indexed_nums8x8_30_to_39.png
+	$(PNG2ASSET) $(RES)/color_indexed_nums8x8_map_0_to_39.png -o $(OUTDIR)/zgb_color_indexed_nums_map_4.c -map -use_map_attributes -keep_palette_order -use_structs -source_tileset $(RES)/color_indexed_nums8x8_9_to_0.png -entity_tileset $(RES)/color_indexed_nums8x8_30_to_39.png
 
 
 # keep_palette_order + source_tileset + noflip + map (gbphoto)
