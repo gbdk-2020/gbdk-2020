@@ -28,7 +28,7 @@
 
 #include <stdlib.h>
 
-void *bsearch(const void *key, const void *base, size_t nmemb, size_t size, int (*compar)(const void *, const void *) __reentrant)
+void *bsearch(const void *key, const void *base, size_t nmemb, size_t size, int (*compar)(const void *, const void *) REENTRANT)
 {
 	for(const char *left = base; nmemb;)
 	{
