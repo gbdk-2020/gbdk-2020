@@ -3,11 +3,14 @@
 #include <stdint.h>
 #include <gbdk/platform.h>
 #include <gbdk/metasprites.h>
+#include "TilesInfo.h"
+#include "MapInfo.h"
 
 BANKREF(zgb_nums_map_6)
 
-const palette_color_t zgb_nums_map_6_palettes[0] = {
-
+const palette_color_t zgb_nums_map_6_palettes[4] = {
+	RGB8(255,255,255), RGB8(  0,  0,  0), RGB8(  0,  0,  0), RGB8(  0,  0,  0)
+	
 };
 
 const uint8_t zgb_nums_map_6_tiles[480] = {
@@ -134,20 +137,18 @@ const uint8_t zgb_nums_map_6_tiles[480] = {
 	};
 
 
-#include "TilesInfo.h"
-extern const void __bank_nums8x8_9_to_0.png;
+BANKREF_EXTERN(nums8x8_9_to_0.png)
 extern const struct TilesInfo nums8x8_9_to_0.png;
 
 const uint8_t zgb_nums_map_6_tile_pals[30] = {
 	, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
-#include "TilesInfo.h"
 BANKREF(zgb_nums_map_6_tiles_info)
 const struct TilesInfo zgb_nums_map_6_tiles_info = {
 	.num_frames=40, // num tiles
 	.data=zgb_nums_map_6_tiles, // tiles
-	.num_pals=0, // num palettes
+	.num_pals=1, // num palettes
 	.pals=zgb_nums_map_6_palettes, // palettes
 	.color_data=zgb_nums_map_6_tile_pals, // tile palettes
 };
@@ -160,7 +161,6 @@ const unsigned char zgb_nums_map_6_map[50] = {
 	0x1e,0x1f,0x20,0x21,0x22,0x23,0x24,0x25,0x26,0x27,
 };
 
-#include "MapInfo.h"
 BANKREF_EXTERN(zgb_nums_map_6_tiles_info)
 const struct MapInfo zgb_nums_map_6 = {
 	.data=zgb_nums_map_6_map, // map
@@ -169,5 +169,6 @@ const struct MapInfo zgb_nums_map_6 = {
 	.attributes=0, // map attributes
 	.tiles_bank=BANK(nums8x8_9_to_0.png), // source tiles bank
 	.tiles=&nums8x8_9_to_0.png, // source tiles info
-	.extra_tiles=&zgb_nums_map_6_tiles_info, // map tiles info (for map tiles not found in the source tileset) 
+	.extra_tiles=&zgb_nums_map_6_tiles_info, // pointer to Tilesinfo struct with map tiles not found in the source tileset
+	.extra_tiles_bank=BANK(zgb_nums_map_6_tiles_info), // bank for above Tilesinfo struct
 };

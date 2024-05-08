@@ -5,6 +5,8 @@
 #include <stdint.h>
 #include <gbdk/platform.h>
 #include <gbdk/metasprites.h>
+#include "TilesInfo.h"
+#include "MetaSpriteInfo.h"
 
 BANKREF(zgb_sprite_1)
 
@@ -391,14 +393,13 @@ const metasprite_t* const zgb_sprite_1_metasprites[5] = {
 	zgb_sprite_1_metasprite0, zgb_sprite_1_metasprite1, zgb_sprite_1_metasprite2, zgb_sprite_1_metasprite3, zgb_sprite_1_metasprite4
 };
 
-#include "MetaSpriteInfo.h"
 const struct MetaSpriteInfo zgb_sprite_1 = {
-	32, // width
-	24, // height
-	56, // num tiles
-	zgb_sprite_1_tiles, // tiles
-	1, // num palettes
-	zgb_sprite_1_palettes, // CGB palette
-	5, // num sprites
-	zgb_sprite_1_metasprites, // metasprites
+	.width=32, // width
+	.height=24, // height
+	.num_tiles=56, // num tiles
+	.data=zgb_sprite_1_tiles, // tiles
+	.num_palettes=1, // num palettes
+	.palettes=zgb_sprite_1_palettes, // CGB palette
+	.num_sprites=5, // num sprites
+	.metasprites=zgb_sprite_1_metasprites, // metasprites
 };
