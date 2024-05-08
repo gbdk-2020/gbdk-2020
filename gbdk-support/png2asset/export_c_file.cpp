@@ -357,7 +357,7 @@ static void export_c_zgb_tiles_struct(PNG2AssetData* assetData, FILE* file, int 
 //   "-source_tileset" NOT enabled:
 //     - tile data -> TileInfo struct, point .tiles to it
 //     - .tiles points to TileInfo struct, .extra_tiles is NULL
-//     - only map tile palettes *not* found in the source tileset will be emitted for .num_pals/.pals 
+//     - only map tile palettes *not* found in the source tileset will be emitted for .num_pals/.pals
 //
 //   "-source_tileset" IS enabled
 //     - .tiles -> the external source tileset
@@ -399,8 +399,8 @@ static void export_c_zgb_map_struct(PNG2AssetData* assetData, FILE* file) {
             fprintf(file, "\t.extra_tiles_bank=BANK(%s_tiles_info), // bank for above Tilesinfo struct\n", assetData->args->data_name.c_str());
         }
         else {
-            fprintf(file, "\t.extra_tiles=0,"                      " // pointer to Tilesinfo struct with map tiles not found in the source tileset (no extra tiles found)\n");
-            fprintf(file, "\t.extra_tiles_bank=0,"                 " // bank for above Tilesinfo struct\n");
+            fprintf(file, "\t.extra_tiles=NULL,"                  " // pointer to Tilesinfo struct with map tiles not found in the source tileset (no extra tiles found)\n");
+            fprintf(file, "\t.extra_tiles_bank=0,"                " // bank for above Tilesinfo struct\n");
         }
 
     }
