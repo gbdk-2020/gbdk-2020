@@ -43,7 +43,7 @@ static void export_c_metasprite_mode(PNG2AssetData* assetData, FILE* file);
 static void export_c_map_mode(PNG2AssetData* assetData, FILE* file);
 
 static void export_c_zgb_metasprite_struct(PNG2AssetData* assetData, FILE* file);
-static void export_c_zgb_palette_data(PNG2AssetData* assetData, FILE* file);
+static void export_c_zgb_per_tile_palette_ids(PNG2AssetData* assetData, FILE* file);
 static void export_c_zgb_tiles_struct(PNG2AssetData* assetData, FILE* file, int output_mode);
 static void export_c_zgb_map_struct(PNG2AssetData* assetData, FILE* file);
 
@@ -88,7 +88,7 @@ bool export_c_file( PNG2AssetData* assetData) {
     else {
         // "-use_structs -tiles_only" case
         if ((assetData->args->includeTileData) && (assetData->args->use_structs)) {
-            export_c_zgb_palette_data(assetData, file);
+            export_c_zgb_per_tile_palette_ids(assetData, file);
             export_c_zgb_tiles_struct(assetData, file, ZGB_TILES_MODE_TILESONLY);
         }
     }
@@ -233,7 +233,7 @@ static void export_c_map_mode(PNG2AssetData* assetData, FILE* file) {
 
         // Map's own tile data, if any present
         if(assetData->args->includeTileData) {
-            export_c_zgb_palette_data(assetData, file);
+            export_c_zgb_per_tile_palette_ids(assetData, file);
             export_c_zgb_tiles_struct(assetData, file, ZGB_TILES_MODE_NORMAL);
         }
     }
@@ -307,7 +307,7 @@ static void export_c_map_mode(PNG2AssetData* assetData, FILE* file) {
 }
 
 
-static void export_c_zgb_palette_data(PNG2AssetData* assetData, FILE* file) {
+static void export_c_zgb_per_tile_palette_ids(PNG2AssetData* assetData, FILE* file) {
     //Export tiles pals (if any)
     if(!assetData->args->use_map_attributes)
     {
@@ -343,6 +343,7 @@ static void export_c_zgb_tiles_struct(PNG2AssetData* assetData, FILE* file, int 
     fprintf(file, "\t.num_pals=%d,"              " // num palettes\n", (unsigned int)(exportOpt.color_count / assetData->image.colors_per_pal));
     fprintf(file, "\t.pals=%s_palettes,"         " // palettes\n",     assetData->args->data_name.c_str());
 
+    // This var references the output of export_c_zgb_per_tile_palette_ids()
     if(!assetData->args->use_map_attributes)
         fprintf(file, "\t.color_data=%s_tile_pals, // tile palettes\n", assetData->args->data_name.c_str());
     else
@@ -356,6 +357,7 @@ static void export_c_zgb_tiles_struct(PNG2AssetData* assetData, FILE* file, int 
 //   "-source_tileset" NOT enabled:
 //     - tile data -> TileInfo struct, point .tiles to it
 //     - .tiles points to TileInfo struct, .extra_tiles is NULL
+//     - only map tile palettes *not* found in the source tileset will be emitted for .num_pals/.pals 
 //
 //   "-source_tileset" IS enabled
 //     - .tiles -> the external source tileset
@@ -364,6 +366,7 @@ static void export_c_zgb_tiles_struct(PNG2AssetData* assetData, FILE* file, int 
 //         - if none of those tiles were found then
 //           - map TileInfo will not be emitted
 //           - .extra_tiles == NULL then
+//     - *all* map tile palettes will be emitted for .num_pals/.pals (those from map and source tileset)
 //
 static void export_c_zgb_map_struct(PNG2AssetData* assetData, FILE* file) {
     //Export Map Info
@@ -391,10 +394,15 @@ static void export_c_zgb_map_struct(PNG2AssetData* assetData, FILE* file) {
 
         // If map tiles were found that were not in the source tileset (or entity tileset)
         // then point ".extra_tiles" to them. Otherwise set it to null to indicate none found.
-        if (exportOpt.tiles_count > 0)
-            fprintf(file, "\t.extra_tiles=&%s_tiles_info,"  " // map tiles info (for map tiles not found in the source tileset) \n", assetData->args->data_name.c_str());
-        else
-            fprintf(file, "\t.extra_tiles=0,"               " // map tiles info (no map tiles were found that were not in the source tileset)\n");
+        if (exportOpt.tiles_count > 0) {
+            fprintf(file, "\t.extra_tiles=&%s_tiles_info,"        " // pointer to Tilesinfo struct with map tiles not found in the source tileset\n", assetData->args->data_name.c_str());
+            fprintf(file, "\t.extra_tiles_bank=BANK(%s_tiles_info), // bank for above Tilesinfo struct\n", assetData->args->data_name.c_str());
+        }
+        else {
+            fprintf(file, "\t.extra_tiles=0,"                      " // pointer to Tilesinfo struct with map tiles not found in the source tileset (no extra tiles found)\n");
+            fprintf(file, "\t.extra_tiles_bank=0,"                 " // bank for above Tilesinfo struct\n");
+        }
+
     }
     else if(assetData->args->includeTileData) {
         fprintf(file, "\t.tiles_bank=BANK(%s_tiles_info), // tiles bank\n", assetData->args->data_name.c_str());

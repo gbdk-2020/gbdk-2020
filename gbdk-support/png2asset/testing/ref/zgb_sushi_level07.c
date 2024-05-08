@@ -69,5 +69,6 @@ const struct MapInfo zgb_sushi_level07 = {
 	.attributes=0, // map attributes
 	.tiles_bank=BANK(sushi_tiles), // source tiles bank
 	.tiles=&sushi_tiles, // source tiles info
-	.extra_tiles=0, // map tiles info (no map tiles were found that were not in the source tileset)
+	.extra_tiles=0, // pointer to Tilesinfo struct with map tiles not found in the source tileset (no extra tiles found)
+	.extra_tiles_bank=0, // bank for above Tilesinfo struct
 };

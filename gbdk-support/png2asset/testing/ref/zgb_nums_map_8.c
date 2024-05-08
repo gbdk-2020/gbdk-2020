@@ -6,8 +6,9 @@
 
 BANKREF(zgb_nums_map_8)
 
-const palette_color_t zgb_nums_map_8_palettes[0] = {
-
+const palette_color_t zgb_nums_map_8_palettes[4] = {
+	RGB8(255,255,255), RGB8(  0,  0,  0), RGB8(  0,  0,  0), RGB8(  0,  0,  0)
+	
 };
 
 const uint8_t zgb_nums_map_8_tiles[320] = {
@@ -107,7 +108,7 @@ BANKREF(zgb_nums_map_8_tiles_info)
 const struct TilesInfo zgb_nums_map_8_tiles_info = {
 	.num_frames=30, // num tiles
 	.data=zgb_nums_map_8_tiles, // tiles
-	.num_pals=0, // num palettes
+	.num_pals=1, // num palettes
 	.pals=zgb_nums_map_8_palettes, // palettes
 	.color_data=zgb_nums_map_8_tile_pals, // tile palettes
 };
@@ -129,5 +130,6 @@ const struct MapInfo zgb_nums_map_8 = {
 	.attributes=0, // map attributes
 	.tiles_bank=BANK(nums8x8_9_to_0.png), // source tiles bank
 	.tiles=&nums8x8_9_to_0.png, // source tiles info
-	.extra_tiles=&zgb_nums_map_8_tiles_info, // map tiles info (for map tiles not found in the source tileset) 
+	.extra_tiles=&zgb_nums_map_8_tiles_info, // pointer to Tilesinfo struct with map tiles not found in the source tileset
+	.extra_tiles_bank=BANK(zgb_nums_map_8_tiles_info), // bank for above Tilesinfo struct
 };
