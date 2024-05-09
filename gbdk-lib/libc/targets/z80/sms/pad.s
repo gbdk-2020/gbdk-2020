@@ -58,13 +58,13 @@ _joypad::
 .padup::
 _waitpadup::
 1$:
-        ld h, #0x7f     ; wait for .jpad return zero 127 times in a row
+        ld c, #0x7f     ; wait for .jpad return zero 127 times in a row
 2$:
         call .jpad
         or a            ; have all buttons been released?
         jr nz, 1$       ; not yet
 
-        dec h
+        dec c
         jr nz, 2$
 
         ret
@@ -72,9 +72,9 @@ _waitpadup::
         ;; Wait for the key to be pressed
 _waitpad::
 .wait_pad::
-        ld h, l
+        ld c, l
 1$:
         call .jpad      ; read pad
-        and h           ; compare with mask?
+        and c           ; compare with mask?
         jr z, 1$        ; loop if no intersection
         ret
