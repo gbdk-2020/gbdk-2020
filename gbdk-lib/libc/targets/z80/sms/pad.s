@@ -4,7 +4,10 @@
         .module JOYPad
         .area   _HOME
 
-	;; Get Keypad Button Status
+; Get Keypad Button Status
+; return result in l
+;
+;uint8_t joypad(void) OLDCALL PRESERVES_REGS(b, c, d, e, iyh, iyl);
 _joypad::
 .jpad::
         in a, (.JOY_PORT1)
@@ -54,27 +57,46 @@ _joypad::
         ld l, a
         ret
 
-	;; Wait until all buttons have been released
+; wait for 1/4 frame for the MD 3 and 6-button controllers
+do_sleep:
+        push bc
+        ld c, #10
+0$:
+        ld b, #0xff
+1$:
+        .rept 4
+            ex (sp), hl
+        .endm
+        djnz 1$
+
+        dec c
+        jr nz, 0$
+        pop bc
+        ret
+
+; Wait until all buttons have been released
+;
+; void waitpadup(void) PRESERVES_REGS(d, e, iyh, iyl);
 .padup::
 _waitpadup::
 1$:
-        ld c, #0x7f     ; wait for .jpad return zero 127 times in a row
-2$:
         call .jpad
+        ld a, l
         or a            ; have all buttons been released?
-        jr nz, 1$       ; not yet
+        ret z
+        call do_sleep   ; wait 1/4 frame
+        jr 1$           ; not yet
 
-        dec c
-        jr nz, 2$
-
-        ret
-
-        ;; Wait for the key to be pressed
+; Wait for the key to be pressed
+;
+; uint8_t waitpad(uint8_t mask) Z88DK_FASTCALL PRESERVES_REGS(d, e, iyh, iyl);
 _waitpad::
 .wait_pad::
         ld c, l
 1$:
         call .jpad      ; read pad
+        ld a, l
         and c           ; compare with mask?
-        jr z, 1$        ; loop if no intersection
-        ret
+        ret nz          ; return if intersection
+        call do_sleep   ; wait 1/4 frame
+        jr 1$

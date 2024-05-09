@@ -4,7 +4,10 @@
         .module JOYPad
         .area   _HOME
 
-	;; Get Keypad Button Status
+; Get Keypad Button Status
+; return result in l
+;
+;uint8_t joypad(void) OLDCALL PRESERVES_REGS(b, c, d, e, iyh, iyl);
 _joypad::
 .jpad::
         in a, (.JOY_PORT1)
@@ -24,7 +27,9 @@ _joypad::
         ld l, a
         ret
 
-	;; Wait until all buttons have been released
+; Wait until all buttons have been released
+;
+; void waitpadup(void) PRESERVES_REGS(d, e, iyh, iyl);
 .padup::
 _waitpadup::
 1$:
@@ -39,7 +44,9 @@ _waitpadup::
 
         ret
 
-        ;; Wait for the key to be pressed
+; Wait for the key to be pressed
+;
+; uint8_t waitpad(uint8_t mask) Z88DK_FASTCALL PRESERVES_REGS(d, e, iyh, iyl);
 _waitpad::
 .wait_pad::
         ld c, l
