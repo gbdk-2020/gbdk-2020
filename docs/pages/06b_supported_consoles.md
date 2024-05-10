@@ -336,6 +336,30 @@ There are also bit-depth specific API calls:
 - 2bpp: @ref set_2bpp_palette, @ref set_bkg_2bpp_data, @ref set_sprite_2bpp_data, @ref set_tile_2bpp_data (sms/gg only)
 - 2bpp: @ref set_bkg_4bpp_data (sms/gg only), @ref set_sprite_4bpp_data (sms/gg only)
 
+
+### Colors and Palettes
+The SMS/GG have 2 x 16 color palettes:
+- The first (0) is just for the background
+- The second (1) is shared between sprites and the background (and for sprites a single color 0 of that palette is transparent)
+
+On the Game Gear
+- Each Palette is 32 bytes in size: 16 colors x 2 bytes per palette color entry.
+- Each color (16 per palette) is packed as BGR-444 format (x:4:4:4, MSBits [15..12] are unused).
+- Each component (R, G, B) may have values from 0 - 15 (4 bits), 15 is brightest.
+
+On the SMS
+- On SMS each Palette is 16 bytes in size: 16 colors x 1 byte per palette color entry.
+- Each color (16 per palette) is packed as BGR-222 format (x:2:2:2, MSBits [7..6] are unused).
+- Each component (R, G, B) may have values from 0 - 3 (2 bits), 3 is brightest.
+
+For setting palette data:
+- @ref set_palette_entry(): Will set a single color in a palette
+- @ref set_palette(): Can set all the colors for one or both palettes
+- @ref set_bkg_palette(): Is just an alias for @ref set_palette(). The full 16 colors can be set using this call.
+- @ref set_sprite_palette(): Is also an alias for @ref set_palette(), but it offsets to write to the second 16 color palette.
+- Also see: @ref RGB(), RGB8(), @ref RGBHTML()
+
+
 #### Emulated Game Boy Color map attributes on the SMS/Game Gear
 On the Game Boy Color, @ref VBK_REG is used to select between the regular background tile map and the background attribute tile map (for setting tile color palette and other properties).
 
