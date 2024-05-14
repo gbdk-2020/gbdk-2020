@@ -29,7 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.2.0</span>
+   &#160;<span id="projectnumber">4.3.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -97,7 +97,7 @@ $(document).ready(function(){initNavTree('cgb_8h_source.html',''); initResizable
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;types.h&gt;</span></div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="stdint_8h.html">stdint.h</a>&gt;</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="cgb_8h.html#a4a118ad3ee36468a3fa616977a64864e">   33</a></span>&#160;<span class="preprocessor">#define RGB(r, g, b) ((uint16_t)((((b) &amp; 0x1f) &lt;&lt; 10) | ((uint16_t)(((g) &amp; 0x1f) &lt;&lt; 5)) | (((r) &amp; 0x1f) &lt;&lt; 0)))</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="cgb_8h.html#a4a118ad3ee36468a3fa616977a64864e">   33</a></span>&#160;<span class="preprocessor">#define RGB(r, g, b) ((uint16_t)((((b) &amp; 0x1f) &lt;&lt; 10) | ((uint16_t)(((g) &amp; 0x1f) &lt;&lt; 5)) | ((r) &amp; 0x1f)))</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
 <div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="cgb_8h.html#a7d2ed0f10b2b74123a544327bbfd7564">   47</a></span>&#160;<span class="preprocessor">#define RGB8(r, g, b) (((uint16_t)((((b) &gt;&gt; 3) &amp; 0x1f) &lt;&lt; 10)) | ((uint16_t)((((g) &gt;&gt; 3) &amp; 0x1f) &lt;&lt; 5)) | (((r) &gt;&gt; 3) &amp; 0x1f))</span></div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
@@ -147,9 +147,9 @@ $(document).ready(function(){initNavTree('cgb_8h_source.html',''); initResizable
 <div class="ttc" id="acgb_8h_html_a11902cb1c4de48a1992f5cd595c1da38"><div class="ttname"><a href="cgb_8h.html#a11902cb1c4de48a1992f5cd595c1da38">set_bkg_palette</a></div><div class="ttdeci">void set_bkg_palette(uint8_t first_palette, uint8_t nb_palettes, const palette_color_t *rgb_data) OLDCALL</div></div>
 <div class="ttc" id="acgb_8h_html_a2a89f4110072dbe76805e7b07299788d"><div class="ttname"><a href="cgb_8h.html#a2a89f4110072dbe76805e7b07299788d">set_default_palette</a></div><div class="ttdeci">void set_default_palette(void)</div></div>
 <div class="ttc" id="acgb_8h_html_a476d06d0fe64d7c5a1ec05b8ee859a56"><div class="ttname"><a href="cgb_8h.html#a476d06d0fe64d7c5a1ec05b8ee859a56">cpu_slow</a></div><div class="ttdeci">void cpu_slow(void)</div></div>
-<div class="ttc" id="acgb_8h_html_a6b334e5e452d0650aded17199be1514a"><div class="ttname"><a href="cgb_8h.html#a6b334e5e452d0650aded17199be1514a">cgb_compatibility</a></div><div class="ttdeci">void cgb_compatibility(void)</div><div class="ttdef"><b>Definition:</b> sms.h:525</div></div>
+<div class="ttc" id="acgb_8h_html_a6b334e5e452d0650aded17199be1514a"><div class="ttname"><a href="cgb_8h.html#a6b334e5e452d0650aded17199be1514a">cgb_compatibility</a></div><div class="ttdeci">void cgb_compatibility(void)</div><div class="ttdef"><b>Definition:</b> sms.h:580</div></div>
 <div class="ttc" id="acgb_8h_html_a70244637bddfbb327c9684455fa8ffa6"><div class="ttname"><a href="cgb_8h.html#a70244637bddfbb327c9684455fa8ffa6">set_sprite_palette</a></div><div class="ttdeci">void set_sprite_palette(uint8_t first_palette, uint8_t nb_palettes, const palette_color_t *rgb_data) OLDCALL</div></div>
-<div class="ttc" id="acgb_8h_html_a871b5b1aba74ab8764f72b73bc090adb"><div class="ttname"><a href="cgb_8h.html#a871b5b1aba74ab8764f72b73bc090adb">cpu_fast</a></div><div class="ttdeci">void cpu_fast(void)</div><div class="ttdef"><b>Definition:</b> msx.h:486</div></div>
+<div class="ttc" id="acgb_8h_html_a871b5b1aba74ab8764f72b73bc090adb"><div class="ttname"><a href="cgb_8h.html#a871b5b1aba74ab8764f72b73bc090adb">cpu_fast</a></div><div class="ttdeci">void cpu_fast(void)</div><div class="ttdef"><b>Definition:</b> msx.h:543</div></div>
 <div class="ttc" id="acgb_8h_html_aa8881ff123f364f2e7d1e88c18f9fbca"><div class="ttname"><a href="cgb_8h.html#aa8881ff123f364f2e7d1e88c18f9fbca">set_bkg_palette_entry</a></div><div class="ttdeci">void set_bkg_palette_entry(uint8_t palette, uint8_t entry, uint16_t rgb_data) OLDCALL</div></div>
 <div class="ttc" id="acgb_8h_html_aebeb7431ebd400baed34796a8f50ea58"><div class="ttname"><a href="cgb_8h.html#aebeb7431ebd400baed34796a8f50ea58">set_sprite_palette_entry</a></div><div class="ttdeci">void set_sprite_palette_entry(uint8_t palette, uint8_t entry, uint16_t rgb_data) OLDCALL</div></div>
 <div class="ttc" id="acgb_8h_html_af868d7cdbd052c6b972ef137e02f6495"><div class="ttname"><a href="cgb_8h.html#af868d7cdbd052c6b972ef137e02f6495">palette_color_t</a></div><div class="ttdeci">uint16_t palette_color_t</div><div class="ttdef"><b>Definition:</b> cgb.h:85</div></div>

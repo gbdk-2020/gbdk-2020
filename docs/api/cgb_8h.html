@@ -29,7 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.2.0</span>
+   &#160;<span id="projectnumber">4.3.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -101,9 +101,9 @@ $(document).ready(function(){initNavTree('cgb_8h.html',''); initResizable(); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a4a118ad3ee36468a3fa616977a64864e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cgb_8h.html#a4a118ad3ee36468a3fa616977a64864e">RGB</a>(r,  g,  <a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>)&#160;&#160;&#160;((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)((((<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>) &amp; 0x1f) &lt;&lt; 10) | ((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)(((g) &amp; 0x1f) &lt;&lt; 5)) | (((r) &amp; 0x1f) &lt;&lt; 0)))</td></tr>
+<tr class="memitem:a4a118ad3ee36468a3fa616977a64864e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cgb_8h.html#a4a118ad3ee36468a3fa616977a64864e">RGB</a>(r,  g,  <a class="el" href="sms_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>)&#160;&#160;&#160;((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)((((<a class="el" href="sms_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>) &amp; 0x1f) &lt;&lt; 10) | ((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)(((g) &amp; 0x1f) &lt;&lt; 5)) | ((r) &amp; 0x1f)))</td></tr>
 <tr class="separator:a4a118ad3ee36468a3fa616977a64864e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7d2ed0f10b2b74123a544327bbfd7564"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cgb_8h.html#a7d2ed0f10b2b74123a544327bbfd7564">RGB8</a>(r,  g,  <a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>)&#160;&#160;&#160;(((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)((((<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>) &gt;&gt; 3) &amp; 0x1f) &lt;&lt; 10)) | ((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)((((g) &gt;&gt; 3) &amp; 0x1f) &lt;&lt; 5)) | (((r) &gt;&gt; 3) &amp; 0x1f))</td></tr>
+<tr class="memitem:a7d2ed0f10b2b74123a544327bbfd7564"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cgb_8h.html#a7d2ed0f10b2b74123a544327bbfd7564">RGB8</a>(r,  g,  <a class="el" href="sms_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>)&#160;&#160;&#160;(((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)((((<a class="el" href="sms_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>) &gt;&gt; 3) &amp; 0x1f) &lt;&lt; 10)) | ((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)((((g) &gt;&gt; 3) &amp; 0x1f) &lt;&lt; 5)) | (((r) &gt;&gt; 3) &amp; 0x1f))</td></tr>
 <tr class="separator:a7d2ed0f10b2b74123a544327bbfd7564"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab5a6e450fcf10402278fe585a421dbbd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cgb_8h.html#ab5a6e450fcf10402278fe585a421dbbd">RGBHTML</a>(RGB24bit)&#160;&#160;&#160;(<a class="el" href="nes_8h.html#a7d2ed0f10b2b74123a544327bbfd7564">RGB8</a>((((RGB24bit) &gt;&gt; 16) &amp; 0xff), (((RGB24bit) &gt;&gt; 8) &amp; 0xff), ((RGB24bit) &amp; 0xff)))</td></tr>
 <tr class="separator:ab5a6e450fcf10402278fe585a421dbbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -205,12 +205,12 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>&#160;</td>
+          <td class="paramname"><a class="el" href="sms_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>&#160;</td>
         </tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)((((<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>) &amp; 0x1f) &lt;&lt; 10) | ((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)(((g) &amp; 0x1f) &lt;&lt; 5)) | (((r) &amp; 0x1f) &lt;&lt; 0)))</td>
+          <td></td><td>&#160;&#160;&#160;((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)((((<a class="el" href="sms_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>) &amp; 0x1f) &lt;&lt; 10) | ((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)(((g) &amp; 0x1f) &lt;&lt; 5)) | ((r) &amp; 0x1f)))</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -250,12 +250,12 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>&#160;</td>
+          <td class="paramname"><a class="el" href="sms_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>&#160;</td>
         </tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;(((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)((((<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>) &gt;&gt; 3) &amp; 0x1f) &lt;&lt; 10)) | ((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)((((g) &gt;&gt; 3) &amp; 0x1f) &lt;&lt; 5)) | (((r) &gt;&gt; 3) &amp; 0x1f))</td>
+          <td></td><td>&#160;&#160;&#160;(((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)((((<a class="el" href="sms_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>) &gt;&gt; 3) &amp; 0x1f) &lt;&lt; 10)) | ((<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>)((((g) &gt;&gt; 3) &amp; 0x1f) &lt;&lt; 5)) | (((r) &gt;&gt; 3) &amp; 0x1f))</td>
         </tr>
       </table>
 </div><div class="memdoc">

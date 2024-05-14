@@ -29,7 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.2.0</span>
+   &#160;<span id="projectnumber">4.3.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -245,11 +245,13 @@ Macros</h2></td></tr>
 </dl>
 <p><b>filepath</b> is relative to the working directory of the tool that is calling it (often a makefile's working directory), <b>NOT</b> to the file it's being included into.</p>
 <p>The variable name is not modified and can be used as-is.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="incbin_8h.html#aeacb5370285c0d4308d0fe5f29da8d15">INCBIN_SIZE()</a> for obtaining the size of the included data. </dd>
-<dd>
-<a class="el" href="incbin_8h.html#a42705001e2b9897f5167b67fb36c69dd">BANK()</a> for obtaining the bank number of the included data.</dd></dl>
-<p>Use <a class="el" href="incbin_8h.html#a51ab79f8ee37368158b1887b65ef97ec">INCBIN_EXTERN()</a> within another source file to make the variable and it's data accesible there. </p>
-
+<p>The <a class="el" href="incbin_8h.html#af34047ed60abd6453f819c2a5230cd2b">INCBIN()</a> macro will declare the <a class="el" href="gb_8h.html#a42705001e2b9897f5167b67fb36c69dd">BANK()</a> and <a class="el" href="incbin_8h.html#aeacb5370285c0d4308d0fe5f29da8d15">INCBIN_SIZE()</a> helper symbols. Then if <a class="el" href="incbin_8h.html#a51ab79f8ee37368158b1887b65ef97ec">INCBIN_EXTERN()</a> is used in the header then those helper macros can be used in the application code.</p><ul>
+<li><a class="el" href="incbin_8h.html#aeacb5370285c0d4308d0fe5f29da8d15">INCBIN_SIZE()</a> for obtaining the size of the included data.</li>
+<li><a class="el" href="gb_8h.html#a42705001e2b9897f5167b67fb36c69dd">BANK()</a> for obtaining the bank number of the included data.</li>
+</ul>
+<p>Use <a class="el" href="incbin_8h.html#a51ab79f8ee37368158b1887b65ef97ec">INCBIN_EXTERN()</a> within another source file to make the variable and it's data accessible there.</p>
+<hr  />
+ 
 </div>
 </div>
 </div><!-- contents -->

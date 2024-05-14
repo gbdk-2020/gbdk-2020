@@ -29,7 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.2.0</span>
+   &#160;<span id="projectnumber">4.3.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -100,38 +100,39 @@ $(document).ready(function(){initNavTree('asm_2mos6502_2types_8h_source.html',''
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#ifdef __SDCC</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#define NONBANKED   __nonbanked</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#define BANKED      __banked</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#define REENTRANT   __reentrant </span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#define CRITICAL        __critical</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#define INTERRUPT       __interrupt</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="asm_2mos6502_2types_8h.html#a7ebe70ceca856797319175e30bcf003d">   46</a></span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">signed</span> <span class="keywordtype">char</span>     <a class="code" href="asm_2mos6502_2types_8h.html#a7ebe70ceca856797319175e30bcf003d">INT8</a>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="asm_2mos6502_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">   49</a></span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>   <a class="code" href="asm_2mos6502_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a>;</div>
-<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="asm_2mos6502_2types_8h.html#a18f1c7ce6c452edd933189d52294af8d">   52</a></span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">signed</span> <span class="keywordtype">int</span>      <a class="code" href="asm_2mos6502_2types_8h.html#a18f1c7ce6c452edd933189d52294af8d">INT16</a>;</div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="asm_2mos6502_2types_8h.html#a805c2c164bdd38d72a30c46e84fb568b">   55</a></span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>    <a class="code" href="asm_2mos6502_2types_8h.html#a805c2c164bdd38d72a30c46e84fb568b">UINT16</a>;</div>
-<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="asm_2mos6502_2types_8h.html#a516ea33686d40a7f91f5644851ce7b5d">   58</a></span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">signed</span> <span class="keywordtype">long</span>     <a class="code" href="asm_2mos6502_2types_8h.html#a516ea33686d40a7f91f5644851ce7b5d">INT32</a>;</div>
-<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="asm_2mos6502_2types_8h.html#a0b39d6d754cb24c708b0f2bdbe88130e">   61</a></span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span>   <a class="code" href="asm_2mos6502_2types_8h.html#a0b39d6d754cb24c708b0f2bdbe88130e">UINT32</a>;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">#ifndef __SIZE_T_DEFINED</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="asm_2mos6502_2types_8h.html#a8de3167f7b52ff5a2f538858cb5e32d3">   64</a></span>&#160;<span class="preprocessor">#define __SIZE_T_DEFINED</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="asm_2mos6502_2types_8h.html#a7c94ea6f8948649f8d181ae55911eeaf">   65</a></span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>    <a class="code" href="asm_2mos6502_2types_8h.html#a7c94ea6f8948649f8d181ae55911eeaf">size_t</a>;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="asm_2mos6502_2types_8h.html#aeb756bd89bf86769edbefdef8135109f">   71</a></span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>    <a class="code" href="asm_2mos6502_2types_8h.html#aeb756bd89bf86769edbefdef8135109f">clock_t</a>;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="aasm_2mos6502_2types_8h_html_a0b39d6d754cb24c708b0f2bdbe88130e"><div class="ttname"><a href="asm_2mos6502_2types_8h.html#a0b39d6d754cb24c708b0f2bdbe88130e">UINT32</a></div><div class="ttdeci">unsigned long UINT32</div><div class="ttdef"><b>Definition:</b> types.h:61</div></div>
-<div class="ttc" id="aasm_2mos6502_2types_8h_html_a18f1c7ce6c452edd933189d52294af8d"><div class="ttname"><a href="asm_2mos6502_2types_8h.html#a18f1c7ce6c452edd933189d52294af8d">INT16</a></div><div class="ttdeci">signed int INT16</div><div class="ttdef"><b>Definition:</b> types.h:52</div></div>
-<div class="ttc" id="aasm_2mos6502_2types_8h_html_a516ea33686d40a7f91f5644851ce7b5d"><div class="ttname"><a href="asm_2mos6502_2types_8h.html#a516ea33686d40a7f91f5644851ce7b5d">INT32</a></div><div class="ttdeci">signed long INT32</div><div class="ttdef"><b>Definition:</b> types.h:58</div></div>
-<div class="ttc" id="aasm_2mos6502_2types_8h_html_a7c94ea6f8948649f8d181ae55911eeaf"><div class="ttname"><a href="asm_2mos6502_2types_8h.html#a7c94ea6f8948649f8d181ae55911eeaf">size_t</a></div><div class="ttdeci">unsigned int size_t</div><div class="ttdef"><b>Definition:</b> types.h:65</div></div>
-<div class="ttc" id="aasm_2mos6502_2types_8h_html_a7ebe70ceca856797319175e30bcf003d"><div class="ttname"><a href="asm_2mos6502_2types_8h.html#a7ebe70ceca856797319175e30bcf003d">INT8</a></div><div class="ttdeci">signed char INT8</div><div class="ttdef"><b>Definition:</b> types.h:46</div></div>
-<div class="ttc" id="aasm_2mos6502_2types_8h_html_a805c2c164bdd38d72a30c46e84fb568b"><div class="ttname"><a href="asm_2mos6502_2types_8h.html#a805c2c164bdd38d72a30c46e84fb568b">UINT16</a></div><div class="ttdeci">unsigned int UINT16</div><div class="ttdef"><b>Definition:</b> types.h:55</div></div>
-<div class="ttc" id="aasm_2mos6502_2types_8h_html_ab27e9918b538ce9d8ca692479b375b6a"><div class="ttname"><a href="asm_2mos6502_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a></div><div class="ttdeci">unsigned char UINT8</div><div class="ttdef"><b>Definition:</b> types.h:49</div></div>
-<div class="ttc" id="aasm_2mos6502_2types_8h_html_aeb756bd89bf86769edbefdef8135109f"><div class="ttname"><a href="asm_2mos6502_2types_8h.html#aeb756bd89bf86769edbefdef8135109f">clock_t</a></div><div class="ttdeci">unsigned int clock_t</div><div class="ttdef"><b>Definition:</b> types.h:71</div></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#define NONBANKED           __nonbanked</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#define BANKED              __banked</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#define REENTRANT           __reentrant </span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#define NO_OVERLAY_LOCALS   __no_overlay_locals </span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#define CRITICAL        __critical</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#define INTERRUPT       __interrupt</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="asm_2mos6502_2types_8h.html#a7ebe70ceca856797319175e30bcf003d">   47</a></span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">signed</span> <span class="keywordtype">char</span>     <a class="code" href="asm_2mos6502_2types_8h.html#a7ebe70ceca856797319175e30bcf003d">INT8</a>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="asm_2mos6502_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">   50</a></span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>   <a class="code" href="asm_2mos6502_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="asm_2mos6502_2types_8h.html#a18f1c7ce6c452edd933189d52294af8d">   53</a></span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">signed</span> <span class="keywordtype">int</span>      <a class="code" href="asm_2mos6502_2types_8h.html#a18f1c7ce6c452edd933189d52294af8d">INT16</a>;</div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="asm_2mos6502_2types_8h.html#a805c2c164bdd38d72a30c46e84fb568b">   56</a></span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>    <a class="code" href="asm_2mos6502_2types_8h.html#a805c2c164bdd38d72a30c46e84fb568b">UINT16</a>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="asm_2mos6502_2types_8h.html#a516ea33686d40a7f91f5644851ce7b5d">   59</a></span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">signed</span> <span class="keywordtype">long</span>     <a class="code" href="asm_2mos6502_2types_8h.html#a516ea33686d40a7f91f5644851ce7b5d">INT32</a>;</div>
+<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="asm_2mos6502_2types_8h.html#a0b39d6d754cb24c708b0f2bdbe88130e">   62</a></span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span>   <a class="code" href="asm_2mos6502_2types_8h.html#a0b39d6d754cb24c708b0f2bdbe88130e">UINT32</a>;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor">#ifndef __SIZE_T_DEFINED</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="asm_2mos6502_2types_8h.html#a8de3167f7b52ff5a2f538858cb5e32d3">   65</a></span>&#160;<span class="preprocessor">#define __SIZE_T_DEFINED</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="asm_2mos6502_2types_8h.html#a7c94ea6f8948649f8d181ae55911eeaf">   66</a></span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>    <a class="code" href="asm_2mos6502_2types_8h.html#a7c94ea6f8948649f8d181ae55911eeaf">size_t</a>;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="asm_2mos6502_2types_8h.html#aeb756bd89bf86769edbefdef8135109f">   72</a></span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>    <a class="code" href="asm_2mos6502_2types_8h.html#aeb756bd89bf86769edbefdef8135109f">clock_t</a>;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="ttc" id="aasm_2mos6502_2types_8h_html_a0b39d6d754cb24c708b0f2bdbe88130e"><div class="ttname"><a href="asm_2mos6502_2types_8h.html#a0b39d6d754cb24c708b0f2bdbe88130e">UINT32</a></div><div class="ttdeci">unsigned long UINT32</div><div class="ttdef"><b>Definition:</b> types.h:62</div></div>
+<div class="ttc" id="aasm_2mos6502_2types_8h_html_a18f1c7ce6c452edd933189d52294af8d"><div class="ttname"><a href="asm_2mos6502_2types_8h.html#a18f1c7ce6c452edd933189d52294af8d">INT16</a></div><div class="ttdeci">signed int INT16</div><div class="ttdef"><b>Definition:</b> types.h:53</div></div>
+<div class="ttc" id="aasm_2mos6502_2types_8h_html_a516ea33686d40a7f91f5644851ce7b5d"><div class="ttname"><a href="asm_2mos6502_2types_8h.html#a516ea33686d40a7f91f5644851ce7b5d">INT32</a></div><div class="ttdeci">signed long INT32</div><div class="ttdef"><b>Definition:</b> types.h:59</div></div>
+<div class="ttc" id="aasm_2mos6502_2types_8h_html_a7c94ea6f8948649f8d181ae55911eeaf"><div class="ttname"><a href="asm_2mos6502_2types_8h.html#a7c94ea6f8948649f8d181ae55911eeaf">size_t</a></div><div class="ttdeci">unsigned int size_t</div><div class="ttdef"><b>Definition:</b> types.h:66</div></div>
+<div class="ttc" id="aasm_2mos6502_2types_8h_html_a7ebe70ceca856797319175e30bcf003d"><div class="ttname"><a href="asm_2mos6502_2types_8h.html#a7ebe70ceca856797319175e30bcf003d">INT8</a></div><div class="ttdeci">signed char INT8</div><div class="ttdef"><b>Definition:</b> types.h:47</div></div>
+<div class="ttc" id="aasm_2mos6502_2types_8h_html_a805c2c164bdd38d72a30c46e84fb568b"><div class="ttname"><a href="asm_2mos6502_2types_8h.html#a805c2c164bdd38d72a30c46e84fb568b">UINT16</a></div><div class="ttdeci">unsigned int UINT16</div><div class="ttdef"><b>Definition:</b> types.h:56</div></div>
+<div class="ttc" id="aasm_2mos6502_2types_8h_html_ab27e9918b538ce9d8ca692479b375b6a"><div class="ttname"><a href="asm_2mos6502_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a></div><div class="ttdeci">unsigned char UINT8</div><div class="ttdef"><b>Definition:</b> types.h:50</div></div>
+<div class="ttc" id="aasm_2mos6502_2types_8h_html_aeb756bd89bf86769edbefdef8135109f"><div class="ttname"><a href="asm_2mos6502_2types_8h.html#aeb756bd89bf86769edbefdef8135109f">clock_t</a></div><div class="ttdeci">unsigned int clock_t</div><div class="ttdef"><b>Definition:</b> types.h:72</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.14-->
