@@ -29,7 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.2.0</span>
+   &#160;<span id="projectnumber">4.3.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -145,8 +145,8 @@ Functions</h2></td></tr>
 <tr class="separator:a595c77bca15884c75fd85af84f373814"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7b8f466ecc6be62f6c034e52f05e957a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="drawing_8h.html#a7b8f466ecc6be62f6c034e52f05e957a">switch_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *src, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *dst) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
 <tr class="separator:a7b8f466ecc6be62f6c034e52f05e957a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab2c383d3e1541fae40cf5174e22166c6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="drawing_8h.html#ab2c383d3e1541fae40cf5174e22166c6">draw_image</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:ab2c383d3e1541fae40cf5174e22166c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa06e85b5d83d382aacc62bf3926bf6a6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="drawing_8h.html#aa06e85b5d83d382aacc62bf3926bf6a6">draw_image</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data)</td></tr>
+<tr class="separator:aa06e85b5d83d382aacc62bf3926bf6a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afe0ad8959a2867c4b60829d065660f1b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="drawing_8h.html#afe0ad8959a2867c4b60829d065660f1b">line</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x1, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y1, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x2, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y2) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
 <tr class="separator:afe0ad8959a2867c4b60829d065660f1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae1170230e5c9e61cc4321632e949e7ce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="drawing_8h.html#ae1170230e5c9e61cc4321632e949e7ce">box</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x1, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y1, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x2, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y2, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> style) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
@@ -165,7 +165,7 @@ Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>All Points Addressable (APA) mode drawing library.</p>
 <p>Drawing routines originally by Pascal Felber Legendary overhall by Jon Fuge : <a href="https://github.com/jf1452">https://github.com/jf1452</a> Commenting by Michael Hope</p>
-<p>Note: The standard text <a class="el" href="stdio_8h.html#a896df0168bd214fe2e23bd4cde306fea">printf()</a> and <a class="el" href="stdio_8h.html#a9bc92fb9f23c72a66d030d4028dda72d">putchar()</a> cannot be used in APA mode - use <a class="el" href="drawing_8h.html#a5f7a0ed309f9526e9be285146559848c">gprintf()</a> and <a class="el" href="drawing_8h.html#a9178e678a17cb08653600f435093ae2a">wrtchr()</a> instead.</p>
+<p>Note: The standard text <a class="el" href="stdio_8h.html#a133c04c35a1c14c6f8d8078831705661">printf()</a> and <a class="el" href="stdio_8h.html#aab41487f7727cf7eb7377f9b8f494c58">putchar()</a> cannot be used in APA mode - use <a class="el" href="drawing_8h.html#a5f7a0ed309f9526e9be285146559848c">gprintf()</a> and <a class="el" href="drawing_8h.html#a9178e678a17cb08653600f435093ae2a">wrtchr()</a> instead.</p>
 <p>Note: Using drawing.h will cause it's custom VBL and LCD ISRs (<code>drawing_vbl</code> and <code>drawing_lcd</code>) to be installed. Changing the mode (<code>mode(M_TEXT_OUT);</code>) will cause them to be de-installed.</p>
 <p>The valid coordinate ranges are from (x,y) 0,0 to 159,143. There is no built-in clipping, so drawing outside valid coordinates will likely produce undesired results (wrapping/etc).</p>
 <hr  />
@@ -629,8 +629,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ab2c383d3e1541fae40cf5174e22166c6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab2c383d3e1541fae40cf5174e22166c6">&#9670;&nbsp;</a></span>draw_image()</h2>
+<a id="aa06e85b5d83d382aacc62bf3926bf6a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa06e85b5d83d382aacc62bf3926bf6a6">&#9670;&nbsp;</a></span>draw_image()</h2>
 
 <div class="memitem">
 <div class="memproto">
