@@ -9,6 +9,7 @@ var dir_bdfe001eb73b667f67d57fb851301eb1 =
     [ "gb.h", "gb_8h.html", "gb_8h" ],
     [ "gbdecompress.h", "gb_2gbdecompress_8h.html", "gb_2gbdecompress_8h" ],
     [ "hardware.h", "gb_2hardware_8h.html", "gb_2hardware_8h" ],
+    [ "hblankcpy.h", "hblankcpy_8h.html", "hblankcpy_8h" ],
     [ "isr.h", "isr_8h.html", "isr_8h" ],
     [ "metasprites.h", "gb_2metasprites_8h.html", "gb_2metasprites_8h" ],
     [ "sgb.h", "sgb_8h.html", "sgb_8h" ]

@@ -1,12 +1,12 @@
 var searchData=
 [
-  ['calloc_1281',['calloc',['../stdlib_8h.html#a62b7798461bd461da64c5f9d35feddf7',1,'stdlib.h']]],
-  ['cancel_5fpending_5finterrupts_1282',['cancel_pending_interrupts',['../gb_8h.html#ade1cd2eab862b0e479415288964b3d63',1,'cancel_pending_interrupts(void):&#160;gb.h'],['../msx_8h.html#ade1cd2eab862b0e479415288964b3d63',1,'cancel_pending_interrupts(void):&#160;msx.h'],['../sms_8h.html#ade1cd2eab862b0e479415288964b3d63',1,'cancel_pending_interrupts(void):&#160;sms.h']]],
-  ['cgb_5fcompatibility_1283',['cgb_compatibility',['../cgb_8h.html#a6b334e5e452d0650aded17199be1514a',1,'cgb_compatibility(void):&#160;sms.h'],['../sms_8h.html#a6b334e5e452d0650aded17199be1514a',1,'cgb_compatibility(void):&#160;sms.h']]],
-  ['circle_1284',['circle',['../drawing_8h.html#ad46c3bdc38dfc9b70214693390d404cb',1,'drawing.h']]],
-  ['clock_1285',['clock',['../time_8h.html#aa7387b2120ad01dff4b9ece4d2ea0c39',1,'time.h']]],
-  ['cls_1286',['cls',['../console_8h.html#ae5f15506155750b79c8ceb1d9e86d34c',1,'console.h']]],
-  ['color_1287',['color',['../drawing_8h.html#a9fa68d25be92836a1b08a5e610b4f32f',1,'drawing.h']]],
-  ['cpu_5ffast_1288',['cpu_fast',['../cgb_8h.html#a871b5b1aba74ab8764f72b73bc090adb',1,'cpu_fast(void):&#160;msx.h'],['../msx_8h.html#a871b5b1aba74ab8764f72b73bc090adb',1,'cpu_fast(void):&#160;msx.h'],['../sms_8h.html#a871b5b1aba74ab8764f72b73bc090adb',1,'cpu_fast(void):&#160;sms.h']]],
-  ['cpu_5fslow_1289',['cpu_slow',['../cgb_8h.html#a476d06d0fe64d7c5a1ec05b8ee859a56',1,'cgb.h']]]
+  ['calloc_1359',['calloc',['../stdlib_8h.html#a62b7798461bd461da64c5f9d35feddf7',1,'stdlib.h']]],
+  ['cancel_5fpending_5finterrupts_1360',['cancel_pending_interrupts',['../gb_8h.html#ade1cd2eab862b0e479415288964b3d63',1,'cancel_pending_interrupts(void):&#160;gb.h'],['../msx_8h.html#ade1cd2eab862b0e479415288964b3d63',1,'cancel_pending_interrupts(void):&#160;msx.h'],['../sms_8h.html#ade1cd2eab862b0e479415288964b3d63',1,'cancel_pending_interrupts(void):&#160;sms.h']]],
+  ['cgb_5fcompatibility_1361',['cgb_compatibility',['../cgb_8h.html#a6b334e5e452d0650aded17199be1514a',1,'cgb_compatibility(void):&#160;sms.h'],['../sms_8h.html#a6b334e5e452d0650aded17199be1514a',1,'cgb_compatibility(void):&#160;sms.h']]],
+  ['circle_1362',['circle',['../drawing_8h.html#ad46c3bdc38dfc9b70214693390d404cb',1,'drawing.h']]],
+  ['clock_1363',['clock',['../time_8h.html#aa7387b2120ad01dff4b9ece4d2ea0c39',1,'time.h']]],
+  ['cls_1364',['cls',['../console_8h.html#ae5f15506155750b79c8ceb1d9e86d34c',1,'console.h']]],
+  ['color_1365',['color',['../drawing_8h.html#a9fa68d25be92836a1b08a5e610b4f32f',1,'drawing.h']]],
+  ['cpu_5ffast_1366',['cpu_fast',['../cgb_8h.html#a871b5b1aba74ab8764f72b73bc090adb',1,'cpu_fast(void):&#160;msx.h'],['../msx_8h.html#a871b5b1aba74ab8764f72b73bc090adb',1,'cpu_fast(void):&#160;msx.h'],['../sms_8h.html#a871b5b1aba74ab8764f72b73bc090adb',1,'cpu_fast(void):&#160;sms.h']]],
+  ['cpu_5fslow_1367',['cpu_slow',['../cgb_8h.html#a476d06d0fe64d7c5a1ec05b8ee859a56',1,'cgb.h']]]
 ];

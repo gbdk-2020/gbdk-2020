@@ -100,6 +100,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
       - Also change some to use @ref CURRENT_BANK instead of `_current_bank`
     - Fixes for SMS/GG: Fonts, Large Map, gbdecompress
     - Fixed Simple Physics: joypad input caching was wrong
+    - Fixed Banks Non-Intrinsic: mismatched SRAM banks for final calculation, improved naming
     - Removed Analogue Pocket examples that were just duplicates of Game Boy ones
   - Docs:
     - Fixed search where some exact matches didn't return a result

@@ -29,7 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.2.0</span>
+   &#160;<span id="projectnumber">4.3.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -91,7 +91,7 @@ $(document).ready(function(){initNavTree('docs_supported_consoles.html',''); ini
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="docs_consoles_supported_list"></a></p>
-<h1><a class="anchor" id="autotoc_md137"></a>
+<h1><a class="anchor" id="autotoc_md142"></a>
 Consoles Supported by GBDK</h1>
 <p>As of version <code>4.2.0</code> GBDK includes support for other consoles in addition to the Game Boy.</p>
 <ul>
@@ -111,12 +111,12 @@ Consoles Supported by GBDK</h1>
 </ul>
 <p>While the GBDK API has many convenience functions that work the same or similar across different consoles, it's important to keep their different capabilities in mind when writing code intended to run on more than one. Some (but not all) of the differences are screen sizes, color capabilities, memory layouts, processor type (z80 vs gbz80/sm83) and speed.</p>
 <p><a class="anchor" id="docs_consoles_compiling"></a></p>
-<h1><a class="anchor" id="autotoc_md138"></a>
+<h1><a class="anchor" id="autotoc_md143"></a>
 Cross Compiling for Different Consoles</h1>
-<h2><a class="anchor" id="autotoc_md139"></a>
+<h2><a class="anchor" id="autotoc_md144"></a>
 lcc</h2>
 <p>When compiling and building through <a class="el" href="docs_toolchain.html#lcc">lcc</a> use the <code>-m&lt;port&gt;:&lt;plat&gt;</code> flag to select the desired console via its port and platform combination. See below for available settings.</p>
-<h2><a class="anchor" id="autotoc_md140"></a>
+<h2><a class="anchor" id="autotoc_md145"></a>
 sdcc</h2>
 <p>When building directly with the sdcc toolchain, the following must be specified manually (when using <a class="el" href="docs_toolchain.html#lcc">lcc</a> it will populate these automatically based on <code>-m&lt;port&gt;:&lt;plat&gt;</code>).</p>
 <p>When compiling with <a class="el" href="docs_toolchain_settings.html#sdcc-settings">sdcc</a>:</p><ul>
@@ -142,7 +142,7 @@ sdcc</h2>
 <li><code>makecom &lt;image.bin&gt; [&lt;image.noi&gt;] &lt;output.com&gt;</code></li>
 </ul>
 <p><a class="anchor" id="console_port_plat_settings"></a></p>
-<h2><a class="anchor" id="autotoc_md141"></a>
+<h2><a class="anchor" id="autotoc_md146"></a>
 Console Port and Platform Settings</h2>
 <p>Note: Starting with GBDK-2020 4.1.0 and SDCC 4.2, the Game Boy and related clones use <code>sm83</code> for the port instead of <code>gbz80</code></p>
 <ul>
@@ -183,10 +183,10 @@ Console Port and Platform Settings</h2>
 </ul>
 </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md142"></a>
+<h1><a class="anchor" id="autotoc_md147"></a>
 Cross-Platform Constants</h1>
 <p>There are several constant #defines that can be used to help select console specific code during compile time (with <code>#ifdef</code>, <code>#ifndef</code>) .</p>
-<h2><a class="anchor" id="autotoc_md143"></a>
+<h2><a class="anchor" id="autotoc_md148"></a>
 Console Identifiers</h2>
 <ul>
 <li>When <code>&lt;gb/gb.h&gt;</code> is included (either directly or through <code>&lt;gbdk/platform.h&gt;</code>)<ul>
@@ -229,7 +229,7 @@ Console Identifiers</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md144"></a>
+<h2><a class="anchor" id="autotoc_md149"></a>
 Console Hardware Properties</h2>
 <p>Constants that describe properties of the console hardware are listed below. Their values will change to reflect the current console target that is being built.</p>
 <ul>
@@ -242,7 +242,7 @@ Console Hardware Properties</h2>
 <li><a class="el" href="sms_8h.html#a8b77608c87a9aef65a03531482b2163b">MAX_HARDWARE_SPRITES</a></li>
 <li><a class="el" href="sms_8h.html#afc296eacbda6a42f2a71aacab376ceb7">HARDWARE_SPRITE_CAN_FLIP_X</a>, <a class="el" href="sms_8h.html#a9119d69d971f6bee9e55d0df8f0ac983">HARDWARE_SPRITE_CAN_FLIP_Y</a></li>
 </ul>
-<h1><a class="anchor" id="autotoc_md145"></a>
+<h1><a class="anchor" id="autotoc_md150"></a>
 Using &lt;gbdk/...&gt; headers</h1>
 <p>Some include files under <code>&lt;gbdk/..&gt;</code> are cross platform and others allow the build process to auto-select the correct include file for the current target port and platform (console).</p>
 <p>For example, the following can be used </p><pre class="fragment">#include &lt;gbdk/platform.h&gt;
@@ -252,15 +252,15 @@ Using &lt;gbdk/...&gt; headers</h1>
 </pre><p> and </p><pre class="fragment">#include &lt;sms/sms.h&gt;
 #include &lt;sms/metasprites.h&gt;
 </pre><p><a class="anchor" id="docs_consoles_cross_platform_examples"></a></p>
-<h1><a class="anchor" id="autotoc_md146"></a>
+<h1><a class="anchor" id="autotoc_md151"></a>
 Cross Platform Example Projects</h1>
 <p>GBDK includes an number of cross platform example projects. These projects show how to write code that can be compiled and run on multiple different consoles (for example Game Boy and Game Gear) with, in some cases, minimal differences.</p>
 <p>They also show how to build for multiple target consoles with a single build command and <code>Makefile</code>. The <code>Makefile.targets</code> allows selecting different <code>port</code> and <code>plat</code> settings when calling the build stages.</p>
-<h2><a class="anchor" id="autotoc_md147"></a>
+<h2><a class="anchor" id="autotoc_md152"></a>
 Cross Platform Asset Example</h2>
 <p>The cross-platform <code>Logo</code> example project shows how assets can be managed for multiple different console targets together.</p>
 <p>In the example <a class="el" href="docs_toolchain.html#utility_png2asset">utility_png2asset</a> is used to generate assets in the native format for each console at compile-time from separate source PNG images. The Makefile is set to use the source PNG folder which matches the current console being compiled, and the source code uses <a class="el" href="gb_8h.html#acb5c235def5988696724051c5f838e74">set_bkg_native_data()</a> to load the assets tiles in native format to the tile memory used for background tiles on that platform.</p>
-<h1><a class="anchor" id="autotoc_md148"></a>
+<h1><a class="anchor" id="autotoc_md153"></a>
 Hardware Summaries</h1>
 <p>The specs below reflect the typical configuration of hardware when used with GBDK and is not meant as a complete list of their capabilities.</p>
 <p>GB/AP/DUCK</p><ul>
@@ -336,7 +336,7 @@ Hardware Summaries</h1>
 </li>
 </ul>
 <p><a class="anchor" id="docs_consoles_safe_display_controller_access"></a></p>
-<h2><a class="anchor" id="autotoc_md149"></a>
+<h2><a class="anchor" id="autotoc_md154"></a>
 Safe VRAM / Display Controller Access</h2>
 <p>GB/AP</p><ul>
 <li>VRAM / Display Controller (PPU)<ul>
@@ -356,9 +356,9 @@ Safe VRAM / Display Controller Access</h2>
 <li>See <a class="el" href="docs_supported_consoles.html#nes_technical_details">NES technical details</a></li>
 </ul>
 <p><a class="anchor" id="using_cgb_features"></a></p>
-<h1><a class="anchor" id="autotoc_md150"></a>
-Using Game Boy Color (CGB) Features</h1>
-<h2><a class="anchor" id="autotoc_md151"></a>
+<h1><a class="anchor" id="autotoc_md155"></a>
+Using Game Boy Color (GBC/CGB) Features</h1>
+<h2><a class="anchor" id="autotoc_md156"></a>
 Differences Versus the Regular Game Boy (DMG/GBP/SGB)</h2>
 <p>These are some of the main hardware differences between the Regular Game Boy and the Game Boy Color.</p>
 <ul>
@@ -380,10 +380,14 @@ Differences Versus the Regular Game Boy (DMG/GBP/SGB)</h2>
 <li>WRAM: 8 x 4K WRAM banks in the 0xD000 - 0xDFFF region</li>
 <li>LCD VRAM DMA</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md152"></a>
-CGB features in GBDK</h2>
+<h2><a class="anchor" id="autotoc_md157"></a>
+Game Boy Color features in GBDK</h2>
 <p>These are some of the main GBDK API features for the CGB. Many of the items listed below link to additional information.</p>
 <ul>
+<li>ROM header settings:<ul>
+<li>See the FAQ entry <a class="el" href="docs_faq.html#faq_gb_type_header_setting">How do I set SGB, Color only and Color compatibility in the ROM header?</a></li>
+</ul>
+</li>
 <li>Tile and Pattern data:<ul>
 <li>Select VRAM Banks: <a class="el" href="gb_2hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a> (used with <code>set_bkg/win/sprite_*()</code>)</li>
 <li><a class="el" href="gb_8h.html#a0bcf384938628c4ab52e63b2df8f78f8">set_bkg_attributes()</a>, <a class="el" href="gb_8h.html#a1cefe143b3861632897e0c989401bce7">set_bkg_submap_attributes()</a></li>
@@ -399,17 +403,17 @@ CGB features in GBDK</h2>
 <li>Detect and change CPU speed: if (<a class="el" href="gb_8h.html#a874b9bd95b0a05d6a6072feabc879e45">_cpu</a> == <a class="el" href="gb_8h.html#aee435a3a0dde3dbd7b6112dbb456cde8">CGB_TYPE</a>), <a class="el" href="cgb_8h.html#a871b5b1aba74ab8764f72b73bc090adb">cpu_fast()</a></li>
 <li>More details in <a class="el" href="cgb_8h.html">cgb.h</a> (<code>#include &lt;gb/cgb.h&gt;</code>)</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md153"></a>
+<h2><a class="anchor" id="autotoc_md158"></a>
 CGB Examples</h2>
 <p>Several examples in GBDK show how to use CGB features, including the following:</p><ul>
 <li><code>gb/colorbar</code>, <code>gb/dscan</code>, <code>cross-platform/large_map</code>, <code>cross-platform/logo</code>, <code>cross-platform/metasprites</code></li>
 </ul>
-<h1><a class="anchor" id="autotoc_md154"></a>
+<h1><a class="anchor" id="autotoc_md159"></a>
 Porting Between Supported Consoles</h1>
-<h2><a class="anchor" id="autotoc_md155"></a>
+<h2><a class="anchor" id="autotoc_md160"></a>
 From Game Boy to Analogue Pocket</h2>
 <p>The Analogue Pocket operating in <code>.pocket</code> mode is (for practical purposes) functionally identical to the Game Boy / Color though it has a couple changes listed below. These are handled automatically in GBDK as long as the practices outlined below are followed.</p>
-<h3><a class="anchor" id="autotoc_md156"></a>
+<h3><a class="anchor" id="autotoc_md161"></a>
 Official differences:</h3>
 <ul>
 <li>Altered register flag and address definitions<ul>
@@ -426,7 +430,7 @@ Official differences:</h3>
 </ul>
 </li>
 </ul>
-<h3><a class="anchor" id="autotoc_md157"></a>
+<h3><a class="anchor" id="autotoc_md162"></a>
 Observed differences:</h3>
 <ul>
 <li>MBC1 and MBC5 are supported, MBC3 won't save and RTC doesn't progress when game is not running, the HuC3 isn't supported at all (via JoseJX and sg).</li>
@@ -434,7 +438,7 @@ Observed differences:</h3>
 <li>The IR port in CGB mode does not work as reliably as the Game Boy Color</li>
 </ul>
 <p>In order for software to be easily ported to the Analogue Pocket, or to run on both, use the following practices.</p>
-<h3><a class="anchor" id="autotoc_md158"></a>
+<h3><a class="anchor" id="autotoc_md163"></a>
 Registers and Flags</h3>
 <p>Use API defined registers and register flags instead of hardwired ones.</p><ul>
 <li>LCDC register: <a class="el" href="gb_2hardware_8h.html#a6515fdfaa50eeb7e63faeea54f77cd6b">LCDC_REG</a> or <a class="el" href="gb_2hardware_8h.html#a8b576a1fe1473ac4aff8afecb28035cb">rLCDC</a></li>
@@ -442,12 +446,12 @@ Registers and Flags</h3>
 <li>LCDC flags: -&gt; LCDCF_... (example: <a class="el" href="gb_2hardware_8h.html#a1491fc03ed7f02e7309cc7b0c48b6c8a">LCDCF_ON</a>)</li>
 <li>STAT flags: -&gt; STATF_... (example: <a class="el" href="gb_2hardware_8h.html#a3b53105cc5be896b48794ba82d2aeb4c">STATF_LYC</a>)</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md159"></a>
+<h3><a class="anchor" id="autotoc_md164"></a>
 Boot logo</h3>
 <p>As long as the target console is <a class="el" href="docs_supported_consoles.html#docs_consoles_compiling">set during build time</a> then the correct boot logo will be automatically selected.</p>
-<h2><a class="anchor" id="autotoc_md160"></a>
+<h2><a class="anchor" id="autotoc_md165"></a>
 From Game Boy to SMS/GG</h2>
-<h3><a class="anchor" id="autotoc_md161"></a>
+<h3><a class="anchor" id="autotoc_md166"></a>
 RAM Banks</h3>
 <ul>
 <li>The SMS/GG ROM file size must be at least 64K to enable mapper support for RAM banks in emulators.<ul>
@@ -455,16 +459,16 @@ RAM Banks</h3>
 </ul>
 </li>
 </ul>
-<h3><a class="anchor" id="autotoc_md162"></a>
+<h3><a class="anchor" id="autotoc_md167"></a>
 Tile Data and Tile Map loading</h3>
-<h4><a class="anchor" id="autotoc_md163"></a>
+<h4><a class="anchor" id="autotoc_md168"></a>
 Tile and Map Data in 2bpp Game Boy Format</h4>
 <ul>
 <li><a class="el" href="gb_8h.html#a1f5101f2b7bb0123c26a3e257f843626">set_bkg_data()</a> and <a class="el" href="gb_8h.html#ae45b1c639698951b47e44fa8e89556f2">set_sprite_data()</a> will load 2bpp tile data in "Game Boy" format on both GB and SMS/GG.</li>
 <li>On the SMS/GG <a class="el" href="gb_8h.html#aa224c9bac27c7fd268e62bdf33338a84">set_2bpp_palette()</a> sets 4 colors that will be used when loading 2bpp assets with <a class="el" href="gb_8h.html#a1f5101f2b7bb0123c26a3e257f843626">set_bkg_data()</a>. This allows GB assets to be easily colorized without changing the asset format. There is some performance penalty for using the conversion.</li>
 <li><a class="el" href="msx_8h.html#a9a732aec1b7aec7d10a9d76ca4da2064">set_bkg_tiles()</a> loads 1-byte-per-tile tilemaps both for the GB and SMS/GG.</li>
 </ul>
-<h4><a class="anchor" id="autotoc_md164"></a>
+<h4><a class="anchor" id="autotoc_md169"></a>
 Tile and Map Data in Native Format</h4>
 <p>Use the following api calls when assets are avaialble in the native format for each platform.</p>
 <p><a class="el" href="gb_8h.html#a68651e50243349b48164a8ad983dca4e">set_native_tile_data()</a></p><ul>
@@ -478,15 +482,38 @@ Tile and Map Data in Native Format</h4>
 <p>There are also bit-depth specific API calls:</p><ul>
 <li>1bpp: <a class="el" href="sms_8h.html#adcb394299a1033616fc7d2faec8bd6ad">set_1bpp_colors</a>, <a class="el" href="sms_8h.html#a4d5f74eed0489ebfdc2410ee3f9f7f04">set_bkg_1bpp_data</a>, <a class="el" href="sms_8h.html#a2cc121fbeb5570248531b85a8f0b5b97">set_sprite_1bpp_data</a></li>
 <li>2bpp: <a class="el" href="sms_8h.html#aa224c9bac27c7fd268e62bdf33338a84">set_2bpp_palette</a>, <a class="el" href="sms_8h.html#aa7ba76e4d44dbf19da351fd1ea8e3023">set_bkg_2bpp_data</a>, <a class="el" href="sms_8h.html#a10ee2919fcab7a5c482816ed718d1c4a">set_sprite_2bpp_data</a>, <a class="el" href="sms_8h.html#ab752b1bb0f58da2a6d52e9747c4b3dd8">set_tile_2bpp_data</a> (sms/gg only)</li>
-<li>2bpp: <a class="el" href="sms_8h.html#aeff13dca11be49e8c159820c616016ec">set_bkg_4bpp_data</a> (sms/gg only), <a class="el" href="sms_8h.html#a24f53cfe7e25c04fbb5dcb08cfb3b432">set_sprite_4bpp_data</a> (sms/gg only)</li>
+<li>2bpp: <a class="el" href="sms_8h.html#a551fa0b4eb3f30b067a6367a60472095">set_bkg_4bpp_data</a> (sms/gg only), <a class="el" href="sms_8h.html#ad9f5644f83d1b513d83c14bf83a18ce6">set_sprite_4bpp_data</a> (sms/gg only)</li>
 </ul>
-<h4><a class="anchor" id="autotoc_md165"></a>
+<h3><a class="anchor" id="autotoc_md170"></a>
+Colors and Palettes</h3>
+<p>The SMS/GG have 2 x 16 color palettes:</p><ul>
+<li>The first (0) is just for the background</li>
+<li>The second (1) is shared between sprites and the background (and for sprites a single color 0 of that palette is transparent)</li>
+</ul>
+<p>On the Game Gear</p><ul>
+<li>Each Palette is 32 bytes in size: 16 colors x 2 bytes per palette color entry.</li>
+<li>Each color (16 per palette) is packed as BGR-444 format (x:4:4:4, MSBits [15..12] are unused).</li>
+<li>Each component (R, G, B) may have values from 0 - 15 (4 bits), 15 is brightest.</li>
+</ul>
+<p>On the SMS</p><ul>
+<li>On SMS each Palette is 16 bytes in size: 16 colors x 1 byte per palette color entry.</li>
+<li>Each color (16 per palette) is packed as BGR-222 format (x:2:2:2, MSBits [7..6] are unused).</li>
+<li>Each component (R, G, B) may have values from 0 - 3 (2 bits), 3 is brightest.</li>
+</ul>
+<p>For setting palette data:</p><ul>
+<li><a class="el" href="msx_8h.html#a2c9aabf4519e01257b0d0e04e8108164">set_palette_entry()</a>: Will set a single color in a palette</li>
+<li><a class="el" href="msx_8h.html#af288f3b302839006d33d38755d922de0">set_palette()</a>: Can set all the colors for one or both palettes</li>
+<li><a class="el" href="msx_8h.html#a9f879bd31899f7989f887b6238de24e3">set_bkg_palette()</a>: Is just an alias for <a class="el" href="msx_8h.html#af288f3b302839006d33d38755d922de0">set_palette()</a>. The full 16 colors can be set using this call.</li>
+<li><a class="el" href="msx_8h.html#a7d5ed1aed79d8fd2894893d7f6f9b835">set_sprite_palette()</a>: Is also an alias for <a class="el" href="msx_8h.html#af288f3b302839006d33d38755d922de0">set_palette()</a>, but it offsets to write to the second 16 color palette.</li>
+<li>Also see: <a class="el" href="cgb_8h.html#a4a118ad3ee36468a3fa616977a64864e">RGB()</a>, <a class="el" href="cgb_8h.html#a7d2ed0f10b2b74123a544327bbfd7564">RGB8()</a>, <a class="el" href="cgb_8h.html#ab5a6e450fcf10402278fe585a421dbbd">RGBHTML()</a></li>
+</ul>
+<h4><a class="anchor" id="autotoc_md171"></a>
 Emulated Game Boy Color map attributes on the SMS/Game Gear</h4>
 <p>On the Game Boy Color, <a class="el" href="gb_2hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a> is used to select between the regular background tile map and the background attribute tile map (for setting tile color palette and other properties).</p>
 <p>This behavior is emulated for the SMS/GG when using <a class="el" href="msx_8h.html#a9a732aec1b7aec7d10a9d76ca4da2064">set_bkg_tiles()</a> and <a class="el" href="gb_2hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a>. It allows writing a 1-byte tile map separately from a 1-byte attributes map.</p>
 <dl class="section note"><dt>Note</dt><dd>Tile map attributes on SMS/Game Gear use different control bits than the Game Boy Color, so a modified attribute map must be used.</dd></dl>
 <p><a class="anchor" id="nes_technical_details"></a></p>
-<h2><a class="anchor" id="autotoc_md166"></a>
+<h2><a class="anchor" id="autotoc_md172"></a>
 From Game Boy to NES</h2>
 <p>The NES graphics architecture is similar to the GB's. However, there are a number of design choices in the NES hardware that make the NES a particularly cumbersome platform to develop for, and that will require special attention.</p>
 <p>Most notably:</p><ul>
@@ -497,10 +524,19 @@ From Game Boy to NES</h2>
 <li>The base NES system has no support for any scanline interrupts. And cartridge mappers that add scanline interrupts do so using wildly varying solutions</li>
 <li>There's no easy way to determine the current scanline or CPU-to-PPU alignment meaning timed code is often required on the NES</li>
 <li>The PAL variant of the NES has very different CPU / PPU timings, as do the Dendy clone and other clone systems</li>
+<li>The stock 2 kB CPU RAM is just 1/4th the 8kB CPU RAM on a Game Boy<ul>
+<li>Free RAM after accounting for ZP, stack, OAM page and system variables further cuts this in half</li>
+<li>This means a lot of GB code will need to be carefully optimized for RAM usage when ported to the NES</li>
+<li>In particular, make sure to use the "const" modifier for arrays that are read-only, to make sure they don't end up in RAM</li>
+</ul>
+</li>
 </ul>
 <p>To provide an easier experience, gbdk-nes attempts to hide most of these quirks so that in theory the programming experience for gbdk-nes should be as close as possible to that of the GB/GBC. However, to avoid surprises it is recommended to familiarize yourself with the NES-specific quirks and implementation choices mentioned here.</p>
 <p>This entire section is written as a guide on porting GB projects to NES. If you are new to GBDK, you may wish to familiarize yourself with using GBDK for GB development first as the topics covered will make a lot more sense after gaining experience with GB development.</p>
-<h3><a class="anchor" id="autotoc_md167"></a>
+<h3><a class="anchor" id="autotoc_md173"></a>
+Mapper</h3>
+<p>Currently the NES support in GBDK uses UNROM-512 (Mapper30) with single-screen mirroring.</p>
+<h3><a class="anchor" id="autotoc_md174"></a>
 Buffered mode vs direct mode</h3>
 <p>On the GB, the vblank period serves as an optimal time to write data to PPU memory, and PPU memory can also be written efficiently with VRAM DMA.</p>
 <p>On the NES, writing PPU memory during the vblank period is not optional. Whenever rendering is turned on the PPU is in a state where accessing PPU memory results in undefined behavior outside the short vblank period. The NES also has no VRAM DMA hardware to help with data writes. This makes the vblank period not only more precious, but important to never exceed to avoid glitched games.</p>
@@ -511,7 +547,7 @@ Buffered mode vs direct mode</h3>
 <li>DISPLAY_OFF will switch the system into direct mode, allowing much larger/faster transfers while the screen is blanked</li>
 </ul>
 <p>The following sections describe how the buffered / direct modes work in more detail. As buffered / direct mode is mostly hidden by the API calls, feel free to skip these sections if you wish.</p>
-<h4><a class="anchor" id="autotoc_md168"></a>
+<h4><a class="anchor" id="autotoc_md175"></a>
 Buffered mode implementation details</h4>
 <p>To take maximum advantage of the short vblank period, gbdk-nes implements the same system as nearly every other NES engine: An unrolled loop that pulls prepared data bytes from the stack. </p><pre class="fragment">PLA
 STA PPUDATA
@@ -525,15 +561,15 @@ RTS
 <p>By doing writes to this buffer during game logic, your game will effectively keep writing data transfer commands for the vblank NMI handler to process in the next vblank period, without having to wait until the vblank.</p>
 <p>Given that transfer buffer only has space for around 100 data bytes, it is important to not overfill the buffer, as this will bring code execution to a screeching halt, until the NMI handler empties the old contents of the buffer to free up space to allow new commands to be written.</p>
 <p>Buffered mode is typically used for scrolling updates or dynamically animated tiles, where only a small amount of bytes need updating per frame.</p>
-<h4><a class="anchor" id="autotoc_md169"></a>
+<h4><a class="anchor" id="autotoc_md176"></a>
 Direct mode implementation details</h4>
 <p>During direct mode, all graphics routines will write directly to the PPUADDR / PPUDATA ports and the transfer buffer limit is never a concern because the transfer buffer is effectively avoided.</p>
 <p>Direct mode is typically used for initializing large amounts of tile data at boot and/or level loading time. Unless you plan to have an animated loading screen and decompress a lot of data, it makes more sense to just fade the screen to black and allow direct mode to write data as fast as possible.</p>
-<h4><a class="anchor" id="autotoc_md170"></a>
+<h4><a class="anchor" id="autotoc_md177"></a>
 Caveat: Make sure the transfer buffer is emptied before switching to direct mode</h4>
 <p>Because the switch to the direct mode is instant and doesn't wait for the next invocation of the vblank, it is possible to create situations where there is still remaining data in the transfer buffer that would only get written once the system is switched back to buffered mode.</p>
 <p>To avoid this situation, make sure to always "drain" the buffer by doing a call to wait_vbl_done when you expect your code to finish.</p>
-<h4><a class="anchor" id="autotoc_md171"></a>
+<h4><a class="anchor" id="autotoc_md178"></a>
 Caveat: Only update the PPU palette during buffered mode</h4>
 <p>The oddity that PPU palette values are accessed through the same mechanism as other PPU memory bytes comes with the side effect that the vblank NMI handler will only write the palette values in buffered mode.</p>
 <p>The reason for this design choice is two-fold:</p><ul>
@@ -541,12 +577,12 @@ Caveat: Only update the PPU palette during buffered mode</h4>
 <li>Having the palette updates also switch to direct mode would run into another quirk of the system: Pointing PPUADDR at palette registers when display is turned off will make the display output that palette color instead of the common background color. The result would be glitchy artifacts on screen when updating the palette, leading to slightly-glitchy looking game whenever the palette is updated with the screen off</li>
 </ul>
 <p>To work around this, you are advised to never fully turn the display off during a palette fade. If you don't follow this advice all your palette updates will get delayed until the screen is turned back on.</p>
-<h3><a class="anchor" id="autotoc_md172"></a>
+<h3><a class="anchor" id="autotoc_md179"></a>
 Shadow PPU registers</h3>
 <p>Like the SMS, the NES hardware is designed to only allow loading the full X/Y scroll on the very first scanline. i.e., under normal operation you are only allowed to change the Y-scroll once.</p>
 <p>In contrast to the SMS, this limitation can be circumvented with a specific set of out-of-order writes to the PPUSCROLL/PPUADDR registers, taking advantage of the quirk that the PPUADDR and PPUSCROLL share register bits. But this write sequence is very timing-sensitive as the writes need to fall into (a smaller portion of) the hblank period in order to avoid race conditions when the CPU and PPU both try to update the same register during scanline rendering.</p>
 <p>To simplify the programming interface, gbdk-nes functions like move_bkg / scroll_bkg only ever update shadow registers in RAM. The vblank NMI handler will later pick these values up and write them to the actual PPU registers registers.</p>
-<h3><a class="anchor" id="autotoc_md173"></a>
+<h3><a class="anchor" id="autotoc_md180"></a>
 Implementation of (fake) vbl / lcd handlers</h3>
 <p>GBDK provides an API for installing Interrupt Service Routines that execute on start of vblank (VBL handler), or on a specific scanline (LCD handler).</p>
 <p>But the base NES system has no suitable scanline interrupts that can provide such functionality. So instead, gbdk-nes API allows <em>fake</em> handlers to be installed in the goal of keeping code compatible with other platforms.</p>
@@ -556,7 +592,7 @@ Implementation of (fake) vbl / lcd handlers</h3>
 </ul>
 <p>Because the LCD "ISR" is actually implemented with a delay loop, it will burn a lot of CPU cycles in the frame - the further down the scanline is the larger the CPU cycle loss. In practice this makes this faked-LCD-ISR functionality only suited for status bars at the top screen, or simple parallax cutscenes where the CPU has little else to do.</p>
 <dl class="section note"><dt>Note</dt><dd>The support for VBL and LCD handlers is currently under consideration and subject to change in newer versions of gbdk-nes.</dd></dl>
-<h3><a class="anchor" id="autotoc_md174"></a>
+<h3><a class="anchor" id="autotoc_md181"></a>
 Caveat: Make sure to call wait_vbl_done on every frame</h3>
 <p>On the GB, the call to wait_vbl_done is an optional call that serves two purposes:</p>
 <ol type="1">
@@ -567,15 +603,15 @@ Caveat: Make sure to call wait_vbl_done on every frame</h3>
 <p>But the wait_vbl_done call serves two other very important purposes:</p>
 <p>A. It calls the optional VBL handler, where shadow registers can be written (and will later be picked up by the actual vblank NMI handler) B. It calls flush_shadow_attributes so that updates to background attributes actually get written to PPU memory</p>
 <p>For these reasons you should always include a call to wait_vbl_done if you expect to see any graphical updates on the screen.</p>
-<h3><a class="anchor" id="autotoc_md175"></a>
+<h3><a class="anchor" id="autotoc_md182"></a>
 Tile Data and Tile Map loading</h3>
-<h4><a class="anchor" id="autotoc_md176"></a>
+<h4><a class="anchor" id="autotoc_md183"></a>
 Tile and Map Data in 2bpp Game Boy Format</h4>
 <ul>
 <li><a class="el" href="gb_8h.html#a1f5101f2b7bb0123c26a3e257f843626">set_bkg_data()</a> and <a class="el" href="gb_8h.html#ae45b1c639698951b47e44fa8e89556f2">set_sprite_data()</a> will load 2bpp tile data in "Game Boy" format on both GB and NES.</li>
 <li><a class="el" href="msx_8h.html#a9a732aec1b7aec7d10a9d76ca4da2064">set_bkg_tiles()</a> loads 1-byte-per-tile tilemaps both for the GB and NES.</li>
 </ul>
-<h4><a class="anchor" id="autotoc_md177"></a>
+<h4><a class="anchor" id="autotoc_md184"></a>
 Tile and Map Data in Native Format</h4>
 <p>Use the following api calls when assets are avaialble in the native format for each platform.</p>
 <p><a class="el" href="gb_8h.html#a68651e50243349b48164a8ad983dca4e">set_native_tile_data()</a></p><ul>
@@ -591,9 +627,9 @@ Tile and Map Data in Native Format</h4>
 <li>2bpp: <a class="el" href="sms_8h.html#aa224c9bac27c7fd268e62bdf33338a84">set_2bpp_palette</a>, <a class="el" href="sms_8h.html#aa7ba76e4d44dbf19da351fd1ea8e3023">set_bkg_2bpp_data</a>, <a class="el" href="sms_8h.html#a10ee2919fcab7a5c482816ed718d1c4a">set_sprite_2bpp_data</a></li>
 </ul>
 <p>Platform specific API calls:</p><ul>
-<li><a class="el" href="nes_8h.html#a19776bb563b6f64890f9933e67bda7ed">set_bkg_attributes_nes16x16()</a>, <a class="el" href="nes_8h.html#a04f245645e941991e3f8f82eef488847">set_bkg_submap_attributes_nes16x16()</a>, <a class="el" href="nes_8h.html#ac9dea209bacf188e54d76cae68034c3b">set_bkg_attribute_xy_nes16x16()</a></li>
+<li><a class="el" href="nes_8h.html#a0254d6e23d4202cb070b1fe54c6a7210">set_bkg_attributes_nes16x16()</a>, <a class="el" href="nes_8h.html#aadba8b700b97ec97dc9c488496619fd9">set_bkg_submap_attributes_nes16x16()</a>, <a class="el" href="nes_8h.html#a7b7c27e672467f08097f744f3530bbc7">set_bkg_attribute_xy_nes16x16()</a></li>
 </ul>
-<h4><a class="anchor" id="autotoc_md178"></a>
+<h4><a class="anchor" id="autotoc_md185"></a>
 Game Boy Color map attributes on the NES</h4>
 <p>On the Game Boy Color, <a class="el" href="gb_2hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a> is used to select between the regular background tile map and the background attribute tile map (for setting tile color palette and other properties).</p>
 <p>This behavior of setting VBK_REG to specify tile indices/attributes is not supported on the NES platform. Instead the dedicated functions for attribute setting should be used. These will work on other platforms as well and are the preferred way to set attributes.</p>
@@ -616,10 +652,10 @@ Game Boy Color map attributes on the NES</h4>
 </li>
 </ul>
 </dd></dl>
-<h2><a class="anchor" id="autotoc_md179"></a>
+<h2><a class="anchor" id="autotoc_md186"></a>
 From Game Boy to Mega Duck / Cougar Boy</h2>
 <p>The Mega Duck is (for practical purposes) functionally identical to the Original Game Boy though it has a couple changes listed below.</p>
-<h3><a class="anchor" id="autotoc_md180"></a>
+<h3><a class="anchor" id="autotoc_md187"></a>
 Summary of Hardware changes:</h3>
 <ul>
 <li>Cartridge Boot Logo: not present on Mega Duck</li>
@@ -629,7 +665,7 @@ Summary of Hardware changes:</h3>
 <li>Audio registers and flag definitions: Some changed</li>
 <li>MBC ROM bank switching register address: <code>0x0001</code> (many Game Boy MBCs use <code>0x2000 - 0x3FFF</code>)</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md181"></a>
+<h3><a class="anchor" id="autotoc_md188"></a>
 Best Practices</h3>
 <p>In order for software to be easily ported to the Mega Duck, or to run on both, use these practices. That will allow GBDK to automatically handle <em>most</em> of the differences (for the exceptions see <a class="el" href="docs_supported_consoles.html#megaduck_sound_register_value_changes">Sound Register Value Changes</a>).</p><ul>
 <li><a class="el" href="docs_supported_consoles.html#docs_consoles_compiling">Set the target console during build time</a></li>
@@ -641,7 +677,7 @@ Best Practices</h3>
 </li>
 </ul>
 <p><a class="anchor" id="megaduck_sound_register_value_changes"></a></p>
-<h3><a class="anchor" id="autotoc_md182"></a>
+<h3><a class="anchor" id="autotoc_md189"></a>
 Sound Register Value Changes</h3>
 <p>There are two hardware changes which will not be handled automatically when following the practices mentioned above.</p>
 <p>These changes may be required when using existing Sound Effects and Music Drivers written for the Game Boy.</p>
@@ -657,7 +693,7 @@ Sound Register Value Changes</h3>
 </ul>
 </li>
 </ol>
-<h3><a class="anchor" id="autotoc_md183"></a>
+<h3><a class="anchor" id="autotoc_md190"></a>
 Graphics Register Bit Changes</h3>
 <p>These changes are handled automatically when their GBDK definitions are used.</p>
 <table class="markdownTable">
@@ -680,7 +716,7 @@ Graphics Register Bit Changes</h3>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><a class="el" href="gb_2hardware_8h.html#aa1f66868f63af2af6544e84122de3cc3">LCDCF_B_BGON</a>   </td><td class="markdownTableBodyNone">.0   </td><td class="markdownTableBodyNone">.6   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Bit for Background Display Visible Hidden Select   </td></tr>
 </table>
-<h3><a class="anchor" id="autotoc_md184"></a>
+<h3><a class="anchor" id="autotoc_md191"></a>
 Detailed Register Address Changes</h3>
 <p>These changes are handled automatically when their GBDK definitions are used.</p>
 <table class="markdownTable">

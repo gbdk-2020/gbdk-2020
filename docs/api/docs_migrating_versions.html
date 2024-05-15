@@ -29,7 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.2.0</span>
+   &#160;<span id="projectnumber">4.3.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -91,9 +91,21 @@ $(document).ready(function(){initNavTree('docs_migrating_versions.html',''); ini
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p>This section contains information that may be useful to know or important when upgrading to a newer GBDK release.</p>
-<h1><a class="anchor" id="autotoc_md215"></a>
+<h1><a class="anchor" id="autotoc_md223"></a>
 GBDK-2020 versions</h1>
-<h2><a class="anchor" id="autotoc_md216"></a>
+<h2><a class="anchor" id="autotoc_md224"></a>
+Porting to GBDK-2020 4.3.0</h2>
+<ul>
+<li>GBDK now requires ~SDCC 4.4 or higher with GBDK-2020 patches for the z80 and NES</li>
+<li>Changed to new calling convention for <a class="el" href="stdio_8h.html#a133c04c35a1c14c6f8d8078831705661">printf()</a>, <a class="el" href="stdio_8h.html#a440c82287022737c4f2866786ba8a154">sprintf()</a>, <a class="el" href="stdlib_8h.html#af15d7205d8d10c4820f997ce5c526279">abs()</a></li>
+<li>Changed to new SDCC calling convention for <a class="el" href="msx_8h.html#adcd40a58f7c7d348d506cc400cd94739">set_bkg_tile_xy()</a>, <a class="el" href="msx_8h.html#a95d929d964d9988f4dc5a25ed399ae08">set_win_tile_xy()</a></li>
+<li>Recommend using:<ul>
+<li><a class="el" href="sms_8h.html#ae042588f20bf5a2349c8ad8716245233">CURRENT_BANK</a> instead of <code>_current_bank</code></li>
+<li><a class="el" href="asm_2types_8h.html#aa8480aed89a168ec484727f5ac985cd0">BANKED</a> macro instead of <code>__banked</code></li>
+</ul>
+</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md225"></a>
 Porting to GBDK-2020 4.2.0</h2>
 <ul>
 <li>GBDK now requires ~SDCC 4.3 or higher with GBDK-2020 patches for the z80 and NES</li>
@@ -114,12 +126,12 @@ Porting to GBDK-2020 4.2.0</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md217"></a>
+<h2><a class="anchor" id="autotoc_md226"></a>
 Porting to GBDK-2020 4.1.1</h2>
 <ul>
 <li>No significant changes required</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md218"></a>
+<h2><a class="anchor" id="autotoc_md227"></a>
 Porting to GBDK-2020 4.1.0</h2>
 <ul>
 <li>GBDK now requires SDCC 4.2 or higher with GBDK-2020 patches for the z80 linker</li>
@@ -149,7 +161,7 @@ Porting to GBDK-2020 4.1.0</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md219"></a>
+<h2><a class="anchor" id="autotoc_md228"></a>
 Porting to GBDK-2020 4.0.6</h2>
 <ul>
 <li>Renamed <code>bgb_emu.h</code> to <code>emu_debug.h</code> and BGB_* functions to EMU_*<ul>
@@ -157,7 +169,7 @@ Porting to GBDK-2020 4.0.6</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md220"></a>
+<h2><a class="anchor" id="autotoc_md229"></a>
 Porting to GBDK-2020 4.0.5</h2>
 <ul>
 <li>GBDK now requires SDCC 12259 or higher with GBDK-2020 patches</li>
@@ -174,18 +186,18 @@ Porting to GBDK-2020 4.0.5</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md221"></a>
+<h2><a class="anchor" id="autotoc_md230"></a>
 Porting to GBDK-2020 4.0.4</h2>
 <ul>
 <li>GBDK now requires SDCC 12238 or higher</li>
 <li>Made sample.h, cgb.h and sgb.h independent from gb.h</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md222"></a>
+<h2><a class="anchor" id="autotoc_md231"></a>
 Porting to GBDK-2020 4.0.3</h2>
 <ul>
 <li>No significant changes required</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md223"></a>
+<h2><a class="anchor" id="autotoc_md232"></a>
 Porting to GBDK-2020 4.0.2</h2>
 <ul>
 <li>The default font has been reduced from 256 to 96 characters.<ul>
@@ -194,7 +206,7 @@ Porting to GBDK-2020 4.0.2</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md224"></a>
+<h2><a class="anchor" id="autotoc_md233"></a>
 Porting to GBDK-2020 4.0.1</h2>
 <ul>
 <li><b>Important!</b> : The <code>WRAM</code> memory region is no longer automatically initialized to zeros during startup.<ul>
@@ -206,7 +218,7 @@ Porting to GBDK-2020 4.0.1</h2>
 <li>In .ihx files, multiple writes to the same ROM address are now warned about using <a class="el" href="docs_toolchain.html#ihxcheck">ihxcheck</a>.</li>
 <li><code>set_*_tiles()</code> now wrap maps around horizontal and vertical boundaries correctly. Code relying on it not wrapping correctly may be affected.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md225"></a>
+<h2><a class="anchor" id="autotoc_md234"></a>
 Porting to GBDK-2020 4.0</h2>
 <ul>
 <li>GBDK now requires SDCC 4.0.3 or higher</li>
@@ -218,22 +230,22 @@ Porting to GBDK-2020 4.0</h2>
 <li>Setting ROM bytes directly with <code>-Wl-yp0x&lt;address&gt;=0x&lt;value&gt;</code> is no longer supported. Instead use <a class="el" href="docs_toolchain.html#makebin">makebin</a> flags. For example, use <code>-Wm-yC</code> instead of <code>-Wl-yp0x143=0xC0</code>. See <a class="el" href="docs_faq.html#faq_gb_type_header_setting">faq_gb_type_header_setting</a>.</li>
 <li>OAM symbol has been renamed to <code>_shadow_OAM</code>, that allows accessing shadow OAM directly from C code</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md226"></a>
+<h2><a class="anchor" id="autotoc_md235"></a>
 Porting to GBDK-2020 3.2</h2>
 <ul>
 <li>No significant changes required</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md227"></a>
+<h2><a class="anchor" id="autotoc_md236"></a>
 Porting to GBDK-2020 3.1.1</h2>
 <ul>
 <li>No significant changes required</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md228"></a>
+<h2><a class="anchor" id="autotoc_md237"></a>
 Porting to GBDK-2020 3.1</h2>
 <ul>
 <li>Behavior formerly enabled by USE_SFR_FOR_REG is on by default now (no need to specify it, it isn't a tested <code>#ifdef</code> anymore). check here why: <a href="https://gbdev.gg8.se/forums/viewtopic.php?id=697">https://gbdev.gg8.se/forums/viewtopic.php?id=697</a></li>
 </ul>
-<h2><a class="anchor" id="autotoc_md229"></a>
+<h2><a class="anchor" id="autotoc_md238"></a>
 Porting to GBDK-2020 3.0.1</h2>
 <ul>
 <li>LCC was upgraded to use SDCC v4.0. Makefile changes may be required<ul>
@@ -250,9 +262,9 @@ Porting to GBDK-2020 3.0.1</h2>
 </li>
 </ul>
 <hr  />
-<h1><a class="anchor" id="autotoc_md231"></a>
+<h1><a class="anchor" id="autotoc_md240"></a>
 Historical GBDK versions</h1>
-<h2><a class="anchor" id="autotoc_md232"></a>
+<h2><a class="anchor" id="autotoc_md241"></a>
 GBDK 1.1 to GBDK 2.0</h2>
 <ul>
 <li>Change your int variables to long if they have to be bigger than 255. If they should only contain values between 0 and 255, use an unsigned int.</li>
