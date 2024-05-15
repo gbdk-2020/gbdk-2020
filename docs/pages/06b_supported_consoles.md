@@ -469,9 +469,11 @@ GBDK provides an API for installing Interrupt Service Routines that execute on s
 But the base NES system has no suitable scanline interrupts that can provide such functionality. So instead, gbdk-nes API allows *fake* handlers to be installed in the goal of keeping code compatible with other platforms.
 
 * An installed VBL handler will be called immediately when calling wait_vbl_done. This handler should only update PPU shadow registers
-* An installed LCD handler for a specific scanline will be called after the vblank NMI handler has finished execution, and will then manually run a delay loop to reach that scanline before calling your installed LCD handler.
+* An installed LCD handler for a specific scanline will then be called repeatedly until the value of _lcd_scanline is either set to an earlier scanline or >= 240. After each invocation, shadow registers are stored into a buffer.
+* After the vblank NMI handler has finished palette updates, OAM DMA, VRAM updates and scroll updates it will then manually run a delay loop to reach the particular scanlines that the installed LCD handler was pre-called for, and use the contents of the buffer to update registers.
 
-Because the LCD "ISR" is actually implemented with a delay loop, it will burn a lot of CPU cycles in the frame - the further down the scanline is the larger the CPU cycle loss. In practice this makes this faked-LCD-ISR functionality only suited for status bars at the top screen, or simple parallax cutscenes where the CPU has little else to do.
+Because the LCD "ISR" is actually implemented with a delay loop, it will burn a lot of CPU cycles in the frame - the further down the requested scanline is the larger the CPU cycle loss.
+In practice this makes this faked-LCD-ISR functionality mostly suitable for status bars at the top of the screen screen. Or for simple parallax cutscenes where the CPU has little else to do.
 
 @note The support for VBL and LCD handlers is currently under consideration and subject to change in newer versions of gbdk-nes.
 
@@ -484,12 +486,26 @@ On the GB, the call to wait_vbl_done is an optional call that serves two purpose
 
 On gbdk-nes the second point is no longer true, because writes need to be made to the shadow registers *before* wait_vbl_done is called.
 
-But the wait_vbl_done call serves two other very important purposes:
+But the wait_vbl_done call serves three other very important purposes:
 
 A. It calls the optional VBL handler, where shadow registers can be written (and will later be picked up by the actual vblank NMI handler)
-B. It calls flush_shadow_attributes so that updates to background attributes actually get written to PPU memory
+B. It repeatedly calls the optional LCD handler up to MAX_LCD_ISR_CALLS times. After each call, PPU shadow registers are stored into a buffer that will later be used by timed code in the NMI to handle mid-frame changes for screen splits / sprite hiding / etc.
+C. It calls flush_shadow_attributes so that updates to background attributes actually get written to PPU memory
 
 For these reasons you should always include a call to wait_vbl_done if you expect to see any graphical updates on the screen.
+
+### Caveat: Do all status bar scroll movement in LCD handlers to mitigate glitches
+
+The fake LCD ISR system is not bullet-proof. In particular, it has a problem where lag frames can cause the shadow register updates in LCD handlers not to be ready in time for when the timed code in the NMI handler would be called. This will effectively cause all those updates to be missing for one frame and glitched scroll updates.
+
+There is currently no complete work-around for this problem other than avoiding lag frames altogether. But the glitch can be made less distracting by making sure only the status bar glitches rather than the main background.
+
+maIf you are using LCD handlers to achieve a top-screen stationary status bar, it is recommended that you follow the following guidelines to make sure the background itself has consistent scrolling:
+* Use move_bkg either in your main loop or in the VBL handler, to set the level scrolling
+* Use move_bkg in the first invocation of the LCD handler, to set the (stationary) status bar scroll position
+* Use move_bkg in the second invocation of the LCD handler, to reset the background scrolling
+
+In short: Ensuring that the last called LCD handler sets the scroll back to the original value means the PPU rendering keeps rendering the background from the same scrolling position even when the NMI handling was missed.
 
 ### Tile Data and Tile Map loading
 
