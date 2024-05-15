@@ -4,6 +4,8 @@
         .module VRAMUtils
         .area   _HOME
 
+        .ez80
+
 ; void set_sprite_4bpp_data(uint8_t start, uint16_t ntiles, const void *src) __preserves_regs(iyh,iyl);
 _set_sprite_4bpp_data::
 ; void set_sprite_native_data(uint8_t start, uint16_t ntiles, const void *src) __preserves_regs(iyh,iyl);

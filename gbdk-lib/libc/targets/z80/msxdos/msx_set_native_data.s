@@ -2,6 +2,7 @@
 
         .title  "VRAM utilities"
         .module VRAMUtils
+
         .ez80
         
         .area   _HOME

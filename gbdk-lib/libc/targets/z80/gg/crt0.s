@@ -2,6 +2,9 @@
 
         .title  "Runtime"
         .module Runtime
+
+        .ez80
+
         .area   _HEADER (ABS)
 
         .globl  _set_default_palette
@@ -75,9 +78,10 @@ _WRITE_VDP_DATA::
         ;; Clear VRAM and Initialize VDP
 
         ld hl, #((.VDP_R1 << 8) | .R1_DEFAULT)
-        WRITE_VDP_CMD_HL
+        ld c, #.VDP_CMD
+        out (c), l
+        out (c), h
 
-        call _set_default_palette
         call .clear_VRAM
 
         ld c, #.VDP_CMD
@@ -108,6 +112,9 @@ _WRITE_VDP_DATA::
         VDP_CANCEL_INT
 
         ei                      ; re-enable interrupts before going to main()
+
+        call _set_default_palette
+
         call _main
 10$:
         halt
@@ -145,10 +152,10 @@ _WRITE_VDP_DATA::
         .area   _HOME
 
 .clear_VRAM:
-        ld a, #<.VDP_VRAM
-        out (#.VDP_CMD), a
-        ld a, #>.VDP_VRAM
-        out (#.VDP_CMD), a
+        ld hl, #.VDP_VRAM
+        ld c, #.VDP_CMD
+        out (c), l
+        out (c), h
         xor a
         ld bc, #0x4101
         jr 6$

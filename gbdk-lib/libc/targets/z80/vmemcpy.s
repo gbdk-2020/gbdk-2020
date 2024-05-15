@@ -4,6 +4,8 @@
         .module VRAMUtils
         .area   _HOME
 
+        .ez80
+
 ; void vmemcpy (unsigned int dst, const void *src, unsigned int size) __z88dk_callee __preserves_regs(iyh,iyl);
 _set_data::
 _vmemcpy::
