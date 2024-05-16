@@ -71,10 +71,6 @@ uint8_t IsTileSolid(uint16_t worldX,uint16_t worldY) NONBANKED{
 
 void SetupCurrentLevel(void) NONBANKED{
 
-    DISPLAY_OFF;
-
-    
-
     uint8_t _previous_bank = CURRENT_BANK;
 
     for(uint8_t i=0;i<DEVICE_SCREEN_BUFFER_WIDTH;i++){
@@ -161,6 +157,4 @@ void SetupCurrentLevel(void) NONBANKED{
     }
 
     SWITCH_ROM(_previous_bank);
-
-    DISPLAY_ON;
 }
