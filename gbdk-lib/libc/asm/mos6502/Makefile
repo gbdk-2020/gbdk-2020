@@ -12,6 +12,7 @@ ASSRC = __sdcc_indirect_jsr.s _memcpy.s _strcpy.s _strcmp.s _memset.s \
 	_mulint.s \
 	_mullong.s \
 	_muluchar.s _mulschar.s \
+	bcd.s \
 	_setjmp.s \
 	_dptr.s _ret01.s _ret23.s _ret4567.s _temp.s
 
