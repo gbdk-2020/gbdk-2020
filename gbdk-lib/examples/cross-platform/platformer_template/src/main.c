@@ -54,6 +54,8 @@ void main(void)
 
             // Update what our current level is
             currentLevel=nextLevel;
+            
+            DISPLAY_OFF;
 
             // Setup the new level
             SetupCurrentLevel();
@@ -65,6 +67,8 @@ void main(void)
             // If scrolling vertically also, you should draw one extra row as well.
             // The platformer template will only scroll horizontally
             SetCurrentLevelSubmap(0,0,DEVICE_SCREEN_WIDTH+1,DEVICE_SCREEN_HEIGHT);
+
+            DISPLAY_ON;
 
             #if DEVICE_SCREEN_BUFFER_WIDTH == DEVICE_SCREEN_WIDTH
                 // On platforms where screen buffer has no more space than physical screen,
