@@ -2,7 +2,6 @@
 ;
 ;       Michael Hope, 1999
 ;       michaelh@earthling.net
-;       Distrubuted under the Artistic License - see www.opensource.org
 ;
         .include        "global.s"
 

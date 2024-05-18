@@ -47,3 +47,33 @@ LCC License, traditionally named as the "CPYRIGHT" file
 Public Domain. Glen Cook and others are the original authors, @bbbbbr authored the cross platform console port
 
 
+
+### Note about historical license changes:
+
+(some edits for brevity)
+
+August 4, 2022 (bbbbbr)
+
+Re-licensing of GBDK Library & Makefiles
+
+As mentioned above, the way forward is to re-license the library code to GPLV2 + LE to match the parts from SDCC so that all library code uses the same license.
+
+To that end:
+
+- This is from Jon Fuge @jf1452 when asked about re-licensing his contributions to GPL or GPLv2 with a Linking Exception (to have the same licenses as the SDCC library code):
+
+    "Yes, completely happy to re-license the code to make it more accessible and link to my GitHub account."
+
+- This is from Pascal Felber when asked about re-licensing his contributions to GPL or GPLv2 with a Linking Exception (to have the same licenses as the SDCC library code):
+
+    "Yes, absolutely."
+
+- Earlier in this issues @nzmichaelh mentioned being ok with re-licensing to MIT or BSD2. However instead of MIT or BSD2, I'd like to get final specific agreement from @nzmichaelh as well for GPLv2 + LE (linking exception) if that is acceptable (for the reasons mentioned above).
+
+    nzmichaelh, Michael Hope: "GPLv2 + LE SGTM, go for it."
+
+...
+
+Great!
+We've got the required signoff so I'll start the repo changes and we're good to go.
+Thank you so much Michael, Pascal and Jon for allowing the re-license. We really appreciate the time you've taken to help resolve this issue and clear up any license ambiguity.
