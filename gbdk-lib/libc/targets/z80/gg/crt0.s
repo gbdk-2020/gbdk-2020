@@ -7,7 +7,7 @@
 
         .area   _HEADER (ABS)
 
-        .globl  _set_default_palette
+        .globl  .OUTI32
 
         .org    0x00            ; Reset 00h
         di                      ; disable interrupt
@@ -72,18 +72,23 @@ _WRITE_VDP_DATA::
         ld hl,#0x0201
         ld (#.MAP_FRAME1),hl    ; [.MAP_FRAME1]=$01, [.MAP_FRAME2]=$02
 
-        ;; Initialise global variables
+        ; Initialise global variables
         call .gsinit
 
-        ;; Clear VRAM and Initialize VDP
+        ; Clear VRAM and Initialize VDP
 
-        ld hl, #((.VDP_R1 << 8) | .R1_DEFAULT)
+        ld hl, #((.VDP_R1 << 8) | (.R1_DEFAULT | .R1_DISP_OFF))
         ld c, #.VDP_CMD
         out (c), l
         out (c), h
 
+        ; clear VRAM
         call .clear_VRAM
 
+        ; set default palette
+        call .set_default_palette
+
+        ; set VDP registers
         ld c, #.VDP_CMD
         ld b, #(.shadow_VDP_end - .shadow_VDP)
         ld hl,#(.shadow_VDP_end - 1)
@@ -98,7 +103,7 @@ _WRITE_VDP_DATA::
         or a
         jr nz, 1$
 
-        ;; detect PAL/NTSC
+        ; detect PAL/NTSC
         in a, (.GG_STATE)
         and #.GGSTATE_NNTS
         jr nz, 2$
@@ -113,14 +118,12 @@ _WRITE_VDP_DATA::
 
         ei                      ; re-enable interrupts before going to main()
 
-        call _set_default_palette
-
         call _main
 10$:
         halt
         jr 10$
 
-        ;; Ordering of segments for the linker.
+        ; Ordering of segments for the linker.
         .area   _HOME
         .area   _BASE
         .area   _CODE
@@ -140,7 +143,7 @@ _WRITE_VDP_DATA::
         .area   _CODE
         .area   _GSINIT
 .gsinit::
-        ;; initialize static storage variables
+        ; initialize static storage variables
         ld bc, #l__INITIALIZER
         ld hl, #s__INITIALIZER
         ld de, #s__INITIALIZED
@@ -168,7 +171,37 @@ _WRITE_VDP_DATA::
         jr nz, 5$
         ret
 
-        ;; fills memory at HL of length BC with A, clobbers DE
+.set_default_palette:
+        ld hl, #.VDP_CRAM
+        ld c, #.VDP_CMD
+        out (c), l
+        out (c), h
+        ld c, #.VDP_DATA
+        ld hl, #.CRT_DEFAULT_PALETTE
+        call .OUTI32
+        ld hl, #.CRT_DEFAULT_PALETTE
+        jp .OUTI32
+
+.CRT_DEFAULT_PALETTE::
+        .dw 0b0000111111111111
+        .dw 0b0000100010001000
+        .dw 0b0000010001000100
+        .dw 0b0000000000000000
+        .dw 0b0000000000001000
+        .dw 0b0000000010000000
+        .dw 0b0000100000000000
+        .dw 0b0000000010001000
+        .dw 0b0000100010000000
+        .dw 0b0000100000001000
+        .dw 0b0000000000001111
+        .dw 0b0000000011110000
+        .dw 0b0000111100000000
+        .dw 0b0000000011111111
+        .dw 0b0000111111110000
+        .dw 0b0000111100001111
+
+        ; fills memory at HL of length BC with A, clobbers DE
+        ; falls through into the .memcpy_simple
 .memset_simple::
         ld e, a
         ld a, c
@@ -180,7 +213,7 @@ _WRITE_VDP_DATA::
         ld e, l
         inc de
 
-        ;; copies BC bytes from HL into DE
+        ; copies BC bytes from HL into DE
 .memcpy_simple::
         ld a, c
         or b
@@ -188,7 +221,7 @@ _WRITE_VDP_DATA::
         ldir
         ret
 
-        ;; Wait for VBL interrupt to be finished
+        ; Wait for VBL interrupt to be finished
 .wait_vbl_done::
 _wait_vbl_done::
 _vsync::
