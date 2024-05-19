@@ -167,10 +167,10 @@ void main(void) {
     set_sprite_palette(OAMF_CGB_PAL2, 1, cyan_pal);
     set_sprite_palette(OAMF_CGB_PAL3, 1, green_pal);
 #elif defined(NINTENDO_NES)
-    set_sprite_palette(4, 1, gray_pal);
-    set_sprite_palette(5, 1, pink_pal);
-    set_sprite_palette(6, 1, cyan_pal);
-    set_sprite_palette(7, 1, green_pal);
+    set_sprite_palette(0, 1, gray_pal);
+    set_sprite_palette(1, 1, pink_pal);
+    set_sprite_palette(2, 1, cyan_pal);
+    set_sprite_palette(3, 1, green_pal);
 #endif
 
     // Fill the screen background with a single tile pattern

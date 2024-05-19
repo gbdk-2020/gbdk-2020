@@ -33,13 +33,7 @@ uint8_t threeFrameCounter=0;
 uint16_t playerX, playerY;
 int16_t playerXVelocity, playerYVelocity;
 
-    // Flip horizontally, if we aren't facing right
-
-#if defined(NINTENDO_NES)
-    const uint8_t baseProp=4;
-#else
-    const uint8_t baseProp=0;
-#endif
+const uint8_t baseProp=0;
 
 #if defined(SEGA)
     #define PLAYER_PALETTES_BANK CURRENT_BANK

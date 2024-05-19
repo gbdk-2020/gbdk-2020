@@ -34,8 +34,8 @@ _set_sprite_palette::
     pla
     asl
     asl
-    tax
     adc #16
+    tax
     ; jmp .set_palette_impl
 
 .set_palette_impl:
