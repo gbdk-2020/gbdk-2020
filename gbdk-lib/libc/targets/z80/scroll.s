@@ -41,6 +41,7 @@
         set 6, h
         WRITE_VDP_CMD_HL
         nop
+        nop
         ld a, e
         out (.VDP_DATA), a
 
