@@ -29,10 +29,10 @@ all: ports platforms
 clean: port-clean ports-clean platform-clean
 
 ports:
-	for i in $(PORTS); do make port THIS=$$i PORT=$$i; done
+	for i in $(PORTS); do make port THIS=$$i PORT=$$i || exit 1; done
 
 platforms:
-	for j in $(PORTS); do for i in $(PLATFORMS); do if [ -d "targets/$$j/$$i" ]; then make -C targets/$$j/$$i platform THIS=$$i; fi done done
+	for j in $(PORTS); do for i in $(PLATFORMS); do if [ -d "targets/$$j/$$i" ]; then make -C targets/$$j/$$i platform THIS=$$i || exit 1; fi done done
 
 # Make all the std libs
 # Make all the port specific libs
