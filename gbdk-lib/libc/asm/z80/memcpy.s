@@ -14,11 +14,12 @@ ___memcpy:
     push af
     ld a, b
     or c
-    ret z    
-    ld a, c    
-    and #7
+    ret z
+    push de
+    ld a, c
+    and #15
     add a
-    sub #16
+    sub #32
     neg
     ld iy, #1$
     add iyl
@@ -29,8 +30,9 @@ ___memcpy:
     xor a
     jp (iy)
 1$:
-    .rept 8
+    .rept 16
         ldi
     .endm
     jp pe, 1$
+    pop de
     ret
