@@ -64,11 +64,12 @@ uint8_t * base, * limit;
 
 void main(void) {
     DISPLAY_OFF;
-    // Fill the screen background with '*'
-    fill_bkg_rect(0, 0, DEVICE_SCREEN_WIDTH, DEVICE_SCREEN_HEIGHT, '*' - ' ');
-    SHOW_BKG; SHOW_SPRITES;
-    
+    // Print title on first line (also initializes font system)
     printf(" Scrolling %d chars", sizeof(scroller_text) - 1);
+    // Fill the rest of screen background with '*'
+    DISPLAY_OFF;
+    fill_bkg_rect(0, 1, DEVICE_SCREEN_WIDTH, DEVICE_SCREEN_HEIGHT-1, '*' - ' ');
+    DISPLAY_ON;
 
     CRITICAL {
         add_LCD(scanline_isr);
