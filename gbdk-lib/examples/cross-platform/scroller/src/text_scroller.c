@@ -1,4 +1,5 @@
 #include <gbdk/platform.h>
+#include <gbdk/font.h>
 #include <stdint.h>
 #include <stdio.h>
 
@@ -64,10 +65,13 @@ uint8_t * base, * limit;
 
 void main(void) {
     DISPLAY_OFF;
+    // Init font system / clear screen
+    font_init();
+    font_set(font_load(font_ibm));
     // Fill the screen background with '*'
     fill_bkg_rect(0, 0, DEVICE_SCREEN_WIDTH, DEVICE_SCREEN_HEIGHT, '*' - ' ');
-    SHOW_BKG; SHOW_SPRITES;
-    
+    DISPLAY_ON;
+
     printf(" Scrolling %d chars", sizeof(scroller_text) - 1);
 
     CRITICAL {
