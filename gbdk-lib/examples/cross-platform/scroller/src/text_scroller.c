@@ -18,14 +18,14 @@ void scanline_isr(void) {
     switch (_lcd_scanline) {
         case 0: 
             move_bkg(0, 0);
-            _lcd_scanline = SCROLL_POS_PIX_START;
+            _lcd_scanline = SCROLL_POS_PIX_START + 1;
             break;
-        case SCROLL_POS_PIX_START:
-            move_bkg(scroller_x, SCROLL_POS_PIX_START);
-            _lcd_scanline = SCROLL_POS_PIX_END;
+        case SCROLL_POS_PIX_START + 1:
+            move_bkg(scroller_x, SCROLL_POS_PIX_START + 1);
+            _lcd_scanline = SCROLL_POS_PIX_END + 1;
             break;
-        case SCROLL_POS_PIX_END:
-            move_bkg(0, SCROLL_POS_PIX_END);
+        case SCROLL_POS_PIX_END + 1:
+            move_bkg(0, SCROLL_POS_PIX_END + 1);
             _lcd_scanline = 0;
             break;
     }
