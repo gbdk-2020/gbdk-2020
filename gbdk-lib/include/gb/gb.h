@@ -893,8 +893,8 @@ void hiramcpy(uint8_t dst, const void *src, uint8_t n) OLDCALL PRESERVES_REGS(b,
 
     Doesn't work in CGB mode - the bit is reused to control sprite priority
     over background and window layers instead.
-    If 1 @ref (SHOW_BKG), everything works as usual.
-    If 0 @ref (HIDE_BKG), all sprites are always drawn over background and window,
+    If 1 (SHOW_BKG), everything works as usual.
+    If 0 (HIDE_BKG), all sprites are always drawn over background and window,
     ignoring any other priority settings.
 */
 #define SHOW_BKG \
@@ -905,9 +905,9 @@ void hiramcpy(uint8_t dst, const void *src, uint8_t n) OLDCALL PRESERVES_REGS(b,
 
     Doesn't work in CGB mode - the bit is reused to control sprite priority
     over background and window layers instead.
-    If 1 @ref (SHOW_BKG), everything works as usual.
-    If 0 @ref (HIDE_BKG), all sprites are always drawn over background and window,
-    ignoring any other priority settings.
+    If 1 (SHOW_BKG), everything works as usual.
+    If 0 (HIDE_BKG), all sprites are always drawn over background and window,
+    ignoring any  other priority settings.
 */
 #define HIDE_BKG \
   LCDC_REG&=~LCDCF_BGON
