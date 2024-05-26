@@ -188,7 +188,7 @@
         .VDP_TILEDATA2  = 0x5000
         .VDP_COLORDATA0 = 0x6000
         .VDP_COLORDATA1 = 0x6800
-        .VDP_COLORDATA1 = 0x7000
+        .VDP_COLORDATA2 = 0x7000
 
         .VDP_SPRDATA0   = 0x7800
 
