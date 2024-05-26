@@ -1,4 +1,5 @@
 #include <gbdk/platform.h>
+#include <gbdk/font.h>
 #include <stdint.h>
 #include <stdio.h>
 
@@ -17,14 +18,14 @@ void scanline_isr(void) {
     switch (_lcd_scanline) {
         case 0: 
             move_bkg(0, 0);
-            _lcd_scanline = SCROLL_POS_PIX_START;
+            _lcd_scanline = SCROLL_POS_PIX_START + 1;
             break;
-        case SCROLL_POS_PIX_START:
-            move_bkg(scroller_x, SCROLL_POS_PIX_START);
-            _lcd_scanline = SCROLL_POS_PIX_END;
+        case SCROLL_POS_PIX_START + 1:
+            move_bkg(scroller_x, SCROLL_POS_PIX_START + 1);
+            _lcd_scanline = SCROLL_POS_PIX_END + 1;
             break;
-        case SCROLL_POS_PIX_END:
-            move_bkg(0, SCROLL_POS_PIX_END);
+        case SCROLL_POS_PIX_END + 1:
+            move_bkg(0, SCROLL_POS_PIX_END + 1);
             _lcd_scanline = 0;
             break;
     }
@@ -64,10 +65,13 @@ uint8_t * base, * limit;
 
 void main(void) {
     DISPLAY_OFF;
+    // Init font system / clear screen
+    font_init();
+    font_set(font_load(font_ibm));
     // Fill the screen background with '*'
     fill_bkg_rect(0, 0, DEVICE_SCREEN_WIDTH, DEVICE_SCREEN_HEIGHT, '*' - ' ');
-    SHOW_BKG; SHOW_SPRITES;
-    
+    DISPLAY_ON;
+
     printf(" Scrolling %d chars", sizeof(scroller_text) - 1);
 
     CRITICAL {

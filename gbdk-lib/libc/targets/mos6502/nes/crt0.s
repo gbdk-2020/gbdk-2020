@@ -422,7 +422,7 @@ _vsync::
     lda *__lcd_scanline
     bne 0$
     jsr .jmp_to_LCD_isr
-    lda #0
+    lda #0xFF
     sta *.lcd_scanline_previous
 0$:
     ; disable NMI, as we are saving and restoring shadow registers that it may use
