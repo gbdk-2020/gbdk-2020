@@ -108,10 +108,10 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
         printf("-use_nes_attributes Use NES BG Map attributes\n");
         printf("-use_nes_colors     Convert RGB color values to NES PPU colors\n");
         printf("-use_structs        Group the exported info into structs (default: false) (used by ZGB Game Engine)\n");
-        printf("-bpp                bits per pixel: 1, 2, 4 (default: 2)\n");
+        printf("-bpp                bits per pixel: 1, 2, 4 (default: 2. using 1 auto-enables \"-pack_mode 1bpp\")\n");
         printf("-max_palettes       max number of palettes allowed (default: 8)\n");
         printf("                    (note: max colors = max_palettes x num colors per palette)\n");
-        printf("-pack_mode          gb, nes, sgb, sms, 1bpp (default: gb)\n");
+        printf("-pack_mode          gb, nes, sgb, sms, 1bpp (default: gb. using 1bpp auto-enables \"-bpp 1\")\n");
         printf("-tile_origin        tile index offset for maps (default: 0)\n");
 
         printf("-tiles_only         export tile data only\n");
@@ -231,6 +231,8 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
         else if(!strcmp(argv[i], "-bpp"))
         {
             args->bpp = atoi(argv[++i]);
+            // If set to "-bpp 1" auto-enable "-pack_mode 1bpp"
+            if (atoi(argv[i]) == 1) args->pack_mode = Tile::BPP1;
         }
         else if(!strcmp(argv[i], "-max_palettes"))
         {
@@ -248,15 +250,19 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
             else if(pack_mode_str == "nes") args->pack_mode = Tile::NES;
             else if(pack_mode_str == "sgb") {
                 args->pack_mode = Tile::SGB;
-                 // SGB attributes are packed in map data, so 2 bytes per map tile
+                // SGB attributes are packed in map data, so 2 bytes per map tile
                 args->map_entry_size_bytes = 2;
             }
             else if(pack_mode_str == "sms") {
                 args->pack_mode = Tile::SMS;
-                 // SMS attributes are packed in map data, so 2 bytes per map tile
+                // SMS attributes are packed in map data, so 2 bytes per map tile
                 args->map_entry_size_bytes = 2;
             }
-            else if(pack_mode_str == "1bpp") args->pack_mode = Tile::BPP1;
+            else if(pack_mode_str == "1bpp") {
+                args->pack_mode = Tile::BPP1;
+                // If set to "-pack_mode 1bpp" auto-enable "-bpp 1"
+                args->bpp = 1;
+            }
             else
             {
                 printf("-pack_mode must be one of gb, nes, sgb, sms, 1bpp\n");
