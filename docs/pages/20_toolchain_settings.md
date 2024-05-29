@@ -591,10 +591,10 @@ usage: png2asset    <file>.png [options]
 -use_nes_attributes Use NES BG Map attributes
 -use_nes_colors     Convert RGB color values to NES PPU colors
 -use_structs        Group the exported info into structs (default: false) (used by ZGB Game Engine)
--bpp                bits per pixel: 1, 2, 4 (default: 2)
+-bpp                bits per pixel: 1, 2, 4 (default: 2. using 1 auto-enables "-pack_mode 1bpp")
 -max_palettes       max number of palettes allowed (default: 8)
                     (note: max colors = max_palettes x num colors per palette)
--pack_mode          gb, nes, sgb, sms, 1bpp (default: gb)
+-pack_mode          gb, nes, sgb, sms, 1bpp (default: gb. using 1bpp auto-enables "-bpp 1")
 -tile_origin        tile index offset for maps (default: 0)
 -tiles_only         export tile data only
 -maps_only          export map tilemap only
