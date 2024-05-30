@@ -24,6 +24,8 @@ char g_out_ext[MAX_FILE_STR];
 char g_out_path[MAX_FILE_STR];
 char g_out_linkerfile_name[MAX_FILE_STR] = {'\0'};
 
+static unsigned int get_obj_file_format(char * str_filename);
+
 void files_set_out_ext(char * ext_str) {
     if (snprintf(g_out_ext, sizeof(g_out_ext), "%s", ext_str) > sizeof(g_out_ext))
         printf("Bankpack: Warning: truncated output extension to:%s\n",g_out_ext);
@@ -195,6 +197,36 @@ static char * file_read_to_buffer(char * filename) {
 }
 
 
+// Scan the file looking for lines that start with XL3 or XL4
+// which indicate object file version type
+static unsigned int get_obj_file_format(char * str_filename) {
+
+    char strline_in[OBJ_NAME_MAX_STR_LEN] = "";
+    FILE * obj_file = fopen(str_filename, "r");
+    if (obj_file) {
+
+        // Read one line at a time into \0 terminated string
+        while ( fgets(strline_in, sizeof(strline_in), obj_file) != NULL) {
+
+            // Check if a version version indicator was found
+            if (strncmp(strline_in, OBJ_FILE_XL3_ID, strlen(OBJ_FILE_XL3_ID)) == 0) {
+                return (OBJ_FILE_XL3_24BIT_ADDR);
+            }
+            else if (strncmp(strline_in, OBJ_FILE_XL4_ID, strlen(OBJ_FILE_XL4_ID)) == 0) {
+                return (OBJ_FILE_XL4_32BIT_ADDR);
+            }
+        }
+        fclose(obj_file);
+    } else {
+        printf("BankPack: ERROR: failed to open file %s\n", str_filename);
+        exit(EXIT_FAILURE);
+    }
+
+    printf("BankPack: ERROR: unable to determine Object File version for file: \"%s\"\n", str_filename);
+    exit(EXIT_FAILURE);
+}
+
+
 // Extract areas from files, then collected assign them to banks
 void files_extract(void) {
     uint32_t c;
@@ -205,16 +237,19 @@ void files_extract(void) {
     // Process stored file names
     for (c = 0; c < filelist.count; c++) {
 
+        files[c].obj_file_format = get_obj_file_format(files[c].name_in);
+
         // Open each object file and try to process all the lines
         obj_file = fopen(files[c].name_in, "r");
         if (obj_file) {
+
 
             // Read one line at a time into \0 terminated string
             while ( fgets(strline_in, sizeof(strline_in), obj_file) != NULL) {
                 if (strline_in[0] == 'A')
                     areas_add(strline_in, c);
                 else if (strline_in[0] == 'S')
-                    symbols_add(strline_in, c);
+                    symbols_add(strline_in, c, files[c].obj_file_format);
             }
             fclose(obj_file);
 
@@ -264,7 +299,7 @@ void files_rewrite(void) {
             if (files[c].rewrite_needed) {
 
                 if (!area_modify_and_write_to_file(strline_in, out_file, files[c].bank_num)) {
-                    if (!symbol_modify_and_write_to_file(strline_in, out_file, files[c].bank_num, c)) {
+                    if (!symbol_modify_and_write_to_file(strline_in, out_file, files[c].bank_num, c, files[c].obj_file_format)) {
                         // Default is to write line with no changes
                         fprintf(out_file, "%s\n", strline_in);
                     }
