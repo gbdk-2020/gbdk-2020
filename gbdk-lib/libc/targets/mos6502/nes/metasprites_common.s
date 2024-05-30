@@ -22,6 +22,7 @@
     and #1
     ora *___current_base_tile
     sta *___current_base_tile
+    ldy #0
     rts
 
 .move_metasprite_epilogue::
