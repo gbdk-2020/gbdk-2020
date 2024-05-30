@@ -52,13 +52,13 @@ void obj_data_init(void);
 void obj_data_cleanup(void);
 
 int areas_add(char * area_str, uint32_t file_id);
-int symbols_add(char * area_str, uint32_t file_id);
+int symbols_add(char * area_str, uint32_t file_id, unsigned int obj_file_format);
 void symbol_match_add(char *);
 
 void obj_data_process(list_type *);
 
 bool area_modify_and_write_to_file(char * strline_in, FILE * out_file, uint16_t bank_num);
-bool symbol_modify_and_write_to_file(char * strline_in, FILE * out_file, uint16_t bank_num, uint32_t file_id);
+bool symbol_modify_and_write_to_file(char * strline_in, FILE * out_file, uint16_t bank_num, uint32_t file_id, unsigned int obj_file_format);
 
 void banks_show(void);
 
