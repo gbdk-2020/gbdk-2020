@@ -456,6 +456,10 @@ _vsync::
     clc ; -1 to compensate for LCD PPU write taking up a scanline on its own
     sbc *.lcd_scanline_previous
     sta __lcd_isr_delay_num_scanlines,y
+    ; Add number of delayed scanlines to _bkg_scroll_y to simulate PPU increment
+    clc
+    adc *_bkg_scroll_y
+    sta *_bkg_scroll_y
     ; Call LCD isr
     jsr .jmp_to_LCD_isr
     ; Copy shadow registers
