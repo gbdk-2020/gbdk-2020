@@ -442,10 +442,10 @@ _vsync::
 1$:
     pla
     sta *.lcd_scanline_previous
+2$:
     ; We are done if next scanline is <= the previous one
     cmp *__lcd_scanline
     bcs _wait_vbl_done_waitForNextFrame
-2$:
     ;
     ldy __lcd_isr_num_calls
     lda *__lcd_scanline
