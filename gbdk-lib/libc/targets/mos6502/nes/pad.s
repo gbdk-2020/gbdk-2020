@@ -46,7 +46,7 @@ _read_joypad_no_strobe::
 .padup::
 _waitpadup::
     jsr .jpad
-    beq _waitpadup
+    bne _waitpadup
     rts
 
     ;; Get Keypad Button Status
