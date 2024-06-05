@@ -337,8 +337,21 @@ __crt0_setPalette:
     bne 1$
     rts
 
-
-.macro CRT0_WAIT_PPU ?.loop
+;
+; Waits for vblank flag to be set. This macro should only be
+; used during the PPU warm-up phase at reset, as a hardware 
+; flaw can cause the flag to be cleared in the register
+; without returning a set flag on the CPU data bus.
+;
+; On Dendy-like Famiclones there is an additional problem
+; that this pathological case can occur *every* frame if the wait
+; loop is exactly 8 cycles long, causing a soft-lock at reset.
+; For this reason, code before the "bpl .loop" instruction must 
+; be aligned so the branch does not cross a 256-byte page.
+;
+; https://www.nesdev.org/wiki/PPU_power_up_state
+;
+.macro CRT0_WAIT_PPU ?.loop;
 .loop:
     lda PPUSTATUS
     bpl .loop
