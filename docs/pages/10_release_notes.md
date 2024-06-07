@@ -8,7 +8,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
 
 ## GBDK-2020 4.3.0
   ~2024/05
-  - Includes SDCC version ~4.4 (~14635) with GBDK-2020 patches for Z80 and NES
+  - Includes SDCC version ~4.4.0 (14650) with GBDK-2020 patches for Z80 and NES
     - [Patched SDCC Builds](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases) with support for Sega GG/SMS and the Nintendo NES are used.
     - See the [github workflow](https://github.com/gbdk-2020/gbdk-2020-sdcc/tree/main/.github/workflows) for details.
   - Added native GBDK build for Apple ARM cpus
@@ -21,14 +21,17 @@ https://github.com/gbdk-2020/gbdk-2020/releases
     - Changed @ref EMU_printf() to remove dependency on stdio.h added similar @ref EMU_fmtbuf()
     - Fixed @ref emu_debug.h macros missing a trailing space
     - NES
+      - Many library improvements
       - Added PAL support
+      - Added BCD support
+      - Added deferred hblank system for fake LCD ISRs
       - Fixed `_map_tile_offset` not being applied for @ref set_bkg_based_tiles()
       - Fixed VRAM transfer buffer bug (ensure stack page cleared on reset)
       - Fixed support for 4-player controllers using fourscore
+      - Fixed @ref set_sprite_palette() to index from `0..3` instead of `4..7`
       - Updated libc to latest from sdcc 4.4.0
     - SMS/GG
       - Added @ref SHOW_SPRITES, @ref HIDE_SPRITES (no hiding mid-frame)
-      - Added @ref DIV_REG emulation for the Z80 systems, may be useful for seeding RNG (also for MSX)
       - Added @ref S_BANK tile attribute
       - Added 6 button controller support in @ref joypad()
       - Added @ref bcd.h implementation
@@ -44,14 +47,23 @@ https://github.com/gbdk-2020/gbdk-2020/releases
         - `GG_SIO_RECV`
         - `GG_SIO_CTL`: @ref SIOCTL_TXFL, @ref SIOCTL_RXRD, @ref SIOCTL_FRER, @ref SIOCTL_INT, @ref SIOCTL_TON, @ref SIOCTL_RON, @ref SIOCTL_BS0, @ref SIOCTL_BS1
         - `GG_SOUND_PAN`: @ref SOUNDPAN_TN1R, @ref SOUNDPAN_TN2R, @ref SOUNDPAN_TN3R, @ref SOUNDPAN_NOSR, @ref SOUNDPAN_TN1L, @ref SOUNDPAN_TN2L, @ref SOUNDPAN_TN3L, @ref SOUNDPAN_NOSL
-      - Changed to allow nested locking of the shadow SAT copying on VBlank (also for MSX)
-      - Changed VDP to reduce chances of dangerous ISR nesting (see SDCC issue https://sourceforge.net/p/sdcc/bugs/3721/) (also for MSX)
       - Optimized native tile data loading routines
+      - Improved @ref VDP_WRITE_DATA macro so it does not need `di`/`ei` protection
+      - Improved palette initialization in crt0
       - Fixed tilemap wrapping over the low bound of the VDP name table
-      - Fixed @ref waitpad() (also for MSX)
       - Fixed @ref scroll_sprite()
       - Fixed missing sms.h in sms/metasprites.h
-      - Fixed return result of "`set_tile x, y`" family functions (also for MSX)
+      - Fixed scroll glitch due to accessing VDP too fast
+    - Z80 shared SMS/GG/MSX
+      - Added @ref DIV_REG emulation for the Z80 systems, may be useful for seeding RNG
+      - Changed VDP to reduce chances of dangerous ISR nesting (see SDCC issue https://sourceforge.net/p/sdcc/bugs/3721/)
+      - Changed to allow nested locking of the shadow SAT copying on VBlank
+      - Optimized @ref memcpy() for larger amounts of data
+      - Fixed @ref waitpad()
+      - Fixed return result of "`set_tile x, y`" family functions
+      - Fixed to not allow interrupts to fire durint crt0 initialization code
+    - MSXDOS
+      - Fixed `.VDP_COLORDATA2` assembly definition
     - Game Boy
       - Added HBlank copy routines: @ref hblank_copy_vram(), @ref hblank_cpy_vram(), @ref hblank_copy()
       - Added @ref SCF_START, @ref SCF_SOURCE, @ref SCF_SPEED aliases for SIO (Serial/Link port) control register control constants
@@ -73,6 +85,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
         - Point tile data to external source tileset
         - Add `extra_tiles` struct member pointing to map tiles not found in source tileset (null if none found)
       - Changed `-use_structs` to use designated initializers
+      - Changed if using either `-bpp 1` or `-pack_mode 1bpp` then the other is auto-enabled
       - Fixed garbage in unused colors of palettes (set unused colors to black)
       - Fixed `-bin` mode not honoring `-tiles_only` and `-maps_only`
       - Fixed segfault and wrong data size for `-pack_mode sgb` + `-bin`
@@ -84,6 +97,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
       - Fixed crash when using `-yS` (`-Wm-yS` with lcc)
     - @ref bankpack
       - Added `-banktype=` to allow forcing a bank type to CODE or LIT before packing starts
+      - Added support for `XL4` (32 bit addresses) object file format (in addition to existing `XL3`)
       - Changed minimum bank for auto packing from `1` to `0` (required for the NES)
   - Examples
     - Added HBlank copy example for GB/AP/Duck
@@ -99,6 +113,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
     - Changed all examples: use @ref BANKED macro instead of `__banked`
       - Also change some to use @ref CURRENT_BANK instead of `_current_bank`
     - Fixes for SMS/GG: Fonts, Large Map, gbdecompress
+    - Fixed NES version of Text Scroller to have splits as other platforms
     - Fixed Simple Physics: joypad input caching was wrong
     - Fixed Banks Non-Intrinsic: mismatched SRAM banks for final calculation, improved naming
     - Removed Analogue Pocket examples that were just duplicates of Game Boy ones

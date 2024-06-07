@@ -588,9 +588,10 @@ Implementation of (fake) vbl / lcd handlers</h3>
 <p>But the base NES system has no suitable scanline interrupts that can provide such functionality. So instead, gbdk-nes API allows <em>fake</em> handlers to be installed in the goal of keeping code compatible with other platforms.</p>
 <ul>
 <li>An installed VBL handler will be called immediately when calling wait_vbl_done. This handler should only update PPU shadow registers</li>
-<li>An installed LCD handler for a specific scanline will be called after the vblank NMI handler has finished execution, and will then manually run a delay loop to reach that scanline before calling your installed LCD handler.</li>
+<li>An installed LCD handler for a specific scanline will then be called repeatedly until the value of _lcd_scanline is either set to an earlier scanline or &gt;= 240. After each invocation, shadow registers are stored into a buffer.</li>
+<li>After the vblank NMI handler has finished palette updates, OAM DMA, VRAM updates and scroll updates it will then manually run a delay loop to reach the particular scanlines that the installed LCD handler was pre-called for, and use the contents of the buffer to update registers.</li>
 </ul>
-<p>Because the LCD "ISR" is actually implemented with a delay loop, it will burn a lot of CPU cycles in the frame - the further down the scanline is the larger the CPU cycle loss. In practice this makes this faked-LCD-ISR functionality only suited for status bars at the top screen, or simple parallax cutscenes where the CPU has little else to do.</p>
+<p>Because the LCD "ISR" is actually implemented with a delay loop, it will burn a lot of CPU cycles in the frame - the further down the requested scanline is the larger the CPU cycle loss. In practice this makes this faked-LCD-ISR functionality mostly suitable for status bars at the top of the screen screen. Or for simple parallax cutscenes where the CPU has little else to do.</p>
 <dl class="section note"><dt>Note</dt><dd>The support for VBL and LCD handlers is currently under consideration and subject to change in newer versions of gbdk-nes.</dd></dl>
 <h3><a class="anchor" id="autotoc_md181"></a>
 Caveat: Make sure to call wait_vbl_done on every frame</h3>
@@ -600,18 +601,28 @@ Caveat: Make sure to call wait_vbl_done on every frame</h3>
 <li>It allows future register writes to be synchronized to the screen</li>
 </ol>
 <p>On gbdk-nes the second point is no longer true, because writes need to be made to the shadow registers <em>before</em> wait_vbl_done is called.</p>
-<p>But the wait_vbl_done call serves two other very important purposes:</p>
-<p>A. It calls the optional VBL handler, where shadow registers can be written (and will later be picked up by the actual vblank NMI handler) B. It calls flush_shadow_attributes so that updates to background attributes actually get written to PPU memory</p>
+<p>But the wait_vbl_done call serves three other very important purposes:</p>
+<p>A. It calls the optional VBL handler, where shadow registers can be written (and will later be picked up by the actual vblank NMI handler) B. It repeatedly calls the optional LCD handler up to MAX_LCD_ISR_CALLS times. After each call, PPU shadow registers are stored into a buffer that will later be used by timed code in the NMI to handle mid-frame changes for screen splits / sprite hiding / etc. C. It calls flush_shadow_attributes so that updates to background attributes actually get written to PPU memory</p>
 <p>For these reasons you should always include a call to wait_vbl_done if you expect to see any graphical updates on the screen.</p>
 <h3><a class="anchor" id="autotoc_md182"></a>
+Caveat: Do all status bar scroll movement in LCD handlers to mitigate glitches</h3>
+<p>The fake LCD ISR system is not bullet-proof. In particular, it has a problem where lag frames can cause the shadow register updates in LCD handlers not to be ready in time for when the timed code in the NMI handler would be called. This will effectively cause all those updates to be missing for one frame and glitched scroll updates.</p>
+<p>There is currently no complete work-around for this problem other than avoiding lag frames altogether. But the glitch can be made less distracting by making sure only the status bar glitches rather than the main background.</p>
+<p>maIf you are using LCD handlers to achieve a top-screen stationary status bar, it is recommended that you follow the following guidelines to make sure the background itself has consistent scrolling:</p><ul>
+<li>Use move_bkg either in your main loop or in the VBL handler, to set the level scrolling</li>
+<li>Use move_bkg in the first invocation of the LCD handler, to set the (stationary) status bar scroll position</li>
+<li>Use move_bkg in the second invocation of the LCD handler, to reset the background scrolling</li>
+</ul>
+<p>In short: Ensuring that the last called LCD handler sets the scroll back to the original value means the PPU rendering keeps rendering the background from the same scrolling position even when the NMI handling was missed.</p>
+<h3><a class="anchor" id="autotoc_md183"></a>
 Tile Data and Tile Map loading</h3>
-<h4><a class="anchor" id="autotoc_md183"></a>
+<h4><a class="anchor" id="autotoc_md184"></a>
 Tile and Map Data in 2bpp Game Boy Format</h4>
 <ul>
 <li><a class="el" href="gb_8h.html#a1f5101f2b7bb0123c26a3e257f843626">set_bkg_data()</a> and <a class="el" href="gb_8h.html#ae45b1c639698951b47e44fa8e89556f2">set_sprite_data()</a> will load 2bpp tile data in "Game Boy" format on both GB and NES.</li>
 <li><a class="el" href="msx_8h.html#a9a732aec1b7aec7d10a9d76ca4da2064">set_bkg_tiles()</a> loads 1-byte-per-tile tilemaps both for the GB and NES.</li>
 </ul>
-<h4><a class="anchor" id="autotoc_md184"></a>
+<h4><a class="anchor" id="autotoc_md185"></a>
 Tile and Map Data in Native Format</h4>
 <p>Use the following api calls when assets are avaialble in the native format for each platform.</p>
 <p><a class="el" href="gb_8h.html#a68651e50243349b48164a8ad983dca4e">set_native_tile_data()</a></p><ul>
@@ -629,7 +640,7 @@ Tile and Map Data in Native Format</h4>
 <p>Platform specific API calls:</p><ul>
 <li><a class="el" href="nes_8h.html#a0254d6e23d4202cb070b1fe54c6a7210">set_bkg_attributes_nes16x16()</a>, <a class="el" href="nes_8h.html#aadba8b700b97ec97dc9c488496619fd9">set_bkg_submap_attributes_nes16x16()</a>, <a class="el" href="nes_8h.html#a7b7c27e672467f08097f744f3530bbc7">set_bkg_attribute_xy_nes16x16()</a></li>
 </ul>
-<h4><a class="anchor" id="autotoc_md185"></a>
+<h4><a class="anchor" id="autotoc_md186"></a>
 Game Boy Color map attributes on the NES</h4>
 <p>On the Game Boy Color, <a class="el" href="gb_2hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a> is used to select between the regular background tile map and the background attribute tile map (for setting tile color palette and other properties).</p>
 <p>This behavior of setting VBK_REG to specify tile indices/attributes is not supported on the NES platform. Instead the dedicated functions for attribute setting should be used. These will work on other platforms as well and are the preferred way to set attributes.</p>
@@ -652,10 +663,10 @@ Game Boy Color map attributes on the NES</h4>
 </li>
 </ul>
 </dd></dl>
-<h2><a class="anchor" id="autotoc_md186"></a>
+<h2><a class="anchor" id="autotoc_md187"></a>
 From Game Boy to Mega Duck / Cougar Boy</h2>
 <p>The Mega Duck is (for practical purposes) functionally identical to the Original Game Boy though it has a couple changes listed below.</p>
-<h3><a class="anchor" id="autotoc_md187"></a>
+<h3><a class="anchor" id="autotoc_md188"></a>
 Summary of Hardware changes:</h3>
 <ul>
 <li>Cartridge Boot Logo: not present on Mega Duck</li>
@@ -665,7 +676,7 @@ Summary of Hardware changes:</h3>
 <li>Audio registers and flag definitions: Some changed</li>
 <li>MBC ROM bank switching register address: <code>0x0001</code> (many Game Boy MBCs use <code>0x2000 - 0x3FFF</code>)</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md188"></a>
+<h3><a class="anchor" id="autotoc_md189"></a>
 Best Practices</h3>
 <p>In order for software to be easily ported to the Mega Duck, or to run on both, use these practices. That will allow GBDK to automatically handle <em>most</em> of the differences (for the exceptions see <a class="el" href="docs_supported_consoles.html#megaduck_sound_register_value_changes">Sound Register Value Changes</a>).</p><ul>
 <li><a class="el" href="docs_supported_consoles.html#docs_consoles_compiling">Set the target console during build time</a></li>
@@ -677,7 +688,7 @@ Best Practices</h3>
 </li>
 </ul>
 <p><a class="anchor" id="megaduck_sound_register_value_changes"></a></p>
-<h3><a class="anchor" id="autotoc_md189"></a>
+<h3><a class="anchor" id="autotoc_md190"></a>
 Sound Register Value Changes</h3>
 <p>There are two hardware changes which will not be handled automatically when following the practices mentioned above.</p>
 <p>These changes may be required when using existing Sound Effects and Music Drivers written for the Game Boy.</p>
@@ -693,7 +704,7 @@ Sound Register Value Changes</h3>
 </ul>
 </li>
 </ol>
-<h3><a class="anchor" id="autotoc_md190"></a>
+<h3><a class="anchor" id="autotoc_md191"></a>
 Graphics Register Bit Changes</h3>
 <p>These changes are handled automatically when their GBDK definitions are used.</p>
 <table class="markdownTable">
@@ -716,7 +727,7 @@ Graphics Register Bit Changes</h3>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><a class="el" href="gb_2hardware_8h.html#aa1f66868f63af2af6544e84122de3cc3">LCDCF_B_BGON</a>   </td><td class="markdownTableBodyNone">.0   </td><td class="markdownTableBodyNone">.6   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Bit for Background Display Visible Hidden Select   </td></tr>
 </table>
-<h3><a class="anchor" id="autotoc_md191"></a>
+<h3><a class="anchor" id="autotoc_md192"></a>
 Detailed Register Address Changes</h3>
 <p>These changes are handled automatically when their GBDK definitions are used.</p>
 <table class="markdownTable">

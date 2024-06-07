@@ -44,7 +44,7 @@
 @anchor sdcc-settings
 # sdcc settings
 ```
-SDCC : z80/sm83/mos6502/mos65c02 TD- 4.4.0 #14620 (Linux)
+SDCC : z80/sm83/mos6502/mos65c02 TD- 4.4.1 #14650 (Linux)
 published under GNU General Public License (GPL)
 Usage : sdcc [options] filename
 Options :-

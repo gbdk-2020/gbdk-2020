@@ -1877,7 +1877,11 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Turns on the background layer. Sets bit 0 of the LCDC register to 1. </p>
+<p>Turns on the background layer. Sets bit 0 of the LCDC register to 1.</p>
+<p>Doesn't work in CGB mode - the bit is reused to control sprite priority over background and window layers instead. </p><ul>
+<li>If 1 (SHOW_BKG), everything works as usual. </li>
+<li>If 0 (HIDE_BKG), all sprites are always drawn over background and window, ignoring any other priority settings. </li>
+</ul>
 
 </div>
 </div>
@@ -1892,7 +1896,11 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Turns off the background layer. Sets bit 0 of the LCDC register to 0. </p>
+<p>Turns off the background layer. Sets bit 0 of the LCDC register to 0.</p>
+<p>Doesn't work in CGB mode - the bit is reused to control sprite priority over background and window layers instead. </p><ul>
+<li>If 1 (SHOW_BKG), everything works as usual. </li>
+<li>If 0 (HIDE_BKG), all sprites are always drawn over background and window, ignoring any other priority settings. </li>
+</ul>
 
 </div>
 </div>
@@ -3308,7 +3316,7 @@ Variables</h2></td></tr>
 <p>Example: </p><div class="fragment"><div class="line"><span class="comment">// Use DMG_BLACK as the Foreground color and DMG_LITE_GRAY</span></div>
 <div class="line"><span class="comment">// as the Background color when loading 1bpp tile data.</span></div>
 <div class="line"><a class="code" href="gb_8h.html#adcb394299a1033616fc7d2faec8bd6ad">set_1bpp_colors</a>(<a class="code" href="gb_8h.html#ab311e53739c992294ae07ca506a924ad">DMG_BLACK</a>, <a class="code" href="gb_8h.html#a8ccd6732d3bdf390cc0943e8567341f3">DMG_LITE_GRAY</a>);</div>
-<div class="ttc" id="agb_8h_html_adcb394299a1033616fc7d2faec8bd6ad"><div class="ttname"><a href="gb_8h.html#adcb394299a1033616fc7d2faec8bd6ad">set_1bpp_colors</a></div><div class="ttdeci">void set_1bpp_colors(uint8_t fgcolor, uint8_t bgcolor)</div><div class="ttdef"><b>Definition:</b> gb.h:1014</div></div>
+<div class="ttc" id="agb_8h_html_adcb394299a1033616fc7d2faec8bd6ad"><div class="ttname"><a href="gb_8h.html#adcb394299a1033616fc7d2faec8bd6ad">set_1bpp_colors</a></div><div class="ttdeci">void set_1bpp_colors(uint8_t fgcolor, uint8_t bgcolor)</div><div class="ttdef"><b>Definition:</b> gb.h:1026</div></div>
 </div><!-- fragment --><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#ab311e53739c992294ae07ca506a924ad">DMG_BLACK</a>, <a class="el" href="gb_8h.html#a45d13a674e169dd83df7e1f46513ccba">DMG_DARK_GRAY</a>, <a class="el" href="gb_8h.html#a8ccd6732d3bdf390cc0943e8567341f3">DMG_LITE_GRAY</a>, <a class="el" href="gb_8h.html#a11cedc2ee58acfbbfc48dfb2b9a551b3">DMG_WHITE</a> </dd>
 <dd>
 <a class="el" href="gb_8h.html#a711fa26feecc76dc51482b0f77062859">set_bkg_1bpp_data</a>, <a class="el" href="gb_8h.html#acd5ee7a94059e6edbe9223f291bc2b46">set_win_1bpp_data</a>, <a class="el" href="gb_8h.html#ab3e60c92c9f8fbed855f8712187ea3ea">set_sprite_1bpp_data</a> </dd></dl>
@@ -5312,7 +5320,7 @@ Variables</h2></td></tr>
 <div class="line"><span class="comment">// These flags tell the sprite to flip both vertically and horizontally.</span></div>
 <div class="line"><a class="code" href="gb_8h.html#a99ea3252469e3614e977cce2aa1d06f7">set_sprite_prop</a>(0, <a class="code" href="gb_8h.html#a4bbb9cd6c38b2317de5256d1d889c63b">S_FLIPY</a> | <a class="code" href="gb_8h.html#ae97793b4039609f93b0f7f8bddb18011">S_FLIPX</a>);</div>
 <div class="ttc" id="agb_8h_html_a4bbb9cd6c38b2317de5256d1d889c63b"><div class="ttname"><a href="gb_8h.html#a4bbb9cd6c38b2317de5256d1d889c63b">S_FLIPY</a></div><div class="ttdeci">#define S_FLIPY</div><div class="ttdef"><b>Definition:</b> gb.h:96</div></div>
-<div class="ttc" id="agb_8h_html_a99ea3252469e3614e977cce2aa1d06f7"><div class="ttname"><a href="gb_8h.html#a99ea3252469e3614e977cce2aa1d06f7">set_sprite_prop</a></div><div class="ttdeci">void set_sprite_prop(uint8_t nb, uint8_t prop)</div><div class="ttdef"><b>Definition:</b> gb.h:1921</div></div>
+<div class="ttc" id="agb_8h_html_a99ea3252469e3614e977cce2aa1d06f7"><div class="ttname"><a href="gb_8h.html#a99ea3252469e3614e977cce2aa1d06f7">set_sprite_prop</a></div><div class="ttdeci">void set_sprite_prop(uint8_t nb, uint8_t prop)</div><div class="ttdef"><b>Definition:</b> gb.h:1933</div></div>
 <div class="ttc" id="agb_8h_html_ae97793b4039609f93b0f7f8bddb18011"><div class="ttname"><a href="gb_8h.html#ae97793b4039609f93b0f7f8bddb18011">S_FLIPX</a></div><div class="ttdeci">#define S_FLIPX</div><div class="ttdef"><b>Definition:</b> gb.h:92</div></div>
 <div class="ttc" id="amsx_8h_html_a7d5ed1aed79d8fd2894893d7f6f9b835"><div class="ttname"><a href="msx_8h.html#a7d5ed1aed79d8fd2894893d7f6f9b835">set_sprite_palette</a></div><div class="ttdeci">#define set_sprite_palette(first_palette, nb_palettes, rgb_data)</div><div class="ttdef"><b>Definition:</b> msx.h:550</div></div>
 </div><!-- fragment --><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a54572cf6791463b6d60623837e0bb5a6">S_PALETTE</a>, <a class="el" href="gb_8h.html#ae97793b4039609f93b0f7f8bddb18011">S_FLIPX</a>, <a class="el" href="gb_8h.html#a4bbb9cd6c38b2317de5256d1d889c63b">S_FLIPY</a>, <a class="el" href="gb_8h.html#a9506d04c2ec7d2442a52054f67d2b32f">S_PRIORITY</a> </dd></dl>

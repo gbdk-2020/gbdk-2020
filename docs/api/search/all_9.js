@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['false_252',['FALSE',['../types_8h.html#aa93f0eb578d23995850d61f7d61c55c1',1,'types.h']]],
-  ['false_253',['false',['../stdbool_8h.html#a65e9886d74aaee76545e83dd09011727',1,'stdbool.h']]],
+  ['false_252',['false',['../stdbool_8h.html#a65e9886d74aaee76545e83dd09011727',1,'stdbool.h']]],
+  ['false_253',['FALSE',['../types_8h.html#aa93f0eb578d23995850d61f7d61c55c1',1,'types.h']]],
   ['far_5fcall_254',['FAR_CALL',['../far__ptr_8h.html#a7f4ab1893ea392f8bf042a3b97de4730',1,'far_ptr.h']]],
   ['far_5ffunc_255',['FAR_FUNC',['../far__ptr_8h.html#a048cfacb5d37ab758a74f44e86c1dbc6',1,'far_ptr.h']]],
   ['far_5fofs_256',['FAR_OFS',['../far__ptr_8h.html#ab79586d8cc3cb926f363f4d0cf7143d5',1,'far_ptr.h']]],

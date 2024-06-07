@@ -4,6 +4,7 @@ gbdk-4.3.0
       - Changed EMU_printf() to remove dependency on stdio.h added similar EMU_fmtbuf()
       - Fixed emu_debug.h macros missing a trailing space
       - NES
+        - Many library improvements
         - Added PAL support
         - Fixed _map_tile_offset for set_bkg_based_tiles(), VRAM transfer buffer bug
         - Fixed support for 4-player controllers using fourscore

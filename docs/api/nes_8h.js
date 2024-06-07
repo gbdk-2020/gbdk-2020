@@ -52,6 +52,7 @@ var nes_8h =
     [ "DMG_PALETTE", "nes_8h.html#a9727caafc483ba6ec65e9344b033d684", null ],
     [ "SCREENWIDTH", "nes_8h.html#ada0cc738d27aad251151e69cb8d250e1", null ],
     [ "SCREENHEIGHT", "nes_8h.html#ae189e98d0ef9263c37869ce1ff3710a5", null ],
+    [ "MAX_LCD_ISR_CALLS", "nes_8h.html#a00573fe55b0f1e2dd03b9647dfe15636", null ],
     [ "CURRENT_BANK", "nes_8h.html#ae042588f20bf5a2349c8ad8716245233", null ],
     [ "BANK", "nes_8h.html#a42705001e2b9897f5167b67fb36c69dd", null ],
     [ "BANKREF", "nes_8h.html#a086293f2afb4c7945460a4496b20aea3", null ],
