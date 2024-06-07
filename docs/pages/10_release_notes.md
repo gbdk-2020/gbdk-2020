@@ -21,20 +21,25 @@ https://github.com/gbdk-2020/gbdk-2020/releases
     - Changed @ref EMU_printf() to remove dependency on stdio.h added similar @ref EMU_fmtbuf()
     - Fixed @ref emu_debug.h macros missing a trailing space
     - NES
-      - Many library improvements
-      - Added PAL support
+      - Added PAL support (detects NTSC/PAL/Dendy on reset to adjust fake LCD ISR timings)
       - Added BCD support
-      - Added deferred hblank system for fake LCD ISRs
+      - Added deferred hblank system for fake LCD ISRs, allowing for multiple splits per-frame
+      - NMI optimization: Only call delay routine for remaining-vblank and LCD handler execution if LCD handler present
+      - NMI optimization: Skip OAM DMA and delay routines when display is off, to increase unbuffered performance
+      - NMI optimization: Save 8 cycles of stripe setup cost in vram transfer buffer execution
+      - ZP memory optimization: Make gbdk-nes functions use its own dedicated overlay segment
       - Fixed `_map_tile_offset` not being applied for @ref set_bkg_based_tiles()
       - Fixed VRAM transfer buffer bug (ensure stack page cleared on reset)
       - Fixed support for 4-player controllers using fourscore
       - Fixed @ref set_sprite_palette() to index from `0..3` instead of `4..7`
+      - Fixed @ref __move_metasprite to initialize Y index register to zero
+      - Fixed @ref waitpadup to wait for button release instead of press
       - Updated libc to latest from sdcc 4.4.0
     - SMS/GG
       - Added @ref SHOW_SPRITES, @ref HIDE_SPRITES (no hiding mid-frame)
       - Added @ref S_BANK tile attribute
       - Added 6 button controller support in @ref joypad()
-      - Added @ref bcd.h implementation
+      - Added BCD support
       - Added ability to move VDP SAT and name table to other locations by writing to VDP R2 and VDP R5.
         - Set name table to 0x1800 and SAT to 0x1F00 by default to free up some sprite tile space
         - Added R5_SAT_0x1F00 definition for the R5 value controlling SAT position in VRAM
@@ -65,6 +70,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
     - MSXDOS
       - Fixed `.VDP_COLORDATA2` assembly definition
     - Game Boy
+      - Added BCD support
       - Added HBlank copy routines: @ref hblank_copy_vram(), @ref hblank_cpy_vram(), @ref hblank_copy()
       - Added @ref SCF_START, @ref SCF_SOURCE, @ref SCF_SPEED aliases for SIO (Serial/Link port) control register control constants
       - Added clamping and changed to new SDCC calling convention for @ref set_bkg_tile_xy(), @ref set_win_tile_xy()
@@ -113,7 +119,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
     - Changed all examples: use @ref BANKED macro instead of `__banked`
       - Also change some to use @ref CURRENT_BANK instead of `_current_bank`
     - Fixes for SMS/GG: Fonts, Large Map, gbdecompress
-    - Fixed NES version of Text Scroller to have splits as other platforms
+    - Fixed NES version of Text Scroller to have multiple splits as other platforms do
     - Fixed Simple Physics: joypad input caching was wrong
     - Fixed Banks Non-Intrinsic: mismatched SRAM banks for final calculation, improved naming
     - Removed Analogue Pocket examples that were just duplicates of Game Boy ones
