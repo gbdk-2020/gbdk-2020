@@ -213,6 +213,8 @@ Macros</h2></td></tr>
 <tr class="separator:ada0cc738d27aad251151e69cb8d250e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae189e98d0ef9263c37869ce1ff3710a5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ae189e98d0ef9263c37869ce1ff3710a5">SCREENHEIGHT</a>&#160;&#160;&#160;<a class="el" href="sms_2hardware_8h.html#a7bd450aa268b881257089cf8cd6697ec">DEVICE_SCREEN_PX_HEIGHT</a></td></tr>
 <tr class="separator:ae189e98d0ef9263c37869ce1ff3710a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00573fe55b0f1e2dd03b9647dfe15636"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a00573fe55b0f1e2dd03b9647dfe15636">MAX_LCD_ISR_CALLS</a>&#160;&#160;&#160;4</td></tr>
+<tr class="separator:a00573fe55b0f1e2dd03b9647dfe15636"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae042588f20bf5a2349c8ad8716245233"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ae042588f20bf5a2349c8ad8716245233">CURRENT_BANK</a>&#160;&#160;&#160;<a class="el" href="nes_8h.html#a06bab3f8bce032de0d21fbd86e14c3f3">_current_bank</a></td></tr>
 <tr class="separator:ae042588f20bf5a2349c8ad8716245233"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a42705001e2b9897f5167b67fb36c69dd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a42705001e2b9897f5167b67fb36c69dd">BANK</a>(VARNAME)&#160;&#160;&#160;( (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>) &amp; __bank_ ## VARNAME )</td></tr>
@@ -1261,6 +1263,21 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Height of the visible screen in pixels. </p>
+
+</div>
+</div>
+<a id="a00573fe55b0f1e2dd03b9647dfe15636"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00573fe55b0f1e2dd03b9647dfe15636">&#9670;&nbsp;</a></span>MAX_LCD_ISR_CALLS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MAX_LCD_ISR_CALLS&#160;&#160;&#160;4</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The maximum number of times the LCD handler will be called per frame. </p>
 
 </div>
 </div>
@@ -4160,7 +4177,7 @@ On the current NES implementation, this handler is actually faked, and called be
 <div class="line"><span class="comment">// These flags tell the sprite to use the first sprite palette (palette 4) and to flip the sprite both vertically and horizontally.</span></div>
 <div class="line"><a class="code" href="gb_8h.html#a99ea3252469e3614e977cce2aa1d06f7">set_sprite_prop</a>(0, <a class="code" href="gb_8h.html#a4bbb9cd6c38b2317de5256d1d889c63b">S_FLIPY</a> | <a class="code" href="gb_8h.html#ae97793b4039609f93b0f7f8bddb18011">S_FLIPX</a>);</div>
 <div class="ttc" id="agb_8h_html_a4bbb9cd6c38b2317de5256d1d889c63b"><div class="ttname"><a href="gb_8h.html#a4bbb9cd6c38b2317de5256d1d889c63b">S_FLIPY</a></div><div class="ttdeci">#define S_FLIPY</div><div class="ttdef"><b>Definition:</b> gb.h:96</div></div>
-<div class="ttc" id="agb_8h_html_a99ea3252469e3614e977cce2aa1d06f7"><div class="ttname"><a href="gb_8h.html#a99ea3252469e3614e977cce2aa1d06f7">set_sprite_prop</a></div><div class="ttdeci">void set_sprite_prop(uint8_t nb, uint8_t prop)</div><div class="ttdef"><b>Definition:</b> gb.h:1921</div></div>
+<div class="ttc" id="agb_8h_html_a99ea3252469e3614e977cce2aa1d06f7"><div class="ttname"><a href="gb_8h.html#a99ea3252469e3614e977cce2aa1d06f7">set_sprite_prop</a></div><div class="ttdeci">void set_sprite_prop(uint8_t nb, uint8_t prop)</div><div class="ttdef"><b>Definition:</b> gb.h:1933</div></div>
 <div class="ttc" id="agb_8h_html_ae97793b4039609f93b0f7f8bddb18011"><div class="ttname"><a href="gb_8h.html#ae97793b4039609f93b0f7f8bddb18011">S_FLIPX</a></div><div class="ttdeci">#define S_FLIPX</div><div class="ttdef"><b>Definition:</b> gb.h:92</div></div>
 <div class="ttc" id="amsx_8h_html_a7d5ed1aed79d8fd2894893d7f6f9b835"><div class="ttname"><a href="msx_8h.html#a7d5ed1aed79d8fd2894893d7f6f9b835">set_sprite_palette</a></div><div class="ttdeci">#define set_sprite_palette(first_palette, nb_palettes, rgb_data)</div><div class="ttdef"><b>Definition:</b> msx.h:550</div></div>
 </div><!-- fragment --><dl class="section see"><dt>See also</dt><dd><a class="el" href="sms_8h.html#a54572cf6791463b6d60623837e0bb5a6">S_PALETTE</a>, <a class="el" href="sms_8h.html#ae97793b4039609f93b0f7f8bddb18011">S_FLIPX</a>, <a class="el" href="sms_8h.html#a4bbb9cd6c38b2317de5256d1d889c63b">S_FLIPY</a>, <a class="el" href="sms_8h.html#a9506d04c2ec7d2442a52054f67d2b32f">S_PRIORITY</a></dd></dl>

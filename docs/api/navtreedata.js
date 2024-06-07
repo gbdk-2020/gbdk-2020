@@ -53,14 +53,14 @@ var NAVTREEINDEX =
 [
 "annotated.html",
 "docs_getting_started.html#autotoc_md10",
-"drawing_8h.html#a2d6cbdc9528ec11ac54bd3dbe754ab74",
-"gb_2hardware_8h.html#a934eba7bd84d8082bb934a609686d6d6",
-"gb_8h.html#a811c386cac0df2d260aacb5a43608be5",
-"incbin_8h.html#a42705001e2b9897f5167b67fb36c69dd",
-"msx_8h.html#a8e5ea12b86bdfc812448c2f5c4336c03",
-"nes_8h.html#aa224c9bac27c7fd268e62bdf33338a84",
-"sms_2hardware_8h.html#ab2767d5f8f0ad35d8c8ee0bb3f4c51c3",
-"sms_8h.html#af5c0beff7d7a7d8641b51fd95c811b2a"
+"drawing_8h.html#a1e268a46a8151f9cc3b7b40100123d09",
+"gb_2hardware_8h.html#a92a063885caf6c6cda665da0309055ec",
+"gb_8h.html#a7ef32e7c1669aba48f235500a495baba",
+"incbin_8h.html",
+"msx_8h.html#a8e3f36aa68ac036695816757f2a1322c",
+"nes_8h.html#a92649b68e5fea88d171d933f9a605e50",
+"sms_2hardware_8h.html#aa4062707b9b0f9ff5d1ee982ccc42fe7",
+"sms_8h.html#aebc8751fa428e9845ea25b1060ebe772"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
