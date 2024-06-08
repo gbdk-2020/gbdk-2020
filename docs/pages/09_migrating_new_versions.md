@@ -13,7 +13,7 @@ This section contains information that may be useful to know or important when u
   - Recommend using:
     - @ref CURRENT_BANK instead of `_current_bank`
     - @ref BANKED macro instead of `__banked`
-  - @ref set_sprite_palette() now indexes from `0..3` instead of `4..7`
+  - NES @ref set_sprite_palette() now indexes from `0..3` instead of `4..7`
   - png2asset:
     - If using either `-bpp 1` or `-pack_mode 1bpp` then the other is auto-enabled
     - Significant bug fixes and changes, check to make sure output is as expected
