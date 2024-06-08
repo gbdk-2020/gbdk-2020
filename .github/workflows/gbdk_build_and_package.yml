@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}  
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         include:
@@ -19,6 +19,8 @@ jobs:
             name: Linux-x64
           - os: macos-11
             name: MacOS-x64
+          - os: macos-14
+            name: MacOS-arm64
           - os: windows-2019
             name: Windows-x64
           - os: windows-2019
@@ -29,26 +31,32 @@ jobs:
       - name: Linux Depends
         if: matrix.name == 'Linux-x64'
         run: |
-          curl -Lo sdcc.tar.gz https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-patched-gbdk-4.2.0/sdcc-14228-Linux-x64.tar.gz
+          curl -Lo sdcc.tar.gz https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-patched-gbdk-4.3.0/sdcc-14650-Linux-x64.tar.gz
           tar xvfz sdcc.tar.gz
 
       - name: MacOS Depends
         if: matrix.name == 'MacOS-x64'
         run: |
-          curl -Lo sdcc.tar.gz https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-patched-gbdk-4.2.0/sdcc-14228-MacOS-x64.tar.gz
+          curl -Lo sdcc.tar.gz https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-patched-gbdk-4.3.0/sdcc-14650-MacOS-x64.tar.gz
+          tar xvfz sdcc.tar.gz
+
+      - name: MacOS ARM Depends
+        if: matrix.name == 'MacOS-arm64'
+        run: |
+          curl -Lo sdcc.tar.gz https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-patched-gbdk-4.3.0/sdcc-14650-MacOS-arm64.tar.gz
           tar xvfz sdcc.tar.gz
 
       - name: Windows-x64 Depends
         if: matrix.name == 'Windows-x64'
         run: |
-          curl -Lo sdcc.tar.gz https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-patched-gbdk-4.2.0/sdcc-14228-Win64-On-Linux.tar.gz
+          curl -Lo sdcc.tar.gz https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-patched-gbdk-4.3.0/sdcc-14650-Win64-On-Linux.tar.gz
           7z x sdcc.tar.gz
           7z x sdcc.tar
 
       - name: Windows-x32 Depends
         if: matrix.name == 'Windows-x32'
         run: |
-          curl -Lo sdcc.tar.gz https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-patched-gbdk-4.2.0/sdcc-14228-Win32-On-Linux.tar.gz
+          curl -Lo sdcc.tar.gz https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-patched-gbdk-4.3.0/sdcc-14650-Win32-On-Linux.tar.gz
           7z x sdcc.tar.gz
           7z x sdcc.tar
 
@@ -78,7 +86,7 @@ jobs:
 
       # ==== Build Steps ====
       - name: Check out GBDK-2020
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           path: gbdk-2020
           submodules: false
@@ -87,20 +95,38 @@ jobs:
       # Needs to be in a separate step than build so that setting the environment var takes effect
       #
       - name: Pre-Build Linux/MacOS
-        if: (matrix.name == 'Linux-x64') || (matrix.name == 'MacOS-x64')
+        if: (matrix.name == 'Linux-x64')
         shell: bash
         run: |
-          echo "BUILD_PACKAGE_FILENAME=gbdk-2020-${{ matrix.name }}.tar.gz" >> $GITHUB_ENV
+          echo "BUILD_PACKAGE_FILENAME=gbdk-linux64.tar.gz" >> $GITHUB_ENV
+
+      - name: Pre-Build Linux/MacOS
+        if: (matrix.name == 'MacOS-x64')
+        shell: bash
+        run: |
+          echo "BUILD_PACKAGE_FILENAME=gbdk-macos.tar.gz" >> $GITHUB_ENV
+
+      - name: Pre-Build Linux/MacOS
+        if: (matrix.name == 'MacOS-arm64')
+        shell: bash
+        run: |
+          echo "BUILD_PACKAGE_FILENAME=gbdk-macos-arm64.tar.gz" >> $GITHUB_ENV
 
       - name: Pre-Build Windows
-        if: (matrix.name == 'Windows-x64') || (matrix.name == 'Windows-x32')
+        if: (matrix.name == 'Windows-x64')
         shell: bash
         run: |
-          echo "BUILD_PACKAGE_FILENAME=gbdk-2020-${{ matrix.name }}.zip" >> $GITHUB_ENV
+          echo "BUILD_PACKAGE_FILENAME=gbdk-win64.zip" >> $GITHUB_ENV
+
+      - name: Pre-Build Windows
+        if: (matrix.name == 'Windows-x32')
+        shell: bash
+        run: |
+          echo "BUILD_PACKAGE_FILENAME=gbdk-win32.zip" >> $GITHUB_ENV
 
       # ==== Builds ====
       - name: Build GBDK-2020 Linux/MacOS
-        if: (matrix.name == 'Linux-x64') || (matrix.name == 'MacOS-x64')
+        if: (matrix.name == 'Linux-x64') || (matrix.name == 'MacOS-x64') || (matrix.name == 'MacOS-arm64')
         shell: bash
         run: |
           export SDCCDIR=`pwd`/sdcc
@@ -119,7 +145,7 @@ jobs:
 
       # ==== Packaging ====
       - name: Package build Linux/MacOS
-        if: (matrix.name == 'Linux-x64') || (matrix.name == 'MacOS-x64')
+        if: (matrix.name == 'Linux-x64') || (matrix.name == 'MacOS-x64') || (matrix.name == 'MacOS-arm64')
         shell: bash
         run: |
           cd gbdk-2020
@@ -141,8 +167,8 @@ jobs:
           cd ..
 
       - name: Store build
-        if: (matrix.name == 'Linux-64') || (matrix.name == 'MacOS-64') || ('Windows-x64') || ('Windows-x32')
-        uses: actions/upload-artifact@v2
+        if: (matrix.name == 'Linux-x64') || (matrix.name == 'MacOS-x64') || (matrix.name == 'MacOS-arm64') || ('Windows-x64') || ('Windows-x32')
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.name }} build
           path: gbdk-2020/package/${{ env.BUILD_PACKAGE_FILENAME }}

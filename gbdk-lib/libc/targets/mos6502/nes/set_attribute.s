@@ -2,7 +2,7 @@
 
 .include "global.s"
 
-.area OSEG (PAG, OVR)
+.area GBDKOVR (PAG, OVR)
 _set_bkg_attribute_xy_nes16x16_PARM_3::    .ds 1
 .x_odd:                                     .ds 1
 .y_odd:                                     .ds 1

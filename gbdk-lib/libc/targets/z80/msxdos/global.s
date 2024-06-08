@@ -182,33 +182,13 @@
         .COPY           = 0x82  ; File cannot be copied onto itself
         .OVDEST         = 0x81  ; Cannot overwrite previous destination file
 
-        .MEMORY_CTL     = 0x3E
-
-        .MEMCTL_JOYON   = 0b00000000
-        .MEMCTL_JOYOFF  = 0b00000100
-        .MEMCTL_BASEON  = 0b00000000
-        .MEMCTL_BASEOFF = 0b00001000
-        .MEMCTL_RAMON   = 0b00000000
-        .MEMCTL_RAMOFF  = 0b00010000
-        .MEMCTL_CROMON  = 0b00000000
-        .MEMCTL_CROMOFF = 0b00100000
-        .MEMCTL_ROMON   = 0b00000000
-        .MEMCTL_ROMOFF  = 0b01000000
-        .MEMCTL_EXTON   = 0b00000000
-        .MEMCTL_EXTOFF  = 0b10000000
-
-        .JOY_CTL        = 0x3F
-
-        .JOY_P1_LATCH   = 0b00000010
-        .JOY_P2_LATCH   = 0b00001000
-
         .VDP_VRAM       = 0x4000
         .VDP_TILEDATA0  = 0x4000
         .VDP_TILEDATA1  = 0x4800
         .VDP_TILEDATA2  = 0x5000
         .VDP_COLORDATA0 = 0x6000
         .VDP_COLORDATA1 = 0x6800
-        .VDP_COLORDATA1 = 0x7000
+        .VDP_COLORDATA2 = 0x7000
 
         .VDP_SPRDATA0   = 0x7800
 
@@ -298,29 +278,6 @@
         .KBD_SELECT_ROW = 0xAA
         .KBD_INPUT      = 0xA9
 
-        .JOY_PORT1      = 0xDC
-
-        .JOY_P1_UP      = 0b00000001
-        .JOY_P1_DOWN    = 0b00000010
-        .JOY_P1_LEFT    = 0b00000100
-        .JOY_P1_RIGHT   = 0b00001000
-        .JOY_P1_SW1     = 0b00010000
-        .JOY_P1_TRIGGER = 0b00010000
-        .JOY_P1_SW2     = 0b00100000
-        .JOY_P2_UP      = 0b01000000
-        .JOY_P2_DOWN    = 0b10000000
-
-        .JOY_PORT2      = 0xDD
-
-        .JOY_P2_LEFT    = 0b00000001
-        .JOY_P2_RIGHT   = 0b00000010
-        .JOY_P2_SW1     = 0b00000100
-        .JOY_P2_TRIGGER = 0b00000100
-        .JOY_P2_SW2     = 0b00001000
-        .JOY_RESET      = 0b00010000
-        .JOY_P1_LIGHT   = 0b01000000
-        .JOY_P2_LIGHT   = 0b10000000
-
         .FMADDRESS      = 0xF0
         .FMDATA         = 0xF1
         .AUDIOCTRL      = 0xF2
@@ -330,10 +287,8 @@
         .MAP_FRAME2     = 0xfffe
         .MAP_FRAME3     = 0xffff
 
-        .BIOS           = 0xC000
-
-        .SYSTEM_PAL     = 0x00
-        .SYSTEM_NTSC    = 0x01
+        .SYSTEM_NTSC    = 0x00
+        .SYSTEM_PAL     = 0x01
 
         .CPU_CLOCK      = 3579545
 
@@ -371,7 +326,7 @@
 
         ;; Main user routine
         .globl  _main
-        
+
         ;; interrupt handler
         .globl _INT_ISR
 
@@ -387,27 +342,21 @@
         jp .BDOS
 .endm
 
-.macro VDP_WRITE_DATA regH regL ?lbl
-        ld a, i
+.macro VDP_WRITE_DATA regH regL
         ld a, regL
-        di
-        out (#.VDP_DATA), a     ; 11
-        ld a, regH              ; 4
-        jp po, lbl              ; 7/12
-        ei                      ; 4 (total: 26/27)
-lbl:
+        out (#.VDP_DATA), a
+        ld a, regH
+        inc hl
+        dec hl
         out (#.VDP_DATA), a
 .endm
 
-.macro VDP_WRITE_CMD regH regL ?lbl
-        ld a, i
+.macro VDP_WRITE_CMD regH regL
         ld a, regL
         di
         out (#.VDP_CMD), a
         ld a, regH
-        jp po, lbl
         ei
-lbl:
         out (#.VDP_CMD), a
 .endm
 
@@ -434,13 +383,13 @@ lbl:
 .endm
 
 .macro DISABLE_VBLANK_COPY
-        ld a, #1
-        ld (__shadow_OAM_OFF), a
+        ld hl, #__shadow_OAM_OFF
+        inc (hl)
 .endm
 
 .macro ENABLE_VBLANK_COPY
-        xor a
-        ld (__shadow_OAM_OFF), a
+        ld hl, #__shadow_OAM_OFF
+        dec (hl)
 .endm
 
 .macro ADD_A_REG16 regH regL

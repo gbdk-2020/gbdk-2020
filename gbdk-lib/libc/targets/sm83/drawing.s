@@ -67,6 +67,8 @@
 .gmode::
         DI                      ; Disable interrupts
 
+        PUSH    DE              ; preserve DE
+
         ;; Turn the screen off
         LDH     A,(.LCDC)
         AND     #LCDCF_ON
@@ -131,15 +133,13 @@
         LD      A,#0x00         ; White
         LD      (.bg_colour),A
 
+        POP     DE              ; restore DE
+
+        XOR     A
+        LDH     (.IF), A
+
         EI                      ; Enable interrupts
 
-        RET
-
-        ;; Draw a full-screen image at (BC)
-.draw_image::
-        LD      DE,#0x8000+0x10*0x10
-        LD      BC,#0x1680
-        CALL    .copy_vram      ; Move the charset
         RET
 
         ;; Replace tile data at (B,C) with data at DE and store old value at HL
@@ -614,31 +614,12 @@ dbox$:
         SUB     B
         RET     C
 
-        .if     0
-        LD      A,(.mod_col)    ;Swap fore + back colours.
-        LD      D,A
-        AND     #0xF0
-        LD      C,A             ;Preserve Style
-        LD      A,D
-        AND     #0x0C
-        RRCA
-        RRCA
-        OR      C               ;Foreground->background + style
-        LD      C,A
-        LD      A,D
-        AND     #0x03
-        RLCA
-        RLCA
-        OR      C
-        LD      (.mod_col),A
-        .else
         LD      A,(.fg_colour)
         LD      C,A
         LD      A,(.bg_colour)
         LD      (.fg_colour),A
         LD      A,C
         LD      (.bg_colour),A
-        .endif
 filllp$:
         LD      A,(.x_s)
         LD      B,A
@@ -657,31 +638,12 @@ filllp$:
         LD      (.y_s),A
         JR      filllp$
 swap$:
-        .if     0
-        LD      A,(.mod_col)    ;Swap fore + back colours.
-        LD      D,A
-        AND     #0xF0
-        LD      C,A             ;Preserve Style
-        LD      A,D
-        AND     #0x0C
-        RRCA
-        RRCA
-        OR      C               ;Foreground->background + style
-        LD      C,A
-        LD      A,D
-        AND     #0x03
-        RLCA
-        RLCA
-        OR      C
-        LD      (.mod_col),A
-        .else
         LD      A,(.fg_colour)
         LD      C,A
         LD      A,(.bg_colour)
         LD      (.fg_colour),A
         LD      A,C
         LD      (.bg_colour),A
-        .endif
         RET
 
         ;; Draw a line between (B,C) and (D,E)
@@ -802,11 +764,6 @@ dx1$:
 
         POP     HL
 
-        .if     0
-        LD      A,(.mod_col)
-        LD      D,A
-        .endif
-
         LD      A,(.delta_x)
         LD      E,A
 
@@ -909,11 +866,6 @@ nadj$:
 
 .xonly::
         ;; Draw accelerated horizontal line
-        .if     0
-        ;; xxx needed?
-        LD      A,(.mod_col)
-        LD      D,A
-        .endif
 
         LD      A,(.delta_x)
         LD      E,A
@@ -1035,12 +987,6 @@ y3$:
         ADD     HL,DE
         ADD     HL,DE
 
-        .if     0
-        ;; Trashed by later instructions
-        LD      A,(.mod_col)
-        LD      D,A
-        .endif
-
         LD      A,(.delta_y)
         LD      E,A
         INC     E
@@ -1098,12 +1044,6 @@ dy1$:
         LD      (.dinc2+1),A
 
         POP     HL
-
-        .if     0
-        ;; xxx Not used?
-        LD      A,(.mod_col)
-        LD      D,A
-        .endif
 
         LD      A,(.delta_y)
         LD      E,A
@@ -1239,17 +1179,6 @@ nchgy$:
         LD      C,A
 
 .wrbyte::
-        .if     0
-        LD      A,(.mod_col)    ; Restore color and mode
-        LD      D,A
-
-        BIT     5,D
-        JR      NZ,10$
-        BIT     6,D
-        JR      NZ,20$
-        BIT     7,D
-        JR      NZ,30$
-        .else
         LD      A,(.fg_colour)
         LD      D,A
         LD      A,(.draw_mode)
@@ -1259,26 +1188,17 @@ nchgy$:
         JR      Z,20$
         CP      #.M_AND
         JR      Z,30$
-        .endif
 
         ; Fall through to SOLID by default
 1$:
         ;; Solid
         LD      E,B
-        .if     0
-        BIT     2,D
-        .else
         BIT     0,D
-        .endif
         JR      NZ,2$
         PUSH    BC
         LD      B,#0x00
 2$:
-        .if     0
-        BIT     3,D
-        .else
         BIT     1,D
-        .endif
         JR      NZ,3$
         LD      E,#0x00
 3$:
@@ -1302,19 +1222,11 @@ nchgy$:
 10$:
         ;; Or
         LD      C,B
-        .if     0
-        BIT     2,D
-        .else
         BIT     0,D
-        .endif
         JR      NZ,11$
         LD      B,#0x00
 11$:
-        .if     0
-        BIT     3,D
-        .else
         BIT     1,D
-        .endif
         JR      NZ,12$
         LD      C,#0x00
 12$:
@@ -1324,6 +1236,8 @@ nchgy$:
         OR      B
         LD      (HL+),A
 
+        WAIT_STAT
+
         LD      A,(HL)
         OR      C
         LD      (HL),A
@@ -1332,19 +1246,11 @@ nchgy$:
 20$:
         ;; Xor
         LD      C,B
-        .if     0
-        BIT     2,D
-        .else
         BIT     0,D
-        .endif
         JR      NZ,21$
         LD      B,#0x00
 21$:
-        .if     0
-        BIT     3,D
-        .else
         BIT     1,D
-        .endif
         JR      NZ,22$
         LD      C,#0x00
 22$:
@@ -1354,6 +1260,8 @@ nchgy$:
         XOR     B
         LD      (HL+),A
 
+        WAIT_STAT
+
         LD      A,(HL)
         XOR     C
         LD      (HL),A
@@ -1362,19 +1270,11 @@ nchgy$:
 30$:
         ;; And
         LD      B,C
-        .if     0
-        BIT     2,D
-        .else
         BIT     0,D
-        .endif
         JR      Z,31$
         LD      B,#0xFF
 31$:
-        .if     0
-        BIT     3,D
-        .else
         BIT     1,D
-        .endif
         JR      Z,32$
         LD      C,#0xFF
 32$:
@@ -1383,6 +1283,8 @@ nchgy$:
         LD      A,(HL)
         AND     B
         LD      (HL+),A
+
+        WAIT_STAT
 
         LD      A,(HL)
         AND     C
@@ -1467,13 +1369,9 @@ nchgy$:
         ADD     HL,HL
         ADD     HL,HL
 
-        .if     0
-        LD      DE,#.tp1
-        .else
         .globl  _font_ibm_fixed_tiles
 
         LD      DE,#_font_ibm_fixed_tiles
-        .endif
 
         ADD     HL,DE
 
@@ -1482,63 +1380,38 @@ nchgy$:
         LD      H,B
         LD      L,C
 
-        .if     0
-        LD      A,(.mod_col)
-        LD      C,A
-        .else
         LD      A,(.fg_colour)
         LD      C,A
-        .endif
 1$:
         LD      A,(DE)
         INC     DE
         PUSH    DE
 
-        .if     1
         PUSH    HL
         LD      HL,#.bg_colour
         LD      L,(HL)
-        .endif
 
         LD      B,A
         XOR     A
-        .if     0
-        BIT     0,C
-        .else
         BIT     0,L
-        .endif
         JR      Z,2$
         CPL
 2$:     OR      B
-        .if     0
-        BIT     2,C
-        .else
         BIT     0,C
-        .endif
         JR      NZ,3$
         XOR     B
 3$:     LD      D,A
         XOR     A
-        .if     0
-        BIT     1,C
-        .else
         BIT     1,L
-        .endif
         JR      Z,4$
         CPL
 4$:     OR      B
-        .if     0
-        BIT     3,C
-        .else
         BIT     1,C
-        .endif
         JR      NZ,5$
         XOR     B
 5$:
         LD      E,A
-        .if     1
         POP     HL
-        .endif
 
         WAIT_STAT
 
@@ -1726,21 +1599,18 @@ _switch_data::                  ; Non Banked as pointer
 
 
 _draw_image::                   ; Non banked as pointer
-        PUSH    BC
-
         LD      A,(.mode)
         CP      #.G_MODE
         CALL    NZ,.gmode
 
-        LDA     HL,4(SP)        ; Skip return address and registers
-        LD      A,(HL+)
-        LD      H,(HL)
-        LD      L,A             ; HL = data
+        LD      H, D
+        LD      L, E
 
-        CALL    .draw_image
+.draw_image::
+        LD      DE,#0x8000+0x10*0x10
+        LD      BC,#0x1680
+        JP      .copy_vram      ; Move the charset
 
-        POP     BC
-        RET
 
 .y_table::
         .word   0x8100,0x8102,0x8104,0x8106,0x8108,0x810A,0x810C,0x810E

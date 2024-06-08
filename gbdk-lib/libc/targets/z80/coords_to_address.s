@@ -5,23 +5,30 @@
 
         .area   _HOME
 
-; translate coords in DE and given base in BC into address in DE
+; translate coords in DE into address in DE
 .coords_to_address::
+        ld a, (_shadow_VDP_R2)
+        rlca
+        rlca
+        and #0b01111000
+        ld b, a
+
         ld a, d
         add #.SCREEN_Y_OFS
         ld d, a
         xor a
+        ld c, a
         FAST_MOD8 d #28
         ld d, a
 
         ld a, e
         add #.SCREEN_X_OFS
         and #0x1f
-        ld e, a         
+        ld e, a
 
         ld a, d
         rrca                    ; rrca(2) == rlca(6)
-        rrca 
+        rrca
         ld d, a
         and #0x07
         add b
@@ -41,7 +48,6 @@ _get_bkg_xy_addr::
         pop hl
         ex (sp), hl
         ex de, hl
-        ld bc, #.VDP_TILEMAP
-        call .coords_to_address 
+        call .coords_to_address
         ex de, hl
         ret

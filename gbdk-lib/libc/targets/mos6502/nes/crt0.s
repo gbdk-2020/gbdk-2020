@@ -13,11 +13,6 @@ _shadow_OAM             = 0x200
 ; Attribute shadow (64 bytes, leaving 56 bytes available for CPU stack)
 _attribute_shadow       = 0x188
 
-; Declare a dummy symbol for banking
-; TODO: Make banking actually work
-b_wait_frames = 0
-.globl b_wait_frames
-
 .macro WRITE_PALETTE_SHADOW
     lda #>0x3F00
     sta PPUADDR
@@ -47,6 +42,7 @@ b_wait_frames = 0
         .area _BASE
         ;; Constant data
         .area _LIT
+        .area _RODATA
         ;; Constant data, used to init _DATA
         .area _INITIALIZER
         .area _XINIT
@@ -62,7 +58,8 @@ b_wait_frames = 0
         .area _HEAP
         .area _HEAP_END
 
-.area	OSEG    (PAG, OVR)
+.area	OSEG (PAG, OVR)
+.area	GBDKOVR (PAG, OVR)
 .area _ZP (PAG)
 __shadow_OAM_base::                     .ds 1
 __current_bank::                        .ds 1
@@ -70,20 +67,25 @@ _sys_time::                             .ds 2
 _shadow_PPUCTRL::                       .ds 1
 _shadow_PPUMASK::                       .ds 1
 __crt0_spritePageValid:                 .ds 1
-__crt0_NMI_Done:                        .ds 1
-__crt0_NMI_insideNMI:                   .ds 1
-__crt0_ScrollHV:                        .ds 1
-.mode::                                 .ds 1
+__crt0_disableNMI:                      .ds 1
 _bkg_scroll_x::                         .ds 1
 _bkg_scroll_y::                         .ds 1
 _attribute_row_dirty::                  .ds 1
 _attribute_column_dirty::               .ds 1
 .crt0_forced_blanking::                 .ds 1
+__SYSTEM::                              .ds 1
 
 .define __crt0_NMITEMP "___SDCC_m6502_ret4"
 
 .area _BSS
 __crt0_paletteShadow::                  .ds 25
+.mode::                                 .ds 1
+__lcd_isr_PPUCTRL:                      .ds .MAX_LCD_ISR_CALLS
+__lcd_isr_PPUMASK:                      .ds .MAX_LCD_ISR_CALLS
+__lcd_isr_scroll_x:                     .ds .MAX_LCD_ISR_CALLS
+__lcd_isr_scroll_y:                     .ds .MAX_LCD_ISR_CALLS
+__lcd_isr_delay_num_scanlines:          .ds .MAX_LCD_ISR_CALLS
+__lcd_isr_num_calls:                    .ds 1
 
 .area _CODE
 
@@ -100,6 +102,7 @@ i = i + 1
 .define ProcessDrawList_addr  "__crt0_NMITEMP+0"
 
 .bndry 0x100
+    nop         ; Pad to offset, to support zero-terminator value
 ProcessDrawList_UnrolledCopyLoop:
 .rept 32
 pla             ; +4
@@ -108,11 +111,6 @@ sta PPUDATA     ; +4
 ProcessDrawList_DoOneTransfer:
     pla                                         ; +4
     beq ProcessDrawList_EndOfList               ; +2/3
-    ; branchaddr = 128-4*num_bytes = NOT(4*num_bytes)+1+128 = NOT(4*num_bytes)+129
-    asl                                         ; +2
-    asl                                         ; +2
-    eor #0xFF                                   ; +2
-    adc #129                                    ; +2
     sta *ProcessDrawList_addr                   ; +3
     pla                                         ; +4
     sta PPUCTRL                                 ; +4
@@ -170,65 +168,118 @@ ProcessDrawList:
 ;
 ; Delays until specified (non-zero) scanline is reached
 ;
-; First scanline's delay needs adjusting for cycle cost of subroutine execution:
-; beq-not-taken -1
-; jsr           +6
-; lda #0        +2
-; sta *.acc     +3
-; ldy #N        +2
-; nop           +2
-; nop           +2
-; bne-taken     +3
-; rts           +6
-; -> 25 cycles less
-; -> N = 19-25/5 = 19-5
+; First scanline's delay needs adjusting in coordination with .do_lcd_ppu_reg_writes
 ;
 .define .acc "___SDCC_m6502_ret4"
 .delay_to_lcd_scanline::
-    lda #0
-    sta *.acc
-    ldy #(19-5) 
-    nop
-    nop
-    bne 2$
+    jsr .delay_12_cycles
+    jmp 2$
 1$:
-    ldy #19
+    jsr .delay_28_cycles
+    jsr .delay_28_cycles
+    jsr .delay_12_cycles ; -> 28 + 28 + 12 = 68 cycles
 2$:
-    dey
-    bne 2$      ; -> 2 + 18*5 + 4 = 91 cycles
-    lda *.acc
-    clc
-    adc #85
-    bcc 3$
-3$:
-    sta *.acc   ; -> 12.666 cycles
+
+    jsr .delay_fractional   ; -> 40.666 NTSC cycles  33.5625 PAL cycles
+  
     dex
     bne 1$      ; -> 5 cycles
     rts
 
-__crt0_NMI:
-    ; Prevent NMI re-entry
-    bit *__crt0_NMI_insideNMI
-    bpl NotInsideNMI
+.delay_28_cycles:
+    jsr .delay_12_cycles
+    nop
+    nop
+.delay_12_cycles:
+    rts
+
+;
+; Takes 40.666 NTSC cycles / 33.5626 PAL cycles
+;
+.delay_fractional:
+    lda #144 ; Initialize A with PAL fractional cycle count
+    ; +7 cycles for NTSC scanlines
+    bit *__SYSTEM
+    bvs 3$
+    lda #171 ; NTSC fractional cycle count
+    nop
+    nop
+    nop
+3$:             ; -> 15 NTSC cycles / 8 PAL cycles
+    ; Add fractional cycles and branch on carry
+    clc
+    adc *.acc
+    sta *.acc
+    bcs 4$
+4$:
+    sta *.acc   ; -> 13.666 NTSC cycles / 13.5625 PAL cycles
+    rts         ; -> 6 cycles for RTS, 6 cycles for JSR = 12 cycles
+
+__crt0_NMI_earlyout:
     rti
-NotInsideNMI:
+__crt0_NMI:
+    bit *__crt0_disableNMI
+    bmi __crt0_NMI_earlyout
     pha
     txa
     pha
     tya
     pha
-
-    lda #0x80
-    sta *__crt0_NMI_insideNMI
-
+    
+    ; Skip graphics updates if blanked, to allow main code to do VRAM address / scroll updates
+    lda *_shadow_PPUMASK
+    and #(PPUMASK_SHOW_BG | PPUMASK_SHOW_SPR)
+    beq __crt0_NMI_skip
+    ; Do Sprite DMA or delay equivalent cycles
     jsr __crt0_doSpriteDMA
-    jsr __crt0_NMI_doUpdateVRAM
+    ; Update VRAM
+    lda PPUSTATUS
+    lda #PPUCTRL_SPR_CHR
+    sta PPUCTRL
+    jsr DoUpdateVRAM
+    ; Set scroll address
+    lda _bkg_scroll_x
+    sta PPUSCROLL
+    lda _bkg_scroll_y
+    sta PPUSCROLL
+  
+    ; Re-write PPUCTRL (clobbered by vram transfer buffer code)
+    lda *_shadow_PPUCTRL
+    sta PPUCTRL
 
-    nop
-    ; Enable screen to get normal dot crawl pattern
+    ; Write shadow_PPUMASK to PPUMASK, in case it was disabled
     lda *_shadow_PPUMASK
     sta PPUMASK
 
+    ; Call fake LCD isr if present (0x60 = RTS means no LCD) and
+    lda .jmp_to_LCD_isr
+    cmp #0x60
+    beq __crt0_NMI_skip
+    ; First delay until end-of-vblank, depending on transfer buffer contents...
+    ; (X set to correct delay value by DoUpdateVRAM)
+1$:
+    lda *0x00
+    dex
+    bne 1$
+    ; Do additional delay of 5186 cycles if running on a PAL system, and -5*7 + 2 = -33 for alignment
+    ; This is to compensate for the longer vblank period of 7459 vs NTSC's 2273
+    bit *__SYSTEM
+    bvc 2$
+    nop
+    nop
+    ldy #5
+    ldx #(14-7)
+3$:
+    dex
+    bne 3$
+    dey
+    bne 3$
+2$:
+    ; Call the write reg subroutine
+    jsr .do_lcd_ppu_reg_writes
+__crt0_NMI_skip:
+
+    ; Update frame counter
     lda *_sys_time
     clc
     adc #1
@@ -237,81 +288,31 @@ NotInsideNMI:
     adc #0
     sta *(_sys_time+1)
 
-    lda #0x80
-    sta __crt0_NMI_Done
-    
-    lda *_shadow_PPUCTRL
-    ora *__crt0_ScrollHV
-    sta PPUCTRL
-
-    ; Call fake LCD isr
-    ldx *__lcd_scanline
-    beq 1$
-    jsr .delay_to_lcd_scanline
-1$:
-    ; Adjust to align to just-before-hblank
-    nop
-    nop
-    nop
-    ; Call the handler
-    jsr .jmp_to_LCD_isr
-
     pla
     tay
     pla
     tax
     pla
-    asl *__crt0_NMI_insideNMI
     rti
-
-__crt0_NMI_doUpdateVRAM:
-    lda *_shadow_PPUMASK
-    and #(PPUMASK_SHOW_BG | PPUMASK_SHOW_SPR)
-    beq __crt0_NMI_doUpdateVRAM_blanked
-    ; Not manually blanked - do updates
-    lda PPUSTATUS
-    lda #PPUCTRL_SPR_CHR
-    sta PPUCTRL
-    lda #0
-    sta PPUMASK
-    jsr DoUpdateVRAM
-    ; Set scroll address
-    lda _bkg_scroll_x
-    sta PPUSCROLL
-    lda _bkg_scroll_y
-    sta PPUSCROLL
-    rts
-__crt0_NMI_doUpdateVRAM_blanked:
-    ; Early-out if blanked to allow main code to do VRAM address / scroll updates
-    nop
-    nop
-    nop
-    rts
 
 DoUpdateVRAM:
     WRITE_PALETTE_SHADOW
     bit *__vram_transfer_buffer_valid
     bmi DoUpdateVRAM_drawListValid
 DoUpdateVRAM_drawListInvalid:
-    ; Delay exactly 1633 cycles to keep timing consistent
-    ldx #(VRAM_DELAY_CYCLES_X8+7)
-DoUpdateVRAM_invalid_loop:
-    lda *__vram_transfer_buffer_num_cycles_x8
-    dex
-    bne DoUpdateVRAM_invalid_loop
+    ; Delay for all unused cycles and ProcessDrawList overhead to keep timing consistent
+    lda *0x00
     nop
-    rts
+    ldx #(VRAM_DELAY_CYCLES_X8+6)
+    bne DoUpdateVRAM_end
 DoUpdateVRAM_drawListValid:
     jsr ProcessDrawList
-    ; Delay up to 167*8-1 = 1575 cycles (value set by draw list creation code)
-    ; ...plus fixed-cost of 56 cycles
+    ; Delay for remaining unused cycles to keep timing consistent
     ldx *__vram_transfer_buffer_num_cycles_x8
-DoUpdateVRAM_valid_loop:
-    stx *__vram_transfer_buffer_num_cycles_x8
-    dex
-    bne DoUpdateVRAM_valid_loop
+    ; Reset available cycles to initial value
     lda #VRAM_DELAY_CYCLES_X8
     sta *__vram_transfer_buffer_num_cycles_x8
+DoUpdateVRAM_end:
     rts
 
 __crt0_IRQ:
@@ -336,18 +337,62 @@ __crt0_setPalette:
     bne 1$
     rts
 
-__crt0_waitPPU:
-__crt0_waitPPU_loop:
+;
+; Waits for vblank flag to be set. This macro should only be
+; used during the PPU warm-up phase at reset, as a hardware 
+; flaw can cause the flag to be cleared in the register
+; without returning a set flag on the CPU data bus.
+;
+; On Dendy-like Famiclones there is an additional problem
+; that this pathological case can occur *every* frame if the wait
+; loop is exactly 8 cycles long, causing a soft-lock at reset.
+; For this reason, code before the "bpl .loop" instruction must 
+; be aligned so the branch does not cross a 256-byte page.
+;
+; https://www.nesdev.org/wiki/PPU_power_up_state
+;
+.macro CRT0_WAIT_PPU ?.loop;
+.loop:
     lda PPUSTATUS
-    bpl __crt0_waitPPU_loop
-    rts
+    bpl .loop
+.endm
 
-__crt0_clearRAM:
+;
+; Detects system. After execution, A contains the following values:
+;
+; 0: NTSC NES/Famicom
+; 1: PAL NES
+; 2: Dendy-like Famiclone
+;
+.macro CRT0_WAIT_PPU_AND_DETECT_SYSTEM ?.loop, ?.end_of_loop, ?.end
+    ldx #0
+    ldy #0
+; 256 iterations of the inner loop (X) takes 256 * (4 + 2 + 2 + 3) - 1 = 2816 cycles
+; 1 iteration of the outer loop takes 2816 + 2 + 3 = 2821 cycles
+; And different systems will have the following contents in Y:
+; NTSC:   29780 / 2821 = 10
+; PAL:    33247 / 2821 = 11
+; Dendy:  35464 / 2821 = 12
+.loop:
+    bit PPUSTATUS
+    bmi .end_of_loop
+    inx
+    bne .loop
+    iny
+    bne .loop
+.end_of_loop:
+    tya
+    sec
+    sbc #10
+.end:
+.endm
+
+.macro CRT0_CLEAR_RAM
     ldx #0x00
     txa
 __crt0_clearRAM_loop:
     sta 0x0000,x
-    ;sta 0x0100,x
+    sta 0x0100,x
     sta 0x0200,x
     sta 0x0300,x
     sta 0x0400,x
@@ -356,7 +401,7 @@ __crt0_clearRAM_loop:
     sta 0x0700,x
     inx
     bne __crt0_clearRAM_loop
-    rts
+.endm
 
 __crt0_clearVRAM:
     lda #0x00
@@ -375,12 +420,117 @@ __crt0_clearVRAM_loop:
 .wait_vbl_done::
 _wait_vbl_done::
 _vsync::
+
+    .define .lcd_scanline_previous "REGTEMP"
     jsr _flush_shadow_attributes
     jsr .jmp_to_VBL_isr
+
+    ; Set initial scanline value
+    lda #0xFF
+    sta *.lcd_scanline_previous
+    ;
+    ldy #0
+    sty __lcd_isr_num_calls
+    ; Special-case: LCD at scanline 0 should just directly replace VBL shadow_ values
+    lda *__lcd_scanline
+    bne 0$
+    jsr .jmp_to_LCD_isr
+    lda #0xFF
+    sta *.lcd_scanline_previous
+0$:
+    ; disable NMI, as we are saving and restoring shadow registers that it may use
+    sec
+    ror *__crt0_disableNMI
+    ; Save shadow registers that LCD isr could change
+    lda *_shadow_PPUMASK
+    pha
+    lda *_shadow_PPUCTRL
+    pha
+    lda *_bkg_scroll_x
+    pha
+    lda *_bkg_scroll_y
+    pha
+
+    jmp 2$
+1$:
+    pla
+    sta *.lcd_scanline_previous
+2$:
+    ; We are done if next scanline is <= the previous one
+    cmp *__lcd_scanline
+    bcs _wait_vbl_done_waitForNextFrame
+    ;
+    ldy __lcd_isr_num_calls
+    lda *__lcd_scanline
+    ; We are done if next LCD scanline >= SCREENHEIGHT
+    cmp #.SCREENHEIGHT
+    bcs _wait_vbl_done_waitForNextFrame
+    pha
+    clc ; -1 to compensate for LCD PPU write taking up a scanline on its own
+    sbc *.lcd_scanline_previous
+    sta __lcd_isr_delay_num_scanlines,y
+    ; Add number of delayed scanlines to _bkg_scroll_y to simulate PPU increment
+    clc
+    adc *_bkg_scroll_y
+    sta *_bkg_scroll_y
+    ; Call LCD isr
+    jsr .jmp_to_LCD_isr
+    ; Copy shadow registers
+    ldy __lcd_isr_num_calls
+    lda *_shadow_PPUMASK
+    sta __lcd_isr_PPUMASK,y
+    lda *_shadow_PPUCTRL
+    sta __lcd_isr_PPUCTRL,y
+    lda *_bkg_scroll_x
+    sta __lcd_isr_scroll_x,y
+    lda *_bkg_scroll_y
+    sta __lcd_isr_scroll_y,y
+       
+    iny
+    sty __lcd_isr_num_calls
+    cpy #.MAX_LCD_ISR_CALLS
+    bne 1$
+    
+    ; Clear last-scanline-value from stack
+    pla
+
+_wait_vbl_done_waitForNextFrame:
+    ; Restore shadow registers
+    pla
+    sta *_bkg_scroll_y
+    pla
+    sta *_bkg_scroll_x
+    pla
+    sta *_shadow_PPUCTRL
+    pla
+    sta *_shadow_PPUMASK
+
+    asl *__crt0_disableNMI
     lda *_sys_time
 _wait_vbl_done_waitForNextFrame_loop:
     cmp *_sys_time
     beq _wait_vbl_done_waitForNextFrame_loop
+    rts
+
+.display_off::
+_display_off::
+    lda *_shadow_PPUMASK
+    and #~(PPUMASK_SHOW_BG | PPUMASK_SHOW_SPR)
+    sta *_shadow_PPUMASK
+    sta PPUMASK
+    ; Set forced blanking bit
+    sec
+    ror *.crt0_forced_blanking
+    rts
+
+.display_on::
+_display_on::
+    lda *_shadow_PPUMASK
+    ora #(PPUMASK_SHOW_BG | PPUMASK_SHOW_SPR)
+    sta *_shadow_PPUMASK
+    ; Clear forced blanking bit
+    clc
+    ror *.crt0_forced_blanking
     rts
 
 __crt0_RESET:
@@ -396,11 +546,19 @@ __crt0_RESET_bankSwitchValue:
     ; Disable NMIs and rendering
     sta PPUCTRL
     sta PPUMASK
-    ; Wait for PPU warm-up
-    jsr __crt0_waitPPU
-    jsr __crt0_waitPPU
-    ; Clear RAM and VRAM
-    jsr __crt0_clearRAM
+    ; Clear RAM
+    CRT0_CLEAR_RAM
+    ; Wait for PPU warm-up / detect system
+    bit PPUSTATUS
+    CRT0_WAIT_PPU
+    CRT0_WAIT_PPU_AND_DETECT_SYSTEM
+    ; Store system in upper two bits of __SYSTEM, to allow bit instruction to quickly test for PAL
+    clc
+    ror
+    ror
+    ror
+    sta *__SYSTEM
+    ; Clear VRAM
     jsr __crt0_clearVRAM
     ; Hide sprites in shadow OAM, and perform OAM DMA
     ldx #0
@@ -447,26 +605,91 @@ __crt0_RESET_bankSwitchValue:
 __crt0_waitForever:
     jmp __crt0_waitForever
 
-.display_off::
-_display_off::
-    lda *_shadow_PPUMASK
-    and #~(PPUMASK_SHOW_BG | PPUMASK_SHOW_SPR)
-    sta *_shadow_PPUMASK
-    sta PPUMASK
-    ; Set forced blanking bit
-    sec
-    ror *.crt0_forced_blanking
-    rts
+.do_lcd_ppu_reg_writes:
+    .define .reg_write_index    "__crt0_NMITEMP+1"
+    .define .lda_PPUADDR        "__crt0_NMITEMP+2"
+    .define .ldx_PPUMASK        "__crt0_NMITEMP+3"
 
-.display_on::
-_display_on::
-    lda *_shadow_PPUMASK
-    ora #(PPUMASK_SHOW_BG | PPUMASK_SHOW_SPR)
-    sta *_shadow_PPUMASK
-    sta PPUMASK
-    ; Clear forced blanking bit
-    clc
-    ror *.crt0_forced_blanking
+    nop
+
+    ; Skip if empty buffer (no calls were made within frame)
+    lda __lcd_isr_num_calls
+    beq 2$
+
+    ldy #0
+    sty *.acc
+1$:
+    sty *.reg_write_index
+    ldx __lcd_isr_delay_num_scanlines,y
+    beq 3$
+    jsr .delay_to_lcd_scanline
+3$:
+
+    ; Pre-write PPUADDR (1st write) and y-scroll
+    sty PPUADDR
+    lda __lcd_isr_scroll_y,y
+    sta PPUSCROLL
+    and #0xF8
+    asl
+    asl
+    sta *.lda_PPUADDR
+    ; A <- PPUADDR (2nd write)
+    lda __lcd_isr_scroll_x,y
+    lsr
+    lsr
+    lsr
+    ora *.lda_PPUADDR
+    sta *.lda_PPUADDR
+    ; ldx <- PPUMASK
+    ldx __lcd_isr_PPUMASK,y
+    stx *.ldx_PPUMASK
+    ; X <- SCROLLX
+    ldx __lcd_isr_scroll_x,y
+    ; Y <- PPUCTRL
+    lda __lcd_isr_PPUCTRL,y
+    tay
+    lda *.lda_PPUADDR
+    ;
+    ; Write 4 PPU registers in following order.
+    ;
+    ; 1. PPUSCROLL          (needs to be written to set fine-x)
+    ; 2. PPUADDR 2nd write  (highest priority as needs to happen before the two-tile pre-fetch) 
+    ; 3. PPUCTRL            (PPU pattern table switch can affect two-tile pre-fetch)
+    ; 4. PPUMASK            (emphasis and render on/off are maybe less distracting?)
+    ;
+    ; TODO: Self-modifying code could build a non-redundant write sequence in RAM.
+    ;
+    stx PPUSCROLL
+    sta PPUADDR
+    sty PPUCTRL
+    ldx *.ldx_PPUMASK
+    stx PPUMASK
+
+    ; Delay for 40.666 NTSC cycles / 33.5625 PAL cycles
+    jsr .delay_fractional
+    ldy *.reg_write_index
+    
+    ; Finally, write Y-scroll part of T with original non-LCD shadow values, but 
+    ; *without* triggering an update of V, to mitigate glitches on lag frames.
+    ; In normal circumstances, NMI will re-write T with the new proper Y-scroll 
+    ; value for start of screen. Or the next iteration of this loop may overwrite
+    ; it as well.
+    ; But if our calls to VBL/LCD handlers disable NMI just at the wrong moment in
+    ; the vsync routine, and cause the scroll update in NMI to be skipped, 
+    ; this mitigation will leave T with a "reasonable" value of the old shadow 
+    ; bkg scroll register for Y at scanline 0.
+    sty PPUADDR
+    lda *_bkg_scroll_y
+    sta PPUSCROLL
+
+    nop
+    nop
+    lda *0x00
+
+    iny
+    cpy __lcd_isr_num_calls
+    bne 1$
+2$:
     rts
 
 ; Interrupt / RESET vector table

@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>GBDK 2020 Docs: Links and Third-Party Tools</title>
+<title>GBDK 2020 Docs: Links, Tools and Debugging</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -29,7 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.2.0</span>
+   &#160;<span id="projectnumber">4.3.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -87,12 +87,12 @@ $(document).ready(function(){initNavTree('docs_links_and_tools.html',''); initRe
 
 <div class="PageDoc"><div class="header">
   <div class="headertitle">
-<div class="title">Links and Third-Party Tools </div>  </div>
+<div class="title">Links, Tools and Debugging </div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p>This is a brief list of useful tools and information. It is not meant to be complete or exhaustive, for a larger list see the <a class="el" href="docs_links_and_tools.html#awesome_gb">Awesome Game Boy Development</a> list.</p>
 <p><a class="anchor" id="links_sdcc_docs"></a></p>
-<h1><a class="anchor" id="autotoc_md32"></a>
+<h1><a class="anchor" id="autotoc_md33"></a>
 SDCC Compiler Suite User Manual</h1>
 <ul>
 <li>GBDK-2020 uses the SDCC compiler and related tools. The SDCC manual goes into much more detail about available features and how to use them. <br  />
@@ -102,7 +102,7 @@ SDCC Compiler Suite User Manual</h1>
  <a href="https://sourceforge.net/p/sdcc/code/HEAD/tree/trunk/sdcc/sdas/doc/asmlnk.txt">https://sourceforge.net/p/sdcc/code/HEAD/tree/trunk/sdcc/sdas/doc/asmlnk.txt</a></li>
 </ul>
 <p><a class="anchor" id="links_help_and_community"></a></p>
-<h1><a class="anchor" id="autotoc_md33"></a>
+<h1><a class="anchor" id="autotoc_md34"></a>
 Getting Help</h1>
 <ul>
 <li>GBDK Discord community: <br  />
@@ -111,7 +111,7 @@ Getting Help</h1>
  <a href="https://gbdev.gg8.se/forums/">https://gbdev.gg8.se/forums/</a></li>
 </ul>
 <p><a class="anchor" id="links_gameboy_docs"></a></p>
-<h1><a class="anchor" id="autotoc_md34"></a>
+<h1><a class="anchor" id="autotoc_md35"></a>
 Game Boy Documentation</h1>
 <ul>
 <li><a class="anchor" id="Pandocs"></a> <b>Pandocs</b> <br  />
@@ -122,7 +122,7 @@ Game Boy Documentation</h1>
  <a href="https://gbdev.io/resources.html">https://gbdev.io/resources.html</a></li>
 </ul>
 <p><a class="anchor" id="links_sms_gg_docs"></a></p>
-<h1><a class="anchor" id="autotoc_md35"></a>
+<h1><a class="anchor" id="autotoc_md36"></a>
 Sega Master System / Game Gear Documentation</h1>
 <ul>
 <li><a class="anchor" id="smspower"></a> <b>SMS Power!</b> <br  />
@@ -130,7 +130,7 @@ Sega Master System / Game Gear Documentation</h1>
  <a href="https://www.smspower.org/">https://www.smspower.org/</a></li>
 </ul>
 <p><a class="anchor" id="links_gbdk_tutorials"></a></p>
-<h1><a class="anchor" id="autotoc_md36"></a>
+<h1><a class="anchor" id="autotoc_md37"></a>
 Tutorials</h1>
 <ul>
 <li><a class="anchor" id="tutorials_larolds"></a> <b>Larold's Jubilant Junkyard Tutorials</b> <br  />
@@ -144,14 +144,14 @@ Tutorials</h1>
  <a href="https://blog.ty-porter.dev/development/2021/04/04/writing-a-gameboy-game-in-2021-pt-0.html">https://blog.ty-porter.dev/development/2021/04/04/writing-a-gameboy-game-in-2021-pt-0.html</a></li>
 </ul>
 <p><a class="anchor" id="link_examples"></a></p>
-<h1><a class="anchor" id="autotoc_md37"></a>
+<h1><a class="anchor" id="autotoc_md38"></a>
 Example code</h1>
 <ul>
 <li><a class="anchor" id="examples_gbdk_playground"></a> <b>Simplified GBDK examples</b> <br  />
  <a href="https://github.com/mrombout/gbdk_playground/commits/master">https://github.com/mrombout/gbdk_playground/commits/master</a></li>
 </ul>
 <p><a class="anchor" id="links_graphic"></a></p>
-<h1><a class="anchor" id="autotoc_md38"></a>
+<h1><a class="anchor" id="autotoc_md39"></a>
 Graphics Tools</h1>
 <ul>
 <li><a class="anchor" id="gbtd_gbmb"></a><a class="anchor" id="gbmb"></a><a class="anchor" id="gbtd"></a> <br  />
@@ -170,12 +170,11 @@ Graphics Tools</h1>
  <a href="https://github.com/Rangi42/tilemap-studio/">https://github.com/Rangi42/tilemap-studio/</a></li>
 </ul>
 <p><a class="anchor" id="tools_music"></a></p>
-<h1><a class="anchor" id="autotoc_md39"></a>
+<h1><a class="anchor" id="autotoc_md40"></a>
 Music And Sound Effects</h1>
 <ul>
 <li><a class="anchor" id="hUGEdriver"></a> <b>hUGEtracker</b> and <b>hUGEdriver</b> <br  />
  A tracker and music driver that work with GBDK and RGBDS. It is smaller, more efficient and more versatile than gbt_player. <br  />
- <a href="https://github.com/untoxa/hUGEBuild">https://github.com/untoxa/hUGEBuild</a> <br  />
  <a href="https://github.com/SuperDisk/hUGEDriver">https://github.com/SuperDisk/hUGEDriver</a> <br  />
  <a href="https://github.com/SuperDisk/hUGETracker">https://github.com/SuperDisk/hUGETracker</a></li>
 <li><a class="anchor" id="CBT-FX"></a> <b>CBT-FX</b> <br  />
@@ -188,26 +187,54 @@ Music And Sound Effects</h1>
  Docs from GBStudio that should mostly apply: <a href="https://www.gbstudio.dev/docs/music/">https://www.gbstudio.dev/docs/music/</a></li>
 </ul>
 <p><a class="anchor" id="tools_emulators"></a></p>
-<h1><a class="anchor" id="autotoc_md40"></a>
+<h1><a class="anchor" id="autotoc_md41"></a>
 Emulators</h1>
 <ul>
+<li><a class="anchor" id="emulicious"></a> <b>Emulicious</b> <br  />
+ An accurate emulator with extensive tools including source level debugging. <a href="https://emulicious.net/">https://emulicious.net/</a></li>
 <li><a class="anchor" id="bgb"></a> <b>BGB</b> <br  />
  Accurate emulator, has useful debugging tools. <br  />
  <a href="http://bgb.bircd.org/">http://bgb.bircd.org/</a></li>
-<li><a class="anchor" id="emulicious"></a> <b>Emulicious</b> <br  />
- An accurate emulator with extensive tools including source level debugging. <br  />
- <a href="https://emulicious.net/">https://emulicious.net/</a></li>
 </ul>
-<p><a class="anchor" id="tools_debug"></a></p>
-<h1><a class="anchor" id="autotoc_md41"></a>
+<p><a class="anchor" id="code_editors_hinting"></a>Intellisense in VSCode may have trouble identifying some GBDK types or functions, and therefore flag them as warnings or unidentified.</p>
+<p>GBDK platform constants can be declared so that header files are parsed more completely in VSCode. The following <code>c_cpp_properties.json</code> example may be adapted for your own project. </p><pre class="fragment">    {
+        "configurations": [
+            {
+                "name": "gameboy",
+                "includePath": [
+                    "${workspaceFolder}/src/**",
+                    "${workspaceFolder}/res/**",
+                    "${workspaceFolder}/include/**",
+                    "${workspaceFolder}/../../../gbdk/include/**"
+                ],
+                "defines": ["__PORT_sm83", "__TARGET_gb"],
+                "compilerPath": "",
+                "cStandard": "c11",
+                "intelliSenseMode": "${default}",
+                "compilerArgs": [],
+                "browse": {
+                    "limitSymbolsToIncludedHeaders": true
+                }
+            }
+        ],
+        "version": 4
+    }
+</pre><p><a class="anchor" id="tools_debug"></a></p>
+<h1><a class="anchor" id="autotoc_md42"></a>
 Debugging tools</h1>
 <ul>
 <li><a class="anchor" id="Emulicious_debug"></a> <b>Emulicious debug adapter</b> <br  />
- Provides source-level debugging in VS Code that works with GBDK2020. <br  />
- <a href="https://marketplace.visualstudio.com/items?itemName=emulicious.emulicious-debugger">https://marketplace.visualstudio.com/items?itemName=emulicious.emulicious-debugger</a></li>
+ Provides source-level debugging in VS Code and Sublime Text that works with GBDK2020. <br  />
+ <a href="https://marketplace.visualstudio.com/items?itemName=emulicious.emulicious-debugger">https://marketplace.visualstudio.com/items?itemName=emulicious.emulicious-debugger</a><ul>
+<li>If compiler optimization is making the program source hard to step through in the debugger then adding this flag to <a class="el" href="docs_toolchain.html#lcc">lcc</a> can help. Note that using this flag will likely reduce code performance and increase code size while enabled, so it is best to only use it temporarily.<ul>
+<li><code>-Wf--max-allocs-per-node0</code></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><a class="anchor" id="romusage"></a> <b>romusage</b> <br  />
  Calculate used and free space in banks (ROM/RAM) and warn about errors such as bank overflows. <br  />
- <a href="https://github.com/bbbbbr/romusage">https://github.com/bbbbbr/romusage</a></li>
+ See <a class="el" href="docs_toolchain_settings.html#romusage-settings">romusage-settings</a></li>
 <li><a class="anchor" id="bgb_symbol_conversion"></a> <b>noi file to sym conversion for bgb</b> <br  />
  Debug information in .noi files can be converted to a symbol format that <a class="el" href="docs_links_and_tools.html#bgb">BGB</a> recognizes using:<ul>
 <li><a class="el" href="docs_toolchain.html#lcc">lcc</a> : <code>-Wm-yS</code> (with <code>--debug</code>, or <code>-Wl-j</code> to create the .noi)</li>
@@ -218,14 +245,14 @@ Debugging tools</h1>
  Add line-by-line C source code to the main symbol file in a BGB compatible format. This allows for C source-like debugging in BGB in a limited way. <a href="https://gbdev.gg8.se/forums/viewtopic.php?id=710">https://gbdev.gg8.se/forums/viewtopic.php?id=710</a></li>
 </ul>
 <p><a class="anchor" id="links_optimizing"></a></p>
-<h1><a class="anchor" id="autotoc_md42"></a>
+<h1><a class="anchor" id="autotoc_md43"></a>
 Optimizing Assembly</h1>
 <ul>
 <li><a class="anchor" id="optimizing_assembly"></a> <b>Optimizing Assembly Code</b> <br  />
  Pret has a useful guide to optimizing assembly for the Game Boy for times when asm using in a project in addition to C. <a href="https://github.com/pret/pokecrystal/wiki/Optimizing-assembly-code">https://github.com/pret/pokecrystal/wiki/Optimizing-assembly-code</a></li>
 </ul>
 <p><a class="anchor" id="tools_build_ci_cd"></a></p>
-<h1><a class="anchor" id="autotoc_md43"></a>
+<h1><a class="anchor" id="autotoc_md44"></a>
 Continuous Integration and Deployment</h1>
 <ul>
 <li><a class="anchor" id="GBDK_GitHub_Action_Builder"></a> <b>GBDK GitHub Action Builder</b> <br  />

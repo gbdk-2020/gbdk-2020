@@ -120,24 +120,27 @@ _refresh_OAM::
         LD      C, #(40 << 2)   ; 40 entries 4 bytes each
         JP      .MemsetSmall
 
-        ;; Wait for VBL interrupt to be finished
-.wait_vbl_done::
-_wait_vbl_done::
-_vsync::
-        ;; Check if the screen is on
-        LDH     A,(.LCDC)
-        AND     #LCDCF_ON
-        RET     Z               ; Return if screen is off
+_set_interrupts::
+        DI
+        LDH     (.IE),A
         XOR     A
-        LDH     (.vbl_done),A   ; Clear any previous sets of vbl_done
-1$:
-        HALT                    ; Wait for any interrupt
-        NOP                     ; HALT sometimes skips the next instruction
-        LDH     A,(.vbl_done)   ; Was it a VBlank interrupt?
-        ;; Warning: we may lose a VBlank interrupt, if it occurs now
-        OR      A
-        JR      Z,1$            ; No: back to sleep!
+        EI
+        LDH     (.IF),A         ; Clear pending interrupts
         RET
+
+        ;; Copy OAM data to OAM RAM
+.start_refresh_OAM:
+        LDH     A,(__shadow_OAM_base)
+        OR      A
+        RET     Z
+.refresh_OAM_DMA:
+        LDH     (.DMA),A        ; Put A into DMA registers
+        LD      A,#0x28         ; We need to wait 160 ns
+1$:
+        DEC     A
+        JR      NZ,1$
+        RET
+.end_refresh_OAM:
 
         .org    .MODE_TABLE
         ;; Jump table for modes
@@ -233,27 +236,24 @@ _exit::
         NOP
         JR      99$             ; Wait forever
 
-_set_interrupts::
-        DI
-        LDH     (.IE),A
+        ;; Wait for VBL interrupt to be finished
+.wait_vbl_done::
+_wait_vbl_done::
+_vsync::
+        ;; Check if the screen is on
+        LDH     A,(.LCDC)
+        AND     #LCDCF_ON
+        RET     Z               ; Return if screen is off
         XOR     A
-        EI
-        LDH     (.IF),A         ; Clear pending interrupts
-        RET
-
-        ;; Copy OAM data to OAM RAM
-.start_refresh_OAM:
-        LDH     A,(__shadow_OAM_base)
-        OR      A
-        RET     Z
-.refresh_OAM_DMA:
-        LDH     (.DMA),A        ; Put A into DMA registers
-        LD      A,#0x28         ; We need to wait 160 ns
+        LDH     (.vbl_done),A   ; Clear any previous sets of vbl_done
 1$:
-        DEC     A
-        JR      NZ,1$
+        HALT                    ; Wait for any interrupt
+        NOP                     ; HALT sometimes skips the next instruction
+        LDH     A,(.vbl_done)   ; Was it a VBlank interrupt?
+        ;; Warning: we may lose a VBlank interrupt, if it occurs now
+        OR      A
+        JR      Z,1$            ; No: back to sleep!
         RET
-.end_refresh_OAM:
 
         ;; Remove interrupt routine in DE from the VBL interrupt list
         ;; falldown to .remove_int

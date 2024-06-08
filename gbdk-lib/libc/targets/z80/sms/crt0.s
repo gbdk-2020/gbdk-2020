@@ -2,20 +2,23 @@
 
         .title  "Runtime"
         .module Runtime
+
+        .ez80
+
         .area   _HEADER (ABS)
-        
-        .globl  _set_default_palette
+
+        .globl  .OUTI16
 
         .org    0x00            ; Reset 00h
         di                      ; disable interrupt
         im 1                    ; interrupt mode 1 (this won't change)
         jp .init
 
-;        .org    0x08            ; --profile handler 
+;        .org    0x08            ; --profile handler
 
         .org    0x10            ; RST 0x10: VDP_WRITE_CMD
 
-_WRITE_VDP_CMD::        
+_WRITE_VDP_CMD::
         VDP_WRITE_CMD h, l
         ret
 
@@ -23,7 +26,7 @@ _WRITE_VDP_CMD::
 
         .org    0x20            ; RST 0x20: VDP_WRITE_DATA
 
-_WRITE_VDP_DATA::        
+_WRITE_VDP_DATA::
         VDP_WRITE_DATA h, l
         ret
 
@@ -69,17 +72,23 @@ _WRITE_VDP_DATA::
         ld hl,#0x0201
         ld (#.MAP_FRAME1),hl    ; [.MAP_FRAME1]=$01, [.MAP_FRAME2]=$02
 
-        ;; Initialise global variables
+        ; Initialise global variables
         call .gsinit
 
-        ;; Clear VRAM and Initialize VDP
+        ; Clear VRAM and Initialize VDP
 
-        ld hl, #((.VDP_R1 << 8) | .R1_DEFAULT)
-        WRITE_VDP_CMD_HL
+        ld hl, #((.VDP_R1 << 8) | (.R1_DEFAULT | .R1_DISP_OFF))
+        ld c, #.VDP_CMD
+        out (c), l
+        out (c), h
 
-        call _set_default_palette
+        ; clear VRAM
         call .clear_VRAM
 
+        ; set default palette
+        call .set_default_palette
+
+        ; set VDP registers
         ld c, #.VDP_CMD
         ld b, #(.shadow_VDP_end - .shadow_VDP)
         ld hl,#(.shadow_VDP_end - 1)
@@ -89,12 +98,12 @@ _WRITE_VDP_DATA::
         ld a, b
         or #.VDP_REG_MASK
         out (c), a
-            
+
         ld a, b
         or a
         jr nz, 1$
 
-        ;; detect PAL/NTSC
+        ; detect PAL/NTSC
         ld c, #.VDP_VCOUNTER
 2$:     in a, (c)
         cp #0x80
@@ -115,12 +124,13 @@ _WRITE_VDP_DATA::
         VDP_CANCEL_INT
 
         ei                      ; re-enable interrupts before going to main()
+
         call _main
 10$:
         halt
         jr 10$
 
-        ;; Ordering of segments for the linker.
+        ; Ordering of segments for the linker.
         .area   _HOME
         .area   _BASE
         .area   _CODE
@@ -140,7 +150,7 @@ _WRITE_VDP_DATA::
         .area   _CODE
         .area   _GSINIT
 .gsinit::
-        ;; initialize static storage variables
+        ; initialize static storage variables
         ld bc, #l__INITIALIZER
         ld hl, #s__INITIALIZER
         ld de, #s__INITIALIZED
@@ -152,10 +162,10 @@ _WRITE_VDP_DATA::
         .area   _HOME
 
 .clear_VRAM:
-        ld a, #<.VDP_VRAM
-        out (#.VDP_CMD), a
-        ld a, #>.VDP_VRAM
-        out (#.VDP_CMD), a
+        ld hl, #.VDP_VRAM
+        ld c, #.VDP_CMD
+        out (c), l
+        out (c), h
         xor a
         ld bc, #0x4101
         jr 6$
@@ -168,9 +178,38 @@ _WRITE_VDP_DATA::
         jr nz, 5$
         ret
 
-        ;; fills memory at HL of length BC with A, clobbers DE
+.set_default_palette:
+        ld hl, #.VDP_CRAM
+        ld c, #.VDP_CMD
+        out (c), l
+        out (c), h
+        ld c, #.VDP_DATA
+        ld hl, #.CRT_DEFAULT_PALETTE
+        call .OUTI16
+        ld hl, #.CRT_DEFAULT_PALETTE
+        jp .OUTI16
+
+.CRT_DEFAULT_PALETTE::
+        .db 0b00111111
+        .db 0b00101010
+        .db 0b00010101
+        .db 0b00000000
+        .db 0b00000010
+        .db 0b00001000
+        .db 0b00100000
+        .db 0b00001010
+        .db 0b00101000
+        .db 0b00100010
+        .db 0b00000011
+        .db 0b00001100
+        .db 0b00110000
+        .db 0b00001111
+        .db 0b00111100
+        .db 0b00110011
+
+        ; fills memory at HL of length BC with A, clobbers DE
 .memset_simple::
-        ld e, a        
+        ld e, a
         ld a, c
         or b
         ret z
@@ -179,8 +218,8 @@ _WRITE_VDP_DATA::
         ld d, h
         ld e, l
         inc de
-        
-        ;; copies BC bytes from HL into DE
+
+        ; copies BC bytes from HL into DE
 .memcpy_simple::
         ld a, c
         or b
@@ -188,14 +227,14 @@ _WRITE_VDP_DATA::
         ldir
         ret
 
-        ;; Wait for VBL interrupt to be finished
+        ; Wait for VBL interrupt to be finished
 .wait_vbl_done::
 _wait_vbl_done::
 _vsync::
         ld  a, (_shadow_VDP_R1)
         and #.R1_DISP_ON
         ret z
-        
+
         xor a
         ld (.vbl_done), a
 1$:
@@ -206,7 +245,7 @@ _vsync::
         ret
 
         .area   _DATA
-        
+
 .start_crt_globals:
 __BIOS::
         .ds     0x01            ; GB type (GB, PGB, CGB)
@@ -241,7 +280,7 @@ _shadow_VDP_RSCY::
         .ds     0x01
 _shadow_VDP_R10::
         .ds     0x01
-.shadow_VDP_end::   
+.shadow_VDP_end::
 
 .sys_time::
 _sys_time::
@@ -255,17 +294,19 @@ __shadow_OAM_base::
         .ds     0x01
 __shadow_OAM_OFF::
         .ds     0x01
+__sprites_OFF::
+        .ds     0x01
 .mode::
         .ds     0x01            ; Current mode
-    
+
         .area _INITIALIZER
 
         .db .R0_DEFAULT
-        .db #(.R1_DEFAULT | .R1_DISP_ON | .R1_IE)     ; VBLANK
-        .db .R2_MAP_0x3800
-        .db 0xFF 
+        .db #(.R1_DEFAULT | .R1_DISP_ON | .R1_IE)       ; VBLANK
+        .db .R2_MAP_0x1800                              ; .R2_MAP_0x3800
         .db 0xFF
-        .db .R5_SAT_0x3F00
+        .db 0xFF
+        .db .R5_SAT_0x1F00                              ; .R5_SAT_0x3F00
         .db .R6_DATA_0x2000
         .db #(0 | .R7_COLOR_MASK)
         .db 0                   ; SCX
@@ -276,4 +317,5 @@ __shadow_OAM_OFF::
         .db 0                   ; _VDP_ATTR_SHIFT
         .db #>_shadow_OAM       ; __shadow_OAM_base
         .db 0                   ; __shadow_OAM_OFF
+        .db 0                   ; __sprites_OFF
         .db .T_MODE_INOUT       ; .mode

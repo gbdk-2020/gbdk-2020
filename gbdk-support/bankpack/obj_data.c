@@ -34,7 +34,7 @@ list_type arealist;
 list_type symbollist;
 list_type symbol_matchlist;
 
-uint16_t bank_limit_rom_min = BANK_NUM_ROM_MIN;
+uint16_t bank_limit_rom_min = BANK_NUM_ROM_DEFAULT;
 uint16_t bank_limit_rom_max = BANK_NUM_ROM_MAX;
 
 
@@ -95,7 +95,7 @@ int areas_add(char * area_str, uint32_t file_id) {
     // Only match areas which are banked ("_CODE_" vs "_CODE") and ("_LIT_")
     if (AREA_LINE_RECORDS == sscanf(area_str,"A _CODE _%3d size %4x flags %*4x addr %*4x",
                                     &newarea.bank_num_in, &newarea.size)) {
-        newarea.type = BANK_TYPE_DEFAULT;
+        newarea.type = BANK_TYPE_CODE;
     }
     else if (AREA_LINE_RECORDS == sscanf(area_str,"A _LIT_%3d size %4x flags %*4x addr %*4x",
                                         &newarea.bank_num_in, &newarea.size)) {
@@ -119,13 +119,16 @@ int areas_add(char * area_str, uint32_t file_id) {
 }
 
 
-// Add an area into the pool of areas to assign (if it's banked CODE)
-int symbols_add(char * symbol_str, uint32_t file_id) {
+// Check and add a symbol record (if it's banked CODE)
+int symbols_add(char * symbol_str, uint32_t file_id, unsigned int obj_file_format) {
 
     symbol_item newsymbol;
 
-     if (SYMBOL_LINE_RECORDS == sscanf(symbol_str,"S %" TOSTR(OBJ_NAME_MAX_STR_LEN) "s Def00%4x",
-                                       newsymbol.name, &newsymbol.bank_num_in)) {
+    const char * s_def_matches[] = {[OBJ_FILE_XL3_24BIT_ADDR] = "S %" TOSTR(OBJ_NAME_MAX_STR_LEN) "s Def00%4x",
+                                    [OBJ_FILE_XL4_32BIT_ADDR] = "S %" TOSTR(OBJ_NAME_MAX_STR_LEN) "s Def0000%4x"};
+    if (obj_file_format >= OBJ_FILE_UNKNOWN) return false;
+
+    if (SYMBOL_LINE_RECORDS == sscanf(symbol_str, s_def_matches[obj_file_format], newsymbol.name, &newsymbol.bank_num_in)) {
 
         // Symbols that start with b_ store the bank num for the matching symbol without 'b'
         newsymbol.is_banked_def          = (newsymbol.name[0] == 'b');
@@ -222,7 +225,7 @@ static void bank_report_mixed_area_error(bank_item * p_bank, uint16_t bank_num, 
 
     printf("BankPack: ERROR! Bank %d already assigned different area type.\n"
            "  Can't mix _CODE_ and _LIT_ areas in the same bank for this platform.\n"
-           "  Area %s, bank %d, file:%s\n",
+           "  Rejecting: Area %s, bank %d, file:%s\n",
            p_area->bank_num_in, p_area->name, bank_num, file_get_name_in_by_id(p_area->file_id));
 
     if (option_get_verbose())
@@ -230,7 +233,7 @@ static void bank_report_mixed_area_error(bank_item * p_bank, uint16_t bank_num, 
 }
 
 
-// Checks whether mixing area types in the same bankshould be rejected
+// Checks whether mixing area types in the same bank should be rejected
 static bool bank_check_mixed_area_types_ok(bank_item * p_bank, uint16_t bank_num, area_item * p_area) {
 
     // Don't allow mixing of _CODE_ and _LIT_ for sms/gg ports
@@ -425,7 +428,7 @@ void obj_data_process(list_type * p_filelist) {
         if (symbols[c].is_banked_def) {
             for (s = 0; s < symbollist.count; s++) {
                 if (symbols[c].file_id == symbols[s].file_id) {
-                    // offset +1 bast the "b" char at start of banekd symbol entry name
+                    // offset +1 past the "b" char at start of banked symbol entry name
                     if (strcmp(symbols[c].name + 1, symbols[s].name) == 0) {
                         symbols[c].found_matching_symbol = true;
                         break;
@@ -524,7 +527,7 @@ bool symbol_banked_check_rewrite_ok(char * symbol_name, uint32_t file_id) {
 // Accepts an input string line
 // and writes it out with an updated bank to a file
 // * Adds trailing \n if missing
-bool symbol_modify_and_write_to_file(char * strline_in, FILE * out_file, uint16_t bank_num, uint32_t file_id) {
+bool symbol_modify_and_write_to_file(char * strline_in, FILE * out_file, uint16_t bank_num, uint32_t file_id, unsigned int obj_file_format) {
 
     uint32_t c;
     uint32_t bank_in = 0;
@@ -532,13 +535,26 @@ bool symbol_modify_and_write_to_file(char * strline_in, FILE * out_file, uint16_
     char symbol_name[OBJ_NAME_MAX_STR_LEN];
     symbol_match_item * sym_match = (symbol_match_item *)symbol_matchlist.p_array;
 
+    const char * s_def_b_matches[] = {[OBJ_FILE_XL3_24BIT_ADDR] = "S b_%" TOSTR(OBJ_NAME_MAX_STR_LEN) "s Def%06x",
+                                      [OBJ_FILE_XL4_32BIT_ADDR] = "S b_%" TOSTR(OBJ_NAME_MAX_STR_LEN) "s Def%08x"};
+    const char * s_def_b_rewrite[] = {[OBJ_FILE_XL3_24BIT_ADDR] = "S b_%s Def0000%02x",
+                                      [OBJ_FILE_XL4_32BIT_ADDR] = "S b_%s Def0000%04x"};
+
+    const char * s_def_matches[] = {[OBJ_FILE_XL3_24BIT_ADDR] = "S %s%%" TOSTR(OBJ_NAME_MAX_STR_LEN) "s Def%%06x",
+                                    [OBJ_FILE_XL4_32BIT_ADDR] = "S %s%%" TOSTR(OBJ_NAME_MAX_STR_LEN) "s Def%%08x"};
+    const char * s_def_rewrite[] = {[OBJ_FILE_XL3_24BIT_ADDR] = "S %s%s Def0000%02x",
+                                    [OBJ_FILE_XL4_32BIT_ADDR] = "S %s%s Def0000%04x"};
+
+    if (obj_file_format >= OBJ_FILE_UNKNOWN) return false;
+
     // Only rewrite banked symbol entries
     if (strline_in[0] == 'S') {
-        // For lines: S b_<symbol name>... Def0000FF
-        if (SYMBOL_REWRITE_RECORDS == sscanf(strline_in,"S b_%" TOSTR(OBJ_NAME_MAX_STR_LEN) "s Def%06x", symbol_name, &bank_in)) {
+        // For lines: S b_<symbol name>... Def0000FF   (XL3 version)
+        // For lines: S b_<symbol name>... Def000000FF (XL4 version)
+        if (SYMBOL_REWRITE_RECORDS == sscanf(strline_in, s_def_b_matches[obj_file_format], symbol_name, &bank_in)) {
             if (bank_in == BANK_NUM_AUTO) {
                 if (symbol_banked_check_rewrite_ok(symbol_name, file_id))  {
-                    fprintf(out_file, "S b_%s Def0000%02x", symbol_name, bank_num);
+                    fprintf(out_file, s_def_b_rewrite[obj_file_format], symbol_name, bank_num);
                     if (strline_in[(strlen(strline_in)-1)] != '\n')
                         fprintf(out_file, "\n");
                     return true;
@@ -548,12 +564,12 @@ bool symbol_modify_and_write_to_file(char * strline_in, FILE * out_file, uint16_
         else {
             for (c = 0; c < symbol_matchlist.count; c++) {
                 // Prepare a sscanf match test string for the current symbol name
-                if (snprintf(strmatch, sizeof(strmatch), "S %s%%" TOSTR(OBJ_NAME_MAX_STR_LEN) "s Def%%06x", sym_match[c].name) > sizeof(strmatch))
+                if (snprintf(strmatch, sizeof(strmatch), s_def_matches[obj_file_format], sym_match[c].name) > sizeof(strmatch))
                     printf("BankPack: Warning: truncated symbol match string to:%s\n",strmatch);
 
                 if (SYMBOL_REWRITE_RECORDS == sscanf(strline_in, strmatch, symbol_name, &bank_in)) {
                     if (bank_in == BANK_NUM_AUTO) {
-                        fprintf(out_file, "S %s%s Def0000%02x", sym_match[c].name, symbol_name, bank_num);
+                        fprintf(out_file, s_def_rewrite[obj_file_format], sym_match[c].name, symbol_name, bank_num);
                         if (strline_in[(strlen(strline_in)-1)] != '\n')
                             fprintf(out_file, "\n");
                         return true;

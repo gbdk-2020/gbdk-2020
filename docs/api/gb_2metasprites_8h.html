@@ -29,7 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.2.0</span>
+   &#160;<span id="projectnumber">4.3.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -123,8 +123,8 @@ Typedefs</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:abab0013f25ba30b2b4f09ecd949597a3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_2metasprites_8h.html#abab0013f25ba30b2b4f09ecd949597a3">hide_sprites_range</a> (<a class="el" href="asm_2mos6502_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> from, <a class="el" href="asm_2mos6502_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a> to)</td></tr>
-<tr class="separator:abab0013f25ba30b2b4f09ecd949597a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f682afd53ac62ba02b0b6bc18d9cae5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_2metasprites_8h.html#a7f682afd53ac62ba02b0b6bc18d9cae5">hide_sprites_range</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> from, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> to)</td></tr>
+<tr class="separator:a7f682afd53ac62ba02b0b6bc18d9cae5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6a320e8632e35cba926e089b035146e1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_2metasprites_8h.html#a6a320e8632e35cba926e089b035146e1">move_metasprite_ex</a> (const <a class="el" href="structmetasprite__t.html">metasprite_t</a> *metasprite, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> base_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> base_prop, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> base_sprite, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y)</td></tr>
 <tr class="separator:a6a320e8632e35cba926e089b035146e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a77475e913bf0a19df28bdbf9d1cf392b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_2metasprites_8h.html#a77475e913bf0a19df28bdbf9d1cf392b">move_metasprite</a> (const <a class="el" href="structmetasprite__t.html">metasprite_t</a> *metasprite, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> base_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> base_sprite, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y)</td></tr>
@@ -170,15 +170,26 @@ Metasprites composed of variable numbers of sprites</h1>
 <div class="line"><span class="comment">// Hide rest of the hardware sprites, because amount</span></div>
 <div class="line"><span class="comment">// of sprites differ between animation frames.</span></div>
 <div class="line"><span class="comment">// (where hiwater == last hardware sprite used + 1)</span></div>
-<div class="line"><a class="code" href="gb_2metasprites_8h.html#abab0013f25ba30b2b4f09ecd949597a3">hide_sprites_range</a>(hiwater, <a class="code" href="gb_8h.html#a8b77608c87a9aef65a03531482b2163b">MAX_HARDWARE_SPRITES</a>);</div>
-<div class="ttc" id="agb_2metasprites_8h_html_abab0013f25ba30b2b4f09ecd949597a3"><div class="ttname"><a href="gb_2metasprites_8h.html#abab0013f25ba30b2b4f09ecd949597a3">hide_sprites_range</a></div><div class="ttdeci">void hide_sprites_range(UINT8 from, UINT8 to)</div></div>
-<div class="ttc" id="agb_8h_html_a8b77608c87a9aef65a03531482b2163b"><div class="ttname"><a href="gb_8h.html#a8b77608c87a9aef65a03531482b2163b">MAX_HARDWARE_SPRITES</a></div><div class="ttdeci">#define MAX_HARDWARE_SPRITES</div><div class="ttdef"><b>Definition:</b> gb.h:1771</div></div>
+<div class="line"><a class="code" href="gb_2metasprites_8h.html#a7f682afd53ac62ba02b0b6bc18d9cae5">hide_sprites_range</a>(hiwater, <a class="code" href="gb_8h.html#a8b77608c87a9aef65a03531482b2163b">MAX_HARDWARE_SPRITES</a>);</div>
+<div class="ttc" id="agb_2metasprites_8h_html_a7f682afd53ac62ba02b0b6bc18d9cae5"><div class="ttname"><a href="gb_2metasprites_8h.html#a7f682afd53ac62ba02b0b6bc18d9cae5">hide_sprites_range</a></div><div class="ttdeci">void hide_sprites_range(uint8_t from, uint8_t to)</div></div>
+<div class="ttc" id="agb_8h_html_a8b77608c87a9aef65a03531482b2163b"><div class="ttname"><a href="gb_8h.html#a8b77608c87a9aef65a03531482b2163b">MAX_HARDWARE_SPRITES</a></div><div class="ttdeci">#define MAX_HARDWARE_SPRITES</div><div class="ttdef"><b>Definition:</b> gb.h:1842</div></div>
 </div><!-- fragment --><p><a class="anchor" id="metasprite_and_sprite_properties"></a></p>
 <h1><a class="anchor" id="autotoc_md3"></a>
 Metasprites and sprite properties (including cgb palette)</h1>
 <p>When the move_metasprite_*() functions are called they update all properties for the affected sprites in the Shadow OAM. This means any existing property flags set for a sprite (CGB palette, BG/WIN priority, Tile VRAM Bank) will get overwritten.</p>
 <p>How to use sprite property flags with metasprites:</p><ul>
-<li>Primary method: Use the <code>base_prop</code> parameter for the move_metasprite_*() functions.</li>
+<li>Primary method: Use the <code>base_prop</code> parameter for the move_metasprite_*() functions.<ul>
+<li>For more details about the properties on the Game Boy see: <a href="https://gbdev.io/pandocs/OAM.html#byte-3&ndash;attributesflags">https://gbdev.io/pandocs/OAM.html#byte-3&amp;ndash;attributesflags</a></li>
+<li>This can be left at zero for defaults</li>
+<li>Various <code>OAMF_*</code> flags can be used depending on the platform:<ul>
+<li><a class="el" href="gb_2hardware_8h.html#aade9a193ade9ff22ed6f6263d1a3549b">OAMF_BANK0</a>, <a class="el" href="gb_2hardware_8h.html#ad195d4be68ff54c3926c431fa5511de5">OAMF_BANK1</a></li>
+<li><a class="el" href="gb_2hardware_8h.html#a4ff8c8a7acb74ba54043596110091605">OAMF_CGB_PAL0</a>, <a class="el" href="gb_2hardware_8h.html#a9dff52d03755812d3a5ee7ca971c2e83">OAMF_CGB_PAL1</a>, <a class="el" href="gb_2hardware_8h.html#a74744fb475532fa5d343e0818dcc6f88">OAMF_CGB_PAL2</a>, <a class="el" href="gb_2hardware_8h.html#a704ab20694793ea87aace8bfc29568bc">OAMF_CGB_PAL3</a>, <a class="el" href="gb_2hardware_8h.html#a13d5cddfb4a05fa49fc794aeea675c7b">OAMF_CGB_PAL4</a>, <a class="el" href="gb_2hardware_8h.html#af9284c71b8ebf10ef8b9e12268f2cce3">OAMF_CGB_PAL5</a>, <a class="el" href="gb_2hardware_8h.html#ad6f5b0d9ae958dee3d6dfa8f4273ff5a">OAMF_CGB_PAL6</a>, <a class="el" href="gb_2hardware_8h.html#af4b27e8f3c3e14a4f91051fea4c64e4b">OAMF_CGB_PAL7</a>,</li>
+<li><a class="el" href="gb_2hardware_8h.html#a22b6b835de9ee737be73c4d252aac87c">OAMF_PAL0</a>, <a class="el" href="gb_2hardware_8h.html#ad92f3b2a1cc16700a4660c5821bcb15d">OAMF_PAL1</a>,</li>
+<li><a class="el" href="gb_2hardware_8h.html#a5dc4d1ee47fe269761fe8fc46d56dabb">OAMF_PALMASK</a>, <a class="el" href="gb_2hardware_8h.html#a393866ca405b1023eec0e784bb88b026">OAMF_PRI</a>, <a class="el" href="gb_2hardware_8h.html#a3cd1c1a1291d43dd43b181ff07f8b0a7">OAMF_XFLIP</a>, <a class="el" href="gb_2hardware_8h.html#a820677d593625e8716c3b78f36feb805">OAMF_YFLIP</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li>Alternate method: The metasprite structures can have the property flags modified before compilation (such as with <code>-sp &lt;props&gt;</code> in the <a class="el" href="docs_toolchain.html#utility_png2asset">png2asset</a> tool).</li>
 </ul>
 <p>The following functions only support hardware sprite flipping on the Game Boy / Mega Duck and NES. For other consoles which do not have hardware sprite flipping see the cross-platform metasprite example for a workaround (with some performance penalty).</p>
@@ -284,8 +295,8 @@ Metasprites and sprite properties (including cgb palette)</h1>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="abab0013f25ba30b2b4f09ecd949597a3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abab0013f25ba30b2b4f09ecd949597a3">&#9670;&nbsp;</a></span>hide_sprites_range()</h2>
+<a id="a7f682afd53ac62ba02b0b6bc18d9cae5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f682afd53ac62ba02b0b6bc18d9cae5">&#9670;&nbsp;</a></span>hide_sprites_range()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -293,13 +304,13 @@ Metasprites and sprite properties (including cgb palette)</h1>
         <tr>
           <td class="memname">void hide_sprites_range </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="asm_2mos6502_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td>
           <td class="paramname"><em>from</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="asm_2mos6502_2types_8h.html#ab27e9918b538ce9d8ca692479b375b6a">UINT8</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td>
           <td class="paramname"><em>to</em>&#160;</td>
         </tr>
         <tr>

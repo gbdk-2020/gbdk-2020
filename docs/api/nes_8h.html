@@ -29,7 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.2.0</span>
+   &#160;<span id="projectnumber">4.3.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -115,9 +115,19 @@ Data Structures</h2></td></tr>
 Macros</h2></td></tr>
 <tr class="memitem:a418f95f7c7744aa18840d4101388916a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a418f95f7c7744aa18840d4101388916a">NINTENDO_NES</a></td></tr>
 <tr class="separator:a418f95f7c7744aa18840d4101388916a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4a118ad3ee36468a3fa616977a64864e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a4a118ad3ee36468a3fa616977a64864e">RGB</a>(r,  g,  <a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>)&#160;&#160;&#160;<a class="el" href="rgb__to__nes__macro_8h.html#aa83d79eaa6230c94a1326b9f88d6b0ad">RGB_TO_NES</a>(((r) | ((g) &lt;&lt; 2) | ((<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>) &lt;&lt; 4)))</td></tr>
+<tr class="memitem:a1e73068b3ffdb8436eaa3362f104ba74"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a1e73068b3ffdb8436eaa3362f104ba74">SYSTEM_BITS_NTSC</a>&#160;&#160;&#160;0x00</td></tr>
+<tr class="separator:a1e73068b3ffdb8436eaa3362f104ba74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a599f3df346be94f25498749e2442bde8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a599f3df346be94f25498749e2442bde8">SYSTEM_BITS_PAL</a>&#160;&#160;&#160;0x40</td></tr>
+<tr class="separator:a599f3df346be94f25498749e2442bde8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa370f208d677a232346ddf00a8ef7243"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#aa370f208d677a232346ddf00a8ef7243">SYSTEM_BITS_DENDY</a>&#160;&#160;&#160;0x80</td></tr>
+<tr class="separator:aa370f208d677a232346ddf00a8ef7243"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99bca2df4c6fde16a659797b4e584036"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a99bca2df4c6fde16a659797b4e584036">SYSTEM_60HZ</a>&#160;&#160;&#160;0x00</td></tr>
+<tr class="separator:a99bca2df4c6fde16a659797b4e584036"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6329c19927cf02579e2503e40c0bbde"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ad6329c19927cf02579e2503e40c0bbde">SYSTEM_50HZ</a>&#160;&#160;&#160;0x01</td></tr>
+<tr class="separator:ad6329c19927cf02579e2503e40c0bbde"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a118ad3ee36468a3fa616977a64864e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a4a118ad3ee36468a3fa616977a64864e">RGB</a>(r,  g,  <a class="el" href="sms_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>)&#160;&#160;&#160;<a class="el" href="rgb__to__nes__macro_8h.html#aa83d79eaa6230c94a1326b9f88d6b0ad">RGB_TO_NES</a>(((r) | ((g) &lt;&lt; 2) | ((<a class="el" href="sms_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>) &lt;&lt; 4)))</td></tr>
 <tr class="separator:a4a118ad3ee36468a3fa616977a64864e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7d2ed0f10b2b74123a544327bbfd7564"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a7d2ed0f10b2b74123a544327bbfd7564">RGB8</a>(r,  g,  <a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>)&#160;&#160;&#160;<a class="el" href="rgb__to__nes__macro_8h.html#aa83d79eaa6230c94a1326b9f88d6b0ad">RGB_TO_NES</a>((((r) &gt;&gt; 6) | (((g) &gt;&gt; 6) &lt;&lt; 2) | (((<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>) &gt;&gt; 6) &lt;&lt; 4)))</td></tr>
+<tr class="memitem:a7d2ed0f10b2b74123a544327bbfd7564"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a7d2ed0f10b2b74123a544327bbfd7564">RGB8</a>(r,  g,  <a class="el" href="sms_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>)&#160;&#160;&#160;<a class="el" href="rgb__to__nes__macro_8h.html#aa83d79eaa6230c94a1326b9f88d6b0ad">RGB_TO_NES</a>((((r) &gt;&gt; 6) | (((g) &gt;&gt; 6) &lt;&lt; 2) | (((<a class="el" href="sms_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>) &gt;&gt; 6) &lt;&lt; 4)))</td></tr>
 <tr class="separator:a7d2ed0f10b2b74123a544327bbfd7564"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab5a6e450fcf10402278fe585a421dbbd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ab5a6e450fcf10402278fe585a421dbbd">RGBHTML</a>(RGB24bit)&#160;&#160;&#160;<a class="el" href="rgb__to__nes__macro_8h.html#aa83d79eaa6230c94a1326b9f88d6b0ad">RGB_TO_NES</a>((((RGB24bit) &gt;&gt; 22) | ((((RGB24bit) &amp; 0xFFFF) &gt;&gt; 14) &lt;&lt; 2) | ((((RGB24bit) &amp; 0xFF) &gt;&gt; 6) &lt;&lt; 4)))</td></tr>
 <tr class="separator:ab5a6e450fcf10402278fe585a421dbbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -153,21 +163,21 @@ Macros</h2></td></tr>
 <tr class="separator:a80efbf7b13421922fb174f3e6a3e235c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac1771f95d9887118764bd8a074e537e1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ac1771f95d9887118764bd8a074e537e1">RGB_WHITE</a>&#160;&#160;&#160;0x30</td></tr>
 <tr class="separator:ac1771f95d9887118764bd8a074e537e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a05ca817ab32f6da612c3ae26db5abf02"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a05ca817ab32f6da612c3ae26db5abf02">J_UP</a>&#160;&#160;&#160;0x10U</td></tr>
+<tr class="memitem:a05ca817ab32f6da612c3ae26db5abf02"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a05ca817ab32f6da612c3ae26db5abf02">J_UP</a>&#160;&#160;&#160;0x08U</td></tr>
 <tr class="separator:a05ca817ab32f6da612c3ae26db5abf02"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae032c5c544196e37ec0432f6cfad7904"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ae032c5c544196e37ec0432f6cfad7904">J_DOWN</a>&#160;&#160;&#160;0x20U</td></tr>
+<tr class="memitem:ae032c5c544196e37ec0432f6cfad7904"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ae032c5c544196e37ec0432f6cfad7904">J_DOWN</a>&#160;&#160;&#160;0x04U</td></tr>
 <tr class="separator:ae032c5c544196e37ec0432f6cfad7904"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac70894fecac30c1ca9917f07373cf81c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ac70894fecac30c1ca9917f07373cf81c">J_LEFT</a>&#160;&#160;&#160;0x40U</td></tr>
+<tr class="memitem:ac70894fecac30c1ca9917f07373cf81c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ac70894fecac30c1ca9917f07373cf81c">J_LEFT</a>&#160;&#160;&#160;0x02U</td></tr>
 <tr class="separator:ac70894fecac30c1ca9917f07373cf81c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3bad91d11ae09ffcbb3cb0a81873d325"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a3bad91d11ae09ffcbb3cb0a81873d325">J_RIGHT</a>&#160;&#160;&#160;0x80U</td></tr>
+<tr class="memitem:a3bad91d11ae09ffcbb3cb0a81873d325"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a3bad91d11ae09ffcbb3cb0a81873d325">J_RIGHT</a>&#160;&#160;&#160;0x01U</td></tr>
 <tr class="separator:a3bad91d11ae09ffcbb3cb0a81873d325"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a31af766e3b598eb7a6b63f55a4988e7a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a31af766e3b598eb7a6b63f55a4988e7a">J_A</a>&#160;&#160;&#160;0x01U</td></tr>
+<tr class="memitem:a31af766e3b598eb7a6b63f55a4988e7a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a31af766e3b598eb7a6b63f55a4988e7a">J_A</a>&#160;&#160;&#160;0x80U</td></tr>
 <tr class="separator:a31af766e3b598eb7a6b63f55a4988e7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae47e59a309120f9420993f26816b5e6d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ae47e59a309120f9420993f26816b5e6d">J_B</a>&#160;&#160;&#160;0x02U</td></tr>
+<tr class="memitem:ae47e59a309120f9420993f26816b5e6d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ae47e59a309120f9420993f26816b5e6d">J_B</a>&#160;&#160;&#160;0x40U</td></tr>
 <tr class="separator:ae47e59a309120f9420993f26816b5e6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab416a9d96d1582490828f4bac78a8b5b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ab416a9d96d1582490828f4bac78a8b5b">J_SELECT</a>&#160;&#160;&#160;0x04U</td></tr>
+<tr class="memitem:ab416a9d96d1582490828f4bac78a8b5b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ab416a9d96d1582490828f4bac78a8b5b">J_SELECT</a>&#160;&#160;&#160;0x20U</td></tr>
 <tr class="separator:ab416a9d96d1582490828f4bac78a8b5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab769c6e20778298be8bc3321476ceb53"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ab769c6e20778298be8bc3321476ceb53">J_START</a>&#160;&#160;&#160;0x08U</td></tr>
+<tr class="memitem:ab769c6e20778298be8bc3321476ceb53"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ab769c6e20778298be8bc3321476ceb53">J_START</a>&#160;&#160;&#160;0x10U</td></tr>
 <tr class="separator:ab769c6e20778298be8bc3321476ceb53"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acc9798fc62b5d626c91c8b0f20b522ff"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#acc9798fc62b5d626c91c8b0f20b522ff">M_DRAWING</a>&#160;&#160;&#160;0x01U</td></tr>
 <tr class="separator:acc9798fc62b5d626c91c8b0f20b522ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -203,6 +213,8 @@ Macros</h2></td></tr>
 <tr class="separator:ada0cc738d27aad251151e69cb8d250e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae189e98d0ef9263c37869ce1ff3710a5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ae189e98d0ef9263c37869ce1ff3710a5">SCREENHEIGHT</a>&#160;&#160;&#160;<a class="el" href="sms_2hardware_8h.html#a7bd450aa268b881257089cf8cd6697ec">DEVICE_SCREEN_PX_HEIGHT</a></td></tr>
 <tr class="separator:ae189e98d0ef9263c37869ce1ff3710a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00573fe55b0f1e2dd03b9647dfe15636"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a00573fe55b0f1e2dd03b9647dfe15636">MAX_LCD_ISR_CALLS</a>&#160;&#160;&#160;4</td></tr>
+<tr class="separator:a00573fe55b0f1e2dd03b9647dfe15636"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae042588f20bf5a2349c8ad8716245233"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ae042588f20bf5a2349c8ad8716245233">CURRENT_BANK</a>&#160;&#160;&#160;<a class="el" href="nes_8h.html#a06bab3f8bce032de0d21fbd86e14c3f3">_current_bank</a></td></tr>
 <tr class="separator:ae042588f20bf5a2349c8ad8716245233"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a42705001e2b9897f5167b67fb36c69dd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a42705001e2b9897f5167b67fb36c69dd">BANK</a>(VARNAME)&#160;&#160;&#160;( (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>) &amp; __bank_ ## VARNAME )</td></tr>
@@ -211,19 +223,19 @@ Macros</h2></td></tr>
 <tr class="separator:a086293f2afb4c7945460a4496b20aea3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a261bba55a07b802baf99346feadd9852"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a261bba55a07b802baf99346feadd9852">BANKREF_EXTERN</a>(VARNAME)&#160;&#160;&#160;extern const void __bank_ ## VARNAME;</td></tr>
 <tr class="separator:a261bba55a07b802baf99346feadd9852"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a412db28bcf6bda7f235d7c5d3c9d52c0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a412db28bcf6bda7f235d7c5d3c9d52c0">SWITCH_ROM_DUMMY</a>(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>)</td></tr>
+<tr class="memitem:a412db28bcf6bda7f235d7c5d3c9d52c0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a412db28bcf6bda7f235d7c5d3c9d52c0">SWITCH_ROM_DUMMY</a>(<a class="el" href="sms_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>)</td></tr>
 <tr class="separator:a412db28bcf6bda7f235d7c5d3c9d52c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2d29df5dc3791dbf77488b3322b71d6c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a2d29df5dc3791dbf77488b3322b71d6c">SWITCH_ROM_UNROM</a>(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>)&#160;&#160;&#160;<a class="el" href="nes_8h.html#adf417314f63b45c36d04800866911b9f">_switch_prg0</a>(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>)</td></tr>
+<tr class="memitem:a2d29df5dc3791dbf77488b3322b71d6c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a2d29df5dc3791dbf77488b3322b71d6c">SWITCH_ROM_UNROM</a>(<a class="el" href="sms_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>)&#160;&#160;&#160;<a class="el" href="nes_8h.html#a7d6c7ed0155e52b62936a04f6d98715d">_switch_prg0</a>(<a class="el" href="sms_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>)</td></tr>
 <tr class="separator:a2d29df5dc3791dbf77488b3322b71d6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1e22a3b60368bb5f3705d625ac2d09cc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a1e22a3b60368bb5f3705d625ac2d09cc">SWITCH_ROM</a>&#160;&#160;&#160;<a class="el" href="nes_8h.html#a2d29df5dc3791dbf77488b3322b71d6c">SWITCH_ROM_UNROM</a></td></tr>
 <tr class="separator:a1e22a3b60368bb5f3705d625ac2d09cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a121feb0c32d124562f52398aa9656e7b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a121feb0c32d124562f52398aa9656e7b">SWITCH_RAM</a>(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>)&#160;&#160;&#160;0</td></tr>
+<tr class="memitem:a121feb0c32d124562f52398aa9656e7b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a121feb0c32d124562f52398aa9656e7b">SWITCH_RAM</a>(<a class="el" href="sms_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>)&#160;&#160;&#160;0</td></tr>
 <tr class="separator:a121feb0c32d124562f52398aa9656e7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0e9c88657beaac946231a4801481b97f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a0e9c88657beaac946231a4801481b97f">ENABLE_RAM</a></td></tr>
 <tr class="separator:a0e9c88657beaac946231a4801481b97f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a649d27b5587de16a66176e03a1b8ebd5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a649d27b5587de16a66176e03a1b8ebd5">DISABLE_RAM</a></td></tr>
 <tr class="separator:a649d27b5587de16a66176e03a1b8ebd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5ae6b05b3e1559c97f0d1b2daaaa0ee4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a5ae6b05b3e1559c97f0d1b2daaaa0ee4">DISPLAY_ON</a>&#160;&#160;&#160;  <a class="el" href="nes_8h.html#aacdf9e1bdb75f04b68032b228d23e3e3">display_on</a>();</td></tr>
+<tr class="memitem:a5ae6b05b3e1559c97f0d1b2daaaa0ee4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a5ae6b05b3e1559c97f0d1b2daaaa0ee4">DISPLAY_ON</a>&#160;&#160;&#160;  <a class="el" href="nes_8h.html#a42756a31babdcb4b7e692960a069b13b">display_on</a>();</td></tr>
 <tr class="separator:a5ae6b05b3e1559c97f0d1b2daaaa0ee4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad2ec9831813c5e7069917aa4455af682"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ad2ec9831813c5e7069917aa4455af682">DISPLAY_OFF</a>&#160;&#160;&#160;  <a class="el" href="sms_8h.html#afe5714734a8fea7b1617ba377b3c0a06">display_off</a>();</td></tr>
 <tr class="separator:ad2ec9831813c5e7069917aa4455af682"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -231,6 +243,8 @@ Macros</h2></td></tr>
 <tr class="separator:a0659212acd317ccdebc0ecf435df330f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5497c2255a9474d397446710189eacbe"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a5497c2255a9474d397446710189eacbe">SHOW_LEFT_COLUMN</a>&#160;&#160;&#160;    <a class="el" href="nes_2hardware_8h.html#a179ba142ebf05f2d0d2df6c47da2f6b4">shadow_PPUMASK</a> |= (<a class="el" href="nes_2hardware_8h.html#a0921fb5a3bfa138b479df91189d51f1c">PPUMASK_SHOW_BG_LC</a> | <a class="el" href="nes_2hardware_8h.html#add0805a7bbaa88cf568f7a8fa7eb252c">PPUMASK_SHOW_SPR_LC</a>);</td></tr>
 <tr class="separator:a5497c2255a9474d397446710189eacbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f3f7bd5879b807acbb203ce2aaa1e5d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a3f3f7bd5879b807acbb203ce2aaa1e5d">SET_BORDER_COLOR</a>(C)</td></tr>
+<tr class="separator:a3f3f7bd5879b807acbb203ce2aaa1e5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e3f36aa68ac036695816757f2a1322c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a8e3f36aa68ac036695816757f2a1322c">SHOW_BKG</a>&#160;&#160;&#160;    <a class="el" href="nes_2hardware_8h.html#a179ba142ebf05f2d0d2df6c47da2f6b4">shadow_PPUMASK</a> |= <a class="el" href="nes_2hardware_8h.html#aaf30bd58f6f863e21f605957d547bdd7">PPUMASK_SHOW_BG</a>;</td></tr>
 <tr class="separator:a8e3f36aa68ac036695816757f2a1322c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6d25f7c43b1cbbb48b95cda7ab2c3141"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a6d25f7c43b1cbbb48b95cda7ab2c3141">HIDE_BKG</a>&#160;&#160;&#160;    <a class="el" href="nes_2hardware_8h.html#a179ba142ebf05f2d0d2df6c47da2f6b4">shadow_PPUMASK</a> &amp;= ~<a class="el" href="nes_2hardware_8h.html#aaf30bd58f6f863e21f605957d547bdd7">PPUMASK_SHOW_BG</a>;</td></tr>
@@ -247,11 +261,11 @@ Macros</h2></td></tr>
 <tr class="separator:a67f80e65620470b55a4950e2966eb868"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab94bfec130df50d9cb808142f94603a5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ab94bfec130df50d9cb808142f94603a5">set_bkg_2bpp_data</a>&#160;&#160;&#160;<a class="el" href="sms_8h.html#a8130306da1177f4fef89e699f8e2add4">set_bkg_data</a></td></tr>
 <tr class="separator:ab94bfec130df50d9cb808142f94603a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a55f82ff980398dd97036fd936ebd727e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a55f82ff980398dd97036fd936ebd727e">set_tile_map</a>&#160;&#160;&#160;<a class="el" href="nes_8h.html#a349526a46416c9345415532cbf0fac87">set_bkg_tiles</a></td></tr>
+<tr class="memitem:a55f82ff980398dd97036fd936ebd727e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a55f82ff980398dd97036fd936ebd727e">set_tile_map</a>&#160;&#160;&#160;<a class="el" href="nes_8h.html#a6ab3fa75195d44d8d7e867d4a4cb1131">set_bkg_tiles</a></td></tr>
 <tr class="separator:a55f82ff980398dd97036fd936ebd727e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adb5d0970167b81401113812773c90838"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#adb5d0970167b81401113812773c90838">set_tile_submap</a>&#160;&#160;&#160;<a class="el" href="sms_8h.html#a0cfd261bc7a94b1f6093f423bad30298">set_bkg_submap</a></td></tr>
 <tr class="separator:adb5d0970167b81401113812773c90838"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3b235c526c517fb02d20cdea780ee2c5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a3b235c526c517fb02d20cdea780ee2c5">set_tile_xy</a>&#160;&#160;&#160;<a class="el" href="nes_8h.html#a8c294fe74e18b5a1b228f3ca7357dee7">set_bkg_tile_xy</a></td></tr>
+<tr class="memitem:a3b235c526c517fb02d20cdea780ee2c5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a3b235c526c517fb02d20cdea780ee2c5">set_tile_xy</a>&#160;&#160;&#160;<a class="el" href="nes_8h.html#a31655c4b138654e803e295bd4413759c">set_bkg_tile_xy</a></td></tr>
 <tr class="separator:a3b235c526c517fb02d20cdea780ee2c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7a73323735000cf26196e073cbbdcbf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ad7a73323735000cf26196e073cbbdcbf">set_attribute_xy</a>&#160;&#160;&#160;<a class="el" href="nes_8h.html#a7cd23c81062d37753a4429b794907524">set_bkg_attribute_xy</a></td></tr>
 <tr class="separator:ad7a73323735000cf26196e073cbbdcbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -271,7 +285,7 @@ Macros</h2></td></tr>
 <tr class="separator:afc296eacbda6a42f2a71aacab376ceb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9119d69d971f6bee9e55d0df8f0ac983"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a9119d69d971f6bee9e55d0df8f0ac983">HARDWARE_SPRITE_CAN_FLIP_Y</a>&#160;&#160;&#160;1</td></tr>
 <tr class="separator:a9119d69d971f6bee9e55d0df8f0ac983"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a47865835d7d007d71b4bc8ae5cefb73a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a47865835d7d007d71b4bc8ae5cefb73a">fill_rect</a>&#160;&#160;&#160;<a class="el" href="nes_8h.html#a8c21e725f7de2cb86926c09202a80965">fill_bkg_rect</a></td></tr>
+<tr class="memitem:a47865835d7d007d71b4bc8ae5cefb73a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a47865835d7d007d71b4bc8ae5cefb73a">fill_rect</a>&#160;&#160;&#160;<a class="el" href="nes_8h.html#a6879d813b6105ff8d9b36ec55c26a36e">fill_bkg_rect</a></td></tr>
 <tr class="separator:a47865835d7d007d71b4bc8ae5cefb73a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
@@ -285,141 +299,145 @@ Typedefs</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a11902cb1c4de48a1992f5cd595c1da38"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a11902cb1c4de48a1992f5cd595c1da38">set_bkg_palette</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_palette, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_palettes, const <a class="el" href="cgb_8h.html#af868d7cdbd052c6b972ef137e02f6495">palette_color_t</a> *rgb_data) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:a11902cb1c4de48a1992f5cd595c1da38"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a70244637bddfbb327c9684455fa8ffa6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a70244637bddfbb327c9684455fa8ffa6">set_sprite_palette</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_palette, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_palettes, const <a class="el" href="cgb_8h.html#af868d7cdbd052c6b972ef137e02f6495">palette_color_t</a> *rgb_data) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:a70244637bddfbb327c9684455fa8ffa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adfaa20c59f6c2cd94d9e9047f34c1719"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#adfaa20c59f6c2cd94d9e9047f34c1719">set_bkg_palette_entry</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> palette, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> entry, <a class="el" href="cgb_8h.html#af868d7cdbd052c6b972ef137e02f6495">palette_color_t</a> rgb_data) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:adfaa20c59f6c2cd94d9e9047f34c1719"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf51ac64e2ff2d20a9c6d65091d76d7f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#aaf51ac64e2ff2d20a9c6d65091d76d7f">set_sprite_palette_entry</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> palette, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> entry, <a class="el" href="cgb_8h.html#af868d7cdbd052c6b972ef137e02f6495">palette_color_t</a> rgb_data) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:aaf51ac64e2ff2d20a9c6d65091d76d7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac6b62210da8713ab1fca7cb3ff6e80c5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ac6b62210da8713ab1fca7cb3ff6e80c5">remove_VBL</a> (<a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>)</td></tr>
-<tr class="separator:ac6b62210da8713ab1fca7cb3ff6e80c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a67ef797ca230a941c1cc0c580720327b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a67ef797ca230a941c1cc0c580720327b">remove_LCD</a> (<a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>)</td></tr>
-<tr class="separator:a67ef797ca230a941c1cc0c580720327b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a83bce4c8764eddefd9ab8af88669065e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a83bce4c8764eddefd9ab8af88669065e">add_VBL</a> (<a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>)</td></tr>
-<tr class="separator:a83bce4c8764eddefd9ab8af88669065e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae2dae907ea199eee9abb0eb4b831778f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ae2dae907ea199eee9abb0eb4b831778f">add_LCD</a> (<a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>)</td></tr>
-<tr class="separator:ae2dae907ea199eee9abb0eb4b831778f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ea524204d839377cf39842eec23e202"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a3ea524204d839377cf39842eec23e202">mode</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> m) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:a3ea524204d839377cf39842eec23e202"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f49bc517509dbff3b7f8fae4373b1f0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a6f49bc517509dbff3b7f8fae4373b1f0">get_mode</a> (void) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:a6f49bc517509dbff3b7f8fae4373b1f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2afae202a1f8ca59a12a6455bb909c5d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a2afae202a1f8ca59a12a6455bb909c5d">delay</a> (<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> <a class="el" href="sms_8h.html#a0a3d95ad0ab8ad213016101d2e9c3d3e">d</a>) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:a2afae202a1f8ca59a12a6455bb909c5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2aa5c3d5a75dc85e842b23b683024027"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a2aa5c3d5a75dc85e842b23b683024027">joypad</a> (void) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:a2aa5c3d5a75dc85e842b23b683024027"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af068fcd54cfae7c070d6caf97b2c6ff2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#af068fcd54cfae7c070d6caf97b2c6ff2">waitpad</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> mask) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:af068fcd54cfae7c070d6caf97b2c6ff2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1edeb3f3e504ca924b475711f6e3b652"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a1edeb3f3e504ca924b475711f6e3b652">waitpadup</a> (void)</td></tr>
-<tr class="separator:a1edeb3f3e504ca924b475711f6e3b652"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab7e35e1eff44ed78ad8f0015c6e85b4e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ab7e35e1eff44ed78ad8f0015c6e85b4e">joypad_init</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> npads, <a class="el" href="structjoypads__t.html">joypads_t</a> *joypads) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:ab7e35e1eff44ed78ad8f0015c6e85b4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa9a551f91f4b583ddff265e922b0574a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#aa9a551f91f4b583ddff265e922b0574a">joypad_ex</a> (<a class="el" href="structjoypads__t.html">joypads_t</a> *joypads) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:aa9a551f91f4b583ddff265e922b0574a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab38fda7bad70c80c390aa7017c48b405"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ab38fda7bad70c80c390aa7017c48b405">set_bkg_palette</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_palette, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_palettes, const <a class="el" href="cgb_8h.html#af868d7cdbd052c6b972ef137e02f6495">palette_color_t</a> *rgb_data) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:ab38fda7bad70c80c390aa7017c48b405"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c75cb6992e73971f24cee46aa31184b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a7c75cb6992e73971f24cee46aa31184b">set_sprite_palette</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_palette, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_palettes, const <a class="el" href="cgb_8h.html#af868d7cdbd052c6b972ef137e02f6495">palette_color_t</a> *rgb_data) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:a7c75cb6992e73971f24cee46aa31184b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaca025055febe9f4c605bfac12812d0e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#aaca025055febe9f4c605bfac12812d0e">set_bkg_palette_entry</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> palette, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> entry, <a class="el" href="cgb_8h.html#af868d7cdbd052c6b972ef137e02f6495">palette_color_t</a> rgb_data) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:aaca025055febe9f4c605bfac12812d0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2adcd1b3390b43cdade1b73d95123a0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ad2adcd1b3390b43cdade1b73d95123a0">set_sprite_palette_entry</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> palette, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> entry, <a class="el" href="cgb_8h.html#af868d7cdbd052c6b972ef137e02f6495">palette_color_t</a> rgb_data) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:ad2adcd1b3390b43cdade1b73d95123a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5cc6bac1f2f0e9f71c7826a3ee8f35d0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a5cc6bac1f2f0e9f71c7826a3ee8f35d0">remove_VBL</a> (<a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a> <a class="el" href="sms_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:a5cc6bac1f2f0e9f71c7826a3ee8f35d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca7413d0441f3ce1f30cca15ce4678ab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#aca7413d0441f3ce1f30cca15ce4678ab">remove_LCD</a> (<a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a> <a class="el" href="sms_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:aca7413d0441f3ce1f30cca15ce4678ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44e3fc6c86253db08fa99fdc448b1df0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a44e3fc6c86253db08fa99fdc448b1df0">add_VBL</a> (<a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a> <a class="el" href="sms_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:a44e3fc6c86253db08fa99fdc448b1df0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad572dce0c703ed78eadcf5cd6cce7dd2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ad572dce0c703ed78eadcf5cd6cce7dd2">add_LCD</a> (<a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a> <a class="el" href="sms_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:ad572dce0c703ed78eadcf5cd6cce7dd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade75173639b6e7be241b8eb31fe825ef"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ade75173639b6e7be241b8eb31fe825ef">mode</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> m) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:ade75173639b6e7be241b8eb31fe825ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abac3c04dc3c056618aca0a0052f2cb93"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#abac3c04dc3c056618aca0a0052f2cb93">get_mode</a> (void) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:abac3c04dc3c056618aca0a0052f2cb93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4093fb5f45f807fe8d4a45121f3fffc5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a4093fb5f45f807fe8d4a45121f3fffc5">get_system</a> (void)</td></tr>
+<tr class="separator:a4093fb5f45f807fe8d4a45121f3fffc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a206e8e54468237daed636cad12a70055"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a206e8e54468237daed636cad12a70055">delay</a> (<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> <a class="el" href="sms_8h.html#a0a3d95ad0ab8ad213016101d2e9c3d3e">d</a>) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:a206e8e54468237daed636cad12a70055"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8feed006393f8c8c070b2d29d91ec8aa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a8feed006393f8c8c070b2d29d91ec8aa">joypad</a> (void) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:a8feed006393f8c8c070b2d29d91ec8aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0029224262fa919f42f3337c298bda10"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a0029224262fa919f42f3337c298bda10">waitpad</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> mask) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:a0029224262fa919f42f3337c298bda10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae192e07aabd7c8b822db52c9bc1e542d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ae192e07aabd7c8b822db52c9bc1e542d">waitpadup</a> (void) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:ae192e07aabd7c8b822db52c9bc1e542d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54e98484026ce279ea5d3d0d7a3fb87a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a54e98484026ce279ea5d3d0d7a3fb87a">joypad_init</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> npads, <a class="el" href="structjoypads__t.html">joypads_t</a> *joypads) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:a54e98484026ce279ea5d3d0d7a3fb87a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3ee931a6c78c8716cadfedd9f627b6e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#af3ee931a6c78c8716cadfedd9f627b6e">joypad_ex</a> (<a class="el" href="structjoypads__t.html">joypads_t</a> *joypads) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:af3ee931a6c78c8716cadfedd9f627b6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a232883ed798bce00a03b09705c67deef"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a232883ed798bce00a03b09705c67deef">enable_interrupts</a> (void)</td></tr>
 <tr class="separator:a232883ed798bce00a03b09705c67deef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b17818c7916bc2ff75196ff0627b1e9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a2b17818c7916bc2ff75196ff0627b1e9">disable_interrupts</a> (void)</td></tr>
 <tr class="separator:a2b17818c7916bc2ff75196ff0627b1e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a580135f94ed0c4efeb28933097953bcb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a580135f94ed0c4efeb28933097953bcb">vsync</a> (void)</td></tr>
-<tr class="separator:a580135f94ed0c4efeb28933097953bcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a21e24279db2c5866f7d3dac45ce0d633"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a21e24279db2c5866f7d3dac45ce0d633">wait_vbl_done</a> (void)</td></tr>
-<tr class="separator:a21e24279db2c5866f7d3dac45ce0d633"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aacdf9e1bdb75f04b68032b228d23e3e3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#aacdf9e1bdb75f04b68032b228d23e3e3">display_on</a> (void)</td></tr>
-<tr class="separator:aacdf9e1bdb75f04b68032b228d23e3e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afe5714734a8fea7b1617ba377b3c0a06"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#afe5714734a8fea7b1617ba377b3c0a06">display_off</a> (void)</td></tr>
-<tr class="separator:afe5714734a8fea7b1617ba377b3c0a06"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac23dbe69b5ee241af2da4f77bb580fa5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ac23dbe69b5ee241af2da4f77bb580fa5">refresh_OAM</a> (void)</td></tr>
-<tr class="separator:ac23dbe69b5ee241af2da4f77bb580fa5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a041d2aca17a277b0893d1b00766e56ae"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a041d2aca17a277b0893d1b00766e56ae">set_vram_byte</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *addr, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> v) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:a041d2aca17a277b0893d1b00766e56ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abbcda4f1aeab627f991157a05507c341"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#abbcda4f1aeab627f991157a05507c341">get_bkg_xy_addr</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:abbcda4f1aeab627f991157a05507c341"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73b4e18d7f5eaf5398bf0241c9c21586"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a73b4e18d7f5eaf5398bf0241c9c21586">vsync</a> (void) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:a73b4e18d7f5eaf5398bf0241c9c21586"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64538fb78ce148a1a7045245f084a710"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a64538fb78ce148a1a7045245f084a710">wait_vbl_done</a> (void) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:a64538fb78ce148a1a7045245f084a710"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42756a31babdcb4b7e692960a069b13b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a42756a31babdcb4b7e692960a069b13b">display_on</a> (void) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:a42756a31babdcb4b7e692960a069b13b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98aab5a3d75429f9e7861a8100629782"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a98aab5a3d75429f9e7861a8100629782">display_off</a> (void) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:a98aab5a3d75429f9e7861a8100629782"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70802f5e313285aa3ea04b0f73b2700f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a70802f5e313285aa3ea04b0f73b2700f">refresh_OAM</a> (void) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:a70802f5e313285aa3ea04b0f73b2700f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49635449fc261be2481b72d0165f12ad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a49635449fc261be2481b72d0165f12ad">set_vram_byte</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *addr, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> v) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:a49635449fc261be2481b72d0165f12ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa81b3eb2f6ec56d70ccd27c7deae4098"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#aa81b3eb2f6ec56d70ccd27c7deae4098">get_bkg_xy_addr</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:aa81b3eb2f6ec56d70ccd27c7deae4098"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa224c9bac27c7fd268e62bdf33338a84"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#aa224c9bac27c7fd268e62bdf33338a84">set_2bpp_palette</a> (<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> palette)</td></tr>
 <tr class="separator:aa224c9bac27c7fd268e62bdf33338a84"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1f00bd35cd56aac84c108f5a802c3f9c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a1f00bd35cd56aac84c108f5a802c3f9c">set_1bpp_colors_ex</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> fgcolor, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> bgcolor, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#a3ea524204d839377cf39842eec23e202">mode</a>) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:a1f00bd35cd56aac84c108f5a802c3f9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a050b8b27fe6af3efcc17cd804f808d7a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a050b8b27fe6af3efcc17cd804f808d7a">set_1bpp_colors_ex</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> fgcolor, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> bgcolor, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#a3ea524204d839377cf39842eec23e202">mode</a>) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:a050b8b27fe6af3efcc17cd804f808d7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adcb394299a1033616fc7d2faec8bd6ad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#adcb394299a1033616fc7d2faec8bd6ad">set_1bpp_colors</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> fgcolor, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> bgcolor)</td></tr>
 <tr class="separator:adcb394299a1033616fc7d2faec8bd6ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afe26f09c824742428c6435e87d179020"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#afe26f09c824742428c6435e87d179020">set_bkg_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:afe26f09c824742428c6435e87d179020"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad172eeeb14c47791f3656065c5f2ab0f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ad172eeeb14c47791f3656065c5f2ab0f">set_bkg_1bpp_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:ad172eeeb14c47791f3656065c5f2ab0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a349526a46416c9345415532cbf0fac87"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a349526a46416c9345415532cbf0fac87">set_bkg_tiles</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *tiles) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:a349526a46416c9345415532cbf0fac87"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19776bb563b6f64890f9933e67bda7ed"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a19776bb563b6f64890f9933e67bda7ed">set_bkg_attributes_nes16x16</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *attributes) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:a19776bb563b6f64890f9933e67bda7ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8278909fae5ed243e03f8815ac95bab3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a8278909fae5ed243e03f8815ac95bab3">set_bkg_attributes</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *attributes)</td></tr>
+<tr class="memitem:a4eb0e4c6c672efdeb49c3cdba2fa4d4a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a4eb0e4c6c672efdeb49c3cdba2fa4d4a">set_bkg_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:a4eb0e4c6c672efdeb49c3cdba2fa4d4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92d990e45d1cc8e28d98a87b0b9d70ff"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a92d990e45d1cc8e28d98a87b0b9d70ff">set_bkg_1bpp_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:a92d990e45d1cc8e28d98a87b0b9d70ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ab3fa75195d44d8d7e867d4a4cb1131"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a6ab3fa75195d44d8d7e867d4a4cb1131">set_bkg_tiles</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *tiles) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:a6ab3fa75195d44d8d7e867d4a4cb1131"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0254d6e23d4202cb070b1fe54c6a7210"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a0254d6e23d4202cb070b1fe54c6a7210">set_bkg_attributes_nes16x16</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *attributes) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:a0254d6e23d4202cb070b1fe54c6a7210"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8278909fae5ed243e03f8815ac95bab3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a8278909fae5ed243e03f8815ac95bab3">set_bkg_attributes</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *attributes)</td></tr>
 <tr class="separator:a8278909fae5ed243e03f8815ac95bab3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a04f245645e941991e3f8f82eef488847"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a04f245645e941991e3f8f82eef488847">set_bkg_submap_attributes_nes16x16</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *map, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> map_w) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:a04f245645e941991e3f8f82eef488847"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a34490cffc1e857ac41c880b6bca92c4f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a34490cffc1e857ac41c880b6bca92c4f">set_bkg_submap_attributes</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *attributes, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> map_w)</td></tr>
+<tr class="memitem:aadba8b700b97ec97dc9c488496619fd9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#aadba8b700b97ec97dc9c488496619fd9">set_bkg_submap_attributes_nes16x16</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *map, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> map_w) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:aadba8b700b97ec97dc9c488496619fd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34490cffc1e857ac41c880b6bca92c4f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a34490cffc1e857ac41c880b6bca92c4f">set_bkg_submap_attributes</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *attributes, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> map_w)</td></tr>
 <tr class="separator:a34490cffc1e857ac41c880b6bca92c4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a811c386cac0df2d260aacb5a43608be5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a811c386cac0df2d260aacb5a43608be5">set_bkg_based_tiles</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *tiles, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> base_tile)</td></tr>
+<tr class="memitem:a811c386cac0df2d260aacb5a43608be5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a811c386cac0df2d260aacb5a43608be5">set_bkg_based_tiles</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *tiles, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> base_tile)</td></tr>
 <tr class="separator:a811c386cac0df2d260aacb5a43608be5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adb21d1c7d533a7133bab36a845489780"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#adb21d1c7d533a7133bab36a845489780">set_bkg_submap</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *map, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> map_w) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:adb21d1c7d533a7133bab36a845489780"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc8bc5808620a9717263b8c9ec2237f0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#abc8bc5808620a9717263b8c9ec2237f0">set_bkg_based_submap</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *map, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> map_w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> base_tile)</td></tr>
+<tr class="memitem:ac2c9fd8d613ad8ba52227c5a056e56fa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ac2c9fd8d613ad8ba52227c5a056e56fa">set_bkg_submap</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *map, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> map_w) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:ac2c9fd8d613ad8ba52227c5a056e56fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc8bc5808620a9717263b8c9ec2237f0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#abc8bc5808620a9717263b8c9ec2237f0">set_bkg_based_submap</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *map, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> map_w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> base_tile)</td></tr>
 <tr class="separator:abc8bc5808620a9717263b8c9ec2237f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf2374063c8c63b60916f0dbf8255a9c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#adf2374063c8c63b60916f0dbf8255a9c">get_bkg_tiles</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *tiles) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:adf2374063c8c63b60916f0dbf8255a9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8c294fe74e18b5a1b228f3ca7357dee7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a8c294fe74e18b5a1b228f3ca7357dee7">set_bkg_tile_xy</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> t) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:a8c294fe74e18b5a1b228f3ca7357dee7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac9dea209bacf188e54d76cae68034c3b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ac9dea209bacf188e54d76cae68034c3b">set_bkg_attribute_xy_nes16x16</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> a)</td></tr>
-<tr class="separator:ac9dea209bacf188e54d76cae68034c3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8d3e0c6cb1c5687806defef521f8fd2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ab8d3e0c6cb1c5687806defef521f8fd2">get_bkg_tiles</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *tiles) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:ab8d3e0c6cb1c5687806defef521f8fd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31655c4b138654e803e295bd4413759c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a31655c4b138654e803e295bd4413759c">set_bkg_tile_xy</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> t) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:a31655c4b138654e803e295bd4413759c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b7c27e672467f08097f744f3530bbc7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a7b7c27e672467f08097f744f3530bbc7">set_bkg_attribute_xy_nes16x16</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> a) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:a7b7c27e672467f08097f744f3530bbc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7cd23c81062d37753a4429b794907524"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a7cd23c81062d37753a4429b794907524">set_bkg_attribute_xy</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> a)</td></tr>
 <tr class="separator:a7cd23c81062d37753a4429b794907524"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acecd46833168c4d32db97b82bc3388a6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#acecd46833168c4d32db97b82bc3388a6">get_bkg_tile_xy</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:acecd46833168c4d32db97b82bc3388a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adaca04ce3d7213e6d0348196cd592780"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#adaca04ce3d7213e6d0348196cd592780">get_bkg_tile_xy</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:adaca04ce3d7213e6d0348196cd592780"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6261537edc74068e3f7f057e6a3e8a57"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a6261537edc74068e3f7f057e6a3e8a57">move_bkg</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y)</td></tr>
 <tr class="separator:a6261537edc74068e3f7f057e6a3e8a57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1f583f7a880daa6145ca78b086a209d1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a1f583f7a880daa6145ca78b086a209d1">scroll_bkg</a> (<a class="el" href="stdint_8h.html#aef44329758059c91c76d334e8fc09700">int8_t</a> x, <a class="el" href="stdint_8h.html#aef44329758059c91c76d334e8fc09700">int8_t</a> y)</td></tr>
 <tr class="separator:a1f583f7a880daa6145ca78b086a209d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e4e3c89ae9a1c1c118ab8504177f199"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a9e4e3c89ae9a1c1c118ab8504177f199">set_sprite_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:a9e4e3c89ae9a1c1c118ab8504177f199"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac108754c8984bbbb8a31118153d4e760"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ac108754c8984bbbb8a31118153d4e760">set_sprite_1bpp_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:ac108754c8984bbbb8a31118153d4e760"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc0ef4fa6435ca3a1aac93f533eb85da"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#adc0ef4fa6435ca3a1aac93f533eb85da">set_sprite_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:adc0ef4fa6435ca3a1aac93f533eb85da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6372e69db6290fbc0e73244dbe15f903"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a6372e69db6290fbc0e73244dbe15f903">set_sprite_1bpp_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:a6372e69db6290fbc0e73244dbe15f903"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7e0cdfd6b9a2ae1b7f30384f132d8687"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a7e0cdfd6b9a2ae1b7f30384f132d8687">SET_SHADOW_OAM_ADDRESS</a> (void *address)</td></tr>
 <tr class="separator:a7e0cdfd6b9a2ae1b7f30384f132d8687"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a05bf0b9f1328de7b568a19a2a428bcfe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a05bf0b9f1328de7b568a19a2a428bcfe">set_sprite_tile</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> tile)</td></tr>
-<tr class="separator:a05bf0b9f1328de7b568a19a2a428bcfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af5c0beff7d7a7d8641b51fd95c811b2a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#af5c0beff7d7a7d8641b51fd95c811b2a">get_sprite_tile</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb)</td></tr>
-<tr class="separator:af5c0beff7d7a7d8641b51fd95c811b2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a99ea3252469e3614e977cce2aa1d06f7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a99ea3252469e3614e977cce2aa1d06f7">set_sprite_prop</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> prop)</td></tr>
-<tr class="separator:a99ea3252469e3614e977cce2aa1d06f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6b873c807c9e2c90fb574951e85fdf88"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a6b873c807c9e2c90fb574951e85fdf88">get_sprite_prop</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb)</td></tr>
-<tr class="separator:a6b873c807c9e2c90fb574951e85fdf88"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab42c12c1d9aed3fd963248fbea9830cd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ab42c12c1d9aed3fd963248fbea9830cd">move_sprite</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y)</td></tr>
-<tr class="separator:ab42c12c1d9aed3fd963248fbea9830cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c59aa9a4f9ea42bed6ca6940b2741fe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a6c59aa9a4f9ea42bed6ca6940b2741fe">scroll_sprite</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb, <a class="el" href="stdint_8h.html#aef44329758059c91c76d334e8fc09700">int8_t</a> x, <a class="el" href="stdint_8h.html#aef44329758059c91c76d334e8fc09700">int8_t</a> y)</td></tr>
-<tr class="separator:a6c59aa9a4f9ea42bed6ca6940b2741fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad22c51635d052399bbbe1777999c794d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ad22c51635d052399bbbe1777999c794d">hide_sprite</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb)</td></tr>
-<tr class="separator:ad22c51635d052399bbbe1777999c794d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a39071a53e4f4b7986c26138fab0d4182"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a39071a53e4f4b7986c26138fab0d4182">set_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *vram_addr, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data, <a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> len) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:a39071a53e4f4b7986c26138fab0d4182"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6224b2e4b72c062a2bb2959b0aaf860a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a6224b2e4b72c062a2bb2959b0aaf860a">set_tiles</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *vram_addr, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *tiles) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:a6224b2e4b72c062a2bb2959b0aaf860a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d30754c442641bdd882ab595dd77468"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a2d30754c442641bdd882ab595dd77468">set_sprite_tile</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> tile) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:a2d30754c442641bdd882ab595dd77468"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58eab770442930dad603ffba2b5d28f3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a58eab770442930dad603ffba2b5d28f3">get_sprite_tile</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:a58eab770442930dad603ffba2b5d28f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96b6dd8b1dcb44f540baa6093b54154b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a96b6dd8b1dcb44f540baa6093b54154b">set_sprite_prop</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> prop) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:a96b6dd8b1dcb44f540baa6093b54154b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f2058d3fe9c08127fd6f596a5df41c9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a7f2058d3fe9c08127fd6f596a5df41c9">get_sprite_prop</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:a7f2058d3fe9c08127fd6f596a5df41c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e80bb115f7212eb72a5f341fdc408d7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a3e80bb115f7212eb72a5f341fdc408d7">move_sprite</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:a3e80bb115f7212eb72a5f341fdc408d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a552685b6419acf2fa4925a4ab5687be9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a552685b6419acf2fa4925a4ab5687be9">scroll_sprite</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb, <a class="el" href="stdint_8h.html#aef44329758059c91c76d334e8fc09700">int8_t</a> x, <a class="el" href="stdint_8h.html#aef44329758059c91c76d334e8fc09700">int8_t</a> y) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:a552685b6419acf2fa4925a4ab5687be9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92649b68e5fea88d171d933f9a605e50"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a92649b68e5fea88d171d933f9a605e50">hide_sprite</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:a92649b68e5fea88d171d933f9a605e50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1a305a579576715ad2d8f70327265da"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ae1a305a579576715ad2d8f70327265da">set_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *vram_addr, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data, <a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> len) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:ae1a305a579576715ad2d8f70327265da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a399a0430a177e349cc691c5109427c01"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a399a0430a177e349cc691c5109427c01">set_tiles</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *vram_addr, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *tiles) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:a399a0430a177e349cc691c5109427c01"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2539f237ce7da8ff6eb0bad4c8c48a4c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a2539f237ce7da8ff6eb0bad4c8c48a4c">set_tile_data</a> (<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data)</td></tr>
 <tr class="separator:a2539f237ce7da8ff6eb0bad4c8c48a4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acb5c235def5988696724051c5f838e74"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#acb5c235def5988696724051c5f838e74">set_bkg_native_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data)</td></tr>
-<tr class="separator:acb5c235def5988696724051c5f838e74"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa9e3edd5311290cba933c382cf2f5898"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#aa9e3edd5311290cba933c382cf2f5898">set_sprite_native_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data)</td></tr>
-<tr class="separator:aa9e3edd5311290cba933c382cf2f5898"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65860edee9a1a70fe56434dca397819e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a65860edee9a1a70fe56434dca397819e">set_bkg_native_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:a65860edee9a1a70fe56434dca397819e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c4aa6393c42e2d4079b2f922b9b9c84"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a6c4aa6393c42e2d4079b2f922b9b9c84">set_sprite_native_data</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:a6c4aa6393c42e2d4079b2f922b9b9c84"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a68651e50243349b48164a8ad983dca4e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a68651e50243349b48164a8ad983dca4e">set_native_tile_data</a> (<a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a> first_tile, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> nb_tiles, const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> *data)</td></tr>
 <tr class="separator:a68651e50243349b48164a8ad983dca4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad76a59fc3f7f9a33308776dd04f2750a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ad76a59fc3f7f9a33308776dd04f2750a">init_bkg</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#a0b3366755f3276b0243c1e0497471b7a">c</a>) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:ad76a59fc3f7f9a33308776dd04f2750a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b3faccbd50433879557ee0736f3906e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a2b3faccbd50433879557ee0736f3906e">vmemset</a> (void *s, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#a0b3366755f3276b0243c1e0497471b7a">c</a>, <a class="el" href="asm_2mos6502_2types_8h.html#a7c94ea6f8948649f8d181ae55911eeaf">size_t</a> n) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:a2b3faccbd50433879557ee0736f3906e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8c21e725f7de2cb86926c09202a80965"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a8c21e725f7de2cb86926c09202a80965">fill_bkg_rect</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#a1f1dfeb2f802fe99f37fe91867b84456">h</a>, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> tile) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:a8c21e725f7de2cb86926c09202a80965"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a367d476bfb522a81d045fc7509da7134"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a367d476bfb522a81d045fc7509da7134">flush_shadow_attributes</a> (void) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:a367d476bfb522a81d045fc7509da7134"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf417314f63b45c36d04800866911b9f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#adf417314f63b45c36d04800866911b9f">_switch_prg0</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> bank) <a class="el" href="asm_2types_8h.html#a0971918860055db2e50dacea4da8f3bc">OLDCALL</a></td></tr>
-<tr class="separator:adf417314f63b45c36d04800866911b9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4e94bfe39cbe8e1b366d65c13adb464"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ad4e94bfe39cbe8e1b366d65c13adb464">init_bkg</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#a0b3366755f3276b0243c1e0497471b7a">c</a>) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:ad4e94bfe39cbe8e1b366d65c13adb464"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b8cf9f9482d5292459ad81d2ef78840"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a2b8cf9f9482d5292459ad81d2ef78840">vmemset</a> (void *s, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#a0b3366755f3276b0243c1e0497471b7a">c</a>, <a class="el" href="asm_2mos6502_2types_8h.html#a7c94ea6f8948649f8d181ae55911eeaf">size_t</a> n) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:a2b8cf9f9482d5292459ad81d2ef78840"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6879d813b6105ff8d9b36ec55c26a36e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a6879d813b6105ff8d9b36ec55c26a36e">fill_bkg_rect</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> x, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> y, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> w, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> <a class="el" href="sms_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> tile) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:a6879d813b6105ff8d9b36ec55c26a36e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01ad58154ff5a51a439ffdd1bafe92c5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a01ad58154ff5a51a439ffdd1bafe92c5">flush_shadow_attributes</a> (void) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:a01ad58154ff5a51a439ffdd1bafe92c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d6c7ed0155e52b62936a04f6d98715d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a7d6c7ed0155e52b62936a04f6d98715d">_switch_prg0</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> bank) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:a7d6c7ed0155e52b62936a04f6d98715d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
+<tr class="memitem:a78fd7730ed37db84f52bcfc9ff41873f"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a78fd7730ed37db84f52bcfc9ff41873f">_SYSTEM</a></td></tr>
+<tr class="separator:a78fd7730ed37db84f52bcfc9ff41873f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a78d2fd18666afec116f176d46debb4e7"><td class="memItemLeft" align="right" valign="top">volatile <a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a78d2fd18666afec116f176d46debb4e7">sys_time</a></td></tr>
 <tr class="separator:a78d2fd18666afec116f176d46debb4e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a06bab3f8bce032de0d21fbd86e14c3f3"><td class="memItemLeft" align="right" valign="top">volatile <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a06bab3f8bce032de0d21fbd86e14c3f3">_current_bank</a></td></tr>
@@ -452,6 +470,76 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a1e73068b3ffdb8436eaa3362f104ba74"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e73068b3ffdb8436eaa3362f104ba74">&#9670;&nbsp;</a></span>SYSTEM_BITS_NTSC</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SYSTEM_BITS_NTSC&#160;&#160;&#160;0x00</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a599f3df346be94f25498749e2442bde8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a599f3df346be94f25498749e2442bde8">&#9670;&nbsp;</a></span>SYSTEM_BITS_PAL</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SYSTEM_BITS_PAL&#160;&#160;&#160;0x40</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa370f208d677a232346ddf00a8ef7243"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa370f208d677a232346ddf00a8ef7243">&#9670;&nbsp;</a></span>SYSTEM_BITS_DENDY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SYSTEM_BITS_DENDY&#160;&#160;&#160;0x80</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a99bca2df4c6fde16a659797b4e584036"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99bca2df4c6fde16a659797b4e584036">&#9670;&nbsp;</a></span>SYSTEM_60HZ</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SYSTEM_60HZ&#160;&#160;&#160;0x00</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad6329c19927cf02579e2503e40c0bbde"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6329c19927cf02579e2503e40c0bbde">&#9670;&nbsp;</a></span>SYSTEM_50HZ</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SYSTEM_50HZ&#160;&#160;&#160;0x01</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a4a118ad3ee36468a3fa616977a64864e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4a118ad3ee36468a3fa616977a64864e">&#9670;&nbsp;</a></span>RGB</h2>
 
@@ -474,12 +562,12 @@ Variables</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>&#160;</td>
+          <td class="paramname"><a class="el" href="sms_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>&#160;</td>
         </tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;<a class="el" href="rgb__to__nes__macro_8h.html#aa83d79eaa6230c94a1326b9f88d6b0ad">RGB_TO_NES</a>(((r) | ((g) &lt;&lt; 2) | ((<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>) &lt;&lt; 4)))</td>
+          <td></td><td>&#160;&#160;&#160;<a class="el" href="rgb__to__nes__macro_8h.html#aa83d79eaa6230c94a1326b9f88d6b0ad">RGB_TO_NES</a>(((r) | ((g) &lt;&lt; 2) | ((<a class="el" href="sms_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>) &lt;&lt; 4)))</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -508,12 +596,12 @@ Variables</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>&#160;</td>
+          <td class="paramname"><a class="el" href="sms_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>&#160;</td>
         </tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;<a class="el" href="rgb__to__nes__macro_8h.html#aa83d79eaa6230c94a1326b9f88d6b0ad">RGB_TO_NES</a>((((r) &gt;&gt; 6) | (((g) &gt;&gt; 6) &lt;&lt; 2) | (((<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>) &gt;&gt; 6) &lt;&lt; 4)))</td>
+          <td></td><td>&#160;&#160;&#160;<a class="el" href="rgb__to__nes__macro_8h.html#aa83d79eaa6230c94a1326b9f88d6b0ad">RGB_TO_NES</a>((((r) &gt;&gt; 6) | (((g) &gt;&gt; 6) &lt;&lt; 2) | (((<a class="el" href="sms_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>) &gt;&gt; 6) &lt;&lt; 4)))</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -771,13 +859,13 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define J_UP&#160;&#160;&#160;0x10U</td>
+          <td class="memname">#define J_UP&#160;&#160;&#160;0x08U</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p>Joypad bits. A logical OR of these is used in the wait_pad and joypad functions. For example, to see if the B button is pressed try</p>
-<p>uint8_t keys; keys = <a class="el" href="nes_8h.html#a2aa5c3d5a75dc85e842b23b683024027">joypad()</a>; if (keys &amp; J_B) { ... }</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a2aa5c3d5a75dc85e842b23b683024027">joypad</a> </dd></dl>
+<p>uint8_t keys; keys = <a class="el" href="nes_8h.html#a8feed006393f8c8c070b2d29d91ec8aa">joypad()</a>; if (keys &amp; J_B) { ... }</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a8feed006393f8c8c070b2d29d91ec8aa">joypad</a> </dd></dl>
 
 </div>
 </div>
@@ -788,7 +876,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define J_DOWN&#160;&#160;&#160;0x20U</td>
+          <td class="memname">#define J_DOWN&#160;&#160;&#160;0x04U</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -802,7 +890,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define J_LEFT&#160;&#160;&#160;0x40U</td>
+          <td class="memname">#define J_LEFT&#160;&#160;&#160;0x02U</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -816,7 +904,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define J_RIGHT&#160;&#160;&#160;0x80U</td>
+          <td class="memname">#define J_RIGHT&#160;&#160;&#160;0x01U</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -830,7 +918,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define J_A&#160;&#160;&#160;0x01U</td>
+          <td class="memname">#define J_A&#160;&#160;&#160;0x80U</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -844,7 +932,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define J_B&#160;&#160;&#160;0x02U</td>
+          <td class="memname">#define J_B&#160;&#160;&#160;0x40U</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -858,7 +946,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define J_SELECT&#160;&#160;&#160;0x04U</td>
+          <td class="memname">#define J_SELECT&#160;&#160;&#160;0x20U</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -872,7 +960,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define J_START&#160;&#160;&#160;0x08U</td>
+          <td class="memname">#define J_START&#160;&#160;&#160;0x10U</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -890,7 +978,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Screen modes. Normally used by internal functions only. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a3ea524204d839377cf39842eec23e202">mode()</a> </dd></dl>
+<p>Screen modes. Normally used by internal functions only. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#ade75173639b6e7be241b8eb31fe825ef">mode()</a> </dd></dl>
 
 </div>
 </div>
@@ -934,7 +1022,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Set this in addition to the others to disable scrolling</p>
-<p>If scrolling is disabled, the cursor returns to (0,0) </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a3ea524204d839377cf39842eec23e202">mode()</a> </dd></dl>
+<p>If scrolling is disabled, the cursor returns to (0,0) </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#ade75173639b6e7be241b8eb31fe825ef">mode()</a> </dd></dl>
 
 </div>
 </div>
@@ -949,7 +1037,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Set this to disable interpretation </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a3ea524204d839377cf39842eec23e202">mode()</a> </dd></dl>
+<p>Set this to disable interpretation </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#ade75173639b6e7be241b8eb31fe825ef">mode()</a> </dd></dl>
 
 </div>
 </div>
@@ -964,7 +1052,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>If this is set, sprite colours come from OBJ1PAL. Else they come from OBJ0PAL </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a99ea3252469e3614e977cce2aa1d06f7">set_sprite_prop()</a>. </dd></dl>
+<p>If this is set, sprite colours come from OBJ1PAL. Else they come from OBJ0PAL </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a96b6dd8b1dcb44f540baa6093b54154b">set_sprite_prop()</a>. </dd></dl>
 
 </div>
 </div>
@@ -979,7 +1067,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>If set the sprite will be flipped horizontally. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a99ea3252469e3614e977cce2aa1d06f7">set_sprite_prop()</a> </dd></dl>
+<p>If set the sprite will be flipped horizontally. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a96b6dd8b1dcb44f540baa6093b54154b">set_sprite_prop()</a> </dd></dl>
 
 </div>
 </div>
@@ -994,7 +1082,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>If set the sprite will be flipped vertically. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a99ea3252469e3614e977cce2aa1d06f7">set_sprite_prop()</a> </dd></dl>
+<p>If set the sprite will be flipped vertically. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a96b6dd8b1dcb44f540baa6093b54154b">set_sprite_prop()</a> </dd></dl>
 
 </div>
 </div>
@@ -1009,7 +1097,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>If this bit is clear, then the sprite will be displayed on top of the background and window. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a99ea3252469e3614e977cce2aa1d06f7">set_sprite_prop()</a> </dd></dl>
+<p>If this bit is clear, then the sprite will be displayed on top of the background and window. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a96b6dd8b1dcb44f540baa6093b54154b">set_sprite_prop()</a> </dd></dl>
 
 </div>
 </div>
@@ -1137,11 +1225,11 @@ Variables</h2></td></tr>
 </dl>
 <p>The resulting format is four greyscale colors packed into a single unsigned byte.</p>
 <p>Example: </p><div class="fragment"><div class="line">REG_BGP = <a class="code" href="gb_8h.html#a9727caafc483ba6ec65e9344b033d684">DMG_PALETTE</a>(<a class="code" href="gb_8h.html#ab311e53739c992294ae07ca506a924ad">DMG_BLACK</a>, <a class="code" href="gb_8h.html#a45d13a674e169dd83df7e1f46513ccba">DMG_DARK_GRAY</a>, <a class="code" href="gb_8h.html#a8ccd6732d3bdf390cc0943e8567341f3">DMG_LITE_GRAY</a>, <a class="code" href="gb_8h.html#a11cedc2ee58acfbbfc48dfb2b9a551b3">DMG_WHITE</a>);</div>
-<div class="ttc" id="agb_8h_html_a11cedc2ee58acfbbfc48dfb2b9a551b3"><div class="ttname"><a href="gb_8h.html#a11cedc2ee58acfbbfc48dfb2b9a551b3">DMG_WHITE</a></div><div class="ttdeci">#define DMG_WHITE</div><div class="ttdef"><b>Definition:</b> gb.h:131</div></div>
-<div class="ttc" id="agb_8h_html_a45d13a674e169dd83df7e1f46513ccba"><div class="ttname"><a href="gb_8h.html#a45d13a674e169dd83df7e1f46513ccba">DMG_DARK_GRAY</a></div><div class="ttdeci">#define DMG_DARK_GRAY</div><div class="ttdef"><b>Definition:</b> gb.h:129</div></div>
-<div class="ttc" id="agb_8h_html_a8ccd6732d3bdf390cc0943e8567341f3"><div class="ttname"><a href="gb_8h.html#a8ccd6732d3bdf390cc0943e8567341f3">DMG_LITE_GRAY</a></div><div class="ttdeci">#define DMG_LITE_GRAY</div><div class="ttdef"><b>Definition:</b> gb.h:130</div></div>
-<div class="ttc" id="agb_8h_html_a9727caafc483ba6ec65e9344b033d684"><div class="ttname"><a href="gb_8h.html#a9727caafc483ba6ec65e9344b033d684">DMG_PALETTE</a></div><div class="ttdeci">#define DMG_PALETTE(C0, C1, C2, C3)</div><div class="ttdef"><b>Definition:</b> gb.h:151</div></div>
-<div class="ttc" id="agb_8h_html_ab311e53739c992294ae07ca506a924ad"><div class="ttname"><a href="gb_8h.html#ab311e53739c992294ae07ca506a924ad">DMG_BLACK</a></div><div class="ttdeci">#define DMG_BLACK</div><div class="ttdef"><b>Definition:</b> gb.h:128</div></div>
+<div class="ttc" id="agb_8h_html_a11cedc2ee58acfbbfc48dfb2b9a551b3"><div class="ttname"><a href="gb_8h.html#a11cedc2ee58acfbbfc48dfb2b9a551b3">DMG_WHITE</a></div><div class="ttdeci">#define DMG_WHITE</div><div class="ttdef"><b>Definition:</b> gb.h:139</div></div>
+<div class="ttc" id="agb_8h_html_a45d13a674e169dd83df7e1f46513ccba"><div class="ttname"><a href="gb_8h.html#a45d13a674e169dd83df7e1f46513ccba">DMG_DARK_GRAY</a></div><div class="ttdeci">#define DMG_DARK_GRAY</div><div class="ttdef"><b>Definition:</b> gb.h:137</div></div>
+<div class="ttc" id="agb_8h_html_a8ccd6732d3bdf390cc0943e8567341f3"><div class="ttname"><a href="gb_8h.html#a8ccd6732d3bdf390cc0943e8567341f3">DMG_LITE_GRAY</a></div><div class="ttdeci">#define DMG_LITE_GRAY</div><div class="ttdef"><b>Definition:</b> gb.h:138</div></div>
+<div class="ttc" id="agb_8h_html_a9727caafc483ba6ec65e9344b033d684"><div class="ttname"><a href="gb_8h.html#a9727caafc483ba6ec65e9344b033d684">DMG_PALETTE</a></div><div class="ttdeci">#define DMG_PALETTE(C0, C1, C2, C3)</div><div class="ttdef"><b>Definition:</b> gb.h:159</div></div>
+<div class="ttc" id="agb_8h_html_ab311e53739c992294ae07ca506a924ad"><div class="ttname"><a href="gb_8h.html#ab311e53739c992294ae07ca506a924ad">DMG_BLACK</a></div><div class="ttdeci">#define DMG_BLACK</div><div class="ttdef"><b>Definition:</b> gb.h:136</div></div>
 </div><!-- fragment --><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_2hardware_8h.html#a13f3e89f7b92258d825292e5058815c7">OBP0_REG</a>, <a class="el" href="gb_2hardware_8h.html#a9da545164e049ef773128f869daece13">OBP1_REG</a>, <a class="el" href="gb_2hardware_8h.html#af577ba87ec3d13d7415e4c4a53cdf997">BGP_REG</a> </dd>
 <dd>
 <a class="el" href="nes_8h.html#ab311e53739c992294ae07ca506a924ad">DMG_BLACK</a>, <a class="el" href="nes_8h.html#a45d13a674e169dd83df7e1f46513ccba">DMG_DARK_GRAY</a>, <a class="el" href="nes_8h.html#a8ccd6732d3bdf390cc0943e8567341f3">DMG_LITE_GRAY</a>, <a class="el" href="nes_8h.html#a11cedc2ee58acfbbfc48dfb2b9a551b3">DMG_WHITE</a> </dd></dl>
@@ -1175,6 +1263,21 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Height of the visible screen in pixels. </p>
+
+</div>
+</div>
+<a id="a00573fe55b0f1e2dd03b9647dfe15636"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00573fe55b0f1e2dd03b9647dfe15636">&#9670;&nbsp;</a></span>MAX_LCD_ISR_CALLS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MAX_LCD_ISR_CALLS&#160;&#160;&#160;4</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The maximum number of times the LCD handler will be called per frame. </p>
 
 </div>
 </div>
@@ -1291,7 +1394,7 @@ Variables</h2></td></tr>
           <td class="memname">#define SWITCH_ROM_DUMMY</td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td><td>)</td>
+          <td class="paramname"><a class="el" href="sms_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1315,8 +1418,8 @@ Variables</h2></td></tr>
           <td class="memname">#define SWITCH_ROM_UNROM</td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="nes_8h.html#adf417314f63b45c36d04800866911b9f">_switch_prg0</a>(<a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>)</td>
+          <td class="paramname"><a class="el" href="sms_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td><td>)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="nes_8h.html#a7d6c7ed0155e52b62936a04f6d98715d">_switch_prg0</a>(<a class="el" href="sms_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1360,7 +1463,7 @@ Variables</h2></td></tr>
           <td class="memname">#define SWITCH_RAM</td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><a class="el" href="gb_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td><td>)</td>
+          <td class="paramname"><a class="el" href="sms_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td><td>)</td>
           <td>&#160;&#160;&#160;0</td>
         </tr>
       </table>
@@ -1411,11 +1514,11 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define DISPLAY_ON&#160;&#160;&#160;  <a class="el" href="nes_8h.html#aacdf9e1bdb75f04b68032b228d23e3e3">display_on</a>();</td>
+          <td class="memname">#define DISPLAY_ON&#160;&#160;&#160;  <a class="el" href="nes_8h.html#a42756a31babdcb4b7e692960a069b13b">display_on</a>();</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Turns the display back on. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#afe5714734a8fea7b1617ba377b3c0a06">display_off</a>, <a class="el" href="nes_8h.html#ad2ec9831813c5e7069917aa4455af682">DISPLAY_OFF</a> </dd></dl>
+<p>Turns the display back on. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a98aab5a3d75429f9e7861a8100629782">display_off</a>, <a class="el" href="nes_8h.html#ad2ec9831813c5e7069917aa4455af682">DISPLAY_OFF</a> </dd></dl>
 
 </div>
 </div>
@@ -1430,7 +1533,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Turns the display off immediately. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#afe5714734a8fea7b1617ba377b3c0a06">display_off</a>, <a class="el" href="nes_8h.html#a5ae6b05b3e1559c97f0d1b2daaaa0ee4">DISPLAY_ON</a> </dd></dl>
+<p>Turns the display off immediately. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a98aab5a3d75429f9e7861a8100629782">display_off</a>, <a class="el" href="nes_8h.html#a5ae6b05b3e1559c97f0d1b2daaaa0ee4">DISPLAY_ON</a> </dd></dl>
 
 </div>
 </div>
@@ -1461,6 +1564,25 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Shows leftmost column </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a0659212acd317ccdebc0ecf435df330f">HIDE_LEFT_COLUMN</a> </dd></dl>
+
+</div>
+</div>
+<a id="a3f3f7bd5879b807acbb203ce2aaa1e5d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f3f7bd5879b807acbb203ce2aaa1e5d">&#9670;&nbsp;</a></span>SET_BORDER_COLOR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SET_BORDER_COLOR</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">C</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Does nothing for NES not implemented yet </p>
 
 </div>
 </div>
@@ -1615,7 +1737,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define set_tile_map&#160;&#160;&#160;<a class="el" href="nes_8h.html#a349526a46416c9345415532cbf0fac87">set_bkg_tiles</a></td>
+          <td class="memname">#define set_tile_map&#160;&#160;&#160;<a class="el" href="nes_8h.html#a6ab3fa75195d44d8d7e867d4a4cb1131">set_bkg_tiles</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1643,7 +1765,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define set_tile_xy&#160;&#160;&#160;<a class="el" href="nes_8h.html#a8c294fe74e18b5a1b228f3ca7357dee7">set_bkg_tile_xy</a></td>
+          <td class="memname">#define set_tile_xy&#160;&#160;&#160;<a class="el" href="nes_8h.html#a31655c4b138654e803e295bd4413759c">set_bkg_tile_xy</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1788,7 +1910,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define fill_rect&#160;&#160;&#160;<a class="el" href="nes_8h.html#a8c21e725f7de2cb86926c09202a80965">fill_bkg_rect</a></td>
+          <td class="memname">#define fill_rect&#160;&#160;&#160;<a class="el" href="nes_8h.html#a6879d813b6105ff8d9b36ec55c26a36e">fill_bkg_rect</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1849,8 +1971,8 @@ Variables</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a11902cb1c4de48a1992f5cd595c1da38"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a11902cb1c4de48a1992f5cd595c1da38">&#9670;&nbsp;</a></span>set_bkg_palette()</h2>
+<a id="ab38fda7bad70c80c390aa7017c48b405"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab38fda7bad70c80c390aa7017c48b405">&#9670;&nbsp;</a></span>set_bkg_palette()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1883,8 +2005,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a70244637bddfbb327c9684455fa8ffa6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a70244637bddfbb327c9684455fa8ffa6">&#9670;&nbsp;</a></span>set_sprite_palette()</h2>
+<a id="a7c75cb6992e73971f24cee46aa31184b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c75cb6992e73971f24cee46aa31184b">&#9670;&nbsp;</a></span>set_sprite_palette()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1917,8 +2039,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="adfaa20c59f6c2cd94d9e9047f34c1719"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adfaa20c59f6c2cd94d9e9047f34c1719">&#9670;&nbsp;</a></span>set_bkg_palette_entry()</h2>
+<a id="aaca025055febe9f4c605bfac12812d0e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaca025055febe9f4c605bfac12812d0e">&#9670;&nbsp;</a></span>set_bkg_palette_entry()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1951,8 +2073,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="aaf51ac64e2ff2d20a9c6d65091d76d7f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaf51ac64e2ff2d20a9c6d65091d76d7f">&#9670;&nbsp;</a></span>set_sprite_palette_entry()</h2>
+<a id="ad2adcd1b3390b43cdade1b73d95123a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2adcd1b3390b43cdade1b73d95123a0">&#9670;&nbsp;</a></span>set_sprite_palette_entry()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1985,8 +2107,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="ac6b62210da8713ab1fca7cb3ff6e80c5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac6b62210da8713ab1fca7cb3ff6e80c5">&#9670;&nbsp;</a></span>remove_VBL()</h2>
+<a id="a5cc6bac1f2f0e9f71c7826a3ee8f35d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5cc6bac1f2f0e9f71c7826a3ee8f35d0">&#9670;&nbsp;</a></span>remove_VBL()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2007,8 +2129,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a67ef797ca230a941c1cc0c580720327b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a67ef797ca230a941c1cc0c580720327b">&#9670;&nbsp;</a></span>remove_LCD()</h2>
+<a id="aca7413d0441f3ce1f30cca15ce4678ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca7413d0441f3ce1f30cca15ce4678ab">&#9670;&nbsp;</a></span>remove_LCD()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2022,12 +2144,12 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Removes the LCD interrupt handler. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#ae2dae907ea199eee9abb0eb4b831778f">add_LCD()</a>, <a class="el" href="nes_8h.html#ac6b62210da8713ab1fca7cb3ff6e80c5">remove_VBL()</a> </dd></dl>
+<p>Removes the LCD interrupt handler. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#ad572dce0c703ed78eadcf5cd6cce7dd2">add_LCD()</a>, <a class="el" href="nes_8h.html#a5cc6bac1f2f0e9f71c7826a3ee8f35d0">remove_VBL()</a> </dd></dl>
 
 </div>
 </div>
-<a id="a83bce4c8764eddefd9ab8af88669065e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a83bce4c8764eddefd9ab8af88669065e">&#9670;&nbsp;</a></span>add_VBL()</h2>
+<a id="a44e3fc6c86253db08fa99fdc448b1df0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a44e3fc6c86253db08fa99fdc448b1df0">&#9670;&nbsp;</a></span>add_VBL()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2059,8 +2181,8 @@ On the current NES implementation, this handler is actually faked, and called be
 
 </div>
 </div>
-<a id="ae2dae907ea199eee9abb0eb4b831778f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae2dae907ea199eee9abb0eb4b831778f">&#9670;&nbsp;</a></span>add_LCD()</h2>
+<a id="ad572dce0c703ed78eadcf5cd6cce7dd2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad572dce0c703ed78eadcf5cd6cce7dd2">&#9670;&nbsp;</a></span>add_LCD()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2086,8 +2208,8 @@ On the current NES implementation, this handler is actually faked, and called be
 
 </div>
 </div>
-<a id="a3ea524204d839377cf39842eec23e202"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3ea524204d839377cf39842eec23e202">&#9670;&nbsp;</a></span>mode()</h2>
+<a id="ade75173639b6e7be241b8eb31fe825ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade75173639b6e7be241b8eb31fe825ef">&#9670;&nbsp;</a></span>mode()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2107,8 +2229,8 @@ On the current NES implementation, this handler is actually faked, and called be
 
 </div>
 </div>
-<a id="a6f49bc517509dbff3b7f8fae4373b1f0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6f49bc517509dbff3b7f8fae4373b1f0">&#9670;&nbsp;</a></span>get_mode()</h2>
+<a id="abac3c04dc3c056618aca0a0052f2cb93"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abac3c04dc3c056618aca0a0052f2cb93">&#9670;&nbsp;</a></span>get_mode()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2127,8 +2249,35 @@ On the current NES implementation, this handler is actually faked, and called be
 
 </div>
 </div>
-<a id="a2afae202a1f8ca59a12a6455bb909c5d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2afae202a1f8ca59a12a6455bb909c5d">&#9670;&nbsp;</a></span>delay()</h2>
+<a id="a4093fb5f45f807fe8d4a45121f3fffc5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4093fb5f45f807fe8d4a45121f3fffc5">&#9670;&nbsp;</a></span>get_system()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> get_system </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Returns the system gbdk is running on. </p>
+
+</div>
+</div>
+<a id="a206e8e54468237daed636cad12a70055"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a206e8e54468237daed636cad12a70055">&#9670;&nbsp;</a></span>delay()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2146,8 +2295,8 @@ On the current NES implementation, this handler is actually faked, and called be
 
 </div>
 </div>
-<a id="a2aa5c3d5a75dc85e842b23b683024027"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2aa5c3d5a75dc85e842b23b683024027">&#9670;&nbsp;</a></span>joypad()</h2>
+<a id="a8feed006393f8c8c070b2d29d91ec8aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8feed006393f8c8c070b2d29d91ec8aa">&#9670;&nbsp;</a></span>joypad()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2171,8 +2320,8 @@ On the current NES implementation, this handler is actually faked, and called be
 
 </div>
 </div>
-<a id="af068fcd54cfae7c070d6caf97b2c6ff2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af068fcd54cfae7c070d6caf97b2c6ff2">&#9670;&nbsp;</a></span>waitpad()</h2>
+<a id="a0029224262fa919f42f3337c298bda10"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0029224262fa919f42f3337c298bda10">&#9670;&nbsp;</a></span>waitpad()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2207,8 +2356,8 @@ On the current NES implementation, this handler is actually faked, and called be
 
 </div>
 </div>
-<a id="a1edeb3f3e504ca924b475711f6e3b652"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1edeb3f3e504ca924b475711f6e3b652">&#9670;&nbsp;</a></span>waitpadup()</h2>
+<a id="ae192e07aabd7c8b822db52c9bc1e542d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae192e07aabd7c8b822db52c9bc1e542d">&#9670;&nbsp;</a></span>waitpadup()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2230,8 +2379,8 @@ On the current NES implementation, this handler is actually faked, and called be
 
 </div>
 </div>
-<a id="ab7e35e1eff44ed78ad8f0015c6e85b4e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab7e35e1eff44ed78ad8f0015c6e85b4e">&#9670;&nbsp;</a></span>joypad_init()</h2>
+<a id="a54e98484026ce279ea5d3d0d7a3fb87a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54e98484026ce279ea5d3d0d7a3fb87a">&#9670;&nbsp;</a></span>joypad_init()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2263,12 +2412,12 @@ On the current NES implementation, this handler is actually faked, and called be
   </dd>
 </dl>
 <p>Only required for <a class="el" href="sms_8h.html#a1d45c65829490c5ec98362f5e60edc20">joypad_ex</a>, not required for calls to regular <a class="el" href="gb_8h.html#a4344fefd260763e12703138066841b19">joypad()</a> </p><dl class="section return"><dt>Returns</dt><dd>number of joypads avaliable </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#aa9a551f91f4b583ddff265e922b0574a">joypad_ex()</a>, <a class="el" href="structjoypads__t.html">joypads_t</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#af3ee931a6c78c8716cadfedd9f627b6e">joypad_ex()</a>, <a class="el" href="structjoypads__t.html">joypads_t</a> </dd></dl>
 
 </div>
 </div>
-<a id="aa9a551f91f4b583ddff265e922b0574a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa9a551f91f4b583ddff265e922b0574a">&#9670;&nbsp;</a></span>joypad_ex()</h2>
+<a id="af3ee931a6c78c8716cadfedd9f627b6e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3ee931a6c78c8716cadfedd9f627b6e">&#9670;&nbsp;</a></span>joypad_ex()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2355,13 +2504,13 @@ On the current NES implementation, this handler is actually faked, and called be
 </div><div class="memdoc">
 <p>Disables interrupts</p>
 <dl class="section note"><dt>Note</dt><dd>Use <a class="el" href="asm_2types_8h.html#ae0233515480e60d29bcc731469976e02">CRITICAL</a> {...} instead for creating a block of of code which should execute with interrupts temporarily turned off.</dd></dl>
-<p>This function may be called as many times as you like; however the first call to <a class="el" href="nes_8h.html#a232883ed798bce00a03b09705c67deef">enable_interrupts</a> will re-enable them.</p>
+<p>This function may be called as many times as you like; however the first call to <a class="el" href="sms_8h.html#aad3a9797fd6d216671b5bbaccd8a4916">enable_interrupts</a> will re-enable them.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a232883ed798bce00a03b09705c67deef">enable_interrupts</a>, <a class="el" href="sms_8h.html#aefda0091b2934571a11e07b512735f50">set_interrupts</a>, <a class="el" href="asm_2types_8h.html#ae0233515480e60d29bcc731469976e02">CRITICAL</a> </dd></dl>
 
 </div>
 </div>
-<a id="a580135f94ed0c4efeb28933097953bcb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a580135f94ed0c4efeb28933097953bcb">&#9670;&nbsp;</a></span>vsync()</h2>
+<a id="a73b4e18d7f5eaf5398bf0241c9c21586"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73b4e18d7f5eaf5398bf0241c9c21586">&#9670;&nbsp;</a></span>vsync()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2387,8 +2536,8 @@ On the current NES implementation, this handler is actually faked, and called be
 
 </div>
 </div>
-<a id="a21e24279db2c5866f7d3dac45ce0d633"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a21e24279db2c5866f7d3dac45ce0d633">&#9670;&nbsp;</a></span>wait_vbl_done()</h2>
+<a id="a64538fb78ce148a1a7045245f084a710"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64538fb78ce148a1a7045245f084a710">&#9670;&nbsp;</a></span>wait_vbl_done()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2402,12 +2551,12 @@ On the current NES implementation, this handler is actually faked, and called be
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Obsolete. This function has been replaced by <a class="el" href="nes_8h.html#a580135f94ed0c4efeb28933097953bcb">vsync()</a>, which has identical behavior. </p>
+<p>Obsolete. This function has been replaced by <a class="el" href="nes_8h.html#a73b4e18d7f5eaf5398bf0241c9c21586">vsync()</a>, which has identical behavior. </p>
 
 </div>
 </div>
-<a id="aacdf9e1bdb75f04b68032b228d23e3e3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aacdf9e1bdb75f04b68032b228d23e3e3">&#9670;&nbsp;</a></span>display_on()</h2>
+<a id="a42756a31babdcb4b7e692960a069b13b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42756a31babdcb4b7e692960a069b13b">&#9670;&nbsp;</a></span>display_on()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2426,8 +2575,8 @@ On the current NES implementation, this handler is actually faked, and called be
 
 </div>
 </div>
-<a id="afe5714734a8fea7b1617ba377b3c0a06"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afe5714734a8fea7b1617ba377b3c0a06">&#9670;&nbsp;</a></span>display_off()</h2>
+<a id="a98aab5a3d75429f9e7861a8100629782"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98aab5a3d75429f9e7861a8100629782">&#9670;&nbsp;</a></span>display_off()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2449,15 +2598,16 @@ On the current NES implementation, this handler is actually faked, and called be
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Turns the display off immediately. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="msx_8h.html#a5ae6b05b3e1559c97f0d1b2daaaa0ee4">DISPLAY_ON</a></dd></dl>
 <p>Turns the display off.</p>
-<p>Waits until the VBL interrupt before turning the display off. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="msx_8h.html#a5ae6b05b3e1559c97f0d1b2daaaa0ee4">DISPLAY_ON</a></dd></dl>
+<p>Waits until the VBL before turning the display off. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="msx_8h.html#a5ae6b05b3e1559c97f0d1b2daaaa0ee4">DISPLAY_ON</a></dd></dl>
 <p>Turns the display off.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="msx_8h.html#a5ae6b05b3e1559c97f0d1b2daaaa0ee4">DISPLAY_ON</a> </dd></dl>
 
 </div>
 </div>
-<a id="ac23dbe69b5ee241af2da4f77bb580fa5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac23dbe69b5ee241af2da4f77bb580fa5">&#9670;&nbsp;</a></span>refresh_OAM()</h2>
+<a id="a70802f5e313285aa3ea04b0f73b2700f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70802f5e313285aa3ea04b0f73b2700f">&#9670;&nbsp;</a></span>refresh_OAM()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2475,8 +2625,8 @@ On the current NES implementation, this handler is actually faked, and called be
 
 </div>
 </div>
-<a id="a041d2aca17a277b0893d1b00766e56ae"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a041d2aca17a277b0893d1b00766e56ae">&#9670;&nbsp;</a></span>set_vram_byte()</h2>
+<a id="a49635449fc261be2481b72d0165f12ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49635449fc261be2481b72d0165f12ad">&#9670;&nbsp;</a></span>set_vram_byte()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2511,8 +2661,8 @@ On the current NES implementation, this handler is actually faked, and called be
 
 </div>
 </div>
-<a id="abbcda4f1aeab627f991157a05507c341"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abbcda4f1aeab627f991157a05507c341">&#9670;&nbsp;</a></span>get_bkg_xy_addr()</h2>
+<a id="aa81b3eb2f6ec56d70ccd27c7deae4098"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa81b3eb2f6ec56d70ccd27c7deae4098">&#9670;&nbsp;</a></span>get_bkg_xy_addr()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2567,8 +2717,8 @@ On the current NES implementation, this handler is actually faked, and called be
 
 </div>
 </div>
-<a id="a1f00bd35cd56aac84c108f5a802c3f9c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1f00bd35cd56aac84c108f5a802c3f9c">&#9670;&nbsp;</a></span>set_1bpp_colors_ex()</h2>
+<a id="a050b8b27fe6af3efcc17cd804f808d7a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a050b8b27fe6af3efcc17cd804f808d7a">&#9670;&nbsp;</a></span>set_1bpp_colors_ex()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2637,8 +2787,8 @@ On the current NES implementation, this handler is actually faked, and called be
 
 </div>
 </div>
-<a id="afe26f09c824742428c6435e87d179020"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afe26f09c824742428c6435e87d179020">&#9670;&nbsp;</a></span>set_bkg_data()</h2>
+<a id="a4eb0e4c6c672efdeb49c3cdba2fa4d4a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4eb0e4c6c672efdeb49c3cdba2fa4d4a">&#9670;&nbsp;</a></span>set_bkg_data()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2691,8 +2841,8 @@ On the current NES implementation, this handler is actually faked, and called be
 
 </div>
 </div>
-<a id="ad172eeeb14c47791f3656065c5f2ab0f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad172eeeb14c47791f3656065c5f2ab0f">&#9670;&nbsp;</a></span>set_bkg_1bpp_data()</h2>
+<a id="a92d990e45d1cc8e28d98a87b0b9d70ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92d990e45d1cc8e28d98a87b0b9d70ff">&#9670;&nbsp;</a></span>set_bkg_1bpp_data()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2750,8 +2900,8 @@ On the current NES implementation, this handler is actually faked, and called be
 
 </div>
 </div>
-<a id="a349526a46416c9345415532cbf0fac87"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a349526a46416c9345415532cbf0fac87">&#9670;&nbsp;</a></span>set_bkg_tiles()</h2>
+<a id="a6ab3fa75195d44d8d7e867d4a4cb1131"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ab3fa75195d44d8d7e867d4a4cb1131">&#9670;&nbsp;</a></span>set_bkg_tiles()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2852,8 +3002,8 @@ On the current NES implementation, this handler is actually faked, and called be
 
 </div>
 </div>
-<a id="a19776bb563b6f64890f9933e67bda7ed"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a19776bb563b6f64890f9933e67bda7ed">&#9670;&nbsp;</a></span>set_bkg_attributes_nes16x16()</h2>
+<a id="a0254d6e23d4202cb070b1fe54c6a7210"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0254d6e23d4202cb070b1fe54c6a7210">&#9670;&nbsp;</a></span>set_bkg_attributes_nes16x16()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2911,7 +3061,7 @@ On the current NES implementation, this handler is actually faked, and called be
 <p><a href="https://www.nesdev.org/wiki/PPU_attribute_tables">https://www.nesdev.org/wiki/PPU_attribute_tables</a></p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a8e3f36aa68ac036695816757f2a1322c">SHOW_BKG</a> </dd>
 <dd>
-<a class="el" href="nes_8h.html#afe26f09c824742428c6435e87d179020">set_bkg_data</a>, <a class="el" href="nes_8h.html#a34490cffc1e857ac41c880b6bca92c4f">set_bkg_submap_attributes</a>, <a class="el" href="gb_8h.html#a5c59b4ee6323af9832998906d087266b">set_win_tiles</a>, <a class="el" href="nes_8h.html#a6224b2e4b72c062a2bb2959b0aaf860a">set_tiles</a> </dd></dl>
+<a class="el" href="nes_8h.html#a4eb0e4c6c672efdeb49c3cdba2fa4d4a">set_bkg_data</a>, <a class="el" href="nes_8h.html#a34490cffc1e857ac41c880b6bca92c4f">set_bkg_submap_attributes</a>, <a class="el" href="gb_8h.html#a5c59b4ee6323af9832998906d087266b">set_win_tiles</a>, <a class="el" href="nes_8h.html#a399a0430a177e349cc691c5109427c01">set_tiles</a> </dd></dl>
 
 </div>
 </div>
@@ -2974,15 +3124,15 @@ On the current NES implementation, this handler is actually faked, and called be
 </ul>
 <p>One byte per source tile map attribute entry.</p>
 <p>Writes that exceed coordinate 31 on the x or y axis will wrap around to the Left and Top edges.</p>
-<p>Please note that this is just a wrapper function for <a class="el" href="nes_8h.html#a19776bb563b6f64890f9933e67bda7ed">set_bkg_attributes_nes16x16()</a> and divides the coordinates and dimensions by 2 to achieve this. It is intended to make code more portable by using the same coordinate system that systems with the much more common 8x8 attribute resolution would use.</p>
+<p>Please note that this is just a wrapper function for <a class="el" href="nes_8h.html#a0254d6e23d4202cb070b1fe54c6a7210">set_bkg_attributes_nes16x16()</a> and divides the coordinates and dimensions by 2 to achieve this. It is intended to make code more portable by using the same coordinate system that systems with the much more common 8x8 attribute resolution would use.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a8e3f36aa68ac036695816757f2a1322c">SHOW_BKG</a> </dd>
 <dd>
-<a class="el" href="nes_8h.html#afe26f09c824742428c6435e87d179020">set_bkg_data</a>, <a class="el" href="nes_8h.html#a34490cffc1e857ac41c880b6bca92c4f">set_bkg_submap_attributes</a>, <a class="el" href="gb_8h.html#a5c59b4ee6323af9832998906d087266b">set_win_tiles</a>, <a class="el" href="nes_8h.html#a6224b2e4b72c062a2bb2959b0aaf860a">set_tiles</a> </dd></dl>
+<a class="el" href="nes_8h.html#a4eb0e4c6c672efdeb49c3cdba2fa4d4a">set_bkg_data</a>, <a class="el" href="nes_8h.html#a34490cffc1e857ac41c880b6bca92c4f">set_bkg_submap_attributes</a>, <a class="el" href="gb_8h.html#a5c59b4ee6323af9832998906d087266b">set_win_tiles</a>, <a class="el" href="nes_8h.html#a399a0430a177e349cc691c5109427c01">set_tiles</a> </dd></dl>
 
 </div>
 </div>
-<a id="a04f245645e941991e3f8f82eef488847"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a04f245645e941991e3f8f82eef488847">&#9670;&nbsp;</a></span>set_bkg_submap_attributes_nes16x16()</h2>
+<a id="aadba8b700b97ec97dc9c488496619fd9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aadba8b700b97ec97dc9c488496619fd9">&#9670;&nbsp;</a></span>set_bkg_submap_attributes_nes16x16()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3046,13 +3196,13 @@ On the current NES implementation, this handler is actually faked, and called be
 <p>The <b>x</b> and <b>y</b> parameters are in Source Attribute Map Attribute coordinates. The location tiles will be written to on the hardware Background Map is derived from those, but only uses the lower 5 bits of each axis, for range of 0-15 (they are bit-masked: <code>x &amp; 0xF</code> and <code>y &amp; 0xF</code>). As a result the two coordinate systems are aligned together.</p>
 <p>In order to transfer tile map data in a way where the coordinate systems are not aligned, an offset from the Source Attribute Map pointer can be passed in: <code>(map_ptr + x + (y * map_width))</code>.</p>
 <p>For example, if you want the tile id at <code>1,2</code> from the source map to show up at <code>0,0</code> on the hardware Background Map (instead of at <code>1,2</code>) then modify the pointer address that is passed in: <code>map_ptr + 1 + (2 * map_width)</code></p>
-<p>Use this instead of <a class="el" href="nes_8h.html#a349526a46416c9345415532cbf0fac87">set_bkg_tiles</a> when the source map is wider than 32 tiles or when writing a width that does not match the source map width.</p>
+<p>Use this instead of <a class="el" href="nes_8h.html#a6ab3fa75195d44d8d7e867d4a4cb1131">set_bkg_tiles</a> when the source map is wider than 32 tiles or when writing a width that does not match the source map width.</p>
 <p>One byte per source attribute map entry.</p>
 <p>Writes that exceed coordinate 15/14 on the x / y axis will wrap around to the Left and Top edges.</p>
-<p>See <a class="el" href="nes_8h.html#a349526a46416c9345415532cbf0fac87">set_bkg_tiles</a> for setting CGB attribute maps with <a class="el" href="gb_2hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a>.</p>
+<p>See <a class="el" href="nes_8h.html#a6ab3fa75195d44d8d7e867d4a4cb1131">set_bkg_tiles</a> for setting CGB attribute maps with <a class="el" href="gb_2hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a>.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a8e3f36aa68ac036695816757f2a1322c">SHOW_BKG</a> </dd>
 <dd>
-<a class="el" href="nes_8h.html#afe26f09c824742428c6435e87d179020">set_bkg_data</a>, <a class="el" href="nes_8h.html#a349526a46416c9345415532cbf0fac87">set_bkg_tiles</a>, <a class="el" href="sms_8h.html#abb50a392ca0d0419a080413287ee5d79">set_win_submap</a>, <a class="el" href="nes_8h.html#a6224b2e4b72c062a2bb2959b0aaf860a">set_tiles</a> </dd></dl>
+<a class="el" href="nes_8h.html#a4eb0e4c6c672efdeb49c3cdba2fa4d4a">set_bkg_data</a>, <a class="el" href="nes_8h.html#a6ab3fa75195d44d8d7e867d4a4cb1131">set_bkg_tiles</a>, <a class="el" href="sms_8h.html#abb50a392ca0d0419a080413287ee5d79">set_win_submap</a>, <a class="el" href="nes_8h.html#a399a0430a177e349cc691c5109427c01">set_tiles</a> </dd></dl>
 
 </div>
 </div>
@@ -3114,10 +3264,10 @@ On the current NES implementation, this handler is actually faked, and called be
 </table>
 </div><div class="memdoc">
 <p>Sets a rectangular area of the Background Tile Map attributes using a sub-region from a source tile map. Useful for scrolling implementations of maps larger than 32 x 30 tiles.</p>
-<p>Please note that this is just a wrapper function for <a class="el" href="nes_8h.html#a04f245645e941991e3f8f82eef488847">set_bkg_submap_attributes_nes16x16()</a> and divides the coordinates and dimensions by 2 to achieve this. It is intended to make code more portable by using the same coordinate system that systems with the much more common 8x8 attribute resolution would use.</p>
+<p>Please note that this is just a wrapper function for <a class="el" href="nes_8h.html#aadba8b700b97ec97dc9c488496619fd9">set_bkg_submap_attributes_nes16x16()</a> and divides the coordinates and dimensions by 2 to achieve this. It is intended to make code more portable by using the same coordinate system that systems with the much more common 8x8 attribute resolution would use.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a8e3f36aa68ac036695816757f2a1322c">SHOW_BKG</a> </dd>
 <dd>
-<a class="el" href="nes_8h.html#afe26f09c824742428c6435e87d179020">set_bkg_data</a>, <a class="el" href="nes_8h.html#a349526a46416c9345415532cbf0fac87">set_bkg_tiles</a>, <a class="el" href="sms_8h.html#abb50a392ca0d0419a080413287ee5d79">set_win_submap</a>, <a class="el" href="nes_8h.html#a6224b2e4b72c062a2bb2959b0aaf860a">set_tiles</a> </dd></dl>
+<a class="el" href="nes_8h.html#a4eb0e4c6c672efdeb49c3cdba2fa4d4a">set_bkg_data</a>, <a class="el" href="nes_8h.html#a6ab3fa75195d44d8d7e867d4a4cb1131">set_bkg_tiles</a>, <a class="el" href="sms_8h.html#abb50a392ca0d0419a080413287ee5d79">set_win_submap</a>, <a class="el" href="nes_8h.html#a399a0430a177e349cc691c5109427c01">set_tiles</a> </dd></dl>
 
 </div>
 </div>
@@ -3191,12 +3341,12 @@ On the current NES implementation, this handler is actually faked, and called be
   </dd>
 </dl>
 <p>This is identical to <a class="el" href="msx_8h.html#a9a732aec1b7aec7d10a9d76ca4da2064">set_bkg_tiles()</a> except that it adds the <b>base_tile</b> parameter for when a tile map's tiles don't start at index zero. (For example, the tiles used by the map range from 100 -&gt; 120 in VRAM instead of 0 -&gt; 20).</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a349526a46416c9345415532cbf0fac87">set_bkg_tiles</a> for more details </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a6ab3fa75195d44d8d7e867d4a4cb1131">set_bkg_tiles</a> for more details </dd></dl>
 
 </div>
 </div>
-<a id="adb21d1c7d533a7133bab36a845489780"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adb21d1c7d533a7133bab36a845489780">&#9670;&nbsp;</a></span>set_bkg_submap()</h2>
+<a id="ac2c9fd8d613ad8ba52227c5a056e56fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2c9fd8d613ad8ba52227c5a056e56fa">&#9670;&nbsp;</a></span>set_bkg_submap()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3255,10 +3405,10 @@ On the current NES implementation, this handler is actually faked, and called be
 <p>Sets a rectangular area of the Background Tile Map using a sub-region from a source tile map. Useful for scrolling implementations of maps larger than 32 x 32 tiles.</p>
 <p>@ param x X Start position in Background Map tile coordinates. Range 0 - 31 @ param y Y Start position in Background Map tile coordinates. Range 0 - 31 @ param w Width of area to set in tiles. Range 1 - 255 @ param h Height of area to set in tiles. Range 1 - 255 @ param map Pointer to source tile map data @ param map_w Width of source tile map in tiles. Range 1 - 255</p>
 <p>Entries are copied from <b>map</b> to the Background Tile Map starting at <b>x</b>, <b>y</b> writing across for <b>w</b> tiles and down for <b>h</b> tiles, using <b>map_w</b> as the rowstride for the source tile map.</p>
-<p>Use this instead of <a class="el" href="nes_8h.html#a349526a46416c9345415532cbf0fac87">set_bkg_tiles</a> when the source map is wider than 32 tiles or when writing a width that does not match the source map width.</p>
+<p>Use this instead of <a class="el" href="nes_8h.html#a6ab3fa75195d44d8d7e867d4a4cb1131">set_bkg_tiles</a> when the source map is wider than 32 tiles or when writing a width that does not match the source map width.</p>
 <p>One byte per source tile map entry.</p>
 <p>Writes that exceed coordinate 31 on the x or y axis will wrap around to the Left and Top edges.</p>
-<p>See <a class="el" href="nes_8h.html#a349526a46416c9345415532cbf0fac87">set_bkg_tiles</a> for setting CGB attribute maps with <a class="el" href="gb_2hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a>.</p>
+<p>See <a class="el" href="nes_8h.html#a6ab3fa75195d44d8d7e867d4a4cb1131">set_bkg_tiles</a> for setting CGB attribute maps with <a class="el" href="gb_2hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a>.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a8e3f36aa68ac036695816757f2a1322c">SHOW_BKG</a> </dd>
 <dd>
 <a class="el" href="gb_8h.html#a1f5101f2b7bb0123c26a3e257f843626">set_bkg_data</a>, <a class="el" href="gb_8h.html#a6da9e2fa1bafd35363e84ee999909ec7">set_bkg_tiles</a>, <a class="el" href="gb_8h.html#af80befa3cad9cae361c7cf4fffb3a8de">set_win_submap</a>, <a class="el" href="gb_8h.html#a6224b2e4b72c062a2bb2959b0aaf860a">set_tiles</a></dd></dl>
@@ -3278,10 +3428,10 @@ On the current NES implementation, this handler is actually faked, and called be
 <p>The <b>x</b> and <b>y</b> parameters are in Source Tile Map tile coordinates. The location tiles will be written to on the hardware Background Map is derived from those, but only uses the lower 5 bits of each axis, for range of 0-31 (they are bit-masked: <code>x &amp; 0x1F</code> and <code>y &amp; 0x1F</code>). As a result the two coordinate systems are aligned together.</p>
 <p>In order to transfer tile map data in a way where the coordinate systems are not aligned, an offset from the Source Tile Map pointer can be passed in: <code>(map_ptr + x + (y * map_width))</code>.</p>
 <p>For example, if you want the tile id at <code>1,2</code> from the source map to show up at <code>0,0</code> on the hardware Background Map (instead of at <code>1,2</code>) then modify the pointer address that is passed in: <code>map_ptr + 1 + (2 * map_width)</code></p>
-<p>Use this instead of <a class="el" href="nes_8h.html#a349526a46416c9345415532cbf0fac87">set_bkg_tiles</a> when the source map is wider than 32 tiles or when writing a width that does not match the source map width.</p>
+<p>Use this instead of <a class="el" href="nes_8h.html#a6ab3fa75195d44d8d7e867d4a4cb1131">set_bkg_tiles</a> when the source map is wider than 32 tiles or when writing a width that does not match the source map width.</p>
 <p>One byte per source tile map entry.</p>
 <p>Writes that exceed coordinate 31 on the x or y axis will wrap around to the Left and Top edges.</p>
-<p>See <a class="el" href="nes_8h.html#a349526a46416c9345415532cbf0fac87">set_bkg_tiles</a> for setting CGB attribute maps with <a class="el" href="gb_2hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a>.</p>
+<p>See <a class="el" href="nes_8h.html#a6ab3fa75195d44d8d7e867d4a4cb1131">set_bkg_tiles</a> for setting CGB attribute maps with <a class="el" href="gb_2hardware_8h.html#a5ccae0d556500e1055a0ec8de20c535a">VBK_REG</a>.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a8e3f36aa68ac036695816757f2a1322c">SHOW_BKG</a> </dd>
 <dd>
 <a class="el" href="gb_8h.html#a1f5101f2b7bb0123c26a3e257f843626">set_bkg_data</a>, <a class="el" href="gb_8h.html#a6da9e2fa1bafd35363e84ee999909ec7">set_bkg_tiles</a>, <a class="el" href="gb_8h.html#af80befa3cad9cae361c7cf4fffb3a8de">set_win_submap</a>, <a class="el" href="gb_8h.html#a6224b2e4b72c062a2bb2959b0aaf860a">set_tiles</a> </dd></dl>
@@ -3365,12 +3515,12 @@ On the current NES implementation, this handler is actually faked, and called be
   </dd>
 </dl>
 <p>This is identical to <a class="el" href="gb_8h.html#adb21d1c7d533a7133bab36a845489780">set_bkg_submap()</a> except that it adds the <b>base_tile</b> parameter for when a tile map's tiles don't start at index zero. (For example, the tiles used by the map range from 100 -&gt; 120 in VRAM instead of 0 -&gt; 20).</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#adb21d1c7d533a7133bab36a845489780">set_bkg_submap</a> for more details </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#ac2c9fd8d613ad8ba52227c5a056e56fa">set_bkg_submap</a> for more details </dd></dl>
 
 </div>
 </div>
-<a id="adf2374063c8c63b60916f0dbf8255a9c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adf2374063c8c63b60916f0dbf8255a9c">&#9670;&nbsp;</a></span>get_bkg_tiles()</h2>
+<a id="ab8d3e0c6cb1c5687806defef521f8fd2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab8d3e0c6cb1c5687806defef521f8fd2">&#9670;&nbsp;</a></span>get_bkg_tiles()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3436,8 +3586,8 @@ On the current NES implementation, this handler is actually faked, and called be
 
 </div>
 </div>
-<a id="a8c294fe74e18b5a1b228f3ca7357dee7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8c294fe74e18b5a1b228f3ca7357dee7">&#9670;&nbsp;</a></span>set_bkg_tile_xy()</h2>
+<a id="a31655c4b138654e803e295bd4413759c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a31655c4b138654e803e295bd4413759c">&#9670;&nbsp;</a></span>set_bkg_tile_xy()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3475,12 +3625,12 @@ On the current NES implementation, this handler is actually faked, and called be
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>returns the address of tile, so you may use faster <a class="el" href="nes_8h.html#a041d2aca17a277b0893d1b00766e56ae">set_vram_byte()</a> later </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>returns the address of tile, so you may use faster <a class="el" href="nes_8h.html#a49635449fc261be2481b72d0165f12ad">set_vram_byte()</a> later </dd></dl>
 
 </div>
 </div>
-<a id="ac9dea209bacf188e54d76cae68034c3b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac9dea209bacf188e54d76cae68034c3b">&#9670;&nbsp;</a></span>set_bkg_attribute_xy_nes16x16()</h2>
+<a id="a7b7c27e672467f08097f744f3530bbc7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b7c27e672467f08097f744f3530bbc7">&#9670;&nbsp;</a></span>set_bkg_attribute_xy_nes16x16()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3562,7 +3712,7 @@ On the current NES implementation, this handler is actually faked, and called be
 </table>
 </div><div class="memdoc">
 <p>Set single attribute data a on background layer at x,y</p>
-<p>Please note that this is just a wrapper function for <a class="el" href="nes_8h.html#a04f245645e941991e3f8f82eef488847">set_bkg_submap_attributes_nes16x16()</a> and divides the coordinates and dimensions by 2 to achieve this. It is intended to make code more portable by using the same coordinate system that systems with the much more common 8x8 attribute resolution would use.</p>
+<p>Please note that this is just a wrapper function for <a class="el" href="nes_8h.html#aadba8b700b97ec97dc9c488496619fd9">set_bkg_submap_attributes_nes16x16()</a> and divides the coordinates and dimensions by 2 to achieve this. It is intended to make code more portable by using the same coordinate system that systems with the much more common 8x8 attribute resolution would use.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">x</td><td>X-coordinate </td></tr>
@@ -3574,8 +3724,8 @@ On the current NES implementation, this handler is actually faked, and called be
 
 </div>
 </div>
-<a id="acecd46833168c4d32db97b82bc3388a6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acecd46833168c4d32db97b82bc3388a6">&#9670;&nbsp;</a></span>get_bkg_tile_xy()</h2>
+<a id="adaca04ce3d7213e6d0348196cd592780"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adaca04ce3d7213e6d0348196cd592780">&#9670;&nbsp;</a></span>get_bkg_tile_xy()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3713,8 +3863,8 @@ On the current NES implementation, this handler is actually faked, and called be
 
 </div>
 </div>
-<a id="a9e4e3c89ae9a1c1c118ab8504177f199"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9e4e3c89ae9a1c1c118ab8504177f199">&#9670;&nbsp;</a></span>set_sprite_data()</h2>
+<a id="adc0ef4fa6435ca3a1aac93f533eb85da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc0ef4fa6435ca3a1aac93f533eb85da">&#9670;&nbsp;</a></span>set_sprite_data()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3769,8 +3919,8 @@ On the current NES implementation, this handler is actually faked, and called be
 
 </div>
 </div>
-<a id="ac108754c8984bbbb8a31118153d4e760"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac108754c8984bbbb8a31118153d4e760">&#9670;&nbsp;</a></span>set_sprite_1bpp_data()</h2>
+<a id="a6372e69db6290fbc0e73244dbe15f903"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6372e69db6290fbc0e73244dbe15f903">&#9670;&nbsp;</a></span>set_sprite_1bpp_data()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3855,8 +4005,8 @@ On the current NES implementation, this handler is actually faked, and called be
 
 </div>
 </div>
-<a id="a05bf0b9f1328de7b568a19a2a428bcfe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a05bf0b9f1328de7b568a19a2a428bcfe">&#9670;&nbsp;</a></span>set_sprite_tile()</h2>
+<a id="a2d30754c442641bdd882ab595dd77468"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d30754c442641bdd882ab595dd77468">&#9670;&nbsp;</a></span>set_sprite_tile()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3899,13 +4049,29 @@ On the current NES implementation, this handler is actually faked, and called be
 <p>In 8x16 mode: </p><ul>
 <li>The sprite will also display the next tile (<b>tile</b> + 1) directly below (y + 8) the first tile. </li>
 <li>The lower bit of the tile number is ignored: the upper 8x8 tile is (<b>tile</b> &amp; 0xFE), and the lower 8x8 tile is (<b>tile</b> | 0x01). </li>
+<li>See: <a class="el" href="sms_8h.html#af91d252f07f4764996154820f970c101">SPRITES_8x16</a></li>
+</ul>
+<p>Sets sprite number <b>nb__in the OAM to display tile number __tile</b>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nb</td><td>Sprite number, range 0 - 39 </td></tr>
+    <tr><td class="paramname">tile</td><td>Selects a tile (0 - 255) from memory at 8000h - 8FFFh <br  />
+ In CGB Mode this could be either in VRAM Bank <br  />
+ 0 or 1, depending on Bit 3 of the OAM Attribute Flag <br  />
+ (see <a class="el" href="sms_8h.html#a99ea3252469e3614e977cce2aa1d06f7">set_sprite_prop</a>)</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>In 8x16 mode: </p><ul>
+<li>The sprite will also display the next tile (<b>tile</b> + 1) directly below (y + 8) the first tile. </li>
+<li>The lower bit of the tile number is ignored: the upper 8x8 tile is (<b>tile</b> &amp; 0xFE), and the lower 8x8 tile is (<b>tile</b> | 0x01). </li>
 <li>See: <a class="el" href="sms_8h.html#af91d252f07f4764996154820f970c101">SPRITES_8x16</a> </li>
 </ul>
 
 </div>
 </div>
-<a id="af5c0beff7d7a7d8641b51fd95c811b2a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af5c0beff7d7a7d8641b51fd95c811b2a">&#9670;&nbsp;</a></span>get_sprite_tile()</h2>
+<a id="a58eab770442930dad603ffba2b5d28f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58eab770442930dad603ffba2b5d28f3">&#9670;&nbsp;</a></span>get_sprite_tile()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3934,12 +4100,20 @@ On the current NES implementation, this handler is actually faked, and called be
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a05bf0b9f1328de7b568a19a2a428bcfe">set_sprite_tile</a> for more details </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a05bf0b9f1328de7b568a19a2a428bcfe">set_sprite_tile</a> for more details</dd></dl>
+<p>Returns the tile number of sprite number <b>nb</b> in the OAM.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nb</td><td>Sprite number, range 0 - 39</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a05bf0b9f1328de7b568a19a2a428bcfe">set_sprite_tile</a> for more details </dd></dl>
 
 </div>
 </div>
-<a id="a99ea3252469e3614e977cce2aa1d06f7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a99ea3252469e3614e977cce2aa1d06f7">&#9670;&nbsp;</a></span>set_sprite_prop()</h2>
+<a id="a96b6dd8b1dcb44f540baa6093b54154b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96b6dd8b1dcb44f540baa6093b54154b">&#9670;&nbsp;</a></span>set_sprite_prop()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3980,6 +4154,42 @@ On the current NES implementation, this handler is actually faked, and called be
   </dd>
 </dl>
 <p>The bits in <b>prop</b> represent: </p><ul>
+<li>Bit 7 - Vertical flip. Dictates which way up the sprite is drawn vertically. <br  />
+ 0: normal <br  />
+ 1: upside down </li>
+<li>Bit 6 - Horizontal flip. Dictates which way up the sprite is drawn horizontally. <br  />
+ 0: normal <br  />
+ 1: back to front </li>
+<li>Bit 5 - Priority flag. When this is set, the sprites appear behind the background and window layer. <br  />
+ 0: infront <br  />
+ 1: behind </li>
+<li>Bit 4 - Unimplemented </li>
+<li>Bit 3 - Unimplemented </li>
+<li>Bit 2 - Unimplemented </li>
+<li>Bit 1 - See bit 0. </li>
+<li>Bit 0 - Bits 0-1 indicate which color palette the sprite should use. Note: only palettes 4 to 7 will be available for NES sprites.</li>
+</ul>
+<p>It's recommended to use GBDK constants (eg: S_FLIPY) to configure sprite properties as these are crossplatform.</p>
+<div class="fragment"><div class="line"><span class="comment">// Load palette data into the first palette</span></div>
+<div class="line"><a class="code" href="msx_8h.html#a7d5ed1aed79d8fd2894893d7f6f9b835">set_sprite_palette</a>(4, 1, exampleSprite_palettes)</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Set the OAM value for the sprite</span></div>
+<div class="line"><span class="comment">// These flags tell the sprite to use the first sprite palette (palette 4) and to flip the sprite both vertically and horizontally.</span></div>
+<div class="line"><a class="code" href="gb_8h.html#a99ea3252469e3614e977cce2aa1d06f7">set_sprite_prop</a>(0, <a class="code" href="gb_8h.html#a4bbb9cd6c38b2317de5256d1d889c63b">S_FLIPY</a> | <a class="code" href="gb_8h.html#ae97793b4039609f93b0f7f8bddb18011">S_FLIPX</a>);</div>
+<div class="ttc" id="agb_8h_html_a4bbb9cd6c38b2317de5256d1d889c63b"><div class="ttname"><a href="gb_8h.html#a4bbb9cd6c38b2317de5256d1d889c63b">S_FLIPY</a></div><div class="ttdeci">#define S_FLIPY</div><div class="ttdef"><b>Definition:</b> gb.h:96</div></div>
+<div class="ttc" id="agb_8h_html_a99ea3252469e3614e977cce2aa1d06f7"><div class="ttname"><a href="gb_8h.html#a99ea3252469e3614e977cce2aa1d06f7">set_sprite_prop</a></div><div class="ttdeci">void set_sprite_prop(uint8_t nb, uint8_t prop)</div><div class="ttdef"><b>Definition:</b> gb.h:1933</div></div>
+<div class="ttc" id="agb_8h_html_ae97793b4039609f93b0f7f8bddb18011"><div class="ttname"><a href="gb_8h.html#ae97793b4039609f93b0f7f8bddb18011">S_FLIPX</a></div><div class="ttdeci">#define S_FLIPX</div><div class="ttdef"><b>Definition:</b> gb.h:92</div></div>
+<div class="ttc" id="amsx_8h_html_a7d5ed1aed79d8fd2894893d7f6f9b835"><div class="ttname"><a href="msx_8h.html#a7d5ed1aed79d8fd2894893d7f6f9b835">set_sprite_palette</a></div><div class="ttdeci">#define set_sprite_palette(first_palette, nb_palettes, rgb_data)</div><div class="ttdef"><b>Definition:</b> msx.h:550</div></div>
+</div><!-- fragment --><dl class="section see"><dt>See also</dt><dd><a class="el" href="sms_8h.html#a54572cf6791463b6d60623837e0bb5a6">S_PALETTE</a>, <a class="el" href="sms_8h.html#ae97793b4039609f93b0f7f8bddb18011">S_FLIPX</a>, <a class="el" href="sms_8h.html#a4bbb9cd6c38b2317de5256d1d889c63b">S_FLIPY</a>, <a class="el" href="sms_8h.html#a9506d04c2ec7d2442a52054f67d2b32f">S_PRIORITY</a></dd></dl>
+<p>Sets the OAM Property Flags of sprite number <b>nb</b> to those defined in <b>prop</b>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nb</td><td>Sprite number, range 0 - 39 </td></tr>
+    <tr><td class="paramname">prop</td><td>Property setting (see bitfield description)</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>The bits in <b>prop</b> represent: </p><ul>
 <li>Bit 7 - Priority flag. When this is set the sprites appear behind the background and window layer. <br  />
  0: infront <br  />
  1: behind </li>
@@ -3997,13 +4207,23 @@ On the current NES implementation, this handler is actually faked, and called be
  1: Bank 1 </li>
 <li>Bit 2 - See bit 0. </li>
 <li>Bit 1 - See bit 0. </li>
-<li>Bit 0 - GBC only. Bits 0-2 indicate which of the 7 OBJ colour palettes the sprite is assigned. </li>
+<li>Bit 0 - GBC only. Bits 0-2 indicate which of the 7 OBJ colour palettes the sprite is assigned.</li>
 </ul>
+<p>It's recommended to use GBDK constants (eg: S_FLIPY) to configure sprite properties as these are crossplatform.</p>
+<div class="fragment"><div class="line"><span class="comment">// Load palette data into the first palette</span></div>
+<div class="line"><a class="code" href="msx_8h.html#a7d5ed1aed79d8fd2894893d7f6f9b835">set_sprite_palette</a>(4, 1, exampleSprite_palettes)</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Set the OAM value for the sprite</span></div>
+<div class="line"><span class="comment">// These flags tell the sprite to flip both vertically and horizontally.</span></div>
+<div class="line"><a class="code" href="gb_8h.html#a99ea3252469e3614e977cce2aa1d06f7">set_sprite_prop</a>(0, <a class="code" href="gb_8h.html#a4bbb9cd6c38b2317de5256d1d889c63b">S_FLIPY</a> | <a class="code" href="gb_8h.html#ae97793b4039609f93b0f7f8bddb18011">S_FLIPX</a>);</div>
+</div><!-- fragment --><dl class="section see"><dt>See also</dt><dd><a class="el" href="sms_8h.html#a54572cf6791463b6d60623837e0bb5a6">S_PALETTE</a>, <a class="el" href="sms_8h.html#ae97793b4039609f93b0f7f8bddb18011">S_FLIPX</a>, <a class="el" href="sms_8h.html#a4bbb9cd6c38b2317de5256d1d889c63b">S_FLIPY</a>, <a class="el" href="sms_8h.html#a9506d04c2ec7d2442a52054f67d2b32f">S_PRIORITY</a></dd></dl>
+<p>Function has no affect on sms.</p>
+<p>This function is only here to enable game portability </p>
 
 </div>
 </div>
-<a id="a6b873c807c9e2c90fb574951e85fdf88"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6b873c807c9e2c90fb574951e85fdf88">&#9670;&nbsp;</a></span>get_sprite_prop()</h2>
+<a id="a7f2058d3fe9c08127fd6f596a5df41c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f2058d3fe9c08127fd6f596a5df41c9">&#9670;&nbsp;</a></span>get_sprite_prop()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4032,12 +4252,12 @@ On the current NES implementation, this handler is actually faked, and called be
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a99ea3252469e3614e977cce2aa1d06f7">set_sprite_prop</a> for property bitfield settings </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a96b6dd8b1dcb44f540baa6093b54154b">set_sprite_prop</a> for property bitfield settings </dd></dl>
 
 </div>
 </div>
-<a id="ab42c12c1d9aed3fd963248fbea9830cd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab42c12c1d9aed3fd963248fbea9830cd">&#9670;&nbsp;</a></span>move_sprite()</h2>
+<a id="a3e80bb115f7212eb72a5f341fdc408d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e80bb115f7212eb72a5f341fdc408d7">&#9670;&nbsp;</a></span>move_sprite()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4085,12 +4305,24 @@ On the current NES implementation, this handler is actually faked, and called be
   </table>
   </dd>
 </dl>
+<p>Moving the sprite to 0,0 (or similar off-screen location) will hide it.</p>
+<p>Moves sprite number <b>nb</b> to the <b>x</b>, <b>y</b> position on the screen.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nb</td><td>Sprite number, range 0 - 39 </td></tr>
+    <tr><td class="paramname">x</td><td>X Position. Specifies the sprites horizontal position on the screen (minus 8). <br  />
+ An offscreen value (X=0 or X&gt;=168) hides the sprite, but the sprite still affects the priority ordering - a better way to hide a sprite is to set its Y-coordinate offscreen. </td></tr>
+    <tr><td class="paramname">y</td><td>Y Position. Specifies the sprites vertical position on the screen (minus 16). <br  />
+ An offscreen value (for example, Y=0 or Y&gt;=160) hides the sprite.</td></tr>
+  </table>
+  </dd>
+</dl>
 <p>Moving the sprite to 0,0 (or similar off-screen location) will hide it. </p>
 
 </div>
 </div>
-<a id="a6c59aa9a4f9ea42bed6ca6940b2741fe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6c59aa9a4f9ea42bed6ca6940b2741fe">&#9670;&nbsp;</a></span>scroll_sprite()</h2>
+<a id="a552685b6419acf2fa4925a4ab5687be9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a552685b6419acf2fa4925a4ab5687be9">&#9670;&nbsp;</a></span>scroll_sprite()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4139,12 +4371,24 @@ On the current NES implementation, this handler is actually faked, and called be
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#ab42c12c1d9aed3fd963248fbea9830cd">move_sprite</a> for more details about the X and Y position </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#ab42c12c1d9aed3fd963248fbea9830cd">move_sprite</a> for more details about the X and Y position</dd></dl>
+<p>Moves sprite number <b>nb</b> relative to its current position.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nb</td><td>Sprite number, range 0 - 39 </td></tr>
+    <tr><td class="paramname">x</td><td>Number of pixels to move the sprite on the <b>X axis</b> <br  />
+ Range: -128 - 127 </td></tr>
+    <tr><td class="paramname">y</td><td>Number of pixels to move the sprite on the <b>Y axis</b> <br  />
+ Range: -128 - 127</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#ab42c12c1d9aed3fd963248fbea9830cd">move_sprite</a> for more details about the X and Y position </dd></dl>
 
 </div>
 </div>
-<a id="ad22c51635d052399bbbe1777999c794d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad22c51635d052399bbbe1777999c794d">&#9670;&nbsp;</a></span>hide_sprite()</h2>
+<a id="a92649b68e5fea88d171d933f9a605e50"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92649b68e5fea88d171d933f9a605e50">&#9670;&nbsp;</a></span>hide_sprite()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4169,15 +4413,30 @@ On the current NES implementation, this handler is actually faked, and called be
 <p>Hides sprite number <b>nb</b> by moving it to Y position 240.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">nb</td><td>Sprite number, range 0 - 63 </td></tr>
+    <tr><td class="paramname">nb</td><td>Sprite number, range 0 - 63</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Hides sprite number <b>nb</b> by moving it to zero position by Y.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nb</td><td>Sprite number, range 0 - 39</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="sms_2metasprites_8h.html#a51db5a47025de1c8765885281999d53c">hide_sprites_range</a>, <a class="el" href="msx_8h.html#a69ef98aee664b8abd8d1a3d45f016dda">HIDE_SPRITES</a></dd></dl>
+<p>Hides sprite number <b>nb</b> by moving it to zero position by Y.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nb</td><td>Sprite number, range 0 - 39 </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="a39071a53e4f4b7986c26138fab0d4182"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a39071a53e4f4b7986c26138fab0d4182">&#9670;&nbsp;</a></span>set_data()</h2>
+<a id="ae1a305a579576715ad2d8f70327265da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1a305a579576715ad2d8f70327265da">&#9670;&nbsp;</a></span>set_data()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4209,12 +4468,12 @@ On the current NES implementation, this handler is actually faked, and called be
 </div><div class="memdoc">
 <p>Copies arbitrary data to an address in VRAM without taking into account the state of LCDC bits 3 or 4.</p>
 <p>Copies <b>len</b> bytes from a buffer at <b>data</b> to VRAM starting at <b>vram_addr</b>.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#afe26f09c824742428c6435e87d179020">set_bkg_data</a>, <a class="el" href="gb_8h.html#ac2bf0c4919c30d322fa5853c896e710f">set_win_data</a>, <a class="el" href="nes_8h.html#a349526a46416c9345415532cbf0fac87">set_bkg_tiles</a>, <a class="el" href="gb_8h.html#a5c59b4ee6323af9832998906d087266b">set_win_tiles</a>, <a class="el" href="nes_8h.html#a2539f237ce7da8ff6eb0bad4c8c48a4c">set_tile_data</a>, <a class="el" href="nes_8h.html#a6224b2e4b72c062a2bb2959b0aaf860a">set_tiles</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a4eb0e4c6c672efdeb49c3cdba2fa4d4a">set_bkg_data</a>, <a class="el" href="gb_8h.html#ac2bf0c4919c30d322fa5853c896e710f">set_win_data</a>, <a class="el" href="nes_8h.html#a6ab3fa75195d44d8d7e867d4a4cb1131">set_bkg_tiles</a>, <a class="el" href="gb_8h.html#a5c59b4ee6323af9832998906d087266b">set_win_tiles</a>, <a class="el" href="nes_8h.html#a2539f237ce7da8ff6eb0bad4c8c48a4c">set_tile_data</a>, <a class="el" href="nes_8h.html#a399a0430a177e349cc691c5109427c01">set_tiles</a> </dd></dl>
 
 </div>
 </div>
-<a id="a6224b2e4b72c062a2bb2959b0aaf860a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6224b2e4b72c062a2bb2959b0aaf860a">&#9670;&nbsp;</a></span>set_tiles()</h2>
+<a id="a399a0430a177e349cc691c5109427c01"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a399a0430a177e349cc691c5109427c01">&#9670;&nbsp;</a></span>set_tiles()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4277,7 +4536,7 @@ On the current NES implementation, this handler is actually faked, and called be
 <p>Entries are copied from <b>tiles</b> to Tile Map at address vram_addr starting at <b>x</b>, <b>y</b> writing across for <b>w</b> tiles and down for <b>h</b> tiles.</p>
 <p>One byte per source tile map entry.</p>
 <p>There are two 32x30 Tile Maps in VRAM at addresses 2000h-23FFh and 2400h-27FFh.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a349526a46416c9345415532cbf0fac87">set_bkg_tiles</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a6ab3fa75195d44d8d7e867d4a4cb1131">set_bkg_tiles</a> </dd></dl>
 
 </div>
 </div>
@@ -4321,12 +4580,12 @@ On the current NES implementation, this handler is actually faked, and called be
 </table>
 </div><div class="memdoc">
 <p>Sets VRAM Tile Pattern data starting from given base address without taking into account the state of PPUMASK.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#afe26f09c824742428c6435e87d179020">set_bkg_data</a>, <a class="el" href="nes_8h.html#a39071a53e4f4b7986c26138fab0d4182">set_data</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a4eb0e4c6c672efdeb49c3cdba2fa4d4a">set_bkg_data</a>, <a class="el" href="nes_8h.html#ae1a305a579576715ad2d8f70327265da">set_data</a> </dd></dl>
 
 </div>
 </div>
-<a id="acb5c235def5988696724051c5f838e74"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acb5c235def5988696724051c5f838e74">&#9670;&nbsp;</a></span>set_bkg_native_data()</h2>
+<a id="a65860edee9a1a70fe56434dca397819e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65860edee9a1a70fe56434dca397819e">&#9670;&nbsp;</a></span>set_bkg_native_data()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4393,8 +4652,8 @@ On the current NES implementation, this handler is actually faked, and called be
 
 </div>
 </div>
-<a id="aa9e3edd5311290cba933c382cf2f5898"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa9e3edd5311290cba933c382cf2f5898">&#9670;&nbsp;</a></span>set_sprite_native_data()</h2>
+<a id="a6c4aa6393c42e2d4079b2f922b9b9c84"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c4aa6393c42e2d4079b2f922b9b9c84">&#9670;&nbsp;</a></span>set_sprite_native_data()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4514,8 +4773,8 @@ On the current NES implementation, this handler is actually faked, and called be
 
 </div>
 </div>
-<a id="ad76a59fc3f7f9a33308776dd04f2750a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad76a59fc3f7f9a33308776dd04f2750a">&#9670;&nbsp;</a></span>init_bkg()</h2>
+<a id="ad4e94bfe39cbe8e1b366d65c13adb464"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4e94bfe39cbe8e1b366d65c13adb464">&#9670;&nbsp;</a></span>init_bkg()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4546,8 +4805,8 @@ On the current NES implementation, this handler is actually faked, and called be
 
 </div>
 </div>
-<a id="a2b3faccbd50433879557ee0736f3906e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2b3faccbd50433879557ee0736f3906e">&#9670;&nbsp;</a></span>vmemset()</h2>
+<a id="a2b8cf9f9482d5292459ad81d2ef78840"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b8cf9f9482d5292459ad81d2ef78840">&#9670;&nbsp;</a></span>vmemset()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4598,8 +4857,8 @@ On the current NES implementation, this handler is actually faked, and called be
 
 </div>
 </div>
-<a id="a8c21e725f7de2cb86926c09202a80965"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8c21e725f7de2cb86926c09202a80965">&#9670;&nbsp;</a></span>fill_bkg_rect()</h2>
+<a id="a6879d813b6105ff8d9b36ec55c26a36e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6879d813b6105ff8d9b36ec55c26a36e">&#9670;&nbsp;</a></span>fill_bkg_rect()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4655,8 +4914,8 @@ On the current NES implementation, this handler is actually faked, and called be
 
 </div>
 </div>
-<a id="a367d476bfb522a81d045fc7509da7134"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a367d476bfb522a81d045fc7509da7134">&#9670;&nbsp;</a></span>flush_shadow_attributes()</h2>
+<a id="a01ad58154ff5a51a439ffdd1bafe92c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01ad58154ff5a51a439ffdd1bafe92c5">&#9670;&nbsp;</a></span>flush_shadow_attributes()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4675,8 +4934,8 @@ On the current NES implementation, this handler is actually faked, and called be
 
 </div>
 </div>
-<a id="adf417314f63b45c36d04800866911b9f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adf417314f63b45c36d04800866911b9f">&#9670;&nbsp;</a></span>_switch_prg0()</h2>
+<a id="a7d6c7ed0155e52b62936a04f6d98715d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d6c7ed0155e52b62936a04f6d98715d">&#9670;&nbsp;</a></span>_switch_prg0()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4694,6 +4953,28 @@ On the current NES implementation, this handler is actually faked, and called be
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
+<a id="a78fd7730ed37db84f52bcfc9ff41873f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78fd7730ed37db84f52bcfc9ff41873f">&#9670;&nbsp;</a></span>_SYSTEM</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> _SYSTEM</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a78d2fd18666afec116f176d46debb4e7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a78d2fd18666afec116f176d46debb4e7">&#9670;&nbsp;</a></span>sys_time</h2>
 
@@ -4740,8 +5021,13 @@ On the current NES implementation, this handler is actually faked, and called be
 </div><div class="memdoc">
 <p>Tracks current active ROM bank</p>
 <p>The active bank number is not tracked by <a class="el" href="nes_8h.html#a06bab3f8bce032de0d21fbd86e14c3f3">_current_bank</a> when <a class="el" href="gb_8h.html#a6c15ebc660abd3a978137493ab63ffe9">SWITCH_ROM_MBC5_8M</a> is used.</p>
-<p>This variable is updated automatically when you call SWITCH_ROM_MBC1 or SWITCH_ROM_MBC5, <a class="el" href="nes_8h.html#a1e22a3b60368bb5f3705d625ac2d09cc">SWITCH_ROM()</a>, or call a BANKED function.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a19558f5bbc9fea767f945001ae9cd13f">SWITCH_ROM_MBC1()</a>, <a class="el" href="gb_8h.html#a92d040284342702026eb19dab59b586e">SWITCH_ROM_MBC5()</a>, <a class="el" href="nes_8h.html#a1e22a3b60368bb5f3705d625ac2d09cc">SWITCH_ROM()</a> </dd></dl>
+<p>This variable is updated automatically when you call SWITCH_ROM_MBC1 or SWITCH_ROM_MBC5, <a class="el" href="gb_8h.html#af61262bbc05629f31020afce67e1b9ea">SWITCH_ROM()</a>, or call a BANKED function.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a19558f5bbc9fea767f945001ae9cd13f">SWITCH_ROM_MBC1()</a>, <a class="el" href="gb_8h.html#a92d040284342702026eb19dab59b586e">SWITCH_ROM_MBC5()</a>, <a class="el" href="gb_8h.html#af61262bbc05629f31020afce67e1b9ea">SWITCH_ROM()</a></dd></dl>
+<p>Tracks current active ROM bank</p>
+<p>In most cases the <a class="el" href="sms_8h.html#ae042588f20bf5a2349c8ad8716245233">CURRENT_BANK</a> macro for this variable is recommended for use instead of the variable itself.</p>
+<p>The active bank number is not tracked by <a class="el" href="nes_8h.html#a06bab3f8bce032de0d21fbd86e14c3f3">_current_bank</a> when <a class="el" href="gb_8h.html#a6c15ebc660abd3a978137493ab63ffe9">SWITCH_ROM_MBC5_8M</a> is used.</p>
+<p>This variable is updated automatically when you call SWITCH_ROM_MBC1 or SWITCH_ROM_MBC5, <a class="el" href="gb_8h.html#af61262bbc05629f31020afce67e1b9ea">SWITCH_ROM()</a>, or call a BANKED function.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a19558f5bbc9fea767f945001ae9cd13f">SWITCH_ROM_MBC1()</a>, <a class="el" href="gb_8h.html#a92d040284342702026eb19dab59b586e">SWITCH_ROM_MBC5()</a>, <a class="el" href="gb_8h.html#af61262bbc05629f31020afce67e1b9ea">SWITCH_ROM()</a> </dd></dl>
 
 </div>
 </div>

@@ -8,7 +8,7 @@ TOPDIR = $(shell pwd)
 # Package name, used for tarballs
 PKG = gbdk
 # Version, used for tarballs & docs
-VER = 4.2.0
+VER = 4.3.0
 
 PORTS=sm83 z80 mos6502
 PLATFORMS=gb ap duck gg sms msxdos nes
@@ -153,6 +153,8 @@ endif
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/makebin TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
 	@echo Building png2hicolorgb
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/png2hicolorgb TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
+	@echo Building romusage
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/romusage TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
 	@echo
 
 gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
@@ -189,6 +191,9 @@ gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
 	@echo Installing png2hicolorgb
 	@cp $(GBDKSUPPORTDIR)/png2hicolorgb/png2hicolorgb$(EXEEXTENSION) $(BUILDDIR)/bin/png2hicolorgb$(EXEEXTENSION)
 	@$(TARGETSTRIP) $(BUILDDIR)/bin/png2hicolorgb$(EXEEXTENSION)
+	@echo Installing romusage
+	@cp $(GBDKSUPPORTDIR)/romusage/romusage$(EXEEXTENSION) $(BUILDDIR)/bin/romusage$(EXEEXTENSION)
+	@$(TARGETSTRIP) $(BUILDDIR)/bin/romusage$(EXEEXTENSION)
 	@echo
 
 gbdk-support-clean:
@@ -209,6 +214,8 @@ gbdk-support-clean:
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/makebin clean
 	@echo Cleaning png2hicolorgb
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/png2hicolorgb clean
+	@echo Cleaning romusage
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/romusage clean
 	@echo
 
 # Rules for gbdk-lib
@@ -473,13 +480,19 @@ ifneq (,$(wildcard $(BUILDDIR)/bin/))
 	echo \@anchor png2asset-settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \# png2asset settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
-	$(BUILDDIR)/bin/png2asset >> $(TOOLCHAIN_DOCS_FILE) 2>&1
+	$(BUILDDIR)/bin/png2asset >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE)
 # png2hicolorgb
 	echo \@anchor png2hicolorgb-settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \# png2hicolorgb settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 	$(BUILDDIR)/bin/png2hicolorgb -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE)
+# romusage
+	echo \@anchor romusage-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# romusage settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+	$(BUILDDIR)/bin/romusage -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE)
 endif
 

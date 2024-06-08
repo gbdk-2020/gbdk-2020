@@ -9,7 +9,15 @@
 
 .scroll_viewport::
         DISABLE_VBLANK_COPY     ; switch OFF copy shadow SAT
-        ld hl, #(.VDP_TILEMAP + ((.SCREEN_Y_OFS + 1) * .VDP_MAP_WIDTH * 2))
+
+        ld a, (_shadow_VDP_R2)
+        rlca
+        rlca
+        and #0b01111000
+        ld d, a
+        ld e, #0
+        ld hl, #((.SCREEN_Y_OFS + 1) * .VDP_MAP_WIDTH * 2)
+        add hl, de
 
         ld bc, #((.SCREEN_HEIGHT - 1) * .VDP_MAP_WIDTH * 2)
         inc b
@@ -33,6 +41,7 @@
         set 6, h
         WRITE_VDP_CMD_HL
         nop
+        nop
         ld a, e
         out (.VDP_DATA), a
 
@@ -46,9 +55,17 @@
 1$:
         dec c
         jr nz, 2$
-        djnz 2$ 
+        djnz 2$
 
-        ld hl, #(.VDP_TILEMAP + ((.SCREEN_Y_OFS + .SCREEN_HEIGHT - 1) * .VDP_MAP_WIDTH * 2))
+        ld a, (_shadow_VDP_R2)
+        rlca
+        rlca
+        and #0b01111000
+        ld d, a
+        ld e, #0
+        ld hl, #((.SCREEN_Y_OFS + .SCREEN_HEIGHT - 1) * .VDP_MAP_WIDTH * 2)
+        add hl, de
+
         WRITE_VDP_CMD_HL
 
         ld hl, #.SPACE

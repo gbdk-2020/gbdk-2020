@@ -1,9 +1,8 @@
 ; font_min.s
-	
+;	
 ;	Text font
 ;	Michael Hope, 1998
 ;	michaelh@earthling.net
-;	Distrubuted under the Artistic License - see www.opensource.org
 ;
 
 	.module 	font_min

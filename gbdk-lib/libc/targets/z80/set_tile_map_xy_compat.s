@@ -21,15 +21,22 @@ __map_tile_offset::
         ;; Set background tile table from (BC) at XY = DE of size WH = HL
 .set_tile_map_xy_compat::
         push hl
-        ld hl, #.VDP_TILEMAP
+        ld a, (_shadow_VDP_R2)
+        rlca
+        rlca
+        and #0b01111000
+        ld h, a
+        ld l, #0
 
         ;; Set background tile from (BC) at YX = DE, size WH on stack, to VRAM from address (HL)
 .set_tile_map_xy_tt_compat::
+        ld a, h
+        ld iyh, a
         push bc                 ; Store source
 
         ld a, d
         rrca                    ; rrca(2) == rlca(6)
-        rrca 
+        rrca
         ld d, a
         and #0x07
         add h
@@ -43,10 +50,12 @@ __map_tile_offset::
         ld c, a                 ; dest BC = HL + ((0x20 * Y) * 2) + (X * 2)
 
         ld a, b
-        cp #>(.VDP_TILEMAP+0x0700)
-        jr c, 5$
-        ld b, #>.VDP_TILEMAP
-5$:
+        and #0b00000111
+        or iyh
+        ld b, a
+
+        DISABLE_VBLANK_COPY     ; switch OFF copy shadow SAT
+
         pop hl                  ; HL = source
         pop de                  ; DE = HW
         push ix                 ; save IX
@@ -54,8 +63,6 @@ __map_tile_offset::
         ld ixh, b
         ld ixl, c
         push ix                 ; store dest
-
-        DISABLE_VBLANK_COPY     ; switch OFF copy shadow SAT
 
 1$:                             ; copy H rows
         VDP_WRITE_CMD ixh, ixl
@@ -102,11 +109,16 @@ __map_tile_offset::
 
         ld bc, #0x40
         add ix, bc
+
         ld a, ixh
-        cp #>(.VDP_TILEMAP+0x0700)
-        jp c, 4$
-        ld ixh, #>.VDP_TILEMAP
-4$:        
+        and #0b00000111
+        cp #0x07
+        jp nz, 9$
+        xor a
+9$:
+        or iyh
+        ld ixh, a
+
         push ix
         jp 1$
 6$:

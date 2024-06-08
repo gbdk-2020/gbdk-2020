@@ -46,14 +46,14 @@ _putchar::
 0$:
         ld hl, (font_current+sfont_handle_font)
         ld a, h
-        or l 
+        or l
         jr nz, 6$
-        
+
         push de
         call font_load_ibm
         ld a, h
         or l
-        ret z 
+        ret z
         call font_set
         pop de
         ld hl, (font_current+sfont_handle_font)
@@ -72,6 +72,8 @@ _putchar::
         add a, e
         ld e, a
 
+        DISABLE_VBLANK_COPY     ; switch OFF copy shadow SAT
+
         ld a, (.cury)
         ld l, a
         ld h, #0
@@ -89,10 +91,14 @@ _putchar::
         sub l
         ld h, a
 
-        ld bc, #.VDP_TILEMAP
+        ld a, (_shadow_VDP_R2)
+        rlca
+        rlca
+        and #0b01111000
+        ld b, a
+        ld c, #0
         add hl, bc
 
-        DISABLE_VBLANK_COPY     ; switch OFF copy shadow SAT
         WRITE_VDP_CMD_HL
 
         ld a, e

@@ -21,7 +21,7 @@ var drawing_8h =
     [ "plot", "drawing_8h.html#ac888c327137d7f00cb3af57af236602a", null ],
     [ "plot_point", "drawing_8h.html#a595c77bca15884c75fd85af84f373814", null ],
     [ "switch_data", "drawing_8h.html#a7b8f466ecc6be62f6c034e52f05e957a", null ],
-    [ "draw_image", "drawing_8h.html#ab2c383d3e1541fae40cf5174e22166c6", null ],
+    [ "draw_image", "drawing_8h.html#aa06e85b5d83d382aacc62bf3926bf6a6", null ],
     [ "line", "drawing_8h.html#afe0ad8959a2867c4b60829d065660f1b", null ],
     [ "box", "drawing_8h.html#ae1170230e5c9e61cc4321632e949e7ce", null ],
     [ "circle", "drawing_8h.html#ad46c3bdc38dfc9b70214693390d404cb", null ],

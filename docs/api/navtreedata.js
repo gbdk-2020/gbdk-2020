@@ -41,7 +41,7 @@ var NAVTREE =
       [ "Globals", "globals.html", [
         [ "All", "globals.html", "globals_dup" ],
         [ "Functions", "globals_func.html", "globals_func" ],
-        [ "Variables", "globals_vars.html", null ],
+        [ "Variables", "globals_vars.html", "globals_vars" ],
         [ "Typedefs", "globals_type.html", null ],
         [ "Macros", "globals_defs.html", "globals_defs" ]
       ] ]
@@ -52,15 +52,15 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"docs_getting_started.html#autotoc_md12",
-"drawing_8h.html#aef65e5faa0adb82768fca06aafbe50e8",
-"gb_2hardware_8h.html#aaed4a07f441ddeecae520e76eb7b7e27",
-"gb_8h.html#aa5d64e386a00b373f22ffdc5a152c7ba",
-"msx_2hardware_8h.html#a2121cb75e0d570b0f92c7630bc1af25f",
-"msx_8h.html#aca2855edd2d28f66be551a0f7ec23f07",
-"nes_8h.html#afe26f09c824742428c6435e87d179020",
-"sms_8h.html#a2f829cf27d6e3e24c875e9b82dfcb280",
-"stdlib_8h.html#a83798998ad669e85a8f75d6490191760"
+"docs_getting_started.html#autotoc_md10",
+"drawing_8h.html#a1e268a46a8151f9cc3b7b40100123d09",
+"gb_2hardware_8h.html#a92a063885caf6c6cda665da0309055ec",
+"gb_8h.html#a7ef32e7c1669aba48f235500a495baba",
+"incbin_8h.html",
+"msx_8h.html#a8e3f36aa68ac036695816757f2a1322c",
+"nes_8h.html#a92649b68e5fea88d171d933f9a605e50",
+"sms_2hardware_8h.html#aa4062707b9b0f9ff5d1ee982ccc42fe7",
+"sms_8h.html#aebc8751fa428e9845ea25b1060ebe772"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -1,6 +1,6 @@
     .include    "global.s"
 
-    .area   OSEG (PAG, OVR)
+    .area   GBDKOVR (PAG, OVR)
     _set_bkg_tile_xy_PARM_3::   .ds 1   ; (shared with _set_vram_byte_PARM_2)
     .bkg_tile_ppu_addr::        .ds 2
 

@@ -2,7 +2,7 @@
 
     .globl __current_1bpp_colors
 
-    .area	OSEG (PAG, OVR)
+    .area	GBDKOVR (PAG, OVR)
     _set_bkg_1bpp_data_PARM_3:: .ds 2
     src:                        .ds 2
     num_tiles:                  .ds 1

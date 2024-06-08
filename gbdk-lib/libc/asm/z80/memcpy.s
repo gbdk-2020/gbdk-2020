@@ -1,49 +1,38 @@
-;--------------------------------------------------------------------------
-;  memcpy.s
-;
-;  Copyright (C) 2020, Sergey Belyashov
-;  Copyright (c) 2021, Philipp Klaus Krause
-;
-;  This library is free software; you can redistribute it and/or modify it
-;  under the terms of the GNU General Public License as published by the
-;  Free Software Foundation; either version 2, or (at your option) any
-;  later version.
-;
-;  This library is distributed in the hope that it will be useful,
-;  but WITHOUT ANY WARRANTY; without even the implied warranty of
-;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-;  GNU General Public License for more details.
-;
-;  You should have received a copy of the GNU General Public License 
-;  along with this library; see the file COPYING. If not, write to the
-;  Free Software Foundation, 51 Franklin Street, Fifth Floor, Boston,
-;   MA 02110-1301, USA.
-;
-;  As a special exception, if you link this library with other files,
-;  some of which are compiled with SDCC, to produce an executable,
-;  this library does not by itself cause the resulting executable to
-;  be covered by the GNU General Public License. This exception does
-;  not however invalidate any other reasons why the executable file
-;   might be covered by the GNU General Public License.
-;--------------------------------------------------------------------------
+    .ez80
 
-        .area   _CODE
+    .area   _CODE
 
-	.globl _memcpy
-	.globl ___memcpy
+    .globl _memcpy
+    .globl ___memcpy
 
-; The Z80 has the ldir instruction, which is perfect for implementing memcpy().
+; The Z80 has the ldir instruction, but the chain of ldi is faster.
 _memcpy:
 ___memcpy:
-	ex	de, hl
-	pop	iy
-	pop	bc
-	ld	a, c
-	or	a, b
-	jr	Z, end
-	push	de
-	ldir
-	pop	de
-end:
-	jp	(iy)
-
+    ex de, hl
+    pop af
+    pop bc
+    push af
+    ld a, b
+    or c
+    ret z
+    push de
+    ld a, c
+    and #15
+    add a
+    sub #32
+    neg
+    ld iy, #1$
+    add iyl
+    ld iyl, a
+    adc iyh
+    sub iyl
+    ld iyh, a
+    xor a
+    jp (iy)
+1$:
+    .rept 16
+        ldi
+    .endm
+    jp pe, 1$
+    pop de
+    ret

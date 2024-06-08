@@ -45,7 +45,7 @@ static void swap(void *restrict dst, void *restrict src, size_t n)
 	}
 }
 
-void qsort(void *base, size_t nmemb, size_t size, int (*compar)(const void *, const void *) __reentrant)
+void qsort(void *base, size_t nmemb, size_t size, int (*compar)(const void *, const void *) REENTRANT)
 {
 	unsigned char *b = base;
 

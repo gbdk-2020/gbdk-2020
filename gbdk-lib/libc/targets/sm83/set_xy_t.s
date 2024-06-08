@@ -54,9 +54,11 @@ __map_tile_offset::
 
 3$:                             ; Copy W tiles
 
-        WAIT_STAT
         LD      A, (__map_tile_offset)
         ADD     (HL)
+        LD      E, A
+        WAIT_STAT
+        LD      A, E
         LD      (BC), A
         INC     HL
         

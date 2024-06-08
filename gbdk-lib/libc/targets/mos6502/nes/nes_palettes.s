@@ -1,6 +1,6 @@
     .include    "global.s"
 
-    .area   OSEG (PAG, OVR)
+    .area   GBDKOVR (PAG, OVR)
     _set_bkg_palette_PARM_3::
     _set_sprite_palette_PARM_3::
     _set_bkg_palette_entry_PARM_3::
@@ -34,8 +34,8 @@ _set_sprite_palette::
     pla
     asl
     asl
-    tax
     adc #16
+    tax
     ; jmp .set_palette_impl
 
 .set_palette_impl:

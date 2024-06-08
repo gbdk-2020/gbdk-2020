@@ -9,6 +9,8 @@
 
 ; void set_sprite_1bpp_data(uint16_t start, uint16_t ntiles, const void *src) __z88dk_callee;
 _set_sprite_1bpp_data::
+        DISABLE_VBLANK_COPY        ; switch OFF copy shadow SAT
+
         pop af
         pop hl
         pop iy
@@ -22,7 +24,6 @@ _set_sprite_1bpp_data::
         ld bc, #.VDP_SPRDATA0
         add hl, bc
 
-        DISABLE_VBLANK_COPY        ; switch OFF copy shadow SAT
 
         VDP_WRITE_CMD h, l
 

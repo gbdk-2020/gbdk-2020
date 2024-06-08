@@ -102,9 +102,11 @@ _set_bkg_submap::
         push    de              ; store wh
         push    bc              ; store dest
 3$:                             ; copy w tiles
-        WAIT_STAT
         ld      a, (__submap_tile_offset)
         add     (hl)
+        ld      e, a
+        WAIT_STAT
+        ld      a, e
         ld      (bc), a
         inc     hl
         

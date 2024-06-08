@@ -1,6 +1,6 @@
     .include    "global.s"
 
-    .area   OSEG (PAG, OVR)
+    .area   GBDKOVR (PAG, OVR)
     _set_bkg_attributes_nes16x16_PARM_3::   .ds 1
     _set_bkg_attributes_nes16x16_PARM_4::   .ds 1
     _set_bkg_attributes_nes16x16_PARM_5::   .ds 2
@@ -299,7 +299,7 @@ unaligned_x_column_loop:
 lbl:
 .endm
 unaligned_y:
-.define pRow    "__TEMP"
+.define pRow    "REGTEMP"
 ; Round num_rows
     lda *.attribute_num_rows_odd
     bpl 9$

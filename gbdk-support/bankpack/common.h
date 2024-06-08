@@ -25,12 +25,22 @@ enum {
     NES_MAPPER_TYPE_DEFAULT = NES_MAPPER_TYPE_MAPPER30
 };
 
+enum {
+    OBJ_FILE_XL3_24BIT_ADDR = 0,
+    OBJ_FILE_XL4_32BIT_ADDR = 1,
+    OBJ_FILE_UNKNOWN
+};
+#define OBJ_FILE_XL3_ID "XL3"
+#define OBJ_FILE_XL4_ID "XL4"
+
+
 #define MAX_FILE_STR 2048
 
 #define BANK_NUM_UNASSIGNED   0xFFFFU
 #define BANK_NUM_AUTO         255
-#define BANK_NUM_ROM_MIN      1
+#define BANK_NUM_ROM_MIN      0
 #define BANK_NUM_ROM_MAX      255
+#define BANK_NUM_ROM_DEFAULT  1
 #define BANK_ROM_TOTAL        256 // Banks 0-255
 #define BANK_ROM_CALC_MAX     512 // Banks 0-512 (>256 not supported for auto-banking right now)
 #define BANK_SIZE_ROM         0x4000U

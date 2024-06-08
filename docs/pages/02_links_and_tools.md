@@ -1,4 +1,4 @@
-@page docs_links_and_tools Links and Third-Party Tools
+@page docs_links_and_tools Links, Tools and Debugging
 
 
 This is a brief list of useful tools and information. It is not meant to be complete or exhaustive, for a larger list see the @ref awesome_gb "Awesome Game Boy Development" list.
@@ -96,7 +96,6 @@ This is a brief list of useful tools and information. It is not meant to be comp
     __hUGEtracker__ and __hUGEdriver__  
     A tracker and music driver that work with GBDK and RGBDS.
     It is smaller, more efficient and more versatile than gbt_player.  
-    https://github.com/untoxa/hUGEBuild  
     https://github.com/SuperDisk/hUGEDriver  
     https://github.com/SuperDisk/hUGETracker
 
@@ -119,28 +118,58 @@ This is a brief list of useful tools and information. It is not meant to be comp
 
 @anchor tools_emulators
 # Emulators
+  - @anchor emulicious
+    __Emulicious__  
+    An accurate emulator with extensive tools including source level debugging.
+    https://emulicious.net/
+
   - @anchor bgb
     __BGB__  
     Accurate emulator, has useful debugging tools.  
     http://bgb.bircd.org/
 
-  - @anchor emulicious
-    __Emulicious__  
-    An accurate emulator with extensive tools including source level debugging.  
-    https://emulicious.net/
+@anchor code_editors_hinting
+Intellisense in VSCode may have trouble identifying some GBDK types or functions, and therefore flag them as warnings or unidentified.
+
+GBDK platform constants can be declared so that header files are parsed more completely in VSCode. The following `c_cpp_properties.json` example may be adapted for your own project.
+
+        {
+            "configurations": [
+                {
+                    "name": "gameboy",
+                    "includePath": [
+                        "${workspaceFolder}/src/**",
+                        "${workspaceFolder}/res/**",
+                        "${workspaceFolder}/include/**",
+                        "${workspaceFolder}/../../../gbdk/include/**"
+                    ],
+                    "defines": ["__PORT_sm83", "__TARGET_gb"],
+                    "compilerPath": "",
+                    "cStandard": "c11",
+                    "intelliSenseMode": "${default}",
+                    "compilerArgs": [],
+                    "browse": {
+                        "limitSymbolsToIncludedHeaders": true
+                    }
+                }
+            ],
+            "version": 4
+        }
 
 
 @anchor tools_debug
 # Debugging tools
   - @anchor Emulicious_debug
     __Emulicious debug adapter__  
-    Provides source-level debugging in VS Code that works with GBDK2020.  
+    Provides source-level debugging in VS Code and Sublime Text that works with GBDK2020.  
     https://marketplace.visualstudio.com/items?itemName=emulicious.emulicious-debugger
+    - If compiler optimization is making the program source hard to step through in the debugger then adding this flag to @ref lcc can help. Note that using this flag will likely reduce code performance and increase code size while enabled, so it is best to only use it temporarily.
+        - `-Wf--max-allocs-per-node0`
 
   - @anchor romusage
     __romusage__  
     Calculate used and free space in banks (ROM/RAM) and warn about errors such as bank overflows.  
-    https://github.com/bbbbbr/romusage
+    See @ref romusage-settings
 
   - @anchor bgb_symbol_conversion
     __noi file to sym conversion for bgb__  

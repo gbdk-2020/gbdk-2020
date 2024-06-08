@@ -234,7 +234,7 @@ NES/Famicom
 - See @ref nes_technical_details "NES technical details"
 
 @anchor using_cgb_features
-# Using Game Boy Color (CGB) Features
+# Using Game Boy Color (GBC/CGB) Features
 
 ## Differences Versus the Regular Game Boy (DMG/GBP/SGB)
 These are some of the main hardware differences between the Regular Game Boy and the Game Boy Color.
@@ -253,10 +253,12 @@ These are some of the main hardware differences between the Regular Game Boy and
   - WRAM: 8 x 4K WRAM banks in the 0xD000 - 0xDFFF region
   - LCD VRAM DMA
 
-## CGB features in GBDK
+## Game Boy Color features in GBDK
 These are some of the main GBDK API features for the CGB. 
 Many of the items listed below link to additional information.
 
+  - ROM header settings:
+    - See the FAQ entry @ref faq_gb_type_header_setting "How do I set SGB, Color only and Color compatibility in the ROM header?"
   - Tile and Pattern data:
     - Select VRAM Banks: @ref VBK_REG (used with `set_bkg/win/sprite_*()`)
     - set_bkg_attributes(), set_bkg_submap_attributes()
@@ -334,6 +336,30 @@ There are also bit-depth specific API calls:
 - 2bpp: @ref set_2bpp_palette, @ref set_bkg_2bpp_data, @ref set_sprite_2bpp_data, @ref set_tile_2bpp_data (sms/gg only)
 - 2bpp: @ref set_bkg_4bpp_data (sms/gg only), @ref set_sprite_4bpp_data (sms/gg only)
 
+
+### Colors and Palettes
+The SMS/GG have 2 x 16 color palettes:
+- The first (0) is just for the background
+- The second (1) is shared between sprites and the background (and for sprites a single color 0 of that palette is transparent)
+
+On the Game Gear
+- Each Palette is 32 bytes in size: 16 colors x 2 bytes per palette color entry.
+- Each color (16 per palette) is packed as BGR-444 format (x:4:4:4, MSBits [15..12] are unused).
+- Each component (R, G, B) may have values from 0 - 15 (4 bits), 15 is brightest.
+
+On the SMS
+- On SMS each Palette is 16 bytes in size: 16 colors x 1 byte per palette color entry.
+- Each color (16 per palette) is packed as BGR-222 format (x:2:2:2, MSBits [7..6] are unused).
+- Each component (R, G, B) may have values from 0 - 3 (2 bits), 3 is brightest.
+
+For setting palette data:
+- @ref set_palette_entry(): Will set a single color in a palette
+- @ref set_palette(): Can set all the colors for one or both palettes
+- @ref set_bkg_palette(): Is just an alias for @ref set_palette(). The full 16 colors can be set using this call.
+- @ref set_sprite_palette(): Is also an alias for @ref set_palette(), but it offsets to write to the second 16 color palette.
+- Also see: @ref RGB(), RGB8(), @ref RGBHTML()
+
+
 #### Emulated Game Boy Color map attributes on the SMS/Game Gear
 On the Game Boy Color, @ref VBK_REG is used to select between the regular background tile map and the background attribute tile map (for setting tile color palette and other properties).
 
@@ -355,10 +381,18 @@ Most notably:
 * The base NES system has no support for any scanline interrupts. And cartridge mappers that add scanline interrupts do so using wildly varying solutions
 * There's no easy way to determine the current scanline or CPU-to-PPU alignment meaning timed code is often required on the NES
 * The PAL variant of the NES has very different CPU / PPU timings, as do the Dendy clone and other clone systems
-
+* The stock 2 kB CPU RAM is just 1/4th the 8kB CPU RAM on a Game Boy
+  - Free RAM after accounting for ZP, stack, OAM page and system variables further cuts this in half
+  - This means a lot of GB code will need to be carefully optimized for RAM usage when ported to the NES
+  - In particular, make sure to use the "const" modifier for arrays that are read-only, to make sure they don't end up in RAM
+  
 To provide an easier experience, gbdk-nes attempts to hide most of these quirks so that in theory the programming experience for gbdk-nes should be as close as possible to that of the GB/GBC. However, to avoid surprises it is recommended to familiarize yourself with the NES-specific quirks and implementation choices mentioned here.
 
 This entire section is written as a guide on porting GB projects to NES. If you are new to GBDK, you may wish to familiarize yourself with using GBDK for GB development first as the topics covered will make a lot more sense after gaining experience with GB development.
+
+### Mapper
+
+Currently the NES support in GBDK uses UNROM-512 (Mapper30) with single-screen mirroring.
 
 ### Buffered mode vs direct mode
 
@@ -370,14 +404,14 @@ To deal with this limitation, all functions in gbdk-nes that write to PPU memory
 
 The good news is that switching between buffered and direct mode in gbdk-nes is usually done behind-the-scenes and normally shouldn't affect your code too much, as long as you use the portable GBDK functions and macros to do this.
 
-* DISPLAY_ON / SHOW_BG / SHOW_SPR will all switch the system into buffered mode, allowing limited amounts of transfers during vblank, not the display of graphics
+* DISPLAY_ON / SHOW_BG / SHOW_SPR will all switch the system into buffered mode, allowing limited amounts of transfers during vblank, without affecting the display of graphics
 * DISPLAY_OFF will switch the system into direct mode, allowing much larger/faster transfers while the screen is blanked
 
 The following sections describe how the buffered / direct modes work in more detail. As buffered / direct mode is mostly hidden by the API calls, feel free to skip these sections if you wish.
 
 #### Buffered mode implementation details
 
-To take maximum advantage of the short vblank period, gbdk-nes implements the same system as nearly every other NES engine: An unrolled loop that pulls prepared data bytes from the stack.
+To take maximum advantage of the short vblank period, gbdk-nes implements a popular optimization: An unrolled loop that pulls prepared data bytes from the stack.
 
     PLA
     STA PPUDATA
@@ -386,29 +420,29 @@ To take maximum advantage of the short vblank period, gbdk-nes implements the sa
     STA PPUDATA
     RTS
 
-The data structure to facilitate this is usually called a vram transfer buffer, often affectionately called a "popslide" buffer after Damian Yerrick's implementation. This buffer essentially forms a list of commands where each comand sets up a new PPU address and then writes a sequence of bytes with an auto-increment of either +1 or +32. Each such command is often called a "stripe" in the nesdev community.
+The data structure to facilitate this is usually called a vram transfer buffer, often affectionately called a "popslide" buffer after Damian Yerrick's implementation. This buffer essentially forms a list of commands where each command sets up a new PPU address and then writes a sequence of bytes with an auto-increment of either +1 or +32. Each such command is often called a "stripe" in the nesdev community.
 
-It starts at 0x100 and takes around half of the hardware stack page. You can think of the transfer buffer as a software-implemented DMA that allows writing bytes at the optimal rate of 8 cycles / byte. (ignoring the PPU address setup cost)
+The transfer buffer starts at 0x100 and takes around half of the hardware stack page. You can think of the transfer buffer as a software-implemented DMA that allows writing bytes at the optimal rate of 8 cycles / byte. (ignoring the PPU address setup cost)
 
-The buffer allows writing up to 32 continuous bytes at a time. This allows updating a full screen row / column, or two 8x8 tiles worth of tile data in one command / "stripe".
+The buffer supports writing up to 32 continuous bytes at a time. This allows updating a full screen row / column, or two 8x8 tiles worth of tile data in one command / "stripe".
 
 By doing writes to this buffer during game logic, your game will effectively keep writing data transfer commands for the vblank NMI handler to process in the next vblank period, without having to wait until the vblank.
 
-Given that transfer buffer only has space for around 100 data bytes, it is important to not overfill the buffer, as this will bring code execution to a screeching halt, until the NMI handler empties the old contents of the buffer to free up space to allow new commands to be written.
+Given that the transfer buffer only has space for around 100 data bytes, it is important to not overfill the buffer, as this will bring code execution to a screeching halt, until the NMI handler empties the old contents of the buffer to free up space and allow new commands to be written.
 
 Buffered mode is typically used for scrolling updates or dynamically animated tiles, where only a small amount of bytes need updating per frame.
 
 #### Direct mode implementation details
 
-During direct mode, all graphics routines will write directly to the PPUADDR / PPUDATA ports and the transfer buffer limit is never a concern because the transfer buffer is effectively avoided.
+During direct mode, all graphics routines will write directly to the PPUADDR / PPUDATA ports and the transfer buffer limit is never a concern because the transfer buffer is effectively bypassed.
 
 Direct mode is typically used for initializing large amounts of tile data at boot and/or level loading time. Unless you plan to have an animated loading screen and decompress a lot of data, it makes more sense to just fade the screen to black and allow direct mode to write data as fast as possible.
 
 #### Caveat: Make sure the transfer buffer is emptied before switching to direct mode
 
-Because the switch to the direct mode is instant and doesn't wait for the next invocation of the vblank, it is possible to create situations where there is still remaining data in the transfer buffer that would only get written once the system is switched back to buffered mode.
+Because the switch to direct mode is instant and doesn't wait for the next invocation of the vblank, it is possible to create situations where there is still remaining data in the transfer buffer that would only get written once the system is switched back to buffered mode.
 
-To avoid this situation, make sure to always "drain" the buffer by doing a call to wait_vbl_done when you expect your code to finish.
+To avoid this situation, make sure to always "drain" the buffer by doing a call to vsync when you expect your code to finish.
 
 #### Caveat: Only update the PPU palette during buffered mode
 
@@ -416,7 +450,7 @@ The oddity that PPU palette values are accessed through the same mechanism as ot
 
 The reason for this design choice is two-fold:
 * Having the NMI handler keep doing the palette updates when in direct mode would result in a race condition when the NMI handler interrupts the direct mode code and messes with the PPUADDR state that the direct mode code expects to remain unchanged
-* Having the palette updates also switch to direct mode would run into another quirk of the system: Pointing PPUADDR at palette registers when display is turned off will make the display output that palette color instead of the common background color. The result would be glitchy artifacts on screen when updating the palette, leading to slightly-glitchy looking game whenever the palette is updated with the screen off
+* Having the palette updates also switch to direct mode would run into another quirk of the system: Pointing PPUADDR at palette registers when display is turned off will make the display output that palette color instead of the common background color. The result would be glitchy artifacts on screen when updating the palette, leading to a slightly-glitchy looking game whenever the palette is updated with the screen off
 
 To work around this, you are advised to never fully turn the display off during a palette fade. If you don't follow this advice all your palette updates will get delayed until the screen is turned back on.
 
@@ -434,28 +468,44 @@ GBDK provides an API for installing Interrupt Service Routines that execute on s
 
 But the base NES system has no suitable scanline interrupts that can provide such functionality. So instead, gbdk-nes API allows *fake* handlers to be installed in the goal of keeping code compatible with other platforms.
 
-* An installed VBL handler will be called immediately when calling wait_vbl_done. This handler should only update PPU shadow registers
-* An installed LCD handler for a specific scanline will be called after the vblank NMI handler has finished execution, and will then manually run a delay loop to reach that scanline before calling your installed LCD handler.
+* An installed VBL handler will be called immediately when calling vsync. This handler should only update PPU shadow registers.
+* An installed LCD handler for a specific scanline will then be called repeatedly until the value of _lcd_scanline is either set to an earlier scanline or >= 240. After each invocation, shadow registers are stored into a buffer.
+* After the vblank NMI handler has finished palette updates, OAM DMA, VRAM updates and scroll updates it will then manually run a delay loop to reach the particular scanlines that the installed LCD handler was pre-called for, and use the contents of the buffer to update registers.
 
-Because the LCD "ISR" is actually implemented with a delay loop, it will burn a lot of CPU cycles in the frame - the further down the scanline is the larger the CPU cycle loss. In practice this makes this faked-LCD-ISR functionality only suited for status bars at the top screen, or simple parallax cutscenes where the CPU has little else to do.
+Because the LCD "ISR" is actually implemented with a delay loop, it will burn a lot of CPU cycles in the frame - the further down the requested scanline is the larger the CPU cycle loss.
+In practice this makes this faked-LCD-ISR functionality mostly suitable for status bars at the top of the screen screen. Or for simple parallax cutscenes where the CPU has little else to do.
 
 @note The support for VBL and LCD handlers is currently under consideration and subject to change in newer versions of gbdk-nes.
 
-### Caveat: Make sure to call wait_vbl_done on every frame
+### Caveat: Make sure to call vsync on every frame
 
-On the GB, the call to wait_vbl_done is an optional call that serves two purposes:
+On the GB, the call to vsync is an optional call that serves two purposes:
 
 1. It provides a consistent frame timing for your game 
 2. It allows future register writes to be synchronized to the screen
 
-On gbdk-nes the second point is no longer true, because writes need to be made to the shadow registers *before* wait_vbl_done is called.
+On gbdk-nes the second point is no longer true, because writes need to be made to the shadow registers *before* vsync is called.
 
-But the wait_vbl_done call serves two other very important purposes:
+But the vsync call serves three other very important purposes:
 
 A. It calls the optional VBL handler, where shadow registers can be written (and will later be picked up by the actual vblank NMI handler)
-B. It calls flush_shadow_attributes so that updates to background attributes actually get written to PPU memory
+B. It repeatedly calls the optional LCD handler up to MAX_LCD_ISR_CALLS times. After each call, PPU shadow registers are stored into a buffer that will later be used by timed code in the NMI to handle mid-frame changes for screen splits / sprite hiding / etc.
+C. It calls flush_shadow_attributes so that updates to background attributes actually get written to PPU memory
 
-For these reasons you should always include a call to wait_vbl_done if you expect to see any graphical updates on the screen.
+For these reasons you should always include a call to vsync if you expect to see any graphical updates on the screen.
+
+### Caveat: Do all status bar scroll movement in LCD handlers to mitigate glitches
+
+The fake LCD ISR system is not bullet-proof. In particular, it has a problem where lag frames can cause the shadow register updates in LCD handlers not to be ready in time for when the timed code in the NMI handler would be called. This will effectively cause all those updates to be missing for one frame, and result in glitched scroll updates.
+
+There is currently no complete work-around for this problem other than avoiding lag frames altogether. But the glitch can be made less distracting by making sure only the status bar glitches rather than the main background.
+
+If you are using LCD handlers to achieve a top-screen stationary status bar, it is recommended that you follow the following guidelines to make sure the background itself has consistent scrolling:
+* Use move_bkg either in your main loop or in the VBL handler, to set the level scrolling
+* Use move_bkg in the first invocation of the LCD handler, to set the (stationary) status bar scroll position
+* Use move_bkg in the second invocation of the LCD handler, to reset the background scrolling
+
+In short: Ensuring that the last called LCD handler sets the scroll back to the original value means the PPU rendering keeps rendering the background from the same scrolling position even when the NMI handling was missed.
 
 ### Tile Data and Tile Map loading
 
@@ -465,7 +515,7 @@ For these reasons you should always include a call to wait_vbl_done if you expec
 - @ref set_bkg_tiles() loads 1-byte-per-tile tilemaps both for the GB and NES.
 
 #### Tile and Map Data in Native Format
-Use the following api calls when assets are avaialble in the native format for each platform.
+Use the following api calls when assets are available in the native format for each platform.
 
 @ref set_native_tile_data()
   - GB/AP: loads 2bpp tiles data

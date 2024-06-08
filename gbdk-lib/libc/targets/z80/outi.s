@@ -13,7 +13,11 @@
                 outi
         .endm
 .OUTI32::                               ; _OUTI32 label points to a block of 32 OUTI and a RET
-        .rept 32
+        .rept 16
+                outi
+        .endm
+.OUTI16::                               ; _OUTI32 label points to a block of 32 OUTI and a RET
+        .rept 16
                 outi
         .endm
 .OUTI_END::                             ; _outi_block label points to END of OUTI block

@@ -12,6 +12,7 @@ typedef struct file_item {
     uint16_t bank_num;
     bool     rewrite_needed;
     char     name_out[MAX_FILE_STR];
+    unsigned int obj_file_format;
 } file_item;
 
 

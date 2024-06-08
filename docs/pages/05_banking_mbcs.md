@@ -5,6 +5,7 @@
 # ROM/RAM Banking and MBCs (Memory Bank Controllers)
 The standard Game Boy cartridge with no MBC has a fixed 32K bytes of ROM. In order to make cartridges with larger ROM sizes (to store more code and graphics) MBCs can be used. They allow switching between multiple ROM banks that use the same memory region. Only one of the banks can be selected as active at a given time, while all the other banks are inactive (and so, inaccessible).
 
+The majority of this section about banking is focused on the Game Boy since that is the original GBDK platform. Much of it still applies for the Game Gear(GG) and Sega Master System(SMS). For additional details about banking specifically related to these two systems see the @ref sms_gg_banking "SMS/GG Banking" section.
 
 ## Non-banked cartridges
 Cartridges with no MBC controller are non-banked, they have 32K bytes of fixed ROM space and no switchable banks. For these cartridges the ROM space between `0000h and 7FFFh` can be treated as a single large bank of 32K bytes, or as two contiguous banks of 16K bytes in Bank `0` at `0000h - 3FFFh` and Bank `1` at `4000h to 7FFFh`.
@@ -161,14 +162,14 @@ The bank number for a banked function, variable or source file can be stored and
 @anchor banked_keywords
 ### BANKED/NONBANKED Keywords for Functions
 - `BANKED` (is a calling convention):
-  - The function will use banked sdcc calls.
+  - The function will use banked (`far`) sdcc calls (which switch to the function's ROM bank automatically).
   - Placed in the bank selected by its source file (or compiler switches).
   - This keyword only specifies the __calling convention__ for the function, it does not set a bank itself.
 - `NONBANKED` (is a storage attribute):
   - Placed in the non-banked lower 16K region (bank 0), regardless of the bank selected by its source file.
   - Forces the .area to `_HOME`.
 - `<not-specified>`:
-  - The function does not use sdcc banked calls (`near` instead of `far`).
+  - The function does not use sdcc banked calls (`near` instead of `far`/ banked sdcc calls)
   - Placed in the bank selected by its source file (or compiler switches).
 
 @anchor banked_calls
@@ -233,7 +234,7 @@ An example function which can :
 // This function is NONBANKED so it resides in fixed Bank 0
 void set_banked_bkg_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data, uint8_t bank) NONBANKED 
 {
-    uint8_t save = _current_bank;
+    uint8_t save = CURRENT_BANK;
     SWITCH_ROM(bank);
     set_bkg_data(first_tile, nb_tiles, data);
     SWITCH_ROM(save);
@@ -245,14 +246,14 @@ set_banked_bkg_data(<first tile>, <num tiles>, tile_data, BANK(tile_data));
 
 
 @anchor banking_current_bank
-## Currently active bank: _current_bank
-The global variable @ref _current_bank is updated automatically when calling @ref SWITCH_ROM(), @ref SWITCH_ROM_MBC1() and @ref SWITCH_ROM_MBC5, or when a `BANKED` function is called.
+## Currently active bank: CURRENT_BANK
+The global variable @ref CURRENT_BANK (a macro for @ref _current_bank) is updated automatically when calling @ref SWITCH_ROM(), @ref SWITCH_ROM_MBC1() and @ref SWITCH_ROM_MBC5, or when a `BANKED` function is called.
 
 Normaly banked calls are used and the active bank does not need to be directly managed, but in the case that it does the following shows how to save and restore it.
 
 ```{.c}
 // The current bank can be saved
-uint8_t _saved_bank = _current_bank;
+uint8_t _saved_bank = CURRENT_BANK;
 
 // Call some function which changes the bank but does not restore it
 // ...
@@ -321,12 +322,12 @@ A _bank overflow_ during compile/link time (in @ref makebin) is when more code a
 
 See the @ref faq_bank_overflow_errors "FAQ entry about bank overflow errors".
 
-The current toolchain can only detect and warn (using @ref ihxcheck) when one bank overflows into another bank that has data at its start. It cannot warn if a bank overflows into an empty one. For more complete detection, you can use the third-party @ref romusage tool.
+The current toolchain can only detect and warn (using @ref ihxcheck) when one bank overflows into another bank that has data at its start. It cannot warn if a bank overflows into an empty one. For more complete detection, you can use the @ref romusage tool.
 
 
 
 # Bank space usage
-In order to see how much space is used or remains available in a bank, you can use the third-party @ref romusage tool.
+In order to see how much space is used or remains available in a bank you can use the @ref romusage tool.
 
 
 ## Other important notes
@@ -339,4 +340,34 @@ There are several projects in the GBDK 2020 examples folder which demonstrate di
   - `Banks_new`: examples of using new bank assignment and calling conventions available in GBDK 2020 and its updated SDCC version.
   - `Banks_farptr`: using far pointers which have the bank number built into the pointer.
   - `Banks_autobank`: shows how to use the bank auto-assignment feature in GBDK 2020 4.0.2 or later, instead of having to manually specify which bank a source file will reside it.
+
+
+@anchor sms_gg_banking "SMS/GG Banking" section.
+# SMS/Game Gear Banking
+
+The memory banking setup for SMS and Game Gear in GBDK is different than it is for the Game Boy. Instead of a single switchable bank in the `0x4000 - 0x7FFF` range, there are two switchable frames at different address ranges. The configuration is as follows:
+
+- Frame 0: Non-banked, at address `0x0000 - 0x3FFF`
+- Frame 1: `CODE_<N>`, at address `0x4000 - 0x7FFF`
+  - Use for: Banked Code and Assets
+  - Example: `#pragma codeseg CODE_2` or `#pragma codeseg CODE_255` for autobanking (no leading underscore)
+  - Select the active bank using: @ref SWITCH_ROM(). The current active bank can be queried using @ref CURRENT_BANK or `MAP_FRAME1`
+- Frame 2: `_LIT_<N>`, at address 0x8000- 0xBFFF
+  - Use for: Assets
+  - `_DATA_N` may also be mapped into Frame 2 (RAM)
+  - Example: `#pragma codeseg LIT_2` or `#pragma codeseg LIT_255` for autobanking (no leading underscore)
+  - Select the active bank using @ref SWITCH_ROM2(). The current active bank can be queried using `MAP_FRAME2`
+        
+Banked code and any pointers associated with it will only work correctly when active in Frame 1 (at `0x4000`), so it must use `CODE_<N>`. Graphics and other assets may go in either Frame 1 (at `0x4000`) or, if designed for it then Frame 2 (at `0x8000`).
+
+## Auto-Banking
+CODE and LIT cannot share the same bank number. For example, if `CODE` is assigned to `bank 3` then `LIT` cannot be in `bank 3` as well. 
+
+@ref bankpack is aware of this requirement and will group `CODE` and `LIT` separately when packing for autobanking. It's process is as follows:
+  1. Note: CODE and LIT are not sorted before packing
+  2. Assign fixed banks first (for both `CODE` and `LIT`). An error will be generated if both types assigned to the same bank. Banks are marked exclusive to whichever type is assigned in them first.
+  3. Then autobanked entries (both `CODE` and `LIT`) are assigned to banks, they are only assigned to banks of a matching type or an unused bank. Same as above, the first type to use a bank makes it exclusive to that type.
+
+The bankpack option `-banktype=` may be used to set a bank to use specific type (`CODE` or `LIT`). This will take effect before bankpack tries to perform any bank assignment. For example: `-banktype=2:LIT` (or `-Wb-banktype=2:LIT` when used with @ref lcc) sets bank 2 to exclusively use type `LIT`.
+
 

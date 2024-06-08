@@ -20,9 +20,9 @@ _gb_decompress::
         ld      a, (hl) ; load command
         inc     hl
         or      a
-        jr      z, 9$   ; exit, if last byte
+        jr      z, 7$   ; exit, if last byte
         bit     7, a
-        jr      nz, 5$  ; string functions
+        jp      nz, 5$  ; string functions
         bit     6, a
         jr      nz, 3$
         ; RLE byte
@@ -35,8 +35,8 @@ _gb_decompress::
         ld      (de), a
         inc     de
         dec     b
-        jr      nz, 2$
-        jr      1$      ; next command
+        jp      nz, 2$
+        jp      1$      ; next command
 3$:                     ; RLE word
         and     #63
         inc     a
@@ -51,12 +51,12 @@ _gb_decompress::
         ld      (hl), b
         inc     hl
         dec     a
-        jr      nz, 4$
+        jp      nz, 4$
         ex      de, hl
-        jr      1$      ; next command
+        jp      1$      ; next command
 5$:
         bit     6, a
-        jr      nz, 7$
+        jr      nz, 6$
         ; string repeat
         and     #63
         inc     a
@@ -73,15 +73,15 @@ _gb_decompress::
         pop     hl
         inc     hl
         inc     hl
-        jr      1$      ; next command
-7$:                     ; string copy
+        jp      1$      ; next command
+6$:                     ; string copy
         and     #63
         inc     a
         ld      c, a
         ld      b, #0
         ldir
-        jr      1$      ; next command
-9$:
+        jp      1$      ; next command
+7$:
         pop     hl
         ex      de, hl
         or      a       ; clear carry flag

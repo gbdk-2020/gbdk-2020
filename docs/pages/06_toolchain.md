@@ -231,7 +231,7 @@ Tool for converting PNGs into GBDK format MetaSprites and Tile Maps.
 
 - Convert single or multiple frames of graphics into metasprite structured data for use with the ...metasprite...() functions.
 - When `-map` is used, converts images into Tile Maps and matching Tile Sets
-- Supports Game Boy 2bpp, GBC 4bpp, SGB 4bpp, and SMS/GG 4bpp
+- Supports Game Boy / Color, SGB borders, SMS/GG, NES
 
 For detailed settings see @ref png2asset-settings  
 For working with sprite properties (including cgb palettes), see @ref metasprite_and_sprite_properties  
@@ -317,6 +317,8 @@ An updated version of Glen Cook's Windows GUI "hicolour.exe" 1.2 conversion tool
 
 "Hi Color" on the Game Boy Color is a technique for displaying backgrounds with thousands of colors instead being limtied to 32 colors for the entire screen background. It achieves this by changing ~16 colors of the background palette per scanline. The main tradeoffs are that it uses much of the Game Boy's available cpu processing per frame and requires more ROM space. The tile patterns, map, attributes and per-scanline palettes are pre-calculated using the PC based conversion tool.
 
+For the current GBDK example ISR implementation there is a limit of 6 sprites per line before the hi-color timing breaks down and there start to be background artifacts.
+
 Example: `png2hicolorgb myimage.png --csource -o=my_output_filename`
 Example with higher quality (slower conversion): `png2hicolorgb myimage.png --csource -o=my_output_filename --type=3 -L=2 -R=2`
 
@@ -335,3 +337,13 @@ Historical credits and info:
 ### Additional Details
 For technical details about the conversion process and rendering, see:
 https://github.com/bbbbbr/png2hicolorgb
+
+
+@anchor utility_romusage
+## romusage
+A utility for estimating usage of Game Boy and SMS/GG ROMs from .noi and .map files, binary ROMs and more.
+
+- For detailed settings see @ref romusage-settings
+
+Example: `romusage myprogram.noi -g`
+
