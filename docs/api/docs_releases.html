@@ -115,14 +115,19 @@ GBDK-2020 4.3.0</h2>
 <li>Changed <a class="el" href="gbdk_2emu__debug_8h.html#a910b2802e154473f2e10201f5722bc10">EMU_printf()</a> to remove dependency on stdio.h added similar <a class="el" href="gbdk_2emu__debug_8h.html#a322fb0f357e31e5f275d6c1b2c71d1e7">EMU_fmtbuf()</a></li>
 <li>Fixed <a class="el" href="gbdk_2emu__debug_8h.html">emu_debug.h</a> macros missing a trailing space</li>
 <li>NES<ul>
-<li>Many library improvements</li>
-<li>Added PAL support</li>
+<li>Added PAL support (detects NTSC/PAL/Dendy on reset to adjust fake LCD ISR timings)</li>
 <li>Added BCD support</li>
-<li>Added deferred hblank system for fake LCD ISRs</li>
+<li>Added deferred hblank system for fake LCD ISRs, allowing for multiple splits per-frame</li>
+<li>NMI optimization: Only call delay routine for remaining-vblank and LCD handler execution if LCD handler present</li>
+<li>NMI optimization: Skip OAM DMA and delay routines when display is off, to increase unbuffered performance</li>
+<li>NMI optimization: Save 8 cycles of stripe setup cost in vram transfer buffer execution</li>
+<li>ZP memory optimization: Make gbdk-nes functions use its own dedicated overlay segment</li>
 <li>Fixed <code>_map_tile_offset</code> not being applied for <a class="el" href="gb_8h.html#a811c386cac0df2d260aacb5a43608be5">set_bkg_based_tiles()</a></li>
 <li>Fixed VRAM transfer buffer bug (ensure stack page cleared on reset)</li>
 <li>Fixed support for 4-player controllers using fourscore</li>
 <li>Fixed <a class="el" href="msx_8h.html#a7d5ed1aed79d8fd2894893d7f6f9b835">set_sprite_palette()</a> to index from <code>0..3</code> instead of <code>4..7</code></li>
+<li>Fixed __move_metasprite to initialize Y index register to zero</li>
+<li>Fixed <a class="el" href="sms_8h.html#aebc8751fa428e9845ea25b1060ebe772">waitpadup</a> to wait for button release instead of press</li>
 <li>Updated libc to latest from sdcc 4.4.0</li>
 </ul>
 </li>
@@ -130,7 +135,7 @@ GBDK-2020 4.3.0</h2>
 <li>Added <a class="el" href="sms_8h.html#a495bc9f405f916f02ad5d97e6e730134">SHOW_SPRITES</a>, <a class="el" href="sms_8h.html#a69ef98aee664b8abd8d1a3d45f016dda">HIDE_SPRITES</a> (no hiding mid-frame)</li>
 <li>Added <a class="el" href="sms_8h.html#a33caf10f6d1a7cbb6bd07b899c1a545f">S_BANK</a> tile attribute</li>
 <li>Added 6 button controller support in <a class="el" href="gb_8h.html#a4344fefd260763e12703138066841b19">joypad()</a></li>
-<li>Added <a class="el" href="sms_2bcd_8h.html">bcd.h</a> implementation</li>
+<li>Added BCD support</li>
 <li>Added ability to move VDP SAT and name table to other locations by writing to VDP R2 and VDP R5.<ul>
 <li>Set name table to 0x1800 and SAT to 0x1F00 by default to free up some sprite tile space</li>
 <li>Added R5_SAT_0x1F00 definition for the R5 value controlling SAT position in VRAM</li>
@@ -239,7 +244,7 @@ GBDK-2020 4.3.0</h2>
 </ul>
 </li>
 <li>Fixes for SMS/GG: Fonts, Large Map, gbdecompress</li>
-<li>Fixed NES version of Text Scroller to have splits as other platforms</li>
+<li>Fixed NES version of Text Scroller to have multiple splits as other platforms do</li>
 <li>Fixed Simple Physics: joypad input caching was wrong</li>
 <li>Fixed Banks Non-Intrinsic: mismatched SRAM banks for final calculation, improved naming</li>
 <li>Removed Analogue Pocket examples that were just duplicates of Game Boy ones</li>

@@ -171,10 +171,19 @@ Errors and Warnings</h1>
 </li>
 </ul>
 </li>
+</ul>
+<p><a class="anchor" id="faq_linker_conflicting_sdcc_options"></a></p><ul>
 <li>What does the warning <code>?ASlink-Warning-Conflicting sdcc options: "-msm83" in module "_____" and "-mgbz80" in module "_____".</code> mean?<ul>
 <li>One object file was compiled with the PORT setting as <code>gbz80</code> (meaning a version of SDCC / GBDK-2020 <b>OLDER than GBDK-2020 4.1.0</b>).</li>
 <li>The other had the PORT setting as <code>sm83</code> (meaning <b>GBDK-2020 4.1.0 or LATER</b>).</li>
 <li>You must rebuild the object files using <code>sm83</code> with GBDK-2020 4.1.0 or later so that the linker is able to use them with the other object files. Additional details in the <a class="el" href="docs_supported_consoles.html#console_port_plat_settings">Console Port and Platform Settings</a> section. <br  />
+</li>
+</ul>
+</li>
+</ul>
+<p><a class="anchor" id="faq_linker_undefined_global"></a></p><ul>
+<li>What does the warning <code>?ASlink-Warning-Undefined Global ...</code> mean?<ul>
+<li>The linker is unable to find a variable or function that is referenced by some part of the program. This usually means a required source file is not being passed to the linker stage. Make sure all of your project source files are getting compiled and passed to the linker. <br  />
 </li>
 </ul>
 </li>
@@ -198,33 +207,33 @@ Errors and Warnings</h1>
 </li>
 </ul>
 <p><a class="anchor" id="faq_error_mbc_size"></a></p><ul>
-<li>What does <code>error: size of the buffer is too small</code> mean?<ul>
+<li>What do these errors mean? <code>error: size of the buffer is too small</code> <code>error: ROM is too large for number of banks specified</code><ul>
 <li><p class="startli">Your program is using more banks than you have configured in the toolchain. Either the MBC type was not set, or the number of banks or MBC type should be changed to provide more banks.</p>
 <p class="startli">See the section <a class="el" href="docs_rombanking_mbcs.html#setting_mbc_and_rom_ram_banks">setting_mbc_and_rom_ram_banks</a> for more details. <br  />
 </p>
 </li>
 </ul>
 </li>
-<li>What do the following kinds of warnings / errors mean? <code>info 218: z80instructionSize() failed to parse line node, assuming 999 bytes</code><ul>
-<li>This is a known issue with SDCC, it should not cause actual problems and you can ignore the warning. <br  />
-</li>
 </ul>
-</li>
-<li>Why is the compiler so slow, or why did it suddenly get much slower?<ul>
-<li>This may happen if you have large initialized arrays declared without the <code>const</code> keyword. It's important to use the const keyword for read-only data. See <a class="el" href="docs_coding_guidelines.html#const_gbtd_gbmb">const_gbtd_gbmb</a> and <a class="el" href="docs_coding_guidelines.html#const_array_data">const_array_data</a></li>
-<li>It can also happen if C source files are <code>#included</code> into other C source files, or if there is a very large source file. <br  />
-</li>
-</ul>
-</li>
+<p><a class="anchor" id="faq_sdcc_function_declarator_missing_prototype"></a></p><ul>
 <li>What does <code>warning 283: function declarator with no prototype</code> mean?<ul>
 <li>Function forward declarations and definitions which have no arguments should be changed from <code>func()</code> to <code>func(void)</code>.</li>
 <li>In C <code>func()</code> and <code>func(void)</code> do not mean the same thing. <code>()</code> means any number of parameters, <code>(void)</code> means no parameters. For example if a function with no arguments is declared with <code>()</code> then there may not be an error or warning when mistakenly trying to pass arguments to it. <br  />
 </li>
 </ul>
 </li>
-<li>What do the warnings <code>warning 126: unreachable code</code> and <code>warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG</code> mean?<ul>
-<li>There is source code which the compiler has determined will never get executed based on the input values. So either a warning is omitted, or in some cases the optimizer has changed the program so that it skips code that will never run. <br  />
+</ul>
+<p><a class="anchor" id="faq_sdcc_unreachable_code"></a></p><ul>
+<li>What do these warnings mean? <code>warning 126: unreachable code</code> <code>warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG</code><ul>
+<li>The compiler is indicating that some branches of the code will never get executed or will have no effect, and so have been removed during optimization. There may be a logical error, unnecessary logic or unused variables.</li>
+<li>If this is due to a variable which gets modified outside of normal execution (such as during an interrupt) then the <code>volatile</code> keyword can be added to it's declaration. This removes some optimizations and tells the compiler the variable's value may change unexpectedly and cannot be predicted only based on the surrounding code. <br  />
 </li>
+</ul>
+</li>
+</ul>
+<p><a class="anchor" id="faq_sdcc_overflow_implicit_constant_conversion"></a></p><ul>
+<li>What does this warning mean? <code>WARNING: overflow in implicit constant conversion</code><ul>
+<li>See <a class="el" href="docs_coding_guidelines.html#docs_constant_signedness">Constants, Signed-ness and Overflows</a></li>
 </ul>
 </li>
 </ul>
@@ -232,6 +241,13 @@ Errors and Warnings</h1>
 <li>On macOS, what does <code>... developer cannot be verified, macOS cannot verify that this app is free from malware</code> mean?<ul>
 <li>It does not mean that GBDK is malware. It just means the GBDK toolchain binaries are not signed by Apple, so it won't run them without an additional step.</li>
 <li>For the workaround, see the <a class="el" href="docs_getting_started.html#macos_unsigned_security_workaround">macOS unsigned binary workaround</a> for details. <br  />
+</li>
+</ul>
+</li>
+</ul>
+<p><a class="anchor" id="faq_sdcc_z80_failed_to_parse"></a></p><ul>
+<li>What do the following kinds of warnings / errors mean? <code>info 218: z80instructionSize() failed to parse line node, assuming 999 bytes</code><ul>
+<li>This is a known issue with SDCC, it should not cause actual problems and you can ignore the warning. <br  />
 </li>
 </ul>
 </li>
@@ -259,8 +275,12 @@ Debugging / Compiling / Toolchain</h1>
 </li>
 </ul>
 </li>
-<li>What does this warning mean? <code>WARNING: overflow in implicit constant conversion</code><ul>
-<li>See <a class="el" href="docs_coding_guidelines.html#docs_constant_signedness">Constants, Signed-ness and Overflows</a></li>
+</ul>
+<p><a class="anchor" id="faq_sdcc_slow_compiling"></a></p><ul>
+<li>Why is the compiler so slow, or why did it suddenly get much slower?<ul>
+<li>This may happen if you have large initialized arrays declared without the <code>const</code> keyword. It's important to use the const keyword for read-only data. See <a class="el" href="docs_coding_guidelines.html#const_gbtd_gbmb">const_gbtd_gbmb</a> and <a class="el" href="docs_coding_guidelines.html#const_array_data">const_array_data</a></li>
+<li>It can also happen if C source files are <code>#included</code> into other C source files, or if there is a very large source file. <br  />
+</li>
 </ul>
 </li>
 <li>Known issue: SDCC may fail on Windows when <a class="el" href="docs_getting_started.html#windows_sdcc_non_c_drive_path_spaces">run from folder names with spaces on non-C drives</a>. <br  />
