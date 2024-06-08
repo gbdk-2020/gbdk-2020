@@ -191,7 +191,7 @@ var index =
           ] ],
           [ "Shadow PPU registers", "docs_supported_consoles.html#autotoc_md179", null ],
           [ "Implementation of (fake) vbl / lcd handlers", "docs_supported_consoles.html#autotoc_md180", null ],
-          [ "Caveat: Make sure to call wait_vbl_done on every frame", "docs_supported_consoles.html#autotoc_md181", null ],
+          [ "Caveat: Make sure to call vsync on every frame", "docs_supported_consoles.html#autotoc_md181", null ],
           [ "Caveat: Do all status bar scroll movement in LCD handlers to mitigate glitches", "docs_supported_consoles.html#autotoc_md182", null ],
           [ "Tile Data and Tile Map loading", "docs_supported_consoles.html#autotoc_md183", [
             [ "Tile and Map Data in 2bpp Game Boy Format", "docs_supported_consoles.html#autotoc_md184", null ],
