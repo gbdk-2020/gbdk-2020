@@ -48,11 +48,16 @@
   - What does the error `old "gbz80" SDCC PORT name specified (in "-mgbz80:gb"). Use "sm83" instead. You must update your build settings.` mean?
     - The `PORT` name for the Game Boy and related clones changed from `gbz80` to `sm83` in the SDCC version used in GBDK-2020 4.1.0 and later. You must change your Makefile, Build settings, etc to use the new name. Additional details in the @ref console_port_plat_settings "Console Port and Platform Settings" section.  <!-- -->  
 
+  @anchor faq_linker_conflicting_sdcc_options
   - What does the warning `?ASlink-Warning-Conflicting sdcc options: "-msm83" in module "_____" and
    "-mgbz80" in module "_____".` mean?
     - One object file was compiled with the PORT setting as `gbz80` (meaning a version of SDCC / GBDK-2020 __OLDER than GBDK-2020 4.1.0__).
     - The other had the PORT setting as `sm83` (meaning __GBDK-2020 4.1.0 or LATER__).
     - You must rebuild the object files using `sm83` with GBDK-2020 4.1.0 or later so that the linker is able to use them with the other object files. Additional details in the @ref console_port_plat_settings "Console Port and Platform Settings" section.  <!-- -->  
+
+  @anchor faq_linker_undefined_global
+  - What does the warning `?ASlink-Warning-Undefined Global ...` mean?
+    - The linker is unable to find a variable or function that is referenced by some part of the program. This usually means a required source file is not being passed to the linker stage. Make sure all of your project source files are getting compiled and passed to the linker. <!-- -->  
 
   @anchor faq_sdcc_peephole_instruction_error
   - What does `z80instructionSize() failed to parse line node, assuming 999 bytes` mean?
@@ -71,32 +76,41 @@
       See the section @ref docs_rombanking_mbcs for more details about how banks work and what their size is. You may want to use a tool such as @ref romusage to calculate the amount of free and used space. <!-- -->  
 
   @anchor faq_error_mbc_size
-  - What does `error: size of the buffer is too small` mean?
+  - What do these errors mean?
+    `error: size of the buffer is too small`
+    `error: ROM is too large for number of banks specified`
     - Your program is using more banks than you have configured in the toolchain.
       Either the MBC type was not set, or the number of banks or MBC type should be changed to provide more banks. 
 
       See the section @ref setting_mbc_and_rom_ram_banks for more details. <!-- -->  
 
-  - What do the following kinds of warnings / errors mean?
-    `info 218: z80instructionSize() failed to parse line node, assuming 999 bytes`
-    - This is a known issue with SDCC, it should not cause actual problems and you can ignore the warning. <!-- -->  
-
-  - Why is the compiler so slow, or why did it suddenly get much slower?
-    - This may happen if you have large initialized arrays declared without the `const` keyword. It's important to use the const keyword for read-only data. See @ref const_gbtd_gbmb and @ref const_array_data
-    - It can also happen if C source files are `#included` into other C source files, or if there is a very large source file.  <!-- -->  
-
+  @anchor faq_sdcc_function_declarator_missing_prototype
   - What does `warning 283: function declarator with no prototype` mean?
     - Function forward declarations and definitions which have no arguments should be changed from `func()` to `func(void)`.
     - In C `func()` and `func(void)` do not mean the same thing. `()` means any number of parameters, `(void)` means no parameters. For example if a function with no arguments is declared with `()` then there may not be an error or warning when mistakenly trying to pass arguments to it.   <!-- -->  
 
-  - What do the warnings `warning 126: unreachable code` and `warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG` mean?
-    - There is source code which the compiler has determined will never get executed based on the input values. So either a warning is omitted, or in some cases the optimizer has changed the program so that it skips code that will never run.  <!-- -->  
+  @anchor faq_sdcc_unreachable_code
+  - What do these warnings mean?
+    `warning 126: unreachable code`
+    `warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG`
+    - The compiler is indicating that some branches of the code will never get executed or will have no effect, and so have been removed during optimization. There may be a logical error, unnecessary logic or unused variables.
+    - If this is due to a variable which gets modified outside of normal execution (such as during an interrupt) then the `volatile` keyword can be added to it's declaration. This removes some optimizations and tells the compiler the variable's value may change unexpectedly and cannot be predicted only based on the surrounding code. <!-- -->  
 
-@anchor faq_macos_security_warning
+  @anchor faq_sdcc_overflow_implicit_constant_conversion
+  - What does this warning mean?
+    `WARNING: overflow in implicit constant conversion`
+    - See @ref docs_constant_signedness "Constants, Signed-ness and Overflows"
+
+  @anchor faq_macos_security_warning
   - On macOS, what does `... developer cannot be verified, macOS cannot verify that this app is free from malware` mean?
     - It does not mean that GBDK is malware. It just means the GBDK toolchain binaries are not signed by Apple, so it won't run them without an additional step.
 
     - For the workaround, see the @ref macos_unsigned_security_workaround "macOS unsigned binary workaround" for details. <!-- -->  
+
+  @anchor faq_sdcc_z80_failed_to_parse
+  - What do the following kinds of warnings / errors mean?
+    `info 218: z80instructionSize() failed to parse line node, assuming 999 bytes`
+    - This is a known issue with SDCC, it should not cause actual problems and you can ignore the warning. <!-- -->  
 
 
 # Debugging / Compiling / Toolchain
@@ -112,9 +126,10 @@
       - To change the Shadow OAM address: `-Wl-g_shadow_OAM=0xC100`
       - To change the DATA address (again, 240 bytes after the Shadow OAM): `-Wl-b_DATA=0xc1a0` <!-- -->  
 
-  - What does this warning mean?
-    `WARNING: overflow in implicit constant conversion`
-    - See @ref docs_constant_signedness "Constants, Signed-ness and Overflows"
+  @anchor faq_sdcc_slow_compiling
+  - Why is the compiler so slow, or why did it suddenly get much slower?
+    - This may happen if you have large initialized arrays declared without the `const` keyword. It's important to use the const keyword for read-only data. See @ref const_gbtd_gbmb and @ref const_array_data
+    - It can also happen if C source files are `#included` into other C source files, or if there is a very large source file.  <!-- -->  
 
   - Known issue: SDCC may fail on Windows when @ref windows_sdcc_non_c_drive_path_spaces "run from folder names with spaces on non-C drives".
     <!-- -->  
