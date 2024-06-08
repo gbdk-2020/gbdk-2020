@@ -70,7 +70,6 @@ https://github.com/gbdk-2020/gbdk-2020/releases
     - MSXDOS
       - Fixed `.VDP_COLORDATA2` assembly definition
     - Game Boy
-      - Added BCD support
       - Added HBlank copy routines: @ref hblank_copy_vram(), @ref hblank_cpy_vram(), @ref hblank_copy()
       - Added @ref SCF_START, @ref SCF_SOURCE, @ref SCF_SPEED aliases for SIO (Serial/Link port) control register control constants
       - Added clamping and changed to new SDCC calling convention for @ref set_bkg_tile_xy(), @ref set_win_tile_xy()
