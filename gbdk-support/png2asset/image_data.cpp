@@ -71,15 +71,15 @@ int ReadImageData_KeepPaletteOrder(  PNG2AssetData* assetData, string input_file
     // So: state->info_png.color.palette/size instead of state->info_raw.palette/size
     unsigned int palette_count = PaletteCountApplyMaxLimit((unsigned int)assetData->args->max_palettes, (unsigned int)((state.info_png.color.palettesize + assetData->image.colors_per_pal - 1) / assetData->image.colors_per_pal));
     assetData->image.total_color_count = palette_count * assetData->image.colors_per_pal;
+    auto new_palettes_size = assetData->image.total_color_count * RGBA32_SZ;
     // Copy the palette data since the source buffer (state...) won't exist outside the scope of this function
-    assetData->image.palette = new unsigned char[assetData->image.total_color_count * RGBA32_SZ];
-    memcpy(assetData->image.palette, state.info_png.color.palette, assetData->image.total_color_count * RGBA32_SZ);
+    assetData->image.palette.resize(new_palettes_size);
+    copy(state.info_png.color.palette, state.info_png.color.palette + new_palettes_size, assetData->image.palette.begin());
 
     // Save a copy of the palette data if it's the source palette (free first if already allocated)
     if (assetData->args->processing_mode == MODE_SOURCE_TILESET) {
-        if (assetData->image.source_tileset_palette) free(assetData->image.source_tileset_palette);
-        assetData->image.source_tileset_palette = new unsigned char[assetData->image.total_color_count * RGBA32_SZ];
-        memcpy(assetData->image.source_tileset_palette, state.info_png.color.palette, assetData->image.total_color_count * RGBA32_SZ);
+        assetData->image.source_tileset_palette.resize(new_palettes_size);
+        copy(state.info_png.color.palette, state.info_png.color.palette + new_palettes_size, assetData->image.source_tileset_palette.begin());
     }
 
 
@@ -106,11 +106,8 @@ int ReadImageData_KeepPaletteOrder(  PNG2AssetData* assetData, string input_file
             return EXIT_FAILURE;
         }
 
-        size_t size = max(assetData->image.total_color_count, assetData->args->source_total_color_count);
-        // size_t size = max(assetData->image.total_color_count, assetData->source_tileset_image.total_color_count);
-
         // Make sure these two values match when keeping palette order
-        if (memcmp(assetData->image.palette, assetData->image.source_tileset_palette, size) != 0) {
+        if (!equal(assetData->image.palette.begin(), assetData->image.palette.end(), assetData->image.source_tileset_palette.begin())) {
 
             printf("error: The palettes for your source tileset and target image do not match.");
             return EXIT_FAILURE;
@@ -145,7 +142,7 @@ int ReadImageData_Default(PNG2AssetData* assetData, string  input_filename) {
         return EXIT_FAILURE;
     }
 
-    int* palettes_per_tile = BuildPalettesAndAttributes(image32, assetData->palettes, assetData->args->use_2x2_map_attributes);
+    vector<int> palettes_per_tile = BuildPalettesAndAttributes(image32, assetData->palettes, assetData->args->use_2x2_map_attributes);
 
     // Create the indexed image
     // Clearing is needed to ensure loading the png works
@@ -157,9 +154,10 @@ int ReadImageData_Default(PNG2AssetData* assetData, string  input_filename) {
     unsigned int palette_count = PaletteCountApplyMaxLimit((unsigned int)assetData->args->max_palettes, (unsigned int)assetData->palettes.size());
 
     assetData->image.total_color_count = palette_count * assetData->image.colors_per_pal;
-    assetData->image.palette = new unsigned char[palette_count * assetData->image.colors_per_pal * RGBA32_SZ]; // total color count * 4 bytes each
+    auto new_palette_size = assetData->image.colors_per_pal * RGBA32_SZ;
+    assetData->image.palette.resize(palette_count * new_palette_size); // total color count * 4 bytes each
     // Pre-fill palette to all black. Prevents garbage in palette color slots that are unused (ex: only 3 colors when colors-per-pal is 4)
-    memset(assetData->image.palette, 0, palette_count * assetData->image.colors_per_pal * RGBA32_SZ);
+    fill(assetData->image.palette.begin(), assetData->image.palette.end(), 0);
 
     // If using a source tileset and have more palettes than it defines
     // (only check for main image data, not source tilesets)
@@ -170,7 +168,7 @@ int ReadImageData_Default(PNG2AssetData* assetData, string  input_filename) {
     }
     for(size_t p = 0; p < palette_count; ++p)
     {
-        int* color_ptr = (int*)&assetData->image.palette[p * assetData->image.colors_per_pal * RGBA32_SZ];
+        int* color_ptr = (int*)&assetData->image.palette[p * new_palette_size];
 
         // When palettes[p].size() != image.colors_per_pal the unused colors are left as black (see memset above)
         for(SetPal::iterator it = assetData->palettes[p].begin(); it != assetData->palettes[p].end(); ++it, color_ptr++)
