@@ -209,10 +209,20 @@ static int ihx_parse_and_validate_record(char * p_str, ihx_record * p_rec) {
             return false;
         }
 
+        // Make sure banked data is within the supported range
+        // Currently this caps ROM size at the standard 8MB
+        if ((BANK_NUM(p_rec->address)     >= BANKS_MAX_COUNT) ||
+            (BANK_NUM(p_rec->address_end) >= BANKS_MAX_COUNT)) {
+            printf("Error: IHX: bank start or end number (%d,%d) larger than max %d\n", BANK_NUM(p_rec->address), BANK_NUM(p_rec->address_end), BANKS_MAX_COUNT);
+            exit(EXIT_FAILURE);
+        }
+
         // For records that start in banks above the nonbanked region (0x000 - 0x3FFF)
         // Warn (but don't error) if they cross the boundary between different banks
         if ((p_rec->address & 0xFFFFC000U) != (p_rec->address_end & 0xFFFFC000U)) {
 
+            // If the start address is above the nonbanked region then it's
+            // banked data and shouldn't ever occupy two banks at once
             if (p_rec->address >= 0x00004000U) {
                 printf("Warning: Write from one bank spans into the next. 0x%x -> 0x%x (bank %d -> %d)\n",
                        p_rec->address, p_rec->address_end, BANK_NUM(p_rec->address), BANK_NUM(p_rec->address_end));
