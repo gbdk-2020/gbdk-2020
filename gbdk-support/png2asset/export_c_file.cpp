@@ -113,10 +113,11 @@ static void export_c_palette_data(PNG2AssetData* assetData, FILE* file) {
 
     if (!(assetData->args->use_structs) || (assetData->args->includeTileData)) {
         fprintf(file, "const palette_color_t %s_palettes[%d] = {\n", assetData->args->data_name.c_str(), (unsigned int)exportOpt.color_count);
-        const size_t i0 = exportOpt.color_start / assetData->image.colors_per_pal;
-        for(size_t i = i0; i < assetData->image.total_color_count / assetData->image.colors_per_pal; ++i)
+        const size_t palette_start = exportOpt.color_start / assetData->image.colors_per_pal;
+        const size_t total_palette_count = assetData->image.total_color_count / assetData->image.colors_per_pal;
+        for(size_t i = palette_start; i < total_palette_count; ++i)
         {
-            if(i > i0)
+            if(i > palette_start)
                 fprintf(file, ",\n");
             fprintf(file, "\t");
 
