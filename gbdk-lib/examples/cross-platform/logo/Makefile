@@ -12,6 +12,12 @@ PNG2ASSETS = $(GBDK_HOME)bin/png2asset
 # Possible are: gb gbc pocket megaduck sms gg
 TARGETS=gb gbc pocket megaduck sms gg nes
 
+# You can set the name of the resulting ROM file here
+PROJECTNAME = logo
+
+# You can set the name of the ROM title embedded in the ROM header here
+TITLE = LOGO # must be all upper case, maximum 15 characters
+
 # Configure platform specific LCC flags here:
 LCCFLAGS_gb      = -Wl-yt0x1B -autobank # Set an MBC for banking (1B-ROM+MBC5+RAM+BATT)
 LCCFLAGS_pocket  = -Wl-yt0x1B -autobank # Usually the same as required for .gb
@@ -25,6 +31,8 @@ LCCFLAGS += $(LCCFLAGS_$(EXT)) # This adds the current platform specific LCC Fla
 
 LCCFLAGS += -Wl-j -Wm-yoA -Wm-ya4 -Wb-ext=.rel -Wb-v # MBC + Autobanking related flags
 
+LCCFLAGS += -Wm-yn"$(TITLE)" # Add title to rom cartridge header
+
 # GBDK_DEBUG = ON
 ifdef GBDK_DEBUG
 	LCCFLAGS += -debug -v
@@ -34,9 +42,6 @@ endif
 RESFLAGS += $(RESFLAGS_$(TYP))
 
 CFLAGS += -I$(OBJDIR) -DSYSTEM_$(TYP)
-
-# You can set the name of the ROM file here
-PROJECTNAME = logo
 
 # EXT?=gb # Only sets extension to default (game boy .gb) if not populated
 SRCDIR      = src
