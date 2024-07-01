@@ -33,6 +33,8 @@ For a full list of changes see the [ChangeLog](https://github.com/gbdk-2020/gbdk
 ## Build status
 [![GBDK Build and Package](https://github.com/gbdk-2020/gbdk-2020/actions/workflows/gbdk_build_and_package.yml/badge.svg?branch=develop)](https://github.com/gbdk-2020/gbdk-2020/actions/workflows/gbdk_build_and_package.yml)
 
+## Made with GBDK-2020
+See our gallery showcasing [Games and Programs made with GBDK](https://gbdk-2020.github.io/gbdk-2020-gallery/)
 
 ## Docs
 GBDK includes extensive [documentation](https://gbdk-2020.github.io/gbdk-2020/docs/api). A good place to begin is the [Getting Started Section](https://gbdk-2020.github.io/gbdk-2020/docs/api/docs_getting_started.html).
