@@ -106,36 +106,36 @@ For SMS/GG, the ROM file size must be at least 64K to enable mapper support for 
 
 @anchor mbc_type_chart
 
-| Hex Code | MBC Type      | SRAM | Battery | RTC | Rumble | Extra  | Max ROM Size (1)|
-| -------- | ------------- | ---- | ------- | --- | ------ | ------ | --------------- |
-| 0x00     | ROM ONLY      |      |         |     |        |        | 32 K            |
-| 0x01     | MBC-1 (2)     |      |         |     |        |        | 2 MB            |
-| 0x02     | MBC-1 (2)     | SRAM |         |     |        |        | 2 MB            |
-| 0x03     | MBC-1 (2)     | SRAM | BATTERY |     |        |        | 2 MB            |
-| 0x05     | MBC-2         |      |         |     |        |        | 256 K           |
-| 0x06     | MBC-2         |      | BATTERY |     |        |        | 256 K           |
-| 0x08     | ROM (3)       | SRAM |         |     |        |        | 32 K            |
-| 0x09     | ROM (3)       | SRAM | BATTERY |     |        |        | 32 K            |
-| 0x0B     | MMM01         |      |         |     |        |        | 8 MB / N        |
-| 0x0C     | MMM01         | SRAM |         |     |        |        | 8 MB / N        |
-| 0x0D     | MMM01         | SRAM | BATTERY |     |        |        | 8 MB / N        |
-| 0x0F     | MBC-3         |      | BATTERY | RTC |        |        | 2 MB            |
-| 0x10     | MBC-3 (4)     | SRAM | BATTERY | RTC |        |        | 2 MB            |
-| 0x11     | MBC-3         |      |         |     |        |        | 2 MB            |
-| 0x12     | MBC-3 (4)     | SRAM |         |     |        |        | 2 MB            |
-| 0x13     | MBC-3 (4)     | SRAM | BATTERY |     |        |        | 2 MB            |
-| 0x19     | MBC-5         |      |         |     |        |        | 8 MB            |
-| 0x1A     | MBC-5         | SRAM |         |     |        |        | 8 MB            |
-| 0x1B     | MBC-5         | SRAM | BATTERY |     |        |        | 8 MB            |
-| 0x1C     | MBC-5         |      |         |     | RUMBLE |        | 8 MB            |
-| 0x1D     | MBC-5         | SRAM |         |     | RUMBLE |        | 8 MB            |
-| 0x1E     | MBC-5         | SRAM | BATTERY |     | RUMBLE |        | 8 MB            |
-| 0x20     | MBC-6         |      |         |     |        |        | ~2MB            |
-| 0x22     | MBC-7         | SRAM | BATTERY |     | RUMBLE | SENSOR | 2MB             |
-| 0xFC     | POCKET CAMERA |      |         |     |        |        | To Do           |
-| 0xFD     | BANDAI TAMA5  |      |         |     |        |        | To Do           |
-| 0xFE     | HuC3          |      |         | RTC |        |        | To Do           |
-| 0xFF     | HuC1          | SRAM | BATTERY |     |        | IR     | To Do           |
+| Hex Code | MBC Type      | SRAM | Battery | RTC | Rumble | Extra  | Max ROM Size (1)|Max SRAM Size   |
+| -------- | ------------- | ---- | ------- | --- | ------ | ------ | --------------- |--------------- |
+| 0x00     | ROM ONLY      |      |         |     |        |        | 32 K            |0               |
+| 0x01     | MBC-1 (2)     |      |         |     |        |        | 2 MB            |0               |
+| 0x02     | MBC-1 (2)     | SRAM |         |     |        |        | 2 MB            |32 K (5)        |
+| 0x03     | MBC-1 (2)     | SRAM | BATTERY |     |        |        | 2 MB            |32 K (5)        |
+| 0x05     | MBC-2         |      |         |     |        |        | 256 K           |512 x 4 bits (6)|
+| 0x06     | MBC-2         |      | BATTERY |     |        |        | 256 K           |512 x 4 bits (6)|
+| 0x08     | ROM (3)       | SRAM |         |     |        |        | 32 K            |8 K             |
+| 0x09     | ROM (3)       | SRAM | BATTERY |     |        |        | 32 K            |8 K             |
+| 0x0B     | MMM01         |      |         |     |        |        | 8 MB / N        |                |
+| 0x0C     | MMM01         | SRAM |         |     |        |        | 8 MB / N        |128K / N        |
+| 0x0D     | MMM01         | SRAM | BATTERY |     |        |        | 8 MB / N        |128K / N        |
+| 0x0F     | MBC-3         |      | BATTERY | RTC |        |        | 2 MB            |                |
+| 0x10     | MBC-3 (4)     | SRAM | BATTERY | RTC |        |        | 2 MB            |32 K            |
+| 0x11     | MBC-3         |      |         |     |        |        | 2 MB            |                |
+| 0x12     | MBC-3 (4)     | SRAM |         |     |        |        | 2 MB            |32 K            |
+| 0x13     | MBC-3 (4)     | SRAM | BATTERY |     |        |        | 2 MB            |32 K            |
+| 0x19     | MBC-5         |      |         |     |        |        | 8 MB            |                |
+| 0x1A     | MBC-5         | SRAM |         |     |        |        | 8 MB            |128 K           |
+| 0x1B     | MBC-5         | SRAM | BATTERY |     |        |        | 8 MB            |128 K           |
+| 0x1C     | MBC-5         |      |         |     | RUMBLE |        | 8 MB            |                |
+| 0x1D     | MBC-5         | SRAM |         |     | RUMBLE |        | 8 MB            |128 K           |
+| 0x1E     | MBC-5         | SRAM | BATTERY |     | RUMBLE |        | 8 MB            |128 K           |
+| 0x20     | MBC-6         |      |         |     |        |        | ~2MB            |                |
+| 0x22     | MBC-7         |EEPROM| BATTERY |     | RUMBLE | SENSOR | 2MB             |256 byte EEPROM |
+| 0xFC     | POCKET CAMERA |      |         |     |        |        | To Do           |To Do           |
+| 0xFD     | BANDAI TAMA5  |      |         |     |        |        | To Do           |To Do           |
+| 0xFE     | HuC3          |      |         | RTC |        |        | To Do           |To Do           |
+| 0xFF     | HuC1          | SRAM | BATTERY |     |        | IR     | To Do           |To Do           |
 
 
 1: Max possible size for MBC is shown. When used with generic @ref SWITCH_ROM() the max size may be smaller. For example:
@@ -144,10 +144,13 @@ For SMS/GG, the ROM file size must be at least 64K to enable mapper support for 
 
 2: For MBC1 some banks in it's range are unavailable. See pandocs for more details https://gbdev.io/pandocs/MBC1
 
-3: No licensed cartridge makes use of this option. Exact behaviour is unknown.
+3: No licensed cartridge makes use of this option. Exact behavior is unknown.
 
 4: MBC3 with RAM size 64 KByte refers to MBC30, used only in Pocket Monsters Crystal Version for Japan.
 
+5: For MBC1 32 K SRAM is only available for ROM sizes <= 512 K.
+
+6: MBC2 uses integrated RAM with 512 x 4 bits, the upper 4 bits of each byte should be disregarded.
 
 
 ## Getting Bank Numbers
