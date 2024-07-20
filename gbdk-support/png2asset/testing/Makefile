@@ -144,3 +144,7 @@ generate-assets:
 	$(PNG2ASSET) $(RES)/gameboy.png -c $(OUTDIR)/binout.1.bin -bin -tiles_only
 	$(PNG2ASSET) $(RES)/gameboy.png -c $(OUTDIR)/binout.2.bin -bin -maps_only
 	$(PNG2ASSET) $(RES)/gameboy.png -c $(OUTDIR)/binout.3.bin -bin -maps_only -no_palettes
+
+# -no_palettes
+	$(PNG2ASSET) $(RES)/no_pal_map_test.png -c $(OUTDIR)/no_pal_map_test_keep_pal_order.c -noflip -map -keep_palette_order -no_palettes
+	$(PNG2ASSET) $(RES)/no_pal_map_test.png -c $(OUTDIR)/no_pal_map_test.c -noflip -map -no_palettes
