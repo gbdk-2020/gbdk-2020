@@ -15,14 +15,17 @@ LCC = $(GBDK_HOME)bin/lcc
 TARGETS=gb gg sms nes
 
 # Configure platform specific LCC flags here:
-LCCFLAGS_gb      = -Wl-yt0x19 -Wl-yo4 -Wm-yS -Wm-yn"$(PROJECTNAME)"
-LCCFLAGS_pocket  = -Wl-yt0x19 -Wl-yo4 -Wm-yS -Wm-yn"$(PROJECTNAME)"
-LCCFLAGS_duck    = -Wl-yt0x19 -Wl-yo4 -Wm-yS -Wm-yn"$(PROJECTNAME)"
-LCCFLAGS_sms     = -Wl-yo4 -Wm-yS
-LCCFLAGS_gg      = -Wl-yo4 -Wm-yS
+LCCFLAGS_gb      = -Wl-yt0x19 -Wl-yo4 -Wm-yn"$(PROJECTNAME)"
+LCCFLAGS_pocket  = -Wl-yt0x19 -Wl-yo4 -Wm-yn"$(PROJECTNAME)"
+LCCFLAGS_duck    = -Wl-yt0x19 -Wl-yo4 -Wm-yn"$(PROJECTNAME)"
+LCCFLAGS_sms     = -Wl-yo4
+LCCFLAGS_gg      = -Wl-yo4
 LCCFLAGS_nes     = 
 
 LCCFLAGS += $(LCCFLAGS_$(EXT)) # This adds the current platform specific LCC Flags
+
+# .noi symbol file output
+LCCFLAGS += -Wl-j -Wm-yS
 
 # LCCFLAGS += -Wl-j -Wm-yoA -Wm-ya4 -autobank -Wb-ext=.rel -Wb-v # MBC + Autobanking related flags
 

@@ -59,7 +59,7 @@ compile.bat: Makefile
 # -c ...                  : Set C output file
 # Convert metasprite .pngs in res/ -> .c files in obj/<platform ext>/src/
 $(RESOBJSRC)/%.c:	$(RESDIR)/%.png
-	$(PNG2ASSET) $< -keep_duplicate_tiles -map -bpp2 -tiles_only -c $@
+	$(PNG2ASSET) $< -keep_duplicate_tiles -map -bpp 2 -tiles_only -c $@
 
 # Compile the pngs that were converted to .c files
 # .c files in obj/res/ -> .o files in obj/

@@ -353,12 +353,12 @@ const unsigned char * const film[] = {
 
 #define NBDFRAMES 0x18                  /* Nb frames for the door */
 #define NBSFRAMES 0x07                  /* Nb frames for the sprite */
-#define WINSZX    0x80                  /* Size of the picture in the window */
-#define WINSZY    0x50
-#define MINWINX   (MAXWNDPOSX-WINSZX+1) /* Bounds of the window origin */
-#define MINWINY   (MAXWNDPOSY-WINSZY+1)
-#define MAXWINX   MAXWNDPOSX
-#define MAXWINY   MAXWNDPOSY
+#define WINSZX    0x80u                  /* Size of the picture in the window */
+#define WINSZY    0x50u
+#define MINWINX   ((uint8_t)MAXWNDPOSX-WINSZX + 1u) /* Bounds of the window origin */
+#define MINWINY   ((uint8_t)MAXWNDPOSY-WINSZY + 1u)
+#define MAXWINX   ((uint8_t)MAXWNDPOSX)
+#define MAXWINY   ((uint8_t)MAXWNDPOSY)
 #define FADESTEP  0x10                  /* Nb steps for the fading effect */
 #define STARTFADE (0x06*FADESTEP)       /* Initial value for the fading effect */
 
@@ -556,12 +556,12 @@ void main(void)
    * Height = 0x30 = 0x20 * 6
    */
   set_win_tiles(2, 2, 12, 6, door1_tiles);
-  wposx.b.h = MAXWNDPOSX;
+  wposx.b.h = MAXWINX;
   wposx.b.l = 0;
-  WX_REG = MAXWNDPOSX;
-  wposy.b.h = MAXWNDPOSY;
+  WX_REG = MAXWINX;
+  wposy.b.h = MAXWINY;
   wposy.b.l = 0;
-  WY_REG = MAXWNDPOSY;
+  WY_REG = MAXWINY;
   wspx.w = 0xFF80;
   wspy.w = 0xFFC0;
 
@@ -592,41 +592,41 @@ void main(void)
     i = joypad();
     if(i & J_B) {
       if(i & J_UP)
-	bspy.w -= 0x0010;
+    bspy.w -= 0x0010;
       if(i & J_DOWN)
-	bspy.w += 0x0010;
+    bspy.w += 0x0010;
       if(i & J_LEFT)
-	bspx.w -= 0x0010;
+    bspx.w -= 0x0010;
       if(i & J_RIGHT)
-	bspx.w += 0x0010;
+    bspx.w += 0x0010;
     } else if(i & J_A) {
       if(i & J_UP)
-	wspy.w -= 0x0010;
+    wspy.w -= 0x0010;
       if(i & J_DOWN)
-	wspy.w += 0x0010;
+    wspy.w += 0x0010;
       if(i & J_LEFT)
-	wspx.w -= 0x0010;
+    wspx.w -= 0x0010;
       if(i & J_RIGHT)
-	wspx.w += 0x0010;
+    wspx.w += 0x0010;
     } else {
       if(i & J_SELECT)
-	color = STARTFADE;
+    color = STARTFADE;
       if(i & J_START)
-	if(doorstate == CLOSED) {
-	  doorstate = OPENING;
-	  doorpos = 0;
-	} else if(doorstate == OPENED) {
-	  doorstate = CLOSING;
-	  doorpos = NBDFRAMES;
-	}
+    if(doorstate == CLOSED) {
+      doorstate = OPENING;
+      doorpos = 0;
+    } else if(doorstate == OPENED) {
+      doorstate = CLOSING;
+      doorpos = NBDFRAMES;
+    }
       if(i & J_UP)
-	sspy.w -= 0x0010;
+    sspy.w -= 0x0010;
       if(i & J_DOWN)
-	sspy.w += 0x0010;
+    sspy.w += 0x0010;
       if(i & J_LEFT)
-	sspx.w -= 0x0010;
+    sspx.w -= 0x0010;
       if(i & J_RIGHT)
-	sspx.w += 0x0010;
+    sspx.w += 0x0010;
     }
   }
 }
