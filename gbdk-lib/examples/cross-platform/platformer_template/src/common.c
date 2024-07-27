@@ -27,13 +27,13 @@ void setBKGPalettes(uint8_t count, const palette_color_t *palettes) NONBANKED{
         //__WRITE_VDP_REG(VDP_R2, R2_MAP_0x3800);
         //__WRITE_VDP_REG(VDP_R5, R5_SAT_0x3F00);
         set_bkg_palette(0, count, palettes);
-    #elif defined(GAMEBOY)
+    #elif defined(NINTENDO) // With NINTENDO meaning GAMEBOY, ANALOGUEPOCKET, MEGADUCK
         if (_cpu == CGB_TYPE) {
             set_bkg_palette(OAMF_CGB_PAL0, count, palettes);
         }
     #elif defined(NINTENDO_NES)
         set_bkg_palette(0, count, palettes);
-    #endif 
+    #endif
 }
 
 
