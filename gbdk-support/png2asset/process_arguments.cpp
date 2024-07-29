@@ -64,7 +64,8 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
     args->flip_tiles = true;
 
     // args->errorCode;
-    args->bank = -1;
+    args->bank = BANK_NUM_UNSET;
+    args->area_specified = false;
     args->sprite_mode = SPR_8x16;
     args->bpp = 2;
     args->props_default = 0;
@@ -99,7 +100,8 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
         printf("-spr8x16            use SPRITES_8x16 (this is the default)\n");
         printf("-spr16x16msx        use SPRITES_16x16\n");
         printf("-sprite_no_optimize keep empty sprite tiles, do not remove duplicate tiles\n");
-        printf("-b <bank>           bank (default: fixed bank)\n");
+        printf("-b <banknum>        Bank number (default: fixed bank)\n");
+        printf("-area <area name>   Area name. Alters \"pragma bank ...\" output to constseg style. (Ex: -area LIT)\n");
         printf("-keep_palette_order use png palette\n");
         printf("-repair_indexed_pal try to repair indexed tile palettes (implies \"-keep_palette_order\")\n");
         printf("-noflip             disable tile flip\n");
@@ -192,6 +194,11 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
         else if(!strcmp(argv[i], "-b"))
         {
             args->bank = atoi(argv[++i]);
+        }
+        else if(!strcmp(argv[i], "-area"))
+        {
+            args->area_name = argv[++i];
+            args->area_specified = true;
         }
         else if(!strcmp(argv[i], "-keep_palette_order"))
         {
@@ -334,6 +341,11 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
     args->output_filename_tiles_bin = args->output_filename.substr(0, dot_pos) + "_tiles.bin";
     args->data_name = args->output_filename.substr(slash_pos + 1, dot_pos - 1 - slash_pos);
     replace(args->data_name.begin(), args->data_name.end(), '-', '_');
+
+    if ((args->area_specified == true) && (args->bank == BANK_NUM_UNSET)) {
+        printf("Error: \"-area\" specified but bank number is missing. A bank number is required, use \"-b\"\n");
+        return EXIT_FAILURE;
+    }
 
     return EXIT_SUCCESS;
 }

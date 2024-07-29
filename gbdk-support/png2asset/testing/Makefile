@@ -54,6 +54,7 @@ generate-assets:
 	# gg/sms  =   -noflip -pack_mode sms -bpp 4 -keep_palette_order
 	$(PNG2ASSET) $(RES)/SMS/sushi_level07.png -c $(OUTDIR)/zgb_sushi_level07.c   -b 255 -map   -noflip -pack_mode sms -bpp 4 -keep_palette_order -use_structs    -keep_palette_order -rel_paths -keep_duplicate_tiles -source_tileset sushi_tiles.png -entity_tileset sushi_objects.png
 	$(PNG2ASSET) $(RES)/SMS/sushi_tiles.png   -c $(OUTDIR)/zgb_sushi_tiles.c     -b 255 -map   -noflip -pack_mode sms -bpp 4 -keep_palette_order -use_structs    -keep_palette_order -keep_duplicate_tiles -tiles_only
+	$(PNG2ASSET) $(RES)/SMS/sushi_tiles.png   -c $(OUTDIR)/zgb_sushi_tiles_lit.c -b 255 -area LIT -map   -noflip -pack_mode sms -bpp 4 -keep_palette_order -use_structs    -keep_palette_order -keep_duplicate_tiles -tiles_only
 
 
 # Entity and Source tileset interaction
