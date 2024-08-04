@@ -773,10 +773,6 @@ static void help(void) {
 "    unrecognized options are taken to be linker options\n",
 "-A             warn about nonANSI usage; 2nd -A warns more\n",
 "-b             emit expression-level profiling code; see bprint(1)\n",
-#ifdef sparc
-"-Bstatic       specify static libraries\n",
-"-Bdynamic      specify dynamic libraries\n",
-#endif
 "-Bdir/         use the compiler named `dir/rcc'\n",
 "-c             compile only\n",
 "-dn            set switch statement density to `n'\n",
@@ -1022,11 +1018,6 @@ static void opt(char *arg) {
 			return;
 		}
 	case 'B':	/* -Bdir -Bstatic -Bdynamic */
-#ifdef sparc
-		if (strcmp(arg, "-Bstatic") == 0 || strcmp(arg, "-Bdynamic") == 0)
-			llist[L_FILES] = append(arg, llist[L_FILES]);
-		else
-#endif
 		{
 			static char *path;
 			if (path)
