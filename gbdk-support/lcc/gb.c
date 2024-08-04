@@ -292,7 +292,7 @@ int option(char *arg) {
 			setTokenVal("port", words[0]);
 			setTokenVal("plat", words[1]);
 			if (!setClass(words[0], words[1])) {
-				fprintf(stderr, "Error: %s: unrecognised PORT:PLATFORM from %s:%s\n", progname, words[0], words[1]);
+				fprintf(stderr, "Error: %s: unrecognized PORT:PLATFORM from %s:%s\n", progname, words[0], words[1]);
 				exit(-1);
 			}
 		} else {
