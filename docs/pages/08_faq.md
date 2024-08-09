@@ -118,7 +118,8 @@
     - You can use the @ref lcc_debug "lcc debug flag" `-debug`to turn on debug output. It covers most uses and removes the need to specify multiple flags such as `-Wa-l -Wl-m -Wl-j`. Also see @ref tools_debug. <!-- -->  
 
   - Is it possible to generate a debug symbol file (`.sym`) compatible with an emulator?
-    - Yes, turn on `.noi` output (LCC argument: `-Wl-j` or `-debug` and then use `-Wm-yS` with LCC (or `-yS` with makebin directly). <!-- -->  
+    - Yes, turn on `.noi` output (LCC argument: `-Wl-j` or `-debug` and then use `-Wm-yS` with LCC (or `-yS` with makebin directly).
+    - Also see additional information about using @ref tools_debug "debugging tools".<!-- -->  
 
   - How do I move the start of the `DATA` section and the `Shadow OAM` location?
     - The default locations are: `_shadow_OAM=0xC000` and 240 bytes after it `_DATA=0xC0A0`

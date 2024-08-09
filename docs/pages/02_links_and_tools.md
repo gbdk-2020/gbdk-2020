@@ -43,6 +43,14 @@ This is a brief list of useful tools and information. It is not meant to be comp
     https://www.smspower.org/
 
 
+@anchor links_megaduck_docs
+# Mega Duck / Cougar Boy Documentation
+  - @anchor megaduckdev
+    __MegaDuck.dev__  
+    A collection of technical information and resources for the Mega Duck / Cougar Boy console.  
+    https://megaduck.dev/
+
+
 @anchor links_gbdk_tutorials
 # Tutorials
   - @anchor tutorials_larolds
@@ -91,7 +99,7 @@ This is a brief list of useful tools and information. It is not meant to be comp
 
 
 @anchor tools_music
-# Music And Sound Effects
+# Music And Sound Effects for the Game Boy
   - @anchor hUGEdriver
     __hUGEtracker__ and __hUGEdriver__  
     A tracker and music driver that work with GBDK and RGBDS.
@@ -114,6 +122,15 @@ This is a brief list of useful tools and information. It is not meant to be comp
     A .mod converter and music driver that works with GBDK and RGBDS.  
     https://github.com/AntonioND/gbt-player  
     Docs from GBStudio that should mostly apply: https://www.gbstudio.dev/docs/music/
+
+# Music And Sound Effects for the SMS/Game Gear 
+  - @anchor Banjo
+    __Banjo__  
+    A sound driver for Sega Master System and Game Gear which can import from Furnace tracker.   
+    - https://github.com/joffb/banjo
+    An example of using it with GBDK can be found in the CrossZGB engine.
+    - https://github.com/gbdk-2020/CrossZGB/commit/8ecd46639f3af420cfe139fc155740e8aa14d7c5
+
 
 
 @anchor tools_emulators
