@@ -96,9 +96,9 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
         printf("-py <y coord>       metasprites pivot y coordinate (default: metasprites height / 2)\n");
         printf("-pw <width>         metasprites collision rect width (default: metasprites width)\n");
         printf("-ph <height>        metasprites collision rect height (default: metasprites height)\n");
-        printf("-spr8x8             use SPRITES_8x8\n");
-        printf("-spr8x16            use SPRITES_8x16 (this is the default)\n");
-        printf("-spr16x16msx        use SPRITES_16x16\n");
+        printf("-spr8x8             for 8x8  hardware sprites (use SPRITES_8x8)\n");
+        printf("-spr8x16            for 8x16 hardware sprites (use SPRITES_8x16) (the default)\n");
+        printf("-spr16x16msx        MSX only: for 16x16 hardware sprites (use SPRITES_16x16)\n");
         printf("-sprite_no_optimize keep empty sprite tiles, do not remove duplicate tiles\n");
         printf("-b <banknum>        Bank number (default: fixed bank)\n");
         printf("-area <area name>   Area name. Alters \"pragma bank ...\" output to constseg style. (Ex: -area LIT)\n");

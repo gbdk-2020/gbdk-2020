@@ -568,6 +568,7 @@ The Mega Duck is (for practical purposes) functionally identical to the Original
   - Display registers and flag definitions: Some changed
   - Audio registers and flag definitions: Some changed
   - MBC ROM bank switching register address: `0x0001` (many Game Boy MBCs use `0x2000 - 0x3FFF`)
+  - Also see @ref links_megaduck_docs "links for megaduck development"
 
 ### Best Practices
 In order for software to be easily ported to the Mega Duck, or to run on both, use these practices. That will allow GBDK to automatically handle _most_ of the differences (for the exceptions see @ref megaduck_sound_register_value_changes "Sound Register Value Changes").
