@@ -1,8 +1,19 @@
-#include <gb/gb.h>
+#include <gbdk/platform.h>
 #include <stdint.h>
 #include <string.h>
 #include "Font.h"
 #include "DialogueBox.h"
+
+#if defined(SEGA)
+    #define set_text_tiles set_bkg_tiles
+    #define get_text_tiles get_bkg_tiles
+    #define DIALOGUE_BOX_Y (DEVICE_SCREEN_HEIGHT-(DialogueBox_HEIGHT>>3))
+#else
+    #define set_text_tiles set_win_tiles
+    #define get_text_tiles get_win_tiles
+    #define DIALOGUE_BOX_Y 1
+#endif
+
 
 int16_t windowYPosition=0;
 uint8_t fontTilesStart=0;
@@ -13,11 +24,14 @@ uint8_t loadedCharacters[45];
 uint8_t loadedCharacterCount=0;
 
 void MoveWindow(void){
-
+    
+    #if !defined(SEGA)
 
     int16_t y = windowYPosition>>3;
 
     move_win(7,y);
+
+    #endif
 }
 
 
@@ -128,11 +142,11 @@ void ResetLoadedCharacters(void){
 
 void vsyncMultiple(uint8_t count){
      // Wait some frames
-            // This creats a typewriter effect
-            for(uint8_t i=0;i<count;i++){
+    // This creats a typewriter effect
+    for(uint8_t i=0;i<count;i++){
 
-                vsync();
-            }
+        vsync();
+    }
 }
 
 void DrawTextAdvanced(uint8_t column, uint8_t row, uint8_t columnWidth, char* text,uint8_t typewriterDelay){
@@ -183,14 +197,14 @@ void DrawTextAdvanced(uint8_t column, uint8_t row, uint8_t columnWidth, char* te
             else if( rowCount>2){
 
                 uint8_t copyBuffer[36];
-                get_win_tiles(1,3,columnWidth,1,copyBuffer);
+                get_text_tiles(1,3,columnWidth,1,copyBuffer);
                 fill_win_rect(1,1,columnWidth,3,0);
                 set_win_tiles(1,2,columnWidth,1,copyBuffer);
 
                 vsyncMultiple(15);
 
                 fill_win_rect(1,2,columnWidth,2,0);
-                set_win_tiles(1,1,columnWidth,1,copyBuffer);
+                set_text_tiles(1,1,columnWidth,1,copyBuffer);
                 rowCount=2;
 
             }
@@ -251,15 +265,20 @@ void main(void)
 
     set_bkg_data(1,DialogueBox_TILE_COUNT,DialogueBox_tiles);
 
-    // Completely hide the window
-    windowYPosition = (DEVICE_SCREEN_HEIGHT << 3)<<3;
-    MoveWindow();
+    
+    #if !defined(SEGA)
+
+        // Completely hide the window
+        windowYPosition = (DEVICE_SCREEN_HEIGHT << 3)<<3;
+        MoveWindow();
+
+    #endif
     
     while(TRUE){
 
         // We'll pass in one long string, but the game will present to the player multiple pages.
         // By passing 3 as the final argument, the game boy will wait 3 frames between each character
-        DrawTextAdvanced(1,1,DEVICE_SCREEN_WIDTH-2,"This is an how you draw text on the screen in GBDK. The code will automatically jump to a new line, when it cannot fully draw a word.  When you reach three lines, it will wait until you press A. After that, it will start a new page and continue. The code will also automatically start a new page after periods. For every page, the code will dynamically populate VRAM. Only letters and characters used, will be loaded into VRAM.",3);
+        DrawTextAdvanced(1,DIALOGUE_BOX_Y,DEVICE_SCREEN_WIDTH-2,"This is an how you draw text on the screen in GBDK. The code will automatically jump to a new line, when it cannot fully draw a word.  When you reach three lines, it will wait until you press A. After that, it will start a new page and continue. The code will also automatically start a new page after periods. For every page, the code will dynamically populate VRAM. Only letters and characters used, will be loaded into VRAM.",3);
         
     }
 }
