@@ -9,9 +9,11 @@ enum {
     MBC_TYPE_MBC3 = 3,
     /* MBC4 doesn't exist */
     MBC_TYPE_MBC5 = 5,
+    MBC_TYPE_MBC6 = 6,
+    MBC_TYPE_MBC7 = 7,
 
     MBC_TYPE_MIN = MBC_TYPE_MBC1,
-    MBC_TYPE_MAX = MBC_TYPE_MBC5,
+    MBC_TYPE_MAX = MBC_TYPE_MBC7,
     MBC_TYPE_DEFAULT =  MBC_TYPE_NONE
 };
 
@@ -52,6 +54,7 @@ enum {
 #define BANK_NUM_ROM_MAX_MBC2  15
 #define BANK_NUM_ROM_MAX_MBC3  127
 #define BANK_NUM_ROM_MAX_MBC5  255 // 511 // TODO: support full MBC5 address range (currently 8 bit only)
+#define BANK_NUM_ROM_MAX_MBC7  127
 
 #define BANK_NUM_ROM_MAX_UXROM     127  // Oversize UNROM supports up to 4MB, but iNES 1.0 only supports up to 2MB. Historical UxROM boards only supported 256kB at most
 #define BANK_NUM_ROM_MAX_MAPPER30  31   // Mapper30 only supports up to 512kB due to other register bits being used for CHR-RAM / 1-screen mirroring control.

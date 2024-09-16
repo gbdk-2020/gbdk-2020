@@ -192,67 +192,86 @@ int option_get_mbc_type(void) {
 // Set MBC type by interpreting from byte 149
 //
 //  For lcc linker option: -Wl-ytN where N is one of the numbers below
-//  (from makebin.c in SDCC)
 //
-//  ROM Byte 0147: Cartridge type:
-//  0-ROM ONLY            12-ROM+MBC3+RAM
-//  1-ROM+MBC1            13-ROM+MBC3+RAM+BATT
-//  2-ROM+MBC1+RAM        19-ROM+MBC5
-//  3-ROM+MBC1+RAM+BATT   1A-ROM+MBC5+RAM
-//  5-ROM+MBC2            1B-ROM+MBC5+RAM+BATT
-//  6-ROM+MBC2+BATTERY    1C-ROM+MBC5+RUMBLE
-//  8-ROM+RAM             1D-ROM+MBC5+RUMBLE+SRAM
-//  9-ROM+RAM+BATTERY     1E-ROM+MBC5+RUMBLE+SRAM+BATT
-//  B-ROM+MMM01           1F-Pocket Camera
-//  C-ROM+MMM01+SRAM      FD-Bandai TAMA5
-//  D-ROM+MMM01+SRAM+BATT FE - Hudson HuC-3
-//  F-ROM+MBC3+TIMER+BATT FF - Hudson HuC-1
-//  10-ROM+MBC3+TIMER+RAM+BATT
-//  11-ROM+MBC3
+// | Hex Code | MBC Type      | SRAM | Battery | RTC | Rumble | Extra  | Max ROM Size (1)|Max SRAM Size   |
+// | -------- | ------------- | ---- | ------- | --- | ------ | ------ | --------------- |--------------- |
+// | 0x00     | ROM ONLY      |      |         |     |        |        | 32 K            |0               |
+// | 0x01     | MBC-1 (2)     |      |         |     |        |        | 2 MB            |0               |
+// | 0x02     | MBC-1 (2)     | SRAM |         |     |        |        | 2 MB            |32 K (5)        |
+// | 0x03     | MBC-1 (2)     | SRAM | BATTERY |     |        |        | 2 MB            |32 K (5)        |
+// | 0x05     | MBC-2         |      |         |     |        |        | 256 K           |512 x 4 bits (6)|
+// | 0x06     | MBC-2         |      | BATTERY |     |        |        | 256 K           |512 x 4 bits (6)|
+// | 0x08     | ROM (3)       | SRAM |         |     |        |        | 32 K            |8 K             |
+// | 0x09     | ROM (3)       | SRAM | BATTERY |     |        |        | 32 K            |8 K             |
+// | 0x0B     | MMM01         |      |         |     |        |        | 8 MB / N        |                |
+// | 0x0C     | MMM01         | SRAM |         |     |        |        | 8 MB / N        |128K / N        |
+// | 0x0D     | MMM01         | SRAM | BATTERY |     |        |        | 8 MB / N        |128K / N        |
+// | 0x0F     | MBC-3         |      | BATTERY | RTC |        |        | 2 MB            |                |
+// | 0x10     | MBC-3 (4)     | SRAM | BATTERY | RTC |        |        | 2 MB            |32 K            |
+// | 0x11     | MBC-3         |      |         |     |        |        | 2 MB            |                |
+// | 0x12     | MBC-3 (4)     | SRAM |         |     |        |        | 2 MB            |32 K            |
+// | 0x13     | MBC-3 (4)     | SRAM | BATTERY |     |        |        | 2 MB            |32 K            |
+// | 0x19     | MBC-5         |      |         |     |        |        | 8 MB            |                |
+// | 0x1A     | MBC-5         | SRAM |         |     |        |        | 8 MB            |128 K           |
+// | 0x1B     | MBC-5         | SRAM | BATTERY |     |        |        | 8 MB            |128 K           |
+// | 0x1C     | MBC-5         |      |         |     | RUMBLE |        | 8 MB            |                |
+// | 0x1D     | MBC-5         | SRAM |         |     | RUMBLE |        | 8 MB            |128 K           |
+// | 0x1E     | MBC-5         | SRAM | BATTERY |     | RUMBLE |        | 8 MB            |128 K           |
+// | 0x20     | MBC-6         |      |         |     |        |        | ~2MB            |                |
+// | 0x22     | MBC-7         |EEPROM| BATTERY |     | RUMBLE | SENSOR | 2MB             |256 byte EEPROM |
+// | 0xFC     | POCKET CAMERA |      |         |     |        |        | To Do           |To Do           |
+// | 0xFD     | BANDAI TAMA5  |      |         |     |        |        | To Do           |To Do           |
+// | 0xFE     | HuC3          |      |         | RTC |        |        | To Do           |To Do           |
+// | 0xFF     | HuC1          | SRAM | BATTERY |     |        | IR     | To Do           |To Do           |
 void option_mbc_by_rom_byte_149(int mbc_type_rom_byte) {
 
     switch (mbc_type_rom_byte) {
         // NO MBC
-        case 0x00U: //  0-ROM ONLY
-        case 0x08U: //  2-ROM+MBC1+RAM
-        case 0x09U: //  8-ROM+RAM
-        case 0x0BU: //  B-ROM+MMM01
-        case 0x0CU: //  C-ROM+MMM01+SRAM
-        case 0x0DU: //  D-ROM+MMM01+SRAM+BATT
+        case 0x00u: //  0-ROM ONLY
+        case 0x08u: //  2-ROM+MBC1+RAM
+        case 0x09u: //  8-ROM+RAM
+        case 0x0Bu: //  B-ROM+MMM01
+        case 0x0Cu: //  C-ROM+MMM01+SRAM
+        case 0x0Du: //  D-ROM+MMM01+SRAM+BATT
             option_set_mbc(MBC_TYPE_NONE);
             break;
 
         // MBC 1
-        case 0x01U: //  1-ROM+MBC1
-        case 0x02U: //  2-ROM+MBC1+RAM
-        case 0x03U: //  3-ROM+MBC1+RAM+BATT
+        case 0x01u: //  1-ROM+MBC1
+        case 0x02u: //  2-ROM+MBC1+RAM
+        case 0x03u: //  3-ROM+MBC1+RAM+BATT
             option_set_mbc(MBC_TYPE_MBC1);
             break;
 
         // MBC 2
-        case 0x05U: //  5-ROM+MBC2
-        case 0x06U: //  6-ROM+MBC2+BATTERY
+        case 0x05u: //  5-ROM+MBC2
+        case 0x06u: //  6-ROM+MBC2+BATTERY
             option_set_mbc(MBC_TYPE_MBC2);
             break;
 
         // MBC 3
-        case 0x0FU: //  F-ROM+MBC3+TIMER+BATT
-        case 0x10U: //  10-ROM+MBC3+TIMER+RAM+BATT
-        case 0x11U: //  11-ROM+MBC3
-        case 0x12U: //  12-ROM+MBC3+RAM
-        case 0x13U: //  13-ROM+MBC3+RAM+BATT
-        case 0xFCU: //  FC-GAME BOY CAMERA
+        case 0x0Fu: //  F-ROM+MBC3+TIMER+BATT
+        case 0x10u: //  10-ROM+MBC3+TIMER+RAM+BATT
+        case 0x11u: //  11-ROM+MBC3
+        case 0x12u: //  12-ROM+MBC3+RAM
+        case 0x13u: //  13-ROM+MBC3+RAM+BATT
+        case 0xFCu: //  FC-GAME BOY CAMERA
             option_set_mbc(MBC_TYPE_MBC3);
             break;
 
         // MBC 5
-        case 0x19U: //  19-ROM+MBC5
-        case 0x1AU: //  1A-ROM+MBC5+RAM
-        case 0x1BU: //  1B-ROM+MBC5+RAM+BATT
-        case 0x1CU: //  1C-ROM+MBC5+RUMBLE
-        case 0x1DU: //  1D-ROM+MBC5+RUMBLE+SRAM
-        case 0x1EU: //  1E-ROM+MBC5+RUMBLE+SRAM+BATT
+        case 0x19u: //  19-ROM+MBC5
+        case 0x1Au: //  1A-ROM+MBC5+RAM
+        case 0x1Bu: //  1B-ROM+MBC5+RAM+BATT
+        case 0x1Cu: //  1C-ROM+MBC5+RUMBLE
+        case 0x1Du: //  1D-ROM+MBC5+RUMBLE+SRAM
+        case 0x1Eu: //  1E-ROM+MBC5+RUMBLE+SRAM+BATT
             option_set_mbc(MBC_TYPE_MBC5);
+            break;
+
+        // MBC 7
+        case 0x22u: //  22-MBC-7 +EEPROM +BATTERY +RUMBLE +SENSOR: 2MB ROM, 256 byte EEPROM
+            option_set_mbc(MBC_TYPE_MBC7);
             break;
 
         default:
@@ -286,6 +305,10 @@ void option_set_mbc(int mbc_type) {
         case MBC_TYPE_MBC5:
             option_mbc_type = mbc_type;
             mbc_bank_limit_rom_max = BANK_NUM_ROM_MAX_MBC5;
+            break;
+        case MBC_TYPE_MBC7:
+            option_mbc_type = mbc_type;
+            mbc_bank_limit_rom_max = BANK_NUM_ROM_MAX_MBC7;
             break;
         default:
             printf("BankPack: Warning: unrecognized MBC option -mbc%d!\n", mbc_type);
