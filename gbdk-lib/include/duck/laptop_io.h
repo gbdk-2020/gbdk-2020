@@ -32,6 +32,7 @@
 #define DUCK_IO_CMD_DONE_OR_OK                0x01u
 // #define DUCK_IO_CMD_DONE_OR_OK_AND_SOMETHING  0x81u
 #define DUCK_IO_CMD_ABORT_OR_FAIL             0x04u
+#define DUCK_IO_CMD_PLAY_SPEECH               0x05u
 #define DUCK_IO_CMD_RUN_CART_IN_SLOT          0x08u
 #define DUCK_IO_CMD_INIT_UNKNOWN_0x09         0x09u   /**< May also be PrintScreen related */
 #define DUCK_IO_CMD_SET_RTC                   0x0Bu   /**< Command to set hardware RTC by sending a multi-byte packet */
@@ -46,9 +47,11 @@
 // #define DUCK_IO_REPLY_READ_FAIL_MAYBE    0x00u
 #define DUCK_IO_REPLY_BOOT_OK         0x01u
 
-#define DUCK_IO_LEN_KBD_GET           2u /**< GET Keyboard key payload size: 2 bytes Payload (excludes 1 length header byte, 1 byte Checksum) */
-#define DUCK_IO_LEN_RTC_GET           8u /**< GET RTC          payload size: 8 bytes Payload (excludes 1 length header byte, 1 byte Checksum) */
-#define DUCK_IO_LEN_RTC_SET           8u /**< SET RTC          payload size: 8 bytes Payload (excludes 1 length header byte, 1 byte Checksum) */
+#define DUCK_IO_LEN_KBD_GET           2u /**< Get Keyboard key payload size: 2 bytes Payload (excludes 1 length header byte, 1 byte Checksum) */
+#define DUCK_IO_LEN_RTC_GET           8u /**< Get RTC          payload size: 8 bytes Payload (excludes 1 length header byte, 1 byte Checksum) */
+#define DUCK_IO_LEN_RTC_SET           8u /**< Set RTC          payload size: 8 bytes Payload (excludes 1 length header byte, 1 byte Checksum) */
+#define DUCK_IO_LEN_PLAY_SPEECH       1u /**< Play Speech      payload size: 1 byte  Payload (excludes 1 length header byte, 1 byte Checksum) */
+
 
 // #define MEGADUCK_KBD_BYTE_1_EXPECT   0x0Eu
 // #define MEGADUCK_SIO_BOOT_OK         0x01u
@@ -60,6 +63,10 @@
 #define DUCK_IO_TIMEOUT_100_MSEC      100u
 #define DUCK_IO_TIMEOUT_200_MSEC      200u
 
+
+// Pre-recorded Speech Samples for playback
+#define DUCK_IO_SPEECH_CMD_MIN 1
+#define DUCK_IO_SPEECH_CMD_MAX 6
 
 
 // RTC packet byte ordering (all in BCD format)
