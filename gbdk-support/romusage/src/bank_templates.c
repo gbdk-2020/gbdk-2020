@@ -37,25 +37,25 @@
 // ===== Game Boy =====
 
 // ROM
-const bank_item ROM_0 =          {"ROM_0",   0x0000, 0x3FFF, BANKED_NO,  0x7FFF, 0,0,0, BANK_MEM_TYPE_ROM,  BANK_STARTNUM_0, BANK_MERGED_NO};
-const bank_item ROM_X_banked =   {"ROM_",    0x4000, 0x7FFF, BANKED_YES, 0x7FFF, 0,0,0, BANK_MEM_TYPE_ROM,  BANK_STARTNUM_1, BANK_MERGED_NO};
+const bank_item ROM_0 =          {"ROM_0",   0x0000, 0x3FFF, BANKED_NO,  0x7FFF, 0,0,0, BANK_MEM_TYPE_ROM,  BANK_STARTNUM_0, BANK_MERGED_NO, HIDDEN_NO};
+const bank_item ROM_X_banked =   {"ROM_",    0x4000, 0x7FFF, BANKED_YES, 0x7FFF, 0,0,0, BANK_MEM_TYPE_ROM,  BANK_STARTNUM_1, BANK_MERGED_NO, HIDDEN_NO};
 // Merged version
-const bank_item ROM_nonbanked =  {"ROM",     0x0000, 0x7FFF, BANKED_YES, 0x7FFF, 0,0,0, BANK_MEM_TYPE_ROM,  BANK_STARTNUM_0, BANK_MERGED_YES};
+const bank_item ROM_nonbanked =  {"ROM",     0x0000, 0x7FFF, BANKED_YES, 0x7FFF, 0,0,0, BANK_MEM_TYPE_ROM,  BANK_STARTNUM_0, BANK_MERGED_YES, HIDDEN_NO};
 
 // VRAM
-const bank_item VRAM =           {"VRAM_",   0x8000, 0x9FFF, BANKED_YES, 0x9FFF, 0,0,0, BANK_MEM_TYPE_VRAM, BANK_STARTNUM_0, BANK_MERGED_NO};
+const bank_item VRAM =           {"VRAM_",   0x8000, 0x9FFF, BANKED_YES, 0x9FFF, 0,0,0, BANK_MEM_TYPE_VRAM, BANK_STARTNUM_0, BANK_MERGED_NO, HIDDEN_NO};
 
 // SRAM
-const bank_item SRAM =           {"SRAM_",   0xA000, 0xBFFF, BANKED_YES, 0xBFFF, 0,0,0, BANK_MEM_TYPE_SRAM, BANK_STARTNUM_0, BANK_MERGED_NO};
+const bank_item SRAM =           {"SRAM_",   0xA000, 0xBFFF, BANKED_YES, 0xBFFF, 0,0,0, BANK_MEM_TYPE_SRAM, BANK_STARTNUM_0, BANK_MERGED_NO, HIDDEN_NO};
 
 // WRAM
-const bank_item WRAM_0 =         {"WRAM_LO", 0xC000, 0xCFFF, BANKED_NO,  0xDFFF, 0,0,0, BANK_MEM_TYPE_WRAM, BANK_STARTNUM_0, BANK_MERGED_NO};
-const bank_item WRAM_X_banked =  {"WRAM_HI_",0xD000, 0xDFFF, BANKED_YES, 0xDFFF, 0,0,0, BANK_MEM_TYPE_WRAM, BANK_STARTNUM_1, BANK_MERGED_NO};
+const bank_item WRAM_0 =         {"WRAM_LO", 0xC000, 0xCFFF, BANKED_NO,  0xDFFF, 0,0,0, BANK_MEM_TYPE_WRAM, BANK_STARTNUM_0, BANK_MERGED_NO, HIDDEN_NO};
+const bank_item WRAM_X_banked =  {"WRAM_HI_",0xD000, 0xDFFF, BANKED_YES, 0xDFFF, 0,0,0, BANK_MEM_TYPE_WRAM, BANK_STARTNUM_1, BANK_MERGED_NO, HIDDEN_NO};
 // Merged version
-const bank_item WRAM_nonbanked = {"WRAM",    0xC000, 0xDFFF, BANKED_YES, 0xDFFF, 0,0,0, BANK_MEM_TYPE_WRAM, BANK_STARTNUM_0, BANK_MERGED_YES};
+const bank_item WRAM_nonbanked = {"WRAM",    0xC000, 0xDFFF, BANKED_YES, 0xDFFF, 0,0,0, BANK_MEM_TYPE_WRAM, BANK_STARTNUM_0, BANK_MERGED_YES, HIDDEN_NO};
 
 // HRAM
-const bank_item HRAM =           {"HRAM",    0xFF80, 0xFFFE, BANKED_NO,  0xFFFE, 0,0,0, BANK_MEM_TYPE_HRAM, BANK_STARTNUM_0, BANK_MERGED_NO};
+const bank_item HRAM =           {"HRAM",    0xFF80, 0xFFFE, BANKED_NO,  0xFFFE, 0,0,0, BANK_MEM_TYPE_HRAM, BANK_STARTNUM_0, BANK_MERGED_NO, HIDDEN_NO};
 
 
 // ===== Game Gear =====
@@ -66,15 +66,15 @@ const bank_item HRAM =           {"HRAM",    0xFF80, 0xFFFE, BANKED_NO,  0xFFFE,
 // _LIT_<N> is at base address 0x8000 (assets)
 // _DATA_N is also at base address 0x8000 (RAM)
 
-const bank_item smsgg_ROM_0 =          {"ROM_0",   0x0000, 0x3FFF, BANKED_NO,  0x7FFF, 0,0,0, BANK_MEM_TYPE_ROM,  BANK_STARTNUM_0, BANK_MERGED_NO};
-const bank_item smsgg_ROM_X_banked =   {"ROM_",    0x4000, 0x7FFF, BANKED_YES, 0x7FFF, 0,0,0, BANK_MEM_TYPE_ROM,  BANK_STARTNUM_1, BANK_MERGED_NO};
+const bank_item smsgg_ROM_0 =          {"ROM_0",   0x0000, 0x3FFF, BANKED_NO,  0x7FFF, 0,0,0, BANK_MEM_TYPE_ROM,  BANK_STARTNUM_0, BANK_MERGED_NO, HIDDEN_NO};
+const bank_item smsgg_ROM_X_banked =   {"ROM_",    0x4000, 0x7FFF, BANKED_YES, 0x7FFF, 0,0,0, BANK_MEM_TYPE_ROM,  BANK_STARTNUM_1, BANK_MERGED_NO, HIDDEN_NO};
 // Merged version
-const bank_item smsgg_ROM_nonbanked =  {"ROM",     0x0000, 0x7FFF, BANKED_YES, 0x7FFF, 0,0,0, BANK_MEM_TYPE_ROM,  BANK_STARTNUM_0, BANK_MERGED_YES};
+const bank_item smsgg_ROM_nonbanked =  {"ROM",     0x0000, 0x7FFF, BANKED_YES, 0x7FFF, 0,0,0, BANK_MEM_TYPE_ROM,  BANK_STARTNUM_0, BANK_MERGED_YES, HIDDEN_NO};
 
-const bank_item smsgg_LIT_X_banked =   {"LIT_",    0x8000, 0xBFFF, BANKED_YES, 0xBFFF, 0,0,0, BANK_MEM_TYPE_ROM,  BANK_STARTNUM_1, BANK_MERGED_NO};
+const bank_item smsgg_LIT_X_banked =   {"LIT_",    0x8000, 0xBFFF, BANKED_YES, 0xBFFF, 0,0,0, BANK_MEM_TYPE_ROM,  BANK_STARTNUM_1, BANK_MERGED_NO, HIDDEN_NO};
 // Data can also be in the 0x8000 region.. requires some special handling in banks_check()
-const bank_item smsgg_DATA_X_banked =  {"DATA_",   0x8000, 0xBFFF, BANKED_YES, 0xBFFF, 0,0,0, BANK_MEM_TYPE_SRAM,  BANK_STARTNUM_1, BANK_MERGED_NO};
-const bank_item smsgg_RAM_nonbanked =  {"RAM",     0xC000, 0xDFFF, BANKED_YES, 0xDFFF, 0,0,0, BANK_MEM_TYPE_WRAM, BANK_STARTNUM_0, BANK_MERGED_YES};
+const bank_item smsgg_DATA_X_banked =  {"DATA_",   0x8000, 0xBFFF, BANKED_YES, 0xBFFF, 0,0,0, BANK_MEM_TYPE_SRAM,  BANK_STARTNUM_1, BANK_MERGED_NO, HIDDEN_NO};
+const bank_item smsgg_RAM_nonbanked =  {"RAM",     0xC000, 0xDFFF, BANKED_YES, 0xDFFF, 0,0,0, BANK_MEM_TYPE_WRAM, BANK_STARTNUM_0, BANK_MERGED_YES, HIDDEN_NO};
 
 
 static int bank_template_add(int idx, bank_item * p_bank_templates, const bank_item  * p_bank) {

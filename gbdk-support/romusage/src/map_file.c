@@ -10,6 +10,7 @@
 #include <stdint.h>
 
 #include "common.h"
+#include "logging.h"
 #include "banks.h"
 #include "map_file.h"
 
@@ -141,7 +142,10 @@ int map_file_process_areas(char * filename_in) {
         fclose(map_file);
 
     } // end: if valid file
-    else return (false);
+    else {
+        log_error("Error: Failed to open input file %s\n", filename_in);
+        return false;
+    }
 
    return true;
 }

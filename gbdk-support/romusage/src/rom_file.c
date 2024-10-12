@@ -17,14 +17,51 @@
 
 
 #define ADDR_UNSET 0xFFFFFFFF
-#define EMPTY_CONSECUTIVE_THRESHOLD 16
-#define EMPTY_VAL 0xFF
+
+#define EMPTY_RUN_TOO_SHORT(length, threshold) ((length > 0) && (length < threshold))
+
+#define EMPTY_VALUE_MAX_COUNT               256
+#define EMPTY_DEFAULT_CONSECUTIVE_THRESHOLD 17
+#define EMPTY_0x00_CONSECUTIVE_THRESHOLD    128  // Larger threshold for 0x00 empty values due to possible sparse arrays
+bool     empty_values[EMPTY_VALUE_MAX_COUNT];
+uint32_t empty_consecutive_thresholds[EMPTY_VALUE_MAX_COUNT];
+
 #define BANK_SIZE 0x4000
 #define BANK_ADDR_MASK 0x00003FFF
 #define BANK_NUM_MASK  0xFFFFC000
 #define BANK_NUM_UPSHIFT 2
 
 #define ROM_ADDR_TO_BANKED(addr) ((addr & BANK_ADDR_MASK) | ((addr & BANK_NUM_MASK) << BANK_NUM_UPSHIFT))
+
+
+
+// Clear the empty values table to all values disabled
+// should be called to remove defaults
+void romfile_empty_value_table_clear(void) {
+    for (int c = 0; c < EMPTY_VALUE_MAX_COUNT; c++)
+        empty_values[c] = false;
+}
+
+
+// Set a byte value in the empty values table to true, range is 0-255 (byte)
+void romfile_empty_value_table_add_entry(uint8_t value) {
+    empty_values[value] = true;
+}
+
+
+// Call this before processing option arguments
+void romfile_init_defaults(void) {
+
+    // Default is: only value considered empty is 0xFF
+    romfile_empty_value_table_clear();
+    empty_values[0xFF] = true;
+
+    // "Empty" 0x00 byte values use a longer run length threshold than other values due to possible sparse arrays
+    for (int c = 0; c < EMPTY_VALUE_MAX_COUNT; c++) {
+        empty_consecutive_thresholds[c] = EMPTY_DEFAULT_CONSECUTIVE_THRESHOLD;
+    }
+    empty_consecutive_thresholds[0x00] = EMPTY_0x00_CONSECUTIVE_THRESHOLD;
+}
 
 
 // Read from a file into a buffer (will allocate needed memory)
@@ -50,24 +87,22 @@ uint8_t * file_read_into_buffer(char * filename, uint32_t *ret_size) {
                 }
                 // Read was successful, set return size
                 *ret_size = fsize;
-            } else log_error("ERROR: Failed to allocate memory to read file %s\n", filename);
+            } else log_error("Error: Failed to allocate memory to read file %s\n", filename);
 
-        } else log_error("ERROR: Failed to read size of file %s\n", filename);
+        } else log_error("Error: Failed to read size of file %s\n", filename);
 
         fclose(file_in);
-    } else log_error("ERROR: Failed to open input file %s\n", filename);
+    } else log_error("Error: Failed to open input file %s\n", filename);
 
     return filedata;
 }
 
 
 // Calculate a range, adjust it's bank num and add try adding to banks if valid
-static void rom_add_range(area_item range, uint32_t cur_idx, uint32_t empty_run, bool romsize_32K_or_less) {
+static void rom_add_range(area_item range, bool romsize_32K_or_less) {
 
+    // If active range ended, add to areas
     if (range.start != ADDR_UNSET) {
-
-        // Range ended, add to areas
-        range.end = cur_idx - empty_run;
 
         // Don't try to virtual translate address for binary ROM
         // files 32K or smaller, most likely they're unbanked.
@@ -101,9 +136,11 @@ int rom_file_process(char * filename_in) {
     uint8_t * p_buf = NULL;
     uint32_t buf_idx = 0;
     uint32_t buf_length = 0;
-    uint32_t empty_run = 0;
+    uint32_t empty_run_length;
+    uint32_t empty_run_length_threshold;
+    uint8_t  empty_run_value;
     uint32_t bank_bytes = 0;
-    area_item rom_range;
+    area_item used_rom_range;
     bool romsize_32K_or_less;
 
     set_option_input_source(OPT_INPUT_SRC_ROM);
@@ -112,50 +149,91 @@ int rom_file_process(char * filename_in) {
     p_buf = file_read_into_buffer(filename_in, &buf_length);
     romsize_32K_or_less = (buf_length <= 0x8000);
 
-    rom_range.name[0] = '\0';  // Rom file ranges don't have names, set string to empty
-    rom_range.start = ADDR_UNSET;
+    used_rom_range.name[0] = '\0';  // Rom file ranges don't have names, set string to empty
 
     if (p_buf) {
 
         // Loop through all ROM bytes
         while (buf_idx < buf_length) {
 
+            // This is looking for "Used" ranges broken up by non-"Empty" ranges
+            //
             // Process each bank (0x4000 bytes in a row) separately
             // and close out any ranges that might span between them
 
             if (buf_length > BANK_SIZE) bank_bytes = BANK_SIZE;
             else bank_bytes = buf_length;
 
+            // Reset range state values for each bank pass
+            used_rom_range.start = ADDR_UNSET;
+            empty_run_length = 0;
+
             while (bank_bytes) {
 
-                // Split buffer up into runs of non-zero bytes
-                // with a threshold of N zero bytes in a row to split them
-                if (p_buf[buf_idx] != EMPTY_VAL) {
-                    if (rom_range.start == ADDR_UNSET)
-                        rom_range.start = buf_idx;
-                    empty_run = 0;
-                } else {
-                    empty_run++;
+                // Split buffer up into potential runs of "Used" bytes with a
+                // threshold of N non-empty same value bytes in a row to split them up
 
-                    // Handle current run/range if present and over threshold.
-                    // Otherwise ignore the "empty" vals since it may be data of that value
-                    if ((empty_run > EMPTY_CONSECUTIVE_THRESHOLD) &&
-                        (rom_range.start != ADDR_UNSET)) {
+                uint8_t cur_byte_value = p_buf[buf_idx];
 
-                        // Add range then flag as cleared and prep for a new range
-                        rom_add_range(rom_range, buf_idx, empty_run, romsize_32K_or_less);
-                        rom_range.start = ADDR_UNSET;
+                // Continue an existing run if the value matches the current runs value (0x00 or 0xFF)
+                if ((empty_run_length > 0) && (cur_byte_value == empty_run_value)) {
+                    empty_run_length++;
+
+                    // If the current "Empty" range is over the threshold it means
+                    // any existing "Used" data range needs to be closed out and submitted.
+                    //
+                    // Otherwise the "Empty" values may be part of data and can be ignored
+                    if ((empty_run_length >= empty_run_length_threshold) &&
+                        (used_rom_range.start != ADDR_UNSET)) {
+
+                        // Add range and back-calculate last "Used" range address using start of "empty" address
+                        used_rom_range.end = buf_idx - empty_run_length;
+                        rom_add_range(used_rom_range, romsize_32K_or_less);
+                        // Clear as ready for new range
+                        used_rom_range.start = ADDR_UNSET;
                     }
+                }
+                else {
+                    // Close out pending failed (too short) "Empty" run
+                    if (EMPTY_RUN_TOO_SHORT(empty_run_length, empty_run_length_threshold)) {
+                        // If no range started, then convert it to a "Used" range since the bytes aren't actually empty
+                        if (used_rom_range.start == ADDR_UNSET) used_rom_range.start = buf_idx - empty_run_length;
+                    }
+
+                    // Start a potential "Empty" new run
+                    if (empty_values[cur_byte_value] == true) {
+                        empty_run_length = 1;
+                        empty_run_value = cur_byte_value;
+                        // "Empty" 0x00 byte values use a longer run length threshold due to possible sparse arrays
+                        empty_run_length_threshold = empty_consecutive_thresholds[cur_byte_value];
+                    }
+                    // Not "Empty", so reset "Empty" length
+                    else {
+                        empty_run_length = 0;
+                        // Start a potential "Used" (non-empty) data range if one isn't active.
+                        if (used_rom_range.start == ADDR_UNSET) used_rom_range.start = buf_idx;
+                    }
+
                 }
 
                 buf_idx++;
                 bank_bytes--;
             } // end: while still _bank_ bytes to process
 
-            // Close out a remaining run if one exists (at last byte which is -1 of current)
-            // Flag as cleared and prep for a new range
-            rom_add_range(rom_range, buf_idx - 1, empty_run, romsize_32K_or_less);
-            rom_range.start = ADDR_UNSET;
+            // End of Bank Cleanup
+
+            // Potentially Empty bytes at the end of a bank that don't meet threshold... might be empty?
+            //
+            // // Convert "Empty" run to "Used" if it didn't cross the "Empty" threshold
+            // if (EMPTY_RUN_TOO_SHORT(empty_run_length, empty_run_length_threshold)) {
+            //     if (used_rom_range.start == ADDR_UNSET) used_rom_range.start = buf_idx - empty_run_length;
+            // }
+
+            // Close pending "Used" run if needed (at last byte which is -1 of current)
+            if (used_rom_range.start != ADDR_UNSET) {
+                used_rom_range.end = (buf_idx - 1);
+                rom_add_range(used_rom_range, romsize_32K_or_less);
+            }
 
         } // End main buffer loop
 
@@ -165,7 +243,10 @@ int rom_file_process(char * filename_in) {
         }
 
     } // end: if valid file
-    else return (false);
+    else {
+        log_error("Error: Failed to open input file %s\n", filename_in);
+        return false;
+    }
 
    return true;
 }

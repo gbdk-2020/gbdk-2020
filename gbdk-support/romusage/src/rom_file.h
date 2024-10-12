@@ -3,3 +3,6 @@
 // bbbbbr 2020
 
 int rom_file_process(char * filename_in);
+void romfile_empty_value_table_clear(void);
+void romfile_empty_value_table_add_entry(uint8_t value);
+void romfile_init_defaults(void);
