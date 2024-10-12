@@ -10,6 +10,7 @@
 #include <stdint.h>
 
 #include "common.h"
+#include "logging.h"
 #include "list.h"
 #include "banks.h"
 #include "cdb_file.h"
@@ -288,7 +289,10 @@ int cdb_file_process_symbols(char * filename_in) {
         cdb_symbollist_add_all_to_banks();
 
     } // end: if valid file
-    else return (false);
+    else {
+        log_error("Error: Failed to open input file %s\n", filename_in);
+        return false;
+    }
 
    return true;
 }

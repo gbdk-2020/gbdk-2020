@@ -3,12 +3,14 @@
 // bbbbbr 2020
 
 #include <stdbool.h>
+#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdint.h>
 
 #include "common.h"
 #include "logging.h"
+#include "rom_file.h"
 
 bool banks_display_areas        = false;
 bool banks_display_headers      = false;
@@ -38,6 +40,8 @@ bool option_percentage_based_color = false;
 uint32_t option_area_hide_size  = OPT_AREA_HIDE_SIZE_DEFAULT;
 bool exit_error                 = false;
 
+int  banks_hide_count = 0;
+char banks_hide_list[BANKS_HIDE_SZ][DEFAULT_STR_LEN];
 
 
 // Turn on/off display of areas within bank
@@ -151,7 +155,7 @@ void set_option_area_hide_size(uint32_t value) {
 //       -sP:DEFAULT:ROM:VRAM:SRAM:WRAM:HRAM
 //
 // Custom color scheme for output
-bool option_set_displayed_bank_range(char * arg_str) {
+bool set_option_displayed_bank_range(char * arg_str) {
 
     #define MAX_SPLIT_WORDS 4
     #define EXPECTED_COLS   3
@@ -223,6 +227,54 @@ bool get_option_display_asciistyle(void) {
 }
 
 
+// Add a substring for hiding banks
+bool set_option_banks_hide_add(char * str_bank_hide_substring) {
+
+    if (banks_hide_count < BANKS_HIDE_SZ) {
+        snprintf(banks_hide_list[banks_hide_count], (DEFAULT_STR_LEN - 1), "%s", str_bank_hide_substring);
+        banks_hide_count++;
+        return true;
+    } else
+        log_error("Error: no bank hide string slots available\n");
+
+
+    return false;
+}
+
+
+// Set hex bytes treated as Empty in ROM files (.gb/etc) -b:HEXVAL:HEXVAL...
+//       -b:FF
+// Value passed in has "-e" stripped off the front
+bool set_option_binary_rom_empty_values(char * arg_str) {
+
+    #define MAX_ROMFILE_ENTRIES     256
+    #define MIN_EXPECTED_ENTRIES   1
+
+    char entries_found;
+    char * p_str;
+    char * p_words[MAX_ROMFILE_ENTRIES];
+
+    // Clear existing defaults
+    romfile_empty_value_table_clear();
+
+    // Split string into words separated by : chars
+    entries_found = 0;
+    p_str = strtok(arg_str,":");
+    while (p_str != NULL)
+    {
+        p_words[entries_found++] = p_str;
+        p_str = strtok(NULL, "-:");
+        if (entries_found >= MAX_ROMFILE_ENTRIES) break;
+    }
+
+    for (int c = 0; c < entries_found; c++)
+        romfile_empty_value_table_add_entry( (uint8_t)strtol(p_words[c], NULL, 16) );
+
+    if (entries_found >= MIN_EXPECTED_ENTRIES)
+        return true;
+    else
+        return false; // Signal failure
+}
 
 
 void set_exit_error(void) {

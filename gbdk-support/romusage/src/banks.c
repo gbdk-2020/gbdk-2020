@@ -657,6 +657,16 @@ static void bank_fill_area_gaps_with_unknown(void) {
 }
 
 
+// Check if a bank name matches any substrings on the hide list
+static bool bank_name_check_hidden(char * str_bank_name) {
+
+    for (int c = 0; c < banks_hide_count; c++) {
+        if (strstr(str_bank_name, banks_hide_list[c])) return true;
+    }
+    return false;
+}
+
+
 // Print banks to output
 void banklist_finalize_and_show(void) {
 
@@ -672,6 +682,7 @@ void banklist_finalize_and_show(void) {
     for (c = 0; c < bank_list.count; c++) {
         // Sort areas in bank and calculate usage
         banks[c].size_used = bank_areas_calc_used(&banks[c], banks[c].start, banks[c].end);
+        banks[c].hidden = bank_name_check_hidden(banks[c].name);
 
         if (get_option_area_sort() == OPT_AREA_SORT_SIZE_DESC)
             qsort (banks[c].area_list.p_array, banks[c].area_list.count, sizeof(area_item), area_item_compare_size_desc);
@@ -725,7 +736,7 @@ void bank_areas_split_to_buckets(bank_item * p_bank, uint32_t range_start, uint3
     bank_item bank_copy = *p_bank;
     bank_copy.area_list.p_array = (void *)malloc(bank_copy.area_list.size * bank_copy.area_list.typesize);
     if (!bank_copy.area_list.p_array) {
-        log_error("ERROR: Failed to reallocate memory for list!\n");
+        log_error("Error: Failed to reallocate memory for list!\n");
         exit(EXIT_FAILURE);
     }
     // Copy main list of areas to copy of bank for modification

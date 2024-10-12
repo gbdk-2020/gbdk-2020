@@ -229,7 +229,6 @@ void area_convert_and_add(area_item area) {
 
 int ihx_file_process_areas(char * filename_in) {
 
-    int  ret = true;  // default to success
     char cols;
     char strline_in[MAX_STR_LEN] = "";
     FILE * ihx_file = fopen(filename_in, "r");
@@ -301,9 +300,11 @@ int ihx_file_process_areas(char * filename_in) {
         fclose(ihx_file);
 
     } // end: if valid file
-    else
-        ret = false;
+    else {
+        log_error("Error: Failed to open input file %s\n", filename_in);
+        return false;
+    }
 
-    return ret;
+    return true;
 }
 
