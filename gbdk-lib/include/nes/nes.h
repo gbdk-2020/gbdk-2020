@@ -467,6 +467,21 @@ inline void disable_interrupts(void) {
     __asm__("sei");
 }
 
+/** Performs a soft reset.
+
+    For the Game Boy and related it does this by jumping to address 0x0150
+    which is in crt0.s (the c-runtime that executes before main() is called).
+
+    This performs various startup steps such as resetting the stack,
+    clearing WRAM and OAM, resetting initialized variables and some
+    display registers (scroll, window, LCDC), etc.
+
+    This is not the same a hard power reset.
+*/
+inline void reset(void) {
+    __asm__("jmp [0xFFFC]");
+}
+
 /** Waits for the vertical blank interrupt.
 
     This is often used in main loops to idle the CPU
