@@ -101,6 +101,7 @@ _set_bkg_submap_attributes_nes16x16::
     sta *.src_tiles+1
     lda *.map_width
     lsr
+    adc #0 ; Fix problem with skewed offset when original tilemap is not a multiple-of-two
     sta *.map_width
     ldx *.ypos
     jsr __muluchar
