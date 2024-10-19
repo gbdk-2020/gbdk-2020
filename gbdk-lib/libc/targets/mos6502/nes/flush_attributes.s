@@ -82,6 +82,20 @@ _flush_shadow_attributes_columns_next_column:
 _flush_shadow_attributes_columns_end:
     rts
 
+.macro WRITEVERT
+    lda *.tmp+1
+    tax
+    lda *.tmp
+    clc
+    adc #(8*i)
+    jsr .ppu_stripe_begin_vertical
+    lda _attribute_shadow+8*i,y
+    jsr .ppu_stripe_write_byte
+    lda _attribute_shadow+8*i+32,y
+    jsr .ppu_stripe_write_byte
+    jsr .ppu_stripe_end
+.endm
+
 ;
 ; Flushes all dirty rows of _attribute_shadow by writing them to PPU memory
 ;
@@ -91,20 +105,7 @@ _flush_shadow_attributes_update_column:
     ; TODO: Could make a dedicated unrolled transfer routine in nmi handler that writes all 8 bytes as one stripe.
     i = 0
     .rept 4
-    lda *.tmp+1
-    tax
-    lda *.tmp
-    jsr .ppu_stripe_begin_vertical
-    lda _attribute_shadow+8*i,y
-    jsr .ppu_stripe_write_byte
-    lda _attribute_shadow+8*i+32,y
-    jsr .ppu_stripe_write_byte
-    jsr .ppu_stripe_end
-    ;
-    lda *.tmp
-    clc
-    adc #8
-    sta *.tmp
+    WRITEVERT
     i = i + 1
     .endm
     jmp _flush_shadow_attributes_columns_next_column
