@@ -424,6 +424,7 @@ _sys_time::
 __current_bank::        ; Current bank
         .ds     0x01
 .vbl_done:
+__vbl_done::
         .ds     0x01            ; Is VBL interrupt finished?
 __shadow_OAM_base::
         .ds     0x01

@@ -21,6 +21,17 @@ _rRAMB        = 0x4000
 
 .globl _rRAMG, _rROMB0, _rROMB1, _rRAMB
 
+_rMBC7_SRAM_ENABLE_1 = 0x0000
+_rMBC7_SRAM_ENABLE_2 = 0x4000
+_rMBC7_LATCH_1       = 0xA000
+_rMBC7_LATCH_2       = 0xA010
+_rMBC7_ACCEL_X_LO    = 0xA020
+_rMBC7_ACCEL_X_HI    = 0xA030
+_rMBC7_ACCEL_Y_LO    = 0xA040
+_rMBC7_ACCEL_Y_HI    = 0xA050
+
+.globl _rMBC7_SRAM_ENABLE_1, _rMBC7_SRAM_ENABLE_2, _rMBC7_LATCH_1, _rMBC7_LATCH_2, _rMBC7_ACCEL_X_LO, _rMBC7_ACCEL_X_HI, _rMBC7_ACCEL_Y_LO, _rMBC7_ACCEL_Y_HI
+
 _P1_REG      = 0xFF00    ; Joystick: 1.1.P15.P14.P13.P12.P11.P10
 _SB_REG      = 0xFF01    ; Serial IO data buffer
 _SC_REG      = 0xFF02    ; Serial IO control register
