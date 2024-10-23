@@ -465,8 +465,8 @@ extern volatile uint16_t sys_time;
 
 /** Flag indicating the VBlank ISR has run
 
-   Flag gets set in @ref vsync() / @ref wait_vbl_done()
-   and cleared in the default VBlank ISR handler.
+   Flag gets cleared at the start of @ref vsync() / @ref wait_vbl_done()
+   and set in the default VBlank ISR handler.
 */
 __REG _vbl_done;
 #define VBL_DONE _vbl_done
