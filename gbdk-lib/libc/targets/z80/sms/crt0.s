@@ -286,6 +286,7 @@ _shadow_VDP_R10::
 _sys_time::
         .ds     0x02
 .vbl_done::
+__vbl_done::
         .ds     0x01
 _VDP_ATTR_SHIFT::
 .vdp_shift::

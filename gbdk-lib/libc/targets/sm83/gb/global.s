@@ -19,6 +19,15 @@
         rROMB1          = 0x3000 ; $3000->$3fff - If more than 256 ROM banks are present.
         rRAMB           = 0x4000 ; $4000->$5fff - Bit 3 enables rumble (if present)
 
+        rMBC7_SRAM_ENABLE_1 = 0x0000
+        rMBC7_SRAM_ENABLE_2 = 0x4000
+        rMBC7_LATCH_1       = 0xA000
+        rMBC7_LATCH_2       = 0xA010
+        rMBC7_ACCEL_X_LO    = 0xA020
+        rMBC7_ACCEL_X_HI    = 0xA030
+        rMBC7_ACCEL_Y_LO    = 0xA040
+        rMBC7_ACCEL_Y_HI    = 0xA050
+
         ;;  Keypad
         .UP             = 0x04
         .DOWN           = 0x08
