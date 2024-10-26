@@ -67,7 +67,7 @@ void main(void)
 
     #endif
 
-    set_bkg_data(0,Font_TILE_COUNT,Font_tiles);
+    set_native_tile_data(0,Font_TILE_COUNT,Font_tiles);
 
     fill_bkg_rect(0,0,DEVICE_SCREEN_WIDTH,DEVICE_SCREEN_HEIGHT,0);
 
