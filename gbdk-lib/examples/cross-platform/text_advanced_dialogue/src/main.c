@@ -4,16 +4,32 @@
 #include "Font.h"
 #include "DialogueBox.h"
 
+#define DIALOG_BOX_HEIGHT 5
+
 #if defined(SEGA)
+
+    #define get_winbkg_xy_addr get_bkg_xy_addr
+    #define set_winbkg_based_tiles set_bkg_based_tiles
     #define set_text_tiles set_bkg_tiles
+    #define fill_winbkg_rect fill_bkg_rect
+    #define set_winbkg_tile_xy set_bkg_tile_xy
     #define get_text_tiles get_bkg_tiles
-    #define DIALOGUE_BOX_Y (DEVICE_SCREEN_HEIGHT-(DialogueBox_HEIGHT>>3))
+    #define DIALOGUE_BOX_Y (DEVICE_SCREEN_HEIGHT-DIALOG_BOX_HEIGHT)
+    #define BYTES_PER_TILE  2
 #else
+    #define get_winbkg_xy_addr get_win_xy_addr
+    #define set_winbkg_based_tiles set_win_based_tiles
+    #define fill_winbkg_rect fill_win_rect
+    #define set_winbkg_tile_xy set_win_tile_xy
     #define set_text_tiles set_win_tiles
     #define get_text_tiles get_win_tiles
-    #define DIALOGUE_BOX_Y 1
+    #define DIALOGUE_BOX_Y 0
+    #define BYTES_PER_TILE  1
 #endif
 
+    #define TILE_SIZE_BYTES  (BYTES_PER_TILE*16)
+#define COPY_BUFFER_MAX (DEVICE_SCREEN_WIDTH-2)
+#define INNER_DIALOGUE_BOX_WIDTH (DEVICE_SCREEN_WIDTH-2)
 
 int16_t windowYPosition=0;
 uint8_t fontTilesStart=0;
@@ -60,7 +76,7 @@ uint8_t GetTileForCharacter(char character){
 
 uint8_t IsAlphaNumeric(char character){
 
-    
+    // Return true for a-z,A-Z, and 0-9
     if(character>='a'&&character<='z')return TRUE;
     else if(character>='A'&&character<='Z')return TRUE;
     else if(character>='0'&&character<='9')return TRUE;
@@ -68,25 +84,33 @@ uint8_t IsAlphaNumeric(char character){
     return FALSE;
 }
 
-uint8_t BreakLineEarly(uint16_t index, uint8_t columnSize,uint8_t columnWidth, char* text){
+uint8_t BreakLineEarly(uint16_t index, uint8_t columnSize, char* text){
 
     char character = text[index++];
 
-    if(columnSize>=columnWidth)return TRUE;
+    // We can break, if we are at the end of our row
+    if(columnSize>=INNER_DIALOGUE_BOX_WIDTH)return TRUE;
+
+    // We DO NOT  break on alpha-numeric characters
     if(IsAlphaNumeric(character))return FALSE;
 
-    uint8_t spaceLeftOnLine=columnWidth-columnSize;
+    // How many characters are left on the current line
+    uint8_t spaceLeftOnLine=INNER_DIALOGUE_BOX_WIDTH-columnSize;
 
-    uint8_t next =1;
+    uint8_t distanceToNextNonAlphaNumericCharacter =1;
     
+    // Loop ahead until we reach the end of the string
     while((character=text[index++])!='\0'){
 
+        // Stop when we reach a non alphanumeric character
         if(!IsAlphaNumeric(character))break;
 
-        next++;
+        // Increase how many characters we've skipped
+        distanceToNextNonAlphaNumericCharacter++;
     }
 
-    return next>spaceLeftOnLine;
+    // Return TRUE if the distance to the next non alphanumeric character, is larger than we have left on the line
+    return distanceToNextNonAlphaNumericCharacter>spaceLeftOnLine;
 }   
 
 
@@ -102,15 +126,33 @@ void WaitForAButton(void){
 }
 
 void ClearDialogueBox(void){
+
+    // Fill the middle of the dialog box with blank space
+    fill_winbkg_rect(1,DIALOGUE_BOX_Y+1,DEVICE_SCREEN_WIDTH-2,DIALOG_BOX_HEIGHT-2,0);
     
-    set_win_based_tiles(0,0,DialogueBox_WIDTH>>3,DialogueBox_HEIGHT>>3,DialogueBox_map,1);
+    // Top  and Bottom sides
+    fill_winbkg_rect(1,DIALOGUE_BOX_Y,DEVICE_SCREEN_WIDTH-2,1,2);
+    set_winbkg_tile_xy(DEVICE_SCREEN_WIDTH-1,DIALOGUE_BOX_Y+DIALOG_BOX_HEIGHT-1,6);
+    fill_winbkg_rect(1,DIALOGUE_BOX_Y+DIALOG_BOX_HEIGHT-1,DEVICE_SCREEN_WIDTH-2,1,2);
+
+    // Left and right sides
+    fill_winbkg_rect(0,DIALOGUE_BOX_Y+1,1,DIALOG_BOX_HEIGHT-2,4);
+    fill_winbkg_rect(DEVICE_SCREEN_WIDTH-1,DIALOGUE_BOX_Y+1,1,DIALOG_BOX_HEIGHT-2,4);
+
+    // Top Left and Top Right corners
+    set_winbkg_tile_xy(0,DIALOGUE_BOX_Y,1);
+    set_winbkg_tile_xy(DEVICE_SCREEN_WIDTH-1,DIALOGUE_BOX_Y,3);
+
+    // Bottom Left and Bottom Right corners
+    set_winbkg_tile_xy(0,DIALOGUE_BOX_Y+DIALOG_BOX_HEIGHT-1,5);
+    set_winbkg_tile_xy(DEVICE_SCREEN_WIDTH-1,DIALOGUE_BOX_Y+DIALOG_BOX_HEIGHT-1,6);
 }
 
 void ShowDialgoueBox(void){
 
     ClearDialogueBox();
 
-    int16_t desiredWindowPosition = (DEVICE_SCREEN_HEIGHT<<3)-DialogueBox_HEIGHT;
+    int16_t desiredWindowPosition = (DEVICE_SCREEN_HEIGHT<<3)-(DIALOG_BOX_HEIGHT*8);
 
     while((windowYPosition>>3)>desiredWindowPosition){
 
@@ -149,7 +191,7 @@ void vsyncMultiple(uint8_t count){
     }
 }
 
-void DrawTextAdvanced(uint8_t column, uint8_t row, uint8_t columnWidth, char* text,uint8_t typewriterDelay){
+void DrawTextAdvanced(uint8_t column, uint8_t row,  char* text,uint8_t typewriterDelay){
         
         ShowDialgoueBox();
 
@@ -159,8 +201,15 @@ void DrawTextAdvanced(uint8_t column, uint8_t row, uint8_t columnWidth, char* te
     uint8_t columnSize=0;
     uint8_t rowCount=0;
 
+    uint8_t copyBuffer[COPY_BUFFER_MAX];
+    uint8_t copyBufferCount=0;
+
+    // Clear the copy buffer
+    for(uint8_t k=0;k<COPY_BUFFER_MAX;k++)copyBuffer[k]=0;
+
+
     // Get the address of the first tile in the row
-    uint8_t* vramAddress = get_win_xy_addr(column,row);
+    uint8_t* vramAddress = get_winbkg_xy_addr(column,row);
 
     char c;
 
@@ -168,11 +217,14 @@ void DrawTextAdvanced(uint8_t column, uint8_t row, uint8_t columnWidth, char* te
 
         uint8_t vramTile = GetTileForCharacter(c);
 
+        // If we haven't loaded this character into VRAM
         if(loadedCharacters[vramTile]==255){
 
-            loadedCharacters[vramTile]=fontTilesStart+loadedCharacterCount;
+            // Save where we place this character in VRAM
+            loadedCharacters[vramTile]=fontTilesStart+loadedCharacterCount++;
 
-            set_bkg_data(fontTilesStart+loadedCharacterCount++,1,Font_tiles+vramTile*16);
+            // Place this character in VRAM
+            set_native_tile_data(loadedCharacters[vramTile],1,Font_tiles+vramTile*TILE_SIZE_BYTES);
 
         }
 
@@ -180,37 +232,62 @@ void DrawTextAdvanced(uint8_t column, uint8_t row, uint8_t columnWidth, char* te
         // THEN, increment the address
         set_vram_byte(vramAddress++,loadedCharacters[vramTile]);
 
+        #if defined(SEGA)
+        set_vram_byte(vramAddress++,0);
+        #endif
+
+        if(rowCount==2){
+
+            // Copy everything row 2 to a buffer
+            // So we can easily slide that row upwards, without having to access VRAM
+            copyBuffer[copyBufferCount++] = loadedCharacters[vramTile];
+        }
+
         index++;
         columnSize++;
 
          // if we've reached the end of the row
-        if(BreakLineEarly(index,columnSize,columnWidth,text) || c=='.'){
+        if(BreakLineEarly(index,columnSize,text) || c=='.'){
 
             rowCount+=2;
 
+            // If we just drew a period or question mark,
+            // wait for the a button  and afterwards clear the dialogue box.
             if(c=='.'||c=='?'){
                 WaitForAButton();
                 ClearDialogueBox();
                 rowCount=0;
             }
 
+            // if we've drawn our 2 rows
             else if( rowCount>2){
 
-                uint8_t copyBuffer[36];
-                get_text_tiles(1,3,columnWidth,1,copyBuffer);
-                fill_win_rect(1,1,columnWidth,3,0);
-                set_win_tiles(1,2,columnWidth,1,copyBuffer);
+                // Clear the inner dialogue box
+                fill_winbkg_rect(1,DIALOGUE_BOX_Y+1,INNER_DIALOGUE_BOX_WIDTH,3,0);
 
+                // Draw the line of text one tile up
+                set_text_tiles(1,DIALOGUE_BOX_Y+2,INNER_DIALOGUE_BOX_WIDTH,1,copyBuffer);
+
+                // Wait a little bit
                 vsyncMultiple(15);
 
-                fill_win_rect(1,2,columnWidth,2,0);
-                set_text_tiles(1,1,columnWidth,1,copyBuffer);
+                // Clear the previous line of text
+                fill_winbkg_rect(1,DIALOGUE_BOX_Y+2,INNER_DIALOGUE_BOX_WIDTH,1,0);
+
+                // Draw on the first row of our dialogue box
+                set_text_tiles(1,DIALOGUE_BOX_Y+1,INNER_DIALOGUE_BOX_WIDTH,1,copyBuffer);
+
+                copyBufferCount=0;
+
+                // Clear the copy buffer
+                for(uint8_t k=0;k<COPY_BUFFER_MAX;k++)copyBuffer[k]=0;
+
                 rowCount=2;
 
             }
             
             // reset for the next row
-            vramAddress = get_win_xy_addr(column,row+rowCount);
+            vramAddress = get_winbkg_xy_addr(column,row+rowCount);
             
             columnSize=0;
 
@@ -219,15 +296,18 @@ void DrawTextAdvanced(uint8_t column, uint8_t row, uint8_t columnWidth, char* te
                 index++;
             }
         }
-
         if(typewriterDelay>0){
-            
-            // Play a basic sound effect
-            NR10_REG = 0x34;
-            NR11_REG = 0x81;
-            NR12_REG = 0x41;
-            NR13_REG = 0x7F;
-            NR14_REG = 0x86;
+
+            #if !defined(SEGA)
+
+                // Play a basic sound effect
+                NR10_REG = 0x34;
+                NR11_REG = 0x81;
+                NR12_REG = 0x41;
+                NR13_REG = 0x7F;
+                NR14_REG = 0x86;
+
+            #endif
 
            vsyncMultiple(3);
 
@@ -241,32 +321,35 @@ void DrawTextAdvanced(uint8_t column, uint8_t row, uint8_t columnWidth, char* te
 
 
 void ClearScreen(void){
+    #if !defined(SEGA)
+    // Game Gear doesn't have a window.
     fill_win_rect(0,0,DEVICE_SCREEN_WIDTH,DEVICE_SCREEN_HEIGHT,0);
+    #endif
     fill_bkg_rect(0,0,DEVICE_SCREEN_WIDTH,DEVICE_SCREEN_HEIGHT,0);
 }
 
 void main(void)
 {
+    DISPLAY_ON;
     SHOW_BKG;
     SHOW_WIN;
 
-
-    NR52_REG = 0x80; // Master sound on
-    NR50_REG = 0xFF; // Maximum volume for left/right speakers. 
-    NR51_REG = 0xFF; // Turn on sound fully
-
     fontTilesStart = DialogueBox_TILE_COUNT+1;
-    uint8_t emptyTile[16];
-    for(uint8_t i=0;i<16;i++)emptyTile[i]=0;
+    uint8_t emptyTile[TILE_SIZE_BYTES];
+    for(uint8_t i=0;i<TILE_SIZE_BYTES;i++)emptyTile[i]=0;
 
-    set_bkg_data(0,1,emptyTile);
+    set_native_tile_data(0,1,emptyTile);
 
     ClearScreen();
 
-    set_bkg_data(1,DialogueBox_TILE_COUNT,DialogueBox_tiles);
+    set_native_tile_data(1,DialogueBox_TILE_COUNT,DialogueBox_tiles);
 
     
     #if !defined(SEGA)
+
+        NR52_REG = 0x80; // Master sound on
+        NR50_REG = 0xFF; // Maximum volume for left/right speakers. 
+        NR51_REG = 0xFF; // Turn on sound fully
 
         // Completely hide the window
         windowYPosition = (DEVICE_SCREEN_HEIGHT << 3)<<3;
@@ -278,7 +361,7 @@ void main(void)
 
         // We'll pass in one long string, but the game will present to the player multiple pages.
         // By passing 3 as the final argument, the game boy will wait 3 frames between each character
-        DrawTextAdvanced(1,DIALOGUE_BOX_Y,DEVICE_SCREEN_WIDTH-2,"This is an how you draw text on the screen in GBDK. The code will automatically jump to a new line, when it cannot fully draw a word.  When you reach three lines, it will wait until you press A. After that, it will start a new page and continue. The code will also automatically start a new page after periods. For every page, the code will dynamically populate VRAM. Only letters and characters used, will be loaded into VRAM.",3);
+        DrawTextAdvanced(1,DIALOGUE_BOX_Y+1,"This is an how you draw text on the screen in GBDK. The code will automatically jump to a new line, when it cannot fully draw a word.  When you reach three lines, it will wait until you press A. After that, it will start a new page and continue. The code will also automatically start a new page after periods. For every page, the code will dynamically populate VRAM. Only letters and characters used, will be loaded into VRAM.",3);
         
     }
 }

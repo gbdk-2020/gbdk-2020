@@ -46,6 +46,17 @@ CSOURCES    = $(foreach dir,$(SRCDIR),$(notdir $(wildcard $(dir)/*.c))) $(foreac
 ASMSOURCES  = $(foreach dir,$(SRCDIR),$(notdir $(wildcard $(dir)/*.s)))
 OBJS       = $(CSOURCES:%.c=$(OBJDIR)/%.o) $(ASMSOURCES:%.s=$(OBJDIR)/%.o)
 
+
+# png2asset settings for backgrounds
+PNG2ASSET_BKG_SETTINGS_gg=-pack_mode sms -bpp 4
+PNG2ASSET_BKG_SETTINGS_sms=-pack_mode sms -bpp 4
+PNG2ASSET_BKG_SETTINGS_nes=-pack_mode nes -bpp 2
+PNG2ASSET_BKG_SETTINGS_gb=
+PNG2ASSET_BKG_SETTINGS_gbc=
+PNG2ASSET_BKG_SETTINGS_duck=
+PNG2ASSET_BKG_SETTINGS_pocket=
+
+
 # Builds all targets sequentially
 all: $(TARGETS)
 
@@ -63,8 +74,8 @@ $(OBJDIR)/%.s:	$(SRCDIR)/%.c
 	$(LCC) $(LCCFLAGS) $(CFLAGS) -I$(GENDIR) -S -o $@ $<
 
 png2asset:
-	$(PNG2ASSET) $(RESDIR)/Font.png -c $(GENDIR)/Font.c -map -keep_palette_order 
-	$(PNG2ASSET) $(RESDIR)/DialogueBox.png -c $(GENDIR)/DialogueBox.c -map -keep_palette_order -noflip
+	$(PNG2ASSET) $(RESDIR)/Font.png $(PNG2ASSET_BKG_SETTINGS_$(EXT)) -c $(GENDIR)/Font.c -map -keep_palette_order  -noflip
+	$(PNG2ASSET) $(RESDIR)/DialogueBox.png $(PNG2ASSET_BKG_SETTINGS_$(EXT)) -c $(GENDIR)/DialogueBox.c -map -keep_palette_order -noflip
 
 # Link the compiled object files into a .gb ROM file
 $(BINS):	$(OBJS)

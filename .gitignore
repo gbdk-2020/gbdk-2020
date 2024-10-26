@@ -86,3 +86,8 @@ gbdk-lib/doc/
 
 # VS.Code folder
 .vscode
+
+gen/
+bin/
+obj/
+dist/
