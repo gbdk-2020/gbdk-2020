@@ -7,27 +7,29 @@
 #define DIALOG_BOX_HEIGHT 5
 
 #if defined(SEGA)
+    #define BYTES_PER_TILE  2
+#else
+    #define BYTES_PER_TILE  1
+#endif
+
+#if defined(SEGA) || defined(NINTENDO_NES)
 
     #define get_winbkg_xy_addr get_bkg_xy_addr
     #define set_winbkg_based_tiles set_bkg_based_tiles
     #define set_text_tiles set_bkg_tiles
     #define fill_winbkg_rect fill_bkg_rect
     #define set_winbkg_tile_xy set_bkg_tile_xy
-    #define get_text_tiles get_bkg_tiles
     #define DIALOGUE_BOX_Y (DEVICE_SCREEN_HEIGHT-DIALOG_BOX_HEIGHT)
-    #define BYTES_PER_TILE  2
 #else
     #define get_winbkg_xy_addr get_win_xy_addr
     #define set_winbkg_based_tiles set_win_based_tiles
     #define fill_winbkg_rect fill_win_rect
     #define set_winbkg_tile_xy set_win_tile_xy
     #define set_text_tiles set_win_tiles
-    #define get_text_tiles get_win_tiles
     #define DIALOGUE_BOX_Y 0
-    #define BYTES_PER_TILE  1
 #endif
 
-    #define TILE_SIZE_BYTES  (BYTES_PER_TILE*16)
+#define TILE_SIZE_BYTES  (BYTES_PER_TILE*16)
 #define COPY_BUFFER_MAX (DEVICE_SCREEN_WIDTH-2)
 #define INNER_DIALOGUE_BOX_WIDTH (DEVICE_SCREEN_WIDTH-2)
 
@@ -36,12 +38,12 @@ uint8_t fontTilesStart=0;
 
 uint8_t joypadCurrent=0,joypadPrevious=0;
 
-uint8_t loadedCharacters[45];
+uint8_t loadedCharacters[Font_TILE_COUNT];
 uint8_t loadedCharacterCount=0;
 
 void MoveWindow(void){
     
-    #if !defined(SEGA)
+    #if !defined(SEGA) &&  !defined(NINTENDO_NES)
 
     int16_t y = windowYPosition>>3;
 
@@ -191,9 +193,12 @@ void vsyncMultiple(uint8_t count){
     }
 }
 
-void DrawTextAdvanced(uint8_t column, uint8_t row,  char* text,uint8_t typewriterDelay){
+void DrawTextAdvanced(char* text){
+
+    uint8_t column=1;
+    uint8_t row=DIALOGUE_BOX_Y+1;
         
-        ShowDialgoueBox();
+    ShowDialgoueBox();
 
     ResetLoadedCharacters();
 
@@ -296,22 +301,19 @@ void DrawTextAdvanced(uint8_t column, uint8_t row,  char* text,uint8_t typewrite
                 index++;
             }
         }
-        if(typewriterDelay>0){
 
-            #if !defined(SEGA)
+        #if !defined(SEGA) && !defined(NINTENDO_NES)
 
-                // Play a basic sound effect
-                NR10_REG = 0x34;
-                NR11_REG = 0x81;
-                NR12_REG = 0x41;
-                NR13_REG = 0x7F;
-                NR14_REG = 0x86;
+            // Play a basic sound effect
+            NR10_REG = 0x34;
+            NR11_REG = 0x81;
+            NR12_REG = 0x41;
+            NR13_REG = 0x7F;
+            NR14_REG = 0x86;
 
-            #endif
+        #endif
 
-           vsyncMultiple(3);
-
-        }
+        vsyncMultiple(3);
     }
 
     HideDialgoueBox();
@@ -321,7 +323,7 @@ void DrawTextAdvanced(uint8_t column, uint8_t row,  char* text,uint8_t typewrite
 
 
 void ClearScreen(void){
-    #if !defined(SEGA)
+    #if !defined(SEGA) && !defined(NINTENDO_NES)
     // Game Gear doesn't have a window.
     fill_win_rect(0,0,DEVICE_SCREEN_WIDTH,DEVICE_SCREEN_HEIGHT,0);
     #endif
@@ -332,7 +334,10 @@ void main(void)
 {
     DISPLAY_ON;
     SHOW_BKG;
+
+    #if !defined(SEGA) && !defined(NINTENDO_NES)
     SHOW_WIN;
+    #endif
 
     fontTilesStart = DialogueBox_TILE_COUNT+1;
     uint8_t emptyTile[TILE_SIZE_BYTES];
@@ -345,7 +350,7 @@ void main(void)
     set_native_tile_data(1,DialogueBox_TILE_COUNT,DialogueBox_tiles);
 
     
-    #if !defined(SEGA)
+    #if !defined(SEGA) && !defined(NINTENDO_NES)
 
         NR52_REG = 0x80; // Master sound on
         NR50_REG = 0xFF; // Maximum volume for left/right speakers. 
@@ -361,7 +366,7 @@ void main(void)
 
         // We'll pass in one long string, but the game will present to the player multiple pages.
         // By passing 3 as the final argument, the game boy will wait 3 frames between each character
-        DrawTextAdvanced(1,DIALOGUE_BOX_Y+1,"This is an how you draw text on the screen in GBDK. The code will automatically jump to a new line, when it cannot fully draw a word.  When you reach three lines, it will wait until you press A. After that, it will start a new page and continue. The code will also automatically start a new page after periods. For every page, the code will dynamically populate VRAM. Only letters and characters used, will be loaded into VRAM.",3);
+        DrawTextAdvanced("This is an how you draw text on the screen in GBDK. The code will automatically jump to a new line, when it cannot fully draw a word.  When you reach three lines, it will wait until you press A. After that, it will start a new page and continue. The code will also automatically start a new page after periods. For every page, the code will dynamically populate VRAM. Only letters and characters used, will be loaded into VRAM.");
         
     }
 }
