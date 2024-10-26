@@ -30,7 +30,6 @@
 #endif
 
 #define TILE_SIZE_BYTES  (BYTES_PER_TILE*16)
-#define COPY_BUFFER_MAX (DEVICE_SCREEN_WIDTH-2)
 #define INNER_DIALOGUE_BOX_WIDTH (DEVICE_SCREEN_WIDTH-2)
 
 int16_t windowYPosition=0;
@@ -98,9 +97,8 @@ uint8_t BreakLineEarly(uint16_t index, uint8_t columnSize, char* text){
 
     // How many characters are left on the current line
     uint8_t spaceLeftOnLine=INNER_DIALOGUE_BOX_WIDTH-columnSize;
+    uint8_t nextColumnSize=columnSize+1;
 
-    uint8_t distanceToNextNonAlphaNumericCharacter =1;
-    
     // Loop ahead until we reach the end of the string
     while((character=text[index++])!='\0'){
 
@@ -108,11 +106,11 @@ uint8_t BreakLineEarly(uint16_t index, uint8_t columnSize, char* text){
         if(!IsAlphaNumeric(character))break;
 
         // Increase how many characters we've skipped
-        distanceToNextNonAlphaNumericCharacter++;
+        nextColumnSize++;
     }
 
     // Return TRUE if the distance to the next non alphanumeric character, is larger than we have left on the line
-    return distanceToNextNonAlphaNumericCharacter>spaceLeftOnLine;
+    return nextColumnSize>INNER_DIALOGUE_BOX_WIDTH;
 }   
 
 
@@ -206,11 +204,11 @@ void DrawTextAdvanced(char* text){
     uint8_t columnSize=0;
     uint8_t rowCount=0;
 
-    uint8_t copyBuffer[COPY_BUFFER_MAX];
+    uint8_t copyBuffer[INNER_DIALOGUE_BOX_WIDTH];
     uint8_t copyBufferCount=0;
 
     // Clear the copy buffer
-    for(uint8_t k=0;k<COPY_BUFFER_MAX;k++)copyBuffer[k]=0;
+    for(uint8_t k=0;k<INNER_DIALOGUE_BOX_WIDTH;k++)copyBuffer[k]=0;
 
 
     // Get the address of the first tile in the row
@@ -241,7 +239,7 @@ void DrawTextAdvanced(char* text){
         set_vram_byte(vramAddress++,0);
         #endif
 
-        if(rowCount==2){
+        if(rowCount>=2){
 
             // Copy everything row 2 to a buffer
             // So we can easily slide that row upwards, without having to access VRAM
@@ -262,6 +260,10 @@ void DrawTextAdvanced(char* text){
                 WaitForAButton();
                 ClearDialogueBox();
                 rowCount=0;
+
+                // Reset/Clear the copy buffer
+                copyBufferCount=0;
+                for(uint8_t k=0;k<INNER_DIALOGUE_BOX_WIDTH;k++)copyBuffer[k]=0;
             }
 
             // if we've drawn our 2 rows
@@ -285,7 +287,7 @@ void DrawTextAdvanced(char* text){
                 copyBufferCount=0;
 
                 // Clear the copy buffer
-                for(uint8_t k=0;k<COPY_BUFFER_MAX;k++)copyBuffer[k]=0;
+                for(uint8_t k=0;k<INNER_DIALOGUE_BOX_WIDTH;k++)copyBuffer[k]=0;
 
                 rowCount=2;
 
