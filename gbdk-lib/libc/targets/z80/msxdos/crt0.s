@@ -482,6 +482,7 @@ _shadow_VDP_RBORDER::
 _sys_time::
         .dw 0x0000
 .vbl_done::
+__vbl_done::
         .db 0
 __shadow_OAM_base::
         .db #>_shadow_OAM

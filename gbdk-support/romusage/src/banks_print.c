@@ -254,12 +254,15 @@ void banklist_printall(list_type * p_bank_list) {
     // Print all banks
     for (c = 0; c < p_bank_list->count; c++) {
 
-        bank_print_info(&banks[c]);
-        fprintf(stdout,"\n");
+        if (!banks[c].hidden) {
+            bank_print_info(&banks[c]);
+            fprintf(stdout,"\n");
 
-        if (get_option_area_sort() != OPT_AREA_SORT_HIDE) // This is a hack-workaround, TODO:fixme
-            if (banks_display_areas)
-                bank_print_area(&banks[c]);
+            if (get_option_area_sort() != OPT_AREA_SORT_HIDE) { // This is a hack-workaround, TODO:fixme
+                if (banks_display_areas)
+                    bank_print_area(&banks[c]);
+            }
+        }
 
     } // End: Print all banks loop
 
@@ -333,10 +336,12 @@ void banklist_printall_json(list_type * p_bank_list) {
 
     // Print each bank as an array object item
     for (c = 0; c < p_bank_list->count; c++) {
-        // Comma separator between array items
-        if (c > 0) fprintf(stdout,"    ,\n");
+        if (!banks[c].hidden) {
+            // Comma separator between array items
+            if (c > 0) fprintf(stdout,"    ,\n");
 
-        bank_print_info_json(&banks[c]);
+            bank_print_info_json(&banks[c]);
+        }
     }
 
     // JSON array footer

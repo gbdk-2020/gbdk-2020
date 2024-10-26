@@ -17,6 +17,7 @@ ASSRC =	f_ibm_full.s f_ibm_sh.s f_italic.s f_min.s f_spect.s \
 	set_attribute.s set_bk_attributes.s set_tile_submap_attributes.s flush_attributes.s \
 	nes_palettes.s \
 	pad.s pad_ex.s \
+	delay.s \
 	rle_decompress.s \
 	far_ptr.s sdcc_bcall.s mapper.s \
 	lcd.s \

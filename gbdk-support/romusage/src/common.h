@@ -38,6 +38,9 @@
 #define OPT_PLAT_GAMEBOY     0u
 #define OPT_PLAT_SMS_GG_GBDK 1u  // GBDK specific layout of sms/gg
 
+#define BANKS_HIDE_SZ 30  // How many hide substrings to support
+#define BANKS_HIDE_MAX (BANKS_HIDE_SZ - 1)
+
 
 extern bool banks_display_areas;
 extern bool banks_display_headers;
@@ -64,6 +67,9 @@ extern unsigned int option_merged_banks;
 extern uint32_t option_area_hide_size;
 extern bool exit_error;
 
+extern int  banks_hide_count;
+extern char banks_hide_list[BANKS_HIDE_SZ][DEFAULT_STR_LEN];
+
 
 void set_option_all_areas_exclusive(bool value);
 void set_option_quiet_mode(bool value);
@@ -81,9 +87,11 @@ void set_option_show_compact(bool value);
 void set_option_show_json(bool value);
 void set_option_summarized(bool value);
 
-bool option_set_displayed_bank_range(char * arg_str);
+bool set_option_displayed_bank_range(char * arg_str);
 
 void set_option_merged_banks(unsigned int value);
+bool set_option_banks_hide_add(char * str_bank_hide_substring);
+bool set_option_binary_rom_empty_values(char * arg_str);
 
 int  get_option_input_source(void);
 int  get_option_area_sort(void);
@@ -98,5 +106,6 @@ uint32_t round_up_power_of_2(uint32_t val);
 
 uint32_t min(uint32_t a, uint32_t b);
 uint32_t max(uint32_t a, uint32_t b);
+
 
 #endif // _COMMON_H
