@@ -2,14 +2,17 @@
 #include <stdint.h>
 #include "Font.h"
 
-void DrawCharacter(uint8_t* address, char character) {
+
+uint8_t GetCharacterVRamTile(char character) {
 
     uint8_t vramTile=0;
+
 
     // Char's can be interpreted as integers
     // We don't need to map every alpha-numeric character
     // We can use basic math to simplify A-Z and 0-9
-    if((character>='a'&&character<='z')||(character>='A'&&character<='Z'))vramTile = (character-'A')+1;
+    if(character>='a'&&character<='z')vramTile = (character-'a')+1;
+    else if(character>='A'&&character<='Z')vramTile = (character-'A')+1;
     else if(character>='0'&&character<='9')vramTile = (character-'0')+27;
     else if(character=='!')vramTile = 37;
     else if(character==':')vramTile = 38;
@@ -21,16 +24,17 @@ void DrawCharacter(uint8_t* address, char character) {
     else if(character=='<')vramTile = 44;
     else if(character=='>')vramTile = 45;
 
-    set_vram_byte(address,vramTile);
-}
 
+    return vramTile;
+
+}
 
 void DrawText(uint8_t column, uint8_t row, char* text){
 
     // Get the address of the first tile in the row
     uint8_t* vramAddress = get_bkg_xy_addr(column,row);
 
-    uint8_t index=0;
+    uint16_t index=0;
 
     while(text[index]!='\0'){
 
@@ -38,7 +42,13 @@ void DrawText(uint8_t column, uint8_t row, char* text){
 
         // Draw our character at the address
         // THEN, increment the address
-        DrawCharacter(vramAddress++,character);
+        uint8_t vramTile = GetCharacterVRamTile(character);
+
+        set_vram_byte(vramAddress++,vramTile);
+
+        #if defined(SEGA)
+        set_vram_byte(vramAddress++,0);
+        #endif
 
         index++;
 
@@ -49,9 +59,13 @@ void main(void)
 {
     SHOW_BKG;
 
+    #if !defined(SEGA) && !defined(NINTENDO_NES)
+
     NR52_REG = 0x80; // Master sound on
     NR50_REG = 0xFF; // Maximum volume for left/right speakers. 
     NR51_REG = 0xFF; // Turn on sound fully
+
+    #endif
 
     set_bkg_data(0,Font_TILE_COUNT,Font_tiles);
 

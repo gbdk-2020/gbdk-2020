@@ -7,7 +7,7 @@ endif
 endif
 
 # Called by the individual targets below to build a ROM
-build-target: $(BINS)
+build-target: png2asset $(BINS)
 
 clean-target:
 	rm -rf $(OBJDIR)
