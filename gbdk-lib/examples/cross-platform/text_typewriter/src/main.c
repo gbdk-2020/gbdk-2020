@@ -2,30 +2,45 @@
 #include <stdint.h>
 #include "Font.h"
 
+#define THREE_FRAMES 3
+
 uint8_t GetCharacterVRamTile(char character) {
 
     uint8_t vramTile=0;
 
+
     // Char's can be interpreted as integers
     // We don't need to map every alpha-numeric character
     // We can use basic math to simplify A-Z and 0-9
-    if(character>='a'&&character<='z')vramTile = (character-'a')+1;
-    else if(character>='A'&&character<='Z')vramTile = (character-'A')+1;
-    else if(character>='0'&&character<='9')vramTile = (character-'0')+27;
-    else if(character=='!')vramTile = 37;
-    else if(character==':')vramTile = 38;
-    else if(character=='?')vramTile = 39;
-    else if(character=='/')vramTile = 40;
-    else if(character=='=')vramTile = 41;
-    else if(character==',')vramTile = 42;
-    else if(character=='.')vramTile = 43;
-    else if(character=='<')vramTile = 44;
-    else if(character=='>')vramTile = 45;
+    if      (character >= 'a' && character <= 'z') vramTile = (character - 'a') + 1;
+    else if (character >= 'A' && character <= 'Z') vramTile = (character - 'A') + 1;
+    else if (character >= '0' && character <= '9') vramTile = (character - '0') + 27;
+    else {
+        switch(character) {
+            case '!': vramTile = 37; break;
+            case ':': vramTile = 38; break;
+            case '?': vramTile = 39; break;
+            case '/': vramTile = 40; break;
+            case '=': vramTile = 41; break;
+            case ',': vramTile = 42; break;
+            case '.': vramTile = 43; break;
+            case '<': vramTile = 44; break;
+            case '>': vramTile = 45; break;
+        }
+    }
 
     return vramTile;
 
 }
 
+inline uint8_t translate_envelope(uint8_t value) {
+	#ifdef MEGADUCK
+        // Mega Duck has nybbles swapped for NR12, NR22, NR42 audio envelope registers
+		return ((uint8_t)(value << 4) | (uint8_t)(value >> 4));
+	#else
+		return value;
+	#endif
+}
 
 void DrawText( char* text,uint8_t typewriterDelay){
 
@@ -70,7 +85,7 @@ void DrawText( char* text,uint8_t typewriterDelay){
             // Play a basic sound effect
             NR10_REG = 0x34;
             NR11_REG = 0x81;
-            NR12_REG = 0x41;
+            NR12_REG = translate_envelope(0x41);
             NR13_REG = 0x7F;
             NR14_REG = 0x86;
 
@@ -104,5 +119,5 @@ void main(void)
     fill_bkg_rect(0,0,DEVICE_SCREEN_WIDTH,DEVICE_SCREEN_HEIGHT,0);
 
     // By passing 3 as the final argument, the game boy will wait 3 frames between each character
-    DrawText("This is an how you draw text on the screen in GBDK. The code will automatically jump to a new line, when it reaches the end of the row.",3);
+    DrawText("his is a way to draw text on the screen in GBDK. The code will automatically jump to a new line, when it reaches the end of the row.",THREE_FRAMES);
 }
