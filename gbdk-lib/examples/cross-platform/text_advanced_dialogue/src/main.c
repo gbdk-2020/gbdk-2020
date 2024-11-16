@@ -4,7 +4,12 @@
 #include "Font.h"
 #include "DialogueBox.h"
 
-#define DIALOG_BOX_HEIGHT 5
+
+#define MIN(A,B) ((A)<(B)?(A):(B))
+
+#define LINE_SKIP 2
+#define DIALOG_BOX_HEIGHT 7
+#define DIALOG_BOX_INNER_HEIGHT (DIALOG_BOX_HEIGHT-2)
 
 #if defined(SEGA)
     #define BYTES_PER_TILE  2
@@ -210,11 +215,17 @@ void DrawTextAdvanced(char* text){
     uint8_t columnSize=0;
     uint8_t rowCount=0;
 
-    uint8_t copyBuffer[INNER_DIALOGUE_BOX_WIDTH];
+    // Increase the first dimension by 1
+    // So it's easy to slide up rows (the top values will always be 0)
+    uint8_t copyBuffer[DIALOG_BOX_INNER_HEIGHT+1][INNER_DIALOGUE_BOX_WIDTH];
     uint8_t copyBufferCount=0;
 
     // Clear the copy buffer
-    for(uint8_t k=0;k<INNER_DIALOGUE_BOX_WIDTH;k++)copyBuffer[k]=0;
+    for(uint8_t k=0;k<INNER_DIALOGUE_BOX_WIDTH;k++){
+        for(uint8_t t=0;t<DIALOG_BOX_INNER_HEIGHT+1;t++){
+            copyBuffer[t][k]=0;
+        }
+    }
 
 
     // Get the address of the first tile in the row
@@ -245,12 +256,9 @@ void DrawTextAdvanced(char* text){
         set_vram_byte(vramAddress++,0);
         #endif
 
-        if(rowCount>=2){
-
-            // Copy everything row 2 to a buffer
-            // So we can easily slide that row upwards, without having to access VRAM
-            copyBuffer[copyBufferCount++] = loadedCharacters[vramTile];
-        }
+        // Copy everything to a buffer
+        // So we can easily slide that row upwards, without having to access VRAM
+        if(rowCount<DIALOG_BOX_INNER_HEIGHT)copyBuffer[rowCount][copyBufferCount++] = loadedCharacters[vramTile];
 
         index++;
         columnSize++;
@@ -258,7 +266,10 @@ void DrawTextAdvanced(char* text){
          // if we've reached the end of the row
         if(BreakLineEarly(index,columnSize,text) || c=='.'){
 
-            rowCount+=2;
+            rowCount+=LINE_SKIP;
+
+            // Reset/Clear the copy buffer
+            copyBufferCount=0;
 
             // If we just drew a period or question mark,
             // wait for the a button  and afterwards clear the dialogue box.
@@ -267,35 +278,43 @@ void DrawTextAdvanced(char* text){
                 ClearDialogueBox();
                 rowCount=0;
 
-                // Reset/Clear the copy buffer
-                copyBufferCount=0;
-                for(uint8_t k=0;k<INNER_DIALOGUE_BOX_WIDTH;k++)copyBuffer[k]=0;
+                // Clear the copy buffer
+                for(uint8_t k=0;k<INNER_DIALOGUE_BOX_WIDTH;k++){
+                    for(uint8_t t=0;t<DIALOG_BOX_INNER_HEIGHT+1;t++){
+                        copyBuffer[t][k]=0;
+                    }
+                }
+
             }
 
-            // if we've drawn our 2 rows
-            else if( rowCount>2){
+            // if we've drawn our rows
+            else if( rowCount>=DIALOG_BOX_INNER_HEIGHT){
 
-                // Clear the inner dialogue box
-                fill_winbkg_rect(1,DIALOGUE_BOX_Y+1,INNER_DIALOGUE_BOX_WIDTH,3,0);
+                // We want the most recently drawn line to be at the top of the dialog box
+                uint8_t shiftCount = rowCount-LINE_SKIP;
 
-                // Draw the line of text one tile up
-                set_text_tiles(1,DIALOGUE_BOX_Y+2,INNER_DIALOGUE_BOX_WIDTH,1,copyBuffer);
+                for(uint8_t k=0;k<shiftCount;k++){
 
-                // Wait a little bit
-                vsyncMultiple(15);
+                    for(uint8_t t=0;t<DIALOG_BOX_INNER_HEIGHT;t++){
 
-                // Clear the previous line of text
-                fill_winbkg_rect(1,DIALOGUE_BOX_Y+2,INNER_DIALOGUE_BOX_WIDTH,1,0);
+                        uint8_t copyBufferIndex = MIN(1+t+k,DIALOG_BOX_INNER_HEIGHT);
+                        
+                        set_text_tiles(1,DIALOGUE_BOX_Y+1+t,INNER_DIALOGUE_BOX_WIDTH,1,copyBuffer[copyBufferIndex]);
+                    }
 
-                // Draw on the first row of our dialogue box
-                set_text_tiles(1,DIALOGUE_BOX_Y+1,INNER_DIALOGUE_BOX_WIDTH,1,copyBuffer);
-
-                copyBufferCount=0;
+                    // Wait a little bit
+                    vsyncMultiple(15);
+                }
 
                 // Clear the copy buffer
-                for(uint8_t k=0;k<INNER_DIALOGUE_BOX_WIDTH;k++)copyBuffer[k]=0;
+                for(uint8_t k=0;k<INNER_DIALOGUE_BOX_WIDTH;k++){
+                    for(uint8_t t=0;t<DIALOG_BOX_INNER_HEIGHT;t++){
+                        copyBuffer[t][k]=0;
+                    }
+                }
 
-                rowCount=2;
+
+                rowCount=LINE_SKIP;
 
             }
             
@@ -350,7 +369,7 @@ void main(void)
 
         // We'll pass in one long string, but the game will present to the player multiple pages.
         // By passing 3 as the final argument, the game boy will wait 3 frames between each character
-        DrawTextAdvanced("When the code reaches a period or question mark, it will wait for you to press A. Afterwards, It will start a new page and continue.  The code will automatically jump to a new line, when it cannot fully draw a word.  When both rows of text are full, the code will slide the current text upwards and continue. For every page, the code will dynamically populate VRAM. Only letters and characters used, will be loaded into VRAM.");
+        DrawTextAdvanced("When the code reaches a period or question mark, it will pause and wait for you to press the A button for it to continue. Afterwards, It will start a new page and continue.  The code will automatically jump to a new line, when it cannot fully draw a word.  When both rows of text are full, the code will slide the current text upwards and continue. For every page, the code will dynamically populate VRAM. Only letters and characters used, will be loaded into VRAM.");
         
     }
 }
