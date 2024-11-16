@@ -193,36 +193,36 @@ int option_get_mbc_type(void) {
 //
 //  For lcc linker option: -Wl-ytN where N is one of the numbers below
 //
-// | Hex Code | MBC Type      | SRAM | Battery | RTC | Rumble | Extra  | Max ROM Size (1)|Max SRAM Size   |
-// | -------- | ------------- | ---- | ------- | --- | ------ | ------ | --------------- |--------------- |
-// | 0x00     | ROM ONLY      |      |         |     |        |        | 32 K            |0               |
-// | 0x01     | MBC-1 (2)     |      |         |     |        |        | 2 MB            |0               |
-// | 0x02     | MBC-1 (2)     | SRAM |         |     |        |        | 2 MB            |32 K (5)        |
-// | 0x03     | MBC-1 (2)     | SRAM | BATTERY |     |        |        | 2 MB            |32 K (5)        |
-// | 0x05     | MBC-2         |      |         |     |        |        | 256 K           |512 x 4 bits (6)|
-// | 0x06     | MBC-2         |      | BATTERY |     |        |        | 256 K           |512 x 4 bits (6)|
-// | 0x08     | ROM (3)       | SRAM |         |     |        |        | 32 K            |8 K             |
-// | 0x09     | ROM (3)       | SRAM | BATTERY |     |        |        | 32 K            |8 K             |
-// | 0x0B     | MMM01         |      |         |     |        |        | 8 MB / N        |                |
-// | 0x0C     | MMM01         | SRAM |         |     |        |        | 8 MB / N        |128K / N        |
-// | 0x0D     | MMM01         | SRAM | BATTERY |     |        |        | 8 MB / N        |128K / N        |
-// | 0x0F     | MBC-3         |      | BATTERY | RTC |        |        | 2 MB            |                |
-// | 0x10     | MBC-3 (4)     | SRAM | BATTERY | RTC |        |        | 2 MB            |32 K            |
-// | 0x11     | MBC-3         |      |         |     |        |        | 2 MB            |                |
-// | 0x12     | MBC-3 (4)     | SRAM |         |     |        |        | 2 MB            |32 K            |
-// | 0x13     | MBC-3 (4)     | SRAM | BATTERY |     |        |        | 2 MB            |32 K            |
-// | 0x19     | MBC-5         |      |         |     |        |        | 8 MB            |                |
-// | 0x1A     | MBC-5         | SRAM |         |     |        |        | 8 MB            |128 K           |
-// | 0x1B     | MBC-5         | SRAM | BATTERY |     |        |        | 8 MB            |128 K           |
-// | 0x1C     | MBC-5         |      |         |     | RUMBLE |        | 8 MB            |                |
-// | 0x1D     | MBC-5         | SRAM |         |     | RUMBLE |        | 8 MB            |128 K           |
-// | 0x1E     | MBC-5         | SRAM | BATTERY |     | RUMBLE |        | 8 MB            |128 K           |
-// | 0x20     | MBC-6         |      |         |     |        |        | ~2MB            |                |
-// | 0x22     | MBC-7         |EEPROM| BATTERY |     | RUMBLE | SENSOR | 2MB             |256 byte EEPROM |
-// | 0xFC     | POCKET CAMERA |      |         |     |        |        | To Do           |To Do           |
-// | 0xFD     | BANDAI TAMA5  |      |         |     |        |        | To Do           |To Do           |
-// | 0xFE     | HuC3          |      |         | RTC |        |        | To Do           |To Do           |
-// | 0xFF     | HuC1          | SRAM | BATTERY |     |        | IR     | To Do           |To Do           |
+// | Hex Code | MBC Type      | SRAM | Battery | RTC | Extra Feature   | Max ROM Size (1)|Max SRAM Size   |
+// | -------- | ------------- | ---- | ------- | --- | --------------- | --------------- |--------------- |
+// | 0x00     | ROM ONLY      |      |         |     |                 | 32 K            |0               |
+// | 0x01     | MBC-1 (2)     |      |         |     |                 | 2 MB            |0               |
+// | 0x02     | MBC-1 (2)     | SRAM |         |     |                 | 2 MB            |32 K (5)        |
+// | 0x03     | MBC-1 (2)     | SRAM | BATTERY |     |                 | 2 MB            |32 K (5)        |
+// | 0x05     | MBC-2         |      |         |     |                 | 256 K           |512 x 4 bits (6)|
+// | 0x06     | MBC-2         |      | BATTERY |     |                 | 256 K           |512 x 4 bits (6)|
+// | 0x08     | ROM (3)       | SRAM |         |     |                 | 32 K            |8 K             |
+// | 0x09     | ROM (3)       | SRAM | BATTERY |     |                 | 32 K            |8 K             |
+// | 0x0B     | MMM01         |      |         |     |                 | 8 MB / N        |                |
+// | 0x0C     | MMM01         | SRAM |         |     |                 | 8 MB / N        |128K / N        |
+// | 0x0D     | MMM01         | SRAM | BATTERY |     |                 | 8 MB / N        |128K / N        |
+// | 0x0F     | MBC-3         |      | BATTERY | RTC |                 | 2 MB            |                |
+// | 0x10     | MBC-3 (4)     | SRAM | BATTERY | RTC |                 | 2 MB            |32 K            |
+// | 0x11     | MBC-3         |      |         |     |                 | 2 MB            |                |
+// | 0x12     | MBC-3 (4)     | SRAM |         |     |                 | 2 MB            |32 K            |
+// | 0x13     | MBC-3 (4)     | SRAM | BATTERY |     |                 | 2 MB            |32 K            |
+// | 0x19     | MBC-5         |      |         |     |                 | 8 MB            |                |
+// | 0x1A     | MBC-5         | SRAM |         |     |                 | 8 MB            |128 K           |
+// | 0x1B     | MBC-5         | SRAM | BATTERY |     |                 | 8 MB            |128 K           |
+// | 0x1C     | MBC-5         |      |         |     | RUMBLE          | 8 MB            |                |
+// | 0x1D     | MBC-5         | SRAM |         |     | RUMBLE          | 8 MB            |128 K           |
+// | 0x1E     | MBC-5         | SRAM | BATTERY |     | RUMBLE          | 8 MB            |128 K           |
+// | 0x20     | MBC-6         |      |         |     |                 | ~2MB            |                |
+// | 0x22     | MBC-7         |EEPROM|         |     | ACCELEROMETER   | 2MB             |256 byte EEPROM |
+// | 0xFC     | POCKET CAMERA |      |         |     |                 | 1MB             |128KB RAM       |
+// | 0xFD     | BANDAI TAMA5  |      |         |     |                 | To Do           |To Do           |
+// | 0xFE     | HuC3          |      |         | RTC |                 | To Do           |To Do           |
+// | 0xFF     | HuC1          | SRAM | BATTERY |     | IR              | To Do           |To Do           |
 void option_mbc_by_rom_byte_149(int mbc_type_rom_byte) {
 
     switch (mbc_type_rom_byte) {
@@ -270,7 +270,7 @@ void option_mbc_by_rom_byte_149(int mbc_type_rom_byte) {
             break;
 
         // MBC 7
-        case 0x22u: //  22-MBC-7 +EEPROM +BATTERY +RUMBLE +SENSOR: 2MB ROM, 256 byte EEPROM
+        case 0x22u: //  22-MBC-7 +ACCELEROMETER +EEPROM : 2MB ROM, 256 byte EEPROM
             option_set_mbc(MBC_TYPE_MBC7);
             break;
 

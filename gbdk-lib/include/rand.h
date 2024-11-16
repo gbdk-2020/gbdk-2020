@@ -50,13 +50,25 @@ extern uint16_t __rand_seed;
 
     @ref initrand() should be used to initialize the random number generator before using rand()
  */
-uint8_t rand(void) OLDCALL;
+#if defined(__PORT_sm83)
+uint8_t rand(void) OLDCALL PRESERVES_REGS(b, c);
+#elif defined(__PORT_z80)
+uint8_t rand(void) OLDCALL PRESERVES_REGS(b, c, iyh, iyl);
+#elif defined(__PORT_mos6502)
+uint8_t rand(void);
+#endif
 
 /** Returns a random word (16 bit) value.
 
     @ref initrand() should be used to initialize the random number generator before using rand()
  */
-uint16_t randw(void) OLDCALL;
+#if defined(__PORT_sm83)
+uint16_t randw(void) OLDCALL PRESERVES_REGS(b, c);
+#elif defined(__PORT_z80)
+uint16_t randw(void) OLDCALL PRESERVES_REGS(b, c, iyh, iyl);
+#elif defined(__PORT_mos6502)
+uint16_t randw(void);
+#endif
 
 /** Random generator using the linear lagged additive method
 
@@ -77,6 +89,12 @@ void initarand(uint16_t seed) Z88DK_FASTCALL;
 
     @ref initarand() should be used to initialize the random number generator before using arand()
  */
-uint8_t arand(void) OLDCALL;
+#if defined(__PORT_sm83)
+uint8_t arand(void) OLDCALL PRESERVES_REGS(b, c);
+#elif defined(__PORT_z80)
+uint8_t arand(void) OLDCALL PRESERVES_REGS(b, c, iyh, iyl);
+#elif defined(__PORT_mos6502)
+uint8_t arand(void);
+#endif
 
 #endif
