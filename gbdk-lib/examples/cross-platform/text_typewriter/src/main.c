@@ -33,15 +33,6 @@ uint8_t GetCharacterVRamTile(char character) {
 
 }
 
-inline uint8_t translate_envelope(uint8_t value) {
-	#ifdef MEGADUCK
-        // Mega Duck has nybbles swapped for NR12, NR22, NR42 audio envelope registers
-		return ((uint8_t)(value << 4) | (uint8_t)(value >> 4));
-	#else
-		return value;
-	#endif
-}
-
 void DrawText( char* text,uint8_t typewriterDelay){
 
     uint8_t column = 0;
@@ -80,17 +71,6 @@ void DrawText( char* text,uint8_t typewriterDelay){
 
         if(typewriterDelay>0){
 
-            #if !defined(SEGA) && !defined(NINTENDO_NES)
-            
-            // Play a basic sound effect
-            NR10_REG = 0x34;
-            NR11_REG = 0x81;
-            NR12_REG = translate_envelope(0x41);
-            NR13_REG = 0x7F;
-            NR14_REG = 0x86;
-
-            #endif
-
             // Wait some frames
             // This creats a typewriter effect
             for(uint8_t i=0;i<typewriterDelay;i++){
@@ -105,14 +85,6 @@ void DrawText( char* text,uint8_t typewriterDelay){
 void main(void)
 {
     SHOW_BKG;
-
-    #if !defined(SEGA) && !defined(NINTENDO_NES)
-
-    NR52_REG = 0x80; // Master sound on
-    NR50_REG = 0xFF; // Maximum volume for left/right speakers. 
-    NR51_REG = 0xFF; // Turn on sound fully
-
-    #endif
 
     set_native_tile_data(0,Font_TILE_COUNT,Font_tiles);
 

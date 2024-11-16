@@ -81,15 +81,6 @@ uint8_t GetTileForCharacter(char character) {
 
 }
 
-inline uint8_t translate_envelope(uint8_t value) {
-	#ifdef MEGADUCK
-        // Mega Duck has nybbles swapped for NR12, NR22, NR42 audio envelope registers
-		return ((uint8_t)(value << 4) | (uint8_t)(value >> 4));
-	#else
-		return value;
-	#endif
-}
-
 uint8_t IsAlphaNumeric(char character){
 
     // Return true for a-z,A-Z, and 0-9
@@ -319,17 +310,6 @@ void DrawTextAdvanced(char* text){
             }
         }
 
-        #if !defined(SEGA) && !defined(NINTENDO_NES)
-
-            // Play a basic sound effect
-            NR10_REG = 0x34;
-            NR11_REG = 0x81;
-            NR12_REG = translate_envelope(0x41);
-            NR13_REG = 0x7F;
-            NR14_REG = 0x86;
-
-        #endif
-
         vsyncMultiple(3);
     }
 
@@ -365,19 +345,6 @@ void main(void)
     ClearScreen();
 
     set_native_tile_data(1,DialogueBox_TILE_COUNT,DialogueBox_tiles);
-
-    
-    #if !defined(SEGA) && !defined(NINTENDO_NES)
-
-        NR52_REG = 0x80; // Master sound on
-        NR50_REG = 0xFF; // Maximum volume for left/right speakers. 
-        NR51_REG = 0xFF; // Turn on sound fully
-
-        // Completely hide the window
-        windowYPosition = (DEVICE_SCREEN_HEIGHT << 3)<<3;
-        MoveWindow();
-
-    #endif
     
     while(TRUE){
 
