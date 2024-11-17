@@ -165,7 +165,7 @@ CLASS classes[] = {
       .bankpack     = "%bankpack% -plat=nes -mapper=30 $1 $2",
       .ld           = "%ld_6808% -a nes -n -i -j $1 %libs_include% $3 %crt0dir% $2",
       .ihxcheck     = "%ihxcheck% $2 $1",
-      .mkbin        = "%mkbin% -N -yo A $2 $3",
+      .mkbin        = "%mkbin% -N -yo A $1 $2 $3",
       .postproc     = "",
       .llist0_defaults    = llist0_defaults_nes,
       .llist0_defaults_len= ARRAY_LEN(llist0_defaults_nes),
