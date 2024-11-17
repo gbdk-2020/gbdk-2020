@@ -7,6 +7,8 @@
 
 #define MIN(A,B) ((A)<(B)?(A):(B))
 
+#define TYPEWRITER_DELAY 2
+#define LINE_SKIP_DELAY 7
 #define LINE_SKIP 2
 #define DIALOG_BOX_HEIGHT 7
 #define DIALOG_BOX_INNER_HEIGHT (DIALOG_BOX_HEIGHT-2)
@@ -37,7 +39,7 @@
 #define TILE_SIZE_BYTES  (BYTES_PER_TILE*16)
 #define INNER_DIALOGUE_BOX_WIDTH (DEVICE_SCREEN_WIDTH-2)
 
-int16_t windowYPosition=0;
+int16_t windowYPosition=DEVICE_SCREEN_PX_HEIGHT;
 uint8_t fontTilesStart=0;
 
 uint8_t joypadCurrent=0,joypadPrevious=0;
@@ -48,10 +50,8 @@ uint8_t loadedCharacterCount=0;
 void MoveWindow(void){
     
     #if !defined(SEGA) &&  !defined(NINTENDO_NES)
-
-    int16_t y = windowYPosition>>3;
-
-    move_win(7,y);
+    
+    move_win(7,windowYPosition);
 
     #endif
 }
@@ -163,11 +163,11 @@ void ShowDialgoueBox(void){
 
     ClearDialogueBox();
 
-    int16_t desiredWindowPosition = (DEVICE_SCREEN_HEIGHT<<3)-(DIALOG_BOX_HEIGHT*8);
+    int16_t desiredWindowPosition = DEVICE_SCREEN_PX_HEIGHT - (DIALOG_BOX_HEIGHT*8);
 
-    while((windowYPosition>>3)>desiredWindowPosition){
+    while(windowYPosition>desiredWindowPosition){
 
-        windowYPosition-=10;
+        windowYPosition-=4;
         MoveWindow();
         vsync();
     }
@@ -175,11 +175,11 @@ void ShowDialgoueBox(void){
 
 void HideDialgoueBox(void){
 
-    int16_t desiredWindowPosition = (DEVICE_SCREEN_HEIGHT<<3);
+    int16_t desiredWindowPosition = DEVICE_SCREEN_PX_HEIGHT;
 
-    while((windowYPosition>>3)<desiredWindowPosition){
+    while(windowYPosition<desiredWindowPosition){
 
-        windowYPosition+=10;
+        windowYPosition+=4;
         MoveWindow();
         vsync();
     }
@@ -303,7 +303,7 @@ void DrawTextAdvanced(char* text){
                     }
 
                     // Wait a little bit
-                    vsyncMultiple(15);
+                    vsyncMultiple(LINE_SKIP_DELAY);
                 }
 
                 // Clear the copy buffer
@@ -329,7 +329,7 @@ void DrawTextAdvanced(char* text){
             }
         }
 
-        vsyncMultiple(3);
+        vsyncMultiple(TYPEWRITER_DELAY);
     }
 
     HideDialgoueBox();
