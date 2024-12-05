@@ -41,6 +41,7 @@ _hblank_cpy_vram::
         ld a, e                 ; prepare the first byte
 
         halt
+        nop                     ; in case the halt bug is triggered
 
         ld (hl+), a             ; copy two bytes
         ld a, d
