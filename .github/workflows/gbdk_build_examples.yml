@@ -17,7 +17,7 @@ jobs:
         include:
           - os: ubuntu-20.04
             name: Linux-x64
-          - os: macos-12
+          - os: macos-13
             name: MacOS-x64
           - os: macos-14
             name: MacOS-arm64
