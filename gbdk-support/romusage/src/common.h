@@ -36,7 +36,8 @@
 #define OPT_MERGED_BANKS_ROM     2u
 
 #define OPT_PLAT_GAMEBOY     0u
-#define OPT_PLAT_SMS_GG_GBDK 1u  // GBDK specific layout of sms/gg
+#define OPT_PLAT_SMS_GG_GBDK 1u  // GBDK specific layout for SMS/GG
+#define OPT_PLAT_NES_GBDK_1  2u  // GBDK specific layout for NES
 
 #define BANKS_HIDE_SZ 30  // How many hide substrings to support
 #define BANKS_HIDE_MAX (BANKS_HIDE_SZ - 1)

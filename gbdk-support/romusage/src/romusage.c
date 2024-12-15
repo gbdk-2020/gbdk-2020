@@ -1,6 +1,6 @@
 // This is free and unencumbered software released into the public domain.
 // For more information, please refer to <https://unlicense.org>
-// bbbbbr 2020
+// bbbbbr 2024
 
 #include <stdio.h>
 #include <string.h>
@@ -19,7 +19,7 @@
 #include "cdb_file.h"
 #include "rom_file.h"
 
-#define VERSION "version 1.3.0"
+#define VERSION "version 1.3.1"
 
 enum {
     HELP_FULL = 0,
@@ -54,7 +54,7 @@ static void display_help(int mode) {
            "\n"
            "Options\n"
            "-h  : Show this help\n"
-           "-p:SMS_GG : Set platform to GBDK SMS/Game Gear (changes memory map templates)\n"
+           "-p  : Set platform (GBDK specific), \"-p:SMS_GG\" for SMS/Game Gear, \"-p:NES1\" for NES\n"
            "\n"
            "-a  : Show Areas in each Bank. Optional sort by, address:\"-aA\" or size:\"-aS\" \n"
            "-g  : Show a small usage graph per bank (-gA for ascii style)\n"
@@ -173,6 +173,8 @@ int handle_args(int argc, char * argv[]) {
 
         } else if (strstr(argv[i], "-p:SMS_GG") == argv[i]) {
             set_option_platform(OPT_PLAT_SMS_GG_GBDK);
+        } else if (strstr(argv[i], "-p:NES1") == argv[i]) {
+            set_option_platform(OPT_PLAT_NES_GBDK_1);
 
         } else if (strstr(argv[i], "-g") == argv[i]) {
             banks_output_show_minigraph(true);
