@@ -134,12 +134,11 @@ int noi_file_process_areas(char * filename_in) {
         while ( fgets(strline_in, sizeof(strline_in), noi_file) != NULL) {
 
             // Require minimum length to match
-            if (strlen(strline_in) >= NOI_REC_START_LEN) {
+            if (strlen(strline_in) >= strlen("DEF l_")) {
 
                 // Match either _S_egment or _L_ength records
-                if ( (strncmp(strline_in, "DEF l__", NOI_REC_START_LEN) == 0) ||
-                     (strncmp(strline_in, "DEF s__", NOI_REC_START_LEN) == 0)) {
-
+                if ( (strncmp(strline_in, "DEF l_", strlen("DEF l_") ) == 0) ||
+                     (strncmp(strline_in, "DEF s_", strlen("DEF s_") ) == 0)) {
 
                     // Split string into words separated by spaces
                     cols = 0;
@@ -157,7 +156,7 @@ int noi_file_process_areas(char * filename_in) {
 
                     if (cols == NOI_REC_COUNT_MATCH) {
                         if ( !(strstr(p_words[2], "SFR")) &&        // Exclude SFR areas (not actually located at addresses in area listing)
-                             !(strstr(p_words[2], "HRAM")) ) {    // Exclude HRAM area
+                             !(strstr(p_words[2], "HRAM")) ) {      // Exclude HRAM area  // TODO: remove the HRAM discard? (now that there is an HRAM section)
 
                             noi_arealist_add(p_words[1], p_words[2], p_words[3]);
                         }
