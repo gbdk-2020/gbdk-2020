@@ -14,6 +14,7 @@
     fg_bit_p1:                  .ds 1
     bg_bit_p1:                  .ds 1
     bits:                       .ds 1
+    ppuaddr:                    .ds 2
 
     .area   _HOME
 
@@ -35,9 +36,9 @@ _set_bkg_1bpp_data::
     lda *_shadow_PPUCTRL
     and #0x10
     ora *src+1
-    sta PPUADDR
+    sta *ppuaddr+1
     lda *src
-    sta PPUADDR
+    sta *ppuaddr
     ;
     lda *_set_bkg_1bpp_data_PARM_3
     sta *src
@@ -86,7 +87,18 @@ _set_bkg_1bpp_data_bit_loop_skip:
     dex
     bne _set_bkg_1bpp_data_bit_loop
     lda *bits
-    sta PPUDATA
+    ;
+    sty *REGTEMP+4
+    sta *_set_vram_byte_PARM_2
+    lda *ppuaddr
+    ldx *ppuaddr+1
+    jsr _set_vram_byte
+    inc *ppuaddr
+    bne 1$
+    inc *ppuaddr+1
+1$:
+    ldy *REGTEMP+4
+    ;
     iny
     cpy #8
     bne _set_bkg_1bpp_data_byte_loop
