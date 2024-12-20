@@ -35,7 +35,7 @@ static void summarize_copy_modified_areas(bank_item * p_dest_bank, const bank_it
         area_item new_area = areas_to_copy[c];
         // Scale area address up by bank number * bank size (factoring in whether bank start is 0 or 1 based)
         //
-        // Handle special (-cWRAM or -cROM) case of a non-banked region merged with banked region.
+        // Handle special (-smWRAM or -smROM) case of a non-banked region merged with banked region.
         // This causes address range size to be 2x bank size and throws of base address calc for banked data
         // (to fix: bank - 1, and bank size / 2 )
         if ((p_src_bank->is_merged_bank) && (p_src_bank->bank_num > 0))
@@ -45,9 +45,21 @@ static void summarize_copy_modified_areas(bank_item * p_dest_bank, const bank_it
 
         new_area.end = new_area.start + (new_area.length - 1);
 
+        // Don't update bank size used here since that wouldn't factor in
+        // overlapping areas, instead do it below in a single pass at the end
+        // NO: p_dest_bank->size_used += new_area.length;
         list_additem(&(p_dest_bank->area_list), &new_area);
-        p_dest_bank->size_used += new_area.length;
     }
+
+    // Re-calculate size used in bank, taking overlapped areas into consideration
+    //
+    // For collapsing multiple banked regions with the same address range into
+    // one bank, the address range would need to be scaled upward to accomodate
+    // their larger virtual address range.
+    //
+    // Instead, make the assumption that areas have been previously clipped to be
+    // within allowed ranges so that we don't need a stard/end range check and disable clipping. 
+    p_dest_bank->size_used = bank_areas_calc_used(p_dest_bank, ADDR_NO_CLIP_MIN, ADDR_NO_CLIP_MAX);
 }
 
 

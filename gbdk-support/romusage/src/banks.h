@@ -17,6 +17,11 @@
 #define BANK_NUM_ROM0           (0u)
 #define BANK_NUM_ROM1           (1u)
 
+// Used for ignoring address range check/clipping when copying
+// areas from multiple banks into a single collapsed bank
+#define ADDR_NO_CLIP_MIN        0x00000000
+#define ADDR_NO_CLIP_MAX        0xFFFFFFFF
+
 #define AREA_COPY_ADDRESS_TRANSLATE_YES true
 #define AREA_COPY_ADDRESS_TRANSLATE_NO  false
 
