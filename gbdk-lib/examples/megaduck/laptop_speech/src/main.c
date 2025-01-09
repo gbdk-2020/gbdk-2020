@@ -14,6 +14,23 @@
 // The input range is 1-6 (DUCK_IO_SPEECH_CMD_MIN - DUCK_IO_SPEECH_CMD_MAX)
 // Playback of one sample can be interrupted by request for playback of another sample
 //
+// 
+// # Spanish Model Phrases
+// - 1. "Genial" (brilliant)
+// - 2. "Estupendo" (great)
+// - 3. "Fantástico" (fantastic)
+// - 4. "No, inténtalo otra vez." (no, try it again)
+// - 5. "No, prueba una vez más" (no, try once again)
+// - 6. "Vuelve a intentarlo" (try again)
+//
+// # German Model Phrases
+// - 1. "Ja, sehr gut" (yes, very good)
+// - 2. "Gut gemacht" (well done)
+// - 3. "Super" (great, awesome)
+// - 4. "Uh uh, probier's noch mal" (uh oh, try again)
+// - 5. "Uh uh, versuch's noch einmal" (give it another try)
+// - 6. "Oooh, schade" (ohh, what a pity)
+//
 // Returns success or failure
 bool duck_io_send_speech_cmd(uint8_t speech_sample_num) {
 
