@@ -61,7 +61,7 @@ void hicolor_set_type(uint8_t new_value);
 void hicolor_set_convert_left_pattern(uint8_t new_value);
 void hicolor_set_convert_right_pattern(uint8_t new_value);
 
-void hicolor_process_image(image_data * p_decoded_image, const char * fname);
+void hicolor_process_image(image_data * p_loaded_image, const char * fname_base, const char *varname);
 
 /////////////////////////////////////////////////////////////////////////////
 

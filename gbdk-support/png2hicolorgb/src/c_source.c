@@ -16,18 +16,21 @@
 // Writes a buffer to a file in C source format
 // Adds a matching .h if possible
 //
-bool file_c_output_write(const char * fname_base, int bank_num, int tile_count, int height_in_tiles) {
+bool file_c_output_write(const char * fname_base, const char * varname_in, int bank_num, int tile_count, int height_in_tiles) {
 
     char varname_withpath[MAX_PATH * 2];
     char filename_c[MAX_PATH * 2];
     char filename_h[MAX_PATH * 2];
-    strcpy(varname_withpath, fname_base);
+    strcpy(varname_withpath, varname_in);
     strcpy(filename_c, fname_base);
     strcpy(filename_h, fname_base);
     strcat(filename_c, ".c");
     strcat(filename_h, ".h");
 
-    // Fix up filename to be usable in the C source file
+    // Fix up varname if needed to be usable in the C source file
+    //
+    // If varname arg wasn't specified it will be derived from
+    // filename out and may include path that needs to be stripped.
     char * varname = (char *)get_filename_from_path(varname_withpath);
     char * ch = varname;
     while (*ch != '\0') {

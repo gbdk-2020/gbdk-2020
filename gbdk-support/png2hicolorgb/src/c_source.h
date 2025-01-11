@@ -5,7 +5,7 @@
 
 #include <stdbool.h>
 
-bool file_c_output_write(const char * fname_base, int bank_num,  int tile_count, int height_in_tiles);
+bool file_c_output_write(const char * fname_base, const char * varname_in, int bank_num,  int tile_count, int height_in_tiles);
 
 #endif
 

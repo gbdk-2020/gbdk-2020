@@ -41,8 +41,9 @@ static bool handle_args_L_R_patterns(const char * str_opt_side, const char * str
 #endif
 
 image_data src_image;
-char filename_in[MAX_STR_LEN] = {'\0'};
+char filename_in[MAX_STR_LEN] = "";
 char opt_filename_out[MAX_STR_LEN] = "";
+char opt_varname[MAX_STR_LEN] = "";
 // bool opt_strip_output_filename_ext = true;
 
 bool show_help_and_exit = false;
@@ -97,7 +98,12 @@ int main( int argc, char *argv[] )  {
                         strcpy(opt_filename_out, filename_in);
 
                     filename_remove_extension(opt_filename_out);
-                    hicolor_process_image(&src_image, opt_filename_out);
+
+                    // If output symbol name is not specified, use output filename
+                    if (opt_varname[0] == '\0')
+                        strcpy(opt_varname, opt_filename_out);
+
+                    hicolor_process_image(&src_image, opt_filename_out, opt_varname);
                     ret = EXIT_SUCCESS; // Exit with success
                 }
             }
@@ -132,6 +138,7 @@ static void display_help(void) {
         "-h         : Show this help\n"
         "-v*        : Set log level: \"-v\" verbose, \"-vQ\" quiet, \"-vE\" only errors, \"-vD\" debug\n"
         "-o <file>  : Set base output filename (otherwise from input image)\n"
+        "-s <name>  : Set output variable/symbol name (otherwise derived from output filename)\n"
         // "--keepext   : Do not strip extension from output filename\n"
         "--csource  : Export C source format with incbins for data files\n"
         "--bank=N   : Set bank number for C source output where N is decimal bank number 1-511\n"
@@ -151,8 +158,8 @@ static void display_help(void) {
         "--addendcolor=N : Append 32 x color N (hex BGR555) in pal data to clear BG for shorter images (64 bytes) (not in precompiled)\n"
         "\n"
         "Example 1: \"png2hicolorgb myimage.png\"\n"
-        "Example 2: \"png2hicolorgb myimage.png --csource -o=my_output_filename\"\n"
-        "Example 2: \"png2hicolorgb myimage.png --palendbit --addendcolor=0x7FFF -o=my_output_filename\"\n"
+        "Example 2: \"png2hicolorgb myimage.png --csource -o my_output_filename\"\n"
+        "Example 2: \"png2hicolorgb myimage.png --palendbit --addendcolor 0x7FFF -o my_output_filename -s my_variable_name\"\n"
         "* Default settings provide good results. Better quality but slower: \"--type=3 -L=adaptive-best -R=adaptive-best\"\n"
         "\n"
    );
@@ -244,13 +251,23 @@ static int handle_args(int argc, char * argv[]) {
                 return false; // Abort
             }
 
-            // Require colon and filename to be present
-             if (*argv[i] == '-')
-                LOG("Warning: -o specified but filename has dash and looks like an option argument. Usage: -o my_base_output_filename\n");
+            // Require filename to be present
+            if (*argv[i] == '-') LOG("Warning: -o specified but filename (%s) has dash and looks like an option argument. Usage: -o my_base_output_filename\n", argv[i]);
             snprintf(opt_filename_out, sizeof(opt_filename_out), "%s", argv[i]);
 
-        // } else if (strstr(argv[i], "--keepext") == argv[i]) {
-        //     opt_strip_output_filename_ext = false;
+        } else if (strstr(argv[i], "-s") == argv[i]) {
+            if (i < (argc -1))
+                i++; // Move to next argument if one is available
+            else {
+                LOG("Error: -s specified but variable name is missing\n");
+                show_help_and_exit = true;
+                return false; // Abort
+            }
+
+            // Require varname to be present
+            if (*argv[i] == '-') LOG("Warning: -s specified but varname (%s) has dash and looks like an option argument. Usage: -s my_varname\n", argv[i]);
+            snprintf(opt_varname, sizeof(opt_varname), "%s", argv[i]);
+
 
         } else if (strstr(argv[i], "--csource") == argv[i]) {
             opt_set_c_file_output(true);

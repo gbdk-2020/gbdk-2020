@@ -327,7 +327,7 @@ static void hicolor_convert(void) {
 }
 
 
-static void hicolor_save(const char * fname_base) {
+static void hicolor_save(const char * fname_base, const char * varname) {
 
     // Default tile count to non-deduplicated number
     int tile_count = y_height_in_tiles * (160 / TILE_WIDTH_PX);
@@ -352,19 +352,19 @@ static void hicolor_save(const char * fname_base) {
     ExportMapAttributes(fname_base);
 
     if (opt_get_c_file_output()) {
-        file_c_output_write(fname_base, opt_get_bank_num(), tile_count, y_height_in_tiles);
+        file_c_output_write(fname_base, varname, opt_get_bank_num(), tile_count, y_height_in_tiles);
     }
 }
 
 
 // Currently expects width x height x 3(RGB888)
-void hicolor_process_image(image_data * p_loaded_image, const char * fname_base) {
+void hicolor_process_image(image_data * p_loaded_image, const char * fname_base, const char *varname) {
     DBG("hicolor_process_image(), fname_base: \"%s\"\n", fname_base);
 
     hicolor_vars_prep(p_loaded_image);
     hicolor_image_import(p_loaded_image);
     hicolor_convert();
-    hicolor_save(fname_base);
+    hicolor_save(fname_base, varname);
 }
 
 
