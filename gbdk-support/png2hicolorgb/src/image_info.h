@@ -2,10 +2,10 @@
 // image_info.h
 //
 
-#include <stdint.h>
-
 #ifndef IMAGE_INFO_HEADER
 #define IMAGE_INFO_HEADER
+
+#include <stdint.h>
 
     #define RGBA_32SZ   4  // 4 bytes
     #define RGBA_RED   0

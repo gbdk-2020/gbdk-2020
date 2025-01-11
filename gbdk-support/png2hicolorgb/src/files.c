@@ -7,7 +7,7 @@
 
 // Read from a file into a buffer (will allocate needed memory)
 // Returns NULL if reading file didn't succeed
-uint8_t * file_read_into_buffer(char * filename, uint32_t *ret_size) {
+uint8_t * file_read_into_buffer(char * filename, size_t *ret_size) {
 
     long fsize;
     FILE * file_in = fopen(filename, "rb");
@@ -22,12 +22,12 @@ uint8_t * file_read_into_buffer(char * filename, uint32_t *ret_size) {
 
             filedata = (uint8_t *)malloc(fsize);
             if (filedata) {
-                if (fsize != fread(filedata, 1, fsize, file_in)) {
+                if (fsize != (long)fread(filedata, 1, fsize, file_in)) {
                     printf("Warning: File read size didn't match expected for %s\n", filename);
                     filedata = NULL;
                 }
                 // Read was successful, set return size
-                *ret_size = fsize;
+                *ret_size = (size_t)fsize;
             } else printf("ERROR: Failed to allocate memory to read file %s\n", filename);
 
         } else printf("ERROR: Failed to read size of file %s\n", filename);
@@ -41,10 +41,9 @@ uint8_t * file_read_into_buffer(char * filename, uint32_t *ret_size) {
 
 
 // Writes a buffer to a file
-bool file_write_from_buffer(char * filename, uint8_t * p_buf, uint32_t data_len) {
+bool file_write_from_buffer(char * filename, uint8_t * p_buf, size_t data_len) {
 
     bool status = false;
-    size_t wrote_bytes;
     FILE * file_out = fopen(filename, "wb");
 
     if (file_out) {
@@ -64,7 +63,7 @@ bool file_write_from_buffer(char * filename, uint8_t * p_buf, uint32_t data_len)
 
 // Read from a file into a buffer (will allocate needed memory)
 // Returns NULL if reading file didn't succeed
-char * file_read_into_buffer_char(char * filename, uint32_t *ret_size) {
+char * file_read_into_buffer_char(char * filename, size_t *ret_size) {
 
     long fsize;
     // On windows windows fread() will auto-translate CRLF to just LF and
@@ -81,12 +80,12 @@ char * file_read_into_buffer_char(char * filename, uint32_t *ret_size) {
 
             filedata = (char *)malloc(fsize);
             if (filedata) {
-                if (fsize != fread(filedata, 1, fsize, file_in)) {
+                if (fsize != (long)fread(filedata, 1, fsize, file_in)) {
                     printf("Warning: File read size didn't match expected for %s\n", filename);
                     filedata = NULL;
                 }
                 // Read was successful, set return size
-                *ret_size = fsize;
+                *ret_size = (size_t)fsize;
             } else printf("ERROR: Failed to allocate memory to read file %s\n", filename);
 
         } else printf("ERROR: Failed to read size of file %s\n", filename);
@@ -100,10 +99,9 @@ char * file_read_into_buffer_char(char * filename, uint32_t *ret_size) {
 
 
 // Writes a buffer to a file
-bool file_write_from_buffer_char(char * filename, char * p_buf, uint32_t data_len) {
+bool file_write_from_buffer_char(char * filename, char * p_buf, size_t data_len) {
 
     bool status = false;
-    size_t wrote_bytes;
     FILE * file_out = fopen(filename, "w");
 
     if (file_out) {

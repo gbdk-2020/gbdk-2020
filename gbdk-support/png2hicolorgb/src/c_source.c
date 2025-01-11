@@ -35,7 +35,7 @@ bool file_c_output_write(const char * fname_base, int bank_num, int tile_count, 
         ch++;
     }
 
-    log_verbose("Writing C format to: %s, %s\n", filename_c, filename_h);
+    VERBOSE("Writing C format to: %s, %s\n", filename_c, filename_h);
 
     // === C Source output ===
     FILE * file_out_c = fopen(filename_c, "w");

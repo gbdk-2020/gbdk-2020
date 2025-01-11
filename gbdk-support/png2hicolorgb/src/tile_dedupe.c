@@ -92,7 +92,7 @@ bool tileset_find_matching_tile(const uint8_t * src_tile, const uint8_t * tile_s
 
     for (unsigned int index_dedupe = 0; index_dedupe < tile_count_deduped; index_dedupe++) {
 
-        for (int f = 0; f < ARRAY_LEN(tile_flip_flags); f++) {
+        for (size_t f = 0; f < ARRAY_LEN(tile_flip_flags); f++) {
             if (memcmp(&tile_set_deduped[index_dedupe * TILE_SZ], &tile_permutations[f * TILE_SZ], TILE_SZ) == 0) {
 
                 // Match Found

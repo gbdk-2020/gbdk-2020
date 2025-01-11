@@ -1,6 +1,8 @@
 
+#include <stddef.h>
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -10,13 +12,13 @@
 #include "wu.h"
 
 
-#include <common.h>
-#include <options.h>
-#include <files.h>
-#include <image_info.h>
-#include <logging.h>
-#include <c_source.h>
-#include <tile_dedupe.h>
+#include "common.h"
+#include "options.h"
+#include "files.h"
+#include "image_info.h"
+#include "logging.h"
+#include "c_source.h"
+#include "tile_dedupe.h"
 
 /* Gameboy Hi-Colour Convertor */
 /* Glen Cook */
@@ -143,17 +145,23 @@ static      uint8_t *pBitsdest = Bitsdest;
 #define MAX_CONVERSION_TYPES    83
 #define MAX_QUANTISER_TYPES     4
 
-int image_y_min;
-int image_y_max;
-int image_height;
-int y_region_count_left;
-int y_region_count_right;
-int y_region_count_lr_rndup;
-int y_region_count_both_sides;
-int y_height_in_tiles_left;
-int y_height_in_tiles_right;
-int y_height_in_tiles;
-int y_height_in_tiles_lr_rndup;
+pattern_entry named_patterns[] = {
+    {.num = HICOLOR_PATTERN_ADAPTIVE_FAST, .name="adaptive-fast"},
+    {.num = HICOLOR_PATTERN_ADAPTIVE_MED, .name="adaptive-medium"},
+    {.num = HICOLOR_PATTERN_ADAPTIVE_BEST, .name="adaptive-best"}
+};
+
+static unsigned int image_y_min;
+static unsigned int image_y_max;
+static unsigned int image_height;
+static unsigned int y_region_count_left;
+static unsigned int y_region_count_right;
+static unsigned int y_region_count_lr_rndup;
+static unsigned int y_region_count_both_sides;
+static unsigned int y_height_in_tiles_left;
+static unsigned int y_height_in_tiles_right;
+static unsigned int y_height_in_tiles;
+static unsigned int y_height_in_tiles_lr_rndup;
 
 
 static void PrepareTileSet(void);
@@ -163,6 +171,7 @@ static void PrepareAttributes(void);
 static void DedupeTileset(void);
 
 static void ExportPalettes(const char * fname_base);
+static void ExportPalettesPrecompiled(const char * fname_base);
 static void ExportTileSet(const char * fname_base);
 static void ExportMap(const char * fname_base);
 static void ExportMapAttributes(const char * fname_base);
@@ -170,13 +179,14 @@ static void ExportMapAttributes(const char * fname_base);
 
 void hicolor_init(void) {
     // Defaults
-    LConversion = 3; // Default Conversion (Fixed 3-2-3-2) Left Screen
-    RConversion = 3; // Default Conversion (Fixed 3-2-3-2) Righ Screen
-    ConvertType = 1; // Normal default is 1 ("Median cut - no dither")
+    LConversion = HICOLOR_PATTERN_ADAPTIVE_MED; // Default Conversion adaptive-medium Left Screen
+    RConversion = HICOLOR_PATTERN_ADAPTIVE_MED; // Default Conversion adaptive-medium Righ Screen
+    ConvertType = CONV_TYPE_MED_CUT_NO_DITHER; // Normal default is 1 ("Median cut - no dither")
 }
 
+
 static void hicolor_vars_prep(image_data * p_loaded_image) {
-    log_debug("hicolor_vars_prep()\n");
+    DBG("hicolor_vars_prep()\n");
 
     image_height                = p_loaded_image->height;
     image_y_min                 = 0;
@@ -204,25 +214,53 @@ static void hicolor_vars_prep(image_data * p_loaded_image) {
 }
 
 
+// Look up user specified L/R pattern by name if possible
+unsigned int hicolor_get_pattern_by_name(const char * opt_str) {
+    char opt_str_lower[MAX_STR_LEN];
+    unsigned int c;
+
+    // Convert user input to lowercase first
+    for(c = 0; (opt_str[c] != '\0') && (c < MAX_STR_LEN); c++)
+        opt_str_lower[c] = tolower(opt_str[c]);
+    opt_str_lower[c] = '\0';
+
+    // Return if it matches any names in the named pattern list
+    for (c = 0; c < ARRAY_LEN(named_patterns); c++) {
+        if (strcmp(opt_str_lower, named_patterns[c].name) == 0)
+            return named_patterns[c].num;
+    }
+
+    // If there was no match, return if it contained any non-digit characters,
+    // meaning it should not later be converted as a raw numeric value for the option
+    while (*opt_str != '\0') {
+        if (isdigit(*opt_str) == 0) {
+            return HICOLOR_PATTERN_NOT_FOUND_HAS_CHARS;
+        }
+        opt_str++;
+    }
+
+    return HICOLOR_PATTERN_NOT_FOUND;
+}
+
 
 void hicolor_set_convert_left_pattern(uint8_t new_value) {
     // IDC_CONVERTLEFT
     LConversion = new_value;
-    log_verbose("HiColor: Left pattern set to %d\n", new_value);
+    VERBOSE("HiColor: Left pattern set to %d\n", new_value);
 }
 
 
 void hicolor_set_convert_right_pattern(uint8_t new_value) {
     // IDC_CONVERTRIGHT
     RConversion = new_value;
-    log_verbose("HiColor: Right pattern set to %d\n", new_value);
+    VERBOSE("HiColor: Right pattern set to %d\n", new_value);
 }
 
 
 void hicolor_set_type(uint8_t new_value) {
     // IDC_CONVERTTYPE
     ConvertType = new_value;
-    log_verbose("HiColor: Convert type set to %d\n", new_value);
+    VERBOSE("HiColor: Convert type set to %d\n", new_value);
 }
 
 
@@ -230,14 +268,14 @@ void hicolor_set_type(uint8_t new_value) {
 
 // Equivalent of former file loading
 static void hicolor_image_import(image_data * p_loaded_image) {
-    log_debug("hicolor_image_import()\n");
+    DBG("hicolor_image_import()\n");
 
     // TODO: input guarding
     // TODO: deduplicate some of the array copying around
     uint8_t * p_input_img = p_loaded_image->p_img_data;
 
-    for (int y=0; y< image_height; y++) {
-        for (int x=0; x< 160; x++) {
+    for (unsigned int y=0; y< image_height; y++) {
+        for (unsigned int x=0; x< 160; x++) {
 
             // Clamp to CGB max R/G/B value in RGB 888 mode (31u << 3)
             // png_image[].rgb -> pic2[].rgb -> pBitssource[].bgr??
@@ -253,9 +291,9 @@ static void hicolor_image_import(image_data * p_loaded_image) {
     // It's convoluted, but pBitssource & pBitsdest are used for:
     // - display as windows DIBs (formerly)
     // - and for some calculations at the end of ConvertRegions()
-    for (int y=0; y<image_height; y++) {
-        for (int x=0; x<160; x++) {
-            for (int z=0; z<3; z++) {
+    for (unsigned int y=0; y<image_height; y++) {
+        for (unsigned int x=0; x<160; x++) {
+            for (unsigned int z=0; z<3; z++) {
                 // TODO: (2-z) seems to be swapping RGB for BGR?
                 *(pBitssource+(image_y_max-y)*3*160+x*3+z) = pic2[x][y][2-z];            // Invert the dib, cos windows likes it like that !!
             }
@@ -268,17 +306,17 @@ static void hicolor_image_import(image_data * p_loaded_image) {
 // TODO: fix
 // TODO: Operates on RGB data in pic[] copied from RGB data in pic2
 static void hicolor_convert(void) {
-    log_debug("hicolor_convert()\n");
+    DBG("hicolor_convert()\n");
 
-    for(int x=0; x<160; x++)
+    for(unsigned int x=0; x<160; x++)
     {
-        for(int y=0; y<image_height; y++)
+        for(unsigned int y=0; y<image_height; y++)
         {
             pic[x][y][0] = pic2[x][y][0];
             pic[x][y][1] = pic2[x][y][1];
             pic[x][y][2] = pic2[x][y][2];
 
-            for(int i=0; i<3; i++)
+            for(unsigned int i=0; i<3; i++)
             {
                 *(Data + y*160*3+x*3+i) = pic[x][y][i];
             }
@@ -294,7 +332,7 @@ static void hicolor_save(const char * fname_base) {
     // Default tile count to non-deduplicated number
     int tile_count = y_height_in_tiles * (160 / TILE_WIDTH_PX);
 
-    log_debug("hicolor_save()\n");
+    DBG("hicolor_save()\n");
     PrepareTileSet();
     PrepareMap();
     PrepareAttributes();
@@ -305,7 +343,11 @@ static void hicolor_save(const char * fname_base) {
     }
 
     ExportTileSet(fname_base);
-    ExportPalettes(fname_base);
+    if (opt_get_precompiled_palette())
+        ExportPalettesPrecompiled(fname_base);
+    else
+        ExportPalettes(fname_base);
+
     ExportMap(fname_base);
     ExportMapAttributes(fname_base);
 
@@ -317,7 +359,7 @@ static void hicolor_save(const char * fname_base) {
 
 // Currently expects width x height x 3(RGB888)
 void hicolor_process_image(image_data * p_loaded_image, const char * fname_base) {
-    log_debug("hicolor_process_image(), fname_base: \"%s\"\n", fname_base);
+    DBG("hicolor_process_image(), fname_base: \"%s\"\n", fname_base);
 
     hicolor_vars_prep(p_loaded_image);
     hicolor_image_import(p_loaded_image);
@@ -340,8 +382,8 @@ static void DedupeTileset(void)
 
     TileCountDeduped = 0;
     // Traverse all tiles in the image/map
-    for (int mapy = 0; mapy < y_height_in_tiles; mapy++) {
-        for (int mapx = 0; mapx < 20; mapx++) {
+    for (unsigned int mapy = 0; mapy < y_height_in_tiles; mapy++) {
+        for (unsigned int mapx = 0; mapx < 20; mapx++) {
 
             map_tile_id = MapTileIDs[mapx][mapy];
             map_tile_id += (MapAttributes[mapx][mapy] & CGB_ATTR_TILES_BANK) ? CGB_TILES_START_BANK_1 : CGB_TILES_START_BANK_0;
@@ -360,7 +402,7 @@ static void DedupeTileset(void)
             MapAttributes[mapx][mapy] = (MapAttributes[mapx][mapy] & CGB_ATTR_PALETTES_ONLY) | new_attribs;
         }
     }
-    log_verbose("DedupeTileset(): Reduced tiles from %d (%d bytes) to %d (%d bytes) = %d bytes saved. %%%d of original size\n",
+    VERBOSE("DedupeTileset(): Reduced tiles from %d (%d bytes) to %d (%d bytes) = %d bytes saved. %%%d of original size\n",
                 map_tile_id + 1, (map_tile_id + 1) * TILE_SZ, TileCountDeduped, TileCountDeduped * TILE_SZ,
                 ((map_tile_id + 1) * TILE_SZ) - (TileCountDeduped * TILE_SZ), (TileCountDeduped * 100) / (map_tile_id + 1));
 }
@@ -370,7 +412,6 @@ static void DedupeTileset(void)
 
 
 static void PrepareTileSet(void) {
-    uint32_t    byteWritten;
     u32      x, y;
     u8       c1,c2;
     u8       dx,dy;
@@ -408,11 +449,11 @@ static void PrepareMap(void) {
     // Set up export Map Tile IDs
     // Note: The indexes are clipped to 0-255 (instead of 0-512),
     // the attribute tile index+256 bit is auto-calculated in the attribute map in PrepareAttributes()
-    int tile_id = 0;
-    for (int mapy = 0; mapy < y_height_in_tiles; mapy++) {
-        for (int mapx = 0; mapx < 20; mapx++) {
+    uint8_t tile_id = 0;
+    for (unsigned int mapy = 0; mapy < y_height_in_tiles; mapy++) {
+        for (unsigned int mapx = 0; mapx < 20; mapx++) {
 
-            MapTileIDs[mapx][mapy] = (uint8_t)tile_id;
+            MapTileIDs[mapx][mapy] = tile_id;
             tile_id++;
         }
     }
@@ -422,9 +463,9 @@ static void PrepareMap(void) {
 static void PrepareAttributes(void) {
     // Set up the Map Attributes table
     unsigned int tile_id = 0;
-    for(int MastY=0;MastY<y_height_in_tiles_right;MastY++)
+    for(unsigned int MastY=0;MastY<y_height_in_tiles_right;MastY++)
     {
-        for(int MastX=0;MastX<2;MastX++)
+        for(unsigned int MastX=0;MastX<2;MastX++)
         {
             int Line=Best[MastX][MastY];
             int width=0;
@@ -454,7 +495,7 @@ static void ExportTileSet(const char * fname_base)
 
     strcpy(filename, fname_base);
     strcat(filename, ".til");
-    log_verbose("Writing Tile Patterns to: %s\n", filename);
+    VERBOSE("Writing Tile Patterns to: %s\n", filename);
 
     if (opt_get_tile_dedupe()) {
 
@@ -473,16 +514,25 @@ static void ExportTileSet(const char * fname_base)
 static void ExportPalettes(const char * fname_base)
 {
     char filename[MAX_PATH * 2];
-    uint32_t    byteWritten;
-    uint8_t     tmpByte;
-    s32      i, j, k;
+    unsigned int      i, j, k;
     s32      r,g,b,v;
+
+    uint16_t pal_end_color_bgr555 = 0x0000u;
+    int pal_end_color_count = 0;
 
     strcpy(filename, fname_base);
     strcat(filename, ".pal");
-    log_verbose("Writing Palette to: %s\n", filename);
+    VERBOSE("Writing Palette to: %s\n", filename);
 
-    int outbuf_sz_pals = (((y_region_count_both_sides) * 4 * 4 * 2) + 1);
+    // No longer +1 for the trailing 0x2D
+    int outbuf_sz_pals = (y_region_count_both_sides * PALS_PER_SIDE * COLORS_PER_PAL * BYTES_PER_COLOR);
+
+    // Handle resize if trailing end colors have been appended
+    if (opt_get_enable_pal_end_color()) {
+        opt_load_pal_end_color(&pal_end_color_bgr555, &pal_end_color_count);
+        outbuf_sz_pals += (pal_end_color_count * BYTES_PER_COLOR);
+    }
+
     uint8_t output_buf[outbuf_sz_pals];
     uint8_t * p_buf = output_buf;
 
@@ -497,7 +547,7 @@ static void ExportPalettes(const char * fname_base)
                 g = IdealPal[(i%2)*4+j][i/2][k][1];
                 b = IdealPal[(i%2)*4+j][i/2][k][2];
 
-                // TODO: Converting to BGR555 probably
+                // Converting to BGR555
                 v = ((b/8)*32*32) + ((g/8)*32) + (r/8);
 
                 // 2 bytes per color
@@ -507,12 +557,124 @@ static void ExportPalettes(const char * fname_base)
         }
     }
 
-    // TODO: What is this and why? :)
-    *p_buf++ = 0x2d;
+    // Add trailing 32 colors to clear BG if enabled
+    if (opt_get_enable_pal_end_color()) {
+        for (int c = 0; c < pal_end_color_count; c++) {
+            *p_buf++ = (u8)(pal_end_color_bgr555 & 255);
+            *p_buf++ = (u8)(pal_end_color_bgr555 / 256);
+        }
+    }
+
+    // Set unused bit .15 = 1 for last u16 palette entry
+    // to indicate it's the final one
+    if (opt_get_pal_end_bit())
+        output_buf[outbuf_sz_pals - 1] |= 0x80u;
+
+    // This has an unknown purpose and was present in
+    // the original source code, but doesn't appear to be needed.
+    // *p_buf++ = 0x2d;
 
     if (!file_write_from_buffer(filename, output_buf, outbuf_sz_pals))
         set_exit_error();
 
+}
+
+
+#define LDHL_2x_SZ            2 // Scale factor for pal color bytes loaded via `ld [hl], <byte>`
+#define RET_SZ                1 // Size of ret opcode
+#define VBLANK_LOAD_LINE_CNT  2 // Number of lines loaded in vblank
+#define HALT_LOAD_SZ          5 // Size of Halt + LD HL, B/C/D/E on non-vblank scanlines 
+#define STAT_PRELOAD_SAVE_SZ  4 // Number of pal color bytes that get pre-loaded in STAT isr, so don't need 2x sizing for ld [hl], <byte>
+#define PAL_BYTES_PER_LINE    (PALS_PER_SIDE * COLORS_PER_PAL * BYTES_PER_COLOR)
+
+static void ExportPalettesPrecompiled(const char * fname_base)
+{
+    char filename[MAX_PATH * 2];
+    unsigned int  line, pal, col;
+    s32      r,g,b,v;
+    size_t outbuf_sz_pals = 0;
+
+    strcpy(filename, fname_base);
+    strcat(filename, ".pal");
+    VERBOSE("Writing Pre-compiled Palette to: %s\n", filename);
+
+    // How to calculate output size:
+    //
+    // VBLANK ISR (2 Lines)
+    // ~ No wait + load header code
+    // + Always uses LD [HL] (so 2x num pal bytes)
+    // + 1 ret shared by the 2 lines
+    // = (Pal bytes per line x 2) x (2 lines) + 1 ret 
+    //   (((4 x 4 x 2)       x 2)  x 2)       + 1 = 129
+    outbuf_sz_pals = ((PAL_BYTES_PER_LINE * LDHL_2x_SZ) * VBLANK_LOAD_LINE_CNT) + RET_SZ;
+
+    // Then...
+    // STAT ISR (Num Lines - 2) 
+    // - 4 bytes preload in STAT ISR without LD [HL] (so: 4 pal bytes without 2x sizing)
+    // + Then wait + load header code (so +5 bytes)
+    // + Then remainder of pal bytes get LD [HL] (so 2x num pal bytes)
+    // + 1 ret per line
+    // = (( (Pal bytes per line x 2) - 4 preload bytes + 5 header + 1 ret)  x (num lines - 2 vblank lines)
+    //   ( ( (4 x 4 x 2)        x 2) - 4)              + 5        + 1) = 66 x (num lines - 2)
+    outbuf_sz_pals += ((PAL_BYTES_PER_LINE * LDHL_2x_SZ) - STAT_PRELOAD_SAVE_SZ + HALT_LOAD_SZ + RET_SZ) * (y_region_count_both_sides - VBLANK_LOAD_LINE_CNT);
+
+    uint8_t output_buf[outbuf_sz_pals];
+    uint8_t * p_buf = output_buf;
+
+    // Note: "line" 0 is equivalent to something like scanline -1
+    // (due to left side region starting 1 scanline before line 0)
+    for (line = 0; line < (y_region_count_both_sides); line++) // Number of palette sets (left side updates + right side updates)
+    {
+        for (pal = 0; pal < 4; pal++) // Each palette in the line
+        {
+            for(col = 0; col < 4;col++) // Each color in the palette
+            {
+                // Precompiled mode has a "header" inserted after the first two colours of palette 0,
+                // except for the first two scanline lines (which are during VBlank so can load directly without a preload + wait)
+                if (line >= 2 && pal == 0 && col == 2) {
+                    *p_buf++ = SM83_OPCODE_HALT;
+                    *p_buf++ = SM83_OPCODE_LD_HL_B;
+                    *p_buf++ = SM83_OPCODE_LD_HL_C;
+                    *p_buf++ = SM83_OPCODE_LD_HL_D;
+                    *p_buf++ = SM83_OPCODE_LD_HL_E;
+                }
+
+                r = IdealPal[(line % 2)*4 + pal][line / 2][col][0];
+                g = IdealPal[(line % 2)*4 + pal][line / 2][col][1];
+                b = IdealPal[(line % 2)*4 + pal][line / 2][col][2];
+
+                // Converting to BGR555
+                v = ((b/8)*32*32) + ((g/8)*32) + (r/8);
+
+                // Load 2 bytes per color
+
+                // Insert LD [HL] opcode before pal data bytes... when:
+                // -  Any time during first two lines (i.e for all pal bytes in vblank)
+                // -  Or is the Second Palette or more (of each Line)
+                // -  Or is the Third Color or more (of each Palette. the STAT isr has pre-load code for the first two pal colors)
+                if (line < 2 || pal >= 1 || col >= 2) {
+                    *p_buf++ = SM83_OPCODE_LD_HL_IMM8; // ld [hl], <imm8>
+                }
+                *p_buf++ = (u8)(v & 255);
+
+                if (line < 2 || pal >= 1 || col >= 2) {
+                    *p_buf++ = SM83_OPCODE_LD_HL_IMM8; // ld [hl], <imm8>
+                }
+                *p_buf++ = (u8)(v / 256);
+            }
+        }
+
+        // Skip return for the first palette line (during vblank)
+        if (line >= 1)
+            *p_buf++ = SM83_OPCODE_RET;
+    }
+
+    // This has an unknown purpose and was present in
+    // the original source code, but doesn't appear to be needed.
+    // *p_buf++ = 0x2d;
+
+    if (!file_write_from_buffer(filename, output_buf, outbuf_sz_pals))
+        set_exit_error();
 }
 
 
@@ -525,14 +687,14 @@ static void ExportMap(const char * fname_base)
 
     strcpy(filename, fname_base);
     strcat(filename, ".map");
-    log_verbose("Writing Tile Map to: %s\n", filename);
+    VERBOSE("Writing Tile Map to: %s\n", filename);
 
     int outbuf_sz_map = (20 * y_height_in_tiles);
     uint8_t output_buf_map[outbuf_sz_map];
 
     int tile_id = 0;
-    for (int y = 0; y < y_height_in_tiles; y++) {
-        for (int x = 0; x < 20; x++) {
+    for (unsigned int y = 0; y < y_height_in_tiles; y++) {
+        for (unsigned int x = 0; x < 20; x++) {
             uint8_t tile_num = MapTileIDs[x][y];
 
             // This needs to happen here, after optional deduplication stage
@@ -556,15 +718,15 @@ static void ExportMapAttributes(const char * fname_base)
 
     strcpy(filename, fname_base);
     strcat(filename, ".atr");
-    log_verbose("Writing Attribute Map to: %s\n", filename);
+    VERBOSE("Writing Attribute Map to: %s\n", filename);
 
     int outbuf_sz_map = (20 * y_height_in_tiles);
     uint8_t output_buf_map[outbuf_sz_map];
 
     int tile_id = 0;
-    for (int y = 0; y < y_height_in_tiles; y++)
+    for (unsigned int y = 0; y < y_height_in_tiles; y++)
     {
-        for (int x = 0; x < 20; x++)
+        for (unsigned int x = 0; x < 20; x++)
         {
             output_buf_map[tile_id++] = MapAttributes[x][y];
         }
@@ -653,7 +815,7 @@ RGBQUAD translate(uint8_t rgb[3])
 
 // The higher the adaptive level, the more combinations of attributes are tested.
 
-u8    SplitData[80][4]=
+u8    SplitData[HICOLOR_PATTERN_FIXED_COUNT][4]=
 {
     {3,2,3,2},{2,3,2,3},{2,2,3,3},{2,3,3,2},{3,2,2,3},{3,3,2,2},{4,2,2,2},{2,2,2,4},{2,2,4,2},{2,4,2,2},{1,1,2,6},
     {1,1,3,5},{1,1,4,4},{1,1,5,3},{1,1,6,2},{1,2,1,6},{1,2,2,5},{1,2,3,4},{1,2,4,3},{1,2,5,2},{1,2,6,1},{1,3,1,5},
@@ -669,7 +831,7 @@ u8    SplitData[80][4]=
 
 unsigned int ImageRating(u8 *src, u8 *dest, int StartX, int StartY, int Width, int Height)
 {
-    log_debug("ImageRating()\n");
+    DBG("ImageRating()\n");
     unsigned int    tot;
     int                x,y;
     unsigned int    accum=0;
@@ -694,16 +856,15 @@ unsigned int ImageRating(u8 *src, u8 *dest, int StartX, int StartY, int Width, i
 // TODO: rename to something that aligns with other convert functions
 void ConvertToHiColor(int ConvertType)
 {
-    log_debug("ConvertToHiColor()\n");
+    DBG("ConvertToHiColor()\n");
     int        res;
-    int        x,y,z,i;
+    unsigned int        x,y;
+    // TODO: Change "Adaptive Pattern" settings to be a separate variable so StartSplit doesn't have to be offset by -3
+    //       Just set these directly:
+    //       * StartSplit (first pattern to start checking with)
+    //       * NumSplit   (number of patterns to iterate through for testing, 1 = just use the one in StartSplit)
     int        StartSplit=0;
     int        NumSplit=1;
-    int        Steps;
-    int        MastX,MastY;
-    int        Line;
-    int        width;
-    unsigned int tile_id;
 
     switch(LConversion)
     {
@@ -711,54 +872,26 @@ void ConvertToHiColor(int ConvertType)
 
             StartSplit=0;
             NumSplit=6;
-            Steps=504;
             break;
 
         case 1:
 
             StartSplit=0;
             NumSplit=10;
-            Steps=792;
             break;
 
         case 2:
 
             StartSplit=0;
             NumSplit=80;
-            Steps=5832;
             break;
 
         default:
 
             StartSplit=LConversion-3;
             NumSplit=1;
-            Steps=image_height;
             break;
     }
-
-    switch(RConversion)
-    {
-        case 0:
-
-            Steps+=504;
-            break;
-
-        case 1:
-
-            Steps+=792;
-            break;
-
-        case 2:
-
-            Steps+=5832;
-            break;
-
-        default:
-
-            Steps+=image_height;
-            break;
-    }
-
 
     // Convert left side with one extra tile of height to fix
     // the glitching where the last scanline on left bottom region
@@ -823,7 +956,7 @@ void ConvertToHiColor(int ConvertType)
             raw[1][x][y][2] = GBView.rgbBlue;
         }
     }
-    log_progress("\n");
+    VERBOSE("\n");
 }
 
 
@@ -833,12 +966,12 @@ void ConvertToHiColor(int ConvertType)
 // StartY = 0 - 17 : Starting attribute block
 // Height = Number of attribute blocks to check / process
 
-int ConvertRegions(int StartX, int Width, int StartY, int Height, int StartJ, int FinishJ, int ConvertType)
+int ConvertRegions(unsigned int StartX, unsigned int Width, unsigned int StartY, unsigned int Height, unsigned int StartJ, unsigned int FinishJ, int ConvertType)
 {
-    log_debug("ConvertRegions()\n");
-    u32        Accum,width,x1,ts,tw,y2,x2,y_offset;
-    s32        x,y;
-    s32        i,j;
+    DBG("ConvertRegions()\n");
+    u32        width,x1,ts,tw,y2,x2,y_offset;
+    unsigned int        x,y;
+    unsigned int        i,j;
     u8        col;
 
 
@@ -856,7 +989,6 @@ int ConvertRegions(int StartX, int Width, int StartY, int Height, int StartJ, in
 
         for(j=StartJ;j<(StartJ+FinishJ);j++)
         {
-            Accum=0;
             width=0;
             for(i=0;i<4;i++)
             {
@@ -867,7 +999,7 @@ int ConvertRegions(int StartX, int Width, int StartY, int Height, int StartJ, in
 
             for(y=StartY*4;y<(StartY+Height)*4;y++)
             {
-                log_progress(".");
+                VERBOSE(".");
 
                 for(x1=0;x1<4;x1++)
                 {
@@ -876,10 +1008,14 @@ int ConvertRegions(int StartX, int Width, int StartY, int Height, int StartJ, in
 
                     for(y2=0;y2<2;y2++)
                     {
+                        // Skip case where y_line would evaluate to -1 to avoid unsigned wraparound)
+                        // (scanline 0, left side of the image where 80 x 2 pixel box goes from scanline -1 to 0)
+                        if (y_offset > ((y*2) + y2)) continue;
+
                         // Skip if Y line is outside image borders (prevents buffer overflow)
                         // (Left side calcs hang off top and bottom of screen
                         // due to Left/Right palette update interleaving)
-                        s32 y_line = (y*2+y2-y_offset);
+                        unsigned int y_line = (y*2+y2-y_offset);
                         if ((y_line < image_y_min) || (y_line > image_y_max)) continue;
 
                         for(x2=0;x2<tw;x2++)
@@ -895,12 +1031,12 @@ int ConvertRegions(int StartX, int Width, int StartY, int Height, int StartJ, in
                     switch(ConvertType)
                     {
                         case 0:
-                            to_indexed(Data,4,0,TileWidth[x1],2);            // Median Reduction No Dither
+                            to_indexed(Data,0,TileWidth[x1],2);            // Median Reduction No Dither
                             break;
 
                         case 1:
 
-                            to_indexed(Data,4,1,TileWidth[x1],2);            // Median Reduction With Dither
+                            to_indexed(Data,1,TileWidth[x1],2);            // Median Reduction With Dither
                             break;
 
                         case 2:
@@ -924,9 +1060,13 @@ int ConvertRegions(int StartX, int Width, int StartY, int Height, int StartJ, in
                     {
                         for(x2=0;x2<tw;x2++)
                         {
+                            // Skip case where y_line would evaluate to -1 to avoid unsigned wraparound)
+                            // (scanline 0, left side of the image where 80 x 2 pixel box goes from scanline -1 to 0)
+                            if (y_offset > ((y*2) + y2)) continue;
+
                             // Skip if Y line is outside image borders (prevents buffer overflow)
                             // since Left side calcs hang off top and bottom of image/screen
-                            s32 y_line = (y*2+y2-y_offset);
+                            unsigned int y_line = (y*2+y2-y_offset);
                             if ((y_line < image_y_min) || (y_line > image_y_max)) continue;
 
                             col=Picture256[y2*tw+x2];

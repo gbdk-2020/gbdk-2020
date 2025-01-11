@@ -17,20 +17,36 @@
 #include <hicolour.h>
 
 
-#define VERSION "version 1.4.1"
+#define VERSION "version 1.4.2"
+
+#define HELP_HISTORICAL_CREDITS_STR \
+        "Historical credits and info:\n" \
+        "   Original Concept : Icarus Productions\n" \
+        "   Original Code : Jeff Frohwein\n" \
+        "   Full Screen Modification : Anon\n" \
+        "   Adaptive Code : Glen Cook\n" \
+        "   Windows Interface : Glen Cook\n" \
+        "   Additional Windows Programming : Rob Jones\n" \
+        "   Original Quantiser Code : Benny\n" \
+        "   Quantiser Conversion : Glen Cook\n" \
+        "\n"
 
 static void init(void);
 static void cleanup(void);
 static void display_help(void);
 static int  handle_args(int argc, char * argv[]);
-static void set_drag_and_drop_mode_defaults(void);
+static bool handle_args_L_R_patterns(const char * str_opt_side, const char * str_value);
+#ifdef DRAG_AND_DROP_MODE
+    static void set_drag_and_drop_mode_defaults(void);
+#endif
 
 image_data src_image;
 char filename_in[MAX_STR_LEN] = {'\0'};
 char opt_filename_out[MAX_STR_LEN] = "";
 // bool opt_strip_output_filename_ext = true;
 
-int  show_help_and_exit = false;
+bool show_help_and_exit = false;
+bool show_full_credits = false;
 
 
 static void init(void) {
@@ -97,7 +113,7 @@ int main( int argc, char *argv[] )  {
 
     #ifdef DRAG_AND_DROP_MODE
         // Wait for input to keep the console window open after processing
-        log_standard("\n\nPress Any Key to Continue\n");
+        LOG("\n\nPress Any Key to Continue\n");
         getchar();
     #endif
 
@@ -106,7 +122,7 @@ int main( int argc, char *argv[] )  {
 
 
 static void display_help(void) {
-    log_standard(
+    LOG(
         "\n"
         "png2hicolorgb input_image.png [options]\n"
         VERSION": bbbbbr. Based on Glen Cook's Windows GUI \"hicolour.exe\" 1.2\n"
@@ -122,36 +138,38 @@ static void display_help(void) {
         "--type=N   : Set conversion type where N is one of below \n"
         "              1: Median Cut - No Dither (*Default*)\n"
         "              2: Median Cut - With Dither\n"
-        "              3: Wu Quantiser\n"
+        "              3: Wu Quantiser (best quality)\n"
         "-p         : Show screen attribute pattern options (no processing)\n"
-        "-L=N       : Set Left  screen attribute pattern where N is decimal entry (-p to show patterns)\n"
-        "-R=N       : Set Right screen attribute pattern where N is decimal entry (-p to show patterns)\n"
+        "-L=N       : Set Left  side of screen palette arrangement where N is name listed below or decimal entry\n"
+        "-R=N       : Set Right side of screen palette arrangement where N is name listed below or decimal entry\n"
+        "             Named options for N: \"adaptive-fast\", \"adaptive-medium\", \"adaptive-best\" (-p for full options) \n"
+        "--best     : Use highest quality conversion settings (--type=3 -L=adaptive-best -R=adaptive-best)\n"
         "--vaddrid  : Map uses vram id (128->255->0->127) instead of (*Default*) sequential tile order (0->255)\n"
         "--nodedupe : Turn off tile pattern deduplication\n"
+        "--precompiled   : Export Palette data as pre-compiled executable loading code\n"
+        "--palendbit     : Set unused bit .15 = 1 for last u16 entry in palette data indicating end (not in precompiled)\n"
+        "--addendcolor=N : Append 32 x color N (hex BGR555) in pal data to clear BG for shorter images (64 bytes) (not in precompiled)\n"
         "\n"
         "Example 1: \"png2hicolorgb myimage.png\"\n"
         "Example 2: \"png2hicolorgb myimage.png --csource -o=my_output_filename\"\n"
-        "* Default settings provide good results. Better quality but slower: \"--type=3 -L=2 -R=2\"\n"
-        "\n"
-        "Historical credits and info:\n"
-        "   Original Concept : Icarus Productions\n"
-        "   Original Code : Jeff Frohwein\n"
-        "   Full Screen Modification : Anon\n"
-        "   Adaptive Code : Glen Cook\n"
-        "   Windows Interface : Glen Cook\n"
-        "   Additional Windows Programming : Rob Jones\n"
-        "   Original Quantiser Code : Benny\n"
-        "   Quantiser Conversion : Glen Cook\n"
+        "Example 2: \"png2hicolorgb myimage.png --palendbit --addendcolor=0x7FFF -o=my_output_filename\"\n"
+        "* Default settings provide good results. Better quality but slower: \"--type=3 -L=adaptive-best -R=adaptive-best\"\n"
         "\n"
    );
+
+    if (show_full_credits)
+        LOG(HELP_HISTORICAL_CREDITS_STR);
 }
 
 
+#ifdef DRAG_AND_DROP_MODE
 // Default options for Windows Drag and Drop recipient mode
 static void set_drag_and_drop_mode_defaults(void) {
 
     // Set some options here
 }
+#endif
+
 
 
 static int handle_args(int argc, char * argv[]) {
@@ -171,27 +189,28 @@ static int handle_args(int argc, char * argv[]) {
     for (i = 1; i <= (argc -1); i++ ) {
 
         if ((strstr(argv[i], "-h") == argv[i]) || (strstr(argv[i], "-?") == argv[i])) {
+            show_full_credits  = true;
             display_help();
             show_help_and_exit = true;
             return true;  // Don't parse further input when -h is used
         } else if (strstr(argv[i], "-p") == argv[i]) {
-            log_standard(HELP_CONV_PATTERN_STR);
+            LOG(HELP_CONV_PATTERN_STR);
             show_help_and_exit = true;
             return true;  // Don't parse further input when -h is used
 
         } else if (strstr(argv[i], "-vD") == argv[i]) {
-            log_set_level(OUTPUT_LEVEL_DEBUG);
+            set_log_level(OUTPUT_LEVEL_DEBUG);
         } else if (strstr(argv[i], "-vE") == argv[i]) {
-            log_set_level(OUTPUT_LEVEL_ONLY_ERRORS);
+            set_log_level(OUTPUT_LEVEL_ONLY_ERRORS);
         } else if (strstr(argv[i], "-vQ") == argv[i]) {
-            log_set_level(OUTPUT_LEVEL_QUIET);
+            set_log_level(OUTPUT_LEVEL_ONLY_ERRORS);
         } else if (strstr(argv[i], "-v") == argv[i]) {
-            log_set_level(OUTPUT_LEVEL_VERBOSE);
+            set_log_level(OUTPUT_LEVEL_VERBOSE);
 
         } else if (strstr(argv[i], "--type=") == argv[i]) {
             uint8_t new_type = strtol(argv[i] + strlen("--type="), NULL, 10);
             if ((new_type < CONV_TYPE_MIN) || (new_type > CONV_TYPE_MAX)) {
-                log_standard("Error: --type specified with invalid conversion setting: %d\n", new_type);
+                LOG("Error: --type specified with invalid conversion setting: %d\n", new_type);
                 display_help();
                 show_help_and_exit = true;
                 return false; // Abort
@@ -199,22 +218,35 @@ static int handle_args(int argc, char * argv[]) {
             else
                 hicolor_set_type(new_type);
         } else if (strstr(argv[i], "-L=") == argv[i]) {
-            hicolor_set_convert_left_pattern( strtol(argv[i] + strlen("-L="), NULL, 10));
+            if (!handle_args_L_R_patterns((const char *)"-L=", argv[i] + strlen("-L="))) {
+                show_help_and_exit = true;
+                return false; // Abort
+            }
+
         } else if (strstr(argv[i], "-R=") == argv[i]) {
-            hicolor_set_convert_right_pattern( strtol(argv[i] + strlen("-R="), NULL, 10));
+            if (!handle_args_L_R_patterns((const char *)"-R=", argv[i] + strlen("-R="))) {
+                show_help_and_exit = true;
+                return false; // Abort
+            }
+
+        } else if (strstr(argv[i], "--best") == argv[i]) {
+            hicolor_set_type(CONV_TYPE_WU);
+            hicolor_set_convert_left_pattern(HICOLOR_PATTERN_ADAPTIVE_BEST);
+            hicolor_set_convert_right_pattern(HICOLOR_PATTERN_ADAPTIVE_BEST);
+
 
         } else if (strstr(argv[i], "-o") == argv[i]) {
             if (i < (argc -1))
                 i++; // Move to next argument if one is available
             else {
-                log_standard("Error: -o specified but filename is missing\n");
+                LOG("Error: -o specified but filename is missing\n");
                 show_help_and_exit = true;
                 return false; // Abort
             }
 
             // Require colon and filename to be present
-            if (*argv[i] == '-')
-                log_standard("Warning: -o specified but filename has dash and looks like an option argument. Usage: -o my_base_output_filename\n");
+             if (*argv[i] == '-')
+                LOG("Warning: -o specified but filename has dash and looks like an option argument. Usage: -o my_base_output_filename\n");
             snprintf(opt_filename_out, sizeof(opt_filename_out), "%s", argv[i]);
 
         // } else if (strstr(argv[i], "--keepext") == argv[i]) {
@@ -226,7 +258,7 @@ static int handle_args(int argc, char * argv[]) {
         } else if (strstr(argv[i], "--bank=") == argv[i]) {
             opt_set_bank_num( strtol(argv[i] + strlen("--bank="), NULL, 10) );
             if ((opt_get_bank_num() < BANK_NUM_MIN) || (opt_get_bank_num() > BANK_NUM_MAX)) {
-                log_standard("Error: Invalid bank number specified with --bank=%d\n", opt_get_bank_num());
+                LOG("Error: Invalid bank number specified with --bank=%d\n", opt_get_bank_num());
                 display_help();
                 show_help_and_exit = true;
                 return false; // Abort
@@ -238,14 +270,66 @@ static int handle_args(int argc, char * argv[]) {
         } else if (strstr(argv[i], "--nodedupe") == argv[i]) {
             opt_set_tile_dedupe(false);
 
+        } else if (strstr(argv[i], "--precompiled") == argv[i]) {
+            opt_set_precompiled_palette(true);
+
+        } else if (strstr(argv[i], "--palendbit") == argv[i]) {
+            opt_set_pal_end_bit(true);
+
+        } else if (strstr(argv[i], "--addendcolor=") == argv[i]) {
+            // Color should be in BGR555 hex format, so white: 0x7FFFF, max red 0x7C00, max green 0x3E00, etc
+            opt_set_enable_pal_end_color( strtol(argv[i] + strlen("--addendcolor="), NULL, 16) );
+
         } else if (argv[i][0] == '-') {
-            log_error("Unknown argument: %s\n\n", argv[i]);
+            ERR("Unknown argument: %s\n\n", argv[i]);
             display_help();
             return false;
         }
 
     }
 
+
+    // Check and warn about option compatibility
+    if (opt_get_pal_end_bit() && opt_get_precompiled_palette()) {
+        LOG("Warning: --palendbit ignored when --precompiled is enabled\n");
+    }
+
+    if (opt_get_enable_pal_end_color() && opt_get_precompiled_palette()) {
+        LOG("Warning: --addendcolor ignored when --precompiled is enabled\n");
+    }
+
     return true;
 }
 
+
+static bool handle_args_L_R_patterns(const char * str_opt_side, const char * str_value) {
+
+    if (*str_value == '\0') {
+        ERR("Missing value for %s argument\n", str_opt_side);
+        return false;
+    }
+
+    unsigned int pattern_num = hicolor_get_pattern_by_name(str_value);
+
+    if (pattern_num == HICOLOR_PATTERN_NOT_FOUND_HAS_CHARS) {
+        ERR("Invalid value for %s argument: %s\n", str_opt_side, str_value);
+        return false;
+    }
+    else if (pattern_num == HICOLOR_PATTERN_NOT_FOUND) {
+        // Try numeric conversion on option instead named conversion
+        pattern_num = (unsigned int)strtoul(str_value, NULL, 10);
+    }
+
+    if (pattern_num > HICOLOR_PATTERN_OPT_MAX) {
+        ERR("Invalid value for %s argument: %s\n", str_opt_side, str_value);
+        return false;
+    }
+
+    // Got a valid option value, now apply it
+    if (strstr(str_opt_side, "-L=") == str_opt_side)
+        hicolor_set_convert_left_pattern(pattern_num);
+    else
+        hicolor_set_convert_right_pattern(pattern_num);
+
+    return true;
+}
