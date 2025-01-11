@@ -1,6 +1,8 @@
 #ifndef __median_h__
 #define __median_h__
 
+#include "defines.h"
+
 
 #define MAXNUMCOLORS 256
 
@@ -66,9 +68,9 @@ void compute_color_rgb(boxptr boxp,s32 icolor);
 s32 find_nearby_colors(s32 minR,s32 minG,s32 minB,s32 colorlist[]);
 void find_best_colors(s32 minR, s32 minG, s32 minB,s32 numcolors,s32 colorlist[],s32 bestcolor[]);
 void fill_inverse_cmap_rgb(s32 R, s32 G, s32 B);
-void median_cut_pass1_rgb(u8 *src,u8 *dest,s32 width,s32 height);
+void median_cut_pass1_rgb(u8 *src,s32 width,s32 height);
 s32 *init_error_limit(void);
-void to_indexed(u8 *input,s32 ncolors,s32 dither,s32 width,s32 height);
+void to_indexed(u8 *input,s32 dither,s32 width,s32 height);
 
 
 #endif
