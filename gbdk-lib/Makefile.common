@@ -26,6 +26,7 @@ CFLAGS = -I$(TOPDIR)/include -D__PORT_$(PORT) -D__TARGET_$(THIS)
 CFLAGS += -m$(PORT)
 CFLAGS += --max-allocs-per-node 50000
 CFLAGS += --fsigned-char
+CFLAGS += --no-optsdcc-in-asm
 CC = 	$(SCC)
 BUILD = $(TOPDIR)/build/$(THIS)
 LIB = 	$(BUILD)/$(THIS).lib
