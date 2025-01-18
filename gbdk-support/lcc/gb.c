@@ -51,9 +51,9 @@ static struct {
 			-p: disable pagination
 			-o: create object file
 			-g: make undef symbols global
-			-n: defer symbol resolving to link time (autobanking relies on this) [requires sdcc 12238+]
+			-N: defer symbol resolving to link time (autobanking relies on this) [requires sdcc 12238+]
 		*/
-		{ "asdefault",	"-pogn -I%libdir%%plat%" },
+		{ "asdefault",	"-pogN -I%libdir%%plat%" },
 		{ "as_gb",		"%sdccdir%sdasgb" },
 		{ "as_z80",		"%sdccdir%sdasz80" },
 		{ "as_6500",	"%sdccdir%sdas6500" },
