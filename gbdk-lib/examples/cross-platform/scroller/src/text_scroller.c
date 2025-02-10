@@ -83,7 +83,7 @@ void main(void) {
 #if defined(SEGA)
     __WRITE_VDP_REG(VDP_R10, 0x07);
 #endif
-#if defined(NINTENDO) || defined(SEGA)
+#if defined(NINTENDO) || defined(NINTENDO_NES) || defined(SEGA)
     set_interrupts(VBL_IFLAG | LCD_IFLAG);
 #endif
     HIDE_LEFT_COLUMN;    

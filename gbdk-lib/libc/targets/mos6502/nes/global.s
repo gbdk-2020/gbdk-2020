@@ -77,6 +77,11 @@
         ;
         JOY2            = 0x4017
 
+        ; Interrupt handler flags
+        .VBL_IFLAG      = 0x01
+        .LCD_IFLAG      = 0x02
+        .TIM_IFLAG      = 0x04
+
         ;; OAM related constants
 
         OAM_COUNT       = 64  ; number of OAM entries in OAM RAM
