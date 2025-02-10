@@ -438,6 +438,10 @@ During direct mode, all graphics routines will write directly to the PPUADDR / P
 
 Direct mode is typically used for initializing large amounts of tile data at boot and/or level loading time. Unless you plan to have an animated loading screen and decompress a lot of data, it makes more sense to just fade the screen to black and allow direct mode to write data as fast as possible.
 
+Direct mode also affects how (fake) interrupt handlers are processed. As long as vsync() is called on each frame, the VBL and LCD handlers will still be executed in direct mode - but no graphics registers will be written.
+
+The TIM handler will still be executed as normal.
+
 #### Caveat: Make sure the transfer buffer is emptied before switching to direct mode
 
 Because the switch to direct mode is instant and doesn't wait for the next invocation of the vblank, it is possible to create situations where there is still remaining data in the transfer buffer that would only get written once the system is switched back to buffered mode.
@@ -506,6 +510,22 @@ If you are using LCD handlers to achieve a top-screen stationary status bar, it 
 * Use move_bkg in the second invocation of the LCD handler, to reset the background scrolling
 
 In short: Ensuring that the last called LCD handler sets the scroll back to the original value means the PPU rendering keeps rendering the background from the same scrolling position even when the NMI handling was missed.
+
+### Implementation of timer handler
+
+The nature of the deferred handling for fake VBL and LCD handlers in gbdk-nes means that lag frames will cause these handlers to be called at delayed irregular times.
+
+For graphics updates this is the behaviour you usually want. But for non-graphics tasks like music playback it will cause distracting stutter.
+
+The timer overflow handler (TIM) provides an alternative method that is guaranteed to be stutter-free. The TIM handler is always called at the end of the NMI handler in both buffered and direct mode.
+
+The TIM handler does NOT support setting a custom frequency with the TIMA_REG register like on GB. Instead the frequency will be hard-coded to 60Hz for a Famicom / US NES, and 50Hz for a PAL NES / PAL Famiclone.
+
+If you are porting a GB game to gbdk-nes where the music handler is called in the VBL or LCD handler then it is advisable to move this call to the timer handler, in order to achieve reliable music playback at 60Hz (50Hz for PAL).
+
+If your GB game uses a timer interrupt that is executing at some other frequency than 60Hz you will need to refactor the code called so it can work with the 60Hz/50Hz restriction of gbdk-nes.
+
+Keep in mind that you should NOT write any graphics registers in the TIM handler. This will likely not do what you want, and it may result in bad graphical glitches.
 
 ### Tile Data and Tile Map loading
 

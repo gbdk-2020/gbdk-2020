@@ -184,6 +184,11 @@ void remove_VBL(int_handler h) NO_OVERLAY_LOCALS;
 */
 void remove_LCD(int_handler h) NO_OVERLAY_LOCALS;
 
+/** Removes the TIM interrupt handler.
+    @see add_TIM(), remove_VBL()
+*/
+void remove_TIM(int_handler h) NO_OVERLAY_LOCALS;
+
 /** Adds a Vertical Blanking interrupt handler.
 
     @param h  The handler to be called whenever a V-blank
@@ -247,6 +252,21 @@ void add_VBL(int_handler h) NO_OVERLAY_LOCALS;
     @see add_VBL, nowait_int_handler, ISR_VECTOR()
 */
 void add_LCD(int_handler h) NO_OVERLAY_LOCALS;
+
+/** Adds a timer interrupt handler.
+
+    Can not be used together with @ref add_low_priority_TIM
+
+    This interrupt handler is invoked at the end of the NMI handler 
+    for gbdk-nes, after first processing the registers writes done 
+    by the VBL and and LCD handlers. 
+    It is therefore currently limited to 60Hz / 50Hz 
+    (depending on system).
+
+    @see add_VBL
+    @see set_interrupts() with TIM_IFLAG, ISR_VECTOR()
+*/
+void add_TIM(int_handler h) NO_OVERLAY_LOCALS;
 
 /** The maximum number of times the LCD handler will be called per frame.
  */

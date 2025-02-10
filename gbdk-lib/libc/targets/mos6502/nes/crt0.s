@@ -279,6 +279,9 @@ __crt0_NMI:
     jsr .do_lcd_ppu_reg_writes
 __crt0_NMI_skip:
 
+    ; Call the timer interrupt for non-graphics events
+    jsr .jmp_to_TIM_isr
+
     ; Update frame counter
     lda *_sys_time
     clc
