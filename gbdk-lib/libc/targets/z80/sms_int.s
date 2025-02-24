@@ -70,24 +70,18 @@ _INT_ISR::
         ld (.vbl_done), a
 
         ;; call user-defined VBlank handlers
-        ld hl, (.VBLANK_HANDLER0)
-        ld a, h
-        or l
-        jp z, 3$
-        CALL_HL
-
-        ld hl, (.VBLANK_HANDLER1)
-        ld a, h
-        or l
-        jp z, 3$
-        CALL_HL
-
-        ld hl, (.VBLANK_HANDLER2)
-        ld a, h
-        or l
-        jp z, 3$
-        CALL_HL
-        jp 3$
+        .irp idx,.VBLANK_HANDLER0,.VBLANK_HANDLER1,.VBLANK_HANDLER2
+                ld hl, (idx)
+                ld a, h
+                or l
+                jp z, 5$
+                CALL_HL
+        .endm
+5$:
+        ld hl, #3$
+        push hl
+        ld hl, (.TIM_DISPATCHER)
+        jp (hl)
 
 2$:
         ;; handle HBlank
@@ -183,10 +177,8 @@ _remove_VBL::
         jr nz, 2$
         ret
 
-_remove_TIM::
 _remove_SIO::
 _remove_JOY::
-_add_TIM::
 _add_SIO::
 _add_JOY::
 .empty_function:
@@ -194,6 +186,8 @@ _add_JOY::
 
         .area   _INITIALIZED
 
+.TIM_DISPATCHER::
+        .ds     0x02
 .HBLANK_HANDLER0:
         .ds     0x02
 .VBLANK_HANDLER0:
@@ -206,6 +200,7 @@ _add_JOY::
 
         .area   _INITIALIZER
 
+        .dw     .empty_function
         .dw     .empty_function
         .dw     0x0000
         .dw     0x0000

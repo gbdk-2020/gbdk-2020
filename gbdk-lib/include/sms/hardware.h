@@ -244,6 +244,10 @@ static volatile UBYTE AT(0xfffd) MAP_FRAME0;
 static volatile UBYTE AT(0xfffe) MAP_FRAME1;
 static volatile UBYTE AT(0xffff) MAP_FRAME2;
 
+extern volatile UBYTE TIMA_REG;
+extern volatile UBYTE TMA_REG;
+extern volatile UBYTE TAC_REG;
+
 extern volatile UBYTE VDP_ATTR_SHIFT;
 
 #define VBK_TILES      0

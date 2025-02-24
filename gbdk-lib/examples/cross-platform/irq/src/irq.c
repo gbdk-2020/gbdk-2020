@@ -1,4 +1,4 @@
-#include <gb/gb.h>
+#include <gbdk/platform.h>
 #include <gbdk/console.h>
 
 #include <stdint.h>
@@ -49,14 +49,19 @@ void main(void)
         add_TIM(tim);
     }
 
+#if defined(NINTENDO)
     // Set TMA to divide clock by 0x100
     TMA_REG = 0x00U;
     // Set clock to 4096 Hertz 
     TAC_REG = 0x04U;
+#elif defined(SEGA)
+    TMA_REG = 0xFCU;
+#endif
+
     // Handle VBL and TIM interrupts
     set_interrupts(VBL_IFLAG | TIM_IFLAG);
 
-    while(1) {
+    for(;;) {
         print_counter();
         delay(1000UL);
     }

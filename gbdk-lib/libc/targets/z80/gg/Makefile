@@ -23,7 +23,7 @@ ASSRC =	set_interrupts.s \
 	scroll.s cls.s gotoxy.s \
 	palette.s set_palette.s \
 	pad.s pad_ex.s \
-	sms_int.s nmi.s \
+	sms_int.s nmi.s timer.s \
 	mode.s clock.s get_r_reg.s \
 	delay.s \
 	emu_debug_printf.s \
