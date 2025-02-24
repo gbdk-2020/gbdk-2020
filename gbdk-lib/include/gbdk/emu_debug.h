@@ -149,17 +149,26 @@ void EMU_profiler_message(void);
     \li \%hx (char as hex)
     \li \%hu (unsigned char)
     \li \%hd (signed char)
-    \li \%c (character)
+    \li \%c (character)   
     \li \%u (unsigned int)
     \li \%d (signed int)
     \li \%x (unsigned int as hex)
     \li \%s (string)
 
-    Warning: to correctly pass chars for printing as chars, they *must*
-    be explicitly re-cast as such when calling the function.
-    See @ref docs_chars_varargs for more details.
 
-    Currently supported in the Emulicious emulator
+    @note
+    Variables for the following 8-bit formats __MUST__ be cast to their type when passed to EMU_printf()
+    \li \%hx (char)
+    \li \%hu (unsigned char)
+    \li \%hd (signed char)
+
+    However variables for the following 8-bit format __MUST NOT__ be cast to their type when passed to EMU_printf()
+    \li \%c (char)
+
+    This behavior is __different__ than for @ref sprintf(), which does require \%c format char variables to be explicitly cast.
+
+
+    Currently supported in the Emulicious emulator, may be supported by bgb
  */
 void EMU_printf(const char *format, ...) PRESERVES_REGS(a, b, c);
 #define BGB_printf(...) EMU_printf(__VA_ARGS__)
