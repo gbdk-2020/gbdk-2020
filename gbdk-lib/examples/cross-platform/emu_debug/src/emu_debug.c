@@ -125,13 +125,14 @@ int main(void)
     EMU_MESSAGE("All Registers: %ALLREGS%");
 
     // Simple addition with a register
-    EMU_MESSAGE("Register A + 1: %(A+1)%");
+    EMU_MESSAGE("Register A + 1: %A+1%");
 
     // Note: %SCANLINE% is available in Emulicious (for SMS/GG/GB/GBC) but not BGB
     EMU_MESSAGE("Current Scanline: %SCANLINE%");
 
     #if defined(NINTENDO)
         // Read the LY Register a couple times
+        // Note how the register value is obtained by using parenthesis to de-referenced its address.
         // (Current Y coordinate being rendered to the LCD)
         EMU_MESSAGE("LY Register (0xFF44): %($ff44)%");
         EMU_MESSAGE("LY Register (0xFF44): %($ff44)%");
