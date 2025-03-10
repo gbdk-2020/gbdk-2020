@@ -54,7 +54,7 @@ void main(void)
     TMA_REG = 0x00U;
     // Set clock to 4096 Hertz 
     TAC_REG = 0x04U;
-#elif defined(SEGA)
+#elif defined(SEGA) || defined(NINTENDO_NES)
     TMA_REG = 0xFCU;
 #endif
 
@@ -63,6 +63,9 @@ void main(void)
 
     for(;;) {
         print_counter();
-        delay(1000UL);
+        // Loop for 60 frames (1 second)
+        for(int i = 0; i < 60; i++) {
+            vsync();
+        }
     }
 }

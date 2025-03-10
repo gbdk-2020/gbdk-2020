@@ -132,6 +132,25 @@ void set_sprite_palette_entry(uint8_t palette, uint8_t entry, palette_color_t rg
 */
 #define S_PAL(n)     n
 
+/* Interrupt flags */
+/** Disable calling of interrupt service routines
+ */
+#define EMPTY_IFLAG  0x00U
+/** VBlank Interrupt occurs at the start of the vertical blank.
+
+    During this period the video ram may be freely accessed.
+    @see set_interrupts(), @see add_VBL
+ */
+#define VBL_IFLAG    0x01U
+/** LCD Interrupt when triggered by the STAT register.
+    @see set_interrupts(), @see add_LCD
+*/
+#define LCD_IFLAG    0x02U
+/** Timer Interrupt when the timer @ref TIMA_REG overflows.
+    @see set_interrupts(), @see add_TIM
+ */
+#define TIM_IFLAG    0x04U
+
 /* DMG Palettes */
 #define DMG_BLACK     0x03
 #define DMG_DARK_GRAY 0x02
@@ -183,6 +202,11 @@ void remove_VBL(int_handler h) NO_OVERLAY_LOCALS;
     @see add_LCD(), remove_VBL()
 */
 void remove_LCD(int_handler h) NO_OVERLAY_LOCALS;
+
+/** Removes the TIM interrupt handler.
+    @see add_TIM(), remove_VBL()
+*/
+void remove_TIM(int_handler h) NO_OVERLAY_LOCALS;
 
 /** Adds a Vertical Blanking interrupt handler.
 
@@ -247,6 +271,21 @@ void add_VBL(int_handler h) NO_OVERLAY_LOCALS;
     @see add_VBL, nowait_int_handler, ISR_VECTOR()
 */
 void add_LCD(int_handler h) NO_OVERLAY_LOCALS;
+
+/** Adds a timer interrupt handler.
+
+    Can not be used together with @ref add_low_priority_TIM
+
+    This interrupt handler is invoked at the end of the NMI handler 
+    for gbdk-nes, after first processing the registers writes done 
+    by the VBL and and LCD handlers. 
+    It is therefore currently limited to 60Hz / 50Hz 
+    (depending on system).
+
+    @see add_VBL
+    @see set_interrupts() with TIM_IFLAG, ISR_VECTOR()
+*/
+void add_TIM(int_handler h) NO_OVERLAY_LOCALS;
 
 /** The maximum number of times the LCD handler will be called per frame.
  */
@@ -466,6 +505,13 @@ inline void enable_interrupts(void) {
 inline void disable_interrupts(void) {
     __asm__("sei");
 }
+
+/** Sets the interrupt mask to flags.
+    @param flags	A logical OR of *_IFLAGS
+
+    @see VBL_IFLAG, LCD_IFLAG, TIM_IFLAG
+*/
+void set_interrupts(uint8_t flags) NO_OVERLAY_LOCALS;
 
 /** Performs a soft reset.
 

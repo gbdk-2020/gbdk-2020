@@ -77,6 +77,14 @@ __SYSTEM::                              .ds 1
 
 .define __crt0_NMITEMP "___SDCC_m6502_ret4"
 
+.area _DATA
+_TIMA_REG::                             .ds 1
+_TMA_REG::                              .ds 1
+
+.area _XINIT
+.db 0xFF
+.db 0xFF
+
 .area _BSS
 __crt0_paletteShadow::                  .ds 25
 .mode::                                 .ds 1
@@ -86,6 +94,7 @@ __lcd_isr_scroll_x:                     .ds .MAX_LCD_ISR_CALLS
 __lcd_isr_scroll_y:                     .ds .MAX_LCD_ISR_CALLS
 __lcd_isr_delay_num_scanlines:          .ds .MAX_LCD_ISR_CALLS
 __lcd_isr_num_calls:                    .ds 1
+_TAC_REG::                              .ds 1 ; Unused, for GB compatibility
 
 .area _CODE
 
@@ -215,11 +224,9 @@ ProcessDrawList:
     sta *.acc   ; -> 13.666 NTSC cycles / 13.5625 PAL cycles
     rts         ; -> 6 cycles for RTS, 6 cycles for JSR = 12 cycles
 
-__crt0_NMI_earlyout:
-    rti
 __crt0_NMI:
     bit *__crt0_disableNMI
-    bmi __crt0_NMI_earlyout
+    bmi __crt0_NMI_skip
     pha
     txa
     pha
@@ -251,7 +258,7 @@ __crt0_NMI:
     lda *_shadow_PPUMASK
     sta PPUMASK
 
-    ; Call fake LCD isr if present (0x60 = RTS means no LCD) and
+    ; Call fake LCD isr if present (0x60 = RTS means no LCD)
     lda .jmp_to_LCD_isr
     cmp #0x60
     beq __crt0_NMI_skip
@@ -278,6 +285,14 @@ __crt0_NMI:
     ; Call the write reg subroutine
     jsr .do_lcd_ppu_reg_writes
 __crt0_NMI_skip:
+
+    ; Call the timer interrupt for non-graphics events if timer register overflow, and reload TIMA_REG
+    inc _TIMA_REG
+    bne 3$
+    jsr .jmp_to_TIM_isr
+    lda _TMA_REG
+    sta _TIMA_REG
+3$:
 
     ; Update frame counter
     lda *_sys_time

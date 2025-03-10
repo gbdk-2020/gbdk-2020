@@ -56,4 +56,8 @@ __REG(0x4014) OAMDMA;
 __SHADOW_REG bkg_scroll_x;
 __SHADOW_REG bkg_scroll_y;
 
+extern volatile UBYTE TIMA_REG;
+extern volatile UBYTE TMA_REG;
+extern volatile UBYTE TAC_REG;
+
 #endif
