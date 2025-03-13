@@ -1,5 +1,6 @@
 #include <gbdk/platform.h>
 #include <stdint.h>
+#include <stdbool.h>
 
 /** @file duck/laptop_io.h
 
@@ -34,9 +35,10 @@
 #define DUCK_IO_CMD_ABORT_OR_FAIL             0x04u
 #define DUCK_IO_CMD_PLAY_SPEECH               0x05u
 #define DUCK_IO_CMD_RUN_CART_IN_SLOT          0x08u
-#define DUCK_IO_CMD_INIT_UNKNOWN_0x09         0x09u   /**< May also be PrintScreen related */
+#define DUCK_IO_CMD_PRINT_INIT_MAYBE_EXT_IO   0x09u   /**< Command to init the printer and return status + model type */
 #define DUCK_IO_CMD_SET_RTC                   0x0Bu   /**< Command to set hardware RTC by sending a multi-byte packet */
 #define DUCK_IO_CMD_GET_RTC                   0x0Cu   /**< Command to get hardware RTC by receiving a a multi-byte packet */
+#define DUCK_IO_CMD_PRINT_SEND_BYTES          0x11u   /**< Send printer data */
 
 
 // #define FF60_REG_BEFORE_XFER       0x00u
@@ -52,6 +54,7 @@
 #define DUCK_IO_LEN_RTC_SET           8u /**< Set RTC          payload size: 8 bytes Payload (excludes 1 length header byte, 1 byte Checksum) */
 #define DUCK_IO_LEN_PLAY_SPEECH       1u /**< Play Speech      payload size: 1 byte  Payload (excludes 1 length header byte, 1 byte Checksum) */
 
+#define DUCK_IO_REPLY_NO_CART_IN_SLOT 06u
 
 // #define MEGADUCK_KBD_BYTE_1_EXPECT   0x0Eu
 // #define MEGADUCK_SIO_BOOT_OK         0x01u
@@ -83,6 +86,23 @@
 // Keyboard packet byte ordering (all in BCD format)
 #define DUCK_IO_KBD_FLAGS   0u
 #define DUCK_IO_KBD_KEYCODE 1u
+
+
+// Printer init reply related
+// Init Reply Bit.0
+#define DUCK_IO_PRINTER_INIT_MASK   0x01u // Bit.0
+#define DUCK_IO_PRINTER_INIT_OK     0x01u
+#define DUCK_IO_PRINTER_INIT_FAIL   0x00u
+
+// Init Reply Bit.1
+#define DUCK_IO_PRINTER_TYPE_MASK   0x02u // Bit.1
+#define DUCK_IO_PRINTER_TYPE_2_PASS 0x00u // Bit.1 = 0  // 13 x 12 byte packets + 1 x 5 or 6 byte packet (with CR and/or LF)
+#define DUCK_IO_PRINTER_TYPE_1_PASS 0x02u // Bit.1 = 1  // 3 x 12 byte packets + 118 non-packet bytes
+
+
+
+extern volatile bool    duck_io_rx_byte_done;
+extern volatile uint8_t duck_io_rx_byte;
 
 
 // TODO: change these to user supplied buffers?
@@ -147,6 +167,25 @@ void duck_io_enable_read_byte(void);
 */
 bool duck_io_laptop_init(void);
 
+
+/** Returns whether the MegaDuck Printer was detected during duck_io_laptop_init()
+
+    Returns `true` if successful, otherwise `false`
+
+    @ref duck_io_laptop_init() must be called first
+*/
+bool duck_io_printer_detected(void);
+
+
+/** Returns which type of MegaDuck Printer was detected during duck_io_laptop_init()
+
+    Return value should be one of the following:
+    \li @ref DUCK_IO_PRINTER_TYPE_1_PASS (single pass monochrome)
+    \li @ref DUCK_IO_PRINTER_TYPE_2_PASS (two pass possibly supports shades of grey)
+
+    @ref duck_io_laptop_init() must be called first
+*/
+uint8_t duck_io_printer_type(void);
 
 
 // ===== Higher level IO functions =====

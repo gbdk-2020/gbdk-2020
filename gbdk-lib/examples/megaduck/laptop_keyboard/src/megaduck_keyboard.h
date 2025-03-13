@@ -15,6 +15,7 @@
 #define KEY_ARROW_RIGHT 3u
 #define KEY_ARROW_LEFT  4u
 #define KEY_HELP        5u
+#define KEY_PRINTSCREEN 6u
 
 
 // Use ascii values for these keys
@@ -24,7 +25,7 @@
 #define KEY_DELETE      127u
 
 
-// RTC data
+// Keyboard data
 typedef struct duck_keyboard_data_t {
     uint8_t flags;
     uint8_t scancode;
@@ -32,9 +33,8 @@ typedef struct duck_keyboard_data_t {
 
 
 // Post-Processed key data
-extern char    megaduck_key_pressed;
-extern char    megaduck_key_previous;
-extern uint8_t megaduck_key_flags;
+extern uint8_t key_pressed;
+extern uint8_t key_previous;
 
 
 bool duck_io_poll_keyboard(duck_keyboard_data_t * key_data);
