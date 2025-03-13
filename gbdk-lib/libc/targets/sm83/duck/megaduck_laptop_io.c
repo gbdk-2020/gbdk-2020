@@ -10,16 +10,16 @@
 // volatile SFR __at(0xFF60) FF60_REG;
 
 // TODO: namespace to megaduck
-static volatile bool    duck_io_rx_byte_done;
-static volatile uint8_t duck_io_rx_byte;
+volatile bool    duck_io_rx_byte_done;
+volatile uint8_t duck_io_rx_byte;
 
-         uint8_t duck_io_rx_buf[DUCK_IO_LEN_RX_MAX];
-         uint8_t duck_io_rx_buf_len;
+ uint8_t duck_io_rx_buf[DUCK_IO_LEN_RX_MAX];
+ uint8_t duck_io_rx_buf_len;
 
-         uint8_t duck_io_tx_buf[DUCK_IO_LEN_TX_MAX];
-         uint8_t duck_io_tx_buf_len;
+ uint8_t duck_io_tx_buf[DUCK_IO_LEN_TX_MAX];
+ uint8_t duck_io_tx_buf_len;
 
-         uint8_t serial_cmd_0x09_reply_data; // In original hardware it's requested, but used for nothing?
+ uint8_t duck_io_priniter_init_result = DUCK_IO_PRINTER_INIT_FAIL;  // Default printer to not connected
 
 
 static void _delay_1_msec(void);
@@ -305,13 +305,13 @@ bool duck_io_laptop_init(void) {
     if (duck_io_init_ok) {
         // Save response from some command
         // (so far not seen being used in System ROM 32K Bank 0)
-        duck_io_send_byte(DUCK_IO_CMD_INIT_UNKNOWN_0x09);
+        duck_io_send_byte(DUCK_IO_CMD_PRINT_INIT_MAYBE_EXT_IO);
 
         // TODO: This wait with no timeout is how the System ROM does it,
         //       but it can probably be changed to a long delay and
         //       attempt to fail somewhat gracefully.
         duck_io_read_byte_no_timeout();
-        serial_cmd_0x09_reply_data = duck_io_rx_byte;
+        duck_io_priniter_init_result = duck_io_rx_byte;
     }
 
     // Ignore the RTC init check for now
@@ -321,3 +321,14 @@ bool duck_io_laptop_init(void) {
 
     return (duck_io_init_ok);
 }
+
+
+bool duck_io_printer_detected(void) {
+    return (duck_io_priniter_init_result & DUCK_IO_PRINTER_INIT_OK);
+}
+
+
+uint8_t duck_io_printer_type(void) {
+    return (duck_io_priniter_init_result & DUCK_IO_PRINTER_TYPE_MASK);
+}
+

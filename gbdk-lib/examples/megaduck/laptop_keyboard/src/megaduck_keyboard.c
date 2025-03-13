@@ -16,6 +16,7 @@
 bool    key_repeat_allowed  = false;
 uint8_t key_repeat_timeout  = REPEAT_OFF;
 uint8_t key_pressed         = NO_KEY;
+uint8_t key_repeat_previous = NO_KEY;
 uint8_t key_previous        = NO_KEY;
 
 
@@ -58,6 +59,8 @@ bool duck_io_poll_keyboard(duck_keyboard_data_t * key_data) {
 // Returns translated key (if no key pressed, invalid, etc value will be NO_KEY)
 char duck_io_process_key_data(duck_keyboard_data_t * key_data, uint8_t megaduck_model) {
 
+    key_previous = key_pressed;
+
     // Optional program layer of key repeat on top of
     // hardware key repeat (which is too fast, mostly)
     //
@@ -74,7 +77,7 @@ char duck_io_process_key_data(duck_keyboard_data_t * key_data, uint8_t megaduck_
         } else {
             // If there is a repeat then send the previous pressed key
             // and set a small delay until next repeat
-            key_pressed = key_previous;
+            key_pressed = key_repeat_previous;
             key_repeat_timeout = REPEAT_CONTINUE_THRESHOLD;
         }
     }
@@ -93,6 +96,11 @@ char duck_io_process_key_data(duck_keyboard_data_t * key_data, uint8_t megaduck_
             if ((key_pressed >= 'a') && (key_pressed <= 'z'))
                 key_pressed -= ('a' - 'A');
 
+        // Allow PrintScreen flag to override any other key pressed
+        // (Left printscreen is a flag, Right one is an actual key)
+        if (key_data->flags & DUCK_IO_KEY_FLAG_PRINTSCREEN_LEFT)
+            key_pressed = KEY_PRINTSCREEN;
+
         // Only allow repeat for the range from:
         // - ASCII 32 (space) and higher
         // - As well as arrow keys
@@ -104,7 +112,7 @@ char duck_io_process_key_data(duck_keyboard_data_t * key_data, uint8_t megaduck_
             key_repeat_allowed = false;
 
         // Save key for repeat
-        key_previous = key_pressed;
+        key_repeat_previous = key_pressed;
     }
 
     return key_pressed;

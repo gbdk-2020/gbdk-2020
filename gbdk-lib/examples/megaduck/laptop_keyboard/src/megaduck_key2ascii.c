@@ -254,7 +254,7 @@ const char scancode_to_ascii_LUT_spanish[] = {
     NO_KEY,     // 0xDB SYS_KBD_CODE_PIANO_RE_2
     '-',        // 0xDC SYS_KBD_CODE_DASH
     KEY_ARROW_DOWN,     // 0xDD SYS_KBD_CODE_ARROW_DOWN    // TODO: Temporary
-    NO_KEY,     // 0xDE SYS_KBD_CODE_PRINTSCREEN_RIGHT
+    KEY_PRINTSCREEN,    // 0xDE SYS_KBD_CODE_PRINTSCREEN_RIGHT // TODO: Temporary
     NO_KEY,     // 0xDF
 
     KEY_DELETE, // 0xE0 SYS_KBD_CODE_DELETE
