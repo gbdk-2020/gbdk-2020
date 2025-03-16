@@ -72,7 +72,8 @@ static struct {
 		{ "mkbin",		"%sdccdir%makebin" },
 		{ "crt0dir",	"%libdir%%plat%/crt0.o"},
 		{ "libs_include", "-k %libdir%%port%/ -l %port%.lib -k %libdir%%plat%/ -l %plat%.lib"},
-				{ "mkcom", "%sdccdir%makecom"}
+		{ "mkcom", "%sdccdir%makecom"},
+		{ "mknes", "%sdccdir%makenes"}
 };
 
 static char *getTokenVal(const char *key)

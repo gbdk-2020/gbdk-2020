@@ -157,16 +157,6 @@ struct sms_opt_s
   uint8_t nb_ram_banks;              /* Number of ram banks (default: 0) */
 };
 
-struct nes_opt_s
-{
-    BYTE mapper;
-    BYTE num_prg_banks;
-    BYTE num_chr_banks;
-    bool vertical_mirroring;
-    bool four_screen;
-    bool battery;
-};
-
 void
 gb_postproc (BYTE * rom, int size, int *real_size, struct gb_opt_s *o)
 {
@@ -740,30 +730,6 @@ read_ihx (FILE *fin, BYTE **rom, int *size, int *real_size, struct gb_opt_s *o)
   return 1;
 }
 
-void write_ines_header(FILE* fout, struct nes_opt_s* nes_opt)
-{
-  char id_string[] = { 0x4E, 0x45, 0x53, 0x1A };  
-  BYTE flags6 = ((nes_opt->mapper & 0xF) << 4) | 
-                 (nes_opt->four_screen << 3) |
-                 (nes_opt->battery << 1) |
-                 nes_opt->vertical_mirroring;
-  BYTE flags7 = (nes_opt->mapper & 0xF0);
-  BYTE flags8 = 0;
-  BYTE flags9 = 0;
-  BYTE flags10 = 0;
-  BYTE padding[5] = { 0, 0, 0, 0, 0, };
-  // "NES" + end-of-file
-  fwrite(&id_string, sizeof(char), 4, fout);
-  fwrite(&nes_opt->num_prg_banks, sizeof(BYTE), 1, fout);
-  fwrite(&nes_opt->num_chr_banks, sizeof(BYTE), 1, fout);
-  fwrite(&flags6, sizeof(BYTE), 1, fout);
-  fwrite(&flags7, sizeof(BYTE), 1, fout);
-  fwrite(&flags8, sizeof(BYTE), 1, fout);
-  fwrite(&flags9, sizeof(BYTE), 1, fout);
-  fwrite(&flags10, sizeof(BYTE), 1, fout);
-  fwrite(padding, sizeof(BYTE), 5, fout);
-}
-
 int
 main (int argc, char **argv)
 {
@@ -796,14 +762,6 @@ main (int argc, char **argv)
                               .region_code=4,
                               .version=0,
                               .nb_ram_banks=0 };
-
-  struct nes_opt_s nes_opt = {
-                              .mapper = 30,
-                              .num_prg_banks = 8,
-                              .num_chr_banks = 0,
-                              .vertical_mirroring = 0,
-                              .four_screen = 1,
-                              .battery = 0 };
 
 #if defined(_WIN32)
   setmode (fileno (stdout), O_BINARY);
@@ -980,7 +938,7 @@ main (int argc, char **argv)
           break;
 
         case 'N':
-          /* generate iNES binary file */
+          /* generate binary file for NES, with .ihx file banks rotated to turn first bank into last bank */
           gb = 0, sms = 0, nes = 1;
           break;
 
@@ -1126,9 +1084,7 @@ main (int argc, char **argv)
 
       if (nes)
       {
-        nes_opt.num_prg_banks = gb_opt.nb_rom_banks;
-        write_ines_header(fout, &nes_opt);
-        // .ihx file has fixed bank incorrectly placed as first - we fix this when writing out the .nes file.
+        // .ihx file has fixed bank incorrectly placed as first - we fix this when writing out the .bin file.
         // Write the N-1 switchable banks at .nes file start, skipping the first (fixed) bank
         fwrite (rom + BANK_SIZE, 1, (pack ? real_size : size) - offset - BANK_SIZE, fout);
         // Write the fixed bank to end of .nes file
