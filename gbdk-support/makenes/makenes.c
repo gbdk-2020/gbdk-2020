@@ -110,6 +110,9 @@ void parse_cmd_line(int argc, const char** argv, struct nes_opt_s* nes_opt, cons
                 case 'a':
                     nes_opt->alternative_nametables = strtoul(argv[i+1], NULL, 0);
                     break;
+                case 'h':
+                    usage();
+                    exit(0);
                 default:
                     usage();
                     exit(1);

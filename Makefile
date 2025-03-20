@@ -474,6 +474,12 @@ ifneq (,$(wildcard $(BUILDDIR)/bin/))
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 	$(BUILDDIR)/bin/makecom -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+# makenes
+	echo \@anchor makenes-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# makenes settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+	$(BUILDDIR)/bin/makenes -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 # gbcompress
 	echo \@anchor gbcompress-settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \# gbcompress settings >> $(TOOLCHAIN_DOCS_FILE);
