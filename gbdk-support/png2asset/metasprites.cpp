@@ -33,7 +33,11 @@ void ProcessMetaspriteTile(int _x, int _y, int x, int y, int* last_x, int* last_
 
         size_t idx;
         unsigned char props;
-        unsigned char pal_idx = tile.pal;
+
+        // If a specific palette was specified, use it. 
+        // Otherwise, We can pick the palette from the first pixel of this tile
+        unsigned char pal_idx = palleteIndex!=-1 ?  palleteIndex  : assetData->image.data[y * assetData->image.w + x] >> assetData->args->bpp; 
+
 
         // When both -keep_duplicate_tiles and source tilesets are used then
         // keep_duplicate_tiles should only apply to source tilesets, not the main image
