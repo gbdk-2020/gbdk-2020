@@ -149,6 +149,8 @@ endif
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/gbcompress TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
 	@echo Building makecom
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/makecom TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
+	@echo Building makenes
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/makenes TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
 	@echo Building makebin
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/makebin TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
 	@echo Building png2hicolorgb
@@ -182,6 +184,8 @@ gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
 	@echo Installing gbcompress
 	@cp $(GBDKSUPPORTDIR)/gbcompress/gbcompress$(EXEEXTENSION) $(BUILDDIR)/bin/gbcompress$(EXEEXTENSION)
 	@$(TARGETSTRIP) $(BUILDDIR)/bin/gbcompress$(EXEEXTENSION)
+	@echo Installing makenes
+	@cp $(GBDKSUPPORTDIR)/makenes/makenes$(EXEEXTENSION) $(BUILDDIR)/bin/makenes$(EXEEXTENSION)
 	@echo Installing makecom
 	@cp $(GBDKSUPPORTDIR)/makecom/makecom$(EXEEXTENSION) $(BUILDDIR)/bin/makecom$(EXEEXTENSION)
 	@$(TARGETSTRIP) $(BUILDDIR)/bin/makecom$(EXEEXTENSION)
@@ -469,6 +473,12 @@ ifneq (,$(wildcard $(BUILDDIR)/bin/))
 	echo \# makecom settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 	$(BUILDDIR)/bin/makecom -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+# makenes
+	echo \@anchor makenes-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# makenes settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+	$(BUILDDIR)/bin/makenes -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 # gbcompress
 	echo \@anchor gbcompress-settings >> $(TOOLCHAIN_DOCS_FILE);

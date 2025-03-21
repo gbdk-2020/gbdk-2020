@@ -308,6 +308,11 @@ Converts a binary .rom file to .msxdos com format, including splitting the banks
 
 - For detailed settings see @ref makecom-settings
 
+@anchor utility_makenes
+## makenes
+Converts a binary .rom file to a .nes file, prepending a 16-byte header.
+
+- For an explanation of the interpretation of header bits see https://www.nesdev.org/wiki/INES
 
 @anchor utility_png2hicolorgb
 ## png2hicolorgb
