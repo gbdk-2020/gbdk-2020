@@ -62,6 +62,7 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
     args->include_palettes = true;
     args->use_structs = false;
     args->flip_tiles = true;
+    args->enable_layered_sprites = false;
 
     // args->errorCode;
     args->bank = BANK_NUM_UNSET;
@@ -128,6 +129,7 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
         printf("-transposed         export transposed (column-by-column instead of row-by-row)\n");
 
         printf("-rel_paths          paths to tilesets are relative to the input file path\n");
+        printf("-layered-sprites    allows for automatically handling multi-palette tiles.\n");
         return EXIT_SUCCESS;
     }
 
@@ -325,7 +327,10 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
         else if(!strcmp(argv[i], "-rel_paths")) {
             args->relative_paths = true;
         }
-        else {
+        else if(!strcmp(argv[i], "-layered-sprites")) {
+            args->enable_layered_sprites = true;
+            printf("Warning! Layered metasprites have been enabled. Some retro consoles have limits on how many 'sprites' they can draw on a single scanline.\n");
+        } else {
             printf("Warning: Argument \"%s\" not recognized\n", argv[i]);
         }
     }
