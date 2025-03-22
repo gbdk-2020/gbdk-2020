@@ -329,10 +329,26 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
         }
         else if(!strcmp(argv[i], "-layered-sprites")) {
             args->enable_layered_sprites = true;
-            printf("Warning! Layered metasprites have been enabled. Some retro consoles have limits on how many 'sprites' they can draw on a single scanline.\n");
         } else {
             printf("Warning: Argument \"%s\" not recognized\n", argv[i]);
         }
+    }
+
+    if(args->enable_layered_sprites) {
+
+        /*
+         * It's incredibly difficult to efficiently determine how to automatically generate palettes for layered sprites.
+         * For this reason, the program will fail if the user isn't using a paletted PNGs.
+         */
+        if(!args->keep_palette_order) {
+            printf("Error: The `-layered-sprites` argument also requires the `-keep_palette_order` argument.");
+            return EXIT_FAILURE;
+        }
+
+        printf("Warning! Layered metasprites have been enabled. Each platform has limits on how many 'sprites' can drawn on a single scanline. Keep these numbes in mind when using layered metasprites.\n");
+        printf("\tGB/AP/Duck:   10 Sprites per scanline\n");
+        printf("\tSMS/GG:       8 Sprites per scanline\n");
+        printf("\tNES/Famicom:  8 Sprites per scanline\n\n");
     }
 
     int slash_pos = (int)args->output_filename.find_last_of('/');
