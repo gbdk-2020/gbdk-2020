@@ -66,12 +66,11 @@ __current_bank::                        .ds 1
 _sys_time::                             .ds 2
 _shadow_PPUCTRL::                       .ds 1
 _shadow_PPUMASK::                       .ds 1
-__crt0_spritePageValid:                 .ds 1
 _bkg_scroll_x::                         .ds 1
 _bkg_scroll_y::                         .ds 1
 _attribute_row_dirty::                  .ds 1
 _attribute_column_dirty::               .ds 1
-.crt0_forced_blanking::                 .ds 1
+__oam_valid_display_on::                .ds 1
 __SYSTEM::                              .ds 1
 __hblank_writes_index:                  .ds 1
 
@@ -134,7 +133,7 @@ ProcessDrawList_DoOneTransfer:
 
 ; .bndry 0x100 (skip alignment as previous alignment means page-cross won't happen)
 __crt0_doSpriteDMA:
-    bit *__crt0_spritePageValid
+    bit *__oam_valid_display_on
     bpl __crt0_doSpriteDMA_spritePageInvalid
     lda #0                      ; +2
     sta OAMADDR                 ; +4
@@ -542,8 +541,9 @@ _wait_vbl_done_waitForNextFrame:
     sty *__hblank_writes_index
 
     ; Enable OAM DMA in next NMI
-    sec
-    ror *__crt0_spritePageValid
+    lda *__oam_valid_display_on
+    ora #OAM_VALID_MASK
+    sta *__oam_valid_display_on
     ; Restore shadow registers
     pla
     sta *_bkg_scroll_y
@@ -560,8 +560,9 @@ _wait_vbl_done_waitForNextFrame_loop:
     beq _wait_vbl_done_waitForNextFrame_loop
 
     ; Disable OAM DMA in next NMI
-    clc
-    ror *__crt0_spritePageValid
+    lda *__oam_valid_display_on
+    and #~OAM_VALID_MASK
+    sta *__oam_valid_display_on
 
     rts
 
@@ -594,8 +595,9 @@ _display_off::
     sta *_shadow_PPUMASK
     sta PPUMASK
     ; Set forced blanking bit
-    sec
-    ror *.crt0_forced_blanking
+    lda *__oam_valid_display_on
+    ora #DISPLAY_OFF_MASK
+    sta *__oam_valid_display_on
     rts
 
 .display_on::
@@ -604,8 +606,9 @@ _display_on::
     ora #(PPUMASK_SHOW_BG | PPUMASK_SHOW_SPR)
     sta *_shadow_PPUMASK
     ; Clear forced blanking bit
-    clc
-    ror *.crt0_forced_blanking
+    lda *__oam_valid_display_on
+    and #~DISPLAY_OFF_MASK
+    sta *__oam_valid_display_on
     rts
 
 __crt0_RESET:
@@ -669,7 +672,7 @@ __crt0_RESET_bankSwitchValue:
     lda #(PPUMASK_SHOW_BG | PPUMASK_SHOW_SPR | PPUMASK_SHOW_BG_LC | PPUMASK_SHOW_SPR_LC)
     sta *_shadow_PPUMASK
     lda #0x80
-    sta *__crt0_spritePageValid
+    sta *__oam_valid_display_on
     ; enable NMI
     lda #(PPUCTRL_NMI | PPUCTRL_SPR_CHR)
     sta *_shadow_PPUCTRL
