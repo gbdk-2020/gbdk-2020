@@ -8,6 +8,10 @@
         ;; Number of 8-cycles available each frame for transfer buffer
         VRAM_DELAY_CYCLES_X8  = 171
 
+        ; Bits for quick checking of OAM validity and display ON/OFF
+        OAM_VALID_MASK      = 0x80
+        DISPLAY_OFF_MASK    = 0x40
+
         ;;  Keypad
         .UP             = 0x08
         .DOWN           = 0x04
