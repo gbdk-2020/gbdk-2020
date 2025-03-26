@@ -491,6 +491,14 @@ _vsync::
     iny
     sty *.lcd_buf_index
 
+    ; Ensure second entry (actual LCD) starts off with zero (end-of-list)
+    lda #0
+    sta __lcd_isr_delay_num_scanlines,y
+    ; Skip to end if LCD isr functionality is disabled (0x60 = RTS means LCD isr disabled)
+    lda .jmp_to_LCD_isr
+    cmp #0x60
+    beq _wait_vbl_done_waitForNextFrame
+
     lda *.lcd_scanline_previous
 
     jmp 2$
