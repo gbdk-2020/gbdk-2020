@@ -4,6 +4,12 @@ This section contains information that may be useful to know or important when u
 
 # GBDK-2020 versions
 
+## Porting to GBDK-2020 4.4.0
+
+  - NES LCD bkg_scroll_y is now relative to the current scanline
+    - This change creates higher compatibility with GB's SCY_REG and makes it easier to re-use GB LCD handlers.
+    - This behaves differently to 4.3.0 and affects LCD handlers that change the y scrolling coordinate mid-frame.
+
 ## Porting to GBDK-2020 4.3.0
   - GBDK now requires ~SDCC 4.4.0 or higher with GBDK-2020 patches for the z80 and NES
   - Changed to new calling convention for @ref printf(), @ref sprintf(), @ref abs()
