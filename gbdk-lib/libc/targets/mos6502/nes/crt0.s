@@ -710,6 +710,7 @@ __crt0_waitForever:
     dex
     bne 0$
     clc
+    nop
 
     sty *.reg_write_index
 
@@ -717,13 +718,18 @@ __crt0_waitForever:
     sta *.acc
 1$:
     ldx __lcd_isr_delay_num_scanlines,y
+    cpx #1
+    beq 3$      ; Skip delay if next scanline
+    cpx #0
     beq 2$      ; Exit if empty buffer (no calls were made within frame)
     dex
-    beq 3$      ; Skip delay if next scanline
     jsr .delay_to_lcd_scanline
     jsr .delay_12_cycles
     jsr .delay_28_cycles
-    jsr .delay_12_cycles
+    nop
+    nop
+    nop
+    nop
     lda *0x00
 3$:
 
