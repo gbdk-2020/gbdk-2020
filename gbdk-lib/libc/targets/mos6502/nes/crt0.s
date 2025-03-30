@@ -180,29 +180,34 @@ ProcessDrawList:
 ;
 .define .acc "___SDCC_m6502_ret4"
 .delay_to_lcd_scanline::
-    jsr .delay_12_cycles
     jmp 2$
 1$:
     jsr .delay_28_cycles
     jsr .delay_28_cycles
     jsr .delay_12_cycles ; -> 28 + 28 + 12 = 68 cycles
+    clc
 2$:
 
-    jsr .delay_fractional   ; -> 40.666 NTSC cycles  33.5625 PAL cycles
-  
+    jsr .delay_fractional   ; -> 35.666 NTSC cycles  28.5625 PAL cycles
+    lda *0x00
+
     dex
     bne 1$      ; -> 5 cycles
     rts
 
 .delay_28_cycles:
     jsr .delay_12_cycles
+.delay_16_cycles:
     nop
+.delay_14_cycles:
     nop
 .delay_12_cycles:
     rts
 
 ;
-; Takes 40.666 NTSC cycles / 33.5626 PAL cycles
+; Takes 35.666 NTSC cycles / 28.5626 PAL cycles
+;
+; Note: does NOT clear carry - this needs to be handled by caller
 ;
 .delay_fractional:
     lda #144 ; Initialize A with PAL fractional cycle count
@@ -215,12 +220,10 @@ ProcessDrawList:
     nop
 3$:             ; -> 15 NTSC cycles / 8 PAL cycles
     ; Add fractional cycles and branch on carry
-    clc
     adc *.acc
-    sta *.acc
     bcs 4$
 4$:
-    sta *.acc   ; -> 13.666 NTSC cycles / 13.5625 PAL cycles
+    sta *.acc   ; -> 8.666 NTSC cycles / 8.5625 PAL cycles
     rts         ; -> 6 cycles for RTS, 6 cycles for JSR = 12 cycles
 
 __crt0_NMI:
@@ -441,7 +444,6 @@ _vsync::
     .define .lcd_scanline_previous "REGTEMP"
     .define .lcd_buf_index "REGTEMP+1"
     .define .lcd_buf_end "REGTEMP+2"
-    .define .plus_one_flag "REGTEMP+3"
 
     jsr _flush_shadow_attributes
     
@@ -461,9 +463,6 @@ _vsync::
     ; Set initial scanline value
     lda #0xFF
     sta *.lcd_scanline_previous
-    ; Init +0/+1 bits for simulated Y-increment between calls
-    lda #0x7F
-    sta *.plus_one_flag
 
     lda *__hblank_writes_index
     clc
@@ -477,16 +476,9 @@ _vsync::
     adc #.MAX_DEFERRED_ISR_CALLS
     sta *.lcd_buf_end
 
-    ; Special-case: LCD at scanline 0 should just directly replace first entry
-    lda *__lcd_scanline
-    bne 0$
-    jsr .jmp_to_LCD_isr
-    lda #0xFF
-    sta *.lcd_scanline_previous
-0$:
-
-    ; Write shadow registers as first LCD entry (VBL and LCD at scanline 0 are equal)
+    ; Write shadow registers as first LCD buffer entry (actually VBL)
     ldy *.lcd_buf_index
+    ldx #.SCREENHEIGHT-1
     jsr .write_shadow_registers_to_buffer
     iny
     sty *.lcd_buf_index
@@ -522,13 +514,12 @@ _vsync::
     sec
     sbc *.lcd_scanline_previous
     sta __lcd_isr_delay_num_scanlines,y
-    ; Add number of delayed scanlines+1 to _bkg_scroll_y to simulate PPU increment
-    ; (but old _bkg_scroll_y needs to be treated as -1 in first simulated-PPU-increment)
-    asl *.plus_one_flag
-    adc *_bkg_scroll_y
-    sta *_bkg_scroll_y
     ; Call LCD isr
     jsr .jmp_to_LCD_isr
+    ; Grab previous LCD scanline value from stack and store in X
+    pla
+    tax
+    pha
     jsr .write_shadow_registers_to_buffer
        
     iny
@@ -574,6 +565,12 @@ _wait_vbl_done_waitForNextFrame_loop:
 
     rts
 
+;
+; Writes shadow registers to buffer
+;
+; Input:
+;  X: Scanline number
+;
 .write_shadow_registers_to_buffer:
     ; Copy shadow registers
     ldy *.lcd_buf_index
@@ -587,7 +584,17 @@ _wait_vbl_done_waitForNextFrame_loop:
     lsr
     lsr
     sta __lcd_isr_ppuaddr_lo,y
-    lda *_bkg_scroll_y
+    ; Add _bkg_scroll_y+1 to _lcd_scanline to generate final Y-scroll, with 239->0 wrap-around
+    txa
+    sec
+    adc *_bkg_scroll_y
+    bcc 1$
+    sbc #.SCREENHEIGHT
+1$:
+    cmp #.SCREENHEIGHT
+    bcc 2$
+    sbc #.SCREENHEIGHT
+2$:
     sta __lcd_isr_scroll_y,y
     and #0xF8
     asl
@@ -691,25 +698,44 @@ __crt0_RESET_bankSwitchValue:
 __crt0_waitForever:
     jmp __crt0_waitForever
 
+.bndry 0x100
 .do_hblank_writes:
     .define .reg_write_index    "__crt0_NMITEMP+1"
     .define .lda_PPUADDR        "__crt0_NMITEMP+2"
     .define .ldx_PPUMASK        "__crt0_NMITEMP+3"
     
-    jsr .delay_12_cycles
+    ; Delay to make hblank at end of scanline 0
+    ldx #10
+0$:
+    dex
+    bne 0$
+    clc
     nop
-    
+
+    sty *.reg_write_index
+
     lda #0
     sta *.acc
 1$:
-    sty *.reg_write_index
     ldx __lcd_isr_delay_num_scanlines,y
+    cpx #1
+    beq 3$      ; Skip delay if next scanline
+    cpx #0
     beq 2$      ; Exit if empty buffer (no calls were made within frame)
     dex
-    beq 3$      ; Skip delay if next scanline
     jsr .delay_to_lcd_scanline
+    jsr .delay_12_cycles
+    jsr .delay_28_cycles
+    nop
+    nop
+    nop
+    nop
+    lda *0x00
 3$:
-    ldy *.reg_write_index
+
+    ; Delay for 35.666 NTSC cycles / 28.5625 PAL cycles
+    jsr .delay_fractional
+
     ; Pre-write PPUADDR (1st write) and y-scroll
     sty PPUADDR
     lda __lcd_isr_scroll_y,y
@@ -741,17 +767,8 @@ __crt0_waitForever:
     stx PPUMASK
     sty PPUCTRL
 
-    ; Delay for 40.666 NTSC cycles / 33.5625 PAL cycles
-    jsr .delay_fractional
+    inc *.reg_write_index
     ldy *.reg_write_index
-    
-    ldx #6
-10$:
-    dex
-    bne 10$
-    nop
-
-    iny
     jmp 1$
 2$:
     rts

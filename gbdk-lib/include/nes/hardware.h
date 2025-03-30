@@ -55,9 +55,21 @@ __REG(0x4014) OAMDMA;
 // Scrolling coordinates (will be written to PPUSCROLL at end-of-vblank by NMI handler)
 __SHADOW_REG bkg_scroll_x;
 __SHADOW_REG bkg_scroll_y;
+// LCD scanline - a software-driven version of GB's incrasing 'LY' scanline counter
+__SHADOW_REG _lcd_scanline;
 
 extern volatile UBYTE TIMA_REG;
 extern volatile UBYTE TMA_REG;
 extern volatile UBYTE TAC_REG;
+
+// Compatibility defines for GB LY / LYC registers, to allow easier LCD ISR porting
+#define SCY_REG bkg_scroll_y    /**< Scroll Y */
+#define rSCY SCY_REG
+#define SCX_REG bkg_scroll_x    /**< Scroll X */
+#define rSCX SCX_REG
+#define LY_REG _lcd_scanline    /**< LCDC Y-coordinate */
+#define rLY LY_REG
+#define LYC_REG _lcd_scanline   /**< LY compare */
+#define rLYC LYC_REG
 
 #endif

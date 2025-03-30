@@ -470,16 +470,31 @@ To simplify the programming interface, gbdk-nes functions like move_bkg / scroll
 
 GBDK provides an API for installing Interrupt Service Routines that execute on start of vblank (VBL handler), or on a specific scanline (LCD handler).
 
-But the base NES system has no suitable scanline interrupts that can provide such functionality. So instead, gbdk-nes API allows *fake* handlers to be installed in the goal of keeping code compatible with other platforms.
+But the base NES system has no suitable scanline interrupts that can provide the exact equivalent functionality. So instead, gbdk-nes API allows *fake* handlers to be installed in the goal of keeping code compatible with other platforms.
 
-* An installed VBL handler will be called immediately when calling vsync. This handler should only update PPU shadow registers.
+* An installed VBL handler will be called immediately when calling vsync. This handler should only update PPU shadow registers. After each invocation, shadow registers are stored into a buffer.
 * An installed LCD handler for a specific scanline will then be called repeatedly until the value of _lcd_scanline is either set to an earlier scanline or >= 240. After each invocation, shadow registers are stored into a buffer.
-* After the vblank NMI handler has finished palette updates, OAM DMA, VRAM updates and scroll updates it will then manually run a delay loop to reach the particular scanlines that the installed LCD handler was pre-called for, and use the contents of the buffer to update registers.
+* After the built-in vblank NMI handler has finished palette updates, OAM DMA, VRAM updates it will then use the buffered VBL shadow registers to write the real registers. If LCD handlers are enabled it will then manually run a delay loop to reach the particular scanlines that the installed LCD handler was pre-called for, and use the contents of the buffer to update registers.
 
 Because the LCD "ISR" is actually implemented with a delay loop, it will burn a lot of CPU cycles in the frame - the further down the requested scanline is the larger the CPU cycle loss.
 In practice this makes this faked-LCD-ISR functionality mostly suitable for status bars at the top of the screen screen. Or for simple parallax cutscenes where the CPU has little else to do.
 
-@note The support for VBL and LCD handlers is currently under consideration and subject to change in newer versions of gbdk-nes.
+To make porting between user VBL / LCD handlers written in C easier, gbdk-nes also provides aliases for the shadow registers that correspond to the GB hardware registers.
+
+* @ref SCX_REG is an alias for @ref bkg_scroll_x shadow register
+* @ref SCY_REG is an alias for @ref bkg_scroll_y shadow register
+* @ref LYC_REG is an alias for @ref _lcd_scanline shadow register
+
+Because these are shadow registers that are interpreted by the GBDK library to mimick GB behaviour, they won't behave exactly how the GB hardware registers do under all conditions. However, for most practical purposes they allow writing portable VBL / LCD handlers in C.
+
+@note
+The bkg_scroll_y shadow register functions the same as @ref SCY_REG GB, with its value added to @ref _lcd_scanline to determine the final Y scrolling coordinate. However, its range is different due to tilemaps being 32x30 instead 32x32. 
+
+Negative coordinates won't work correctly due to the wrapping from 239 to 0. Instead, they need to be corrected with this wrapping in mind. i.e. a negative coordinate of -1 needs to be converted to 239 before being written to bkg_scroll_y.
+
+A portable way to do this is to check for a negative offset, and use the screen height define:
+
+  SCY_REG = offset < 0 ? (uint8_t)(DEVICE_SCREEN_BUFFER_HEIGHT*8 + offset) : offset;
 
 ### Caveat: Make sure to call vsync on every frame
 
@@ -488,7 +503,7 @@ On the GB, the call to vsync is an optional call that serves two purposes:
 1. It provides a consistent frame timing for your game 
 2. It allows future register writes to be synchronized to the screen
 
-On gbdk-nes the second point is no longer true, because writes need to be made to the shadow registers *before* vsync is called.
+On gbdk-nes the second point is no longer true, because writes need to be made to the shadow registers either *before* vsync is called, or in a user VBL isr handler.
 
 But the vsync call serves three other very important purposes:
 
@@ -497,19 +512,6 @@ B. It repeatedly calls the optional LCD handler up to MAX_LCD_ISR_CALLS times. A
 C. It calls flush_shadow_attributes so that updates to background attributes actually get written to PPU memory
 
 For these reasons you should always include a call to vsync if you expect to see any graphical updates on the screen.
-
-### Caveat: Do all status bar scroll movement in LCD handlers to mitigate glitches
-
-The fake LCD ISR system is not bullet-proof. In particular, it has a problem where lag frames can cause the shadow register updates in LCD handlers not to be ready in time for when the timed code in the NMI handler would be called. This will effectively cause all those updates to be missing for one frame, and result in glitched scroll updates.
-
-There is currently no complete work-around for this problem other than avoiding lag frames altogether. But the glitch can be made less distracting by making sure only the status bar glitches rather than the main background.
-
-If you are using LCD handlers to achieve a top-screen stationary status bar, it is recommended that you follow the following guidelines to make sure the background itself has consistent scrolling:
-* Use move_bkg either in your main loop or in the VBL handler, to set the level scrolling
-* Use move_bkg in the first invocation of the LCD handler, to set the (stationary) status bar scroll position
-* Use move_bkg in the second invocation of the LCD handler, to reset the background scrolling
-
-In short: Ensuring that the last called LCD handler sets the scroll back to the original value means the PPU rendering keeps rendering the background from the same scrolling position even when the NMI handling was missed.
 
 ### Implementation of timer handler
 

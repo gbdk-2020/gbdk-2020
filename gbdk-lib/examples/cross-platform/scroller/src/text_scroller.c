@@ -3,44 +3,36 @@
 #include <stdint.h>
 #include <stdio.h>
 
+// Positive 1 in valid y scroll coordinates
+#define P1 1
+// Negative 1 in valid y scroll coordinates
+#define N1 (uint8_t)(DEVICE_SCREEN_BUFFER_HEIGHT*8 - 1)
+
+const uint8_t shake_tbl[] = {0, P1, P1, P1, 0, N1, N1, N1};
 const uint8_t scanline_offsets_tbl[] = {0, 1, 2, 3, 3, 2, 1, 0, 0, 1, 2, 3, 3, 2, 1, 0};
 const uint8_t * scanline_offsets = scanline_offsets_tbl;
 
 #define SCROLL_POS 15
-#define SCROLL_POS_PIX_START ((SCROLL_POS + DEVICE_SCREEN_Y_OFFSET) * 8) - 1
+#define SCROLL_POS_PIX_START ((SCROLL_POS + DEVICE_SCREEN_Y_OFFSET) * 8) - 2
 #define SCROLL_POS_PIX_END ((SCROLL_POS + DEVICE_SCREEN_Y_OFFSET + 1) * 8) - 1
-
-extern uint8_t _lcd_scanline;
 
 uint8_t scroller_x = 0;
 void scanline_isr(void) {
-#if defined(NINTENDO_NES)
-    switch (_lcd_scanline) {
-        case 0: 
-            move_bkg(0, 0);
-            _lcd_scanline = SCROLL_POS_PIX_START + 1;
-            break;
-        case SCROLL_POS_PIX_START + 1:
-            move_bkg(scroller_x, SCROLL_POS_PIX_START + 1);
-            _lcd_scanline = SCROLL_POS_PIX_END + 1;
-            break;
-        case SCROLL_POS_PIX_END + 1:
-            move_bkg(0, SCROLL_POS_PIX_END + 1);
-            _lcd_scanline = 0;
-            break;
-    }
-#elif defined(NINTENDO)
+
+#if defined(NINTENDO) || defined(NINTENDO_NES)
     switch (LYC_REG) {
         case 0: 
             SCX_REG = 0;
+            SCY_REG = 0;
             LYC_REG = SCROLL_POS_PIX_START;
             break;
         case SCROLL_POS_PIX_START:
             SCX_REG = scroller_x;
+            SCY_REG = shake_tbl[(scroller_x >> 1) & 7];
             LYC_REG = SCROLL_POS_PIX_END;
             break;
         case SCROLL_POS_PIX_END:
-            SCX_REG = LYC_REG = 0;
+            SCX_REG = SCY_REG = LYC_REG = 0;
             break;
     }
 #elif defined(SEGA)
@@ -109,11 +101,6 @@ void main(void) {
             // put next char
             set_vram_byte(scroller_vram_addr, *scroller_next_char - 0x20);
         }
-#ifdef NINTENDO_NES
-        // Normal indirect setting of scroll via shadow registers (written by vblank handler)
-        move_bkg(0,0);
-        _lcd_scanline = 0;
-#endif
         vsync();        
     }
 }
