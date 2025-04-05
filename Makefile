@@ -251,11 +251,14 @@ gbdk-lib-install-ports: gbdk-lib-build
 # The inner loop copies global.s for platforms from relevant port/platform.
 # When doing that it expects a given platform to never be present in
 # multiple ports since the copy destination is not port specific (lacks /$$port/ )
+#
+# 'touch' of empty crt0.lst was removed so .rst files do not get generated
+# in the gbdk install lib folders when people build projects with -debug on.
+# It caused problems when the user lacked write permissions to the gbdk install folder.
 gbdk-lib-install-platforms:
 	@for plat in $(PLATFORMS); do \
 		echo Installing lib for platform: $$plat; \
 		mkdir -p $(BUILDDIR)/lib/$$plat; \
-		touch $(BUILDDIR)/lib/$$plat/crt0.lst; \
 		cp $(GBDKLIBDIR)/build/$$plat/crt0.o $(BUILDDIR)/lib/$$plat/crt0.o; \
 		cp $(GBDKLIBDIR)/build/$$plat/$$plat.lib $(BUILDDIR)/lib/$$plat/$$plat.lib; \
 		for port in $(PORTS); do \
