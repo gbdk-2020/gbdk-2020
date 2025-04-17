@@ -14,11 +14,14 @@ void vbl(void)
   vbl_cnt++;
 }
 
+#pragma save
+#pragma nooverlay
 void tim(void)
 {
   // Upon IRQ, interrupts are automatically disabled
   tim_cnt++;
 }
+#pragma restore
 
 void print_counter(void)
 {
