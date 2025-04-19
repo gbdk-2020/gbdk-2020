@@ -14,14 +14,21 @@ void vbl(void)
   vbl_cnt++;
 }
 
+#if defined(NINTENDO_NES)
+// For NES make sure to wrap TIM interrupt handlers with nooverlay pragma.
+// This avoids interrupts accidentally overwriting variables in the overlay segment that were being used when the NMI occurred.
+For more details see @ref docs_nes_tim_overlay
 #pragma save
 #pragma nooverlay
+#endif
 void tim(void)
 {
   // Upon IRQ, interrupts are automatically disabled
   tim_cnt++;
 }
+#if defined(NINTENDO_NES)
 #pragma restore
+#endif
 
 void print_counter(void)
 {
