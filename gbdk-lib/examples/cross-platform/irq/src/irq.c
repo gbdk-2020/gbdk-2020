@@ -15,9 +15,8 @@ void vbl(void)
 }
 
 #if defined(NINTENDO_NES)
-// For NES make sure to wrap TIM interrupt handlers with nooverlay pragma.
+// For NES make sure to wrap TIM interrupt handlers with the nooverlay pragma.
 // This avoids interrupts accidentally overwriting variables in the overlay segment that were being used when the NMI occurred.
-For more details see @ref docs_nes_tim_overlay
 #pragma save
 #pragma nooverlay
 #endif
