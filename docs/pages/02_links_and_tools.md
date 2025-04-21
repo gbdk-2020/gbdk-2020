@@ -144,6 +144,10 @@ This is a brief list of useful tools and information. It is not meant to be comp
     __BGB__  
     Accurate emulator, has useful debugging tools.  
     http://bgb.bircd.org/
+  - @anchor superjuniorsameduck
+    __Super Junior SameDuck__
+    The only MegaDuck emulator with support for the Mega Duck Laptop models (Quique and Junior Super Computer)
+    https://github.com/bbbbbr/SuperJuniorSameDuck  
 
 @anchor code_editors_hinting
 Intellisense in VSCode may have trouble identifying some GBDK types or functions, and therefore flag them as warnings or unidentified.

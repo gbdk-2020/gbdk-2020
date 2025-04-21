@@ -7,7 +7,82 @@ https://github.com/gbdk-2020/gbdk-2020/releases
 # GBDK-2020 Release Notes
 
 ## GBDK-2020 4.3.0
-  ~2024/05
+  2025/...
+  - Includes SDCC version ~4.5.0 (15267) with GBDK-2020 patches for Z80 and NES
+    - [Patched SDCC Builds](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases) with support for Sega GG/SMS and the Nintendo NES are used.
+    - See the [github workflow](https://github.com/gbdk-2020/gbdk-2020-sdcc/tree/main/.github/workflows) for details.
+  - Building GBDK
+    - Added native GBDK build for ARM 64 Linux
+    - Changed from building on MacOS 11 to MacOS 13 (may reduce compatibility with older OS versions)
+  - SDCC
+    - Changed to using the `-N` flag with sdas since the the `-n` flag was removed
+  - Library
+    - Added export of `_vbl_done` (@ref VBL_DONE), a flag indicating the VBlank ISR has run
+    - Game Boy
+      - Added MBC7 related register and flag definitions
+        - @ref rMBC7_SRAM_ENABLE_1, @ref rMBC7_SRAM_ENABLE_2, @ref rMBC7_LATCH_1, @ref rMBC7_LATCH_2, @ref rMBC7_ACCEL_X_LO, @ref rMBC7_ACCEL_X_HI, @ref rMBC7_ACCEL_Y_LO, @ref rMBC7_ACCEL_Y_HI
+        - @ref MBC7_LATCH_ERASE, @ref MBC7_LATCH_CAPTURE, @ref MBC7_SRAM_ENABLE_KEY_1, @ref MBC7_SRAM_ENABLE_KEY_2
+      - Fixed possible halt bug when using @ref hblank_copy_vram()
+    - NES
+      - Added delay() and reset() functions for compatibility
+      - Added Timer interrupt emulation: @ref add_TIM() , @ref remove_TIM()
+      - Improved LCD ISR support for less graphics glitches
+      - Improved palette function code size (smaller)
+      - Changed LCD bkg_scroll_y to be relative to the current scanline for higher compatibility with Game Boy SCY_REG and LCD handlers
+        - NES: Align coordinates and scanline counting in LCD ISR implementation with GB, add SCX / SCY / LYC defines
+      - Fixed bug with @ref set_bkg_1bpp_data() not working in buffered mode
+      - Fixed bug with multiple column attribute updates
+      - Fixed bugs with non-multiple-of-2 (/4) map width in @ref set_bkg_submap_attributes()
+    - SMS/GG
+      - Added Timer interrupt emulation: @ref add_TIM() , @ref remove_TIM()
+      - Improved metasprite Y clipping
+      - Changed from unsigned (`uint16_t`) to signed int16 (`int16_t`) for coordinates with the family of `...metasprite...()` functions
+    - MegaDuck
+      - Added header files: @ref duck/laptop_io.h, @ref duck/model.h, @ref duck/laptop_keycodes.h
+  - Toolchain / Utilities
+    - Added @ref utility_makenes "makenes" utility for finalizing NES rom headers (called automatically by @ref lcc)
+    - @ref lcc "lcc"
+      - Changed use `--no-optsdcc-in-asm` for building user programs and the GBDK library
+        - This removes some "O line" meta-data from object files to avoid false-positive linker errors
+        - It is a workaround for SDCC now appending the calling convention to the "O Line" in the object files by default
+      - Changed to warn about some deprecated flags: `A`,`b`, `B`, `-dn`, `-g`, `-n`, `-O`, `P`, `-p`, `-static`, `-t`, `-w`
+    - @ref utility_png2asset "png2asset"
+      - Added `-area` option to specify linker area name (such as `-area LIT` for SMS/GG)
+      - Added support for 512 tiles via alternate tile bank on GBC
+      - Fixed Palette Generation broken when using `-source_tileset` option
+    - @ref bankpack
+      - Added support for MBC7
+    - @ref utility_romusage "romusage"
+      - Added Set hex bytes treated as Empty in ROM files (.gb/etc) `-b:HEXVAL:[...]`
+      - Added option to Hide memory regions (ex hide all RAM: `-nMEM:RAM`)
+      - Added support NES (`-p:NES1`) .noi/.map files
+      - Changed to allow filename at any location in option arguments
+      - Changed to improve error messaging
+      - Fixed detecting areas with leading underscores for .noi/.map files
+      - Fixed Brief/summarized mode counting overlapped header areas multiple times
+    - @ref utility_png2hicolorgb "png2hicolorgb"
+      - Added `--palendbit` for indicating end of data
+      - Added `--addendcolor=N` for appending color to clear the background on non-full height images
+      - Added `--precompiled` mode
+      - Added `-s` to specify variable/symbol name in C output
+    - @ref ihxcheck
+      - Fixed check on max bank to prevent crash
+  - Examples
+    - Added Text and Dialog example
+    - Changed irq example to be cross-platform
+    - Improved emu_debug example
+    - Improved Logo example Readme
+    - Game Boy
+      - Added MBC3 Real Time Clock (RTC) example
+      - Added MBC7 Accelerometer example
+    - MegaDuck
+      - Added MegaDuck Laptop model examples for keyboard, RTC and speech
+  - Docs:
+    - Added Cart SRAM Max Size to MBC Chart and clarify battery/save meaning
+
+
+## GBDK-2020 4.3.0
+  2024/06
   - Includes SDCC version ~4.4.0 (14650) with GBDK-2020 patches for Z80 and NES
     - [Patched SDCC Builds](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases) with support for Sega GG/SMS and the Nintendo NES are used.
     - See the [github workflow](https://github.com/gbdk-2020/gbdk-2020-sdcc/tree/main/.github/workflows) for details.
@@ -32,7 +107,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
       - Fixed VRAM transfer buffer bug (ensure stack page cleared on reset)
       - Fixed support for 4-player controllers using fourscore
       - Fixed @ref set_sprite_palette() to index from `0..3` instead of `4..7`
-      - Fixed @ref __move_metasprite to initialize Y index register to zero
+      - Fixed @ref move_metasprite to initialize Y index register to zero
       - Fixed @ref waitpadup to wait for button release instead of press
       - Updated libc to latest from sdcc 4.4.0
     - SMS/GG
@@ -53,7 +128,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
         - `GG_SIO_CTL`: @ref SIOCTL_TXFL, @ref SIOCTL_RXRD, @ref SIOCTL_FRER, @ref SIOCTL_INT, @ref SIOCTL_TON, @ref SIOCTL_RON, @ref SIOCTL_BS0, @ref SIOCTL_BS1
         - `GG_SOUND_PAN`: @ref SOUNDPAN_TN1R, @ref SOUNDPAN_TN2R, @ref SOUNDPAN_TN3R, @ref SOUNDPAN_NOSR, @ref SOUNDPAN_TN1L, @ref SOUNDPAN_TN2L, @ref SOUNDPAN_TN3L, @ref SOUNDPAN_NOSL
       - Optimized native tile data loading routines
-      - Improved @ref VDP_WRITE_DATA macro so it does not need `di`/`ei` protection
+      - Improved @ref WRITE_VDP_DATA macro so it does not need `di`/`ei` protection
       - Improved palette initialization in crt0
       - Fixed tilemap wrapping over the low bound of the VDP name table
       - Fixed @ref scroll_sprite()

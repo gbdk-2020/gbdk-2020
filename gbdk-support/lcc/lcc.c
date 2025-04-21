@@ -1038,8 +1038,8 @@ static void opt(char *arg) {
         // -----------------------------------------
         case 'A': // -A             warn about nonANSI usage; 2nd -A warns more
         case 'b': // -b             emit expression-level profiling code; see bprint(1)
-        case 'g': // -Bdir/         use the compiler named `dir/rcc'
-        case 'G': // -g             produce symbol table information for debuggers
+        case 'g': // -g             produce symbol table information for debuggers
+        case 'G': // -G             append("-g3", clist); append("-N", llist[L_ARGS]);
         case 'n': // -n             emit code to check for dereferencing zero pointers
         case 'O': // -O             is ignored
         case 'P': // -P             print ANSI-style declarations for globals
