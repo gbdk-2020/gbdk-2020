@@ -5,10 +5,22 @@ This section contains information that may be useful to know or important when u
 # GBDK-2020 versions
 
 ## Porting to GBDK-2020 4.4.0
+  - GBDK now requires ~SDCC 4.5.0 or higher with GBDK-2020 patches for the z80 and NES
+  - Build Host:
+    - Changed from building on MacOS 11 to MacOS 13
+  - NES
+    - LCD bkg_scroll_y is now relative to the current scanline
+      - This change creates higher compatibility with the Game Boy SCY_REG and makes it easier to re-use Game Boy LCD handlers
+      - This behaves differently to 4.3.0 and affects LCD handlers that change the y scrolling coordinate mid-frame
+    - Added @ref utility_makenes "makenes" utility for finalizing NES rom headers (called automatically by @ref lcc)
+  - SMS/GG
+    - Changed from unsigned (`uint16_t`) to signed int16 (`int16_t`) for coordinates with the family of `...metasprite...()` functions
+  - SDCC
+    - Changed to using the `-N` flag with sdas since the the `-n` flag was removed
+  - Changed @ref lcc to use `--no-optsdcc-in-asm` for building user programs and the GBDK library
+      - This removes some "O line" meta-data from object files to avoid false-positive linker errors
+      - It is a workaround for SDCC now appending the calling convention to the "O Line" in the object files by default
 
-  - NES LCD bkg_scroll_y is now relative to the current scanline
-    - This change creates higher compatibility with GB's SCY_REG and makes it easier to re-use GB LCD handlers.
-    - This behaves differently to 4.3.0 and affects LCD handlers that change the y scrolling coordinate mid-frame.
 
 ## Porting to GBDK-2020 4.3.0
   - GBDK now requires ~SDCC 4.4.0 or higher with GBDK-2020 patches for the z80 and NES
