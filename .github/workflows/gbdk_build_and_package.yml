@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-20.04
+          - os: ubuntu-22.04
             name: Linux-x64
           - os: ubuntu-22.04-arm
             name: Linux-arm64
