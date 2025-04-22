@@ -527,6 +527,22 @@ If you are porting a GB game to gbdk-nes where the music handler is called in th
 
 Keep in mind that you should NOT write any graphics registers in the TIM handler. This will likely not do what you want, and it may result in bad graphical glitches.
 
+@anchor docs_nes_tim_overlay
+@note
+Because the TIM handler will be called from the vblank NMI, this function and all functions it calls need to use the `#pragma nooverlay` command. This makes memory for local variables and function parameters unique to this function instead of being shared with other functions' allocations in the reusable overlay segment.
+
+    #pragma save
+    #pragma nooverlay
+    void tim_isr(void)
+    {
+        // Do TIM isr things
+    }
+    #pragma restore
+
+Without this pragma the calls in your TIM handler could end up overwriting local variables or function parameters that the main program was using when it was interrupted.
+You should also avoid calls to the standard library, and even multiplications and division / modulo operations in your TIM handlers. These more expensive math operations in SDCC are currently implemented with functions that use the overlay segment and would cause similar conflicts.
+For more details on overlay segment and interrupts, please see section 3.7 in the SDCC manual.
+
 ### Tile Data and Tile Map loading
 
 #### Tile and Map Data in 2bpp Game Boy Format

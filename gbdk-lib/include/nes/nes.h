@@ -282,6 +282,9 @@ void add_LCD(int_handler h) NO_OVERLAY_LOCALS;
     It is therefore currently limited to 60Hz / 50Hz 
     (depending on system).
 
+    Make sure to wrap TIM interrupt handlers with a nooverlay pragma. 
+    For more details see @ref docs_nes_tim_overlay
+
     @see add_VBL
     @see set_interrupts() with TIM_IFLAG, ISR_VECTOR()
 */

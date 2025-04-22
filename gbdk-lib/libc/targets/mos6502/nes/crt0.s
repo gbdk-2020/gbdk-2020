@@ -294,7 +294,29 @@ __crt0_NMI_skip:
     ; Call the timer interrupt for non-graphics events if timer register overflow, and reload TIMA_REG
     inc _TIMA_REG
     bne 3$
+    ; Skip if disabled (check for RTS)
+    lda .jmp_to_TIM_isr
+    cmp #0x60
+    beq 6$
+    ; Save REGTEMP to stack
+    ldx #7
+4$:
+    lda *REGTEMP,x
+    pha
+    dex
+    bpl 4$
+    ; Call handler
     jsr .jmp_to_TIM_isr
+    ; Restore REGTEMP from stack
+    ldx #0
+5$:
+    pla
+    sta *REGTEMP,x
+    inx
+    cpx #8
+    bne 5$
+    ;
+6$:
     lda _TMA_REG
     sta _TIMA_REG
 3$:
