@@ -714,6 +714,9 @@ __crt0_RESET_bankSwitchValue:
     lda #(PPUCTRL_NMI | PPUCTRL_SPR_CHR)
     sta *_shadow_PPUCTRL
     sta PPUCTRL
+    ; Prepare VBL buffer data (need to start at scanline -1 = SCREENHEIGHT-1 for correct Y scroll)
+    ldx #.SCREENHEIGHT-1
+    jsr .write_shadow_registers_to_buffer
     ; Call main
     jsr _main
     ; main finished - loop forever
