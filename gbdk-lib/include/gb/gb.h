@@ -295,6 +295,7 @@ void add_LCD(int_handler h);
     Up to 4 handlers may be added, with the last added
     being called last.
     
+    @note
     For NES make sure to wrap TIM interrupt handlers 
     with a nooverlay pragma. 
     For more details see @ref docs_nes_tim_overlay

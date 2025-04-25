@@ -7,7 +7,8 @@ This section contains information that may be useful to know or important when u
 ## Porting to GBDK-2020 4.4.0
   - GBDK now requires ~SDCC 4.5.0 or higher with GBDK-2020 patches for the z80 and NES
   - Build Host:
-    - Changed from building on MacOS 11 to MacOS 13
+    - Changed from building on MacOS 11 to MacOS 13 for 64 bit Intel
+    - Changed from building on Ubuntu Linux 20.04 to 22.04 for 64 bit Intel
   - NES
     - LCD bkg_scroll_y is now relative to the current scanline
       - This change creates higher compatibility with the Game Boy SCY_REG and makes it easier to re-use Game Boy LCD handlers
