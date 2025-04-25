@@ -13,7 +13,8 @@ https://github.com/gbdk-2020/gbdk-2020/releases
     - See the [github workflow](https://github.com/gbdk-2020/gbdk-2020-sdcc/tree/main/.github/workflows) for details.
   - Building GBDK
     - Added native GBDK build for ARM 64 Linux
-    - Changed from building on MacOS 11 to MacOS 13 (may reduce compatibility with older OS versions)
+    - Changed from building on MacOS 11 to MacOS 13 for 64 bit Intel
+    - Changed from building on Ubuntu Linux 20.04 to 22.04 for 64 bit Intel
   - SDCC
     - Changed to using the `-N` flag with sdas since the the `-n` flag was removed
   - Library
@@ -29,7 +30,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
       - Improved LCD ISR support for less graphics glitches
       - Improved palette function code size (smaller)
       - Changed LCD bkg_scroll_y to be relative to the current scanline for higher compatibility with Game Boy SCY_REG and LCD handlers
-        - NES: Align coordinates and scanline counting in LCD ISR implementation with GB, add SCX / SCY / LYC defines
+        - Align coordinates and scanline counting in LCD ISR implementation with GB, add SCX / SCY / LYC defines
       - Fixed bug with @ref set_bkg_1bpp_data() not working in buffered mode
       - Fixed bug with multiple column attribute updates
       - Fixed bugs with non-multiple-of-2 (/4) map width in @ref set_bkg_submap_attributes()

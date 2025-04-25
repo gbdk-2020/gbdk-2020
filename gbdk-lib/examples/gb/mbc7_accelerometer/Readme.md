@@ -23,7 +23,7 @@ cartridge as part of the process.
 
 Some example ranges for the sensor data:
 
-``
+```
 Slow rotation, measuring mostly the pull
 earth's gravity when the sensor not flat.
 The range is for a full rotation of 90 degrees from flat
