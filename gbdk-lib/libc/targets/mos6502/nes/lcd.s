@@ -61,9 +61,9 @@ _remove_VBL::
 .remove_common:
     ; Replace handler address with dummy address pointing to RTS instruction
     jsr .irq_call_disable
-    lda .rts_instruction
+    lda #<.rts_instruction
     sta .jmp_to_xyz_isr+1,y
-    lda .rts_instruction+1
+    lda #>.rts_instruction
     sta .jmp_to_xyz_isr+2,y
     jsr .irq_call_restore
 .return_instruction:
