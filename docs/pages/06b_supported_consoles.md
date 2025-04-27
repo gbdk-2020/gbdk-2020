@@ -442,12 +442,6 @@ Direct mode also affects how (fake) interrupt handlers are processed. As long as
 
 The TIM handler will still be executed as normal.
 
-#### Caveat: Make sure the transfer buffer is emptied before switching to direct mode
-
-Because the switch to direct mode is instant and doesn't wait for the next invocation of the vblank, it is possible to create situations where there is still remaining data in the transfer buffer that would only get written once the system is switched back to buffered mode.
-
-To avoid this situation, make sure to always "drain" the buffer by doing a call to vsync when you expect your code to finish.
-
 #### Caveat: Only update the PPU palette during buffered mode
 
 The oddity that PPU palette values are accessed through the same mechanism as other PPU memory bytes comes with the side effect that the vblank NMI handler will only write the palette values in buffered mode.

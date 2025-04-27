@@ -72,7 +72,7 @@ _attribute_row_dirty::                  .ds 1
 _attribute_column_dirty::               .ds 1
 __oam_valid_display_on::                .ds 1
 __SYSTEM::                              .ds 1
-__hblank_writes_index:                  .ds 1
+__hblank_writes_index::                 .ds 1
 
 .define __crt0_NMITEMP "___SDCC_m6502_ret4"
 
@@ -87,12 +87,12 @@ _TMA_REG::                              .ds 1
 .area _BSS
 __crt0_paletteShadow::                  .ds 25
 .mode::                                 .ds 1
-__lcd_isr_PPUCTRL:                      .ds (2*.MAX_DEFERRED_ISR_CALLS)
-__lcd_isr_PPUMASK:                      .ds (2*.MAX_DEFERRED_ISR_CALLS)
-__lcd_isr_scroll_x:                     .ds (2*.MAX_DEFERRED_ISR_CALLS)
-__lcd_isr_scroll_y:                     .ds (2*.MAX_DEFERRED_ISR_CALLS)
-__lcd_isr_delay_num_scanlines:          .ds (2*.MAX_DEFERRED_ISR_CALLS)
-__lcd_isr_ppuaddr_lo:                   .ds (2*.MAX_DEFERRED_ISR_CALLS)
+__lcd_isr_PPUCTRL::                     .ds (2*.MAX_DEFERRED_ISR_CALLS)
+__lcd_isr_PPUMASK::                     .ds (2*.MAX_DEFERRED_ISR_CALLS)
+__lcd_isr_scroll_x::                    .ds (2*.MAX_DEFERRED_ISR_CALLS)
+__lcd_isr_scroll_y::                    .ds (2*.MAX_DEFERRED_ISR_CALLS)
+__lcd_isr_delay_num_scanlines::         .ds (2*.MAX_DEFERRED_ISR_CALLS)
+__lcd_isr_ppuaddr_lo::                  .ds (2*.MAX_DEFERRED_ISR_CALLS)
 _TAC_REG::                              .ds 1 ; Unused, for GB compatibility
 
 .area _CODE
@@ -234,9 +234,9 @@ __crt0_NMI:
     pha
     
     ; Skip graphics updates if blanked, to allow main code to do VRAM address / scroll updates
-    lda *_shadow_PPUMASK
-    and #(PPUMASK_SHOW_BG | PPUMASK_SHOW_SPR)
-    beq __crt0_NMI_skip
+    nop
+    bit *__oam_valid_display_on
+    bvs __crt0_NMI_skip
     ; Do Sprite DMA or delay equivalent cycles
     jsr __crt0_doSpriteDMA
     ; Update VRAM
@@ -326,9 +326,9 @@ __crt0_NMI_skip:
     clc
     adc #1
     sta *_sys_time
-    lda *(_sys_time+1)
-    adc #0
-    sta *(_sys_time+1)
+    bcc 9$
+    inc *(_sys_time+1)
+9$:
 
     pla
     tay
@@ -462,119 +462,19 @@ __crt0_clearVRAM_loop:
 .wait_vbl_done::
 _wait_vbl_done::
 _vsync::
-
-    .define .lcd_scanline_previous "REGTEMP"
-    .define .lcd_buf_index "REGTEMP+1"
-    .define .lcd_buf_end "REGTEMP+2"
-
     jsr _flush_shadow_attributes
-    
-    ; Save shadow registers that VBL or LCD isr could change
-    lda *_shadow_PPUMASK
-    pha
-    lda *_shadow_PPUCTRL
-    pha
-    lda *_bkg_scroll_x
-    pha
-    lda *_bkg_scroll_y
-    pha
-    
-    ; Allow VBL isr to modify shadow registers if present
-    jsr .jmp_to_VBL_isr
 
-    ; Set initial scanline value
-    lda #0xFF
-    sta *.lcd_scanline_previous
-
-    lda *__hblank_writes_index
-    clc
-    adc #.MAX_DEFERRED_ISR_CALLS
-    cmp #(2*.MAX_DEFERRED_ISR_CALLS)
-    bcc 20$
-    lda #0
-20$:
-    sta *.lcd_buf_index
-    clc
-    adc #.MAX_DEFERRED_ISR_CALLS
-    sta *.lcd_buf_end
-
-    ; Write shadow registers as first LCD buffer entry (actually VBL)
-    ldy *.lcd_buf_index
-    ldx #.SCREENHEIGHT-1
-    jsr .write_shadow_registers_to_buffer
-    iny
-    sty *.lcd_buf_index
-
-    ; Ensure second entry (actual LCD) starts off with zero (end-of-list)
-    lda #0
-    sta __lcd_isr_delay_num_scanlines,y
-    ; Skip to end if LCD isr functionality is disabled (0x60 = RTS means LCD isr disabled)
-    lda .jmp_to_LCD_isr
-    cmp #0x60
-    beq _wait_vbl_done_waitForNextFrame
-
-    lda *.lcd_scanline_previous
-
-    jmp 2$
+    ; if display is on, run deferred ISR handlers
+    bit *__oam_valid_display_on
+    bvs 1$
+    jsr .deferred_isr_run
 1$:
-    pla
-    sta *.lcd_scanline_previous
-2$:
-    ; We are done if next scanline is <= the previous one
-    cmp #0xFF
-    beq 3$
-    cmp *__lcd_scanline
-    bcs _wait_vbl_done_waitForNextFrame
-3$:
-    ;
-    ldy *.lcd_buf_index
-    lda *__lcd_scanline
-    ; We are done if next LCD scanline >= SCREENHEIGHT
-    cmp #.SCREENHEIGHT
-    bcs _wait_vbl_done_waitForNextFrame
-    pha
-    sec
-    sbc *.lcd_scanline_previous
-    sta __lcd_isr_delay_num_scanlines,y
-    ; Call LCD isr
-    jsr .jmp_to_LCD_isr
-    ; Grab previous LCD scanline value from stack and store in X
-    pla
-    tax
-    pha
-    jsr .write_shadow_registers_to_buffer
-       
-    iny
-    sty *.lcd_buf_index
-    cpy *.lcd_buf_end
-    bne 1$
-    
-    ; Clear last-scanline-value from stack
-    pla
-
-_wait_vbl_done_waitForNextFrame:
-    ; Flip __hblank_writes_index for NMI handler
-    ldy #0
-    lda *__hblank_writes_index
-    bne 21$
-    ldy #.MAX_DEFERRED_ISR_CALLS
-21$:
-    sty *__hblank_writes_index
-
     ; Enable OAM DMA in next NMI
     lda *__oam_valid_display_on
     ora #OAM_VALID_MASK
     sta *__oam_valid_display_on
-    ; Restore shadow registers
-    pla
-    sta *_bkg_scroll_y
-    pla
-    sta *_bkg_scroll_x
-    pla
-    sta *_shadow_PPUCTRL
-    pla
-    sta *_shadow_PPUMASK
 
+_wait_vbl_done_waitForNextFrame:
     lda *_sys_time
 _wait_vbl_done_waitForNextFrame_loop:
     cmp *_sys_time
@@ -587,65 +487,39 @@ _wait_vbl_done_waitForNextFrame_loop:
 
     rts
 
-;
-; Writes shadow registers to buffer
-;
-; Input:
-;  X: Scanline number
-;
-.write_shadow_registers_to_buffer:
-    ; Copy shadow registers
-    ldy *.lcd_buf_index
-    lda *_shadow_PPUMASK
-    sta __lcd_isr_PPUMASK,y
-    lda *_shadow_PPUCTRL
-    sta __lcd_isr_PPUCTRL,y
-    lda *_bkg_scroll_x
-    sta __lcd_isr_scroll_x,y
-    lsr
-    lsr
-    lsr
-    sta __lcd_isr_ppuaddr_lo,y
-    ; Add _bkg_scroll_y+1 to _lcd_scanline to generate final Y-scroll, with 239->0 wrap-around
-    txa
-    sec
-    adc *_bkg_scroll_y
-    bcc 1$
-    sbc #.SCREENHEIGHT
-1$:
-    cmp #.SCREENHEIGHT
-    bcc 2$
-    sbc #.SCREENHEIGHT
-2$:
-    sta __lcd_isr_scroll_y,y
-    and #0xF8
-    asl
-    asl
-    ora __lcd_isr_ppuaddr_lo,y
-    sta __lcd_isr_ppuaddr_lo,y
-    rts
-
 .display_off::
 _display_off::
+    ; Skip entirely if display_off is called repeatedly
+    bit *__oam_valid_display_on
+    bvs 1$
+    ; Reset deferred ISR buffers
+    jsr .deferred_isr_reset
+    ; Clear BG and SPR in first __lcd_isr_PPUMASK, to cause 
+    ; NMI code to clear PPUMASK *after* 1 normal execution
     lda *_shadow_PPUMASK
-    and #~(PPUMASK_SHOW_BG | PPUMASK_SHOW_SPR)
-    sta *_shadow_PPUMASK
-    sta PPUMASK
+    and #~(PPUMASK_SHOW_BG|PPUMASK_SHOW_SPR)
+    sta __lcd_isr_PPUMASK
+    ; Wait for 1 execution of NMI to drain vram transfer buffer
+    jsr _wait_vbl_done_waitForNextFrame
     ; Set forced blanking bit
     lda *__oam_valid_display_on
     ora #DISPLAY_OFF_MASK
     sta *__oam_valid_display_on
+1$:
     rts
 
 .display_on::
 _display_on::
-    lda *_shadow_PPUMASK
-    ora #(PPUMASK_SHOW_BG | PPUMASK_SHOW_SPR)
-    sta *_shadow_PPUMASK
-    ; Clear forced blanking bit
+    ; Skip entirely if display_on is called repeatedly
+    bit *__oam_valid_display_on
+    bvc 1$
+    ; Reset deferred ISR buffers
+    jsr .deferred_isr_reset_and_init
+    ; Set DISPLAY_ON bits
     lda *__oam_valid_display_on
     and #~DISPLAY_OFF_MASK
     sta *__oam_valid_display_on
+1$:
     rts
 
 __crt0_RESET:
@@ -714,9 +588,7 @@ __crt0_RESET_bankSwitchValue:
     lda #(PPUCTRL_NMI | PPUCTRL_SPR_CHR)
     sta *_shadow_PPUCTRL
     sta PPUCTRL
-    ; Prepare VBL buffer data (need to start at scanline -1 = SCREENHEIGHT-1 for correct Y scroll)
-    ldx #.SCREENHEIGHT-1
-    jsr .write_shadow_registers_to_buffer
+    jsr .deferred_isr_reset
     ; Call main
     jsr _main
     ; main finished - loop forever

@@ -141,6 +141,9 @@
 
         ;; Symbols defined at link time
         .globl _shadow_OAM, __vram_transfer_buffer
+        .globl __lcd_isr_PPUCTRL, __lcd_isr_PPUMASK
+        .globl __lcd_isr_scroll_x, __lcd_isr_scroll_y, __lcd_isr_ppuaddr_lo
+        .globl __lcd_isr_delay_num_scanlines
 
         ;; Main user routine
         .globl  _main
