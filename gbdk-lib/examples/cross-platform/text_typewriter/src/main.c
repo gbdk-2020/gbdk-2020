@@ -91,5 +91,5 @@ void main(void)
     fill_bkg_rect(0,0,DEVICE_SCREEN_WIDTH,DEVICE_SCREEN_HEIGHT,0);
 
     // By passing 3 as the final argument, the game boy will wait 3 frames between each character
-    DrawText("his is a way to draw text on the screen in GBDK. The code will automatically jump to a new line, when it reaches the end of the row.",THREE_FRAMES);
+    DrawText("This is a way to draw text on the screen in GBDK. The code will automatically jump to a new line, when it reaches the end of the row.",THREE_FRAMES);
 }
