@@ -26,7 +26,9 @@ gbdk-4.4.0
         - Added -area option to specify linker area name (such as -area LIT for SMS/GG)
         - Added support for 512 tiles via alternate tile bank on GBC
         - Fixed Palette Generation broken when using -source_tileset option
-      - bankpack: Added support for MBC7
+      - bankpack:
+        - Added support for MBC7
+        - Fixed out of memory bug with large number of object files      
       - romusage
         - Added Set hex bytes treated as Empty in ROM files (.gb/etc) -b:HEXVAL:[...]
         - Added option to Hide memory regions (ex hide all RAM: -nMEM:RAM)
