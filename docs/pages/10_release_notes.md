@@ -6,7 +6,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
 
 # GBDK-2020 Release Notes
 
-## GBDK-2020 4.3.0
+## GBDK-2020 4.4.0
   2025/...
   - Includes SDCC version ~4.5.0 (15267) with GBDK-2020 patches for Z80 and NES
     - [Patched SDCC Builds](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases) with support for Sega GG/SMS and the Nintendo NES are used.
@@ -53,6 +53,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
       - Fixed Palette Generation broken when using `-source_tileset` option
     - @ref bankpack
       - Added support for MBC7
+      - Fixed out of memory bug with large number of object files
     - @ref utility_romusage "romusage"
       - Added Set hex bytes treated as Empty in ROM files (.gb/etc) `-b:HEXVAL:[...]`
       - Added option to Hide memory regions (ex hide all RAM: `-nMEM:RAM`)
