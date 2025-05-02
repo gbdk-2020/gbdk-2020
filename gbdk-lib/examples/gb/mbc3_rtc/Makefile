@@ -52,6 +52,10 @@ DEPS = $(OBJS:%.o=%.d)
 # Builds all targets sequentially
 all: $(TARGETS)
 
+compile.bat: Makefile
+	@echo "REM Automatically generated from Makefile" > compile.bat
+	@make -sn | sed y/\\//\\\\/ | sed s/mkdir\ -p\/mkdir\/ | grep -v make >> compile.bat
+
 test:
 	echo $(CSOURCES)
 
