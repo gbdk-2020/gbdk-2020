@@ -83,6 +83,7 @@ static int autobankflag;	/* -K specified */
 int verbose;		/* incremented for each -v */
 static List bankpack_flags;	/* bankpack flags */
 static List ihxchecklist;	/* ihxcheck flags */
+static List postproclist;	/* postproc flags */
 static List mkbinlist;		/* loader files, flags */
 
 // Index entries for llist[]
@@ -318,9 +319,10 @@ int main(int argc, char *argv[]) {
 				if (callsys(av))
 					errcnt++;
 
-				// post-process step (such as makecom), if applicable
+				// Post-process step (such as makecom, makenes), if applicable
+				// This won't apply if the targets .postproc template entry is empty ("")
 				if ((strlen(postproc) != 0) && (errcnt == 0)) {
-					compose(postproc, append(binFile, 0), append(outfile, 0), 0);
+					compose(postproc, postproclist, append(binFile, 0), append(outfile, 0));
 					if (callsys(av))
 						errcnt++;
 				}
@@ -799,7 +801,8 @@ static void help(void) {
 "-Uname         undefine the preprocessor symbol `name'\n",
 "-v             show commands as they are executed; 2nd -v suppresses execution\n",
 "-Woarg         specify system-specific `arg'\n",
-"-W[pfablim]arg pass `arg' to the preprocessor, compiler, assembler, bankpack, linker, ihxcheck, or makebin\n",
+"-W[pfablimnc]arg pass `arg' to the (p)preprocessor, (f)compiler, (a)assembler, (b)bankpack,\n"
+"                                   (l)linker, (i)ihxcheck, (m)makebin, (n)makenes, (c)makecom\n",
 	0 };
 	int i;
 	char *s;
@@ -904,6 +907,12 @@ static void opt(char *arg) {
 				return;
 			case 'i': /* ihxcheck arg list */
 				ihxchecklist = append(&arg[3], ihxchecklist);
+				return;
+			case 'n': /* makenes arg list */
+				postproclist = append(&arg[3], postproclist);
+				return;
+			case 'c': /* makecom arg list */
+				postproclist = append(&arg[3], postproclist);
 				return;
 			case 'b': /* auto bankpack_flags arg list */
 				bankpack_flags = append(&arg[3], bankpack_flags);
