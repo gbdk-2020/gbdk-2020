@@ -53,7 +53,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
       - Fixed Palette Generation broken when using `-source_tileset` option
     - @ref bankpack
       - Added support for MBC7
-      - Fixed out of memory bug with large number of object files
+      - Fixed bugs with large number of object files
     - @ref utility_romusage "romusage"
       - Added Set hex bytes treated as Empty in ROM files (.gb/etc) `-b:HEXVAL:[...]`
       - Added option to Hide memory regions (ex hide all RAM: `-nMEM:RAM`)

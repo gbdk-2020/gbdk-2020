@@ -24,7 +24,7 @@ char g_out_ext[MAX_FILE_STR];
 char g_out_path[MAX_FILE_STR];
 char g_out_linkerfile_name[MAX_FILE_STR] = {'\0'};
 
-static unsigned int get_obj_file_format(char * str_filename);
+static unsigned int get_obj_file_format(FILE * obj_file, const char * str_filename);
 
 void files_set_out_ext(char * ext_str) {
     if (snprintf(g_out_ext, sizeof(g_out_ext), "%s", ext_str) > sizeof(g_out_ext))
@@ -199,13 +199,14 @@ static char * file_read_to_buffer(char * filename) {
 
 // Scan the file looking for lines that start with XL3 or XL4
 // which indicate object file version type
-static unsigned int get_obj_file_format(char * str_filename) {
+static unsigned int get_obj_file_format(FILE * obj_file, const char * str_filename) {
 
     char strline_in[OBJ_NAME_MAX_STR_LEN] = "";
-    FILE * obj_file = fopen(str_filename, "r");
+
     if (obj_file) {
 
-        // Read one line at a time into \0 terminated string
+        // Rewind file and read one line at a time into \0 terminated string
+        rewind(obj_file);
         while ( fgets(strline_in, sizeof(strline_in), obj_file) != NULL) {
 
             // Check if a version version indicator was found
@@ -216,9 +217,8 @@ static unsigned int get_obj_file_format(char * str_filename) {
                 return (OBJ_FILE_XL4_32BIT_ADDR);
             }
         }
-        fclose(obj_file);
     } else {
-        printf("BankPack: ERROR: failed to open file %s\n", str_filename);
+        printf("BankPack: ERROR: invalid file pointer for file: \"%s\"\n", str_filename);
         exit(EXIT_FAILURE);
     }
 
@@ -237,14 +237,14 @@ void files_extract(void) {
     // Process stored file names
     for (c = 0; c < filelist.count; c++) {
 
-        files[c].obj_file_format = get_obj_file_format(files[c].name_in);
-
         // Open each object file and try to process all the lines
         obj_file = fopen(files[c].name_in, "r");
         if (obj_file) {
+            files[c].obj_file_format = get_obj_file_format(obj_file, files[c].name_in);
 
-
-            // Read one line at a time into \0 terminated string
+            // Rewind file (due to format scan above)
+            // Then read one line at a time into \0 terminated string
+            rewind(obj_file);
             while ( fgets(strline_in, sizeof(strline_in), obj_file) != NULL) {
                 if (strline_in[0] == 'A')
                     areas_add(strline_in, c);
