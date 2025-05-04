@@ -51,6 +51,21 @@ void print_counter(void)
 
 void main(void)
 {
+    uint8_t double_speed_mode = 0;
+#if defined(NINTENDO)
+    set_default_palette();
+    if (_cpu == CGB_TYPE) {
+        // Use double-speed mode for GBC
+        cpu_fast();
+        double_speed_mode = 1;
+    }
+#endif
+
+#if defined(NINTENDO_NES)
+    // NES TIM emulation is based on GBC's double-speed mode
+    double_speed_mode = 1;
+#endif
+
     // Ensure mutual exclusion
     CRITICAL {
         vbl_cnt = tim_cnt = 0;
@@ -58,12 +73,12 @@ void main(void)
         add_TIM(tim);
     }
 
-#if defined(NINTENDO)
-    // Set TMA to divide clock by 0x100
-    TMA_REG = 0x00U;
-    // Set clock to 4096 Hertz 
+#if defined(NINTENDO) || defined(NINTENDO_NES)
+    // Set TMA to divide clock by 0x80 (0x100 for GBC)
+    TMA_REG = double_speed_mode ? 0x00U : 0x80;
+    // Set clock to 4096 Hertz (8192 Hertz for GBC)
     TAC_REG = 0x04U;
-#elif defined(SEGA) || defined(NINTENDO_NES)
+#elif defined(SEGA)
     TMA_REG = 0xFCU;
 #endif
 
@@ -71,9 +86,10 @@ void main(void)
     set_interrupts(VBL_IFLAG | TIM_IFLAG);
 
     for(;;) {
+        uint8_t num_frames = (get_system() == SYSTEM_50HZ) ? 50 : 60;
         print_counter();
-        // Loop for 60 frames (1 second)
-        for(int i = 0; i < 60; i++) {
+        // Loop for 1 second
+        for(int i = 0; i < num_frames; i++) {
             vsync();
         }
     }

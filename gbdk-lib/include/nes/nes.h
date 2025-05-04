@@ -33,6 +33,9 @@ extern const uint8_t _SYSTEM;
 #define SYSTEM_60HZ    0x00
 #define SYSTEM_50HZ    0x01
 
+#define TIMER_VBLANK_PARITY_MODE_SYSTEM_60HZ    0x78
+#define TIMER_VBLANK_PARITY_MODE_SYSTEM_50HZ    0x5D
+
 #define RGB(r,g,b)        RGB_TO_NES(((r) | ((g) << 2) | ((b) << 4)))
 #define RGB8(r,g,b)       RGB_TO_NES((((r) >> 6) | (((g) >> 6) << 2) | (((b) >> 6) << 4)))
 #define RGBHTML(RGB24bit) RGB_TO_NES((((RGB24bit) >> 22) | ((((RGB24bit) & 0xFFFF) >> 14) << 2) | ((((RGB24bit) & 0xFF) >> 6) << 4)))
