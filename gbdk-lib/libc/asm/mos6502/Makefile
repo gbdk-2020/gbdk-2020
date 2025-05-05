@@ -14,7 +14,7 @@ ASSRC = __sdcc_indirect_jsr.s _memcpy.s _strcpy.s _strcmp.s _memset.s \
 	_muluchar.s _mulschar.s \
 	bcd.s \
 	_setjmp.s \
-	_dptr.s _ret01.s _ret23.s _ret4567.s _temp.s
+	_temp.s
 
 CSRC =	_memmove.c _memset.c abs.c \
 	_rrulonglong.c _rrslonglong.c \
