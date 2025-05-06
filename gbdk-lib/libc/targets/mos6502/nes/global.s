@@ -113,6 +113,10 @@
         ;; Table of routines for modes
         .MODE_TABLE     = 0xFFE0
 
+        ;; Values for vblank parity mode when using timer emulation
+        .TIMER_VBLANK_PARITY_MODE_SYSTEM_60HZ = 0x78
+        .TIMER_VBLANK_PARITY_MODE_SYSTEM_50HZ = 0x5D
+
         ;; C related
         ;; Overheap of a banked call.  Used for parameters
         ;;  = ret + real ret + bank

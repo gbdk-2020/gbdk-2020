@@ -515,11 +515,26 @@ For graphics updates this is the behaviour you usually want. But for non-graphic
 
 The timer overflow handler (TIM) provides an alternative method that is guaranteed to be stutter-free. The TIM handler is always called if timer overflow occurs at the end of the NMI handler in both buffered and direct mode. 
 
-The TMA_REG hardware register is emulated via a RAM variable with the same name. TMA_REG is set to 0xFF at reset, corresponding to 60Hz for a Famicom / US NES, and 50Hz for a PAL NES / PAL Famiclone. Changing TMA_REG allows setting a slower frequency for this emulated timer overflow interrupt if your GB game uses the timer overflow hardware for regular events like music that are slower than 60Hz (50Hz for PAL).
+The TMA_REG and TAC_REG hardware registers are emulated via RAM variable with the same names. The timer emulation matches the values of these registers for a GBC running in double-speed mode. But there will be a small variation in exact frequency compared to real GBC hardware, and the nature of the timer emulation via vblank means the execution is not as evenly paced as on GBC hardware.
+
+The TIMA_REG should not be written or read in gbdk-nes, as the emulation does not handle its contents exactly as on GB.
+
+At reset, TAC_REG is set to clock rate 00 and timer enabled, and TMA_REG is set to either of two values, depending on the detected system:
+
+* TIMER_VBLANK_PARITY_MODE_SYSTEM_60HZ for a Famicom / US NES
+* TIMER_VBLANK_PARITY_MODE_SYSTEM_50Hz for a PAL NES / PAL Famiclone
+
+These default values ensure that the TIM emulation will always call the TIM handler exactly once for every vblank, resulting in 60Hz vs 50Hz depending on the system.
+
+Changing TMA_REG allows setting a slower or faster frequency for this emulated timer overflow interrupt if your GB game uses the timer overflow hardware for regular events like music that are slower or faster than 60Hz (50Hz for PAL).
 
 If you are porting a GB game to gbdk-nes where the music handler is called in the VBL or LCD handler then it is advisable to move this call to the timer handler, in order to achieve reliable music playback at 60Hz (50Hz for PAL).
 
 Keep in mind that you should NOT write any graphics registers in the TIM handler. This will likely not do what you want, and it may result in bad graphical glitches.
+
+Tweaking the playback rate by setting TMA_REG / TAC_REG is a decent way to achieve the same average playback rate as on a GB game that uses a different rate than the vblank tick rate and allow similar music speed for different regions. 
+
+However, it is recommended to use the default vblank parity mode whenever remaking the music specifically for 60Hz / 50Hz is an option, as keeping the music tick rate steady will give more pleasant sound playback for rates that are already close to native vblank rate of 60Hz / 50Hz.
 
 @anchor docs_nes_tim_overlay
 @note

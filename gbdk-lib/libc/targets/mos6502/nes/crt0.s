@@ -76,14 +76,6 @@ __hblank_writes_index::                 .ds 1
 
 .define __crt0_NMITEMP "___SDCC_m6502_ret4"
 
-.area _DATA
-_TIMA_REG::                             .ds 1
-_TMA_REG::                              .ds 1
-
-.area _XINIT
-.db 0xFF
-.db 0xFF
-
 .area _BSS
 __crt0_paletteShadow::                  .ds 25
 .mode::                                 .ds 1
@@ -93,7 +85,6 @@ __lcd_isr_scroll_x::                    .ds (2*.MAX_DEFERRED_ISR_CALLS)
 __lcd_isr_scroll_y::                    .ds (2*.MAX_DEFERRED_ISR_CALLS)
 __lcd_isr_delay_num_scanlines::         .ds (2*.MAX_DEFERRED_ISR_CALLS)
 __lcd_isr_ppuaddr_lo::                  .ds (2*.MAX_DEFERRED_ISR_CALLS)
-_TAC_REG::                              .ds 1 ; Unused, for GB compatibility
 
 .area _CODE
 
@@ -291,35 +282,8 @@ __crt0_NMI:
     jsr .do_hblank_writes
 __crt0_NMI_skip:
 
-    ; Call the timer interrupt for non-graphics events if timer register overflow, and reload TIMA_REG
-    inc _TIMA_REG
-    bne 3$
-    ; Skip if disabled (check for RTS)
-    lda .jmp_to_TIM_isr
-    cmp #0x60
-    beq 6$
-    ; Save REGTEMP to stack
-    ldx #7
-4$:
-    lda *REGTEMP,x
-    pha
-    dex
-    bpl 4$
-    ; Call handler
-    jsr .jmp_to_TIM_isr
-    ; Restore REGTEMP from stack
-    ldx #0
-5$:
-    pla
-    sta *REGTEMP,x
-    inx
-    cpx #8
-    bne 5$
-    ;
-6$:
-    lda _TMA_REG
-    sta _TIMA_REG
-3$:
+
+    jsr .tim_emulation
 
     ; Update frame counter
     lda *_sys_time
@@ -569,6 +533,13 @@ __crt0_RESET_bankSwitchValue:
     lda #<s__DATA
     ldx #>s__DATA
     jsr ___memcpy
+
+    ; For a PAL / Dendy system, override _TMA_REG to be correctly initialized for a 50Hz vblank rate
+    lda *__SYSTEM
+    beq 1$
+    lda #.TIMER_VBLANK_PARITY_MODE_SYSTEM_50HZ
+    sta _TMA_REG
+1$:
 
     ; Set bank to first
     lda #0x00
