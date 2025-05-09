@@ -94,6 +94,7 @@ int PNG2AssetData::Export() {
 
 bool FindTile(const Tile& t, size_t& idx, unsigned char& props, vector< Tile > & tileset, PNG2AssetData* assetData)
 {
+
     vector< Tile >::iterator it;
     it = find(tileset.begin(), tileset.end(), t);
     if(it != tileset.end())

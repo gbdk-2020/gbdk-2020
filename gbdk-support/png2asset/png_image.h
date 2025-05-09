@@ -46,53 +46,62 @@ private:
 public:
     unsigned char GetGBColor(int x, int y)
     {
-        return data[w * y + x] % colors_per_pal;
+        return data[w * y + x];
     }
-
 
     // This needs separate tile_w and tile_h params since
     // MSX tile extraction uses it to pull out the 4 sub-tiles
-    bool ExtractGBTile(int x, int y, int extract_tile_w, int extract_tile_h, Tile& tile, int buffer_offset, int bpp)
+    bool ExtractGBTile(int x, int y, int extract_tile_w, int extract_tile_h, Tile& tile, int buffer_offset, int bpp, int paletteIndex)
     {
         // Set the palette to 0 when pals are not stored in tiles to allow tiles to be equal even when their palettes are different
-        tile.pal = zero_palette ? 0 : data[w * y + x] >> bpp;
+         if(paletteIndex==-1)tile.pal = zero_palette ? 0 : data[w * y + x] >> bpp;
+        else tile.pal = paletteIndex;
 
         bool all_zero = true;
         for(int j = 0; j < extract_tile_h; ++j)
         {
-            for(int i = 0; i < extract_tile_w; ++i)
-            {
+            for(int i = 0; i < extract_tile_w; ++i){
+
                 unsigned char color_idx = GetGBColor(x + i, y + j);
-                tile.data[(j * extract_tile_w) + i + buffer_offset] = color_idx;
+                unsigned char pal = color_idx >> bpp;
+
+                // make pixels in different palettes zero (invisible for sprites)
+                if(pal != tile.pal)color_idx = 0;
+
+                tile.data[(j * extract_tile_w) + i + buffer_offset] = color_idx % colors_per_pal;
                 all_zero = all_zero && (color_idx == 0);
             }
         }
         return !all_zero;
     }
 
-    bool ExtractTile_MSX16x16(int x, int y, Tile& tile, int bpp)
+    bool ExtractTile_MSX16x16(int x, int y, Tile& tile, int bpp, int paletteIndex)
     {
         // MSX 16x16 sprite tiles are composed of four 8x8 tiles in this order UL, LL, UR, LR
         bool UL_notempty, LL_notempty, UR_notempty, LR_notempty;
 
         // Call these separately since otherwise some get optimized out during
         // runtime if any single one before it returns false
-        UL_notempty = ExtractGBTile(x, y, 8, 8, tile, 0, bpp);
-        LL_notempty = ExtractGBTile(x, y + 8, 8, 8, tile, ((8 * 8) * 1), bpp);
-        UR_notempty = ExtractGBTile(x + 8, y, 8, 8, tile, ((8 * 8) * 2), bpp);
-        LR_notempty = ExtractGBTile(x + 8, y + 8, 8, 8, tile, ((8 * 8) * 3), bpp);
+        UL_notempty = ExtractGBTile(x, y, 8, 8, tile, 0, bpp, paletteIndex);
+        LL_notempty = ExtractGBTile(x, y + 8, 8, 8, tile, ((8 * 8) * 1), bpp, paletteIndex);
+        UR_notempty = ExtractGBTile(x + 8, y, 8, 8, tile, ((8 * 8) * 2), bpp, paletteIndex);
+        LR_notempty = ExtractGBTile(x + 8, y + 8, 8, 8, tile, ((8 * 8) * 3), bpp, paletteIndex);
         return (UL_notempty || LL_notempty || UR_notempty || LR_notempty);
     }
 
-    bool ExtractTile(int x, int y, Tile& tile, int sprite_mode, bool export_as_map, bool use_map_attributes, int bpp)
+    bool ExtractTile(int x, int y, Tile & tile, int sprite_mode, bool export_as_map, bool use_map_attributes, int bpp) {
+        return ExtractTile(x, y, tile, sprite_mode, export_as_map, use_map_attributes, bpp, -1);
+    }
+
+    bool ExtractTile(int x, int y, Tile& tile, int sprite_mode, bool export_as_map, bool use_map_attributes, int bpp, int paletteIndex)
     {
         // Set the palette to 0 when pals are not stored in tiles to allow tiles to be equal even when their palettes are different
         zero_palette = !(export_as_map && !use_map_attributes);
 
         if(sprite_mode == SPR_16x16_MSX)
-            return ExtractTile_MSX16x16(x, y, tile, bpp);
+            return ExtractTile_MSX16x16(x, y, tile, bpp, paletteIndex);
         else
-            return ExtractGBTile(x, y, tile_w, tile_h, tile, 0, bpp); // No buffer offset for normal tile extraction
+            return ExtractGBTile(x, y, tile_w, tile_h, tile, 0, bpp, paletteIndex); // No buffer offset for normal tile extraction
     }
     // private:
     //     bool zero_palette = false;
