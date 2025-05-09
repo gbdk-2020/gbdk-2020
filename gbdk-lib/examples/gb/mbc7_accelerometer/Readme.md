@@ -26,7 +26,12 @@ Some example ranges for the sensor data:
 ```
 Slow rotation, measuring mostly the pull
 earth's gravity when the sensor not flat.
-The range is for a full rotation of 90 degrees from flat
+The range is for a full rotation of 90 degrees from flat.
+
+Note: The ranges below are for regular single-speed
+processor mode. In GBC Double-speed mode there appears
+to be an offset of around +440 on the X axis and +480
+on the axis when the cart is flat/centered.
 
 X:  Left          Centered          Right
    0x8230 <------- 0x81BC -------> 0x8148
