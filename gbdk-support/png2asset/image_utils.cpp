@@ -100,10 +100,10 @@ static int pixel_find_color_in_palette(const PNGImage& image, int x, int y, int 
 
     // Get pixel palette index num, then get RGB value for it
     uint8_t pixel_pal_idx = image.data[(y * image.w) + x];
-    uint8_t * p_pixel_color = &image.palette[pixel_pal_idx * RGBA32_SZ];
+    auto p_pixel_color = &image.palette[pixel_pal_idx * RGBA32_SZ];
 
     // Loop through available palette colors to see if an exact match exists
-    uint8_t * p_pal_color = &image.palette[pal_num * (image.colors_per_pal * RGBA32_SZ)];
+    auto p_pal_color = &image.palette[pal_num * (image.colors_per_pal * RGBA32_SZ)];
     for (int c = 0; c < (int)image.colors_per_pal; c++, p_pal_color += RGBA32_SZ) {
 
         // Check palette entry RGB match against pixel RGB
