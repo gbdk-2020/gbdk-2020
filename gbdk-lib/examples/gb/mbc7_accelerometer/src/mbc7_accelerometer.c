@@ -19,6 +19,12 @@
 
 // Accelerometer Sensor data ranges
 //
+// These ranges are for regular single-speed
+// processor mode. In GBC Double-speed mode
+// there appears to be an offset of +440 on
+// the X axis and +480 on the axis when the
+// cart is flat/centered.
+//
 // Slow rotation, measuring mostly the pull
 // earth's gravity when the sensor not flat.
 //
