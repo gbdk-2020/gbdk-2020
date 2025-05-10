@@ -26,7 +26,8 @@
 -Uname         undefine the preprocessor symbol `name'
 -v             show commands as they are executed; 2nd -v suppresses execution
 -Woarg         specify system-specific `arg'
--W[pfablim]arg pass `arg' to the preprocessor, compiler, assembler, bankpack, linker, ihxcheck, or makebin
+-W[pfablimnc]arg pass `arg' to the (p)preprocessor, (f)compiler, (a)assembler, (b)bankpack,
+                                   (l)linker, (i)ihxcheck, (m)makebin, (n)makenes, (c)makecom
 ```
 @anchor sdcc-settings
 # sdcc settings

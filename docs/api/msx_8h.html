@@ -29,7 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.3.0</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -214,6 +214,8 @@ Macros</h2></td></tr>
 <tr class="separator:aa87bec0d134136fdb727f52cb773b792"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a231ec05679809190782e61c6e8aaaba4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msx_8h.html#a231ec05679809190782e61c6e8aaaba4">DEVICE_SUPPORTS_COLOR</a>&#160;&#160;&#160;(<a class="el" href="types_8h.html#aa8cecfc5c5c054d2875c03e77b7be15d">TRUE</a>)</td></tr>
 <tr class="separator:a231ec05679809190782e61c6e8aaaba4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a559dbd32dba6867c1ee4e481077b62ab"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msx_8h.html#a559dbd32dba6867c1ee4e481077b62ab">VBL_DONE</a>&#160;&#160;&#160;<a class="el" href="sms_8h.html#a379ebafd4dc456a9a0c10290bb38fe7c">_vbl_done</a></td></tr>
+<tr class="separator:a559dbd32dba6867c1ee4e481077b62ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2032c420256dfa5c5c62fe73841fa56d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msx_8h.html#a2032c420256dfa5c5c62fe73841fa56d">DIV_REG</a>&#160;&#160;&#160;<a class="el" href="sms_8h.html#a8824313c4053d770df23c3233b6cde33">get_r_reg</a>()</td></tr>
 <tr class="separator:a2032c420256dfa5c5c62fe73841fa56d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae042588f20bf5a2349c8ad8716245233"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msx_8h.html#ae042588f20bf5a2349c8ad8716245233">CURRENT_BANK</a>&#160;&#160;&#160;<a class="el" href="nes_8h.html#a06bab3f8bce032de0d21fbd86e14c3f3">_current_bank</a></td></tr>
@@ -441,6 +443,8 @@ Variables</h2></td></tr>
 <tr class="separator:af79b920bcb642bba2e652874c4f7eeff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a78d2fd18666afec116f176d46debb4e7"><td class="memItemLeft" align="right" valign="top">volatile <a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msx_8h.html#a78d2fd18666afec116f176d46debb4e7">sys_time</a></td></tr>
 <tr class="separator:a78d2fd18666afec116f176d46debb4e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a379ebafd4dc456a9a0c10290bb38fe7c"><td class="memItemLeft" align="right" valign="top">volatile <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msx_8h.html#a379ebafd4dc456a9a0c10290bb38fe7c">_vbl_done</a></td></tr>
+<tr class="separator:a379ebafd4dc456a9a0c10290bb38fe7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a06bab3f8bce032de0d21fbd86e14c3f3"><td class="memItemLeft" align="right" valign="top">volatile <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msx_8h.html#a06bab3f8bce032de0d21fbd86e14c3f3">_current_bank</a></td></tr>
 <tr class="separator:a06bab3f8bce032de0d21fbd86e14c3f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4c2e4adef74067fdbb49005bc73de937"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msx_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
@@ -1258,6 +1262,20 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Macro returns TRUE if device supports color (it always does on MSX) </p>
+
+</div>
+</div>
+<a id="a559dbd32dba6867c1ee4e481077b62ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a559dbd32dba6867c1ee4e481077b62ab">&#9670;&nbsp;</a></span>VBL_DONE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define VBL_DONE&#160;&#160;&#160;<a class="el" href="sms_8h.html#a379ebafd4dc456a9a0c10290bb38fe7c">_vbl_done</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -3947,9 +3965,9 @@ Variables</h2></td></tr>
 <div class="line"><span class="comment">// These flags tell the sprite to use the first sprite palette (palette 4) and to flip the sprite both vertically and horizontally.</span></div>
 <div class="line"><a class="code" href="gb_8h.html#a99ea3252469e3614e977cce2aa1d06f7">set_sprite_prop</a>(0, <a class="code" href="gb_8h.html#a4bbb9cd6c38b2317de5256d1d889c63b">S_FLIPY</a> | <a class="code" href="gb_8h.html#ae97793b4039609f93b0f7f8bddb18011">S_FLIPX</a>);</div>
 <div class="ttc" id="agb_8h_html_a4bbb9cd6c38b2317de5256d1d889c63b"><div class="ttname"><a href="gb_8h.html#a4bbb9cd6c38b2317de5256d1d889c63b">S_FLIPY</a></div><div class="ttdeci">#define S_FLIPY</div><div class="ttdef"><b>Definition:</b> gb.h:96</div></div>
-<div class="ttc" id="agb_8h_html_a99ea3252469e3614e977cce2aa1d06f7"><div class="ttname"><a href="gb_8h.html#a99ea3252469e3614e977cce2aa1d06f7">set_sprite_prop</a></div><div class="ttdeci">void set_sprite_prop(uint8_t nb, uint8_t prop)</div><div class="ttdef"><b>Definition:</b> gb.h:1933</div></div>
+<div class="ttc" id="agb_8h_html_a99ea3252469e3614e977cce2aa1d06f7"><div class="ttname"><a href="gb_8h.html#a99ea3252469e3614e977cce2aa1d06f7">set_sprite_prop</a></div><div class="ttdeci">void set_sprite_prop(uint8_t nb, uint8_t prop)</div><div class="ttdef"><b>Definition:</b> gb.h:1945</div></div>
 <div class="ttc" id="agb_8h_html_ae97793b4039609f93b0f7f8bddb18011"><div class="ttname"><a href="gb_8h.html#ae97793b4039609f93b0f7f8bddb18011">S_FLIPX</a></div><div class="ttdeci">#define S_FLIPX</div><div class="ttdef"><b>Definition:</b> gb.h:92</div></div>
-<div class="ttc" id="amsx_8h_html_a7d5ed1aed79d8fd2894893d7f6f9b835"><div class="ttname"><a href="msx_8h.html#a7d5ed1aed79d8fd2894893d7f6f9b835">set_sprite_palette</a></div><div class="ttdeci">#define set_sprite_palette(first_palette, nb_palettes, rgb_data)</div><div class="ttdef"><b>Definition:</b> msx.h:550</div></div>
+<div class="ttc" id="amsx_8h_html_a7d5ed1aed79d8fd2894893d7f6f9b835"><div class="ttname"><a href="msx_8h.html#a7d5ed1aed79d8fd2894893d7f6f9b835">set_sprite_palette</a></div><div class="ttdeci">#define set_sprite_palette(first_palette, nb_palettes, rgb_data)</div><div class="ttdef"><b>Definition:</b> msx.h:558</div></div>
 </div><!-- fragment --><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a54572cf6791463b6d60623837e0bb5a6">S_PALETTE</a>, <a class="el" href="gb_8h.html#ae97793b4039609f93b0f7f8bddb18011">S_FLIPX</a>, <a class="el" href="gb_8h.html#a4bbb9cd6c38b2317de5256d1d889c63b">S_FLIPY</a>, <a class="el" href="gb_8h.html#a9506d04c2ec7d2442a52054f67d2b32f">S_PRIORITY</a></dd></dl>
 <p>Sets the OAM Property Flags of sprite number <b>nb</b> to those defined in <b>prop</b>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -4461,6 +4479,30 @@ Variables</h2></td></tr>
 <p>Global Time Counter in VBL periods (60Hz)</p>
 <p>Increments once per Frame</p>
 <p>Will wrap around every ~18 minutes (unsigned 16 bits = 65535 / 60 / 60 = 18.2) </p>
+
+</div>
+</div>
+<a id="a379ebafd4dc456a9a0c10290bb38fe7c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a379ebafd4dc456a9a0c10290bb38fe7c">&#9670;&nbsp;</a></span>_vbl_done</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">volatile <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> _vbl_done</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Flag indicating the VBlank ISR has run</p>
+<p>Flag gets cleared at the start of <a class="el" href="gb_8h.html#af57b77452ef377da18e4fbf0288013d1">vsync()</a> / <a class="el" href="gb_8h.html#a815f8ecad32d14b786a8ed1168518773">wait_vbl_done()</a> and set in the default VBlank ISR handler. </p>
 
 </div>
 </div>

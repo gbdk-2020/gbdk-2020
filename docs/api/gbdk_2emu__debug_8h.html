@@ -29,7 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.3.0</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -444,14 +444,23 @@ Variables</h2></td></tr>
 <li>%hx (char as hex) </li>
 <li>%hu (unsigned char) </li>
 <li>%hd (signed char) </li>
-<li>%c (character) </li>
+<li>%c (character) <br  />
+ </li>
 <li>%u (unsigned int) </li>
 <li>%d (signed int) </li>
 <li>%x (unsigned int as hex) </li>
 <li>%s (string)</li>
 </ul>
-<p>Warning: to correctly pass chars for printing as chars, they <em>must</em> be explicitly re-cast as such when calling the function. See <a class="el" href="docs_coding_guidelines.html#docs_chars_varargs">docs_chars_varargs</a> for more details.</p>
-<p>Currently supported in the Emulicious emulator </p>
+<dl class="section note"><dt>Note</dt><dd>Variables for the following 8-bit formats <b>MUST</b> be cast to their type when passed to <a class="el" href="gbdk_2emu__debug_8h.html#a910b2802e154473f2e10201f5722bc10">EMU_printf()</a> <ul>
+<li>%hx (char) </li>
+<li>%hu (unsigned char) </li>
+<li>%hd (signed char)</li>
+</ul>
+However variables for the following 8-bit format <b>MUST NOT</b> be cast to their type when passed to <a class="el" href="gbdk_2emu__debug_8h.html#a910b2802e154473f2e10201f5722bc10">EMU_printf()</a> <ul>
+<li>%c (char)</li>
+</ul>
+This behavior is <b>different</b> than for <a class="el" href="stdio_8h.html#a440c82287022737c4f2866786ba8a154">sprintf()</a>, which does require %c format char variables to be explicitly cast.</dd></dl>
+<p>Currently supported in the Emulicious emulator, may be supported by bgb </p>
 
 </div>
 </div>

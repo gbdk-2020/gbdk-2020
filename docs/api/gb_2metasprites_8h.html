@@ -29,7 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.3.0</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -157,13 +157,13 @@ Variables</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="anchor" id="metasprite_main_docs"></a></p>
-<h1><a class="anchor" id="autotoc_md1"></a>
+<h1><a class="anchor" id="autotoc_md2"></a>
 Metasprite support</h1>
 <p>A metasprite is a larger sprite made up from a collection of smaller individual hardware sprites. Different frames of the same metasprites can share tile data.</p>
 <p>The api supports metasprites in both <a class="el" href="sms_8h.html#aa87bec0d134136fdb727f52cb773b792">SPRITES_8x8</a> and <a class="el" href="sms_8h.html#af91d252f07f4764996154820f970c101">SPRITES_8x16</a> mode. If 8x16 mode is used then the height of the metasprite must be a multiple of 16.</p>
 <p>The origin (pivot) for the metasprite is not required to be in the upper left-hand corner as with regular hardware sprites.</p>
 <p>Use the <a class="el" href="docs_toolchain.html#utility_png2asset">utility_png2asset</a> tool to convert single or multiple frames of graphics into metasprite structured data for use with the ...metasprite...() functions.</p>
-<h1><a class="anchor" id="autotoc_md2"></a>
+<h1><a class="anchor" id="autotoc_md3"></a>
 Metasprites composed of variable numbers of sprites</h1>
 <p>When using png2asset, it's common for the output of different frames to be composed of different numbers of hardware sprites (since it's trying to create each frame as efficiently as possible). Due to that, it's good practice to clear out (hide) unused sprites in the shadow_OAM that have been set by previous frames.</p>
 <div class="fragment"><div class="line"><span class="comment">// Example:</span></div>
@@ -172,9 +172,9 @@ Metasprites composed of variable numbers of sprites</h1>
 <div class="line"><span class="comment">// (where hiwater == last hardware sprite used + 1)</span></div>
 <div class="line"><a class="code" href="gb_2metasprites_8h.html#a7f682afd53ac62ba02b0b6bc18d9cae5">hide_sprites_range</a>(hiwater, <a class="code" href="gb_8h.html#a8b77608c87a9aef65a03531482b2163b">MAX_HARDWARE_SPRITES</a>);</div>
 <div class="ttc" id="agb_2metasprites_8h_html_a7f682afd53ac62ba02b0b6bc18d9cae5"><div class="ttname"><a href="gb_2metasprites_8h.html#a7f682afd53ac62ba02b0b6bc18d9cae5">hide_sprites_range</a></div><div class="ttdeci">void hide_sprites_range(uint8_t from, uint8_t to)</div></div>
-<div class="ttc" id="agb_8h_html_a8b77608c87a9aef65a03531482b2163b"><div class="ttname"><a href="gb_8h.html#a8b77608c87a9aef65a03531482b2163b">MAX_HARDWARE_SPRITES</a></div><div class="ttdeci">#define MAX_HARDWARE_SPRITES</div><div class="ttdef"><b>Definition:</b> gb.h:1842</div></div>
+<div class="ttc" id="agb_8h_html_a8b77608c87a9aef65a03531482b2163b"><div class="ttname"><a href="gb_8h.html#a8b77608c87a9aef65a03531482b2163b">MAX_HARDWARE_SPRITES</a></div><div class="ttdeci">#define MAX_HARDWARE_SPRITES</div><div class="ttdef"><b>Definition:</b> gb.h:1854</div></div>
 </div><!-- fragment --><p><a class="anchor" id="metasprite_and_sprite_properties"></a></p>
-<h1><a class="anchor" id="autotoc_md3"></a>
+<h1><a class="anchor" id="autotoc_md4"></a>
 Metasprites and sprite properties (including cgb palette)</h1>
 <p>When the move_metasprite_*() functions are called they update all properties for the affected sprites in the Shadow OAM. This means any existing property flags set for a sprite (CGB palette, BG/WIN priority, Tile VRAM Bank) will get overwritten.</p>
 <p>How to use sprite property flags with metasprites:</p><ul>

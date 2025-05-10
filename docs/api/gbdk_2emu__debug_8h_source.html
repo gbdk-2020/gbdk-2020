@@ -29,7 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.3.0</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -153,29 +153,29 @@ $(document).ready(function(){initNavTree('gbdk_2emu__debug_8h_source.html',''); 
 <div class="line"><a name="l00140"></a><span class="lineno"><a class="line" href="gbdk_2emu__debug_8h.html#af36a13974260d50a3b602f5106f4b9e1">  140</a></span>&#160;<span class="preprocessor">#define BGB_profiler_message EMU_profiler_message()</span></div>
 <div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// NINTENDO</span></div>
 <div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160; </div>
-<div class="line"><a name="l00164"></a><span class="lineno"><a class="line" href="gbdk_2emu__debug_8h.html#a4c2e4adef74067fdbb49005bc73de937">  164</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="gbdk_2emu__debug_8h.html#a910b2802e154473f2e10201f5722bc10">EMU_printf</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *format, ...) <a class="code" href="asm_2types_8h.html#acb825e83a33fcc06482c59b4ab2cf961">PRESERVES_REGS</a>(a, <a class="code" href="gbdk_2emu__debug_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>, <a class="code" href="gbdk_2emu__debug_8h.html#a0b3366755f3276b0243c1e0497471b7a">c</a>);</div>
-<div class="line"><a name="l00165"></a><span class="lineno"><a class="line" href="gbdk_2emu__debug_8h.html#a892ddea0cd396141c1ae05e384303cbf">  165</a></span>&#160;<span class="preprocessor">#define BGB_printf(...) EMU_printf(__VA_ARGS__)</span></div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160; </div>
-<div class="line"><a name="l00176"></a><span class="lineno"><a class="line" href="gbdk_2emu__debug_8h.html#a322fb0f357e31e5f275d6c1b2c71d1e7">  176</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="gbdk_2emu__debug_8h.html#a322fb0f357e31e5f275d6c1b2c71d1e7">EMU_fmtbuf</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> * format, <span class="keywordtype">void</span> * data) <a class="code" href="asm_2types_8h.html#acb825e83a33fcc06482c59b4ab2cf961">PRESERVES_REGS</a>(a, <a class="code" href="gbdk_2emu__debug_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>, <a class="code" href="gbdk_2emu__debug_8h.html#a0b3366755f3276b0243c1e0497471b7a">c</a>);</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160; </div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;<span class="preprocessor">#ifdef NINTENDO</span></div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> * __EMU_PROFILER_INIT = &amp;<a class="code" href="gbdk_2emu__debug_8h.html#aa5de1bb0c5fd4fbb23019b4908cc9588">EMU_profiler_message</a>;</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// NINTENDO</span></div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160; </div>
-<div class="line"><a name="l00184"></a><span class="lineno"><a class="line" href="gbdk_2emu__debug_8h.html#a9e856b4691d63bb41c5148b9097bd2bb">  184</a></span>&#160;<span class="preprocessor">#define EMU_BREAKPOINT __asm__(&quot;ld b, b&quot;</span>);</div>
-<div class="line"><a name="l00185"></a><span class="lineno"><a class="line" href="gbdk_2emu__debug_8h.html#a95c9ae3faadfe6f93a3cac87085b3481">  185</a></span>&#160;<span class="preprocessor">#define BGB_BREAKPOINT EMU_BREAKPOINT</span></div>
+<div class="line"><a name="l00173"></a><span class="lineno"><a class="line" href="gbdk_2emu__debug_8h.html#a4c2e4adef74067fdbb49005bc73de937">  173</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="gbdk_2emu__debug_8h.html#a910b2802e154473f2e10201f5722bc10">EMU_printf</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *format, ...) <a class="code" href="asm_2types_8h.html#acb825e83a33fcc06482c59b4ab2cf961">PRESERVES_REGS</a>(a, <a class="code" href="gbdk_2emu__debug_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>, <a class="code" href="gbdk_2emu__debug_8h.html#a0b3366755f3276b0243c1e0497471b7a">c</a>);</div>
+<div class="line"><a name="l00174"></a><span class="lineno"><a class="line" href="gbdk_2emu__debug_8h.html#a892ddea0cd396141c1ae05e384303cbf">  174</a></span>&#160;<span class="preprocessor">#define BGB_printf(...) EMU_printf(__VA_ARGS__)</span></div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160; </div>
+<div class="line"><a name="l00185"></a><span class="lineno"><a class="line" href="gbdk_2emu__debug_8h.html#a322fb0f357e31e5f275d6c1b2c71d1e7">  185</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="gbdk_2emu__debug_8h.html#a322fb0f357e31e5f275d6c1b2c71d1e7">EMU_fmtbuf</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> * format, <span class="keywordtype">void</span> * data) <a class="code" href="asm_2types_8h.html#acb825e83a33fcc06482c59b4ab2cf961">PRESERVES_REGS</a>(a, <a class="code" href="gbdk_2emu__debug_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>, <a class="code" href="gbdk_2emu__debug_8h.html#a0b3366755f3276b0243c1e0497471b7a">c</a>);</div>
 <div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160; </div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;<span class="preprocessor">#elif defined(__TARGET_duck)</span></div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;<span class="preprocessor">  #error Not implemented yet</span></div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;<span class="preprocessor">  #error Unrecognized port</span></div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160; </div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;<span class="preprocessor">#ifdef NINTENDO</span></div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> * __EMU_PROFILER_INIT = &amp;<a class="code" href="gbdk_2emu__debug_8h.html#aa5de1bb0c5fd4fbb23019b4908cc9588">EMU_profiler_message</a>;</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// NINTENDO</span></div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160; </div>
+<div class="line"><a name="l00193"></a><span class="lineno"><a class="line" href="gbdk_2emu__debug_8h.html#a9e856b4691d63bb41c5148b9097bd2bb">  193</a></span>&#160;<span class="preprocessor">#define EMU_BREAKPOINT __asm__(&quot;ld b, b&quot;</span>);</div>
+<div class="line"><a name="l00194"></a><span class="lineno"><a class="line" href="gbdk_2emu__debug_8h.html#a95c9ae3faadfe6f93a3cac87085b3481">  194</a></span>&#160;<span class="preprocessor">#define BGB_BREAKPOINT EMU_BREAKPOINT</span></div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160; </div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;<span class="preprocessor">#elif defined(__TARGET_duck)</span></div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;<span class="preprocessor">  #error Not implemented yet</span></div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;<span class="preprocessor">  #error Unrecognized port</span></div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160; </div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aasm_2types_8h_html_acb825e83a33fcc06482c59b4ab2cf961"><div class="ttname"><a href="asm_2types_8h.html#acb825e83a33fcc06482c59b4ab2cf961">PRESERVES_REGS</a></div><div class="ttdeci">#define PRESERVES_REGS(...)</div><div class="ttdef"><b>Definition:</b> types.h:32</div></div>
-<div class="ttc" id="agbdk_2emu__debug_8h_html_a0b3366755f3276b0243c1e0497471b7a"><div class="ttname"><a href="gbdk_2emu__debug_8h.html#a0b3366755f3276b0243c1e0497471b7a">c</a></div><div class="ttdeci">void c</div><div class="ttdef"><b>Definition:</b> emu_debug.h:164</div></div>
+<div class="ttc" id="agbdk_2emu__debug_8h_html_a0b3366755f3276b0243c1e0497471b7a"><div class="ttname"><a href="gbdk_2emu__debug_8h.html#a0b3366755f3276b0243c1e0497471b7a">c</a></div><div class="ttdeci">void c</div><div class="ttdef"><b>Definition:</b> emu_debug.h:173</div></div>
 <div class="ttc" id="agbdk_2emu__debug_8h_html_a322fb0f357e31e5f275d6c1b2c71d1e7"><div class="ttname"><a href="gbdk_2emu__debug_8h.html#a322fb0f357e31e5f275d6c1b2c71d1e7">EMU_fmtbuf</a></div><div class="ttdeci">void EMU_fmtbuf(const unsigned char *format, void *data) PRESERVES_REGS(a</div></div>
-<div class="ttc" id="agbdk_2emu__debug_8h_html_a4c2e4adef74067fdbb49005bc73de937"><div class="ttname"><a href="gbdk_2emu__debug_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></div><div class="ttdeci">void b</div><div class="ttdef"><b>Definition:</b> emu_debug.h:164</div></div>
+<div class="ttc" id="agbdk_2emu__debug_8h_html_a4c2e4adef74067fdbb49005bc73de937"><div class="ttname"><a href="gbdk_2emu__debug_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></div><div class="ttdeci">void b</div><div class="ttdef"><b>Definition:</b> emu_debug.h:173</div></div>
 <div class="ttc" id="agbdk_2emu__debug_8h_html_a910b2802e154473f2e10201f5722bc10"><div class="ttname"><a href="gbdk_2emu__debug_8h.html#a910b2802e154473f2e10201f5722bc10">EMU_printf</a></div><div class="ttdeci">void EMU_printf(const char *format,...) PRESERVES_REGS(a</div></div>
 <div class="ttc" id="agbdk_2emu__debug_8h_html_aa5de1bb0c5fd4fbb23019b4908cc9588"><div class="ttname"><a href="gbdk_2emu__debug_8h.html#aa5de1bb0c5fd4fbb23019b4908cc9588">EMU_profiler_message</a></div><div class="ttdeci">void EMU_profiler_message(void)</div></div>
 </div><!-- fragment --></div><!-- contents -->
