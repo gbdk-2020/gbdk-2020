@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-20.04
+          - os: ubuntu-22.04
             name: Linux-x64
           - os: ubuntu-22.04-arm
             name: Linux-arm64
@@ -33,38 +33,38 @@ jobs:
       - name: Linux x86 Depends
         if: matrix.name == 'Linux-x64'
         run: |
-          curl -Lo sdcc.tar.gz https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-patched-gbdk-4.3.0/sdcc-14650-Linux-x64.tar.gz
+          curl -Lo sdcc.tar.gz https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-patched-gbdk-4.4.0/sdcc-15267-Linux-x64.tar.gz
           tar xvfz sdcc.tar.gz
 
       - name: Linux arm64 Depends
         if: matrix.name == 'Linux-arm64'
         run: |
-          curl -Lo sdcc.tar.gz https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-patched-gbdk-4.3.0/sdcc-14650-Linux-arm64.tar.gz
+          curl -Lo sdcc.tar.gz https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-patched-gbdk-4.4.0/sdcc-15267-Linux-arm64.tar.gz
           tar xvfz sdcc.tar.gz
 
       - name: MacOS Depends
         if: matrix.name == 'MacOS-x64'
         run: |
-          curl -Lo sdcc.tar.gz https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-patched-gbdk-4.3.0/sdcc-14650-MacOS-x64.tar.gz
+          curl -Lo sdcc.tar.gz https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-patched-gbdk-4.4.0/sdcc-15267-MacOS-x64.tar.gz
           tar xvfz sdcc.tar.gz
 
       - name: MacOS ARM Depends
         if: matrix.name == 'MacOS-arm64'
         run: |
-          curl -Lo sdcc.tar.gz https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-patched-gbdk-4.3.0/sdcc-14650-MacOS-arm64.tar.gz
+          curl -Lo sdcc.tar.gz https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-patched-gbdk-4.4.0/sdcc-15267-MacOS-arm64.tar.gz
           tar xvfz sdcc.tar.gz
 
       - name: Windows-x64 Depends
         if: matrix.name == 'Windows-x64'
         run: |
-          curl -Lo sdcc.tar.gz https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-patched-gbdk-4.3.0/sdcc-14650-Win64-On-Linux.tar.gz
+          curl -Lo sdcc.tar.gz https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-patched-gbdk-4.4.0/sdcc-15267-Win64-On-Linux.tar.gz
           7z x sdcc.tar.gz
           7z x sdcc.tar
 
       - name: Windows-x32 Depends
         if: matrix.name == 'Windows-x32'
         run: |
-          curl -Lo sdcc.tar.gz https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-patched-gbdk-4.3.0/sdcc-14650-Win32-On-Linux.tar.gz
+          curl -Lo sdcc.tar.gz https://github.com/gbdk-2020/gbdk-2020-sdcc/releases/download/sdcc-patched-gbdk-4.4.0/sdcc-15267-Win32-On-Linux.tar.gz
           7z x sdcc.tar.gz
           7z x sdcc.tar
 
