@@ -7,7 +7,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
 # GBDK-2020 Release Notes
 
 ## GBDK-2020 4.4.0
-  2025/...
+  2025/05
   - Includes SDCC version ~4.5.0 (15267) with GBDK-2020 patches for Z80 and NES
     - [Patched SDCC Builds](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases) with support for Sega GG/SMS and the Nintendo NES are used.
     - See the [github workflow](https://github.com/gbdk-2020/gbdk-2020-sdcc/tree/main/.github/workflows) for details.
