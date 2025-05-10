@@ -29,7 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.3.0</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -212,6 +212,8 @@ Macros</h2></td></tr>
 <tr class="separator:aa87bec0d134136fdb727f52cb773b792"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a231ec05679809190782e61c6e8aaaba4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sms_8h.html#a231ec05679809190782e61c6e8aaaba4">DEVICE_SUPPORTS_COLOR</a>&#160;&#160;&#160;(<a class="el" href="types_8h.html#aa8cecfc5c5c054d2875c03e77b7be15d">TRUE</a>)</td></tr>
 <tr class="separator:a231ec05679809190782e61c6e8aaaba4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a559dbd32dba6867c1ee4e481077b62ab"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sms_8h.html#a559dbd32dba6867c1ee4e481077b62ab">VBL_DONE</a>&#160;&#160;&#160;<a class="el" href="sms_8h.html#a379ebafd4dc456a9a0c10290bb38fe7c">_vbl_done</a></td></tr>
+<tr class="separator:a559dbd32dba6867c1ee4e481077b62ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2032c420256dfa5c5c62fe73841fa56d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sms_8h.html#a2032c420256dfa5c5c62fe73841fa56d">DIV_REG</a>&#160;&#160;&#160;<a class="el" href="sms_8h.html#a8824313c4053d770df23c3233b6cde33">get_r_reg</a>()</td></tr>
 <tr class="separator:a2032c420256dfa5c5c62fe73841fa56d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af0d15cf2a26924d2ef00ac4017e6b1d8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sms_8h.html#af0d15cf2a26924d2ef00ac4017e6b1d8">_current_bank</a>&#160;&#160;&#160;MAP_FRAME1</td></tr>
@@ -467,6 +469,8 @@ Variables</h2></td></tr>
 <tr class="separator:af79b920bcb642bba2e652874c4f7eeff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a78d2fd18666afec116f176d46debb4e7"><td class="memItemLeft" align="right" valign="top">volatile <a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sms_8h.html#a78d2fd18666afec116f176d46debb4e7">sys_time</a></td></tr>
 <tr class="separator:a78d2fd18666afec116f176d46debb4e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a379ebafd4dc456a9a0c10290bb38fe7c"><td class="memItemLeft" align="right" valign="top">volatile <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sms_8h.html#a379ebafd4dc456a9a0c10290bb38fe7c">_vbl_done</a></td></tr>
+<tr class="separator:a379ebafd4dc456a9a0c10290bb38fe7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4c2e4adef74067fdbb49005bc73de937"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sms_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a></td></tr>
 <tr class="separator:a4c2e4adef74067fdbb49005bc73de937"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a22dc57e538f0f49e2dc7d1c73f67fc8f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sms_8h.html#a22dc57e538f0f49e2dc7d1c73f67fc8f">_current_2bpp_palette</a></td></tr>
@@ -1284,6 +1288,20 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Macro returns TRUE if device supports color (it always does on SMS/GG) </p>
+
+</div>
+</div>
+<a id="a559dbd32dba6867c1ee4e481077b62ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a559dbd32dba6867c1ee4e481077b62ab">&#9670;&nbsp;</a></span>VBL_DONE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define VBL_DONE&#160;&#160;&#160;<a class="el" href="sms_8h.html#a379ebafd4dc456a9a0c10290bb38fe7c">_vbl_done</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -4944,6 +4962,30 @@ Variables</h2></td></tr>
 <p>Global Time Counter in VBL periods (60Hz)</p>
 <p>Increments once per Frame</p>
 <p>Will wrap around every ~18 minutes (unsigned 16 bits = 65535 / 60 / 60 = 18.2) </p>
+
+</div>
+</div>
+<a id="a379ebafd4dc456a9a0c10290bb38fe7c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a379ebafd4dc456a9a0c10290bb38fe7c">&#9670;&nbsp;</a></span>_vbl_done</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">volatile <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> _vbl_done</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Flag indicating the VBlank ISR has run</p>
+<p>Flag gets cleared at the start of <a class="el" href="gb_8h.html#af57b77452ef377da18e4fbf0288013d1">vsync()</a> / <a class="el" href="gb_8h.html#a815f8ecad32d14b786a8ed1168518773">wait_vbl_done()</a> and set in the default VBlank ISR handler. </p>
 
 </div>
 </div>

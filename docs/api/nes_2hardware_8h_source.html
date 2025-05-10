@@ -29,7 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.3.0</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -144,11 +144,32 @@ $(document).ready(function(){initNavTree('nes_2hardware_8h_source.html',''); ini
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment">// Scrolling coordinates (will be written to PPUSCROLL at end-of-vblank by NMI handler)</span></div>
 <div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="nes_2hardware_8h.html#a406100d23af09b16e4b43a2d0eefe741">   56</a></span>&#160;<a class="code" href="nes_2hardware_8h.html#ae61804714a30560fb686c9e5217e54f3">__SHADOW_REG</a> <a class="code" href="nes_2hardware_8h.html#a406100d23af09b16e4b43a2d0eefe741">bkg_scroll_x</a>;</div>
 <div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="nes_2hardware_8h.html#ad6629a16788cf8cc495555d7fae64d9f">   57</a></span>&#160;<a class="code" href="nes_2hardware_8h.html#ae61804714a30560fb686c9e5217e54f3">__SHADOW_REG</a> <a class="code" href="nes_2hardware_8h.html#ad6629a16788cf8cc495555d7fae64d9f">bkg_scroll_y</a>;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment">// LCD scanline - a software-driven version of GB&#39;s incrasing &#39;LY&#39; scanline counter</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="nes_2hardware_8h.html#a8c89d860d9de0e33d79f13944699ddd7">   59</a></span>&#160;<a class="code" href="nes_2hardware_8h.html#ae61804714a30560fb686c9e5217e54f3">__SHADOW_REG</a> <a class="code" href="nes_2hardware_8h.html#a8c89d860d9de0e33d79f13944699ddd7">_lcd_scanline</a>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="keyword">extern</span> <span class="keyword">volatile</span> <a class="code" href="asm_2types_8h.html#a280213815420791851f7e59bdc8a3c95">UBYTE</a> <a class="code" href="gb_2hardware_8h.html#a9d295bb437953de5ebcb3c12d65743aa">TIMA_REG</a>;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="keyword">extern</span> <span class="keyword">volatile</span> <a class="code" href="asm_2types_8h.html#a280213815420791851f7e59bdc8a3c95">UBYTE</a> <a class="code" href="gb_2hardware_8h.html#a39e5a5b9afd2c2ca78de4aba7ccd071c">TMA_REG</a>;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="keyword">extern</span> <span class="keyword">volatile</span> <a class="code" href="asm_2types_8h.html#a280213815420791851f7e59bdc8a3c95">UBYTE</a> <a class="code" href="gb_2hardware_8h.html#a659173ac2c8da7fd04bc77973eb95256">TAC_REG</a>;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment">// Compatibility defines for GB LY / LYC registers, to allow easier LCD ISR porting</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="nes_2hardware_8h.html#ac94ac39616b51ba3fe8114184c27835c">   66</a></span>&#160;<span class="preprocessor">#define SCY_REG bkg_scroll_y    </span></div>
+<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="nes_2hardware_8h.html#ad2537c13699429afa59a68c6d6598632">   67</a></span>&#160;<span class="preprocessor">#define rSCY SCY_REG</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="nes_2hardware_8h.html#a8abfeb955f7ba9712a82059258acb9c4">   68</a></span>&#160;<span class="preprocessor">#define SCX_REG bkg_scroll_x    </span></div>
+<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="nes_2hardware_8h.html#a97932e023d96ece4715802b6c2565c43">   69</a></span>&#160;<span class="preprocessor">#define rSCX SCX_REG</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="nes_2hardware_8h.html#ae2aa15a7abee74b48af77f2730130d5e">   70</a></span>&#160;<span class="preprocessor">#define LY_REG _lcd_scanline    </span></div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="nes_2hardware_8h.html#aa851dae67d0bb80c17415774558d985f">   71</a></span>&#160;<span class="preprocessor">#define rLY LY_REG</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="nes_2hardware_8h.html#ab6b2d3e024863233f59041b1b931d1ea">   72</a></span>&#160;<span class="preprocessor">#define LYC_REG _lcd_scanline   </span></div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="nes_2hardware_8h.html#a92083741d31c9b2206b403e97124cbdc">   73</a></span>&#160;<span class="preprocessor">#define rLYC LYC_REG</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="ttc" id="aasm_2types_8h_html_a280213815420791851f7e59bdc8a3c95"><div class="ttname"><a href="asm_2types_8h.html#a280213815420791851f7e59bdc8a3c95">UBYTE</a></div><div class="ttdeci">UINT8 UBYTE</div><div class="ttdef"><b>Definition:</b> types.h:62</div></div>
+<div class="ttc" id="agb_2hardware_8h_html_a39e5a5b9afd2c2ca78de4aba7ccd071c"><div class="ttname"><a href="gb_2hardware_8h.html#a39e5a5b9afd2c2ca78de4aba7ccd071c">TMA_REG</a></div><div class="ttdeci">__REG TMA_REG</div><div class="ttdef"><b>Definition:</b> hardware.h:92</div></div>
+<div class="ttc" id="agb_2hardware_8h_html_a659173ac2c8da7fd04bc77973eb95256"><div class="ttname"><a href="gb_2hardware_8h.html#a659173ac2c8da7fd04bc77973eb95256">TAC_REG</a></div><div class="ttdeci">__REG TAC_REG</div><div class="ttdef"><b>Definition:</b> hardware.h:94</div></div>
+<div class="ttc" id="agb_2hardware_8h_html_a9d295bb437953de5ebcb3c12d65743aa"><div class="ttname"><a href="gb_2hardware_8h.html#a9d295bb437953de5ebcb3c12d65743aa">TIMA_REG</a></div><div class="ttdeci">__REG TIMA_REG</div><div class="ttdef"><b>Definition:</b> hardware.h:90</div></div>
 <div class="ttc" id="anes_2hardware_8h_html_a1053e08ff700b39d8bdc370ff4d18a34"><div class="ttname"><a href="nes_2hardware_8h.html#a1053e08ff700b39d8bdc370ff4d18a34">__REG</a></div><div class="ttdeci">#define __REG(addr)</div><div class="ttdef"><b>Definition:</b> hardware.h:11</div></div>
 <div class="ttc" id="anes_2hardware_8h_html_a179ba142ebf05f2d0d2df6c47da2f6b4"><div class="ttname"><a href="nes_2hardware_8h.html#a179ba142ebf05f2d0d2df6c47da2f6b4">shadow_PPUMASK</a></div><div class="ttdeci">__SHADOW_REG shadow_PPUMASK</div><div class="ttdef"><b>Definition:</b> hardware.h:31</div></div>
 <div class="ttc" id="anes_2hardware_8h_html_a406100d23af09b16e4b43a2d0eefe741"><div class="ttname"><a href="nes_2hardware_8h.html#a406100d23af09b16e4b43a2d0eefe741">bkg_scroll_x</a></div><div class="ttdeci">__SHADOW_REG bkg_scroll_x</div><div class="ttdef"><b>Definition:</b> hardware.h:56</div></div>
+<div class="ttc" id="anes_2hardware_8h_html_a8c89d860d9de0e33d79f13944699ddd7"><div class="ttname"><a href="nes_2hardware_8h.html#a8c89d860d9de0e33d79f13944699ddd7">_lcd_scanline</a></div><div class="ttdeci">__SHADOW_REG _lcd_scanline</div><div class="ttdef"><b>Definition:</b> hardware.h:59</div></div>
 <div class="ttc" id="anes_2hardware_8h_html_ad6629a16788cf8cc495555d7fae64d9f"><div class="ttname"><a href="nes_2hardware_8h.html#ad6629a16788cf8cc495555d7fae64d9f">bkg_scroll_y</a></div><div class="ttdeci">__SHADOW_REG bkg_scroll_y</div><div class="ttdef"><b>Definition:</b> hardware.h:57</div></div>
 <div class="ttc" id="anes_2hardware_8h_html_ae61804714a30560fb686c9e5217e54f3"><div class="ttname"><a href="nes_2hardware_8h.html#ae61804714a30560fb686c9e5217e54f3">__SHADOW_REG</a></div><div class="ttdeci">#define __SHADOW_REG</div><div class="ttdef"><b>Definition:</b> hardware.h:10</div></div>
 <div class="ttc" id="anes_2hardware_8h_html_ae7753ae877137d76083b660aea9526b7"><div class="ttname"><a href="nes_2hardware_8h.html#ae7753ae877137d76083b660aea9526b7">shadow_PPUCTRL</a></div><div class="ttdeci">__SHADOW_REG shadow_PPUCTRL</div><div class="ttdef"><b>Definition:</b> hardware.h:20</div></div>

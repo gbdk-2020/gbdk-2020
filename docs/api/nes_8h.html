@@ -29,7 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.3.0</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -125,6 +125,10 @@ Macros</h2></td></tr>
 <tr class="separator:a99bca2df4c6fde16a659797b4e584036"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad6329c19927cf02579e2503e40c0bbde"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ad6329c19927cf02579e2503e40c0bbde">SYSTEM_50HZ</a>&#160;&#160;&#160;0x01</td></tr>
 <tr class="separator:ad6329c19927cf02579e2503e40c0bbde"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae85f322d3e5c6f1f1ebc934ae22f51ea"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ae85f322d3e5c6f1f1ebc934ae22f51ea">TIMER_VBLANK_PARITY_MODE_SYSTEM_60HZ</a>&#160;&#160;&#160;0x78</td></tr>
+<tr class="separator:ae85f322d3e5c6f1f1ebc934ae22f51ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a99bab8bac700048df9d8797bed56ce"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a9a99bab8bac700048df9d8797bed56ce">TIMER_VBLANK_PARITY_MODE_SYSTEM_50HZ</a>&#160;&#160;&#160;0x5D</td></tr>
+<tr class="separator:a9a99bab8bac700048df9d8797bed56ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4a118ad3ee36468a3fa616977a64864e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a4a118ad3ee36468a3fa616977a64864e">RGB</a>(r,  g,  <a class="el" href="sms_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>)&#160;&#160;&#160;<a class="el" href="rgb__to__nes__macro_8h.html#aa83d79eaa6230c94a1326b9f88d6b0ad">RGB_TO_NES</a>(((r) | ((g) &lt;&lt; 2) | ((<a class="el" href="sms_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>) &lt;&lt; 4)))</td></tr>
 <tr class="separator:a4a118ad3ee36468a3fa616977a64864e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7d2ed0f10b2b74123a544327bbfd7564"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a7d2ed0f10b2b74123a544327bbfd7564">RGB8</a>(r,  g,  <a class="el" href="sms_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>)&#160;&#160;&#160;<a class="el" href="rgb__to__nes__macro_8h.html#aa83d79eaa6230c94a1326b9f88d6b0ad">RGB_TO_NES</a>((((r) &gt;&gt; 6) | (((g) &gt;&gt; 6) &lt;&lt; 2) | (((<a class="el" href="sms_8h.html#a4c2e4adef74067fdbb49005bc73de937">b</a>) &gt;&gt; 6) &lt;&lt; 4)))</td></tr>
@@ -199,6 +203,14 @@ Macros</h2></td></tr>
 <tr class="separator:a9506d04c2ec7d2442a52054f67d2b32f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a826169925ff12d52f0a0d51f14d2936b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a826169925ff12d52f0a0d51f14d2936b">S_PAL</a>(n)&#160;&#160;&#160;n</td></tr>
 <tr class="separator:a826169925ff12d52f0a0d51f14d2936b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa027abe630d44039f238034bcb2d2f36"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#aa027abe630d44039f238034bcb2d2f36">EMPTY_IFLAG</a>&#160;&#160;&#160;0x00U</td></tr>
+<tr class="separator:aa027abe630d44039f238034bcb2d2f36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ca7720b9a5da9b2173e1f74dba85541"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a2ca7720b9a5da9b2173e1f74dba85541">VBL_IFLAG</a>&#160;&#160;&#160;0x01U</td></tr>
+<tr class="separator:a2ca7720b9a5da9b2173e1f74dba85541"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61a9e2910380de6abb34df14ef634eb4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a61a9e2910380de6abb34df14ef634eb4">LCD_IFLAG</a>&#160;&#160;&#160;0x02U</td></tr>
+<tr class="separator:a61a9e2910380de6abb34df14ef634eb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a604256210ec5b90b68185e1a18efab49"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a604256210ec5b90b68185e1a18efab49">TIM_IFLAG</a>&#160;&#160;&#160;0x04U</td></tr>
+<tr class="separator:a604256210ec5b90b68185e1a18efab49"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab311e53739c992294ae07ca506a924ad"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ab311e53739c992294ae07ca506a924ad">DMG_BLACK</a>&#160;&#160;&#160;0x03</td></tr>
 <tr class="separator:ab311e53739c992294ae07ca506a924ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a45d13a674e169dd83df7e1f46513ccba"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a45d13a674e169dd83df7e1f46513ccba">DMG_DARK_GRAY</a>&#160;&#160;&#160;0x02</td></tr>
@@ -311,10 +323,14 @@ Functions</h2></td></tr>
 <tr class="separator:a5cc6bac1f2f0e9f71c7826a3ee8f35d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aca7413d0441f3ce1f30cca15ce4678ab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#aca7413d0441f3ce1f30cca15ce4678ab">remove_LCD</a> (<a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a> <a class="el" href="sms_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>) NO_OVERLAY_LOCALS</td></tr>
 <tr class="separator:aca7413d0441f3ce1f30cca15ce4678ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95b3f2754671e9aff7eb86e181d8ab99"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a95b3f2754671e9aff7eb86e181d8ab99">remove_TIM</a> (<a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a> <a class="el" href="sms_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:a95b3f2754671e9aff7eb86e181d8ab99"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a44e3fc6c86253db08fa99fdc448b1df0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a44e3fc6c86253db08fa99fdc448b1df0">add_VBL</a> (<a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a> <a class="el" href="sms_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>) NO_OVERLAY_LOCALS</td></tr>
 <tr class="separator:a44e3fc6c86253db08fa99fdc448b1df0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad572dce0c703ed78eadcf5cd6cce7dd2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ad572dce0c703ed78eadcf5cd6cce7dd2">add_LCD</a> (<a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a> <a class="el" href="sms_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>) NO_OVERLAY_LOCALS</td></tr>
 <tr class="separator:ad572dce0c703ed78eadcf5cd6cce7dd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0cfd2f31b0dc3f15ef7c1305e383676"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ad0cfd2f31b0dc3f15ef7c1305e383676">add_TIM</a> (<a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a> <a class="el" href="sms_8h.html#aba4fa6f13f80e53daeb0caa7b1ec8afb">h</a>) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:ad0cfd2f31b0dc3f15ef7c1305e383676"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade75173639b6e7be241b8eb31fe825ef"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#ade75173639b6e7be241b8eb31fe825ef">mode</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> m) NO_OVERLAY_LOCALS</td></tr>
 <tr class="separator:ade75173639b6e7be241b8eb31fe825ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abac3c04dc3c056618aca0a0052f2cb93"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#abac3c04dc3c056618aca0a0052f2cb93">get_mode</a> (void) NO_OVERLAY_LOCALS</td></tr>
@@ -337,6 +353,10 @@ Functions</h2></td></tr>
 <tr class="separator:a232883ed798bce00a03b09705c67deef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b17818c7916bc2ff75196ff0627b1e9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a2b17818c7916bc2ff75196ff0627b1e9">disable_interrupts</a> (void)</td></tr>
 <tr class="separator:a2b17818c7916bc2ff75196ff0627b1e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a188c65cfeab067cc2b6dcbc97bf24a82"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a188c65cfeab067cc2b6dcbc97bf24a82">set_interrupts</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> flags) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:a188c65cfeab067cc2b6dcbc97bf24a82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3aea9deb2a0bfea9ff05a898f4822e31"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a3aea9deb2a0bfea9ff05a898f4822e31">reset</a> (void)</td></tr>
+<tr class="separator:a3aea9deb2a0bfea9ff05a898f4822e31"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a73b4e18d7f5eaf5398bf0241c9c21586"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a73b4e18d7f5eaf5398bf0241c9c21586">vsync</a> (void) NO_OVERLAY_LOCALS</td></tr>
 <tr class="separator:a73b4e18d7f5eaf5398bf0241c9c21586"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a64538fb78ce148a1a7045245f084a710"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#a64538fb78ce148a1a7045245f084a710">wait_vbl_done</a> (void) NO_OVERLAY_LOCALS</td></tr>
@@ -534,6 +554,34 @@ Variables</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">#define SYSTEM_50HZ&#160;&#160;&#160;0x01</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae85f322d3e5c6f1f1ebc934ae22f51ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae85f322d3e5c6f1f1ebc934ae22f51ea">&#9670;&nbsp;</a></span>TIMER_VBLANK_PARITY_MODE_SYSTEM_60HZ</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define TIMER_VBLANK_PARITY_MODE_SYSTEM_60HZ&#160;&#160;&#160;0x78</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9a99bab8bac700048df9d8797bed56ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a99bab8bac700048df9d8797bed56ce">&#9670;&nbsp;</a></span>TIMER_VBLANK_PARITY_MODE_SYSTEM_50HZ</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define TIMER_VBLANK_PARITY_MODE_SYSTEM_50HZ&#160;&#160;&#160;0x5D</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1117,6 +1165,73 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Defines how palette number is encoded in OAM. Required for the png2asset tool's metasprite output. </p>
+
+</div>
+</div>
+<a id="aa027abe630d44039f238034bcb2d2f36"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa027abe630d44039f238034bcb2d2f36">&#9670;&nbsp;</a></span>EMPTY_IFLAG</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EMPTY_IFLAG&#160;&#160;&#160;0x00U</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Disable calling of interrupt service routines </p>
+
+</div>
+</div>
+<a id="a2ca7720b9a5da9b2173e1f74dba85541"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ca7720b9a5da9b2173e1f74dba85541">&#9670;&nbsp;</a></span>VBL_IFLAG</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define VBL_IFLAG&#160;&#160;&#160;0x01U</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>VBlank Interrupt occurs at the start of the vertical blank.</p>
+<p>During this period the video ram may be freely accessed. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a188c65cfeab067cc2b6dcbc97bf24a82">set_interrupts()</a>, </dd>
+<dd>
+<a class="el" href="nes_8h.html#a44e3fc6c86253db08fa99fdc448b1df0">add_VBL</a> </dd></dl>
+
+</div>
+</div>
+<a id="a61a9e2910380de6abb34df14ef634eb4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a61a9e2910380de6abb34df14ef634eb4">&#9670;&nbsp;</a></span>LCD_IFLAG</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LCD_IFLAG&#160;&#160;&#160;0x02U</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>LCD Interrupt when triggered by the STAT register. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a188c65cfeab067cc2b6dcbc97bf24a82">set_interrupts()</a>, </dd>
+<dd>
+<a class="el" href="nes_8h.html#ad572dce0c703ed78eadcf5cd6cce7dd2">add_LCD</a> </dd></dl>
+
+</div>
+</div>
+<a id="a604256210ec5b90b68185e1a18efab49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a604256210ec5b90b68185e1a18efab49">&#9670;&nbsp;</a></span>TIM_IFLAG</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define TIM_IFLAG&#160;&#160;&#160;0x04U</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Timer Interrupt when the timer <a class="el" href="sms_2hardware_8h.html#a4741a62d05deefc649df160baca326dd">TIMA_REG</a> overflows. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a188c65cfeab067cc2b6dcbc97bf24a82">set_interrupts()</a>, </dd>
+<dd>
+<a class="el" href="nes_8h.html#ad0cfd2f31b0dc3f15ef7c1305e383676">add_TIM</a> </dd></dl>
 
 </div>
 </div>
@@ -2148,6 +2263,25 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a95b3f2754671e9aff7eb86e181d8ab99"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95b3f2754671e9aff7eb86e181d8ab99">&#9670;&nbsp;</a></span>remove_TIM()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void remove_TIM </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a>&#160;</td>
+          <td class="paramname"><em>h</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Removes the TIM interrupt handler. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#ad0cfd2f31b0dc3f15ef7c1305e383676">add_TIM()</a>, <a class="el" href="nes_8h.html#a5cc6bac1f2f0e9f71c7826a3ee8f35d0">remove_VBL()</a> </dd></dl>
+
+</div>
+</div>
 <a id="a44e3fc6c86253db08fa99fdc448b1df0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a44e3fc6c86253db08fa99fdc448b1df0">&#9670;&nbsp;</a></span>add_VBL()</h2>
 
@@ -2205,6 +2339,31 @@ On the current NES implementation, this handler is actually faked, and called be
 <dl class="section note"><dt>Note</dt><dd>On the current NES implementation, this handler is actually faked, and called by the default VBL handler after a manual delay loop. Only one such faked "interrupt" is possible per frame. This means the CPU cycles wasted in the delay loop increase with higher values of _lcd_scanline. In practice, it makes this functionality mostly suited for a top status bar.</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="msx_8h.html#ae59628e2237f301df1341e22bfc8296e">add_VBL</a>, <a class="el" href="gb_8h.html#a4e4afc51edff293a392211cb8d836591">nowait_int_handler</a>, <a class="el" href="isr_8h.html#a73769fed9338af86fdb7df35d7b82620">ISR_VECTOR()</a></dd></dl>
 <p>Adds a LCD interrupt handler. </p>
+
+</div>
+</div>
+<a id="ad0cfd2f31b0dc3f15ef7c1305e383676"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0cfd2f31b0dc3f15ef7c1305e383676">&#9670;&nbsp;</a></span>add_TIM()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void add_TIM </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sms_8h.html#a9508f919d9482d1d51534ccac212454d">int_handler</a>&#160;</td>
+          <td class="paramname"><em>h</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Adds a timer interrupt handler.</p>
+<p>Can not be used together with <a class="el" href="gb_8h.html#a617176cc314371eeddcd8903584d62f0">add_low_priority_TIM</a></p>
+<p>This interrupt handler is invoked at the end of the NMI handler for gbdk-nes, after first processing the registers writes done by the VBL and and LCD handlers. It is therefore currently limited to 60Hz / 50Hz (depending on system).</p>
+<dl class="section note"><dt>Note</dt><dd>Make sure to wrap TIM interrupt handlers with a nooverlay pragma. For more details see <a class="el" href="docs_supported_consoles.html#docs_nes_tim_overlay">docs_nes_tim_overlay</a></dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a44e3fc6c86253db08fa99fdc448b1df0">add_VBL</a> </dd>
+<dd>
+<a class="el" href="nes_8h.html#a188c65cfeab067cc2b6dcbc97bf24a82">set_interrupts()</a> with <a class="el" href="nes_8h.html#a604256210ec5b90b68185e1a18efab49">TIM_IFLAG</a>, <a class="el" href="isr_8h.html#a73769fed9338af86fdb7df35d7b82620">ISR_VECTOR()</a> </dd></dl>
 
 </div>
 </div>
@@ -2475,7 +2634,7 @@ On the current NES implementation, this handler is actually faked, and called be
 </div><div class="memdoc">
 <p>Enables unmasked interrupts</p>
 <dl class="section note"><dt>Note</dt><dd>Use <a class="el" href="asm_2types_8h.html#ae0233515480e60d29bcc731469976e02">CRITICAL</a> {...} instead for creating a block of of code which should execute with interrupts temporarily turned off.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a2b17818c7916bc2ff75196ff0627b1e9">disable_interrupts</a>, <a class="el" href="sms_8h.html#aefda0091b2934571a11e07b512735f50">set_interrupts</a>, <a class="el" href="asm_2types_8h.html#ae0233515480e60d29bcc731469976e02">CRITICAL</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a2b17818c7916bc2ff75196ff0627b1e9">disable_interrupts</a>, <a class="el" href="nes_8h.html#a188c65cfeab067cc2b6dcbc97bf24a82">set_interrupts</a>, <a class="el" href="asm_2types_8h.html#ae0233515480e60d29bcc731469976e02">CRITICAL</a> </dd></dl>
 
 </div>
 </div>
@@ -2505,7 +2664,72 @@ On the current NES implementation, this handler is actually faked, and called be
 <p>Disables interrupts</p>
 <dl class="section note"><dt>Note</dt><dd>Use <a class="el" href="asm_2types_8h.html#ae0233515480e60d29bcc731469976e02">CRITICAL</a> {...} instead for creating a block of of code which should execute with interrupts temporarily turned off.</dd></dl>
 <p>This function may be called as many times as you like; however the first call to <a class="el" href="sms_8h.html#aad3a9797fd6d216671b5bbaccd8a4916">enable_interrupts</a> will re-enable them.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a232883ed798bce00a03b09705c67deef">enable_interrupts</a>, <a class="el" href="sms_8h.html#aefda0091b2934571a11e07b512735f50">set_interrupts</a>, <a class="el" href="asm_2types_8h.html#ae0233515480e60d29bcc731469976e02">CRITICAL</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#a232883ed798bce00a03b09705c67deef">enable_interrupts</a>, <a class="el" href="nes_8h.html#a188c65cfeab067cc2b6dcbc97bf24a82">set_interrupts</a>, <a class="el" href="asm_2types_8h.html#ae0233515480e60d29bcc731469976e02">CRITICAL</a> </dd></dl>
+
+</div>
+</div>
+<a id="a188c65cfeab067cc2b6dcbc97bf24a82"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a188c65cfeab067cc2b6dcbc97bf24a82">&#9670;&nbsp;</a></span>set_interrupts()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void set_interrupts </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>flags</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Sets the interrupt mask to flags. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">flags</td><td>A logical OR of *_IFLAGS</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a2ca7720b9a5da9b2173e1f74dba85541">VBL_IFLAG</a>, <a class="el" href="gb_8h.html#a61a9e2910380de6abb34df14ef634eb4">LCD_IFLAG</a>, <a class="el" href="gb_8h.html#a604256210ec5b90b68185e1a18efab49">TIM_IFLAG</a></dd></dl>
+<p>Clears any pending interrupts and sets the interrupt mask register IO to flags. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">flags</td><td>A logical OR of *_IFLAGS</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>This disables and then re-enables interrupts so it must be used outside of a critical section.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#aad3a9797fd6d216671b5bbaccd8a4916">enable_interrupts()</a>, <a class="el" href="gb_8h.html#ae3e53d15b4fc64f43761f55c1793b490">disable_interrupts()</a> </dd>
+<dd>
+<a class="el" href="gb_8h.html#a2ca7720b9a5da9b2173e1f74dba85541">VBL_IFLAG</a>, <a class="el" href="gb_8h.html#a61a9e2910380de6abb34df14ef634eb4">LCD_IFLAG</a>, <a class="el" href="gb_8h.html#a604256210ec5b90b68185e1a18efab49">TIM_IFLAG</a>, <a class="el" href="gb_8h.html#ad90564458646c5646b3880b93db3443e">SIO_IFLAG</a>, <a class="el" href="gb_8h.html#a2f829cf27d6e3e24c875e9b82dfcb280">JOY_IFLAG</a> </dd></dl>
+
+</div>
+</div>
+<a id="a3aea9deb2a0bfea9ff05a898f4822e31"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3aea9deb2a0bfea9ff05a898f4822e31">&#9670;&nbsp;</a></span>reset()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void reset </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Performs a soft reset.</p>
+<p>For the Game Boy and related it does this by jumping to address 0x0150 which is in crt0.s (the c-runtime that executes before main() is called).</p>
+<p>This performs various startup steps such as resetting the stack, clearing WRAM and OAM, resetting initialized variables and some display registers (scroll, window, LCDC), etc.</p>
+<p>This is not the same a hard power reset. </p>
 
 </div>
 </div>
@@ -4177,9 +4401,9 @@ On the current NES implementation, this handler is actually faked, and called be
 <div class="line"><span class="comment">// These flags tell the sprite to use the first sprite palette (palette 4) and to flip the sprite both vertically and horizontally.</span></div>
 <div class="line"><a class="code" href="gb_8h.html#a99ea3252469e3614e977cce2aa1d06f7">set_sprite_prop</a>(0, <a class="code" href="gb_8h.html#a4bbb9cd6c38b2317de5256d1d889c63b">S_FLIPY</a> | <a class="code" href="gb_8h.html#ae97793b4039609f93b0f7f8bddb18011">S_FLIPX</a>);</div>
 <div class="ttc" id="agb_8h_html_a4bbb9cd6c38b2317de5256d1d889c63b"><div class="ttname"><a href="gb_8h.html#a4bbb9cd6c38b2317de5256d1d889c63b">S_FLIPY</a></div><div class="ttdeci">#define S_FLIPY</div><div class="ttdef"><b>Definition:</b> gb.h:96</div></div>
-<div class="ttc" id="agb_8h_html_a99ea3252469e3614e977cce2aa1d06f7"><div class="ttname"><a href="gb_8h.html#a99ea3252469e3614e977cce2aa1d06f7">set_sprite_prop</a></div><div class="ttdeci">void set_sprite_prop(uint8_t nb, uint8_t prop)</div><div class="ttdef"><b>Definition:</b> gb.h:1933</div></div>
+<div class="ttc" id="agb_8h_html_a99ea3252469e3614e977cce2aa1d06f7"><div class="ttname"><a href="gb_8h.html#a99ea3252469e3614e977cce2aa1d06f7">set_sprite_prop</a></div><div class="ttdeci">void set_sprite_prop(uint8_t nb, uint8_t prop)</div><div class="ttdef"><b>Definition:</b> gb.h:1945</div></div>
 <div class="ttc" id="agb_8h_html_ae97793b4039609f93b0f7f8bddb18011"><div class="ttname"><a href="gb_8h.html#ae97793b4039609f93b0f7f8bddb18011">S_FLIPX</a></div><div class="ttdeci">#define S_FLIPX</div><div class="ttdef"><b>Definition:</b> gb.h:92</div></div>
-<div class="ttc" id="amsx_8h_html_a7d5ed1aed79d8fd2894893d7f6f9b835"><div class="ttname"><a href="msx_8h.html#a7d5ed1aed79d8fd2894893d7f6f9b835">set_sprite_palette</a></div><div class="ttdeci">#define set_sprite_palette(first_palette, nb_palettes, rgb_data)</div><div class="ttdef"><b>Definition:</b> msx.h:550</div></div>
+<div class="ttc" id="amsx_8h_html_a7d5ed1aed79d8fd2894893d7f6f9b835"><div class="ttname"><a href="msx_8h.html#a7d5ed1aed79d8fd2894893d7f6f9b835">set_sprite_palette</a></div><div class="ttdeci">#define set_sprite_palette(first_palette, nb_palettes, rgb_data)</div><div class="ttdef"><b>Definition:</b> msx.h:558</div></div>
 </div><!-- fragment --><dl class="section see"><dt>See also</dt><dd><a class="el" href="sms_8h.html#a54572cf6791463b6d60623837e0bb5a6">S_PALETTE</a>, <a class="el" href="sms_8h.html#ae97793b4039609f93b0f7f8bddb18011">S_FLIPX</a>, <a class="el" href="sms_8h.html#a4bbb9cd6c38b2317de5256d1d889c63b">S_FLIPY</a>, <a class="el" href="sms_8h.html#a9506d04c2ec7d2442a52054f67d2b32f">S_PRIORITY</a></dd></dl>
 <p>Sets the OAM Property Flags of sprite number <b>nb</b> to those defined in <b>prop</b>.</p>
 <dl class="params"><dt>Parameters</dt><dd>

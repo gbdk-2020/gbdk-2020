@@ -29,6 +29,14 @@ var nes_2hardware_8h =
     [ "DEVICE_WINDOW_PX_OFFSET_Y", "nes_2hardware_8h.html#a3f8565ca9dc8eacd88d0d58313408329", null ],
     [ "DEVICE_SCREEN_PX_WIDTH", "nes_2hardware_8h.html#ad14c51cdfb347c34c364f54e67dc978d", null ],
     [ "DEVICE_SCREEN_PX_HEIGHT", "nes_2hardware_8h.html#a7bd450aa268b881257089cf8cd6697ec", null ],
+    [ "SCY_REG", "nes_2hardware_8h.html#ac94ac39616b51ba3fe8114184c27835c", null ],
+    [ "rSCY", "nes_2hardware_8h.html#ad2537c13699429afa59a68c6d6598632", null ],
+    [ "SCX_REG", "nes_2hardware_8h.html#a8abfeb955f7ba9712a82059258acb9c4", null ],
+    [ "rSCX", "nes_2hardware_8h.html#a97932e023d96ece4715802b6c2565c43", null ],
+    [ "LY_REG", "nes_2hardware_8h.html#ae2aa15a7abee74b48af77f2730130d5e", null ],
+    [ "rLY", "nes_2hardware_8h.html#aa851dae67d0bb80c17415774558d985f", null ],
+    [ "LYC_REG", "nes_2hardware_8h.html#ab6b2d3e024863233f59041b1b931d1ea", null ],
+    [ "rLYC", "nes_2hardware_8h.html#a92083741d31c9b2206b403e97124cbdc", null ],
     [ "__REG", "nes_2hardware_8h.html#a5f02ccf1491e0ff70833ac35d83cb814", null ],
     [ "__REG", "nes_2hardware_8h.html#a6a06f6bfe5466b54fcffb30e1fe657e5", null ],
     [ "__REG", "nes_2hardware_8h.html#a922873e2061c4bb9dc81c2888b6ec006", null ],
@@ -41,5 +49,9 @@ var nes_2hardware_8h =
     [ "shadow_PPUCTRL", "nes_2hardware_8h.html#ae7753ae877137d76083b660aea9526b7", null ],
     [ "shadow_PPUMASK", "nes_2hardware_8h.html#a179ba142ebf05f2d0d2df6c47da2f6b4", null ],
     [ "bkg_scroll_x", "nes_2hardware_8h.html#a406100d23af09b16e4b43a2d0eefe741", null ],
-    [ "bkg_scroll_y", "nes_2hardware_8h.html#ad6629a16788cf8cc495555d7fae64d9f", null ]
+    [ "bkg_scroll_y", "nes_2hardware_8h.html#ad6629a16788cf8cc495555d7fae64d9f", null ],
+    [ "_lcd_scanline", "nes_2hardware_8h.html#a8c89d860d9de0e33d79f13944699ddd7", null ],
+    [ "TIMA_REG", "nes_2hardware_8h.html#a4741a62d05deefc649df160baca326dd", null ],
+    [ "TMA_REG", "nes_2hardware_8h.html#a555981cd27ce7cf2057c88890208e569", null ],
+    [ "TAC_REG", "nes_2hardware_8h.html#adc3c7d0fe4256fd16fe86c1b6386720f", null ]
 ];
