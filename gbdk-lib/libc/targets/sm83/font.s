@@ -546,7 +546,9 @@ _posy::
         ;; Clear screen
         CALL    .cls_no_reset_pos
 
-        LD      A,#.T_MODE
+        LD      A,(.mode)
+        AND     #.S_M_MASK
+        OR      #.T_MODE
         LD      (.mode),A
 
         RET
