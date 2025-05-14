@@ -442,15 +442,15 @@ Direct mode also affects how (fake) interrupt handlers are processed. As long as
 
 The TIM handler will still be executed as normal.
 
-#### Caveat: Only update the PPU palette during buffered mode
+#### Caveat: Write appropriate global backdrop before turning display off
 
-The oddity that PPU palette values are accessed through the same mechanism as other PPU memory bytes comes with the side effect that the vblank NMI handler will only write the palette values in buffered mode.
+On the GB, when the display is turned off the LCD will display a whiter-than-white color.
 
-The reason for this design choice is two-fold:
-* Having the NMI handler keep doing the palette updates when in direct mode would result in a race condition when the NMI handler interrupts the direct mode code and messes with the PPUADDR state that the direct mode code expects to remain unchanged
-* Having the palette updates also switch to direct mode would run into another quirk of the system: Pointing PPUADDR at palette registers when display is turned off will make the display output that palette color instead of the common background color. The result would be glitchy artifacts on screen when updating the palette, leading to a slightly-glitchy looking game whenever the palette is updated with the screen off
+On the NES, calling DISPLAY_OFF will turn sprites and BG off and allow VRAM writes in direct mode. But the color displayed will be last global backdrop color (i.e. palette entry 0) that was written before DISPLAY_OFF was called.
 
-To work around this, you are advised to never fully turn the display off during a palette fade. If you don't follow this advice all your palette updates will get delayed until the screen is turned back on.
+Because all palette writes will be postponed in direct mode, the same also applies to other palette entries: Their values will be maintained in RAM, but never actually reach the PPU's hardware palette registers until buffered mode is re-entered by calling DISPLAY_ON.
+
+You should not try to do any palette fades after calling DISPLAY_OFF, as they will be delayed in direct mode until the display is turned on again with DISPLAY_ON. Once DISPLAY_ON is called, the NMI handler will start updating the hardware palette registers with the RAM registers as normal.
 
 ### Shadow PPU registers
 
