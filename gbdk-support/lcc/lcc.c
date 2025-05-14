@@ -65,6 +65,7 @@ static void warn_obsolete_option(char * arg);
 
 // These get populated from _class using finalise() in gb.c
 extern char *cpp[], *include[], *com[], *as[], *bankpack[], *ld[], *ihxcheck[], *mkbin[], *postproc[], inputs[], *suffixes[], *rom_extension;
+extern bool has_postproc_stage;
 extern arg_entry *llist0_defaults;
 extern int llist0_defaults_len;
 
@@ -304,7 +305,7 @@ int main(int argc, char *argv[]) {
 			if(errcnt == 0)
 			{
 				// makebin - use output filename unless there is a post-process step
-				if (strlen(postproc) == 0)
+				if (has_postproc_stage == false)
 					sprintf(binFile, "%s", outfile);
 				else
 					sprintf(binFile, "%s", path_newext(outfile, EXT_ROM));
@@ -321,7 +322,7 @@ int main(int argc, char *argv[]) {
 
 				// Post-process step (such as makecom, makenes), if applicable
 				// This won't apply if the targets .postproc template entry is empty ("")
-				if ((strlen(postproc) != 0) && (errcnt == 0)) {
+				if (has_postproc_stage && (errcnt == 0)) {
 					compose(postproc, postproclist, append(binFile, 0), append(outfile, 0));
 					if (callsys(av))
 						errcnt++;

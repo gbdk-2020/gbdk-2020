@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <assert.h>
 #include <ctype.h>
 
@@ -223,6 +224,7 @@ char *ld[256];
 char *bankpack[256];
 char *mkbin[256];
 char *postproc[256];
+bool has_postproc_stage;
 char *rom_extension;
 arg_entry *llist0_defaults;
 int llist0_defaults_len = 0;
@@ -321,7 +323,12 @@ void finalise(void)
 	buildArgs(ld, _class->ld);
 	buildArgs(ihxcheck, _class->ihxcheck);
 	buildArgs(mkbin, _class->mkbin);
-		if (strlen(_class->postproc) != 0) buildArgs(postproc, _class->postproc); else postproc[0] = '\0';
+	if (strlen(_class->postproc) != 0) {
+		buildArgs(postproc, _class->postproc);
+		has_postproc_stage = true;
+	} else {
+		has_postproc_stage = false;
+	}
 	rom_extension = strdup(_class->rom_extension);
 	llist0_defaults = _class->llist0_defaults;
 	llist0_defaults_len = _class->llist0_defaults_len;
