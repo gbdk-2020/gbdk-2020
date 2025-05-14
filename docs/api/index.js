@@ -188,7 +188,7 @@ var index =
           [ "Buffered mode vs direct mode", "docs_supported_consoles.html#autotoc_md178", [
             [ "Buffered mode implementation details", "docs_supported_consoles.html#autotoc_md179", null ],
             [ "Direct mode implementation details", "docs_supported_consoles.html#autotoc_md180", null ],
-            [ "Caveat: Only update the PPU palette during buffered mode", "docs_supported_consoles.html#autotoc_md181", null ]
+            [ "Caveat: Write appropriate global backdrop before turning display off", "docs_supported_consoles.html#autotoc_md181", null ]
           ] ],
           [ "Shadow PPU registers", "docs_supported_consoles.html#autotoc_md182", null ],
           [ "Implementation of (fake) vbl / lcd handlers", "docs_supported_consoles.html#autotoc_md183", null ],
