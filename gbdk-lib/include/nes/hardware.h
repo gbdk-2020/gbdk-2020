@@ -42,8 +42,35 @@ __REG(0x4014) OAMDMA;
 #define DEVICE_SCREEN_Y_OFFSET 0
 #define DEVICE_SCREEN_WIDTH 32
 #define DEVICE_SCREEN_HEIGHT 30
+
+#if defined(NES_TILEMAP_F)
+// Full tilemap
+#define DEVICE_SCREEN_BUFFER_WIDTH 64
+#define DEVICE_SCREEN_BUFFER_HEIGHT 60
+typedef uint16_t scroll_x_t;
+typedef uint16_t scroll_y_t;
+#elif defined(NES_TILEMAP_H)
+// Horizontally arranged tilemap
+#define DEVICE_SCREEN_BUFFER_WIDTH 64
+#define DEVICE_SCREEN_BUFFER_HEIGHT 30
+typedef uint16_t scroll_x_t;
+typedef uint8_t scroll_y_t;
+#elif defined(NES_TILEMAP_V)
+// Vertically arranged tilemap
+#define DEVICE_SCREEN_BUFFER_WIDTH 32
+#define DEVICE_SCREEN_BUFFER_HEIGHT 60
+typedef uint8_t scroll_x_t;
+typedef uint16_t scroll_y_t;
+#elif defined(NES_TILEMAP_S)
+// Single-screen tilemap
 #define DEVICE_SCREEN_BUFFER_WIDTH 32
 #define DEVICE_SCREEN_BUFFER_HEIGHT 30
+typedef uint8_t scroll_x_t;
+typedef uint8_t scroll_y_t;
+#else
+#error "Must define tilemap layout: NES_TILEMAP_[F|H|V|S]"
+#endif
+
 #define DEVICE_SCREEN_MAP_ENTRY_SIZE 1
 #define DEVICE_SPRITE_PX_OFFSET_X 0
 #define DEVICE_SPRITE_PX_OFFSET_Y -1

@@ -16,7 +16,7 @@ INCBIN(map_compressed, "res/map.bin.rle")
 INCBIN_EXTERN(map_compressed)
 
 uint8_t data[MAP_DATA_HEIGHT];  // Collision map buffer
-uint8_t scrollpos = 0;              // Scroll position in pixels
+uint16_t scrollpos = 0;             // Scroll position in pixels
 uint8_t datapos = 0;                // x position in tiles inside the collision map
 
 void main(void) {

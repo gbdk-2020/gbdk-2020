@@ -8,9 +8,11 @@
     .ypos:                                  .ds 1
     .num_columns:                           .ds 1
     .num_rows:                              .ds 1
-    .src:                                   .ds 2
-    .dst:                                   .ds 2
+    .height_second_pass:                    .ds 1
+    .height_first_pass:                     .ds 1
     .attribute_x_odd:                       .ds 1
+    .starty_second_pass:                    .ds 1
+    .x_bits:                                .ds 1
     .attribute_y_odd:                       .ds 1
     .attribute_num_columns_odd:             .ds 1
     .attribute_num_rows_odd:                .ds 1
@@ -19,63 +21,122 @@
 
 .define .width  "_set_bkg_attributes_nes16x16_PARM_3"
 .define .height "_set_bkg_attributes_nes16x16_PARM_4"
-.define .tiles  "_set_bkg_attributes_nes16x16_PARM_5"
+.define .src    "_set_bkg_attributes_nes16x16_PARM_5"
 
-;
-; Fast version writing directly to PPU memory.
-; Does not handle unaligned x & y and assumes even number of columns / rows
-;
-_set_bkg_attributes_nes16x16_fast::
-1$:
-    lda *.ypos
-    asl
-    asl
-    asl
-    ora *.xpos
-    sta *.tmp
-    lda #>PPU_AT0
-    sta PPUADDR
-    lda *.tmp
-    ora #<PPU_AT0
-    sta PPUADDR
-    ldx *.tmp
-    ldy #0
-2$:
-    lda [*.src],y
-    sta PPUDATA
-    sta _attribute_shadow,x
+.macro INC_X ?lbl
+    ; Increment dst index
     inx
+    txa
+    bit *.x_bits
+    bne lbl
+    sec
+    sbc #AT_SHADOW_WIDTH
+    tax
+lbl:
+    ; Increment src index
     iny
-    cpy *.num_columns
-    bne 2$
-    ; .src += y
-    tya
-    clc
-    adc *.src
-    sta *.src
-    lda #0
-    adc *.src+1
-    sta *.src+1
-    inc *.ypos
-    dec *.num_rows
-    bne 1$
-    rts
+.endm
 
 _set_bkg_attributes_nes16x16::
+    pha
+.ifne NT_2H
+    ; Two vertical nametables -> wrap around to next
+    lda #0x10
+.else
+    ; One vertical nametable -> wrap around to self
+    lda #0x00
+.endif
+    sta *.starty_second_pass
+    txa
+    ldy #(.DEVICE_SCREEN_HEIGHT/2)      ; Row end
+    cmp #(.DEVICE_SCREEN_HEIGHT/2)
+    bcc 1$
+    sbc #(.DEVICE_SCREEN_HEIGHT/2)      ; Assumes carry set
+.ifne NT_2H
+    ldy #0x00
+    sty *.starty_second_pass
+.endif
+    ldy #(2*.DEVICE_SCREEN_HEIGHT/2)    ; Row end
+1$:
+    clc
+    adc *.height
+    cmp #17
+    bcs .set_bkg_attributes_nes16x16_wrap_two_passes
+    ; No wrap - just do single pass
+    pla
+    jmp _set_bkg_attributes_nes16x16_impl
+
+.set_bkg_attributes_nes16x16_wrap_two_passes:
+    tya
+    ; num_rows_first = MIN(row_end-y, h);
+    sec
+    sbc .identity,x
+    cmp *.height
+    bcc 1$
+    lda *.height
+1$:
+    sta *.height_first_pass
+    lda *.height
+    sec
+    sbc *.height_first_pass
+    sta *.height_second_pass
+    ; First pass
+    lda *.height_first_pass
+    beq 11$
+    sta *.height
+    pla
+    pha
+    jsr _set_bkg_attributes_nes16x16_impl
+11$:
+    ; Second pass
+    lda *.height_second_pass
+    beq 3$
+    lsr *.height_first_pass
+    sta *.height
+    bcs 2$
+    ; num_rows_first was even, so attribute data for second pass starts at expected address
+    ; Start second pass at AT==16 (next attribute table)
+    lda *.starty_second_pass
+    tax
+    pla
+    jmp __set_bkg_attributes_nes16x16_impl_skip_y_adjustment
+2$:
+    ; num_rows_first was odd, so attribute data for second pass is half-way through expected address
+    ; Start second pass at AT y==15 to skip one half-row of attribute data (AT y==15 is always hidden)
+    lda *.starty_second_pass
+.ifne NT_2H
+    ; Two vertical nametables -> wrap around to last row of next nametable
+    eor #0x1F
+.else
+    ; One vertical nametable -> wrap around to last row of this nametable
+    eor #0x0F
+.endif
+    tax
+    pla
+    jmp __set_bkg_attributes_nes16x16_impl_skip_y_adjustment
+3$:
+    pla
+    rts
+
+_set_bkg_attributes_nes16x16_impl::
+    ; Adjust Y-coordinate to skip last unused half-row of 8x8 attribute table
+    cpx #(2*AT_HEIGHT-1)
+    bcc 42$
+    inx
+42$:
+__set_bkg_attributes_nes16x16_impl_skip_y_adjustment::
+    stx *.ypos
     lsr                             ; Make xpos count 32x32 areas / full bytes
     ror *.attribute_x_odd           ; ...and potentially mark x as odd-numbered
     sta *.xpos
-    stx *.ypos
     lsr *.ypos                      ; Make ypos count 32x32 areas / full bytes
     ror *.attribute_y_odd           ; ...and potentially mark y as odd-numbered
-    lda *.tiles
-    sta *.src
-    lda *.tiles+1
-    sta *.src+1
     lda *.height
     lsr                             ; Make num_rows count 32x32 areas / full bytes
     ror *.attribute_num_rows_odd    ; ...and mark num_rows as odd-numbered
     sta *.num_rows
+    lda #AT_SHADOW_WIDTH-1
+    sta *.x_bits
     ;
     lda *.width
     lsr                             ; Make num_columns count 32x32 areas / full bytes
@@ -86,14 +147,15 @@ _set_bkg_attributes_nes16x16::
     asl
     asl
     asl
+.ifne NT_2W
+    asl
+.endif
     ora *.xpos
-    clc
-    adc #<_attribute_shadow
-    sta *.dst
-    lda #>_attribute_shadow
-    adc #0
-    sta *.dst+1
+    pha
+    tax
     jsr .attribute_set_dirty
+    pla
+    tax
     ; Branch into distinct routines based on whether x / y are aligned
     ; (even or odd width / height are handled internally by these routines)
     bit *.attribute_y_odd
@@ -116,66 +178,51 @@ _set_bkg_attributes_nes16x16::
     ; Unaligned Y, aligned X
     jmp unaligned_xy
 
-; Boilerplate code for row-loop
-.macro INC_SRC_AND_DST
-    ; src += num_columns
-    lda *.src
-    clc
-    adc *.num_columns
-    sta *.src
-    lda *.src+1
-    adc #0
-    sta *.src+1
-    ; dst += 8 (will never wrap boundary)
-    lda *.dst
-    adc #8
-    sta *.dst
-.endm
-
-
 ;
 ; Version for when x & y are both aligned to attribute byte-grid
 ;
 .macro ALIGNED_XY_RIGHT_EDGE at_mask at_mask_i ?lbl
     bit *.attribute_num_columns_odd
     bpl lbl
-    lda [*.dst],y
+    lda _attribute_shadow,x
     and #at_mask_i
     sta *.tmp
     lda [*.src],y
     and #at_mask
     ora *.tmp
-    sta [*.dst],y
+    sta _attribute_shadow,x
 lbl:
 .endm
 ;
 aligned_xy:
+    lda *.num_rows
+    beq aligned_xy_row_loop_end
 aligned_xy_row_loop:
-    ldy #0
+    jsr .reset_x_coord
 aligned_xy_column_loop:
     lda [*.src],y
-    sta [*.dst],y
-    iny
+    sta _attribute_shadow,x
+    INC_X
     cpy *.num_columns
     bne aligned_xy_column_loop
     ; If columns were odd, we have one more byte where only left part should be modified
     ALIGNED_XY_RIGHT_EDGE ATTRIBUTE_MASK_BL+ATTRIBUTE_MASK_TL, ATTRIBUTE_MASK_BR+ATTRIBUTE_MASK_TR
-    INC_SRC_AND_DST
-    dec *.num_rows
+    jsr .inc_row
     bne aligned_xy_row_loop
+aligned_xy_row_loop_end:
     ; If rows were odd, we have one additional row where only top part should be modified
     bit *.attribute_num_rows_odd
     bpl 1$
-    ldy #0
+    jsr .reset_x_coord
 2$:
-    lda [*.dst],y
+    lda _attribute_shadow,x
     and #ATTRIBUTE_MASK_BL+ATTRIBUTE_MASK_BR
     sta *.tmp
     lda [*.src],y
     and #ATTRIBUTE_MASK_TL+ATTRIBUTE_MASK_TR
     ora *.tmp
-    sta [*.dst],y
-    iny
+    sta _attribute_shadow,x
+    INC_X
     cpy *.num_columns
     bne 2$
     ; If columns were odd, we have one more byte where only top corner should be modified
@@ -190,13 +237,13 @@ aligned_xy_column_loop:
 .macro UNALIGNED_X_RIGHT_EDGE at_mask at_mask_i ?lbl
     bit *.attribute_num_columns_odd
     bmi lbl
-    lda [*.dst],y
+    lda _attribute_shadow,x
     and #at_mask_i
     sta *.tmp
     lda *p
     and #at_mask
     ora *.tmp
-    sta [*.dst],y
+    sta _attribute_shadow,x
 lbl:
 .endm
 unaligned_x:
@@ -206,11 +253,13 @@ unaligned_x:
     ; Odd columns get aligned at right edge - but we need to round num_rows upwards!
     inc *.num_columns
 8$:
+    lda *.num_rows
+    beq unaligned_x_row_loop_end
 unaligned_x_row_loop:
-    ldy #0
+    jsr .reset_x_coord
     ; As we're writing output +1 X coordinate to the right, first byte in attribute shadow must be a read-modify-write
     ; Fill p with old values for TL / BL, to initialize it for subsequent code.
-    lda [*.dst],y
+    lda _attribute_shadow,x
     and #ATTRIBUTE_MASK_TL+ATTRIBUTE_MASK_BL
     sta *p
 unaligned_x_column_loop:
@@ -222,28 +271,28 @@ unaligned_x_column_loop:
     and #ATTRIBUTE_MASK_TR+ATTRIBUTE_MASK_BR
     ; ...and combined with p providing left half 
     ora *p
-    sta [*.dst],y
+    sta _attribute_shadow,x
     ; While right half of src (top-right, bottom right) is saved in p for *next* byte as *left* half
     lda [*.src],y
     lsr
     lsr
     and #ATTRIBUTE_MASK_TL+ATTRIBUTE_MASK_BL
     sta *p
-    iny
+    INC_X
     cpy *.num_columns
     bne unaligned_x_column_loop
     ; If columns were NOT odd, we have one more byte where only left part should be modified
     UNALIGNED_X_RIGHT_EDGE ATTRIBUTE_MASK_BL+ATTRIBUTE_MASK_TL, ATTRIBUTE_MASK_BR+ATTRIBUTE_MASK_TR
-    INC_SRC_AND_DST
-    dec *.num_rows
+    jsr .inc_row
     bne unaligned_x_row_loop
+unaligned_x_row_loop_end:
     ; If rows were odd, we have one additional row where only top part should be modified
     bit *.attribute_num_rows_odd
     bpl 5$
-    ldy #0
+    jsr .reset_x_coord
     ; As we're writing output +1 X coordinate to the right, first byte in attribute shadow must be a read-modify-write
     ; Fill p with old values for TL / BL / BR, to initialize it for subsequent code.
-    lda [*.dst],y
+    lda _attribute_shadow,x
     and #ATTRIBUTE_MASK_TL+ATTRIBUTE_MASK_BL+ATTRIBUTE_MASK_BR
     sta *p
 2$:
@@ -255,14 +304,14 @@ unaligned_x_column_loop:
     and #ATTRIBUTE_MASK_TR
     ; ...and combined with p providing left half 
     ora *p
-    sta [*.dst],y
+    sta _attribute_shadow,x
     ; While right half of src (top-right, bottom left, bottom right) is saved in p for *next* byte as *left* half
     lda [*.src],y
     lsr
     lsr
     and #ATTRIBUTE_MASK_TL+ATTRIBUTE_MASK_BL+ATTRIBUTE_MASK_BR
     sta *p
-    iny
+    INC_X
     cpy *.num_columns
     bne 2$
     ; If columns were odd, we have one more byte where only top-left corner should be modified
@@ -276,7 +325,7 @@ unaligned_x_column_loop:
 .macro UNALIGNED_Y_RIGHT_EDGE at_mask at_mask_i ?lbl
     bit *.attribute_num_columns_odd
     bpl lbl
-    lda [*.dst],y
+    lda _attribute_shadow,x
     and #at_mask_i
     sta *.tmp
     lda [*.src],y
@@ -288,7 +337,7 @@ unaligned_x_column_loop:
     ora *.tmp
     ora *pRow,y
     and #at_mask
-    sta [*.dst],y
+    sta _attribute_shadow,x
     lda [*.src],y
     lsr
     lsr
@@ -309,16 +358,18 @@ unaligned_y:
     ; Even rows means additional row needed, but don't round num_rows upwards.
 ; As we're writing output +1 Y coordinate down, first row in attribute shadow must be a read-modify-write
 ; Fill pRow with old values for TL / TR, to initialize it for subsequent code.
-    ldy *.num_columns
-    dey
+    jsr .reset_x_coord
 unaligned_y_row_init_loop:
-    lda [*.dst],y
+    lda _attribute_shadow,x
     and #ATTRIBUTE_MASK_TL+ATTRIBUTE_MASK_TR
     sta *pRow,y
-    dey
-    bpl unaligned_y_row_init_loop
+    INC_X
+    cpy *.num_columns
+    bne unaligned_y_row_init_loop
+    lda *.num_rows
+    beq unaligned_y_row_loop_end
 unaligned_y_row_loop:
-    ldy #0
+    jsr .reset_x_coord
 unaligned_y_column_loop:
     lda [*.src],y
     ; Shift to move down one attribute coordinate, as y is unaligned
@@ -329,7 +380,7 @@ unaligned_y_column_loop:
     asl
     and #ATTRIBUTE_MASK_BL+ATTRIBUTE_MASK_BR
     ora *pRow,y
-    sta [*.dst],y
+    sta _attribute_shadow,x
     ; ...and bottom part is saved as top part for *next* row
     lda [*.src],y
     lsr
@@ -339,28 +390,28 @@ unaligned_y_column_loop:
     and #ATTRIBUTE_MASK_TL+ATTRIBUTE_MASK_TR
     sta *pRow,y
     ;
-    iny
+    INC_X
     cpy *.num_columns
     bne unaligned_y_column_loop
     ; If columns were odd, we have one more byte where only left part should be modified
     UNALIGNED_Y_RIGHT_EDGE ATTRIBUTE_MASK_BL+ATTRIBUTE_MASK_TL, ATTRIBUTE_MASK_BR+ATTRIBUTE_MASK_TR
-    INC_SRC_AND_DST
-    dec *.num_rows
+    jsr .inc_row
     bne unaligned_y_row_loop
+unaligned_y_row_loop_end:
     ; If rows were NOT odd, we have one additional row where only top part should be modified
     ; pRow should be used as source data
     bit *.attribute_num_rows_odd
     bmi 1$
-    ldy #0
+    jsr .reset_x_coord
 2$:
-    lda [*.dst],y
+    lda _attribute_shadow,x
     and #ATTRIBUTE_MASK_BL+ATTRIBUTE_MASK_BR
     sta *.tmp
     lda *pRow,y
     and #ATTRIBUTE_MASK_TL+ATTRIBUTE_MASK_TR
     ora *.tmp
-    sta [*.dst],y
-    iny
+    sta _attribute_shadow,x
+    INC_X
     cpy *.num_columns
     bne 2$
     ; If columns were odd, we have one more byte where only top-left corner should be modified
@@ -374,7 +425,7 @@ unaligned_y_column_loop:
 .macro UNALIGNED_XY_RIGHT_EDGE at_mask at_mask_i ?lbl
     bit *.attribute_num_columns_odd
     bmi lbl
-    lda [*.dst],y
+    lda _attribute_shadow,x
     and #at_mask_i
     sta *.tmp
     ; top-left taken from previous row...
@@ -389,7 +440,7 @@ unaligned_y_column_loop:
     and #ATTRIBUTE_MASK_BL
     ora *.tmp
     and #at_mask
-    sta [*.dst],y
+    sta _attribute_shadow,x
     ; ...finally, save *bottom-left in previous byte moved to top-left*
     lda *p
     lsr
@@ -417,30 +468,21 @@ unaligned_xy:
     ; Even rows means additional row needed, but don't round num_rows upwards.
 ; As we're writing output +1 Y coordinate down, first row in attribute shadow must be a read-modify-write
 ; Fill pRow with old values for TL / TR, to initialize it for subsequent code. Shift them in X by +1
-    ldy #0
-    lda [*.dst],y
-    and #ATTRIBUTE_MASK_TL
+    jsr .reset_x_coord
+    lda _attribute_shadow,x
+    and #ATTRIBUTE_MASK_BL
     sta *p
 unaligned_xy_row_init_loop:
-    lda [*.dst],y
-    ; TL -> TR
-    asl
-    asl
-    and #ATTRIBUTE_MASK_TR
-    ; Combine with TR -> TL from previous
-    ora *p
+    lda _attribute_shadow,x
+    and #ATTRIBUTE_MASK_TL+ATTRIBUTE_MASK_TR
     sta *pRow,y
-    lda [*.dst],y
-    ; TR -> TL for next
-    lsr
-    lsr
-    and #ATTRIBUTE_MASK_TL
-    sta *p
-    iny
+    INC_X
     cpy *.num_columns
     bne unaligned_xy_row_init_loop
+    lda *.num_rows
+    beq unaligned_xy_row_loop_end
 unaligned_xy_row_loop:
-    ldy #0
+    jsr .reset_x_coord
 unaligned_xy_column_loop:
     lda [*.src],y
     ; Shift to move down one attribute coordinate, and right one attribute coordinate, as x and y are both unaligned
@@ -461,7 +503,7 @@ unaligned_xy_column_loop:
     asl
     and #ATTRIBUTE_MASK_BL
     ora *.tmp
-    sta [*.dst],y
+    sta _attribute_shadow,x
     ; ...finally, bottom-left part is saved for *next* row, but moved to top right and combined with *bottom-left in previous byte moved to top-left*
     lda [*.src],y
     lsr
@@ -480,28 +522,28 @@ unaligned_xy_column_loop:
     lda [*.src],y
     sta *p
     ;
-    iny
+    INC_X
     cpy *.num_columns
     bne unaligned_xy_column_loop
     ; If columns were NOT odd, we have one more byte where only left part should be modified
     UNALIGNED_XY_RIGHT_EDGE ATTRIBUTE_MASK_BL+ATTRIBUTE_MASK_TL, ATTRIBUTE_MASK_BR+ATTRIBUTE_MASK_TR
-    INC_SRC_AND_DST
-    dec *.num_rows
+    jsr .inc_row
     bne unaligned_xy_row_loop
+unaligned_xy_row_loop_end:
     ; If rows were NOT odd, we have one additional row where only top part should be modified
     ; pRow should be used as source data - it has already been pre-shifted correctly
     bit *.attribute_num_rows_odd
     bmi 1$
-    ldy #0
+    jsr .reset_x_coord
 2$:
-    lda [*.dst],y
+    lda _attribute_shadow,x
     and #ATTRIBUTE_MASK_BL+ATTRIBUTE_MASK_BR
     sta *.tmp
     lda *pRow,y
     and #ATTRIBUTE_MASK_TL+ATTRIBUTE_MASK_TR
     ora *.tmp
-    sta [*.dst],y
-    iny
+    sta _attribute_shadow,x
+    INC_X
     cpy *.num_columns
     bne 2$
     ; If columns were NOT odd, we have one more byte where only top-left corner should be modified
@@ -510,25 +552,129 @@ unaligned_xy_column_loop:
     rts
 
 .attribute_set_dirty:
-    ; A = min(7, .num_rows + .attribute_num_rows_odd) << 3
+    ; A = min(AT_HEIGHT-1, .num_rows + .attribute_num_rows_odd) << 3
     lda *.attribute_num_rows_odd
     cmp #0x80
     lda *.num_rows
     adc #0
-    cmp #7
+    cmp #AT_HEIGHT-1
     bcc 1$
-    lda #7
+    lda #AT_HEIGHT-1
 1$:
     sta *.tmp
-    ; X = A | ypos
+    ; Y = A | ypos
     lda *.ypos
+.ifne NT_2H
+    and #AT_HEIGHT-1
+    ; Special-case: if we are at last half-row, then ypos actually applies to *next* nametable
+    ; So treat it as row == 0 for next nametable
+    cmp #AT_HEIGHT-1
+    bcc 2$
+    bit *.attribute_y_odd
+    bpl 2$
+    txa
+    adc #AT_SHADOW_WIDTH
+    and #(AT_SHADOW_WIDTH*AT_SHADOW_HEIGHT-1)
+    tax
+    lda #0
+2$:
+.endif
     asl
     asl
     asl
     ora *.tmp
-    tax
-    lda .row_dirty_table,x
+    tay
+.ifdef NES_TILEMAP_S
+    lda .row_dirty_table,y
+    ora *_attribute_row_dirty
     sta *_attribute_row_dirty
+.endif
+.ifdef NES_TILEMAP_H
+    ldx #0
+    jsr .mark_left_and_right_at_dirty
+.endif
+.ifdef NES_TILEMAP_V
+    cpx #(AT_SHADOW_WIDTH*AT_SHADOW_HEIGHT/2)
+    lda #0
+    rol
+    tax
+    lda .row_dirty_table,y
+    ora *_attribute_row_dirty,x
+    sta *_attribute_row_dirty,x
+.endif
+.ifdef NES_TILEMAP_F
+    cpx #(AT_SHADOW_WIDTH*AT_SHADOW_HEIGHT/2)
+    lda #0
+    rol
+    asl
+    tax
+    jsr .mark_left_and_right_at_dirty
+.endif
+    rts
+
+.ifne NT_2W
+;
+; Marks left and right attribute table dirty, depending on MSB of xpos and width of attributes to write
+;
+; Input: X =      0 for NES_TILEMAP_H
+;            0 or 2 for NES_TILEMAP_F, indexing dirty flags for top/bottom attribute tables
+;
+.mark_left_and_right_at_dirty:
+    .define .flip_xpos_msb      "DPTR"
+    .define .x_wrapped_around   "DPTR+1"
+    lda #AT_WIDTH
+    sta *.flip_xpos_msb
+    ; Store wrapped-around flag to same bit as xpos MSB (AT_WIDTH)
+    lda *.xpos
+    sec     ; +1 to account for rounding odd coordinates upwards
+    adc *.num_columns
+    eor *.xpos
+    and #AT_WIDTH
+    sta *.x_wrapped_around
+    ; First loop iteration:  Mark left AT dirty if xpos < AT_WIDTH or wrap-around occurred
+    ; Second loop iteration: Mark right AT dirty if xpos >= AT_WIDTH or wrap-around occurred
+9$:
+    lda *.xpos
+    eor *.flip_xpos_msb
+    ora *.x_wrapped_around
+    and #AT_WIDTH
+    beq 10$
+    lda .row_dirty_table,y
+    ora *_attribute_row_dirty,x
+    sta *_attribute_row_dirty,x
+10$:
+    inx
+    lda *.flip_xpos_msb
+    eor #AT_WIDTH
+    sta *.flip_xpos_msb
+    beq 9$
+    rts
+.endif
+
+.reset_x_coord:
+    ldy #0
+    txa
+    and #((AT_SHADOW_HEIGHT - 1) * AT_SHADOW_WIDTH)
+    ora *.xpos
+    tax
+    rts
+
+.inc_row:
+    ; src += num_columns
+    lda *.src
+    clc
+    adc *.num_columns
+    sta *.src
+    lda *.src+1
+    adc #0
+    sta *.src+1
+    ; Increment Y-coordinate of attribute shadow index
+    txa
+    adc #AT_SHADOW_WIDTH
+    and #(AT_SHADOW_WIDTH*AT_SHADOW_HEIGHT-1)
+    tax
+    ; Decrement num_rows for caller loop
+    dec *.num_rows
     rts
 
 ;
@@ -558,7 +704,7 @@ unaligned_xy_column_loop:
 .db 0b00111110
 .db 0b01111110
 .db 0b11111110
-.db 0b11111110
+.db 0b11111111
 ; Y = 2
 .db 0b00000100
 .db 0b00001100
@@ -566,50 +712,50 @@ unaligned_xy_column_loop:
 .db 0b00111100
 .db 0b01111100
 .db 0b11111100
-.db 0b11111100
-.db 0b11111100
+.db 0b11111101
+.db 0b11111111
 ; Y = 3
 .db 0b00001000
 .db 0b00011000
 .db 0b00111000
 .db 0b01111000
 .db 0b11111000
-.db 0b11111000
-.db 0b11111000
-.db 0b11111000
+.db 0b11111001
+.db 0b11111011
+.db 0b11111111
 ; Y = 4
 .db 0b00010000
 .db 0b00110000
 .db 0b01110000
 .db 0b11110000
-.db 0b11110000
-.db 0b11110000
-.db 0b11110000
-.db 0b11110000
+.db 0b11110001
+.db 0b11110011
+.db 0b11110111
+.db 0b11111111
 ; Y = 5
 .db 0b00100000
 .db 0b01100000
 .db 0b11100000
-.db 0b11100000
-.db 0b11100000
-.db 0b11100000
-.db 0b11100000
-.db 0b11100000
+.db 0b11100001
+.db 0b11100011
+.db 0b11100111
+.db 0b11101111
+.db 0b11111111
 ; Y = 6
 .db 0b01000000
 .db 0b11000000
-.db 0b11000000
-.db 0b11000000
-.db 0b11000000
-.db 0b11000000
-.db 0b11000000
-.db 0b11000000
+.db 0b11000001
+.db 0b11000011
+.db 0b11000111
+.db 0b11001111
+.db 0b11011111
+.db 0b11111111
 ; Y = 7
 .db 0b10000000
-.db 0b10000000
-.db 0b10000000
-.db 0b10000000
-.db 0b10000000
-.db 0b10000000
-.db 0b10000000
-.db 0b10000000
+.db 0b10000001
+.db 0b10000011
+.db 0b10000111
+.db 0b10001111
+.db 0b10011111
+.db 0b10111111
+.db 0b11111111

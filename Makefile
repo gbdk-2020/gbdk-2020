@@ -264,6 +264,9 @@ gbdk-lib-install-platforms:
 		for port in $(PORTS); do \
 			if [ -d "$(GBDKLIBDIR)/libc/targets/$$port/$$plat" ]; then \
 				cp $(GBDKLIBDIR)/libc/targets/$$port/$$plat/global.s $(BUILDDIR)/lib/$$plat/global.s; \
+				if [ -f "$(GBDKLIBDIR)/libc/targets/$$port/$$plat/platform_cfg.s" ]; then \
+					cp $(GBDKLIBDIR)/libc/targets/$$port/$$plat/platform_cfg.s $(BUILDDIR)/lib/$$plat/platform_cfg.s; \
+				fi \
 			fi \
 		done \
 	done

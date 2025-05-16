@@ -10,8 +10,6 @@
 
 ; OAM CPU page
 _shadow_OAM             = 0x200
-; Attribute shadow (64 bytes, leaving 56 bytes available for CPU stack)
-_attribute_shadow       = 0x188
 
 .macro WRITE_PALETTE_SHADOW
     lda #>0x3F00
@@ -68,8 +66,8 @@ _shadow_PPUCTRL::                       .ds 1
 _shadow_PPUMASK::                       .ds 1
 _bkg_scroll_x::                         .ds 1
 _bkg_scroll_y::                         .ds 1
-_attribute_row_dirty::                  .ds 1
-_attribute_column_dirty::               .ds 1
+_attribute_row_dirty::                  .ds NUM_NT
+_attribute_column_dirty::               .ds NUM_NT
 __oam_valid_display_on::                .ds 1
 __SYSTEM::                              .ds 1
 __hblank_writes_index::                 .ds 1
@@ -77,6 +75,13 @@ __hblank_writes_index::                 .ds 1
 .define __crt0_NMITEMP "___SDCC_m6502_ret4"
 
 .area _BSS
+.ifdef NES_LOMEM
+; For LOMEM configuration use part of stack page for attribute shadow, leaving 56 bytes for subroutine calls 
+_attribute_shadow                       = 0x188
+.else
+; Otherwise allocate attribute shadow in data segment, with 64 bytes for each NT/AT
+_attribute_shadow::                     .ds (64*NUM_NT)
+.endif
 __crt0_paletteShadow::                  .ds 25
 .mode::                                 .ds 1
 __lcd_isr_PPUCTRL::                     .ds (2*.MAX_DEFERRED_ISR_CALLS)
