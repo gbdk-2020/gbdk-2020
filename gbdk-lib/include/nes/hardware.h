@@ -61,14 +61,12 @@ typedef uint8_t scroll_y_t;
 #define DEVICE_SCREEN_BUFFER_HEIGHT 60
 typedef uint8_t scroll_x_t;
 typedef uint16_t scroll_y_t;
-#elif defined(NES_TILEMAP_S)
+#else
 // Single-screen tilemap
 #define DEVICE_SCREEN_BUFFER_WIDTH 32
 #define DEVICE_SCREEN_BUFFER_HEIGHT 30
 typedef uint8_t scroll_x_t;
 typedef uint8_t scroll_y_t;
-#else
-#error "Must define tilemap layout: NES_TILEMAP_[F|H|V|S]"
 #endif
 
 #define DEVICE_SCREEN_MAP_ENTRY_SIZE 1
