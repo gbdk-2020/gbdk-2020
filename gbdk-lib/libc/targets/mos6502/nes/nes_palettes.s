@@ -13,19 +13,13 @@
 
 ; void set_bkg_palette(uint8_t first_palette, uint8_t nb_palettes, palette_color_t *rgb_data) OLDCALL;
 _set_bkg_palette::
-    pha
-    txa
-    asl
-    asl
-    sta *.num_entries
-    pla
-    asl
-    asl
-    tax
-    jmp .set_palette_impl
-
+    clc
+    bcc .set_palette_impl
 ; void set_sprite_palette(uint8_t first_palette, uint8_t nb_palettes, palette_color_t *rgb_data) OLDCALL;
 _set_sprite_palette::
+    sec
+.set_palette_impl:
+    ror *REGTEMP
     pha
     txa
     asl
@@ -34,11 +28,11 @@ _set_sprite_palette::
     pla
     asl
     asl
-    adc #16
+    bit *REGTEMP
+    bpl 0$
+    ora #0x10
+0$:
     tax
-    ; jmp .set_palette_impl
-
-.set_palette_impl:
     ldy #0
 2$:
     ; skip mirror entries
@@ -58,43 +52,30 @@ _set_sprite_palette::
 
 ; void set_bkg_palette_entry(uint8_t palette, uint8_t entry, palette_color_t rgb_data) OLDCALL;
 _set_bkg_palette_entry::
-    ; Ignore entry 0 (unified background color) for all palettes except first
-    cpx #0
-    bne 1$
-    cmp #0
-    beq 2$
-    rts
-1$:
-    dex
-    asl
-    asl
     clc
-    adc .identity,x
-    tax
-    lda *.src
-    sta __crt0_paletteShadow+1,x
-    rts
-2$:
-    ; Set UBC
-    lda *.src
-    sta __crt0_paletteShadow
-    rts
-
+    bcc .set_palette_entry
 ; void set_sprite_palette_entry(uint8_t palette, uint8_t entry, palette_color_t rgb_data) OLDCALL;
 _set_sprite_palette_entry::
-    ; Ignore entry 0 (transparency encoding)
-    cpx #0
-    bne 1$
-    rts
-1$:
-    dex
+    sec
+.set_palette_entry::
+    ror *REGTEMP
     asl
     asl
     clc
     adc .identity,x
     tax
+    bit *REGTEMP
+    bpl 0$
+    ora #0x10
+0$:
+    tay
+    lda .paletteShadowLUT,y
+    bpl 1$
+    rts
+1$:
+    tax
     lda *.src
-    sta __crt0_paletteShadow+13,x
+    sta __crt0_paletteShadow,x
     rts
 
 .paletteShadowLUT:

@@ -21,7 +21,7 @@ ___render_shadow_OAM::
 
         .area   _CODE
 
-; uint8_t __move_metasprite(uint8_t id, uint16_t x, uint16_t y);
+; uint8_t __move_metasprite(uint8_t id, int16_t x, int16_t y);
 ; a      == id
 ; de     == x
 ; (sp+2) == y
@@ -29,7 +29,7 @@ ___move_metasprite::
         ld      iyl, a
 
         pop     hl
-        pop     bc
+        pop     bc              ; de = x, bc = y
         push    hl
 
         push    af
@@ -44,15 +44,30 @@ ___move_metasprite::
         cp      #0x80
         jp      z, 2$
 
+        add     a, a
+        sbc     a, a
+        ld      h, a
+        ld      l, 0(ix)
         inc     ix
+        add     hl, bc
+        ld      b, h
+        ld      c, l
 
-        add     c
-        ld      c, a
-        cp      #0xD0
-        jp      z, 3$
-
-        ld      0(iy), a
-
+        ld      a, #0x20
+        add     l
+        ld      l, a
+        adc     h
+        sub     l
+        jp      nz, 5$
+        ld      a, l
+        cp      #(0x20 + 0xC0)
+        jp      c, 6$
+5$:
+        ld      0(iy), #0xC0
+        jp      7$
+6$:
+        ld      0(iy), c
+7$:
         ld      a, 0(ix)        ; dx
         add     a, a
         sbc     a, a
@@ -82,14 +97,11 @@ ___move_metasprite::
         ld      iyl, a
 
         jp      1$
-3$:
-        inc     ix
 4$:
         ld      0(iy), #0xC0
         inc     ix
         inc     iyl
         jp      1$
-
 2$:
         pop     ix
         pop     bc

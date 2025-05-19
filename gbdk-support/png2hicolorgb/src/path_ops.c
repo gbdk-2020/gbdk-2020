@@ -4,7 +4,9 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <strings.h>
 #include <stdbool.h>
+
 #include "common.h"
 #include "path_ops.h"
 

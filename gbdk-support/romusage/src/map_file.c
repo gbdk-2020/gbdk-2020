@@ -10,6 +10,7 @@
 #include <stdint.h>
 
 #include "common.h"
+#include "logging.h"
 #include "banks.h"
 #include "map_file.h"
 
@@ -130,10 +131,14 @@ int map_file_process_areas(char * filename_in) {
                 }
             }
 
-            // GBDK Areas: Only parse lines that start with '_' character (Area summary lines)
-            else if (strline_in[0] == '_') {
-                if (str_split(strline_in, p_words, " =.") == GBDK_AREA_SPLIT_WORDS)
+            // Previous filtering now discontinued, areas with no leading "_" are allowed : GBDK Areas: Only parse lines that start with '_' character (Area summary lines)
+            // else if (strline_in[0] == '_') {
+            // }
+            else if (str_split(strline_in, p_words, " =.") == GBDK_AREA_SPLIT_WORDS) {
+                // Require a secondary match on a known column value ("bytes") to filter matches better
+                if (strstr(p_words[4], "bytes")) {
                     add_area_gbdk(p_words);
+                }
             }
 
         } // end: while still lines to process
@@ -141,7 +146,10 @@ int map_file_process_areas(char * filename_in) {
         fclose(map_file);
 
     } // end: if valid file
-    else return (false);
+    else {
+        log_error("Error: Failed to open input file %s\n", filename_in);
+        return false;
+    }
 
    return true;
 }

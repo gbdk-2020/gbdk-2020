@@ -29,7 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.3.0</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -204,6 +204,8 @@ Macros</h2></td></tr>
 <tr class="separator:a6ccf5d0f34fb0af0b6e73b9df0ccd745"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a231ec05679809190782e61c6e8aaaba4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a231ec05679809190782e61c6e8aaaba4">DEVICE_SUPPORTS_COLOR</a>&#160;&#160;&#160;(<a class="el" href="gb_8h.html#a874b9bd95b0a05d6a6072feabc879e45">_cpu</a> == <a class="el" href="gb_8h.html#aee435a3a0dde3dbd7b6112dbb456cde8">CGB_TYPE</a>)</td></tr>
 <tr class="separator:a231ec05679809190782e61c6e8aaaba4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a559dbd32dba6867c1ee4e481077b62ab"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a559dbd32dba6867c1ee4e481077b62ab">VBL_DONE</a>&#160;&#160;&#160;<a class="el" href="sms_8h.html#a379ebafd4dc456a9a0c10290bb38fe7c">_vbl_done</a></td></tr>
+<tr class="separator:a559dbd32dba6867c1ee4e481077b62ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a268cc6c704e16f3fa02dd1cf0e17070a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a268cc6c704e16f3fa02dd1cf0e17070a">IO_IDLE</a>&#160;&#160;&#160;0x00U</td></tr>
 <tr class="separator:a268cc6c704e16f3fa02dd1cf0e17070a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab69a3f7cd2c6b5eb4f518aefee099007"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ab69a3f7cd2c6b5eb4f518aefee099007">IO_SENDING</a>&#160;&#160;&#160;0x01U</td></tr>
@@ -523,6 +525,8 @@ Variables</h2></td></tr>
 <tr class="separator:a539b7b45b1c2d6b2051553665c76fd36"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a78d2fd18666afec116f176d46debb4e7"><td class="memItemLeft" align="right" valign="top">volatile <a class="el" href="stdint_8h.html#adf4d876453337156dde61095e1f20223">uint16_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a78d2fd18666afec116f176d46debb4e7">sys_time</a></td></tr>
 <tr class="separator:a78d2fd18666afec116f176d46debb4e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afcd1b4a4ad7bab85d0adec8c69d5bec0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="nes_2hardware_8h.html#afa5336aa76cfcbe00fc5dab15549bc23">__REG</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#afcd1b4a4ad7bab85d0adec8c69d5bec0">_vbl_done</a></td></tr>
+<tr class="separator:afcd1b4a4ad7bab85d0adec8c69d5bec0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2e3415ce2f7fb63427618bd9b9cb6635"><td class="memItemLeft" align="right" valign="top">volatile <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a2e3415ce2f7fb63427618bd9b9cb6635">_io_status</a></td></tr>
 <tr class="separator:a2e3415ce2f7fb63427618bd9b9cb6635"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a02f3a1585ae654444e628c1aa98ef0cf"><td class="memItemLeft" align="right" valign="top">volatile <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a02f3a1585ae654444e628c1aa98ef0cf">_io_in</a></td></tr>
@@ -947,7 +951,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Timer Interrupt when the timer <a class="el" href="gb_2hardware_8h.html#a9d295bb437953de5ebcb3c12d65743aa">TIMA_REG</a> overflows. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#ae6bc65c789195b4c19ee8765b1a2aa28">set_interrupts()</a>, </dd>
+<p>Timer Interrupt when the timer <a class="el" href="sms_2hardware_8h.html#a4741a62d05deefc649df160baca326dd">TIMA_REG</a> overflows. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#ae6bc65c789195b4c19ee8765b1a2aa28">set_interrupts()</a>, </dd>
 <dd>
 <a class="el" href="gb_8h.html#aa1b9d8d215e844834d2be5c10969d712">add_TIM</a> </dd></dl>
 
@@ -1092,7 +1096,7 @@ Variables</h2></td></tr>
 </dl>
 <p>The resulting format is four greyscale colors packed into a single unsigned byte.</p>
 <p>Example: </p><div class="fragment"><div class="line"><a class="code" href="gb_2hardware_8h.html#af577ba87ec3d13d7415e4c4a53cdf997">BGP_REG</a> = <a class="code" href="gb_8h.html#a9727caafc483ba6ec65e9344b033d684">DMG_PALETTE</a>(<a class="code" href="gb_8h.html#ab311e53739c992294ae07ca506a924ad">DMG_BLACK</a>, <a class="code" href="gb_8h.html#a45d13a674e169dd83df7e1f46513ccba">DMG_DARK_GRAY</a>, <a class="code" href="gb_8h.html#a8ccd6732d3bdf390cc0943e8567341f3">DMG_LITE_GRAY</a>, <a class="code" href="gb_8h.html#a11cedc2ee58acfbbfc48dfb2b9a551b3">DMG_WHITE</a>);</div>
-<div class="ttc" id="agb_2hardware_8h_html_af577ba87ec3d13d7415e4c4a53cdf997"><div class="ttname"><a href="gb_2hardware_8h.html#af577ba87ec3d13d7415e4c4a53cdf997">BGP_REG</a></div><div class="ttdeci">__REG BGP_REG</div><div class="ttdef"><b>Definition:</b> hardware.h:299</div></div>
+<div class="ttc" id="agb_2hardware_8h_html_af577ba87ec3d13d7415e4c4a53cdf997"><div class="ttname"><a href="gb_2hardware_8h.html#af577ba87ec3d13d7415e4c4a53cdf997">BGP_REG</a></div><div class="ttdeci">__REG BGP_REG</div><div class="ttdef"><b>Definition:</b> hardware.h:315</div></div>
 <div class="ttc" id="agb_8h_html_a11cedc2ee58acfbbfc48dfb2b9a551b3"><div class="ttname"><a href="gb_8h.html#a11cedc2ee58acfbbfc48dfb2b9a551b3">DMG_WHITE</a></div><div class="ttdeci">#define DMG_WHITE</div><div class="ttdef"><b>Definition:</b> gb.h:139</div></div>
 <div class="ttc" id="agb_8h_html_a45d13a674e169dd83df7e1f46513ccba"><div class="ttname"><a href="gb_8h.html#a45d13a674e169dd83df7e1f46513ccba">DMG_DARK_GRAY</a></div><div class="ttdeci">#define DMG_DARK_GRAY</div><div class="ttdef"><b>Definition:</b> gb.h:137</div></div>
 <div class="ttc" id="agb_8h_html_a8ccd6732d3bdf390cc0943e8567341f3"><div class="ttname"><a href="gb_8h.html#a8ccd6732d3bdf390cc0943e8567341f3">DMG_LITE_GRAY</a></div><div class="ttdeci">#define DMG_LITE_GRAY</div><div class="ttdef"><b>Definition:</b> gb.h:138</div></div>
@@ -1281,6 +1285,20 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Macro returns TRUE if device supports color </p>
+
+</div>
+</div>
+<a id="a559dbd32dba6867c1ee4e481077b62ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a559dbd32dba6867c1ee4e481077b62ab">&#9670;&nbsp;</a></span>VBL_DONE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define VBL_DONE&#160;&#160;&#160;<a class="el" href="sms_8h.html#a379ebafd4dc456a9a0c10290bb38fe7c">_vbl_done</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -2455,8 +2473,9 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>Adds a timer interrupt handler.</p>
 <p>Can not be used together with <a class="el" href="gb_8h.html#a617176cc314371eeddcd8903584d62f0">add_low_priority_TIM</a></p>
-<p>This interrupt occurs when the <a class="el" href="gb_2hardware_8h.html#a9d295bb437953de5ebcb3c12d65743aa">TIMA_REG</a> register ($FF05) changes from $FF to $00.</p>
+<p>This interrupt occurs when the <a class="el" href="sms_2hardware_8h.html#a4741a62d05deefc649df160baca326dd">TIMA_REG</a> register ($FF05) changes from $FF to $00.</p>
 <p>Up to 4 handlers may be added, with the last added being called last.</p>
+<dl class="section note"><dt>Note</dt><dd>For NES make sure to wrap TIM interrupt handlers with a nooverlay pragma. For more details see <a class="el" href="docs_supported_consoles.html#docs_nes_tim_overlay">docs_nes_tim_overlay</a></dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a83bce4c8764eddefd9ab8af88669065e">add_VBL</a> </dd>
 <dd>
 <a class="el" href="gb_8h.html#ae6bc65c789195b4c19ee8765b1a2aa28">set_interrupts()</a> with <a class="el" href="gb_8h.html#a604256210ec5b90b68185e1a18efab49">TIM_IFLAG</a>, <a class="el" href="isr_8h.html#a73769fed9338af86fdb7df35d7b82620">ISR_VECTOR()</a> </dd></dl>
@@ -2480,7 +2499,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>Adds a timer interrupt handler, that could be interrupted by the other interrupts, as well as itself, if it runs too slow.</p>
 <p>Can not be used together with <a class="el" href="sms_8h.html#a6c66a583a8f0744e3985c89725e3dc10">add_TIM</a></p>
-<p>This interrupt occurs when the <a class="el" href="gb_2hardware_8h.html#a9d295bb437953de5ebcb3c12d65743aa">TIMA_REG</a> register ($FF05) changes from $FF to $00.</p>
+<p>This interrupt occurs when the <a class="el" href="sms_2hardware_8h.html#a4741a62d05deefc649df160baca326dd">TIMA_REG</a> register ($FF05) changes from $FF to $00.</p>
 <p>Up to 4 handlers may be added, with the last added being called last.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a83bce4c8764eddefd9ab8af88669065e">add_VBL</a> </dd>
 <dd>
@@ -2970,6 +2989,9 @@ Variables</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void reset </td>
@@ -2979,6 +3001,11 @@ Variables</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 <p>Performs a soft reset.</p>
 <p>For the Game Boy and related it does this by jumping to address 0x0150 which is in crt0.s (the c-runtime that executes before main() is called).</p>
@@ -3316,7 +3343,7 @@ Variables</h2></td></tr>
 <p>Example: </p><div class="fragment"><div class="line"><span class="comment">// Use DMG_BLACK as the Foreground color and DMG_LITE_GRAY</span></div>
 <div class="line"><span class="comment">// as the Background color when loading 1bpp tile data.</span></div>
 <div class="line"><a class="code" href="gb_8h.html#adcb394299a1033616fc7d2faec8bd6ad">set_1bpp_colors</a>(<a class="code" href="gb_8h.html#ab311e53739c992294ae07ca506a924ad">DMG_BLACK</a>, <a class="code" href="gb_8h.html#a8ccd6732d3bdf390cc0943e8567341f3">DMG_LITE_GRAY</a>);</div>
-<div class="ttc" id="agb_8h_html_adcb394299a1033616fc7d2faec8bd6ad"><div class="ttname"><a href="gb_8h.html#adcb394299a1033616fc7d2faec8bd6ad">set_1bpp_colors</a></div><div class="ttdeci">void set_1bpp_colors(uint8_t fgcolor, uint8_t bgcolor)</div><div class="ttdef"><b>Definition:</b> gb.h:1026</div></div>
+<div class="ttc" id="agb_8h_html_adcb394299a1033616fc7d2faec8bd6ad"><div class="ttname"><a href="gb_8h.html#adcb394299a1033616fc7d2faec8bd6ad">set_1bpp_colors</a></div><div class="ttdeci">void set_1bpp_colors(uint8_t fgcolor, uint8_t bgcolor)</div><div class="ttdef"><b>Definition:</b> gb.h:1038</div></div>
 </div><!-- fragment --><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#ab311e53739c992294ae07ca506a924ad">DMG_BLACK</a>, <a class="el" href="gb_8h.html#a45d13a674e169dd83df7e1f46513ccba">DMG_DARK_GRAY</a>, <a class="el" href="gb_8h.html#a8ccd6732d3bdf390cc0943e8567341f3">DMG_LITE_GRAY</a>, <a class="el" href="gb_8h.html#a11cedc2ee58acfbbfc48dfb2b9a551b3">DMG_WHITE</a> </dd>
 <dd>
 <a class="el" href="gb_8h.html#a711fa26feecc76dc51482b0f77062859">set_bkg_1bpp_data</a>, <a class="el" href="gb_8h.html#acd5ee7a94059e6edbe9223f291bc2b46">set_win_1bpp_data</a>, <a class="el" href="gb_8h.html#ab3e60c92c9f8fbed855f8712187ea3ea">set_sprite_1bpp_data</a> </dd></dl>
@@ -5320,9 +5347,9 @@ Variables</h2></td></tr>
 <div class="line"><span class="comment">// These flags tell the sprite to flip both vertically and horizontally.</span></div>
 <div class="line"><a class="code" href="gb_8h.html#a99ea3252469e3614e977cce2aa1d06f7">set_sprite_prop</a>(0, <a class="code" href="gb_8h.html#a4bbb9cd6c38b2317de5256d1d889c63b">S_FLIPY</a> | <a class="code" href="gb_8h.html#ae97793b4039609f93b0f7f8bddb18011">S_FLIPX</a>);</div>
 <div class="ttc" id="agb_8h_html_a4bbb9cd6c38b2317de5256d1d889c63b"><div class="ttname"><a href="gb_8h.html#a4bbb9cd6c38b2317de5256d1d889c63b">S_FLIPY</a></div><div class="ttdeci">#define S_FLIPY</div><div class="ttdef"><b>Definition:</b> gb.h:96</div></div>
-<div class="ttc" id="agb_8h_html_a99ea3252469e3614e977cce2aa1d06f7"><div class="ttname"><a href="gb_8h.html#a99ea3252469e3614e977cce2aa1d06f7">set_sprite_prop</a></div><div class="ttdeci">void set_sprite_prop(uint8_t nb, uint8_t prop)</div><div class="ttdef"><b>Definition:</b> gb.h:1933</div></div>
+<div class="ttc" id="agb_8h_html_a99ea3252469e3614e977cce2aa1d06f7"><div class="ttname"><a href="gb_8h.html#a99ea3252469e3614e977cce2aa1d06f7">set_sprite_prop</a></div><div class="ttdeci">void set_sprite_prop(uint8_t nb, uint8_t prop)</div><div class="ttdef"><b>Definition:</b> gb.h:1945</div></div>
 <div class="ttc" id="agb_8h_html_ae97793b4039609f93b0f7f8bddb18011"><div class="ttname"><a href="gb_8h.html#ae97793b4039609f93b0f7f8bddb18011">S_FLIPX</a></div><div class="ttdeci">#define S_FLIPX</div><div class="ttdef"><b>Definition:</b> gb.h:92</div></div>
-<div class="ttc" id="amsx_8h_html_a7d5ed1aed79d8fd2894893d7f6f9b835"><div class="ttname"><a href="msx_8h.html#a7d5ed1aed79d8fd2894893d7f6f9b835">set_sprite_palette</a></div><div class="ttdeci">#define set_sprite_palette(first_palette, nb_palettes, rgb_data)</div><div class="ttdef"><b>Definition:</b> msx.h:550</div></div>
+<div class="ttc" id="amsx_8h_html_a7d5ed1aed79d8fd2894893d7f6f9b835"><div class="ttname"><a href="msx_8h.html#a7d5ed1aed79d8fd2894893d7f6f9b835">set_sprite_palette</a></div><div class="ttdeci">#define set_sprite_palette(first_palette, nb_palettes, rgb_data)</div><div class="ttdef"><b>Definition:</b> msx.h:558</div></div>
 </div><!-- fragment --><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a54572cf6791463b6d60623837e0bb5a6">S_PALETTE</a>, <a class="el" href="gb_8h.html#ae97793b4039609f93b0f7f8bddb18011">S_FLIPX</a>, <a class="el" href="gb_8h.html#a4bbb9cd6c38b2317de5256d1d889c63b">S_FLIPY</a>, <a class="el" href="gb_8h.html#a9506d04c2ec7d2442a52054f67d2b32f">S_PRIORITY</a> </dd></dl>
 
 </div>
@@ -6362,6 +6389,22 @@ Variables</h2></td></tr>
 <p>Global Time Counter in VBL periods (60Hz)</p>
 <p>Increments once per Frame</p>
 <p>Will wrap around every ~18 minutes (unsigned 16 bits = 65535 / 60 / 60 = 18.2) </p>
+
+</div>
+</div>
+<a id="afcd1b4a4ad7bab85d0adec8c69d5bec0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afcd1b4a4ad7bab85d0adec8c69d5bec0">&#9670;&nbsp;</a></span>_vbl_done</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="nes_2hardware_8h.html#afa5336aa76cfcbe00fc5dab15549bc23">__REG</a> _vbl_done</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Flag indicating the VBlank ISR has run</p>
+<p>Flag gets cleared at the start of <a class="el" href="gb_8h.html#af57b77452ef377da18e4fbf0288013d1">vsync()</a> / <a class="el" href="gb_8h.html#a815f8ecad32d14b786a8ed1168518773">wait_vbl_done()</a> and set in the default VBlank ISR handler. </p>
 
 </div>
 </div>

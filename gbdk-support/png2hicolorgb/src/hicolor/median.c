@@ -116,7 +116,7 @@ void update_box_rgb(boxptr boxp)
 				    }
 		    }
 
-  have_Rmin:
+have_Rmin:
 
     if (Rmax > Rmin)
 		for (R = Rmax; R >= Rmin; R--)
@@ -131,7 +131,7 @@ void update_box_rgb(boxptr boxp)
 				    }
 		    }
 
-  have_Rmax:
+have_Rmax:
 
     if (Gmax > Gmin)
 		for (G = Gmin; G <= Gmax; G++)
@@ -146,7 +146,7 @@ void update_box_rgb(boxptr boxp)
 				    }
 		    }
 
-  have_Gmin:
+have_Gmin:
 
     if (Gmax > Gmin)
 		for (G = Gmax; G >= Gmin; G--)
@@ -161,7 +161,7 @@ void update_box_rgb(boxptr boxp)
 				    }
 		    }
 
-  have_Gmax:
+have_Gmax:
 
     if (Bmax > Bmin)
 		for (B = Bmin; B <= Bmax; B++)
@@ -176,7 +176,7 @@ void update_box_rgb(boxptr boxp)
 				    }
 		    }
 
-  have_Bmin:
+have_Bmin:
 
     if (Bmax > Bmin)
 		for (B = Bmax; B >= Bmin; B--)
@@ -191,7 +191,7 @@ void update_box_rgb(boxptr boxp)
 				    }
 		    }
 
-  have_Bmax:
+have_Bmax:
 
     // Update box volume.
     // We use 2-norm rather than real volume here; this biases the method
@@ -390,7 +390,6 @@ s32 find_nearby_colors(s32 minR,s32 minG,s32 minB,s32 colorlist[])
  * the colors that need further consideration.
  */
 {
-    s32		numcolors = actual_number_of_colors;
     s32		maxR, maxG, maxB;
     s32		centerR, centerG, centerB;
     s32		i, x, ncolors;
@@ -694,7 +693,7 @@ void fill_inverse_cmap_rgb(s32 R, s32 G, s32 B)
 
 
 /*  This is pass 1  */
-void median_cut_pass1_rgb(u8 *src,u8 *dest,s32 width,s32 height)
+void median_cut_pass1_rgb(u8 *src,s32 width,s32 height)
 {
     s32             num_elems;
     ColorFreq      *col;
@@ -797,7 +796,7 @@ s32 *init_error_limit(void)
 
 
 
-void to_indexed(u8 *input,s32 ncolors,s32 dither,s32 width,s32 height)
+void to_indexed(u8 *input,s32 dither,s32 width,s32 height)
 {
     s32				i, j;
 	u8				*src;
@@ -828,7 +827,7 @@ void to_indexed(u8 *input,s32 ncolors,s32 dither,s32 width,s32 height)
 
     histogram = AHistorgram;
 
-    median_cut_pass1_rgb(input, Picture256, width, height);
+    median_cut_pass1_rgb(input, width, height);
 
 	src=input;
 	dest=Picture256;

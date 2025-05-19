@@ -8,7 +8,7 @@ TOPDIR = $(shell pwd)
 # Package name, used for tarballs
 PKG = gbdk
 # Version, used for tarballs & docs
-VER = 4.3.0
+VER = 4.4.0
 
 PORTS=sm83 z80 mos6502
 PLATFORMS=gb ap duck gg sms msxdos nes
@@ -149,6 +149,8 @@ endif
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/gbcompress TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
 	@echo Building makecom
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/makecom TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
+	@echo Building makenes
+	@$(MAKE) -C $(GBDKSUPPORTDIR)/makenes TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
 	@echo Building makebin
 	@$(MAKE) -C $(GBDKSUPPORTDIR)/makebin TOOLSPREFIX=$(TOOLSPREFIX) TARGETDIR=$(TARGETDIR)/ --no-print-directory
 	@echo Building png2hicolorgb
@@ -182,6 +184,8 @@ gbdk-support-install: gbdk-support-build $(BUILDDIR)/bin
 	@echo Installing gbcompress
 	@cp $(GBDKSUPPORTDIR)/gbcompress/gbcompress$(EXEEXTENSION) $(BUILDDIR)/bin/gbcompress$(EXEEXTENSION)
 	@$(TARGETSTRIP) $(BUILDDIR)/bin/gbcompress$(EXEEXTENSION)
+	@echo Installing makenes
+	@cp $(GBDKSUPPORTDIR)/makenes/makenes$(EXEEXTENSION) $(BUILDDIR)/bin/makenes$(EXEEXTENSION)
 	@echo Installing makecom
 	@cp $(GBDKSUPPORTDIR)/makecom/makecom$(EXEEXTENSION) $(BUILDDIR)/bin/makecom$(EXEEXTENSION)
 	@$(TARGETSTRIP) $(BUILDDIR)/bin/makecom$(EXEEXTENSION)
@@ -247,16 +251,22 @@ gbdk-lib-install-ports: gbdk-lib-build
 # The inner loop copies global.s for platforms from relevant port/platform.
 # When doing that it expects a given platform to never be present in
 # multiple ports since the copy destination is not port specific (lacks /$$port/ )
+#
+# 'touch' of empty crt0.lst was removed so .rst files do not get generated
+# in the gbdk install lib folders when people build projects with -debug on.
+# It caused problems when the user lacked write permissions to the gbdk install folder.
 gbdk-lib-install-platforms:
 	@for plat in $(PLATFORMS); do \
 		echo Installing lib for platform: $$plat; \
 		mkdir -p $(BUILDDIR)/lib/$$plat; \
-		touch $(BUILDDIR)/lib/$$plat/crt0.lst; \
 		cp $(GBDKLIBDIR)/build/$$plat/crt0.o $(BUILDDIR)/lib/$$plat/crt0.o; \
 		cp $(GBDKLIBDIR)/build/$$plat/$$plat.lib $(BUILDDIR)/lib/$$plat/$$plat.lib; \
 		for port in $(PORTS); do \
 			if [ -d "$(GBDKLIBDIR)/libc/targets/$$port/$$plat" ]; then \
 				cp $(GBDKLIBDIR)/libc/targets/$$port/$$plat/global.s $(BUILDDIR)/lib/$$plat/global.s; \
+				if [ -f "$(GBDKLIBDIR)/libc/targets/$$port/$$plat/platform_cfg.s" ]; then \
+					cp $(GBDKLIBDIR)/libc/targets/$$port/$$plat/platform_cfg.s $(BUILDDIR)/lib/$$plat/platform_cfg.s; \
+				fi \
 			fi \
 		done \
 	done
@@ -469,6 +479,12 @@ ifneq (,$(wildcard $(BUILDDIR)/bin/))
 	echo \# makecom settings >> $(TOOLCHAIN_DOCS_FILE);
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 	$(BUILDDIR)/bin/makecom -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1 || true
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+# makenes
+	echo \@anchor makenes-settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \# makenes settings >> $(TOOLCHAIN_DOCS_FILE);
+	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
+	$(BUILDDIR)/bin/makenes -h >> $(TOOLCHAIN_DOCS_FILE) 2>&1
 	echo \`\`\` >> $(TOOLCHAIN_DOCS_FILE);
 # gbcompress
 	echo \@anchor gbcompress-settings >> $(TOOLCHAIN_DOCS_FILE);

@@ -61,9 +61,11 @@ static void Fixllist();
 static void handle_autobanking(void);
 static int handle_file_preprocess_only(char *name, char *base);
 
+static void warn_obsolete_option(char * arg);
 
 // These get populated from _class using finalise() in gb.c
 extern char *cpp[], *include[], *com[], *as[], *bankpack[], *ld[], *ihxcheck[], *mkbin[], *postproc[], inputs[], *suffixes[], *rom_extension;
+extern bool has_postproc_stage;
 extern arg_entry *llist0_defaults;
 extern int llist0_defaults_len;
 
@@ -82,6 +84,7 @@ static int autobankflag;	/* -K specified */
 int verbose;		/* incremented for each -v */
 static List bankpack_flags;	/* bankpack flags */
 static List ihxchecklist;	/* ihxcheck flags */
+static List postproclist;	/* postproc flags */
 static List mkbinlist;		/* loader files, flags */
 
 // Index entries for llist[]
@@ -160,11 +163,17 @@ int main(int argc, char *argv[]) {
 				exit(8);
 			}
 		}
+        // This option is obsolete
+        // -----------------------------------------
 		else if (strcmp(argv[i], "-target") == 0) {
+            // -target name   is ignored
+            warn_obsolete_option(argv[i]);
+            // Skip past argument second param if present
 			if (argv[i + 1] && *argv[i + 1] != '-')
 				i++;
 			continue;
 		}
+        // -----------------------------------------
 		else if (*argv[i] == '-' && argv[i][1] != 'l') {
 			opt(argv[i]);
 			continue;
@@ -296,7 +305,7 @@ int main(int argc, char *argv[]) {
 			if(errcnt == 0)
 			{
 				// makebin - use output filename unless there is a post-process step
-				if (strlen(postproc) == 0)
+				if (has_postproc_stage == false)
 					sprintf(binFile, "%s", outfile);
 				else
 					sprintf(binFile, "%s", path_newext(outfile, EXT_ROM));
@@ -311,9 +320,10 @@ int main(int argc, char *argv[]) {
 				if (callsys(av))
 					errcnt++;
 
-				// post-process step (such as makecom), if applicable
-				if ((strlen(postproc) != 0) && (errcnt == 0)) {
-					compose(postproc, append(binFile, 0), append(outfile, 0), 0);
+				// Post-process step (such as makecom, makenes), if applicable
+				// This won't apply if the targets .postproc template entry is empty ("")
+				if (has_postproc_stage && (errcnt == 0)) {
+					compose(postproc, postproclist, append(binFile, 0), append(outfile, 0));
 					if (callsys(av))
 						errcnt++;
 				}
@@ -771,47 +781,29 @@ static void help(void) {
 "", " [ option | file ]...\n",
 "    except for -l, options are processed left-to-right before files\n",
 "    unrecognized options are taken to be linker options\n",
-"-A             warn about nonANSI usage; 2nd -A warns more\n",
-"-b             emit expression-level profiling code; see bprint(1)\n",
-#ifdef sparc
-"-Bstatic       specify static libraries\n",
-"-Bdynamic      specify dynamic libraries\n",
-#endif
-"-Bdir/         use the compiler named `dir/rcc'\n",
 "-c             compile only\n",
-"-dn            set switch statement density to `n'\n",
 "-debug         Turns on --debug for compiler, -y (.cdb), -j (.noi), -w (wide .map format) for linker\n",
 "                       -Wa-l (assembler .lst), -Wl-u (.lst -> .rst address update)\n",
 "-Dname=def     define the preprocessor symbol `name'\n",
 "-E             only run preprocessor on named .c and .h files files -> stdout\n",
 "--save-preproc Use with -E for output to *.i files instead of stdout\n",
-"-g             produce symbol table information for debuggers\n",
 "-help or -?    print this message\n",
 "-Idir          add `dir' to the beginning of the list of #include directories\n",
 "-K             don't run ihxcheck test on linker ihx output\n",
 "-lx            search library `x'\n",
 "-m             select port and platform: \"-m[port]:[plat]\" ports:sm83,z80,mos6502 plats:ap,duck,gb,sms,gg,nes\n",
 "-N             do not search the standard directories for #include files\n",
-"-n             emit code to check for dereferencing zero pointers\n",
 "-no-crt        do not auto-include the gbdk crt0.o runtime in linker list\n",
 "-no-libs       do not auto-include the gbdk libs in linker list\n",
-"-O             is ignored\n",
 "-o file        leave the output in `file'\n",
-"-P             print ANSI-style declarations for globals\n",
-"-p -pg         emit profiling code; see prof(1) and gprof(1)\n",
 "-S             compile to assembly language\n",
 "-autobank      auto-assign banks set to 255 (bankpack)\n"
-#ifdef linux
-"-static        specify static libraries (default is dynamic)\n",
-#endif
-"-t -tname      emit function tracing calls to printf or to `name'\n",
-"-target name   is ignored\n",
 "-tempdir=dir   place temporary files in `dir/'", "\n"
 "-Uname         undefine the preprocessor symbol `name'\n",
 "-v             show commands as they are executed; 2nd -v suppresses execution\n",
-"-w             suppress warnings\n",
 "-Woarg         specify system-specific `arg'\n",
-"-W[pfablim]arg pass `arg' to the preprocessor, compiler, assembler, bankpack, linker, ihxcheck, or makebin\n",
+"-W[pfablimnc]arg pass `arg' to the (p)preprocessor, (f)compiler, (a)assembler, (b)bankpack,\n"
+"                                   (l)linker, (i)ihxcheck, (m)makebin, (n)makenes, (c)makecom\n",
 	0 };
 	int i;
 	char *s;
@@ -872,6 +864,21 @@ static void interrupt(int n) {
 /* opt - process option in arg */
 static void opt(char *arg) {
 	switch (arg[1]) {	/* multi-character options */
+
+    // Obsolete (multi-character) options that just emit a warning
+    // -----------------------------------------
+    case 'p': // -p -pg         emit profiling code; see prof(1) and gprof(1)
+    case 'B': // -Bdir/         use the compiler named `dir/rcc' (Also -Bstatic -Bdynamic)
+        warn_obsolete_option(arg);
+        return;
+
+    case 's': // -static        specify static libraries (default is dynamic)
+        if (strcmp(arg, "-static") == 0) {
+            warn_obsolete_option(arg);
+        }
+        return;
+    // -----------------------------------------
+
 	case '-':	// --* options
 		if (strcmp(arg, "--save-preproc") == 0) {
 			Eflag_preproc_to_file = true;
@@ -901,6 +908,12 @@ static void opt(char *arg) {
 				return;
 			case 'i': /* ihxcheck arg list */
 				ihxchecklist = append(&arg[3], ihxchecklist);
+				return;
+			case 'n': /* makenes arg list */
+				postproclist = append(&arg[3], postproclist);
+				return;
+			case 'c': /* makecom arg list */
+				postproclist = append(&arg[3], postproclist);
 				return;
 			case 'b': /* auto bankpack_flags arg list */
 				bankpack_flags = append(&arg[3], bankpack_flags);
@@ -968,7 +981,7 @@ static void opt(char *arg) {
 			}
 		fprintf(stderr, "%s: %s ignored\n", progname, arg);
 		return;
-	case 'd':	/* -dn */
+	case 'd':
 		if (strcmp(arg, "-debug") == 0) {
 			// Load default debug options
 			clist	= append("--debug", clist);  // Debug for sdcc compiler
@@ -984,20 +997,17 @@ static void opt(char *arg) {
 			return;
 		}
 
-		arg[1] = 's';
-		clist = append(arg, clist);
+        // This option is obsolete
+        // -----------------------------------------
+        // -dn            set switch statement density to `n'
+        warn_obsolete_option(arg);
+        // -----------------------------------------
 		return;
 	case 't':	/* -t -tname -tempdir=dir */
 		if (strncmp(arg, "-tempdir=", 9) == 0)
 			tempdir = arg + 9;
 		else
 			clist = append(arg, clist);
-		return;
-	case 'p':	/* -p -pg */
-		if (option(arg))
-			clist = append(arg, clist);
-		else
-			fprintf(stderr, "%s: %s ignored\n", progname, arg);
 		return;
 	case 'D':	/* -Dname -Dname=def */
 	case 'U':	/* -Uname */
@@ -1021,25 +1031,6 @@ static void opt(char *arg) {
 			option(arg);  // Clear libs entry in linker compose string
 			return;
 		}
-	case 'B':	/* -Bdir -Bstatic -Bdynamic */
-#ifdef sparc
-		if (strcmp(arg, "-Bstatic") == 0 || strcmp(arg, "-Bdynamic") == 0)
-			llist[L_FILES] = append(arg, llist[L_FILES]);
-		else
-#endif
-		{
-			static char *path;
-			if (path)
-				error("-B overwrites earlier option", 0);
-			path = arg + 2;
-			if (strstr(com[1], "win32") != NULL)
-				com[0] = concat(replace(path, '/', '\\'), concat("rcc", EXT_IHX));
-			else
-				com[0] = concat(path, "rcc");
-			if (path[0] == 0)
-				error("missing directory in -B option", 0);
-		}
-		return;
 	case 'h':
 		if (strcmp(arg, "-help") == 0) {
 			static int printed = 0;
@@ -1049,40 +1040,28 @@ static void opt(char *arg) {
 		printed = 1;
 		return;
 		}
-#ifdef linux
-	case 's':
-		if (strcmp(arg, "-static") == 0) {
-			if (!option(arg))
-				fprintf(stderr, "%s: %s ignored\n", progname, arg);
-			return;
-		}
-#endif
 	}
 	if (arg[2] == 0)
 		switch (arg[1]) {	/* single-character options */
+
+        // Obsolete (single character) options that just emit a warning
+        // -----------------------------------------
+        case 'A': // -A             warn about nonANSI usage; 2nd -A warns more
+        case 'b': // -b             emit expression-level profiling code; see bprint(1)
+        case 'g': // -g             produce symbol table information for debuggers
+        case 'G': // -G             append("-g3", clist); append("-N", llist[L_ARGS]);
+        case 'n': // -n             emit code to check for dereferencing zero pointers
+        case 'O': // -O             is ignored
+        case 'P': // -P             print ANSI-style declarations for globals
+        case 't': // -t -tname      emit function tracing calls to printf or to `name'
+        case 'w': // -w             suppress warnings
+            warn_obsolete_option(arg);
+            return;
+        // -----------------------------------------
+
 		case 'S':		// Requested compile to assembly only
 			Sflag++;
 			option(arg); // Update composing the compile stage, use of -S instead of -c
-			return;
-		case 'O':
-			fprintf(stderr, "%s: %s ignored\n", progname, arg);
-			return;
-		case 'A': case 'n': case 'w': case 'P':
-			clist = append(arg, clist);
-			return;
-		case 'g': case 'b':
-			if (option(arg))
-				clist = append(arg[1] == 'g' ? "-g2" : arg, clist);
-			else
-				fprintf(stderr, "%s: %s ignored\n", progname, arg);
-			return;
-		case 'G':
-			if (option(arg)) {
-				clist = append("-g3", clist);
-				llist[L_ARGS] = append("-N", llist[L_ARGS]);
-			}
-			else
-				fprintf(stderr, "%s: %s ignored\n", progname, arg);
 			return;
 		case 'E':
 			Eflag++; // Preprocess files only
@@ -1098,12 +1077,6 @@ static void opt(char *arg) {
 			return;
 		case 'v':
 			if (verbose++ == 0) {
-#if 0
-				/* GBDK removed */
-				if (strcmp(basepath(cpp[0]), "gcc-cpp") == 0)
-					clist = append(arg, clist);
-				clist = append(arg, clist);
-#endif
 				fprintf(stderr, "%s %s\n", progname, rcsid);
 			}
 			return;
@@ -1249,3 +1222,7 @@ static int handle_file_preprocess_only(char *name, char *base) {
 	return callsys(av); // return call status
 }
 
+
+static void warn_obsolete_option(char * arg) {
+    fprintf(stderr, "lcc: Warning: argument \"%s\" ignored, no longer supported\n", arg);
+}

@@ -125,13 +125,14 @@ int main(void)
     EMU_MESSAGE("All Registers: %ALLREGS%");
 
     // Simple addition with a register
-    EMU_MESSAGE("Register A + 1: %(A+1)%");
+    EMU_MESSAGE("Register A + 1: %A+1%");
 
     // Note: %SCANLINE% is available in Emulicious (for SMS/GG/GB/GBC) but not BGB
     EMU_MESSAGE("Current Scanline: %SCANLINE%");
 
     #if defined(NINTENDO)
         // Read the LY Register a couple times
+        // Note how the register value is obtained by using parenthesis to de-referenced its address.
         // (Current Y coordinate being rendered to the LCD)
         EMU_MESSAGE("LY Register (0xFF44): %($ff44)%");
         EMU_MESSAGE("LY Register (0xFF44): %($ff44)%");
@@ -153,9 +154,34 @@ int main(void)
         EMU_MESSAGE("PROFILE,%(SP+$0)%,%(SP+$1)%,%A%,%TOTALCLKS%,%ROMBANK%,%WRAMBANK%");
     #endif
 
-    uint8_t var0 = 16;
-    int16_t var1 = -10;
-    EMU_printf("var0: %hd; var1: %d; var0*var1=%d\n", (uint8_t)var0, var1, var0 * var1);
+    int16_t  var_s16  = -1234;
+    uint16_t var_u16  = 31002;
+    uint16_t var_u16h = 0xA50Fu;
+    int8_t   var_s8   = -56;
+    uint8_t  var_u8   = 224;
+    uint8_t  var_u8h  = 0xF8;
+    char     var_chr  = 'A';
+    char *   var_string = "Hello Emu Printf";
+
+    // For EMU_printf:
+    // Note how all the 8 bit arguments must be explicitly cast EXCEPT for %c
+    // In partifcular, %c MUST NOT be cast or the output will be incorrect
+    EMU_printf("signed int: %d\n"
+               "unsigned int: %u\n"
+               "hex int: 0x%X\n"
+               "signed byte: %hd\n"
+               "unsigned byte: %hu\n"
+               "hex byte: 0x%hX\n"
+               "Character: %c\n"
+               "String: %s\n",
+                (int16_t) var_s16,
+                (uint16_t) var_u16,
+                (uint16_t) var_u16h,
+                (int8_t)var_s8,
+                (uint8_t)var_u8,
+                (uint8_t)var_u8h,
+                var_chr,    // Do not explicitly cast %c vars for EMU_printf, it expects them auto-promoted to 2 bytes (casting would prevent that)
+                var_string);
 
     // The EMU_TEXT() macro will accept a non-quoted string
     EMU_TEXT("The End");

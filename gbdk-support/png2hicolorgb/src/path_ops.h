@@ -5,8 +5,9 @@
 #ifndef _PATH_OPS_H
 #define _PATH_OPS_H
 
-#include <stdint.h>
 #include <stdbool.h>
+#include <stddef.h>
+#include <stdint.h>
 
 void filename_replace_extension(char * filename, char * new_ext, size_t maxlen);
 void filename_replace_path(char * filename, char * new_path, size_t maxlen);

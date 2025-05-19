@@ -21,7 +21,7 @@ void list_init(list_type * p_list, size_t array_typesize) {
     p_list->p_array = (void *)malloc(p_list->size * p_list->typesize);
 
     if (!p_list->p_array) {
-        log_error("ERROR: Failed to allocate memory for list!\n");
+        log_error("Error: Failed to allocate memory for list!\n");
         exit(EXIT_FAILURE);
     }
 }
@@ -50,11 +50,11 @@ void list_additem(list_type * p_list, void * p_newitem) {
         // Save a copy in case reallocation fails
         tmp_list = p_list->p_array;
 
-        p_list->size += p_list->typesize * LIST_GROW_SIZE;
+        p_list->size += LIST_GROW_SIZE;
         p_list->p_array = (void *)realloc(p_list->p_array, p_list->size * p_list->typesize);
         // If realloc failed, free original buffer before quitting
         if (!p_list->p_array) {
-            log_error("ERROR: Failed to reallocate memory for list!\n");
+            log_error("Error: Failed to reallocate memory for list!\n");
             if (tmp_list) {
                 free(tmp_list);
                 tmp_list = NULL;

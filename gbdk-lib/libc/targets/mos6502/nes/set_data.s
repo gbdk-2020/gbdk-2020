@@ -42,8 +42,8 @@ _set_sprite_data::
     rol
     asl *.ppu_addr_lo
     rol
-    bit *.crt0_forced_blanking
-    bpl .copy_tiles_indirect
+    bit *__oam_valid_display_on
+    bvc .copy_tiles_indirect
     ; Direct write
     sta PPUADDR
     lda *.ppu_addr_lo

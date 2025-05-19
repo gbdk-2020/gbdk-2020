@@ -9,18 +9,13 @@
 #define camera_max_y ((bigmap_mapHeight - DEVICE_SCREEN_HEIGHT) * 8) 
 #define camera_max_x ((bigmap_mapWidth - DEVICE_SCREEN_WIDTH) * 8) 
 
-#if defined(SEGA)
-  #define WRAP_SCROLL_Y(y) ((y) % 224u)
-  // For SMS, artifacts are already invisible as screen buffer size is larger than screen size
-  #define SCROLL_Y_OFFSET 0
-#elif defined(NINTENDO)
-  #define WRAP_SCROLL_Y(y) y
-  // For GB, artifacts are already invisible as screen buffer size is larger than screen size
-  #define SCROLL_Y_OFFSET 0
-#else
-  #define WRAP_SCROLL_Y(y) ((y) % 240u)
-  // For other systems assume height of 240 and adjust Y-scroll 4 pixels down to partly hide artifacts in NTSC overscan
+#define WRAP_SCROLL_Y(y) ((y) % (DEVICE_SCREEN_BUFFER_HEIGHT * 8))
+
+// For systems where screen buffer height is equal to screen height, adjust Y-scroll 4 pixels down to partly hide artifacts in NTSC overscan
+#if DEVICE_SCREEN_BUFFER_HEIGHT == DEVICE_SCREEN_HEIGHT
   #define SCROLL_Y_OFFSET 4
+#else
+  #define SCROLL_Y_OFFSET 0
 #endif
 
 #if defined(SEGA)

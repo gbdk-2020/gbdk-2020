@@ -33,6 +33,9 @@ extern const uint8_t _SYSTEM;
 #define SYSTEM_60HZ    0x00
 #define SYSTEM_50HZ    0x01
 
+#define TIMER_VBLANK_PARITY_MODE_SYSTEM_60HZ    0x78
+#define TIMER_VBLANK_PARITY_MODE_SYSTEM_50HZ    0x5D
+
 #define RGB(r,g,b)        RGB_TO_NES(((r) | ((g) << 2) | ((b) << 4)))
 #define RGB8(r,g,b)       RGB_TO_NES((((r) >> 6) | (((g) >> 6) << 2) | (((b) >> 6) << 4)))
 #define RGBHTML(RGB24bit) RGB_TO_NES((((RGB24bit) >> 22) | ((((RGB24bit) & 0xFFFF) >> 14) << 2) | ((((RGB24bit) & 0xFF) >> 6) << 4)))
@@ -132,6 +135,25 @@ void set_sprite_palette_entry(uint8_t palette, uint8_t entry, palette_color_t rg
 */
 #define S_PAL(n)     n
 
+/* Interrupt flags */
+/** Disable calling of interrupt service routines
+ */
+#define EMPTY_IFLAG  0x00U
+/** VBlank Interrupt occurs at the start of the vertical blank.
+
+    During this period the video ram may be freely accessed.
+    @see set_interrupts(), @see add_VBL
+ */
+#define VBL_IFLAG    0x01U
+/** LCD Interrupt when triggered by the STAT register.
+    @see set_interrupts(), @see add_LCD
+*/
+#define LCD_IFLAG    0x02U
+/** Timer Interrupt when the timer @ref TIMA_REG overflows.
+    @see set_interrupts(), @see add_TIM
+ */
+#define TIM_IFLAG    0x04U
+
 /* DMG Palettes */
 #define DMG_BLACK     0x03
 #define DMG_DARK_GRAY 0x02
@@ -183,6 +205,11 @@ void remove_VBL(int_handler h) NO_OVERLAY_LOCALS;
     @see add_LCD(), remove_VBL()
 */
 void remove_LCD(int_handler h) NO_OVERLAY_LOCALS;
+
+/** Removes the TIM interrupt handler.
+    @see add_TIM(), remove_VBL()
+*/
+void remove_TIM(int_handler h) NO_OVERLAY_LOCALS;
 
 /** Adds a Vertical Blanking interrupt handler.
 
@@ -247,6 +274,25 @@ void add_VBL(int_handler h) NO_OVERLAY_LOCALS;
     @see add_VBL, nowait_int_handler, ISR_VECTOR()
 */
 void add_LCD(int_handler h) NO_OVERLAY_LOCALS;
+
+/** Adds a timer interrupt handler.
+
+    Can not be used together with @ref add_low_priority_TIM
+
+    This interrupt handler is invoked at the end of the NMI handler 
+    for gbdk-nes, after first processing the registers writes done 
+    by the VBL and and LCD handlers. 
+    It is therefore currently limited to 60Hz / 50Hz 
+    (depending on system).
+
+    @note
+    Make sure to wrap TIM interrupt handlers with a nooverlay pragma. 
+    For more details see @ref docs_nes_tim_overlay
+
+    @see add_VBL
+    @see set_interrupts() with TIM_IFLAG, ISR_VECTOR()
+*/
+void add_TIM(int_handler h) NO_OVERLAY_LOCALS;
 
 /** The maximum number of times the LCD handler will be called per frame.
  */
@@ -465,6 +511,28 @@ inline void enable_interrupts(void) {
 */
 inline void disable_interrupts(void) {
     __asm__("sei");
+}
+
+/** Sets the interrupt mask to flags.
+    @param flags	A logical OR of *_IFLAGS
+
+    @see VBL_IFLAG, LCD_IFLAG, TIM_IFLAG
+*/
+void set_interrupts(uint8_t flags) NO_OVERLAY_LOCALS;
+
+/** Performs a soft reset.
+
+    For the Game Boy and related it does this by jumping to address 0x0150
+    which is in crt0.s (the c-runtime that executes before main() is called).
+
+    This performs various startup steps such as resetting the stack,
+    clearing WRAM and OAM, resetting initialized variables and some
+    display registers (scroll, window, LCDC), etc.
+
+    This is not the same a hard power reset.
+*/
+inline void reset(void) {
+    __asm__("jmp [0xFFFC]");
 }
 
 /** Waits for the vertical blank interrupt.
@@ -750,11 +818,9 @@ void set_bkg_submap_attributes_nes16x16(uint8_t x, uint8_t y, uint8_t w, uint8_t
 */
 inline void set_bkg_submap_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *attributes, uint8_t map_w)
 {
-    set_bkg_submap_attributes_nes16x16(x >> 1, y >> 1, (w + 1) >> 1, (h + 1) >> 1, attributes, map_w >> 1);
+    set_bkg_submap_attributes_nes16x16(x >> 1, y >> 1, (w + 1) >> 1, (h + 1) >> 1, attributes, (map_w + 1) >> 1);
 }
 
-
-extern uint8_t _map_tile_offset;
 
 /** Sets a rectangular region of Background Tile Map.
     The offset value in __base_tile__ is added to
@@ -774,11 +840,7 @@ extern uint8_t _map_tile_offset;
 
     @see set_bkg_tiles for more details
 */
-inline void set_bkg_based_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles, uint8_t base_tile) {
-    _map_tile_offset = base_tile;
-    set_bkg_tiles(x, y, w, h, tiles);
-    _map_tile_offset = 0;
-}
+inline void set_bkg_based_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles, uint8_t base_tile);
 
 
 /** Sets a rectangular area of the Background Tile Map using a sub-region
@@ -813,8 +875,6 @@ void set_bkg_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *m
 #define set_tile_submap set_bkg_submap
 
 
-extern uint8_t _submap_tile_offset;
-
 /** Sets a rectangular area of the Background Tile Map using a sub-region
     from a source tile map. The offset value in __base_tile__ is added to
     the tile ID for each map entry.
@@ -834,11 +894,7 @@ extern uint8_t _submap_tile_offset;
 
     @see set_bkg_submap for more details
 */
-inline void set_bkg_based_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w, uint8_t base_tile) {
-    _submap_tile_offset = base_tile;
-    set_bkg_submap(x, y, w, h, map, map_w);
-    _submap_tile_offset = 0;
-}
+inline void set_bkg_based_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w, uint8_t base_tile);
 
 
 /** Copies a rectangular region of Background Tile Map entries into a buffer.
@@ -914,8 +970,22 @@ uint8_t get_bkg_tile_xy(uint8_t x, uint8_t y) NO_OVERLAY_LOCALS;
 
     @see SHOW_BKG, HIDE_BKG
 */
-inline void move_bkg(uint8_t x, uint8_t y) {
-    bkg_scroll_x = x, bkg_scroll_y = y;
+inline void move_bkg(scroll_x_t x, scroll_y_t y) {
+    // store low 8 bits to shadow scroll registers
+    bkg_scroll_x = (uint8_t)x;
+    bkg_scroll_y = (uint8_t)(y >= 240 ? (y - 240) : y);
+    // store 9th bit of x and y in shadow PPUCTRL register
+#if DEVICE_SCREEN_BUFFER_WIDTH > 32 && DEVICE_SCREEN_BUFFER_HEIGHT > 30
+    uint8_t msb_x = (uint8_t)((x >> 8) & 1);
+    uint8_t msb_y = (uint8_t)(y >= 240 ? 1 : 0);
+    shadow_PPUCTRL = (shadow_PPUCTRL & 0xFC) | (msb_y << 1) | msb_x;
+#elif DEVICE_SCREEN_BUFFER_WIDTH > 32
+    uint8_t msb_x = (uint8_t)((x >> 8) & 1);
+    shadow_PPUCTRL = (shadow_PPUCTRL & 0xFC) | msb_x;
+#elif DEVICE_SCREEN_BUFFER_HEIGHT > 30
+    uint8_t msb_y = (uint8_t)(y >= 240 ? 1 : 0);
+    shadow_PPUCTRL = (shadow_PPUCTRL & 0xFC) | (msb_y << 1);
+#endif
 }
 
 
@@ -929,7 +999,7 @@ inline void move_bkg(uint8_t x, uint8_t y) {
     @see move_bkg
 */
 inline void scroll_bkg(int8_t x, int8_t y) {
-    bkg_scroll_x += x, bkg_scroll_y += y;
+    move_bkg(bkg_scroll_x + x, bkg_scroll_y + y);
 }
 
 

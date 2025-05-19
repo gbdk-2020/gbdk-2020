@@ -5,7 +5,7 @@
 
 #include "logging.h"
 
-int output_level = OUTPUT_LEVEL_DEFAULT;
+static enum output_level output_level = OUTPUT_LEVEL_DEFAULT;
 
 
 #define VA_LIST_PRINT() \
@@ -16,33 +16,18 @@ int output_level = OUTPUT_LEVEL_DEFAULT;
     fflush(stdout);    // If logging a lot of output to a file turn off the excessive flushing
 
 
-void log_set_level(int new_output_level) {
+void set_log_level(enum output_level new_output_level) {
     output_level = new_output_level;
 }
 
-void log_debug(const char * format, ...){
+int log_(enum output_level level, const char *fmt, ...) {
+    if (output_level > level) {
+        return 0; // Pretend everything went smoothly. (It did, kind of!)
+    }
 
-    if (output_level > OUTPUT_LEVEL_DEBUG) return;
-    VA_LIST_PRINT();
-}
-
-void log_verbose(const char * format, ...){
-
-    if (output_level > OUTPUT_LEVEL_VERBOSE) return;
-    VA_LIST_PRINT();
-}
-
-void log_standard(const char * format, ...){
-
-    // Only print if quiet mode and error_only are NOT enabled
-    if ((output_level == OUTPUT_LEVEL_QUIET) ||
-        (output_level == OUTPUT_LEVEL_ONLY_ERRORS)) return;
-    VA_LIST_PRINT();
-}
-
-void log_error(const char * format, ...){
-
-    // Only print if quiet mode is NOT enabled
-    if (output_level == OUTPUT_LEVEL_QUIET) return;
-    VA_LIST_PRINT();
+    va_list ap;
+    va_start(ap, fmt);
+    int ret = vfprintf(stderr, fmt, ap);
+    va_end(ap);
+    return ret;
 }

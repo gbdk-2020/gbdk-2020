@@ -42,8 +42,33 @@ __REG(0x4014) OAMDMA;
 #define DEVICE_SCREEN_Y_OFFSET 0
 #define DEVICE_SCREEN_WIDTH 32
 #define DEVICE_SCREEN_HEIGHT 30
+
+#if defined(NES_TILEMAP_F)
+// Full tilemap
+#define DEVICE_SCREEN_BUFFER_WIDTH 64
+#define DEVICE_SCREEN_BUFFER_HEIGHT 60
+typedef uint16_t scroll_x_t;
+typedef uint16_t scroll_y_t;
+#elif defined(NES_TILEMAP_H)
+// Horizontally arranged tilemap
+#define DEVICE_SCREEN_BUFFER_WIDTH 64
+#define DEVICE_SCREEN_BUFFER_HEIGHT 30
+typedef uint16_t scroll_x_t;
+typedef uint8_t scroll_y_t;
+#elif defined(NES_TILEMAP_V)
+// Vertically arranged tilemap
+#define DEVICE_SCREEN_BUFFER_WIDTH 32
+#define DEVICE_SCREEN_BUFFER_HEIGHT 60
+typedef uint8_t scroll_x_t;
+typedef uint16_t scroll_y_t;
+#else
+// Single-screen tilemap
 #define DEVICE_SCREEN_BUFFER_WIDTH 32
 #define DEVICE_SCREEN_BUFFER_HEIGHT 30
+typedef uint8_t scroll_x_t;
+typedef uint8_t scroll_y_t;
+#endif
+
 #define DEVICE_SCREEN_MAP_ENTRY_SIZE 1
 #define DEVICE_SPRITE_PX_OFFSET_X 0
 #define DEVICE_SPRITE_PX_OFFSET_Y -1
@@ -55,5 +80,21 @@ __REG(0x4014) OAMDMA;
 // Scrolling coordinates (will be written to PPUSCROLL at end-of-vblank by NMI handler)
 __SHADOW_REG bkg_scroll_x;
 __SHADOW_REG bkg_scroll_y;
+// LCD scanline - a software-driven version of GB's incrasing 'LY' scanline counter
+__SHADOW_REG _lcd_scanline;
+
+extern volatile UBYTE TIMA_REG;
+extern volatile UBYTE TMA_REG;
+extern volatile UBYTE TAC_REG;
+
+// Compatibility defines for GB LY / LYC registers, to allow easier LCD ISR porting
+#define SCY_REG bkg_scroll_y    /**< Scroll Y */
+#define rSCY SCY_REG
+#define SCX_REG bkg_scroll_x    /**< Scroll X */
+#define rSCX SCX_REG
+#define LY_REG _lcd_scanline    /**< LCDC Y-coordinate */
+#define rLY LY_REG
+#define LYC_REG _lcd_scanline   /**< LY compare */
+#define rLYC LYC_REG
 
 #endif

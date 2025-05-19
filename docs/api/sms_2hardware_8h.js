@@ -169,5 +169,8 @@ var sms_2hardware_8h =
     [ "shadow_VDP_R9", "sms_2hardware_8h.html#a1ccce1e3f8acb76170fb752ee40ae659", null ],
     [ "shadow_VDP_RSCY", "sms_2hardware_8h.html#a292b59055beb22b566b39462da3b7eba", null ],
     [ "shadow_VDP_R10", "sms_2hardware_8h.html#af310a900e3b4b5b5032f4ffd6fa309b0", null ],
+    [ "TIMA_REG", "sms_2hardware_8h.html#a4741a62d05deefc649df160baca326dd", null ],
+    [ "TMA_REG", "sms_2hardware_8h.html#a555981cd27ce7cf2057c88890208e569", null ],
+    [ "TAC_REG", "sms_2hardware_8h.html#adc3c7d0fe4256fd16fe86c1b6386720f", null ],
     [ "VDP_ATTR_SHIFT", "sms_2hardware_8h.html#a019bf78a6d586c987aec03af8d20e02f", null ]
 ];

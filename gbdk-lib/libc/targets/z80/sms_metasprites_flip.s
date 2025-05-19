@@ -32,15 +32,34 @@
 .ifne neg_dy
         neg                     ; apply flipy (or no-op)
 .endif
+        add     a, a
+        sbc     a, a
+        ld      h, a
+        ld      a, 0(ix)
+.ifne neg_dy
+        neg                     ; apply flipy (or no-op)
+.endif
+        ld      l, a
         inc     ix
+        add     hl, bc
+        ld      b, h
+        ld      c, l
 
-        add     c
-        ld      c, a
-        cp      #0xD0
-        jp      z, 3$
-
-        ld      0(iy), a
-
+        ld      a, #0x20
+        add     l
+        ld      l, a
+        adc     h
+        sub     l
+        jp      nz, 5$
+        ld      a, l
+        cp      #(0x20 + 0xC0)
+        jp      c, 6$
+5$:
+        ld      0(iy), #0xC0
+        jp      7$
+6$:
+        ld      0(iy), c
+7$:
         ld      a, 0(ix)        ; dx
 .ifne neg_dx
         neg                     ; apply flipx (or no-op)
@@ -77,14 +96,11 @@
         ld      iyl, a
 
         jp      1$
-3$:
-        inc     ix
 4$:
         ld      0(iy), #0xC0
         inc     ix
         inc     iyl
         jp      1$
-
 2$:
         pop     ix
         pop     bc

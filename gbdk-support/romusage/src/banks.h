@@ -17,6 +17,11 @@
 #define BANK_NUM_ROM0           (0u)
 #define BANK_NUM_ROM1           (1u)
 
+// Used for ignoring address range check/clipping when copying
+// areas from multiple banks into a single collapsed bank
+#define ADDR_NO_CLIP_MIN        0x00000000
+#define ADDR_NO_CLIP_MAX        0xFFFFFFFF
+
 #define AREA_COPY_ADDRESS_TRANSLATE_YES true
 #define AREA_COPY_ADDRESS_TRANSLATE_NO  false
 
@@ -38,6 +43,9 @@
 
 #define BANK_MERGED_NO     false
 #define BANK_MERGED_YES    true
+
+#define HIDDEN_NO          false
+#define HIDDEN_YES         true
 
 #define MINIGRAPH_SIZE (2 * 14) // Number of characters wide (inside edge brackets)
 #define LARGEGRAPH_BYTES_PER_CHAR 16
@@ -79,6 +87,7 @@ typedef struct bank_item {
     int      base_bank_num;
     bool     is_merged_bank;
     // End of templating vars
+    bool     hidden;
 
     // TODO: track overflow bytes and report them in graph
     list_type area_list;

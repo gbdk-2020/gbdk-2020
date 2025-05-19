@@ -157,16 +157,6 @@ struct sms_opt_s
   uint8_t nb_ram_banks;              /* Number of ram banks (default: 0) */
 };
 
-struct nes_opt_s
-{
-    BYTE mapper;
-    BYTE num_prg_banks;
-    BYTE num_chr_banks;
-    bool vertical_mirroring;
-    bool four_screen;
-    bool battery;
-};
-
 void
 gb_postproc (BYTE * rom, int size, int *real_size, struct gb_opt_s *o)
 {
@@ -221,22 +211,39 @@ gb_postproc (BYTE * rom, int size, int *real_size, struct gb_opt_s *o)
     }
 
   /*
-   * 0147: Cartridge type:
-   * 0-ROM ONLY            12-ROM+MBC3+RAM
-   * 1-ROM+MBC1            13-ROM+MBC3+RAM+BATT
-   * 2-ROM+MBC1+RAM        19-ROM+MBC5
-   * 3-ROM+MBC1+RAM+BATT   1A-ROM+MBC5+RAM
-   * 5-ROM+MBC2            1B-ROM+MBC5+RAM+BATT
-   * 6-ROM+MBC2+BATTERY    1C-ROM+MBC5+RUMBLE
-   * 8-ROM+RAM             1D-ROM+MBC5+RUMBLE+SRAM
-   * 9-ROM+RAM+BATTERY     1E-ROM+MBC5+RUMBLE+SRAM+BATT
-   * B-ROM+MMM01           1F-Pocket Camera
-   * C-ROM+MMM01+SRAM      FD-Bandai TAMA5
-   * D-ROM+MMM01+SRAM+BATT FE - Hudson HuC-3
-   * F-ROM+MBC3+TIMER+BATT FF - Hudson HuC-1
-   * 10-ROM+MBC3+TIMER+RAM+BATT
-   * 11-ROM+MBC3
-   */
+  0147: Cartridge type:
+  
+| Hex Code | MBC Type      | SRAM | Battery | RTC | Extra Feature   | Max ROM Size (1)|Max SRAM Size   |
+| -------- | ------------- | ---- | ------- | --- | --------------- | --------------- |--------------- |
+| 0x00     | ROM ONLY      |      |         |     |                 | 32 K            |0               |
+| 0x01     | MBC-1 (2)     |      |         |     |                 | 2 MB            |0               |
+| 0x02     | MBC-1 (2)     | SRAM |         |     |                 | 2 MB            |32 K (5)        |
+| 0x03     | MBC-1 (2)     | SRAM | BATTERY |     |                 | 2 MB            |32 K (5)        |
+| 0x05     | MBC-2         |      |         |     |                 | 256 K           |512 x 4 bits (6)|
+| 0x06     | MBC-2         |      | BATTERY |     |                 | 256 K           |512 x 4 bits (6)|
+| 0x08     | ROM (3)       | SRAM |         |     |                 | 32 K            |8 K             |
+| 0x09     | ROM (3)       | SRAM | BATTERY |     |                 | 32 K            |8 K             |
+| 0x0B     | MMM01         |      |         |     |                 | 8 MB / N        |                |
+| 0x0C     | MMM01         | SRAM |         |     |                 | 8 MB / N        |128K / N        |
+| 0x0D     | MMM01         | SRAM | BATTERY |     |                 | 8 MB / N        |128K / N        |
+| 0x0F     | MBC-3         |      | BATTERY | RTC |                 | 2 MB            |                |
+| 0x10     | MBC-3 (4)     | SRAM | BATTERY | RTC |                 | 2 MB            |32 K            |
+| 0x11     | MBC-3         |      |         |     |                 | 2 MB            |                |
+| 0x12     | MBC-3 (4)     | SRAM |         |     |                 | 2 MB            |32 K            |
+| 0x13     | MBC-3 (4)     | SRAM | BATTERY |     |                 | 2 MB            |32 K            |
+| 0x19     | MBC-5         |      |         |     |                 | 8 MB            |                |
+| 0x1A     | MBC-5         | SRAM |         |     |                 | 8 MB            |128 K           |
+| 0x1B     | MBC-5         | SRAM | BATTERY |     |                 | 8 MB            |128 K           |
+| 0x1C     | MBC-5         |      |         |     | RUMBLE          | 8 MB            |                |
+| 0x1D     | MBC-5         | SRAM |         |     | RUMBLE          | 8 MB            |128 K           |
+| 0x1E     | MBC-5         | SRAM | BATTERY |     | RUMBLE          | 8 MB            |128 K           |
+| 0x20     | MBC-6         |      |         |     |                 | ~2MB            |                |
+| 0x22     | MBC-7         |EEPROM|         |     | ACCELEROMETER   | 2MB             |256 byte EEPROM |
+| 0xFC     | POCKET CAMERA |      |         |     |                 | 1MB             |128KB RAM       |
+| 0xFD     | BANDAI TAMA5  |      |         |     |                 | To Do           |To Do           |
+| 0xFE     | HuC3          |      |         | RTC |                 | To Do           |To Do           |
+| 0xFF     | HuC1          | SRAM | BATTERY |     | IR              | To Do           |To Do           |
+  */
   rom[0x147] = o->mbc_type;
 
   /*
@@ -723,30 +730,6 @@ read_ihx (FILE *fin, BYTE **rom, int *size, int *real_size, struct gb_opt_s *o)
   return 1;
 }
 
-void write_ines_header(FILE* fout, struct nes_opt_s* nes_opt)
-{
-  char id_string[] = { 0x4E, 0x45, 0x53, 0x1A };  
-  BYTE flags6 = ((nes_opt->mapper & 0xF) << 4) | 
-                 (nes_opt->four_screen << 3) |
-                 (nes_opt->battery << 1) |
-                 nes_opt->vertical_mirroring;
-  BYTE flags7 = (nes_opt->mapper & 0xF0);
-  BYTE flags8 = 0;
-  BYTE flags9 = 0;
-  BYTE flags10 = 0;
-  BYTE padding[5] = { 0, 0, 0, 0, 0, };
-  // "NES" + end-of-file
-  fwrite(&id_string, sizeof(char), 4, fout);
-  fwrite(&nes_opt->num_prg_banks, sizeof(BYTE), 1, fout);
-  fwrite(&nes_opt->num_chr_banks, sizeof(BYTE), 1, fout);
-  fwrite(&flags6, sizeof(BYTE), 1, fout);
-  fwrite(&flags7, sizeof(BYTE), 1, fout);
-  fwrite(&flags8, sizeof(BYTE), 1, fout);
-  fwrite(&flags9, sizeof(BYTE), 1, fout);
-  fwrite(&flags10, sizeof(BYTE), 1, fout);
-  fwrite(padding, sizeof(BYTE), 5, fout);
-}
-
 int
 main (int argc, char **argv)
 {
@@ -779,14 +762,6 @@ main (int argc, char **argv)
                               .region_code=4,
                               .version=0,
                               .nb_ram_banks=0 };
-
-  struct nes_opt_s nes_opt = {
-                              .mapper = 30,
-                              .num_prg_banks = 8,
-                              .num_chr_banks = 0,
-                              .vertical_mirroring = 0,
-                              .four_screen = 1,
-                              .battery = 0 };
 
 #if defined(_WIN32)
   setmode (fileno (stdout), O_BINARY);
@@ -963,7 +938,7 @@ main (int argc, char **argv)
           break;
 
         case 'N':
-          /* generate iNES binary file */
+          /* generate binary file for NES, with .ihx file banks rotated to turn first bank into last bank */
           gb = 0, sms = 0, nes = 1;
           break;
 
@@ -1109,9 +1084,7 @@ main (int argc, char **argv)
 
       if (nes)
       {
-        nes_opt.num_prg_banks = gb_opt.nb_rom_banks;
-        write_ines_header(fout, &nes_opt);
-        // .ihx file has fixed bank incorrectly placed as first - we fix this when writing out the .nes file.
+        // .ihx file has fixed bank incorrectly placed as first - we fix this when writing out the .bin file.
         // Write the N-1 switchable banks at .nes file start, skipping the first (fixed) bank
         fwrite (rom + BANK_SIZE, 1, (pack ? real_size : size) - offset - BANK_SIZE, fout);
         // Write the fixed bank to end of .nes file

@@ -11,6 +11,10 @@
 
 using namespace std;
 
+enum {
+    BANK_NUM_UNSET = -1
+};
+
 
 struct PNG2AssetArguments {
 
@@ -54,6 +58,8 @@ struct PNG2AssetArguments {
 
     int errorCode;
     int bank;
+    string area_name;
+    bool area_specified;
     int sprite_mode;
     int bpp;
     int props_default;  // Default Sprite props has no attributes enabled

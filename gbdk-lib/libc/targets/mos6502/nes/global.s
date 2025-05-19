@@ -1,10 +1,18 @@
+        .include "platform_cfg.s"
+
         ;; Maximum number of times LCD ISR can be repeatedly called
         .MAX_LCD_ISR_CALLS = 4
+        ;; Total number is +1 to support VBL ISR with the same logic
+        .MAX_DEFERRED_ISR_CALLS = (.MAX_LCD_ISR_CALLS+1)
 
         ;; Transfer buffer (lower half of hardware stack)
         __vram_transfer_buffer = 0x100
         ;; Number of 8-cycles available each frame for transfer buffer
         VRAM_DELAY_CYCLES_X8  = 171
+
+        ; Bits for quick checking of OAM validity and display ON/OFF
+        OAM_VALID_MASK      = 0x80
+        DISPLAY_OFF_MASK    = 0x40
 
         ;;  Keypad
         .UP             = 0x08
@@ -16,11 +24,49 @@
         .SELECT         = 0x20
         .START          = 0x10
 
-        ;;  Screen dimensions (in tiles)
+;;  Screen dimensions (in tiles)
         .DEVICE_SCREEN_WIDTH            = 32
         .DEVICE_SCREEN_HEIGHT           = 30
+
+;;  Buffer dimensions (in tiles)
+;;  Dependent on tilemap layout
+.ifdef NES_TILEMAP_F
+        NUM_NT                          = 4
+        NT_2W                           = 1
+        NT_2H                           = 1
+        AT_SHADOW_WIDTH                 = 16
+        AT_SHADOW_HEIGHT                = 16
+        .DEVICE_SCREEN_BUFFER_WIDTH     = 64
+        .DEVICE_SCREEN_BUFFER_HEIGHT    = 60
+.endif
+.ifdef NES_TILEMAP_H
+        NUM_NT                          = 2
+        NT_2W                           = 1
+        NT_2H                           = 0
+        AT_SHADOW_WIDTH                 = 16
+        AT_SHADOW_HEIGHT                = 8
+        .DEVICE_SCREEN_BUFFER_WIDTH     = 64
+        .DEVICE_SCREEN_BUFFER_HEIGHT    = 30
+.endif
+.ifdef NES_TILEMAP_V
+        NUM_NT                          = 2
+        NT_2W                           = 0
+        NT_2H                           = 1
+        AT_SHADOW_WIDTH                 = 8
+        AT_SHADOW_HEIGHT                = 16
+        .DEVICE_SCREEN_BUFFER_WIDTH     = 32
+        .DEVICE_SCREEN_BUFFER_HEIGHT    = 60
+.endif
+.ifdef NES_TILEMAP_S
+        NUM_NT                          = 1
+        NT_2W                           = 0
+        NT_2H                           = 0
+        AT_SHADOW_WIDTH                 = 8
+        AT_SHADOW_HEIGHT                = 8
         .DEVICE_SCREEN_BUFFER_WIDTH     = 32
         .DEVICE_SCREEN_BUFFER_HEIGHT    = 30
+.endif
+
         .MAXCURSPOSX    = 31
         .MAXCURSPOSY    = 29
 
@@ -30,6 +76,17 @@
         ;; NAMETABLES
         PPU_NT0         = 0x2000
         PPU_AT0         = 0x23C0
+        PPU_NT1         = 0x2400
+        PPU_AT1         = 0x27C0
+        PPU_NT2         = 0x2800
+        PPU_AT2         = 0x2BC0
+        PPU_NT3         = 0x2C00
+        PPU_AT3         = 0x2FC0
+
+        NT_WIDTH                       = 32
+        NT_HEIGHT                      = 30
+        AT_WIDTH                       = 8
+        AT_HEIGHT                      = 8
 
         ATTRIBUTE_WIDTH                = 16
         ATTRIBUTE_HEIGHT               = 15
@@ -77,6 +134,11 @@
         ;
         JOY2            = 0x4017
 
+        ; Interrupt handler flags
+        .VBL_IFLAG      = 0x01
+        .LCD_IFLAG      = 0x02
+        .TIM_IFLAG      = 0x04
+
         ;; OAM related constants
 
         OAM_COUNT       = 64  ; number of OAM entries in OAM RAM
@@ -101,6 +163,10 @@
 
         ;; Table of routines for modes
         .MODE_TABLE     = 0xFFE0
+
+        ;; Values for vblank parity mode when using timer emulation
+        .TIMER_VBLANK_PARITY_MODE_SYSTEM_60HZ = 0x78
+        .TIMER_VBLANK_PARITY_MODE_SYSTEM_50HZ = 0x5D
 
         ;; C related
         ;; Overheap of a banked call.  Used for parameters
@@ -130,6 +196,9 @@
 
         ;; Symbols defined at link time
         .globl _shadow_OAM, __vram_transfer_buffer
+        .globl __lcd_isr_PPUCTRL, __lcd_isr_PPUMASK
+        .globl __lcd_isr_scroll_x, __lcd_isr_scroll_y, __lcd_isr_ppuaddr_lo
+        .globl __lcd_isr_delay_num_scanlines
 
         ;; Main user routine
         .globl  _main

@@ -47,6 +47,31 @@ void ExtractTileset(PNG2AssetData* assetData, vector< Tile > & tileset, bool kee
 }
 
 
+static void checkWarnMapTileLimits(PNG2AssetData* assetData) {
+
+    unsigned int maxUsedTileCount = (assetData->tiles.size() + assetData->args->tile_origin);
+    unsigned int maxTilesWarnLimit = 256; // 256 is default for GB, NES
+
+    // GB + Map Attributes implies GBC which has a secondary tile bank
+    if (((assetData->args->pack_mode == Tile::GB) && assetData->args->use_map_attributes) ||
+         (assetData->args->pack_mode == Tile::SMS)) {
+        maxTilesWarnLimit = 512;
+    }
+
+    if (maxUsedTileCount > maxTilesWarnLimit) {
+        printf("Warning: Tile count (%d) + tile origin (%d) = %d exceeds limit %d\n",
+                (unsigned int)assetData->tiles.size(), (unsigned int)assetData->args->tile_origin,
+                maxUsedTileCount, maxTilesWarnLimit);
+    }
+
+    // If using GBC, notify user about extra requirements to use > 256 tiles
+    if ((maxUsedTileCount > 256) && ((assetData->args->pack_mode == Tile::GB) && assetData->args->use_map_attributes)) {
+        printf("Warning: On GBC more then 256 tiles may require use of alternate tile bank. Tile count (%d) + tile origin (%d) = %d\n",
+                (unsigned int)assetData->tiles.size(), (unsigned int)assetData->args->tile_origin, maxUsedTileCount);
+    }
+}
+
+
 void GetMap(PNG2AssetData* assetData)
 {
     for(int y = 0; y < (int)assetData->image.h; y += assetData->image.tile_h)
@@ -88,12 +113,6 @@ void GetMap(PNG2AssetData* assetData)
                     assetData->tiles.push_back(tile);
                     idx = assetData->tiles.size() - 1;
                     props = assetData->args->props_default;
-
-                    if(assetData->tiles.size() > 256 && assetData->args->pack_mode != Tile::SMS)
-                        printf("Warning: found more than 256 tiles on x:%d,y:%d\n", x, y);
-
-                    if(((assetData->tiles.size() + assetData->args->tile_origin) > 256) && (assetData->args->pack_mode != Tile::SMS))
-                        printf("Warning: tile count (%d) + tile origin (%d) exceeds 256 at x:%d,y:%d\n", (unsigned int)assetData->tiles.size(), assetData->args->tile_origin, x, y);
                 }
             }
 
@@ -120,12 +139,16 @@ void GetMap(PNG2AssetData* assetData)
                 else
                 {
                     props |= pal_idx;
+                     // If GBC and more than 256 tiles then add in tile bank num
+                    if ((idx > 255) && (assetData->args->pack_mode == Tile::GB))
+                        props |= CGB_BKGF_BANK1;
                     assetData->map_attributes.push_back(props);
                 }
             }
         }
     }
 
-    HandleMapAttributes( assetData);
+    checkWarnMapTileLimits(assetData);
+    HandleMapAttributes(assetData);
 }
 

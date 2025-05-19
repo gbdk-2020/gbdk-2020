@@ -65,6 +65,7 @@ gbdk-support/png2asset/png2asset
 gbdk-support/png2asset/testing/out/*
 gbdk-support/makebin/makebin
 gbdk-support/makecom/makecom
+gbdk-support/makenes/makenes
 
 gbdk-support/png2hicolorgb/png2hicolorgb
 gbdk-support/romusage/romusage
@@ -86,3 +87,8 @@ gbdk-lib/doc/
 
 # VS.Code folder
 .vscode
+
+gen/
+bin/
+obj/
+dist/

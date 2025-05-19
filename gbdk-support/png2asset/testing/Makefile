@@ -54,6 +54,7 @@ generate-assets:
 	# gg/sms  =   -noflip -pack_mode sms -bpp 4 -keep_palette_order
 	$(PNG2ASSET) $(RES)/SMS/sushi_level07.png -c $(OUTDIR)/zgb_sushi_level07.c   -b 255 -map   -noflip -pack_mode sms -bpp 4 -keep_palette_order -use_structs    -keep_palette_order -rel_paths -keep_duplicate_tiles -source_tileset sushi_tiles.png -entity_tileset sushi_objects.png
 	$(PNG2ASSET) $(RES)/SMS/sushi_tiles.png   -c $(OUTDIR)/zgb_sushi_tiles.c     -b 255 -map   -noflip -pack_mode sms -bpp 4 -keep_palette_order -use_structs    -keep_palette_order -keep_duplicate_tiles -tiles_only
+	$(PNG2ASSET) $(RES)/SMS/sushi_tiles.png   -c $(OUTDIR)/zgb_sushi_tiles_lit.c -b 255 -area LIT -map   -noflip -pack_mode sms -bpp 4 -keep_palette_order -use_structs    -keep_palette_order -keep_duplicate_tiles -tiles_only
 
 
 # Entity and Source tileset interaction
@@ -144,3 +145,7 @@ generate-assets:
 	$(PNG2ASSET) $(RES)/gameboy.png -c $(OUTDIR)/binout.1.bin -bin -tiles_only
 	$(PNG2ASSET) $(RES)/gameboy.png -c $(OUTDIR)/binout.2.bin -bin -maps_only
 	$(PNG2ASSET) $(RES)/gameboy.png -c $(OUTDIR)/binout.3.bin -bin -maps_only -no_palettes
+
+# -no_palettes
+	$(PNG2ASSET) $(RES)/no_pal_map_test.png -c $(OUTDIR)/no_pal_map_test_keep_pal_order.c -noflip -map -keep_palette_order -no_palettes
+	$(PNG2ASSET) $(RES)/no_pal_map_test.png -c $(OUTDIR)/no_pal_map_test.c -noflip -map -no_palettes

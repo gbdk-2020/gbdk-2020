@@ -29,7 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.3.0</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -91,50 +91,38 @@ $(document).ready(function(){initNavTree('docs_toolchain_settings.html',''); ini
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="lcc-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md284"></a>
+<h1><a class="anchor" id="autotoc_md289"></a>
 lcc settings</h1>
 <div class="fragment"><div class="line">./lcc [ option | file ]...</div>
 <div class="line">    except for -l, options are processed left-to-right before files</div>
 <div class="line">    unrecognized options are taken to be linker options</div>
-<div class="line">-A             warn about nonANSI usage; 2nd -A warns more</div>
-<div class="line">-b             emit expression-level profiling code; see bprint(1)</div>
-<div class="line">-Bdir/         use the compiler named `dir/rcc&#39;</div>
 <div class="line">-c             compile only</div>
-<div class="line">-dn            set switch statement density to `n&#39;</div>
 <div class="line">-debug         Turns on --debug for compiler, -y (.cdb), -j (.noi), -w (wide .map format) for linker</div>
 <div class="line">                       -Wa-l (assembler .lst), -Wl-u (.lst -&gt; .rst address update)</div>
 <div class="line">-Dname=def     define the preprocessor symbol `name&#39;</div>
 <div class="line">-E             only run preprocessor on named .c and .h files files -&gt; stdout</div>
 <div class="line">--save-preproc Use with -E for output to *.i files instead of stdout</div>
-<div class="line">-g             produce symbol table information for debuggers</div>
 <div class="line">-help or -?    print this message</div>
 <div class="line">-Idir          add `dir&#39; to the beginning of the list of #include directories</div>
 <div class="line">-K             don&#39;t run ihxcheck test on linker ihx output</div>
 <div class="line">-lx            search library `x&#39;</div>
 <div class="line">-m             select port and platform: &quot;-m[port]:[plat]&quot; ports:sm83,z80,mos6502 plats:ap,duck,gb,sms,gg,nes</div>
 <div class="line">-N             do not search the standard directories for #include files</div>
-<div class="line">-n             emit code to check for dereferencing zero pointers</div>
 <div class="line">-no-crt        do not auto-include the gbdk crt0.o runtime in linker list</div>
 <div class="line">-no-libs       do not auto-include the gbdk libs in linker list</div>
-<div class="line">-O             is ignored</div>
 <div class="line">-o file        leave the output in `file&#39;</div>
-<div class="line">-P             print ANSI-style declarations for globals</div>
-<div class="line">-p -pg         emit profiling code; see prof(1) and gprof(1)</div>
 <div class="line">-S             compile to assembly language</div>
 <div class="line">-autobank      auto-assign banks set to 255 (bankpack)</div>
-<div class="line">-static        specify static libraries (default is dynamic)</div>
-<div class="line">-t -tname      emit function tracing calls to printf or to `name&#39;</div>
-<div class="line">-target name   is ignored</div>
-<div class="line">-tempdir=dir   place temporary files in `dir/&#39;; default=/tmp</div>
+<div class="line">-tempdir=dir   place temporary files in `dir/&#39;</div>
 <div class="line">-Uname         undefine the preprocessor symbol `name&#39;</div>
 <div class="line">-v             show commands as they are executed; 2nd -v suppresses execution</div>
-<div class="line">-w             suppress warnings</div>
 <div class="line">-Woarg         specify system-specific `arg&#39;</div>
-<div class="line">-W[pfablim]arg pass `arg&#39; to the preprocessor, compiler, assembler, bankpack, linker, ihxcheck, or makebin</div>
+<div class="line">-W[pfablimnc]arg pass `arg&#39; to the (p)preprocessor, (f)compiler, (a)assembler, (b)bankpack,</div>
+<div class="line">                                   (l)linker, (i)ihxcheck, (m)makebin, (n)makenes, (c)makecom</div>
 </div><!-- fragment --><p> <a class="anchor" id="sdcc-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md285"></a>
+<h1><a class="anchor" id="autotoc_md290"></a>
 sdcc settings</h1>
-<div class="fragment"><div class="line">SDCC : z80/sm83/mos6502/mos65c02 TD- 4.4.1 #14650 (Linux)</div>
+<div class="fragment"><div class="line">SDCC : z80/sm83/mos6502/mos65c02 TD- 4.5.1 #15267 (Linux)</div>
 <div class="line">published under GNU General Public License (GPL)</div>
 <div class="line">Usage : sdcc [options] filename</div>
 <div class="line">Options :-</div>
@@ -169,7 +157,7 @@ sdcc settings</h1>
 <div class="line">      --Werror              Treat the warnings as errors</div>
 <div class="line">      --debug               Enable debugging symbol output</div>
 <div class="line">      --cyclomatic          Display complexity of compiled functions</div>
-<div class="line">      --std                 Determine the language standard (c89, c99, c11, c23, sdcc89 etc.)</div>
+<div class="line">      --std                 Determine the language standard (c90, c99, c11, c23, c2y, sdcc89 etc.)</div>
 <div class="line">      --fdollars-in-identifiers  Permit &#39;$&#39; as an identifier character</div>
 <div class="line">      --fsigned-char        Make &quot;char&quot; signed by default</div>
 <div class="line">      --use-non-free        Search / include non-free licensed libraries and header files</div>
@@ -280,7 +268,7 @@ sdcc settings</h1>
 <div class="line">      --no-zp-spill         place register spills in 16-bit address space</div>
 <div class="line">      --no-std-crt0         Do not link default crt0.rel</div>
 </div><!-- fragment --><p> <a class="anchor" id="sdasgb-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md286"></a>
+<h1><a class="anchor" id="autotoc_md291"></a>
 sdasgb settings</h1>
 <div class="fragment"><div class="line">sdas Assembler V02.00 + NoICE + SDCC mods  (GameBoy)</div>
 <div class="line"> </div>
@@ -316,13 +304,13 @@ sdasgb settings</h1>
 <div class="line">Symbols:</div>
 <div class="line">  -a   All user symbols made global</div>
 <div class="line">  -g   Undefined symbols made global</div>
-<div class="line">  -n   Don&#39;t resolve global assigned value symbols</div>
+<div class="line">  -N   Don&#39;t resolve global assigned value symbols</div>
 <div class="line">  -z   Disable case sensitivity for symbols</div>
 <div class="line">Debugging:</div>
 <div class="line">  -j   Enable NoICE Debug Symbols</div>
 <div class="line">  -y   Enable SDCC  Debug Symbols</div>
 </div><!-- fragment --><p> <a class="anchor" id="sdasz80-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md287"></a>
+<h1><a class="anchor" id="autotoc_md292"></a>
 sdasz80 settings</h1>
 <div class="fragment"><div class="line">sdas Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180 / ZX-Next / eZ80 / R800)</div>
 <div class="line"> </div>
@@ -358,13 +346,13 @@ sdasz80 settings</h1>
 <div class="line">Symbols:</div>
 <div class="line">  -a   All user symbols made global</div>
 <div class="line">  -g   Undefined symbols made global</div>
-<div class="line">  -n   Don&#39;t resolve global assigned value symbols</div>
+<div class="line">  -N   Don&#39;t resolve global assigned value symbols</div>
 <div class="line">  -z   Disable case sensitivity for symbols</div>
 <div class="line">Debugging:</div>
 <div class="line">  -j   Enable NoICE Debug Symbols</div>
 <div class="line">  -y   Enable SDCC  Debug Symbols</div>
 </div><!-- fragment --><p> <a class="anchor" id="sdas6500-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md288"></a>
+<h1><a class="anchor" id="autotoc_md293"></a>
 sdas6500 settings</h1>
 <div class="fragment"><div class="line">sdas Assembler V02.00 + NoICE + SDCC mods  (Rockwell 6502/6510/65C02)</div>
 <div class="line"> </div>
@@ -400,13 +388,13 @@ sdas6500 settings</h1>
 <div class="line">Symbols:</div>
 <div class="line">  -a   All user symbols made global</div>
 <div class="line">  -g   Undefined symbols made global</div>
-<div class="line">  -n   Don&#39;t resolve global assigned value symbols</div>
+<div class="line">  -N   Don&#39;t resolve global assigned value symbols</div>
 <div class="line">  -z   Disable case sensitivity for symbols</div>
 <div class="line">Debugging:</div>
 <div class="line">  -j   Enable NoICE Debug Symbols</div>
 <div class="line">  -y   Enable SDCC  Debug Symbols</div>
 </div><!-- fragment --><p> <a class="anchor" id="bankpack-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md289"></a>
+<h1><a class="anchor" id="autotoc_md294"></a>
 bankpack settings</h1>
 <div class="fragment"><div class="line">bankalloc [options] objfile1 objfile2 etc</div>
 <div class="line">Use: Read .o files and auto-assign areas with bank=255.</div>
@@ -448,7 +436,7 @@ bankpack settings</h1>
 <div class="line">S ___bank_&lt;const name&gt; Def0000FF</div>
 <div class="line">    (Above can be made by: const void __at(255) __bank_&lt;const name&gt;;</div>
 </div><!-- fragment --><p> <a class="anchor" id="sdldgb-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md290"></a>
+<h1><a class="anchor" id="autotoc_md295"></a>
 sdldgb settings</h1>
 <div class="fragment"><div class="line">sdld Linker V03.00/V05.40 + sdld</div>
 <div class="line"> </div>
@@ -485,7 +473,7 @@ sdldgb settings</h1>
 <div class="line">End:</div>
 <div class="line">  -e   or null line terminates input</div>
 </div><!-- fragment --><p> <a class="anchor" id="sdldz80-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md291"></a>
+<h1><a class="anchor" id="autotoc_md296"></a>
 sdldz80 settings</h1>
 <div class="fragment"><div class="line">sdld Linker V03.00/V05.40 + sdld</div>
 <div class="line"> </div>
@@ -522,7 +510,7 @@ sdldz80 settings</h1>
 <div class="line">End:</div>
 <div class="line">  -e   or null line terminates input</div>
 </div><!-- fragment --><p> <a class="anchor" id="sdld6808-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md292"></a>
+<h1><a class="anchor" id="autotoc_md297"></a>
 sdld6808 settings</h1>
 <div class="fragment"><div class="line">sdld Linker V03.00/V05.40 + sdld</div>
 <div class="line"> </div>
@@ -559,7 +547,7 @@ sdld6808 settings</h1>
 <div class="line">End:</div>
 <div class="line">  -e   or null line terminates input</div>
 </div><!-- fragment --><p> <a class="anchor" id="ihxcheck-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md293"></a>
+<h1><a class="anchor" id="autotoc_md298"></a>
 ihxcheck settings</h1>
 <div class="fragment"><div class="line">ihx_check input_file.ihx [options]</div>
 <div class="line"> </div>
@@ -570,7 +558,7 @@ ihxcheck settings</h1>
 <div class="line">Use: Read a .ihx and warn about overlapped areas.</div>
 <div class="line">Example: &quot;ihx_check build/MyProject.ihx&quot;</div>
 </div><!-- fragment --><p> <a class="anchor" id="makebin-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md294"></a>
+<h1><a class="anchor" id="autotoc_md299"></a>
 makebin settings</h1>
 <p>Also see <a class="el" href="docs_rombanking_mbcs.html#setting_mbc_and_rom_ram_banks">setting_mbc_and_rom_ram_banks</a> </p><div class="fragment"><div class="line">makebin: convert a Intel IHX file to binary or GameBoy format binary.</div>
 <div class="line">Usage: makebin [options] [&lt;in_file&gt; [&lt;out_file&gt;]]</div>
@@ -605,12 +593,23 @@ makebin settings</h1>
 <div class="line">  &lt;in_file&gt;      optional IHX input file, &#39;-&#39; means stdin. (default: stdin)</div>
 <div class="line">  &lt;out_file&gt;     optional output file, &#39;-&#39; means stdout. (default: stdout)</div>
 </div><!-- fragment --><p> <a class="anchor" id="makecom-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md295"></a>
+<h1><a class="anchor" id="autotoc_md300"></a>
 makecom settings</h1>
 <div class="fragment"><div class="line">makecom image.rom image.noi output.com</div>
 <div class="line">Use: convert a binary .rom file to .msxdos com format.</div>
+</div><!-- fragment --><p> <a class="anchor" id="makenes-settings"></a></p>
+<h1><a class="anchor" id="autotoc_md301"></a>
+makenes settings</h1>
+<div class="fragment"><div class="line">makenes: Prepend an iNES header to a binary ROM image file.</div>
+<div class="line">Usage: makenes [options] [&lt;in_file&gt; [&lt;out_file&gt;]]</div>
+<div class="line">Options:</div>
+<div class="line">  -m   Mapper number (default: 0)</div>
+<div class="line">  -n   Nametable arrangement:</div>
+<div class="line">                              0: vertical arrangement / horizontal mirroring</div>
+<div class="line">                              1: horizontal arrangement / vertical mirroring</div>
+<div class="line">  -b   Battery bit set (default: 0)</div>
 </div><!-- fragment --><p> <a class="anchor" id="gbcompress-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md296"></a>
+<h1><a class="anchor" id="autotoc_md302"></a>
 gbcompress settings</h1>
 <div class="fragment"><div class="line">gbcompress [options] infile outfile</div>
 <div class="line">Use: compress a binary file and write it out.</div>
@@ -631,7 +630,7 @@ gbcompress settings</h1>
 <div class="line">The default compression (gb) is the type used by gbtd/gbmb</div>
 <div class="line">The rle compression is Amiga IFF style</div>
 </div><!-- fragment --><p> <a class="anchor" id="png2asset-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md297"></a>
+<h1><a class="anchor" id="autotoc_md303"></a>
 png2asset settings</h1>
 <div class="fragment"><div class="line">usage: png2asset    &lt;file&gt;.png [options]</div>
 <div class="line">-o &lt;filename&gt;       ouput file (if not used then default is &lt;png file&gt;.c)</div>
@@ -643,11 +642,12 @@ png2asset settings</h1>
 <div class="line">-py &lt;y coord&gt;       metasprites pivot y coordinate (default: metasprites height / 2)</div>
 <div class="line">-pw &lt;width&gt;         metasprites collision rect width (default: metasprites width)</div>
 <div class="line">-ph &lt;height&gt;        metasprites collision rect height (default: metasprites height)</div>
-<div class="line">-spr8x8             use SPRITES_8x8</div>
-<div class="line">-spr8x16            use SPRITES_8x16 (this is the default)</div>
-<div class="line">-spr16x16msx        use SPRITES_16x16</div>
+<div class="line">-spr8x8             for 8x8  hardware sprites (use SPRITES_8x8)</div>
+<div class="line">-spr8x16            for 8x16 hardware sprites (use SPRITES_8x16) (the default)</div>
+<div class="line">-spr16x16msx        MSX only: for 16x16 hardware sprites (use SPRITES_16x16)</div>
 <div class="line">-sprite_no_optimize keep empty sprite tiles, do not remove duplicate tiles</div>
-<div class="line">-b &lt;bank&gt;           bank (default: fixed bank)</div>
+<div class="line">-b &lt;banknum&gt;        Bank number (default: fixed bank)</div>
+<div class="line">-area &lt;area name&gt;   Area name. Alters &quot;pragma bank ...&quot; output to constseg style. (Ex: -area LIT)</div>
 <div class="line">-keep_palette_order use png palette</div>
 <div class="line">-repair_indexed_pal try to repair indexed tile palettes (implies &quot;-keep_palette_order&quot;)</div>
 <div class="line">-noflip             disable tile flip</div>
@@ -673,31 +673,38 @@ png2asset settings</h1>
 <div class="line">-rel_paths          paths to tilesets are relative to the input file path</div>
 <div class="line">decoder error empty input buffer given to decoder. Maybe caused by non-existing file?</div>
 </div><!-- fragment --><p> <a class="anchor" id="png2hicolorgb-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md298"></a>
+<h1><a class="anchor" id="autotoc_md304"></a>
 png2hicolorgb settings</h1>
 <div class="fragment"><div class="line">png2hicolorgb input_image.png [options]</div>
-<div class="line">version 1.4.1: bbbbbr. Based on Glen Cook&#39;s Windows GUI &quot;hicolour.exe&quot; 1.2</div>
+<div class="line">version 1.4.2: bbbbbr. Based on Glen Cook&#39;s Windows GUI &quot;hicolour.exe&quot; 1.2</div>
 <div class="line">Convert an image to Game Boy Hi-Color format</div>
 <div class="line"> </div>
 <div class="line">Options</div>
 <div class="line">-h         : Show this help</div>
 <div class="line">-v*        : Set log level: &quot;-v&quot; verbose, &quot;-vQ&quot; quiet, &quot;-vE&quot; only errors, &quot;-vD&quot; debug</div>
 <div class="line">-o &lt;file&gt;  : Set base output filename (otherwise from input image)</div>
+<div class="line">-s &lt;name&gt;  : Set output variable/symbol name (otherwise derived from output filename)</div>
 <div class="line">--csource  : Export C source format with incbins for data files</div>
 <div class="line">--bank=N   : Set bank number for C source output where N is decimal bank number 1-511</div>
 <div class="line">--type=N   : Set conversion type where N is one of below </div>
 <div class="line">              1: Median Cut - No Dither (*Default*)</div>
 <div class="line">              2: Median Cut - With Dither</div>
-<div class="line">              3: Wu Quantiser</div>
+<div class="line">              3: Wu Quantiser (best quality)</div>
 <div class="line">-p         : Show screen attribute pattern options (no processing)</div>
-<div class="line">-L=N       : Set Left  screen attribute pattern where N is decimal entry (-p to show patterns)</div>
-<div class="line">-R=N       : Set Right screen attribute pattern where N is decimal entry (-p to show patterns)</div>
+<div class="line">-L=N       : Set Left  side of screen palette arrangement where N is name listed below or decimal entry</div>
+<div class="line">-R=N       : Set Right side of screen palette arrangement where N is name listed below or decimal entry</div>
+<div class="line">             Named options for N: &quot;adaptive-fast&quot;, &quot;adaptive-medium&quot;, &quot;adaptive-best&quot; (-p for full options) </div>
+<div class="line">--best     : Use highest quality conversion settings (--type=3 -L=adaptive-best -R=adaptive-best)</div>
 <div class="line">--vaddrid  : Map uses vram id (128-&gt;255-&gt;0-&gt;127) instead of (*Default*) sequential tile order (0-&gt;255)</div>
 <div class="line">--nodedupe : Turn off tile pattern deduplication</div>
+<div class="line">--precompiled   : Export Palette data as pre-compiled executable loading code</div>
+<div class="line">--palendbit     : Set unused bit .15 = 1 for last u16 entry in palette data indicating end (not in precompiled)</div>
+<div class="line">--addendcolor=N : Append 32 x color N (hex BGR555) in pal data to clear BG for shorter images (64 bytes) (not in precompiled)</div>
 <div class="line"> </div>
 <div class="line">Example 1: &quot;png2hicolorgb myimage.png&quot;</div>
-<div class="line">Example 2: &quot;png2hicolorgb myimage.png --csource -o=my_output_filename&quot;</div>
-<div class="line">* Default settings provide good results. Better quality but slower: &quot;--type=3 -L=2 -R=2&quot;</div>
+<div class="line">Example 2: &quot;png2hicolorgb myimage.png --csource -o my_output_filename&quot;</div>
+<div class="line">Example 2: &quot;png2hicolorgb myimage.png --palendbit --addendcolor 0x7FFF -o my_output_filename -s my_variable_name&quot;</div>
+<div class="line">* Default settings provide good results. Better quality but slower: &quot;--type=3 -L=adaptive-best -R=adaptive-best&quot;</div>
 <div class="line"> </div>
 <div class="line">Historical credits and info:</div>
 <div class="line">   Original Concept : Icarus Productions</div>
@@ -709,14 +716,14 @@ png2hicolorgb settings</h1>
 <div class="line">   Original Quantiser Code : Benny</div>
 <div class="line">   Quantiser Conversion : Glen Cook</div>
 </div><!-- fragment --><p> <a class="anchor" id="romusage-settings"></a></p>
-<h1><a class="anchor" id="autotoc_md299"></a>
+<h1><a class="anchor" id="autotoc_md305"></a>
 romusage settings</h1>
 <div class="fragment"><div class="line">romusage input_file.[map|noi|ihx|cdb|.gb[c]|.pocket|.duck|.gg|.sms] [options]</div>
-<div class="line">version 1.2.8, by bbbbbr</div>
+<div class="line">version 1.3.1, by bbbbbr</div>
 <div class="line"> </div>
 <div class="line">Options</div>
 <div class="line">-h  : Show this help</div>
-<div class="line">-p:SMS_GG : Set platform to GBDK SMS/Game Gear (changes memory map templates)</div>
+<div class="line">-p  : Set platform (GBDK specific), &quot;-p:SMS_GG&quot; for SMS/Game Gear, &quot;-p:NES1&quot; for NES</div>
 <div class="line"> </div>
 <div class="line">-a  : Show Areas in each Bank. Optional sort by, address:&quot;-aA&quot; or size:&quot;-aS&quot; </div>
 <div class="line">-g  : Show a small usage graph per bank (-gA for ascii style)</div>
@@ -727,6 +734,7 @@ romusage settings</h1>
 <div class="line"> </div>
 <div class="line">-m  : Manually specify an Area -m:NAME:HEXADDR:HEXLENGTH</div>
 <div class="line">-e  : Manually specify an Area that should not overlap -e:NAME:HEXADDR:HEXLENGTH</div>
+<div class="line">-b  : Set hex bytes treated as Empty in ROM files (.gb/etc) -b:HEXVAL[...] (default FF)</div>
 <div class="line">-E  : All areas are exclusive (except HEADERs), warn for any overlaps</div>
 <div class="line">-q  : Quiet, no output except warnings and errors</div>
 <div class="line">-Q  : Suppress output of warnings and errors</div>
@@ -740,10 +748,11 @@ romusage settings</h1>
 <div class="line">-smROM  : Show Merged ROM_0  and ROM_1  output (i.e. bare 32K ROM)</div>
 <div class="line">-smWRAM : Show Merged WRAM_0 and WRAM_1 output (i.e DMG/MGB not CGB)</div>
 <div class="line">          -sm* compatible with banked ROM_x or WRAM_x when used with -B</div>
-<div class="line">-sJ : Show JSON output. Some options not applicable. When used, -Q recommended</div>
-<div class="line">-nB : Hide warning banner (for .cdb output)</div>
-<div class="line">-nA : Hide areas (shown by default in .cdb output)</div>
-<div class="line">-z  : Hide areas smaller than SIZE -z:DECSIZE</div>
+<div class="line">-sJ   : Show JSON output. Some options not applicable. When used, -Q recommended</div>
+<div class="line">-nB   : Hide warning banner (for .cdb output)</div>
+<div class="line">-nA   : Hide areas (shown by default in .cdb output)</div>
+<div class="line">-z    : Hide areas smaller than SIZE -z:DECSIZE</div>
+<div class="line">-nMEM : Hide banks matching case sensitive substring (ex hide all RAM: -nMEM:RAM)</div>
 <div class="line"> </div>
 <div class="line">Use: Read a .map, .noi, .cdb or .ihx file to display area sizes</div>
 <div class="line">Example 1: &quot;romusage build/MyProject.map&quot;</div>
@@ -752,6 +761,7 @@ romusage settings</h1>
 <div class="line">Example 4: &quot;romusage build/MyProject.map -q -R&quot;</div>
 <div class="line">Example 5: &quot;romusage build/MyProject.noi -sR -sP:90:32:90:35:33:36&quot;</div>
 <div class="line">Example 6: &quot;romusage build/MyProject.map -sRp -g -B -F:255:15 -smROM -smWRAM&quot;</div>
+<div class="line">Example 7: &quot;romusage build/MyProject.gb  -g -b:FF:00&quot;</div>
 <div class="line"> </div>
 <div class="line">Notes:</div>
 <div class="line">  * GBDK / RGBDS map file format detection is automatic.</div>

@@ -294,6 +294,11 @@ void add_LCD(int_handler h);
 
     Up to 4 handlers may be added, with the last added
     being called last.
+    
+    @note
+    For NES make sure to wrap TIM interrupt handlers 
+    with a nooverlay pragma. 
+    For more details see @ref docs_nes_tim_overlay
 
     @see add_VBL
     @see set_interrupts() with TIM_IFLAG, ISR_VECTOR()
@@ -463,6 +468,13 @@ extern uint8_t _is_GBA;
 */
 extern volatile uint16_t sys_time;
 
+/** Flag indicating the VBlank ISR has run
+
+   Flag gets cleared at the start of @ref vsync() / @ref wait_vbl_done()
+   and set in the default VBlank ISR handler.
+*/
+__REG _vbl_done;
+#define VBL_DONE _vbl_done
 
 
 /** Serial Link: Send the byte in @ref _io_out out through the serial port

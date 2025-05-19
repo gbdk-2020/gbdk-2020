@@ -438,21 +438,19 @@ During direct mode, all graphics routines will write directly to the PPUADDR / P
 
 Direct mode is typically used for initializing large amounts of tile data at boot and/or level loading time. Unless you plan to have an animated loading screen and decompress a lot of data, it makes more sense to just fade the screen to black and allow direct mode to write data as fast as possible.
 
-#### Caveat: Make sure the transfer buffer is emptied before switching to direct mode
+Direct mode also affects how (fake) interrupt handlers are processed. As long as vsync() is called on each frame, the VBL and LCD handlers will still be executed in direct mode - but no graphics registers will be written.
 
-Because the switch to direct mode is instant and doesn't wait for the next invocation of the vblank, it is possible to create situations where there is still remaining data in the transfer buffer that would only get written once the system is switched back to buffered mode.
+The TIM handler will still be executed as normal.
 
-To avoid this situation, make sure to always "drain" the buffer by doing a call to vsync when you expect your code to finish.
+#### Caveat: Write appropriate global backdrop before turning display off
 
-#### Caveat: Only update the PPU palette during buffered mode
+On the GB, when the display is turned off the LCD will display a whiter-than-white color.
 
-The oddity that PPU palette values are accessed through the same mechanism as other PPU memory bytes comes with the side effect that the vblank NMI handler will only write the palette values in buffered mode.
+On the NES, calling DISPLAY_OFF will turn sprites and BG off and allow VRAM writes in direct mode. But the color displayed will be last global backdrop color (i.e. palette entry 0) that was written before DISPLAY_OFF was called.
 
-The reason for this design choice is two-fold:
-* Having the NMI handler keep doing the palette updates when in direct mode would result in a race condition when the NMI handler interrupts the direct mode code and messes with the PPUADDR state that the direct mode code expects to remain unchanged
-* Having the palette updates also switch to direct mode would run into another quirk of the system: Pointing PPUADDR at palette registers when display is turned off will make the display output that palette color instead of the common background color. The result would be glitchy artifacts on screen when updating the palette, leading to a slightly-glitchy looking game whenever the palette is updated with the screen off
+Because all palette writes will be postponed in direct mode, the same also applies to other palette entries: Their values will be maintained in RAM, but never actually reach the PPU's hardware palette registers until buffered mode is re-entered by calling DISPLAY_ON.
 
-To work around this, you are advised to never fully turn the display off during a palette fade. If you don't follow this advice all your palette updates will get delayed until the screen is turned back on.
+You should not try to do any palette fades after calling DISPLAY_OFF, as they will be delayed in direct mode until the display is turned on again with DISPLAY_ON. Once DISPLAY_ON is called, the NMI handler will start updating the hardware palette registers with the RAM registers as normal.
 
 ### Shadow PPU registers
 
@@ -466,16 +464,31 @@ To simplify the programming interface, gbdk-nes functions like move_bkg / scroll
 
 GBDK provides an API for installing Interrupt Service Routines that execute on start of vblank (VBL handler), or on a specific scanline (LCD handler).
 
-But the base NES system has no suitable scanline interrupts that can provide such functionality. So instead, gbdk-nes API allows *fake* handlers to be installed in the goal of keeping code compatible with other platforms.
+But the base NES system has no suitable scanline interrupts that can provide the exact equivalent functionality. So instead, gbdk-nes API allows *fake* handlers to be installed in the goal of keeping code compatible with other platforms.
 
-* An installed VBL handler will be called immediately when calling vsync. This handler should only update PPU shadow registers.
+* An installed VBL handler will be called immediately when calling vsync. This handler should only update PPU shadow registers. After each invocation, shadow registers are stored into a buffer.
 * An installed LCD handler for a specific scanline will then be called repeatedly until the value of _lcd_scanline is either set to an earlier scanline or >= 240. After each invocation, shadow registers are stored into a buffer.
-* After the vblank NMI handler has finished palette updates, OAM DMA, VRAM updates and scroll updates it will then manually run a delay loop to reach the particular scanlines that the installed LCD handler was pre-called for, and use the contents of the buffer to update registers.
+* After the built-in vblank NMI handler has finished palette updates, OAM DMA, VRAM updates it will then use the buffered VBL shadow registers to write the real registers. If LCD handlers are enabled it will then manually run a delay loop to reach the particular scanlines that the installed LCD handler was pre-called for, and use the contents of the buffer to update registers.
 
 Because the LCD "ISR" is actually implemented with a delay loop, it will burn a lot of CPU cycles in the frame - the further down the requested scanline is the larger the CPU cycle loss.
 In practice this makes this faked-LCD-ISR functionality mostly suitable for status bars at the top of the screen screen. Or for simple parallax cutscenes where the CPU has little else to do.
 
-@note The support for VBL and LCD handlers is currently under consideration and subject to change in newer versions of gbdk-nes.
+To make porting between user VBL / LCD handlers written in C easier, gbdk-nes also provides aliases for the shadow registers that correspond to the GB hardware registers.
+
+* @ref SCX_REG is an alias for @ref bkg_scroll_x shadow register
+* @ref SCY_REG is an alias for @ref bkg_scroll_y shadow register
+* @ref LYC_REG is an alias for @ref _lcd_scanline shadow register
+
+Because these are shadow registers that are interpreted by the GBDK library to mimick GB behaviour, they won't behave exactly how the GB hardware registers do under all conditions. However, for most practical purposes they allow writing portable VBL / LCD handlers in C.
+
+@note
+The bkg_scroll_y shadow register functions the same as @ref SCY_REG GB, with its value added to @ref _lcd_scanline to determine the final Y scrolling coordinate. However, its range is different due to tilemaps being 32x30 instead 32x32. 
+
+Negative coordinates won't work correctly due to the wrapping from 239 to 0. Instead, they need to be corrected with this wrapping in mind. i.e. a negative coordinate of -1 needs to be converted to 239 before being written to bkg_scroll_y.
+
+A portable way to do this is to check for a negative offset, and use the screen height define:
+
+  SCY_REG = offset < 0 ? (uint8_t)(DEVICE_SCREEN_BUFFER_HEIGHT*8 + offset) : offset;
 
 ### Caveat: Make sure to call vsync on every frame
 
@@ -484,7 +497,7 @@ On the GB, the call to vsync is an optional call that serves two purposes:
 1. It provides a consistent frame timing for your game 
 2. It allows future register writes to be synchronized to the screen
 
-On gbdk-nes the second point is no longer true, because writes need to be made to the shadow registers *before* vsync is called.
+On gbdk-nes the second point is no longer true, because writes need to be made to the shadow registers either *before* vsync is called, or in a user VBL isr handler.
 
 But the vsync call serves three other very important purposes:
 
@@ -494,18 +507,50 @@ C. It calls flush_shadow_attributes so that updates to background attributes act
 
 For these reasons you should always include a call to vsync if you expect to see any graphical updates on the screen.
 
-### Caveat: Do all status bar scroll movement in LCD handlers to mitigate glitches
+### Implementation of timer handler
 
-The fake LCD ISR system is not bullet-proof. In particular, it has a problem where lag frames can cause the shadow register updates in LCD handlers not to be ready in time for when the timed code in the NMI handler would be called. This will effectively cause all those updates to be missing for one frame, and result in glitched scroll updates.
+The nature of the deferred handling for fake VBL and LCD handlers in gbdk-nes means that lag frames will cause these handlers to be called at delayed irregular times.
 
-There is currently no complete work-around for this problem other than avoiding lag frames altogether. But the glitch can be made less distracting by making sure only the status bar glitches rather than the main background.
+For graphics updates this is the behaviour you usually want. But for non-graphics tasks like music playback it will cause distracting stutter.
 
-If you are using LCD handlers to achieve a top-screen stationary status bar, it is recommended that you follow the following guidelines to make sure the background itself has consistent scrolling:
-* Use move_bkg either in your main loop or in the VBL handler, to set the level scrolling
-* Use move_bkg in the first invocation of the LCD handler, to set the (stationary) status bar scroll position
-* Use move_bkg in the second invocation of the LCD handler, to reset the background scrolling
+The timer overflow handler (TIM) provides an alternative method that is guaranteed to be stutter-free. The TIM handler is always called if timer overflow occurs at the end of the NMI handler in both buffered and direct mode. 
 
-In short: Ensuring that the last called LCD handler sets the scroll back to the original value means the PPU rendering keeps rendering the background from the same scrolling position even when the NMI handling was missed.
+The TMA_REG and TAC_REG hardware registers are emulated via RAM variable with the same names. The timer emulation matches the values of these registers for a GBC running in double-speed mode. But there will be a small variation in exact frequency compared to real GBC hardware, and the nature of the timer emulation via vblank means the execution is not as evenly paced as on GBC hardware.
+
+The TIMA_REG should not be written or read in gbdk-nes, as the emulation does not handle its contents exactly as on GB.
+
+At reset, TAC_REG is set to clock rate 00 and timer enabled, and TMA_REG is set to either of two values, depending on the detected system:
+
+* TIMER_VBLANK_PARITY_MODE_SYSTEM_60HZ for a Famicom / US NES
+* TIMER_VBLANK_PARITY_MODE_SYSTEM_50Hz for a PAL NES / PAL Famiclone
+
+These default values ensure that the TIM emulation will always call the TIM handler exactly once for every vblank, resulting in 60Hz vs 50Hz depending on the system.
+
+Changing TMA_REG allows setting a slower or faster frequency for this emulated timer overflow interrupt if your GB game uses the timer overflow hardware for regular events like music that are slower or faster than 60Hz (50Hz for PAL).
+
+If you are porting a GB game to gbdk-nes where the music handler is called in the VBL or LCD handler then it is advisable to move this call to the timer handler, in order to achieve reliable music playback at 60Hz (50Hz for PAL).
+
+Keep in mind that you should NOT write any graphics registers in the TIM handler. This will likely not do what you want, and it may result in bad graphical glitches.
+
+Tweaking the playback rate by setting TMA_REG / TAC_REG is a decent way to achieve the same average playback rate as on a GB game that uses a different rate than the vblank tick rate and allow similar music speed for different regions. 
+
+However, it is recommended to use the default vblank parity mode whenever remaking the music specifically for 60Hz / 50Hz is an option, as keeping the music tick rate steady will give more pleasant sound playback for rates that are already close to native vblank rate of 60Hz / 50Hz.
+
+@anchor docs_nes_tim_overlay
+@note
+Because the TIM handler will be called from the vblank NMI, this function and all functions it calls need to use the `#pragma nooverlay` command. This makes memory for local variables and function parameters unique to this function instead of being shared with other functions' allocations in the reusable overlay segment.
+
+    #pragma save
+    #pragma nooverlay
+    void tim_isr(void)
+    {
+        // Do TIM isr things
+    }
+    #pragma restore
+
+Without this pragma the calls in your TIM handler could end up overwriting local variables or function parameters that the main program was using when it was interrupted.
+You should also avoid calls to the standard library, and even multiplications and division / modulo operations in your TIM handlers. These more expensive math operations in SDCC are currently implemented with functions that use the overlay segment and would cause similar conflicts.
+For more details on overlay segment and interrupts, please see section 3.7 in the SDCC manual.
 
 ### Tile Data and Tile Map loading
 
@@ -568,6 +613,7 @@ The Mega Duck is (for practical purposes) functionally identical to the Original
   - Display registers and flag definitions: Some changed
   - Audio registers and flag definitions: Some changed
   - MBC ROM bank switching register address: `0x0001` (many Game Boy MBCs use `0x2000 - 0x3FFF`)
+  - Also see @ref links_megaduck_docs "links for megaduck development"
 
 ### Best Practices
 In order for software to be easily ported to the Mega Duck, or to run on both, use these practices. That will allow GBDK to automatically handle _most_ of the differences (for the exceptions see @ref megaduck_sound_register_value_changes "Sound Register Value Changes").

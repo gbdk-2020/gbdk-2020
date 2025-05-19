@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <assert.h>
 #include <ctype.h>
 
@@ -46,14 +47,14 @@ static struct {
 		{ "comopt",		"--noinvariant --noinduction" },
 		{ "com",		"%sdccdir%sdcc" },
 		{ "comflag",	"-c"},
-		{ "comdefault",	"-m%port% --no-std-crt0 --fsigned-char --use-stdout -D__PORT_%port% -D__TARGET_%plat% "},
+		{ "comdefault",	"-m%port% --no-std-crt0 --fsigned-char --use-stdout --no-optsdcc-in-asm -D__PORT_%port% -D__TARGET_%plat% "},
 		/* asdsgb assembler defaults:
 			-p: disable pagination
 			-o: create object file
 			-g: make undef symbols global
-			-n: defer symbol resolving to link time (autobanking relies on this) [requires sdcc 12238+]
+			-N: defer symbol resolving to link time (autobanking relies on this) [requires sdcc 12238+]
 		*/
-		{ "asdefault",	"-pogn -I%libdir%%plat%" },
+		{ "asdefault",	"-pogN -I%libdir%%plat%" },
 		{ "as_gb",		"%sdccdir%sdasgb" },
 		{ "as_z80",		"%sdccdir%sdasz80" },
 		{ "as_6500",	"%sdccdir%sdas6500" },
@@ -72,7 +73,8 @@ static struct {
 		{ "mkbin",		"%sdccdir%makebin" },
 		{ "crt0dir",	"%libdir%%plat%/crt0.o"},
 		{ "libs_include", "-k %libdir%%port%/ -l %port%.lib -k %libdir%%plat%/ -l %plat%.lib"},
-				{ "mkcom", "%sdccdir%makecom"}
+		{ "mkcom", "%sdccdir%makecom"},
+		{ "mknes", "%sdccdir%makenes"}
 };
 
 static char *getTokenVal(const char *key)
@@ -222,6 +224,7 @@ char *ld[256];
 char *bankpack[256];
 char *mkbin[256];
 char *postproc[256];
+bool has_postproc_stage;
 char *rom_extension;
 arg_entry *llist0_defaults;
 int llist0_defaults_len = 0;
@@ -292,7 +295,7 @@ int option(char *arg) {
 			setTokenVal("port", words[0]);
 			setTokenVal("plat", words[1]);
 			if (!setClass(words[0], words[1])) {
-				fprintf(stderr, "Error: %s: unrecognised PORT:PLATFORM from %s:%s\n", progname, words[0], words[1]);
+				fprintf(stderr, "Error: %s: unrecognized PORT:PLATFORM from %s:%s\n", progname, words[0], words[1]);
 				exit(-1);
 			}
 		} else {
@@ -320,7 +323,12 @@ void finalise(void)
 	buildArgs(ld, _class->ld);
 	buildArgs(ihxcheck, _class->ihxcheck);
 	buildArgs(mkbin, _class->mkbin);
-		if (strlen(_class->postproc) != 0) buildArgs(postproc, _class->postproc); else postproc[0] = '\0';
+	if (strlen(_class->postproc) != 0) {
+		buildArgs(postproc, _class->postproc);
+		has_postproc_stage = true;
+	} else {
+		has_postproc_stage = false;
+	}
 	rom_extension = strdup(_class->rom_extension);
 	llist0_defaults = _class->llist0_defaults;
 	llist0_defaults_len = _class->llist0_defaults_len;

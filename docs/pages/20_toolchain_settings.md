@@ -5,46 +5,34 @@
 ./lcc [ option | file ]...
     except for -l, options are processed left-to-right before files
     unrecognized options are taken to be linker options
--A             warn about nonANSI usage; 2nd -A warns more
--b             emit expression-level profiling code; see bprint(1)
--Bdir/         use the compiler named `dir/rcc'
 -c             compile only
--dn            set switch statement density to `n'
 -debug         Turns on --debug for compiler, -y (.cdb), -j (.noi), -w (wide .map format) for linker
                        -Wa-l (assembler .lst), -Wl-u (.lst -> .rst address update)
 -Dname=def     define the preprocessor symbol `name'
 -E             only run preprocessor on named .c and .h files files -> stdout
 --save-preproc Use with -E for output to *.i files instead of stdout
--g             produce symbol table information for debuggers
 -help or -?    print this message
 -Idir          add `dir' to the beginning of the list of #include directories
 -K             don't run ihxcheck test on linker ihx output
 -lx            search library `x'
 -m             select port and platform: "-m[port]:[plat]" ports:sm83,z80,mos6502 plats:ap,duck,gb,sms,gg,nes
 -N             do not search the standard directories for #include files
--n             emit code to check for dereferencing zero pointers
 -no-crt        do not auto-include the gbdk crt0.o runtime in linker list
 -no-libs       do not auto-include the gbdk libs in linker list
--O             is ignored
 -o file        leave the output in `file'
--P             print ANSI-style declarations for globals
--p -pg         emit profiling code; see prof(1) and gprof(1)
 -S             compile to assembly language
 -autobank      auto-assign banks set to 255 (bankpack)
--static        specify static libraries (default is dynamic)
--t -tname      emit function tracing calls to printf or to `name'
--target name   is ignored
--tempdir=dir   place temporary files in `dir/'; default=/tmp
+-tempdir=dir   place temporary files in `dir/'
 -Uname         undefine the preprocessor symbol `name'
 -v             show commands as they are executed; 2nd -v suppresses execution
--w             suppress warnings
 -Woarg         specify system-specific `arg'
--W[pfablim]arg pass `arg' to the preprocessor, compiler, assembler, bankpack, linker, ihxcheck, or makebin
+-W[pfablimnc]arg pass `arg' to the (p)preprocessor, (f)compiler, (a)assembler, (b)bankpack,
+                                   (l)linker, (i)ihxcheck, (m)makebin, (n)makenes, (c)makecom
 ```
 @anchor sdcc-settings
 # sdcc settings
 ```
-SDCC : z80/sm83/mos6502/mos65c02 TD- 4.4.1 #14650 (Linux)
+SDCC : z80/sm83/mos6502/mos65c02 TD- 4.5.1 #15267 (Linux)
 published under GNU General Public License (GPL)
 Usage : sdcc [options] filename
 Options :-
@@ -79,7 +67,7 @@ General options:
       --Werror              Treat the warnings as errors
       --debug               Enable debugging symbol output
       --cyclomatic          Display complexity of compiled functions
-      --std                 Determine the language standard (c89, c99, c11, c23, sdcc89 etc.)
+      --std                 Determine the language standard (c90, c99, c11, c23, c2y, sdcc89 etc.)
       --fdollars-in-identifiers  Permit '$' as an identifier character
       --fsigned-char        Make "char" signed by default
       --use-non-free        Search / include non-free licensed libraries and header files
@@ -228,7 +216,7 @@ Assembly:
 Symbols:
   -a   All user symbols made global
   -g   Undefined symbols made global
-  -n   Don't resolve global assigned value symbols
+  -N   Don't resolve global assigned value symbols
   -z   Disable case sensitivity for symbols
 Debugging:
   -j   Enable NoICE Debug Symbols
@@ -273,7 +261,7 @@ Assembly:
 Symbols:
   -a   All user symbols made global
   -g   Undefined symbols made global
-  -n   Don't resolve global assigned value symbols
+  -N   Don't resolve global assigned value symbols
   -z   Disable case sensitivity for symbols
 Debugging:
   -j   Enable NoICE Debug Symbols
@@ -318,7 +306,7 @@ Assembly:
 Symbols:
   -a   All user symbols made global
   -g   Undefined symbols made global
-  -n   Don't resolve global assigned value symbols
+  -N   Don't resolve global assigned value symbols
   -z   Disable case sensitivity for symbols
 Debugging:
   -j   Enable NoICE Debug Symbols
@@ -543,6 +531,18 @@ Arguments:
 makecom image.rom image.noi output.com
 Use: convert a binary .rom file to .msxdos com format.
 ```
+@anchor makenes-settings
+# makenes settings
+```
+makenes: Prepend an iNES header to a binary ROM image file.
+Usage: makenes [options] [<in_file> [<out_file>]]
+Options:
+  -m   Mapper number (default: 0)
+  -n   Nametable arrangement:
+                              0: vertical arrangement / horizontal mirroring
+                              1: horizontal arrangement / vertical mirroring
+  -b   Battery bit set (default: 0)
+```
 @anchor gbcompress-settings
 # gbcompress settings
 ```
@@ -578,11 +578,12 @@ usage: png2asset    <file>.png [options]
 -py <y coord>       metasprites pivot y coordinate (default: metasprites height / 2)
 -pw <width>         metasprites collision rect width (default: metasprites width)
 -ph <height>        metasprites collision rect height (default: metasprites height)
--spr8x8             use SPRITES_8x8
--spr8x16            use SPRITES_8x16 (this is the default)
--spr16x16msx        use SPRITES_16x16
+-spr8x8             for 8x8  hardware sprites (use SPRITES_8x8)
+-spr8x16            for 8x16 hardware sprites (use SPRITES_8x16) (the default)
+-spr16x16msx        MSX only: for 16x16 hardware sprites (use SPRITES_16x16)
 -sprite_no_optimize keep empty sprite tiles, do not remove duplicate tiles
--b <bank>           bank (default: fixed bank)
+-b <banknum>        Bank number (default: fixed bank)
+-area <area name>   Area name. Alters "pragma bank ..." output to constseg style. (Ex: -area LIT)
 -keep_palette_order use png palette
 -repair_indexed_pal try to repair indexed tile palettes (implies "-keep_palette_order")
 -noflip             disable tile flip
@@ -613,28 +614,35 @@ decoder error empty input buffer given to decoder. Maybe caused by non-existing 
 ```
 
 png2hicolorgb input_image.png [options]
-version 1.4.1: bbbbbr. Based on Glen Cook's Windows GUI "hicolour.exe" 1.2
+version 1.4.2: bbbbbr. Based on Glen Cook's Windows GUI "hicolour.exe" 1.2
 Convert an image to Game Boy Hi-Color format
 
 Options
 -h         : Show this help
 -v*        : Set log level: "-v" verbose, "-vQ" quiet, "-vE" only errors, "-vD" debug
 -o <file>  : Set base output filename (otherwise from input image)
+-s <name>  : Set output variable/symbol name (otherwise derived from output filename)
 --csource  : Export C source format with incbins for data files
 --bank=N   : Set bank number for C source output where N is decimal bank number 1-511
 --type=N   : Set conversion type where N is one of below 
               1: Median Cut - No Dither (*Default*)
               2: Median Cut - With Dither
-              3: Wu Quantiser
+              3: Wu Quantiser (best quality)
 -p         : Show screen attribute pattern options (no processing)
--L=N       : Set Left  screen attribute pattern where N is decimal entry (-p to show patterns)
--R=N       : Set Right screen attribute pattern where N is decimal entry (-p to show patterns)
+-L=N       : Set Left  side of screen palette arrangement where N is name listed below or decimal entry
+-R=N       : Set Right side of screen palette arrangement where N is name listed below or decimal entry
+             Named options for N: "adaptive-fast", "adaptive-medium", "adaptive-best" (-p for full options) 
+--best     : Use highest quality conversion settings (--type=3 -L=adaptive-best -R=adaptive-best)
 --vaddrid  : Map uses vram id (128->255->0->127) instead of (*Default*) sequential tile order (0->255)
 --nodedupe : Turn off tile pattern deduplication
+--precompiled   : Export Palette data as pre-compiled executable loading code
+--palendbit     : Set unused bit .15 = 1 for last u16 entry in palette data indicating end (not in precompiled)
+--addendcolor=N : Append 32 x color N (hex BGR555) in pal data to clear BG for shorter images (64 bytes) (not in precompiled)
 
 Example 1: "png2hicolorgb myimage.png"
-Example 2: "png2hicolorgb myimage.png --csource -o=my_output_filename"
-* Default settings provide good results. Better quality but slower: "--type=3 -L=2 -R=2"
+Example 2: "png2hicolorgb myimage.png --csource -o my_output_filename"
+Example 2: "png2hicolorgb myimage.png --palendbit --addendcolor 0x7FFF -o my_output_filename -s my_variable_name"
+* Default settings provide good results. Better quality but slower: "--type=3 -L=adaptive-best -R=adaptive-best"
 
 Historical credits and info:
    Original Concept : Icarus Productions
@@ -651,11 +659,11 @@ Historical credits and info:
 # romusage settings
 ```
 romusage input_file.[map|noi|ihx|cdb|.gb[c]|.pocket|.duck|.gg|.sms] [options]
-version 1.2.8, by bbbbbr
+version 1.3.1, by bbbbbr
 
 Options
 -h  : Show this help
--p:SMS_GG : Set platform to GBDK SMS/Game Gear (changes memory map templates)
+-p  : Set platform (GBDK specific), "-p:SMS_GG" for SMS/Game Gear, "-p:NES1" for NES
 
 -a  : Show Areas in each Bank. Optional sort by, address:"-aA" or size:"-aS" 
 -g  : Show a small usage graph per bank (-gA for ascii style)
@@ -666,6 +674,7 @@ Options
 
 -m  : Manually specify an Area -m:NAME:HEXADDR:HEXLENGTH
 -e  : Manually specify an Area that should not overlap -e:NAME:HEXADDR:HEXLENGTH
+-b  : Set hex bytes treated as Empty in ROM files (.gb/etc) -b:HEXVAL[...] (default FF)
 -E  : All areas are exclusive (except HEADERs), warn for any overlaps
 -q  : Quiet, no output except warnings and errors
 -Q  : Suppress output of warnings and errors
@@ -679,10 +688,11 @@ Options
 -smROM  : Show Merged ROM_0  and ROM_1  output (i.e. bare 32K ROM)
 -smWRAM : Show Merged WRAM_0 and WRAM_1 output (i.e DMG/MGB not CGB)
           -sm* compatible with banked ROM_x or WRAM_x when used with -B
--sJ : Show JSON output. Some options not applicable. When used, -Q recommended
--nB : Hide warning banner (for .cdb output)
--nA : Hide areas (shown by default in .cdb output)
--z  : Hide areas smaller than SIZE -z:DECSIZE
+-sJ   : Show JSON output. Some options not applicable. When used, -Q recommended
+-nB   : Hide warning banner (for .cdb output)
+-nA   : Hide areas (shown by default in .cdb output)
+-z    : Hide areas smaller than SIZE -z:DECSIZE
+-nMEM : Hide banks matching case sensitive substring (ex hide all RAM: -nMEM:RAM)
 
 Use: Read a .map, .noi, .cdb or .ihx file to display area sizes
 Example 1: "romusage build/MyProject.map"
@@ -691,6 +701,7 @@ Example 3: "romusage build/MyProject.ihx -g"
 Example 4: "romusage build/MyProject.map -q -R"
 Example 5: "romusage build/MyProject.noi -sR -sP:90:32:90:35:33:36"
 Example 6: "romusage build/MyProject.map -sRp -g -B -F:255:15 -smROM -smWRAM"
+Example 7: "romusage build/MyProject.gb  -g -b:FF:00"
 
 Notes:
   * GBDK / RGBDS map file format detection is automatic.

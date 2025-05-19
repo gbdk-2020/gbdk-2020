@@ -69,8 +69,8 @@ __vram_transfer_buffer_pos_old::        .ds 1
 ;
 .ppu_stripe_begin_horizontal::
     clc
-    bit *.crt0_forced_blanking
-    bpl .ppu_stripe_begin_indirect
+    bit *__oam_valid_display_on
+    bvc .ppu_stripe_begin_indirect
     ; Direct write
     stx PPUADDR
     sta PPUADDR
@@ -86,8 +86,8 @@ __vram_transfer_buffer_pos_old::        .ds 1
 ;
 .ppu_stripe_begin_vertical::
     sec
-    bit *.crt0_forced_blanking
-    bpl .ppu_stripe_begin_indirect
+    bit *__oam_valid_display_on
+    bvc .ppu_stripe_begin_indirect
     ; Direct write
     stx PPUADDR
     sta PPUADDR
@@ -142,8 +142,8 @@ __vram_transfer_buffer_pos_old::        .ds 1
 ; End a stripe (be it direct or via transfer buffer)
 ;
 .ppu_stripe_end::
-    bit *.crt0_forced_blanking
-    bpl 1$
+    bit *__oam_valid_display_on
+    bvc 1$
     ; For direct writes there's nothing more to do
     rts
 1$:
@@ -175,8 +175,8 @@ __vram_transfer_buffer_pos_old::        .ds 1
 ; Writes a byte of an in-progress horizontal / vertical stripe (be it direct or via transfer buffer)
 ;
 .ppu_stripe_write_byte::
-    bit *.crt0_forced_blanking
-    bpl 1$
+    bit *__oam_valid_display_on
+    bvc 1$
     sta PPUDATA     ; Direct write
     rts
 1$:
@@ -208,8 +208,8 @@ _set_vram_byte::
 .ppu_stripe_append::
     .define ppu_addr ".tmp"
     ;
-    bit *.crt0_forced_blanking
-    bpl .ppu_stripe_append_indirect
+    bit *__oam_valid_display_on
+    bvc .ppu_stripe_append_indirect
     ; Direct write
     stx PPUADDR
     sta PPUADDR

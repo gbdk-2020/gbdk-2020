@@ -1,6 +1,7 @@
 var dir_a9f896cff747ba031115e41245385c17 =
 [
     [ "asm", "dir_9a64cddab8e5f6fe5be80d8f39cb6a1f.html", "dir_9a64cddab8e5f6fe5be80d8f39cb6a1f" ],
+    [ "duck", "dir_0a499b1b991479a5f341a18a1dd374d9.html", "dir_0a499b1b991479a5f341a18a1dd374d9" ],
     [ "gb", "dir_bdfe001eb73b667f67d57fb851301eb1.html", "dir_bdfe001eb73b667f67d57fb851301eb1" ],
     [ "gbdk", "dir_aedcfcf321a7f13aa34b51e3093299b2.html", "dir_aedcfcf321a7f13aa34b51e3093299b2" ],
     [ "msx", "dir_71c6fbf9500dd05f2fc30c566388269f.html", "dir_71c6fbf9500dd05f2fc30c566388269f" ],

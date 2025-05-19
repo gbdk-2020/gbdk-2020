@@ -1,6 +1,6 @@
 // This is free and unencumbered software released into the public domain.
 // For more information, please refer to <https://unlicense.org>
-// bbbbbr 2020
+// bbbbbr 2024
 
 #include <stdio.h>
 #include <string.h>
@@ -19,10 +19,15 @@
 #include "cdb_file.h"
 #include "rom_file.h"
 
-#define VERSION "version 1.2.8"
+#define VERSION "version 1.3.1"
+
+enum {
+    HELP_FULL = 0,
+    HELP_BRIEF
+};
 
 void static display_cdb_warning(void);
-void static display_help(void);
+void static display_help(int mode);
 int handle_args(int argc, char * argv[]);
 static bool matches_extension(char *, char *);
 static void init(void);
@@ -42,14 +47,14 @@ static void display_cdb_warning() {
            "   ************************ NOTICE ************************ \n");
 }
 
-static void display_help(void) {
+static void display_help(int mode) {
     fprintf(stdout,
            "romusage input_file.[map|noi|ihx|cdb|.gb[c]|.pocket|.duck|.gg|.sms] [options]\n"
            VERSION", by bbbbbr\n"
            "\n"
            "Options\n"
            "-h  : Show this help\n"
-           "-p:SMS_GG : Set platform to GBDK SMS/Game Gear (changes memory map templates)\n"
+           "-p  : Set platform (GBDK specific), \"-p:SMS_GG\" for SMS/Game Gear, \"-p:NES1\" for NES\n"
            "\n"
            "-a  : Show Areas in each Bank. Optional sort by, address:\"-aA\" or size:\"-aS\" \n"
            "-g  : Show a small usage graph per bank (-gA for ascii style)\n"
@@ -60,6 +65,7 @@ static void display_help(void) {
            "\n"
            "-m  : Manually specify an Area -m:NAME:HEXADDR:HEXLENGTH\n"
            "-e  : Manually specify an Area that should not overlap -e:NAME:HEXADDR:HEXLENGTH\n"
+           "-b  : Set hex bytes treated as Empty in ROM files (.gb/etc) -b:HEXVAL[...] (default FF)\n"
            "-E  : All areas are exclusive (except HEADERs), warn for any overlaps\n"
            "-q  : Quiet, no output except warnings and errors\n"
            "-Q  : Suppress output of warnings and errors\n"
@@ -73,11 +79,15 @@ static void display_help(void) {
            "-smROM  : Show Merged ROM_0  and ROM_1  output (i.e. bare 32K ROM)\n"
            "-smWRAM : Show Merged WRAM_0 and WRAM_1 output (i.e DMG/MGB not CGB)\n"
            "          -sm* compatible with banked ROM_x or WRAM_x when used with -B\n"
-           "-sJ : Show JSON output. Some options not applicable. When used, -Q recommended\n"
-           "-nB : Hide warning banner (for .cdb output)\n"
-           "-nA : Hide areas (shown by default in .cdb output)\n"
-           "-z  : Hide areas smaller than SIZE -z:DECSIZE\n"
-           "\n"
+           "-sJ   : Show JSON output. Some options not applicable. When used, -Q recommended\n"
+           "-nB   : Hide warning banner (for .cdb output)\n"
+           "-nA   : Hide areas (shown by default in .cdb output)\n"
+           "-z    : Hide areas smaller than SIZE -z:DECSIZE\n"
+           "-nMEM : Hide banks matching case sensitive substring (ex hide all RAM: -nMEM:RAM)\n"
+           "\n");
+
+    if (mode == HELP_FULL) {
+        fprintf(stdout,
            "Use: Read a .map, .noi, .cdb or .ihx file to display area sizes\n"
            "Example 1: \"romusage build/MyProject.map\"\n"
            "Example 2: \"romusage build/MyProject.noi -a -e:STACK:DEFF:100 -e:SHADOW_OAM:C000:A0\"\n"
@@ -85,6 +95,7 @@ static void display_help(void) {
            "Example 4: \"romusage build/MyProject.map -q -R\"\n"
            "Example 5: \"romusage build/MyProject.noi -sR -sP:90:32:90:35:33:36\"\n"
            "Example 6: \"romusage build/MyProject.map -sRp -g -B -F:255:15 -smROM -smWRAM\"\n"
+           "Example 7: \"romusage build/MyProject.gb  -g -b:FF:00\"\n"
            "\n"
            "Notes:\n"
            "  * GBDK / RGBDS map file format detection is automatic.\n"
@@ -97,6 +108,7 @@ static void display_help(void) {
            "    so bank totals may be incorrect/missing.\n"
            "  * GB/GBC/ROM files are just guessing, no promises.\n"
            );
+    }
 }
 
 
@@ -114,19 +126,15 @@ int handle_args(int argc, char * argv[]) {
     int i;
 
     if( argc < 2 ) {
-        display_help();
+        display_help(HELP_FULL);
         return false;
     }
 
-    // Copy input filename (if not preceded with option dash)
-    if (argv[1][0] != '-')
-        snprintf(filename_in, sizeof(filename_in), "%s", argv[1]);
-
     // Start at first optional argument, argc is zero based
-    for (i = 1; i <= (argc -1); i++ ) {
+    for (i = 0; i <= (argc -1); i++ ) {
 
         if (strstr(argv[i], "-h") == argv[i]) {
-            display_help();
+            display_help(HELP_FULL);
             show_help_and_exit = true;
             return true;  // Don't parse further input when -h is used
         } else if (strstr(argv[i], "-a") == argv[i]) {
@@ -144,8 +152,8 @@ int handle_args(int argc, char * argv[]) {
             }
         } else if (strstr(argv[i], "-sP") == argv[i]) {
             if (!set_option_custom_bank_colors(argv[i])) {
-                fprintf(stdout,"malformed custom color palette: %s\n\n", argv[i]);
-                display_help();
+                log_error("Malformed -sP custom color palette: %s\n\n", argv[i]);
+                // display_help();
                 return false;
             }
         } else if (strstr(argv[i], "-sH") == argv[i]) {
@@ -165,6 +173,8 @@ int handle_args(int argc, char * argv[]) {
 
         } else if (strstr(argv[i], "-p:SMS_GG") == argv[i]) {
             set_option_platform(OPT_PLAT_SMS_GG_GBDK);
+        } else if (strstr(argv[i], "-p:NES1") == argv[i]) {
+            set_option_platform(OPT_PLAT_NES_GBDK_1);
 
         } else if (strstr(argv[i], "-g") == argv[i]) {
             banks_output_show_minigraph(true);
@@ -178,9 +188,15 @@ int handle_args(int argc, char * argv[]) {
         } else if (strstr(argv[i], "-B") == argv[i]) {
             set_option_summarized(true);
         } else if (strstr(argv[i], "-F") == argv[i]) {
-            if (!option_set_displayed_bank_range(argv[i])) {
-                fprintf(stdout,"Malformed -F forced display max bank range\n\n");
-                display_help();
+            if (!set_option_displayed_bank_range(argv[i])) {
+                log_error("Malformed -F forced display max bank range\n\n");
+                // display_help();
+                return false;
+            }
+
+        } else if (strstr(argv[i], "-b") == argv[i]) {
+            if (!set_option_binary_rom_empty_values(argv[i] + strlen("-b"))) {
+                log_error("Malformed or no entries found -b set hex values treated as empty for ROM files: %s\n\n", argv[i]);
                 return false;
             }
 
@@ -199,19 +215,31 @@ int handle_args(int argc, char * argv[]) {
         } else if (strstr(argv[i], "-z:") == argv[i]) {
             set_option_area_hide_size( strtol(argv[i] + 3, NULL, 10));
 
+        } else if (strstr(argv[i], "-nMEM:") == argv[i]) {
+            if (!set_option_banks_hide_add(argv[i] + strlen("-nMEM:"))) {
+                log_error("Adding memory region to hide failed: %s\n\n", argv[i]);
+                // display_help();
+                return false;
+            }
+
         } else if ((strstr(argv[i], "-m") == argv[i]) ||
                    (strstr(argv[i], "-e") == argv[i])) {
             if (!area_manual_queue(argv[i])) {
-                fprintf(stdout,"Malformed manual area argument: %s\n\n", argv[i]);
-                display_help();
+                log_error("Malformed -m or -e manual area argument: %s\n\n", argv[i]);
+                // display_help();
                 return false;
             }
+
         } else if (argv[i][0] == '-') {
-            fprintf(stdout,"Unknown argument: %s\n\n", argv[i]);
-            display_help();
+            log_error("Error: Unknown argument: %s\n\n", argv[i]);
+            display_help(HELP_BRIEF);
             return false;
         }
 
+        // Copy input filename (if not preceded with option dash)
+        else if (argv[i][0] != '-') {
+            snprintf(filename_in, sizeof(filename_in), "%s", argv[i]);
+        }
     }
 
     return true;
@@ -235,6 +263,7 @@ static void init(void) {
     cdb_init();
     noi_init();
     banks_init();
+    romfile_init_defaults();
 }
 
 
@@ -305,13 +334,14 @@ int main( int argc, char *argv[] )  {
                     if (!get_option_hide_banners()) display_cdb_warning();
                     ret = EXIT_SUCCESS; // Exit with success
                 }
+            } else {
+                log_error("Error: Incompatible file extension\n");
             }
-
         }
     }
 
-    if (ret == EXIT_FAILURE)
-        printf("Problem with filename or unable to open file! %s\n", filename_in);
+    // if (ret == EXIT_FAILURE)
+    //     printf("Problem with filename or unable to open file! %s\n", filename_in);
 
     // Override exit code if was set during processing
     if (get_exit_error())

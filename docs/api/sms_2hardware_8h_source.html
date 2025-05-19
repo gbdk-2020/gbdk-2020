@@ -29,7 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.3.0</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -328,47 +328,54 @@ $(document).ready(function(){initNavTree('sms_2hardware_8h_source.html',''); ini
 <div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;static volatile <a class="code" href="asm_2types_8h.html#a280213815420791851f7e59bdc8a3c95">UBYTE</a> <a class="code" href="asm_2types_8h.html#a66d3e9555a86fa871932c5f60834c67e">AT</a>(0xfffe) MAP_FRAME1;</div>
 <div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;static volatile <a class="code" href="asm_2types_8h.html#a280213815420791851f7e59bdc8a3c95">UBYTE</a> <a class="code" href="asm_2types_8h.html#a66d3e9555a86fa871932c5f60834c67e">AT</a>(0xffff) MAP_FRAME2;</div>
 <div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160; </div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;extern volatile <a class="code" href="asm_2types_8h.html#a280213815420791851f7e59bdc8a3c95">UBYTE</a> <a class="code" href="msx_2hardware_8h.html#a019bf78a6d586c987aec03af8d20e02f">VDP_ATTR_SHIFT</a>;</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160; </div>
-<div class="line"><a name="l00249"></a><span class="lineno"><a class="line" href="sms_2hardware_8h.html#a6b6b917fd4f396ba028bb18631165781">  249</a></span>&#160;<span class="preprocessor">#define VBK_TILES      0</span></div>
-<div class="line"><a name="l00250"></a><span class="lineno"><a class="line" href="sms_2hardware_8h.html#a418a105f4c7d4bf1cbc556eab72c27ca">  250</a></span>&#160;<span class="preprocessor">#define VBK_ATTRIBUTES 1</span></div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160; </div>
-<div class="line"><a name="l00252"></a><span class="lineno"><a class="line" href="sms_2hardware_8h.html#ad3b833661b103edc2648258dd741c92c">  252</a></span>&#160;<span class="preprocessor">#define VDP_SAT_TERM   0xD0</span></div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160; </div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;<span class="preprocessor">#if defined(__TARGET_sms)</span></div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_X_OFFSET 0</span></div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_Y_OFFSET 0</span></div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_WIDTH 32</span></div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_HEIGHT 24</span></div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_BUFFER_WIDTH 32</span></div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_BUFFER_HEIGHT 28</span></div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_MAP_ENTRY_SIZE 2</span></div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;<span class="preprocessor">#define DEVICE_SPRITE_PX_OFFSET_X 0</span></div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;<span class="preprocessor">#define DEVICE_SPRITE_PX_OFFSET_Y -1</span></div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;<span class="preprocessor">#define DEVICE_WINDOW_PX_OFFSET_X 0</span></div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;<span class="preprocessor">#define DEVICE_WINDOW_PX_OFFSET_Y 0</span></div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;<span class="preprocessor">#elif defined(__TARGET_gg)</span></div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_X_OFFSET 6</span></div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_Y_OFFSET 3</span></div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_WIDTH 20</span></div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_HEIGHT 18</span></div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_BUFFER_WIDTH 32</span></div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_BUFFER_HEIGHT 28</span></div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_MAP_ENTRY_SIZE 2</span></div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;<span class="preprocessor">#define DEVICE_SPRITE_PX_OFFSET_X 48</span></div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;<span class="preprocessor">#define DEVICE_SPRITE_PX_OFFSET_Y 23</span></div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;<span class="preprocessor">#define DEVICE_WINDOW_PX_OFFSET_X 0</span></div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;<span class="preprocessor">#define DEVICE_WINDOW_PX_OFFSET_Y 0</span></div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;<span class="preprocessor">#error Unrecognized port</span></div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00281"></a><span class="lineno"><a class="line" href="sms_2hardware_8h.html#ad14c51cdfb347c34c364f54e67dc978d">  281</a></span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_PX_WIDTH (DEVICE_SCREEN_WIDTH * 8)</span></div>
-<div class="line"><a name="l00282"></a><span class="lineno"><a class="line" href="sms_2hardware_8h.html#a7bd450aa268b881257089cf8cd6697ec">  282</a></span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_PX_HEIGHT (DEVICE_SCREEN_HEIGHT * 8)</span></div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160; </div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;extern volatile <a class="code" href="asm_2types_8h.html#a280213815420791851f7e59bdc8a3c95">UBYTE</a> <a class="code" href="gb_2hardware_8h.html#a9d295bb437953de5ebcb3c12d65743aa">TIMA_REG</a>;</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;extern volatile <a class="code" href="asm_2types_8h.html#a280213815420791851f7e59bdc8a3c95">UBYTE</a> <a class="code" href="gb_2hardware_8h.html#a39e5a5b9afd2c2ca78de4aba7ccd071c">TMA_REG</a>;</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;extern volatile <a class="code" href="asm_2types_8h.html#a280213815420791851f7e59bdc8a3c95">UBYTE</a> <a class="code" href="gb_2hardware_8h.html#a659173ac2c8da7fd04bc77973eb95256">TAC_REG</a>;</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160; </div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;extern volatile <a class="code" href="asm_2types_8h.html#a280213815420791851f7e59bdc8a3c95">UBYTE</a> <a class="code" href="msx_2hardware_8h.html#a019bf78a6d586c987aec03af8d20e02f">VDP_ATTR_SHIFT</a>;</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160; </div>
+<div class="line"><a name="l00253"></a><span class="lineno"><a class="line" href="sms_2hardware_8h.html#a6b6b917fd4f396ba028bb18631165781">  253</a></span>&#160;<span class="preprocessor">#define VBK_TILES      0</span></div>
+<div class="line"><a name="l00254"></a><span class="lineno"><a class="line" href="sms_2hardware_8h.html#a418a105f4c7d4bf1cbc556eab72c27ca">  254</a></span>&#160;<span class="preprocessor">#define VBK_ATTRIBUTES 1</span></div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160; </div>
+<div class="line"><a name="l00256"></a><span class="lineno"><a class="line" href="sms_2hardware_8h.html#ad3b833661b103edc2648258dd741c92c">  256</a></span>&#160;<span class="preprocessor">#define VDP_SAT_TERM   0xD0</span></div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160; </div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;<span class="preprocessor">#if defined(__TARGET_sms)</span></div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_X_OFFSET 0</span></div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_Y_OFFSET 0</span></div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_WIDTH 32</span></div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_HEIGHT 24</span></div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_BUFFER_WIDTH 32</span></div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_BUFFER_HEIGHT 28</span></div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_MAP_ENTRY_SIZE 2</span></div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;<span class="preprocessor">#define DEVICE_SPRITE_PX_OFFSET_X 0</span></div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;<span class="preprocessor">#define DEVICE_SPRITE_PX_OFFSET_Y -1</span></div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;<span class="preprocessor">#define DEVICE_WINDOW_PX_OFFSET_X 0</span></div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;<span class="preprocessor">#define DEVICE_WINDOW_PX_OFFSET_Y 0</span></div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;<span class="preprocessor">#elif defined(__TARGET_gg)</span></div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_X_OFFSET 6</span></div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_Y_OFFSET 3</span></div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_WIDTH 20</span></div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_HEIGHT 18</span></div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_BUFFER_WIDTH 32</span></div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_BUFFER_HEIGHT 28</span></div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_MAP_ENTRY_SIZE 2</span></div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;<span class="preprocessor">#define DEVICE_SPRITE_PX_OFFSET_X 48</span></div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;<span class="preprocessor">#define DEVICE_SPRITE_PX_OFFSET_Y 23</span></div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;<span class="preprocessor">#define DEVICE_WINDOW_PX_OFFSET_X 0</span></div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;<span class="preprocessor">#define DEVICE_WINDOW_PX_OFFSET_Y 0</span></div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;<span class="preprocessor">#error Unrecognized port</span></div>
 <div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00285"></a><span class="lineno"><a class="line" href="sms_2hardware_8h.html#ad14c51cdfb347c34c364f54e67dc978d">  285</a></span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_PX_WIDTH (DEVICE_SCREEN_WIDTH * 8)</span></div>
+<div class="line"><a name="l00286"></a><span class="lineno"><a class="line" href="sms_2hardware_8h.html#a7bd450aa268b881257089cf8cd6697ec">  286</a></span>&#160;<span class="preprocessor">#define DEVICE_SCREEN_PX_HEIGHT (DEVICE_SCREEN_HEIGHT * 8)</span></div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160; </div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aasm_2types_8h_html_a280213815420791851f7e59bdc8a3c95"><div class="ttname"><a href="asm_2types_8h.html#a280213815420791851f7e59bdc8a3c95">UBYTE</a></div><div class="ttdeci">UINT8 UBYTE</div><div class="ttdef"><b>Definition:</b> types.h:62</div></div>
 <div class="ttc" id="aasm_2types_8h_html_a66d3e9555a86fa871932c5f60834c67e"><div class="ttname"><a href="asm_2types_8h.html#a66d3e9555a86fa871932c5f60834c67e">AT</a></div><div class="ttdeci">#define AT(A)</div><div class="ttdef"><b>Definition:</b> types.h:35</div></div>
 <div class="ttc" id="aasm_2types_8h_html_afb3731986211fded0a874086c98ffcc4"><div class="ttname"><a href="asm_2types_8h.html#afb3731986211fded0a874086c98ffcc4">SFR</a></div><div class="ttdeci">#define SFR</div><div class="ttdef"><b>Definition:</b> types.h:34</div></div>
+<div class="ttc" id="agb_2hardware_8h_html_a39e5a5b9afd2c2ca78de4aba7ccd071c"><div class="ttname"><a href="gb_2hardware_8h.html#a39e5a5b9afd2c2ca78de4aba7ccd071c">TMA_REG</a></div><div class="ttdeci">__REG TMA_REG</div><div class="ttdef"><b>Definition:</b> hardware.h:92</div></div>
+<div class="ttc" id="agb_2hardware_8h_html_a659173ac2c8da7fd04bc77973eb95256"><div class="ttname"><a href="gb_2hardware_8h.html#a659173ac2c8da7fd04bc77973eb95256">TAC_REG</a></div><div class="ttdeci">__REG TAC_REG</div><div class="ttdef"><b>Definition:</b> hardware.h:94</div></div>
+<div class="ttc" id="agb_2hardware_8h_html_a9d295bb437953de5ebcb3c12d65743aa"><div class="ttname"><a href="gb_2hardware_8h.html#a9d295bb437953de5ebcb3c12d65743aa">TIMA_REG</a></div><div class="ttdeci">__REG TIMA_REG</div><div class="ttdef"><b>Definition:</b> hardware.h:90</div></div>
 <div class="ttc" id="amsx_2hardware_8h_html_a019bf78a6d586c987aec03af8d20e02f"><div class="ttname"><a href="msx_2hardware_8h.html#a019bf78a6d586c987aec03af8d20e02f">VDP_ATTR_SHIFT</a></div><div class="ttdeci">volatile UBYTE VDP_ATTR_SHIFT</div></div>
 <div class="ttc" id="amsx_2hardware_8h_html_a1ccce1e3f8acb76170fb752ee40ae659"><div class="ttname"><a href="msx_2hardware_8h.html#a1ccce1e3f8acb76170fb752ee40ae659">shadow_VDP_R9</a></div><div class="ttdeci">UBYTE shadow_VDP_R9</div></div>
 <div class="ttc" id="amsx_2hardware_8h_html_a20a977182f6f5f60ee6464e15f05aed0"><div class="ttname"><a href="msx_2hardware_8h.html#a20a977182f6f5f60ee6464e15f05aed0">shadow_VDP_RBORDER</a></div><div class="ttdeci">UBYTE shadow_VDP_RBORDER</div></div>

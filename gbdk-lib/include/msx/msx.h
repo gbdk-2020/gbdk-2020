@@ -334,6 +334,14 @@ void refresh_OAM(void);
 */
 extern volatile uint16_t sys_time;
 
+/** Flag indicating the VBlank ISR has run
+
+   Flag gets cleared at the start of @ref vsync() / @ref wait_vbl_done()
+   and set in the default VBlank ISR handler.
+*/
+extern volatile uint8_t _vbl_done;
+#define VBL_DONE _vbl_done
+
 /** Return R register for the DIV_REG emulation
 
     Increments once per CPU instruction (fetches the Z80 CPU R register)

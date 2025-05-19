@@ -5,7 +5,8 @@ TOPDIR = ../../../..
 THIS = duck
 PORT = sm83
 
-CSRC = crlf.c digits.c gprint.c gprintf.c gprintln.c gprintn.c
+CSRC = crlf.c digits.c gprint.c gprintf.c gprintln.c gprintn.c \
+	megaduck_laptop_io.c megaduck_model.c
 
 ASSRC =	cgb.s cgb_palettes.s cgb_compat.s \
 	cpy_data.s \

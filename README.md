@@ -1,7 +1,7 @@
 # GBDK-2020
 GBDK is a cross-platform development kit for sm83, z80 and 6502 based gaming consoles. It includes libraries, toolchain utilities and the [SDCC](http://sdcc.sourceforge.net/) C compiler suite.
 
-__Supported Consoles:__ [(see docs)](https://gbdk-2020.github.io/gbdk-2020/docs/api/docs_supported_consoles.html)
+__Supported Consoles:__ [(see docs)](https://gbdk.org/docs/api/docs_supported_consoles.html)
 - Nintendo Game Boy / Game Boy Color
 - Analogue Pocket
 - Sega Master System & Game Gear
@@ -25,21 +25,23 @@ Experimental consoles (not yet fully functional)
 
 <!-- <a href="https://hub.docker.com"><img src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white" alt="Docker"></a> -->
 
-Upgrading to a new version? Check the [Migration notes](https://gbdk-2020.github.io/gbdk-2020/docs/api/docs_migrating_versions.html). You can find older versions [here](https://github.com/gbdk-2020/gbdk-2020/releases).
+Upgrading to a new version? Check the [Migration notes](https://gbdk.org/docs/api/docs_migrating_versions.html). You can find older versions [here](https://github.com/gbdk-2020/gbdk-2020/releases).
 
-For a full list of changes see the [ChangeLog](https://github.com/gbdk-2020/gbdk-2020/blob/master/docs/ChangeLog) file or [online Docs](https://gbdk-2020.github.io/gbdk-2020/docs/api/docs_releases.html).
+For a full list of changes see the [ChangeLog](https://github.com/gbdk-2020/gbdk-2020/blob/master/docs/ChangeLog) file or [online Docs](https://gbdk.org/docs/api/docs_releases.html).
 
 
 ## Build status
 [![GBDK Build and Package](https://github.com/gbdk-2020/gbdk-2020/actions/workflows/gbdk_build_and_package.yml/badge.svg?branch=develop)](https://github.com/gbdk-2020/gbdk-2020/actions/workflows/gbdk_build_and_package.yml)
 
 ## Made with GBDK-2020
-See our gallery showcasing [Games and Programs made with GBDK](https://gbdk-2020.github.io/gbdk-2020-gallery/)
+See our gallery showcasing [Games and Programs made with GBDK](https://gbdk-2020.github.io/gbdk-2020-gallery/), including open source and cart release filters.
+
+[![GBDK Showcase Preview](/docs/gbdk_gallery_preview.jpg)](https://gbdk-2020.github.io/gbdk-2020-gallery/)
 
 ## Docs
-GBDK includes extensive [documentation](https://gbdk-2020.github.io/gbdk-2020/docs/api). A good place to begin is the [Getting Started Section](https://gbdk-2020.github.io/gbdk-2020/docs/api/docs_getting_started.html).
+GBDK includes extensive [documentation](https://gbdk.org/docs/api). A good place to begin is the [Getting Started Section](https://gbdk.org/docs/api/docs_getting_started.html).
 
-Check the [Links and Third-Party Tools Section](https://gbdk-2020.github.io/gbdk-2020/docs/api/docs_links_and_tools.html) for a list of recommended emulators, graphics tools, music drivers and more.
+Check the [Links and Third-Party Tools Section](https://gbdk.org/docs/api/docs_links_and_tools.html) for a list of recommended emulators, graphics tools, music drivers and more.
 
 For SDCC you can check its [website](http://sdcc.sourceforge.net/) and the [manual](http://sdcc.sourceforge.net/doc/sdccman.pdf)
 

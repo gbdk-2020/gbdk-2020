@@ -29,7 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.3.0</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -138,14 +138,14 @@ $(document).ready(function(){initNavTree('globals.html',''); initResizable(); })
 : <a class="el" href="rand_8h.html#a7aab2f4a234108a5eae48e0d26380ae7">rand.h</a>
 </li>
 <li>__READ_VDP_REG
-: <a class="el" href="msx_8h.html#a964e713cb2535d7464d0d6ca7677049a">msx.h</a>
-, <a class="el" href="sms_8h.html#a964e713cb2535d7464d0d6ca7677049a">sms.h</a>
+: <a class="el" href="sms_8h.html#a964e713cb2535d7464d0d6ca7677049a">sms.h</a>
+, <a class="el" href="msx_8h.html#a964e713cb2535d7464d0d6ca7677049a">msx.h</a>
 </li>
 <li>__REG
 : <a class="el" href="gb_2hardware_8h.html#a0b42e4dadd74c927e8b801b4f42c0e44">hardware.h</a>
 </li>
 <li>__render_shadow_OAM
-: <a class="el" href="gb_2metasprites_8h.html#a4bfe4d95031b67951cf6bc342110db39">metasprites.h</a>
+: <a class="el" href="msx_2metasprites_8h.html#a4bfe4d95031b67951cf6bc342110db39">metasprites.h</a>
 </li>
 <li>__setjmp()
 : <a class="el" href="setjmp_8h.html#af04f5d4b814aaac060bca4e9dea7c2a1">setjmp.h</a>
@@ -161,12 +161,12 @@ $(document).ready(function(){initNavTree('globals.html',''); initResizable(); })
 : <a class="el" href="stddef_8h.html#a4aa39aaff620f750e11ece0766b185fd">stddef.h</a>
 </li>
 <li>__WRITE_VDP_REG
-: <a class="el" href="sms_8h.html#aa34282113397af810be737df1acec36c">sms.h</a>
-, <a class="el" href="msx_8h.html#aa34282113397af810be737df1acec36c">msx.h</a>
+: <a class="el" href="msx_8h.html#aa34282113397af810be737df1acec36c">msx.h</a>
+, <a class="el" href="sms_8h.html#aa34282113397af810be737df1acec36c">sms.h</a>
 </li>
 <li>__WRITE_VDP_REG_UNSAFE
-: <a class="el" href="msx_8h.html#a63369a199a979eb3dbba71449659148d">msx.h</a>
-, <a class="el" href="sms_8h.html#a63369a199a979eb3dbba71449659148d">sms.h</a>
+: <a class="el" href="sms_8h.html#a63369a199a979eb3dbba71449659148d">sms.h</a>
+, <a class="el" href="msx_8h.html#a63369a199a979eb3dbba71449659148d">msx.h</a>
 </li>
 <li>_AUD3WAVERAM
 : <a class="el" href="gb_2hardware_8h.html#a70db64bdd045a9df09b289fe9b28af22">hardware.h</a>
@@ -188,10 +188,10 @@ $(document).ready(function(){initNavTree('globals.html',''); initResizable(); })
 , <a class="el" href="sms_8h.html#a22dc57e538f0f49e2dc7d1c73f67fc8f">sms.h</a>
 </li>
 <li>_current_bank
-: <a class="el" href="msx_8h.html#a06bab3f8bce032de0d21fbd86e14c3f3">msx.h</a>
-, <a class="el" href="nes_8h.html#a06bab3f8bce032de0d21fbd86e14c3f3">nes.h</a>
+: <a class="el" href="sms_8h.html#af0d15cf2a26924d2ef00ac4017e6b1d8">sms.h</a>
 , <a class="el" href="gb_8h.html#a98b848953a95ce2fff6fda643575d74a">gb.h</a>
-, <a class="el" href="sms_8h.html#af0d15cf2a26924d2ef00ac4017e6b1d8">sms.h</a>
+, <a class="el" href="msx_8h.html#a06bab3f8bce032de0d21fbd86e14c3f3">msx.h</a>
+, <a class="el" href="nes_8h.html#a06bab3f8bce032de0d21fbd86e14c3f3">nes.h</a>
 </li>
 <li>_HRAM
 : <a class="el" href="gb_2hardware_8h.html#a472e3b0909a2f0878f643e9968b871ef">hardware.h</a>
@@ -211,11 +211,17 @@ $(document).ready(function(){initNavTree('globals.html',''); initResizable(); })
 <li>_is_GBA
 : <a class="el" href="gb_8h.html#a539b7b45b1c2d6b2051553665c76fd36">gb.h</a>
 </li>
+<li>_lcd_scanline
+: <a class="el" href="nes_2hardware_8h.html#a8c89d860d9de0e33d79f13944699ddd7">hardware.h</a>
+</li>
 <li>_map_tile_offset
 : <a class="el" href="gb_8h.html#aa82205e9629f984d0b3dc8055c211522">gb.h</a>
 , <a class="el" href="msx_8h.html#aa82205e9629f984d0b3dc8055c211522">msx.h</a>
 , <a class="el" href="nes_8h.html#aa82205e9629f984d0b3dc8055c211522">nes.h</a>
 , <a class="el" href="sms_8h.html#aa82205e9629f984d0b3dc8055c211522">sms.h</a>
+</li>
+<li>_MEGADUCK_LAPTOP_IO_H
+: <a class="el" href="laptop__io_8h.html#a4a3361568d0c8ca82bcfe8ddfeacf0e5">laptop_io.h</a>
 </li>
 <li>_OAMRAM
 : <a class="el" href="gb_2hardware_8h.html#a7030908728e166877fba9065671deb02">hardware.h</a>
@@ -249,10 +255,10 @@ $(document).ready(function(){initNavTree('globals.html',''); initResizable(); })
 : <a class="el" href="gb_2hardware_8h.html#a09a4ae65605182c8b694197d3aea695e">hardware.h</a>
 </li>
 <li>_submap_tile_offset
-: <a class="el" href="gb_8h.html#ab472d9bbb1bcfd141374f5babc71934c">gb.h</a>
+: <a class="el" href="nes_8h.html#ab472d9bbb1bcfd141374f5babc71934c">nes.h</a>
 , <a class="el" href="sms_8h.html#ab472d9bbb1bcfd141374f5babc71934c">sms.h</a>
-, <a class="el" href="nes_8h.html#ab472d9bbb1bcfd141374f5babc71934c">nes.h</a>
 , <a class="el" href="msx_8h.html#ab472d9bbb1bcfd141374f5babc71934c">msx.h</a>
+, <a class="el" href="gb_8h.html#ab472d9bbb1bcfd141374f5babc71934c">gb.h</a>
 </li>
 <li>_switch_prg0()
 : <a class="el" href="nes_8h.html#a7d6c7ed0155e52b62936a04f6d98715d">nes.h</a>
@@ -262,6 +268,11 @@ $(document).ready(function(){initNavTree('globals.html',''); initResizable(); })
 , <a class="el" href="msx_8h.html#a78fd7730ed37db84f52bcfc9ff41873f">msx.h</a>
 , <a class="el" href="nes_8h.html#a78fd7730ed37db84f52bcfc9ff41873f">nes.h</a>
 , <a class="el" href="sms_8h.html#a78fd7730ed37db84f52bcfc9ff41873f">sms.h</a>
+</li>
+<li>_vbl_done
+: <a class="el" href="gb_8h.html#afcd1b4a4ad7bab85d0adec8c69d5bec0">gb.h</a>
+, <a class="el" href="msx_8h.html#a379ebafd4dc456a9a0c10290bb38fe7c">msx.h</a>
+, <a class="el" href="sms_8h.html#a379ebafd4dc456a9a0c10290bb38fe7c">sms.h</a>
 </li>
 <li>_VRAM
 : <a class="el" href="gb_2hardware_8h.html#aea9200b29be90b58417787720cdf750b">hardware.h</a>
