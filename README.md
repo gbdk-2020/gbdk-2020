@@ -38,7 +38,6 @@ See our gallery showcasing [Games and Programs made with GBDK](https://gbdk-2020
 
 [![GBDK Showcase Preview](/docs/gbdk_gallery_preview.jpg)](https://gbdk-2020.github.io/gbdk-2020-gallery/)
 
-
 ## Docs
 GBDK includes extensive [documentation](https://gbdk.org/docs/api). A good place to begin is the [Getting Started Section](https://gbdk.org/docs/api/docs_getting_started.html).
 
