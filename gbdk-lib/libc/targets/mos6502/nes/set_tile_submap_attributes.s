@@ -14,25 +14,27 @@
     .num_columns:                                   .ds 1
     .attribute_mask_map:                            .ds 1
     .attribute_mask_shadow:                         .ds 1
-    .row_shl_3:                                     .ds 1
 
     .area   _HOME
 
-.macro INC_X_WITH_WRAP
-    txa
-    clc
-    adc #1
-    and #ATTRIBUTE_PACKED_WIDTH-1
-    ora *.row_shl_3
+.macro COORDS_TO_IDX
+    pha
+    ; ypos bit 2-0 -> bit 5-3
+    lda *.ypos
+    and #AT_SHADOW_HEIGHT-1
+.ifne NT_2W
+    asl
+.endif
+    asl
+    asl
+    asl
+    sta *.tmp+2
+    ; xpos bit 2-0 -> bit 2-0
+    lda *.xpos
+    and #AT_SHADOW_WIDTH-1
+    ora *.tmp+2
     tax
-.endm
-
-.macro INC_XPOS_WITH_WRAP
-    ldx *.xpos
-    clc
-    adc #1
-    and #ATTRIBUTE_PACKED_WIDTH-1
-    stx *.xpos
+    pla
 .endm
 
 .macro INC_ROW_SRC
@@ -47,12 +49,68 @@
 .endm
 
 .macro INC_Y_WITH_WRAP
-    txa
+    lda *.ypos
     clc
-    adc #(1 << 3)
-    and #0x3F
-    tax
+    adc #1
+    and #AT_SHADOW_HEIGHT-1
+    sta *.ypos
     INC_ROW_SRC
+.endm
+
+.macro SET_DIRTY_ROW
+    lda *.xpos
+    and #AT_SHADOW_WIDTH-1
+    tax
+    lda #0
+    ldy *.ypos
+.ifne NT_2H
+    cpy #ATTRIBUTE_PACKED_HEIGHT
+    rol
+.endif
+.ifne NT_2W
+    cpx #ATTRIBUTE_PACKED_WIDTH
+    rol
+.endif
+    tax
+    lda .bitmask_table,y
+    ora _attribute_row_dirty,x
+    sta _attribute_row_dirty,x
+.ifne NT_2W
+    txa
+    eor #0x1
+    tax
+    lda .bitmask_table,y
+    ora _attribute_row_dirty,x
+    sta _attribute_row_dirty,x
+.endif
+.endm
+
+.macro SET_DIRTY_COLUMN
+    lda *.xpos
+    and #AT_SHADOW_WIDTH-1
+    tay
+    lda #0
+    ldx *.ypos
+.ifne NT_2H
+    cpx #ATTRIBUTE_PACKED_HEIGHT
+    rol
+.endif
+.ifne NT_2W
+    cpy #ATTRIBUTE_PACKED_WIDTH
+    rol
+.endif
+    tax
+    lda .bitmask_table,y
+    ora _attribute_column_dirty,x
+    sta _attribute_column_dirty,x
+.ifne NT_2H
+    txa
+    eor #(1 << NT_2W)
+    tax
+    lda .bitmask_table,y
+    ora _attribute_column_dirty,x
+    sta _attribute_column_dirty,x
+.endif
 .endm
 
 _set_bkg_submap_attributes_nes16x16::
@@ -93,11 +151,8 @@ _set_bkg_submap_attributes_nes16x16::
     sta *.ypos
     ror *.y_odd
     lda *.tiles
-    clc
-    adc *.xpos
     sta *.src_tiles
     lda *.tiles+1
-    adc #0
     sta *.src_tiles+1
     lda *.map_width
     lsr
@@ -111,13 +166,9 @@ _set_bkg_submap_attributes_nes16x16::
     txa
     adc *.src_tiles+1
     sta *.src_tiles+1
-    ; xpos %= ATTRIBUTE_PACKED_WIDTH
-    lda *.xpos
-    and #ATTRIBUTE_PACKED_WIDTH-1
-    sta *.xpos
     ; ypos %= ATTRIBUTE_PACKED_HEIGHT
     lda *.ypos
-    and #ATTRIBUTE_PACKED_HEIGHT-1
+    and #AT_SHADOW_HEIGHT-1
     sta *.ypos
     ; Prefer vertical stripes if height > width
     lda *.height
@@ -129,35 +180,46 @@ _set_bkg_submap_attributes_horizontalStripes:
     lda *.height
     sta *.num_rows
 _set_bkg_submap_attributes_horizontalStripes_rowLoop:
-    ;
-    ldy *.ypos
-    lda .bitmask_table,y
-    ora *_attribute_row_dirty
-    sta *_attribute_row_dirty
-    ;
+    SET_DIRTY_ROW
+    lda *.xpos
+    pha
     jsr .process_row
+    pla
+    sta *.xpos
     jsr .inc_row
     dec *.num_rows
-    bne _set_bkg_submap_attributes_horizontalStripes_rowLoop  
+    bne _set_bkg_submap_attributes_horizontalStripes_rowLoop
     rts
 
 _set_bkg_submap_attributes_verticalStripes:
     jsr .inc_height_if_wrap
     lda *.width
     sta *.num_columns
-    ldy #0
 _set_bkg_submap_attributes_verticalStripes_columnLoop:
-    ;
-    ldx *.xpos
-    lda .bitmask_table,x
-    ora *_attribute_column_dirty
-    sta *_attribute_column_dirty
-    ;
+    SET_DIRTY_COLUMN
+    ldy *.xpos
+    lda *.ypos
+    pha
+    lda *.src_tiles
+    pha
+    lda *.src_tiles+1
+    pha
     jsr .process_column
-    INC_XPOS_WITH_WRAP
-    iny
+    pla
+    sta *.src_tiles+1
+    pla
+    sta *.src_tiles
+    pla
+    sta *.ypos
+    ; Increment X (only if odd/even bit flipped to 0)
+    lda *.x_odd
+    eor #0x80
+    sta *.x_odd
+    bmi 1$
+    inc *.xpos
+1$:
     dec *.num_columns
-    bne _set_bkg_submap_attributes_verticalStripes_columnLoop  
+    bne _set_bkg_submap_attributes_verticalStripes_columnLoop
     rts
 
 .inc_row:
@@ -165,7 +227,7 @@ _set_bkg_submap_attributes_verticalStripes_columnLoop:
     cmp #ATTRIBUTE_PACKED_HEIGHT-1
     beq 2$
     lda *.y_odd
-    adc #0x80
+    eor #0x80
     sta *.y_odd
     bmi 1$
     lda *.ypos
@@ -178,7 +240,7 @@ _set_bkg_submap_attributes_verticalStripes_columnLoop:
     rts
 2$:
     ; Skip last 16x16 row of attribute table (empty due to alignment)
-    lda #0
+    lda #ATTRIBUTE_PACKED_HEIGHT
     sta *.ypos
 .inc_row_src:
     INC_ROW_SRC
@@ -224,15 +286,7 @@ _set_bkg_submap_attributes_verticalStripes_columnLoop:
     lda *.width
     lsr
     sta *.num_columns
-    lda *.ypos
-    asl
-    asl
-    asl
-    sta *.row_shl_3
-    lda *.xpos
-    ora *.row_shl_3
-    tax
-    ldy #0
+    ldy *.xpos
     bit *.x_odd
     bpl 2$
     ; Do a partial update of only TR+BR for the first byte
@@ -244,10 +298,8 @@ _set_bkg_submap_attributes_verticalStripes_columnLoop:
     sta *.tmp
     pla
     eor #0xFF
-    and _attribute_shadow,x
-    ora *.tmp
-    sta _attribute_shadow,x
-    INC_X_WITH_WRAP
+    jsr .write_to_shadow
+    inc *.xpos
 ;;;
     lda *.width
     lsr
@@ -263,11 +315,9 @@ _set_bkg_submap_attributes_verticalStripes_columnLoop:
     iny
     and *.attribute_mask_map
     sta *.tmp
-    lda _attribute_shadow,x
-    and *.attribute_mask_shadow
-    ora *.tmp
-    sta _attribute_shadow,x
-    INC_X_WITH_WRAP
+    lda *.attribute_mask_shadow
+    jsr .write_to_shadow
+    inc *.xpos
     dec *.num_columns
     bne .column_loop
     ;
@@ -275,7 +325,7 @@ _set_bkg_submap_attributes_verticalStripes_columnLoop:
     lda *.width
     lsr
     ror
-    eor *.x_odd 
+    eor *.x_odd
     bpl 1$
     ; We have one remaining half-column (16 pixels wide)
     ; Do a partial update of only TL+BL for the last column
@@ -287,9 +337,7 @@ _set_bkg_submap_attributes_verticalStripes_columnLoop:
     sta *.tmp
     pla
     eor #0xFF
-    and _attribute_shadow,x
-    ora *.tmp
-    sta _attribute_shadow,x
+    jsr .write_to_shadow
 1$:
     rts
 
@@ -328,14 +376,6 @@ _set_bkg_submap_attributes_verticalStripes_columnLoop:
     lda *.height
     lsr
     sta *.num_rows
-    lda *.ypos
-    asl
-    asl
-    asl
-    sta *.row_shl_3
-    lda *.xpos
-    ora *.row_shl_3
-    tax
     bit *.y_odd
     bpl 2$
     ; Do a partial update of only BL+BR for the first byte
@@ -346,9 +386,7 @@ _set_bkg_submap_attributes_verticalStripes_columnLoop:
     sta *.tmp
     pla
     eor #0xFF
-    and _attribute_shadow,x
-    ora *.tmp
-    sta _attribute_shadow,x
+    jsr .write_to_shadow
     INC_Y_WITH_WRAP
 ;;;
     lda *.height
@@ -364,11 +402,10 @@ _set_bkg_submap_attributes_verticalStripes_columnLoop:
     lda [*.src_tiles],y
     and *.attribute_mask_map
     sta *.tmp
-    lda _attribute_shadow,x
-    and *.attribute_mask_shadow
-    ora *.tmp
-    sta _attribute_shadow,x
-    INC_Y_WITH_WRAP
+    lda *.attribute_mask_shadow
+    jsr .write_to_shadow
+    inc *.ypos
+    INC_ROW_SRC
     dec *.num_rows
     bne .row_loop
     ;
@@ -384,17 +421,30 @@ _set_bkg_submap_attributes_verticalStripes_columnLoop:
     and #ATTRIBUTE_MASK_TL+ATTRIBUTE_MASK_TR
     pha
     and [*.src_tiles],y
-    iny
     sta *.tmp
     pla
     eor #0xFF
-    and _attribute_shadow,x
-    ora *.tmp
-    sta _attribute_shadow,x
+    jsr .write_to_shadow
 1$:
     rts
 
+.write_to_shadow:
+    COORDS_TO_IDX
+    and _attribute_shadow,x
+    ora *.tmp
+    sta _attribute_shadow,x
+    rts
+
 .bitmask_table:
+.db 0b00000001
+.db 0b00000010
+.db 0b00000100
+.db 0b00001000
+.db 0b00010000
+.db 0b00100000
+.db 0b01000000
+.db 0b10000000
+;
 .db 0b00000001
 .db 0b00000010
 .db 0b00000100

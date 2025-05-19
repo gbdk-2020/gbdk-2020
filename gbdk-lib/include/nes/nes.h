@@ -822,8 +822,6 @@ inline void set_bkg_submap_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h
 }
 
 
-extern uint8_t _map_tile_offset;
-
 /** Sets a rectangular region of Background Tile Map.
     The offset value in __base_tile__ is added to
     the tile ID for each map entry.
@@ -842,11 +840,7 @@ extern uint8_t _map_tile_offset;
 
     @see set_bkg_tiles for more details
 */
-inline void set_bkg_based_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles, uint8_t base_tile) {
-    _map_tile_offset = base_tile;
-    set_bkg_tiles(x, y, w, h, tiles);
-    _map_tile_offset = 0;
-}
+inline void set_bkg_based_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles, uint8_t base_tile);
 
 
 /** Sets a rectangular area of the Background Tile Map using a sub-region
@@ -881,8 +875,6 @@ void set_bkg_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *m
 #define set_tile_submap set_bkg_submap
 
 
-extern uint8_t _submap_tile_offset;
-
 /** Sets a rectangular area of the Background Tile Map using a sub-region
     from a source tile map. The offset value in __base_tile__ is added to
     the tile ID for each map entry.
@@ -902,11 +894,7 @@ extern uint8_t _submap_tile_offset;
 
     @see set_bkg_submap for more details
 */
-inline void set_bkg_based_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w, uint8_t base_tile) {
-    _submap_tile_offset = base_tile;
-    set_bkg_submap(x, y, w, h, map, map_w);
-    _submap_tile_offset = 0;
-}
+inline void set_bkg_based_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w, uint8_t base_tile);
 
 
 /** Copies a rectangular region of Background Tile Map entries into a buffer.
@@ -982,8 +970,22 @@ uint8_t get_bkg_tile_xy(uint8_t x, uint8_t y) NO_OVERLAY_LOCALS;
 
     @see SHOW_BKG, HIDE_BKG
 */
-inline void move_bkg(uint8_t x, uint8_t y) {
-    bkg_scroll_x = x, bkg_scroll_y = y;
+inline void move_bkg(scroll_x_t x, scroll_y_t y) {
+    // store low 8 bits to shadow scroll registers
+    bkg_scroll_x = (uint8_t)x;
+    bkg_scroll_y = (uint8_t)(y >= 240 ? (y - 240) : y);
+    // store 9th bit of x and y in shadow PPUCTRL register
+#if DEVICE_SCREEN_BUFFER_WIDTH > 32 && DEVICE_SCREEN_BUFFER_HEIGHT > 30
+    uint8_t msb_x = (uint8_t)((x >> 8) & 1);
+    uint8_t msb_y = (uint8_t)(y >= 240 ? 1 : 0);
+    shadow_PPUCTRL = (shadow_PPUCTRL & 0xFC) | (msb_y << 1) | msb_x;
+#elif DEVICE_SCREEN_BUFFER_WIDTH > 32
+    uint8_t msb_x = (uint8_t)((x >> 8) & 1);
+    shadow_PPUCTRL = (shadow_PPUCTRL & 0xFC) | msb_x;
+#elif DEVICE_SCREEN_BUFFER_HEIGHT > 30
+    uint8_t msb_y = (uint8_t)(y >= 240 ? 1 : 0);
+    shadow_PPUCTRL = (shadow_PPUCTRL & 0xFC) | (msb_y << 1);
+#endif
 }
 
 
@@ -997,7 +999,7 @@ inline void move_bkg(uint8_t x, uint8_t y) {
     @see move_bkg
 */
 inline void scroll_bkg(int8_t x, int8_t y) {
-    bkg_scroll_x += x, bkg_scroll_y += y;
+    move_bkg(bkg_scroll_x + x, bkg_scroll_y + y);
 }
 
 
