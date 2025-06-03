@@ -62,6 +62,7 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
     args->include_palettes = true;
     args->use_structs = false;
     args->flip_tiles = true;
+    args->enable_layered_sprites = false;
 
     // args->errorCode;
     args->bank = BANK_NUM_UNSET;
@@ -128,6 +129,7 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
         printf("-transposed         export transposed (column-by-column instead of row-by-row)\n");
 
         printf("-rel_paths          paths to tilesets are relative to the input file path\n");
+        printf("-layered-sprites    allows for automatically handling multi-palette tiles.\n");
         return EXIT_SUCCESS;
     }
 
@@ -325,9 +327,28 @@ int processPNG2AssetArguments(int argc, char* argv[], PNG2AssetArguments* args) 
         else if(!strcmp(argv[i], "-rel_paths")) {
             args->relative_paths = true;
         }
-        else {
+        else if(!strcmp(argv[i], "-layered-sprites")) {
+            args->enable_layered_sprites = true;
+        } else {
             printf("Warning: Argument \"%s\" not recognized\n", argv[i]);
         }
+    }
+
+    if(args->enable_layered_sprites) {
+
+        /*
+         * It's incredibly difficult to efficiently determine how to automatically generate palettes for layered sprites.
+         * For this reason, the program will fail if the user isn't using a paletted PNGs.
+         */
+        if(!args->keep_palette_order) {
+            printf("Error: The `-layered-sprites` argument also requires the `-keep_palette_order` argument.");
+            return EXIT_FAILURE;
+        }
+
+        printf("Warning! Layered metasprites have been enabled. Each platform has limits on how many 'sprites' can drawn on a single scanline. Keep these numbes in mind when using layered metasprites.\n");
+        printf("\tGB/AP/Duck:   10 Sprites per scanline\n");
+        printf("\tSMS/GG:       8 Sprites per scanline\n");
+        printf("\tNES/Famicom:  8 Sprites per scanline\n\n");
     }
 
     int slash_pos = (int)args->output_filename.find_last_of('/');

@@ -22,6 +22,8 @@ struct PNG2AssetArguments {
     Vector2Size map_attributes_size;
     Vector2Size map_attributes_packed_size;
 
+    bool enable_layered_sprites;
+
     Rectangle pivot;
 
     //default values for some params
