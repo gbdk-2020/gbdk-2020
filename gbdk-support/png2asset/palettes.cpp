@@ -76,9 +76,9 @@ int FindOrCreateSubPalette(const SetPal& pal, vector< SetPal >& palettes, size_t
 //
 // Returns: array of attributes. This always has *per-tile* dimensions, even when half_resolution is true.
 //
-int* BuildPalettesAndAttributes(const PNGImage& image32, vector< SetPal >& palettes, bool half_resolution)
+vector<int> BuildPalettesAndAttributes(const PNGImage& image32, vector< SetPal >& palettes, bool half_resolution)
 {
-    int* palettes_per_tile = new int[(image32.w / image32.tile_w) * (image32.h / image32.tile_h)];
+    vector<int> palettes_per_tile((image32.w / image32.tile_w) * (image32.h / image32.tile_h));
     int sx = half_resolution ? 2 : 1;
     int sy = half_resolution ? 2 : 1;
     for(unsigned int y = 0; y < image32.h; y += image32.tile_h * sy)
