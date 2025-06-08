@@ -47,7 +47,7 @@ void usage(void)
            "  -n   Nametable arrangement:\n"
            "                              0: vertical arrangement / horizontal mirroring\n"
            "                              1: horizontal arrangement / vertical mirroring\n"
-           "  -b   Battery bit set (default: 0)\n",
+           "  -b   Battery bit set (default: 0)\n"
            "  -a   Alternative nametable layout (default: 0)\n"
 
            "Arguments:\n"
