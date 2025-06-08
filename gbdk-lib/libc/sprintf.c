@@ -44,56 +44,44 @@ void __printf(const char *format, emitter_t emitter, char **pData, va_list va)
             if ((uint8_t)((uint8_t)(*format) - '1') < 9u) format++;
 
             switch ((uint8_t)(*format)) {
-                case 'h': {
+                case 'h':
                     switch ((uint8_t)(*++format)) {
                         case 'X' :
-                        case 'x' : {
+                        case 'x' :
                             _printhexbyte(va_arg(va, char), emitter, pData);
                             break;
-                        }
                         case 'u':
-                        {
                             uitoa((unsigned char)va_arg(va, char), buf, 10);
                             _printbuf(buf, emitter, pData);
                             break;
-                        }
                         case 'd':
-                        {
                             itoa((signed char)va_arg(va, char), buf, 10);
                             _printbuf(buf, emitter, pData);
                             break;
-                        }
                     }
                     break;
-                }
-                case 'c': {
-                    char c = va_arg(va, char);
-                    (*emitter)(c, pData);
-                    break;
-                }
                 case 'u':
-                {
                     uitoa(va_arg(va, int), buf, 10);
                     _printbuf(buf, emitter, pData);
                     break;
-                }
                 case 'd':
-                {
                     itoa(va_arg(va, int), buf, 10);
                     _printbuf(buf, emitter, pData);
                     break;
-                }
-                case 'X':
-                case 'x':
-                {
-                    _printhex(va_arg(va, int), emitter, pData);
-                    break;
-                }
                 case 's': 
-                {
                     _printbuf(va_arg(va, char *), emitter, pData);
                     break;
-                }
+                case 'c': 
+                    char c = va_arg(va, char);
+                    (*emitter)(c, pData);
+                    break;
+                case 'X':
+                case 'x':
+                    _printhex(va_arg(va, int), emitter, pData);
+                    break;
+                default:
+                    (*emitter)(*format, pData);
+                    break;
             }
         } else {
             (*emitter)(*format, pData);
