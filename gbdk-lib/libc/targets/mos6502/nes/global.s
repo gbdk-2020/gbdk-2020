@@ -212,14 +212,6 @@
         adc divisor
 lbl:
 .endm
-.macro FAST_DIV8 divident divisor
-        ; returns quotient in A
-        .rept 8
-                DIV_PART divident divisor
-        .endm
-        lda divident
-        eor #0xFF
-.endm
 .macro FAST_MOD8 divident divisor
         ; returns modulus in A
         .rept 8
