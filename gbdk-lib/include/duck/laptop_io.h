@@ -35,7 +35,7 @@
 #define DUCK_IO_CMD_ABORT_OR_FAIL             0x04u
 #define DUCK_IO_CMD_PLAY_SPEECH               0x05u
 #define DUCK_IO_CMD_RUN_CART_IN_SLOT          0x08u
-#define DUCK_IO_CMD_PRINT_INIT_MAYBE_EXT_IO   0x09u   /**< Command to init the printer and return status + model type */
+#define DUCK_IO_CMD_PRINT_INIT_EXT_IO         0x09u   /**< Command to init the printer and return status + model type */
 #define DUCK_IO_CMD_SET_RTC                   0x0Bu   /**< Command to set hardware RTC by sending a multi-byte packet */
 #define DUCK_IO_CMD_GET_RTC                   0x0Cu   /**< Command to get hardware RTC by receiving a a multi-byte packet */
 #define DUCK_IO_CMD_PRINT_SEND_BYTES          0x11u   /**< Send printer data */
@@ -90,15 +90,10 @@
 
 // Printer init reply related
 // Init Reply Bit.0
-#define DUCK_IO_PRINTER_INIT_MASK   0x01u // Bit.0
-#define DUCK_IO_PRINTER_INIT_OK     0x01u
-#define DUCK_IO_PRINTER_INIT_FAIL   0x00u
-
-// Init Reply Bit.1
-#define DUCK_IO_PRINTER_TYPE_MASK   0x02u // Bit.1
-#define DUCK_IO_PRINTER_TYPE_2_PASS 0x00u // Bit.1 = 0  // 13 x 12 byte packets + 1 x 5 or 6 byte packet (with CR and/or LF)
+#define DUCK_IO_PRINTER_FAIL        0x00u
+#define DUCK_IO_PRINTER_TYPE_2_PASS 0x01u // Bit.1 = 0  // 13 x 12 byte packets + 1 x 5 or 6 byte packet (with CR and/or LF)
 #define DUCK_IO_PRINTER_TYPE_1_PASS 0x02u // Bit.1 = 1  // 3 x 12 byte packets + 118 non-packet bytes
-
+#define DUCK_IO_PRINTER_MAYBE_BUSY  0x03u // Maybe indicating that Printer Type 1 is busy?
 
 
 extern volatile bool    duck_io_rx_byte_done;
@@ -168,24 +163,32 @@ void duck_io_enable_read_byte(void);
 bool duck_io_laptop_init(void);
 
 
-/** Returns whether the MegaDuck Printer was detected during duck_io_laptop_init()
+/** Returns status of MegaDuck Printer as last detected by duck_io_laptop_init() or duck_io_printer_query()
 
-    Returns `true` if successful, otherwise `false`
-
-    @ref duck_io_laptop_init() must be called first
-*/
-bool duck_io_printer_detected(void);
-
-
-/** Returns which type of MegaDuck Printer was detected during duck_io_laptop_init()
-
-    Return value should be one of the following:
-    \li @ref DUCK_IO_PRINTER_TYPE_1_PASS (single pass monochrome)
-    \li @ref DUCK_IO_PRINTER_TYPE_2_PASS (two pass possibly supports shades of grey)
+    Returned unsigned 8 bit value will have:
+    \li @ref Bit 0: Printer Status. Mask with @ref DUCK_IO_PRINTER_INIT_OK
+    \li @ref Bit 1: Printer Type. Mask with @ref DUCK_IO_PRINTER_TYPE_MASK
 
     @ref duck_io_laptop_init() must be called first
 */
-uint8_t duck_io_printer_type(void);
+uint8_t duck_io_printer_last_status(void);
+
+
+/** Performs a 3 x printer query serial command and returns raw system printer reply
+
+    Should be called immediately before trying to print
+
+    Returned unsigned 8 bit value will have:
+    \li @ref Bit 0: Printer Status. Mask with @ref DUCK_IO_PRINTER_INIT_OK
+    \li @ref Bit 1: Printer Type. Mask with @ref DUCK_IO_PRINTER_TYPE_MASK
+
+    The resulting value will be cached and used for
+    any subsequent duck_io_printer_detected() and 
+    duck_io_printer_type() calls.
+
+    @ref duck_io_laptop_init() must be called first
+*/
+uint8_t duck_io_printer_query(void);
 
 
 // ===== Higher level IO functions =====

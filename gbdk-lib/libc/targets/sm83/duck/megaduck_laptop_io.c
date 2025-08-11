@@ -19,7 +19,7 @@ volatile uint8_t duck_io_rx_byte;
  uint8_t duck_io_tx_buf[DUCK_IO_LEN_TX_MAX];
  uint8_t duck_io_tx_buf_len;
 
- uint8_t duck_io_priniter_init_result = DUCK_IO_PRINTER_INIT_FAIL;  // Default printer to not connected
+ uint8_t duck_io_priniter_init_result = DUCK_IO_PRINTER_FAIL;  // Default printer to not connected
 
 
 static void _delay_1_msec(void);
@@ -143,8 +143,8 @@ bool duck_io_send_cmd_and_buffer(uint8_t io_cmd) {
     }
 
     // Send buffer length + 2 (for length header and checksum bytes)
-    _delay_1_msec;  // Delay for unknown reasons (present in system rom)
-        if (!duck_io_send_byte_and_check_ack_msecs_timeout(packet_length, DUCK_IO_TIMEOUT_200_MSEC, DUCK_IO_REPLY_SEND_BUFFER_OK)) {
+    _delay_1_msec;  // Delay, perhaps for byte serial transfer time? (present in system rom)
+    if (!duck_io_send_byte_and_check_ack_msecs_timeout(packet_length, DUCK_IO_TIMEOUT_200_MSEC, DUCK_IO_REPLY_SEND_BUFFER_OK)) {
         IE_REG = int_enables_saved;
         return false;
     }
@@ -303,9 +303,10 @@ bool duck_io_laptop_init(void) {
     // Initialize Serially attached peripheral
     duck_io_init_ok = duck_io_controller_init();
     if (duck_io_init_ok) {
+
         // Save response from some command
         // (so far not seen being used in System ROM 32K Bank 0)
-        duck_io_send_byte(DUCK_IO_CMD_PRINT_INIT_MAYBE_EXT_IO);
+        duck_io_send_byte(DUCK_IO_CMD_PRINT_INIT_EXT_IO);
 
         // TODO: This wait with no timeout is how the System ROM does it,
         //       but it can probably be changed to a long delay and
@@ -323,12 +324,25 @@ bool duck_io_laptop_init(void) {
 }
 
 
-bool duck_io_printer_detected(void) {
-    return (duck_io_priniter_init_result & DUCK_IO_PRINTER_INIT_OK);
+uint8_t duck_io_printer_last_status(void) {
+    return (duck_io_priniter_init_result);
 }
 
 
-uint8_t duck_io_printer_type(void) {
-    return (duck_io_priniter_init_result & DUCK_IO_PRINTER_TYPE_MASK);
-}
+uint8_t duck_io_printer_query(void) {
 
+    // Query three times in a row, per System ROM behavior
+    // Might be doing some kind of initialization/test
+    for (uint8_t c = 0u; c < 3u; c++) {
+        // Delay per system rom behavior
+        delay(50);
+        duck_io_send_byte(DUCK_IO_CMD_PRINT_INIT_EXT_IO);
+        duck_io_read_byte_with_msecs_timeout(200);
+
+        // Cache result
+        duck_io_priniter_init_result = duck_io_rx_byte;
+        // Fail if the printer is not detected and/or not available
+        if (duck_io_rx_byte == 0) return duck_io_rx_byte;
+    }
+    return duck_io_rx_byte;
+}
