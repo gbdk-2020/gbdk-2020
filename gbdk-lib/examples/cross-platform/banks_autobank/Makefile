@@ -4,7 +4,7 @@ ifndef GBDK_HOME
 	GBDK_HOME = ../../../
 endif
 
-LCC = $(GBDK_HOME)bin/lcc
+LCC = $(GBDK_HOME)/bin/lcc
 
 # Set platforms to build here, spaced separated. (These are in the separate Makefile.targets)
 # They can also be built/cleaned individually: "make gg" and "make gg-clean"

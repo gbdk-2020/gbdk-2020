@@ -4,7 +4,7 @@ ifndef GBDK_HOME
 	GBDK_HOME = ../../../
 endif
 
-LCC = $(GBDK_HOME)bin/lcc
+LCC = $(GBDK_HOME)/bin/lcc
 
 # You can set flags for LCC here
 LCCFLAGS += -Wm-yC # GB Color required for Hi Color

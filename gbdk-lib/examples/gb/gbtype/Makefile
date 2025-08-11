@@ -8,7 +8,7 @@ ifndef GBDK_HOME
 	GBDK_HOME = ../../../
 endif
 
-LCC = $(GBDK_HOME)bin/lcc 
+LCC = $(GBDK_HOME)/bin/lcc 
 
 # Flag to enable optional Super Game Boy support in the ROM Cartridge header
 LCCFLAGS =  -Wm-ys

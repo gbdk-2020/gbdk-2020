@@ -4,7 +4,7 @@ ifndef GBDK_HOME
 	GBDK_HOME = ../../../
 endif
 
-LCC = $(GBDK_HOME)bin/lcc -Wa-l -Wl-m
+LCC = $(GBDK_HOME)/bin/lcc -Wa-l -Wl-m
 
 BINS	= gb-dtmf.gb
 

@@ -9,7 +9,7 @@ ifndef GBDK_HOME
 	GBDK_HOME = ../../../
 endif
 
-LCC = $(GBDK_HOME)bin/lcc 
+LCC = $(GBDK_HOME)/bin/lcc 
 
 LCCFLAGS += -Wl-yt1 -Wl-yo4
 

@@ -4,7 +4,7 @@ ifndef GBDK_HOME
 	GBDK_HOME = ../../../
 endif
 
-LCC = $(GBDK_HOME)bin/lcc -mmos6502:nes -Wm-yoA -Wl-j
+LCC = $(GBDK_HOME)/bin/lcc -mmos6502:nes -Wm-yoA -Wl-j
 
 BINS	= smoketest.nes
 

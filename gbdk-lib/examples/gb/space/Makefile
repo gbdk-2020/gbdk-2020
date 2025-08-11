@@ -3,7 +3,7 @@ ifndef GBDK_HOME
 	GBDK_HOME = ../../../
 endif
 
-LCC = $(GBDK_HOME)bin/lcc  -Wl-m -Wl-w -Wl-j -Wm-yS
+LCC = $(GBDK_HOME)/bin/lcc  -Wl-m -Wl-w -Wl-j -Wm-yS
 
 BINS	= space.gb
 

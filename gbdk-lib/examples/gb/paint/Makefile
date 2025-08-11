@@ -3,7 +3,7 @@
 ifndef GBDK_HOME
 	GBDK_HOME = ../../../
 endif
-LCC = $(GBDK_HOME)bin/lcc -Wa-l -Wl-m -Wl-j
+LCC = $(GBDK_HOME)/bin/lcc -Wa-l -Wl-m -Wl-j
 
 BINS	= paint.gb
 

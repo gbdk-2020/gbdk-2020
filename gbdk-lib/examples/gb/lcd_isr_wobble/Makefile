@@ -4,7 +4,7 @@ ifndef GBDK_HOME
 	GBDK_HOME = ../../../
 endif
 
-LCC = $(GBDK_HOME)bin/lcc -Wl-j -Wm-yS
+LCC = $(GBDK_HOME)/bin/lcc -Wl-j -Wm-yS
 
 BINS	= lcd_isr_wobble.gb
 

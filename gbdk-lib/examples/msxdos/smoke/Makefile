@@ -4,7 +4,7 @@ ifndef GBDK_HOME
 	GBDK_HOME = ../../../
 endif
 
-LCC = $(GBDK_HOME)bin/lcc -mz80:msxdos -Wm-yoA -Wl-j
+LCC = $(GBDK_HOME)/bin/lcc -mz80:msxdos -Wm-yoA -Wl-j
 
 BINS	= smoketest.com
 

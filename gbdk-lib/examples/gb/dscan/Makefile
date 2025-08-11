@@ -3,7 +3,7 @@
 ifndef GBDK_HOME
 	GBDK_HOME = ../../../
 endif
-LCC = $(GBDK_HOME)bin/lcc -Wm-yc
+LCC = $(GBDK_HOME)/bin/lcc -Wm-yc
 
 BINS	= dscan.gb
 

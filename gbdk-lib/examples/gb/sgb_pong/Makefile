@@ -4,7 +4,7 @@ ifndef GBDK_HOME
 	GBDK_HOME = ../../../
 endif
 
-LCC = $(GBDK_HOME)bin/lcc -Wa-l -Wl-m -Wl-j -Wm-ys
+LCC = $(GBDK_HOME)/bin/lcc -Wa-l -Wl-m -Wl-j -Wm-ys
 
 BINS	= sgb_pong.gb
 
