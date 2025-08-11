@@ -5,7 +5,7 @@ ifndef GBDK_HOME
 endif
 
 LCC = $(GBDK_HOME)/bin/lcc
-PNG2ASSET = $(GBDK_HOME)bin/png2asset 
+PNG2ASSET = $(GBDK_HOME)/bin/png2asset 
 
 # Set platforms to build here, spaced separated. (These are in the separate Makefile.targets)
 # They can also be built/cleaned individually: "make gg" and "make gg-clean"

@@ -5,7 +5,7 @@ ifndef GBDK_HOME
 endif
 
 LCC = $(GBDK_HOME)/bin/lcc
-PNG2ASSET = $(GBDK_HOME)bin/png2asset
+PNG2ASSET = $(GBDK_HOME)/bin/png2asset
 
 # GBDK_DEBUG = ON
 ifdef GBDK_DEBUG

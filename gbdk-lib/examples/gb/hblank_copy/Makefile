@@ -10,7 +10,7 @@ ifndef GBDK_HOME
 endif
 
 LCC = $(GBDK_HOME)/bin/lcc 
-PNG2ASSET = $(GBDK_HOME)bin/png2asset
+PNG2ASSET = $(GBDK_HOME)/bin/png2asset
 
 LCCFLAGS += -Wm-yt0x19 -Wm-yoA -autobank -I$(OBJDIR)
 
