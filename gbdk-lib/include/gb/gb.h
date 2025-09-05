@@ -2214,8 +2214,8 @@ void vmemset (void *s, uint8_t c, size_t n) OLDCALL PRESERVES_REGS(b, c);
 
     @param x      X Start position in Background Map tile coordinates. Range 0 - 31
     @param y      Y Start position in Background Map tile coordinates. Range 0 - 31
-    @param w      Width of area to set in tiles. Range 0 - 31
-    @param h      Height of area to set in tiles. Range 0 - 31
+    @param w      Width of area to set in tiles. Range 1 - 32
+    @param h      Height of area to set in tiles. Range 1 - 32
     @param tile   Fill value
 */
 void fill_bkg_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t tile) OLDCALL PRESERVES_REGS(b, c);
@@ -2225,8 +2225,8 @@ void fill_bkg_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t tile) OLD
 
     @param x      X Start position in Window Map tile coordinates. Range 0 - 31
     @param y      Y Start position in Window Map tile coordinates. Range 0 - 31
-    @param w      Width of area to set in tiles. Range 0 - 31
-    @param h      Height of area to set in tiles. Range 0 - 31
+    @param w      Width of area to set in tiles. Range 1 - 32
+    @param h      Height of area to set in tiles. Range 1 - 32
     @param tile   Fill value
 */
 void fill_win_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t tile) OLDCALL PRESERVES_REGS(b, c);
