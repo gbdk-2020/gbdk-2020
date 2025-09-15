@@ -87,15 +87,13 @@ void SetupCurrentLevel(void) NONBANKED{
 
 
 
-            // Switch to whichever bank our song is in
-            // Not neccessary if the song is in bank 0
+            // Switch to whichever bank source tileset is in
             SWITCH_ROM(( BANK(World1Tileset)));
 
             set_native_tile_data(0,World1Tileset_TILE_COUNT,World1Tileset_tiles);
             setBKGPalettes(World1Tileset_PALETTE_COUNT,World1Tileset_palettes);
             
-            // Switch to whichever bank our song is in
-            // Not neccessary if the song is in bank 0
+            // Switch to whichever the map data is in
             SWITCH_ROM((currentAreaBank = BANK(World1Area1)));
 
             currentLevelNonSolidTileCount=WORLD1_SOLID_TILE_COUNT;
@@ -110,17 +108,14 @@ void SetupCurrentLevel(void) NONBANKED{
         case 1:
 
 
-            // Switch to whichever bank our song is in
-            // Not neccessary if the song is in bank 0
+            // Switch to whichever bank source tileset is in
             SWITCH_ROM((currentAreaBank = BANK(World1Tileset)));
-
 
             set_native_tile_data(0,World1Tileset_TILE_COUNT,World1Tileset_tiles);
             setBKGPalettes(World1Tileset_PALETTE_COUNT,World1Tileset_palettes);
 
             
-            // Switch to whichever bank our song is in
-            // Not neccessary if the song is in bank 0
+            // Switch to whichever the map data is in
             SWITCH_ROM((currentAreaBank = BANK(World1Area2)));
 
             currentLevelNonSolidTileCount=WORLD1_SOLID_TILE_COUNT;
@@ -134,16 +129,14 @@ void SetupCurrentLevel(void) NONBANKED{
         case 2:
 
 
-            // Switch to whichever bank our song is in
-            // Not neccessary if the song is in bank 0
+            // Switch to whichever bank source tileset is in
             SWITCH_ROM((BANK(World2Tileset)));
 
             set_native_tile_data(0,World2Tileset_TILE_COUNT,World2Tileset_tiles);
             setBKGPalettes(World2Tileset_PALETTE_COUNT,World2Tileset_palettes);
 
             
-            // Switch to whichever bank our song is in
-            // Not neccessary if the song is in bank 0
+            // Switch to whichever the map data is in
             SWITCH_ROM((currentAreaBank = BANK(World2Area1)));
 
             currentLevelNonSolidTileCount=WORLD2_SOLID_TILE_COUNT;
