@@ -20,6 +20,20 @@ For data types and special C keywords, see @ref file_asm_sm83_types_h "asm/sm83/
 
 Also see the SDCC manual (scroll down a little on the linked page): http://sdcc.sourceforge.net/doc/sdccman.pdf#section.1.1
 
+## Using variables in High RAM on the Game Boy
+The High RAM (`_HRAM`) address space is at `0xFF80 - 0xFFFE`. It is eight bit addressable using the `ldh` opcodes which allow for more efficient read and write access.
+
+There are two main ways variables can be placed into High RAM
+- Using the `SFR` keyword
+  - For example: `SFR my_hram_variable;`
+  - Variables will be allocated in the `_HRAM` area
+  - They will be treated as 8-bit unsigned
+  - The compiler will automatically tag the variable as `volatile`
+  - The codegen will try to optimize them with `ldh` access
+- Using the `dataseg` pragma
+  - For example: `#pragma dataseg HRAM` followed by `unsigned char my_dataseg_var;`
+  - The codegen **will not** try to optimize them with `ldh` access
+
 
 @anchor toolchain_changing_important_addresses 
 # Changing Important Addresses

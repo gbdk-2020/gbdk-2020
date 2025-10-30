@@ -62,6 +62,7 @@ Note: You can use the `NONBANKED` keyword to define a function as non-banked if 
 
 
 ## Setting the RAM bank for a Source file
+  - `#pragma dataseg DATA_<N>` at the start of a source file. Example (Cartridge SRAM bank 3): `#pragma bank 3`
   - Using the lcc switch for Cartridge SRAM bank `-Wf-ba<N>`. Example (Cartridge SRAM bank 3): `-Wf-ba3`
 
 
