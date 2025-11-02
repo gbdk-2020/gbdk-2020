@@ -103,9 +103,11 @@ static int linkerfile_order_compare(const void* a, const void* b) {
 // - See area_item_compare() for full details of how linkerfile_order gets set
 static void linkerfile_output_order_sort(const file_item * p_files, file_order_t * p_filelist_order, const uint32_t count) {
 
+    uint32_t c;
+
     if (p_filelist_order && p_files) {
         // Create sort-able list from list of files and their assigned linkerfile order
-        for (uint8_t c = 0; c < filelist.count; c++) {
+        for (c = 0; c < filelist.count; c++) {
             p_filelist_order[c].file_id = c;
             p_filelist_order[c].linkerfile_order = p_files[c].linkerfile_order;
         }
