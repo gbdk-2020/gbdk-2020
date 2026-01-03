@@ -15,11 +15,15 @@
 #ifndef __CRASH_HANDLER_INCLUDE
 #define __CRASH_HANDLER_INCLUDE
 
+#include <types.h>
+
 /** Display the crash dump screen.
 
     See the intro for this file for more details.
 */
 void __HandleCrash(void);
-static void * __CRASH_HANDLER_INIT = &__HandleCrash;
+#if defined(__SDCC)
+static void __CRASH_HANDLER_INIT__(void) __naked { __asm__(".globl ___HandleCrash"); }
+#endif
 
 #endif

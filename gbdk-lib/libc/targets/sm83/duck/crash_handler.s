@@ -43,9 +43,9 @@ ___HandleCrash::
 	ld 	a, #LCDCF_ON	; LCDCF_ON Make sure the LCD is turned on to avoid waiting infinitely
 	ldh 	(.LCDC), a
 	ld 	a, #IEF_VBLANK	; IEF_VBLANK
-	ld 	(.IE), a
+	ldh	(.IE), a
 	ld 	a, #0		; `xor a` would overwrite flags
-	ld 	(.IF), a	; No point in backing up that register, it's always changing
+	ldh	(.IF), a	; No point in backing up that register, it's always changing
 	halt			; With interrupts disabled, this will exit when `IE & IF != 0`
 	nop			; Handle hardware bug if it becomes true *before* starting to execute the instruction (1-cycle window)
 
