@@ -184,9 +184,9 @@ void EMU_printf(const char *format, ...) PRESERVES_REGS(a, b, c);
 */
 void EMU_fmtbuf(const unsigned char * format, void * data) PRESERVES_REGS(a, b, c);
 
-#ifdef NINTENDO
-static void * __EMU_PROFILER_INIT = &EMU_profiler_message;
-#endif // NINTENDO
+#if defined(__SDCC) && defined(NINTENDO)
+static void __EMU_PROFILER_INIT__(void) NAKED { __asm__(".globl _EMU_profiler_message"); }
+#endif
 
 /** The Emulator will break into debugger when encounters this line
  */
