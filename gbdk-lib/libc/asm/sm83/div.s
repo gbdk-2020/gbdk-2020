@@ -260,8 +260,7 @@ signexte:
         ld      d,a
         ret
 .exit:
-        pop     af
-        pop     af
+        add     sp, #4
         ret
 
 .divu8::
@@ -275,13 +274,8 @@ signexte:
         ;; Check for division by zero
         ld      a,e
         or      d
-        jr      NZ,.divide      ; Branch if divisor is non-zero
-        ld      bc,#0x00        ; Divide by zero error
-        ld      d,b
-        ld      e,c
-        scf                     ; Set carry, invalid result
-        ret
-.divide:
+        jr      Z,.error        ; Branch if divisor is zero
+
         ld      l,c             ; L = low byte of dividend/quotient
         ld      h,b             ; H = high byte of dividend/quotient
         ld      bc,#0x00        ; BC = remainder
@@ -319,13 +313,14 @@ signexte:
         or      a               ; restore (clear) the carry flag
         jr      NZ,.dvloop
         jr      .nodrop
+
 .drop:
         pop     af              ; faster and smaller than 2x inc sp
         pop     af              ; recover # bits remaining, carry flag destroyed
         dec     a
         scf                     ; restore (set) the carry flag
         jr      NZ,.dvloop
-        jr      .nodrop
+
 .nodrop:
         ;; Shift last carry bit into quotient
         ld      d,b             ; DE = remainder
@@ -337,3 +332,9 @@ signexte:
         or      a               ; Clear carry, valid result
         ret
 
+.error:
+        ld      bc,#0x00        ; Divide by zero error
+        ld      d,b
+        ld      e,c
+        scf                     ; Set carry, invalid result
+        ret
