@@ -220,6 +220,7 @@ __divuschar:
         ld b, #0
         ld c, e
         ld e, a
+		add a
         sbc a
         ld d, a
         
@@ -247,6 +248,7 @@ __modsint::
 __divschar:
         ld		c, e
         ld      e, a
+		add a
         sbc a
         ld d, a
 signext_c:
