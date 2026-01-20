@@ -89,7 +89,7 @@ __divuint::
 		sub c
 		ld l, a
 		sbc a
-		sub h
+		sub b
 		ld h, a
 		
 		or l
