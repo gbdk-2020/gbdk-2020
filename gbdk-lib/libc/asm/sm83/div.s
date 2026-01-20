@@ -67,8 +67,8 @@ __moduint:
 
 .divmod_uchar_bcde:
 __divuchar:
-        ld		c, e
-        ld      e, a
+        ld	c, e
+        ld  e, a
         xor a
         ld b, a
         ld d, a
@@ -82,18 +82,16 @@ __divuint::
         ; outputs the remainder in de
         ; if Y = 0 then the carry is set and quotient = 0 and remainder = 0
         ; otherwise the carry is cleared
-
+		
         
         ; stores -Y in hl and check that -Y is not zero
-        dec bc
-        ld a, b
-        cpl
-        ld h, a
-        ld a, c
-        cpl
-        ld l, a
-        
-        OR h
+        xor a
+		sub c
+		ld l, a
+		sbc a
+		sub h
+		ld h, a
+		or l
         jr z, .division_by_zero
         
         ; if X < Y then
@@ -187,8 +185,7 @@ __divuint::
         ret
 .division_by_zero:
         ; returns both a quotient of 0 and a remainder of 0
-        ; bc should always store 0xFFFF by that point
-        inc bc
+        ; if this is reached, then bc = 0
         ld d, b
         ld e, c
         scf					; sets the carry in order to indicate that a division by zero occured
