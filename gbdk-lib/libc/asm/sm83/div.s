@@ -257,7 +257,7 @@ signext_c:
 __divsint::
         ; saves the sign of the quotient as the carry and the sign of the remainder as the 7th bit of A
         ld a, d		; high byte of dividend
-        xor c		; high byte of divisor
+        xor b		; high byte of divisor
         rla			; save the 7th bit of A as the carry
         ld a, d
         push af
