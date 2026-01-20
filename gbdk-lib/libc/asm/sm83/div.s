@@ -91,6 +91,7 @@ __divuint::
 		sbc a
 		sub h
 		ld h, a
+		
 		or l
         jr z, .division_by_zero
         
@@ -174,22 +175,20 @@ __divuint::
         rl b
         
         jr c, 2$
-        
+ret_hl_in_de:
         ld d, h
         ld e, l
         ; status of the registers
         ; bc = quotient
         ; de = remainder
-        ; carry = 0
+        ; carry = 0 if Y != 0, 1 if Y == 0
         
         ret
 .division_by_zero:
         ; returns both a quotient of 0 and a remainder of 0
         ; if this is reached, then bc = 0
-        ld d, b
-        ld e, c
-        scf					; sets the carry in order to indicate that a division by zero occured
-        ret
+        scf
+		jr ret_hl_in_de
 
 
 ; mixed sign division
