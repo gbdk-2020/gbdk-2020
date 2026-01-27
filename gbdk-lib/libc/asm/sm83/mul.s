@@ -29,7 +29,8 @@
 ;--------------------------------------------------------------------------
 
         ;; Originally from GBDK by Pascal Felber.
-
+        ;; Updated by Phidias618.
+        
         .module mul
         .area   _CODE
 
@@ -41,118 +42,83 @@
 
 ; operands with different sign
 
-__mulsuchar:
-        ld      c, a
-        jr      signexte
-
 __muluschar:
-        ld      c, e
-        ld      e, a
-
-signexte:
-        ld      a,e
-        rla
-        sbc     a,a
-        ld      d,a
-
-        xor     a
-        jr      .mul8
-
-__mulschar:
-        ; Sign-extend before going in.
-        ld      c,a
-
-        rla
-        sbc     a,a
-        ld      b,a
-
-        ld      a,e
-        rla
-        sbc     a,a
-        ld      d,a
-
-__mulint:
-        ;; 16-bit multiplication
-        ;;
-        ;; Entry conditions
-        ;;   BC = multiplicand
-        ;;   DE = multiplier
-        ;;
-        ;; Exit conditions
-        ;;   BC = less significant word of product
-        ;;
-        ;; Register used: AF,BC,DE,HL
-.mul16:
-        ;; Let the smaller number loop
-        ld      a,b
-        cp      a,d
-        jr      c, keep
-        ;; d <= b
-        ld      a, e
-        ld      e, c
-        ld      c, a
-        ld      a, d
-        ld      d, b
-        ld      b, a
-keep:
-        ;; Optimise for the case when this side has 8 bits of data or
-        ;; less.  This is often the case with support address calls.
-        or      a
-        jp      Z, .mul8
+	ld b, a
+	ld a, e
+	ld e, b		
+__mulsuchar:	
+	; sign extends E while preserving A
+	ld l, #0
+	ld d, l
+	bit 7, e
+	jr z, .mul_acc_adel
+	dec d
+	jr .mul_acc_adel
         
-        ld      l,#0
-        ld      b,#16
-loop16:
-        ;; Taken from z88dk, which originally borrowed from the
-        ;; Spectrum rom.
-        add     hl,hl
-        rl      c
-        rla                     ;DLE 27/11/98
-        jr      NC,skip16
-        add     hl,de
-skip16:
-        dec     b
-        jr      NZ,loop16
-
-        ;; Return in bc
-        ld      c,l
-        ld      b,h
-
-        ret
-
 __muluchar:
-        ld      c, a
-        xor     a
-        ;; Clear the top
-        ld      d, a
+	ld l, #0
+	ld d, l
+	jr .mul_acc_adel
+__mulschar:
+        ; sign extends A into BC
+	ld c, a
+	add a
+	sbc a
+	ld b, a
+        
+	; sign extends E into DE
+	ld a, e
+	add a
+	sbc a
+	ld d, a
+        ; Fall through __mulint
+__mulint:
+	; computes BC * DE by using the following identity :
+	; BC * DE = (B * E * 256) + (C * DE)
+	
+	; if D = 0 computes E * BC instead
+	ld a, d
+	OR a
+	jr z, shortcut_swap
+	
+	; computes B * E
+	xor a
+	sla b
+	jr nc, 0$
+	add e
+0$:
+	; skips the rest of the loop if either B = 0 or E = 0
+	jr z, .mul_acc_cdea
+.irp label, 1$, 2$, 3$, 4$, 5$, 6$, 7$
+	add a
+	sla b
+	jr nc, label
+	add e
+label:
+.endm
+	; B * E is now stored in A
+	
+.mul_acc_cdea:
+	; computes (C * DE) + (256 * A)
+	ld l, a
+	ld a, c
+.mul_acc_adel:
+	; computes (A * DE) + (256 * L)
+.irp label, 0$, 1$, 2$, 3$, 4$, 5$, 6$, 7$
+	add hl, hl
+	add a
+	jr nc, label
+	add hl, de
+label:
+.endm
+	ld b, h
+	ld c, l
+	ret
 
-        ;; Version that uses an 8bit multiplicand
-        ;;
-        ;; Entry conditions
-        ;;   C  = multiplicand
-        ;;   DE = multiplier
-        ;;   A  = 0
-        ;;
-        ;; Exit conditions
-        ;;   BC = less significant word of product
-        ;;
-        ;; Register used: AF,BC,DE,HL
-.mul8:
-        ld      l,a
-        ld      b,#8
-        ld      a,c
-loop8:
-        add     hl,hl
-        rla
-        jr      NC,skip8
-        add     hl,de
-skip8:
-        dec     b
-        jr      NZ,loop8
-
-        ;; Return in bc
-        ld      c,l
-        ld      b,h
-
-        ret
+shortcut_swap:
+	ld l, a                ; a = 0
+	ld a, e
+	ld d, b
+	ld e, c
+	jr .mul_acc_adel
 
