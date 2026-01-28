@@ -60,7 +60,7 @@ __muluchar:
 	ld d, l
 	jr .mul_acc_adel
 __mulschar:
-        ; sign extends A into BC
+    ; sign extends A into BC
 	ld c, a
 	add a
 	sbc a
@@ -71,7 +71,7 @@ __mulschar:
 	add a
 	sbc a
 	ld d, a
-        ; Fall through __mulint
+    ; Fall through __mulint
 __mulint:
 	; computes BC * DE by using the following identity :
 	; BC * DE = (B * E * 256) + (C * DE)
@@ -87,7 +87,7 @@ __mulint:
 	jr nc, 0$
 	add e
 0$:
-	; skips the rest of the loop if either B = 0 or (B is odd and E = 0)
+	; skips the rest of the loop if either B = 0 or (B >= 128 and E = 0)
 	jr z, .mul_acc_cdea
 .irp label, 1$, 2$, 3$, 4$, 5$, 6$, 7$
 	add a
