@@ -87,7 +87,7 @@ __mulint:
 	jr nc, 0$
 	add e
 0$:
-	; skips the rest of the loop if either B = 0 or E = 0
+	; skips the rest of the loop if either B = 0 or (B is odd and E = 0)
 	jr z, .mul_acc_cdea
 .irp label, 1$, 2$, 3$, 4$, 5$, 6$, 7$
 	add a
