@@ -140,20 +140,6 @@ int main(void)
         EMU_MESSAGE("Is LY Register > Line 67: %($ff44)>67%Yes;No;");
     #endif
 
-
-    #if defined(NINTENDO)
-        // Print some profile info using a built-in function.
-        EMU_MESSAGE("The following lines contain: PROFILE,(SP+$0),(SP+$1),A,TOTALCLKS,ROMBANK,WRAMBANK");
-
-        EMU_profiler_message();
-
-        // It's equivalent to:
-        EMU_MESSAGE("PROFILE,%(SP+$0)%,%(SP+$1)%,%A%,%TOTALCLKS%,%ROMBANK%,%WRAMBANK%");
-
-    #elif defined(SEGA)
-        EMU_MESSAGE("PROFILE,%(SP+$0)%,%(SP+$1)%,%A%,%TOTALCLKS%,%ROMBANK%,%WRAMBANK%");
-    #endif
-
     int16_t  var_s16  = -1234;
     uint16_t var_u16  = 31002;
     uint16_t var_u16h = 0xA50Fu;

@@ -18,7 +18,7 @@
 
 #include <types.h>
 
-#if defined(__TARGET_gb) || defined(__TARGET_ap) || defined(__TARGET_sms) || defined(__TARGET_gg)
+#if defined(__TARGET_gb) || defined(__TARGET_duck) || defined(__TARGET_ap) || defined(__TARGET_sms) || defined(__TARGET_gg)
 
 /** Macro to display a message in the emulator debug message window
 
@@ -127,19 +127,6 @@ __endasm
 #define EMU_TEXT(MSG) EMU_MESSAGE(MSG)
 #define BGB_TEXT(MSG) EMU_TEXT(MSG)
 
-#if defined(NINTENDO)
-/** Display preset debug information in the Emulator debug messages window.
-
-    This function is equivalent to:
-    \code{.c}
-    EMU_MESSAGE("PROFILE,%(SP+$0)%,%(SP+$1)%,%A%,%TOTALCLKS%,%ROMBANK%,%WRAMBANK%");
-    \endcode
-
-*/
-void EMU_profiler_message(void);
-#define BGB_profiler_message EMU_profiler_message()
-#endif // NINTENDO
-
 /** Print the string and arguments given by format to the emulator debug message window
 
     @param format   The format string as per printf
@@ -184,17 +171,11 @@ void EMU_printf(const char *format, ...) PRESERVES_REGS(a, b, c);
 */
 void EMU_fmtbuf(const unsigned char * format, void * data) PRESERVES_REGS(a, b, c);
 
-#if defined(__SDCC) && defined(NINTENDO)
-static void __EMU_PROFILER_INIT__(void) NAKED { __asm__(".globl _EMU_profiler_message"); }
-#endif
-
 /** The Emulator will break into debugger when encounters this line
  */
 #define EMU_BREAKPOINT __asm__("ld b, b");
 #define BGB_BREAKPOINT EMU_BREAKPOINT
 
-#elif defined(__TARGET_duck)
-  #error Not implemented yet
 #else
   #error Unrecognized port
 #endif
