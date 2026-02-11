@@ -69,7 +69,29 @@ __divuint::
 		
 		or l
         jr z, .division_by_zero
-        
+		
+		ld a, h
+		inc a
+		ld bc, #0xFF00
+		ld a, c
+		jr z, 1$
+0$:
+		rra
+		add hl, hl
+		jr c, 0$
+		
+		ld b, a
+		jr 3$
+1$:
+		ld h, l
+		ld l, c			; l = 0
+2$:
+		rra
+		add hl, hl
+		jr c, 2$
+		
+		ld c, a
+3$:	
         ; if X < Y then
         ;	return quotient = 0 and remainder = X
         ; else
