@@ -92,37 +92,6 @@ __divuint::
 		
 		ld c, a
 3$:	
-        ; if X < Y then
-        ;	return quotient = 0 and remainder = X
-        ; else
-        ;	computes the largest (Y << K) such that (Y << K) <= X
-        ; 	put the 17 bit value -(Y << (K + 1)) into hl with the MSB stored using the carry
-        ; 	put K, using a base 1 representation, using the most significant bits of bc
-        ld bc, #0
-        
-        ld a, e
-        add l
-        ld a, d
-        adc h
-        jr c, 10$
-        ; X < Y
-        ; bc already stores 0
-        ret
-0$:
-        rr b
-        rr c
-10$:	
-        add hl, hl
-        jr nc, 1$
-        
-        ld a, e
-        add l
-        ld a, d
-        adc h
-        jr c, 0$
-        scf
-1$:
-
         ; swaps the content of hl and de
         ld a, h
         ld h, d
@@ -148,7 +117,7 @@ __divuint::
         ; q is stored in bc
         ; storing both q and K in bc will not create issue as they will not use the same bits at the same time
         ; -(Y << K) is stored in de
-2$:
+4$:
         ; on the first iteration :
         ;	this shifts DE such that DE now stores -(Y << K)
         ; on every iteration but the first:
@@ -164,14 +133,14 @@ __divuint::
         ld a, d
         adc h
         
-        jr nc, 3$
+        jr nc, 5$
         add hl, de
-3$:
+5$:
         ; fill bc with one bit of the result and decrements K at the same time
         rl c
         rl b
         
-        jr c, 2$
+        jr c, 4$
 ret_hl_in_de:
         ld d, h
         ld e, l
