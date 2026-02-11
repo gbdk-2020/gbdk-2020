@@ -69,6 +69,10 @@ __divuint::
 		
 		or l
         jr z, .division_by_zero
+
+		; computes a large K such that (Y << K) is still a 16 bit number
+		;   K will be stored in BC as a base 1 number
+		;   Y << (K + 1) will be stored in HL and the carry will be used to store its 17th bit
 		
 		ld a, h
 		inc a
@@ -85,6 +89,12 @@ __divuint::
 1$:
 		ld h, l
 		ld l, c			; l = 0
+
+        ld a, d
+        adc h
+		ccf
+		jr c, 3$
+		xor a
 2$:
 		rra
 		add hl, hl
@@ -100,7 +110,20 @@ __divuint::
         ld a, l
         ld l, e
         ld e, a
-        
+		
+10$:
+		rr d
+		rr e
+
+		sla c
+		rl  b
+		
+		ld a, e 
+        add l
+        ld a, d
+        adc h
+		jr nc, 10$
+11$:
         ; computes X / Y one bit at a time using the following algorithm
         ; r = X
         ; q  = 0
