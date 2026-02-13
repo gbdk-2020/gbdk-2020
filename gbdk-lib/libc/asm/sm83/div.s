@@ -49,6 +49,103 @@ __divuchar:
         ld d, a
         ; Fall through .divmod_uint_bcde
 .divmod_uint_bcde:
+
+
+	    ; stores -Y in hl and check that -Y is not zero
+        xor a
+		sub c
+		ld l, a
+		sbc a
+		sub b
+		ld h, a
+		
+		or l
+        jr z, .division_by_zero
+
+
+		inc h
+		jr z, 0$
+		dec h
+		xor a
+		;ld b, a
+4$:
+		rra
+		add hl, hl
+		jr c, 4$
+		;ld c, a
+
+		;;ld bc, hl
+		;;ld hl, de
+
+		;;ld e, a
+		;;ld d, #0
+		
+		;ld a, h
+		;ld h, d
+		;ld d, a
+
+		;ld a, l
+		;ld l, e
+		;ld e, a
+		
+		jr last_loop
+0$:
+		dec c
+		jr z, ...
+		
+		ld c, h			; c = 0
+		ld a, l
+		
+		;;cp #0xF0
+		;;jr c, 10$
+		;;ld c, #0xF0
+		;;swap a
+		;;and c
+10$:
+		;;ccf
+1$:
+		rr c
+		add a
+		jr c, 1$
+
+		;;ld l, a
+		;ld c, a
+		ld a, d
+2$:
+		rr l
+		add l
+		jr c, 3$
+		sub l
+3$:
+		rl c
+		jr c, 2$
+
+		ld h, a
+		ld d, l
+		ld l, b		; l = 0
+
+		ld b, c
+		ld c, #0xFE
+		
+last_loop:
+		rr d
+		rr e
+
+		; 7/8
+		ld a, l
+		add e
+		ld a, h
+		adc d
+		jr nc, 0$
+		add hl, de
+0$:		
+		rl c
+		jr c, last_loop
+
+		ld d, h
+		ld e, l
+		ret
+
 __divuint::
         ; computes the quotient and the remainder of X / Y
         ; X is stored in de
@@ -76,31 +173,41 @@ __divuint::
 		
 		ld a, h
 		inc a
-		ld bc, #0xFF00
-		ld a, c
 		jr z, 1$
+		xor a
+		ld c, a
 0$:
 		rra
 		add hl, hl
 		jr c, 0$
-		
 		ld b, a
+		
 		jr 3$
 1$:
 		ld h, l
-		ld l, c			; l = 0
-
-        ld a, d
-        adc h
+		ld l, a			; l = 0
+		ld c, a			; c = 0
+		ld b, #0xFF
+		
+    	
 		ccf
 		jr c, 3$
-		xor a
+
+		ld a, h
+		cp #0xF0
+		jr c, 11$
+		ld c, #0xF0
+		swap a
+		and c
+		ld h, a
+11$:
+		scf
 2$:
-		rra
-		add hl, hl
+		rr c
+		add a
 		jr c, 2$
-		
-		ld c, a
+
+		ld h, a
 3$:	
         ; swaps the content of hl and de
         ld a, h
