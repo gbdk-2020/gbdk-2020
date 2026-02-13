@@ -93,8 +93,16 @@ static void export_h_use_structs(PNG2AssetData* assetData, FILE* file) {
         fprintf(file, "#include \"TilesInfo.h\"\n");
         fprintf(file, "#include \"MapInfo.h\"\n");
         fprintf(file, "\n");
-        fprintf(file, "extern const struct TilesInfo %s_tiles_info;\n", assetData->args->data_name.c_str());
-        fprintf(file, "extern const struct MapInfo %s;\n", assetData->args->data_name.c_str());
+        // Analogous to "(output_mode == ZGB_TILES_MODE_TILESONLY)" in the C output
+        if ((assetData->args->includeTileData) && (!assetData->args->includedMapOrMetaspriteData)) {
+            // ZGB Tiles-only mode doesn't append "_tiles_info" to the struct name (and lacks a BANKREF output in the C output)
+            fprintf(file, "extern const struct TilesInfo %s;\n", assetData->args->data_name.c_str());
+        }
+        else { // implied (output_mode == ZGB_TILES_MODE_NORMAL)
+            fprintf(file, "extern const struct TilesInfo %s_tiles_info;\n", assetData->args->data_name.c_str());
+            fprintf(file, "extern const struct MapInfo %s;\n", assetData->args->data_name.c_str());
+        }
+
     }
     else {
         fprintf(file, "#include \"MetaSpriteInfo.h\"\n");
