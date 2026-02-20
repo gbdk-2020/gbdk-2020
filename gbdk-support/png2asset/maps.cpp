@@ -34,7 +34,7 @@ void ExtractTileset(PNG2AssetData* assetData, vector< Tile > & tileset, bool kee
         {
             // Get a tile from the image
             Tile tile(assetData->image.tile_w * assetData->image.tile_h);
-            assetData->image.ExtractTile(x, y, tile, assetData->args->sprite_mode, assetData->args->export_as_map, assetData->args->use_map_attributes, assetData->args->bpp);
+            assetData->image.ExtractTile(x, y, tile, assetData->args->sprite_mode, assetData->args->export_as_map, assetData->args->use_map_attributes);
 
             if (keep_duplicate_tiles)
                 tileset.push_back(tile);
@@ -80,7 +80,7 @@ void GetMap(PNG2AssetData* assetData)
         {
             // Get a tile from the image
             Tile tile(assetData->image.tile_w * assetData->image.tile_h);
-            assetData->image.ExtractTile(x, y, tile, assetData->args->sprite_mode, assetData->args->export_as_map, assetData->args->use_map_attributes, assetData->args->bpp);
+            assetData->image.ExtractTile(x, y, tile, assetData->args->sprite_mode, assetData->args->export_as_map, assetData->args->use_map_attributes);
 
             size_t idx;
             unsigned char props;
