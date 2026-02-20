@@ -73,8 +73,8 @@ public:
             {
                 unsigned char color_idx = data[w * (y + j) + (x + i)];
                 tile.data[(j * extract_tile_w) + i + buffer_offset] = color_idx % colors_per_pal;
-                tile.pal = MAX((color_idx / colors_per_pal), tile.pal); // detect palette by maximum
-                all_zero = all_zero && (color_idx == 0);
+                tile.pal = MAX((color_idx / colors_per_pal), tile.pal);        // detect palette by maximum
+                all_zero = all_zero && ((color_idx % colors_per_pal) == 0);    // don't take palette into account for the empty tiles
             }
         }
         return !all_zero;
