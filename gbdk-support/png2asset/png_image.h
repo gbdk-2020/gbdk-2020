@@ -23,6 +23,8 @@ using namespace std;
 #define ALPHA_FULLY_TRANSPARENT       0  // Full alpha channel transparency
 #define RGBA32_TRANSPARENT_WHITE      (RGBA32(255,255,255,ALPHA_FULLY_TRANSPARENT))  // White, full transparency
 
+#define MAX(A,B) ((A)>(B)?(A):(B))
+
 enum {
     SPR_NONE,
     SPR_8x8,
@@ -63,14 +65,15 @@ public:
     // MSX tile extraction uses it to pull out the 4 sub-tiles
     bool ExtractGBTile(int x, int y, int extract_tile_w, int extract_tile_h, Tile& tile, int buffer_offset)
     {
-        tile.pal = data[w * y + x] / colors_per_pal; // detect palette by the corner pixel
+        tile.pal = 0;
         bool all_zero = true;
         for(int j = 0; j < extract_tile_h; ++j)
         {
             for(int i = 0; i < extract_tile_w; ++i)
             {
-                unsigned char color_idx = data[w * (y + j) + (x + i)] % colors_per_pal;
-                tile.data[(j * extract_tile_w) + i + buffer_offset] = color_idx;
+                unsigned char color_idx = data[w * (y + j) + (x + i)];
+                tile.data[(j * extract_tile_w) + i + buffer_offset] = color_idx % colors_per_pal;
+                tile.pal = MAX((color_idx / colors_per_pal), tile.pal); // detect palette by maximum
                 all_zero = all_zero && (color_idx == 0);
             }
         }
