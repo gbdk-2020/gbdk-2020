@@ -63,16 +63,14 @@ public:
     // MSX tile extraction uses it to pull out the 4 sub-tiles
     bool ExtractGBTile(int x, int y, int extract_tile_w, int extract_tile_h, Tile& tile, int buffer_offset)
     {
-        // Set the palette to 0 when pals are not stored in tiles to allow tiles to be equal even when their palettes are different
-        tile.pal = 0;
+        tile.pal = data[w * y + x] / colors_per_pal; // detect palette by the corner pixel
         bool all_zero = true;
         for(int j = 0; j < extract_tile_h; ++j)
         {
             for(int i = 0; i < extract_tile_w; ++i)
             {
-                unsigned char color_idx = data[w * (y + j) + (x + i)];
-                tile.data[(j * extract_tile_w) + i + buffer_offset] = color_idx % colors_per_pal;
-                if (tile.pal < (color_idx / colors_per_pal)) tile.pal = (color_idx / colors_per_pal);
+                unsigned char color_idx = data[w * (y + j) + (x + i)] % colors_per_pal;
+                tile.data[(j * extract_tile_w) + i + buffer_offset] = color_idx;
                 all_zero = all_zero && (color_idx == 0);
             }
         }
