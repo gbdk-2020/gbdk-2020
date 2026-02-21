@@ -122,7 +122,7 @@ void GetMap(PNG2AssetData* assetData)
 
             if(assetData->args->use_map_attributes)
             {
-                unsigned char pal_idx = assetData->image.data[y * assetData->image.w + x] >> assetData->args->bpp; //We can pick the palette from the first pixel of this tile
+                unsigned char pal_idx = tile.pal;
                 if(assetData->args->pack_mode == Tile::SGB)
                 {
                     props = props << 1; //Mirror flags in SGB are on bit 7
