@@ -13,7 +13,8 @@ struct Tile
     Tile(size_t size = 0) : data(size), pal(0) {}
     bool operator==(const Tile& t) const
     {
-        return data == t.data && pal == t.pal;
+//        return data == t.data && pal == t.pal; // probably, sometimes we need to take palette into account?
+        return data == t.data;
     }
 
     const Tile& operator=(const Tile& t)
