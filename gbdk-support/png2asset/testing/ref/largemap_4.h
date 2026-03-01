@@ -13,7 +13,7 @@
 #define largemap_4_TILE_H 8
 #define largemap_4_WIDTH 1248
 #define largemap_4_HEIGHT 528
-#define largemap_4_TILE_COUNT 234
+#define largemap_4_TILE_COUNT 225
 #define largemap_4_PALETTE_COUNT 4
 #define largemap_4_COLORS_PER_PALETTE 4
 #define largemap_4_TOTAL_COLORS 16
@@ -24,6 +24,6 @@ extern const unsigned char largemap_4_map[10296];
 BANKREF_EXTERN(largemap_4)
 
 extern const palette_color_t largemap_4_palettes[16];
-extern const uint8_t largemap_4_tiles[3744];
+extern const uint8_t largemap_4_tiles[3600];
 
 #endif
