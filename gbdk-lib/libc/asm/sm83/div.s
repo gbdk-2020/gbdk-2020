@@ -69,12 +69,7 @@ __divuint::
 		
 		or l
         jr z, .division_by_zero
-
-		ld a, l
-		and h
-		inc a
-		jr z, .division_by_one
-		
+        
         ; if X < Y then
         ;	return quotient = 0 and remainder = X
         ; else
@@ -169,16 +164,6 @@ ret_hl_in_de:
         ; if this is reached, then bc = 0
         scf
 		jr ret_hl_in_de
-.division_by_one:
-		; returns a remainder of 0 and a quotient of X
-		ld c, e
-		ld b, d
-		
-		; a is assumed to store 0
-		ld d, a
-		ld e, a
-		
-		ret
 
 
 ; mixed sign division
