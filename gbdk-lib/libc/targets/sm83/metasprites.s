@@ -27,10 +27,8 @@ ___render_shadow_OAM::
 
 ___move_metasprite::
         cp      #40
-        jr      c, 0$
-        xor     a
-        ret
-0$:
+        jr      nc, .sprite_limit
+
         push    af
         add     a
         add     a
@@ -64,7 +62,7 @@ ___move_metasprite::
         ld      (bc), a
         inc     c
 
-	ld      a, (___current_base_prop)
+		ld      a, (___current_base_prop)
         add     (hl)        ; props
         inc     hl
         ld      (bc), a
@@ -75,9 +73,12 @@ ___move_metasprite::
         jr      c, 1$
 2$:
         ld      a, c
-        srl     a
-        srl     a
+		rrca
+		rrca
         pop     de
         sub     d
 
         ret
+.sprite_limit:
+		xor a
+		ret
