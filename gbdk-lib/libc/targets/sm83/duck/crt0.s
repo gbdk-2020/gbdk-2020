@@ -25,6 +25,9 @@
 .MemsetSmall::
         LD      (HL+),A
         DEC     C
+        RET     Z
+        LD      (HL+), A
+        DEC     C
         JR      NZ,.MemsetSmall
         ret
 
