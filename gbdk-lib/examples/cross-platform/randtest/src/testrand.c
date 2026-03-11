@@ -1,7 +1,6 @@
 /*
-    fonts.c
-    Simple example of how to use multiple fonts on the GB
-    Michael Hope, 1999.
+    testrand.c
+    Simple example of how to use random number generator
 */
 
 #include <stdio.h>
