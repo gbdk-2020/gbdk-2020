@@ -630,6 +630,10 @@ void refresh_OAM(void) NO_OVERLAY_LOCALS;
 #define SPRITES_8x8 \
   shadow_PPUCTRL &= ~PPUCTRL_SPR_8X16;
 
+/** Macro returns TRUE if device supports color
+ *  (it always does on NES)
+ */
+#define DEVICE_SUPPORTS_COLOR (TRUE)
 
 
 /**
