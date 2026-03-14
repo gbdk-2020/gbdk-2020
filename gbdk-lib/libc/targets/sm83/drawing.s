@@ -1478,12 +1478,18 @@ _circle::
         LD      A,(HL+) ; C = y
         LD      C,A
         LD      A,(HL+) ; D = Radius
+        OR      A
+        JR      Z,$1    ; Don't draw circle of radius zero
+        INC     A
+        OR      A
+        JR      Z,$1    ; Radius of 255 not supported
+        DEC     A
         LD      D,A
         LD      A,(HL)
         LD      (.style),A
 
         CALL    .circle
-
+$1:
         POP     BC
         RET
 
