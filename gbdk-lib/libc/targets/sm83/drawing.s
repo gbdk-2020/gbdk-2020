@@ -539,7 +539,7 @@ ycirc$:
         LD      A,(.x_s+1)
         LD      C,A
         SUB     B
-        JR      NC,ychk$
+        JR      NC,ychk$   ; If x1 > x2 then swap
         LD      A,C
         LD      (.x_s),A
         LD      A,B
@@ -550,7 +550,7 @@ ychk$:
         LD      A,(.y_s+1)
         LD      C,A
         SUB     B
-        JR      NC,dbox$
+        JR      NC,dbox$   ; If y1 > y2 then swap
         LD      A,C
         LD      (.y_s),A
         LD      A,B
@@ -563,7 +563,7 @@ dbox$:
         LD      C,A
         LD      A,(.y_s+1)
         LD      E,A
-        CALL    .line
+        CALL    .line      ; Line x1, y1 -> x1, y2 (vertical, left side of box)
         LD      A,(.x_s+1)
         LD      B,A
         LD      D,A
@@ -571,13 +571,21 @@ dbox$:
         LD      C,A
         LD      A,(.y_s+1)
         LD      E,A
-        CALL    .line
+        CALL    .line      ; Line x2, y1 -> x2, y2 (vertical, right side of box)
+        ; Shrink top and bottom of box lines inward by 1 to not draw those pixels twice
+        ; Skip if x1 == x2 (width 1) since it would erroneously widen (instead of shorten) them
+        ; Width 2 is ok since it ends up swapping x1 and x2, which draws ok
+        LD      A,(.x_s+1)
+        LD      B,A
         LD      A,(.x_s)
-        INC     A
+        CP      B
+        JR      Z,1$
+        INC     A          ; x1 += 1 
         LD      (.x_s),A
         LD      A,(.x_s+1)
-        DEC     A
+        DEC     A          ; x2 -= 1  
         LD      (.x_s+1),A
+1$:
         LD      A,(.x_s)
         LD      B,A
         LD      A,(.x_s+1)
@@ -585,7 +593,7 @@ dbox$:
         LD      A,(.y_s)
         LD      C,A
         LD      E,A
-        CALL    .line
+        CALL    .line      ; Line x1, y1 -> x2, y1 (horizontal, top side of box)
         LD      A,(.x_s)
         LD      B,A
         LD      A,(.x_s+1)
@@ -593,7 +601,7 @@ dbox$:
         LD      A,(.y_s+1)
         LD      C,A
         LD      E,A
-        CALL    .line
+        CALL    .line      ; Line x1, y2 -> x2, y2 (horizontal, bottom side of box)
         LD      A,(.style)
         OR      A
         RET     Z
@@ -601,18 +609,18 @@ dbox$:
         LD      B,A
         LD      A,(.x_s+1)
         SUB     B
-        RET     C
+        RET     C          ; Don't fill if x1 > x2
         LD      A,(.y_s)
-        INC     A
+        INC     A          ; y1 += 1 
         LD      (.y_s),A
         LD      A,(.y_s+1)
-        DEC     A
+        DEC     A          ; y2 -= 1 
         LD      (.y_s+1),A
         LD      A,(.y_s)
         LD      B,A
         LD      A,(.y_s+1)
         SUB     B
-        RET     C
+        RET     C          ; Don't fill if y1 > y2
 
         LD      A,(.fg_colour)
         LD      C,A
