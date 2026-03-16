@@ -5,6 +5,12 @@
 
         .area   _HOME
 
+; uint8_t * get_bkg_xy_addr(uint8_t x, uint8_t y) __preserves_regs(iyh, iyl);
+
+_get_bkg_xy_addr::
+        ld d, l
+        ld e, a
+
 ; translate coords in DE into address in DE
 .coords_to_address::
         ld a, (_shadow_VDP_R2)
@@ -40,14 +46,4 @@
         ld e, a
         ld d, b                 ; dest DE = BC + ((0x20 * Y) * 2) + (X * 2)
 
-        ret
-
-; uint8_t * get_bkg_xy_addr(uint8_t x, uint8_t y) __z88dk_callee __preserves_regs(iyh, iyl);
-
-_get_bkg_xy_addr::
-        pop hl
-        ex (sp), hl
-        ex de, hl
-        call .coords_to_address
-        ex de, hl
         ret

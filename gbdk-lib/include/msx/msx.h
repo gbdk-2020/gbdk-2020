@@ -834,7 +834,7 @@ uint8_t * set_tile_xy(uint8_t x, uint8_t y, uint8_t t) Z88DK_CALLEE PRESERVES_RE
 /**
  * Get address of X,Y tile of background map
  */
-uint8_t * get_bkg_xy_addr(uint8_t x, uint8_t y) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
+uint8_t * get_bkg_xy_addr(uint8_t x, uint8_t y) PRESERVES_REGS(iyh, iyl);
 #define get_win_xy_addr get_bkg_xy_addr
 
 #endif /* _MSX_H */
