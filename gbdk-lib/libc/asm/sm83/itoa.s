@@ -1,75 +1,60 @@
 ;--------------------------------------------------------------------------
 ;  itoa.s
 ;
-;  Copyright (C) 2020, Tony Pavlov
+;  Copyright (c) 2026, Phidias618
 ;
-;  This library is free software; you can redistribute it and/or modify it
-;  under the terms of the GNU General Public License as published by the
-;  Free Software Foundation; either version 2, or (at your option) any
-;  later version.
-;
-;  This library is distributed in the hope that it will be useful,
-;  but WITHOUT ANY WARRANTY; without even the implied warranty of
-;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-;  GNU General Public License for more details.
-;
-;  You should have received a copy of the GNU General Public License 
-;  along with this library; see the file COPYING. If not, write to the
-;  Free Software Foundation, 51 Franklin Street, Fifth Floor, Boston,
-;   MA 02110-1301, USA.
-;
-;  As a special exception, if you link this library with other files,
-;  some of which are compiled with SDCC, to produce an executable,
-;  this library does not by itself cause the resulting executable to
-;  be covered by the GNU General Public License. This exception does
-;  not however invalidate any other reasons why the executable file
-;   might be covered by the GNU General Public License.
 ;--------------------------------------------------------------------------
 
         .module itoa
 
         .area   _HOME
 
-_uitoa::
-        push    BC
-        lda     HL, 4(SP)
-        ld      A, (HL+)
-        ld      E, A
-        ld      A, (HL+)
-        ld      D, A            ; DE: uint
-        ld      A, (HL+)
-        ld      C, A
-        ld      B, (HL)         ; BC: dest
-        call    .utoa
-        pop     BC
-        ret
+
+
+;        push    BC
+;        ldhl    sp, #4
+;        ld      A, (HL+)
+;        ld      E, A
+;        ld      A, (HL+)
+;        ld      D, A            ; DE: uint
+;        ld      A, (HL+)
+;        ld      H, (HL)         ; HL: dest
+;        ld      L, A
+;        call    utoa_hl
+;        pop     BC
+;        ret
 
 _itoa::
-        push    BC
-        lda     HL, 4(SP)
-        ld      A, (HL+)
-        ld      E, A
-        ld      A, (HL+)
-        ld      D, A            ; DE: int
-        ld      A, (HL+)
-        ld      C, A
-        ld      B, (HL)         ; BC: dest
-        call    .itoa
-        pop     BC
-        ret
+        pop hl                ; get return address
+        pop de                ; get input number
+        pop bc                ; get destination string
+        add sp, #-4
+        push hl               ; put the return address back
+
+;        push    BC
+;        ldhl    sp, #4
+;        ld      A, (HL+)
+;        ld      E, A
+;        ld      A, (HL+)
+;        ld      D, A            ; DE: int
+;        ld      A, (HL+)
+;        ld      C, A
+;        ld      B, (HL)         ; BC: dest
+;        call    .itoa
+;        pop     BC
+;        ret
         
 .itoa::                         ; convert int into ascii
-        ld      A, D
-        add     A, A
-        jr      NC, .utoa
+        bit 7, d
+        jr z, .utoa
 
-        rra                     ; DE = abs(DE)
-        cpl
-        ld      D, A
-        ld      A, E
-        cpl
-        ld      E, A
-        inc     DE
+        ; DE = -DE
+        xor a
+        sub e
+        ld e, a
+        sbc a
+        sub d
+        ld d, a
         
         ld      A, #'-'
         ld      (BC), A
@@ -79,112 +64,133 @@ _itoa::
         dec     DE
         ret
 
+_uitoa::
+        pop hl                ; get return address
+        pop de                ; get input number
+        pop bc                ; get destination string
+        add sp, #-4
+        push hl               ; put the return address back
 .utoa::                         ; convert unsigned int into ascii
-        add     SP, #-3
-        lda     HL, 2(SP)
-        
-        xor     A               ; clear value
-        ld      (HL-), A
-        ld      (HL-), A
-        ld      (HL), A
+        ; input :
+	;  - de (x) : the 16 bit unsigned number to convert to ascii
+	;  - bc (dst) : the pointer to the destination string
 
-        push    BC
-        ld      B, #8
+        ld h, b
+	ld l, c
+
+	push bc
+	ld bc, #10
+	jr 4$
+0$:
+	push hl
+	
+	; compute an approximation of x / 10
+	; by using the approximation 1/10 ~ 0.0001100110011
+	ld a, e
+	
+	ld b, e
+	ld c, d
+	
+.rept 4
+	srl d
+	rra
+.endm
+	ld l, a
+	ld h, d
+	srl d
+	rra
+	ld e, a
+	add hl, de
+	
+	ld e, b
+	xor a
+	ld b, a
+	
+	add hl, bc
+	srl c
+	add hl, bc
+
+	srl c
+	srl c
+	srl c
+	add hl, bc
+	srl c
+	add hl, bc
+	
+	; computes an approximation of the remainder 
+	; by using the computed approximation of x / 10
+	; it will always be in the range [0; 75]
+	sub l
+	add a
+	add a
+	sub l
+	add a
+	add e				; e = x - 10 * hl
+
+	; fix both the quotient and the remainder of x / 10
+	; using the fact that the remainder should be less than 10
+	cp #40
+	jr c, 1$
+	sub #40
+	ld c, #4
+	add hl, bc			; add hl, #4
 1$:
-        sla     E
-        rl      D
-        
-        ld      A, (HL)
-        adc     A
-        daa
-        ld      (HL+), A
-        ld      A, (HL)
-        adc     A
-        daa
-        ld      (HL+), A
-        ld      A, (HL)
-        adc     A
-        daa
-        ld      (HL-), A
-        dec     HL
-
-        sla     E
-        rl      D
-        
-        ld      A, (HL)
-        adc     A
-        daa
-        ld      (HL+), A
-        ld      A, (HL)
-        adc     A
-        daa
-        ld      (HL+), A
-        ld      A, (HL)
-        adc     A
-        daa
-        ld      (HL-), A
-        dec     HL
-
-        dec     B
-        jr      NZ, 1$
-
-        pop     BC
-        push    BC
-
-        ld      DE, #'0'
-        lda     HL, 4(SP)
-        
-        ld      A, (HL-)
-        and     #0x0f
-        or      A
-        jr      Z, 3$
-        add     A, E
-        ld      D, #1           ; make D nonzero
-        ld      (BC), A
-        inc     BC      
+	cp #20
+	jr c, 2$
+	sub #20
+	; this can *not* trigger an OAM corruption glitch
+	; because hl is too small
+	inc hl
+	inc hl
+2$:
+	ld c, #10
+	cp c				; cp #10
+	jr c, 3$
+	sub c				; sub #10
+	; this can *not* trigger an OAM corruption glitch
+	; because hl is too small
+	inc hl
 3$:
-        ld      A, (HL)
-        swap    A
-        and     #0x0f
-        add     D
-        jr      Z, 4$
-        sub     D
-        add     A, E
-        ld      D, #1           ; make D nonzero
-        ld      (BC), A
-        inc     BC
+	; now a = x % 10
+	ld d, h
+	ld e, l				; x = x / 10
+	
+	pop hl
+	add #'0'
+	ld (hl+), a
 4$:
-        ld      A, (HL-)
-        and     #0x0f
-        add     D
-        jr      Z, 5$
-        sub     D
-        add     A, E
-        ld      D, #1           ; make D nonzero
-        ld      (BC), A
-        inc     BC      
+	ld a, e
+	sub c				; sub #10
+	ld a, d
+	sbc b				; sbc #0
+
+	jr nc, 0$			; exit the loop if x is only one digit long
+	
+	ld a, e
+	add #'0'
+	ld (hl+), a
+	
+	xor a
+	ld (hl-), a                     ; store the terminator of the string
+	
+	pop bc
+        ld d, b
+        ld e, c                        ; set the return value
+	
+	; reverse the order of the string
+	ld a, l
+	sub c                           ; a = length-1
+	ret z			        ; no need to reverse if length == 1
+	cp #3
 5$:
-        ld      A, (HL)
-        swap    A
-        and     #0x0f
-        add     D
-        jr      Z, 6$
-        sub     D
-        add     A, E
-        ld      (BC), A
-        inc     BC
-6$:
-        ld      A, (HL)
-        and     #0x0f
-        add     A, E
-        ld      (BC), A
-        inc     BC
-        
-        xor     A
-        ld      (BC), A         ; write trailing #0
-
-        pop     DE
-
-        add     sp, #3
-
-        ret
+	; swap 2 chars
+	ld d, (hl)
+	ld a, (bc)
+	ld (hl-), a
+	ld a, d
+	ld (bc), a
+	
+	ret c
+	inc bc
+	scf
+	jr 5$			        ; swap 2 more chars
