@@ -26,12 +26,12 @@ _itoa::
         sub d
         ld d, a
         
-        ld      A, #'-'
-        ld      (BC), A
-        inc     BC
+        ld a, #'-'
+        ld (bc), A
+        inc	bc
         
         call    .utoa
-        dec     DE
+        dec     bc
         ret
 
 _uitoa::
