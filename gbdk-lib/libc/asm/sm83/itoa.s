@@ -10,40 +10,10 @@
         .area   _HOME
 
 
-
-;        push    BC
-;        ldhl    sp, #4
-;        ld      A, (HL+)
-;        ld      E, A
-;        ld      A, (HL+)
-;        ld      D, A            ; DE: uint
-;        ld      A, (HL+)
-;        ld      H, (HL)         ; HL: dest
-;        ld      L, A
-;        call    utoa_hl
-;        pop     BC
-;        ret
-
 _itoa::
-        pop hl                ; get return address
-        pop de                ; get input number
-        pop bc                ; get destination string
-        add sp, #-4
+        pop hl                ; get the return address
+        inc sp				  ; get rid of the unused radix argument
         push hl               ; put the return address back
-
-;        push    BC
-;        ldhl    sp, #4
-;        ld      A, (HL+)
-;        ld      E, A
-;        ld      A, (HL+)
-;        ld      D, A            ; DE: int
-;        ld      A, (HL+)
-;        ld      C, A
-;        ld      B, (HL)         ; BC: dest
-;        call    .itoa
-;        pop     BC
-;        ret
-        
 .itoa::                         ; convert int into ascii
         bit 7, d
         jr z, .utoa
@@ -65,17 +35,15 @@ _itoa::
         ret
 
 _uitoa::
-        pop hl                ; get return address
-        pop de                ; get input number
-        pop bc                ; get destination string
-        add sp, #-4
-        push hl               ; put the return address back
+    pop hl                ; get the return address
+    inc sp				  ; get rid of the unused radix argument
+    push hl               ; put the return address back
 .utoa::                         ; convert unsigned int into ascii
-        ; input :
+    ; input :
 	;  - de (x) : the 16 bit unsigned number to convert to ascii
 	;  - bc (dst) : the pointer to the destination string
 
-        ld h, b
+    ld h, b
 	ld l, c
 
 	push bc
@@ -86,20 +54,24 @@ _uitoa::
 	
 	; compute an approximation of x / 10
 	; by using the approximation 1/10 ~ 0.0001100110011
-	ld a, e
 	
 	ld b, e
 	ld c, d
-	
-.rept 4
-	srl d
-	rra
-.endm
-	ld l, a
+
+	ld l, e
 	ld h, d
-	srl d
-	rra
-	ld e, a
+	xor a
+.rept 3
+	add hl, hl
+	adc a
+.endm
+	ld e, h
+	ld d, a	
+	
+	add hl, hl
+	adc a
+	ld l, h
+	ld h, a
 	add hl, de
 	
 	ld e, b
@@ -173,16 +145,14 @@ _uitoa::
 	xor a
 	ld (hl-), a                     ; store the terminator of the string
 	
-	pop bc
-        ld d, b
-        ld e, c                        ; set the return value
+	pop bc							; bc = dst
 	
 	; reverse the order of the string
 	ld a, l
 	sub c                           ; a = length-1
-	ret z			        ; no need to reverse if length == 1
+	ret z			        		; no need to reverse if length == 1
 	cp #3
-5$:
+
 	; swap 2 chars
 	ld d, (hl)
 	ld a, (bc)
@@ -192,5 +162,13 @@ _uitoa::
 	
 	ret c
 	inc bc
-	scf
-	jr 5$			        ; swap 2 more chars
+
+	; swap 2 more chars
+	ld d, (hl)
+	ld a, (bc)
+	ld (hl-), a
+	ld a, d
+	ld (bc), a
+
+	dec bc							; bc = dst
+	ret
