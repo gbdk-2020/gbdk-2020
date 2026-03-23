@@ -62,7 +62,7 @@ _rand::				; Banked
 _randw::			; Banked
 	ld hl, #.randlo
 	ld a, (hl+)
-	ld e, e
+	ld e, a
 	ld d, (hl)		; D = randhi
 
 	; HL = 17 * DE + 0x5C93
