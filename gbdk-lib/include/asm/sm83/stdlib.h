@@ -137,7 +137,7 @@ extern void free (void * ptr);
     Returns: Pointer to array entry that matches the search key.
              If key is not found, NULL is returned.
 */
-extern void *bsearch(const void *key, const void *base, size_t nmemb, size_t size, int (*compar)(const void *, const void *) REENTRANT);
+extern void *bsearch(const void *key, const void *base, size_t nmemb, size_t size, int (*compar)(const void *, const void *));
 
 
 /** Sort an array of __nmemb__ items
@@ -146,6 +146,6 @@ extern void *bsearch(const void *key, const void *base, size_t nmemb, size_t siz
     @param size     Size in bytes of each element in the array
     @param compar   Function used to compare and sort two elements of the array
 */
-extern void qsort(void *base, size_t nmemb, size_t size, int (*compar)(const void *, const void *) REENTRANT);
+extern void qsort(void *base, size_t nmemb, size_t size, int (*compar)(const void *, const void *));
 
 #endif
