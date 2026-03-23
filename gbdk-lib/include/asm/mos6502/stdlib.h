@@ -10,12 +10,12 @@
     returned to the parent.
     All open streams are flushed and closed.
 */
-void exit(int status) OLDCALL;
+void exit(int status);
 
 #if 0
 /** Compatibility function.  Not implemented.
  */
-int getkey(void) OLDCALL;
+int getkey(void);
 #endif
 
 /** Returns the absolute value of int __i__
@@ -30,7 +30,7 @@ int abs(int i);
 
     @param num   Long integer to obtain absolute value of
  */
-long labs(long num) OLDCALL;
+long labs(long num);
 
 
 /** Converts an ASCII string to an int
@@ -70,7 +70,7 @@ long atol(const char *s);
 
     Returns:    Pointer to converted string
  */
-char *itoa(int n, char *s, unsigned char radix) OLDCALL;
+char *itoa(int n, char *s, unsigned char radix);
 
 /** Converts an unsigned int into a base 10 ASCII string.
     @param n      Unsigned Int to convert to a string
@@ -83,7 +83,7 @@ char *itoa(int n, char *s, unsigned char radix) OLDCALL;
 
     Returns:    Pointer to converted string
  */
-char *uitoa(unsigned int n, char *s, unsigned char radix) OLDCALL;
+char *uitoa(unsigned int n, char *s, unsigned char radix);
 
 /** Converts a long into a base 10 ASCII string.
     @param n      Long int to convert to a string
@@ -96,7 +96,7 @@ char *uitoa(unsigned int n, char *s, unsigned char radix) OLDCALL;
 
     Returns:    Pointer to converted string
  */
-char *ltoa(long n, char *s, unsigned char radix) OLDCALL;
+char *ltoa(long n, char *s, unsigned char radix);
 
 /** Converts an unsigned long into a base 10 ASCII string.
     @param n      Unsigned Long Int to convert to a string
@@ -109,7 +109,7 @@ char *ltoa(long n, char *s, unsigned char radix) OLDCALL;
 
     Returns:    Pointer to converted string
  */
-char *ultoa(unsigned long n, char *s, unsigned char radix) OLDCALL;
+char *ultoa(unsigned long n, char *s, unsigned char radix);
 
 
 /** Memory allocation functions
