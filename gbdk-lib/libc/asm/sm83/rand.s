@@ -47,7 +47,7 @@ ___rand_seed::
 
 	;; Random number generator using the linear congruential method
 	;;  X(n+1) = (a*X(n)+c) mod m
-	;; with a = 17, m = 16 and c = $5c93 (arbitrarily)
+	;; with a = 17, m = 65536 and c = $5c93 (arbitrarily)
 	;; The seed value is also chosen arbitrarily as $a27e
 	;; Ref : D. E. Knuth, "The Art of Computer Programming" , Volume 2
 	;;
@@ -60,43 +60,35 @@ ___rand_seed::
 
 _rand::				; Banked
 _randw::			; Banked
-	LD	A,(.randlo)
-	LD	L,A
-	LD	E,A		; Save randlo
-	LD	A,(.randhi)
-	LD	D,A		; Save randhi
+	ld hl, #.randlo
+	ld a, (hl+)
+	ld e, e
+	ld d, (hl)		; D = randhi
 
-	SLA	L		; * 16
-	RLA
-	SLA	L
-	RLA
-	SLA	L
-	RLA
-	SLA	L
-	RLA
-	LD	H,A		; Save randhi*16
+	; HL = 17 * DE + 0x5C93
+	ld h, d
+	ld l, e
 
-	LD	A,E		; Old randlo
-	ADD	A,L		; Add randlo*16
-	LD	L,A		; Save randlo*17
+	add hl, hl
+	add hl, hl
+	add hl, hl
+	add hl, hl
+	add hl, de
+	ld de, #0x5C93
+	add hl, de
+	
+	ld d, l
+	ld e, h			; de = return value
 
-	LD	A,H		; randhi*16
-	ADC	A,D		; Add old randhi
-	LD	H,A		; Save randhi*17
-
-	LD	A,L		; randlo*17
-	ADD	A,#0x93
-	LD	(.randlo),A
-	LD	D,A		; Return register
-	LD	A,H		; randhi*17
-	ADC	A,#0x5c
-	LD	(.randhi),A
-	LD	E,A		; Return register
-
+	ld hl, #.randlo
+	ld a, d
+	ld (hl+), a
+	ld (hl), e
+	
 	;; Note D is the low byte,E the high byte. This is intentional because
 	;; the high byte can be slightly 'more random' than the low byte, and I presume
 	;; most will cast the return value to a uint8_t. As if someone will use this, tha!
-	RET
+	ret
 
 	;; This sets the seed value. Call it whenever you like
 	;;
