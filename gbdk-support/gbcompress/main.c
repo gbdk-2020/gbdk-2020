@@ -29,12 +29,27 @@ char filename_out[MAX_STR_LEN] = {'\0'};
 uint8_t * p_buf_in  = NULL;
 uint8_t * p_buf_out = NULL;
 
+#define VAR_IS_CONST_YES true
+#define VAR_IS_CONST_NO  false
+
+#define OPT_HELP        "-h"
+#define OPT_DECOMPRESS  "-d"
+#define OPT_VERBOSE     "-v"
+#define OPT_CIN         "--cin"
+#define OPT_COUT        "--cout"
+#define OPT_VARNAME     "--varname="
+#define OPT_BANKREFNAME "--bankrefname="
+#define OPT_ALG         "--alg="
+#define OPT_BANK        "--bank="
+
+
 bool opt_mode_compress    = true;
 bool opt_verbose          = false;
 int  opt_compression_type = COMPRESSION_TYPE_DEFAULT;
 bool opt_c_source_input   = false;
 bool opt_c_source_output  = false;
-char opt_c_source_output_varname[MAX_STR_LEN] = "var_name";
+char opt_c_source_output_var_name[MAX_STR_LEN] = "var_name";
+char opt_c_source_output_bankref_name[MAX_STR_LEN] = {'\0'};
 uint16_t opt_bank_num     = BANK_NUM_ROM_UNSET;
 
 static void display_help(void);
@@ -55,7 +70,8 @@ static void display_help(void) {
        "-v       : Verbose output\n"
        "--cin    : Read input as .c source format (8 bit char ONLY, uses first array found)\n"
        "--cout   : Write output in .c / .h source format (8 bit char ONLY) \n"
-       "--varname=<NAME> : specify variable name for c source output\n"
+       "--varname=<NAME>     : specify variable name for c source output\n"
+       "--bankrefname=<NAME> : specify bankref name for c source output\n"
        "--alg=<type>     : specify compression type: 'zx0', 'rle', 'gb' (default)\n"
        "--bank=<num>     : Add Bank Ref: %d - %d (default is none, with --cout only)\n"
        "Example: \"gbcompress binaryfile.bin compressed.bin\"\n"
@@ -83,27 +99,29 @@ int handle_args(int argc, char * argv[]) {
     for (i = 1; i < (argc - 2); i++ ) {
 
         if (argv[i][0] == '-') {
-            if (strstr(argv[i], "-h") == argv[i]) {
+            if (strstr(argv[i], OPT_HELP) == argv[i]) {
                 display_help();
                 return false;  // Don't parse input when -h is used
-            } else if (strstr(argv[i], "-v") == argv[i]) {
+            } else if (strstr(argv[i], OPT_VERBOSE) == argv[i]) {
                 opt_verbose = true;
-            } else if (strstr(argv[i], "--cin") == argv[i]) {
+            } else if (strstr(argv[i], OPT_CIN) == argv[i]) {
                 opt_c_source_input = true;
-            } else if (strstr(argv[i], "--cout") == argv[i]) {
+            } else if (strstr(argv[i], OPT_COUT) == argv[i]) {
                 opt_c_source_output = true;
-            } else if (strstr(argv[i], "--varname=") == argv[i]) {
-                snprintf(opt_c_source_output_varname, sizeof(opt_c_source_output_varname), "%s", argv[i] + 10);
-            } else if (strstr(argv[i], "--alg=gb") == argv[i]) {
+            } else if (strstr(argv[i], OPT_VARNAME) == argv[i]) {
+                snprintf(opt_c_source_output_var_name, sizeof(opt_c_source_output_var_name), "%s", argv[i] + strlen(OPT_VARNAME));
+            } else if (strstr(argv[i], OPT_BANKREFNAME) == argv[i]) {
+                snprintf(opt_c_source_output_bankref_name, sizeof(opt_c_source_output_bankref_name), "%s", argv[i] + strlen(OPT_BANKREFNAME));
+            } else if (strstr(argv[i], OPT_ALG"gb") == argv[i]) {
                 opt_compression_type = COMPRESSION_TYPE_GB;
-            } else if (strstr(argv[i], "--alg=rle") == argv[i]) {
+            } else if (strstr(argv[i], OPT_ALG"rle") == argv[i]) {
                 opt_compression_type = COMPRESSION_TYPE_RLE_BLOCK;
-            } else if (strstr(argv[i], "--alg=zx0") == argv[i]) {
+            } else if (strstr(argv[i], OPT_ALG"zx0") == argv[i]) {
                 opt_compression_type = COMPRESSION_TYPE_ZX0;
-            } else if (strstr(argv[i], "-d") == argv[i]) {
+            } else if (strstr(argv[i], OPT_DECOMPRESS) == argv[i]) {
                 opt_mode_compress = false;
-            } else if (strstr(argv[i], "--bank=") == argv[i]) {
-                opt_bank_num = atoi(argv[i] + strlen("--bank="));
+            } else if (strstr(argv[i], OPT_BANK) == argv[i]) {
+                opt_bank_num = atoi(argv[i] + strlen(OPT_BANK));
                 if ((opt_bank_num < BANK_NUM_ROM_MIN) || (opt_bank_num > BANK_NUM_ROM_MAX)) {
                     printf("gbcompress: Warning: Bank Num %d outside of range %d - %d\n", opt_bank_num, BANK_NUM_ROM_MIN, BANK_NUM_ROM_MAX);
                     return false;
@@ -111,6 +129,11 @@ int handle_args(int argc, char * argv[]) {
             } else
                 printf("gbcompress: Warning: Ignoring unknown option %s\n", argv[i]);
         }
+    }
+
+    // If custom bankref name not specified, copy from varname
+    if (opt_c_source_output_bankref_name[0] == '\0') {
+        snprintf(opt_c_source_output_bankref_name, sizeof(opt_c_source_output_bankref_name), "%s", opt_c_source_output_var_name);
     }
 
     // Copy input and output filenames from last two arguments
@@ -180,7 +203,9 @@ static int compress() {
 
             if (opt_c_source_output) {
                 c_source_set_sizes(out_len, buf_size_in); // compressed, decompressed
-                result = file_write_c_output_from_buffer(filename_out, p_buf_out, out_len, opt_c_source_output_varname, true, opt_bank_num);
+                result = file_write_c_output_from_buffer(filename_out, p_buf_out, out_len,
+                                                        opt_c_source_output_var_name, opt_c_source_output_bankref_name,
+                                                        VAR_IS_CONST_YES, opt_bank_num);
             }
             else
                 result = file_write_from_buffer(filename_out, p_buf_out, out_len);
@@ -234,7 +259,9 @@ static int decompress() {
 
             if (opt_c_source_output) {
                 c_source_set_sizes(buf_size_in, out_len); // compressed, decompressed
-                result = file_write_c_output_from_buffer(filename_out, p_buf_out, out_len, opt_c_source_output_varname, true, opt_bank_num);
+                result = file_write_c_output_from_buffer(filename_out, p_buf_out, out_len,
+                                                         opt_c_source_output_var_name, opt_c_source_output_bankref_name,
+                                                         VAR_IS_CONST_YES, opt_bank_num);
             }
             else {
                 result = file_write_from_buffer(filename_out, p_buf_out, out_len);
