@@ -138,7 +138,7 @@ void showHelp(void) {
         printf("-repair_indexed_pal try to repair indexed tile palettes (implies \"-keep_palette_order\")\n");
         printf("-noflip             disable tile flip\n");
         printf("-map                Export as map (tileset + bg) instead of default metasprite output\n");
-        printf("-use_map_attributes Use CGB BG Map attributes\n");
+        printf("-use_map_attributes Use GBC/SMS/GG BG Map attributes\n");
         printf("-use_nes_attributes Use NES BG Map attributes\n");
         printf("-use_nes_colors     Convert RGB color values to NES PPU colors\n");
         printf("-use_structs        Group the exported info into structs (default: false) (used by ZGB Game Engine)\n");
