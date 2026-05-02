@@ -38,21 +38,20 @@ _rle_decompress::
 
         ld a, (rle_counter)
         or a
-        ld c, a
         jr z, 0$
-
+        
+        ld c, a
+        add a
         ld a, (rle_current)
-        bit 7, c
-        jr nz, 2$
+        jr c, 2$
         jr 5$
 0$:
         ;; Fetch the run
-        ld c, (hl)
-        inc hl
+        ld a, (hl+)
+        ld c, a
         ;; Negative means a run
-
-        bit 7, c
-        jr z, 3$
+        add a
+        jr nc, 3$
         ;; Expanding a run
         ld a, (hl+)
 1$:
@@ -60,15 +59,13 @@ _rle_decompress::
         inc de
 
         dec b
-        jr z, save_and_exit
+        jr z, 7$
 2$:
         inc c
         jr nz, 1$
         jr 0$
 3$:
         ;; Zero means end of a block
-        inc c
-        dec c
         jr z, 6$
         ;; Expanding a block
 4$:
@@ -77,7 +74,7 @@ _rle_decompress::
         inc de
 
         dec b
-        jr z, save_and_exit
+        jr z, 7$
 5$:
         dec c
         jr nz, 4$
@@ -89,7 +86,7 @@ _rle_decompress::
         ld (hl+), a
         ld (hl), a
         ret             ; return 0
-save_and_exit:
+7$:
         ;; save state and exit
         ld d, h
         ld e, l
