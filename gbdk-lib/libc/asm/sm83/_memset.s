@@ -4,49 +4,40 @@
 
 ; void *memset (void *s, int c, size_t n)
 _memset::
-        lda     hl,7(sp)
-        ld      a,(hl-)
-        ld      d, a
-        ld      a,(hl-)
-        ld      e, a
-        or      d
-        jr      z,6$
+        ld a, c
+
+        pop hl                ; pop return address
+        pop bc                ; pop n
+        push hl               ; push return address
         
-        dec     hl
-        ld      a,(hl-)
-        push    af
-        ld      a,(hl-)
-        ld      l,(hl)
-        ld      h,a
-        pop     af
+        ld h, d
+        ld l, e
         
-        srl     d
-        rr      e
-        jr      nc,4$
+        srl     b
+        rr      c
+        jr      nc,0$
         ld      (hl+),a
-4$:     
-        srl     d
-        rr      e
-        jr      nc,5$
-        ld      (hl+),a
-        ld      (hl+),a
-5$:             
-        inc     d
-        inc     e
-        jr      2$
+0$:     
+        srl     b
+        inc     b
+        rr      c
+        
+        jr      c,2$
+        jr      z,3$
 1$:     
-        ld      (hl+),a
-        ld      (hl+),a
+        dec     c
         ld      (hl+),a
         ld      (hl+),a
 2$:
-        dec     e
+        ld      (hl+),a
+        ld      (hl+),a
         jr      nz,1$
-        dec     d
+3$:
+        dec     b
         jr      nz,1$
-6$:
-        lda     hl,2(sp)
-        ld      a,(hl+)
-        ld      e,a
-        ld      d,(hl)
+
+        ; return s in bc
+        ld b, d
+        ld c, e
+        
         ret
