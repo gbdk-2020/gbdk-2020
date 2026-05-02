@@ -15,10 +15,10 @@ rle_current:
 
 _rle_init::
         ld hl, #rle_cursor
-        ld (hl), e
-        inc hl
-        ld (hl), d
-        inc hl
+        ld a, e
+        ld (hl+), a
+        ld a, d
+        ld (hl+), a
         xor a
         ld (hl+), a
         ld (hl), a
@@ -39,57 +39,57 @@ _rle_decompress::
         ld a, (rle_counter)
         or a
         ld c, a
-        jr z, 1$
+        jr z, 0$
 
         ld a, (rle_current)
         bit 7, c
-        jr nz, 10$
-        jr 11$
-1$:
+        jr nz, 2$
+        jr 5$
+0$:
         ;; Fetch the run
         ld c, (hl)
         inc hl
         ;; Negative means a run
-8$:
+
         bit 7, c
-        jr z, 2$
+        jr z, 3$
         ;; Expanding a run
         ld a, (hl+)
-3$:
+1$:
         ld (de), a
         inc de
 
         dec b
-        jr z, 6$
-10$:
-        inc c
-        jr nz, 3$
-        jr 1$
+        jr z, save_and_exit
 2$:
+        inc c
+        jr nz, 1$
+        jr 0$
+3$:
         ;; Zero means end of a block
         inc c
         dec c
-        jr z, 4$
+        jr z, 6$
         ;; Expanding a block
-5$:
+4$:
         ld a, (hl+)
         ld (de), a
         inc de
 
         dec b
-        jr z, 6$
-11$:
+        jr z, save_and_exit
+5$:
         dec c
-        jr nz, 5$
-        jr 1$
-4$:
+        jr nz, 4$
+        jr 0$
+6$:
         ;; save state and exit
         ld hl, #rle_cursor
         xor a
         ld (hl+), a
         ld (hl), a
         ret             ; return 0
-6$:
+save_and_exit:
         ;; save state and exit
         ld d, h
         ld e, l
