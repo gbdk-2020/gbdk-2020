@@ -8,61 +8,38 @@
 	;;   DE = number of milliseconds to delay (1 to 65536, 0 = 65536)
 	;; 
 	;; Register used: AF, DE
-	.CPMS	= 4194/4	; 4.194304 MHz
-
+	;;
+	;; One millisecond last for 1048.576 M-cycles on normal speed mode
+	;; This has been rounded to 1048.000 M-cycles
+	;; One millisecond last for 2097.152 M-cycles on double speed mode
+	;; This has been rounded to 2097.000 M-cycles
+loop:
+	; on normal speed mode each iteration lasts for 6 + 1028 + 3 + 1 + 3 + 2 + 2 + 3 = 1048 cycles
+	; on double speed mode each iteration lasts for 6 + 3 + 1 + 6 + 1046 + 2 + 1 + 1 + 3 = 2097 cycles
+	call delay_1028
 _delay::
-.delay::			; 6 cycles for the CALL
-	PUSH	BC		; 4 cycles
-	CALL	.dly		; 12 cycles to return from .dly (6+1+5)
-	LD	B,#.CPMS/20-2	; 2 cycles
-				; =========
-				; 24 cycles
-.ldlp:
-	PUSH	BC		; 4 cycles
-	POP	BC		; 3 cycles
-	PUSH	BC		; 4 cycles
-	POP	BC		; 3 cycles
-	NOP			; 1 cycles
-5$:	DEC	B		; 1 cycles
-	JP	NZ,.ldlp	; 3 cycles (if TRUE: 4 cycles)
-	NOP			; 1 cycles
-				; =========
-				; 20 cycles
-	;; Exit in 16 cycles
-	POP	BC		; 3 cycles
-	PUSH	BC		; 4 cycles
-	POP	BC		; 3 cycles
-	NOP			; 1 cycles
-	NOP			; 1 cycles
-	RET			; 4 cycles
-				; =========
-				; 16 cycles
+.delay::
 
-	;; Delay all but last millisecond
-.dly:
-	DEC	DE		; 2 cycles
-	LD	A,E		; 1 cycles
-	OR	D		; 1 cycles
-	RET	Z		; 2 cycles (upon return: 5 cycles)
-	LD	B,#.CPMS/20-1	; 2 cycles
-				; =========
-				; 8 cycles
-.dlp:
-	PUSH	BC		; 4 cycles
-	POP	BC		; 3 cycles
-	PUSH	BC		; 4 cycles
-	POP	BC		; 3 cycles
-	NOP			; 1 cycles
-	DEC	B		; 1 cycles
-	JP	NZ,.dlp		; 3 cycles (if TRUE: 4 cycles)
-	NOP			; 1 cycles
-				; =========
-				; 20 cycles
-	;; Exit in 15 cycles
-	PUSH	BC		; 4 cycles
-	POP	BC		; 3 cycles
-	NOP			; 1 cycles
-	NOP			; 1 cycles
-	JR	.dly		; 3 cycles
-				; =========
-				; 12 cycles
+	ldh a, (.KEY1)
+	add a
+	call c, delay_1046
+
+	dec de
+	
+	ld a, e
+	or d
+	jr nz, loop
+	nop
+
+delay_1028:
+	; waits for 2 + 147 * 7 = 1031 cycles
+	ld a, #171
+L0:
+	dec a
+	ret z
+L1:
+	jr L0
+delay_1046:
+	; waits for 2 + 3 + 3 + 6 * 173 = 1046 cycles
+	ld a, #173
+	jr L1
