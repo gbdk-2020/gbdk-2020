@@ -13,7 +13,7 @@ typedef struct {unsigned char flag;} atomic_flag;
 #error Support for atomic_flag not implemented
 #endif
 
-_Bool atomic_flag_test_and_set(volatile atomic_flag *object) OLDCALL;
+_Bool atomic_flag_test_and_set(volatile atomic_flag *object);
 
 void atomic_flag_clear(volatile atomic_flag *object);
 
