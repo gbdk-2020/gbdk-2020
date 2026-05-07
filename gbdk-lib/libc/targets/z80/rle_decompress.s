@@ -29,7 +29,7 @@ _rle_decompress::
         pop de
         dec sp
         ex (sp), hl
-        ld b, h
+        ld c, h
         
         ld hl, (rle_cursor)
 
@@ -39,61 +39,60 @@ _rle_decompress::
 
         ld a, (rle_counter)
         or a
-        ld c, a
-        jr z, 1$
+        ld b, a
+        jr z, 0$
 
+        add a
         ld a, (rle_current)
-        bit 7, c
-        jr nz, 7$
-        jp 8$
-1$:
+        jr c, 2$
+        jp 5$
+0$:
         ;; Fetch the run
-        ld c, (hl)
+        ld b, (hl)
         inc hl
 
         ;; Negative means a run
-        bit 7, c
-        jr z, 2$
+        ld a, b
+        add a
+        jr nc, 3$
         ;; Expanding a run
         ld a, (hl)
         inc hl
-3$:
+1$:
         ld (de), a
         inc de
 
-        dec b
-        jr z, 6$
-7$:
-        inc c
-        jp NZ, 3$
-        jp 1$
-2$:
-        ;; Zero means end of a block
-        inc c
         dec c
-        jr z, 4$
+        jr z, 7$
+2$:
+        inc b
+        jp NZ, 1$
+        jp 0$
+3$:
+        ;; Zero means end of a block
+        jr z, 6$
         ;; Expanding a block
-5$:
+4$:
         ldi
         inc bc
 
-        dec b
-        jr z, 6$
-8$:
         dec c
-        jp NZ, 5$
-        jp 1$
-4$:
+        jr z, 7$
+5$:
+        djnz 4$
+        jp 0$
+6$:
         ;; save state and exit
-        ld hl, #0
+        ld h, a                        ; h = 0
+        ld l, a                        ; l = 0
         ld (rle_cursor), hl
         ld (rle_counter), hl
         ret
-6$:
+7$:
         ;; save state and exit
         ld (rle_cursor), hl
         ld hl, #rle_counter
-        ld (hl), c
+        ld (hl), b
         inc hl
         ld (hl), a
         ld l, #1
