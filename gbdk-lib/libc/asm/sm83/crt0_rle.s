@@ -38,11 +38,11 @@ __initrleblock::
         pop     hl
 1$:
         ;; Fetch the run
-        ld      c, (hl)
-        inc     hl
+        ld      a, (hl+)
+        ld      c, a
         ;; Negative means a run
-        bit     7, c
-        jr      Z, 2$
+        add     a
+        jr      nc, 2$
         ;; Expanding a run
         ld      a, (hl+)
 3$:
@@ -53,8 +53,6 @@ __initrleblock::
         jr      1$
 2$:
         ;; Zero means end of a block
-        inc     c
-        dec     c
         jr      Z, 4$
         ;; Expanding a block
 5$:
