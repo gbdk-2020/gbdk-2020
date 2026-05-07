@@ -63,7 +63,7 @@ void *memset (void *s, int c, size_t n);
 
     Returns: Pointer to __s__
 */
-char *reverse(char *s) OLDCALL PRESERVES_REGS(b, c);
+char *reverse(char *s);
 
 /** Concatenate Strings. Appends string __s2__ to the end of string __s1__
 
