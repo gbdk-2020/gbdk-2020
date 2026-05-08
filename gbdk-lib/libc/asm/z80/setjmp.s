@@ -19,10 +19,10 @@ ___setjmp:
 	inc hl
 
 	; Store stack pointer.
-	ex hl, de
+	ex de, hl
 	ld hl, #2
 	add hl, sp
-	ex hl, de
+	ex de, hl
 
 	ld (hl), e
 	inc hl
@@ -37,7 +37,7 @@ ___setjmp:
 	ld (hl), d
 
 	; return 0
-	ex hl, de
+	ex de, hl
 	ld de, #0
 	jp (hl)
 	
@@ -67,15 +67,15 @@ _longjmp:
 	inc hl
 	ld d, (hl)
 	inc hl
-	ex hl, de
+	ex de, hl
 	ld sp, hl
-	ex hl, de
+	ex de, hl
 
 	ld e, (hl)
 	inc hl
 	ld d, (hl)
 	
-	ex hl, de
+	ex de, hl
 	ld d, b
 	ld e, c
 	jp (hl)
