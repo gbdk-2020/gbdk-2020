@@ -7,24 +7,25 @@
 
 ; The Z80 has the ldir instruction, but the chain of ldi is faster.
 _memcpy:
-___memcpy:
+___memcpy:    
     ex de, hl
     pop af
     pop bc
     push af
-    ld a, b
-    or c
-    ret z
     push de
+
     ld a, c
-    and #15
+    or b
+    ret z
+
+    ld a, c
     add a
-    sub #32
     neg
-    ld iy, #1$
-    add iyl
+    and #31
+    
+    add #<1$
     ld iyl, a
-    adc iyh
+    adc #>1$
     sub iyl
     ld iyh, a
     xor a
