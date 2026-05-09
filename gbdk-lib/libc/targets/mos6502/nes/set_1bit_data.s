@@ -34,7 +34,7 @@ _set_bkg_1bpp_data::
     sta *src+1
     ;
     lda *_shadow_PPUCTRL
-    and #0x10
+    and #PPUCTRL_BG_CHR
     ora *src+1
     sta *ppuaddr+1
     lda *src

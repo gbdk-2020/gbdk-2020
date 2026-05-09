@@ -76,7 +76,7 @@ __vram_transfer_buffer_pos_old::        .ds 1
     sta PPUADDR
     ; Clear inc-by-32 bit in both PPUCTRL and _shadow_PPUCTRL, as NMI may re-write PPUCTRL
     lda *_shadow_PPUCTRL
-    and #0xFB
+    and #~PPUCTRL_INC32
     sta *_shadow_PPUCTRL
     sta PPUCTRL
     rts
@@ -93,7 +93,7 @@ __vram_transfer_buffer_pos_old::        .ds 1
     sta PPUADDR
     ; Set inc-by-32 bit in both PPUCTRL and _shadow_PPUCTRL, as NMI may re-write PPUCTRL
     lda *_shadow_PPUCTRL
-    ora #0x04
+    ora #PPUCTRL_INC32
     sta *_shadow_PPUCTRL
     sta PPUCTRL
     rts
