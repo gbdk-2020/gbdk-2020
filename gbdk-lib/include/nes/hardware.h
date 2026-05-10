@@ -97,4 +97,11 @@ extern volatile UBYTE TAC_REG;
 #define LYC_REG _lcd_scanline   /**< LY compare */
 #define rLYC LYC_REG
 
+#if defined(NES_WINDOW_LAYER)
+__SHADOW_REG win_pos_x;
+__SHADOW_REG win_pos_y;
+#define WX_REG win_pos_x
+#define WY_REG win_pos_y
+#endif
+
 #endif

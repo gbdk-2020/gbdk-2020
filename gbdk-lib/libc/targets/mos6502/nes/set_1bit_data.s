@@ -3,7 +3,8 @@
     .globl __current_1bpp_colors
 
     .area	GBDKOVR (PAG, OVR)
-    _set_bkg_1bpp_data_PARM_3:: .ds 2
+    _set_bkg_1bpp_data_PARM_3::
+    _set_win_1bpp_data_PARM_3:: .ds 2
     src:                        .ds 2
     num_tiles:                  .ds 1
     num_planes:                 .ds 1
@@ -19,6 +20,7 @@
     .area   _HOME
 
 _set_bkg_1bpp_data::
+_set_win_1bpp_data::
     stx *num_tiles
     ;
     sta *src

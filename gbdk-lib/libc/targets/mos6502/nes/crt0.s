@@ -7,6 +7,7 @@
 ;  * 16-bit frame counter _sys_time, to support VM routines
 .module crt0
 .include    "global.s"
+.include    "mapper_macros.s"
 
 ; OAM CPU page
 _shadow_OAM             = 0x200
@@ -68,9 +69,23 @@ _bkg_scroll_x::                         .ds 1
 _bkg_scroll_y::                         .ds 1
 _attribute_row_dirty::                  .ds NUM_NT
 _attribute_column_dirty::               .ds NUM_NT
+.ifdef NES_WINDOW_LAYER
+_attribute_row_dirty_win::              .ds NUM_NT
+_attribute_column_dirty_win::           .ds NUM_NT
+.endif
 __oam_valid_display_on::                .ds 1
 __SYSTEM::                              .ds 1
 __hblank_writes_index::                 .ds 1
+
+.ifdef NES_WINDOW_LAYER
+_win_pos_x::                            .ds 1
+_win_pos_y::                            .ds 1
+.endif
+.ifdef VRAM_MAPPER_CFG_ISR
+__lcd_isr_save_s:                       .ds 1
+__current_vram_cfg_write::              .ds 1
+.define __crt0_MAPPER_VRAM_CFG_TEMP "___SDCC_m6502_ret4"
+.endif
 
 .define __crt0_NMITEMP "___SDCC_m6502_ret4"
 
@@ -82,6 +97,9 @@ _attribute_shadow                       = 0x188
 ; Otherwise allocate attribute shadow in data segment, with 64 bytes for each NT/AT
 _attribute_shadow::                     .ds (64*NUM_NT)
 .endif
+.ifdef NES_WINDOW_LAYER
+_attribute_shadow_win::                 .ds (64*NUM_NT)
+.endif
 __crt0_paletteShadow::                  .ds 25
 .mode::                                 .ds 1
 __lcd_isr_PPUCTRL::                     .ds (2*.MAX_DEFERRED_ISR_CALLS)
@@ -90,6 +108,9 @@ __lcd_isr_scroll_x::                    .ds (2*.MAX_DEFERRED_ISR_CALLS)
 __lcd_isr_scroll_y::                    .ds (2*.MAX_DEFERRED_ISR_CALLS)
 __lcd_isr_delay_num_scanlines::         .ds (2*.MAX_DEFERRED_ISR_CALLS)
 __lcd_isr_ppuaddr_lo::                  .ds (2*.MAX_DEFERRED_ISR_CALLS)
+.ifdef VRAM_MAPPER_CFG_ISR
+__lcd_isr_mapper::                      .ds (2*.MAX_DEFERRED_ISR_CALLS)
+.endif
 
 .area _CODE
 
@@ -122,10 +143,17 @@ ProcessDrawList_DoOneTransfer:
     sta PPUADDR                                 ; +4
     pla                                         ; +4
     sta PPUADDR                                 ; +4
-    nop                                         ; +2
+    tay                                         ; +2
     jmp [ProcessDrawList_addr]                  ; +5
     ; Total = 4 + 2 + 2 + 4 + 3 + 6*4 + 2 + 2 + 5 = 48 for each transfer (...+ 8*NumBytesCopied)
     ;         4 + 3 + 14 = 7 + 14 = 21 fixed-cost exit
+
+.ifdef VRAM_MAPPER_CFG_TRANSFER
+ProcessDrawList_mapper_switch::
+    sta MAPPER_WRITE_REG,y                      ; +5
+    jmp ProcessDrawList_DoOneTransfer           ; +3
+    ; Total = 4 + 4 + 4 + 2 + 5 + 5 = 24 for each mapper switch
+.endif
 
 ; .bndry 0x100 (skip alignment as previous alignment means page-cross won't happen)
 __crt0_doSpriteDMA:
@@ -258,9 +286,18 @@ __crt0_NMI:
     lda __lcd_isr_PPUMASK,y
     sta PPUMASK
 
+.ifdef VRAM_MAPPER_CFG_ISR
+    ; Write mapper reg   (note: assumes no bus conflicts!)
+    lda __lcd_isr_mapper,y
+    sta MAPPER_WRITE_REG
+    sta *__crt0_MAPPER_VRAM_CFG_TEMP
+    sta *__crt0_MAPPER_VRAM_CFG_TEMP
+    nop
+.endif
+
     ; Delay and call fake LCD isr if list not empty
     lda __lcd_isr_delay_num_scanlines+1,y   ; Check for first potential LCD write
-    beq __crt0_NMI_skip
+    beq __crt0_NMI_skip_hblank_writes
     ; First delay until end-of-vblank, depending on transfer buffer contents...
     ; (X set to correct delay value by DoUpdateVRAM)
 1$:
@@ -285,6 +322,12 @@ __crt0_NMI:
     iny   ; Move index past VBL write, to first potential LCD write
     ; Call the write reg subroutine
     jsr .do_hblank_writes
+__crt0_NMI_skip_hblank_writes:
+.ifdef VRAM_MAPPER_CFG_ISR
+    lda *__current_bank
+    ora *__crt0_MAPPER_VRAM_CFG_TEMP
+    SWITCH_PRG0_A
+.endif
 __crt0_NMI_skip:
 
 
@@ -578,7 +621,19 @@ __crt0_waitForever:
     .define .ldx_PPUMASK        "__crt0_NMITEMP+3"
     
     ; Delay to make hblank at end of scanline 0
+.ifdef VRAM_MAPPER_CFG_ISR
+    ; Save stack pointer (5 cycles)
+    tsx
+    stx *__lcd_isr_save_s
+    ; 6 cycles to adjust for no-RTS of .delay_fractional (now a macro)
+    ldx #0x00
+    txs
+    nop
+    ; -5 cycles in loop, to account for cycles spent saving stack pointer above
+    ldx #9
+.else
     ldx #10
+.endif
 0$:
     dex
     bne 0$
@@ -596,6 +651,16 @@ __crt0_waitForever:
     cpx #0
     beq 2$      ; Exit if empty buffer (no calls were made within frame)
     dex
+.ifdef VRAM_MAPPER_CFG_ISR
+    txa
+    ldx *__lcd_isr_save_s
+    txs
+    tax
+    nop
+    jsr .delay_to_lcd_scanline
+    jsr .delay_12_cycles
+    jsr .delay_28_cycles
+.else
     jsr .delay_to_lcd_scanline
     jsr .delay_12_cycles
     jsr .delay_28_cycles
@@ -604,10 +669,32 @@ __crt0_waitForever:
     nop
     nop
     lda *0x00
+.endif
 3$:
 
+.ifdef VRAM_MAPPER_CFG_ISR
+    ; Delay for 23.666 NTSC cycles / 16.5625 PAL cycles
+    ldx __lcd_isr_mapper,y
+    txs
+    ;
+    lda #144 ; Initialize A with PAL fractional cycle count
+    ; +7 cycles for NTSC scanlines
+    bit *__SYSTEM
+    bvs 30$
+    lda #171 ; NTSC fractional cycle count
+    nop
+    nop
+    nop
+30$:             ; -> 15 NTSC cycles / 8 PAL cycles
+    ; Add fractional cycles and branch on carry
+    adc *.acc
+    bcs 40$
+40$:
+    sta *.acc   ; -> 8.666 NTSC cycles / 8.5625 PAL cycles
+.else
     ; Delay for 35.666 NTSC cycles / 28.5625 PAL cycles
     jsr .delay_fractional
+.endif
 
     ; Pre-write PPUADDR (1st write) and y-scroll
     sty PPUADDR
@@ -638,12 +725,25 @@ __crt0_waitForever:
     sta PPUADDR
     ldx *.ldx_PPUMASK
     stx PPUMASK
+.ifdef VRAM_MAPPER_CFG_ISR
+    ; Mapper write (note: assumes no bus conflicts!)
+    tsx
+    stx MAPPER_WRITE_REG
+.endif
     sty PPUCTRL
 
     inc *.reg_write_index
     ldy *.reg_write_index
     jmp 1$
 2$:
+.ifdef VRAM_MAPPER_CFG_ISR
+    ; Store MAPPER VRAM CFG
+    tsx
+    stx *__crt0_MAPPER_VRAM_CFG_TEMP
+    ; Restore stack pointer
+    ldx *__lcd_isr_save_s
+    txs
+.endif
     rts
 
 ; Interrupt / RESET vector table

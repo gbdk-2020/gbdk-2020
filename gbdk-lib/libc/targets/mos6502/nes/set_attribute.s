@@ -3,14 +3,46 @@
 .include "global.s"
 
 .area GBDKOVR (PAG, OVR)
-_set_bkg_attribute_xy_nes16x16_PARM_3::     .ds 1
+_set_bkg_attribute_xy_nes16x16_PARM_3::     
+_set_win_attribute_xy_nes16x16_PARM_3::     .ds 1
 .x_odd:                                     .ds 1
 .y_odd:                                     .ds 1
 .val:                                       .ds 1
+.ifdef NES_WINDOW_LAYER
+.winbit:                                    .ds 1
+.endif
 
 .area _HOME
 
+.macro WRITE_ATTRIBUTE ?lbl, ?lbl2
+.ifdef NES_WINDOW_LAYER
+    bit *.winbit
+    bpl lbl
+    and _attribute_shadow_win,y
+    ora *.val
+    sta _attribute_shadow_win,y
+    jmp lbl2
+.endif
+lbl:
+    and _attribute_shadow,y
+    ora *.val
+    sta _attribute_shadow,y
+lbl2:
+.endm
+
+.ifdef NES_WINDOW_LAYER
+_set_win_attribute_xy_nes16x16::
+    sec
+    ror *.winbit
+    jmp _set_attribute_xy_nes16x16_impl
+.endif
+
 _set_bkg_attribute_xy_nes16x16::
+.ifdef NES_WINDOW_LAYER
+    clc
+    ror *.winbit
+.endif
+_set_attribute_xy_nes16x16_impl::
     lsr
     ror *.x_odd
     tay
@@ -55,9 +87,7 @@ _set_bkg_attribute_xy_nes16x16::
     rol
     tax
     lda .mask_tab,x
-    and _attribute_shadow,y
-    ora *.val
-    sta _attribute_shadow,y
+    WRITE_ATTRIBUTE
     ; Set dirty bit for row.
     ; Assume writing rows, as the potential to optimize column writing is limited anyway.
     pla
@@ -68,12 +98,29 @@ _set_bkg_attribute_xy_nes16x16::
     lda .bitmask_dirty_tab,x
     ; Merge A with current attribute_row_dirty flag
 .ifdef NES_TILEMAP_S
+.ifdef NES_WINDOW_LAYER
+    bit *.winbit
+    bpl 9$
+    ora *_attribute_row_dirty_win
+    sta *_attribute_row_dirty_win
+    jmp 8$
+9$:
     ora *_attribute_row_dirty
     sta *_attribute_row_dirty
+8$:
+.endif
 .endif
 .ifdef NES_TILEMAP_H
     pha
     ldx #0
+.ifdef NES_WINDOW_LAYER
+    ; 2 nametables - window dirty byte is += 2 bytes
+    bit *.winbit
+    bpl 9$
+    inx
+    inx
+9$:
+.endif
     tya
     and #AT_WIDTH
     beq 10$
@@ -86,6 +133,14 @@ _set_bkg_attribute_xy_nes16x16::
 .ifdef NES_TILEMAP_V
     pha
     ldx #0
+.ifdef NES_WINDOW_LAYER
+    ; 2 nametables - window dirty byte is += 2 bytes
+    bit *.winbit
+    bpl 9$
+    inx
+    inx
+9$:
+.endif
     tya
     and #(AT_HEIGHT*AT_SHADOW_WIDTH)
     beq 10$
@@ -98,6 +153,16 @@ _set_bkg_attribute_xy_nes16x16::
 .ifdef NES_TILEMAP_F
     pha
     ldx #0
+.ifdef NES_WINDOW_LAYER
+    ; With 4 nametables, window dirty byte is += 4 bytes
+    bit *.winbit
+    bpl 9$
+    inx
+    inx
+    inx
+    inx
+9$:
+.endif
     tya
     and #AT_WIDTH
     beq 10$

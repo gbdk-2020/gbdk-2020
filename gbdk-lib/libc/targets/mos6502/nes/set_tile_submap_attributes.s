@@ -57,7 +57,7 @@
     INC_ROW_SRC
 .endm
 
-.macro SET_DIRTY_ROW
+.macro SET_DIRTY_ROW ?lbl
     lda *.xpos
     and #AT_SHADOW_WIDTH-1
     tax
@@ -70,6 +70,12 @@
 .ifne NT_2W
     cpx #ATTRIBUTE_PACKED_WIDTH
     rol
+.endif
+.ifdef NES_WINDOW_LAYER
+    bit *__current_vram_cfg_write
+    bpl lbl
+    eor #(2*NUM_NT)
+lbl:
 .endif
     tax
     lda .bitmask_table,y
@@ -85,7 +91,7 @@
 .endif
 .endm
 
-.macro SET_DIRTY_COLUMN
+.macro SET_DIRTY_COLUMN ?lbl
     lda *.xpos
     and #AT_SHADOW_WIDTH-1
     tay
@@ -98,6 +104,12 @@
 .ifne NT_2W
     cpy #ATTRIBUTE_PACKED_WIDTH
     rol
+.endif
+.ifdef NES_WINDOW_LAYER
+    bit *__current_vram_cfg_write
+    bpl lbl
+    eor #(2*NUM_NT)
+lbl:
 .endif
     tax
     lda .bitmask_table,y
@@ -430,10 +442,22 @@ _set_bkg_submap_attributes_verticalStripes_columnLoop:
 
 .write_to_shadow:
     COORDS_TO_IDX
+.ifdef NES_WINDOW_LAYER
+    bit *__current_vram_cfg_write
+    bmi 1$
+.endif
     and _attribute_shadow,x
     ora *.tmp
     sta _attribute_shadow,x
     rts
+; Window version
+.ifdef NES_WINDOW_LAYER
+1$:
+    and _attribute_shadow_win,x
+    ora *.tmp
+    sta _attribute_shadow_win,x
+    rts
+.endif
 
 .bitmask_table:
 .db 0b00000001

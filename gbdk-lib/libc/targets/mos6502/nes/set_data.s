@@ -3,7 +3,8 @@
 
     .area	GBDKOVR (PAG, OVR)
     _set_sprite_data_PARM_3::
-    _set_bkg_data_PARM_3::      .ds 2
+    _set_bkg_data_PARM_3::
+    _set_win_data_PARM_3::	    .ds 2
     .ppu_addr_lo:               .ds 1
     .ppu_addr_hi:               .ds 1
     src:                        .ds 2
@@ -12,6 +13,7 @@
     .area   _HOME
 
 _set_bkg_data::
+_set_win_data::
     sta *.ppu_addr_lo
     lda *_set_bkg_data_PARM_3
     sta *src
