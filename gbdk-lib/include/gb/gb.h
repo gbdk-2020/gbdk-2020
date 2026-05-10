@@ -1708,6 +1708,22 @@ void get_win_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *tiles) O
  */
 uint8_t * set_win_tile_xy(uint8_t x, uint8_t y, uint8_t t);
 
+/** Set single attribute data a on window layer at x,y
+    @param x X-coordinate
+    @param y Y-coordinate
+    @param a tile attributes
+    @return returns the address of tile attribute, so you may use faster set_vram_byte() later
+
+    @note On the Game Boy this is only usable in Game Boy Color mode
+*/
+inline uint8_t * set_win_attribute_xy(uint8_t x, uint8_t y, uint8_t a)
+{
+    uint8_t* addr;
+    VBK_REG = VBK_ATTRIBUTES;
+    addr = set_win_tile_xy(x, y, a);
+    VBK_REG = VBK_TILES;
+    return addr;
+}
 
 /**
  * Get single tile t on window layer at x,y
