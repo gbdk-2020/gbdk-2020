@@ -926,7 +926,7 @@ uint8_t * set_bkg_tile_xy(uint8_t x, uint8_t y, uint8_t t) NO_OVERLAY_LOCALS;
 #define set_tile_xy set_bkg_tile_xy
 
 /**
-    Set single attribute data a on background layer at x,y
+    Set single 2x2 tile attribute a on background layer at x,y
 
     @param x X-coordinate
     @param y Y-coordinate
@@ -935,7 +935,7 @@ uint8_t * set_bkg_tile_xy(uint8_t x, uint8_t y, uint8_t t) NO_OVERLAY_LOCALS;
 void set_bkg_attribute_xy_nes16x16(uint8_t x, uint8_t y, uint8_t a) NO_OVERLAY_LOCALS;
 
 /**
-    Set single attribute data a on background layer at x,y
+    Set single 2x2 tile attribute a on background layer at x,y
 
     Please note that this is just a wrapper function for set_bkg_submap_attributes_nes16x16()
     and divides the coordinates and dimensions by 2 to achieve this.
