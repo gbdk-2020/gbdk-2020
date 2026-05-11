@@ -907,7 +907,7 @@ uint8_t * set_tile_xy(uint8_t x, uint8_t y, uint8_t t) Z88DK_CALLEE PRESERVES_RE
 #define set_win_tile_xy set_tile_xy
 
 /**
- * Set single attribute data a on background layer at x,y
+ * Set single tile attribute a on background layer at x,y
  * @param x X-coordinate
  * @param y Y-coordinate
  * @param a tile attributes

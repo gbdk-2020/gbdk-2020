@@ -1409,7 +1409,7 @@ void get_bkg_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *tiles) O
 uint8_t * set_bkg_tile_xy(uint8_t x, uint8_t y, uint8_t t);
 #define set_tile_xy set_bkg_tile_xy
 
-/** Set single attribute data a on background layer at x,y
+/** Set single tile attribute a on background layer at x,y
     @param x X-coordinate
     @param y Y-coordinate
     @param a tile attributes
@@ -1708,7 +1708,7 @@ void get_win_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t *tiles) O
  */
 uint8_t * set_win_tile_xy(uint8_t x, uint8_t y, uint8_t t);
 
-/** Set single attribute data a on window layer at x,y
+/** Set single tile attribute a on window layer at x,y
     @param x X-coordinate
     @param y Y-coordinate
     @param a tile attributes
