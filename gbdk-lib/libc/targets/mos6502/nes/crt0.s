@@ -251,7 +251,7 @@ __crt0_NMI:
   
     ; Write PPUCTRL and force NMI enabled to avoid deadlock from buggy isr handlers
     lda __lcd_isr_PPUCTRL,y
-    ora #0x80
+    ora #PPUCTRL_NMI
     sta PPUCTRL
 
     ; Write PPUMASK, in case it was disabled
@@ -558,7 +558,7 @@ __crt0_RESET_bankSwitchValue:
     ; 
     lda #(PPUMASK_SHOW_BG | PPUMASK_SHOW_SPR | PPUMASK_SHOW_BG_LC | PPUMASK_SHOW_SPR_LC)
     sta *_shadow_PPUMASK
-    lda #0x80
+    lda #OAM_VALID_MASK
     sta *__oam_valid_display_on
     ; enable NMI
     lda #(PPUCTRL_NMI | PPUCTRL_SPR_CHR)
