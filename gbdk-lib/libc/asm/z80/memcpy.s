@@ -12,11 +12,12 @@ ___memcpy:
     pop af
     pop bc
     push af
-    push de
 
     ld a, c
     or b
     ret z
+    
+    push de
 
     ld a, c
     add a
