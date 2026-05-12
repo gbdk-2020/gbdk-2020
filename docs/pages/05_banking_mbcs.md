@@ -203,6 +203,9 @@ Banked functions (located in a switchable ROM bank)
     - A @ref wrapped_function_for_banked_data "NONBANKED wrapper function" may be used to access data in other banks.
     - Banks cannot be switched manually from inside a BANKED function (otherwise it will switch out it's own function code as it is executing it, likely leading to a crash).
 
+Incompatible function keywords
+  - Combining the `static` and `BANKED` keywords together for a function is not supported with autobanking, nor is it recommended generally. In that scenario the banked function will not export a symbol for its bank, meaning banked calls to it (even within the same source file) will not have the target bank updated after auto bank assignment and so are likely to crash.
+
 Limitations:
   - SDCC banked calls and far_pointers in GBDK only save one byte for the ROM bank. So, for example, they are limited to __bank 31__ max for MBC1 and __bank 255__ max for MBC5. This is due to the bank switching for those MBCs requiring a second, additional write to select the upper bits for more banks (banks 32+ in MBC1 and banks 256+ in MBC5).
 
