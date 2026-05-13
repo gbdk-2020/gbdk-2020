@@ -20,6 +20,8 @@ _reverse::
         ret z      ; return if length == 1 
 
         ; determine the middle of the string
+        ld b, a
+        ld c, a
         cpir
         add hl, de
         rr h
