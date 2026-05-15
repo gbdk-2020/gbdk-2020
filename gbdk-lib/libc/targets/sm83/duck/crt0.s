@@ -8,8 +8,7 @@
         .area   _HEADER (ABS)
 
         ;; RST vectors
-        .org    0x00            ; MEGADUCK entry point/reset
-        JP      .code_start
+;       .org    0x00            ; MEGADUCK entry point/reset
 
 ;       .org    0x08            ; --profile handler utilized by emu_debug.h
 

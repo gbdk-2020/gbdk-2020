@@ -149,10 +149,8 @@ _set_interrupts::
         RET
 
         ;; GameBoy Header
-        .org    0x100
-.header:
-        JR      .code_start
-
+;		.org    0x100			; entry point
+		
         ;; Nintendo logo
         .org    0x104
         .byte   0xCE,0xED,0x66,0x66
