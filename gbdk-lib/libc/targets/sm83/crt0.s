@@ -8,7 +8,7 @@
         .area   _HEADER (ABS)
 
         ;; RST vectors
-;       .org    0x00            ; Trap, utilized by crash_handler.h
+;       .org    0x00            ; Trap, utilized by crash_handler.h (for GB/AP)/ Entry point (for Duck)
 
 ;       .org    0x08            ; --profile handler utilized by emu_debug.h
 
@@ -19,6 +19,21 @@
         .org    0x20            ; RST 0x20 == call HL
 .call_hl::
         JP      (HL)
+		; since an rst handler is always 8 bytes big, its possible to put some stuff in the 7 remaining bytes
+.call_bc::
+		push bc
+		ret
+.call_de::
+		push de
+		ret
+
+		; Hardcode the cpu type in ROM for the MegaDuck since it can only have one cpu type
+.ifdef PLATETEFORM_DUCK
+__cpu::
+		.db .DMG_TYPE
+__is_GBA::
+		.db 0x00
+.endif
 
         .org    0x28            ; zero up to 256 bytes in C pointed by HL
 .MemsetSmall::
@@ -47,7 +62,7 @@
         PUSH    AF
         PUSH    HL
         LD      HL,#.int_0x40
-        JP      .int
+        JR      .int
 
 ;       .org    0x48            ; LCD
 
@@ -159,37 +174,44 @@ _set_interrupts::
         ;; soft reset: falldown to .code_start
 .reset::
 _reset::
+
+.ifndef PLATEFORM_DUCK
         LD      A, (__is_GBA)
         LD      B, A
         LD      A, (__cpu)
-
+.endif
         ;; Initialization code
-.code_start::
-        DI                      ; Disable interrupts
-        LD      D, A            ; Store CPU type in D
-        LD      E, B            ; Store GBA flag in E
-        ;; Initialize the stack
+.code_start::                     
+		DI						; Disable interrupts
+		;; Initialize the stack
         LD      SP, #.STACK
+		
+.ifndef PLATEFORM_DUCK
+        LD      C, A            ; Store CPU type in C
+								; GBA flag is in B
+		PUSH    BC
+.endif
 
-        PUSH    DE
         ;; Turn the screen off
         CALL    .display_off
         ;; Clear the static storage
         CALL    .clear_WRAM
-        POP     DE
 
 ;       LD      (.mode),A       ; Clearing (.mode) is performed when clearing RAM
 
-        ;; Store CPU type
-        LD      A, D
+.ifndef PLATEFORM_DUCK			; The CPU type is hardcoded in ROM for the MegaDuck, so no need to initialize it
+        
+		POP     BC				; get the cpu type and GBA flag
+		;; Store CPU type
+		LD      A, C
         LD      (__cpu), A
         CP      #.CGB_TYPE
         JR      NZ, 1$
-        XOR     A
-        SRL     E
-        RLA
+        LD		A, B
         LD      (__is_GBA), A
 1$:
+.endif
+
         XOR     A
         ;; Initialize the display
         LDH     (.SCY),A
@@ -248,10 +270,9 @@ _reset::
         ;; Call the main function
         CALL    _main
 _exit::
-99$:
         HALT
         NOP
-        JR      99$             ; Wait forever
+        JR      _exit             ; Wait forever
 
         ;; Wait for VBL interrupt to be finished
 .wait_vbl_done::
@@ -368,11 +389,16 @@ _add_VBL::
 
         .area   _DATA
 .start_crt_globals:
-
+		
+		; no need to store the cpu type in RAM for the MegaDuck since it only have one cpu type
+		; it is stored in ROM instead
+.ifndef PLATEFORM_DUCK			
 __cpu::
         .ds     0x01            ; GB type (GB, PGB, CGB)
 __is_GBA::
         .ds     0x01            ; detect GBA
+.endif
+
 .mode::
         .ds     0x01            ; Current mode
 .sys_time::
@@ -432,7 +458,7 @@ gsinit::
         LD      A, B
         OR      C
         RET     Z
-
+		
         SRL     B
         RR      C
         JR      NC,3$

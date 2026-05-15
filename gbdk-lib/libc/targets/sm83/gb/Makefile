@@ -39,7 +39,7 @@ ASSRC =	cgb.s cgb_palettes.s cgb_compat.s \
 	heap.s \
 	sfr.s \
 	display_off.s \
-	entrypoint.s \
+	gameboy_header.s \
 	crt0.s
 
 CRT0 =	crt0.s

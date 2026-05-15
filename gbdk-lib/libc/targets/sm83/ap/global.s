@@ -1,4 +1,7 @@
-        _VRAM           = 0x8000 ; $8000->$9FFF
+        PLATEFORM_AP	= 1
+		
+		; Memory map
+		_VRAM           = 0x8000 ; $8000->$9FFF
         _VRAM8000       = 0x8000
         _VRAM8800       = 0x8800
         _VRAM9000       = 0x9000
