@@ -147,60 +147,12 @@ _set_interrupts::
         .org    .MODE_TABLE
         ;; Jump table for modes: 4 modes, 4 bytes each 16 bytes total
         RET
-
-        ;; GameBoy Header
-;		.org    0x100			; entry point
 		
-        ;; Nintendo logo
-        .org    0x104
-        .byte   0xCE,0xED,0x66,0x66
-        .byte   0xCC,0x0D,0x00,0x0B
-        .byte   0x03,0x73,0x00,0x83
-        .byte   0x00,0x0C,0x00,0x0D
-        .byte   0x00,0x08,0x11,0x1F
-        .byte   0x88,0x89,0x00,0x0E
-        .byte   0xDC,0xCC,0x6E,0xE6
-        .byte   0xDD,0xDD,0xD9,0x99
-        .byte   0xBB,0xBB,0x67,0x63
-        .byte   0x6E,0x0E,0xEC,0xCC
-        .byte   0xDD,0xDC,0x99,0x9F
-        .byte   0xBB,0xB9,0x33,0x3E
-
-        ;; Title of the game
-        .org    0x134
-        .asciz  "Title"
-
-        .org    0x144
-        .byte   0,0,0
-
-        ;; Cartridge type is ROM only
-        .org    0x147
-        .byte   0
-
-        ;; ROM size is 32kB
-        .org    0x148
-        .byte   0
-
-        ;; RAM size is 0kB
-        .org    0x149
-        .byte   0
-
-        ;; Maker ID
-        .org    0x14A
-        .byte   0x00,0x00
-
-        ;; Version number
-        .org    0x14C
-        .byte   0x01
-
-        ;; Complement check
-        .org    0x14D
-        .byte   0x00
-
-        ;; Checksum
-        .org    0x14E
-        .byte   0x00,0x00
-
+		
+		.org	.ENTRY_POINT
+		
+		jp 	.code_start
+		
         ;; ****************************************
         .org    0x150
 

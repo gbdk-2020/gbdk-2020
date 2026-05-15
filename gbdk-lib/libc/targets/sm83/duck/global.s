@@ -442,7 +442,10 @@
 
         ;; Table of routines for modes
         .MODE_TABLE     = 0x00F0
-
+		
+		;; Entry point of the MegaDuck
+		.ENTRY_POINT	= 0x0000
+		
         ;; C related
         ;; Overheap of a banked call.  Used for parameters
         ;;  = ret + real ret + bank

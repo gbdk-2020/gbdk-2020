@@ -9,7 +9,7 @@
 
         ;; RST vectors
 ;       .org    0x00            ; MEGADUCK entry point/reset
-
+		
 ;       .org    0x08            ; --profile handler utilized by emu_debug.h
 
 ;       .org    0x10            ; empty
@@ -147,13 +147,17 @@ _set_interrupts::
         .org    .MODE_TABLE
         ;; Jump table for modes
         RET
-
+	
+	
+		.org	.ENTRY_POINT
+		
+		jp 	.code_start
+	
         .org    0x150
 
         ;; soft reset: falldown to .code_start
 .reset::
 _reset::
-
         ;; Initialization code
 .code_start::
         DI                      ; Disable interrupts

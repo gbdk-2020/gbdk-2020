@@ -442,7 +442,10 @@
 
         ;; Table of routines for modes
         .MODE_TABLE     = 0x00F0
-
+		
+		;; Entry point of the Gameboy
+		.ENTRY_POINT	= 0x0100
+		
         ;; C related
         ;; Overheap of a banked call.  Used for parameters
         ;;  = ret + real ret + bank
