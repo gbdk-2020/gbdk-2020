@@ -20,13 +20,6 @@
 .call_hl::
         JP      (HL)
 		; since an rst handler is always 8 bytes big, its possible to put some stuff in the 7 remaining bytes
-.call_bc::
-		push bc
-		ret
-.call_de::
-		push de
-		ret
-
 		; Hardcode the cpu type in ROM for the MegaDuck since it can only have one cpu type
 .ifdef PLATETEFORM_DUCK
 __cpu::
