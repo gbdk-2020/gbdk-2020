@@ -1,14 +1,25 @@
     .include    "global.s"
 
-    ; NOTE: This overlay arrangement MUST match that of set_bkg_based_submap
+    ; NOTE: This overlay arrangement MUST match that of set_bkg/win[_based]_submap
     .area   GBDKOVR (PAG, OVR)
     _set_bkg_tiles_PARM_3::
-    _set_bkg_based_tiles_PARM_3::   .ds 1
+    _set_bkg_based_tiles_PARM_3::
+    _set_win_tiles_PARM_3::
+    _set_win_based_tiles_PARM_3::   .ds 1
+    ;
     _set_bkg_tiles_PARM_4::
-    _set_bkg_based_tiles_PARM_4::   .ds 1
+    _set_bkg_based_tiles_PARM_4::
+    _set_win_tiles_PARM_4::
+    _set_win_based_tiles_PARM_4::   .ds 1
+    ;
     _set_bkg_tiles_PARM_5::
-    _set_bkg_based_tiles_PARM_5::   .ds 2
-    _set_bkg_based_tiles_PARM_6::   .ds 1
+    _set_bkg_based_tiles_PARM_5::
+    _set_win_tiles_PARM_5::
+    _set_win_based_tiles_PARM_5::   .ds 2
+    ;
+    _set_bkg_based_tiles_PARM_6::
+    _set_win_based_tiles_PARM_6::   .ds 1
+    ;
     .padding::                      .ds 1
     .xpos:                          .ds 1
     .ypos:                          .ds 1
@@ -24,6 +35,23 @@
     .define .tile_offset    "_set_bkg_based_submap_PARM_7"
 
     .area   _HOME
+
+.ifdef NES_WINDOW_LAYER
+_set_win_tiles::
+    ldy #0
+    sty *_set_win_based_tiles_PARM_6
+_set_win_based_tiles::
+    tay
+    lda *__current_vram_cfg_write
+    pha
+    ora #PPUHI_WIN
+    sta *__current_vram_cfg_write
+    tya
+    jsr _set_bkg_tiles
+    pla
+    sta *__current_vram_cfg_write
+    rts
+.endif
 
 _set_bkg_tiles::
     ldy #0

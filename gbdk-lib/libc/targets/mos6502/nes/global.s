@@ -7,8 +7,6 @@
 
         ;; Transfer buffer (lower half of hardware stack)
         __vram_transfer_buffer = 0x100
-        ;; Number of 8-cycles available each frame for transfer buffer
-        VRAM_DELAY_CYCLES_X8  = 171
 
         ; Bits for quick checking of OAM validity and display ON/OFF
         OAM_VALID_MASK      = 0x80
@@ -186,6 +184,39 @@
         .globl __crt0_paletteShadow
         .globl _attribute_shadow, _attribute_row_dirty
         
+.ifdef NES_WINDOW_LAYER
+        .globl _attribute_shadow_win, __current_vram_cfg_write
+        ; Number of 8-cycles available each frame for transfer buffer are 1 less with mapper write added
+        VRAM_DELAY_CYCLES_X8 = 169
+        ; The VRAM write routines rely on bit 15 of the address (=bit 7 of the high portion) to indicate 
+        ; that any address in the nametable region (0x2000 - 0x2FFF) writes to the window instead of bkg.
+        ; This constant should never be changed as instructions are frequently used to test bit7 efficiently.
+        ; Note that bit 15 does not exist in hardware, as PPU address is only 14 bits. It is purely
+        ; a software concept to simplify the mapper state handling for VRAM updates.
+        PPUHI_WIN = 0x80
+
+        ;
+        ; SHOW_WINDOW bit
+        ;
+        WINDOW_ON_MASK = 0x20
+
+        ;
+        ; Support mapper vram configuration for VRAM transfer buffer.
+        ; Currently only useful when NES_WINDOW_LAYER is enabled.
+        ;
+        VRAM_MAPPER_CFG_TRANSFER = 1
+
+        ;
+        ; Support mapper vram configuration for deferred-ISR routines.
+        ; Currently only useful when NES_WINDOW_LAYER is enabled.
+        ;
+        VRAM_MAPPER_CFG_ISR = 1
+
+        MAPPER_CFG_NT_MASK = 0x80
+.else
+        VRAM_DELAY_CYCLES_X8 = 171
+.endif
+
         ;; Identity table for register-to-register-adds and bankswitching
         .globl .identity, _identity
 

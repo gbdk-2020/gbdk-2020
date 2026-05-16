@@ -1,7 +1,8 @@
     .include    "global.s"
 
     .area   GBDKOVR (PAG, OVR)
-    _set_bkg_tile_xy_PARM_3::   .ds 1   ; (shared with _set_vram_byte_PARM_2)
+    _set_bkg_tile_xy_PARM_3::
+    _set_win_tile_xy_PARM_3::   .ds 1   ; (shared with _set_vram_byte_PARM_2)
     .bkg_tile_ppu_addr::        .ds 2
     .ppuhi:                     .ds 1
 
@@ -11,6 +12,17 @@
 .define PPUHI_MASK "#>PPU_NT0"
 .else
 .define PPUHI_MASK "*.ppuhi"
+.endif
+
+.ifdef NES_WINDOW_LAYER
+_get_win_xy_addr::
+    jsr _get_bkg_xy_addr
+    tay
+    txa
+    ora #PPUHI_WIN
+    tax
+    tya
+    rts
 .endif
 
 _get_bkg_xy_addr::
@@ -74,3 +86,15 @@ _get_bkg_xy_addr::
 _set_bkg_tile_xy::
     jsr _get_bkg_xy_addr
     jmp _set_vram_byte
+
+.ifdef NES_WINDOW_LAYER
+_set_win_tile_xy::
+    jsr _get_bkg_xy_addr
+    pha
+    txa
+    ora #PPUHI_WIN
+    tax
+    pla
+    jsr _set_vram_byte
+    rts
+.endif

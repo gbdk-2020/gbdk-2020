@@ -2,14 +2,23 @@
 
     .area   GBDKOVR (PAG, OVR)
     _set_bkg_submap_PARM_3::
-    _set_bkg_based_submap_PARM_3::  .ds 1
+    _set_bkg_based_submap_PARM_3::
+    _set_win_submap_PARM_3::
+    _set_win_based_submap_PARM_3::  .ds 1
     _set_bkg_submap_PARM_4::
-    _set_bkg_based_submap_PARM_4::  .ds 1
+    _set_bkg_based_submap_PARM_4::
+    _set_win_submap_PARM_4::
+    _set_win_based_submap_PARM_4::  .ds 1
     _set_bkg_submap_PARM_5::
-    _set_bkg_based_submap_PARM_5::  .ds 2
+    _set_bkg_based_submap_PARM_5::  
+    _set_win_submap_PARM_5::
+    _set_win_based_submap_PARM_5::  .ds 2
     _set_bkg_submap_PARM_6::
-    _set_bkg_based_submap_PARM_6::  .ds 1
-    _set_bkg_based_submap_PARM_7::  .ds 1
+    _set_bkg_based_submap_PARM_6::
+    _set_win_submap_PARM_6::
+    _set_win_based_submap_PARM_6::  .ds 1
+    _set_bkg_based_submap_PARM_7::
+    _set_win_based_submap_PARM_7::  .ds 1
     .xpos:                          .ds 1
     .ypos:                          .ds 1
     .num_rows:                      .ds 1
@@ -30,6 +39,21 @@
 .define PPUHI_MASK "#>PPU_NT0"
 .else
 .define PPUHI_MASK "*.ppuhi"
+.endif
+
+.ifdef NES_WINDOW_LAYER
+_set_win_submap::
+    ldy #0
+    sty *.tile_offset
+_set_win_based_submap::
+    lda *__current_vram_cfg_write
+    pha
+    ora #PPUHI_WIN
+    sta *__current_vram_cfg_write
+    jsr _set_bkg_based_submap
+    pla
+    sta *__current_vram_cfg_write
+    rts
 .endif
 
 _set_bkg_submap::

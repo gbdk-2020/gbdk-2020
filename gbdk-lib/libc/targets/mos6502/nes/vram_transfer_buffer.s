@@ -6,6 +6,8 @@
 .title  "VRAMBuffer"
 .module VRAMBuffer
 
+.include "mapper_macros.s"
+
 ;
 ; Format of transfer buffer
 ;
@@ -61,6 +63,7 @@ __vram_transfer_buffer_pos_w::          .ds 1
 __vram_transfer_buffer_pos_old::        .ds 1
 
 .define __vram_transfer_buffer_temp     "(REGTEMP+6)"
+.define ppu_addr ".tmp"
 
 .area   _HOME
 
@@ -74,6 +77,9 @@ __vram_transfer_buffer_pos_old::        .ds 1
     ; Direct write
     stx PPUADDR
     sta PPUADDR
+.ifdef VRAM_MAPPER_CFG_TRANSFER
+    jsr __switch_win_addr_temp
+.endif
     ; Clear inc-by-32 bit in both PPUCTRL and _shadow_PPUCTRL, as NMI may re-write PPUCTRL
     lda *_shadow_PPUCTRL
     and #~PPUCTRL_INC32
@@ -91,6 +97,9 @@ __vram_transfer_buffer_pos_old::        .ds 1
     ; Direct write
     stx PPUADDR
     sta PPUADDR
+.ifdef VRAM_MAPPER_CFG_TRANSFER
+    jsr __switch_win_addr_temp
+.endif
     ; Set inc-by-32 bit in both PPUCTRL and _shadow_PPUCTRL, as NMI may re-write PPUCTRL
     lda *_shadow_PPUCTRL
     ora #PPUCTRL_INC32
@@ -104,6 +113,13 @@ __vram_transfer_buffer_pos_old::        .ds 1
     pha
     txa
     pha
+.ifdef NES_WINDOW_LAYER
+    lda *__current_vram_cfg_write
+    and #MAPPER_CFG_NT_MASK
+    ora .identity,x
+    sta *ppu_addr+1
+    tay
+.endif
     lda #0
     rol
     asl
@@ -115,6 +131,20 @@ __vram_transfer_buffer_pos_old::        .ds 1
     lda *__vram_transfer_buffer_pos_w
     cmp #128-VRAM_MAX_STRIPE_SIZE
     bcs 2$
+.ifdef NES_WINDOW_LAYER
+    ldx *__vram_transfer_buffer_pos_w
+    ; if transfer buffer is empty, we must always re-initialize mapper with fresh write
+    beq 3$
+    ; otherwise check the previous address. if there's a difference in bank bits, we need to re-initialize mapper 
+    ldx *__vram_transfer_buffer_pos_old
+    tya
+    eor __vram_transfer_buffer+VRAM_HDR_PPUHI,x
+    and #PPUHI_WIN
+    beq 4$
+3$:
+    jsr .ppu_write_mapper_indirect
+4$:
+.endif
     ; Lock buffer and store current write pointer for later
     VRAM_BUFFER_LOCK
     ldy *__vram_transfer_buffer_pos_w
@@ -206,13 +236,15 @@ __vram_transfer_buffer_pos_old::        .ds 1
 ;
 _set_vram_byte::
 .ppu_stripe_append::
-    .define ppu_addr ".tmp"
     ;
     bit *__oam_valid_display_on
     bvc .ppu_stripe_append_indirect
     ; Direct write
     stx PPUADDR
     sta PPUADDR
+.ifdef VRAM_MAPPER_CFG_TRANSFER
+    jsr __switch_win_addr_temp
+.endif
     ldy *_set_vram_byte_PARM_2
     sty PPUDATA
     rts
@@ -281,6 +313,9 @@ _set_vram_byte::
     jmp .ppu_stripe_append_1byte
 
 .ppu_stripe_append_failed:
+.ifdef NES_WINDOW_LAYER
+    jsr .ppu_write_mapper_indirect
+.endif
     ; Just create a new stripe with a single byte
     ldy *__vram_transfer_buffer_pos_w
     sty *__vram_transfer_buffer_pos_old
@@ -358,3 +393,75 @@ _set_vram_byte::
     lda *ppu_addr
     ldx *ppu_addr+1
     rts
+
+.ifdef NES_WINDOW_LAYER
+.ppu_write_mapper:
+    clc
+    bit *__oam_valid_display_on
+    bvc .ppu_write_mapper_indirect
+.ppu_write_mapper_direct:
+    ; Direct write
+    SWITCH_PRG0_A
+    rts
+
+.ppu_write_mapper_indirect:
+    pha
+    ; Unlock buffer (if this routine was called while unlocked)
+    VRAM_BUFFER_UNLOCK
+    ; Ensure there's at least VRAM_MAX_STRIPE_SIZE bytes remaining to write before progressing
+    ; This conservative limit simplifies conditions for rest of stripe in order to write single bytes with no checks
+2$:
+    lda *__vram_transfer_buffer_pos_w
+    cmp #128-VRAM_MAX_STRIPE_SIZE
+    bcs 2$
+    ; Lock buffer and store current write pointer for later
+    VRAM_BUFFER_LOCK
+    ldy *__vram_transfer_buffer_pos_w
+    sty *__vram_transfer_buffer_pos_old
+
+    ; Write direction (assume horizontal) and new terminator byte
+    lda #0
+    sta __vram_transfer_buffer+VRAM_HDR_DIRECTION,y
+    sta __vram_transfer_buffer+VRAM_HDR_SIZEOF+1,y
+    ; Write jmp addr
+    lda #<ProcessDrawList_mapper_switch
+    sta __vram_transfer_buffer+VRAM_HDR_JMPADDR,y
+    ; Write mapper value to PPUADDR_LO
+    lda *ppu_addr+1
+    ora *__current_vram_cfg_write
+    and #PPUHI_WIN
+    sta __vram_transfer_buffer+VRAM_HDR_PPULO,y
+
+    ; Increase write pointer
+    tya
+    clc
+    adc #VRAM_HDR_SIZEOF
+    ; store new write pointer
+    sta *__vram_transfer_buffer_pos_w
+
+    ; __vram_transfer_buffer_num_cycles_x8 -= 5 (assumes carry clear)
+    lda *__vram_transfer_buffer_num_cycles_x8
+    sbc #4
+    sta *__vram_transfer_buffer_num_cycles_x8
+    ldy *__vram_transfer_buffer_temp
+
+    dec *__vram_transfer_buffer_num_cycles_x8
+
+    VRAM_BUFFER_UNLOCK
+    pla
+    rts
+.endif
+
+.ifdef NES_WINDOW_LAYER
+__switch_bkg::
+    lda *__current_vram_cfg_write
+    and #~PPUHI_WIN
+    sta *__current_vram_cfg_write
+    rts
+
+__switch_win::
+    lda *__current_vram_cfg_write
+    ora #PPUHI_WIN
+    sta *__current_vram_cfg_write
+    rts
+.endif

@@ -606,6 +606,22 @@ void refresh_OAM(void) NO_OVERLAY_LOCALS;
 #define HIDE_BKG \
     shadow_PPUMASK &= ~PPUMASK_SHOW_BG;
 
+/** Turns on the Window layer
+    Sets bit 5 of the LCDC register to 1.
+
+    This only controls Window visibility. If either
+    the Background layer (which the window is part of)
+    or the Display are not turned then the Window contents
+    will not be visible. Those can be turned on using
+    @ref SHOW_BKG and @ref DISPLAY_ON.
+*/
+#define SHOW_WIN _show_window();
+
+/** Turns off the window layer.
+    Clears bit 5 of the LCDC register to 0.
+*/
+#define HIDE_WIN _hide_window();
+
 /** Turns on the sprites layer.
     Sets bit 1 of the LCDC register to 1.
 */
@@ -898,7 +914,7 @@ void set_bkg_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *m
 
     @see set_bkg_submap for more details
 */
-inline void set_bkg_based_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w, uint8_t base_tile);
+void set_bkg_based_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w, uint8_t base_tile) NO_OVERLAY_LOCALS;
 
 
 /** Copies a rectangular region of Background Tile Map entries into a buffer.
@@ -935,6 +951,15 @@ uint8_t * set_bkg_tile_xy(uint8_t x, uint8_t y, uint8_t t) NO_OVERLAY_LOCALS;
 void set_bkg_attribute_xy_nes16x16(uint8_t x, uint8_t y, uint8_t a) NO_OVERLAY_LOCALS;
 
 /**
+    Set single attribute data a on window layer at x,y
+
+    @param x X-coordinate
+    @param y Y-coordinate
+    @param a tile attributes
+ */
+void set_win_attribute_xy_nes16x16(uint8_t x, uint8_t y, uint8_t a) NO_OVERLAY_LOCALS;
+
+/**
     Set single 2x2 tile attribute a on background layer at x,y
 
     Please note that this is just a wrapper function for set_bkg_submap_attributes_nes16x16()
@@ -951,6 +976,26 @@ inline void set_bkg_attribute_xy(uint8_t x, uint8_t y, uint8_t a)
     set_bkg_attribute_xy_nes16x16(x >> 1, y >> 1, a);
 }
 #define set_attribute_xy set_bkg_attribute_xy
+
+/** Set single attribute data a on window layer at x,y
+
+    Please note that this is just a wrapper function for set_win_attribute_xy_nes16x16()
+    and divides the coordinates and dimensions by 2 to achieve this.
+    It is intended to make code more portable by using the same coordinate system
+    that systems with the much more common 8x8 attribute resolution would use.
+
+    @param x X-coordinate
+    @param y Y-coordinate
+    @param a tile attributes
+    @return returns the address of tile attribute, so you may use faster set_vram_byte() later
+
+    @note On the Game Boy this is only usable in Game Boy Color mode
+*/
+inline uint8_t * set_win_attribute_xy(uint8_t x, uint8_t y, uint8_t a)
+{
+    set_win_attribute_xy_nes16x16(x >> 1, y >> 1, a);
+	return NULL;
+}
 
 /**
  * Get single tile t on background layer at x,y
@@ -1006,6 +1051,246 @@ inline void scroll_bkg(int8_t x, int8_t y) {
     move_bkg(bkg_scroll_x + x, bkg_scroll_y + y);
 }
 
+/**
+ * Get address of X,Y tile of window map
+ */
+#if defined(NES_WINDOW_LAYER)
+uint8_t * get_win_xy_addr(uint8_t x, uint8_t y) NO_OVERLAY_LOCALS;
+#else
+#define get_win_xy_addr get_bkg_xy_addr
+#endif
+
+/** Sets VRAM Tile Pattern data for the Window / Background
+
+    @param first_tile  Index of the first tile to write
+    @param nb_tiles    Number of tiles to write
+    @param data        Pointer to (2 bpp) source Tile Pattern data.
+
+    This is the same as @ref set_bkg_data, since the Window Layer and
+    Background Layer share the same Tile pattern data.
+
+    @see set_bkg_data
+    @see set_win_tiles, set_bkg_data, set_data
+    @see SHOW_WIN, HIDE_WIN
+*/
+#if defined(NES_WINDOW_LAYER)
+void set_win_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) NO_OVERLAY_LOCALS;
+#else
+#define set_win_data set_bkg_data
+#endif
+
+/** Sets VRAM Tile Pattern data for the Window / Background using 1bpp source data
+
+    @param first_tile  Index of the first tile to write
+    @param nb_tiles    Number of tiles to write
+    @param data        Pointer to (1bpp) source Tile Pattern data
+
+    This is the same as @ref set_bkg_1bpp_data, since the Window Layer and
+    Background Layer share the same Tile pattern data.
+
+    For a given bit that represent a pixel:
+    \li 0 will be expanded into the Background color
+    \li 1 will be expanded into the Foreground color
+
+    See @ref set_1bpp_colors for details about setting the Foreground and Background colors.
+
+    @see set_bkg_data, set_win_data, set_1bpp_colors
+    @see set_bkg_1bpp_data, set_sprite_1bpp_data
+*/
+#if defined(NES_WINDOW_LAYER)
+void set_win_1bpp_data(uint8_t first_tile, uint8_t nb_tiles, const uint8_t *data) NO_OVERLAY_LOCALS;
+#else
+#define set_win_1bpp_data set_bkg_1bpp_data
+#endif
+
+/** Sets a rectangular region of the Window Tile Map.
+
+    @param x      X Start position in Window Map tile coordinates. Range 0 - 31
+    @param y      Y Start position in Window Map tile coordinates. Range 0 - 31
+    @param w      Width of area to set in tiles. Range 1 - 32
+    @param h      Height of area to set in tiles. Range 1 - 32
+    @param tiles  Pointer to source tile map data
+
+    Entries are copied from map at __tiles__ to the Window Tile Map starting at
+    __x__, __y__ writing across for __w__ tiles and down for __h__ tiles.
+
+    Use @ref set_win_submap() instead when:
+    \li Source map is wider than 32 tiles.
+    \li Writing a width that does not match the source map width __and__ more
+    than one row high at a time.
+
+    One byte per source tile map entry.
+
+    Writes that exceed coordinate 31 on the x or y axis will wrap around to
+    the Left and Top edges.
+
+    @note Patterns 128-255 overlap with patterns 128-255 of the sprite Tile Pattern table.
+
+    GBC only: @ref VBK_REG determines whether Tile Numbers or Tile Attributes get set.
+    \li VBK_REG = @ref VBK_TILES Tile Numbers are written
+    \li VBK_REG = @ref VBK_ATTRIBUTES Tile Attributes are written
+
+    For more details about GBC Tile Attributes see @ref set_bkg_tiles.
+
+    @see SHOW_WIN, HIDE_WIN, set_win_submap, set_bkg_tiles, set_bkg_data, set_tiles
+*/
+#if defined(NES_WINDOW_LAYER)
+void set_win_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles) NO_OVERLAY_LOCALS;
+#else
+#define set_win_tiles set_bkg_tiles
+#endif
+
+/** Sets a rectangular region of the Window Tile Map.
+    The offset value in __base_tile__ is added to
+    the tile ID for each map entry.
+
+    @param x      X Start position in Window Map tile coordinates. Range 0 - 31
+    @param y      Y Start position in Window Map tile coordinates. Range 0 - 31
+    @param w      Width of area to set in tiles. Range 1 - 32
+    @param h      Height of area to set in tiles. Range 1 - 32
+    @param tiles  Pointer to source tile map data
+    @param base_tile Offset each tile ID entry of the source map by this value. Range 1 - 255
+
+    This is identical to @ref set_win_tiles() except that it
+    adds the __base_tile__ parameter for when a tile map's tiles don't
+    start at index zero. (For example, the tiles used by the map
+    range from 100 -> 120 in VRAM instead of 0 -> 20).
+
+    @see set_win_tiles for more details
+*/
+#if defined(NES_WINDOW_LAYER)
+void set_win_based_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles, uint8_t base_tile) NO_OVERLAY_LOCALS;
+#else
+#define set_win_based_tiles set_bkg_based_tiles
+#endif
+
+/** Sets a rectangular area of the Window Tile Map using a sub-region
+    from a source tile map.
+
+    @param x      X Start position in both the Source Tile Map and hardware Window Map tile coordinates. Range 0 - 255
+    @param y      Y Start position in both the Source Tile Map and hardware Window Map tile coordinates. Range 0 - 255
+    @param w      Width of area to set in tiles. Range 1 - 255
+    @param h      Height of area to set in tiles. Range 1 - 255
+    @param map    Pointer to source tile map data
+    @param map_w  Width of source tile map in tiles. Range 1 - 255
+
+    Entries are copied from __map__ to the Window Tile Map starting at
+    __x__, __y__ writing across for __w__ tiles and down for __h__ tiles,
+    using __map_w__ as the rowstride for the source tile map.
+
+    The __x__ and __y__ parameters are in Source Tile Map tile
+    coordinates. The location tiles will be written to on the
+    hardware Background Map is derived from those, but only uses
+    the lower 5 bits of each axis, for range of 0-31 (they are
+    bit-masked: `x & 0x1F` and `y & 0x1F`). As a result the two
+    coordinate systems are aligned together.
+
+    In order to transfer tile map data in a way where the
+    coordinate systems are not aligned, an offset from the
+    Source Tile Map pointer can be passed in:
+    `(map_ptr + x + (y * map_width))`.
+
+    For example, if you want the tile id at `1,2` from the source map to
+    show up at `0,0` on the hardware Background Map (instead of at `1,2`)
+    then modify the pointer address that is passed in:
+    `map_ptr + 1 + (2 * map_width)`
+
+    Use this instead of @ref set_win_tiles when the source map is wider than
+    32 tiles or when writing a width that does not match the source map width.
+
+    One byte per source tile map entry.
+
+    Writes that exceed coordinate 31 on the x or y axis will wrap around to
+    the Left and Top edges.
+
+    GBC only: @ref VBK_REG determines whether Tile Numbers or Tile Attributes get set.
+    \li VBK_REG = @ref VBK_TILES Tile Numbers are written
+    \li VBK_REG = @ref VBK_ATTRIBUTES Tile Attributes are written
+
+    See @ref set_bkg_tiles for details about CGB attribute maps with @ref VBK_REG.
+
+    @see SHOW_WIN, HIDE_WIN, set_win_tiles, set_bkg_submap, set_bkg_tiles, set_bkg_data, set_tiles
+**/
+#if defined(NES_WINDOW_LAYER)
+void set_win_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w);
+#else
+#define set_win_submap set_bkg_submap
+#endif
+
+/** Sets a rectangular area of the Window Tile Map using a sub-region
+    from a source tile map. The offset value in __base_tile__ is added
+    to the tile ID for each map entry.
+
+    @param x         X Start position in both the Source Tile Map and hardware Window Map tile coordinates. Range 0 - 255
+    @param y         Y Start position in both the Source Tile Map and hardware Window Map tile coordinates. Range 0 - 255
+    @param w         Width of area to set in tiles. Range 1 - 255
+    @param h         Height of area to set in tiles. Range 1 - 255
+    @param map       Pointer to source tile map data
+    @param map_w     Width of source tile map in tiles. Range 1 - 255
+    @param base_tile Offset each tile ID entry of the source map by this value. Range 1 - 255
+
+    This is identical to @ref set_win_submap() except that it
+    adds the __base_tile__ parameter for when a tile map's tiles don't
+    start at index zero. (For example, the tiles used by the map
+    range from 100 -> 120 in VRAM instead of 0 -> 20).
+
+    @see set_win_submap for more details
+**/
+#if defined(NES_WINDOW_LAYER)
+void set_win_based_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w, uint8_t base_tile) NO_OVERLAY_LOCALS;
+#else
+#define set_win_based_submap set_bkg_based_submap
+#endif
+
+/**
+ * Set single tile t on window layer at x,y
+ * @param x X-coordinate
+ * @param y Y-coordinate
+ * @param t tile index
+ * @return returns the address of tile, so you may use faster set_vram_byte() later
+ */
+#if defined(NES_WINDOW_LAYER)
+uint8_t * set_win_tile_xy(uint8_t x, uint8_t y, uint8_t t) NO_OVERLAY_LOCALS;
+#else
+#define set_win_tile_xy set_bkg_tile_xy
+#endif
+
+/** Moves the Window to the __x__, __y__ position on the screen.
+
+    @param x   X coordinate for Left edge of the Window (actual displayed location will be X - 7)
+    @param y   Y coordinate for Top edge of the Window
+
+    7,0 is the top left corner of the screen in Window coordinates. The Window is locked to the bottom right corner.
+
+    The Window is always over the Background layer.
+
+    @see SHOW_WIN, HIDE_WIN
+*/
+#if defined(NES_WINDOW_LAYER)
+inline void move_win(scroll_x_t x, scroll_y_t y) {
+    WX_REG=x, WY_REG=y;
+}
+#else
+#define move_win move_bkg
+#endif
+
+
+/** Move the Window relative to its current position.
+
+    @param x   Number of pixels to move the window on the __X axis__
+               \n Range: -128 - 127
+    @param y   Number of pixels to move the window on the __Y axis__
+               \n Range: -128 - 127
+
+    @see move_win
+*/
+#if defined(NES_WINDOW_LAYER)
+inline void scroll_win(int8_t x, int8_t y) {
+    WX_REG+=x, WY_REG+=y;
+}
+#else
+#define scroll_win scroll_bkg
+#endif
 
 /** Sets VRAM Tile Pattern data for Sprites
 
@@ -1312,6 +1597,20 @@ void vmemset (void *s, uint8_t c, size_t n) NO_OVERLAY_LOCALS;
 */
 void fill_bkg_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t tile) NO_OVERLAY_LOCALS;
 #define fill_rect fill_bkg_rect
+
+/** Fills a rectangular region of Tile Map entries for the Window layer with tile.
+
+    @param x      X Start position in Window Map tile coordinates. Range 0 - 31
+    @param y      Y Start position in Window Map tile coordinates. Range 0 - 31
+    @param w      Width of area to set in tiles. Range 1 - 32
+    @param h      Height of area to set in tiles. Range 1 - 32
+    @param tile   Fill value
+*/
+#if defined(NES_WINDOW_LAYER)
+void fill_win_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t tile) NO_OVERLAY_LOCALS;
+#else
+#define fill_win_rect fill_bkg_rect
+#endif
 
 /** "Flushes" the updates to the shadow attributes so they are written
     to the transfer buffer, and then written to PPU memory on next vblank.
