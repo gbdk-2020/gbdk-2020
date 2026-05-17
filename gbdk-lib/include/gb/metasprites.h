@@ -74,7 +74,7 @@
     - @ref move_metasprite_flipxy()
 
     To test for hardware support see
-    @ref HARDWARE_SPRITE_CAN_FLIP_X and @ref HARDWARE_SPRITE_CAN_FLIP_Y.
+    @ref OAMF_XFLIP and @ref OAMF_YFLIP.
     Also see @ref docs_consoles_supported_list for a brief summary of
     console capabilities.
 */

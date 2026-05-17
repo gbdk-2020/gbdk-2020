@@ -1417,14 +1417,6 @@ extern uint8_t _shadow_OAM_base;
 */
 #define MAX_HARDWARE_SPRITES 64
 
-/** True if sprite hardware can flip sprites by X (horizontally)
-*/
-#define HARDWARE_SPRITE_CAN_FLIP_X 1
-
-/** True if sprite hardware can flip sprites by Y (vertically)
-*/
-#define HARDWARE_SPRITE_CAN_FLIP_Y 1
-
 /** Enable OAM DMA copy each VBlank and set it to transfer any 256-byte aligned array
 */
 inline void SET_SHADOW_OAM_ADDRESS(void * address) {
@@ -1702,6 +1694,8 @@ void fill_win_rect_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_
     so the use-cases for calling it manually are rare in practice.
 */
 void flush_shadow_attributes(void) NO_OVERLAY_LOCALS;
+
+inline uint8_t bkg_attributes_enabled() { return TRUE; }
 
 uint8_t _switch_prg0(uint8_t bank) NO_OVERLAY_LOCALS;
 

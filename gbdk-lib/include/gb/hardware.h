@@ -337,21 +337,6 @@ __REG VBK_REG;          /**< VRAM bank select (CGB only) @see VBK_BANK_0, VBK_TI
 #define VBK_BANK_1      1        /**< Select Map Attributes and Extra Tile Bank (CGB Mode Only)*/
 #define VBK_ATTRIBUTES  1        /**< Select Map Attributes and Extra Tile Bank (CGB Mode Only) */
 
-#define BKGF_PRI      0b10000000  /**< Background CGB BG and Window over Sprite priority Enabled */
-#define BKGF_YFLIP    0b01000000  /**< Background CGB Y axis flip: Vertically mirrored */
-#define BKGF_XFLIP    0b00100000  /**< Background CGB X axis flip: Horizontally mirrored */
-#define BKGF_BANK0    0b00000000  /**< Background CGB Tile VRAM-Bank: Use Bank 0 (CGB Mode Only) */
-#define BKGF_BANK1    0b00001000  /**< Background CGB Tile VRAM-Bank: Use Bank 1 (CGB Mode Only) */
-
-#define BKGF_CGB_PAL0 0b00000000  /**< Background CGB Palette number (CGB Mode Only) */
-#define BKGF_CGB_PAL1 0b00000001  /**< Background CGB Palette number (CGB Mode Only) */
-#define BKGF_CGB_PAL2 0b00000010  /**< Background CGB Palette number (CGB Mode Only) */
-#define BKGF_CGB_PAL3 0b00000011  /**< Background CGB Palette number (CGB Mode Only) */
-#define BKGF_CGB_PAL4 0b00000100  /**< Background CGB Palette number (CGB Mode Only) */
-#define BKGF_CGB_PAL5 0b00000101  /**< Background CGB Palette number (CGB Mode Only) */
-#define BKGF_CGB_PAL6 0b00000110  /**< Background CGB Palette number (CGB Mode Only) */
-#define BKGF_CGB_PAL7 0b00000111  /**< Background CGB Palette number (CGB Mode Only) */
-
 __REG HDMA1_REG;        /**< DMA control 1 */
 #define rHDMA1 HDMA1_REG
 __REG HDMA2_REG;        /**< DMA control 2 */
@@ -427,25 +412,43 @@ __REG IE_REG;           /**< Interrupt enable */
 #define AUDHIGH_LENGTH_ON  0b01000000
 #define AUDHIGH_LENGTH_OFF 0b00000000
 
+/* BKG attributes flags */
+#define HW_HAS_BKG_ATTRIBUTES  1  /**< BKG attributes flags hardware support */
+#define BKGF_PRI      0b10000000  /**< Background BG and Window over Sprite priority Enabled */
+#define BKGF_YFLIP    0b01000000  /**< Background Y axis flip: Vertically mirrored */
+#define BKGF_XFLIP    0b00100000  /**< Background X axis flip: Horizontally mirrored */
+#define BKGF_BANK0    0b00000000  /**< Background Tile VRAM-Bank: Use Bank 0 */
+#define BKGF_BANK1    0b00001000  /**< Background Tile VRAM-Bank: Use Bank 1 */
+
+#define BKGF_CGB_PAL0 0b00000000  /**< Background Palette number (Color Mode Only) */
+#define BKGF_CGB_PAL1 0b00000001  /**< Background Palette number (Color Mode Only) */
+#define BKGF_CGB_PAL2 0b00000010  /**< Background Palette number (Color Mode Only) */
+#define BKGF_CGB_PAL3 0b00000011  /**< Background Palette number (Color Mode Only) */
+#define BKGF_CGB_PAL4 0b00000100  /**< Background Palette number (Color Mode Only) */
+#define BKGF_CGB_PAL5 0b00000101  /**< Background Palette number (Color Mode Only) */
+#define BKGF_CGB_PAL6 0b00000110  /**< Background Palette number (Color Mode Only) */
+#define BKGF_CGB_PAL7 0b00000111  /**< Background Palette number (Color Mode Only) */
+#define BKGF_PALMASK  0b00000111  /**< Mask for Background Palette number (Color Mode Only) */
+
 /* OAM attributes flags */
+#define HW_HAS_OAM_ATTRIBUTES  1  /**< OAM attributes flags hardware support */
 #define OAMF_PRI      0b10000000  /**< BG and Window over Sprite Enabled */
 #define OAMF_YFLIP    0b01000000  /**< Sprite Y axis flip: Vertically mirrored */
 #define OAMF_XFLIP    0b00100000  /**< Sprite X axis flip: Horizontally mirrored */
-#define OAMF_PAL0     0b00000000  /**< Sprite Palette number: use OBP0 (Non-CGB Mode Only) */
-#define OAMF_PAL1     0b00010000  /**< Sprite Palette number: use OBP1 (Non-CGB Mode Only) */
-#define OAMF_BANK0    0b00000000  /**< Sprite Tile VRAM-Bank: Use Bank 0 (CGB Mode Only) */
-#define OAMF_BANK1    0b00001000  /**< Sprite Tile VRAM-Bank: Use Bank 1 (CGB Mode Only) */
+#define OAMF_PAL0     0b00000000  /**< Sprite Palette number: use OBP0 (Mono Mode Only) */
+#define OAMF_PAL1     0b00010000  /**< Sprite Palette number: use OBP1 (Mono Mode Only) */
+#define OAMF_BANK0    0b00000000  /**< Sprite Tile VRAM-Bank: Use Bank 0 */
+#define OAMF_BANK1    0b00001000  /**< Sprite Tile VRAM-Bank: Use Bank 1 */
 
-#define OAMF_CGB_PAL0 0b00000000  /**< Sprite CGB Palette number: use OCP0 (CGB Mode Only) */
-#define OAMF_CGB_PAL1 0b00000001  /**< Sprite CGB Palette number: use OCP1 (CGB Mode Only) */
-#define OAMF_CGB_PAL2 0b00000010  /**< Sprite CGB Palette number: use OCP2 (CGB Mode Only) */
-#define OAMF_CGB_PAL3 0b00000011  /**< Sprite CGB Palette number: use OCP3 (CGB Mode Only) */
-#define OAMF_CGB_PAL4 0b00000100  /**< Sprite CGB Palette number: use OCP4 (CGB Mode Only) */
-#define OAMF_CGB_PAL5 0b00000101  /**< Sprite CGB Palette number: use OCP5 (CGB Mode Only) */
-#define OAMF_CGB_PAL6 0b00000110  /**< Sprite CGB Palette number: use OCP6 (CGB Mode Only) */
-#define OAMF_CGB_PAL7 0b00000111  /**< Sprite CGB Palette number: use OCP7 (CGB Mode Only) */
-
-#define OAMF_PALMASK 0b00000111   /**< Mask for Sprite CGB Palette number (CGB Mode Only) */
+#define OAMF_CGB_PAL0 0b00000000  /**< Sprite CGB Palette number: use OCP0 (Color Mode Only) */
+#define OAMF_CGB_PAL1 0b00000001  /**< Sprite CGB Palette number: use OCP1 (Color Mode Only) */
+#define OAMF_CGB_PAL2 0b00000010  /**< Sprite CGB Palette number: use OCP2 (Color Mode Only) */
+#define OAMF_CGB_PAL3 0b00000011  /**< Sprite CGB Palette number: use OCP3 (Color Mode Only) */
+#define OAMF_CGB_PAL4 0b00000100  /**< Sprite CGB Palette number: use OCP4 (Color Mode Only) */
+#define OAMF_CGB_PAL5 0b00000101  /**< Sprite CGB Palette number: use OCP5 (Color Mode Only) */
+#define OAMF_CGB_PAL6 0b00000110  /**< Sprite CGB Palette number: use OCP6 (Color Mode Only) */
+#define OAMF_CGB_PAL7 0b00000111  /**< Sprite CGB Palette number: use OCP7 (Color Mode Only) */
+#define OAMF_PALMASK  0b00000111  /**< Mask for Sprite CGB Palette number (Color Mode Only) */
 
 #define DEVICE_SCREEN_X_OFFSET 0        /**< Offset of visible screen (in tile units) from left edge of hardware map */
 #define DEVICE_SCREEN_Y_OFFSET 0        /**< Offset of visible screen (in tile units) from top edge of hardware map */
