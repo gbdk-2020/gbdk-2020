@@ -331,6 +331,10 @@ void refresh_OAM(void);
  */
 #define DEVICE_SUPPORTS_COLOR (TRUE)
 
+/** Macro returns TRUE if device supports window layer
+ */
+#define DEVICE_SUPPORTS_WINDOW (FALSE)
+
 /** Global Time Counter in VBL periods (60Hz)
 
     Increments once per Frame

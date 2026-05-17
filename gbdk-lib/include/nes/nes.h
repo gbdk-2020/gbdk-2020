@@ -651,6 +651,13 @@ void refresh_OAM(void) NO_OVERLAY_LOCALS;
  */
 #define DEVICE_SUPPORTS_COLOR (TRUE)
 
+/** Macro returns TRUE if device supports window layer
+ */
+#ifdef NES_WINDOW_LAYER 
+#define DEVICE_SUPPORTS_WINDOW (TRUE)
+#else
+#define DEVICE_SUPPORTS_WINDOW (FALSE)
+#endif
 
 /**
  * Set byte in vram at given memory location
