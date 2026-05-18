@@ -5,74 +5,88 @@
 
 	.area	_CODE
 
+; void set_sprite_palette(uint8_t first_palette, uint8_t nb_palettes, const palette_color_t *rgb_data) PRESERVES_REGS(b, c);
 _set_sprite_palette::		; Non-banked
-	PUSH	BC
-	LD	C,#.OCPS
-	JR	.set_palette
+	ld d, c					; save C
+	ld c, #.OCPS
+	jr .set_palette
 
+; void set_bkg_palette(uint8_t first_palette, uint8_t nb_palettes, const palette_color_t *rgb_data) PRESERVES_REGS(b, c);
 _set_bkg_palette::		; Non-banked
-	PUSH	BC
-	LD	C,#.BCPS
-
+	ld d, c					; save C
+	ld c, #.BCPS
+	
+	; first_palette is in A
+	; nb_palettes is in E
+	; rgb_data is on the stack
 .set_palette::
-	LDA	HL,4(SP)	; Skip return address and registers
-	LD	A,(HL+)		; first_palette
-	ADD	A		; A *= 8
-	ADD	A
-	ADD	A
-	OR	#0x80		; Set auto-increment
-	LDH	(C),A
-	INC	C
-	LD	A,(HL+)		; D = nb_palettes
-	ADD	A		; A *= 8
-	ADD	A
-	ADD	A
-	LD	B,A		; Number of bytes
-	LD	A,(HL+)		; rgb_data
-	LD	H,(HL)
-	LD	L,A
-1$:	
+	add a
+	add a
+	add a
+	or #0x80		; Set auto-increment
+	ldh (c), a
+	inc c
+	
+	; E = nb_palettes * 8
+	ld a, e
+	add a
+	add a
+	add a
+	ld e, a			
+
+	; hl = rgb_data
+	ldhl sp, #2
+	ld a, (hl+)
+	ld h, (hl)
+	ld l, a
+0$:
 	WAIT_STAT
+	
+	ld a, (hl+)
+	ldh (c), a
+	dec e
+	jr nz, 0$
 
-	LD	A,(HL+)
-	LDH	(C),A
-	DEC	B
-	JR	NZ,1$
+	ld c, d			; restore C
+	pop hl			; get return address
+	pop af			; dummy pop
+	jp (hl)
 
-	POP	BC
-	RET
-
+; void set_sprite_palette_entry(uint8_t palette, uint8_t entry, uint16_t rgb_data) PRESERVES_REGS(b, c);
 _set_sprite_palette_entry::	; Banked
-	PUSH	BC
-	LD	C,#.OCPS
-	JR	.set_palette_entry
+	ld d, c					; save C
+	ld c, #.OCPS
+	jr .set_palette_entry
 
+; void set_bkg_palette_entry(uint8_t palette, uint8_t entry, uint16_t rgb_data) PRESERVES_REGS(b, c);
 _set_bkg_palette_entry::	; Banked
-	PUSH	BC
-	LD	C,#.BCPS
+	ld d, c					; save C
+	ld c, #.BCPS
 
+	; palette is in A
+	; entry is in E
+	; rgb_data is on the stack
 .set_palette_entry::
-	LDA	HL,4(SP); Skip return address and registers
-	LD	A,(HL+)		; first_palette
-	ADD	A		; A *= 4
-	ADD	A
-	LD	B,A
-	LD	A,(HL+)		; pal_entry
-	ADD	B		; A += first_palette * 4
-	ADD	A		; A *= 2
-	OR	#0x80		; Set auto-increment
-	LDH	(C),A
-	INC	C
+	; A = palette * 8 + entry * 2
+	add	a
+	add	a
+	add e
+	add	a
+	or #0x80		; Set auto-increment
+	ldh (c), a
+	inc c
+	
+	ldhl sp, #2
 	LD	A,(HL+)		; rgb_data
-	LD	H,(HL)
-	LD	L,A
+	LD	E,(HL)
 
-	WAIT_STAT
+	WAIT_STAT_HL
 
-	LD	A,L
-	LDH	(C),A
-	LD	A,H
-	LDH	(C),A
+	ldh (c), a
+	ld a, e
+	ldh (c), a
 
-	POP	BC
-	RET
+	ld c, d			; restore C
+	pop hl			; get return address
+	pop af			; dummy pop
+	jp (hl)
