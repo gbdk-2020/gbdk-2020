@@ -721,6 +721,12 @@ inline void set_bkg_submap_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h
     VBK_REG = VBK_TILES;
 }
 
+inline void set_win_submap_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w) {
+    VBK_REG = VBK_ATTRIBUTES;
+    set_tile_submap_compat(x, y, w, h, map, map_w);
+    VBK_REG = VBK_TILES;
+}
+
 void fill_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint16_t tile) Z88DK_CALLEE;
 void fill_rect_compat(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint16_t tile) Z88DK_CALLEE;
 #define fill_bkg_rect fill_rect_compat

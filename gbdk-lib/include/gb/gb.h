@@ -1647,6 +1647,61 @@ inline void set_win_based_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, cons
 void set_win_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w) OLDCALL;
 
 
+/** Sets a rectangular area of the Window Tile Map Attributes using a sub-region
+    from a source tile attribute map. Useful for scrolling implementations of maps
+    larger than 32 x 32 tiles.
+
+    @param x      X Start position in both the Source Tile Map and hardware Window Map tile coordinates. Range 0 - 255
+    @param y      Y Start position in both the Source Tile Map and hardware Window Map tile coordinates. Range 0 - 255
+    @param w      Width of area to set in tiles. Range 1 - 255
+    @param h      Height of area to set in tiles. Range 1 - 255
+    @param map    Pointer to source tile map attribute data
+    @param map_w  Width of source tile map in tiles. Range 1 - 255
+
+    Entries are copied from __map__ to the Window Tile Map starting at
+    __x__, __y__ writing across for __w__ tiles and down for __h__ tiles,
+    using __map_w__ as the rowstride for the source tile map.
+
+    The __x__ and __y__ parameters are in Source Tile Map tile
+    coordinates. The location tiles will be written to on the
+    hardware Window Map is derived from those, but only uses
+    the lower 5 bits of each axis, for range of 0-31 (they are
+    bit-masked: `x & 0x1F` and `y & 0x1F`). As a result the two
+    coordinate systems are aligned together.
+
+    In order to transfer tile map data in a way where the
+    coordinate systems are not aligned, an offset from the
+    Source Tile Map pointer can be passed in:
+    `(map_ptr + x + (y * map_width))`.
+
+    For example, if you want the tile id at `1,2` from the source map to
+    show up at `0,0` on the hardware Window Map (instead of at `1,2`)
+    then modify the pointer address that is passed in:
+    `map_ptr + 1 + (2 * map_width)`
+
+    Use this instead of @ref set_win_tiles when the source map is wider than
+    32 tiles or when writing a width that does not match the source map width.
+
+    One byte per source tile map entry.
+
+    Writes that exceed coordinate 31 on the x or y axis will wrap around to
+    the Left and Top edges.
+
+    See @ref set_win_tiles for setting CGB attribute maps with @ref VBK_REG.
+
+    @see SHOW_BKG
+    @see set_win_data, set_win_attributes, set_bkg_submap, set_tiles
+
+    @note On the Game Boy this is only usable in Game Boy Color mode
+*/
+inline void set_win_submap_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w)
+{
+    VBK_REG = VBK_ATTRIBUTES;
+    set_win_submap(x, y, w, h, map, map_w);
+    VBK_REG = VBK_TILES;
+}
+
+
 /** Sets a rectangular area of the Window Tile Map using a sub-region
     from a source tile map. The offset value in __base_tile__ is added
     to the tile ID for each map entry.

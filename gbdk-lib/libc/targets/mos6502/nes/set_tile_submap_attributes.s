@@ -1,10 +1,14 @@
     .include    "global.s"
 
     .area   GBDKOVR (PAG, OVR)
-    _set_bkg_submap_attributes_nes16x16_PARM_3::    .ds 1
-    _set_bkg_submap_attributes_nes16x16_PARM_4::    .ds 1
-    _set_bkg_submap_attributes_nes16x16_PARM_5::    .ds 2
-    _set_bkg_submap_attributes_nes16x16_PARM_6::    .ds 1
+    _set_bkg_submap_attributes_nes16x16_PARM_3::
+    _set_win_submap_attributes_nes16x16_PARM_3::    .ds 1
+    _set_bkg_submap_attributes_nes16x16_PARM_4::
+    _set_win_submap_attributes_nes16x16_PARM_4::    .ds 1
+    _set_bkg_submap_attributes_nes16x16_PARM_5::
+    _set_win_submap_attributes_nes16x16_PARM_5::    .ds 2
+    _set_bkg_submap_attributes_nes16x16_PARM_6::
+    _set_win_submap_attributes_nes16x16_PARM_6::    .ds 1
     .xpos:                                          .ds 1
     .ypos:                                          .ds 1
     .num_rows:                                      .ds 1
@@ -124,6 +128,18 @@ lbl:
     sta _attribute_column_dirty,x
 .endif
 .endm
+
+.ifdef NES_WINDOW_LAYER
+_set_win_submap_attributes_nes16x16::
+    lda *__current_vram_cfg_write
+    pha
+    ora #MAPPER_CFG_NT_MASK
+    sta *__current_vram_cfg_write
+    jsr _set_bkg_submap_attributes_nes16x16
+    pla
+    sta *__current_vram_cfg_write
+    rts
+.endif
 
 _set_bkg_submap_attributes_nes16x16::
     .define .width      "_set_bkg_submap_attributes_nes16x16_PARM_3"
