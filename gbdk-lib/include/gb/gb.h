@@ -460,6 +460,10 @@ extern uint8_t _is_GBA;
  */
 #define DEVICE_SUPPORTS_COLOR (_cpu == CGB_TYPE)
 
+/** Macro returns TRUE if device supports window layer
+ */
+#define DEVICE_SUPPORTS_WINDOW (TRUE)
+
 /** Global Time Counter in VBL periods (60Hz)
 
     Increments once per Frame
