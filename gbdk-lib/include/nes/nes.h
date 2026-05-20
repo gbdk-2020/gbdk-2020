@@ -1242,6 +1242,27 @@ void set_win_based_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint
 #define set_win_based_submap set_bkg_based_submap
 #endif
 
+/** Sets a rectangular area of the Window Tile Map attributes using
+    a sub-region from a source tile map. Useful for scrolling implementations
+    of maps larger than 32 x 30 tiles.
+
+    Please note that this is just a wrapper function for set_win_submap_attributes_nes16x16()
+    and divides the coordinates and dimensions by 2 to achieve this.
+    It is intended to make code more portable by using the same coordinate system
+    that systems with the much more common 8x8 attribute resolution would use.
+
+    @see SHOW_BKG
+    @see set_win_data, set_win_tiles, set_bkg_submap, set_tiles
+*/
+#if defined(NES_WINDOW_LAYER)
+inline void set_win_submap_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *attributes, uint8_t map_w)
+{
+    set_win_submap_attributes_nes16x16(x >> 1, y >> 1, (w + 1) >> 1, (h + 1) >> 1, attributes, (map_w + 1) >> 1);
+}
+#else
+#define set_win_submap_attributes set_bkg_submap_attributes
+#endif
+
 /**
  * Set single tile t on window layer at x,y
  * @param x X-coordinate
