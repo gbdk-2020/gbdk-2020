@@ -464,6 +464,10 @@ extern uint8_t _is_GBA;
  */
 #define DEVICE_SUPPORTS_WINDOW (TRUE)
 
+/** Macro returns TRUE if device supports reading from VRAM
+ */
+#define DEVICE_SUPPORTS_VRAM_READ (TRUE)
+
 /** Global Time Counter in VBL periods (60Hz)
 
     Increments once per Frame
