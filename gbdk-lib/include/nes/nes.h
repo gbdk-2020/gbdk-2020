@@ -659,6 +659,10 @@ void refresh_OAM(void) NO_OVERLAY_LOCALS;
 #define DEVICE_SUPPORTS_WINDOW (FALSE)
 #endif
 
+/** Macro returns TRUE if device supports reading from VRAM
+ */
+#define DEVICE_SUPPORTS_VRAM_READ (FALSE)
+
 /**
  * Set byte in vram at given memory location
  *
