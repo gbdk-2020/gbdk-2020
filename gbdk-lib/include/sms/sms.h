@@ -740,6 +740,12 @@ void fill_rect_compat(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint16_t
 #define fill_bkg_rect fill_rect_compat
 #define fill_win_rect fill_rect_compat
 
+inline void fill_bkg_rect_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint16_t attribute) {
+    VBK_REG = VBK_ATTRIBUTES;
+    fill_bkg_rect(x, y, w, h, attribute);
+    VBK_REG = VBK_TILES;
+}
+
 /** Shadow OAM array in WRAM, that is transferred into the real OAM each VBlank
 */
 extern volatile uint8_t shadow_OAM[];
