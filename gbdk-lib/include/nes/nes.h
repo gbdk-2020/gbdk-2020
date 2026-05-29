@@ -1643,6 +1643,16 @@ void vmemset (void *s, uint8_t c, size_t n) NO_OVERLAY_LOCALS;
 void fill_bkg_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t tile) NO_OVERLAY_LOCALS;
 #define fill_rect fill_bkg_rect
 
+/** Fills a rectangular region of Tile Map Attribute entries for the Background layer with attribute.
+
+    @param x      X Start position in Background Map tile coordinates. Range 0 - 31
+    @param y      Y Start position in Background Map tile coordinates. Range 0 - 31
+    @param w      Width of area to set in tiles. Range 1 - 32
+    @param h      Height of area to set in tiles. Range 1 - 32
+    @param tile   Fill value
+*/
+void fill_bkg_rect_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t attribute) NO_OVERLAY_LOCALS;
+
 /** Fills a rectangular region of Tile Map entries for the Window layer with tile.
 
     @param x      X Start position in Window Map tile coordinates. Range 0 - 31
@@ -1655,6 +1665,20 @@ void fill_bkg_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t tile) NO_
 void fill_win_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t tile) NO_OVERLAY_LOCALS;
 #else
 #define fill_win_rect fill_bkg_rect
+#endif
+
+/** Fills a rectangular region of Tile Map Attribute entries for the Window layer with attribute.
+
+    @param x      X Start position in Window Map tile coordinates. Range 0 - 31
+    @param y      Y Start position in Window Map tile coordinates. Range 0 - 31
+    @param w      Width of area to set in tiles. Range 1 - 32
+    @param h      Height of area to set in tiles. Range 1 - 32
+    @param tile   Fill value
+*/
+#if defined(NES_WINDOW_LAYER)
+void fill_win_rect_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t attribute) NO_OVERLAY_LOCALS;
+#else
+#define fill_win_rect_attributes fill_bkg_rect_attributes
 #endif
 
 /** "Flushes" the updates to the shadow attributes so they are written
