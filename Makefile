@@ -11,7 +11,7 @@ PKG = gbdk
 VER = 4.5.0
 
 PORTS=sm83 z80 mos6502
-PLATFORMS=gb ap duck gg sms msxdos nes
+PLATFORMS=gb ap duck gg sms msxdos nes nes-mapper30-s-lomem nes-mapper30-s-win nes-mapper30-f nes-mapper2-h nes-mapper2-v
 EXAMPLE_DIRS=$(PLATFORMS)
 EXAMPLE_DIRS+= cross-platform megaduck
 
@@ -261,6 +261,11 @@ gbdk-lib-install-ports: gbdk-lib-build
 # in the gbdk install lib folders when people build projects with -debug on.
 # It caused problems when the user lacked write permissions to the gbdk install folder.
 gbdk-lib-install-platforms:
+	if [ -d "$(GBDKLIBDIR)/build/nes-mapper30-s-lomem" ]; then \
+		# copy build/nes-mapper30-s-lomem to build/nes, to allow "nes" to default to it for backwards-compatibility \
+		cp -r $(GBDKLIBDIR)/build/nes-mapper30-s-lomem $(GBDKLIBDIR)/build/nes; \
+		mv $(GBDKLIBDIR)/build/nes/nes-mapper30-s-lomem.lib $(GBDKLIBDIR)/build/nes/nes.lib; \
+	fi
 	@for plat in $(PLATFORMS); do \
 		echo Installing lib for platform: $$plat; \
 		mkdir -p $(BUILDDIR)/lib/$$plat; \
@@ -268,13 +273,23 @@ gbdk-lib-install-platforms:
 		cp $(GBDKLIBDIR)/build/$$plat/$$plat.lib $(BUILDDIR)/lib/$$plat/$$plat.lib; \
 		for port in $(PORTS); do \
 			if [ -d "$(GBDKLIBDIR)/libc/targets/$$port/$$plat" ]; then \
-				cp $(GBDKLIBDIR)/libc/targets/$$port/$$plat/global.s $(BUILDDIR)/lib/$$plat/global.s; \
+				if [ -f "$(GBDKLIBDIR)/libc/targets/$$port/$$plat/global.s" ]; then \
+					cp $(GBDKLIBDIR)/libc/targets/$$port/$$plat/global.s $(BUILDDIR)/lib/$$plat/global.s; \
+				fi; \
+				if [ -f "$(GBDKLIBDIR)/libc/targets/$$port/global.s" ]; then \
+					cp $(GBDKLIBDIR)/libc/targets/$$port/global.s $(BUILDDIR)/lib/$$plat/global.s; \
+				fi; \
 				if [ -f "$(GBDKLIBDIR)/libc/targets/$$port/$$plat/platform_cfg.s" ]; then \
 					cp $(GBDKLIBDIR)/libc/targets/$$port/$$plat/platform_cfg.s $(BUILDDIR)/lib/$$plat/platform_cfg.s; \
 				fi \
 			fi \
 		done \
 	done
+	if [ -d "$(GBDKLIBDIR)/build/nes-mapper30-s-lomem" ]; then \
+		# copy build/nes-mapper30-s-lomem/global.s + platform_cfg.s to build/nes, to allow "nes" to default to it for backwards-compatibility \
+		cp $(GBDKLIBDIR)/libc/targets/mos6502/global.s $(BUILDDIR)/lib/nes/; \
+		cp $(GBDKLIBDIR)/libc/targets/mos6502/nes-mapper30-s-lomem/platform_cfg.s $(BUILDDIR)/lib/nes/; \
+	fi
 	@echo
 
 

@@ -54,3 +54,22 @@ nes-clean:
 nes:
 	${MAKE} build-target PORT=mos6502 PLAT=nes EXT=nes
 
+nes-mapper30-s-win-clean:
+	${MAKE} clean-target EXT=nes
+nes-mapper30-s-win:
+	${MAKE} build-target PORT=mos6502 PLAT=nes-mapper30-s-win EXT=nes
+
+nes-mapper30-f-clean:
+	${MAKE} clean-target EXT=nes
+nes-mapper30-f:
+	${MAKE} build-target PORT=mos6502 PLAT=nes-mapper30-f EXT=nes
+
+nes-mapper2-h-clean:
+	${MAKE} clean-target EXT=nes
+nes-mapper2-h:
+	${MAKE} build-target PORT=mos6502 PLAT=nes-mapper2-h EXT=nes
+	
+nes-mapper2-v-clean:
+	${MAKE} clean-target EXT=nes
+nes-mapper2-v:
+	${MAKE} build-target PORT=mos6502 PLAT=nes-mapper2-v EXT=nes

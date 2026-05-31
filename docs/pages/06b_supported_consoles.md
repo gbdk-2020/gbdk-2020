@@ -390,9 +390,70 @@ To provide an easier experience, gbdk-nes attempts to hide most of these quirks 
 
 This entire section is written as a guide on porting GB projects to NES. If you are new to GBDK, you may wish to familiarize yourself with using GBDK for GB development first as the topics covered will make a lot more sense after gaining experience with GB development.
 
-### Mapper
+### Mappers
 
-Currently the NES support in GBDK uses UNROM-512 (Mapper30) with single-screen mirroring.
+GBDK supports a subset of NES mappers and cartridge configuration that are popular for homebrew development. These decide various compile-time options for your game. Each cartridge configuration is treated as a separate platform.
+
+You should consider your choices before starting a game project, especially if you wish to produce phyiscal cartridges.
+
+Following is a summary of the trade-offs with each mapper / configuration.
+
+#### nes
+
+This is merely an alias for mapper30-s-lomem. It exists for backwards compatiblity.
+
+#### mapper30-s-lomem
+
+This configuration uses the single-screen arrangment variant of mapper30 without the GB window support.
+It also places the 64 bytes of attribute shadow memory in the stack area to further the continuous RAM available.
+
+Advantages:
+- Single-screen mirroring offers higher compatibility with existing GB code, due to screen buffer coordinates fitting in 8-bits.
+- Relocating attribute shadow buffer to stack area offers 64 bytes more memory for your game.
+
+Disadvantages:
+- Single-screen mirroring gives both horizontal and vertical glitches on screen edges.
+- Relocating the attribute shadow memory to the stack limits function call depth.
+- ROM size can be at most 512kB.
+
+#### mapper30-s-win
+
+This configuration uses the single-screen arrangement variant of mapper30, with the second nametable used to emulate the GB window layer.
+It needs a total of 128 bytes for the attribute shadow memory.
+
+Advantages:
+- Single-screen mirroring offers higher compatibility with existing GB code, due to screen buffer coordinates fitting in 8-bits.
+- GB window emulation offers higher compatbility with existing GB code.
+
+Disadvantages:
+- Single-screen mirroring gives horizontal glitches. Can also give vertical glitches if window is not used to hide them.
+- ROM size can be at most 512kB.
+
+#### mapper30-f
+
+This configuration uses the four-screen arrangement variant of mapper30.
+
+Advantages:
+- Allows glitch-free scrolling on both horizontal and vertical edges.
+
+Disadvantages:
+- Requires 256 bytes for the attribute shadow buffer.
+- The four-screen variant of mapper30 is not very popular for physical cartridge production.
+
+#### mapper2-h / mapper2-v
+
+This configuration uses the horizontal / vertical arrangement variant of mapper2.
+
+Advantages:
+- Scrolling glitches limited to either vertical / horizontal edges.
+- Mapper2 has the highest legacy emulator compatibility of the support mappers.
+- ROM size can be up to 2MB. 4MB could theoretically be supported with a iNES 2.0 header.
+- Compatible with mapper30 boards if ROM size is max 512kB
+
+Disadvantages:
+- Some emulators may artificially limit ROM size, as historical boards only used ROM sizes up to 256kB
+- Mapper2 boards > 512kB are not very popular for physical cartridge production.
+
 
 ### Buffered mode vs direct mode
 
