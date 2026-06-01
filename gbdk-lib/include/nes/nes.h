@@ -871,7 +871,7 @@ inline void set_bkg_submap_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h
 
     @see set_bkg_tiles for more details
 */
-inline void set_bkg_based_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles, uint8_t base_tile);
+void set_bkg_based_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles, uint8_t base_tile) NO_OVERLAY_LOCALS;
 
 
 /** Sets a rectangular area of the Background Tile Map using a sub-region
