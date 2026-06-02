@@ -933,7 +933,7 @@ uint8_t * set_tile_xy(uint8_t x, uint8_t y, uint8_t t) Z88DK_CALLEE PRESERVES_RE
  * @param a tile attributes
  * @return returns the address of tile attribute, so you may use faster set_vram_byte() later
  */
-inline uint8_t * set_attribute_xy(uint8_t x, uint8_t y, uint8_t a) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
+uint8_t * set_attribute_xy(uint8_t x, uint8_t y, uint8_t a) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
 #define set_bkg_attribute_xy set_attribute_xy
 #define set_win_attribute_xy set_attribute_xy
 
