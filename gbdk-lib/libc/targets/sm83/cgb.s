@@ -15,7 +15,7 @@ _cpu_slow::			; Banked
 
 	XOR	A		; A = 0
 	LDH	(.IE),A		; Disable interrupts
-	LDH	(.IF),A
+	LDH	(.IFL),A
 
 	LD	A,#0x30
 	LDH	(.P1),A

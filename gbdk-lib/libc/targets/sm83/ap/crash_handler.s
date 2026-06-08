@@ -50,7 +50,7 @@ ___HandleCrash::
 	ld 	a, #IEF_VBLANK	; IEF_VBLANK
 	ldh	(.IE), a
 	ld 	a, #0		; `xor a` would overwrite flags
-	ldh	(.IF), a	; No point in backing up that register, it's always changing
+	ldh	(.IFL), a	; No point in backing up that register, it's always changing
 	halt			; With interrupts disabled, this will exit when `IE & IF != 0`
 	nop			; Handle hardware bug if it becomes true *before* starting to execute the instruction (1-cycle window)
 
@@ -256,7 +256,7 @@ ___HandleCrash::
 .loop:
 	; The code never lags, and IE is equal to IEF_VBLANK
 	xor a
-	ldh (.IF), a
+	ldh (.IFL), a
 	halt
 	nop
 

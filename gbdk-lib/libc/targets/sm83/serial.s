@@ -13,7 +13,7 @@
 	CALL	.add_SIO
 
 	XOR	A
-	LDH	(.IF),A
+	LDH	(.IFL),A
 
 	LDH	A,(.IE)
 	OR	A,#0b00001000	; Serial I/O	=   On

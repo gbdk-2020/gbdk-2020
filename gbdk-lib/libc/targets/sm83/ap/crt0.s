@@ -127,7 +127,7 @@ _set_interrupts::
         LDH     (.IE),A
         XOR     A
         EI
-        LDH     (.IF),A         ; Clear pending interrupts
+        LDH     (.IFL),A         ; Clear pending interrupts
         RET
 
         ;; Copy OAM data to OAM RAM
@@ -274,7 +274,7 @@ _reset::
         LDH     (.IE),A
 
         XOR     A
-        LDH     (.IF),A
+        LDH     (.IFL),A
 
         LD      HL,#.sys_time
         LD      (HL+),A

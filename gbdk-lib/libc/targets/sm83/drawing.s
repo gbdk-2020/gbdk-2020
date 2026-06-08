@@ -136,7 +136,7 @@
         POP     DE              ; restore DE
 
         XOR     A
-        LDH     (.IF), A
+        LDH     (.IFL), A
 
         EI                      ; Enable interrupts
 
