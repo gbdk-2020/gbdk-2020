@@ -168,15 +168,14 @@ _reset::
         CALL    .clear_WRAM
         POP     DE
 
-;       LD      (.mode),A       ; Clearing (.mode) is performed when clearing RAM
 
         ;; Store CPU type
         LD      A, #.DMG_TYPE   ; MEGADUCK is always a DMG
         LD      (__cpu), A
         XOR     A
-        LD      (__is_GBA), A   ; and it is never GBA
+;        LD      (__is_GBA), A   ; and it is never GBA ; clearing (__is_GBA) is performed when clearing RAM
+;        LD      (.mode),A                             ; clearing (.mode) is performed when clearing RAM
 
-        XOR     A
         ;; Initialize the display
         LDH     (.SCY),A
         LDH     (.SCX),A
