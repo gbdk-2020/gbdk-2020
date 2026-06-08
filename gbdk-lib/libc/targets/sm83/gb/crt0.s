@@ -228,19 +228,19 @@ _reset::
         CALL    .clear_WRAM
         POP     DE
 
-;       LD      (.mode),A       ; Clearing (.mode) is performed when clearing RAM
-
         ;; Store CPU type
         LD      A, D
         LD      (__cpu), A
         CP      #.CGB_TYPE
         JR      NZ, 1$
-        XOR     A
-        SRL     E
-        RLA
+        LD      A, E
+        AND     #0x01
         LD      (__is_GBA), A
 1$:
         XOR     A
+
+;       LD      (.mode),A       ; Clearing (.mode) is performed when clearing RAM
+
         ;; Initialize the display
         LDH     (.SCY),A
         LDH     (.SCX),A
