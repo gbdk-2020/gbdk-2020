@@ -20,5 +20,6 @@ _set_default_palette::
 	push bc
 	call _set_bkg_palette
 	ret
+
 1$:
-	.DW	0x7FFF, 0x56B5, 0x294A, 0x0000
+	.dw	0x7FFF, 0x56B5, 0x294A, 0x0000
