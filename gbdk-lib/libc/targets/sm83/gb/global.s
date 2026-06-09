@@ -483,7 +483,7 @@
         ;; Macro definitions
 
 .macro WAIT_STAT ?lbl
-lbl:    LDH     A, (.STAT)
+lbl:    LDH     A, (rSTAT)
         AND     #STATF_BUSY     ; Check if in LCD modes 0 or 1
         JR      NZ, lbl
 .endm
