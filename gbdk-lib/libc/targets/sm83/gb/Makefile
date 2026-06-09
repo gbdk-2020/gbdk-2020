@@ -38,6 +38,7 @@ ASSRC =	cgb.s cgb_palettes.s cgb_compat.s \
 	hblankcpy.s \
 	heap.s \
 	sfr.s \
+	display_off.s \
 	crt0.s
 
 CRT0 =	crt0.s
