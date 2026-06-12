@@ -285,6 +285,6 @@ extern volatile UBYTE VDP_ATTR_SHIFT;
 #define DEVICE_SCREEN_PX_WIDTH (DEVICE_SCREEN_WIDTH * 8)
 #define DEVICE_SCREEN_PX_HEIGHT (DEVICE_SCREEN_HEIGHT * 8)
 
-typedef uint8_t scroll_x_t;
-typedef uint8_t scroll_y_t;
+typedef UINT8 scroll_x_t;
+typedef UINT8 scroll_y_t;
 #endif
