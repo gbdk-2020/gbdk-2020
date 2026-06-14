@@ -11,7 +11,7 @@ PKG = gbdk
 VER = 4.5.0
 
 PORTS=sm83 z80 mos6502
-PLATFORMS=gb ap duck gg sms msxdos nes nes-mapper30-s-lomem nes-mapper30-s-win nes-mapper30-f nes-mapper2-h nes-mapper2-v
+PLATFORMS=gb ap duck gg sms msxdos nes nes-m30-s-lomem nes-m30-s-win nes-m30-f nes-m2-h nes-m2-v
 EXAMPLE_DIRS=$(PLATFORMS)
 EXAMPLE_DIRS+= cross-platform megaduck
 
@@ -261,10 +261,10 @@ gbdk-lib-install-ports: gbdk-lib-build
 # in the gbdk install lib folders when people build projects with -debug on.
 # It caused problems when the user lacked write permissions to the gbdk install folder.
 gbdk-lib-install-platforms:
-	if [ -d "$(GBDKLIBDIR)/build/nes-mapper30-s-lomem" ]; then \
-		# copy build/nes-mapper30-s-lomem to build/nes, to allow "nes" to default to it for backwards-compatibility \
-		cp -r $(GBDKLIBDIR)/build/nes-mapper30-s-lomem $(GBDKLIBDIR)/build/nes; \
-		mv $(GBDKLIBDIR)/build/nes/nes-mapper30-s-lomem.lib $(GBDKLIBDIR)/build/nes/nes.lib; \
+	if [ -d "$(GBDKLIBDIR)/build/nes-m30-s-lomem" ]; then \
+		# copy build/nes-m30-s-lomem to build/nes, to allow "nes" to default to it for backwards-compatibility \
+		cp -r $(GBDKLIBDIR)/build/nes-m30-s-lomem $(GBDKLIBDIR)/build/nes; \
+		mv $(GBDKLIBDIR)/build/nes/nes-m30-s-lomem.lib $(GBDKLIBDIR)/build/nes/nes.lib; \
 	fi
 	@for plat in $(PLATFORMS); do \
 		echo Installing lib for platform: $$plat; \
@@ -285,10 +285,10 @@ gbdk-lib-install-platforms:
 			fi \
 		done \
 	done
-	if [ -d "$(GBDKLIBDIR)/build/nes-mapper30-s-lomem" ]; then \
-		# copy build/nes-mapper30-s-lomem/global.s + platform_cfg.s to build/nes, to allow "nes" to default to it for backwards-compatibility \
+	if [ -d "$(GBDKLIBDIR)/build/nes-m30-s-lomem" ]; then \
+		# copy build/nes-m30-s-lomem/global.s + platform_cfg.s to build/nes, to allow "nes" to default to it for backwards-compatibility \
 		cp $(GBDKLIBDIR)/libc/targets/mos6502/global.s $(BUILDDIR)/lib/nes/; \
-		cp $(GBDKLIBDIR)/libc/targets/mos6502/nes-mapper30-s-lomem/platform_cfg.s $(BUILDDIR)/lib/nes/; \
+		cp $(GBDKLIBDIR)/libc/targets/mos6502/nes-m30-s-lomem/platform_cfg.s $(BUILDDIR)/lib/nes/; \
 	fi
 	@echo
 

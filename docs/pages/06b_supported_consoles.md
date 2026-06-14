@@ -394,15 +394,33 @@ This entire section is written as a guide on porting GB projects to NES. If you 
 
 GBDK supports a subset of NES mappers and cartridge configuration that are popular for homebrew development. These decide various compile-time options for your game. Each cartridge configuration is treated as a separate platform.
 
-You should consider your choices before starting a game project, especially if you wish to produce phyiscal cartridges.
+You should consider your choices before starting a game project, especially if you wish to produce physical cartridges.
 
-Following is a summary of the trade-offs with each mapper / configuration.
+#### Nametable arrangement (aka nametable mirroring)
 
-#### nes
+A key component of mapper configuration is nametable arrangement. This traditionally re-wired the 2kB of console VRAM via cartridge pins in order to provide two nametables in either the horizontal or vertical direction, making the other direction repeat the same nametables twice. (hence "mirroring" the same physical memory)
 
-This is merely an alias for mapper30-s-lomem. It exists for backwards compatiblity.
+There is also single-screen arrangement. This repeats the same nametable four times, but allows the second nametable to be used to emulate the GB Window layer instead.
 
-#### mapper30-s-lomem
+Finally, four-screen arrangement provides extra VRAM in the cartridge to allow four nametables to be allocated to actual VRAM memory.
+
+Because the PPU hardware itself was designed for four-screen arrangement, this is the only way to easily mitigate scrolling glitches without a window layer hiding them.
+Choosing the appropriate nametable arrangement is therefore important to mitigate glitches from tilemap / attribute updates in scrolling games.
+
+The cross-platform/large_map example illustrates how different choices for nametable arrangement can cause different glitches on the edges of the display.
+
+More information:
+https://www.nesdev.org/wiki/Mirroring
+
+#### Currently supported mapper configurations
+
+Following is a summary of the trade-offs with each mapper / configuration. At this time they are all variants of either mapper2 or mapper30.
+
+##### nes
+
+This is merely an alias for m30-s-lomem. It exists for backwards compatiblity.
+
+##### m30-s-lomem
 
 This configuration uses the single-screen arrangment variant of mapper30 without the GB window support.
 It also places the 64 bytes of attribute shadow memory in the stack area to further the continuous RAM available.
@@ -416,7 +434,7 @@ Disadvantages:
 - Relocating the attribute shadow memory to the stack limits function call depth.
 - ROM size can be at most 512kB.
 
-#### mapper30-s-win
+##### m30-s-win
 
 This configuration uses the single-screen arrangement variant of mapper30, with the second nametable used to emulate the GB window layer.
 It needs a total of 128 bytes for the attribute shadow memory.
@@ -429,7 +447,7 @@ Disadvantages:
 - Single-screen mirroring gives horizontal glitches. Can also give vertical glitches if window is not used to hide them.
 - ROM size can be at most 512kB.
 
-#### mapper30-f
+##### m30-f
 
 This configuration uses the four-screen arrangement variant of mapper30.
 
@@ -440,15 +458,15 @@ Disadvantages:
 - Requires 256 bytes for the attribute shadow buffer.
 - The four-screen variant of mapper30 is not very popular for physical cartridge production.
 
-#### mapper2-h / mapper2-v
+##### m2-h / m2-v
 
 This configuration uses the horizontal / vertical arrangement variant of mapper2.
 
 Advantages:
 - Scrolling glitches limited to either vertical / horizontal edges.
 - Mapper2 has the highest legacy emulator compatibility of the support mappers.
-- ROM size can be up to 2MB. 4MB could theoretically be supported with a iNES 2.0 header.
-- Compatible with mapper30 boards if ROM size is max 512kB
+- ROM size can be up to 2MB. 4MB could theoretically be supported with an iNES 2.0 header.
+- Compatible with mapper30 boards if ROM size is max 512kB.
 
 Disadvantages:
 - Some emulators may artificially limit ROM size, as historical boards only used ROM sizes up to 256kB

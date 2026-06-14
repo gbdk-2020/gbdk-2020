@@ -10,7 +10,7 @@ PNG2ASSET = $(GBDK_HOME)/bin/png2asset
 # Set platforms to build here, spaced separated. (These are in the separate Makefile.targets)
 # They can also be built/cleaned individually: "make gg" and "make gg-clean"
 # Possible are: gb gbc pocket megaduck sms gg
-TARGETS=gb gbc gg sms nes nes-mapper30-s-win nes-mapper30-f nes-mapper2-h nes-mapper2-v
+TARGETS=gb gbc gg sms nes nes-m30-s-win nes-m30-f nes-m2-h nes-m2-v
 
 # Configure platform specific LCC flags here:
 LCCFLAGS_gb      = -Wl-yt0x1B -autobank # Set an MBC for banking (1B-ROM+MBC5+RAM+BATT)
@@ -20,8 +20,6 @@ LCCFLAGS_gbc     = -Wl-yt0x1B -Wm-yc -autobank # Same as .gb with: -Wm-yc (gb & 
 LCCFLAGS_sms     =
 LCCFLAGS_gg      =
 LCCFLAGS_nes     = -autobank
-LCCFLAGS_nes-mapper30-s-win = -autobank
-LCCFLAGS_nes-mapper2-h = -autobank
 
 LCCFLAGS += $(LCCFLAGS_$(PLAT)) # This adds the current platform specific LCC Flags
 

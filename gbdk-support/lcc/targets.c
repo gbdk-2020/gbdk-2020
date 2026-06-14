@@ -153,7 +153,7 @@ CLASS classes[] = {
       .llist0_defaults_len= ARRAY_LEN(llist0_defaults_msxdos),
     },
 
-    // Legacy "nes" target. Identical to nes-mapper30-s-lomem
+    // Legacy "nes" target. Identical to nes-m30-s-lomem
     { .port         = "mos6502",
       .plat         = "nes",
       .default_plat = "nes",
@@ -173,8 +173,8 @@ CLASS classes[] = {
 
     // NES mapper30 single-screen
     { .port         = "mos6502",
-      .plat         = "nes-mapper30-s-lomem",
-      .default_plat = "nes-mapper30-s-lomem",
+      .plat         = "nes-m30-s-lomem",
+      .default_plat = "nes-m30-s-lomem",
       .rom_extension=  EXT_NES,
       .cpp          = "%cpp% %cppdefault% $1 $2 $3",
       .include      = "%includedefault%",
@@ -191,8 +191,8 @@ CLASS classes[] = {
 
     // NES mapper30 single-screen layout with window emulation
     { .port         = "mos6502",
-      .plat         = "nes-mapper30-s-win",
-      .default_plat = "nes-mapper30-s-win",
+      .plat         = "nes-m30-s-win",
+      .default_plat = "nes-m30-s-win",
       .rom_extension=  EXT_NES,
       .cpp          = "%cpp% %cppdefault% -DNES_TILEMAP_S=1 -DNES_WINDOW_LAYER=1 $1 $2 $3",
       .include      = "%includedefault% -DNES_TILEMAP_S=1 -DNES_WINDOW_LAYER=1",
@@ -209,8 +209,8 @@ CLASS classes[] = {
 
     // NES mapper30 four-screen layout
     { .port         = "mos6502",
-      .plat         = "nes-mapper30-f",
-      .default_plat = "nes-mapper30-f",
+      .plat         = "nes-m30-f",
+      .default_plat = "nes-m30-f",
       .rom_extension=  EXT_NES,
       .cpp          = "%cpp% %cppdefault% -DNES_TILEMAP_F=1 $1 $2 $3",
       .include      = "%includedefault% -DNES_TILEMAP_F=1",
@@ -227,8 +227,8 @@ CLASS classes[] = {
 
     // NES mapper2 horizontal layout
     { .port         = "mos6502",
-      .plat         = "nes-mapper2-h",
-      .default_plat = "nes-mapper2-h",
+      .plat         = "nes-m2-h",
+      .default_plat = "nes-m2-h",
       .rom_extension=  EXT_NES,
       .cpp          = "%cpp% %cppdefault% -DNES_TILEMAP_H=1 $1 $2 $3",
       .include      = "%includedefault% -DNES_TILEMAP_H=1",
@@ -245,8 +245,8 @@ CLASS classes[] = {
 
     // NES mapper2 vertical layout
     { .port         = "mos6502",
-      .plat         = "nes-mapper2-v",
-      .default_plat = "nes-mapper2-v",
+      .plat         = "nes-m2-v",
+      .default_plat = "nes-m2-v",
       .rom_extension=  EXT_NES,
       .cpp          = "%cpp% %cppdefault% -DNES_TILEMAP_V=1 $1 $2 $3",
       .include      = "%includedefault% -DNES_TILEMAP_V=1",
