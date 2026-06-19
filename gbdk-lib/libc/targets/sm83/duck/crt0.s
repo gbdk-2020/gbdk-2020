@@ -110,10 +110,11 @@ _refresh_OAM::
         JP      .refresh_OAM_DMA
 
 .clear_WRAM:
-        XOR     A
-        LD      BC, #l__DATA
-        LD      HL, #s__DATA
-        CALL    .memset_simple
+        LD      DE, #l__DATA
+        PUSH    DE
+        LD      DE, #s__DATA
+        LD      BC, #0
+        CALL    _memset
 
         LD      A, #>_shadow_OAM
         LDH     (__shadow_OAM_base), A
@@ -385,56 +386,12 @@ __shadow_OAM_base::
 
 gsinit::
         ;; initialize static storage variables
-        LD      BC, #l__INITIALIZER
-        LD      HL, #s__INITIALIZER
+        LD      DE, #l__INITIALIZER
+        PUSH    DE
         LD      DE, #s__INITIALIZED
-        CALL    .memcpy_simple
+        LD      BC, #s__INITIALIZER
+        CALL    _memcpy
 
         .area   _GSFINAL
 
-        RET
-
-        .area   _HOME
-
-        ;; fills memory at HL of length BC with A, clobbers DE
-.memset_simple::
-        LD      E, A
-        LD      A, B
-        OR      C
-        RET     Z
-        LD      (HL), E
-        DEC     BC
-        LD      D, H
-        LD      E, L
-        INC     DE
-
-        ;; copies BC bytes from HL into DE
-.memcpy_simple::
-        LD      A, B
-        OR      C
-        RET     Z
-
-        SRL     B
-        RR      C
-        JR      NC,3$
-        LD      A, (HL+)
-        LD      (DE), A
-        INC     DE
-3$:
-        INC     B
-        INC     C
-        JR      2$
-1$:
-        LD      A, (HL+)
-        LD      (DE), A
-        INC     DE
-        LD      A, (HL+)
-        LD      (DE), A
-        INC     DE
-2$:
-        DEC     C
-        JR      NZ,1$
-        DEC     B
-        JR      NZ,1$
-4$:
         RET
