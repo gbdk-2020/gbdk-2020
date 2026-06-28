@@ -868,7 +868,7 @@ inline uint8_t get_sprite_prop(uint8_t nb) {
     Moving the sprite to 0,0 (or similar off-screen location) will hide it.
 */
 inline void move_sprite(uint8_t nb, uint8_t x, uint8_t y) {
-    shadow_OAM[nb] = (y < VDP_SAT_TERM) ? y : 0xC0;
+    shadow_OAM[nb] = (y != VDP_SAT_TERM) ? y : 0xC0;
     shadow_OAM[0x40+(nb << 1)] = x;
 }
 
@@ -885,7 +885,7 @@ inline void move_sprite(uint8_t nb, uint8_t x, uint8_t y) {
  */
 inline void scroll_sprite(uint8_t nb, int8_t x, int8_t y) {
     uint8_t new_y = shadow_OAM[nb] + y;
-    shadow_OAM[nb] = (new_y < VDP_SAT_TERM) ? new_y : 0xC0;
+    shadow_OAM[nb] = (new_y != VDP_SAT_TERM) ? new_y : 0xC0;
     shadow_OAM[0x40+(nb << 1)] += x;
 }
 
