@@ -6,7 +6,7 @@
 
 _get_bkg_data::
 _get_win_data::
-        LDH     A,(.LCDC)
+        LDH     A,(rLCDC)
         AND     #LCDCF_BG8000
         JP      NZ,_get_sprite_data
 
