@@ -30,27 +30,27 @@ _waitpadup::
 _joypad::
 .jpad::
 	LD	A,#.P15
-	LDH	(.P1),A		; Turn on P15
+	LDH	(rP1),A		; Turn on P15
 
-	LDH	A,(.P1)		; Delay
-	LDH	A,(.P1)
+	LDH	A,(rP1)		; Delay
+	LDH	A,(rP1)
 	AND	#0x0F
 	LD	E,A
 	LD	A,#.P14
-	LDH	(.P1),A		; Turn on P14
-	LDH	A,(.P1)		; Delay
-	LDH	A,(.P1)
-	LDH	A,(.P1)
-	LDH	A,(.P1)
-	LDH	A,(.P1)
-	LDH	A,(.P1)
+	LDH	(rP1),A		; Turn on P14
+	LDH	A,(rP1)		; Delay
+	LDH	A,(rP1)
+	LDH	A,(rP1)
+	LDH	A,(rP1)
+	LDH	A,(rP1)
+	LDH	A,(rP1)
 	AND	#0x0F
 	SWAP	A
 	OR	E
 	CPL
 	LD	E,A
 	LD	A,#(.P14 | .P15)
-	LDH	(.P1),A		; Turn off P14 and P15 (reset joypad)
+	LDH	(rP1),A		; Turn off P14 and P15 (reset joypad)
 	LD	A,E
 	RET
 
