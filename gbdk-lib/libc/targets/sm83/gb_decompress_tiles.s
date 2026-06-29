@@ -26,7 +26,7 @@ loc:
 _gb_decompress_bkg_data::
 _gb_decompress_win_data::
         ld      b, #0x90
-        ld      hl, #.LCDC
+        ld      hl, #rLCDC
         bit     LCDCF_B_BG8000, (hl)
         jr      nz, .load_params
 _gb_decompress_sprite_data::
