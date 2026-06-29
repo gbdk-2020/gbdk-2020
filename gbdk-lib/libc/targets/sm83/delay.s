@@ -20,7 +20,7 @@ loop:
 _delay::
 .delay::
 
-	ldh a, (.KEY1)
+	ldh a, (rKEY1)
 	add a
 	call c, delay_1046
 
