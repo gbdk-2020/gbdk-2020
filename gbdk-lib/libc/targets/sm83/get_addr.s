@@ -5,7 +5,7 @@
 _get_win_xy_addr::
         and     #0x1f
         ld      d, a
-        ldh     a, (.LCDC)
+        ldh     a, (rLCDC)
         and     #LCDCF_WIN9C00
         jr      z, .is98
         jr      .is9c
@@ -13,7 +13,7 @@ _get_win_xy_addr::
 _get_bkg_xy_addr::
         and     #0x1f
         ld      d, a
-        ldh     a, (.LCDC)
+        ldh     a, (rLCDC)
         and     #LCDCF_BG9C00
         jr      nz, .is9c
 .is98:
