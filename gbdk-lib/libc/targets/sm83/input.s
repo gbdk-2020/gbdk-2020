@@ -64,7 +64,7 @@
         DI                      ; Disable interrupts
 
         ;; Turn the screen off
-        LDH     A,(.LCDC)
+        LDH     A,(rLCDC)
         AND     #LCDCF_ON
         JR      Z,1$
 
@@ -116,7 +116,7 @@
 
         ;; Turn the screen on
         LD      A,#(LCDCF_ON | LCDCF_WIN9C00 | LCDCF_WINOFF | LCDCF_BG8800 | LCDCF_BG9800 | LCDCF_OBJ8 | LCDCF_OBJOFF | LCDCF_BGON)
-        LDH     (.LCDC),A
+        LDH     (rLCDC),A
 
         LD      A,#.T_MODE_INOUT
         LD      (.mode),A
@@ -126,7 +126,7 @@
         RET
 
 set_recoded_win_tiles::
-        LDH     A,(.LCDC)
+        LDH     A,(rLCDC)
         AND     #LCDCF_WIN9C00
         JR      Z,2$
         LD      A,#0x9C
@@ -331,9 +331,9 @@ set_recoded_win_tiles::
 .show_kbd:
         PUSH    BC
         PUSH    DE
-        LDH     A,(.LCDC)
+        LDH     A,(rLCDC)
         OR      #LCDCF_WINON    ; Window = On
-        LDH     (.LCDC),A
+        LDH     (rLCDC),A
         LD      A,#.MAXWNDPOSY  ; Show window
 1$:
         BIT     0,A             ; Wait for VBL every 2 pixels (slow down)
@@ -369,9 +369,9 @@ set_recoded_win_tiles::
         INC     A
         JR      1$
 3$:
-        LDH     A,(.LCDC)
+        LDH     A,(rLCDC)
         AND     #~LCDCF_WINON   ; Window = Off
-        LDH     (.LCDC),A
+        LDH     (rLCDC),A
         POP     DE
         POP     BC
         RET
@@ -379,7 +379,7 @@ set_recoded_win_tiles::
 .show_bkg:
         PUSH    BC
         PUSH    DE
-        LDH     A,(.SCY)
+        LDH     A,(rSCY)
         LD      D,A
         LD      A,(.cury)
         SUB     #.KBDWINPOSY-1
@@ -392,7 +392,7 @@ set_recoded_win_tiles::
         JR      C,99$
         JR      Z,99$
         LD      C,A
-        LDH     A,(.SCY)
+        LDH     A,(rSCY)
 1$:
         BIT     0,A             ; Wait for VBL every 2 pixels (slow down)
         JR      Z,2$
@@ -401,7 +401,7 @@ set_recoded_win_tiles::
         LD      A,B
 2$:
         INC     A
-        LDH     (.SCY),A
+        LDH     (rSCY),A
         DEC     C
         JR      Z,99$
         JR      1$
@@ -411,7 +411,7 @@ set_recoded_win_tiles::
         RET
 
 .hide_bkg:
-        LDH     A,(.SCY)
+        LDH     A,(rSCY)
         OR      A
         RET     Z
         PUSH    BC
@@ -424,7 +424,7 @@ set_recoded_win_tiles::
         LD      A,B
 2$:
         DEC     A
-        LDH     (.SCY),A
+        LDH     (rSCY),A
         JR      Z,99$
         JR      1$
 99$:
@@ -438,15 +438,15 @@ set_recoded_win_tiles::
         LD      A,#.INIMSPOSY
         LD      (.msy),A
         CALL    .set_mouse
-        LDH     A,(.LCDC)
+        LDH     A,(rLCDC)
         OR      #LCDCF_OBJON    ; OBJ = On
-        LDH     (.LCDC),A
+        LDH     (rLCDC),A
         RET
 
 .hide_mouse:
-        LDH     A,(.LCDC)
+        LDH     A,(rLCDC)
         AND     #~LCDCF_OBJON   ; OBJ = Off
-        LDH     (.LCDC),A
+        LDH     (rLCDC),A
         RET
 
 .track_mouse:
