@@ -127,10 +127,10 @@ font_load_found:
         pop     hl              ; Return font setup in HL
 font_load_exit:
         ;; Turn the screen on
-        LDH     A,(.LCDC)
+        LDH     A,(rLCDC)
         OR      #(LCDCF_ON | LCDCF_BGON)
         AND     #~(LCDCF_BG9C00 | LCDCF_BG8000)
-        LDH     (.LCDC),A
+        LDH     (rLCDC),A
 
         RET
 
@@ -517,7 +517,7 @@ _posy::
         DI                      ; Disable interrupts
 
         ;; Turn the screen off
-        LDH     A,(.LCDC)
+        LDH     A,(rLCDC)
         AND     #LCDCF_ON
         JR      Z,1$
 
@@ -532,10 +532,10 @@ _posy::
         CALL    .tmode_out
 
         ;; Turn the screen on
-        LDH     A,(.LCDC)
+        LDH     A,(rLCDC)
         OR      #(LCDCF_ON | LCDCF_BGON)
         AND     #~(LCDCF_BG9C00 | LCDCF_BG8000)
-        LDH     (.LCDC),A
+        LDH     (rLCDC),A
 
         EI                      ; Enable interrupts
 
