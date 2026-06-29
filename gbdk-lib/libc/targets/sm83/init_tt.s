@@ -4,13 +4,13 @@
 
         ;; Initialize window tile table with B
 .init_wtt::
-        LDH     A,(.LCDC)
+        LDH     A,(rLCDC)
         AND     #LCDCF_WIN9C00
         JR      Z,.is98
         JR      .is9c
         ;; Initialize background tile table with B
 .init_btt::
-        LDH     A,(.LCDC)
+        LDH     A,(rLCDC)
         AND     #LCDCF_BG9C00
         JR      NZ,.is9c
 .is98:
