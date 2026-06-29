@@ -3,22 +3,22 @@
         .area   _HOME
 
 .fill_rect_wtt::
-        PUSH    HL
-        LDH     A,(.LCDC)
-        AND     #LCDCF_WIN9C00
-        JR      Z,.is98
-        JR      .is9c
+        push hl
+        ldh a,(rLCDC)
+        and #LCDCF_WIN9C00
+        jr z,.is98
+        jr .is9c
         ;; Initialize background tile table with B
 .fill_rect_btt::
-        PUSH    HL
-        LDH     A,(.LCDC)
-        AND     #LCDCF_BG9C00
-        JR      NZ,.is9c
+        push hl
+        ldh a,(rLCDC)
+        and #LCDCF_BG9C00
+        jr nz,.is9c
 .is98:
-        LD      H, #0x98        ; HL = origin
-        JR      .fill_rect
+        ld h, #0x98             ; HL = origin
+        jr .fill_rect
 .is9c:
-        LD      H, #0x9C        ; HL = origin
+        ld h, #0x9C             ; HL = origin
 
         ;; fills rectangle area with tile B at XY = DE, size WH on stack, to vram from address (H << 8)
 .fill_rect:
