@@ -9,7 +9,7 @@ _set_tile_data::
 _set_bkg_data::
 _set_win_data::
         ld d, #0x90
-        ldh a, (.LCDC)
+        ldh a, (rLCDC)
 	and #LCDCF_BG8000
         jr z, .copy_tiles
 _set_sprite_data::
