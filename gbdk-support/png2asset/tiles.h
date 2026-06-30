@@ -29,6 +29,7 @@ struct Tile
         NES,
         SGB,
         SMS,
+        GG,
         BPP1
     };
 
@@ -64,7 +65,7 @@ struct Tile
                 }
             }
         }
-        else if(pack_mode == SMS)
+        else if ((pack_mode == SMS) || (pack_mode == GG))
         {
             for(int j = 0; j < tile_h; ++j) {
                 for(int i = 0; i < 8; ++i) {
