@@ -123,13 +123,11 @@ generate-assets:
 	$(PNG2ASSET) $(RES)/SEGA/GBDK_2020_logo.png -o $(OUTDIR)/gbdklogo_4.c -map -use_map_attributes -bpp 4 -max_palettes 2 -pack_mode sms
 
 # Large Map: attributes, various platforms, noflip
-	$(PNG2ASSET) $(RES)/largemap.png -c $(OUTDIR)/largemap_1.c -map -bpp 2 -max_palettes 4                     -pack_mode gb  -noflip
-	$(PNG2ASSET) $(RES)/largemap.png -c $(OUTDIR)/largemap_2.c -map -bpp 2 -max_palettes 8 -use_map_attributes -pack_mode gb
-	$(PNG2ASSET) $(RES)/largemap.png -c $(OUTDIR)/largemap_3.c -map -bpp 2 -max_palettes 4                     -pack_mode gb  -noflip
-	$(PNG2ASSET) $(RES)/largemap.png -c $(OUTDIR)/largemap_4.c -map -bpp 2 -max_palettes 4                     -pack_mode gb  -noflip
-	$(PNG2ASSET) $(RES)/largemap.png -c $(OUTDIR)/largemap_5.c -map -bpp 4 -max_palettes 2 -use_map_attributes -pack_mode sms
-	$(PNG2ASSET) $(RES)/largemap.png -c $(OUTDIR)/largemap_6.c -map -bpp 4 -max_palettes 2 -use_map_attributes -pack_mode sms
-	$(PNG2ASSET) $(RES)/largemap.png -c $(OUTDIR)/largemap_7.c -map -bpp 2 -max_palettes 4 -use_nes_attributes -pack_mode nes -noflip -b 0
+	$(PNG2ASSET) $(RES)/largemap.png -c $(OUTDIR)/largemap_gb.c  -map -bpp 2 -max_palettes 1                     -pack_mode gb  -noflip
+	$(PNG2ASSET) $(RES)/largemap.png -c $(OUTDIR)/largemap_gbc.c -map -bpp 2 -max_palettes 8 -use_map_attributes -pack_mode gb
+	$(PNG2ASSET) $(RES)/largemap.png -c $(OUTDIR)/largemap_sms.c -map -bpp 4 -max_palettes 2 -use_map_attributes -pack_mode sms
+	$(PNG2ASSET) $(RES)/largemap.png -c $(OUTDIR)/largemap_gg.c  -map -bpp 4 -max_palettes 2 -use_map_attributes -pack_mode gg
+	$(PNG2ASSET) $(RES)/largemap.png -c $(OUTDIR)/largemap_nes.c -map -bpp 2 -max_palettes 4 -use_nes_attributes -pack_mode nes -noflip
 
 # Metasprites, various sprite sizing, output options
 	$(PNG2ASSET) $(RES)/sprite_slon.png -c $(OUTDIR)/sprite_slon_1.c -sh 48 -spr8x8  -noflip
@@ -150,8 +148,15 @@ generate-assets:
 
 # -bin output
 	$(PNG2ASSET) $(RES)/gameboy.png -o $(OUTDIR)/binout_basic.bin         -map -bin
+
 	$(PNG2ASSET) $(RES)/gameboy.png -o $(OUTDIR)/binout_tileonly.bin      -map -bin -tiles_only
-	$(PNG2ASSET) $(RES)/gameboy.png -o $(OUTDIR)/binout_maponly.bin       -map -bin -maps_only
+
+	$(PNG2ASSET) $(RES)/gameboy.png -o $(OUTDIR)/binout_maponly_gb.bin    -map -bin -maps_only -pack_mode gb  -bpp 2 -max_palettes 1                      -noflip
+	$(PNG2ASSET) $(RES)/gameboy.png -o $(OUTDIR)/binout_maponly_gbc.bin   -map -bin -maps_only -pack_mode gb  -bpp 2 -max_palettes 8 -use_map_attributes
+	$(PNG2ASSET) $(RES)/gameboy.png -o $(OUTDIR)/binout_maponly_sms.bin   -map -bin -maps_only -pack_mode sms -bpp 4 -max_palettes 2 -use_map_attributes
+	$(PNG2ASSET) $(RES)/gameboy.png -o $(OUTDIR)/binout_maponly_gg.bin    -map -bin -maps_only -pack_mode gg  -bpp 4 -max_palettes 2 -use_map_attributes
+	$(PNG2ASSET) $(RES)/gameboy.png -o $(OUTDIR)/binout_maponly_nes.bin   -map -bin -maps_only -pack_mode nes -bpp 2 -max_palettes 4 -use_nes_attributes  -noflip
+
 	$(PNG2ASSET) $(RES)/gameboy.png -o $(OUTDIR)/binout_maponly-nopal.bin -map -bin -maps_only -no_palettes
 
 # -no_palettes
