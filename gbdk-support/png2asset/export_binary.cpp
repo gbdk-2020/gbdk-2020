@@ -137,15 +137,27 @@ static void export_map_binary_palette_data(PNG2AssetData* assetData) {
         for (int c = 0; c < (int)assetData->image.colors_per_pal; ++c, pal_ptr += RGBA32_SZ)
         {
             if (assetData->args->convert_rgb_to_nes) {
-                size_t rgb222 = (((pal_ptr[2] >> 6) & 0x3) << 4) |
-                                (((pal_ptr[1] >> 6) & 0x3) << 2) |
-                                (((pal_ptr[0] >> 6) & 0x3) << 0);
+                size_t rgb222 = (((pal_ptr[RGBA8_B] >> 6) & 0b00000011) << 4) |
+                                (((pal_ptr[RGBA8_G] >> 6) & 0b00000011) << 2) |
+                                (((pal_ptr[RGBA8_R] >> 6) & 0b00000011) << 0);
                 paletteBinaryFile.write((const char *)&rgb_to_nes[rgb222], sizeof(rgb_to_nes[0]));
-            } else {
-                // TODO: implement formats other than RGB555, depending on the pack mode
-                uint16_t rgb555 = (((pal_ptr[2] >> 3) & 0b00011111) << 10) |
-                                  (((pal_ptr[1] >> 3) & 0b00011111) << 5)  |
-                                  (((pal_ptr[0] >> 3) & 0b00011111) << 0);
+            }
+            else if (assetData->args->pack_mode == Tile::SMS) {
+                uint8_t rgb222 = (((pal_ptr[RGBA8_B] >> 6) & 0b00000011) << 4) |
+                                 (((pal_ptr[RGBA8_G] >> 6) & 0b00000011) << 2) |
+                                 (((pal_ptr[RGBA8_R] >> 6) & 0b00000011) << 0);
+                paletteBinaryFile.write((const char *)&rgb222, sizeof(rgb222));
+            }
+            else if (assetData->args->pack_mode == Tile::GG) {
+                uint16_t rgb444 = (((pal_ptr[RGBA8_B] >> 4) & 0b00001111) << 8) |
+                                  (((pal_ptr[RGBA8_G] >> 4) & 0b00001111) << 4) |
+                                  (((pal_ptr[RGBA8_R] >> 4) & 0b00001111) << 0);
+                paletteBinaryFile.write((const char *)&rgb444, sizeof(rgb444));
+            }
+            else {
+                uint16_t rgb555 = (((pal_ptr[RGBA8_B] >> 3) & 0b00011111) << 10) |
+                                  (((pal_ptr[RGBA8_G] >> 3) & 0b00011111) << 5)  |
+                                  (((pal_ptr[RGBA8_R] >> 3) & 0b00011111) << 0);
                 paletteBinaryFile.write((const char *)&rgb555, sizeof(rgb555));
             }
 
