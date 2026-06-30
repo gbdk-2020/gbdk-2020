@@ -46,7 +46,7 @@ bool export_map_binary(PNG2AssetData* assetData) {
     if (assetData->args->includedMapOrMetaspriteData)
         export_map_binary_map_data(assetData);
 
-    if (assetData->args->include_palettes)
+    if (exportOpt.has_palette_data_to_export)
         export_map_binary_palette_data(assetData);
 
     return true; // success
