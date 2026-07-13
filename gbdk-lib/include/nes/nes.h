@@ -353,7 +353,7 @@ extern volatile uint8_t _current_bank;
     @see BANKREF_EXTERN(), BANKREF()
 */
 #ifndef BANK
-#define BANK(VARNAME) ( (uint8_t) & __bank_ ## VARNAME )
+#define BANK(VARNAME) ( (uint16_t) & __bank_ ## VARNAME )
 #endif
 
 /** Creates a reference for retrieving the bank number of a variable or function

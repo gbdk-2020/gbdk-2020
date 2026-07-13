@@ -22,7 +22,7 @@ void main(void)
     }
     set_interrupts(SIO_IFLAG);          // disable other interrupts. note: this disables sprite movement
 
-    while(1) {
+    while(TRUE) {
         i = waitpad(J_A | J_B | J_START | J_SELECT);
         waitpadup();
 
