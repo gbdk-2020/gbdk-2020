@@ -44,8 +44,11 @@ __map_tile_offset::
         LD      B,A
         LD      A,#0xE0
         AND     E
-        ADD     D
-        LD      C,A             ; dest BC = HL + 0x20 * Y + X
+        LD      C,A
+        LD      A,D
+        AND     #0x1F
+        ADD     C
+        LD      C, A            ; dest BC = HL + 0x20 * Y + X
 
         POP     HL              ; HL = source
         POP     DE              ; DE = WH
