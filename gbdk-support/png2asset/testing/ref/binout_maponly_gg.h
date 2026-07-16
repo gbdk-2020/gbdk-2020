@@ -13,6 +13,8 @@
 #define binout_maponly_gg_TILE_H 8
 #define binout_maponly_gg_WIDTH 56
 #define binout_maponly_gg_HEIGHT 96
+#define binout_maponly_gg_TILES_WIDTH 7
+#define binout_maponly_gg_TILES_HEIGHT 12
 #define binout_maponly_gg_TILE_COUNT 45
 #define binout_maponly_gg_PALETTE_COUNT 1
 #define binout_maponly_gg_COLORS_PER_PALETTE 16

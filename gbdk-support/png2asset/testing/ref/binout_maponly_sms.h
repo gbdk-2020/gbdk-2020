@@ -13,6 +13,8 @@
 #define binout_maponly_sms_TILE_H 8
 #define binout_maponly_sms_WIDTH 56
 #define binout_maponly_sms_HEIGHT 96
+#define binout_maponly_sms_TILES_WIDTH 7
+#define binout_maponly_sms_TILES_HEIGHT 12
 #define binout_maponly_sms_TILE_COUNT 45
 #define binout_maponly_sms_PALETTE_COUNT 1
 #define binout_maponly_sms_COLORS_PER_PALETTE 16

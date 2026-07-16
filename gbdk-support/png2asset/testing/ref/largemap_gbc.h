@@ -13,6 +13,8 @@
 #define largemap_gbc_TILE_H 8
 #define largemap_gbc_WIDTH 1248
 #define largemap_gbc_HEIGHT 528
+#define largemap_gbc_TILES_WIDTH 156
+#define largemap_gbc_TILES_HEIGHT 66
 #define largemap_gbc_TILE_COUNT 210
 #define largemap_gbc_PALETTE_COUNT 4
 #define largemap_gbc_COLORS_PER_PALETTE 4

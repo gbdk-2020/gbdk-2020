@@ -13,6 +13,8 @@
 #define largemap_nes_TILE_H 8
 #define largemap_nes_WIDTH 1248
 #define largemap_nes_HEIGHT 528
+#define largemap_nes_TILES_WIDTH 156
+#define largemap_nes_TILES_HEIGHT 66
 #define largemap_nes_TILE_COUNT 225
 #define largemap_nes_PALETTE_COUNT 4
 #define largemap_nes_COLORS_PER_PALETTE 4

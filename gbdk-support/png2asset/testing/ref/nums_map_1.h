@@ -13,6 +13,8 @@
 #define nums_map_1_TILE_H 8
 #define nums_map_1_WIDTH 80
 #define nums_map_1_HEIGHT 40
+#define nums_map_1_TILES_WIDTH 10
+#define nums_map_1_TILES_HEIGHT 5
 #define nums_map_1_TILE_COUNT 40
 #define nums_map_1_PALETTE_COUNT 1
 #define nums_map_1_COLORS_PER_PALETTE 4
