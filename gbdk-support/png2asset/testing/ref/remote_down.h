@@ -13,6 +13,8 @@
 #define remote_down_TILE_H 8
 #define remote_down_WIDTH 160
 #define remote_down_HEIGHT 144
+#define remote_down_TILES_WIDTH 20
+#define remote_down_TILES_HEIGHT 18
 #define remote_down_TILE_COUNT 33
 #define remote_down_PALETTE_COUNT 1
 #define remote_down_COLORS_PER_PALETTE 4

@@ -13,6 +13,8 @@
 #define largemap_gg_TILE_H 8
 #define largemap_gg_WIDTH 1248
 #define largemap_gg_HEIGHT 528
+#define largemap_gg_TILES_WIDTH 156
+#define largemap_gg_TILES_HEIGHT 66
 #define largemap_gg_TILE_COUNT 217
 #define largemap_gg_PALETTE_COUNT 1
 #define largemap_gg_COLORS_PER_PALETTE 16

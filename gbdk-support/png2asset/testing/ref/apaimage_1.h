@@ -13,6 +13,8 @@
 #define apaimage_1_TILE_H 8
 #define apaimage_1_WIDTH 160
 #define apaimage_1_HEIGHT 144
+#define apaimage_1_TILES_WIDTH 20
+#define apaimage_1_TILES_HEIGHT 18
 #define apaimage_1_TILE_COUNT 360
 #define apaimage_1_PALETTE_COUNT 1
 #define apaimage_1_COLORS_PER_PALETTE 4

@@ -13,6 +13,8 @@
 #define color_nums_map_1_TILE_H 8
 #define color_nums_map_1_WIDTH 80
 #define color_nums_map_1_HEIGHT 40
+#define color_nums_map_1_TILES_WIDTH 10
+#define color_nums_map_1_TILES_HEIGHT 5
 #define color_nums_map_1_TILE_COUNT 40
 #define color_nums_map_1_PALETTE_COUNT 4
 #define color_nums_map_1_COLORS_PER_PALETTE 4

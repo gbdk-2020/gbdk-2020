@@ -13,6 +13,8 @@
 #define color_indexed_nums_map_4_TILE_H 8
 #define color_indexed_nums_map_4_WIDTH 80
 #define color_indexed_nums_map_4_HEIGHT 40
+#define color_indexed_nums_map_4_TILES_WIDTH 10
+#define color_indexed_nums_map_4_TILES_HEIGHT 5
 #define color_indexed_nums_map_4_TILE_COUNT 20
 #define color_indexed_nums_map_4_PALETTE_COUNT 4
 #define color_indexed_nums_map_4_COLORS_PER_PALETTE 4

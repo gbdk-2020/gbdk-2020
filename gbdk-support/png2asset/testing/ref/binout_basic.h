@@ -13,6 +13,8 @@
 #define binout_basic_TILE_H 8
 #define binout_basic_WIDTH 56
 #define binout_basic_HEIGHT 96
+#define binout_basic_TILES_WIDTH 7
+#define binout_basic_TILES_HEIGHT 12
 #define binout_basic_TILE_COUNT 45
 #define binout_basic_PALETTE_COUNT 1
 #define binout_basic_COLORS_PER_PALETTE 4

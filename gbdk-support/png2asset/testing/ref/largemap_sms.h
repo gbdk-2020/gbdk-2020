@@ -13,6 +13,8 @@
 #define largemap_sms_TILE_H 8
 #define largemap_sms_WIDTH 1248
 #define largemap_sms_HEIGHT 528
+#define largemap_sms_TILES_WIDTH 156
+#define largemap_sms_TILES_HEIGHT 66
 #define largemap_sms_TILE_COUNT 217
 #define largemap_sms_PALETTE_COUNT 1
 #define largemap_sms_COLORS_PER_PALETTE 16

@@ -13,6 +13,8 @@
 #define binout_maponly_nes_TILE_H 8
 #define binout_maponly_nes_WIDTH 56
 #define binout_maponly_nes_HEIGHT 96
+#define binout_maponly_nes_TILES_WIDTH 7
+#define binout_maponly_nes_TILES_HEIGHT 12
 #define binout_maponly_nes_TILE_COUNT 50
 #define binout_maponly_nes_PALETTE_COUNT 2
 #define binout_maponly_nes_COLORS_PER_PALETTE 4
