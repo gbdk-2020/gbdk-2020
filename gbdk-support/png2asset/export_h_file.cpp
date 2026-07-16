@@ -121,6 +121,8 @@ static void export_h_map_and_metasprite_shared_defines(PNG2AssetData* assetData,
     fprintf(file, "#define %s_TILE_H %d\n", assetData->args->data_name.c_str(), assetData->image.tile_h);
     fprintf(file, "#define %s_WIDTH %d\n", assetData->args->data_name.c_str(), (unsigned int)assetData->args->spriteSize.width);
     fprintf(file, "#define %s_HEIGHT %d\n", assetData->args->data_name.c_str(), (unsigned int)assetData->args->spriteSize.height);
+    fprintf(file, "#define %s_TILES_WIDTH %d\n", assetData->args->data_name.c_str(), (unsigned int)(assetData->args->spriteSize.width / assetData->image.tile_w));
+    fprintf(file, "#define %s_TILES_HEIGHT %d\n", assetData->args->data_name.c_str(), (unsigned int)(assetData->args->spriteSize.height / assetData->image.tile_h));
     // The TILE_COUNT calc here is referring to number of 8x8 tiles,
     fprintf(file, "#define %s_TILE_COUNT %d\n", assetData->args->data_name.c_str(), ((unsigned int)exportOpt.tiles_count) * (assetData->image.tile_h >> 3) * (assetData->image.tile_w >> 3));
     if (assetData->args->include_palettes) {
