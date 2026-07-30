@@ -32,7 +32,7 @@ ___setjmp:
         ; return 0
         ld l, e
         ld h, d
-        ld de, #0
+        ld bc, #0
         jp (hl)
 
         
