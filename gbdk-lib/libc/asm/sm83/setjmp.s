@@ -57,8 +57,8 @@ _longjmp:
 
         ; get return address
      	ld h, d
-	ld l, e
-	ld a, (hl+)
-	ld h, (hl)
-	ld l, a
-	jp (hl)
+		ld l, e
+		ld a, (hl+)
+		ld h, (hl)
+		ld l, a
+		jp (hl)
