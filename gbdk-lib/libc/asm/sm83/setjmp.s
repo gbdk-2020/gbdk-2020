@@ -40,8 +40,6 @@ ___setjmp:
 .globl _longjmp
 
 _longjmp:
-        pop af                       ; discard return address
-
         ; ensure that the return value is not zero
         ld a, b
         or c
@@ -58,13 +56,9 @@ _longjmp:
         ld sp, hl
 
         ; get return address
-        ld a, (de)
-        ld l, a
-        inc de
-        ld a, (de)
-        ld h, a
-
-        jp (hl)
-        
-        
-        
+     	ld h, d
+	ld l, e
+	ld a, (hl+)
+	ld h, (hl)
+	ld l, a
+	jp (hl)
