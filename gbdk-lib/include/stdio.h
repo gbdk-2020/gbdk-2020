@@ -15,7 +15,7 @@
     @param c            Character to print
  */
 
-void putchar(char c) OLDCALL REENTRANT;
+void putchar(char c) REENTRANT;
 
 /** Print the string and arguments given by format to stdout.
 
