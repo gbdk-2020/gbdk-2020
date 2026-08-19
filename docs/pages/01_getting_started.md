@@ -50,13 +50,15 @@ This should build all of the examples sequentially. You can also navigate into a
 ### macOS security warnings
 If you get a security warning on macOS that says ("`... developer cannot be verified, macOS cannot verify that this app is free from malware`"), it does not mean that GBDK is malware. It just means the GBDK toolchain binaries are not signed by Apple, so it won't run them without an additional step.
 
-You will need to unquarrantine the files in the bin folder in order to run them. This can be fixed using the following steps.
+You will need to unquarrantine the files in the bin and sdcc folders in order to run them. This can be fixed using the following steps.
 
 Open a terminal and navigate to the gbdk bin folder (`"bin/"` under your GBDK-2020 install folder). Then type:
 
     xattr -d com.apple.quarantine *
 
+Next, open a terminal and navigate to the gbdk sdcc folder (`"libexec/sdcc"` under your GBDK-2020 install folder). Then type:
 
+    xattr -d com.apple.quarantine *
 
 # 3. Use a Template
 __To create a new project use a template!__ 
