@@ -331,6 +331,14 @@ void refresh_OAM(void);
  */
 #define DEVICE_SUPPORTS_COLOR (TRUE)
 
+/** Macro returns TRUE if device supports window layer
+ */
+#define DEVICE_SUPPORTS_WINDOW (FALSE)
+
+/** Macro returns TRUE if device supports reading from VRAM
+ */
+#define DEVICE_SUPPORTS_VRAM_READ (FALSE)
+
 /** Global Time Counter in VBL periods (60Hz)
 
     Increments once per Frame
@@ -372,7 +380,7 @@ uint8_t get_r_reg(void) PRESERVES_REGS(b, c, d, e, h, l, iyh, iyl);
     @see BANKREF_EXTERN(), BANKREF()
 */
 #ifndef BANK
-#define BANK(VARNAME) ( (uint8_t) & __bank_ ## VARNAME )
+#define BANK(VARNAME) ( (uint16_t) & __bank_ ## VARNAME )
 #endif
 
 /** Creates a reference for retrieving the bank number of a variable or function
@@ -721,10 +729,22 @@ inline void set_bkg_submap_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h
     VBK_REG = VBK_TILES;
 }
 
+inline void set_win_submap_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w) {
+    VBK_REG = VBK_ATTRIBUTES;
+    set_tile_submap_compat(x, y, w, h, map, map_w);
+    VBK_REG = VBK_TILES;
+}
+
 void fill_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint16_t tile) Z88DK_CALLEE;
 void fill_rect_compat(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint16_t tile) Z88DK_CALLEE;
 #define fill_bkg_rect fill_rect_compat
 #define fill_win_rect fill_rect_compat
+
+inline void fill_bkg_rect_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint16_t attribute) {
+    VBK_REG = VBK_ATTRIBUTES;
+    fill_bkg_rect(x, y, w, h, attribute);
+    VBK_REG = VBK_TILES;
+}
 
 /** Shadow OAM array in WRAM, that is transferred into the real OAM each VBlank
 */
@@ -848,7 +868,7 @@ inline uint8_t get_sprite_prop(uint8_t nb) {
     Moving the sprite to 0,0 (or similar off-screen location) will hide it.
 */
 inline void move_sprite(uint8_t nb, uint8_t x, uint8_t y) {
-    shadow_OAM[nb] = (y < VDP_SAT_TERM) ? y : 0xC0;
+    shadow_OAM[nb] = (y != VDP_SAT_TERM) ? y : 0xC0;
     shadow_OAM[0x40+(nb << 1)] = x;
 }
 
@@ -865,7 +885,7 @@ inline void move_sprite(uint8_t nb, uint8_t x, uint8_t y) {
  */
 inline void scroll_sprite(uint8_t nb, int8_t x, int8_t y) {
     uint8_t new_y = shadow_OAM[nb] + y;
-    shadow_OAM[nb] = (new_y < VDP_SAT_TERM) ? new_y : 0xC0;
+    shadow_OAM[nb] = (new_y != VDP_SAT_TERM) ? new_y : 0xC0;
     shadow_OAM[0x40+(nb << 1)] += x;
 }
 
@@ -913,7 +933,7 @@ uint8_t * set_tile_xy(uint8_t x, uint8_t y, uint8_t t) Z88DK_CALLEE PRESERVES_RE
  * @param a tile attributes
  * @return returns the address of tile attribute, so you may use faster set_vram_byte() later
  */
-inline uint8_t * set_attribute_xy(uint8_t x, uint8_t y, uint8_t a) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
+uint8_t * set_attribute_xy(uint8_t x, uint8_t y, uint8_t a) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
 #define set_bkg_attribute_xy set_attribute_xy
 #define set_win_attribute_xy set_attribute_xy
 

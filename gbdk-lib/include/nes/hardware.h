@@ -6,6 +6,7 @@
 #define _HARDWARE_H
 
 #include <types.h>
+#include <stdint.h>
 
 #define __SHADOW_REG extern volatile uint8_t
 #define __REG(addr) volatile __at (addr) uint8_t

@@ -326,6 +326,14 @@ void refresh_OAM(void);
  */
 #define DEVICE_SUPPORTS_COLOR (TRUE)
 
+/** Macro returns TRUE if device supports window layer
+ */
+#define DEVICE_SUPPORTS_WINDOW (FALSE)
+
+/** Macro returns TRUE if device supports reading from VRAM
+ */
+#define DEVICE_SUPPORTS_VRAM_READ (FALSE)
+
 /** Global Time Counter in VBL periods (60Hz)
 
     Increments once per Frame
@@ -366,7 +374,7 @@ extern volatile uint8_t _current_bank;
     @see BANKREF_EXTERN(), BANKREF()
 */
 #ifndef BANK
-#define BANK(VARNAME) ( (uint8_t) & __bank_ ## VARNAME )
+#define BANK(VARNAME) ( (uint16_t) & __bank_ ## VARNAME )
 #endif
 
 /** Creates a reference for retrieving the bank number of a variable or function

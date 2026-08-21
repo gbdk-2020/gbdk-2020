@@ -7,14 +7,14 @@
 
 ; void set_sprite_palette(uint8_t first_palette, uint8_t nb_palettes, const palette_color_t *rgb_data) PRESERVES_REGS(b, c);
 _set_sprite_palette::		; Non-banked
-	ld d, c					; save C
-	ld c, #.OCPS
+	ld d, c			; save C
+	ld c, #rOCPS
 	jr .set_palette
 
 ; void set_bkg_palette(uint8_t first_palette, uint8_t nb_palettes, const palette_color_t *rgb_data) PRESERVES_REGS(b, c);
 _set_bkg_palette::		; Non-banked
-	ld d, c					; save C
-	ld c, #.BCPS
+	ld d, c			; save C
+	ld c, #rBCPS
 	
 	; first_palette is in A
 	; nb_palettes is in E
@@ -23,7 +23,7 @@ _set_bkg_palette::		; Non-banked
 	add a
 	add a
 	add a
-	or #0x80		; Set auto-increment
+	or #OCPSF_AUTOINC	; Set auto-increment
 	ldh (c), a
 	inc c
 	
@@ -53,32 +53,32 @@ _set_bkg_palette::		; Non-banked
 	jp (hl)
 
 ; void set_sprite_palette_entry(uint8_t palette, uint8_t entry, uint16_t rgb_data) PRESERVES_REGS(b, c);
-_set_sprite_palette_entry::	; Banked
-	ld d, c					; save C
-	ld c, #.OCPS
+_set_sprite_palette_entry::
+	ld d, c			; save C
+	ld c, #rOCPS
 	jr .set_palette_entry
 
 ; void set_bkg_palette_entry(uint8_t palette, uint8_t entry, uint16_t rgb_data) PRESERVES_REGS(b, c);
-_set_bkg_palette_entry::	; Banked
-	ld d, c					; save C
-	ld c, #.BCPS
+_set_bkg_palette_entry::
+	ld d, c			; save C
+	ld c, #rBCPS
 
 	; palette is in A
 	; entry is in E
 	; rgb_data is on the stack
 .set_palette_entry::
 	; A = palette * 8 + entry * 2
-	add	a
-	add	a
+	add a
+	add a
 	add e
-	add	a
-	or #0x80		; Set auto-increment
+	add a
+	or #OCPSF_AUTOINC	; Set auto-increment
 	ldh (c), a
 	inc c
 	
 	ldhl sp, #2
-	LD	A,(HL+)		; rgb_data
-	LD	E,(HL)
+	ld a,(hl+)		; rgb_data
+	ld e,(hl)
 
 	WAIT_STAT_HL
 

@@ -93,7 +93,7 @@
         TACF_65KHZ      = 0b00000010
         TACF_262KHZ     = 0b00000001
 
-        .IF             = 0x0F  ; Interrupt flags: 0.0.0.JST.SIO.TIM.LCD.VBL
+        .IFL            = 0x0F  ; Interrupt flags: 0.0.0.JST.SIO.TIM.LCD.VBL
         rIF             = 0xFF0F
 
         .NR10           = 0x20  ; Sound register

@@ -129,14 +129,14 @@ static void export_c_palette_data(PNG2AssetData* assetData, FILE* file) {
             unsigned char* pal_ptr = &assetData->image.palette[i * (assetData->image.colors_per_pal * RGBA32_SZ)];
             for (int c = 0; c < (int)assetData->image.colors_per_pal; ++c, pal_ptr += RGBA32_SZ)
             {
-                size_t rgb222 = (((pal_ptr[2] >> 6) & 0x3) << 4) |
-                    (((pal_ptr[1] >> 6) & 0x3) << 2) |
-                    (((pal_ptr[0] >> 6) & 0x3) << 0);
+                size_t rgb222 = (((pal_ptr[RGBA8_B] >> 6) & 0x3) << 4) |
+                    (((pal_ptr[RGBA8_G] >> 6) & 0x3) << 2) |
+                    (((pal_ptr[RGBA8_R] >> 6) & 0x3) << 0);
 
                 if (assetData->args->convert_rgb_to_nes)
                     fprintf(file, "0x%0X", rgb_to_nes[rgb222]);
                 else
-                    fprintf(file, "RGB8(%3d,%3d,%3d)", pal_ptr[0], pal_ptr[1], pal_ptr[2]);
+                    fprintf(file, "RGB8(%3d,%3d,%3d)", pal_ptr[RGBA8_R], pal_ptr[RGBA8_G], pal_ptr[RGBA8_B]);
 
                 // Trailing comma except for the last entry
                 if (cur_color < ((int)assetData->image.total_color_count - 1))

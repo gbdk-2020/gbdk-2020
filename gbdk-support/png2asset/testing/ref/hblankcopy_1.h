@@ -13,6 +13,8 @@
 #define hblankcopy_1_TILE_H 8
 #define hblankcopy_1_WIDTH 112
 #define hblankcopy_1_HEIGHT 72
+#define hblankcopy_1_TILES_WIDTH 14
+#define hblankcopy_1_TILES_HEIGHT 9
 #define hblankcopy_1_TILE_COUNT 126
 #define hblankcopy_1_PALETTE_COUNT 1
 #define hblankcopy_1_COLORS_PER_PALETTE 4

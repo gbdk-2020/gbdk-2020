@@ -127,10 +127,10 @@ font_load_found:
         pop     hl              ; Return font setup in HL
 font_load_exit:
         ;; Turn the screen on
-        LDH     A,(.LCDC)
+        LDH     A,(rLCDC)
         OR      #(LCDCF_ON | LCDCF_BGON)
         AND     #~(LCDCF_BG9C00 | LCDCF_BG8000)
-        LDH     (.LCDC),A
+        LDH     (rLCDC),A
 
         RET
 
@@ -190,6 +190,7 @@ font_set::
         ret
         
         ;; Print a character with interpretation
+_putchar::
 .put_char::
         ; See if it's a special char
         cp      #.CR
@@ -221,6 +222,7 @@ font_set::
         jp      .set_char
 
         ;; Print the character in A
+_setchar::
 .set_char:
         push    af
         ld      a,(font_current+2)
@@ -283,22 +285,6 @@ set_char_no_encoding:
         LD      (HL),E
         POP     HL
         POP     DE
-        POP     BC
-        RET
-
-_putchar::
-        PUSH    BC
-        LDA     HL,4(SP)        ; Skip return address
-        LD      A,(HL)          ; A = c
-        CALL    .put_char
-        POP     BC
-        RET
-
-_setchar::
-        PUSH    BC
-        LDA     HL,4(SP)        ; Skip return address
-        LD      A,(HL)          ; A = c
-        CALL    .set_char
         POP     BC
         RET
 
@@ -379,10 +365,8 @@ _cls::
 
         ; Support routines
 _gotoxy::
-        lda     hl,2(sp)
-        ld      a,(hl+)
         ld      (.curx),a
-        ld      a,(hl)
+        ld      a,e
         ld      (.cury),a
         ret
 
@@ -395,7 +379,6 @@ _posx::
         POP     BC
 1$:
         LD      A,(.curx)
-        LD      E,A
         RET
 
 _posy::
@@ -407,7 +390,6 @@ _posy::
         POP     BC
 1$:
         LD      A,(.cury)
-        LD      E,A
         RET
 
         ;; Rewind the cursor
@@ -517,7 +499,7 @@ _posy::
         DI                      ; Disable interrupts
 
         ;; Turn the screen off
-        LDH     A,(.LCDC)
+        LDH     A,(rLCDC)
         AND     #LCDCF_ON
         JR      Z,1$
 
@@ -532,10 +514,10 @@ _posy::
         CALL    .tmode_out
 
         ;; Turn the screen on
-        LDH     A,(.LCDC)
+        LDH     A,(rLCDC)
         OR      #(LCDCF_ON | LCDCF_BGON)
         AND     #~(LCDCF_BG9C00 | LCDCF_BG8000)
-        LDH     (.LCDC),A
+        LDH     (rLCDC),A
 
         EI                      ; Enable interrupts
 

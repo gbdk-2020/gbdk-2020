@@ -93,7 +93,7 @@
         TACF_65KHZ      = 0b00000010
         TACF_262KHZ     = 0b00000001
 
-        .IF             = 0x0F  ; Interrupt flags: 0.0.0.JST.SIO.TIM.LCD.VBL
+        .IFL            = 0x0F  ; Interrupt flags: 0.0.0.JST.SIO.TIM.LCD.VBL
         rIF             = 0xFF0F
 
         .NR10           = 0x10  ; Sound register
@@ -483,7 +483,7 @@
         ;; Macro definitions
 
 .macro WAIT_STAT ?lbl
-lbl:    LDH     A, (.STAT)
+lbl:    LDH     A, (rSTAT)
         AND     #STATF_BUSY     ; Check if in LCD modes 0 or 1
         JR      NZ, lbl
 .endm

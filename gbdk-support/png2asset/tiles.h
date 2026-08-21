@@ -29,6 +29,7 @@ struct Tile
         NES,
         SGB,
         SMS,
+        GG,
         BPP1
     };
 
@@ -45,10 +46,16 @@ struct Tile
         }        
         else if(pack_mode == NES) {
             for(int j = 0; j < tile_h; ++j) {
+                // For NES pack mode, tiles are planar instead of interleaved.
+                // 8 bytes for bit0 rows, then 8 bytes for bit1 rows.
+                // This means 8x16 tiles still need to be treated as two separate
+                // 8x8 tiles, in contrast to GB pack mode.
+                int tilenum = j / 8;
+                int tilerow = j % 8;
                 for(int i = 0; i < 8; ++i) {
                     unsigned char col = data[8 * j + i];
-                    ret[j] |= BIT(col, 0) << (7 - i);
-                    ret[j + 8] |= BIT(col, 1) << (7 - i);
+                    ret[16 * tilenum + tilerow] |= BIT(col, 0) << (7 - i);
+                    ret[16 * tilenum + tilerow + 8] |= BIT(col, 1) << (7 - i);
                 }
             }
         }
@@ -64,7 +71,7 @@ struct Tile
                 }
             }
         }
-        else if(pack_mode == SMS)
+        else if ((pack_mode == SMS) || (pack_mode == GG))
         {
             for(int j = 0; j < tile_h; ++j) {
                 for(int i = 0; i < 8; ++i) {

@@ -12,17 +12,17 @@ __map_tile_offset::
 
         ;; Set window tile table from BC at XY = DE of size WH = HL
 .set_xy_wtt::
-        PUSH    HL              ; Store WH
-        LDH     A,(.LCDC)
-        AND     #LCDCF_WIN9C00
-        JR      Z,.is98
-        JR      .is9c
+        push hl               ; Store WH
+        ldh a, (rLCDC)
+        and #LCDCF_WIN9C00
+        jr z, .is98
+        jr .is9c
         ;; Set background tile table from (BC) at XY = DE of size WH = HL
 .set_xy_btt::
-        PUSH    HL              ; Store WH
-        LDH     A,(.LCDC)
-        AND     #LCDCF_BG9C00
-        JR      NZ,.is9c
+        push hl               ; Store WH
+        ldh a, (rLCDC)
+        and #LCDCF_BG9C00
+        jr nz, .is9c
 .is98:
         ld h, #0x98
         jr .set_xy_tt

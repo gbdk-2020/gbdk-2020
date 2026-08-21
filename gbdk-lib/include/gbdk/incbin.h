@@ -45,7 +45,7 @@ extern const void __bank_ ## VARNAME;
     @ref INCBIN(), INCBIN_EXTERN()
 */
 #ifndef BANK
-#define BANK(VARNAME) ( (uint8_t) & __bank_ ## VARNAME )
+#define BANK(VARNAME) ( (uint16_t) & __bank_ ## VARNAME )
 #endif
 
 /** Includes binary data into a C source file

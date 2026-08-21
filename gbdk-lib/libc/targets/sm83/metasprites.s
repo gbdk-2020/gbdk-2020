@@ -79,6 +79,7 @@ ___move_metasprite::
         sub     d
 
         ret
+
 .sprite_limit:
-		xor a
-		ret
+        xor     a
+        ret

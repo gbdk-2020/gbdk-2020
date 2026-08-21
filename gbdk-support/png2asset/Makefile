@@ -10,6 +10,9 @@ LFLAGS = -g
 
 ifeq ($(OS),Windows_NT)
 	BUILD_OS := Windows_NT
+	# Hopefully temporary fix for Windows build linker errors (2026-05-30)
+	# Ref: https://github.com/PurpleI2P/i2pd/issues/2385
+	CXXFLAGS += -std=c++17 
 else
 	BUILD_OS := $(shell uname -s)
 endif

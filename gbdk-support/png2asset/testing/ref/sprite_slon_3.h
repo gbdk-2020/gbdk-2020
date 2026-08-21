@@ -13,6 +13,8 @@
 #define sprite_slon_3_TILE_H 16
 #define sprite_slon_3_WIDTH 64
 #define sprite_slon_3_HEIGHT 48
+#define sprite_slon_3_TILES_WIDTH 8
+#define sprite_slon_3_TILES_HEIGHT 3
 #define sprite_slon_3_TILE_COUNT 60
 #define sprite_slon_3_PALETTE_COUNT 1
 #define sprite_slon_3_COLORS_PER_PALETTE 4

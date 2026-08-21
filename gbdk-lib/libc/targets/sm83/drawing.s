@@ -70,7 +70,7 @@
         PUSH    DE              ; preserve DE
 
         ;; Turn the screen off
-        LDH     A,(.LCDC)
+        LDH     A,(rLCDC)
         AND     #LCDCF_ON
         JR      Z,1$
 
@@ -87,14 +87,14 @@
         CALL    .add_LCD
 
         LD      A,#72           ; Set line at which LCD interrupt occurs
-        LDH     (.LYC),A
+        LDH     (rLYC),A
 
         LD      A,#STATF_LYC
-        LDH     (.STAT),A
+        LDH     (rSTAT),A
 
-        LDH     A,(.IE)
+        LDH     A,(rIE)
         OR      #.LCD_IFLAG     ; Enable LCD interrupt
-        LDH     (.IE),A
+        LDH     (rIE),A
 
         ;; (9*20) = 180 tiles are used in the upper part of the screen
         ;; (9*20) = 180 tiles are used in the lower part of the screen
@@ -117,10 +117,10 @@
         JR      NZ,2$
 
         ;; Turn the screen on
-        LDH     A,(.LCDC)
+        LDH     A,(rLCDC)
         OR      #(LCDCF_ON | LCDCF_BG8000 | LCDCF_BGON)
         AND     #~LCDCF_BG9C00  ; BG Bank       = 0x9800
-        LDH     (.LCDC),A
+        LDH     (rLCDC),A
 
         LD      A,#.G_MODE
         LD      (.mode),A
@@ -136,7 +136,7 @@
         POP     DE              ; restore DE
 
         XOR     A
-        LDH     (.IF), A
+        LDH     (rIF), A
 
         EI                      ; Enable interrupts
 

@@ -109,10 +109,11 @@ _refresh_OAM::
         JP      .refresh_OAM_DMA
 
 .clear_WRAM:
-        XOR     A
-        LD      BC, #l__DATA
-        LD      HL, #s__DATA
-        CALL    .memset_simple
+        LD      DE, #l__DATA
+        PUSH    DE
+        LD      DE, #s__DATA
+        LD      BC, #0
+        CALL    _memset
 
         LD      A, #>_shadow_OAM
         LDH     (__shadow_OAM_base), A
@@ -127,7 +128,7 @@ _set_interrupts::
         LDH     (.IE),A
         XOR     A
         EI
-        LDH     (.IF),A         ; Clear pending interrupts
+        LDH     (.IFL),A         ; Clear pending interrupts
         RET
 
         ;; Copy OAM data to OAM RAM
@@ -222,19 +223,19 @@ _reset::
         CALL    .clear_WRAM
         POP     DE
 
-;       LD      (.mode),A       ; Clearing (.mode) is performed when clearing RAM
-
         ;; Store CPU type
         LD      A, D
         LD      (__cpu), A
         CP      #.CGB_TYPE
         JR      NZ, 1$
-        XOR     A
-        SRL     E
-        RLA
+        LD      A, E
+        AND     #0x01
         LD      (__is_GBA), A
 1$:
         XOR     A
+
+;       LD      (.mode),A       ; Clearing (.mode) is performed when clearing RAM
+
         ;; Initialize the display
         LDH     (.SCY),A
         LDH     (.SCX),A
@@ -274,7 +275,7 @@ _reset::
         LDH     (.IE),A
 
         XOR     A
-        LDH     (.IF),A
+        LDH     (.IFL),A
 
         LD      HL,#.sys_time
         LD      (HL+),A
@@ -444,76 +445,12 @@ __shadow_OAM_base::
 
 gsinit::
         ;; initialize static storage variables
-        LD      BC, #l__INITIALIZER
-        LD      HL, #s__INITIALIZER
+        LD      DE, #l__INITIALIZER
+        PUSH    DE
         LD      DE, #s__INITIALIZED
-        CALL    .memcpy_simple
+        LD      BC, #s__INITIALIZER
+        CALL    _memcpy
 
         .area   _GSFINAL
 
-        RET
-
-        .area   _HOME
-
-        ;; fills memory at HL of length BC with A, clobbers DE
-.memset_simple::
-        LD      E, A
-        LD      A, B
-        OR      C
-        RET     Z
-        LD      (HL), E
-        DEC     BC
-        LD      D, H
-        LD      E, L
-        INC     DE
-
-        ;; copies BC bytes from HL into DE
-.memcpy_simple::
-        LD      A, B
-        OR      C
-        RET     Z
-
-        SRL     B
-        RR      C
-        JR      NC,3$
-        LD      A, (HL+)
-        LD      (DE), A
-        INC     DE
-3$:
-        INC     B
-        INC     C
-        JR      2$
-1$:
-        LD      A, (HL+)
-        LD      (DE), A
-        INC     DE
-        LD      A, (HL+)
-        LD      (DE), A
-        INC     DE
-2$:
-        DEC     C
-        JR      NZ,1$
-        DEC     B
-        JR      NZ,1$
-4$:
-        RET
-
-.display_off::
-_display_off::
-        ;; Check if the screen is on
-        LDH     A,(.LCDC)
-        AND     #LCDCF_ON
-        RET     Z               ; Return if screen is off
-1$:                             ; We wait for the *NEXT* VBL
-        LDH     A,(.LY)
-        CP      #0x92           ; Smaller than or equal to 0x91?
-        JR      NC,1$           ; Loop until smaller than or equal to 0x91
-2$:
-        LDH     A,(.LY)
-        CP      #0x91           ; Bigger than 0x90?
-        JR      C,2$            ; Loop until bigger than 0x90
-
-        LDH     A,(.LCDC)
-        AND     #~LCDCF_ON
-        LDH     (.LCDC),A       ; Turn off screen
         RET

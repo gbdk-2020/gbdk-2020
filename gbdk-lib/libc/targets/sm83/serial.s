@@ -13,17 +13,17 @@
 	CALL	.add_SIO
 
 	XOR	A
-	LDH	(.IF),A
+	LDH	(rIF),A
 
-	LDH	A,(.IE)
+	LDH	A,(rIE)
 	OR	A,#0b00001000	; Serial I/O	=   On
-	LDH	(.IE),A
+	LDH	(rIE),A
 
-	LDH	(.SC),A		; Use external clock
+	LDH	(rSC),A		; Use external clock
 	LD	A,#.DT_IDLE
-	LDH	(.SB),A		; Send IDLE byte
+	LDH	(rSB),A		; Send IDLE byte
 	LD	A,#0x80
-	LDH	(.SC),A		; Use external clock
+	LDH	(rSC),A		; Use external clock
 
 	.area	_HOME
 
@@ -35,7 +35,7 @@
 	JR	NZ, 1$
 
 	;; Receiving data
-	LDH	A,(.SB)		; Get data byte
+	LDH	A,(rSB)		; Get data byte
 	LD	(__io_in),A	; Store it
 
 2$:
@@ -44,12 +44,12 @@
 	LD	(__io_status),A ; Store status
 
 	XOR	A
-	LDH	(.SC),A		; Use external clock
+	LDH	(rSC),A		; Use external clock
 	LD	A,#.DT_IDLE
-	LDH	(.SB),A		; Reply with IDLE byte
+	LDH	(rSB),A		; Reply with IDLE byte
 4$:
 	LD	A,#0x80
-	LDH	(.SC),A		; Enable transfer with external clock
+	LDH	(rSC),A		; Enable transfer with external clock
 	RET
 
 1$:
@@ -57,7 +57,7 @@
 	JR	NZ, 4$
 
 	;; Sending data
-	LDH	A,(.SB)		; Get data byte
+	LDH	A,(rSB)		; Get data byte
 	CP	#.DT_RECEIVING
 	JR	Z, 2$
 	LD	A,#.IO_ERROR
@@ -80,11 +80,11 @@ _send_byte::			; Banked
 	LD	A,#.IO_SENDING
 	LD	(__io_status),A ; Store status
 	LD	A,#0x01
-	LDH	(.SC),A		; Use internal clock
+	LDH	(rSC),A		; Use internal clock
 	LD	A,(__io_out)
-	LDH	(.SB),A		; Send data byte
+	LDH	(rSB),A		; Send data byte
 	LD	A,#0x81
-	LDH	(.SC),A		; Use internal clock
+	LDH	(rSC),A		; Use internal clock
 	RET
 
 	;; Receive byte from the serial port in __io_in
@@ -93,9 +93,9 @@ _receive_byte::			; Banked
 	LD	A,#.IO_RECEIVING
 	LD	(__io_status),A ; Store status
 	XOR	A
-	LDH	(.SC),A		; Use external clock
+	LDH	(rSC),A		; Use external clock
 	LD	A,#.DT_RECEIVING
-	LDH	(.SB),A		; Send RECEIVING byte
+	LDH	(rSB),A		; Send RECEIVING byte
 	LD	A,#0x80
-	LDH	(.SC),A		; Use external clock
+	LDH	(rSC),A		; Use external clock
 	RET

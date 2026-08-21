@@ -353,7 +353,7 @@ extern volatile uint8_t _current_bank;
     @see BANKREF_EXTERN(), BANKREF()
 */
 #ifndef BANK
-#define BANK(VARNAME) ( (uint8_t) & __bank_ ## VARNAME )
+#define BANK(VARNAME) ( (uint16_t) & __bank_ ## VARNAME )
 #endif
 
 /** Creates a reference for retrieving the bank number of a variable or function
@@ -651,6 +651,17 @@ void refresh_OAM(void) NO_OVERLAY_LOCALS;
  */
 #define DEVICE_SUPPORTS_COLOR (TRUE)
 
+/** Macro returns TRUE if device supports window layer
+ */
+#ifdef NES_WINDOW_LAYER 
+#define DEVICE_SUPPORTS_WINDOW (TRUE)
+#else
+#define DEVICE_SUPPORTS_WINDOW (FALSE)
+#endif
+
+/** Macro returns TRUE if device supports reading from VRAM
+ */
+#define DEVICE_SUPPORTS_VRAM_READ (FALSE)
 
 /**
  * Set byte in vram at given memory location
@@ -860,7 +871,7 @@ inline void set_bkg_submap_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h
 
     @see set_bkg_tiles for more details
 */
-inline void set_bkg_based_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles, uint8_t base_tile);
+void set_bkg_based_tiles(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *tiles, uint8_t base_tile) NO_OVERLAY_LOCALS;
 
 
 /** Sets a rectangular area of the Background Tile Map using a sub-region
@@ -1242,6 +1253,40 @@ void set_win_based_submap(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint
 #define set_win_based_submap set_bkg_based_submap
 #endif
 
+/** Sets a rectangular area of the Window Tile Map attributes using
+    a sub-region from a source tile map. Useful for scrolling implementations
+    of maps larger than 32 x 30 tiles.
+
+    @see SHOW_BKG
+    @see set_win_data, set_win_tiles, set_bkg_submap, set_tiles
+*/
+#if defined(NES_WINDOW_LAYER)
+void set_win_submap_attributes_nes16x16(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *attributes, uint8_t map_w) NO_OVERLAY_LOCALS;
+#else
+#define set_win_submap_attributes_nes16x16 set_bkg_submap_attributes_nes16x16
+#endif
+
+/** Sets a rectangular area of the Window Tile Map attributes using
+    a sub-region from a source tile map. Useful for scrolling implementations
+    of maps larger than 32 x 30 tiles.
+
+    Please note that this is just a wrapper function for set_win_submap_attributes_nes16x16()
+    and divides the coordinates and dimensions by 2 to achieve this.
+    It is intended to make code more portable by using the same coordinate system
+    that systems with the much more common 8x8 attribute resolution would use.
+
+    @see SHOW_BKG
+    @see set_win_data, set_win_tiles, set_bkg_submap, set_tiles
+*/
+#if defined(NES_WINDOW_LAYER)
+inline void set_win_submap_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *attributes, uint8_t map_w)
+{
+    set_win_submap_attributes_nes16x16(x >> 1, y >> 1, (w + 1) >> 1, (h + 1) >> 1, attributes, (map_w + 1) >> 1);
+}
+#else
+#define set_win_submap_attributes set_bkg_submap_attributes
+#endif
+
 /**
  * Set single tile t on window layer at x,y
  * @param x X-coordinate
@@ -1598,6 +1643,16 @@ void vmemset (void *s, uint8_t c, size_t n) NO_OVERLAY_LOCALS;
 void fill_bkg_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t tile) NO_OVERLAY_LOCALS;
 #define fill_rect fill_bkg_rect
 
+/** Fills a rectangular region of Tile Map Attribute entries for the Background layer with attribute.
+
+    @param x      X Start position in Background Map tile coordinates. Range 0 - 31
+    @param y      Y Start position in Background Map tile coordinates. Range 0 - 31
+    @param w      Width of area to set in tiles. Range 1 - 32
+    @param h      Height of area to set in tiles. Range 1 - 32
+    @param tile   Fill value
+*/
+void fill_bkg_rect_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t attribute) NO_OVERLAY_LOCALS;
+
 /** Fills a rectangular region of Tile Map entries for the Window layer with tile.
 
     @param x      X Start position in Window Map tile coordinates. Range 0 - 31
@@ -1610,6 +1665,20 @@ void fill_bkg_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t tile) NO_
 void fill_win_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t tile) NO_OVERLAY_LOCALS;
 #else
 #define fill_win_rect fill_bkg_rect
+#endif
+
+/** Fills a rectangular region of Tile Map Attribute entries for the Window layer with attribute.
+
+    @param x      X Start position in Window Map tile coordinates. Range 0 - 31
+    @param y      Y Start position in Window Map tile coordinates. Range 0 - 31
+    @param w      Width of area to set in tiles. Range 1 - 32
+    @param h      Height of area to set in tiles. Range 1 - 32
+    @param tile   Fill value
+*/
+#if defined(NES_WINDOW_LAYER)
+void fill_win_rect_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t attribute) NO_OVERLAY_LOCALS;
+#else
+#define fill_win_rect_attributes fill_bkg_rect_attributes
 #endif
 
 /** "Flushes" the updates to the shadow attributes so they are written

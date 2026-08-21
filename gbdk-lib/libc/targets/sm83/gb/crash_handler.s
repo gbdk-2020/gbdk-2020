@@ -41,22 +41,22 @@ ___HandleCrash::
 	; Don't call this directly, use `rst Crash`.
 
 	ld	(wCrashA), a	; We need to have at least one working register, so...
-	ldh 	a, (.IE)	; We're also going to overwrite this
+	ldh 	a, (rIE)	; We're also going to overwrite this
 	ld 	(wCrashIE), a
-	ldh 	a, (.LCDC)
+	ldh 	a, (rLCDC)
 	ld 	(wCrashLCDC), a
 	ld 	a, #LCDCF_ON	; LCDCF_ON Make sure the LCD is turned on to avoid waiting infinitely
-	ldh 	(.LCDC), a
+	ldh 	(rLCDC), a
 	ld 	a, #IEF_VBLANK	; IEF_VBLANK
-	ldh	(.IE), a
+	ldh	(rIE), a
 	ld 	a, #0		; `xor a` would overwrite flags
-	ldh	(.IF), a	; No point in backing up that register, it's always changing
+	ldh	(rIF), a	; No point in backing up that register, it's always changing
 	halt			; With interrupts disabled, this will exit when `IE & IF != 0`
 	nop			; Handle hardware bug if it becomes true *before* starting to execute the instruction (1-cycle window)
 
 	; We're now in VBlank! So we can now use VRAM as scratch for some cycles
 	ld	a, #0
-	ldh	(.LCDC), a ; Turn off LCD so VRAM can always be safely accessed
+	ldh	(rLCDC), a ; Turn off LCD so VRAM can always be safely accessed
 	; Save regs
 	ld 	(vCrashSP), sp
 	ld 	sp, #vCrashSP
@@ -67,7 +67,7 @@ ___HandleCrash::
 	push	af
 
 	; We need to have all the data in bank 0, but we can't guarantee we were there
-	ldh	a, (.VBK)
+	ldh	a, (rVBK)
 	ld	e, a
 	bit	#0, a
 	jr	z, .bank0
@@ -77,23 +77,23 @@ ___HandleCrash::
 .copyAcross:
 	ld 	b, (hl)
 	xor	a
-	ldh 	(.VBK), a
+	ldh 	(rVBK), a
 	ld 	(hl), b
 	inc	l		; inc hl
 	inc	a		; ld a, 1
-	ldh 	(.VBK), a
+	ldh 	(rVBK), a
 	dec	c
 	jr	nz, .copyAcross
 .bank0:
 	xor	a
-	ldh	(.NR52), a	; Kill sound for this screen
+	ldh	(rAUDENA), a	; Kill sound for this screen
 
-	ldh	(.VBK), a
+	ldh	(rVBK), a
 	ld	a, e
 	ld	(vCrashVBK), a	; copy vCrashVBK across banks
 
 	ld	a, #1
-	ldh	(.VBK), a
+	ldh	(rVBK), a
 	ld	hl, #vCrashDumpScreen
 	ld	b, #SCRN_Y_B
 .writeAttrRow:
@@ -106,15 +106,15 @@ ___HandleCrash::
 	dec 	b
 	jr 	nz, .writeAttrRow
 	xor 	a
-	ldh 	(.VBK), a
+	ldh 	(rVBK), a
 
 	; Load palettes
 	ld 	a, #0x03
-	ldh 	(.BGP), a
+	ldh 	(rBGP), a
 	ld 	a, #0x80
-	ldh 	(.BCPS), a
+	ldh 	(rBCPS), a
 	xor 	a
-	ld 	c, #.BCPD
+	ld 	c, #rBCPD
 	ldh 	(c), a
 	ldh 	(c), a
 	dec 	a ; ld a, $FF
@@ -126,9 +126,9 @@ ___HandleCrash::
 	ldh 	(c), a
 
 	ld	a, #(SCRN_VY - SCRN_Y)
-	ldh 	(.SCY), a
+	ldh 	(rSCY), a
 	ld	a, #(SCRN_VX - SCRN_X - 4)
-	ldh	(.SCX), a
+	ldh	(rSCX), a
 
 	call	loadfont
 
@@ -219,7 +219,7 @@ ___HandleCrash::
 	call	.printHexA
 	ld	c, #4
 	rst	#0x30		; .MemcpySmall
-	ldh	a, (.KEY1)
+	ldh	a, (rKEY1)
 	call	.printHexA
 	ld	c, #4
 	rst	#0x30		; .MemcpySmall
@@ -251,12 +251,12 @@ ___HandleCrash::
 
 	; Start displaying
 	ld	a, #(LCDCF_ON | LCDCF_BG9C00 | LCDCF_BGON)
-	ldh	(.LCDC), a
+	ldh	(rLCDC), a
 
 .loop:
 	; The code never lags, and IE is equal to IEF_VBLANK
 	xor a
-	ldh (.IF), a
+	ldh (rIF), a
 	halt
 	nop
 
@@ -408,7 +408,7 @@ loadfont:
 	.ascii	"V" 
 	.dw	vCrashVBK 
 	.ascii	"W"
-	.db	.SVBK, 0xff
+	.dw	rSVBK
 	.ascii	" "
 
 

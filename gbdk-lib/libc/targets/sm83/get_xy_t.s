@@ -5,14 +5,14 @@
         ;; Store window tile table into (BC) at xy = DE of size WH = HL
 .get_xy_wtt::
         PUSH    HL              ; Store WH
-        LDH     A,(.LCDC)
+        LDH     A,(rLCDC)
         AND     #LCDCF_WIN9C00
         JR      Z,.is98
         JR      .is9c
         ;; Store background tile table into (BC) at XY = DE of size WH = HL
 .get_xy_btt::
         PUSH    HL              ; Store WH
-        LDH     A,(.LCDC)
+        LDH     A,(rLCDC)
         AND     #LCDCF_BG9C00
         JR      NZ,.is9c
 .is98:
