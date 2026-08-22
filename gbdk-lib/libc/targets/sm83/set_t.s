@@ -21,6 +21,8 @@ _set_tiles::
         LD      B, A
         LD      A, (HL-)
         LD      C, A
-        LD      H, (HL)         ; only load the high byte of tiles since its lower byte will be ignored by .set_xy_t anyway
+        LD      A, (HL-)
+        LD      L, (HL)
+        LD      H, A
 
-        JP      .set_xy_tt      ;; Set background tile from (BC) at XY = DE, size WH on stack, to vram from address (H << 8)
+        JP      .set_xy_tt      ;; Set background tile from (BC) at XY = DE, size WH on stack, to vram from address (HL)
