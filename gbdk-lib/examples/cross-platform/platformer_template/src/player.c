@@ -8,8 +8,6 @@
 #include "camera.h"
 #include "level.h"
 
-BANKREF_EXTERN(PlayerCharacterSprites)
-
 
 #define GRAVTY 45
 #define GROUND_FRICTION 15

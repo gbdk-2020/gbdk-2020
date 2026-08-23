@@ -10,12 +10,6 @@
 #define WORLD1_SOLID_TILE_COUNT 17
 #define WORLD2_SOLID_TILE_COUNT 68
 
-BANKREF_EXTERN(World1Tileset)
-BANKREF_EXTERN(World2Tileset)
-BANKREF_EXTERN(World1Area1)
-BANKREF_EXTERN(World1Area2)
-BANKREF_EXTERN(World1Area1)
-
 
 // Instead of directly referencing our map constants, camera and physica code will reference these which can be changed between levels
 uint16_t currentLevelWidth;
