@@ -46,4 +46,4 @@ Make sure to set their level tile data into vram.
 
 Make sure to set the number of solid tiles. These should always come first. This should include duplicates and flipped tiles.
 
-> As an optimizatation you could remove adjust your tileset, tilemap, and png2asset to handle duplicates/tile-flipping, but you would lose some DMG compatibility
+> As an optimizatation you could adjust your tileset, tilemap, and png2asset to handle duplicates/tile-flipping, but you would lose some DMG compatibility
