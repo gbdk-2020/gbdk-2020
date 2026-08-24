@@ -684,7 +684,7 @@ __endasm; \
 
 /** Makes MBC5 to switch the active ROM bank using the full 8MB size.
     @see CURRENT_BANK
-    @param b   ROM bank to switch to
+    @param b   An unsigned 16 bit integer with the ROM bank to switch to (range 1 - 511)
 
     This is an alternate to @ref SWITCH_ROM_MBC5 which is limited to 4MB.
 
@@ -692,6 +692,7 @@ __endasm; \
     \li Banked SDCC calls are not supported if you use this macro.
     \li The active bank number is not tracked by @ref CURRENT_BANK if you use this macro.
     \li Using @ref SWITCH_ROM_MBC5_8M() should not be mixed with using @ref SWITCH_ROM_MBC5() and @ref SWITCH_ROM().
+    \li The @ref bankpack utility only supports ROMs up to 4MB (256 x 16K banks)
 
     Note the order used here. Writing the other way around on a MBC1 always selects bank 1
 */
