@@ -60,7 +60,7 @@ https://gbdev.io/pandocs/STAT.html#stat-modes
 
   - Global and local static variables are generally more efficient than local non-static variables (which go on the stack and are slower and can result in slower code).
     - An exception to this when there are a small number of local variables (one or two) and the code is not complex. Then the compiler may allocate those variables to CPU registers instead which may be faster.
-    - Functions which use global or static local variables will loose re-entrancy. In most cases it is not a problem, but important to keep in mind.
+    - Functions which use global or static local variables will lose re-entrancy. In most cases it is not a problem, but important to keep in mind.
     - In particular avoid putting big arrays on the stack, consider static local or global.
 
   - Keep the number of arguments passed to functions small (ideally one or two arguments at most). When there are a large number of arguments they get pushed onto the stack and result in more overhead for function calls. See the Calling Conventions in the SDCC compiler manual for details.
