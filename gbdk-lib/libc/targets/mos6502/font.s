@@ -435,6 +435,8 @@ _posy::
 .tmode_out::
         ;; Clear screen
         jsr .cls_no_reset_pos
-        lda #.T_MODE
+        lda .mode
+        AND #.S_M_MASK
+        ORA #.T_MODE
         sta .mode
         rts
