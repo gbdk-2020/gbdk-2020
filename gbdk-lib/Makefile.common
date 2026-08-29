@@ -4,7 +4,7 @@ ifndef PORTS
 PORTS = sm83 z80 mos6502
 endif
 ifndef PLATFORMS
-PLATFORMS = gb ap duck gg sms msxdos nes
+PLATFORMS = gb ap duck gg sms msxdos nes-m30-s-lomem nes-m30-s-win nes-m2-h nes-m2-v
 endif
 
 ifndef SDCCLIB

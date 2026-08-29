@@ -7,7 +7,7 @@ ifeq ($(PORTS),)
 endif
 
 ifeq ($(PLATFORMS),)
-	PLATFORMS = gb ap duck gg sms msxdos nes
+	PLATFORMS = gb ap duck gg sms msxdos nes-mapper30-s-lomem nes-mapper30-s-win nes-mapper30-f nes-mapper2-h nes-mapper2-v
 endif
 
 TOPDIR = ..
