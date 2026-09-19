@@ -2,7 +2,7 @@
 ;   setjmp.s - source file for ANSI routines setjmp & longjmp
 ;
 ;   Copyright (C) 2020, Steven Hugg. hugg@efasterlight.com
-;   Copyright (C) 2023, Gabriele Gorla
+;   Copyright (C) 2023-25, Gabriele Gorla
 ;
 ;   This library is free software; you can redistribute it and/or modify it
 ;   under the terms of the GNU General Public License as published by the
@@ -32,7 +32,7 @@
 ;--------------------------------------------------------
 ; exported symbols
 ;--------------------------------------------------------
-	.globl ___setjmp    ; 
+	.globl ___setjmp
         .globl _longjmp
         .globl _longjmp_PARM_2
 	
@@ -103,13 +103,11 @@ _longjmp:
         lda	[ptr],y
         sta	0x102,x
 
-;_setjmp.c:224: return rv ? rv : 1;
-        ldx    *(rv + 1)
-        txa
-        ora    *(rv + 0)
-        beq     0001$
-        lda    *(rv + 0)
-        rts
-0001$:
-        lda     #0x01
+; return rv ? rv : 1;
+        lda	*(rv + 0)
+        ldx	*(rv + 1)
+        ora	*(rv + 1)
+        bne	ret
+        lda	#0x01
+ret:
         rts
