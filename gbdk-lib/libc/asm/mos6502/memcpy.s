@@ -28,7 +28,7 @@
 ;   might be covered by the GNU General Public License.
 ;-------------------------------------------------------------------------
 
-;	.module __memcpy
+	.module _memcpy
 
 ;--------------------------------------------------------
 ; exported symbols
@@ -54,7 +54,7 @@ ___memcpy_PARM_3:
 ;--------------------------------------------------------
 ; local aliases
 ;--------------------------------------------------------
-	.define save  "REGTEMP+0"
+	.define save  "___SDCC_m6502_ret0"
 	.define dst   "DPTR"
 	.define src   "___memcpy_PARM_2"
 	.define count "___memcpy_PARM_3"
@@ -73,29 +73,30 @@ ___memcpy:
 
 	ldy	#0
 	ldx	*count+1
-	beq	00002$
-00001$:
+	beq	last_bytes
+page_loop:
 	lda	[src],y
 	sta	[dst],y
 	iny
 	lda	[src],y
 	sta	[dst],y
 	iny
-	bne	00001$
+	bne	page_loop
 	inc	*src+1
 	inc	*dst+1
 	dex
-	bne	00001$
-00002$:
+	bne	page_loop
+
+last_bytes:
 	ldx	*count+0
-	beq	00004$
-00003$:
+	beq	end
+byte_loop:
 	lda	[src],y
 	sta	[dst],y
 	iny
 	dex
-	bne	00003$
-00004$:
+	bne	byte_loop
+end:
 	lda	*save+0
 	ldx	*save+1
 	rts

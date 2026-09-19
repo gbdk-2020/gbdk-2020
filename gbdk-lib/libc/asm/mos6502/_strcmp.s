@@ -69,12 +69,12 @@ loop:
 	inc	*_str2+1
 	bne	loop
 L1:
-	bcs	L2
-	ldx	#0xFF
-;//	txa
-	rts
-L2:
-	ldx	#0x01
-;//	txa
+; return the exact difference - common behavior but not required by the standard
+;	sec
+;	sbc	[_str2],y
+
+	ldx	#0x00
+	bcs	end
+	dex
 end:
 	rts

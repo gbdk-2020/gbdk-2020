@@ -87,7 +87,7 @@ __current_vram_cfg_write::              .ds 1
 .define __crt0_MAPPER_VRAM_CFG_TEMP "___SDCC_m6502_ret4"
 .endif
 
-.define __crt0_NMITEMP "___SDCC_m6502_ret4"
+__crt0_NMITEMP:                         .ds 4
 
 .area _BSS
 .ifdef NES_LOMEM
