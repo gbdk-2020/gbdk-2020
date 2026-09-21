@@ -187,6 +187,19 @@ void set_sprite_palette_entry(uint8_t palette, uint8_t entry, palette_color_t rg
 /** Height of the visible screen in pixels.
  */
 #define SCREENHEIGHT DEVICE_SCREEN_PX_HEIGHT
+/** The Minimum X position of the Window Layer (Left edge of screen) @see move_win()
+ */
+#define MINWNDPOSX   DEVICE_WINDOW_PX_OFFSET_X
+/** The Minimum Y position of the Window Layer (Top edge of screen) @see move_win()
+ */
+#define MINWNDPOSY   DEVICE_WINDOW_PX_OFFSET_Y
+/** The Maximum X position of the Window Layer (Right edge of screen) @see move_win()
+ */
+#define MAXWNDPOSX   (DEVICE_WINDOW_PX_OFFSET_X + DEVICE_SCREEN_PX_WIDTH - 1)
+/** The Maximum Y position of the Window Layer (Bottom edge of screen) @see move_win()
+ */
+#define MAXWNDPOSY   (DEVICE_WINDOW_PX_OFFSET_Y + DEVICE_SCREEN_PX_HEIGHT - 1)
+
 
 /** Interrupt handlers
  */
