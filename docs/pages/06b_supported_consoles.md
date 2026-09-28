@@ -16,7 +16,7 @@ As of version `4.2.0` GBDK includes support for other consoles in addition to th
   - NES/Famicom (NES)
 
   - MSX DOS (MSXDOS) (partial support)
-
+  - TI83 (partial support)
 While the GBDK API has many convenience functions that work the same or similar across different consoles, it's important to keep their different capabilities in mind when writing code intended to run on more than one. Some (but not all) of the differences are screen sizes, color capabilities, memory layouts, processor type (z80 vs gbz80/sm83) and speed.
 
  
