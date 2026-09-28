@@ -18,7 +18,7 @@ arg_entry llist0_defaults_gb[] = {
     {.searchkey= "_HRAM=",       .addflag= "-b",.addvalue= "_HRAM=0xFF80",       .found= false},
 };
 
-// SMS / GG
+// SMS / GG / TI83
 arg_entry llist0_defaults_sms[] = {
     {.searchkey= "_shadow_OAM=", .addflag= "-g",.addvalue= "_shadow_OAM=0xC000", .found= false},
     {.searchkey= ".STACK=",      .addflag= "-g",.addvalue= ".STACK=0xDFF0",      .found= false},
