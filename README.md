@@ -10,7 +10,7 @@ __Supported Consoles:__ [(see docs)](https://gbdk.org/docs/api/docs_supported_co
 
 Experimental consoles (not yet fully functional)
   - MSXDOS
-
+  - TI83
 
 ## Current Release
 
