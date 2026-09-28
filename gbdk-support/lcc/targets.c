@@ -134,12 +134,27 @@ CLASS classes[] = {
       .llist0_defaults    = llist0_defaults_sms,
       .llist0_defaults_len= ARRAY_LEN(llist0_defaults_sms),  // Use SMS linker list defaults
     },
-
-    // MSX
+  { .port         = "z80",
+      .plat         = "gg",
+      .default_plat = "gg",
+      .rom_extension=  EXT_GG,
+      .cpp          = "%cpp% %cppdefault% $1 $2 $3",
+      .include      = "%includedefault%",
+      .com          = "%com% %comdefault% -Wa%asdefault% $1 %comflag% $2 -o $3",
+      .as           = "%as_z80% %asdefault% $1 $3 $2",
+      .bankpack     = "%bankpack% -plat=sms $1 $2",
+      .ld           = "%ld_z80% -a sms -n -i $1 %libs_include% $3 %crt0dir% $2",
+      .ihxcheck     = "%ihxcheck% $2 $1",
+      .mkbin        = "%mkbin% -S -xj 6 $1 $2 $3",  // -xj 6 is GG_EXPORT region code, for better compatibility with some emulators
+      .postproc     = "",
+      .llist0_defaults    = llist0_defaults_sms,
+      .llist0_defaults_len= ARRAY_LEN(llist0_defaults_sms),  // Use SMS linker list defaults
+    },
+    // TI83
     { .port         = "z80",
-      .plat         = "msxdos",
-      .default_plat = "msxdos",
-      .rom_extension=  EXT_MSXDOS,
+      .plat         = "ti83",
+      .default_plat = "ti83",
+      .rom_extension=  EXT_TI83,
       .cpp          = "%cpp% %cppdefault% $1 $2 $3",
       .include      = "%includedefault%",
       .com          = "%com% %comdefault% -Wa%asdefault% $1 %comflag% $2 -o $3",
@@ -149,8 +164,8 @@ CLASS classes[] = {
       .ihxcheck     = "%ihxcheck% $2 $1",
       .mkbin        = "%mkbin% $1 $2 $3",
       .postproc     = "%mkcom% $1 $2 $3",
-      .llist0_defaults    = llist0_defaults_msxdos,
-      .llist0_defaults_len= ARRAY_LEN(llist0_defaults_msxdos),
+      .llist0_defaults    = llist0_defaults_sms,
+      .llist0_defaults_len= ARRAY_LEN(llist0_defaults_sms),
     },
 
     // Legacy "nes" target. Identical to nes-m30-s-lomem
