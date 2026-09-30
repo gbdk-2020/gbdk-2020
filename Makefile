@@ -262,7 +262,6 @@ gbdk-lib-install-ports: gbdk-lib-build
 # It caused problems when the user lacked write permissions to the gbdk install folder.
 gbdk-lib-install-platforms:
 	if [ -d "$(GBDKLIBDIR)/build/nes-m30-s-lomem" ]; then \
-		# copy build/nes-m30-s-lomem to build/nes, to allow "nes" to default to it for backwards-compatibility \
 		rm -rf $(GBDKLIBDIR)/build/nes; \
 		cp -r $(GBDKLIBDIR)/build/nes-m30-s-lomem $(GBDKLIBDIR)/build/nes; \
 		mv $(GBDKLIBDIR)/build/nes/nes-m30-s-lomem.lib $(GBDKLIBDIR)/build/nes/nes.lib; \
@@ -287,7 +286,6 @@ gbdk-lib-install-platforms:
 		done \
 	done
 	if [ -d "$(GBDKLIBDIR)/build/nes-m30-s-lomem" ]; then \
-		# copy build/nes-m30-s-lomem/global.s + platform_cfg.s to build/nes, to allow "nes" to default to it for backwards-compatibility \
 		cp $(GBDKLIBDIR)/libc/targets/mos6502/global.s $(BUILDDIR)/lib/nes/; \
 		cp $(GBDKLIBDIR)/libc/targets/mos6502/nes-m30-s-lomem/platform_cfg.s $(BUILDDIR)/lib/nes/; \
 	fi
