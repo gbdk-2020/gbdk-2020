@@ -21,7 +21,7 @@ LCCFLAGS_sms     =
 LCCFLAGS_gg      =
 LCCFLAGS_nes     = -autobank
 
-LCCFLAGS += $(LCCFLAGS_$(PLAT)) # This adds the current platform specific LCC Flags
+LCCFLAGS += $(LCCFLAGS_$(EXT)) # This adds the current platform specific LCC Flags
 
 LCCFLAGS += -Wl-j -Wm-yoA -Wm-ya4 -Wb-ext=.rel -Wb-v # MBC + Autobanking related flags
 
@@ -46,12 +46,20 @@ PROJECTNAME = large-map
 
 CFLAGS = -Wf-MMD -Wf-Wp-MP # Header file dependency output (-MMD) for Makefile use + per-header Phoney rules (-MP)
 
+# GB platform needs unique directories for gb vs gbc
+# NES platform needs unique directories for each mapper
+ifeq ($(PLAT), gb)
+    PLATDIR = $(EXT)
+else
+    PLATDIR = $(PLAT)
+endif
+
 # EXT?=gb # Only sets extension to default (game boy .gb) if not populated
 SRCDIR      = src
-OBJDIR      = obj/$(PLAT)
-RESOBJSRC   = obj/$(PLAT)/res
+OBJDIR      = obj/$(PLATDIR)
+RESOBJSRC   = obj/$(PLATDIR)/res
 RESDIR      = res
-BINDIR      = build/$(PLAT)
+BINDIR      = build/$(PLATDIR)
 MKDIRS      = $(OBJDIR) $(BINDIR) $(RESOBJSRC) # See bottom of Makefile for directory auto-creation
 
 BINS	    = $(OBJDIR)/$(PROJECTNAME).$(EXT)
