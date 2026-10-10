@@ -1,4 +1,4 @@
-# GBDK-2020
+# GBDK-202
 GBDK is a cross-platform development kit for sm83, z80 and 6502 based gaming consoles. It includes libraries, toolchain utilities and the [SDCC](http://sdcc.sourceforge.net/) C compiler suite.
 
 __Supported Consoles:__ [(see docs)](https://gbdk.org/docs/api/docs_supported_consoles.html)
