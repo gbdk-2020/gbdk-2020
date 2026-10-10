@@ -796,14 +796,6 @@ extern volatile uint8_t _sprites_OFF;
 */
 #define MAX_HARDWARE_SPRITES 64
 
-/** True if sprite hardware can flip sprites by X (horizontally)
-*/
-#define HARDWARE_SPRITE_CAN_FLIP_X 0
-
-/** True if sprite hardware can flip sprites by Y (vertically)
-*/
-#define HARDWARE_SPRITE_CAN_FLIP_Y 0
-
 /** Sets address of 256-byte aligned array of shadow OAM to be transferred on each VBlank
 */
 inline void SET_SHADOW_OAM_ADDRESS(void * address) {
@@ -942,5 +934,7 @@ uint8_t * set_attribute_xy(uint8_t x, uint8_t y, uint8_t a) Z88DK_CALLEE PRESERV
  */
 uint8_t * get_bkg_xy_addr(uint8_t x, uint8_t y) PRESERVES_REGS(iyh, iyl);
 #define get_win_xy_addr get_bkg_xy_addr
+
+inline uint8_t bkg_attributes_enabled() { return TRUE; }
 
 #endif /* _SMS_H */

@@ -1935,14 +1935,6 @@ __REG _shadow_OAM_base;
 
 /** True if sprite hardware can flip sprites by X (horizontally)
 */
-#define HARDWARE_SPRITE_CAN_FLIP_X 1
-
-/** True if sprite hardware can flip sprites by Y (vertically)
-*/
-#define HARDWARE_SPRITE_CAN_FLIP_Y 1
-
-/** Enable OAM DMA copy each VBlank and set it to transfer any 256-byte aligned array
-*/
 inline void SET_SHADOW_OAM_ADDRESS(void * address) {
     _shadow_OAM_base = (uint8_t)((uint16_t)address >> 8);
 }
@@ -2340,5 +2332,12 @@ inline void fill_win_rect_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h,
     fill_win_rect(x, y, w, h, attribute);
     VBK_REG = VBK_TILES;
 }
+
+/** Checks whether background attributes are enabled
+
+    In a GBC build, this will depend on whether the ROM is running on 
+    a DMG or GBC. For other builds this will typically return a constant.
+*/
+inline uint8_t bkg_attributes_enabled() { return _cpu == CGB_TYPE; }
 
 #endif /* _GB_H */
