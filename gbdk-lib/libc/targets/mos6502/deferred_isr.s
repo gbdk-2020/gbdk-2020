@@ -25,7 +25,8 @@
     ; Copy shadow registers
     ldy *.lcd_buf_index
 .ifdef NES_WINDOW_LAYER
-    lda #0
+    lda *__current_vram_cfg_display
+    and #~PPUHI_WIN
     sta __lcd_isr_mapper,y
 .endif
     lda *_shadow_PPUMASK

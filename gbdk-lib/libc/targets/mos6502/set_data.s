@@ -50,6 +50,9 @@ _set_sprite_data::
     sta PPUADDR
     lda *.ppu_addr_lo
     sta PPUADDR
+.ifdef VRAM_MAPPER_CFG_TRANSFER
+    jsr __switch_vram_cfg_temp
+.endif
 .copy_tiles_loop:
     ; plane0 - 8 even bytes
     ldy #0

@@ -6,8 +6,6 @@
 .title  "VRAMBuffer"
 .module VRAMBuffer
 
-.include "mapper_macros.s"
-
 ;
 ; Format of transfer buffer
 ;
@@ -61,6 +59,9 @@ __vram_transfer_buffer_valid::          .ds 1
 __vram_transfer_buffer_num_cycles_x8::  .ds 1
 __vram_transfer_buffer_pos_w::          .ds 1
 __vram_transfer_buffer_pos_old::        .ds 1
+.ifdef VRAM_MAPPER_CFG_TRANSFER
+__current_vram_cfg_write_old::          .ds 1
+.endif
 
 .define __vram_transfer_buffer_temp     "(REGTEMP+6)"
 .define ppu_addr ".tmp"
@@ -131,11 +132,15 @@ __vram_transfer_buffer_pos_old::        .ds 1
     lda *__vram_transfer_buffer_pos_w
     cmp #128-VRAM_MAX_STRIPE_SIZE
     bcs 2$
-.ifdef NES_WINDOW_LAYER
+.ifdef VRAM_MAPPER_CFG_TRANSFER
     ldx *__vram_transfer_buffer_pos_w
     ; if transfer buffer is empty, we must always re-initialize mapper with fresh write
     beq 3$
-    ; otherwise check the previous address. if there's a difference in bank bits, we need to re-initialize mapper 
+    ; if VRAM CFG register has changed, we must also re-initialize mapper with fresh write
+    lda *__current_vram_cfg_write
+    cmp *__current_vram_cfg_write_old
+    bne 3$
+    ; otherwise check the previous address. if there's a difference in win-bank bit, we need to re-initialize mapper 
     ldx *__vram_transfer_buffer_pos_old
     tya
     eor __vram_transfer_buffer+VRAM_HDR_PPUHI,x
@@ -149,6 +154,10 @@ __vram_transfer_buffer_pos_old::        .ds 1
     VRAM_BUFFER_LOCK
     ldy *__vram_transfer_buffer_pos_w
     sty *__vram_transfer_buffer_pos_old
+.ifdef VRAM_MAPPER_CFG_TRANSFER
+    lda *__current_vram_cfg_write
+    sta *__current_vram_cfg_write_old
+.endif
     ; Write direction
     pla
     sta __vram_transfer_buffer+VRAM_HDR_DIRECTION,y
@@ -319,6 +328,10 @@ _set_vram_byte::
     ; Just create a new stripe with a single byte
     ldy *__vram_transfer_buffer_pos_w
     sty *__vram_transfer_buffer_pos_old
+.ifdef VRAM_MAPPER_CFG_TRANSFER
+    lda *__current_vram_cfg_write
+    sta *__current_vram_cfg_write_old
+.endif
     ; Write direction (assume horizontal) and new terminator byte
     lda #0
     sta __vram_transfer_buffer+VRAM_HDR_DIRECTION,y
@@ -394,15 +407,14 @@ _set_vram_byte::
     ldx *ppu_addr+1
     rts
 
-.ifdef NES_WINDOW_LAYER
-.ppu_write_mapper:
+.ifdef VRAM_MAPPER_CFG_TRANSFER
+.ppu_write_mapper::
     clc
     bit *__oam_valid_display_on
     bvc .ppu_write_mapper_indirect
 .ppu_write_mapper_direct:
     ; Direct write
-    SWITCH_PRG0_A
-    rts
+    jmp __switch_vram_cfg_temp
 
 .ppu_write_mapper_indirect:
     pha
@@ -418,6 +430,10 @@ _set_vram_byte::
     VRAM_BUFFER_LOCK
     ldy *__vram_transfer_buffer_pos_w
     sty *__vram_transfer_buffer_pos_old
+.ifdef VRAM_MAPPER_CFG_TRANSFER
+    lda *__current_vram_cfg_write
+    sta *__current_vram_cfg_write_old
+.endif
 
     ; Write direction (assume horizontal) and new terminator byte
     lda #0
@@ -428,9 +444,12 @@ _set_vram_byte::
     sta __vram_transfer_buffer+VRAM_HDR_JMPADDR,y
     ; Write mapper value to PPUADDR_LO
     lda *ppu_addr+1
-    ora *__current_vram_cfg_write
     and #PPUHI_WIN
+    ora *__current_vram_cfg_write
     sta __vram_transfer_buffer+VRAM_HDR_PPULO,y
+    ; Write PPUHI to avoid redundant mapper write from win-bit-detection
+    lda #0
+    sta __vram_transfer_buffer+VRAM_HDR_PPUHI,y
 
     ; Increase write pointer
     tya

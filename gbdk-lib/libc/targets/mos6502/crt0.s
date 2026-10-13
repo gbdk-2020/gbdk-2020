@@ -7,7 +7,6 @@
 ;  * 16-bit frame counter _sys_time, to support VM routines
 .module crt0
 .include    "global.s"
-.include    "mapper_macros.s"
 
 ; OAM CPU page
 _shadow_OAM             = 0x200
@@ -81,10 +80,14 @@ __hblank_writes_index::                 .ds 1
 _win_pos_x::                            .ds 1
 _win_pos_y::                            .ds 1
 .endif
-.ifdef VRAM_MAPPER_CFG_ISR
+.ifdef VRAM_MAPPER_CFG_TRANSFER
 __lcd_isr_save_s:                       .ds 1
 __current_vram_cfg_write::              .ds 1
-.define __crt0_MAPPER_VRAM_CFG_TEMP "___SDCC_m6502_ret4"
+.endif
+
+.ifdef VRAM_MAPPER_CFG_ISR
+__current_vram_cfg_display::            .ds 1
+__current_vram_cfg_display_isr::        .ds 1
 .endif
 
 __crt0_NMITEMP:                         .ds 4
@@ -150,7 +153,7 @@ ProcessDrawList_DoOneTransfer:
 
 .ifdef VRAM_MAPPER_CFG_TRANSFER
 ProcessDrawList_mapper_switch::
-    sta MAPPER_WRITE_REG,y                      ; +5
+    SWITCH_CFG_AY                               ; +5
     jmp ProcessDrawList_DoOneTransfer           ; +3
     ; Total = 4 + 4 + 4 + 2 + 5 + 5 = 24 for each mapper switch
 .endif
@@ -289,9 +292,9 @@ __crt0_NMI:
 .ifdef VRAM_MAPPER_CFG_ISR
     ; Write mapper reg   (note: assumes no bus conflicts!)
     lda __lcd_isr_mapper,y
-    sta MAPPER_WRITE_REG
-    sta *__crt0_MAPPER_VRAM_CFG_TEMP
-    sta *__crt0_MAPPER_VRAM_CFG_TEMP
+    SWITCH_CFG_A
+    sta *__current_vram_cfg_display_isr
+    sta *__current_vram_cfg_display_isr
     nop
 .endif
 
@@ -325,7 +328,6 @@ __crt0_NMI:
 __crt0_NMI_skip_hblank_writes:
 .ifdef VRAM_MAPPER_CFG_ISR
     lda *__current_bank
-    ora *__crt0_MAPPER_VRAM_CFG_TEMP
     SWITCH_PRG0_A
 .endif
 __crt0_NMI_skip:
@@ -728,7 +730,7 @@ __crt0_waitForever:
 .ifdef VRAM_MAPPER_CFG_ISR
     ; Mapper write (note: assumes no bus conflicts!)
     tsx
-    stx MAPPER_WRITE_REG
+    SWITCH_CFG_X
 .endif
     sty PPUCTRL
 
@@ -739,7 +741,7 @@ __crt0_waitForever:
 .ifdef VRAM_MAPPER_CFG_ISR
     ; Store MAPPER VRAM CFG
     tsx
-    stx *__crt0_MAPPER_VRAM_CFG_TEMP
+    stx *__current_vram_cfg_display_isr
     ; Restore stack pointer
     ldx *__lcd_isr_save_s
     txs

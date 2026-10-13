@@ -49,6 +49,9 @@ _set_sprite_native_data::
     sta PPUADDR
     lda *.ppu_addr_lo
     sta PPUADDR
+.ifdef VRAM_MAPPER_CFG_TRANSFER
+    jsr __switch_vram_cfg_temp
+.endif
 .copy_tiles_loop:
     ldy #0
 1$:

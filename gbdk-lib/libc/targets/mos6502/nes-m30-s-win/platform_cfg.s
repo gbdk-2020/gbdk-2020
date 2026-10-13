@@ -43,3 +43,5 @@ NES_WINDOW_LAYER = 1
 ;
 
 ;NES_LOMEM = 1
+
+.include "mapper_macros.s"

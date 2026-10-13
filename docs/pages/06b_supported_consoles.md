@@ -422,7 +422,7 @@ This is merely an alias for m30-s-lomem. It exists for backwards compatiblity.
 
 ##### m30-s-lomem
 
-This configuration uses the single-screen arrangment variant of mapper30 without the GB window support.
+This configuration uses the single-screen arrangment variant of mapper30 without the GB window support and CHR-RAM bank switching.
 It also places the 64 bytes of attribute shadow memory in the stack area to further the continuous RAM available.
 
 Advantages:
@@ -430,6 +430,7 @@ Advantages:
 - Relocating attribute shadow buffer to stack area offers 64 bytes more memory for your game.
 
 Disadvantages:
+- CHR-RAM bank switching is disabled in this configuration.
 - Single-screen mirroring gives both horizontal and vertical glitches on screen edges.
 - Relocating the attribute shadow memory to the stack limits function call depth.
 - ROM size can be at most 512kB.
@@ -440,6 +441,7 @@ This configuration uses the single-screen arrangement variant of mapper30, with 
 It needs a total of 128 bytes for the attribute shadow memory.
 
 Advantages:
+- CHR-RAM bank switching allows using up to 4x the amount of Tile Data.
 - Single-screen mirroring offers higher compatibility with existing GB code, due to screen buffer coordinates fitting in 8-bits.
 - GB window emulation offers higher compatbility with existing GB code.
 
@@ -447,11 +449,24 @@ Disadvantages:
 - Single-screen mirroring gives horizontal glitches. Can also give vertical glitches if window is not used to hide them.
 - ROM size can be at most 512kB.
 
+##### m30-h / m30-v
+
+This configuration uses the horizontal / vertical arrangement variant of mapper30.
+
+Advantages:
+- CHR-RAM bank switching allows using up to 4x the amount of Tile Data.
+- Scrolling glitches limited to either vertical / horizontal edges.
+
+Disadvantages:
+- ROM size can be at most 512kB.
+
+
 ##### m30-f
 
 This configuration uses the four-screen arrangement variant of mapper30.
 
 Advantages:
+- CHR-RAM bank switching allows using up to 4x the amount of Tile Data.
 - Allows glitch-free scrolling on both horizontal and vertical edges.
 
 Disadvantages:
@@ -472,6 +487,25 @@ Disadvantages:
 - Some emulators may artificially limit ROM size, as historical boards only used ROM sizes up to 256kB
 - Mapper2 boards > 512kB are not very popular for physical cartridge production.
 
+#### Mapper30 CHR bank switching
+
+All variants of mapper30 except for the default m30-s-lomem allow switching the CHR-RAM to increase the amount of Tile Data that can be displayed.
+
+The 32kB CHR-RAM is split into four 8kB bank, used for both background and sprite Tile Data.
+
+Uploading to different banks is similar to GBC. VBK_REG can be set to four different values to switch the data used for background / sprite tile data upload operations.
+
+    VBK_BANK_0
+    VBK_BANK_1
+    VBK_BANK_2
+    VBK_BANK_3
+
+@note
+For performance reasons the numerical values of VBK_BANK_0 / VBK_BANK_1 are mapper-dependent and do *not* match the GBC's values. Use the symbolic names instead.
+
+In contrast to GBC and SMS/GG there are no attribute bits to control the bank to fetch tile data from. Instead the bank switch is a global setting, switching the entire 8kB bank to one of four 8kB banks of the 32kB CHR-RAM.
+
+While switching the entire background + sprite Tile Data region can be inconvenient, it can be worked around by appropriate duplication of Tile Data uploads across the four 8kB banks.
 
 ### Buffered mode vs direct mode
 
