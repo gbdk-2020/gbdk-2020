@@ -43,3 +43,5 @@ NES_TILEMAP_V = 1
 ;
 
 ;NES_LOMEM = 1
+
+.include "mapper_macros.s"

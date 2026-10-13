@@ -1,5 +1,4 @@
 .include "global.s"
-.include "mapper_macros.s"
 
 .define .tempA "(REGTEMP+7)"
 

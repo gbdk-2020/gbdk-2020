@@ -19,8 +19,9 @@ ASSRC =	f_ibm_full.s f_ibm_sh.s f_italic.s f_min.s f_spect.s \
 	pad.s pad_ex.s \
 	delay.s \
 	rle_decompress.s \
-	far_ptr.s sdcc_bcall.s mapper.s \
+	far_ptr.s sdcc_bcall.s mapper30.s \
 	lcd.s deferred_isr.s timer_isr.s \
+	window.s \
 	crt0.s
 
 CRT0 =	crt0.s

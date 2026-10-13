@@ -1,7 +1,6 @@
     .module far_ptr
 
     .include "global.s"
-    .include "mapper_macros.s"   
 
     .area   GBDKOVR (PAG, OVR)
     _to_far_ptr_PARM_2::    .ds 2

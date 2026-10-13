@@ -11,7 +11,7 @@ PKG = gbdk
 VER = 4.5.0
 
 PORTS=sm83 z80 mos6502
-PLATFORMS=gb ap duck gg sms msxdos nes nes-m30-s-lomem nes-m30-s-win nes-m30-f nes-m2-h nes-m2-v
+PLATFORMS=gb ap duck gg sms msxdos nes nes-m30-s-lomem nes-m30-s-win nes-m30-f nes-m30-h nes-m30-v nes-m2-h nes-m2-v
 EXAMPLE_DIRS=$(PLATFORMS)
 EXAMPLE_DIRS+= cross-platform megaduck
 
@@ -279,6 +279,9 @@ gbdk-lib-install-platforms:
 				if [ -f "$(GBDKLIBDIR)/libc/targets/$$port/global.s" ]; then \
 					cp $(GBDKLIBDIR)/libc/targets/$$port/global.s $(BUILDDIR)/lib/$$plat/global.s; \
 				fi; \
+				if [ -f "$(GBDKLIBDIR)/libc/targets/$$port/$$plat/mapper_macros.s" ]; then \
+					cp $(GBDKLIBDIR)/libc/targets/$$port/$$plat/mapper_macros.s $(BUILDDIR)/lib/$$plat/mapper_macros.s; \
+				fi; \
 				if [ -f "$(GBDKLIBDIR)/libc/targets/$$port/$$plat/platform_cfg.s" ]; then \
 					cp $(GBDKLIBDIR)/libc/targets/$$port/$$plat/platform_cfg.s $(BUILDDIR)/lib/$$plat/platform_cfg.s; \
 				fi \
@@ -287,6 +290,7 @@ gbdk-lib-install-platforms:
 	done
 	if [ -d "$(GBDKLIBDIR)/build/nes-m30-s-lomem" ]; then \
 		cp $(GBDKLIBDIR)/libc/targets/mos6502/global.s $(BUILDDIR)/lib/nes/; \
+		cp $(GBDKLIBDIR)/libc/targets/mos6502/nes-m30-s-lomem/mapper_macros.s $(BUILDDIR)/lib/nes/; \
 		cp $(GBDKLIBDIR)/libc/targets/mos6502/nes-m30-s-lomem/platform_cfg.s $(BUILDDIR)/lib/nes/; \
 	fi
 	@echo

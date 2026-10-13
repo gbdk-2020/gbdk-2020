@@ -136,6 +136,30 @@ extern volatile UBYTE TAC_REG;
 #define LYC_REG _lcd_scanline   /**< LY compare */
 #define rLYC LYC_REG
 
+// VRAM switch configuration bits for
+// - Write operations
+// - Display (write to apply in next frame)
+// - Display ISR (applied value in current frame - read-only)
+extern UBYTE _current_vram_cfg_write;
+extern UBYTE _current_vram_cfg_display;
+extern UBYTE _current_vram_cfg_display_isr;
+
+#define VBK_REG _current_vram_cfg_write
+#define rVBK VBK_REG
+
+#if defined(NES_MAPPER_30)
+#define MAPPER_CHR_BANK0 0x00
+#define MAPPER_CHR_BANK1 0x20
+#define MAPPER_CHR_BANK2 0x40
+#define MAPPER_CHR_BANK3 0x60
+#define SHOW_CHR_BANK(b) (_current_vram_cfg_display = (_current_vram_cfg_display & 0x9F) | (b & 0x60))
+#endif
+
+#define VBK_BANK_0 MAPPER_CHR_BANK0
+#define VBK_BANK_1 MAPPER_CHR_BANK1
+#define VBK_BANK_2 MAPPER_CHR_BANK2
+#define VBK_BANK_3 MAPPER_CHR_BANK3
+
 #if defined(NES_WINDOW_LAYER)
 __SHADOW_REG win_pos_x;
 __SHADOW_REG win_pos_y;
