@@ -33,23 +33,29 @@ void putchar(char c) REENTRANT;
     \li \%x (unsigned int as hex)
     \li \%s (string)
 
-    Warning: to correctly pass parameters (such as chars, ints, etc)
-    __all of them should always be explicitly cast__ as when calling
-    the function.
+    Note: As of GBDK 4.6.0 (which uses SDCC ~4.6.0) SDCC no longer supports
+          overriding integer promotion of arguments in va_args (variadic)
+          with explicit casts for the sm83 and z80 ports. 8 bit arguments
+          will now be automatically promoted and printf() will handle it.
+          This applies to: Game Boy, Mega Duck, Analogue Pocket, SMS, game Gear
+
     See @ref docs_chars_varargs for more details.
  */
 void printf(const char *format, ...);
 
 /** Print the string and arguments given by format to a buffer.
 
-    @param str		The buffer to print into
-    @param format	The format string as per @ref printf
+    @param str      The buffer to print into
+    @param format   The format string as per @ref printf
 
     Does not return the number of characters printed.
 
-    Warning: to correctly pass parameters (such as chars, ints, etc)
-    __all of them should always be explicitly cast__ as when calling
-    the function.
+    Note: As of GBDK 4.6.0 (which uses SDCC ~4.6.0) SDCC no longer supports
+          overriding integer promotion of arguments in va_args (variadic) 
+          with explicit casts for the sm83 and z80 ports. 8 bit arguments 
+          will now be automatically promoted and printf() will handle it.
+          This applies to: Game Boy, Mega Duck, Analogue Pocket, SMS, game Gear
+
     See @ref docs_chars_varargs for more details.
  */
 void sprintf(char *str, const char *format, ...);
