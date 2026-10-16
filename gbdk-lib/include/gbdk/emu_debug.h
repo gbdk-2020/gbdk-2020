@@ -133,9 +133,6 @@ __endasm
 
     Does not return the number of characters printed.
     Currently supported:
-    \li \%hx (char as hex)
-    \li \%hu (unsigned char)
-    \li \%hd (signed char)
     \li \%c (character)   
     \li \%u (unsigned int)
     \li \%d (signed int)
@@ -144,18 +141,20 @@ __endasm
 
 
     @note
-    Variables for the following 8-bit formats __MUST__ be cast to their type when passed to EMU_printf()
-    \li \%hx (char)
-    \li \%hu (unsigned char)
-    \li \%hd (signed char)
-
-    However variables for the following 8-bit format __MUST NOT__ be cast to their type when passed to EMU_printf()
-    \li \%c (char)
-
-    This behavior is __different__ than for @ref sprintf(), which does require \%c format char variables to be explicitly cast.
+    Variables for the following 8-bit formats are no longer supported due to SDCC va_args handling changes and the emulator API remaining fixed.
+    \li \%hx (char as hex)     : No longer supported, use %x instead
+    \li \%hu (unsigned char)   : No longer supported, use %u instead
+    \li \%hd (signed char)     : No longer supported, use %d instead
 
 
-    Currently supported in the Emulicious emulator, may be supported by bgb
+    In previous GBDK versions 8 bit arguments for %hx, %hu, %hd had to be explicitly cast, but 
+    SDCC no longer supports that as of SDCC 4.5.15.
+    \li Due to the emulator api for that remaining fixed after the sdcc change, 8 bit types are no longer
+    supported in GBDK since they require *NOT* being promoted when passed with va_args.
+    \li So printing 8 bit types will have to be done via 16 bit format specifiers. Explicitly casting them to 16 bit types are not necessary but may help with code readability.
+    \li %c already required 16 bit promotion in the Emulator API, so it remains working as before.
+
+    Currently supported in the Emulicious and bgb emulators
  */
 void EMU_printf(const char *format, ...) PRESERVES_REGS(a, b, c);
 #define BGB_printf(...) EMU_printf(__VA_ARGS__)
