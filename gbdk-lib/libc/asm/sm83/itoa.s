@@ -40,135 +40,89 @@ _uitoa::
     push hl               ; put the return address back
 .utoa::                         ; convert unsigned int into ascii
     ; input :
-	;  - de (x) : the 16 bit unsigned number to convert to ascii
-	;  - bc (dst) : the pointer to the destination string
-
-    ld h, b
-	ld l, c
-
-	push bc
-	ld bc, #10
-	jr 4$
-0$:
-	push hl
+	;  - de : the 16 bit unsigned number to convert to ascii
+	;  - bc (dst) : the pointer of the destination string
+	; bc is preserved by this function
 	
-	; compute an approximation of x / 10
-	; by using the approximation 1/10 ~ 0.0001100110011
-	
-	ld b, e
-	ld c, d
+	ld a, #'0'
+	push bc				; save dst
 
-	ld l, e
-	ld h, d
-	xor a
-.rept 3
-	add hl, hl
-	adc a
-.endm
-	ld e, h
-	ld d, a	
-	
-	add hl, hl
-	adc a
-	ld l, h
-	ld h, a
+	ld hl, #-10000		
 	add hl, de
+	jr c, 0$			; 5 digit number ?
 	
-	ld e, b
-	xor a
-	ld b, a
+	ld hl, #-1000
+	add hl, de
+	jr c, 2$			; 4 digit number ?
 	
-	add hl, bc
-	srl c
-	add hl, bc
-
-	srl c
-	srl c
-	srl c
-	add hl, bc
-	srl c
-	add hl, bc
+	ld hl, #-100
+	add hl, de
+	jr c, 4$			; 3 digit number ?
 	
-	; computes an approximation of the remainder 
-	; by using the computed approximation of x / 10
-	; it will always be in the range [0; 75]
-	sub l
-	add a
-	add a
-	sub l
-	add a
-	add e				; e = x - 10 * hl
-
-	; fix both the quotient and the remainder of x / 10
-	; using the fact that the remainder should be less than 10
-	cp #40
-	jr c, 1$
-	sub #40
-	ld c, #4
-	add hl, bc			; add hl, #4
+	pop hl 
+	ld a, e
+	
+	ld de, #2561 + '0'	; ld d, #10; ld e, #'0'+1
+	
+	sub d				; sub #10
+	jr nc, 7$			; 2 digit number ?
+	jr 8$				; 1 digit number	
+0$:
+	ld de, #-10000
 1$:
-	cp #20
-	jr c, 2$
-	sub #20
-	; this can *not* trigger an OAM corruption glitch
-	; because hl is too small
-	inc hl
-	inc hl
-2$:
-	ld c, #10
-	cp c				; cp #10
-	jr c, 3$
-	sub c				; sub #10
-	; this can *not* trigger an OAM corruption glitch
-	; because hl is too small
-	inc hl
-3$:
-	; now a = x % 10
-	ld d, h
-	ld e, l				; x = x / 10
+	inc a
+	add hl, de
+	jr c, 1$
 	
-	pop hl
-	add #'0'
-	ld (hl+), a
-4$:
-	ld a, e
-	sub c				; sub #10
-	ld a, d
-	sbc b				; sbc #0
-
-	jr nc, 0$			; exit the loop if x is only one digit long
-	
-	ld a, e
-	add #'0'
-	ld (hl+), a
-	
-	xor a
-	ld (hl-), a                     ; store the terminator of the string
-	
-	pop bc							; bc = dst
-	
-	; reverse the order of the string
-	ld a, l
-	sub c                           ; a = length-1
-	ret z			        		; no need to reverse if length == 1
-	cp #3
-
-	; swap 2 chars
-	ld d, (hl)
-	ld a, (bc)
-	ld (hl-), a
-	ld a, d
 	ld (bc), a
-	
-	ret c
 	inc bc
-
-	; swap 2 more chars
-	ld d, (hl)
-	ld a, (bc)
-	ld (hl-), a
-	ld a, d
+	
+	ld de, #10000
+	add hl, de
+	ld a, #'0'-1
+2$:
+	ld de, #-1000
+3$:
+	inc a
+	add hl, de
+	jr c, 3$
+	
 	ld (bc), a
-
-	dec bc							; bc = dst
+	inc bc
+	
+	ld de, #1000
+	add hl, de
+	ld a, #'0'-1
+4$:
+	ld de, #-100
+5$:
+	inc a
+	add hl, de
+	jr c, 5$
+	
+	ld h, b
+	ld b, l
+	ld l, c
+	
+	ld (hl+), a
+	
+	ld a, b
+	sub e				; sub #-100
+	
+	pop bc				; restore dst to return it
+	
+	ld de, #2559 + '0'	; ld d, #10; ld e, #'0' - 1
+6$:
+	inc e
+7$:
+	sub d				; sub #10
+	jr nc, 6$
+	
+	ld (hl), e
+	inc hl
+8$:
+	add #'0' + 10
+	ld (hl+), a
+	ld (hl), #0
+	
 	ret
