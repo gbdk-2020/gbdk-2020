@@ -640,7 +640,6 @@ __crt0_waitForever:
     dex
     bne 0$
     clc
-    nop
 
     sty *.reg_write_index
 
@@ -714,15 +713,15 @@ __crt0_waitForever:
     tay
     lda *.lda_PPUADDR
     ;
-    ; Write 4 PPU registers in following order.
+    ; Write 4 PPU registers (and optionally 1 mapper register) in the following order.
     ;
-    ; 1. PPUSCROLL          (needs to be written to set fine-x)
-    ; 2. PPUADDR 2nd write  (highest priority as needs to happen before the two-tile pre-fetch) 
-    ; 3. PPUCTRL            (PPU pattern table switch can affect two-tile pre-fetch)
-    ; 4. PPUMASK            (emphasis and render on/off are maybe less distracting?)
+    ; 1. PPUCTRL            (sets HV - bit 9 of scroll X / Y)
+    ; 2. PPUSCROLL          (needs to be written to set fine-x)
+    ; 3. PPUADDR 2nd write  (scheduled long before two-tile pre-fetch to avoid serious scroll glitches) 
+    ; 4. PPUMASK            (should happen before two-tile pre-fetch if turning on display)
+    ; 5. MAPPER             (PPU pattern table switch could affect two-tile pre-fetch after dot 320)
     ;
-    ; TODO: Self-modifying code could build a non-redundant write sequence in RAM.
-    ;
+    sty PPUCTRL
     stx PPUSCROLL
     sta PPUADDR
     ldx *.ldx_PPUMASK
@@ -732,7 +731,6 @@ __crt0_waitForever:
     tsx
     SWITCH_CFG_X
 .endif
-    sty PPUCTRL
 
     inc *.reg_write_index
     ldy *.reg_write_index
