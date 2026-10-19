@@ -206,54 +206,14 @@ There are a some scenarios where the compiler will warn about overflows with con
 
 @anchor docs_chars_varargs
 ## Chars and vararg functions
+As of GBDK 4.6.0 (which uses SDCC ~4.6.0) SDCC no longer supports overriding type promotion of arguments in varargs (variadic) with explicit casts for the sm83 and z80 ports.
 
-Parameters (chars, ints, etc) to @ref printf / @ref sprintf should always be explicitly cast to avoid type related parameter passing issues.
+For the relevant ports/platforms 8 bit arguments will now be automatically promoted to 16 bit. This applies to Game Boy, Mega Duck, Analogue Pocket, SMS, game Gear.
 
-For example, below will result in the likely unintended output:
-```{.c}
-printf(str_temp, "%u, %d, %x\n", UINT16_MAX, INT16_MIN, UINT16_MAX);
-
-// Will output: "65535, 0, 8000"
-```
-Instead this will give the intended output:
-```{.c}
-printf(str_temp, "%u, %d, %x\n", (uint16_t)UINT16_MAX, (int16_t)INT16_MIN, (uint16_t)UINT16_MAX);
-
-// Will output: "65535, -32768, FFFF"
-```
-
-### Chars
-In standard C when `chars` are passed to a function with variadic arguments (varargs, those declared with `...` as a parameter), such as @ref printf(), those `chars` get automatically promoted to `ints`. For an 8 bit CPU such as the Game Boy's, this is not as efficient or desirable in most cases. So the default SDCC behavior, which GBDK-2020 expects, is that chars will remain chars and _not_ get promoted to ints when **explicitly cast as chars while calling a varargs function**.
-
-  - They must be explicitly re-cast when passing them to a varargs function, even though they are already declared as chars.
-
-  - Discussion in SDCC manual:  
-    http://sdcc.sourceforge.net/doc/sdccman.pdf#section.1.5  
-    http://sdcc.sourceforge.net/doc/sdccman.pdf#subsection.3.5.10
-
-  - If SDCC is invoked with -std-cxx (--std-c89, --std-c99, --std-c11, etc) then it will conform to standard C behavior and calling functions such as @ref printf() with chars may not work as expected.
-
-For example:
-
-```{.c}
-unsigned char i = 0x5A;
-
-// NO:
-// The char will get promoted to an int, producing incorrect printf output
-// The output will be: 5A 00
-printf("%hx %hx", i, i);
-
-// YES:
-// The char will remain a char and printf output will be as expected
-// The output will be: 5A 5A
-printf("%hx %hx", (unsigned char)i, (unsigned char)i);
-```
+- @ref Emu_printf(): Due to the emulator API for that remaining fixed after the SDCC change, it's 8 bit format specifiers are no longer supported in GBDK since they require *NOT* being promoted when passed with varargs. So printing 8 bit types will have to be done via 16 bit format specifiers. Explicitly casting them to 16 bit types are not necessary but may help with code readability.
 
 Some functions that accept varargs:
  - @ref EMU_printf, @ref gprintf(), @ref printf(), @ref sprintf()
-
-Also See:
- - Other cases of char to int promotion: http://sdcc.sourceforge.net/doc/sdccman.pdf#chapter.6
 
 
 #  When C isn't fast enough
