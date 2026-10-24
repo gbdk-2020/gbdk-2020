@@ -45,14 +45,6 @@ const uint8_t tile_count_upper = (256 / zelda_TILES_WIDTH) * zelda_TILES_WIDTH;
 #define SYSTEM_HAS_TILE_BANK_ATTRIBUTE BKGF_BANK1
 #endif
 
-#if defined(SEGA)
-// SMS and GG have 4BPP tiles = 32 bytes
-#define TILE_SIZE 32
-#else
-// All the other systems have 2BPP tiles = 16 bytes
-#define TILE_SIZE 16
-#endif
-
 // if system does NOT have tile BANK0/1 bit in attributes, use VBL/LCD ISR to switch to tile bank 0/1
 #if !SYSTEM_HAS_TILE_BANK_ATTRIBUTE
 inline void switch_to_tile_bank(uint8_t tile_bank_number)
@@ -93,11 +85,11 @@ void main(void) {
 #if defined(SYSTEM_CGB) || defined(SYSTEM_NES)
     // On CGB the 9th tile index bit selects a different tile bank that can be targeted with VBK_REG
     VBK_REG = VBK_BANK_1;
-    set_bkg_native_data(0, zelda_TILE_COUNT - tile_count_upper, zelda_tiles + tile_count_upper * TILE_SIZE);
+    set_bkg_native_data(0, zelda_TILE_COUNT - tile_count_upper, zelda_tiles + tile_count_upper * DEVICE_TILE_SIZE_BYTES);
     VBK_REG = VBK_BANK_0;
 #elif defined(SYSTEM_SEGA) || defined(NINTENDO)
     // On SMS/GG and DMG the 9th tile index bit selects the sprite tile bank
-    set_sprite_native_data(0, zelda_TILE_COUNT - tile_count_upper, zelda_tiles + tile_count_upper * TILE_SIZE);
+    set_sprite_native_data(0, zelda_TILE_COUNT - tile_count_upper, zelda_tiles + tile_count_upper * DEVICE_TILE_SIZE_BYTES);
 #endif
 
 // if system has tile BANK0/1 bit in attributes, use them to switch between tile bank0 / tile bank1

@@ -461,8 +461,11 @@ __REG IE_REG;           /**< Interrupt enable */
 #define DEVICE_SPRITE_PX_OFFSET_Y 16    /**< Offset of sprite Y coordinate origin (in pixels) from top edge of visible screen */
 #define DEVICE_WINDOW_PX_OFFSET_X 7     /**< Minimal X coordinate of the window layer */
 #define DEVICE_WINDOW_PX_OFFSET_Y 0     /**< Minimal Y coordinate of the window layer */
-#define DEVICE_SCREEN_PX_WIDTH (DEVICE_SCREEN_WIDTH * 8)   /**< Width of visible screen in pixels */
-#define DEVICE_SCREEN_PX_HEIGHT (DEVICE_SCREEN_HEIGHT * 8) /**< Height of visible screen in pixels */
+#define DEVICE_TILE_PX_WIDTH 8
+#define DEVICE_TILE_PX_HEIGHT 8
+#define DEVICE_TILE_SIZE_BYTES 16
+#define DEVICE_SCREEN_PX_WIDTH (DEVICE_SCREEN_WIDTH * DEVICE_TILE_PX_WIDTH)   /**< Width of visible screen in pixels */
+#define DEVICE_SCREEN_PX_HEIGHT (DEVICE_SCREEN_HEIGHT * DEVICE_TILE_PX_HEIGHT) /**< Height of visible screen in pixels */
 
 typedef UINT8 scroll_x_t;
 typedef UINT8 scroll_y_t;
