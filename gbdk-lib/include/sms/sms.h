@@ -935,6 +935,6 @@ uint8_t * set_attribute_xy(uint8_t x, uint8_t y, uint8_t a) Z88DK_CALLEE PRESERV
 uint8_t * get_bkg_xy_addr(uint8_t x, uint8_t y) PRESERVES_REGS(iyh, iyl);
 #define get_win_xy_addr get_bkg_xy_addr
 
-inline uint8_t bkg_attributes_enabled() { return TRUE; }
+inline uint8_t bkg_attributes_enabled(void) { return TRUE; }
 
 #endif /* _SMS_H */

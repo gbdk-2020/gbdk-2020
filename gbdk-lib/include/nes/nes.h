@@ -1695,7 +1695,7 @@ void fill_win_rect_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_
 */
 void flush_shadow_attributes(void) NO_OVERLAY_LOCALS;
 
-inline uint8_t bkg_attributes_enabled() { return TRUE; }
+inline uint8_t bkg_attributes_enabled(void) { return TRUE; }
 
 uint8_t _switch_prg0(uint8_t bank) NO_OVERLAY_LOCALS;
 

@@ -2338,6 +2338,6 @@ inline void fill_win_rect_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h,
     In a GBC build, this will depend on whether the ROM is running on 
     a DMG or GBC. For other builds this will typically return a constant.
 */
-inline uint8_t bkg_attributes_enabled() { return _cpu == CGB_TYPE; }
+inline uint8_t bkg_attributes_enabled(void) { return _cpu == CGB_TYPE; }
 
 #endif /* _GB_H */
