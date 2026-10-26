@@ -14,7 +14,7 @@ static volatile SFR AT(0x7E) VCOUNTER;
 
 static volatile SFR AT(0x7F) PSG;
 
-#define PSG_LATCH      0x80
+#define PSG_LATCH      0b10000000
 
 #define PSG_CH0        0b00000000
 #define PSG_CH1        0b00100000
@@ -86,6 +86,7 @@ extern UBYTE shadow_VDP_R4;
 extern UBYTE shadow_VDP_R5;
 
 #define R5_SAT_0x3F00  0xFF
+#define R5_SAT_0x1F00  0xBF
 #define R5_SAT_MASK    0b10000001
 
 #define VDP_R6         0b10000110
@@ -155,8 +156,11 @@ extern volatile UBYTE VDP_ATTR_SHIFT;
 #else
 #error Unrecognized port
 #endif
-#define DEVICE_SCREEN_PX_WIDTH (DEVICE_SCREEN_WIDTH * 8)
-#define DEVICE_SCREEN_PX_HEIGHT (DEVICE_SCREEN_HEIGHT * 8)
+#define DEVICE_TILE_PX_WIDTH 8
+#define DEVICE_TILE_PX_HEIGHT 8
+#define DEVICE_TILE_SIZE_BYTES 32
+#define DEVICE_SCREEN_PX_WIDTH (DEVICE_SCREEN_WIDTH * DEVICE_TILE_PX_WIDTH)
+#define DEVICE_SCREEN_PX_HEIGHT (DEVICE_SCREEN_HEIGHT * DEVICE_TILE_PX_HEIGHT)
 
 typedef UINT8 scroll_x_t;
 typedef UINT8 scroll_y_t;
