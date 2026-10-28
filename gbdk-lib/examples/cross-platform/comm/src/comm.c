@@ -1,4 +1,4 @@
-#include <gb/gb.h>
+#include <gbdk/platform.h>
 #include <stdint.h>
 #include <stdio.h>
 
@@ -14,16 +14,18 @@ void main(void)
     puts("  A      : Send");
     puts("  B      : Receive");
     puts("String");
-    puts("  START  : Send");
-    puts("  SELECT : Receive");
+    puts("  UP     : Send");
+    puts("  DOWN   : Receive");
 
+#ifdef NINTENDO
     CRITICAL {
         add_SIO(nowait_int_handler);    // disable waiting VRAM state before return
     }
     set_interrupts(SIO_IFLAG);          // disable other interrupts. note: this disables sprite movement
+#endif
 
     while(TRUE) {
-        i = waitpad(J_A | J_B | J_START | J_SELECT);
+        i = waitpad(J_A | J_B | J_UP | J_DOWN);
         waitpadup();
 
         if (i == J_A) {
@@ -47,7 +49,7 @@ void main(void)
                 printf("OK\n%d\n", _io_in);
             else
                 printf("#%d\n", _io_status);
-        } else if (i == J_START) {
+        } else if (i == J_UP) {
             /* Send a string */
             printf("Sending s... ");
             s = str;
@@ -66,7 +68,7 @@ void main(void)
                 s++;
             }
             if(_io_status == IO_IDLE) printf("OK\n");
-        } else if (i == J_SELECT) {
+        } else if (i == J_DOWN) {
             /* Receive a string */
             printf("Receiving s... ");
             s = buffer;

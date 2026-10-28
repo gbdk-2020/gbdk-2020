@@ -355,6 +355,44 @@ extern volatile uint16_t sys_time;
 extern volatile uint8_t _vbl_done;
 #define VBL_DONE _vbl_done
 
+/** Serial Link: Send the byte in @ref _io_out out through the serial port
+
+    Make sure to enable interrupts for the
+    Serial Link before trying to transfer data.
+    @see add_SIO(), remove_SIO()
+    @see set_interrupts() with @ref SIO_IFLAG
+*/
+void send_byte(void);
+
+/** Serial Link: Receive a byte from the serial port into @ref _io_in
+
+    Make sure to enable interrupts for the
+    Serial Link before trying to transfer data.
+    @see add_SIO(), remove_SIO()
+    @see set_interrupts() with @ref SIO_IFLAG
+*/
+void receive_byte(void);
+
+/** Serial Link: Current IO Status. An OR of IO_* */
+extern volatile uint8_t _io_status;
+
+/** Serial Link: Byte just read after calling @ref receive_byte()
+*/
+extern volatile uint8_t _io_in;
+
+/** Serial Link: Write byte to send here before calling @ref send_byte()
+*/
+extern volatile uint8_t _io_out;
+
+/* Status codes */
+/** Serial Link IO is completed */
+#define IO_IDLE 0x00U
+/** Serial Link Sending data */
+#define IO_SENDING 0x01U
+/** Serial Link Receiving data */
+#define IO_RECEIVING 0x02U
+/** Serial Link Error */
+#define IO_ERROR 0x04U
 
 /** Return R register for the DIV_REG emulation
 
