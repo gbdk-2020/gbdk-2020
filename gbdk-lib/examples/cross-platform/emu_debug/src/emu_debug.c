@@ -150,23 +150,30 @@ int main(void)
     char *   var_string = "Hello Emu Printf";
 
     // For EMU_printf:
-    // Note how all the 8 bit arguments must be explicitly cast EXCEPT for %c
-    // In partifcular, %c MUST NOT be cast or the output will be incorrect
+    // In previous GBDK versions 8 bit arguments had to be explicitly cast, but sdcc no longer supports that.
+    //
+    // Due to the emulator API for that remaining fixed after the sdcc change, it's 8 bit format specifiers are
+    // no longer supported in GBDK since they require *NOT* being promoted when passed with varargs.
+    //
+    // So printing 8 bit types will have to be done via 16 bit format specifiers.
+    // Explicitly casting them to 16 bit types are not necessary but may help with code readability.
+    //
+    // %c already required 16 bit promotion in the Emulator API, so it remains working as before
     EMU_printf("signed int: %d\n"
                "unsigned int: %u\n"
                "hex int: 0x%X\n"
-               "signed byte: %hd\n"
-               "unsigned byte: %hu\n"
-               "hex byte: 0x%hX\n"
-               "Character: %c\n"
+               "signed byte: %d\n"    // This must be %d instead of %hd now
+               "unsigned byte: %u\n"  // This must be %u instead of %hu now
+               "hex byte: 0x%X\n"     // This must be %X instead of %hx now
+               "Character: %c\n"      // %c already relied on 16 bit promotion so it works as is
                "String: %s\n",
-                (int16_t) var_s16,
-                (uint16_t) var_u16,
-                (uint16_t) var_u16h,
-                (int8_t)var_s8,
-                (uint8_t)var_u8,
-                (uint8_t)var_u8h,
-                var_chr,    // Do not explicitly cast %c vars for EMU_printf, it expects them auto-promoted to 2 bytes (casting would prevent that)
+                var_s16,
+                var_u16,
+                var_u16h,
+                (int16_t)var_s8,      // The explicit casts here are not strictly necessary, but intended for clarity
+                (uint16_t)var_u8,     // (see above)
+                (uint16_t)var_u8h,    // (see above)
+                var_chr,
                 var_string);
 
     // The EMU_TEXT() macro will accept a non-quoted string
