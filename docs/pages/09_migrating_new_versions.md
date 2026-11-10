@@ -6,12 +6,22 @@ This section contains information that may be useful to know or important when u
 
 ## Porting to GBDK-2020 4.6.0
   - GBDK now requires SDCC ~4.6.0 or higher with GBDK-2020 patches for the z80, sm83 and NES
-  - Game Boy/MegaDuck/Analogue Pocket/SMS/GG/
-  - SDCC
+  - Changed `HARDWARE_SPRITE_CAN_FLIP_X` to @ref OAMF_XFLIP, `HARDWARE_SPRITE_CAN_FLIP_Y` to @ref OAMF_YFLIP
+  - GB/AP/Duck/SMS/GG
     - SDCC no longer supports overriding integer promotion of arguments in varargs (variadic) with explicit casts for the sm83 and z80 ports
-      - Applies to: Game Boy, Mega Duck, Analogue Pocket, SMS, game Gear
-      - Due to the emulator @ref EMU_printf() remaining fixed after the sdcc change, 8 bit types are no longer supported for it in GBDK since they require *NOT* being promoted when passed with va_args. The recommendation is to display 8 bit variables using 16 bit types (casting is optional but encouraged to indicate intention in the code)
+      - Applies to: Game Boy, Mega Duck, Analogue Pocket, SMS, Game Gear
+      - Due to @ref EMU_printf() being a non-changing API in emulators after the sdcc change, 8 bit types are no longer supported for it in GBDK since they require *NOT* being promoted when passed with va_args. The recommendation is to display 8 bit variables using the 16 bit types (casting is optional but encouraged to indicate intention in the code)
       - @ref printf() has been updated to reflect this change
+    - The calling convention changed from `__sdcccall(0)` to `__sdcccall(1)` for:
+      - @ref gotoxy(), @ref posx(), @ref posy(), @ref setchar(), @ref putchar()
+    - Removed `.memset_simple` and `.memcpy_simple` asm functions from crt0
+    - Removed obsolete `EMU_profiler_message()`
+  - GB/AP/Duck
+    - Changed @ref delay() from taking half the time in GBC double speed mode (versus GB), to take the same amount of time (and so runs for twice as many cycles)
+    - The calling convention changed from `__sdcccall(0)` to `__sdcccall(1)` for:
+      - @ref memset(), @ref set_bkg_palette(), @ref set_sprite_palette(), @ref set_bkg_palette_entry()
+      - `setjump`, `longjump`
+    - Renamed assembly `.IF` (interrupt flag) register to `.IFL` to avoid clash with `.IF` assembly directive
 
 ## Porting to GBDK-2020 4.5.0
   - GBDK now requires SDCC ~4.5.0 or higher with GBDK-2020 patches for the z80, sm83 and NES

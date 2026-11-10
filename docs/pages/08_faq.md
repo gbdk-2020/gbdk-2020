@@ -99,7 +99,12 @@
   @anchor faq_sdcc_overflow_implicit_constant_conversion
   - What does this warning mean?
     `WARNING: overflow in implicit constant conversion`
-    - See @ref docs_constant_signedness "Constants, Signed-ness and Overflows"
+    - See @ref docs_constant_signedness "Constants, Signed-ness and Overflows" <!-- -->  
+
+  - What does this warning mean?
+    `warning 322: Cast of pointer to integer type that cannot represent all values of the pointer type from type 'const-void __code* __code'`
+    - As of SDCC 4.6.0 the compiler now warns when converting some 16 bit pointers directly into 8 bit types.
+    - Check to see if the variable should be 16 bit instead, otherwise if an 8 bit value is desired then it can be double cast first to a 16 bit int and then down to 8 bit (for example: `some_8bit_var = (uint8_t)(uint16_t)some_pointer`) <!-- -->  
 
   @anchor faq_macos_security_warning
   - On macOS, what does `... developer cannot be verified, macOS cannot verify that this app is free from malware` mean?

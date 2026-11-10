@@ -1,3 +1,63 @@
+
+gbdk-4.6.0
+  - SDCC
+    - SDCC no longer supports overriding integer promotion of arguments in varargs (variadic) with explicit casts for the sm83 and z80 ports (GB/AP/Duck, SMS/GG)
+  - Library
+    - Added DEVICE_SUPPORTS_WINDOW, DEVICE_SUPPORTS_VRAM_READ, DEVICE_TILE_PX_WIDTH, DEVICE_TILE_PX_HEIGHT, DEVICE_TILE_SIZE_BYTES
+    - Added scroll_x_t / scroll_y_t typedefs
+    - Added set_win_submap_attributes(), fill_bkg_rect_attributes(), fill_win_rect_attributes(), set_win_attribute_xy(), bkg_attributes_enabled()
+    - Changed HARDWARE_SPRITE_CAN_FLIP_X to OAMF_XFLIP, HARDWARE_SPRITE_CAN_FLIP_Y to OAMF_YFLIP
+    - Removed obsolete EMU_profiler_message()
+    - GB/AP/Duck/SMS/GG
+      - Removed .memset_simple and .memcpy_simple asm functions from crt0
+      - Changed calling convention to __sdcccall(1) for:
+        - gotoxy(), posx(), posy(), setchar(), putchar()
+        - setjump, longjump  (Phidias618)
+    - GB/AP/Duck
+      - Improved integer division and multiplication performance (Phidias618)
+      - Improved .MemsetSmall (Phidias618)
+      - Improved size and performance for reverse(), fill_rect(), memcpy(), uitoa(), itoa(), rand(), move_metasprite() (Phidias618)
+      - Changed .IF (interrupt flag) register to .IFL to avoid clash with .IF assembly directive
+      - Changed delay() to be smaller and take the same amount of time in GBC double speed mode (Phidias618)
+      - Changed memset() to be smaller and switch calling convention to __sdcccall(1) (Phidias618)
+      - Changed calling convention to __sdcccall(1) for set_bkg_palette(), set_sprite_palette(), set_bkg_palette_entry(), set_sprite_palette_entry() (Phidias618)
+      - Changed some library register definitions from "." style to "r" style
+      - Changed memmove() implementation from C to asm (Phidias618)
+      - Fixed circle() to block radius of 0 (crash) and 255 (garbage and crash)
+      - Fixed box() drawing top and bottom incorrectly when x1==x2
+      - Fixed BG/Window tile pattern config detection in gb_decompress_bkg_data(), gb_decompress_win_data()
+    - SMS/GG/MSX
+      - Improved get_bkg_xy_addr() performance
+      - Changed to allow negative Y coordinates in move_sprite()
+    - GG
+      - Add serial link support to match GB versions (send_byte(), receive_byte() and related vars)
+    - NES
+      - Added DEVICE_SUPPORTS_COLOR, MINWNDPOSX, MINWNDPOSY, MAXWNDPOSX, MAXWNDPOSY
+      - Added GB Window emulation
+        - WX_REG, WY_REG, SHOW_WIN, HIDE_WIN, move_win(), scroll_win()
+        - get_win_xy_addr(), set_win_tile_xy(), set_win_tile_xy(), fill_win_rect(), set_win_submap(), set_win_tiles(), set_win_based_submap(), set_win_based_tiles()
+        - set_win_attribute_xy_nes16x16()
+        - set_win_data(), set_win_1bpp_data(), fill_win_rect()
+      - Added mapper selection via the lcc platform setting
+        - nes target is an alias of nes-mapper30-s-lomem for backward compatibility
+        - nes-m30-s-lomem (mapper30 single-screen layout, LOMEM config- current target)
+        - nes-m30-s-win (mapper30 single-screen layout with window emulation)
+        - nes-m30-f (mapper30 four-screen layout)
+        - m30-h, m30-v (mapper2 horizontal / vertical layout)
+        - nes-m2-h, nes-mapper2-v (mapper2 horizontal / vertical layout)
+        - DNES_MAPPER_2 and DNES_MAPPER_30 defines will be present (passed to the compiler) depending on the selected mapper
+  - Examples
+      - Added Tile Bank Switch example
+  - Toolchain / Utilities
+    -  png2asset
+      - Added GG,SMS bit depth support to binary palette export
+      - Added <name>_TILES_WIDTH, <name>_TILES_HEIGHT constants to header output
+      - Changed to pick palette for tiles based on the maximum found per tile instead of the upper-left
+      - Fixed NES tile conversion bug with 8x16 tile data
+      - Fixed header output for -use_structs -tiles_only to not emit MapInfo and have shortened TilesInfo name
+    -  gbcompress
+      - Added option to specify bankref name --bankrefname=
+
 gbdk-4.5.0
     - Library
       - Added dynamic HRAM variable allocation for GB/AP/Duck
