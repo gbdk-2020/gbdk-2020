@@ -6,6 +6,72 @@ https://github.com/gbdk-2020/gbdk-2020/releases
 
 # GBDK-2020 Release Notes
 
+## GBDK-2020 4.6.0
+  2026/X
+  - SDCC
+    - Includes SDCC version ~4.6.0 (16705) with GBDK-2020 patches for Z80 and NES
+      - See our [Patched SDCC Build repo](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases) for details.
+    - SDCC no longer supports overriding integer promotion of arguments in varargs (variadic) with explicit casts for the sm83 and z80 ports (GB/AP/Duck, SMS/GG)
+  - Library
+    - Added @ref DEVICE_SUPPORTS_WINDOW, @ref DEVICE_SUPPORTS_VRAM_READ, @ref DEVICE_TILE_PX_WIDTH, @ref DEVICE_TILE_PX_HEIGHT, @ref DEVICE_TILE_SIZE_BYTES
+    - Added @ref scroll_x_t / @ref scroll_y_t typedefs
+    - Added @ref set_win_submap_attributes(), @ref fill_bkg_rect_attributes(), @ref fill_win_rect_attributes(), @ref set_win_attribute_xy(), @ref bkg_attributes_enabled()
+    - Changed `HARDWARE_SPRITE_CAN_FLIP_X` to @ref OAMF_XFLIP, `HARDWARE_SPRITE_CAN_FLIP_Y` to @ref OAMF_YFLIP
+    - Changed to force linking of `___HandleCrash ` for @ref crash_handler.h
+    - Removed obsolete `EMU_profiler_message()`
+    - GB/AP/Duck/SMS/GG
+      - Removed `.memset_simple` and `.memcpy_simple` asm functions from crt0
+      - Changed calling convention to `__sdcccall(1)` for:
+        - @ref gotoxy(), @ref posx(), @ref posy(), @ref setchar(), @ref putchar()
+        - `setjump`, `longjump`  (Phidias618)
+    - GB/AP/Duck
+      - Improved integer division and multiplication performance (Phidias618)
+      - Improved .MemsetSmall (Phidias618)
+      - Improved size and performance for @ref reverse(), @ref fill_rect(), @ref memcpy(), @ref uitoa(), @ref itoa(), @ref rand(), @ref move_metasprite() (Phidias618)
+      - Changed `.IF` (interrupt flag) register to `.IFL` to avoid clash with `.IF` assembly directive
+      - Changed @ref delay() to be smaller and take the same amount of time in GBC double speed mode (Phidias618)
+      - Changed @ref memset() to be smaller and switch calling convention to `__sdcccall(1)` (Phidias618)
+      - Changed calling convention to `__sdcccall(1)` for @ref set_bkg_palette(), @ref set_sprite_palette(), @ref set_bkg_palette_entry(), @ref set_sprite_palette_entry() (Phidias618)
+      - Changed some library register definitions from `.` style to `r` style
+      - Changed @ref memmove() implementation from C to asm (Phidias618)
+      - Fixed @ref circle() to block radius of 0 (crash) and 255 (garbage and crash)
+      - Fixed @ref box() drawing top and bottom incorrectly when `x1==x2`
+      - Fixed BG/Window tile pattern config detection in @ref gb_decompress_bkg_data(), @ref gb_decompress_win_data()
+    - SMS/GG/MSX
+      - Improved @ref get_bkg_xy_addr() performance
+      - Changed to allow negative Y coordinates in @ref move_sprite()
+    - GG
+      - Add serial link support to match GB versions (@ref send_byte(), @ref receive_byte() and related vars)
+    - Duck
+      - Removed redundant clearing of `_is_GBA`
+    - NES
+      - Added @ref DEVICE_SUPPORTS_COLOR, @ref MINWNDPOSX, @ref MINWNDPOSY, @ref MAXWNDPOSX, @ref MAXWNDPOSY
+      - Added GB Window emulation
+        - @ref WX_REG, @ref WY_REG, @ref SHOW_WIN, @ref HIDE_WIN, @ref move_win(), @ref scroll_win()
+        - @ref get_win_xy_addr(), @ref set_win_tile_xy(), @ref set_win_tile_xy(), @ref fill_win_rect(), @ref set_win_submap(), @ref set_win_tiles(), @ref set_win_based_submap(), @ref set_win_based_tiles()
+        - @ref set_win_attribute_xy_nes16x16()
+        - @ref set_win_data(), @ref set_win_1bpp_data(), @ref fill_win_rect()
+      - Added mapper selection via the @ref lcc @ref docs_consoles_compiling "platform setting"
+        - `nes` target is an alias of `nes-mapper30-s-lomem` for backward compatibility
+        - `nes-m30-s-lomem` (mapper30 single-screen layout, LOMEM config- current target)
+        - `nes-m30-s-win` (mapper30 single-screen layout with window emulation)
+        - `nes-m30-f` (mapper30 four-screen layout)
+        - `m30-h`, `m30-v` (mapper2 horizontal / vertical layout)
+        - `nes-m2-h`, `nes-mapper2-v` (mapper2 horizontal / vertical layout)
+        - `DNES_MAPPER_2` and `DNES_MAPPER_30` defines will be present (passed to the compiler) depending on the selected mapper
+  - Examples
+      - Added Tile Bank Switch example
+  - Toolchain / Utilities
+    - @ref utility_png2asset "png2asset"
+      - Added GG,SMS bit depth support to binary palette export
+      - Added `<name>_TILES_WIDTH`, `<name>_TILES_HEIGHT` constants to header output
+      - Changed to pick palette for tiles based on the maximum found per tile instead of the upper-left
+      - Fixed NES tile conversion bug with 8x16 tile data
+      - Fixed header output for `-use_structs -tiles_only` to not emit MapInfo and have shortened TilesInfo name
+    - @ref utility_gbcompress "gbcompress"
+      - Added option to specify bankref name `--bankrefname=`
+
+
 ## GBDK-2020 4.5.0
   2025/12
   - SDCC

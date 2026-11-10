@@ -210,7 +210,7 @@ As of GBDK 4.6.0 (which uses SDCC ~4.6.0) SDCC no longer supports overriding typ
 
 For the relevant ports/platforms 8 bit arguments will now be automatically promoted to 16 bit. This applies to Game Boy, Mega Duck, Analogue Pocket, SMS, Game Gear.
 
-- @ref Emu_printf(): Due to the emulator API for that remaining fixed after the SDCC change, it's 8 bit format specifiers are no longer supported in GBDK since they require *NOT* being promoted when passed with varargs. So printing 8 bit types will have to be done via 16 bit format specifiers. Explicitly casting them to 16 bit types are not necessary but may help with code readability.
+- @ref EMU_printf(): Due to the emulator API for that remaining fixed after the SDCC change, it's 8 bit format specifiers are no longer supported in GBDK since they require *NOT* being promoted when passed with varargs. So printing 8 bit types will have to be done via 16 bit format specifiers. Explicitly casting them to 16 bit types are not necessary but may help with code readability.
 
 Some functions that accept varargs:
  - @ref EMU_printf, @ref gprintf(), @ref printf(), @ref sprintf()

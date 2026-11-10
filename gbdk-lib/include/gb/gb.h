@@ -2299,7 +2299,7 @@ void fill_bkg_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t tile) OLD
     @param y      Y Start position in Background Map tile coordinates. Range 0 - 31
     @param w      Width of area to set in tiles. Range 1 - 32
     @param h      Height of area to set in tiles. Range 1 - 32
-    @param tile   Fill value
+    @param attribute   Fill value
 */
 inline void fill_bkg_rect_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t attribute)
 {
@@ -2324,7 +2324,7 @@ void fill_win_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t tile) OLD
     @param y      Y Start position in Window Map tile coordinates. Range 0 - 31
     @param w      Width of area to set in tiles. Range 1 - 32
     @param h      Height of area to set in tiles. Range 1 - 32
-    @param tile   Fill value
+    @param attribute   Fill value
 */
 inline void fill_win_rect_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t attribute)
 {
