@@ -1,5 +1,6 @@
 
 gbdk-4.6.0
+  - This is GBDK's 30th anniversary
   - SDCC
     - SDCC no longer supports overriding integer promotion of arguments in varargs (variadic) with explicit casts for the sm83 and z80 ports (GB/AP/Duck, SMS/GG)
   - Library
