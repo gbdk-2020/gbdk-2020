@@ -8,7 +8,7 @@ TOPDIR = $(shell pwd)
 # Package name, used for tarballs
 PKG = gbdk
 # Version, used for tarballs & docs
-VER = 4.5.0
+VER = 4.6.0
 
 PORTS=sm83 z80 mos6502
 PLATFORMS=gb ap duck gg sms msxdos nes nes-m30-s-lomem nes-m30-s-win nes-m30-f nes-m30-h nes-m30-v nes-m2-h nes-m2-v
