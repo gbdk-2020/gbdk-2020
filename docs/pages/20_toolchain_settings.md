@@ -32,7 +32,7 @@
 @anchor sdcc-settings
 # sdcc settings
 ```
-SDCC : z80/sm83/mos6502/mos65c02 TD- 4.5.1 #15267 (Linux)
+SDCC : z80/sm83/mos6502/mos65c02 TD- 4.6.2 #16705 (Linux)
 published under GNU General Public License (GPL)
 Usage : sdcc [options] filename
 Options :-
@@ -62,6 +62,7 @@ General options:
       --use-stdout          send errors to stdout instead of stderr
       --nostdlib            Do not include the standard library directory in the search path
       --nostdinc            Do not include the standard include directory in the search path
+      --norestartseqatomics  Omit restartable sequence support routines for atomics
       --less-pedantic       Disable some of the more pedantic warnings
       --disable-warning     <nnnn> Disable specific warning
       --Werror              Treat the warnings as errors
@@ -70,6 +71,8 @@ General options:
       --std                 Determine the language standard (c90, c99, c11, c23, c2y, sdcc89 etc.)
       --fdollars-in-identifiers  Permit '$' as an identifier character
       --fsigned-char        Make "char" signed by default
+      --fconst-stringlit    Make string literals const, like in C++
+      --fconst-code         Make objects in read-only __code space implicitly const
       --use-non-free        Search / include non-free licensed libraries and header files
 
 Code generation options:
@@ -98,6 +101,7 @@ Optimization options:
       --no-reg-params       On some ports, disable passing some parameters in registers
       --nostdlibcall        Disable optimization of calls to standard library
       --nooverlay           Disable overlaying leaf function auto variables
+      --nopurity            Disable optimizations of pure functions
       --nogcse              Disable the GCSE optimisation
       --nolospre            Disable lospre
       --nogenconstprop      Disable generalized constant propagation
@@ -111,6 +115,7 @@ Optimization options:
       --no-peep-return      Disable peephole optimization for return instructions
       --peep-file           <file> use this extra peephole file
       --allow-unsafe-read   Allow optimizations to read any memory location anytime
+      --nosidechannels      Disable optimizations likely to introduce side-channels
 
 Internal debugging options:
       --dump-ast            Dump front-end AST before generating i-code
@@ -182,10 +187,10 @@ Special options for the mos65c02 port:
 # sdasgb settings
 ```
 
-sdas Assembler V02.00 + NoICE + SDCC mods  (GameBoy)
+sdas Assembler V05.50.4+NoICE+SDCCmods-WIP-R14  (GameBoy)
 
 
-Copyright (C) 2012  Alan R. Baldwin
+Copyright (C) 2025  Alan R. Baldwin
 This program comes with ABSOLUTELY NO WARRANTY.
 
 Usage: [-Options] [-Option with arg] file
@@ -227,10 +232,10 @@ Debugging:
 # sdasz80 settings
 ```
 
-sdas Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180 / ZX-Next / eZ80 / R800)
+sdas Assembler V05.50.4+NoICE+SDCCmods-WIP-R14  (Zilog Z80 / Hitachi HD64180 / ZX-Next / eZ80 / R800)
 
 
-Copyright (C) 2012  Alan R. Baldwin
+Copyright (C) 2025  Alan R. Baldwin
 This program comes with ABSOLUTELY NO WARRANTY.
 
 Usage: [-Options] [-Option with arg] file
@@ -272,10 +277,10 @@ Debugging:
 # sdas6500 settings
 ```
 
-sdas Assembler V02.00 + NoICE + SDCC mods  (Rockwell 6502/6510/65C02)
+sdas Assembler V05.50.4+NoICE+SDCCmods-WIP-R14  (Rockwell 6502/6510/65C02)
 
 
-Copyright (C) 2012  Alan R. Baldwin
+Copyright (C) 2025  Alan R. Baldwin
 This program comes with ABSOLUTELY NO WARRANTY.
 
 Usage: [-Options] [-Option with arg] file
@@ -360,7 +365,7 @@ S ___bank_<const name> Def0000FF
 # sdldgb settings
 ```
 
-sdld Linker V03.00/V05.40 + sdld
+sdld Linker V05.50.4-SDLD
 
 Usage: [-Options] [-Option with arg] file
 Usage: [-Options] [-Option with arg] outfile file1 [file2 ...]
@@ -400,7 +405,7 @@ End:
 # sdldz80 settings
 ```
 
-sdld Linker V03.00/V05.40 + sdld
+sdld Linker V05.50.4-SDLD
 
 Usage: [-Options] [-Option with arg] file
 Usage: [-Options] [-Option with arg] outfile file1 [file2 ...]
@@ -440,7 +445,7 @@ End:
 # sdld6808 settings
 ```
 
-sdld Linker V03.00/V05.40 + sdld
+sdld Linker V05.50.4-SDLD
 
 Usage: [-Options] [-Option with arg] file
 Usage: [-Options] [-Option with arg] outfile file1 [file2 ...]
@@ -559,7 +564,8 @@ Options
 -v       : Verbose output
 --cin    : Read input as .c source format (8 bit char ONLY, uses first array found)
 --cout   : Write output in .c / .h source format (8 bit char ONLY) 
---varname=<NAME> : specify variable name for c source output
+--varname=<NAME>     : specify variable name for c source output
+--bankrefname=<NAME> : specify bankref name for c source output
 --alg=<type>     : specify compression type: 'zx0', 'rle', 'gb' (default)
 --bank=<num>     : Add Bank Ref: 1 - 511 (default is none, with --cout only)
 Example: "gbcompress binaryfile.bin compressed.bin"
@@ -592,14 +598,14 @@ usage: png2asset    <file>.png [options]
 -repair_indexed_pal try to repair indexed tile palettes (implies "-keep_palette_order")
 -noflip             disable tile flip
 -map                Export as map (tileset + bg) instead of default metasprite output
--use_map_attributes Use CGB BG Map attributes
+-use_map_attributes Use GBC/SMS/GG BG Map attributes
 -use_nes_attributes Use NES BG Map attributes
 -use_nes_colors     Convert RGB color values to NES PPU colors
 -use_structs        Group the exported info into structs (default: false) (used by ZGB Game Engine)
 -bpp                bits per pixel: 1, 2, 4 (default: 2. using 1 auto-enables "-pack_mode 1bpp")
 -max_palettes       max number of palettes allowed (default: 8)
                     (note: max colors = max_palettes x num colors per palette)
--pack_mode          gb, nes, sgb, sms, 1bpp (default: gb. using 1bpp auto-enables "-bpp 1")
+-pack_mode          gb, nes, sgb, sms, gg, 1bpp (default: gb. using 1bpp auto-enables "-bpp 1")
 -tile_origin        tile index offset for maps (default: 0)
 -tiles_only         export tile data only
 -maps_only          export map tilemap only
