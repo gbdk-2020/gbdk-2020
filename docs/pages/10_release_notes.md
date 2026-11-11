@@ -8,6 +8,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
 
 ## GBDK-2020 4.6.0
   2026/X
+  - This is GBDK's 30th anniversary
   - SDCC
     - Includes SDCC version ~4.6.0 (16705) with GBDK-2020 patches for Z80 and NES
       - See our [Patched SDCC Build repo](https://github.com/gbdk-2020/gbdk-2020-sdcc/releases) for details.
