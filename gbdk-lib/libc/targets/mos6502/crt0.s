@@ -109,7 +109,7 @@ __lcd_isr_PPUCTRL::                     .ds (2*.MAX_DEFERRED_ISR_CALLS)
 __lcd_isr_PPUMASK::                     .ds (2*.MAX_DEFERRED_ISR_CALLS)
 __lcd_isr_scroll_x::                    .ds (2*.MAX_DEFERRED_ISR_CALLS)
 __lcd_isr_scroll_y::                    .ds (2*.MAX_DEFERRED_ISR_CALLS)
-__lcd_isr_delay_num_scanlines::         .ds (2*.MAX_DEFERRED_ISR_CALLS)
+__lcd_isr_delay_num_scanlines::         .ds (2*(.MAX_DEFERRED_ISR_CALLS+1))
 __lcd_isr_ppuaddr_lo::                  .ds (2*.MAX_DEFERRED_ISR_CALLS)
 .ifdef VRAM_MAPPER_CFG_ISR
 __lcd_isr_mapper::                      .ds (2*.MAX_DEFERRED_ISR_CALLS)
@@ -261,7 +261,6 @@ __crt0_NMI:
     pha
     
     ; Skip graphics updates if blanked, to allow main code to do VRAM address / scroll updates
-    nop
     bit *__oam_valid_display_on
     bvs __crt0_NMI_skip
     ; Do Sprite DMA or delay equivalent cycles
@@ -300,6 +299,7 @@ __crt0_NMI:
 
     ; Delay and call fake LCD isr if list not empty
     lda __lcd_isr_delay_num_scanlines+1,y   ; Check for first potential LCD write
+    cmp #.LCD_ISR_END
     beq __crt0_NMI_skip_hblank_writes
     ; First delay until end-of-vblank, depending on transfer buffer contents...
     ; (X set to correct delay value by DoUpdateVRAM)
@@ -607,9 +607,12 @@ __crt0_RESET_bankSwitchValue:
     sta *__oam_valid_display_on
     ; enable NMI
     lda #(PPUCTRL_NMI | PPUCTRL_SPR_CHR)
+    pha
     sta *_shadow_PPUCTRL
+    ; Reset deferred ISR buffers
+    jsr .deferred_isr_reset_and_init
+    pla
     sta PPUCTRL
-    jsr .deferred_isr_reset
     ; Call main
     jsr _main
     ; main finished - loop forever
@@ -632,45 +635,40 @@ __crt0_waitForever:
     txs
     nop
     ; -5 cycles in loop, to account for cycles spent saving stack pointer above
-    ldx #9
+    ldx #7
 .else
-    ldx #10
+    ldx #8
 .endif
 0$:
     dex
     bne 0$
     clc
+    nop
+    nop
 
     sty *.reg_write_index
 
     lda #0
     sta *.acc
+    jmp 60$
 1$:
-    ldx __lcd_isr_delay_num_scanlines,y
-    cpx #1
-    beq 3$      ; Skip delay if next scanline
-    cpx #0
-    beq 2$      ; Exit if empty buffer (no calls were made within frame)
-    dex
+    nop
+    nop
+11$:
 .ifdef VRAM_MAPPER_CFG_ISR
     txa
     ldx *__lcd_isr_save_s
     txs
     tax
-    nop
-    jsr .delay_to_lcd_scanline
-    jsr .delay_12_cycles
-    jsr .delay_28_cycles
 .else
-    jsr .delay_to_lcd_scanline
-    jsr .delay_12_cycles
-    jsr .delay_28_cycles
-    nop
-    nop
-    nop
     nop
     lda *0x00
+    nop
+    nop
 .endif
+    jsr .delay_to_lcd_scanline
+    jsr .delay_12_cycles
+    jsr .delay_28_cycles
 3$:
 
 .ifdef VRAM_MAPPER_CFG_ISR
@@ -704,8 +702,10 @@ __crt0_waitForever:
     ; A <- PPUADDR (2nd write)
     lda __lcd_isr_ppuaddr_lo,y
     sta *.lda_PPUADDR
-    ldx __lcd_isr_PPUMASK,y
-    stx *.ldx_PPUMASK
+    lda __lcd_isr_PPUMASK,y
+    sta *.ldx_PPUMASK
+    and #(PPUMASK_SHOW_BG | PPUMASK_SHOW_SPR)
+    beq 50$
     ; X <- SCROLLX
     ldx __lcd_isr_scroll_x,y
     ; Y <- PPUCTRL
@@ -717,7 +717,7 @@ __crt0_waitForever:
     ;
     ; 1. PPUCTRL            (sets HV - bit 9 of scroll X / Y)
     ; 2. PPUSCROLL          (needs to be written to set fine-x)
-    ; 3. PPUADDR 2nd write  (scheduled long before two-tile pre-fetch to avoid serious scroll glitches) 
+    ; 3. PPUADDR 2nd write  (scheduled long before two-tile pre-fetch to avoid serious scroll glitches)
     ; 4. PPUMASK            (should happen before two-tile pre-fetch if turning on display)
     ; 5. MAPPER             (PPU pattern table switch could affect two-tile pre-fetch after dot 320)
     ;
@@ -734,8 +734,41 @@ __crt0_waitForever:
 
     inc *.reg_write_index
     ldy *.reg_write_index
-    jmp 1$
+60$:
+    ldx __lcd_isr_delay_num_scanlines,y
+    beq 3$      ; Skip delay if next scanline
+    cpx #.LCD_ISR_END
+    bne 1$
+    jmp 2$
+
+50$:
+    ; PPUMASK write will disable rendering. Make sure it happens during two-tile pre-fetch to avoid OAM corruption.
+    ; X <- SCROLLX
+    ldx __lcd_isr_scroll_x,y
+    lda __lcd_isr_PPUCTRL,y
+    iny
+    sty *.reg_write_index
+    nop
+    nop
+    nop
+    sta PPUCTRL
+    stx PPUSCROLL
+    lda *.lda_PPUADDR
+    sta PPUADDR
+    ldx *.ldx_PPUMASK
+    stx PPUMASK
+.ifdef VRAM_MAPPER_CFG_ISR
+    ; Mapper write (note: assumes no bus conflicts!)
+    tsx
+    SWITCH_CFG_X
+.endif
+    ldx __lcd_isr_delay_num_scanlines,y
+    beq 3$      ; Skip delay if next scanline
+    cpx #.LCD_ISR_END
+    beq 2$
+    jmp 11$
 2$:
+    ; Exit if empty buffer (no calls were made within frame)
 .ifdef VRAM_MAPPER_CFG_ISR
     ; Store MAPPER VRAM CFG
     tsx
