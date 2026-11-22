@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['c_0',['c',['../asm_2sm83_2string_8h.html#c',1,'c():&#160;string.h'],['../gb_8h.html#c',1,'c():&#160;gb.h'],['../sgb_8h.html#c',1,'c():&#160;sgb.h'],['../gbdk_2emu__debug_8h.html#c',1,'c():&#160;emu_debug.h'],['../msx_8h.html#c',1,'c():&#160;msx.h'],['../rand_8h.html#c',1,'c():&#160;rand.h'],['../sms_2gbdecompress_8h.html#c',1,'c():&#160;gbdecompress.h'],['../sms_8h.html#c',1,'c():&#160;sms.h']]],
-  ['calloc_1',['calloc',['../stdlib_8h.html#calloc',1,'stdlib.h']]],
+  ['c_0',['c',['../asm_2sm83_2string_8h.html#c',1,'c():&#160;string.h'],['../cgb_8h.html#c',1,'c():&#160;cgb.h'],['../gb_8h.html#c',1,'c():&#160;gb.h'],['../sgb_8h.html#c',1,'c():&#160;sgb.h'],['../gbdk_2emu__debug_8h.html#c',1,'c():&#160;emu_debug.h'],['../msx_8h.html#c',1,'c():&#160;msx.h'],['../rand_8h.html#c',1,'c():&#160;rand.h'],['../sms_2gbdecompress_8h.html#c',1,'c():&#160;gbdecompress.h'],['../sms_8h.html#c',1,'c():&#160;sms.h']]],
+  ['calloc_1',['calloc',['../asm_2mos6502_2stdlib_8h.html#calloc',1,'calloc(size_t nmemb, size_t size):&#160;stdlib.h'],['../asm_2sm83_2stdlib_8h.html#calloc',1,'calloc(size_t nmemb, size_t size):&#160;stdlib.h'],['../asm_2z80_2stdlib_8h.html#calloc',1,'calloc(size_t nmemb, size_t size):&#160;stdlib.h']]],
   ['cancel_5fpending_5finterrupts_2',['cancel_pending_interrupts',['../sms_8h.html#cancel_pending_interrupts',1,'cancel_pending_interrupts(void):&#160;sms.h'],['../msx_8h.html#cancel_pending_interrupts',1,'cancel_pending_interrupts(void):&#160;msx.h'],['../gb_8h.html#cancel_pending_interrupts',1,'cancel_pending_interrupts(void):&#160;gb.h']]],
   ['cgb_2eh_3',['cgb.h',['../cgb_8h.html',1,'']]],
   ['cgb_5fcompatibility_4',['cgb_compatibility',['../cgb_8h.html#cgb_compatibility',1,'cgb_compatibility(void):&#160;sms.h'],['../sms_8h.html#cgb_compatibility',1,'cgb_compatibility(void):&#160;sms.h']]],
@@ -16,7 +16,7 @@ var searchData=
   ['cls_13',['cls',['../console_8h.html#cls',1,'console.h']]],
   ['coding_20guidelines_14',['Coding Guidelines',['../docs_coding_guidelines.html',1,'index']]],
   ['color_15',['color',['../drawing_8h.html#color',1,'drawing.h']]],
-  ['compat_5fpalette_16',['COMPAT_PALETTE',['../nes_8h.html#COMPAT_PALETTE',1,'COMPAT_PALETTE():&#160;nes.h'],['../sms_8h.html#COMPAT_PALETTE',1,'COMPAT_PALETTE():&#160;sms.h'],['../msx_8h.html#COMPAT_PALETTE',1,'COMPAT_PALETTE():&#160;msx.h'],['../gb_8h.html#COMPAT_PALETTE',1,'COMPAT_PALETTE():&#160;gb.h']]],
+  ['compat_5fpalette_16',['COMPAT_PALETTE',['../msx_8h.html#COMPAT_PALETTE',1,'COMPAT_PALETTE():&#160;msx.h'],['../sms_8h.html#COMPAT_PALETTE',1,'COMPAT_PALETTE():&#160;sms.h'],['../nes_8h.html#COMPAT_PALETTE',1,'COMPAT_PALETTE():&#160;nes.h'],['../gb_8h.html#COMPAT_PALETTE',1,'COMPAT_PALETTE():&#160;gb.h']]],
   ['console_2eh_17',['console.h',['../console_8h.html',1,'']]],
   ['cpu_5ffast_18',['cpu_fast',['../cgb_8h.html#cpu_fast',1,'cpu_fast(void):&#160;msx.h'],['../msx_8h.html#cpu_fast',1,'cpu_fast(void):&#160;msx.h'],['../sms_8h.html#cpu_fast',1,'cpu_fast(void):&#160;sms.h']]],
   ['cpu_5fslow_19',['cpu_slow',['../cgb_8h.html#cpu_slow',1,'cgb.h']]],

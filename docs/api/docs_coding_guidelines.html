@@ -41,7 +41,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.5.0</span>
+   &#160;<span id="projectnumber">4.6.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -153,7 +153,7 @@ Variables</h2>
 <li>Use explicit types so you always know the size of your variables. <code>int8_t, uint8_t, int16_t, uint16_t, int32_t, uint32_t</code> and <code>bool</code>. These are standard types defined in <code>stdint.h</code> (<code>#include &lt;stdint.h&gt;</code>) and <code>stdbool.h</code> (<code>#include &lt;stdbool.h&gt;</code>).</li>
 <li>Global and local static variables are generally more efficient than local non-static variables (which go on the stack and are slower and can result in slower code).<ul>
 <li>An exception to this when there are a small number of local variables (one or two) and the code is not complex. Then the compiler may allocate those variables to CPU registers instead which may be faster.</li>
-<li>Functions which use global or static local variables will loose re-entrancy. In most cases it is not a problem, but important to keep in mind.</li>
+<li>Functions which use global or static local variables will lose re-entrancy. In most cases it is not a problem, but important to keep in mind.</li>
 <li>In particular avoid putting big arrays on the stack, consider static local or global.</li>
 </ul>
 </li>
@@ -263,58 +263,26 @@ Constants, Signed-ness and Overflows</h2>
 <p ><a class="anchor" id="docs_chars_varargs"></a></p>
 <h2><a class="anchor" id="autotoc_md73"></a>
 Chars and vararg functions</h2>
-<p >Parameters (chars, ints, etc) to <a class="el" href="stdio_8h.html#printf">printf</a> / <a class="el" href="stdio_8h.html#sprintf">sprintf</a> should always be explicitly cast to avoid type related parameter passing issues.</p>
-<p >For example, below will result in the likely unintended output: </p><div class="fragment"><div class="line"><a class="code hl_function" href="stdio_8h.html#printf">printf</a>(str_temp, <span class="stringliteral">&quot;%u, %d, %x\n&quot;</span>, <a class="code hl_define" href="stdint_8h.html#UINT16_MAX">UINT16_MAX</a>, <a class="code hl_define" href="stdint_8h.html#INT16_MIN">INT16_MIN</a>, <a class="code hl_define" href="stdint_8h.html#UINT16_MAX">UINT16_MAX</a>);</div>
-<div class="line"> </div>
-<div class="line"><span class="comment">// Will output: &quot;65535, 0, 8000&quot;</span></div>
-<div class="ttc" id="astdint_8h_html_INT16_MIN"><div class="ttname"><a href="stdint_8h.html#INT16_MIN">INT16_MIN</a></div><div class="ttdeci">#define INT16_MIN</div><div class="ttdef"><b>Definition:</b> stdint.h:117</div></div>
-<div class="ttc" id="astdint_8h_html_UINT16_MAX"><div class="ttname"><a href="stdint_8h.html#UINT16_MAX">UINT16_MAX</a></div><div class="ttdeci">#define UINT16_MAX</div><div class="ttdef"><b>Definition:</b> stdint.h:133</div></div>
-<div class="ttc" id="astdio_8h_html_printf"><div class="ttname"><a href="stdio_8h.html#printf">printf</a></div><div class="ttdeci">void printf(const char *format,...)</div></div>
-</div><!-- fragment --><p> Instead this will give the intended output: </p><div class="fragment"><div class="line"><a class="code hl_function" href="stdio_8h.html#printf">printf</a>(str_temp, <span class="stringliteral">&quot;%u, %d, %x\n&quot;</span>, (<a class="code hl_typedef" href="stdint_8h.html#uint16_t">uint16_t</a>)<a class="code hl_define" href="stdint_8h.html#UINT16_MAX">UINT16_MAX</a>, (<a class="code hl_typedef" href="stdint_8h.html#int16_t">int16_t</a>)<a class="code hl_define" href="stdint_8h.html#INT16_MIN">INT16_MIN</a>, (<a class="code hl_typedef" href="stdint_8h.html#uint16_t">uint16_t</a>)<a class="code hl_define" href="stdint_8h.html#UINT16_MAX">UINT16_MAX</a>);</div>
-<div class="line"> </div>
-<div class="line"><span class="comment">// Will output: &quot;65535, -32768, FFFF&quot;</span></div>
-<div class="ttc" id="astdint_8h_html_int16_t"><div class="ttname"><a href="stdint_8h.html#int16_t">int16_t</a></div><div class="ttdeci">short int int16_t</div><div class="ttdef"><b>Definition:</b> stdint.h:44</div></div>
-<div class="ttc" id="astdint_8h_html_uint16_t"><div class="ttname"><a href="stdint_8h.html#uint16_t">uint16_t</a></div><div class="ttdeci">unsigned short int uint16_t</div><div class="ttdef"><b>Definition:</b> stdint.h:52</div></div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md74"></a>
-Chars</h3>
-<p >In standard C when <code>chars</code> are passed to a function with variadic arguments (varargs, those declared with <code>...</code> as a parameter), such as <a class="el" href="stdio_8h.html#printf">printf()</a>, those <code>chars</code> get automatically promoted to <code>ints</code>. For an 8 bit CPU such as the Game Boy's, this is not as efficient or desirable in most cases. So the default SDCC behavior, which GBDK-2020 expects, is that chars will remain chars and <em>not</em> get promoted to ints when <b>explicitly cast as chars while calling a varargs function</b>.</p>
+<p >As of GBDK 4.6.0 (which uses SDCC ~4.6.0) SDCC no longer supports overriding type promotion of arguments in varargs (variadic) with explicit casts for the sm83 and z80 ports.</p>
+<p >For the relevant ports/platforms 8 bit arguments will now be automatically promoted to 16 bit. This applies to Game Boy, Mega Duck, Analogue Pocket, SMS, Game Gear.</p>
 <ul>
-<li>They must be explicitly re-cast when passing them to a varargs function, even though they are already declared as chars.</li>
-<li>Discussion in SDCC manual: <br  />
- <a href="http://sdcc.sourceforge.net/doc/sdccman.pdf#section.1.5">http://sdcc.sourceforge.net/doc/sdccman.pdf#section.1.5</a> <br  />
- <a href="http://sdcc.sourceforge.net/doc/sdccman.pdf#subsection.3.5.10">http://sdcc.sourceforge.net/doc/sdccman.pdf#subsection.3.5.10</a></li>
-<li>If SDCC is invoked with -std-cxx (&ndash;std-c89, &ndash;std-c99, &ndash;std-c11, etc) then it will conform to standard C behavior and calling functions such as <a class="el" href="stdio_8h.html#printf">printf()</a> with chars may not work as expected.</li>
+<li><a class="el" href="gbdk_2emu__debug_8h.html#EMU_printf">EMU_printf()</a>: Due to the emulator API for that remaining fixed after the SDCC change, it's 8 bit format specifiers are no longer supported in GBDK since they require <em>NOT</em> being promoted when passed with varargs. So printing 8 bit types will have to be done via 16 bit format specifiers. Explicitly casting them to 16 bit types are not necessary but may help with code readability.</li>
 </ul>
-<p >For example:</p>
-<div class="fragment"><div class="line"><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> i = 0x5A;</div>
-<div class="line"> </div>
-<div class="line"><span class="comment">// NO:</span></div>
-<div class="line"><span class="comment">// The char will get promoted to an int, producing incorrect printf output</span></div>
-<div class="line"><span class="comment">// The output will be: 5A 00</span></div>
-<div class="line"><a class="code hl_function" href="stdio_8h.html#printf">printf</a>(<span class="stringliteral">&quot;%hx %hx&quot;</span>, i, i);</div>
-<div class="line"> </div>
-<div class="line"><span class="comment">// YES:</span></div>
-<div class="line"><span class="comment">// The char will remain a char and printf output will be as expected</span></div>
-<div class="line"><span class="comment">// The output will be: 5A 5A</span></div>
-<div class="line"><a class="code hl_function" href="stdio_8h.html#printf">printf</a>(<span class="stringliteral">&quot;%hx %hx&quot;</span>, (<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>)i, (<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>)i);</div>
-</div><!-- fragment --><p >Some functions that accept varargs:</p><ul>
+<p >Some functions that accept varargs:</p><ul>
 <li><a class="el" href="gbdk_2emu__debug_8h.html#EMU_printf">EMU_printf</a>, <a class="el" href="drawing_8h.html#gprintf">gprintf()</a>, <a class="el" href="stdio_8h.html#printf">printf()</a>, <a class="el" href="stdio_8h.html#sprintf">sprintf()</a></li>
 </ul>
-<p >Also See:</p><ul>
-<li>Other cases of char to int promotion: <a href="http://sdcc.sourceforge.net/doc/sdccman.pdf#chapter.6">http://sdcc.sourceforge.net/doc/sdccman.pdf#chapter.6</a></li>
-</ul>
-<h1><a class="anchor" id="autotoc_md75"></a>
+<h1><a class="anchor" id="autotoc_md74"></a>
 When C isn't fast enough</h1>
 <p >For many applications C is fast enough but in intensive functions are sometimes better written in assembly. This section deals with interfacing your core C program with fast assembly sub routines.</p>
-<h2><a class="anchor" id="autotoc_md76"></a>
+<h2><a class="anchor" id="autotoc_md75"></a>
 Reusable Local Labels and Inline ASM</h2>
 <p >When functions are written assembly it's generally better to not mix the inline ASM with C code and instead write the whole function in assembly.</p>
 <p >If they are mixed then descriptive named labels should not be used for inline ASM. This is due to descriptive labels interfering with the expected scope of the reusable local labels generated from the compiled C code. The compiler will not detect this problem and the resulting code may fail to execute correctly without warning.</p>
 <p >Instead use reusable local symbols/labels (for example <code>1$:</code>). To learn more about them check the SDAS manual section "1.3.3  Reusable Symbols"</p>
-<h2><a class="anchor" id="autotoc_md77"></a>
+<h2><a class="anchor" id="autotoc_md76"></a>
 Variables and registers</h2>
 <p >Getting at C variables is slightly tricky due to how local variables are allocated on the stack. However you shouldn't be using the local variables of a calling function in any case. Global variables can be accessed by name by adding an underscore.</p>
-<h2><a class="anchor" id="autotoc_md78"></a>
+<h2><a class="anchor" id="autotoc_md77"></a>
 Segments / Areas</h2>
 <p >The use of segments/areas for code, data and variables is more noticeable in assembler. GBDK and SDCC define a number of default ones. The order they are linked is determined by crt0.s and is currently as follows for the Game Boy and related clones.</p>
 <ul>
@@ -344,7 +312,7 @@ Segments / Areas</h2>
 </li>
 </ul>
 <p ><a class="anchor" id="sdcc_calling_convention"></a></p>
-<h2><a class="anchor" id="autotoc_md79"></a>
+<h2><a class="anchor" id="autotoc_md78"></a>
 Calling convention</h2>
 <p ><em>The following is primarily oriented toward the Game Boy and related clones (sm83 devices), other targets such as sms/gg may vary.</em></p>
 <p >SDCC in common with almost all C compilers prepends a <code>_</code> to any function names. For example the function <code>printf(...)</code> begins at the label <code>_printf::.</code> Note that all functions are declared global.</p>
@@ -355,7 +323,7 @@ Calling convention</h2>
 <li>Section 4.3.9 isn't specific about it, but <code>gbz80</code>/<code>sm83</code> generally share this subheading with <code>z80</code> (Game Boy is partially a sub-port of z80 in SDCC). <a href="https://sdcc.sourceforge.net/doc/sdccman.pdf#subsection.4.3.9">https://sdcc.sourceforge.net/doc/sdccman.pdf#subsection.4.3.9</a></li>
 </ul>
 <p ><a class="anchor" id="banked_calling_convention"></a></p>
-<h3><a class="anchor" id="autotoc_md80"></a>
+<h3><a class="anchor" id="autotoc_md79"></a>
 Banked Calling Convention</h3>
 <p ><em>The following is primarily oriented toward the Game Boy and related clones (sm83 devices), other targets such as sms/gg may vary.</em></p>
 <p >Key Points:</p><ul>

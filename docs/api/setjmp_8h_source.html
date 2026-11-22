@@ -41,7 +41,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.5.0</span>
+   &#160;<span id="projectnumber">4.6.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -167,14 +167,14 @@ $(document).ready(function(){initNavTree('setjmp_8h_source.html',''); initResiza
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno"><a class="line" href="setjmp_8h.html#jmp_buf">   63</a></span><span class="keyword">typedef</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> <a class="code hl_typedef" href="setjmp_8h.html#jmp_buf">jmp_buf</a>[<a class="code hl_define" href="setjmp_8h.html#RET_SIZE">RET_SIZE</a> + <a class="code hl_define" href="setjmp_8h.html#SP_SIZE">SP_SIZE</a> + <a class="code hl_define" href="setjmp_8h.html#BP_SIZE">BP_SIZE</a> + <a class="code hl_define" href="setjmp_8h.html#SPX_SIZE">SPX_SIZE</a> + <a class="code hl_define" href="setjmp_8h.html#BPX_SIZE">BPX_SIZE</a>];</div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="setjmp_8h.html#__setjmp">   66</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="setjmp_8h.html#__setjmp">__setjmp</a> (<a class="code hl_typedef" href="setjmp_8h.html#jmp_buf">jmp_buf</a>) <a class="code hl_define" href="asm_2types_8h.html#OLDCALL">OLDCALL</a>;</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="setjmp_8h.html#__setjmp">   66</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="setjmp_8h.html#__setjmp">__setjmp</a> (<a class="code hl_typedef" href="setjmp_8h.html#jmp_buf">jmp_buf</a>);</div>
 <div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
 <div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="comment">/* C99 might require setjmp to be a macro. The standard seems self-contradicting on this issue. */</span></div>
 <div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="comment">/* However, it is clear that the standards allow setjmp to be a macro. */</span></div>
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="setjmp_8h.html#setjmp">   70</a></span><span class="preprocessor">#define setjmp(jump_buf) __setjmp(jump_buf)</span></div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
 <div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="preprocessor">#ifndef __SDCC_HIDE_LONGJMP</span></div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="setjmp_8h.html#longjmp">   73</a></span>_Noreturn <span class="keywordtype">void</span> <a class="code hl_function" href="setjmp_8h.html#longjmp">longjmp</a>(<a class="code hl_typedef" href="setjmp_8h.html#jmp_buf">jmp_buf</a>, <span class="keywordtype">int</span>) <a class="code hl_define" href="asm_2types_8h.html#OLDCALL">OLDCALL</a>;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="setjmp_8h.html#longjmp">   73</a></span>_Noreturn <span class="keywordtype">void</span> <a class="code hl_function" href="setjmp_8h.html#longjmp">longjmp</a>(<a class="code hl_typedef" href="setjmp_8h.html#jmp_buf">jmp_buf</a>, <span class="keywordtype">int</span>);</div>
 <div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
 <div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="preprocessor">#undef RET_SIZE</span></div>
@@ -185,15 +185,14 @@ $(document).ready(function(){initNavTree('setjmp_8h_source.html',''); initResiza
 <div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
 <div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
-<div class="ttc" id="aasm_2types_8h_html_OLDCALL"><div class="ttname"><a href="asm_2types_8h.html#OLDCALL">OLDCALL</a></div><div class="ttdeci">#define OLDCALL</div><div class="ttdef"><b>Definition:</b> types.h:21</div></div>
 <div class="ttc" id="asetjmp_8h_html_BPX_SIZE"><div class="ttname"><a href="setjmp_8h.html#BPX_SIZE">BPX_SIZE</a></div><div class="ttdeci">#define BPX_SIZE</div><div class="ttdef"><b>Definition:</b> setjmp.h:46</div></div>
 <div class="ttc" id="asetjmp_8h_html_BP_SIZE"><div class="ttname"><a href="setjmp_8h.html#BP_SIZE">BP_SIZE</a></div><div class="ttdeci">#define BP_SIZE</div><div class="ttdef"><b>Definition:</b> setjmp.h:37</div></div>
 <div class="ttc" id="asetjmp_8h_html_RET_SIZE"><div class="ttname"><a href="setjmp_8h.html#RET_SIZE">RET_SIZE</a></div><div class="ttdeci">#define RET_SIZE</div><div class="ttdef"><b>Definition:</b> setjmp.h:51</div></div>
 <div class="ttc" id="asetjmp_8h_html_SPX_SIZE"><div class="ttname"><a href="setjmp_8h.html#SPX_SIZE">SPX_SIZE</a></div><div class="ttdeci">#define SPX_SIZE</div><div class="ttdef"><b>Definition:</b> setjmp.h:43</div></div>
 <div class="ttc" id="asetjmp_8h_html_SP_SIZE"><div class="ttname"><a href="setjmp_8h.html#SP_SIZE">SP_SIZE</a></div><div class="ttdeci">#define SP_SIZE</div><div class="ttdef"><b>Definition:</b> setjmp.h:32</div></div>
-<div class="ttc" id="asetjmp_8h_html___setjmp"><div class="ttname"><a href="setjmp_8h.html#__setjmp">__setjmp</a></div><div class="ttdeci">int __setjmp(jmp_buf) OLDCALL</div></div>
+<div class="ttc" id="asetjmp_8h_html___setjmp"><div class="ttname"><a href="setjmp_8h.html#__setjmp">__setjmp</a></div><div class="ttdeci">int __setjmp(jmp_buf)</div></div>
 <div class="ttc" id="asetjmp_8h_html_jmp_buf"><div class="ttname"><a href="setjmp_8h.html#jmp_buf">jmp_buf</a></div><div class="ttdeci">unsigned char jmp_buf[RET_SIZE+SP_SIZE+BP_SIZE+SPX_SIZE+BPX_SIZE]</div><div class="ttdef"><b>Definition:</b> setjmp.h:63</div></div>
-<div class="ttc" id="asetjmp_8h_html_longjmp"><div class="ttname"><a href="setjmp_8h.html#longjmp">longjmp</a></div><div class="ttdeci">_Noreturn void longjmp(jmp_buf, int) OLDCALL</div></div>
+<div class="ttc" id="asetjmp_8h_html_longjmp"><div class="ttname"><a href="setjmp_8h.html#longjmp">longjmp</a></div><div class="ttdeci">_Noreturn void longjmp(jmp_buf, int)</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

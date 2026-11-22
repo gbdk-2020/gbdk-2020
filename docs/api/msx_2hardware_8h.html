@@ -41,7 +41,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.5.0</span>
+   &#160;<span id="projectnumber">4.6.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -101,6 +101,7 @@ $(document).ready(function(){initNavTree('msx_2hardware_8h.html',''); initResiza
 <div class="header">
   <div class="summary">
 <a href="#define-members">Macros</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">hardware.h File Reference</div></div>
 </div><!--header-->
@@ -115,7 +116,7 @@ Macros</h2></td></tr>
 <tr class="separator:__BYTES"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:__BYTE_REG"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msx_2hardware_8h.html#__BYTE_REG">__BYTE_REG</a>&#160;&#160;&#160;extern volatile <a class="el" href="asm_2types_8h.html#UBYTE">UBYTE</a></td></tr>
 <tr class="separator:__BYTE_REG"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:PSG_LATCH"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msx_2hardware_8h.html#PSG_LATCH">PSG_LATCH</a>&#160;&#160;&#160;0x80</td></tr>
+<tr class="memitem:PSG_LATCH"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msx_2hardware_8h.html#PSG_LATCH">PSG_LATCH</a>&#160;&#160;&#160;0b10000000</td></tr>
 <tr class="separator:PSG_LATCH"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:PSG_CH0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msx_2hardware_8h.html#PSG_CH0">PSG_CH0</a>&#160;&#160;&#160;0b00000000</td></tr>
 <tr class="separator:PSG_CH0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -213,6 +214,8 @@ Macros</h2></td></tr>
 <tr class="separator:VDP_R5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:R5_SAT_0x3F00"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msx_2hardware_8h.html#R5_SAT_0x3F00">R5_SAT_0x3F00</a>&#160;&#160;&#160;0xFF</td></tr>
 <tr class="separator:R5_SAT_0x3F00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:R5_SAT_0x1F00"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msx_2hardware_8h.html#R5_SAT_0x1F00">R5_SAT_0x1F00</a>&#160;&#160;&#160;0xBF</td></tr>
+<tr class="separator:R5_SAT_0x1F00"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:R5_SAT_MASK"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msx_2hardware_8h.html#R5_SAT_MASK">R5_SAT_MASK</a>&#160;&#160;&#160;0b10000001</td></tr>
 <tr class="separator:R5_SAT_MASK"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:VDP_R6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msx_2hardware_8h.html#VDP_R6">VDP_R6</a>&#160;&#160;&#160;0b10000110</td></tr>
@@ -255,10 +258,23 @@ Macros</h2></td></tr>
 <tr class="separator:VBK_ATTRIBUTES"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:VDP_SAT_TERM"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msx_2hardware_8h.html#VDP_SAT_TERM">VDP_SAT_TERM</a>&#160;&#160;&#160;0xD0</td></tr>
 <tr class="separator:VDP_SAT_TERM"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:DEVICE_SCREEN_PX_WIDTH"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msx_2hardware_8h.html#DEVICE_SCREEN_PX_WIDTH">DEVICE_SCREEN_PX_WIDTH</a>&#160;&#160;&#160;(<a class="el" href="nes_2hardware_8h.html#DEVICE_SCREEN_WIDTH">DEVICE_SCREEN_WIDTH</a> * 8)</td></tr>
+<tr class="memitem:DEVICE_TILE_PX_WIDTH"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msx_2hardware_8h.html#DEVICE_TILE_PX_WIDTH">DEVICE_TILE_PX_WIDTH</a>&#160;&#160;&#160;8</td></tr>
+<tr class="separator:DEVICE_TILE_PX_WIDTH"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:DEVICE_TILE_PX_HEIGHT"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msx_2hardware_8h.html#DEVICE_TILE_PX_HEIGHT">DEVICE_TILE_PX_HEIGHT</a>&#160;&#160;&#160;8</td></tr>
+<tr class="separator:DEVICE_TILE_PX_HEIGHT"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:DEVICE_TILE_SIZE_BYTES"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msx_2hardware_8h.html#DEVICE_TILE_SIZE_BYTES">DEVICE_TILE_SIZE_BYTES</a>&#160;&#160;&#160;32</td></tr>
+<tr class="separator:DEVICE_TILE_SIZE_BYTES"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:DEVICE_SCREEN_PX_WIDTH"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msx_2hardware_8h.html#DEVICE_SCREEN_PX_WIDTH">DEVICE_SCREEN_PX_WIDTH</a>&#160;&#160;&#160;(<a class="el" href="nes_2hardware_8h.html#DEVICE_SCREEN_WIDTH">DEVICE_SCREEN_WIDTH</a> * <a class="el" href="sms_2hardware_8h.html#DEVICE_TILE_PX_WIDTH">DEVICE_TILE_PX_WIDTH</a>)</td></tr>
 <tr class="separator:DEVICE_SCREEN_PX_WIDTH"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:DEVICE_SCREEN_PX_HEIGHT"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msx_2hardware_8h.html#DEVICE_SCREEN_PX_HEIGHT">DEVICE_SCREEN_PX_HEIGHT</a>&#160;&#160;&#160;(<a class="el" href="nes_2hardware_8h.html#DEVICE_SCREEN_HEIGHT">DEVICE_SCREEN_HEIGHT</a> * 8)</td></tr>
+<tr class="memitem:DEVICE_SCREEN_PX_HEIGHT"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msx_2hardware_8h.html#DEVICE_SCREEN_PX_HEIGHT">DEVICE_SCREEN_PX_HEIGHT</a>&#160;&#160;&#160;(<a class="el" href="nes_2hardware_8h.html#DEVICE_SCREEN_HEIGHT">DEVICE_SCREEN_HEIGHT</a> * <a class="el" href="sms_2hardware_8h.html#DEVICE_TILE_PX_HEIGHT">DEVICE_TILE_PX_HEIGHT</a>)</td></tr>
 <tr class="separator:DEVICE_SCREEN_PX_HEIGHT"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:scroll_x_t"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="asm_2mos6502_2types_8h.html#UINT8">UINT8</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msx_2hardware_8h.html#scroll_x_t">scroll_x_t</a></td></tr>
+<tr class="separator:scroll_x_t"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:scroll_y_t"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="asm_2mos6502_2types_8h.html#UINT8">UINT8</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msx_2hardware_8h.html#scroll_y_t">scroll_y_t</a></td></tr>
+<tr class="separator:scroll_y_t"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
@@ -333,7 +349,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define PSG_LATCH&#160;&#160;&#160;0x80</td>
+          <td class="memname">#define PSG_LATCH&#160;&#160;&#160;0b10000000</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1012,6 +1028,20 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="R5_SAT_0x1F00" name="R5_SAT_0x1F00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#R5_SAT_0x1F00">&#9670;&nbsp;</a></span>R5_SAT_0x1F00</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define R5_SAT_0x1F00&#160;&#160;&#160;0xBF</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="R5_SAT_MASK" name="R5_SAT_MASK"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#R5_SAT_MASK">&#9670;&nbsp;</a></span>R5_SAT_MASK</h2>
 
@@ -1306,6 +1336,48 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="DEVICE_TILE_PX_WIDTH" name="DEVICE_TILE_PX_WIDTH"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#DEVICE_TILE_PX_WIDTH">&#9670;&nbsp;</a></span>DEVICE_TILE_PX_WIDTH</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DEVICE_TILE_PX_WIDTH&#160;&#160;&#160;8</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="DEVICE_TILE_PX_HEIGHT" name="DEVICE_TILE_PX_HEIGHT"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#DEVICE_TILE_PX_HEIGHT">&#9670;&nbsp;</a></span>DEVICE_TILE_PX_HEIGHT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DEVICE_TILE_PX_HEIGHT&#160;&#160;&#160;8</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="DEVICE_TILE_SIZE_BYTES" name="DEVICE_TILE_SIZE_BYTES"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#DEVICE_TILE_SIZE_BYTES">&#9670;&nbsp;</a></span>DEVICE_TILE_SIZE_BYTES</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DEVICE_TILE_SIZE_BYTES&#160;&#160;&#160;32</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="DEVICE_SCREEN_PX_WIDTH" name="DEVICE_SCREEN_PX_WIDTH"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#DEVICE_SCREEN_PX_WIDTH">&#9670;&nbsp;</a></span>DEVICE_SCREEN_PX_WIDTH</h2>
 
@@ -1313,7 +1385,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define DEVICE_SCREEN_PX_WIDTH&#160;&#160;&#160;(<a class="el" href="nes_2hardware_8h.html#DEVICE_SCREEN_WIDTH">DEVICE_SCREEN_WIDTH</a> * 8)</td>
+          <td class="memname">#define DEVICE_SCREEN_PX_WIDTH&#160;&#160;&#160;(<a class="el" href="nes_2hardware_8h.html#DEVICE_SCREEN_WIDTH">DEVICE_SCREEN_WIDTH</a> * <a class="el" href="sms_2hardware_8h.html#DEVICE_TILE_PX_WIDTH">DEVICE_TILE_PX_WIDTH</a>)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1327,7 +1399,36 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define DEVICE_SCREEN_PX_HEIGHT&#160;&#160;&#160;(<a class="el" href="nes_2hardware_8h.html#DEVICE_SCREEN_HEIGHT">DEVICE_SCREEN_HEIGHT</a> * 8)</td>
+          <td class="memname">#define DEVICE_SCREEN_PX_HEIGHT&#160;&#160;&#160;(<a class="el" href="nes_2hardware_8h.html#DEVICE_SCREEN_HEIGHT">DEVICE_SCREEN_HEIGHT</a> * <a class="el" href="sms_2hardware_8h.html#DEVICE_TILE_PX_HEIGHT">DEVICE_TILE_PX_HEIGHT</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="scroll_x_t" name="scroll_x_t"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#scroll_x_t">&#9670;&nbsp;</a></span>scroll_x_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="asm_2mos6502_2types_8h.html#UINT8">UINT8</a> <a class="el" href="gb_2hardware_8h.html#scroll_x_t">scroll_x_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="scroll_y_t" name="scroll_y_t"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#scroll_y_t">&#9670;&nbsp;</a></span>scroll_y_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="asm_2mos6502_2types_8h.html#UINT8">UINT8</a> <a class="el" href="gb_2hardware_8h.html#scroll_y_t">scroll_y_t</a></td>
         </tr>
       </table>
 </div><div class="memdoc">

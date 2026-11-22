@@ -9,5 +9,5 @@ var searchData=
   ['islower_6',['islower',['../ctype_8h.html#islower',1,'ctype.h']]],
   ['isspace_7',['isspace',['../ctype_8h.html#isspace',1,'ctype.h']]],
   ['isupper_8',['isupper',['../ctype_8h.html#isupper',1,'ctype.h']]],
-  ['itoa_9',['itoa',['../stdlib_8h.html#itoa',1,'stdlib.h']]]
+  ['itoa_9',['itoa',['../asm_2mos6502_2stdlib_8h.html#itoa',1,'itoa(int n, char *s, unsigned char radix):&#160;stdlib.h'],['../asm_2sm83_2stdlib_8h.html#itoa',1,'itoa(int n, char *s, unsigned char radix):&#160;stdlib.h'],['../asm_2z80_2stdlib_8h.html#itoa',1,'itoa(int n, char *s, unsigned char radix) OLDCALL:&#160;stdlib.h']]]
 ];
