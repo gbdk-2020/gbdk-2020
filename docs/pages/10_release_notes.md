@@ -58,7 +58,7 @@ https://github.com/gbdk-2020/gbdk-2020/releases
         - `nes-m30-s-win` (mapper30 single-screen layout with window emulation)
         - `nes-m30-f` (mapper30 four-screen layout)
         - `m30-h`, `m30-v` (mapper2 horizontal / vertical layout)
-        - `nes-m2-h`, `nes-mapper2-v` (mapper2 horizontal / vertical layout)
+        - `nes-m2-h`, `nes-m2-v` (mapper2 horizontal / vertical layout)
         - `DNES_MAPPER_2` and `DNES_MAPPER_30` defines will be present (passed to the compiler) depending on the selected mapper
   - Examples
       - Added Tile Bank Switch example
