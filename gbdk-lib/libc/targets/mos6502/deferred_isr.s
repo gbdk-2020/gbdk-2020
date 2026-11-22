@@ -113,6 +113,7 @@
     lda #0
     sta *__hblank_writes_index
     sta *.lcd_buf_index
+    lda #.LCD_ISR_END
     sta __lcd_isr_delay_num_scanlines+1
     ldx #.SCREENHEIGHT-1
     jmp .write_shadow_registers_to_buffer
@@ -177,8 +178,8 @@
     iny
     sty *.lcd_buf_index
 
-    ; Ensure second entry (actual LCD) starts off with zero (end-of-list)
-    lda #0
+    ; Ensure second entry (actual LCD) starts off with end-of-list
+    lda #.LCD_ISR_END
     sta __lcd_isr_delay_num_scanlines,y
     ; Skip to end if LCD isr functionality is disabled (0x60 = RTS means LCD isr disabled)
     lda .jmp_to_LCD_isr
@@ -214,7 +215,7 @@
     pha
 .endif
 
-    sec
+    clc
     sbc *.lcd_scanline_previous
     sta __lcd_isr_delay_num_scanlines,y
     ; Call LCD isr
@@ -240,6 +241,10 @@
     ldx #.SCREENHEIGHT
     jsr .deferred_isr_handle_window
 .endif
+
+    ; Ensure entry ends with end-of-list terminator
+    lda #.LCD_ISR_END
+    sta __lcd_isr_delay_num_scanlines,y
 
     ; Flip __hblank_writes_index for NMI handler
     ldy #0
@@ -287,7 +292,7 @@
     ; lcd_scanline_next >= win_pos_y -> win_pos_y < lcd_scanline_next
     lda *_win_pos_y
     beq 21$
-    sec
+    clc
     sbc *.lcd_scanline_previous
     sta __lcd_isr_delay_num_scanlines,y
 

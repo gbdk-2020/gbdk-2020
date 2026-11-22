@@ -4,6 +4,8 @@
         .MAX_LCD_ISR_CALLS = 4
         ;; Total number is +1 to support VBL ISR with the same logic
         .MAX_DEFERRED_ISR_CALLS = (.MAX_LCD_ISR_CALLS+1)
+        ;; end-of-ISR-buffer terminator
+        .LCD_ISR_END = 0xFF
 
         ;; Transfer buffer (lower half of hardware stack)
         __vram_transfer_buffer = 0x100
