@@ -41,7 +41,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.5.0</span>
+   &#160;<span id="projectnumber">4.6.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -115,7 +115,7 @@ $(document).ready(function(){initNavTree('msx_2hardware_8h_source.html',''); ini
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>static volatile <a class="code hl_define" href="asm_2types_8h.html#SFR">SFR</a> <a class="code hl_define" href="asm_2types_8h.html#AT">AT</a>(0x7F) PSG;</div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#PSG_LATCH">   17</a></span><span class="preprocessor">#define PSG_LATCH      0x80</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#PSG_LATCH">   17</a></span><span class="preprocessor">#define PSG_LATCH      0b10000000</span></div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#PSG_CH0">   19</a></span><span class="preprocessor">#define PSG_CH0        0b00000000</span></div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#PSG_CH1">   20</a></span><span class="preprocessor">#define PSG_CH1        0b00100000</span></div>
@@ -187,82 +187,91 @@ $(document).ready(function(){initNavTree('msx_2hardware_8h_source.html',''); ini
 <div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="keyword">extern</span> <a class="code hl_typedef" href="asm_2types_8h.html#UBYTE">UBYTE</a> <a class="code hl_variable" href="msx_2hardware_8h.html#shadow_VDP_R5">shadow_VDP_R5</a>;</div>
 <div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
 <div class="line"><a id="l00088" name="l00088"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#R5_SAT_0x3F00">   88</a></span><span class="preprocessor">#define R5_SAT_0x3F00  0xFF</span></div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#R5_SAT_MASK">   89</a></span><span class="preprocessor">#define R5_SAT_MASK    0b10000001</span></div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#VDP_R6">   91</a></span><span class="preprocessor">#define VDP_R6         0b10000110</span></div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span><span class="keyword">extern</span> <a class="code hl_typedef" href="asm_2types_8h.html#UBYTE">UBYTE</a> <a class="code hl_variable" href="msx_2hardware_8h.html#shadow_VDP_R6">shadow_VDP_R6</a>;</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#R6_BANK0">   94</a></span><span class="preprocessor">#define R6_BANK0       0xFB</span></div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#R6_DATA_0x0000">   95</a></span><span class="preprocessor">#define R6_DATA_0x0000 0xFB</span></div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#R6_BANK1">   96</a></span><span class="preprocessor">#define R6_BANK1       0xFF</span></div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#R6_DATA_0x2000">   97</a></span><span class="preprocessor">#define R6_DATA_0x2000 0xFF</span></div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#VDP_R7">   99</a></span><span class="preprocessor">#define VDP_R7         0b10000111</span></div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span><span class="keyword">extern</span> <a class="code hl_typedef" href="asm_2types_8h.html#UBYTE">UBYTE</a> <a class="code hl_variable" href="msx_2hardware_8h.html#shadow_VDP_R7">shadow_VDP_R7</a>;</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#VDP_RBORDER">  101</a></span><span class="preprocessor">#define VDP_RBORDER    0b10000111</span></div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span><span class="keyword">extern</span> <a class="code hl_typedef" href="asm_2types_8h.html#UBYTE">UBYTE</a> <a class="code hl_variable" href="msx_2hardware_8h.html#shadow_VDP_RBORDER">shadow_VDP_RBORDER</a>;</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#R7_COLOR_MASK">  104</a></span><span class="preprocessor">#define R7_COLOR_MASK  0b11110000</span></div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#VDP_R8">  106</a></span><span class="preprocessor">#define VDP_R8         0b10001000</span></div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span><span class="keyword">extern</span> <a class="code hl_typedef" href="asm_2types_8h.html#UBYTE">UBYTE</a> <a class="code hl_variable" href="msx_2hardware_8h.html#shadow_VDP_R8">shadow_VDP_R8</a>;</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#VDP_RSCX">  108</a></span><span class="preprocessor">#define VDP_RSCX       0b10001000</span></div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span><span class="keyword">extern</span> <a class="code hl_typedef" href="asm_2types_8h.html#UBYTE">UBYTE</a> <a class="code hl_variable" href="msx_2hardware_8h.html#shadow_VDP_RSCX">shadow_VDP_RSCX</a>;</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#VDP_R9">  111</a></span><span class="preprocessor">#define VDP_R9         0b10001001</span></div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span><span class="keyword">extern</span> <a class="code hl_typedef" href="asm_2types_8h.html#UBYTE">UBYTE</a> <a class="code hl_variable" href="msx_2hardware_8h.html#shadow_VDP_R9">shadow_VDP_R9</a>;</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#VDP_RSCY">  113</a></span><span class="preprocessor">#define VDP_RSCY       0b10001001</span></div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span><span class="keyword">extern</span> <a class="code hl_typedef" href="asm_2types_8h.html#UBYTE">UBYTE</a> <a class="code hl_variable" href="msx_2hardware_8h.html#shadow_VDP_RSCY">shadow_VDP_RSCY</a>;</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#VDP_R10">  116</a></span><span class="preprocessor">#define VDP_R10        0b10001010</span></div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span><span class="keyword">extern</span> <a class="code hl_typedef" href="asm_2types_8h.html#UBYTE">UBYTE</a> <a class="code hl_variable" href="msx_2hardware_8h.html#shadow_VDP_R10">shadow_VDP_R10</a>;</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span> </div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#R10_INT_OFF">  119</a></span><span class="preprocessor">#define R10_INT_OFF    0xFF</span></div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#R10_INT_EVERY">  120</a></span><span class="preprocessor">#define R10_INT_EVERY  0x00</span></div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span> </div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span><span class="keyword">static</span> <span class="keyword">volatile</span> <a class="code hl_define" href="asm_2types_8h.html#SFR">SFR</a> <a class="code hl_define" href="asm_2types_8h.html#AT">AT</a>(0xF0) FMADDRESS;</div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>static volatile <a class="code hl_define" href="asm_2types_8h.html#SFR">SFR</a> <a class="code hl_define" href="asm_2types_8h.html#AT">AT</a>(0xF1) FMDATA;</div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>static volatile <a class="code hl_define" href="asm_2types_8h.html#SFR">SFR</a> <a class="code hl_define" href="asm_2types_8h.html#AT">AT</a>(0xF2) AUDIOCTRL;</div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>static volatile <a class="code hl_define" href="asm_2types_8h.html#SFR">SFR</a> <a class="code hl_define" href="asm_2types_8h.html#AT">AT</a>(0xfc) MAP_FRAME0;</div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>static volatile <a class="code hl_define" href="asm_2types_8h.html#SFR">SFR</a> <a class="code hl_define" href="asm_2types_8h.html#AT">AT</a>(0xfd) MAP_FRAME1;</div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>static volatile <a class="code hl_define" href="asm_2types_8h.html#SFR">SFR</a> <a class="code hl_define" href="asm_2types_8h.html#AT">AT</a>(0xfe) MAP_FRAME2;</div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>static volatile <a class="code hl_define" href="asm_2types_8h.html#SFR">SFR</a> <a class="code hl_define" href="asm_2types_8h.html#AT">AT</a>(0xff) MAP_FRAME3;</div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span> </div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>extern const <a class="code hl_typedef" href="asm_2types_8h.html#UBYTE">UBYTE</a> <a class="code hl_variable" href="msx_2hardware_8h.html#_SYSTEM">_SYSTEM</a>;</div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#SYSTEM_PAL">  133</a></span><span class="preprocessor">#define SYSTEM_PAL     0x00</span></div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#SYSTEM_NTSC">  134</a></span><span class="preprocessor">#define SYSTEM_NTSC    0x01</span></div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span> </div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span><span class="keyword">extern</span> <span class="keyword">volatile</span> <a class="code hl_typedef" href="asm_2types_8h.html#UBYTE">UBYTE</a> <a class="code hl_variable" href="msx_2hardware_8h.html#VDP_ATTR_SHIFT">VDP_ATTR_SHIFT</a>;</div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span> </div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#VBK_TILES">  138</a></span><span class="preprocessor">#define VBK_TILES       0</span></div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#VBK_ATTRIBUTES">  139</a></span><span class="preprocessor">#define VBK_ATTRIBUTES  1</span></div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span> </div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#VDP_SAT_TERM">  141</a></span><span class="preprocessor">#define VDP_SAT_TERM   0xD0</span></div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span> </div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span><span class="preprocessor">#if defined(__TARGET_msxdos)</span></div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span><span class="preprocessor">#define DEVICE_SCREEN_X_OFFSET 0</span></div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span><span class="preprocessor">#define DEVICE_SCREEN_Y_OFFSET 0</span></div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span><span class="preprocessor">#define DEVICE_SCREEN_WIDTH 32</span></div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span><span class="preprocessor">#define DEVICE_SCREEN_HEIGHT 24</span></div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span><span class="preprocessor">#define DEVICE_SCREEN_BUFFER_WIDTH 32</span></div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span><span class="preprocessor">#define DEVICE_SCREEN_BUFFER_HEIGHT 28</span></div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><span class="preprocessor">#define DEVICE_SCREEN_MAP_ENTRY_SIZE 2</span></div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span><span class="preprocessor">#define DEVICE_SPRITE_PX_OFFSET_X 0</span></div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span><span class="preprocessor">#define DEVICE_SPRITE_PX_OFFSET_Y -1</span></div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span><span class="preprocessor">#define DEVICE_WINDOW_PX_OFFSET_X 0</span></div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span><span class="preprocessor">#define DEVICE_WINDOW_PX_OFFSET_Y 0</span></div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span><span class="preprocessor">#else</span></div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span><span class="preprocessor">#error Unrecognized port</span></div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#DEVICE_SCREEN_PX_WIDTH">  158</a></span><span class="preprocessor">#define DEVICE_SCREEN_PX_WIDTH (DEVICE_SCREEN_WIDTH * 8)</span></div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#DEVICE_SCREEN_PX_HEIGHT">  159</a></span><span class="preprocessor">#define DEVICE_SCREEN_PX_HEIGHT (DEVICE_SCREEN_HEIGHT * 8)</span></div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span> </div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#R5_SAT_0x1F00">   89</a></span><span class="preprocessor">#define R5_SAT_0x1F00  0xBF</span></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#R5_SAT_MASK">   90</a></span><span class="preprocessor">#define R5_SAT_MASK    0b10000001</span></div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#VDP_R6">   92</a></span><span class="preprocessor">#define VDP_R6         0b10000110</span></div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span><span class="keyword">extern</span> <a class="code hl_typedef" href="asm_2types_8h.html#UBYTE">UBYTE</a> <a class="code hl_variable" href="msx_2hardware_8h.html#shadow_VDP_R6">shadow_VDP_R6</a>;</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#R6_BANK0">   95</a></span><span class="preprocessor">#define R6_BANK0       0xFB</span></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#R6_DATA_0x0000">   96</a></span><span class="preprocessor">#define R6_DATA_0x0000 0xFB</span></div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#R6_BANK1">   97</a></span><span class="preprocessor">#define R6_BANK1       0xFF</span></div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#R6_DATA_0x2000">   98</a></span><span class="preprocessor">#define R6_DATA_0x2000 0xFF</span></div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#VDP_R7">  100</a></span><span class="preprocessor">#define VDP_R7         0b10000111</span></div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span><span class="keyword">extern</span> <a class="code hl_typedef" href="asm_2types_8h.html#UBYTE">UBYTE</a> <a class="code hl_variable" href="msx_2hardware_8h.html#shadow_VDP_R7">shadow_VDP_R7</a>;</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#VDP_RBORDER">  102</a></span><span class="preprocessor">#define VDP_RBORDER    0b10000111</span></div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span><span class="keyword">extern</span> <a class="code hl_typedef" href="asm_2types_8h.html#UBYTE">UBYTE</a> <a class="code hl_variable" href="msx_2hardware_8h.html#shadow_VDP_RBORDER">shadow_VDP_RBORDER</a>;</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#R7_COLOR_MASK">  105</a></span><span class="preprocessor">#define R7_COLOR_MASK  0b11110000</span></div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> </div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#VDP_R8">  107</a></span><span class="preprocessor">#define VDP_R8         0b10001000</span></div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span><span class="keyword">extern</span> <a class="code hl_typedef" href="asm_2types_8h.html#UBYTE">UBYTE</a> <a class="code hl_variable" href="msx_2hardware_8h.html#shadow_VDP_R8">shadow_VDP_R8</a>;</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#VDP_RSCX">  109</a></span><span class="preprocessor">#define VDP_RSCX       0b10001000</span></div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span><span class="keyword">extern</span> <a class="code hl_typedef" href="asm_2types_8h.html#UBYTE">UBYTE</a> <a class="code hl_variable" href="msx_2hardware_8h.html#shadow_VDP_RSCX">shadow_VDP_RSCX</a>;</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#VDP_R9">  112</a></span><span class="preprocessor">#define VDP_R9         0b10001001</span></div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span><span class="keyword">extern</span> <a class="code hl_typedef" href="asm_2types_8h.html#UBYTE">UBYTE</a> <a class="code hl_variable" href="msx_2hardware_8h.html#shadow_VDP_R9">shadow_VDP_R9</a>;</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#VDP_RSCY">  114</a></span><span class="preprocessor">#define VDP_RSCY       0b10001001</span></div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span><span class="keyword">extern</span> <a class="code hl_typedef" href="asm_2types_8h.html#UBYTE">UBYTE</a> <a class="code hl_variable" href="msx_2hardware_8h.html#shadow_VDP_RSCY">shadow_VDP_RSCY</a>;</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span> </div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#VDP_R10">  117</a></span><span class="preprocessor">#define VDP_R10        0b10001010</span></div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span><span class="keyword">extern</span> <a class="code hl_typedef" href="asm_2types_8h.html#UBYTE">UBYTE</a> <a class="code hl_variable" href="msx_2hardware_8h.html#shadow_VDP_R10">shadow_VDP_R10</a>;</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#R10_INT_OFF">  120</a></span><span class="preprocessor">#define R10_INT_OFF    0xFF</span></div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#R10_INT_EVERY">  121</a></span><span class="preprocessor">#define R10_INT_EVERY  0x00</span></div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span> </div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span><span class="keyword">static</span> <span class="keyword">volatile</span> <a class="code hl_define" href="asm_2types_8h.html#SFR">SFR</a> <a class="code hl_define" href="asm_2types_8h.html#AT">AT</a>(0xF0) FMADDRESS;</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>static volatile <a class="code hl_define" href="asm_2types_8h.html#SFR">SFR</a> <a class="code hl_define" href="asm_2types_8h.html#AT">AT</a>(0xF1) FMDATA;</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>static volatile <a class="code hl_define" href="asm_2types_8h.html#SFR">SFR</a> <a class="code hl_define" href="asm_2types_8h.html#AT">AT</a>(0xF2) AUDIOCTRL;</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>static volatile <a class="code hl_define" href="asm_2types_8h.html#SFR">SFR</a> <a class="code hl_define" href="asm_2types_8h.html#AT">AT</a>(0xfc) MAP_FRAME0;</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>static volatile <a class="code hl_define" href="asm_2types_8h.html#SFR">SFR</a> <a class="code hl_define" href="asm_2types_8h.html#AT">AT</a>(0xfd) MAP_FRAME1;</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>static volatile <a class="code hl_define" href="asm_2types_8h.html#SFR">SFR</a> <a class="code hl_define" href="asm_2types_8h.html#AT">AT</a>(0xfe) MAP_FRAME2;</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>static volatile <a class="code hl_define" href="asm_2types_8h.html#SFR">SFR</a> <a class="code hl_define" href="asm_2types_8h.html#AT">AT</a>(0xff) MAP_FRAME3;</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span> </div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>extern const <a class="code hl_typedef" href="asm_2types_8h.html#UBYTE">UBYTE</a> <a class="code hl_variable" href="msx_2hardware_8h.html#_SYSTEM">_SYSTEM</a>;</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span> </div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#SYSTEM_PAL">  134</a></span><span class="preprocessor">#define SYSTEM_PAL     0x00</span></div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#SYSTEM_NTSC">  135</a></span><span class="preprocessor">#define SYSTEM_NTSC    0x01</span></div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span> </div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span><span class="keyword">extern</span> <span class="keyword">volatile</span> <a class="code hl_typedef" href="asm_2types_8h.html#UBYTE">UBYTE</a> <a class="code hl_variable" href="msx_2hardware_8h.html#VDP_ATTR_SHIFT">VDP_ATTR_SHIFT</a>;</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span> </div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#VBK_TILES">  139</a></span><span class="preprocessor">#define VBK_TILES       0</span></div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#VBK_ATTRIBUTES">  140</a></span><span class="preprocessor">#define VBK_ATTRIBUTES  1</span></div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span> </div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#VDP_SAT_TERM">  142</a></span><span class="preprocessor">#define VDP_SAT_TERM   0xD0</span></div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span><span class="preprocessor">#if defined(__TARGET_msxdos)</span></div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span><span class="preprocessor">#define DEVICE_SCREEN_X_OFFSET 0</span></div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span><span class="preprocessor">#define DEVICE_SCREEN_Y_OFFSET 0</span></div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span><span class="preprocessor">#define DEVICE_SCREEN_WIDTH 32</span></div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span><span class="preprocessor">#define DEVICE_SCREEN_HEIGHT 24</span></div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span><span class="preprocessor">#define DEVICE_SCREEN_BUFFER_WIDTH 32</span></div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><span class="preprocessor">#define DEVICE_SCREEN_BUFFER_HEIGHT 28</span></div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span><span class="preprocessor">#define DEVICE_SCREEN_MAP_ENTRY_SIZE 2</span></div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span><span class="preprocessor">#define DEVICE_SPRITE_PX_OFFSET_X 0</span></div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span><span class="preprocessor">#define DEVICE_SPRITE_PX_OFFSET_Y -1</span></div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span><span class="preprocessor">#define DEVICE_WINDOW_PX_OFFSET_X 0</span></div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span><span class="preprocessor">#define DEVICE_WINDOW_PX_OFFSET_Y 0</span></div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span><span class="preprocessor">#error Unrecognized port</span></div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#DEVICE_TILE_PX_WIDTH">  159</a></span><span class="preprocessor">#define DEVICE_TILE_PX_WIDTH 8</span></div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#DEVICE_TILE_PX_HEIGHT">  160</a></span><span class="preprocessor">#define DEVICE_TILE_PX_HEIGHT 8</span></div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#DEVICE_TILE_SIZE_BYTES">  161</a></span><span class="preprocessor">#define DEVICE_TILE_SIZE_BYTES 32</span></div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#DEVICE_SCREEN_PX_WIDTH">  162</a></span><span class="preprocessor">#define DEVICE_SCREEN_PX_WIDTH (DEVICE_SCREEN_WIDTH * DEVICE_TILE_PX_WIDTH)</span></div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#DEVICE_SCREEN_PX_HEIGHT">  163</a></span><span class="preprocessor">#define DEVICE_SCREEN_PX_HEIGHT (DEVICE_SCREEN_HEIGHT * DEVICE_TILE_PX_HEIGHT)</span></div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span> </div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#scroll_x_t">  165</a></span><span class="keyword">typedef</span> <a class="code hl_typedef" href="asm_2mos6502_2types_8h.html#UINT8">UINT8</a> <a class="code hl_typedef" href="gb_2hardware_8h.html#scroll_x_t">scroll_x_t</a>;</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno"><a class="line" href="msx_2hardware_8h.html#scroll_y_t">  166</a></span><span class="keyword">typedef</span> <a class="code hl_typedef" href="asm_2mos6502_2types_8h.html#UINT8">UINT8</a> <a class="code hl_typedef" href="gb_2hardware_8h.html#scroll_y_t">scroll_y_t</a>;</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="aasm_2mos6502_2types_8h_html_UINT8"><div class="ttname"><a href="asm_2mos6502_2types_8h.html#UINT8">UINT8</a></div><div class="ttdeci">unsigned char UINT8</div><div class="ttdef"><b>Definition:</b> types.h:50</div></div>
 <div class="ttc" id="aasm_2types_8h_html_AT"><div class="ttname"><a href="asm_2types_8h.html#AT">AT</a></div><div class="ttdeci">#define AT(A)</div><div class="ttdef"><b>Definition:</b> types.h:35</div></div>
 <div class="ttc" id="aasm_2types_8h_html_SFR"><div class="ttname"><a href="asm_2types_8h.html#SFR">SFR</a></div><div class="ttdeci">#define SFR</div><div class="ttdef"><b>Definition:</b> types.h:34</div></div>
 <div class="ttc" id="aasm_2types_8h_html_UBYTE"><div class="ttname"><a href="asm_2types_8h.html#UBYTE">UBYTE</a></div><div class="ttdeci">UINT8 UBYTE</div><div class="ttdef"><b>Definition:</b> types.h:62</div></div>
+<div class="ttc" id="agb_2hardware_8h_html_scroll_x_t"><div class="ttname"><a href="gb_2hardware_8h.html#scroll_x_t">scroll_x_t</a></div><div class="ttdeci">UINT8 scroll_x_t</div><div class="ttdef"><b>Definition:</b> hardware.h:470</div></div>
+<div class="ttc" id="agb_2hardware_8h_html_scroll_y_t"><div class="ttname"><a href="gb_2hardware_8h.html#scroll_y_t">scroll_y_t</a></div><div class="ttdeci">UINT8 scroll_y_t</div><div class="ttdef"><b>Definition:</b> hardware.h:471</div></div>
 <div class="ttc" id="amsx_2hardware_8h_html_VDP_ATTR_SHIFT"><div class="ttname"><a href="msx_2hardware_8h.html#VDP_ATTR_SHIFT">VDP_ATTR_SHIFT</a></div><div class="ttdeci">volatile UBYTE VDP_ATTR_SHIFT</div></div>
 <div class="ttc" id="amsx_2hardware_8h_html__SYSTEM"><div class="ttname"><a href="msx_2hardware_8h.html#_SYSTEM">_SYSTEM</a></div><div class="ttdeci">const UBYTE _SYSTEM</div></div>
 <div class="ttc" id="amsx_2hardware_8h_html_shadow_VDP_R0"><div class="ttname"><a href="msx_2hardware_8h.html#shadow_VDP_R0">shadow_VDP_R0</a></div><div class="ttdeci">UBYTE shadow_VDP_R0</div></div>

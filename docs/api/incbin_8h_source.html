@@ -41,7 +41,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.5.0</span>
+   &#160;<span id="projectnumber">4.6.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -116,7 +116,7 @@ $(document).ready(function(){initNavTree('incbin_8h_source.html',''); initResiza
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="incbin_8h.html#INCBIN_SIZE">   37</a></span><span class="preprocessor">#define INCBIN_SIZE(VARNAME) ( (uint16_t) &amp; __size_ ## VARNAME )</span></div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor">#ifndef BANK</span></div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="incbin_8h.html#BANK">   48</a></span><span class="preprocessor">#define BANK(VARNAME) ( (uint8_t) &amp; __bank_ ## VARNAME )</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="incbin_8h.html#BANK">   48</a></span><span class="preprocessor">#define BANK(VARNAME) ( (uint16_t) &amp; __bank_ ## VARNAME )</span></div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
 <div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="incbin_8h.html#INCBIN">   74</a></span><span class="preprocessor">#define INCBIN(VARNAME, FILEPATH) void __func_ ## VARNAME(void) __banked __naked { \</span></div>

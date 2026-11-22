@@ -43,7 +43,7 @@ var searchData=
   ['r2_5fmap_5f0x2800_40',['R2_MAP_0x2800',['../msx_2hardware_8h.html#R2_MAP_0x2800',1,'R2_MAP_0x2800():&#160;hardware.h'],['../sms_2hardware_8h.html#R2_MAP_0x2800',1,'R2_MAP_0x2800():&#160;hardware.h']]],
   ['r2_5fmap_5f0x3000_41',['R2_MAP_0x3000',['../msx_2hardware_8h.html#R2_MAP_0x3000',1,'R2_MAP_0x3000():&#160;hardware.h'],['../sms_2hardware_8h.html#R2_MAP_0x3000',1,'R2_MAP_0x3000():&#160;hardware.h']]],
   ['r2_5fmap_5f0x3800_42',['R2_MAP_0x3800',['../msx_2hardware_8h.html#R2_MAP_0x3800',1,'R2_MAP_0x3800():&#160;hardware.h'],['../sms_2hardware_8h.html#R2_MAP_0x3800',1,'R2_MAP_0x3800():&#160;hardware.h']]],
-  ['r5_5fsat_5f0x1f00_43',['R5_SAT_0x1F00',['../sms_2hardware_8h.html#R5_SAT_0x1F00',1,'hardware.h']]],
+  ['r5_5fsat_5f0x1f00_43',['R5_SAT_0x1F00',['../sms_2hardware_8h.html#R5_SAT_0x1F00',1,'R5_SAT_0x1F00():&#160;hardware.h'],['../msx_2hardware_8h.html#R5_SAT_0x1F00',1,'R5_SAT_0x1F00():&#160;hardware.h']]],
   ['r5_5fsat_5f0x3f00_44',['R5_SAT_0x3F00',['../msx_2hardware_8h.html#R5_SAT_0x3F00',1,'R5_SAT_0x3F00():&#160;hardware.h'],['../sms_2hardware_8h.html#R5_SAT_0x3F00',1,'R5_SAT_0x3F00():&#160;hardware.h']]],
   ['r5_5fsat_5fmask_45',['R5_SAT_MASK',['../msx_2hardware_8h.html#R5_SAT_MASK',1,'R5_SAT_MASK():&#160;hardware.h'],['../sms_2hardware_8h.html#R5_SAT_MASK',1,'R5_SAT_MASK():&#160;hardware.h']]],
   ['r6_5fbank0_46',['R6_BANK0',['../msx_2hardware_8h.html#R6_BANK0',1,'R6_BANK0():&#160;hardware.h'],['../sms_2hardware_8h.html#R6_BANK0',1,'R6_BANK0():&#160;hardware.h']]],
@@ -136,7 +136,7 @@ var searchData=
   ['rsb_133',['rSB',['../gb_2hardware_8h.html#rSB',1,'hardware.h']]],
   ['rsc_134',['rSC',['../gb_2hardware_8h.html#rSC',1,'hardware.h']]],
   ['rscx_135',['rSCX',['../gb_2hardware_8h.html#rSCX',1,'rSCX():&#160;hardware.h'],['../nes_2hardware_8h.html#rSCX',1,'rSCX():&#160;hardware.h']]],
-  ['rscy_136',['rSCY',['../gb_2hardware_8h.html#rSCY',1,'rSCY():&#160;hardware.h'],['../nes_2hardware_8h.html#rSCY',1,'rSCY():&#160;hardware.h']]],
+  ['rscy_136',['rSCY',['../nes_2hardware_8h.html#rSCY',1,'rSCY():&#160;hardware.h'],['../gb_2hardware_8h.html#rSCY',1,'rSCY():&#160;hardware.h']]],
   ['rsmbk_137',['rSMBK',['../gb_2hardware_8h.html#rSMBK',1,'hardware.h']]],
   ['rspd_138',['rSPD',['../gb_2hardware_8h.html#rSPD',1,'hardware.h']]],
   ['rstat_139',['rSTAT',['../gb_2hardware_8h.html#rSTAT',1,'hardware.h']]],
@@ -144,7 +144,7 @@ var searchData=
   ['rtac_141',['rTAC',['../gb_2hardware_8h.html#rTAC',1,'hardware.h']]],
   ['rtima_142',['rTIMA',['../gb_2hardware_8h.html#rTIMA',1,'hardware.h']]],
   ['rtma_143',['rTMA',['../gb_2hardware_8h.html#rTMA',1,'hardware.h']]],
-  ['rvbk_144',['rVBK',['../gb_2hardware_8h.html#rVBK',1,'hardware.h']]],
+  ['rvbk_144',['rVBK',['../gb_2hardware_8h.html#rVBK',1,'rVBK():&#160;hardware.h'],['../nes_2hardware_8h.html#rVBK',1,'rVBK():&#160;hardware.h']]],
   ['rwx_145',['rWX',['../gb_2hardware_8h.html#rWX',1,'hardware.h']]],
   ['rwy_146',['rWY',['../gb_2hardware_8h.html#rWY',1,'hardware.h']]]
 ];

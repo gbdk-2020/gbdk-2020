@@ -41,7 +41,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.5.0</span>
+   &#160;<span id="projectnumber">4.6.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -128,8 +128,6 @@ Macros</h2></td></tr>
 <tr class="separator:EMU_TEXT"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:BGB_TEXT"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gbdk_2emu__debug_8h.html#BGB_TEXT">BGB_TEXT</a>(MSG)&#160;&#160;&#160;<a class="el" href="gbdk_2emu__debug_8h.html#EMU_TEXT">EMU_TEXT</a>(MSG)</td></tr>
 <tr class="separator:BGB_TEXT"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:BGB_profiler_message"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gbdk_2emu__debug_8h.html#BGB_profiler_message">BGB_profiler_message</a>&#160;&#160;&#160;<a class="el" href="gbdk_2emu__debug_8h.html#EMU_profiler_message">EMU_profiler_message</a>()</td></tr>
-<tr class="separator:BGB_profiler_message"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:BGB_printf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gbdk_2emu__debug_8h.html#BGB_printf">BGB_printf</a>(...)&#160;&#160;&#160;<a class="el" href="gbdk_2emu__debug_8h.html#EMU_printf">EMU_printf</a>(__VA_ARGS__)</td></tr>
 <tr class="separator:BGB_printf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:EMU_BREAKPOINT"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gbdk_2emu__debug_8h.html#EMU_BREAKPOINT">EMU_BREAKPOINT</a>&#160;&#160;&#160;__asm__(&quot;ld <a class="el" href="sms_8h.html#b">b</a>, <a class="el" href="sms_8h.html#b">b</a>&quot;);</td></tr>
@@ -139,8 +137,6 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:EMU_profiler_message"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gbdk_2emu__debug_8h.html#EMU_profiler_message">EMU_profiler_message</a> (void)</td></tr>
-<tr class="separator:EMU_profiler_message"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:EMU_printf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gbdk_2emu__debug_8h.html#EMU_printf">EMU_printf</a> (const char *format,...) <a class="el" href="asm_2types_8h.html#PRESERVES_REGS">PRESERVES_REGS</a>(a</td></tr>
 <tr class="separator:EMU_printf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:EMU_fmtbuf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gbdk_2emu__debug_8h.html#EMU_fmtbuf">EMU_fmtbuf</a> (const unsigned char *format, void *data) <a class="el" href="asm_2types_8h.html#PRESERVES_REGS">PRESERVES_REGS</a>(a</td></tr>
@@ -338,20 +334,6 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="BGB_profiler_message" name="BGB_profiler_message"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#BGB_profiler_message">&#9670;&nbsp;</a></span>BGB_profiler_message</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define BGB_profiler_message&#160;&#160;&#160;<a class="el" href="gbdk_2emu__debug_8h.html#EMU_profiler_message">EMU_profiler_message</a>()</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="BGB_printf" name="BGB_printf"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#BGB_printf">&#9670;&nbsp;</a></span>BGB_printf</h2>
 
@@ -400,26 +382,6 @@ Variables</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="EMU_profiler_message" name="EMU_profiler_message"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#EMU_profiler_message">&#9670;&nbsp;</a></span>EMU_profiler_message()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void EMU_profiler_message </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p >Display preset debug information in the Emulator debug messages window.</p>
-<p >This function is equivalent to: </p><div class="fragment"><div class="line"><a class="code hl_define" href="gbdk_2emu__debug_8h.html#EMU_MESSAGE">EMU_MESSAGE</a>(<span class="stringliteral">&quot;PROFILE,%(SP+$0)%,%(SP+$1)%,%A%,%TOTALCLKS%,%ROMBANK%,%WRAMBANK%&quot;</span>);</div>
-</div><!-- fragment --> 
-</div>
-</div>
 <a id="EMU_printf" name="EMU_printf"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#EMU_printf">&#9670;&nbsp;</a></span>EMU_printf()</h2>
 
@@ -453,9 +415,6 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <p>Does not return the number of characters printed. Currently supported: </p><ul>
-<li>%hx (char as hex) </li>
-<li>%hu (unsigned char) </li>
-<li>%hd (signed char) </li>
 <li>%c (character) <br  />
  </li>
 <li>%u (unsigned int) </li>
@@ -463,16 +422,17 @@ Variables</h2></td></tr>
 <li>%x (unsigned int as hex) </li>
 <li>%s (string)</li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>Variables for the following 8-bit formats <b>MUST</b> be cast to their type when passed to <a class="el" href="gbdk_2emu__debug_8h.html#EMU_printf">EMU_printf()</a> <ul>
-<li>%hx (char) </li>
-<li>%hu (unsigned char) </li>
-<li>%hd (signed char)</li>
+<dl class="section note"><dt>Note</dt><dd>Variables for the following 8-bit formats are no longer supported due to SDCC va_args handling changes and the emulator API remaining fixed. <ul>
+<li>%hx (char as hex) : No longer supported, use x instead </li>
+<li>%hu (unsigned char) : No longer supported, use u instead </li>
+<li>%hd (signed char) : No longer supported, use d instead</li>
 </ul>
-However variables for the following 8-bit format <b>MUST NOT</b> be cast to their type when passed to <a class="el" href="gbdk_2emu__debug_8h.html#EMU_printf">EMU_printf()</a> <ul>
-<li>%c (char)</li>
+In previous GBDK versions 8 bit arguments for hx, hu, hd had to be explicitly cast, but SDCC no longer supports that as of SDCC 4.5.15. <ul>
+<li>Due to the emulator api for that remaining fixed after the sdcc change, 8 bit types are no longer supported in GBDK since they require <em>NOT</em> being promoted when passed with va_args. </li>
+<li>So printing 8 bit types will have to be done via 16 bit format specifiers. Explicitly casting them to 16 bit types are not necessary but may help with code readability. </li>
+<li>c already required 16 bit promotion in the Emulator API, so it remains working as before.</li>
 </ul>
-This behavior is <b>different</b> than for <a class="el" href="stdio_8h.html#sprintf">sprintf()</a>, which does require %c format char variables to be explicitly cast.</dd></dl>
-<p>Currently supported in the Emulicious emulator, may be supported by bgb </p>
+Currently supported in the Emulicious and bgb emulators </dd></dl>
 
 </div>
 </div>
