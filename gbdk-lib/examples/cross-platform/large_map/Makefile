@@ -10,7 +10,7 @@ PNG2ASSET = $(GBDK_HOME)/bin/png2asset
 # Set platforms to build here, spaced separated. (These are in the separate Makefile.targets)
 # They can also be built/cleaned individually: "make gg" and "make gg-clean"
 # Possible are: gb gbc pocket megaduck sms gg
-TARGETS=gb gbc gg sms nes
+TARGETS=gb gbc gg sms nes nes-m30-s-win nes-m30-f nes-m2-h nes-m2-v
 
 # Configure platform specific LCC flags here:
 LCCFLAGS_gb      = -Wl-yt0x1B -autobank # Set an MBC for banking (1B-ROM+MBC5+RAM+BATT)
@@ -46,12 +46,20 @@ PROJECTNAME = large-map
 
 CFLAGS = -Wf-MMD -Wf-Wp-MP # Header file dependency output (-MMD) for Makefile use + per-header Phoney rules (-MP)
 
+# GB platform needs unique directories for gb vs gbc
+# NES platform needs unique directories for each mapper
+ifeq ($(PLAT), gb)
+    PLATDIR = $(EXT)
+else
+    PLATDIR = $(PLAT)
+endif
+
 # EXT?=gb # Only sets extension to default (game boy .gb) if not populated
 SRCDIR      = src
-OBJDIR      = obj/$(EXT)
-RESOBJSRC   = obj/$(EXT)/res
+OBJDIR      = obj/$(PLATDIR)
+RESOBJSRC   = obj/$(PLATDIR)/res
 RESDIR      = res
-BINDIR      = build/$(EXT)
+BINDIR      = build/$(PLATDIR)
 MKDIRS      = $(OBJDIR) $(BINDIR) $(RESOBJSRC) # See bottom of Makefile for directory auto-creation
 
 BINS	    = $(OBJDIR)/$(PROJECTNAME).$(EXT)

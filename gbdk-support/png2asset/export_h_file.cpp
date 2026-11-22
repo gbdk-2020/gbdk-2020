@@ -93,8 +93,16 @@ static void export_h_use_structs(PNG2AssetData* assetData, FILE* file) {
         fprintf(file, "#include \"TilesInfo.h\"\n");
         fprintf(file, "#include \"MapInfo.h\"\n");
         fprintf(file, "\n");
-        fprintf(file, "extern const struct TilesInfo %s_tiles_info;\n", assetData->args->data_name.c_str());
-        fprintf(file, "extern const struct MapInfo %s;\n", assetData->args->data_name.c_str());
+        // Analogous to "(output_mode == ZGB_TILES_MODE_TILESONLY)" in the C output
+        if ((assetData->args->includeTileData) && (!assetData->args->includedMapOrMetaspriteData)) {
+            // ZGB Tiles-only mode doesn't append "_tiles_info" to the struct name (and lacks a BANKREF output in the C output)
+            fprintf(file, "extern const struct TilesInfo %s;\n", assetData->args->data_name.c_str());
+        }
+        else { // implied (output_mode == ZGB_TILES_MODE_NORMAL)
+            fprintf(file, "extern const struct TilesInfo %s_tiles_info;\n", assetData->args->data_name.c_str());
+            fprintf(file, "extern const struct MapInfo %s;\n", assetData->args->data_name.c_str());
+        }
+
     }
     else {
         fprintf(file, "#include \"MetaSpriteInfo.h\"\n");
@@ -113,6 +121,8 @@ static void export_h_map_and_metasprite_shared_defines(PNG2AssetData* assetData,
     fprintf(file, "#define %s_TILE_H %d\n", assetData->args->data_name.c_str(), assetData->image.tile_h);
     fprintf(file, "#define %s_WIDTH %d\n", assetData->args->data_name.c_str(), (unsigned int)assetData->args->spriteSize.width);
     fprintf(file, "#define %s_HEIGHT %d\n", assetData->args->data_name.c_str(), (unsigned int)assetData->args->spriteSize.height);
+    fprintf(file, "#define %s_TILES_WIDTH %d\n", assetData->args->data_name.c_str(), (unsigned int)(assetData->args->spriteSize.width / assetData->image.tile_w));
+    fprintf(file, "#define %s_TILES_HEIGHT %d\n", assetData->args->data_name.c_str(), (unsigned int)(assetData->args->spriteSize.height / assetData->image.tile_h));
     // The TILE_COUNT calc here is referring to number of 8x8 tiles,
     fprintf(file, "#define %s_TILE_COUNT %d\n", assetData->args->data_name.c_str(), ((unsigned int)exportOpt.tiles_count) * (assetData->image.tile_h >> 3) * (assetData->image.tile_w >> 3));
     if (assetData->args->include_palettes) {

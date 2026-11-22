@@ -41,7 +41,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.5.0</span>
+   &#160;<span id="projectnumber">4.6.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -216,6 +216,10 @@ Macros</h2></td></tr>
 <tr class="separator:GBA_DETECTED"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:DEVICE_SUPPORTS_COLOR"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#DEVICE_SUPPORTS_COLOR">DEVICE_SUPPORTS_COLOR</a>&#160;&#160;&#160;(<a class="el" href="gb_8h.html#_cpu">_cpu</a> == <a class="el" href="gb_8h.html#CGB_TYPE">CGB_TYPE</a>)</td></tr>
 <tr class="separator:DEVICE_SUPPORTS_COLOR"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:DEVICE_SUPPORTS_WINDOW"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#DEVICE_SUPPORTS_WINDOW">DEVICE_SUPPORTS_WINDOW</a>&#160;&#160;&#160;(<a class="el" href="types_8h.html#TRUE">TRUE</a>)</td></tr>
+<tr class="separator:DEVICE_SUPPORTS_WINDOW"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:DEVICE_SUPPORTS_VRAM_READ"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#DEVICE_SUPPORTS_VRAM_READ">DEVICE_SUPPORTS_VRAM_READ</a>&#160;&#160;&#160;(<a class="el" href="types_8h.html#TRUE">TRUE</a>)</td></tr>
+<tr class="separator:DEVICE_SUPPORTS_VRAM_READ"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:VBL_DONE"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#VBL_DONE">VBL_DONE</a>&#160;&#160;&#160;<a class="el" href="sms_8h.html#_vbl_done">_vbl_done</a></td></tr>
 <tr class="separator:VBL_DONE"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:IO_IDLE"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#IO_IDLE">IO_IDLE</a>&#160;&#160;&#160;0x00U</td></tr>
@@ -228,7 +232,7 @@ Macros</h2></td></tr>
 <tr class="separator:IO_ERROR"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:CURRENT_BANK"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#CURRENT_BANK">CURRENT_BANK</a>&#160;&#160;&#160;<a class="el" href="nes_8h.html#_current_bank">_current_bank</a></td></tr>
 <tr class="separator:CURRENT_BANK"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:BANK"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#BANK">BANK</a>(VARNAME)&#160;&#160;&#160;( (<a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>) &amp; __bank_ ## VARNAME )</td></tr>
+<tr class="memitem:BANK"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#BANK">BANK</a>(VARNAME)&#160;&#160;&#160;( (<a class="el" href="stdint_8h.html#uint16_t">uint16_t</a>) &amp; __bank_ ## VARNAME )</td></tr>
 <tr class="separator:BANK"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:BANKREF"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#BANKREF">BANKREF</a>(VARNAME)</td></tr>
 <tr class="separator:BANKREF"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -316,10 +320,6 @@ Macros</h2></td></tr>
 <tr class="separator:ENABLE_VBL_TRANSFER"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:MAX_HARDWARE_SPRITES"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#MAX_HARDWARE_SPRITES">MAX_HARDWARE_SPRITES</a>&#160;&#160;&#160;40</td></tr>
 <tr class="separator:MAX_HARDWARE_SPRITES"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:HARDWARE_SPRITE_CAN_FLIP_X"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#HARDWARE_SPRITE_CAN_FLIP_X">HARDWARE_SPRITE_CAN_FLIP_X</a>&#160;&#160;&#160;1</td></tr>
-<tr class="separator:HARDWARE_SPRITE_CAN_FLIP_X"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:HARDWARE_SPRITE_CAN_FLIP_Y"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#HARDWARE_SPRITE_CAN_FLIP_Y">HARDWARE_SPRITE_CAN_FLIP_Y</a>&#160;&#160;&#160;1</td></tr>
-<tr class="separator:HARDWARE_SPRITE_CAN_FLIP_Y"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:fill_rect"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#fill_rect">fill_rect</a>&#160;&#160;&#160;<a class="el" href="nes_8h.html#fill_bkg_rect">fill_bkg_rect</a></td></tr>
 <tr class="separator:fill_rect"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -456,12 +456,16 @@ Functions</h2></td></tr>
 <tr class="separator:set_win_based_tiles"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:set_win_submap"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#set_win_submap">set_win_submap</a> (<a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> x, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> y, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> w, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> <a class="el" href="sms_8h.html#h">h</a>, const <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> *map, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> map_w) <a class="el" href="asm_2types_8h.html#OLDCALL">OLDCALL</a></td></tr>
 <tr class="separator:set_win_submap"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:set_win_submap_attributes"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#set_win_submap_attributes">set_win_submap_attributes</a> (<a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> x, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> y, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> w, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> <a class="el" href="sms_8h.html#h">h</a>, const <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> *map, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> map_w)</td></tr>
+<tr class="separator:set_win_submap_attributes"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:set_win_based_submap"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#set_win_based_submap">set_win_based_submap</a> (<a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> x, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> y, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> w, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> <a class="el" href="sms_8h.html#h">h</a>, const <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> *map, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> map_w, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> base_tile)</td></tr>
 <tr class="separator:set_win_based_submap"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:get_win_tiles"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#get_win_tiles">get_win_tiles</a> (<a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> x, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> y, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> w, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> <a class="el" href="sms_8h.html#h">h</a>, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> *tiles) <a class="el" href="asm_2types_8h.html#OLDCALL">OLDCALL</a> <a class="el" href="asm_2types_8h.html#PRESERVES_REGS">PRESERVES_REGS</a>(<a class="el" href="sms_8h.html#b">b</a></td></tr>
 <tr class="separator:get_win_tiles"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:set_win_tile_xy"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#set_win_tile_xy">set_win_tile_xy</a> (<a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> x, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> y, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> t)</td></tr>
 <tr class="separator:set_win_tile_xy"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:set_win_attribute_xy"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#set_win_attribute_xy">set_win_attribute_xy</a> (<a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> x, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> y, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> a)</td></tr>
+<tr class="separator:set_win_attribute_xy"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:get_win_tile_xy"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#get_win_tile_xy">get_win_tile_xy</a> (<a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> x, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> y) <a class="el" href="asm_2types_8h.html#OLDCALL">OLDCALL</a> <a class="el" href="asm_2types_8h.html#PRESERVES_REGS">PRESERVES_REGS</a>(<a class="el" href="sms_8h.html#b">b</a></td></tr>
 <tr class="separator:get_win_tile_xy"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:move_win"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#move_win">move_win</a> (<a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> x, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> y)</td></tr>
@@ -516,8 +520,14 @@ Functions</h2></td></tr>
 <tr class="separator:vmemset"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:fill_bkg_rect"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#fill_bkg_rect">fill_bkg_rect</a> (<a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> x, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> y, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> w, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> <a class="el" href="sms_8h.html#h">h</a>, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> tile) <a class="el" href="asm_2types_8h.html#OLDCALL">OLDCALL</a> <a class="el" href="asm_2types_8h.html#PRESERVES_REGS">PRESERVES_REGS</a>(<a class="el" href="sms_8h.html#b">b</a></td></tr>
 <tr class="separator:fill_bkg_rect"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:fill_bkg_rect_attributes"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#fill_bkg_rect_attributes">fill_bkg_rect_attributes</a> (<a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> x, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> y, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> w, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> <a class="el" href="sms_8h.html#h">h</a>, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> attribute)</td></tr>
+<tr class="separator:fill_bkg_rect_attributes"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:fill_win_rect"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#fill_win_rect">fill_win_rect</a> (<a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> x, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> y, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> w, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> <a class="el" href="sms_8h.html#h">h</a>, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> tile) <a class="el" href="asm_2types_8h.html#OLDCALL">OLDCALL</a> <a class="el" href="asm_2types_8h.html#PRESERVES_REGS">PRESERVES_REGS</a>(<a class="el" href="sms_8h.html#b">b</a></td></tr>
 <tr class="separator:fill_win_rect"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:fill_win_rect_attributes"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#fill_win_rect_attributes">fill_win_rect_attributes</a> (<a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> x, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> y, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> w, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> <a class="el" href="sms_8h.html#h">h</a>, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> attribute)</td></tr>
+<tr class="separator:fill_win_rect_attributes"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:bkg_attributes_enabled"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#bkg_attributes_enabled">bkg_attributes_enabled</a> (void)</td></tr>
+<tr class="separator:bkg_attributes_enabled"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
@@ -1300,6 +1310,36 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="DEVICE_SUPPORTS_WINDOW" name="DEVICE_SUPPORTS_WINDOW"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#DEVICE_SUPPORTS_WINDOW">&#9670;&nbsp;</a></span>DEVICE_SUPPORTS_WINDOW</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DEVICE_SUPPORTS_WINDOW&#160;&#160;&#160;(<a class="el" href="types_8h.html#TRUE">TRUE</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Macro returns TRUE if device supports window layer </p>
+
+</div>
+</div>
+<a id="DEVICE_SUPPORTS_VRAM_READ" name="DEVICE_SUPPORTS_VRAM_READ"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#DEVICE_SUPPORTS_VRAM_READ">&#9670;&nbsp;</a></span>DEVICE_SUPPORTS_VRAM_READ</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DEVICE_SUPPORTS_VRAM_READ&#160;&#160;&#160;(<a class="el" href="types_8h.html#TRUE">TRUE</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Macro returns TRUE if device supports reading from VRAM </p>
+
+</div>
+</div>
 <a id="VBL_DONE" name="VBL_DONE"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#VBL_DONE">&#9670;&nbsp;</a></span>VBL_DONE</h2>
 
@@ -1399,7 +1439,7 @@ Variables</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">VARNAME</td><td>)</td>
-          <td>&#160;&#160;&#160;( (<a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>) &amp; __bank_ ## VARNAME )</td>
+          <td>&#160;&#160;&#160;( (<a class="el" href="stdint_8h.html#uint16_t">uint16_t</a>) &amp; __bank_ ## VARNAME )</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1747,7 +1787,7 @@ Variables</h2></td></tr>
 <p >Makes MBC5 to switch the active ROM bank using the full 8MB size. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#CURRENT_BANK">CURRENT_BANK</a> </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">b</td><td>ROM bank to switch to</td></tr>
+    <tr><td class="paramname">b</td><td>An unsigned 16 bit integer with the ROM bank to switch to (range 1 - 511)</td></tr>
   </table>
   </dd>
 </dl>
@@ -1755,7 +1795,8 @@ Variables</h2></td></tr>
 <p >Note: </p><ul>
 <li>Banked SDCC calls are not supported if you use this macro. </li>
 <li>The active bank number is not tracked by <a class="el" href="sms_8h.html#CURRENT_BANK">CURRENT_BANK</a> if you use this macro. </li>
-<li>Using <a class="el" href="gb_8h.html#SWITCH_ROM_MBC5_8M">SWITCH_ROM_MBC5_8M()</a> should not be mixed with using <a class="el" href="gb_8h.html#SWITCH_ROM_MBC5">SWITCH_ROM_MBC5()</a> and <a class="el" href="gb_8h.html#SWITCH_ROM">SWITCH_ROM()</a>.</li>
+<li>Using <a class="el" href="gb_8h.html#SWITCH_ROM_MBC5_8M">SWITCH_ROM_MBC5_8M()</a> should not be mixed with using <a class="el" href="gb_8h.html#SWITCH_ROM_MBC5">SWITCH_ROM_MBC5()</a> and <a class="el" href="gb_8h.html#SWITCH_ROM">SWITCH_ROM()</a>. </li>
+<li>The <a class="el" href="docs_toolchain.html#bankpack">bankpack</a> utility only supports ROMs up to 4MB (256 x 16K banks)</li>
 </ul>
 <p>Note the order used here. Writing the other way around on a MBC1 always selects bank 1 </p>
 
@@ -2220,36 +2261,6 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p >Amount of hardware sprites in OAM </p>
-
-</div>
-</div>
-<a id="HARDWARE_SPRITE_CAN_FLIP_X" name="HARDWARE_SPRITE_CAN_FLIP_X"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#HARDWARE_SPRITE_CAN_FLIP_X">&#9670;&nbsp;</a></span>HARDWARE_SPRITE_CAN_FLIP_X</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define HARDWARE_SPRITE_CAN_FLIP_X&#160;&#160;&#160;1</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p >True if sprite hardware can flip sprites by X (horizontally) </p>
-
-</div>
-</div>
-<a id="HARDWARE_SPRITE_CAN_FLIP_Y" name="HARDWARE_SPRITE_CAN_FLIP_Y"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#HARDWARE_SPRITE_CAN_FLIP_Y">&#9670;&nbsp;</a></span>HARDWARE_SPRITE_CAN_FLIP_Y</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define HARDWARE_SPRITE_CAN_FLIP_Y&#160;&#160;&#160;1</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p >True if sprite hardware can flip sprites by Y (vertically) </p>
 
 </div>
 </div>
@@ -2728,7 +2739,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Serial Link: Send the byte in <a class="el" href="gb_8h.html#_io_out">_io_out</a> out through the serial port</p>
+<p >Serial Link: Send the byte in <a class="el" href="sms_8h.html#_io_out">_io_out</a> out through the serial port</p>
 <p >Make sure to enable interrupts for the Serial Link before trying to transfer data. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#add_SIO">add_SIO()</a>, <a class="el" href="gb_8h.html#remove_SIO">remove_SIO()</a> </dd>
 <dd>
 <a class="el" href="gb_8h.html#set_interrupts">set_interrupts()</a> with <a class="el" href="sms_8h.html#SIO_IFLAG">SIO_IFLAG</a> </dd></dl>
@@ -2750,7 +2761,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Serial Link: Receive a byte from the serial port into <a class="el" href="gb_8h.html#_io_in">_io_in</a></p>
+<p >Serial Link: Receive a byte from the serial port into <a class="el" href="sms_8h.html#_io_in">_io_in</a></p>
 <p >Make sure to enable interrupts for the Serial Link before trying to transfer data. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#add_SIO">add_SIO()</a>, <a class="el" href="gb_8h.html#remove_SIO">remove_SIO()</a> </dd>
 <dd>
 <a class="el" href="gb_8h.html#set_interrupts">set_interrupts()</a> with <a class="el" href="sms_8h.html#SIO_IFLAG">SIO_IFLAG</a> </dd></dl>
@@ -3355,7 +3366,7 @@ Variables</h2></td></tr>
 <p>Example: </p><div class="fragment"><div class="line"><span class="comment">// Use DMG_BLACK as the Foreground color and DMG_LITE_GRAY</span></div>
 <div class="line"><span class="comment">// as the Background color when loading 1bpp tile data.</span></div>
 <div class="line"><a class="code hl_function" href="gb_8h.html#set_1bpp_colors">set_1bpp_colors</a>(<a class="code hl_define" href="gb_8h.html#DMG_BLACK">DMG_BLACK</a>, <a class="code hl_define" href="gb_8h.html#DMG_LITE_GRAY">DMG_LITE_GRAY</a>);</div>
-<div class="ttc" id="agb_8h_html_set_1bpp_colors"><div class="ttname"><a href="gb_8h.html#set_1bpp_colors">set_1bpp_colors</a></div><div class="ttdeci">void set_1bpp_colors(uint8_t fgcolor, uint8_t bgcolor)</div><div class="ttdef"><b>Definition:</b> gb.h:1038</div></div>
+<div class="ttc" id="agb_8h_html_set_1bpp_colors"><div class="ttname"><a href="gb_8h.html#set_1bpp_colors">set_1bpp_colors</a></div><div class="ttdeci">void set_1bpp_colors(uint8_t fgcolor, uint8_t bgcolor)</div><div class="ttdef"><b>Definition:</b> gb.h:1047</div></div>
 </div><!-- fragment --><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#DMG_BLACK">DMG_BLACK</a>, <a class="el" href="gb_8h.html#DMG_DARK_GRAY">DMG_DARK_GRAY</a>, <a class="el" href="gb_8h.html#DMG_LITE_GRAY">DMG_LITE_GRAY</a>, <a class="el" href="gb_8h.html#DMG_WHITE">DMG_WHITE</a> </dd>
 <dd>
 <a class="el" href="gb_8h.html#set_bkg_1bpp_data">set_bkg_1bpp_data</a>, <a class="el" href="gb_8h.html#set_win_1bpp_data">set_win_1bpp_data</a>, <a class="el" href="gb_8h.html#set_sprite_1bpp_data">set_sprite_1bpp_data</a> </dd></dl>
@@ -3405,8 +3416,8 @@ Variables</h2></td></tr>
 <p>Writes <b>nb_tiles</b> tiles to VRAM starting at <b>first_tile</b>, tile data is sourced from <b>data</b>. Each Tile is 16 bytes in size (8x8 pixels, 2 bits-per-pixel).</p>
 <dl class="section note"><dt>Note</dt><dd>Sprite Tiles 128-255 share the same memory region as Background Tiles 128-255.</dd></dl>
 <p>GBC only: <a class="el" href="gb_2hardware_8h.html#VBK_REG">VBK_REG</a> determines which bank of tile patterns are written to. </p><ul>
-<li>VBK_REG = <a class="el" href="gb_2hardware_8h.html#VBK_BANK_0">VBK_BANK_0</a> indicates the first bank </li>
-<li>VBK_REG = <a class="el" href="gb_2hardware_8h.html#VBK_BANK_1">VBK_BANK_1</a> indicates the second</li>
+<li>VBK_REG = <a class="el" href="nes_2hardware_8h.html#VBK_BANK_0">VBK_BANK_0</a> indicates the first bank </li>
+<li>VBK_REG = <a class="el" href="nes_2hardware_8h.html#VBK_BANK_1">VBK_BANK_1</a> indicates the second</li>
 </ul>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#set_win_data">set_win_data</a>, <a class="el" href="gb_8h.html#set_tile_data">set_tile_data</a> </dd></dl>
 
@@ -4163,7 +4174,7 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p >Set single attribute data a on background layer at x,y </p><dl class="params"><dt>Parameters</dt><dd>
+<p >Set single tile attribute a on background layer at x,y </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">x</td><td>X-coordinate </td></tr>
     <tr><td class="paramname">y</td><td>Y-coordinate </td></tr>
@@ -4538,7 +4549,7 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <p>Entries are copied from map at <b>tiles</b> to the Window Tile Map starting at <b>x</b>, <b>y</b> writing across for <b>w</b> tiles and down for <b>h</b> tiles.</p>
-<p >Use <a class="el" href="sms_8h.html#set_win_submap">set_win_submap()</a> instead when: </p><ul>
+<p >Use <a class="el" href="nes_8h.html#set_win_submap">set_win_submap()</a> instead when: </p><ul>
 <li>Source map is wider than 32 tiles. </li>
 <li>Writing a width that does not match the source map width <b>and</b> more than one row high at a time.</li>
 </ul>
@@ -4713,6 +4724,90 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="set_win_submap_attributes" name="set_win_submap_attributes"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#set_win_submap_attributes">&#9670;&nbsp;</a></span>set_win_submap_attributes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void set_win_submap_attributes </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>w</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>h</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> *&#160;</td>
+          <td class="paramname"><em>map</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>map_w</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >Sets a rectangular area of the Window Tile Map Attributes using a sub-region from a source tile attribute map. Useful for scrolling implementations of maps larger than 32 x 32 tiles.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>X Start position in both the Source Tile Map and hardware Window Map tile coordinates. Range 0 - 255 </td></tr>
+    <tr><td class="paramname">y</td><td>Y Start position in both the Source Tile Map and hardware Window Map tile coordinates. Range 0 - 255 </td></tr>
+    <tr><td class="paramname">w</td><td>Width of area to set in tiles. Range 1 - 255 </td></tr>
+    <tr><td class="paramname">h</td><td>Height of area to set in tiles. Range 1 - 255 </td></tr>
+    <tr><td class="paramname">map</td><td>Pointer to source tile map attribute data </td></tr>
+    <tr><td class="paramname">map_w</td><td>Width of source tile map in tiles. Range 1 - 255</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Entries are copied from <b>map</b> to the Window Tile Map starting at <b>x</b>, <b>y</b> writing across for <b>w</b> tiles and down for <b>h</b> tiles, using <b>map_w</b> as the rowstride for the source tile map.</p>
+<p >The <b>x</b> and <b>y</b> parameters are in Source Tile Map tile coordinates. The location tiles will be written to on the hardware Window Map is derived from those, but only uses the lower 5 bits of each axis, for range of 0-31 (they are bit-masked: <code>x &amp; 0x1F</code> and <code>y &amp; 0x1F</code>). As a result the two coordinate systems are aligned together.</p>
+<p >In order to transfer tile map data in a way where the coordinate systems are not aligned, an offset from the Source Tile Map pointer can be passed in: <code>(map_ptr + x + (y * map_width))</code>.</p>
+<p >For example, if you want the tile id at <code>1,2</code> from the source map to show up at <code>0,0</code> on the hardware Window Map (instead of at <code>1,2</code>) then modify the pointer address that is passed in: <code>map_ptr + 1 + (2 * map_width)</code></p>
+<p >Use this instead of <a class="el" href="gb_8h.html#set_win_tiles">set_win_tiles</a> when the source map is wider than 32 tiles or when writing a width that does not match the source map width.</p>
+<p >One byte per source tile map entry.</p>
+<p >Writes that exceed coordinate 31 on the x or y axis will wrap around to the Left and Top edges.</p>
+<p >See <a class="el" href="gb_8h.html#set_win_tiles">set_win_tiles</a> for setting CGB attribute maps with <a class="el" href="gb_2hardware_8h.html#VBK_REG">VBK_REG</a>.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#SHOW_BKG">SHOW_BKG</a> </dd>
+<dd>
+<a class="el" href="gb_8h.html#set_win_data">set_win_data</a>, set_win_attributes, <a class="el" href="gb_8h.html#set_bkg_submap">set_bkg_submap</a>, <a class="el" href="gb_8h.html#set_tiles">set_tiles</a></dd></dl>
+<dl class="section note"><dt>Note</dt><dd>On the Game Boy this is only usable in Game Boy Color mode </dd></dl>
+
+</div>
+</div>
 <a id="set_win_based_submap" name="set_win_based_submap"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#set_win_based_submap">&#9670;&nbsp;</a></span>set_win_based_submap()</h2>
 
@@ -4789,7 +4884,7 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
-<p>This is identical to <a class="el" href="sms_8h.html#set_win_submap">set_win_submap()</a> except that it adds the <b>base_tile</b> parameter for when a tile map's tiles don't start at index zero. (For example, the tiles used by the map range from 100 -&gt; 120 in VRAM instead of 0 -&gt; 20).</p>
+<p>This is identical to <a class="el" href="nes_8h.html#set_win_submap">set_win_submap()</a> except that it adds the <b>base_tile</b> parameter for when a tile map's tiles don't start at index zero. (For example, the tiles used by the map range from 100 -&gt; 120 in VRAM instead of 0 -&gt; 20).</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#set_win_submap">set_win_submap</a> for more details </dd></dl>
 
 </div>
@@ -4896,6 +4991,58 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>returns the address of tile, so you may use faster <a class="el" href="gb_8h.html#set_vram_byte">set_vram_byte()</a> later </dd></dl>
+
+</div>
+</div>
+<a id="set_win_attribute_xy" name="set_win_attribute_xy"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#set_win_attribute_xy">&#9670;&nbsp;</a></span>set_win_attribute_xy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> * set_win_attribute_xy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>a</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >Set single tile attribute a on window layer at x,y </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>X-coordinate </td></tr>
+    <tr><td class="paramname">y</td><td>Y-coordinate </td></tr>
+    <tr><td class="paramname">a</td><td>tile attributes </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>returns the address of tile attribute, so you may use faster <a class="el" href="gb_8h.html#set_vram_byte">set_vram_byte()</a> later</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>On the Game Boy this is only usable in Game Boy Color mode </dd></dl>
 
 </div>
 </div>
@@ -5073,8 +5220,8 @@ Variables</h2></td></tr>
 <p>Writes <b>nb_tiles</b> tiles to VRAM starting at <b>first_tile</b>, tile data is sourced from <b>data</b>. Each Tile is 16 bytes in size (8x8 pixels, 2 bits-per-pixel).</p>
 <dl class="section note"><dt>Note</dt><dd>Sprite Tiles 128-255 share the same memory region as Background Tiles 128-255.</dd></dl>
 <p>GBC only: <a class="el" href="gb_2hardware_8h.html#VBK_REG">VBK_REG</a> determines which bank of tile patterns are written to. </p><ul>
-<li>VBK_REG = <a class="el" href="gb_2hardware_8h.html#VBK_BANK_0">VBK_BANK_0</a> indicates the first bank </li>
-<li>VBK_REG = <a class="el" href="gb_2hardware_8h.html#VBK_BANK_1">VBK_BANK_1</a> indicates the second </li>
+<li>VBK_REG = <a class="el" href="nes_2hardware_8h.html#VBK_BANK_0">VBK_BANK_0</a> indicates the first bank </li>
+<li>VBK_REG = <a class="el" href="nes_2hardware_8h.html#VBK_BANK_1">VBK_BANK_1</a> indicates the second </li>
 </ul>
 
 </div>
@@ -5200,7 +5347,7 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p >Enable OAM DMA copy each VBlank and set it to transfer any 256-byte aligned array </p>
+<p >True if sprite hardware can flip sprites by X (horizontally) </p>
 
 </div>
 </div>
@@ -5360,8 +5507,8 @@ Variables</h2></td></tr>
 <div class="line"><a class="code hl_function" href="gb_8h.html#set_sprite_prop">set_sprite_prop</a>(0, <a class="code hl_define" href="gb_8h.html#S_FLIPY">S_FLIPY</a> | <a class="code hl_define" href="gb_8h.html#S_FLIPX">S_FLIPX</a>);</div>
 <div class="ttc" id="agb_8h_html_S_FLIPX"><div class="ttname"><a href="gb_8h.html#S_FLIPX">S_FLIPX</a></div><div class="ttdeci">#define S_FLIPX</div><div class="ttdef"><b>Definition:</b> gb.h:92</div></div>
 <div class="ttc" id="agb_8h_html_S_FLIPY"><div class="ttname"><a href="gb_8h.html#S_FLIPY">S_FLIPY</a></div><div class="ttdeci">#define S_FLIPY</div><div class="ttdef"><b>Definition:</b> gb.h:96</div></div>
-<div class="ttc" id="agb_8h_html_set_sprite_prop"><div class="ttname"><a href="gb_8h.html#set_sprite_prop">set_sprite_prop</a></div><div class="ttdeci">void set_sprite_prop(uint8_t nb, uint8_t prop)</div><div class="ttdef"><b>Definition:</b> gb.h:1945</div></div>
-<div class="ttc" id="amsx_8h_html_set_sprite_palette"><div class="ttname"><a href="msx_8h.html#set_sprite_palette">set_sprite_palette</a></div><div class="ttdeci">#define set_sprite_palette(first_palette, nb_palettes, rgb_data)</div><div class="ttdef"><b>Definition:</b> msx.h:558</div></div>
+<div class="ttc" id="agb_8h_html_set_sprite_prop"><div class="ttname"><a href="gb_8h.html#set_sprite_prop">set_sprite_prop</a></div><div class="ttdeci">void set_sprite_prop(uint8_t nb, uint8_t prop)</div><div class="ttdef"><b>Definition:</b> gb.h:2017</div></div>
+<div class="ttc" id="amsx_8h_html_set_sprite_palette"><div class="ttname"><a href="msx_8h.html#set_sprite_palette">set_sprite_palette</a></div><div class="ttdeci">#define set_sprite_palette(first_palette, nb_palettes, rgb_data)</div><div class="ttdef"><b>Definition:</b> msx.h:566</div></div>
 </div><!-- fragment --><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#S_PALETTE">S_PALETTE</a>, <a class="el" href="gb_8h.html#S_FLIPX">S_FLIPX</a>, <a class="el" href="gb_8h.html#S_FLIPY">S_FLIPY</a>, <a class="el" href="gb_8h.html#S_PRIORITY">S_PRIORITY</a> </dd></dl>
 
 </div>
@@ -5584,8 +5731,8 @@ Variables</h2></td></tr>
 </dl>
 <p>Copies <b>len</b> bytes from a buffer at <b>data</b> to VRAM starting at <b>vram_addr</b>.</p>
 <p >GBC only: <a class="el" href="gb_2hardware_8h.html#VBK_REG">VBK_REG</a> determines which bank of tile patterns are written to. </p><ul>
-<li>VBK_REG = <a class="el" href="gb_2hardware_8h.html#VBK_BANK_0">VBK_BANK_0</a> indicates the first bank </li>
-<li>VBK_REG = <a class="el" href="gb_2hardware_8h.html#VBK_BANK_1">VBK_BANK_1</a> indicates the second</li>
+<li>VBK_REG = <a class="el" href="nes_2hardware_8h.html#VBK_BANK_0">VBK_BANK_0</a> indicates the first bank </li>
+<li>VBK_REG = <a class="el" href="nes_2hardware_8h.html#VBK_BANK_1">VBK_BANK_1</a> indicates the second</li>
 </ul>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#set_bkg_data">set_bkg_data</a>, <a class="el" href="gb_8h.html#set_win_data">set_win_data</a>, <a class="el" href="gb_8h.html#set_bkg_tiles">set_bkg_tiles</a>, <a class="el" href="gb_8h.html#set_win_tiles">set_win_tiles</a>, <a class="el" href="gb_8h.html#set_tile_data">set_tile_data</a>, <a class="el" href="gb_8h.html#set_tiles">set_tiles</a> </dd></dl>
 
@@ -5634,8 +5781,8 @@ Variables</h2></td></tr>
 <dl class="section note"><dt>Note</dt><dd>In general <b>avoid reading from VRAM</b> since that memory is not accessible at all times. It is also not supported by GBDK on the NES platform. See <a class="el" href="docs_coding_guidelines.html#best_practice_dont_read_vram">coding guidelines</a> for more details.</dd></dl>
 <p>Copies <b>len</b> bytes from VRAM starting at <b>vram_addr</b> into a buffer at <b>data</b>.</p>
 <p >GBC only: <a class="el" href="gb_2hardware_8h.html#VBK_REG">VBK_REG</a> determines which bank of tile patterns are written to. </p><ul>
-<li>VBK_REG = <a class="el" href="gb_2hardware_8h.html#VBK_BANK_0">VBK_BANK_0</a> indicates the first bank </li>
-<li>VBK_REG = <a class="el" href="gb_2hardware_8h.html#VBK_BANK_1">VBK_BANK_1</a> indicates the second</li>
+<li>VBK_REG = <a class="el" href="nes_2hardware_8h.html#VBK_BANK_0">VBK_BANK_0</a> indicates the first bank </li>
+<li>VBK_REG = <a class="el" href="nes_2hardware_8h.html#VBK_BANK_1">VBK_BANK_1</a> indicates the second</li>
 </ul>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#get_bkg_data">get_bkg_data</a>, <a class="el" href="gb_8h.html#get_win_data">get_win_data</a>, <a class="el" href="gb_8h.html#get_bkg_tiles">get_bkg_tiles</a>, <a class="el" href="gb_8h.html#get_win_tiles">get_win_tiles</a>, <a class="el" href="gb_8h.html#get_tiles">get_tiles</a> </dd></dl>
 
@@ -5683,8 +5830,8 @@ Variables</h2></td></tr>
 </dl>
 <p>Copies <b>len</b> bytes from or to VRAM starting at <b>sour</b> into a buffer or to VRAM at <b>dest</b>.</p>
 <p >GBC only: <a class="el" href="gb_2hardware_8h.html#VBK_REG">VBK_REG</a> determines which bank of tile patterns are written to. </p><ul>
-<li>VBK_REG = <a class="el" href="gb_2hardware_8h.html#VBK_BANK_0">VBK_BANK_0</a> indicates the first bank </li>
-<li>VBK_REG = <a class="el" href="gb_2hardware_8h.html#VBK_BANK_1">VBK_BANK_1</a> indicates the second </li>
+<li>VBK_REG = <a class="el" href="nes_2hardware_8h.html#VBK_BANK_0">VBK_BANK_0</a> indicates the first bank </li>
+<li>VBK_REG = <a class="el" href="nes_2hardware_8h.html#VBK_BANK_1">VBK_BANK_1</a> indicates the second </li>
 </ul>
 
 </div>
@@ -5988,8 +6135,8 @@ Variables</h2></td></tr>
 </dl>
 <p>Writes <b>nb_tiles</b> tiles to VRAM starting at <b>first_tile</b>, tile data is sourced from <b>data</b>.</p>
 <p >GBC only: <a class="el" href="gb_2hardware_8h.html#VBK_REG">VBK_REG</a> determines which bank of tile patterns are written to. </p><ul>
-<li>VBK_REG = <a class="el" href="gb_2hardware_8h.html#VBK_BANK_0">VBK_BANK_0</a> indicates the first bank </li>
-<li>VBK_REG = <a class="el" href="gb_2hardware_8h.html#VBK_BANK_1">VBK_BANK_1</a> indicates the second</li>
+<li>VBK_REG = <a class="el" href="nes_2hardware_8h.html#VBK_BANK_0">VBK_BANK_0</a> indicates the first bank </li>
+<li>VBK_REG = <a class="el" href="nes_2hardware_8h.html#VBK_BANK_1">VBK_BANK_1</a> indicates the second</li>
 </ul>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#set_win_data">set_win_data</a>, <a class="el" href="gb_8h.html#set_tile_data">set_tile_data</a> </dd></dl>
 
@@ -6045,8 +6192,8 @@ Variables</h2></td></tr>
 </dl>
 <p>Writes <b>nb_tiles</b> tiles to VRAM starting at <b>first_tile</b>, tile data is sourced from <b>data</b>.</p>
 <p >GBC only: <a class="el" href="gb_2hardware_8h.html#VBK_REG">VBK_REG</a> determines which bank of tile patterns are written to. </p><ul>
-<li>VBK_REG = <a class="el" href="gb_2hardware_8h.html#VBK_BANK_0">VBK_BANK_0</a> indicates the first bank </li>
-<li>VBK_REG = <a class="el" href="gb_2hardware_8h.html#VBK_BANK_1">VBK_BANK_1</a> indicates the second </li>
+<li>VBK_REG = <a class="el" href="nes_2hardware_8h.html#VBK_BANK_0">VBK_BANK_0</a> indicates the first bank </li>
+<li>VBK_REG = <a class="el" href="nes_2hardware_8h.html#VBK_BANK_1">VBK_BANK_1</a> indicates the second </li>
 </ul>
 
 </div>
@@ -6201,6 +6348,71 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="fill_bkg_rect_attributes" name="fill_bkg_rect_attributes"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#fill_bkg_rect_attributes">&#9670;&nbsp;</a></span>fill_bkg_rect_attributes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void fill_bkg_rect_attributes </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>w</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>h</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>attribute</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >Fills a rectangular region of Tile Map Attribute entries for the Background layer with attribute.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>X Start position in Background Map tile coordinates. Range 0 - 31 </td></tr>
+    <tr><td class="paramname">y</td><td>Y Start position in Background Map tile coordinates. Range 0 - 31 </td></tr>
+    <tr><td class="paramname">w</td><td>Width of area to set in tiles. Range 1 - 32 </td></tr>
+    <tr><td class="paramname">h</td><td>Height of area to set in tiles. Range 1 - 32 </td></tr>
+    <tr><td class="paramname">attribute</td><td>Fill value </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="fill_win_rect" name="fill_win_rect"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#fill_win_rect">&#9670;&nbsp;</a></span>fill_win_rect()</h2>
 
@@ -6255,6 +6467,99 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="fill_win_rect_attributes" name="fill_win_rect_attributes"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#fill_win_rect_attributes">&#9670;&nbsp;</a></span>fill_win_rect_attributes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void fill_win_rect_attributes </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>w</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>h</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>attribute</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >Fills a rectangular region of Tile Map Attribute entries for the Window layer with attribute.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>X Start position in Window Map tile coordinates. Range 0 - 31 </td></tr>
+    <tr><td class="paramname">y</td><td>Y Start position in Window Map tile coordinates. Range 0 - 31 </td></tr>
+    <tr><td class="paramname">w</td><td>Width of area to set in tiles. Range 1 - 32 </td></tr>
+    <tr><td class="paramname">h</td><td>Height of area to set in tiles. Range 1 - 32 </td></tr>
+    <tr><td class="paramname">attribute</td><td>Fill value </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="bkg_attributes_enabled" name="bkg_attributes_enabled"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#bkg_attributes_enabled">&#9670;&nbsp;</a></span>bkg_attributes_enabled()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> bkg_attributes_enabled </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >Checks whether background attributes are enabled</p>
+<p >In a GBC build, this will depend on whether the ROM is running on a DMG or GBC. For other builds this will typically return a constant. </p>
 
 </div>
 </div>

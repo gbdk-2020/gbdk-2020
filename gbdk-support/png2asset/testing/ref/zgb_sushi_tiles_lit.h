@@ -11,7 +11,6 @@
 #include "TilesInfo.h"
 #include "MapInfo.h"
 
-extern const struct TilesInfo zgb_sushi_tiles_lit_tiles_info;
-extern const struct MapInfo zgb_sushi_tiles_lit;
+extern const struct TilesInfo zgb_sushi_tiles_lit;
 
 #endif

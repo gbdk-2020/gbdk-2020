@@ -7,11 +7,13 @@
 _set_bkg_1bpp_data::
 _set_win_1bpp_data::
         ld d, #0x90
-        ldh a, (.LCDC)
+        ldh a, (rLCDC)
         and #LCDCF_BG8000
         jr z, .copy_1bpp_tiles
+
 _set_sprite_1bpp_data::
         ld d, #0x80
+
 .copy_1bpp_tiles:
         push bc
 

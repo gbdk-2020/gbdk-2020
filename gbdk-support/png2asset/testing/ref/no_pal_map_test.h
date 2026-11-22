@@ -13,6 +13,8 @@
 #define no_pal_map_test_TILE_H 8
 #define no_pal_map_test_WIDTH 144
 #define no_pal_map_test_HEIGHT 48
+#define no_pal_map_test_TILES_WIDTH 18
+#define no_pal_map_test_TILES_HEIGHT 6
 #define no_pal_map_test_TILE_COUNT 9
 #define no_pal_map_test_MAP_ATTRIBUTES 0
 extern const unsigned char no_pal_map_test_map[108];

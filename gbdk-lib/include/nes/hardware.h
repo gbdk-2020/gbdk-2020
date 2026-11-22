@@ -6,6 +6,7 @@
 #define _HARDWARE_H
 
 #include <types.h>
+#include <stdint.h>
 
 #define __SHADOW_REG extern volatile uint8_t
 #define __REG(addr) volatile __at (addr) uint8_t
@@ -37,6 +38,44 @@ __REG(0x2005) PPUSCROLL;
 __REG(0x2006) PPUADDR;
 __REG(0x2007) PPUDATA;
 __REG(0x4014) OAMDMA;
+
+/* BKG attributes flags */
+#define HW_HAS_BKG_ATTRIBUTES  1  /**< BKG attributes flags hardware support */
+#define BKGF_PRI      0b00000000  /**< Background BG and Window over Sprite priority Enabled */
+#define BKGF_YFLIP    0b00000000  /**< Background Y axis flip: Vertically mirrored */
+#define BKGF_XFLIP    0b00000000  /**< Background X axis flip: Horizontally mirrored */
+#define BKGF_BANK0    0b00000000  /**< Background Tile VRAM-Bank: Use Bank 0 */
+#define BKGF_BANK1    0b00000000  /**< Background Tile VRAM-Bank: Use Bank 1 */
+
+#define BKGF_CGB_PAL0 0b00000000  /**< Background Palette number (Color Mode Only) */
+#define BKGF_CGB_PAL1 0b00000001  /**< Background Palette number (Color Mode Only) */
+#define BKGF_CGB_PAL2 0b00000010  /**< Background Palette number (Color Mode Only) */
+#define BKGF_CGB_PAL3 0b00000011  /**< Background Palette number (Color Mode Only) */
+#define BKGF_CGB_PAL4 0b00000000  /**< Background Palette number (Color Mode Only) */
+#define BKGF_CGB_PAL5 0b00000000  /**< Background Palette number (Color Mode Only) */
+#define BKGF_CGB_PAL6 0b00000000  /**< Background Palette number (Color Mode Only) */
+#define BKGF_CGB_PAL7 0b00000000  /**< Background Palette number (Color Mode Only) */
+#define BKGF_PALMASK  0b00000011  /**< Mask for Background Palette number (Color Mode Only) */
+
+/* OAM attributes flags */
+#define HW_HAS_OAM_ATTRIBUTES  1  /**< OAM attributes flags hardware support */
+#define OAMF_PRI      0b00100000  /**< BG and Window over Sprite Enabled */
+#define OAMF_YFLIP    0b10000000  /**< Sprite Y axis flip: Vertically mirrored */
+#define OAMF_XFLIP    0b01000000  /**< Sprite X axis flip: Horizontally mirrored */
+#define OAMF_PAL0     0b00000000  /**< Sprite Palette number: use OBP0 (Mono Mode Only) */
+#define OAMF_PAL1     0b00000000  /**< Sprite Palette number: use OBP1 (Mono Mode Only) */
+#define OAMF_BANK0    0b00000000  /**< Sprite Tile VRAM-Bank: Use Bank 0 */
+#define OAMF_BANK1    0b00000000  /**< Sprite Tile VRAM-Bank: Use Bank 1 */
+
+#define OAMF_CGB_PAL0 0b00000000  /**< Sprite CGB Palette number: use OCP0 (Color Mode Only) */
+#define OAMF_CGB_PAL1 0b00000001  /**< Sprite CGB Palette number: use OCP1 (Color Mode Only) */
+#define OAMF_CGB_PAL2 0b00000010  /**< Sprite CGB Palette number: use OCP2 (Color Mode Only) */
+#define OAMF_CGB_PAL3 0b00000011  /**< Sprite CGB Palette number: use OCP3 (Color Mode Only) */
+#define OAMF_CGB_PAL4 0b00000000  /**< Sprite CGB Palette number: use OCP4 (Color Mode Only) */
+#define OAMF_CGB_PAL5 0b00000000  /**< Sprite CGB Palette number: use OCP5 (Color Mode Only) */
+#define OAMF_CGB_PAL6 0b00000000  /**< Sprite CGB Palette number: use OCP6 (Color Mode Only) */
+#define OAMF_CGB_PAL7 0b00000000  /**< Sprite CGB Palette number: use OCP7 (Color Mode Only) */
+#define OAMF_PALMASK  0b00000011  /**< Mask for Sprite CGB Palette number (Color Mode Only) */
 
 #define DEVICE_SCREEN_X_OFFSET 0
 #define DEVICE_SCREEN_Y_OFFSET 0
@@ -74,8 +113,11 @@ typedef uint8_t scroll_y_t;
 #define DEVICE_SPRITE_PX_OFFSET_Y -1
 #define DEVICE_WINDOW_PX_OFFSET_X 0
 #define DEVICE_WINDOW_PX_OFFSET_Y 0
-#define DEVICE_SCREEN_PX_WIDTH (DEVICE_SCREEN_WIDTH * 8)
-#define DEVICE_SCREEN_PX_HEIGHT (DEVICE_SCREEN_HEIGHT * 8)
+#define DEVICE_TILE_PX_WIDTH 8
+#define DEVICE_TILE_PX_HEIGHT 8
+#define DEVICE_TILE_SIZE_BYTES 16
+#define DEVICE_SCREEN_PX_WIDTH (DEVICE_SCREEN_WIDTH * DEVICE_TILE_PX_WIDTH)
+#define DEVICE_SCREEN_PX_HEIGHT (DEVICE_SCREEN_HEIGHT * DEVICE_TILE_PX_HEIGHT)
 
 // Scrolling coordinates (will be written to PPUSCROLL at end-of-vblank by NMI handler)
 __SHADOW_REG bkg_scroll_x;
@@ -96,5 +138,36 @@ extern volatile UBYTE TAC_REG;
 #define rLY LY_REG
 #define LYC_REG _lcd_scanline   /**< LY compare */
 #define rLYC LYC_REG
+
+// VRAM switch configuration bits for
+// - Write operations
+// - Display (write to apply in next frame)
+// - Display ISR (applied value in current frame - read-only)
+extern UBYTE _current_vram_cfg_write;
+extern UBYTE _current_vram_cfg_display;
+extern UBYTE _current_vram_cfg_display_isr;
+
+#define VBK_REG _current_vram_cfg_write
+#define rVBK VBK_REG
+
+#if defined(NES_MAPPER_30)
+#define MAPPER_CHR_BANK0 0x00
+#define MAPPER_CHR_BANK1 0x20
+#define MAPPER_CHR_BANK2 0x40
+#define MAPPER_CHR_BANK3 0x60
+#define SHOW_CHR_BANK(b) (_current_vram_cfg_display = (_current_vram_cfg_display & 0x9F) | (b & 0x60))
+#endif
+
+#define VBK_BANK_0 MAPPER_CHR_BANK0
+#define VBK_BANK_1 MAPPER_CHR_BANK1
+#define VBK_BANK_2 MAPPER_CHR_BANK2
+#define VBK_BANK_3 MAPPER_CHR_BANK3
+
+#if defined(NES_WINDOW_LAYER)
+__SHADOW_REG win_pos_x;
+__SHADOW_REG win_pos_y;
+#define WX_REG win_pos_x
+#define WY_REG win_pos_y
+#endif
 
 #endif

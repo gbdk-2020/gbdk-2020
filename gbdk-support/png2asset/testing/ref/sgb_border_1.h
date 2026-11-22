@@ -13,6 +13,8 @@
 #define sgb_border_1_TILE_H 8
 #define sgb_border_1_WIDTH 256
 #define sgb_border_1_HEIGHT 224
+#define sgb_border_1_TILES_WIDTH 32
+#define sgb_border_1_TILES_HEIGHT 28
 #define sgb_border_1_TILE_COUNT 107
 #define sgb_border_1_PALETTE_COUNT 1
 #define sgb_border_1_COLORS_PER_PALETTE 16

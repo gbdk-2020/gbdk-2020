@@ -7,9 +7,6 @@
 
 _setchar::
 _putchar::
-        pop hl
-        pop de
-        push de         ; char in E
-        push hl
+        ld e, a         ; char in E
         JP_BDOS #_CONOUT
 	

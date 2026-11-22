@@ -119,8 +119,14 @@ void line(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2) OLDCALL;
    __style__ (one of NOFILL or FILL) */
 void box(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, uint8_t style) OLDCALL;
 
-/** Draw a circle with centre at __x,y__ and __radius__ using fill mode
-   __style__  (one of NOFILL or FILL)*/
+/** Draw a circle with center at __x,y__ and __radius__ using fill mode
+   __style__
+
+    @param x        X center location in pixels
+    @param y        Y center location in pixels
+    @param radius   Value between 1 and 254 (no draw for values outside range)
+    @param style    NOFILL or FILL
+   */
 void circle(uint8_t x, uint8_t y, uint8_t radius, uint8_t style) OLDCALL;
 
 /** Returns the current colour of the pixel at __x,y__ */

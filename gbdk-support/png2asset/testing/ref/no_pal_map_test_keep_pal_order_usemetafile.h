@@ -13,6 +13,8 @@
 #define no_pal_map_test_keep_pal_order_usemetafile_TILE_H 8
 #define no_pal_map_test_keep_pal_order_usemetafile_WIDTH 144
 #define no_pal_map_test_keep_pal_order_usemetafile_HEIGHT 48
+#define no_pal_map_test_keep_pal_order_usemetafile_TILES_WIDTH 18
+#define no_pal_map_test_keep_pal_order_usemetafile_TILES_HEIGHT 6
 #define no_pal_map_test_keep_pal_order_usemetafile_TILE_COUNT 9
 #define no_pal_map_test_keep_pal_order_usemetafile_MAP_ATTRIBUTES 0
 extern const unsigned char no_pal_map_test_keep_pal_order_usemetafile_map[108];

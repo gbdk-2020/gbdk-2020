@@ -11,14 +11,14 @@ _set_vram_byte::
 
 _set_win_tile_xy::
         ld      d, a
-        ldh     a, (.LCDC)
+        ldh     a, (rLCDC)
         and     #LCDCF_WIN9C00
         jr      z, .is98
         jr      .is9c
 
 _set_bkg_tile_xy::
         ld      d, a
-        ldh     a, (.LCDC)
+        ldh     a, (rLCDC)
         and     #LCDCF_BG9C00
         jr      nz, .is9c
 .is98:

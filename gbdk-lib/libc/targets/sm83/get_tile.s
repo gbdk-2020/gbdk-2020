@@ -8,12 +8,12 @@ _get_vram_byte::
         ret
 
 _get_win_tile_xy::
-        ldh     a,(.LCDC)
+        ldh     a,(rLCDC)
         and     #LCDCF_WIN9C00
         jr      z,.is98
         jr      .is9c
 _get_bkg_tile_xy::
-        ldh     a,(.LCDC)
+        ldh     a,(rLCDC)
         and     #LCDCF_BG9C00
         jr      nz,.is9c
 .is98:

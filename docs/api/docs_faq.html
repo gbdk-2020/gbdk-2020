@@ -41,7 +41,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.5.0</span>
+   &#160;<span id="projectnumber">4.6.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -103,7 +103,7 @@ $(document).ready(function(){initNavTree('docs_faq.html',''); initResizable(); }
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p ><a class="anchor" id="toolchain_faq"></a></p>
-<h1><a class="anchor" id="autotoc_md216"></a>
+<h1><a class="anchor" id="autotoc_md224"></a>
 General</h1>
 <ul>
 <li>How can sound effects be made?<ul>
@@ -112,7 +112,7 @@ General</h1>
 </ul>
 </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md217"></a>
+<h1><a class="anchor" id="autotoc_md225"></a>
 Licensing</h1>
 <ul>
 <li>What license information is required when distributing the compiled ROM (binary) of my game or program?<ul>
@@ -121,12 +121,12 @@ Licensing</h1>
 </ul>
 </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md218"></a>
+<h1><a class="anchor" id="autotoc_md226"></a>
 Graphics and Resources</h1>
 <ul>
 <li>How do I use a tile map when its tiles don't start at index zero?<ul>
 <li>The two main options are:<ul>
-<li>Use <a class="el" href="gb_8h.html#set_bkg_based_tiles">set_bkg_based_tiles()</a>, <a class="el" href="gb_8h.html#set_bkg_based_submap">set_bkg_based_submap()</a>, <a class="el" href="gb_8h.html#set_win_based_tiles">set_win_based_tiles()</a>, <a class="el" href="gb_8h.html#set_win_based_submap">set_win_based_submap()</a> and provide a tile origin offset.</li>
+<li>Use <a class="el" href="gb_8h.html#set_bkg_based_tiles">set_bkg_based_tiles()</a>, <a class="el" href="gb_8h.html#set_bkg_based_submap">set_bkg_based_submap()</a>, <a class="el" href="nes_8h.html#set_win_based_tiles">set_win_based_tiles()</a>, <a class="el" href="nes_8h.html#set_win_based_submap">set_win_based_submap()</a> and provide a tile origin offset.</li>
 <li>Use <a class="el" href="docs_toolchain.html#utility_png2asset">utility_png2asset</a> with <code>-tile_origin</code> to create a map with the tile index offsets built in.</li>
 </ul>
 </li>
@@ -139,7 +139,7 @@ Graphics and Resources</h1>
 </ul>
 </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md219"></a>
+<h1><a class="anchor" id="autotoc_md227"></a>
 ROM Header Settings</h1>
 <ul>
 <li>How do I set the ROM's title?<ul>
@@ -166,7 +166,7 @@ ROM Header Settings</h1>
 </ul>
 </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md220"></a>
+<h1><a class="anchor" id="autotoc_md228"></a>
 Editors</h1>
 <ul>
 <li>Why is VSCode flagging some GBDK types or functions as unidentified or giving warnings about them?<ul>
@@ -175,7 +175,7 @@ Editors</h1>
 </ul>
 </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md221"></a>
+<h1><a class="anchor" id="autotoc_md229"></a>
 Errors and Warnings</h1>
 <p ><a class="anchor" id="faq_gbz80_sm83_old_port_name_error"></a></p><ul>
 <li>What does the error <code>old "gbz80" SDCC PORT name specified (in "-mgbz80:gb"). Use "sm83" instead. You must update your build settings.</code> mean?<ul>
@@ -245,7 +245,14 @@ Errors and Warnings</h1>
 </ul>
 <p ><a class="anchor" id="faq_sdcc_overflow_implicit_constant_conversion"></a></p><ul>
 <li>What does this warning mean? <code>WARNING: overflow in implicit constant conversion</code><ul>
-<li>See <a class="el" href="docs_coding_guidelines.html#docs_constant_signedness">Constants, Signed-ness and Overflows</a></li>
+<li>See <a class="el" href="docs_coding_guidelines.html#docs_constant_signedness">Constants, Signed-ness and Overflows</a> <br  />
+</li>
+</ul>
+</li>
+<li>What does this warning mean? &lsquo;warning 322: Cast of pointer to integer type that cannot represent all values of the pointer type from type 'const-void __code* __code&rsquo;`<ul>
+<li>As of SDCC 4.6.0 the compiler now warns when converting some 16 bit pointers directly into 8 bit types.</li>
+<li>Check to see if the variable should be 16 bit instead, otherwise if an 8 bit value is desired then it can be double cast first to a 16 bit int and then down to 8 bit (for example: <code>some_8bit_var = (uint8_t)(uint16_t)some_pointer</code>) <br  />
+</li>
 </ul>
 </li>
 </ul>
@@ -264,7 +271,7 @@ Errors and Warnings</h1>
 </ul>
 </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md222"></a>
+<h1><a class="anchor" id="autotoc_md230"></a>
 Debugging / Compiling / Toolchain</h1>
 <ul>
 <li>What flags should be enabled for debugging?<ul>
@@ -299,7 +306,7 @@ Debugging / Compiling / Toolchain</h1>
 <li>Known issue: SDCC may fail on Windows when <a class="el" href="docs_getting_started.html#windows_sdcc_non_c_drive_path_spaces">run from folder names with spaces on non-C drives</a>. <br  />
 </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md223"></a>
+<h1><a class="anchor" id="autotoc_md231"></a>
 API / Utilities</h1>
 <ul>
 <li>Is there a list of all functions in the API?<ul>
@@ -311,11 +318,6 @@ API / Utilities</h1>
 <li>Can I use the <code>float</code> type to do floating point math?<ul>
 <li>There is no support for 'float' in GBDK-2020.</li>
 <li>Instead consider some form of <code>fixed point</code> math (including the <a class="el" href="docs_coding_guidelines.html#fixed_point_type">fixed</a> type included in GBDK). <br  />
-</li>
-</ul>
-</li>
-<li>Why are 8 bit numbers not printing correctly with <a class="el" href="stdio_8h.html#printf">printf()</a>?<ul>
-<li>To correctly pass chars/uint8s for printing, they must be explicitly re-cast as such when calling the function. See <a class="el" href="docs_coding_guidelines.html#docs_chars_varargs">docs_chars_varargs</a> for more details. <br  />
 </li>
 </ul>
 </li>

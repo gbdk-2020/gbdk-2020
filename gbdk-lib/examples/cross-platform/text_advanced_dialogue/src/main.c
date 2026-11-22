@@ -19,7 +19,7 @@
     #define BYTES_PER_TILE  1
 #endif
 
-#if defined(SEGA) || defined(NINTENDO_NES)
+#if !DEVICE_SUPPORTS_WINDOW
 
     #define get_winbkg_xy_addr get_bkg_xy_addr
     #define set_winbkg_based_tiles set_bkg_based_tiles
@@ -49,7 +49,7 @@ uint8_t loadedCharacterCount=0;
 
 void MoveWindow(void){
     
-    #if !defined(SEGA) &&  !defined(NINTENDO_NES)
+    #if DEVICE_SUPPORTS_WINDOW
     
     move_win(7,windowYPosition);
 
@@ -345,8 +345,7 @@ void DrawTextAdvanced(char* text){
 
 
 void ClearScreen(void){
-    #if !defined(SEGA) && !defined(NINTENDO_NES)
-    // Game Gear doesn't have a window.
+    #if DEVICE_SUPPORTS_WINDOW
     fill_win_rect(0,0,DEVICE_SCREEN_WIDTH,DEVICE_SCREEN_HEIGHT,0);
     #endif
     fill_bkg_rect(0,0,DEVICE_SCREEN_WIDTH,DEVICE_SCREEN_HEIGHT,0);
@@ -357,7 +356,7 @@ void main(void)
     DISPLAY_ON;
     SHOW_BKG;
 
-    #if !defined(SEGA) && !defined(NINTENDO_NES)
+    #if DEVICE_SUPPORTS_WINDOW
     SHOW_WIN;
     #endif
 

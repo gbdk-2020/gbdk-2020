@@ -52,16 +52,17 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"docs_getting_started.html",
-"docs_using_gbdk.html#autotoc_md48",
-"gb_2hardware_8h.html#P1F_5",
-"gb_8h.html#SWITCH_RAM_MBC5",
-"globals_vars_l.html",
-"model_8h.html#duck_check_model",
-"msx_8h.html#set_bkg_palette",
-"nes_8h.html#reset",
-"sms_2hardware_8h.html#SIOCTL_INT",
-"sms_8h.html#set_win_tiles"
+"docs_coding_guidelines.html#autotoc_md62",
+"docs_toolchain.html#autotoc_md114",
+"gb_2hardware_8h.html#LCDCF_OBJOFF",
+"gb_8h.html#DISABLE_VBL_TRANSFER",
+"globals_defs_l.html",
+"laptop__keycodes_8h.html#DUCK_IO_KEY_PAGE_DOWN",
+"msx_8h.html#S_FLIPY",
+"nes_8h.html#DEVICE_SUPPORTS_VRAM_READ",
+"sgb_8h.html#SGB_SOU_TRN",
+"sms_2metasprites_8h.html#move_metasprite_flipxy",
+"stdint_8h.html#INT_LEAST8_MIN"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

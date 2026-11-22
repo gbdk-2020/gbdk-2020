@@ -97,10 +97,10 @@ static int linkerfile_order_compare(const void* a, const void* b) {
 
 // Set linkerfile order
 //
-// Helps ensure fixed bank areas (hopefully) get linked/placed before autobank.
+// Helps ensure fixed bank areas get linked/placed before autobank via linkerfile output order.
 // Intended to facilitate alignment assumptions for size padded object files.
 // - Files that only have non-banked data ("_CODE", "_HOME") will always be first in the order
-// - See area_item_compare() for full details of how linkerfile_order gets set
+// - See obj_data_process() and area_item_compare() for full details of how linkerfile_order gets set
 static void linkerfile_output_order_sort(const file_item * p_files, file_order_t * p_filelist_order, const uint32_t count) {
 
     uint32_t c;
@@ -274,7 +274,7 @@ static unsigned int get_obj_file_format(FILE * obj_file, const char * str_filena
 }
 
 
-// Extract areas from files, then collected assign them to banks
+// Extract areas from files, once collected assign them to banks
 void files_extract(void) {
     uint32_t c;
     char strline_in[OBJ_NAME_MAX_STR_LEN] = "";

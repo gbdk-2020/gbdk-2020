@@ -99,7 +99,12 @@
   @anchor faq_sdcc_overflow_implicit_constant_conversion
   - What does this warning mean?
     `WARNING: overflow in implicit constant conversion`
-    - See @ref docs_constant_signedness "Constants, Signed-ness and Overflows"
+    - See @ref docs_constant_signedness "Constants, Signed-ness and Overflows" <!-- -->  
+
+  - What does this warning mean?
+    `warning 322: Cast of pointer to integer type that cannot represent all values of the pointer type from type 'const-void __code* __code'`
+    - As of SDCC 4.6.0 the compiler now warns when converting some 16 bit pointers directly into 8 bit types.
+    - Check to see if the variable should be 16 bit instead, otherwise if an 8 bit value is desired then it can be double cast first to a 16 bit int and then down to 8 bit (for example: `some_8bit_var = (uint8_t)(uint16_t)some_pointer`) <!-- -->  
 
   @anchor faq_macos_security_warning
   - On macOS, what does `... developer cannot be verified, macOS cannot verify that this app is free from malware` mean?
@@ -143,9 +148,6 @@
   - Can I use the `float` type to do floating point math?
     - There is no support for 'float' in GBDK-2020.
     - Instead consider some form of `fixed point` math (including the @ref fixed_point_type "fixed" type included in GBDK). <!-- -->  
-
-  - Why are 8 bit numbers not printing correctly with printf()?
-    - To correctly pass chars/uint8s for printing, they must be explicitly re-cast as such when calling the function. See @ref docs_chars_varargs for more details.  <!-- -->  
 
   - How can maps larger than 32x32 tiles be scrolled? & Why is the map wrapping around to the left side when setting a map wider than 32 tiles with set_bkg_data()?
     - The hardware Background map is 32 x 32 tiles. The screen viewport that can be scrolled around that map is 20 x 18 tiles. In order to scroll around within a much larger map, new tiles must be loaded at the edges of the screen viewport in the direction that it is being scrolled. @ref set_bkg_submap can be used to load those rows and columns of tiles from the desired sub-region of the large map.

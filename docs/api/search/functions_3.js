@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['calloc_0',['calloc',['../stdlib_8h.html#calloc',1,'stdlib.h']]],
+  ['calloc_0',['calloc',['../asm_2mos6502_2stdlib_8h.html#calloc',1,'calloc(size_t nmemb, size_t size):&#160;stdlib.h'],['../asm_2sm83_2stdlib_8h.html#calloc',1,'calloc(size_t nmemb, size_t size):&#160;stdlib.h'],['../asm_2z80_2stdlib_8h.html#calloc',1,'calloc(size_t nmemb, size_t size):&#160;stdlib.h']]],
   ['cancel_5fpending_5finterrupts_1',['cancel_pending_interrupts',['../gb_8h.html#cancel_pending_interrupts',1,'cancel_pending_interrupts(void):&#160;gb.h'],['../msx_8h.html#cancel_pending_interrupts',1,'cancel_pending_interrupts(void):&#160;msx.h'],['../sms_8h.html#cancel_pending_interrupts',1,'cancel_pending_interrupts(void):&#160;sms.h']]],
   ['cgb_5fcompatibility_2',['cgb_compatibility',['../cgb_8h.html#cgb_compatibility',1,'cgb_compatibility(void):&#160;sms.h'],['../sms_8h.html#cgb_compatibility',1,'cgb_compatibility(void):&#160;sms.h']]],
   ['circle_3',['circle',['../drawing_8h.html#circle',1,'drawing.h']]],

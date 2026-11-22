@@ -82,7 +82,7 @@ pos2:
 skip:	lda 	arg2
 	rts
 
-__muluschar:
+__mulsuchar:
 	stx	*__mulint_PARM_2
 	ldx	#0x00
 	stx	*__mulint_PARM_2+1
@@ -92,7 +92,7 @@ __muluschar:
 pos1m:
 	jmp	__mulint
 	
-__mulsuchar:
+__muluschar:
 	sta	*__mulint_PARM_2
 	txa
 	ldx	#0x00

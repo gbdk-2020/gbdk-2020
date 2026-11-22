@@ -238,6 +238,16 @@
         .M_NO_SCROLL    = 0x04  ; Disables scrolling of the screen in text mode
         .M_NO_INTERP    = 0x08  ; Disables special character interpretation
 
+        ;; Status codes for IO
+        .IO_IDLE        = 0x00
+        .IO_SENDING     = 0x01
+        .IO_RECEIVING   = 0x02
+        .IO_ERROR       = 0x04
+
+        ;; Type of IO data
+        .DT_IDLE        = 0x66
+        .DT_RECEIVING   = 0x55
+
         ;; Screen dimentions in tiles
 
         .SCREEN_X_OFS   = 6

@@ -1,7 +1,7 @@
 ;-------------------------------------------------------------------------
 ;   abs.s - standard C library function
 ;
-;   Copyright (C) 2023, Gabriele Gorla
+;   Copyright (C) 2023-2026, Gabriele Gorla
 ;
 ;   This library is free software; you can redistribute it and/or modify it
 ;   under the terms of the GNU General Public License as published by the
@@ -26,7 +26,7 @@
 ;   might be covered by the GNU General Public License.
 ;-------------------------------------------------------------------------
 
-	.module _abs
+	.module abs
 
 ;--------------------------------------------------------
 ; exported symbols
@@ -37,8 +37,8 @@
 ;--------------------------------------------------------
 ; code
 ;--------------------------------------------------------
-
 	.area _CODE
+	
 _abs:
 	cpx #0x00
 	bpl skip
@@ -46,12 +46,12 @@ ___negax:
   	sec
 	eor #0xff
 	adc #0x00
-	pha
+	tay
 	txa
 	eor #0xff
 	adc #0x00
 	tax
-	pla
+	tya
 skip:
 	rts
 

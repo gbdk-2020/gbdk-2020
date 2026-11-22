@@ -4,8 +4,27 @@ This section contains information that may be useful to know or important when u
 
 # GBDK-2020 versions
 
+## Porting to GBDK-2020 4.6.0
+  - GBDK now requires SDCC ~4.6.0 or higher with GBDK-2020 patches for the z80, sm83 and NES
+  - Changed `HARDWARE_SPRITE_CAN_FLIP_X` to @ref OAMF_XFLIP, `HARDWARE_SPRITE_CAN_FLIP_Y` to @ref OAMF_YFLIP
+  - GB/AP/Duck/SMS/GG
+    - SDCC no longer supports overriding integer promotion of arguments in varargs (variadic) with explicit casts for the sm83 and z80 ports
+      - Applies to: Game Boy, Mega Duck, Analogue Pocket, SMS, Game Gear
+      - Due to @ref EMU_printf() being a non-changing API in emulators after the sdcc change, 8 bit types are no longer supported for it in GBDK since they require *NOT* being promoted when passed with va_args. The recommendation is to display 8 bit variables using the 16 bit types (casting is optional but encouraged to indicate intention in the code)
+      - @ref printf() has been updated to reflect this change
+    - The calling convention changed from `__sdcccall(0)` to `__sdcccall(1)` for:
+      - @ref gotoxy(), @ref posx(), @ref posy(), @ref setchar(), @ref putchar()
+    - Removed `.memset_simple` and `.memcpy_simple` asm functions from crt0
+    - Removed obsolete `EMU_profiler_message()`
+  - GB/AP/Duck
+    - Changed @ref delay() from taking half the time in GBC double speed mode (versus GB), to take the same amount of time (and so runs for twice as many cycles)
+    - The calling convention changed from `__sdcccall(0)` to `__sdcccall(1)` for:
+      - @ref memset(), @ref set_bkg_palette(), @ref set_sprite_palette(), @ref set_bkg_palette_entry()
+      - `setjump`, `longjump`
+    - Renamed assembly `.IF` (interrupt flag) register to `.IFL` to avoid clash with `.IF` assembly directive
+
 ## Porting to GBDK-2020 4.5.0
-  - GBDK now requires ~SDCC 4.5.0 or higher with GBDK-2020 patches for the z80, sm83 and NES
+  - GBDK now requires SDCC ~4.5.0 or higher with GBDK-2020 patches for the z80, sm83 and NES
   - Build Host:
     - Changed from building on MacOS 13 to MacOS 15 for 64 bit Intel
     - Changed from building on Windows 2019 to 2022 for Intel
@@ -21,7 +40,7 @@ This section contains information that may be useful to know or important when u
 
 
 ## Porting to GBDK-2020 4.4.0
-  - GBDK now requires ~SDCC 4.5.0 or higher with GBDK-2020 patches for the z80 and NES
+  - GBDK now requires SDCC ~4.5.0 or higher with GBDK-2020 patches for the z80 and NES
   - Build Host:
     - Changed from building on MacOS 11 to MacOS 13 for 64 bit Intel
     - Changed from building on Ubuntu Linux 20.04 to 22.04 for 64 bit Intel
@@ -42,7 +61,7 @@ This section contains information that may be useful to know or important when u
 
 
 ## Porting to GBDK-2020 4.3.0
-  - GBDK now requires ~SDCC 4.4.0 or higher with GBDK-2020 patches for the z80 and NES
+  - GBDK now requires SDCC ~4.4.0 or higher with GBDK-2020 patches for the z80 and NES
   - Changed to new calling convention for @ref printf(), @ref sprintf(), @ref abs()
   - Changed to new SDCC calling convention for @ref set_bkg_tile_xy(), @ref set_win_tile_xy()
   - The SDCC object file format (`.o`, `.rel` files) changed from `XL3` (24 bit addresses) to `XL4` (32 bit addresses)
@@ -57,7 +76,7 @@ This section contains information that may be useful to know or important when u
 
 
 ## Porting to GBDK-2020 4.2.0
-  - GBDK now requires ~SDCC 4.3 or higher with GBDK-2020 patches for the z80 and NES
+  - GBDK now requires SDCC ~4.3 or higher with GBDK-2020 patches for the z80 and NES
   - The following new functions replace old ones:
     - While the old functions will continue to work for now, migration to new versions is strongly encouraged
     - vsync(): replaces wait_vbl_done()
@@ -77,7 +96,7 @@ This section contains information that may be useful to know or important when u
 
 
 ## Porting to GBDK-2020 4.1.0
-  - GBDK now requires SDCC 4.2 or higher with GBDK-2020 patches for the z80 linker
+  - GBDK now requires SDCC ~4.2 or higher with GBDK-2020 patches for the z80 linker
   - The default calling convention changed in SDCC 4.2, see @ref sdcc_calling_convention "Calling Conventions" for more details.
     - If you are linking to libraries compiled with an older version of SDCC / GBDK then you may have to recompile them.
     - If there are existing functions written in ASM which __receive parameters__ they should also be reviewed to make sure they work with the new `__sdcccall(1)` calling convention, or have their header declaration changed to use `OLDCALL`.

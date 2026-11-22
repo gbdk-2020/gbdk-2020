@@ -50,10 +50,11 @@ _WRITE_VDP_DATA::
         ld a, (#.BIOS)
         push af
 
-        xor a
-        ld bc, #l__DATA
+        ld bc, #(l__DATA - 1)   ; clear WRAM (assuming l__DATA >= 2, which is always so)
         ld hl, #s__DATA
-        call .memset_simple     ; initialize veriables in RAM with zero
+        ld (hl), #0
+        ld de, #(s__DATA + 1)
+        ldir
 
         pop af
         ld (#__BIOS), a         ; save BIOS value
@@ -150,11 +151,11 @@ _WRITE_VDP_DATA::
         .area   _CODE
         .area   _GSINIT
 .gsinit::
-        ; initialize static storage variables
+        ; initialize static storage variables (assuming l__INITIALIZER > 0, which is always so)
         ld bc, #l__INITIALIZER
         ld hl, #s__INITIALIZER
         ld de, #s__INITIALIZED
-        call .memcpy_simple
+        ldir
 
         .area   _GSFINAL
         ret
@@ -206,26 +207,6 @@ _WRITE_VDP_DATA::
         .db 0b00001111
         .db 0b00111100
         .db 0b00110011
-
-        ; fills memory at HL of length BC with A, clobbers DE
-.memset_simple::
-        ld e, a
-        ld a, c
-        or b
-        ret z
-        ld (hl), e
-        dec bc
-        ld d, h
-        ld e, l
-        inc de
-
-        ; copies BC bytes from HL into DE
-.memcpy_simple::
-        ld a, c
-        or b
-        ret z
-        ldir
-        ret
 
         ; Wait for VBL interrupt to be finished
 .wait_vbl_done::

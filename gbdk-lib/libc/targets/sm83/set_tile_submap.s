@@ -67,14 +67,14 @@ _set_bkg_submap::
         ;; set window tile table from bc at xy = de of size wh = hl
 .set_xy_win_submap::
         push    hl              ; store wh
-        ldh     a,(.LCDC)
+        ldh     a,(rLCDC)
         and     #LCDCF_WIN9C00
         jr      z,.is98
         jr      .is9c
         ;; set background tile table from (bc) at xy = de of size wh = hl
 .set_xy_bkg_submap::
         push    hl              ; store wh
-        ldh     a,(.LCDC)
+        ldh     a,(rLCDC)
         and     #LCDCF_BG9C00
         jr      nz,.is9c
 .is98:

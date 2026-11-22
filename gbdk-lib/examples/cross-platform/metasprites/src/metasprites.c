@@ -35,6 +35,10 @@
 //  Makefile adds part of that path as an include when compiling. Example: -Iobj/gb
 #include <res/sprite.h>
 
+// Readable constants to check hardware flipping capabilities. (based on OAMF flags)
+#define HARDWARE_SPRITE_CAN_FLIP_X OAMF_XFLIP
+#define HARDWARE_SPRITE_CAN_FLIP_Y OAMF_YFLIP
+
 // Constants for tile dimensions
 #define TILE_WIDTH          8
 #define TILE_HEIGHT         8

@@ -29,7 +29,7 @@
 font_current::
         .ds     sfont_handle_sizeof
         ; Cached copy of the first free tile
-font_first_free_tile:
+font_first_free_tile::
         .ds     1
         ; Table containing descriptors for all of the fonts
 font_table:

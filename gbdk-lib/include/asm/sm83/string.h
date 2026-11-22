@@ -51,7 +51,7 @@ void *memmove (void *dest, const void *src, size_t n);
     @param c         char value to fill with (truncated from int)
     @param n         Number of bytes to fill
 */
-void *memset (void *s, int c, size_t n) OLDCALL PRESERVES_REGS(b, c);
+void *memset (void *s, int c, size_t n);
 
 /** Reverses the characters in a string
 
@@ -63,7 +63,7 @@ void *memset (void *s, int c, size_t n) OLDCALL PRESERVES_REGS(b, c);
 
     Returns: Pointer to __s__
 */
-char *reverse(char *s) OLDCALL PRESERVES_REGS(b, c);
+char *reverse(char *s);
 
 /** Concatenate Strings. Appends string __s2__ to the end of string __s1__
 

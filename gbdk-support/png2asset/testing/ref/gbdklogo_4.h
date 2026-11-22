@@ -13,6 +13,8 @@
 #define gbdklogo_4_TILE_H 8
 #define gbdklogo_4_WIDTH 160
 #define gbdklogo_4_HEIGHT 144
+#define gbdklogo_4_TILES_WIDTH 20
+#define gbdklogo_4_TILES_HEIGHT 18
 #define gbdklogo_4_TILE_COUNT 41
 #define gbdklogo_4_PALETTE_COUNT 1
 #define gbdklogo_4_COLORS_PER_PALETTE 16

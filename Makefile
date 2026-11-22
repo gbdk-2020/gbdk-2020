@@ -8,10 +8,10 @@ TOPDIR = $(shell pwd)
 # Package name, used for tarballs
 PKG = gbdk
 # Version, used for tarballs & docs
-VER = 4.5.0
+VER = 4.6.0
 
 PORTS=sm83 z80 mos6502
-PLATFORMS=gb ap duck gg sms msxdos nes
+PLATFORMS=gb ap duck gg sms msxdos nes nes-m30-s-lomem nes-m30-s-win nes-m30-f nes-m30-h nes-m30-v nes-m2-h nes-m2-v
 EXAMPLE_DIRS=$(PLATFORMS)
 EXAMPLE_DIRS+= cross-platform megaduck
 
@@ -261,6 +261,11 @@ gbdk-lib-install-ports: gbdk-lib-build
 # in the gbdk install lib folders when people build projects with -debug on.
 # It caused problems when the user lacked write permissions to the gbdk install folder.
 gbdk-lib-install-platforms:
+	if [ -d "$(GBDKLIBDIR)/build/nes-m30-s-lomem" ]; then \
+		rm -rf $(GBDKLIBDIR)/build/nes; \
+		cp -r $(GBDKLIBDIR)/build/nes-m30-s-lomem $(GBDKLIBDIR)/build/nes; \
+		mv $(GBDKLIBDIR)/build/nes/nes-m30-s-lomem.lib $(GBDKLIBDIR)/build/nes/nes.lib; \
+	fi
 	@for plat in $(PLATFORMS); do \
 		echo Installing lib for platform: $$plat; \
 		mkdir -p $(BUILDDIR)/lib/$$plat; \
@@ -268,13 +273,26 @@ gbdk-lib-install-platforms:
 		cp $(GBDKLIBDIR)/build/$$plat/$$plat.lib $(BUILDDIR)/lib/$$plat/$$plat.lib; \
 		for port in $(PORTS); do \
 			if [ -d "$(GBDKLIBDIR)/libc/targets/$$port/$$plat" ]; then \
-				cp $(GBDKLIBDIR)/libc/targets/$$port/$$plat/global.s $(BUILDDIR)/lib/$$plat/global.s; \
+				if [ -f "$(GBDKLIBDIR)/libc/targets/$$port/$$plat/global.s" ]; then \
+					cp $(GBDKLIBDIR)/libc/targets/$$port/$$plat/global.s $(BUILDDIR)/lib/$$plat/global.s; \
+				fi; \
+				if [ -f "$(GBDKLIBDIR)/libc/targets/$$port/global.s" ]; then \
+					cp $(GBDKLIBDIR)/libc/targets/$$port/global.s $(BUILDDIR)/lib/$$plat/global.s; \
+				fi; \
+				if [ -f "$(GBDKLIBDIR)/libc/targets/$$port/$$plat/mapper_macros.s" ]; then \
+					cp $(GBDKLIBDIR)/libc/targets/$$port/$$plat/mapper_macros.s $(BUILDDIR)/lib/$$plat/mapper_macros.s; \
+				fi; \
 				if [ -f "$(GBDKLIBDIR)/libc/targets/$$port/$$plat/platform_cfg.s" ]; then \
 					cp $(GBDKLIBDIR)/libc/targets/$$port/$$plat/platform_cfg.s $(BUILDDIR)/lib/$$plat/platform_cfg.s; \
 				fi \
 			fi \
 		done \
 	done
+	if [ -d "$(GBDKLIBDIR)/build/nes-m30-s-lomem" ]; then \
+		cp $(GBDKLIBDIR)/libc/targets/mos6502/global.s $(BUILDDIR)/lib/nes/; \
+		cp $(GBDKLIBDIR)/libc/targets/mos6502/nes-m30-s-lomem/mapper_macros.s $(BUILDDIR)/lib/nes/; \
+		cp $(GBDKLIBDIR)/libc/targets/mos6502/nes-m30-s-lomem/platform_cfg.s $(BUILDDIR)/lib/nes/; \
+	fi
 	@echo
 
 

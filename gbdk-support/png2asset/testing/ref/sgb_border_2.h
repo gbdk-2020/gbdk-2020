@@ -13,6 +13,8 @@
 #define sgb_border_2_TILE_H 8
 #define sgb_border_2_WIDTH 256
 #define sgb_border_2_HEIGHT 224
+#define sgb_border_2_TILES_WIDTH 32
+#define sgb_border_2_TILES_HEIGHT 28
 #define sgb_border_2_TILE_COUNT 107
 #define sgb_border_2_MAP_ATTRIBUTES 0
 #define sgb_border_2_MAP_ATTRIBUTES_WIDTH 32

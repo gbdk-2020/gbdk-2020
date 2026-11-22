@@ -7,9 +7,6 @@
 #include "NextLevel.h"
 #include "TitleScreen.h"
 
-BANKREF_EXTERN(NextLevel)
-BANKREF_EXTERN(TitleScreen)
-
 
 void main(void)
 {

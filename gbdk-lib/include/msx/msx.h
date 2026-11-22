@@ -326,6 +326,14 @@ void refresh_OAM(void);
  */
 #define DEVICE_SUPPORTS_COLOR (TRUE)
 
+/** Macro returns TRUE if device supports window layer
+ */
+#define DEVICE_SUPPORTS_WINDOW (FALSE)
+
+/** Macro returns TRUE if device supports reading from VRAM
+ */
+#define DEVICE_SUPPORTS_VRAM_READ (FALSE)
+
 /** Global Time Counter in VBL periods (60Hz)
 
     Increments once per Frame
@@ -366,7 +374,7 @@ extern volatile uint8_t _current_bank;
     @see BANKREF_EXTERN(), BANKREF()
 */
 #ifndef BANK
-#define BANK(VARNAME) ( (uint8_t) & __bank_ ## VARNAME )
+#define BANK(VARNAME) ( (uint16_t) & __bank_ ## VARNAME )
 #endif
 
 /** Creates a reference for retrieving the bank number of a variable or function
@@ -708,14 +716,6 @@ extern volatile uint8_t _shadow_OAM_OFF;
 */
 #define MAX_HARDWARE_SPRITES 32
 
-/** True if sprite hardware can flip sprites by X (horizontally)
-*/
-#define HARDWARE_SPRITE_CAN_FLIP_X 0
-
-/** True if sprite hardware can flip sprites by Y (vertically)
-*/
-#define HARDWARE_SPRITE_CAN_FLIP_Y 0
-
 /** Sets address of 256-byte aligned array of shadow OAM to be transferred on each VBlank
 */
 inline void SET_SHADOW_OAM_ADDRESS(void * address) {
@@ -834,7 +834,7 @@ uint8_t * set_tile_xy(uint8_t x, uint8_t y, uint8_t t) Z88DK_CALLEE PRESERVES_RE
 /**
  * Get address of X,Y tile of background map
  */
-uint8_t * get_bkg_xy_addr(uint8_t x, uint8_t y) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
+uint8_t * get_bkg_xy_addr(uint8_t x, uint8_t y) PRESERVES_REGS(iyh, iyl);
 #define get_win_xy_addr get_bkg_xy_addr
 
 #endif /* _MSX_H */

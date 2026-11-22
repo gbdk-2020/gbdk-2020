@@ -13,6 +13,8 @@
 #define no_pal_map_test_keep_pal_order_TILE_H 8
 #define no_pal_map_test_keep_pal_order_WIDTH 144
 #define no_pal_map_test_keep_pal_order_HEIGHT 48
+#define no_pal_map_test_keep_pal_order_TILES_WIDTH 18
+#define no_pal_map_test_keep_pal_order_TILES_HEIGHT 6
 #define no_pal_map_test_keep_pal_order_TILE_COUNT 9
 #define no_pal_map_test_keep_pal_order_MAP_ATTRIBUTES 0
 extern const unsigned char no_pal_map_test_keep_pal_order_map[108];

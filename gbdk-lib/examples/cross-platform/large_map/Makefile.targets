@@ -50,7 +50,26 @@ gg:
 
 
 nes-clean:
-	${MAKE} clean-target EXT=nes
+	${MAKE} clean-target PLAT=nes EXT=nes
 nes:
 	${MAKE} build-target PORT=mos6502 PLAT=nes EXT=nes
 
+nes-m30-s-win-clean:
+	${MAKE} clean-target PLAT=nes-m30-s-win EXT=nes
+nes-m30-s-win:
+	${MAKE} build-target PORT=mos6502 PLAT=nes-m30-s-win EXT=nes
+
+nes-m30-f-clean:
+	${MAKE} clean-target PLAT=nes-m30-f EXT=nes
+nes-m30-f:
+	${MAKE} build-target PORT=mos6502 PLAT=nes-m30-f EXT=nes
+
+nes-m2-h-clean:
+	${MAKE} clean-target PLAT=nes-m2-h EXT=nes
+nes-m2-h:
+	${MAKE} build-target PORT=mos6502 PLAT=nes-m2-h EXT=nes
+	
+nes-m2-v-clean:
+	${MAKE} clean-target PLAT=nes-m2-v EXT=nes
+nes-m2-v:
+	${MAKE} build-target PORT=mos6502 PLAT=nes-m2-v EXT=nes

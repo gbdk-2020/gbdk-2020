@@ -31,5 +31,6 @@ var cgb_8h =
     [ "cpu_slow", "cgb_8h.html#cpu_slow", null ],
     [ "cpu_fast", "cgb_8h.html#cpu_fast", null ],
     [ "set_default_palette", "cgb_8h.html#set_default_palette", null ],
-    [ "cgb_compatibility", "cgb_8h.html#cgb_compatibility", null ]
+    [ "cgb_compatibility", "cgb_8h.html#cgb_compatibility", null ],
+    [ "c", "cgb_8h.html#c", null ]
 ];

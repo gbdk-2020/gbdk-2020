@@ -41,7 +41,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.5.0</span>
+   &#160;<span id="projectnumber">4.6.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -237,11 +237,19 @@ Macros</h2></td></tr>
 <tr class="separator:SCREENWIDTH"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:SCREENHEIGHT"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#SCREENHEIGHT">SCREENHEIGHT</a>&#160;&#160;&#160;<a class="el" href="sms_2hardware_8h.html#DEVICE_SCREEN_PX_HEIGHT">DEVICE_SCREEN_PX_HEIGHT</a></td></tr>
 <tr class="separator:SCREENHEIGHT"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:MINWNDPOSX"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#MINWNDPOSX">MINWNDPOSX</a>&#160;&#160;&#160;<a class="el" href="nes_2hardware_8h.html#DEVICE_WINDOW_PX_OFFSET_X">DEVICE_WINDOW_PX_OFFSET_X</a></td></tr>
+<tr class="separator:MINWNDPOSX"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:MINWNDPOSY"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#MINWNDPOSY">MINWNDPOSY</a>&#160;&#160;&#160;<a class="el" href="nes_2hardware_8h.html#DEVICE_WINDOW_PX_OFFSET_Y">DEVICE_WINDOW_PX_OFFSET_Y</a></td></tr>
+<tr class="separator:MINWNDPOSY"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:MAXWNDPOSX"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#MAXWNDPOSX">MAXWNDPOSX</a>&#160;&#160;&#160;(<a class="el" href="nes_2hardware_8h.html#DEVICE_WINDOW_PX_OFFSET_X">DEVICE_WINDOW_PX_OFFSET_X</a> + <a class="el" href="sms_2hardware_8h.html#DEVICE_SCREEN_PX_WIDTH">DEVICE_SCREEN_PX_WIDTH</a> - 1)</td></tr>
+<tr class="separator:MAXWNDPOSX"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:MAXWNDPOSY"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#MAXWNDPOSY">MAXWNDPOSY</a>&#160;&#160;&#160;(<a class="el" href="nes_2hardware_8h.html#DEVICE_WINDOW_PX_OFFSET_Y">DEVICE_WINDOW_PX_OFFSET_Y</a> + <a class="el" href="sms_2hardware_8h.html#DEVICE_SCREEN_PX_HEIGHT">DEVICE_SCREEN_PX_HEIGHT</a> - 1)</td></tr>
+<tr class="separator:MAXWNDPOSY"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:MAX_LCD_ISR_CALLS"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#MAX_LCD_ISR_CALLS">MAX_LCD_ISR_CALLS</a>&#160;&#160;&#160;4</td></tr>
 <tr class="separator:MAX_LCD_ISR_CALLS"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:CURRENT_BANK"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#CURRENT_BANK">CURRENT_BANK</a>&#160;&#160;&#160;<a class="el" href="nes_8h.html#_current_bank">_current_bank</a></td></tr>
 <tr class="separator:CURRENT_BANK"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:BANK"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#BANK">BANK</a>(VARNAME)&#160;&#160;&#160;( (<a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>) &amp; __bank_ ## VARNAME )</td></tr>
+<tr class="memitem:BANK"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#BANK">BANK</a>(VARNAME)&#160;&#160;&#160;( (<a class="el" href="stdint_8h.html#uint16_t">uint16_t</a>) &amp; __bank_ ## VARNAME )</td></tr>
 <tr class="separator:BANK"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:BANKREF"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#BANKREF">BANKREF</a>(VARNAME)</td></tr>
 <tr class="separator:BANKREF"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -273,6 +281,10 @@ Macros</h2></td></tr>
 <tr class="separator:SHOW_BKG"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:HIDE_BKG"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#HIDE_BKG">HIDE_BKG</a>&#160;&#160;&#160;    <a class="el" href="nes_2hardware_8h.html#shadow_PPUMASK">shadow_PPUMASK</a> &amp;= ~<a class="el" href="nes_2hardware_8h.html#PPUMASK_SHOW_BG">PPUMASK_SHOW_BG</a>;</td></tr>
 <tr class="separator:HIDE_BKG"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:SHOW_WIN"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#SHOW_WIN">SHOW_WIN</a>&#160;&#160;&#160;_show_window();</td></tr>
+<tr class="separator:SHOW_WIN"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:HIDE_WIN"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#HIDE_WIN">HIDE_WIN</a>&#160;&#160;&#160;_hide_window();</td></tr>
+<tr class="separator:HIDE_WIN"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:SHOW_SPRITES"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#SHOW_SPRITES">SHOW_SPRITES</a>&#160;&#160;&#160;    <a class="el" href="nes_2hardware_8h.html#shadow_PPUMASK">shadow_PPUMASK</a> |= <a class="el" href="nes_2hardware_8h.html#PPUMASK_SHOW_SPR">PPUMASK_SHOW_SPR</a>;</td></tr>
 <tr class="separator:SHOW_SPRITES"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:HIDE_SPRITES"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#HIDE_SPRITES">HIDE_SPRITES</a>&#160;&#160;&#160;    <a class="el" href="nes_2hardware_8h.html#shadow_PPUMASK">shadow_PPUMASK</a> &amp;= ~<a class="el" href="nes_2hardware_8h.html#PPUMASK_SHOW_SPR">PPUMASK_SHOW_SPR</a>;</td></tr>
@@ -281,6 +293,12 @@ Macros</h2></td></tr>
 <tr class="separator:SPRITES_8x16"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:SPRITES_8x8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#SPRITES_8x8">SPRITES_8x8</a>&#160;&#160;&#160;  <a class="el" href="nes_2hardware_8h.html#shadow_PPUCTRL">shadow_PPUCTRL</a> &amp;= ~<a class="el" href="nes_2hardware_8h.html#PPUCTRL_SPR_8X16">PPUCTRL_SPR_8X16</a>;</td></tr>
 <tr class="separator:SPRITES_8x8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:DEVICE_SUPPORTS_COLOR"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#DEVICE_SUPPORTS_COLOR">DEVICE_SUPPORTS_COLOR</a>&#160;&#160;&#160;(<a class="el" href="types_8h.html#TRUE">TRUE</a>)</td></tr>
+<tr class="separator:DEVICE_SUPPORTS_COLOR"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:DEVICE_SUPPORTS_WINDOW"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#DEVICE_SUPPORTS_WINDOW">DEVICE_SUPPORTS_WINDOW</a>&#160;&#160;&#160;(<a class="el" href="types_8h.html#FALSE">FALSE</a>)</td></tr>
+<tr class="separator:DEVICE_SUPPORTS_WINDOW"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:DEVICE_SUPPORTS_VRAM_READ"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#DEVICE_SUPPORTS_VRAM_READ">DEVICE_SUPPORTS_VRAM_READ</a>&#160;&#160;&#160;(<a class="el" href="types_8h.html#FALSE">FALSE</a>)</td></tr>
+<tr class="separator:DEVICE_SUPPORTS_VRAM_READ"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:COMPAT_PALETTE"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#COMPAT_PALETTE">COMPAT_PALETTE</a>(C0,  C1,  C2,  C3)&#160;&#160;&#160;((<a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>)(((C3) &lt;&lt; 6) | ((C2) &lt;&lt; 4) | ((C1) &lt;&lt; 2) | (C0)))</td></tr>
 <tr class="separator:COMPAT_PALETTE"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:set_bkg_2bpp_data"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#set_bkg_2bpp_data">set_bkg_2bpp_data</a>&#160;&#160;&#160;<a class="el" href="sms_8h.html#set_bkg_data">set_bkg_data</a></td></tr>
@@ -293,6 +311,30 @@ Macros</h2></td></tr>
 <tr class="separator:set_tile_xy"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:set_attribute_xy"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#set_attribute_xy">set_attribute_xy</a>&#160;&#160;&#160;<a class="el" href="nes_8h.html#set_bkg_attribute_xy">set_bkg_attribute_xy</a></td></tr>
 <tr class="separator:set_attribute_xy"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:get_win_xy_addr"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#get_win_xy_addr">get_win_xy_addr</a>&#160;&#160;&#160;<a class="el" href="sms_8h.html#get_bkg_xy_addr">get_bkg_xy_addr</a></td></tr>
+<tr class="separator:get_win_xy_addr"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:set_win_data"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#set_win_data">set_win_data</a>&#160;&#160;&#160;<a class="el" href="sms_8h.html#set_bkg_data">set_bkg_data</a></td></tr>
+<tr class="separator:set_win_data"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:set_win_1bpp_data"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#set_win_1bpp_data">set_win_1bpp_data</a>&#160;&#160;&#160;<a class="el" href="sms_8h.html#set_bkg_1bpp_data">set_bkg_1bpp_data</a></td></tr>
+<tr class="separator:set_win_1bpp_data"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:set_win_tiles"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#set_win_tiles">set_win_tiles</a>&#160;&#160;&#160;<a class="el" href="nes_8h.html#set_bkg_tiles">set_bkg_tiles</a></td></tr>
+<tr class="separator:set_win_tiles"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:set_win_based_tiles"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#set_win_based_tiles">set_win_based_tiles</a>&#160;&#160;&#160;<a class="el" href="sms_8h.html#set_bkg_based_tiles">set_bkg_based_tiles</a></td></tr>
+<tr class="separator:set_win_based_tiles"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:set_win_submap"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#set_win_submap">set_win_submap</a>&#160;&#160;&#160;<a class="el" href="nes_8h.html#set_bkg_submap">set_bkg_submap</a></td></tr>
+<tr class="separator:set_win_submap"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:set_win_based_submap"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#set_win_based_submap">set_win_based_submap</a>&#160;&#160;&#160;<a class="el" href="sms_8h.html#set_bkg_based_submap">set_bkg_based_submap</a></td></tr>
+<tr class="separator:set_win_based_submap"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:set_win_submap_attributes_nes16x"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#set_win_submap_attributes_nes16x">set_win_submap_attributes_nes16x16</a>&#160;&#160;&#160;<a class="el" href="nes_8h.html#set_bkg_submap_attributes_nes16x">set_bkg_submap_attributes_nes16x16</a></td></tr>
+<tr class="separator:set_win_submap_attributes_nes16x"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:set_win_submap_attributes"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#set_win_submap_attributes">set_win_submap_attributes</a>&#160;&#160;&#160;<a class="el" href="sms_8h.html#set_bkg_submap_attributes">set_bkg_submap_attributes</a></td></tr>
+<tr class="separator:set_win_submap_attributes"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:set_win_tile_xy"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#set_win_tile_xy">set_win_tile_xy</a>&#160;&#160;&#160;<a class="el" href="nes_8h.html#set_bkg_tile_xy">set_bkg_tile_xy</a></td></tr>
+<tr class="separator:set_win_tile_xy"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:move_win"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#move_win">move_win</a>&#160;&#160;&#160;<a class="el" href="sms_8h.html#move_bkg">move_bkg</a></td></tr>
+<tr class="separator:move_win"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:scroll_win"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#scroll_win">scroll_win</a>&#160;&#160;&#160;<a class="el" href="sms_8h.html#scroll_bkg">scroll_bkg</a></td></tr>
+<tr class="separator:scroll_win"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:set_sprite_2bpp_data"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#set_sprite_2bpp_data">set_sprite_2bpp_data</a>&#160;&#160;&#160;<a class="el" href="sms_8h.html#set_sprite_data">set_sprite_data</a></td></tr>
 <tr class="separator:set_sprite_2bpp_data"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:DISABLE_OAM_DMA"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#DISABLE_OAM_DMA">DISABLE_OAM_DMA</a>&#160;&#160;&#160;    <a class="el" href="sms_8h.html#_shadow_OAM_base">_shadow_OAM_base</a> = 0</td></tr>
@@ -305,12 +347,12 @@ Macros</h2></td></tr>
 <tr class="separator:ENABLE_VBL_TRANSFER"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:MAX_HARDWARE_SPRITES"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#MAX_HARDWARE_SPRITES">MAX_HARDWARE_SPRITES</a>&#160;&#160;&#160;64</td></tr>
 <tr class="separator:MAX_HARDWARE_SPRITES"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:HARDWARE_SPRITE_CAN_FLIP_X"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#HARDWARE_SPRITE_CAN_FLIP_X">HARDWARE_SPRITE_CAN_FLIP_X</a>&#160;&#160;&#160;1</td></tr>
-<tr class="separator:HARDWARE_SPRITE_CAN_FLIP_X"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:HARDWARE_SPRITE_CAN_FLIP_Y"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#HARDWARE_SPRITE_CAN_FLIP_Y">HARDWARE_SPRITE_CAN_FLIP_Y</a>&#160;&#160;&#160;1</td></tr>
-<tr class="separator:HARDWARE_SPRITE_CAN_FLIP_Y"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:fill_rect"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#fill_rect">fill_rect</a>&#160;&#160;&#160;<a class="el" href="nes_8h.html#fill_bkg_rect">fill_bkg_rect</a></td></tr>
 <tr class="separator:fill_rect"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:fill_win_rect"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#fill_win_rect">fill_win_rect</a>&#160;&#160;&#160;<a class="el" href="nes_8h.html#fill_bkg_rect">fill_bkg_rect</a></td></tr>
+<tr class="separator:fill_win_rect"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:fill_win_rect_attributes"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#fill_win_rect_attributes">fill_win_rect_attributes</a>&#160;&#160;&#160;<a class="el" href="sms_8h.html#fill_bkg_rect_attributes">fill_bkg_rect_attributes</a></td></tr>
+<tr class="separator:fill_win_rect_attributes"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -403,11 +445,11 @@ Functions</h2></td></tr>
 <tr class="separator:set_bkg_submap_attributes_nes16x"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:set_bkg_submap_attributes"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#set_bkg_submap_attributes">set_bkg_submap_attributes</a> (<a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> x, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> y, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> w, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> <a class="el" href="sms_8h.html#h">h</a>, const <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> *attributes, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> map_w)</td></tr>
 <tr class="separator:set_bkg_submap_attributes"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:set_bkg_based_tiles"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#set_bkg_based_tiles">set_bkg_based_tiles</a> (<a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> x, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> y, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> w, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> <a class="el" href="sms_8h.html#h">h</a>, const <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> *tiles, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> base_tile)</td></tr>
+<tr class="memitem:set_bkg_based_tiles"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#set_bkg_based_tiles">set_bkg_based_tiles</a> (<a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> x, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> y, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> w, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> <a class="el" href="sms_8h.html#h">h</a>, const <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> *tiles, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> base_tile) NO_OVERLAY_LOCALS</td></tr>
 <tr class="separator:set_bkg_based_tiles"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:set_bkg_submap"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#set_bkg_submap">set_bkg_submap</a> (<a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> x, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> y, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> w, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> <a class="el" href="sms_8h.html#h">h</a>, const <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> *map, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> map_w) NO_OVERLAY_LOCALS</td></tr>
 <tr class="separator:set_bkg_submap"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:set_bkg_based_submap"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#set_bkg_based_submap">set_bkg_based_submap</a> (<a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> x, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> y, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> w, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> <a class="el" href="sms_8h.html#h">h</a>, const <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> *map, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> map_w, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> base_tile)</td></tr>
+<tr class="memitem:set_bkg_based_submap"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#set_bkg_based_submap">set_bkg_based_submap</a> (<a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> x, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> y, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> w, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> <a class="el" href="sms_8h.html#h">h</a>, const <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> *map, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> map_w, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> base_tile) NO_OVERLAY_LOCALS</td></tr>
 <tr class="separator:set_bkg_based_submap"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:get_bkg_tiles"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#get_bkg_tiles">get_bkg_tiles</a> (<a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> x, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> y, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> w, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> <a class="el" href="sms_8h.html#h">h</a>, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> *tiles) NO_OVERLAY_LOCALS</td></tr>
 <tr class="separator:get_bkg_tiles"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -415,11 +457,15 @@ Functions</h2></td></tr>
 <tr class="separator:set_bkg_tile_xy"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:set_bkg_attribute_xy_nes16x16"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#set_bkg_attribute_xy_nes16x16">set_bkg_attribute_xy_nes16x16</a> (<a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> x, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> y, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> a) NO_OVERLAY_LOCALS</td></tr>
 <tr class="separator:set_bkg_attribute_xy_nes16x16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:set_win_attribute_xy_nes16x16"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#set_win_attribute_xy_nes16x16">set_win_attribute_xy_nes16x16</a> (<a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> x, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> y, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> a) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:set_win_attribute_xy_nes16x16"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:set_bkg_attribute_xy"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#set_bkg_attribute_xy">set_bkg_attribute_xy</a> (<a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> x, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> y, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> a)</td></tr>
 <tr class="separator:set_bkg_attribute_xy"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:set_win_attribute_xy"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#set_win_attribute_xy">set_win_attribute_xy</a> (<a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> x, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> y, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> a)</td></tr>
+<tr class="separator:set_win_attribute_xy"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:get_bkg_tile_xy"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#get_bkg_tile_xy">get_bkg_tile_xy</a> (<a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> x, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> y) NO_OVERLAY_LOCALS</td></tr>
 <tr class="separator:get_bkg_tile_xy"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:move_bkg"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#move_bkg">move_bkg</a> (<a class="el" href="nes_2hardware_8h.html#scroll_x_t">scroll_x_t</a> x, <a class="el" href="nes_2hardware_8h.html#scroll_y_t">scroll_y_t</a> y)</td></tr>
+<tr class="memitem:move_bkg"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#move_bkg">move_bkg</a> (<a class="el" href="gb_2hardware_8h.html#scroll_x_t">scroll_x_t</a> x, <a class="el" href="gb_2hardware_8h.html#scroll_y_t">scroll_y_t</a> y)</td></tr>
 <tr class="separator:move_bkg"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:scroll_bkg"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#scroll_bkg">scroll_bkg</a> (<a class="el" href="stdint_8h.html#int8_t">int8_t</a> x, <a class="el" href="stdint_8h.html#int8_t">int8_t</a> y)</td></tr>
 <tr class="separator:scroll_bkg"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -461,8 +507,12 @@ Functions</h2></td></tr>
 <tr class="separator:vmemset"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:fill_bkg_rect"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#fill_bkg_rect">fill_bkg_rect</a> (<a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> x, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> y, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> w, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> <a class="el" href="sms_8h.html#h">h</a>, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> tile) NO_OVERLAY_LOCALS</td></tr>
 <tr class="separator:fill_bkg_rect"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:fill_bkg_rect_attributes"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#fill_bkg_rect_attributes">fill_bkg_rect_attributes</a> (<a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> x, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> y, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> w, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> <a class="el" href="sms_8h.html#h">h</a>, <a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> attribute) NO_OVERLAY_LOCALS</td></tr>
+<tr class="separator:fill_bkg_rect_attributes"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:flush_shadow_attributes"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#flush_shadow_attributes">flush_shadow_attributes</a> (void) NO_OVERLAY_LOCALS</td></tr>
 <tr class="separator:flush_shadow_attributes"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:bkg_attributes_enabled"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#bkg_attributes_enabled">bkg_attributes_enabled</a> (void)</td></tr>
+<tr class="separator:bkg_attributes_enabled"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:_switch_prg0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nes_8h.html#_switch_prg0">_switch_prg0</a> (<a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> bank) NO_OVERLAY_LOCALS</td></tr>
 <tr class="separator:_switch_prg0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -1389,6 +1439,66 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="MINWNDPOSX" name="MINWNDPOSX"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#MINWNDPOSX">&#9670;&nbsp;</a></span>MINWNDPOSX</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MINWNDPOSX&#160;&#160;&#160;<a class="el" href="nes_2hardware_8h.html#DEVICE_WINDOW_PX_OFFSET_X">DEVICE_WINDOW_PX_OFFSET_X</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >The Minimum X position of the Window Layer (Left edge of screen) </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#move_win">move_win()</a> </dd></dl>
+
+</div>
+</div>
+<a id="MINWNDPOSY" name="MINWNDPOSY"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#MINWNDPOSY">&#9670;&nbsp;</a></span>MINWNDPOSY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MINWNDPOSY&#160;&#160;&#160;<a class="el" href="nes_2hardware_8h.html#DEVICE_WINDOW_PX_OFFSET_Y">DEVICE_WINDOW_PX_OFFSET_Y</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >The Minimum Y position of the Window Layer (Top edge of screen) </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#move_win">move_win()</a> </dd></dl>
+
+</div>
+</div>
+<a id="MAXWNDPOSX" name="MAXWNDPOSX"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#MAXWNDPOSX">&#9670;&nbsp;</a></span>MAXWNDPOSX</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MAXWNDPOSX&#160;&#160;&#160;(<a class="el" href="nes_2hardware_8h.html#DEVICE_WINDOW_PX_OFFSET_X">DEVICE_WINDOW_PX_OFFSET_X</a> + <a class="el" href="sms_2hardware_8h.html#DEVICE_SCREEN_PX_WIDTH">DEVICE_SCREEN_PX_WIDTH</a> - 1)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >The Maximum X position of the Window Layer (Right edge of screen) </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#move_win">move_win()</a> </dd></dl>
+
+</div>
+</div>
+<a id="MAXWNDPOSY" name="MAXWNDPOSY"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#MAXWNDPOSY">&#9670;&nbsp;</a></span>MAXWNDPOSY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MAXWNDPOSY&#160;&#160;&#160;(<a class="el" href="nes_2hardware_8h.html#DEVICE_WINDOW_PX_OFFSET_Y">DEVICE_WINDOW_PX_OFFSET_Y</a> + <a class="el" href="sms_2hardware_8h.html#DEVICE_SCREEN_PX_HEIGHT">DEVICE_SCREEN_PX_HEIGHT</a> - 1)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >The Maximum Y position of the Window Layer (Bottom edge of screen) </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#move_win">move_win()</a> </dd></dl>
+
+</div>
+</div>
 <a id="MAX_LCD_ISR_CALLS" name="MAX_LCD_ISR_CALLS"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#MAX_LCD_ISR_CALLS">&#9670;&nbsp;</a></span>MAX_LCD_ISR_CALLS</h2>
 
@@ -1429,7 +1539,7 @@ Variables</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">VARNAME</td><td>)</td>
-          <td>&#160;&#160;&#160;( (<a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>) &amp; __bank_ ## VARNAME )</td>
+          <td>&#160;&#160;&#160;( (<a class="el" href="stdint_8h.html#uint16_t">uint16_t</a>) &amp; __bank_ ## VARNAME )</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1739,6 +1849,37 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="SHOW_WIN" name="SHOW_WIN"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#SHOW_WIN">&#9670;&nbsp;</a></span>SHOW_WIN</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SHOW_WIN&#160;&#160;&#160;_show_window();</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Turns on the Window layer Sets bit 5 of the LCDC register to 1.</p>
+<p >This only controls Window visibility. If either the Background layer (which the window is part of) or the Display are not turned then the Window contents will not be visible. Those can be turned on using <a class="el" href="sms_8h.html#SHOW_BKG">SHOW_BKG</a> and <a class="el" href="sms_8h.html#DISPLAY_ON">DISPLAY_ON</a>. </p>
+
+</div>
+</div>
+<a id="HIDE_WIN" name="HIDE_WIN"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#HIDE_WIN">&#9670;&nbsp;</a></span>HIDE_WIN</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define HIDE_WIN&#160;&#160;&#160;_hide_window();</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Turns off the window layer. Clears bit 5 of the LCDC register to 0. </p>
+
+</div>
+</div>
 <a id="SHOW_SPRITES" name="SHOW_SPRITES"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#SHOW_SPRITES">&#9670;&nbsp;</a></span>SHOW_SPRITES</h2>
 
@@ -1796,6 +1937,51 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p >Sets sprite size to 8x8 pixels, one tile. Clears bit 2 of the LCDC register to 0. </p>
+
+</div>
+</div>
+<a id="DEVICE_SUPPORTS_COLOR" name="DEVICE_SUPPORTS_COLOR"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#DEVICE_SUPPORTS_COLOR">&#9670;&nbsp;</a></span>DEVICE_SUPPORTS_COLOR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DEVICE_SUPPORTS_COLOR&#160;&#160;&#160;(<a class="el" href="types_8h.html#TRUE">TRUE</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Macro returns TRUE if device supports color (it always does on NES) </p>
+
+</div>
+</div>
+<a id="DEVICE_SUPPORTS_WINDOW" name="DEVICE_SUPPORTS_WINDOW"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#DEVICE_SUPPORTS_WINDOW">&#9670;&nbsp;</a></span>DEVICE_SUPPORTS_WINDOW</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DEVICE_SUPPORTS_WINDOW&#160;&#160;&#160;(<a class="el" href="types_8h.html#FALSE">FALSE</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Macro returns TRUE if device supports window layer </p>
+
+</div>
+</div>
+<a id="DEVICE_SUPPORTS_VRAM_READ" name="DEVICE_SUPPORTS_VRAM_READ"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#DEVICE_SUPPORTS_VRAM_READ">&#9670;&nbsp;</a></span>DEVICE_SUPPORTS_VRAM_READ</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DEVICE_SUPPORTS_VRAM_READ&#160;&#160;&#160;(<a class="el" href="types_8h.html#FALSE">FALSE</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Macro returns TRUE if device supports reading from VRAM </p>
 
 </div>
 </div>
@@ -1909,6 +2095,327 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="get_win_xy_addr" name="get_win_xy_addr"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#get_win_xy_addr">&#9670;&nbsp;</a></span>get_win_xy_addr</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define get_win_xy_addr&#160;&#160;&#160;<a class="el" href="sms_8h.html#get_bkg_xy_addr">get_bkg_xy_addr</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Get address of X,Y tile of window map </p>
+
+</div>
+</div>
+<a id="set_win_data" name="set_win_data"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#set_win_data">&#9670;&nbsp;</a></span>set_win_data</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define set_win_data&#160;&#160;&#160;<a class="el" href="sms_8h.html#set_bkg_data">set_bkg_data</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Sets VRAM Tile Pattern data for the Window / Background</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first_tile</td><td>Index of the first tile to write </td></tr>
+    <tr><td class="paramname">nb_tiles</td><td>Number of tiles to write </td></tr>
+    <tr><td class="paramname">data</td><td>Pointer to (2 bpp) source Tile Pattern data.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This is the same as <a class="el" href="sms_8h.html#set_bkg_data">set_bkg_data</a>, since the Window Layer and Background Layer share the same Tile pattern data.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#set_bkg_data">set_bkg_data</a> </dd>
+<dd>
+<a class="el" href="nes_8h.html#set_win_tiles">set_win_tiles</a>, <a class="el" href="nes_8h.html#set_bkg_data">set_bkg_data</a>, <a class="el" href="nes_8h.html#set_data">set_data</a> </dd>
+<dd>
+<a class="el" href="nes_8h.html#SHOW_WIN">SHOW_WIN</a>, <a class="el" href="nes_8h.html#HIDE_WIN">HIDE_WIN</a> </dd></dl>
+
+</div>
+</div>
+<a id="set_win_1bpp_data" name="set_win_1bpp_data"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#set_win_1bpp_data">&#9670;&nbsp;</a></span>set_win_1bpp_data</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define set_win_1bpp_data&#160;&#160;&#160;<a class="el" href="sms_8h.html#set_bkg_1bpp_data">set_bkg_1bpp_data</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Sets VRAM Tile Pattern data for the Window / Background using 1bpp source data</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first_tile</td><td>Index of the first tile to write </td></tr>
+    <tr><td class="paramname">nb_tiles</td><td>Number of tiles to write </td></tr>
+    <tr><td class="paramname">data</td><td>Pointer to (1bpp) source Tile Pattern data</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This is the same as <a class="el" href="sms_8h.html#set_bkg_1bpp_data">set_bkg_1bpp_data</a>, since the Window Layer and Background Layer share the same Tile pattern data.</p>
+<p >For a given bit that represent a pixel: </p><ul>
+<li>0 will be expanded into the Background color </li>
+<li>1 will be expanded into the Foreground color</li>
+</ul>
+<p>See <a class="el" href="sms_8h.html#set_1bpp_colors">set_1bpp_colors</a> for details about setting the Foreground and Background colors.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#set_bkg_data">set_bkg_data</a>, <a class="el" href="nes_8h.html#set_win_data">set_win_data</a>, <a class="el" href="nes_8h.html#set_1bpp_colors">set_1bpp_colors</a> </dd>
+<dd>
+<a class="el" href="nes_8h.html#set_bkg_1bpp_data">set_bkg_1bpp_data</a>, <a class="el" href="nes_8h.html#set_sprite_1bpp_data">set_sprite_1bpp_data</a> </dd></dl>
+
+</div>
+</div>
+<a id="set_win_tiles" name="set_win_tiles"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#set_win_tiles">&#9670;&nbsp;</a></span>set_win_tiles</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define set_win_tiles&#160;&#160;&#160;<a class="el" href="nes_8h.html#set_bkg_tiles">set_bkg_tiles</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Sets a rectangular region of the Window Tile Map.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>X Start position in Window Map tile coordinates. Range 0 - 31 </td></tr>
+    <tr><td class="paramname">y</td><td>Y Start position in Window Map tile coordinates. Range 0 - 31 </td></tr>
+    <tr><td class="paramname">w</td><td>Width of area to set in tiles. Range 1 - 32 </td></tr>
+    <tr><td class="paramname">h</td><td>Height of area to set in tiles. Range 1 - 32 </td></tr>
+    <tr><td class="paramname">tiles</td><td>Pointer to source tile map data</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Entries are copied from map at <b>tiles</b> to the Window Tile Map starting at <b>x</b>, <b>y</b> writing across for <b>w</b> tiles and down for <b>h</b> tiles.</p>
+<p >Use <a class="el" href="nes_8h.html#set_win_submap">set_win_submap()</a> instead when: </p><ul>
+<li>Source map is wider than 32 tiles. </li>
+<li>Writing a width that does not match the source map width <b>and</b> more than one row high at a time.</li>
+</ul>
+<p>One byte per source tile map entry.</p>
+<p >Writes that exceed coordinate 31 on the x or y axis will wrap around to the Left and Top edges.</p>
+<dl class="section note"><dt>Note</dt><dd>Patterns 128-255 overlap with patterns 128-255 of the sprite Tile Pattern table.</dd></dl>
+<p>GBC only: <a class="el" href="gb_2hardware_8h.html#VBK_REG">VBK_REG</a> determines whether Tile Numbers or Tile Attributes get set. </p><ul>
+<li>VBK_REG = <a class="el" href="sms_2hardware_8h.html#VBK_TILES">VBK_TILES</a> Tile Numbers are written </li>
+<li>VBK_REG = <a class="el" href="sms_2hardware_8h.html#VBK_ATTRIBUTES">VBK_ATTRIBUTES</a> Tile Attributes are written</li>
+</ul>
+<p>For more details about GBC Tile Attributes see <a class="el" href="nes_8h.html#set_bkg_tiles">set_bkg_tiles</a>.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#SHOW_WIN">SHOW_WIN</a>, <a class="el" href="nes_8h.html#HIDE_WIN">HIDE_WIN</a>, <a class="el" href="nes_8h.html#set_win_submap">set_win_submap</a>, <a class="el" href="nes_8h.html#set_bkg_tiles">set_bkg_tiles</a>, <a class="el" href="nes_8h.html#set_bkg_data">set_bkg_data</a>, <a class="el" href="nes_8h.html#set_tiles">set_tiles</a> </dd></dl>
+
+</div>
+</div>
+<a id="set_win_based_tiles" name="set_win_based_tiles"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#set_win_based_tiles">&#9670;&nbsp;</a></span>set_win_based_tiles</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define set_win_based_tiles&#160;&#160;&#160;<a class="el" href="sms_8h.html#set_bkg_based_tiles">set_bkg_based_tiles</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Sets a rectangular region of the Window Tile Map. The offset value in <b>base_tile</b> is added to the tile ID for each map entry.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>X Start position in Window Map tile coordinates. Range 0 - 31 </td></tr>
+    <tr><td class="paramname">y</td><td>Y Start position in Window Map tile coordinates. Range 0 - 31 </td></tr>
+    <tr><td class="paramname">w</td><td>Width of area to set in tiles. Range 1 - 32 </td></tr>
+    <tr><td class="paramname">h</td><td>Height of area to set in tiles. Range 1 - 32 </td></tr>
+    <tr><td class="paramname">tiles</td><td>Pointer to source tile map data </td></tr>
+    <tr><td class="paramname">base_tile</td><td>Offset each tile ID entry of the source map by this value. Range 1 - 255</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This is identical to <a class="el" href="msx_8h.html#set_win_tiles">set_win_tiles()</a> except that it adds the <b>base_tile</b> parameter for when a tile map's tiles don't start at index zero. (For example, the tiles used by the map range from 100 -&gt; 120 in VRAM instead of 0 -&gt; 20).</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#set_win_tiles">set_win_tiles</a> for more details </dd></dl>
+
+</div>
+</div>
+<a id="set_win_submap" name="set_win_submap"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#set_win_submap">&#9670;&nbsp;</a></span>set_win_submap</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define set_win_submap&#160;&#160;&#160;<a class="el" href="nes_8h.html#set_bkg_submap">set_bkg_submap</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Sets a rectangular area of the Window Tile Map using a sub-region from a source tile map.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>X Start position in both the Source Tile Map and hardware Window Map tile coordinates. Range 0 - 255 </td></tr>
+    <tr><td class="paramname">y</td><td>Y Start position in both the Source Tile Map and hardware Window Map tile coordinates. Range 0 - 255 </td></tr>
+    <tr><td class="paramname">w</td><td>Width of area to set in tiles. Range 1 - 255 </td></tr>
+    <tr><td class="paramname">h</td><td>Height of area to set in tiles. Range 1 - 255 </td></tr>
+    <tr><td class="paramname">map</td><td>Pointer to source tile map data </td></tr>
+    <tr><td class="paramname">map_w</td><td>Width of source tile map in tiles. Range 1 - 255</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Entries are copied from <b>map</b> to the Window Tile Map starting at <b>x</b>, <b>y</b> writing across for <b>w</b> tiles and down for <b>h</b> tiles, using <b>map_w</b> as the rowstride for the source tile map.</p>
+<p >The <b>x</b> and <b>y</b> parameters are in Source Tile Map tile coordinates. The location tiles will be written to on the hardware Background Map is derived from those, but only uses the lower 5 bits of each axis, for range of 0-31 (they are bit-masked: <code>x &amp; 0x1F</code> and <code>y &amp; 0x1F</code>). As a result the two coordinate systems are aligned together.</p>
+<p >In order to transfer tile map data in a way where the coordinate systems are not aligned, an offset from the Source Tile Map pointer can be passed in: <code>(map_ptr + x + (y * map_width))</code>.</p>
+<p >For example, if you want the tile id at <code>1,2</code> from the source map to show up at <code>0,0</code> on the hardware Background Map (instead of at <code>1,2</code>) then modify the pointer address that is passed in: <code>map_ptr + 1 + (2 * map_width)</code></p>
+<p >Use this instead of <a class="el" href="gb_8h.html#set_win_tiles">set_win_tiles</a> when the source map is wider than 32 tiles or when writing a width that does not match the source map width.</p>
+<p >One byte per source tile map entry.</p>
+<p >Writes that exceed coordinate 31 on the x or y axis will wrap around to the Left and Top edges.</p>
+<p >GBC only: <a class="el" href="gb_2hardware_8h.html#VBK_REG">VBK_REG</a> determines whether Tile Numbers or Tile Attributes get set. </p><ul>
+<li>VBK_REG = <a class="el" href="sms_2hardware_8h.html#VBK_TILES">VBK_TILES</a> Tile Numbers are written </li>
+<li>VBK_REG = <a class="el" href="sms_2hardware_8h.html#VBK_ATTRIBUTES">VBK_ATTRIBUTES</a> Tile Attributes are written</li>
+</ul>
+<p>See <a class="el" href="nes_8h.html#set_bkg_tiles">set_bkg_tiles</a> for details about CGB attribute maps with <a class="el" href="gb_2hardware_8h.html#VBK_REG">VBK_REG</a>.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#SHOW_WIN">SHOW_WIN</a>, <a class="el" href="nes_8h.html#HIDE_WIN">HIDE_WIN</a>, <a class="el" href="nes_8h.html#set_win_tiles">set_win_tiles</a>, <a class="el" href="nes_8h.html#set_bkg_submap">set_bkg_submap</a>, <a class="el" href="nes_8h.html#set_bkg_tiles">set_bkg_tiles</a>, <a class="el" href="nes_8h.html#set_bkg_data">set_bkg_data</a>, <a class="el" href="nes_8h.html#set_tiles">set_tiles</a> </dd></dl>
+
+</div>
+</div>
+<a id="set_win_based_submap" name="set_win_based_submap"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#set_win_based_submap">&#9670;&nbsp;</a></span>set_win_based_submap</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define set_win_based_submap&#160;&#160;&#160;<a class="el" href="sms_8h.html#set_bkg_based_submap">set_bkg_based_submap</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Sets a rectangular area of the Window Tile Map using a sub-region from a source tile map. The offset value in <b>base_tile</b> is added to the tile ID for each map entry.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>X Start position in both the Source Tile Map and hardware Window Map tile coordinates. Range 0 - 255 </td></tr>
+    <tr><td class="paramname">y</td><td>Y Start position in both the Source Tile Map and hardware Window Map tile coordinates. Range 0 - 255 </td></tr>
+    <tr><td class="paramname">w</td><td>Width of area to set in tiles. Range 1 - 255 </td></tr>
+    <tr><td class="paramname">h</td><td>Height of area to set in tiles. Range 1 - 255 </td></tr>
+    <tr><td class="paramname">map</td><td>Pointer to source tile map data </td></tr>
+    <tr><td class="paramname">map_w</td><td>Width of source tile map in tiles. Range 1 - 255 </td></tr>
+    <tr><td class="paramname">base_tile</td><td>Offset each tile ID entry of the source map by this value. Range 1 - 255</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This is identical to <a class="el" href="nes_8h.html#set_win_submap">set_win_submap()</a> except that it adds the <b>base_tile</b> parameter for when a tile map's tiles don't start at index zero. (For example, the tiles used by the map range from 100 -&gt; 120 in VRAM instead of 0 -&gt; 20).</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#set_win_submap">set_win_submap</a> for more details </dd></dl>
+
+</div>
+</div>
+<a id="set_win_submap_attributes_nes16x" name="set_win_submap_attributes_nes16x"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#set_win_submap_attributes_nes16x">&#9670;&nbsp;</a></span>set_win_submap_attributes_nes16x16</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define set_win_submap_attributes_nes16x16&#160;&#160;&#160;<a class="el" href="nes_8h.html#set_bkg_submap_attributes_nes16x">set_bkg_submap_attributes_nes16x16</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Sets a rectangular area of the Window Tile Map attributes using a sub-region from a source tile map. Useful for scrolling implementations of maps larger than 32 x 30 tiles.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#SHOW_BKG">SHOW_BKG</a> </dd>
+<dd>
+<a class="el" href="nes_8h.html#set_win_data">set_win_data</a>, <a class="el" href="nes_8h.html#set_win_tiles">set_win_tiles</a>, <a class="el" href="nes_8h.html#set_bkg_submap">set_bkg_submap</a>, <a class="el" href="nes_8h.html#set_tiles">set_tiles</a> </dd></dl>
+
+</div>
+</div>
+<a id="set_win_submap_attributes" name="set_win_submap_attributes"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#set_win_submap_attributes">&#9670;&nbsp;</a></span>set_win_submap_attributes</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define set_win_submap_attributes&#160;&#160;&#160;<a class="el" href="sms_8h.html#set_bkg_submap_attributes">set_bkg_submap_attributes</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Sets a rectangular area of the Window Tile Map attributes using a sub-region from a source tile map. Useful for scrolling implementations of maps larger than 32 x 30 tiles.</p>
+<p >Please note that this is just a wrapper function for <a class="el" href="nes_8h.html#set_win_submap_attributes_nes16x">set_win_submap_attributes_nes16x16()</a> and divides the coordinates and dimensions by 2 to achieve this. It is intended to make code more portable by using the same coordinate system that systems with the much more common 8x8 attribute resolution would use.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#SHOW_BKG">SHOW_BKG</a> </dd>
+<dd>
+<a class="el" href="nes_8h.html#set_win_data">set_win_data</a>, <a class="el" href="nes_8h.html#set_win_tiles">set_win_tiles</a>, <a class="el" href="nes_8h.html#set_bkg_submap">set_bkg_submap</a>, <a class="el" href="nes_8h.html#set_tiles">set_tiles</a> </dd></dl>
+
+</div>
+</div>
+<a id="set_win_tile_xy" name="set_win_tile_xy"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#set_win_tile_xy">&#9670;&nbsp;</a></span>set_win_tile_xy</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define set_win_tile_xy&#160;&#160;&#160;<a class="el" href="nes_8h.html#set_bkg_tile_xy">set_bkg_tile_xy</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Set single tile t on window layer at x,y </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>X-coordinate </td></tr>
+    <tr><td class="paramname">y</td><td>Y-coordinate </td></tr>
+    <tr><td class="paramname">t</td><td>tile index </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>returns the address of tile, so you may use faster <a class="el" href="nes_8h.html#set_vram_byte">set_vram_byte()</a> later </dd></dl>
+
+</div>
+</div>
+<a id="move_win" name="move_win"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#move_win">&#9670;&nbsp;</a></span>move_win</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define move_win&#160;&#160;&#160;<a class="el" href="sms_8h.html#move_bkg">move_bkg</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Moves the Window to the <b>x</b>, <b>y</b> position on the screen.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>X coordinate for Left edge of the Window (actual displayed location will be X - 7) </td></tr>
+    <tr><td class="paramname">y</td><td>Y coordinate for Top edge of the Window</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>7,0 is the top left corner of the screen in Window coordinates. The Window is locked to the bottom right corner.</p>
+<p >The Window is always over the Background layer.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#SHOW_WIN">SHOW_WIN</a>, <a class="el" href="nes_8h.html#HIDE_WIN">HIDE_WIN</a> </dd></dl>
+
+</div>
+</div>
+<a id="scroll_win" name="scroll_win"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#scroll_win">&#9670;&nbsp;</a></span>scroll_win</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define scroll_win&#160;&#160;&#160;<a class="el" href="sms_8h.html#scroll_bkg">scroll_bkg</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Move the Window relative to its current position.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>Number of pixels to move the window on the <b>X axis</b> <br  />
+ Range: -128 - 127 </td></tr>
+    <tr><td class="paramname">y</td><td>Number of pixels to move the window on the <b>Y axis</b> <br  />
+ Range: -128 - 127</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#move_win">move_win</a> </dd></dl>
+
+</div>
+</div>
 <a id="set_sprite_2bpp_data" name="set_sprite_2bpp_data"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#set_sprite_2bpp_data">&#9670;&nbsp;</a></span>set_sprite_2bpp_data</h2>
 
@@ -1996,36 +2503,6 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="HARDWARE_SPRITE_CAN_FLIP_X" name="HARDWARE_SPRITE_CAN_FLIP_X"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#HARDWARE_SPRITE_CAN_FLIP_X">&#9670;&nbsp;</a></span>HARDWARE_SPRITE_CAN_FLIP_X</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define HARDWARE_SPRITE_CAN_FLIP_X&#160;&#160;&#160;1</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p >True if sprite hardware can flip sprites by X (horizontally) </p>
-
-</div>
-</div>
-<a id="HARDWARE_SPRITE_CAN_FLIP_Y" name="HARDWARE_SPRITE_CAN_FLIP_Y"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#HARDWARE_SPRITE_CAN_FLIP_Y">&#9670;&nbsp;</a></span>HARDWARE_SPRITE_CAN_FLIP_Y</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define HARDWARE_SPRITE_CAN_FLIP_Y&#160;&#160;&#160;1</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p >True if sprite hardware can flip sprites by Y (vertically) </p>
-
-</div>
-</div>
 <a id="fill_rect" name="fill_rect"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#fill_rect">&#9670;&nbsp;</a></span>fill_rect</h2>
 
@@ -2037,6 +2514,56 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="fill_win_rect" name="fill_win_rect"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#fill_win_rect">&#9670;&nbsp;</a></span>fill_win_rect</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define fill_win_rect&#160;&#160;&#160;<a class="el" href="nes_8h.html#fill_bkg_rect">fill_bkg_rect</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Fills a rectangular region of Tile Map entries for the Window layer with tile.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>X Start position in Window Map tile coordinates. Range 0 - 31 </td></tr>
+    <tr><td class="paramname">y</td><td>Y Start position in Window Map tile coordinates. Range 0 - 31 </td></tr>
+    <tr><td class="paramname">w</td><td>Width of area to set in tiles. Range 1 - 32 </td></tr>
+    <tr><td class="paramname">h</td><td>Height of area to set in tiles. Range 1 - 32 </td></tr>
+    <tr><td class="paramname">tile</td><td>Fill value </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="fill_win_rect_attributes" name="fill_win_rect_attributes"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#fill_win_rect_attributes">&#9670;&nbsp;</a></span>fill_win_rect_attributes</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define fill_win_rect_attributes&#160;&#160;&#160;<a class="el" href="sms_8h.html#fill_bkg_rect_attributes">fill_bkg_rect_attributes</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Fills a rectangular region of Tile Map Attribute entries for the Window layer with attribute.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>X Start position in Window Map tile coordinates. Range 0 - 31 </td></tr>
+    <tr><td class="paramname">y</td><td>Y Start position in Window Map tile coordinates. Range 0 - 31 </td></tr>
+    <tr><td class="paramname">w</td><td>Width of area to set in tiles. Range 1 - 32 </td></tr>
+    <tr><td class="paramname">h</td><td>Height of area to set in tiles. Range 1 - 32 </td></tr>
+    <tr><td class="paramname">attribute</td><td>Fill value </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -2125,6 +2652,26 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p >Set CGB background palette(s).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first_palette</td><td>Index of the first palette to write (0-7) </td></tr>
+    <tr><td class="paramname">nb_palettes</td><td>Number of palettes to write (1-8, max depends on first_palette) </td></tr>
+    <tr><td class="paramname">rgb_data</td><td>Pointer to source palette data</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Writes <b>nb_palettes</b> to background palette data starting at <b>first_palette</b>, Palette data is sourced from <b>rgb_data</b>.</p>
+<ul>
+<li>Each Palette is 8 bytes in size: 4 colors x 2 bytes per palette color entry. </li>
+<li>Each color (4 per palette) is packed as BGR-555 format (1:5:5:5, MSBit [15] is unused). </li>
+<li>Each component (R, G, B) may have values from 0 - 31 (5 bits), 31 is brightest.</li>
+</ul>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="cgb_8h.html#RGB">RGB()</a>, <a class="el" href="cgb_8h.html#set_bkg_palette_entry">set_bkg_palette_entry()</a> </dd>
+<dd>
+<a class="el" href="sms_2hardware_8h.html#BKGF_CGB_PAL0">BKGF_CGB_PAL0</a>, <a class="el" href="sms_2hardware_8h.html#BKGF_CGB_PAL1">BKGF_CGB_PAL1</a>, <a class="el" href="sms_2hardware_8h.html#BKGF_CGB_PAL2">BKGF_CGB_PAL2</a>, <a class="el" href="sms_2hardware_8h.html#BKGF_CGB_PAL3">BKGF_CGB_PAL3</a> </dd>
+<dd>
+<a class="el" href="sms_2hardware_8h.html#BKGF_CGB_PAL4">BKGF_CGB_PAL4</a>, <a class="el" href="sms_2hardware_8h.html#BKGF_CGB_PAL5">BKGF_CGB_PAL5</a>, <a class="el" href="sms_2hardware_8h.html#BKGF_CGB_PAL6">BKGF_CGB_PAL6</a>, <a class="el" href="sms_2hardware_8h.html#BKGF_CGB_PAL7">BKGF_CGB_PAL7</a> </dd></dl>
 
 </div>
 </div>
@@ -2159,6 +2706,26 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p >Set CGB sprite palette(s).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first_palette</td><td>Index of the first palette to write (0-7) </td></tr>
+    <tr><td class="paramname">nb_palettes</td><td>Number of palettes to write (1-8, max depends on first_palette) </td></tr>
+    <tr><td class="paramname">rgb_data</td><td>Pointer to source palette data</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Writes <b>nb_palettes</b> to sprite palette data starting at <b>first_palette</b>, Palette data is sourced from <b>rgb_data</b>.</p>
+<ul>
+<li>Each Palette is 8 bytes in size: 4 colors x 2 bytes per palette color entry. </li>
+<li>Each color (4 per palette) is packed as BGR-555 format (1:5:5:5, MSBit [15] is unused). </li>
+<li>Each component (R, G, B) may have values from 0 - 31 (5 bits), 31 is brightest.</li>
+</ul>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="cgb_8h.html#RGB">RGB()</a>, <a class="el" href="cgb_8h.html#set_sprite_palette_entry">set_sprite_palette_entry()</a> </dd>
+<dd>
+<a class="el" href="sms_2hardware_8h.html#OAMF_CGB_PAL0">OAMF_CGB_PAL0</a>, <a class="el" href="sms_2hardware_8h.html#OAMF_CGB_PAL1">OAMF_CGB_PAL1</a>, <a class="el" href="sms_2hardware_8h.html#OAMF_CGB_PAL2">OAMF_CGB_PAL2</a>, <a class="el" href="sms_2hardware_8h.html#OAMF_CGB_PAL3">OAMF_CGB_PAL3</a> </dd>
+<dd>
+<a class="el" href="sms_2hardware_8h.html#OAMF_CGB_PAL4">OAMF_CGB_PAL4</a>, <a class="el" href="sms_2hardware_8h.html#OAMF_CGB_PAL5">OAMF_CGB_PAL5</a>, <a class="el" href="sms_2hardware_8h.html#OAMF_CGB_PAL6">OAMF_CGB_PAL6</a>, <a class="el" href="sms_2hardware_8h.html#OAMF_CGB_PAL7">OAMF_CGB_PAL7</a> </dd></dl>
 
 </div>
 </div>
@@ -2183,7 +2750,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="cgb_8h.html#palette_color_t">palette_color_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#uint16_t">uint16_t</a>&#160;</td>
           <td class="paramname"><em>rgb_data</em>&#160;</td>
         </tr>
         <tr>
@@ -2193,6 +2760,20 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p >Sets a single color in the specified CGB background palette.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">palette</td><td>Index of the palette to modify (0-7) </td></tr>
+    <tr><td class="paramname">entry</td><td>Index of color in palette to modify (0-3) </td></tr>
+    <tr><td class="paramname">rgb_data</td><td>New color data in BGR 15bpp format.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="cgb_8h.html#set_bkg_palette">set_bkg_palette()</a>, <a class="el" href="cgb_8h.html#RGB">RGB()</a> </dd>
+<dd>
+<a class="el" href="sms_2hardware_8h.html#BKGF_CGB_PAL0">BKGF_CGB_PAL0</a>, <a class="el" href="sms_2hardware_8h.html#BKGF_CGB_PAL1">BKGF_CGB_PAL1</a>, <a class="el" href="sms_2hardware_8h.html#BKGF_CGB_PAL2">BKGF_CGB_PAL2</a>, <a class="el" href="sms_2hardware_8h.html#BKGF_CGB_PAL3">BKGF_CGB_PAL3</a> </dd>
+<dd>
+<a class="el" href="sms_2hardware_8h.html#BKGF_CGB_PAL4">BKGF_CGB_PAL4</a>, <a class="el" href="sms_2hardware_8h.html#BKGF_CGB_PAL5">BKGF_CGB_PAL5</a>, <a class="el" href="sms_2hardware_8h.html#BKGF_CGB_PAL6">BKGF_CGB_PAL6</a>, <a class="el" href="sms_2hardware_8h.html#BKGF_CGB_PAL7">BKGF_CGB_PAL7</a> </dd></dl>
 
 </div>
 </div>
@@ -2217,7 +2798,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="cgb_8h.html#palette_color_t">palette_color_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#uint16_t">uint16_t</a>&#160;</td>
           <td class="paramname"><em>rgb_data</em>&#160;</td>
         </tr>
         <tr>
@@ -2227,6 +2808,20 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p >Sets a single color in the specified CGB sprite palette.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">palette</td><td>Index of the palette to modify (0-7) </td></tr>
+    <tr><td class="paramname">entry</td><td>Index of color in palette to modify (0-3) </td></tr>
+    <tr><td class="paramname">rgb_data</td><td>New color data in BGR 15bpp format.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="cgb_8h.html#set_sprite_palette">set_sprite_palette()</a>, <a class="el" href="cgb_8h.html#RGB">RGB()</a> </dd>
+<dd>
+<a class="el" href="sms_2hardware_8h.html#OAMF_CGB_PAL0">OAMF_CGB_PAL0</a>, <a class="el" href="sms_2hardware_8h.html#OAMF_CGB_PAL1">OAMF_CGB_PAL1</a>, <a class="el" href="sms_2hardware_8h.html#OAMF_CGB_PAL2">OAMF_CGB_PAL2</a>, <a class="el" href="sms_2hardware_8h.html#OAMF_CGB_PAL3">OAMF_CGB_PAL3</a> </dd>
+<dd>
+<a class="el" href="sms_2hardware_8h.html#OAMF_CGB_PAL4">OAMF_CGB_PAL4</a>, <a class="el" href="sms_2hardware_8h.html#OAMF_CGB_PAL5">OAMF_CGB_PAL5</a>, <a class="el" href="sms_2hardware_8h.html#OAMF_CGB_PAL6">OAMF_CGB_PAL6</a>, <a class="el" href="sms_2hardware_8h.html#OAMF_CGB_PAL7">OAMF_CGB_PAL7</a> </dd></dl>
 
 </div>
 </div>
@@ -3066,8 +3661,8 @@ On the current NES implementation, this handler is actually faked, and called be
 <p>Writes <b>nb_tiles</b> tiles to VRAM starting at <b>first_tile</b>, tile data is sourced from <b>data</b>. Each Tile is 16 bytes in size (8x8 pixels, 2 bits-per-pixel).</p>
 <dl class="section note"><dt>Note</dt><dd>Sprite Tiles 128-255 share the same memory region as Background Tiles 128-255.</dd></dl>
 <p>GBC only: <a class="el" href="gb_2hardware_8h.html#VBK_REG">VBK_REG</a> determines which bank of tile patterns are written to. </p><ul>
-<li>VBK_REG = <a class="el" href="gb_2hardware_8h.html#VBK_BANK_0">VBK_BANK_0</a> indicates the first bank </li>
-<li>VBK_REG = <a class="el" href="gb_2hardware_8h.html#VBK_BANK_1">VBK_BANK_1</a> indicates the second</li>
+<li>VBK_REG = <a class="el" href="nes_2hardware_8h.html#VBK_BANK_0">VBK_BANK_0</a> indicates the first bank </li>
+<li>VBK_REG = <a class="el" href="nes_2hardware_8h.html#VBK_BANK_1">VBK_BANK_1</a> indicates the second</li>
 </ul>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#set_win_data">set_win_data</a>, <a class="el" href="gb_8h.html#set_tile_data">set_tile_data</a> </dd></dl>
 
@@ -3293,7 +3888,7 @@ On the current NES implementation, this handler is actually faked, and called be
 <p ><a href="https://www.nesdev.org/wiki/PPU_attribute_tables">https://www.nesdev.org/wiki/PPU_attribute_tables</a></p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#SHOW_BKG">SHOW_BKG</a> </dd>
 <dd>
-<a class="el" href="nes_8h.html#set_bkg_data">set_bkg_data</a>, <a class="el" href="nes_8h.html#set_bkg_submap_attributes">set_bkg_submap_attributes</a>, <a class="el" href="gb_8h.html#set_win_tiles">set_win_tiles</a>, <a class="el" href="nes_8h.html#set_tiles">set_tiles</a> </dd></dl>
+<a class="el" href="nes_8h.html#set_bkg_data">set_bkg_data</a>, <a class="el" href="nes_8h.html#set_bkg_submap_attributes">set_bkg_submap_attributes</a>, <a class="el" href="nes_8h.html#set_win_tiles">set_win_tiles</a>, <a class="el" href="nes_8h.html#set_tiles">set_tiles</a> </dd></dl>
 
 </div>
 </div>
@@ -3359,7 +3954,7 @@ On the current NES implementation, this handler is actually faked, and called be
 <p >Please note that this is just a wrapper function for <a class="el" href="nes_8h.html#set_bkg_attributes_nes16x16">set_bkg_attributes_nes16x16()</a> and divides the coordinates and dimensions by 2 to achieve this. It is intended to make code more portable by using the same coordinate system that systems with the much more common 8x8 attribute resolution would use.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#SHOW_BKG">SHOW_BKG</a> </dd>
 <dd>
-<a class="el" href="nes_8h.html#set_bkg_data">set_bkg_data</a>, <a class="el" href="nes_8h.html#set_bkg_submap_attributes">set_bkg_submap_attributes</a>, <a class="el" href="gb_8h.html#set_win_tiles">set_win_tiles</a>, <a class="el" href="nes_8h.html#set_tiles">set_tiles</a> </dd></dl>
+<a class="el" href="nes_8h.html#set_bkg_data">set_bkg_data</a>, <a class="el" href="nes_8h.html#set_bkg_submap_attributes">set_bkg_submap_attributes</a>, <a class="el" href="nes_8h.html#set_win_tiles">set_win_tiles</a>, <a class="el" href="nes_8h.html#set_tiles">set_tiles</a> </dd></dl>
 
 </div>
 </div>
@@ -3434,7 +4029,7 @@ On the current NES implementation, this handler is actually faked, and called be
 <p >See <a class="el" href="nes_8h.html#set_bkg_tiles">set_bkg_tiles</a> for setting CGB attribute maps with <a class="el" href="gb_2hardware_8h.html#VBK_REG">VBK_REG</a>.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#SHOW_BKG">SHOW_BKG</a> </dd>
 <dd>
-<a class="el" href="nes_8h.html#set_bkg_data">set_bkg_data</a>, <a class="el" href="nes_8h.html#set_bkg_tiles">set_bkg_tiles</a>, <a class="el" href="msx_8h.html#set_win_submap">set_win_submap</a>, <a class="el" href="nes_8h.html#set_tiles">set_tiles</a> </dd></dl>
+<a class="el" href="nes_8h.html#set_bkg_data">set_bkg_data</a>, <a class="el" href="nes_8h.html#set_bkg_tiles">set_bkg_tiles</a>, <a class="el" href="nes_8h.html#set_win_submap">set_win_submap</a>, <a class="el" href="nes_8h.html#set_tiles">set_tiles</a> </dd></dl>
 
 </div>
 </div>
@@ -3499,7 +4094,7 @@ On the current NES implementation, this handler is actually faked, and called be
 <p >Please note that this is just a wrapper function for <a class="el" href="nes_8h.html#set_bkg_submap_attributes_nes16x">set_bkg_submap_attributes_nes16x16()</a> and divides the coordinates and dimensions by 2 to achieve this. It is intended to make code more portable by using the same coordinate system that systems with the much more common 8x8 attribute resolution would use.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#SHOW_BKG">SHOW_BKG</a> </dd>
 <dd>
-<a class="el" href="nes_8h.html#set_bkg_data">set_bkg_data</a>, <a class="el" href="nes_8h.html#set_bkg_tiles">set_bkg_tiles</a>, <a class="el" href="msx_8h.html#set_win_submap">set_win_submap</a>, <a class="el" href="nes_8h.html#set_tiles">set_tiles</a> </dd></dl>
+<a class="el" href="nes_8h.html#set_bkg_data">set_bkg_data</a>, <a class="el" href="nes_8h.html#set_bkg_tiles">set_bkg_tiles</a>, <a class="el" href="nes_8h.html#set_win_submap">set_win_submap</a>, <a class="el" href="nes_8h.html#set_tiles">set_tiles</a> </dd></dl>
 
 </div>
 </div>
@@ -3907,7 +4502,50 @@ On the current NES implementation, this handler is actually faked, and called be
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Set single attribute data a on background layer at x,y</p>
+<p >Set single 2x2 tile attribute a on background layer at x,y</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>X-coordinate </td></tr>
+    <tr><td class="paramname">y</td><td>Y-coordinate </td></tr>
+    <tr><td class="paramname">a</td><td>tile attributes </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="set_win_attribute_xy_nes16x16" name="set_win_attribute_xy_nes16x16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#set_win_attribute_xy_nes16x16">&#9670;&nbsp;</a></span>set_win_attribute_xy_nes16x16()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void set_win_attribute_xy_nes16x16 </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>a</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Set single attribute data a on window layer at x,y</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">x</td><td>X-coordinate </td></tr>
@@ -3958,7 +4596,7 @@ On the current NES implementation, this handler is actually faked, and called be
   </tr>
 </table>
 </div><div class="memdoc">
-<p >Set single attribute data a on background layer at x,y</p>
+<p >Set single 2x2 tile attribute a on background layer at x,y</p>
 <p >Please note that this is just a wrapper function for <a class="el" href="nes_8h.html#set_bkg_submap_attributes_nes16x">set_bkg_submap_attributes_nes16x16()</a> and divides the coordinates and dimensions by 2 to achieve this. It is intended to make code more portable by using the same coordinate system that systems with the much more common 8x8 attribute resolution would use.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -3968,6 +4606,60 @@ On the current NES implementation, this handler is actually faked, and called be
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="set_win_attribute_xy" name="set_win_attribute_xy"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#set_win_attribute_xy">&#9670;&nbsp;</a></span>set_win_attribute_xy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> * set_win_attribute_xy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>a</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >Set single attribute data a on window layer at x,y</p>
+<p >Please note that this is just a wrapper function for <a class="el" href="nes_8h.html#set_win_attribute_xy_nes16x16">set_win_attribute_xy_nes16x16()</a> and divides the coordinates and dimensions by 2 to achieve this. It is intended to make code more portable by using the same coordinate system that systems with the much more common 8x8 attribute resolution would use.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>X-coordinate </td></tr>
+    <tr><td class="paramname">y</td><td>Y-coordinate </td></tr>
+    <tr><td class="paramname">a</td><td>tile attributes </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>returns the address of tile attribute, so you may use faster <a class="el" href="nes_8h.html#set_vram_byte">set_vram_byte()</a> later</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>On the Game Boy this is only usable in Game Boy Color mode </dd></dl>
 
 </div>
 </div>
@@ -4028,13 +4720,13 @@ On the current NES implementation, this handler is actually faked, and called be
         <tr>
           <td class="memname">void move_bkg </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="nes_2hardware_8h.html#scroll_x_t">scroll_x_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="gb_2hardware_8h.html#scroll_x_t">scroll_x_t</a>&#160;</td>
           <td class="paramname"><em>x</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="nes_2hardware_8h.html#scroll_y_t">scroll_y_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="gb_2hardware_8h.html#scroll_y_t">scroll_y_t</a>&#160;</td>
           <td class="paramname"><em>y</em>&#160;</td>
         </tr>
         <tr>
@@ -4160,8 +4852,8 @@ On the current NES implementation, this handler is actually faked, and called be
 <p>Writes <b>nb_tiles</b> tiles to VRAM starting at <b>first_tile</b>, tile data is sourced from <b>data</b>. Each Tile is 16 bytes in size (8x8 pixels, 2 bits-per-pixel).</p>
 <dl class="section note"><dt>Note</dt><dd>Sprite Tiles 128-255 share the same memory region as Background Tiles 128-255.</dd></dl>
 <p>GBC only: <a class="el" href="gb_2hardware_8h.html#VBK_REG">VBK_REG</a> determines which bank of tile patterns are written to. </p><ul>
-<li>VBK_REG = <a class="el" href="gb_2hardware_8h.html#VBK_BANK_0">VBK_BANK_0</a> indicates the first bank </li>
-<li>VBK_REG = <a class="el" href="gb_2hardware_8h.html#VBK_BANK_1">VBK_BANK_1</a> indicates the second </li>
+<li>VBK_REG = <a class="el" href="nes_2hardware_8h.html#VBK_BANK_0">VBK_BANK_0</a> indicates the first bank </li>
+<li>VBK_REG = <a class="el" href="nes_2hardware_8h.html#VBK_BANK_1">VBK_BANK_1</a> indicates the second </li>
 </ul>
 
 </div>
@@ -4425,8 +5117,8 @@ On the current NES implementation, this handler is actually faked, and called be
 <div class="line"><a class="code hl_function" href="gb_8h.html#set_sprite_prop">set_sprite_prop</a>(0, <a class="code hl_define" href="gb_8h.html#S_FLIPY">S_FLIPY</a> | <a class="code hl_define" href="gb_8h.html#S_FLIPX">S_FLIPX</a>);</div>
 <div class="ttc" id="agb_8h_html_S_FLIPX"><div class="ttname"><a href="gb_8h.html#S_FLIPX">S_FLIPX</a></div><div class="ttdeci">#define S_FLIPX</div><div class="ttdef"><b>Definition:</b> gb.h:92</div></div>
 <div class="ttc" id="agb_8h_html_S_FLIPY"><div class="ttname"><a href="gb_8h.html#S_FLIPY">S_FLIPY</a></div><div class="ttdeci">#define S_FLIPY</div><div class="ttdef"><b>Definition:</b> gb.h:96</div></div>
-<div class="ttc" id="agb_8h_html_set_sprite_prop"><div class="ttname"><a href="gb_8h.html#set_sprite_prop">set_sprite_prop</a></div><div class="ttdeci">void set_sprite_prop(uint8_t nb, uint8_t prop)</div><div class="ttdef"><b>Definition:</b> gb.h:1945</div></div>
-<div class="ttc" id="amsx_8h_html_set_sprite_palette"><div class="ttname"><a href="msx_8h.html#set_sprite_palette">set_sprite_palette</a></div><div class="ttdeci">#define set_sprite_palette(first_palette, nb_palettes, rgb_data)</div><div class="ttdef"><b>Definition:</b> msx.h:558</div></div>
+<div class="ttc" id="agb_8h_html_set_sprite_prop"><div class="ttname"><a href="gb_8h.html#set_sprite_prop">set_sprite_prop</a></div><div class="ttdeci">void set_sprite_prop(uint8_t nb, uint8_t prop)</div><div class="ttdef"><b>Definition:</b> gb.h:2017</div></div>
+<div class="ttc" id="amsx_8h_html_set_sprite_palette"><div class="ttname"><a href="msx_8h.html#set_sprite_palette">set_sprite_palette</a></div><div class="ttdeci">#define set_sprite_palette(first_palette, nb_palettes, rgb_data)</div><div class="ttdef"><b>Definition:</b> msx.h:566</div></div>
 </div><!-- fragment --><dl class="section see"><dt>See also</dt><dd><a class="el" href="sms_8h.html#S_PALETTE">S_PALETTE</a>, <a class="el" href="sms_8h.html#S_FLIPX">S_FLIPX</a>, <a class="el" href="sms_8h.html#S_FLIPY">S_FLIPY</a>, <a class="el" href="sms_8h.html#S_PRIORITY">S_PRIORITY</a></dd></dl>
 <p>Sets the OAM Property Flags of sprite number <b>nb</b> to those defined in <b>prop</b>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -4715,7 +5407,7 @@ On the current NES implementation, this handler is actually faked, and called be
 </div><div class="memdoc">
 <p >Copies arbitrary data to an address in VRAM without taking into account the state of LCDC bits 3 or 4.</p>
 <p >Copies <b>len</b> bytes from a buffer at <b>data</b> to VRAM starting at <b>vram_addr</b>.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#set_bkg_data">set_bkg_data</a>, <a class="el" href="gb_8h.html#set_win_data">set_win_data</a>, <a class="el" href="nes_8h.html#set_bkg_tiles">set_bkg_tiles</a>, <a class="el" href="gb_8h.html#set_win_tiles">set_win_tiles</a>, <a class="el" href="nes_8h.html#set_tile_data">set_tile_data</a>, <a class="el" href="nes_8h.html#set_tiles">set_tiles</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="nes_8h.html#set_bkg_data">set_bkg_data</a>, <a class="el" href="nes_8h.html#set_win_data">set_win_data</a>, <a class="el" href="nes_8h.html#set_bkg_tiles">set_bkg_tiles</a>, <a class="el" href="nes_8h.html#set_win_tiles">set_win_tiles</a>, <a class="el" href="nes_8h.html#set_tile_data">set_tile_data</a>, <a class="el" href="nes_8h.html#set_tiles">set_tiles</a> </dd></dl>
 
 </div>
 </div>
@@ -4892,8 +5584,8 @@ On the current NES implementation, this handler is actually faked, and called be
 </dl>
 <p>Writes <b>nb_tiles</b> tiles to VRAM starting at <b>first_tile</b>, tile data is sourced from <b>data</b>.</p>
 <p >GBC only: <a class="el" href="gb_2hardware_8h.html#VBK_REG">VBK_REG</a> determines which bank of tile patterns are written to. </p><ul>
-<li>VBK_REG = <a class="el" href="gb_2hardware_8h.html#VBK_BANK_0">VBK_BANK_0</a> indicates the first bank </li>
-<li>VBK_REG = <a class="el" href="gb_2hardware_8h.html#VBK_BANK_1">VBK_BANK_1</a> indicates the second</li>
+<li>VBK_REG = <a class="el" href="nes_2hardware_8h.html#VBK_BANK_0">VBK_BANK_0</a> indicates the first bank </li>
+<li>VBK_REG = <a class="el" href="nes_2hardware_8h.html#VBK_BANK_1">VBK_BANK_1</a> indicates the second</li>
 </ul>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#set_win_data">set_win_data</a>, <a class="el" href="gb_8h.html#set_tile_data">set_tile_data</a> </dd></dl>
 
@@ -4959,8 +5651,8 @@ On the current NES implementation, this handler is actually faked, and called be
 </dl>
 <p>Writes <b>nb_tiles</b> tiles to VRAM starting at <b>first_tile</b>, tile data is sourced from <b>data</b>.</p>
 <p >GBC only: <a class="el" href="gb_2hardware_8h.html#VBK_REG">VBK_REG</a> determines which bank of tile patterns are written to. </p><ul>
-<li>VBK_REG = <a class="el" href="gb_2hardware_8h.html#VBK_BANK_0">VBK_BANK_0</a> indicates the first bank </li>
-<li>VBK_REG = <a class="el" href="gb_2hardware_8h.html#VBK_BANK_1">VBK_BANK_1</a> indicates the second </li>
+<li>VBK_REG = <a class="el" href="nes_2hardware_8h.html#VBK_BANK_0">VBK_BANK_0</a> indicates the first bank </li>
+<li>VBK_REG = <a class="el" href="nes_2hardware_8h.html#VBK_BANK_1">VBK_BANK_1</a> indicates the second </li>
 </ul>
 
 </div>
@@ -5161,6 +5853,71 @@ On the current NES implementation, this handler is actually faked, and called be
 
 </div>
 </div>
+<a id="fill_bkg_rect_attributes" name="fill_bkg_rect_attributes"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#fill_bkg_rect_attributes">&#9670;&nbsp;</a></span>fill_bkg_rect_attributes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void fill_bkg_rect_attributes </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>w</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>h</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>attribute</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >Fills a rectangular region of Tile Map Attribute entries for the Background layer with attribute.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>X Start position in Background Map tile coordinates. Range 0 - 31 </td></tr>
+    <tr><td class="paramname">y</td><td>Y Start position in Background Map tile coordinates. Range 0 - 31 </td></tr>
+    <tr><td class="paramname">w</td><td>Width of area to set in tiles. Range 1 - 32 </td></tr>
+    <tr><td class="paramname">h</td><td>Height of area to set in tiles. Range 1 - 32 </td></tr>
+    <tr><td class="paramname">attribute</td><td>Fill value </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="flush_shadow_attributes" name="flush_shadow_attributes"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#flush_shadow_attributes">&#9670;&nbsp;</a></span>flush_shadow_attributes()</h2>
 
@@ -5178,6 +5935,32 @@ On the current NES implementation, this handler is actually faked, and called be
 </div><div class="memdoc">
 <p >"Flushes" the updates to the shadow attributes so they are written to the transfer buffer, and then written to PPU memory on next vblank.</p>
 <p >This function must be called to see visible changes to attributes on the NES target. But it will automatically be called by <a class="el" href="gb_8h.html#vsync">vsync()</a>, so the use-cases for calling it manually are rare in practice. </p>
+
+</div>
+</div>
+<a id="bkg_attributes_enabled" name="bkg_attributes_enabled"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#bkg_attributes_enabled">&#9670;&nbsp;</a></span>bkg_attributes_enabled()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="stdint_8h.html#uint8_t">uint8_t</a> bkg_attributes_enabled </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>

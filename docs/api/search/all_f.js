@@ -1,10 +1,10 @@
 var searchData=
 [
   ['l_0',['l',['../union__fixed.html#l',1,'_fixed::l()'],['../gb_8h.html#l',1,'l():&#160;gb.h'],['../msx_8h.html#l',1,'l():&#160;msx.h'],['../sms_8h.html#l',1,'l():&#160;sms.h']]],
-  ['labs_1',['labs',['../stdlib_8h.html#labs',1,'stdlib.h']]],
+  ['labs_1',['labs',['../asm_2mos6502_2stdlib_8h.html#labs',1,'labs(long num):&#160;stdlib.h'],['../asm_2sm83_2stdlib_8h.html#labs',1,'labs(long num) OLDCALL:&#160;stdlib.h'],['../asm_2z80_2stdlib_8h.html#labs',1,'labs(long num) OLDCALL:&#160;stdlib.h']]],
   ['laptop_5fio_2eh_2',['laptop_io.h',['../laptop__io_8h.html',1,'']]],
   ['laptop_5fkeycodes_2eh_3',['laptop_keycodes.h',['../laptop__keycodes_8h.html',1,'']]],
-  ['lcd_5fiflag_4',['LCD_IFLAG',['../gb_8h.html#LCD_IFLAG',1,'LCD_IFLAG():&#160;gb.h'],['../msx_8h.html#LCD_IFLAG',1,'LCD_IFLAG():&#160;msx.h'],['../nes_8h.html#LCD_IFLAG',1,'LCD_IFLAG():&#160;nes.h'],['../sms_8h.html#LCD_IFLAG',1,'LCD_IFLAG():&#160;sms.h']]],
+  ['lcd_5fiflag_4',['LCD_IFLAG',['../sms_8h.html#LCD_IFLAG',1,'LCD_IFLAG():&#160;sms.h'],['../nes_8h.html#LCD_IFLAG',1,'LCD_IFLAG():&#160;nes.h'],['../msx_8h.html#LCD_IFLAG',1,'LCD_IFLAG():&#160;msx.h'],['../gb_8h.html#LCD_IFLAG',1,'LCD_IFLAG():&#160;gb.h']]],
   ['lcdc_5freg_5',['LCDC_REG',['../gb_2hardware_8h.html#LCDC_REG',1,'hardware.h']]],
   ['lcdcf_5fb_5fbg8000_6',['LCDCF_B_BG8000',['../gb_2hardware_8h.html#LCDCF_B_BG8000',1,'hardware.h']]],
   ['lcdcf_5fb_5fbg9c00_7',['LCDCF_B_BG9C00',['../gb_2hardware_8h.html#LCDCF_B_BG9C00',1,'hardware.h']]],
@@ -38,7 +38,7 @@ var searchData=
   ['long_5fmin_35',['LONG_MIN',['../limits_8h.html#LONG_MIN',1,'limits.h']]],
   ['longjmp_36',['longjmp',['../setjmp_8h.html#longjmp',1,'setjmp.h']]],
   ['ltgrey_37',['LTGREY',['../drawing_8h.html#LTGREY',1,'drawing.h']]],
-  ['ltoa_38',['ltoa',['../stdlib_8h.html#ltoa',1,'stdlib.h']]],
+  ['ltoa_38',['ltoa',['../asm_2mos6502_2stdlib_8h.html#ltoa',1,'ltoa(long n, char *s, unsigned char radix):&#160;stdlib.h'],['../asm_2sm83_2stdlib_8h.html#ltoa',1,'ltoa(long n, char *s, unsigned char radix) OLDCALL:&#160;stdlib.h'],['../asm_2z80_2stdlib_8h.html#ltoa',1,'ltoa(long n, char *s, unsigned char radix) OLDCALL:&#160;stdlib.h']]],
   ['lword_39',['LWORD',['../asm_2types_8h.html#LWORD',1,'types.h']]],
   ['ly_5freg_40',['LY_REG',['../nes_2hardware_8h.html#LY_REG',1,'LY_REG():&#160;hardware.h'],['../gb_2hardware_8h.html#LY_REG',1,'LY_REG():&#160;hardware.h']]],
   ['lyc_5freg_41',['LYC_REG',['../nes_2hardware_8h.html#LYC_REG',1,'LYC_REG():&#160;hardware.h'],['../gb_2hardware_8h.html#LYC_REG',1,'LYC_REG():&#160;hardware.h']]]

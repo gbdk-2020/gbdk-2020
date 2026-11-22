@@ -30,7 +30,7 @@ _joypad_init_loop:
 
 _joypad_ex::
 .joypad_ex::
-    .define .joypads_ptr    "___SDCC_m6502_ret0"
+    .define .joypads_ptr    ".tmp+2"
     .define .joypads_endof  ".tmp"
     sta *.joypads_ptr
     stx *.joypads_ptr+1

@@ -36,6 +36,7 @@
 	.globl __divsint_PARM_2
 	.globl __moduint_PARM_2
 	.globl __modsint_PARM_2
+	.globl _div_PARM_2
 	.globl __divuint
 	.globl ___udivmod16
 
@@ -47,6 +48,7 @@ __divuint_PARM_2:
 __divsint_PARM_2:
 __moduint_PARM_2:
 __modsint_PARM_2:
+_div_PARM_2:
 	.ds 2
 
 ;--------------------------------------------------------

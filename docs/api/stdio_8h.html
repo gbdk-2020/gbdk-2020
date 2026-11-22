@@ -41,7 +41,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.5.0</span>
+   &#160;<span id="projectnumber">4.6.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -110,7 +110,7 @@ $(document).ready(function(){initNavTree('stdio_8h.html',''); initResizable(); }
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:putchar"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stdio_8h.html#putchar">putchar</a> (char <a class="el" href="sms_8h.html#c">c</a>) <a class="el" href="asm_2types_8h.html#OLDCALL">OLDCALL</a> REENTRANT</td></tr>
+<tr class="memitem:putchar"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stdio_8h.html#putchar">putchar</a> (char <a class="el" href="sms_8h.html#c">c</a>) REENTRANT</td></tr>
 <tr class="separator:putchar"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:printf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stdio_8h.html#printf">printf</a> (const char *format,...)</td></tr>
 <tr class="separator:printf"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -194,7 +194,8 @@ Functions</h2></td></tr>
 <li>%x (unsigned int as hex) </li>
 <li>%s (string)</li>
 </ul>
-<p>Warning: to correctly pass parameters (such as chars, ints, etc) <b>all of them should always be explicitly cast</b> as when calling the function. See <a class="el" href="docs_coding_guidelines.html#docs_chars_varargs">docs_chars_varargs</a> for more details. </p>
+<p>Note: As of GBDK 4.6.0 (which uses SDCC ~4.6.0) SDCC no longer supports overriding integer promotion of arguments in va_args (variadic) with explicit casts for the sm83 and z80 ports. 8 bit arguments will now be automatically promoted and <a class="el" href="stdio_8h.html#printf">printf()</a> will handle it. This applies to: Game Boy, Mega Duck, Analogue Pocket, SMS, Game Gear</p>
+<p >See <a class="el" href="docs_coding_guidelines.html#docs_chars_varargs">docs_chars_varargs</a> for more details. </p>
 
 </div>
 </div>
@@ -238,7 +239,8 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <p>Does not return the number of characters printed.</p>
-<p >Warning: to correctly pass parameters (such as chars, ints, etc) <b>all of them should always be explicitly cast</b> as when calling the function. See <a class="el" href="docs_coding_guidelines.html#docs_chars_varargs">docs_chars_varargs</a> for more details. </p>
+<p >Note: As of GBDK 4.6.0 (which uses SDCC ~4.6.0) SDCC no longer supports overriding integer promotion of arguments in va_args (variadic) with explicit casts for the sm83 and z80 ports. 8 bit arguments will now be automatically promoted and <a class="el" href="stdio_8h.html#printf">printf()</a> will handle it. This applies to: Game Boy, Mega Duck, Analogue Pocket, SMS, Game Gear</p>
+<p >See <a class="el" href="docs_coding_guidelines.html#docs_chars_varargs">docs_chars_varargs</a> for more details. </p>
 
 </div>
 </div>

@@ -18,7 +18,7 @@ var dir_a9f896cff747ba031115e41245385c17 =
     [ "stddef.h", "stddef_8h.html", "stddef_8h" ],
     [ "stdint.h", "stdint_8h.html", "stdint_8h" ],
     [ "stdio.h", "stdio_8h.html", "stdio_8h" ],
-    [ "stdlib.h", "stdlib_8h.html", "stdlib_8h" ],
+    [ "stdlib.h", "stdlib_8h.html", null ],
     [ "stdnoreturn.h", "stdnoreturn_8h.html", "stdnoreturn_8h" ],
     [ "string.h", "string_8h.html", null ],
     [ "time.h", "time_8h.html", "time_8h" ],

@@ -31,12 +31,7 @@
 
 _setchar::
 _putchar::
-        pop hl
-        pop de
-        push de
-        push hl
-
-	ld a, e
+        ld e, a
         cp #.CR
         jr nz, 0$
 

@@ -34,6 +34,7 @@ ASSRC =	set_interrupts.s \
 	zx0_decompress.s \
 	heap.s \
 	___sdcc_bcall.s ___sdcc_bcall_abc.s ___sdcc_bcall_ehl.s \
+	serial.s \
 	crt0.s
 
 CRT0 =	crt0.s

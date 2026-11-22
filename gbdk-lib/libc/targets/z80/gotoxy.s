@@ -8,27 +8,19 @@
         .area   _HOME
 
 _gotoxy::
-        pop hl
-        pop de
-        push de
-        push hl
-
-        ld a, #.SCREEN_X_OFS
-        add e
+        add #.SCREEN_X_OFS
         ld (.curx), a
         ld a, #.SCREEN_Y_OFS
-        add d
+        add l
         ld (.cury), a
         ret
 
 _posx::
         ld a, (.curx)
         sub #.SCREEN_X_OFS
-        ld l, a
         ret
 
 _posy::
         ld a, (.cury)
         sub #.SCREEN_Y_OFS
-        ld l, a
         ret

@@ -138,14 +138,14 @@ void showHelp(void) {
         printf("-repair_indexed_pal try to repair indexed tile palettes (implies \"-keep_palette_order\")\n");
         printf("-noflip             disable tile flip\n");
         printf("-map                Export as map (tileset + bg) instead of default metasprite output\n");
-        printf("-use_map_attributes Use CGB BG Map attributes\n");
+        printf("-use_map_attributes Use GBC/SMS/GG BG Map attributes\n");
         printf("-use_nes_attributes Use NES BG Map attributes\n");
         printf("-use_nes_colors     Convert RGB color values to NES PPU colors\n");
         printf("-use_structs        Group the exported info into structs (default: false) (used by ZGB Game Engine)\n");
         printf("-bpp                bits per pixel: 1, 2, 4 (default: 2. using 1 auto-enables \"-pack_mode 1bpp\")\n");
         printf("-max_palettes       max number of palettes allowed (default: 8)\n");
         printf("                    (note: max colors = max_palettes x num colors per palette)\n");
-        printf("-pack_mode          gb, nes, sgb, sms, 1bpp (default: gb. using 1bpp auto-enables \"-bpp 1\")\n");
+        printf("-pack_mode          gb, nes, sgb, sms, gg, 1bpp (default: gb. using 1bpp auto-enables \"-bpp 1\")\n");
         printf("-tile_origin        tile index offset for maps (default: 0)\n");
 
         printf("-tiles_only         export tile data only\n");
@@ -304,6 +304,11 @@ static int processArguments(int startIndex, int argc, const char* argv[], PNG2As
                 // SMS attributes are packed in map data, so 2 bytes per map tile
                 args->map_entry_size_bytes = 2;
             }
+            else if(pack_mode_str == "gg") {
+                args->pack_mode = Tile::GG;
+                // GG attributes are packed in map data, so 2 bytes per map tile
+                args->map_entry_size_bytes = 2;
+            }
             else if(pack_mode_str == "1bpp") {
                 args->pack_mode = Tile::BPP1;
                 // If set to "-pack_mode 1bpp" auto-enable "-bpp 1"
@@ -311,7 +316,7 @@ static int processArguments(int startIndex, int argc, const char* argv[], PNG2As
             }
             else
             {
-                printf("-pack_mode must be one of gb, nes, sgb, sms, 1bpp\n");
+                printf("-pack_mode must be one of gb, nes, sgb, sms, gg, 1bpp\n");
                 return EXIT_FAILURE;
             }
         }

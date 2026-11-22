@@ -60,33 +60,34 @@ _memset_PARM_3:
 	.area _CODE
 
 _memset:
-	sta	*save+0
-	stx	*save+1
 	sta	*dst+0
 	stx	*dst+1
+	stx	*save
 
 	ldy	#0
 	lda	*val
 	ldx	*count+1
-	beq	00002$
-00001$:
+	beq	last_bytes
+
+page_loop:
 	sta	[dst],y
 	iny
-	sta	[dst],y
-	iny
-	bne	00001$
+;	sta	[dst],y
+;	iny
+	bne	page_loop
 	inc	*dst+1
 	dex
-	bne	00001$
-00002$:
+	bne	page_loop
+
+last_bytes:
 	ldx	*count+0
-	beq	00004$
-00003$:
+	beq	end
+byte_loop:
 	sta	[dst],y
 	iny
 	dex
-	bne	00003$
-00004$:
-	lda	*save+0
-	ldx	*save+1
+	bne	byte_loop
+end:
+	lda	*dst+0
+	ldx	*save
 	rts

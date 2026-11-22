@@ -1,8 +1,7 @@
 ;-------------------------------------------------------------------------
 ;   _mullong.s - routine for multiplication of 32 bit (unsigned) long
 ;
-;   Copyright (C) 1998, Ullrich von Bassewitz
-;   Copyright (C) 2022, Gabriele Gorla
+;   Copyright (C) 2025, Gabriele Gorla
 ;
 ;   This library is free software; you can redistribute it and/or modify it
 ;   under the terms of the GNU General Public License as published by the
@@ -48,9 +47,8 @@ __mullong_PARM_2:
 ;--------------------------------------------------------
 ; local aliases
 ;--------------------------------------------------------
-	.define tmp  "___SDCC_m6502_ret4"
-	.define res0 "__mullong_PARM_1+0"
-	.define res1 "__mullong_PARM_1+1"
+	.define res0 "___SDCC_m6502_ret0"
+	.define res1 "___SDCC_m6502_ret1"
 	.define res2 "___SDCC_m6502_ret2"
 	.define res3 "___SDCC_m6502_ret3"
 
@@ -60,48 +58,90 @@ __mullong_PARM_2:
 	.area _CODE
 
 __mullong:
+	ldx     #0
+	stx     *res0
+	stx     *res1
+	stx     *res2
+;	stx	*res3
 
-        ldx	*__mullong_PARM_1+3
-        stx	*res3
-        ldx	*__mullong_PARM_1+2
-        stx	*res2
-;        ldx	*__mullong_PARM_1+1
-;        stx	*res1
-;        ldx	*__mullong_PARM_1+0
-;        stx	*res0
+	ldy     #8
+loop0:
+	lsr	*__mullong_PARM_1+0
+	bcc	skip0
+	clc
+	lda	*res0
+	adc	*__mullong_PARM_2+0
+	sta	*res0
+	lda	*res1
+	adc	*__mullong_PARM_2+1
+	sta	*res1
+	lda	*res2
+	adc	*__mullong_PARM_2+2
+	sta	*res2
+;	lda	*res3
+	txa
+	adc	*__mullong_PARM_2+3
+	tax
+;	sta	*res3
+skip0:
+	asl	*__mullong_PARM_2+0
+	rol	*__mullong_PARM_2+1
+	rol	*__mullong_PARM_2+2
+	rol	*__mullong_PARM_2+3
+	dey
+	bne	loop0
 
-        lda     #0
-        sta     *tmp+2
-        sta     *tmp+1
-        sta     *tmp+0
+        ldy     #8
+loop1:
+	lsr 	*__mullong_PARM_1+1
+	bcc 	skip1
+	clc
+	lda 	*res1
+	adc	*__mullong_PARM_2+1
+	sta 	*res1
+	lda 	*res2
+	adc 	*__mullong_PARM_2+2
+	sta 	*res2
+;	lda 	*res3
+	txa
+	adc	*__mullong_PARM_2+3
+;	sta 	*res3
+	tax
+skip1:
+	asl	*__mullong_PARM_2+1
+	rol	*__mullong_PARM_2+2
+	rol	*__mullong_PARM_2+3
+	dey
+	bne	loop1
+    
+	ldy	#8
+loop2:
+	lsr	*__mullong_PARM_1+2
+	bcc	skip2
+	clc
+	lda	*res2
+	adc	*__mullong_PARM_2+2
+	sta	*res2
+	txa
+	adc	*__mullong_PARM_2+3
+	tax
+skip2:
+	asl	*__mullong_PARM_2+2
+	rol	*__mullong_PARM_2+3
+	dey
+	bne loop2
 
-        ldy     #32
-next_bit:
-	lsr     *tmp+2
-        ror     *tmp+1
-        ror     *tmp+0
-        ror     a
-        ror     *res3
-        ror     *res2
-        ror     *res1
-        ror     *res0
-        bcc     skip
-        clc
-        adc     *__mullong_PARM_2+0
-        tax
-        lda     *__mullong_PARM_2+1
-        adc     *tmp+0
-        sta     *tmp+0
-        lda     *__mullong_PARM_2+2
-        adc     *tmp+1
-        sta     *tmp+1
-        lda     *__mullong_PARM_2+3
-        adc     *tmp+2
-        sta     *tmp+2
-        txa
-skip:
-        dey
-        bpl	next_bit
-        ldx	*res1
-        lda	*res0
+	txa
+loop3:
+	lsr 	*__mullong_PARM_1+3
+	bcc 	skip3
+	clc
+	adc 	*__mullong_PARM_2+3
+skip3:
+	asl 	*__mullong_PARM_2+3
+	bne 	loop3
+
+	sta 	*res3
+  	ldx	*res1
+  	lda	*res0
 	rts

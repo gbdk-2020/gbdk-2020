@@ -331,6 +331,14 @@ void refresh_OAM(void);
  */
 #define DEVICE_SUPPORTS_COLOR (TRUE)
 
+/** Macro returns TRUE if device supports window layer
+ */
+#define DEVICE_SUPPORTS_WINDOW (FALSE)
+
+/** Macro returns TRUE if device supports reading from VRAM
+ */
+#define DEVICE_SUPPORTS_VRAM_READ (FALSE)
+
 /** Global Time Counter in VBL periods (60Hz)
 
     Increments once per Frame
@@ -347,6 +355,44 @@ extern volatile uint16_t sys_time;
 extern volatile uint8_t _vbl_done;
 #define VBL_DONE _vbl_done
 
+/** Serial Link: Send the byte in @ref _io_out out through the serial port
+
+    Make sure to enable interrupts for the
+    Serial Link before trying to transfer data.
+    @see add_SIO(), remove_SIO()
+    @see set_interrupts() with @ref SIO_IFLAG
+*/
+void send_byte(void);
+
+/** Serial Link: Receive a byte from the serial port into @ref _io_in
+
+    Make sure to enable interrupts for the
+    Serial Link before trying to transfer data.
+    @see add_SIO(), remove_SIO()
+    @see set_interrupts() with @ref SIO_IFLAG
+*/
+void receive_byte(void);
+
+/** Serial Link: Current IO Status. An OR of IO_* */
+extern volatile uint8_t _io_status;
+
+/** Serial Link: Byte just read after calling @ref receive_byte()
+*/
+extern volatile uint8_t _io_in;
+
+/** Serial Link: Write byte to send here before calling @ref send_byte()
+*/
+extern volatile uint8_t _io_out;
+
+/* Status codes */
+/** Serial Link IO is completed */
+#define IO_IDLE 0x00U
+/** Serial Link Sending data */
+#define IO_SENDING 0x01U
+/** Serial Link Receiving data */
+#define IO_RECEIVING 0x02U
+/** Serial Link Error */
+#define IO_ERROR 0x04U
 
 /** Return R register for the DIV_REG emulation
 
@@ -372,7 +418,7 @@ uint8_t get_r_reg(void) PRESERVES_REGS(b, c, d, e, h, l, iyh, iyl);
     @see BANKREF_EXTERN(), BANKREF()
 */
 #ifndef BANK
-#define BANK(VARNAME) ( (uint8_t) & __bank_ ## VARNAME )
+#define BANK(VARNAME) ( (uint16_t) & __bank_ ## VARNAME )
 #endif
 
 /** Creates a reference for retrieving the bank number of a variable or function
@@ -721,10 +767,22 @@ inline void set_bkg_submap_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h
     VBK_REG = VBK_TILES;
 }
 
+inline void set_win_submap_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *map, uint8_t map_w) {
+    VBK_REG = VBK_ATTRIBUTES;
+    set_tile_submap_compat(x, y, w, h, map, map_w);
+    VBK_REG = VBK_TILES;
+}
+
 void fill_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint16_t tile) Z88DK_CALLEE;
 void fill_rect_compat(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint16_t tile) Z88DK_CALLEE;
 #define fill_bkg_rect fill_rect_compat
 #define fill_win_rect fill_rect_compat
+
+inline void fill_bkg_rect_attributes(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint16_t attribute) {
+    VBK_REG = VBK_ATTRIBUTES;
+    fill_bkg_rect(x, y, w, h, attribute);
+    VBK_REG = VBK_TILES;
+}
 
 /** Shadow OAM array in WRAM, that is transferred into the real OAM each VBlank
 */
@@ -775,14 +833,6 @@ extern volatile uint8_t _sprites_OFF;
 /** Amount of hardware sprites in OAM
 */
 #define MAX_HARDWARE_SPRITES 64
-
-/** True if sprite hardware can flip sprites by X (horizontally)
-*/
-#define HARDWARE_SPRITE_CAN_FLIP_X 0
-
-/** True if sprite hardware can flip sprites by Y (vertically)
-*/
-#define HARDWARE_SPRITE_CAN_FLIP_Y 0
 
 /** Sets address of 256-byte aligned array of shadow OAM to be transferred on each VBlank
 */
@@ -848,7 +898,7 @@ inline uint8_t get_sprite_prop(uint8_t nb) {
     Moving the sprite to 0,0 (or similar off-screen location) will hide it.
 */
 inline void move_sprite(uint8_t nb, uint8_t x, uint8_t y) {
-    shadow_OAM[nb] = (y < VDP_SAT_TERM) ? y : 0xC0;
+    shadow_OAM[nb] = (y != VDP_SAT_TERM) ? y : 0xC0;
     shadow_OAM[0x40+(nb << 1)] = x;
 }
 
@@ -865,7 +915,7 @@ inline void move_sprite(uint8_t nb, uint8_t x, uint8_t y) {
  */
 inline void scroll_sprite(uint8_t nb, int8_t x, int8_t y) {
     uint8_t new_y = shadow_OAM[nb] + y;
-    shadow_OAM[nb] = (new_y < VDP_SAT_TERM) ? new_y : 0xC0;
+    shadow_OAM[nb] = (new_y != VDP_SAT_TERM) ? new_y : 0xC0;
     shadow_OAM[0x40+(nb << 1)] += x;
 }
 
@@ -907,20 +957,22 @@ uint8_t * set_tile_xy(uint8_t x, uint8_t y, uint8_t t) Z88DK_CALLEE PRESERVES_RE
 #define set_win_tile_xy set_tile_xy
 
 /**
- * Set single attribute data a on background layer at x,y
+ * Set single tile attribute a on background layer at x,y
  * @param x X-coordinate
  * @param y Y-coordinate
  * @param a tile attributes
  * @return returns the address of tile attribute, so you may use faster set_vram_byte() later
  */
-inline uint8_t * set_attribute_xy(uint8_t x, uint8_t y, uint8_t a) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
+uint8_t * set_attribute_xy(uint8_t x, uint8_t y, uint8_t a) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
 #define set_bkg_attribute_xy set_attribute_xy
 #define set_win_attribute_xy set_attribute_xy
 
 /**
  * Get address of X,Y tile of background map
  */
-uint8_t * get_bkg_xy_addr(uint8_t x, uint8_t y) Z88DK_CALLEE PRESERVES_REGS(iyh, iyl);
+uint8_t * get_bkg_xy_addr(uint8_t x, uint8_t y) PRESERVES_REGS(iyh, iyl);
 #define get_win_xy_addr get_bkg_xy_addr
+
+inline uint8_t bkg_attributes_enabled(void) { return TRUE; }
 
 #endif /* _SMS_H */

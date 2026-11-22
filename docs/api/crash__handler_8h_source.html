@@ -41,7 +41,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.5.0</span>
+   &#160;<span id="projectnumber">4.6.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -106,10 +106,14 @@ $(document).ready(function(){initNavTree('crash__handler_8h_source.html',''); in
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#ifndef __CRASH_HANDLER_INCLUDE</span></div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#define __CRASH_HANDLER_INCLUDE</span></div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="crash__handler_8h.html#__HandleCrash">   22</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="crash__handler_8h.html#__HandleCrash">__HandleCrash</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="keyword">static</span> <span class="keywordtype">void</span> * __CRASH_HANDLER_INIT = &amp;<a class="code hl_function" href="crash__handler_8h.html#__HandleCrash">__HandleCrash</a>;</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &lt;types.h&gt;</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="crash__handler_8h.html#__HandleCrash">   24</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="crash__handler_8h.html#__HandleCrash">__HandleCrash</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#if defined(__SDCC)</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="keyword">static</span> <span class="keywordtype">void</span> __CRASH_HANDLER_INIT__(<span class="keywordtype">void</span>) __naked { __asm__(<span class="stringliteral">&quot;.globl ___HandleCrash&quot;</span>); }</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="acrash__handler_8h_html___HandleCrash"><div class="ttname"><a href="crash__handler_8h.html#__HandleCrash">__HandleCrash</a></div><div class="ttdeci">void __HandleCrash(void)</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

@@ -46,12 +46,32 @@ GBDK is freeware. Most of the tooling code is under the GPL. The runtime librari
 
 # Historical Info and Links
 
-Work on the original GBDK (pre-2020) was by:
+## History
+Some notable events and releases in GBDK's history.
+
+Classic GBDK
+- 1996-06: `GBDK 1.0`: Pascal Felber releases the first GBDK version
+- 1999-06: `GBDK 2.1`: Pascal Felber's last personal release
+- 2000-02: `GBDK 2.9.0`: Michael Hope switches GBDK to the SDCC compiler after adding Game Boy support to it
+- 2001-11: `GBDK 2.9.6`: The last release from this era
+
+GBDK-2020
+- 2020-04: `GBDK 3.0.1`: Zal0 revives GBDK and releases a new version. It updates SDCC to a modern build along with other improvements
+- 2020-05: Toxa joins as a project contributor
+- 2020-07: `GBDK 4.0.0`: Basxto contributes linker patches to SDCC adding Game Boy banking support. GBDK-2020 changes to use the SDCC linker
+- 2020-11: bbbbbr joins as a project contributor
+- 2021-09: `GBDK 4.0.5`: Toxa adds support for the Sega Master System, Game Gear and Analogue Pocket consoles
+- 2022-02: `GBDK 4.0.6`: Toxa adds support for the Mega Duck console
+- 2022-06: Michel joins as a project contributor
+- 2023-08: `GBDK 4.2.0`: Michel adds support for the NES console
+
+
+## Original GBDK (pre-2020) was by:
 
 Pascal Felber, Lars Malmborg, Michael Hope, David Galloway (djmips), John Fuge, and others.
 
 
-The following is from the original GBDK documentation:
+The following is from the classic GBDK documentation:
 
 Thanks to quang for many of the comments to the gb functions.  Some
 of the comments are ripped directly from the Linux Programmers
@@ -59,7 +79,7 @@ manual, and some directly from the pan/k00Pa document.
 
 <a href="http://quangdx.com/">quangDX.com</a>
 
-<a href="http://gbdk.sourceforge.net/">The (original) gbdk homepage</a>
+<a href="http://gbdk.sourceforge.net/">The (classic) gbdk homepage</a>
 
 <a href="http://www.devrs.com/gb/">Jeff Frohwein's GB development page.</a>
 A extensive source of Game Boy related information, including GeeBee's GB faq and the pan/k00Pa document.

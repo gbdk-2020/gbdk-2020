@@ -82,11 +82,11 @@ _joypad_ex::
 	ld	b, a
 1$:
 	ld	a, #(.P14 | .P15)
-	ldh	(#.P1), a
-	ldh	a, (#.P1)
-	ldh	a, (#.P1)
-	ldh	a, (#.P1)
-	ldh	a, (#.P1)
+	ldh	(rP1), a
+	ldh	a, (rP1)
+	ldh	a, (rP1)
+	ldh	a, (rP1)
+	ldh	a, (rP1)
 	and	#0x0f
 	sub	#0x0f
 	cpl
@@ -101,19 +101,19 @@ _joypad_ex::
 	ld	h, a
 
 	ld	a, #.P15
-	ldh	(#.P1), a
-	ldh	a, (#.P1)
-	ldh	a, (#.P1)
+	ldh	(rP1), a
+	ldh	a, (rP1)
+	ldh	a, (rP1)
 	and	#0x0f
 	ld	c, a
 	ld	a, #.P14
-	ldh	(#.P1), a
-	ldh	a, (#.P1)
-	ldh	a, (#.P1)
-	ldh	a, (#.P1)
-	ldh	a, (#.P1)
-	ldh	a, (#.P1)
-	ldh	a, (#.P1)
+	ldh	(rP1), a
+	ldh	a, (rP1)
+	ldh	a, (rP1)
+	ldh	a, (rP1)
+	ldh	a, (rP1)
+	ldh	a, (rP1)
+	ldh	a, (rP1)
 	and	#0x0f
 	swap	a
 	or	c

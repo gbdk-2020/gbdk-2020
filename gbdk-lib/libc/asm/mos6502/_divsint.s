@@ -51,33 +51,31 @@
 
 __divsint:
 	jsr	___sdivmod16
-	lda	*res+0
 	ldx	*res+1
-	pha
 	lda	*s1
 	eor	*s2
 	bpl	pos
-	pla
-	jmp 	___negax
+	lda	*res+0
+	jmp	___negax
 pos:
-	pla
+	lda	*res+0
 	rts
 
 ___sdivmod16:
 	stx	*s1
 	jsr	_abs
-	pha
-	lda     *__divsint_PARM_2+1
+	tay
+	lda	*__divsint_PARM_2+1
 	sta	*s2
 	bpl	skip
 	sec
 	lda	#0x00
 	sbc	*__divsint_PARM_2+0
-        sta     *__divsint_PARM_2+0
+        sta	*__divsint_PARM_2+0
 	lda	#0x00
 	sbc	*__divsint_PARM_2+1
-        sta     *__divsint_PARM_2+1
+        sta	*__divsint_PARM_2+1
 skip:
-	pla
-	jmp 	___udivmod16
+	tya
+	jmp	___udivmod16
 

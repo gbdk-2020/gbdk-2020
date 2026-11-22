@@ -34,7 +34,7 @@ void ExtractTileset(PNG2AssetData* assetData, vector< Tile > & tileset, bool kee
         {
             // Get a tile from the image
             Tile tile(assetData->image.tile_w * assetData->image.tile_h);
-            assetData->image.ExtractTile(x, y, tile, assetData->args->sprite_mode, assetData->args->export_as_map, assetData->args->use_map_attributes, assetData->args->bpp);
+            assetData->image.ExtractTile(x, y, tile, assetData->args->sprite_mode, assetData->args->export_as_map, assetData->args->use_map_attributes);
 
             if (keep_duplicate_tiles)
                 tileset.push_back(tile);
@@ -53,8 +53,8 @@ static void checkWarnMapTileLimits(PNG2AssetData* assetData) {
     unsigned int maxTilesWarnLimit = 256; // 256 is default for GB, NES
 
     // GB + Map Attributes implies GBC which has a secondary tile bank
-    if (((assetData->args->pack_mode == Tile::GB) && assetData->args->use_map_attributes) ||
-         (assetData->args->pack_mode == Tile::SMS)) {
+    if ( ((assetData->args->pack_mode == Tile::GB) && assetData->args->use_map_attributes)
+         || (assetData->args->pack_mode == Tile::SMS) || (assetData->args->pack_mode == Tile::GG) ) {
         maxTilesWarnLimit = 512;
     }
 
@@ -80,7 +80,7 @@ void GetMap(PNG2AssetData* assetData)
         {
             // Get a tile from the image
             Tile tile(assetData->image.tile_w * assetData->image.tile_h);
-            assetData->image.ExtractTile(x, y, tile, assetData->args->sprite_mode, assetData->args->export_as_map, assetData->args->use_map_attributes, assetData->args->bpp);
+            assetData->image.ExtractTile(x, y, tile, assetData->args->sprite_mode, assetData->args->export_as_map, assetData->args->use_map_attributes);
 
             size_t idx;
             unsigned char props;
@@ -122,14 +122,14 @@ void GetMap(PNG2AssetData* assetData)
 
             if(assetData->args->use_map_attributes)
             {
-                unsigned char pal_idx = assetData->image.data[y * assetData->image.w + x] >> assetData->args->bpp; //We can pick the palette from the first pixel of this tile
+                unsigned char pal_idx = tile.pal;
                 if(assetData->args->pack_mode == Tile::SGB)
                 {
                     props = props << 1; //Mirror flags in SGB are on bit 7
                     props |= (pal_idx + 4) << 2; //Pals are in bits 2,3,4 and need to go from 4 to 7
                     assetData->map.push_back(props); //Also they are stored within the map tiles
                 }
-                else if(assetData->args->pack_mode == Tile::SMS)
+                else if ((assetData->args->pack_mode == Tile::SMS) || (assetData->args->pack_mode == Tile::GG))
                 {
                         props = (props >> 4) | ((pal_idx & 1) << 3);
                         if(idx > 255)

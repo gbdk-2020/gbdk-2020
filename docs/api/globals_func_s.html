@@ -41,7 +41,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.5.0</span>
+   &#160;<span id="projectnumber">4.6.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -105,13 +105,13 @@ $(document).ready(function(){initNavTree('globals_func_s.html',''); initResizabl
 <li>scroll_bkg()&#160;:&#160;<a class="el" href="msx_8h.html#scroll_bkg">msx.h</a>, <a class="el" href="gb_8h.html#scroll_bkg">gb.h</a>, <a class="el" href="sms_8h.html#scroll_bkg">sms.h</a>, <a class="el" href="nes_8h.html#scroll_bkg">nes.h</a></li>
 <li>scroll_sprite()&#160;:&#160;<a class="el" href="gb_8h.html#scroll_sprite">gb.h</a>, <a class="el" href="msx_8h.html#scroll_sprite">msx.h</a>, <a class="el" href="nes_8h.html#scroll_sprite">nes.h</a>, <a class="el" href="sms_8h.html#scroll_sprite">sms.h</a></li>
 <li>scroll_win()&#160;:&#160;<a class="el" href="gb_8h.html#scroll_win">gb.h</a></li>
-<li>send_byte()&#160;:&#160;<a class="el" href="gb_8h.html#send_byte">gb.h</a></li>
-<li>set_1bpp_colors()&#160;:&#160;<a class="el" href="nes_8h.html#set_1bpp_colors">nes.h</a>, <a class="el" href="sms_8h.html#set_1bpp_colors">sms.h</a>, <a class="el" href="msx_8h.html#set_1bpp_colors">msx.h</a>, <a class="el" href="gb_8h.html#set_1bpp_colors">gb.h</a></li>
+<li>send_byte()&#160;:&#160;<a class="el" href="gb_8h.html#send_byte">gb.h</a>, <a class="el" href="sms_8h.html#send_byte">sms.h</a></li>
+<li>set_1bpp_colors()&#160;:&#160;<a class="el" href="sms_8h.html#set_1bpp_colors">sms.h</a>, <a class="el" href="nes_8h.html#set_1bpp_colors">nes.h</a>, <a class="el" href="msx_8h.html#set_1bpp_colors">msx.h</a>, <a class="el" href="gb_8h.html#set_1bpp_colors">gb.h</a></li>
 <li>set_1bpp_colors_ex()&#160;:&#160;<a class="el" href="gb_8h.html#set_1bpp_colors_ex">gb.h</a>, <a class="el" href="nes_8h.html#set_1bpp_colors_ex">nes.h</a></li>
 <li>set_2bpp_palette()&#160;:&#160;<a class="el" href="gb_8h.html#set_2bpp_palette">gb.h</a>, <a class="el" href="msx_8h.html#set_2bpp_palette">msx.h</a>, <a class="el" href="nes_8h.html#set_2bpp_palette">nes.h</a>, <a class="el" href="sms_8h.html#set_2bpp_palette">sms.h</a></li>
 <li>set_attribute_xy()&#160;:&#160;<a class="el" href="sms_8h.html#set_attribute_xy">sms.h</a></li>
 <li>set_attributed_tile_xy()&#160;:&#160;<a class="el" href="msx_8h.html#set_attributed_tile_xy">msx.h</a>, <a class="el" href="sms_8h.html#set_attributed_tile_xy">sms.h</a></li>
-<li>set_bkg_1bpp_data()&#160;:&#160;<a class="el" href="gb_8h.html#set_bkg_1bpp_data">gb.h</a>, <a class="el" href="msx_8h.html#set_bkg_1bpp_data">msx.h</a>, <a class="el" href="nes_8h.html#set_bkg_1bpp_data">nes.h</a>, <a class="el" href="sms_8h.html#set_bkg_1bpp_data">sms.h</a></li>
+<li>set_bkg_1bpp_data()&#160;:&#160;<a class="el" href="msx_8h.html#set_bkg_1bpp_data">msx.h</a>, <a class="el" href="sms_8h.html#set_bkg_1bpp_data">sms.h</a>, <a class="el" href="nes_8h.html#set_bkg_1bpp_data">nes.h</a>, <a class="el" href="gb_8h.html#set_bkg_1bpp_data">gb.h</a></li>
 <li>set_bkg_2bpp_data()&#160;:&#160;<a class="el" href="sms_8h.html#set_bkg_2bpp_data">sms.h</a></li>
 <li>set_bkg_4bpp_data()&#160;:&#160;<a class="el" href="msx_8h.html#set_bkg_4bpp_data">msx.h</a>, <a class="el" href="sms_8h.html#set_bkg_4bpp_data">sms.h</a></li>
 <li>set_bkg_attribute_xy()&#160;:&#160;<a class="el" href="gb_8h.html#set_bkg_attribute_xy">gb.h</a>, <a class="el" href="nes_8h.html#set_bkg_attribute_xy">nes.h</a></li>
@@ -119,55 +119,58 @@ $(document).ready(function(){initNavTree('globals_func_s.html',''); initResizabl
 <li>set_bkg_attributes()&#160;:&#160;<a class="el" href="gb_8h.html#set_bkg_attributes">gb.h</a>, <a class="el" href="nes_8h.html#set_bkg_attributes">nes.h</a>, <a class="el" href="sms_8h.html#set_bkg_attributes">sms.h</a></li>
 <li>set_bkg_attributes_nes16x16()&#160;:&#160;<a class="el" href="nes_8h.html#set_bkg_attributes_nes16x16">nes.h</a></li>
 <li>set_bkg_based_submap()&#160;:&#160;<a class="el" href="gb_8h.html#set_bkg_based_submap">gb.h</a>, <a class="el" href="msx_8h.html#set_bkg_based_submap">msx.h</a>, <a class="el" href="nes_8h.html#set_bkg_based_submap">nes.h</a>, <a class="el" href="sms_8h.html#set_bkg_based_submap">sms.h</a></li>
-<li>set_bkg_based_tiles()&#160;:&#160;<a class="el" href="sms_8h.html#set_bkg_based_tiles">sms.h</a>, <a class="el" href="nes_8h.html#set_bkg_based_tiles">nes.h</a>, <a class="el" href="msx_8h.html#set_bkg_based_tiles">msx.h</a>, <a class="el" href="gb_8h.html#set_bkg_based_tiles">gb.h</a></li>
-<li>set_bkg_data()&#160;:&#160;<a class="el" href="msx_8h.html#set_bkg_data">msx.h</a>, <a class="el" href="gb_8h.html#set_bkg_data">gb.h</a>, <a class="el" href="sms_8h.html#set_bkg_data">sms.h</a>, <a class="el" href="nes_8h.html#set_bkg_data">nes.h</a></li>
-<li>set_bkg_native_data()&#160;:&#160;<a class="el" href="gb_8h.html#set_bkg_native_data">gb.h</a>, <a class="el" href="nes_8h.html#set_bkg_native_data">nes.h</a>, <a class="el" href="sms_8h.html#set_bkg_native_data">sms.h</a></li>
+<li>set_bkg_based_tiles()&#160;:&#160;<a class="el" href="gb_8h.html#set_bkg_based_tiles">gb.h</a>, <a class="el" href="msx_8h.html#set_bkg_based_tiles">msx.h</a>, <a class="el" href="nes_8h.html#set_bkg_based_tiles">nes.h</a>, <a class="el" href="sms_8h.html#set_bkg_based_tiles">sms.h</a></li>
+<li>set_bkg_data()&#160;:&#160;<a class="el" href="sms_8h.html#set_bkg_data">sms.h</a>, <a class="el" href="gb_8h.html#set_bkg_data">gb.h</a>, <a class="el" href="msx_8h.html#set_bkg_data">msx.h</a>, <a class="el" href="nes_8h.html#set_bkg_data">nes.h</a></li>
+<li>set_bkg_native_data()&#160;:&#160;<a class="el" href="nes_8h.html#set_bkg_native_data">nes.h</a>, <a class="el" href="sms_8h.html#set_bkg_native_data">sms.h</a>, <a class="el" href="gb_8h.html#set_bkg_native_data">gb.h</a></li>
 <li>set_bkg_palette()&#160;:&#160;<a class="el" href="cgb_8h.html#set_bkg_palette">cgb.h</a>, <a class="el" href="nes_8h.html#set_bkg_palette">nes.h</a></li>
 <li>set_bkg_palette_entry()&#160;:&#160;<a class="el" href="cgb_8h.html#set_bkg_palette_entry">cgb.h</a>, <a class="el" href="nes_8h.html#set_bkg_palette_entry">nes.h</a></li>
-<li>set_bkg_submap()&#160;:&#160;<a class="el" href="msx_8h.html#set_bkg_submap">msx.h</a>, <a class="el" href="nes_8h.html#set_bkg_submap">nes.h</a>, <a class="el" href="gb_8h.html#set_bkg_submap">gb.h</a></li>
-<li>set_bkg_submap_attributes()&#160;:&#160;<a class="el" href="gb_8h.html#set_bkg_submap_attributes">gb.h</a>, <a class="el" href="nes_8h.html#set_bkg_submap_attributes">nes.h</a>, <a class="el" href="sms_8h.html#set_bkg_submap_attributes">sms.h</a></li>
+<li>set_bkg_submap()&#160;:&#160;<a class="el" href="gb_8h.html#set_bkg_submap">gb.h</a>, <a class="el" href="msx_8h.html#set_bkg_submap">msx.h</a>, <a class="el" href="nes_8h.html#set_bkg_submap">nes.h</a></li>
+<li>set_bkg_submap_attributes()&#160;:&#160;<a class="el" href="gb_8h.html#set_bkg_submap_attributes">gb.h</a>, <a class="el" href="sms_8h.html#set_bkg_submap_attributes">sms.h</a>, <a class="el" href="nes_8h.html#set_bkg_submap_attributes">nes.h</a></li>
 <li>set_bkg_submap_attributes_nes16x16()&#160;:&#160;<a class="el" href="nes_8h.html#set_bkg_submap_attributes_nes16x">nes.h</a></li>
 <li>set_bkg_tile_xy()&#160;:&#160;<a class="el" href="gb_8h.html#set_bkg_tile_xy">gb.h</a>, <a class="el" href="nes_8h.html#set_bkg_tile_xy">nes.h</a></li>
-<li>set_bkg_tiles()&#160;:&#160;<a class="el" href="nes_8h.html#set_bkg_tiles">nes.h</a>, <a class="el" href="gb_8h.html#set_bkg_tiles">gb.h</a></li>
-<li>set_data()&#160;:&#160;<a class="el" href="gb_8h.html#set_data">gb.h</a>, <a class="el" href="msx_8h.html#set_data">msx.h</a>, <a class="el" href="nes_8h.html#set_data">nes.h</a>, <a class="el" href="sms_8h.html#set_data">sms.h</a></li>
+<li>set_bkg_tiles()&#160;:&#160;<a class="el" href="gb_8h.html#set_bkg_tiles">gb.h</a>, <a class="el" href="nes_8h.html#set_bkg_tiles">nes.h</a></li>
+<li>set_data()&#160;:&#160;<a class="el" href="sms_8h.html#set_data">sms.h</a>, <a class="el" href="msx_8h.html#set_data">msx.h</a>, <a class="el" href="gb_8h.html#set_data">gb.h</a>, <a class="el" href="nes_8h.html#set_data">nes.h</a></li>
 <li>set_default_palette()&#160;:&#160;<a class="el" href="cgb_8h.html#set_default_palette">cgb.h</a>, <a class="el" href="msx_8h.html#set_default_palette">msx.h</a>, <a class="el" href="sms_8h.html#set_default_palette">sms.h</a></li>
-<li>set_interrupts()&#160;:&#160;<a class="el" href="sms_8h.html#set_interrupts">sms.h</a>, <a class="el" href="nes_8h.html#set_interrupts">nes.h</a>, <a class="el" href="msx_8h.html#set_interrupts">msx.h</a>, <a class="el" href="gb_8h.html#set_interrupts">gb.h</a></li>
+<li>set_interrupts()&#160;:&#160;<a class="el" href="gb_8h.html#set_interrupts">gb.h</a>, <a class="el" href="msx_8h.html#set_interrupts">msx.h</a>, <a class="el" href="nes_8h.html#set_interrupts">nes.h</a>, <a class="el" href="sms_8h.html#set_interrupts">sms.h</a></li>
 <li>set_native_sprite_data()&#160;:&#160;<a class="el" href="msx_8h.html#set_native_sprite_data">msx.h</a></li>
-<li>set_native_tile_data()&#160;:&#160;<a class="el" href="gb_8h.html#set_native_tile_data">gb.h</a>, <a class="el" href="msx_8h.html#set_native_tile_data">msx.h</a>, <a class="el" href="nes_8h.html#set_native_tile_data">nes.h</a>, <a class="el" href="sms_8h.html#set_native_tile_data">sms.h</a></li>
+<li>set_native_tile_data()&#160;:&#160;<a class="el" href="gb_8h.html#set_native_tile_data">gb.h</a>, <a class="el" href="sms_8h.html#set_native_tile_data">sms.h</a>, <a class="el" href="nes_8h.html#set_native_tile_data">nes.h</a>, <a class="el" href="msx_8h.html#set_native_tile_data">msx.h</a></li>
 <li>set_palette()&#160;:&#160;<a class="el" href="msx_8h.html#set_palette">msx.h</a>, <a class="el" href="sms_8h.html#set_palette">sms.h</a></li>
 <li>set_palette_entry()&#160;:&#160;<a class="el" href="msx_8h.html#set_palette_entry">msx.h</a>, <a class="el" href="sms_8h.html#set_palette_entry">sms.h</a></li>
-<li>SET_SHADOW_OAM_ADDRESS()&#160;:&#160;<a class="el" href="sms_8h.html#SET_SHADOW_OAM_ADDRESS">sms.h</a>, <a class="el" href="gb_8h.html#SET_SHADOW_OAM_ADDRESS">gb.h</a>, <a class="el" href="msx_8h.html#SET_SHADOW_OAM_ADDRESS">msx.h</a>, <a class="el" href="nes_8h.html#SET_SHADOW_OAM_ADDRESS">nes.h</a></li>
-<li>set_sprite_1bpp_data()&#160;:&#160;<a class="el" href="gb_8h.html#set_sprite_1bpp_data">gb.h</a>, <a class="el" href="msx_8h.html#set_sprite_1bpp_data">msx.h</a>, <a class="el" href="nes_8h.html#set_sprite_1bpp_data">nes.h</a>, <a class="el" href="sms_8h.html#set_sprite_1bpp_data">sms.h</a></li>
+<li>SET_SHADOW_OAM_ADDRESS()&#160;:&#160;<a class="el" href="sms_8h.html#SET_SHADOW_OAM_ADDRESS">sms.h</a>, <a class="el" href="nes_8h.html#SET_SHADOW_OAM_ADDRESS">nes.h</a>, <a class="el" href="gb_8h.html#SET_SHADOW_OAM_ADDRESS">gb.h</a>, <a class="el" href="msx_8h.html#SET_SHADOW_OAM_ADDRESS">msx.h</a></li>
+<li>set_sprite_1bpp_data()&#160;:&#160;<a class="el" href="msx_8h.html#set_sprite_1bpp_data">msx.h</a>, <a class="el" href="nes_8h.html#set_sprite_1bpp_data">nes.h</a>, <a class="el" href="sms_8h.html#set_sprite_1bpp_data">sms.h</a>, <a class="el" href="gb_8h.html#set_sprite_1bpp_data">gb.h</a></li>
 <li>set_sprite_2bpp_data()&#160;:&#160;<a class="el" href="sms_8h.html#set_sprite_2bpp_data">sms.h</a></li>
 <li>set_sprite_4bpp_data()&#160;:&#160;<a class="el" href="sms_8h.html#set_sprite_4bpp_data">sms.h</a></li>
-<li>set_sprite_data()&#160;:&#160;<a class="el" href="nes_8h.html#set_sprite_data">nes.h</a>, <a class="el" href="sms_8h.html#set_sprite_data">sms.h</a>, <a class="el" href="msx_8h.html#set_sprite_data">msx.h</a>, <a class="el" href="gb_8h.html#set_sprite_data">gb.h</a></li>
-<li>set_sprite_native_data()&#160;:&#160;<a class="el" href="gb_8h.html#set_sprite_native_data">gb.h</a>, <a class="el" href="nes_8h.html#set_sprite_native_data">nes.h</a>, <a class="el" href="sms_8h.html#set_sprite_native_data">sms.h</a></li>
+<li>set_sprite_data()&#160;:&#160;<a class="el" href="gb_8h.html#set_sprite_data">gb.h</a>, <a class="el" href="msx_8h.html#set_sprite_data">msx.h</a>, <a class="el" href="nes_8h.html#set_sprite_data">nes.h</a>, <a class="el" href="sms_8h.html#set_sprite_data">sms.h</a></li>
+<li>set_sprite_native_data()&#160;:&#160;<a class="el" href="nes_8h.html#set_sprite_native_data">nes.h</a>, <a class="el" href="sms_8h.html#set_sprite_native_data">sms.h</a>, <a class="el" href="gb_8h.html#set_sprite_native_data">gb.h</a></li>
 <li>set_sprite_palette()&#160;:&#160;<a class="el" href="cgb_8h.html#set_sprite_palette">cgb.h</a>, <a class="el" href="nes_8h.html#set_sprite_palette">nes.h</a></li>
 <li>set_sprite_palette_entry()&#160;:&#160;<a class="el" href="cgb_8h.html#set_sprite_palette_entry">cgb.h</a>, <a class="el" href="nes_8h.html#set_sprite_palette_entry">nes.h</a></li>
-<li>set_sprite_prop()&#160;:&#160;<a class="el" href="sms_8h.html#set_sprite_prop">sms.h</a>, <a class="el" href="nes_8h.html#set_sprite_prop">nes.h</a>, <a class="el" href="msx_8h.html#set_sprite_prop">msx.h</a>, <a class="el" href="gb_8h.html#set_sprite_prop">gb.h</a></li>
-<li>set_sprite_tile()&#160;:&#160;<a class="el" href="msx_8h.html#set_sprite_tile">msx.h</a>, <a class="el" href="nes_8h.html#set_sprite_tile">nes.h</a>, <a class="el" href="sms_8h.html#set_sprite_tile">sms.h</a>, <a class="el" href="gb_8h.html#set_sprite_tile">gb.h</a></li>
+<li>set_sprite_prop()&#160;:&#160;<a class="el" href="gb_8h.html#set_sprite_prop">gb.h</a>, <a class="el" href="msx_8h.html#set_sprite_prop">msx.h</a>, <a class="el" href="nes_8h.html#set_sprite_prop">nes.h</a>, <a class="el" href="sms_8h.html#set_sprite_prop">sms.h</a></li>
+<li>set_sprite_tile()&#160;:&#160;<a class="el" href="gb_8h.html#set_sprite_tile">gb.h</a>, <a class="el" href="sms_8h.html#set_sprite_tile">sms.h</a>, <a class="el" href="msx_8h.html#set_sprite_tile">msx.h</a>, <a class="el" href="nes_8h.html#set_sprite_tile">nes.h</a></li>
 <li>set_tile_1bpp_data()&#160;:&#160;<a class="el" href="msx_8h.html#set_tile_1bpp_data">msx.h</a>, <a class="el" href="sms_8h.html#set_tile_1bpp_data">sms.h</a></li>
 <li>set_tile_2bpp_data()&#160;:&#160;<a class="el" href="sms_8h.html#set_tile_2bpp_data">sms.h</a></li>
 <li>set_tile_data()&#160;:&#160;<a class="el" href="gb_8h.html#set_tile_data">gb.h</a>, <a class="el" href="nes_8h.html#set_tile_data">nes.h</a></li>
-<li>set_tile_map()&#160;:&#160;<a class="el" href="sms_8h.html#set_tile_map">sms.h</a>, <a class="el" href="msx_8h.html#set_tile_map">msx.h</a></li>
+<li>set_tile_map()&#160;:&#160;<a class="el" href="msx_8h.html#set_tile_map">msx.h</a>, <a class="el" href="sms_8h.html#set_tile_map">sms.h</a></li>
 <li>set_tile_map_compat()&#160;:&#160;<a class="el" href="sms_8h.html#set_tile_map_compat">sms.h</a></li>
 <li>set_tile_submap()&#160;:&#160;<a class="el" href="msx_8h.html#set_tile_submap">msx.h</a>, <a class="el" href="sms_8h.html#set_tile_submap">sms.h</a></li>
 <li>set_tile_submap_compat()&#160;:&#160;<a class="el" href="msx_8h.html#set_tile_submap_compat">msx.h</a>, <a class="el" href="sms_8h.html#set_tile_submap_compat">sms.h</a></li>
 <li>set_tile_xy()&#160;:&#160;<a class="el" href="msx_8h.html#set_tile_xy">msx.h</a>, <a class="el" href="sms_8h.html#set_tile_xy">sms.h</a></li>
 <li>set_tiles()&#160;:&#160;<a class="el" href="gb_8h.html#set_tiles">gb.h</a>, <a class="el" href="nes_8h.html#set_tiles">nes.h</a></li>
-<li>set_vram_byte()&#160;:&#160;<a class="el" href="sms_8h.html#set_vram_byte">sms.h</a>, <a class="el" href="gb_8h.html#set_vram_byte">gb.h</a>, <a class="el" href="msx_8h.html#set_vram_byte">msx.h</a>, <a class="el" href="nes_8h.html#set_vram_byte">nes.h</a></li>
+<li>set_vram_byte()&#160;:&#160;<a class="el" href="sms_8h.html#set_vram_byte">sms.h</a>, <a class="el" href="nes_8h.html#set_vram_byte">nes.h</a>, <a class="el" href="gb_8h.html#set_vram_byte">gb.h</a>, <a class="el" href="msx_8h.html#set_vram_byte">msx.h</a></li>
 <li>set_win_1bpp_data()&#160;:&#160;<a class="el" href="gb_8h.html#set_win_1bpp_data">gb.h</a></li>
+<li>set_win_attribute_xy()&#160;:&#160;<a class="el" href="gb_8h.html#set_win_attribute_xy">gb.h</a>, <a class="el" href="nes_8h.html#set_win_attribute_xy">nes.h</a></li>
+<li>set_win_attribute_xy_nes16x16()&#160;:&#160;<a class="el" href="nes_8h.html#set_win_attribute_xy_nes16x16">nes.h</a></li>
 <li>set_win_based_submap()&#160;:&#160;<a class="el" href="gb_8h.html#set_win_based_submap">gb.h</a>, <a class="el" href="msx_8h.html#set_win_based_submap">msx.h</a>, <a class="el" href="sms_8h.html#set_win_based_submap">sms.h</a></li>
 <li>set_win_based_tiles()&#160;:&#160;<a class="el" href="gb_8h.html#set_win_based_tiles">gb.h</a>, <a class="el" href="msx_8h.html#set_win_based_tiles">msx.h</a>, <a class="el" href="sms_8h.html#set_win_based_tiles">sms.h</a></li>
 <li>set_win_data()&#160;:&#160;<a class="el" href="gb_8h.html#set_win_data">gb.h</a></li>
 <li>set_win_submap()&#160;:&#160;<a class="el" href="gb_8h.html#set_win_submap">gb.h</a>, <a class="el" href="msx_8h.html#set_win_submap">msx.h</a></li>
+<li>set_win_submap_attributes()&#160;:&#160;<a class="el" href="gb_8h.html#set_win_submap_attributes">gb.h</a>, <a class="el" href="sms_8h.html#set_win_submap_attributes">sms.h</a></li>
 <li>set_win_tile_xy()&#160;:&#160;<a class="el" href="gb_8h.html#set_win_tile_xy">gb.h</a></li>
 <li>set_win_tiles()&#160;:&#160;<a class="el" href="gb_8h.html#set_win_tiles">gb.h</a></li>
 <li>setchar()&#160;:&#160;<a class="el" href="console_8h.html#setchar">console.h</a></li>
 <li>sgb_check()&#160;:&#160;<a class="el" href="sgb_8h.html#sgb_check">sgb.h</a></li>
 <li>sgb_transfer()&#160;:&#160;<a class="el" href="sgb_8h.html#sgb_transfer">sgb.h</a></li>
 <li>sprintf()&#160;:&#160;<a class="el" href="stdio_8h.html#sprintf">stdio.h</a></li>
-<li>strcat()&#160;:&#160;<a class="el" href="asm_2z80_2string_8h.html#strcat">string.h</a></li>
+<li>strcat()&#160;:&#160;<a class="el" href="asm_2mos6502_2string_8h.html#strcat">string.h</a></li>
 <li>strcmp()&#160;:&#160;<a class="el" href="asm_2mos6502_2string_8h.html#strcmp">string.h</a></li>
 <li>strcpy()&#160;:&#160;<a class="el" href="asm_2mos6502_2string_8h.html#strcpy">string.h</a></li>
 <li>strlen()&#160;:&#160;<a class="el" href="asm_2mos6502_2string_8h.html#strlen">string.h</a></li>

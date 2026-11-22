@@ -19,7 +19,7 @@ _sgb_check::
         LD      A,#0x03
         LD      (HL-),A
         CALL    .sgb_transfer
-        LD      C,#.P1
+        LD      C,#rP1
         LD      A,#(.P14 | .P15)
         LDH     (C),A
         LDH     A,(C)
@@ -77,7 +77,7 @@ _sgb_transfer::
         JR      Z,6$
 1$:
         PUSH    AF
-        LD      C,#.P1
+        LD      C,#rP1
         LDH     (C),A           ; Send reset
         LD      A,#(.P14 | .P15)
         LDH     (C),A
@@ -114,7 +114,7 @@ _sgb_transfer::
 
         LD      DE,#8400		; was: 7000
 5$:
-        LDH     A,(.P1)         ; 3 +
+        LDH     A,(rP1)         ; 3 +
         DEC     DE              ; 2 +
         LD      A,D             ; 1 +
         OR      E               ; 1 +

@@ -13,13 +13,13 @@ int8_t gprintf(char *fmt, ...) NONBANKED
       switch(*++fmt) {
       case 'c': {
 	/* char */
-	  char c = va_arg(ap, char);
+	  char c = va_arg(ap, int);
 	  wrtchr(c);
 	  break;
       }
       case 'd': {
 	/* decimal int */
-	  int8_t b = va_arg(ap, int8_t);
+	  int8_t b = va_arg(ap, int);
 	  gprintn(b, 10, SIGNED);
 	  break;
       }
@@ -31,13 +31,13 @@ int8_t gprintf(char *fmt, ...) NONBANKED
       }
       case 'o': {
 	  /* octal int */
-	  int8_t b = va_arg(ap, int8_t);
+	  int8_t b = va_arg(ap, int);
 	  gprintn(b, 8, UNSIGNED);
 	  break;
       }
       case 'x': {
 	  /* hexadecimal int */
-	  int8_t b = va_arg(ap, int8_t);
+	  int8_t b = va_arg(ap, int);
 	  gprintn(b, 16, UNSIGNED);
 	  break;
       }
@@ -53,19 +53,19 @@ int8_t gprintf(char *fmt, ...) NONBANKED
 	switch(*++fmt) {
 	case 'd':
 	  /* decimal long */
-	  gprintln(va_arg(ap, int16_t), 10, SIGNED);
+	  gprintln(va_arg(ap, int), 10, SIGNED);
 	  break;
 	case 'u':
 	  /* unsigned long */
-	  gprintln(va_arg(ap, int16_t), 10, UNSIGNED);
+	  gprintln(va_arg(ap, int), 10, UNSIGNED);
 	  break;
 	case 'o':
 	  /* octal long */
-	  gprintln(va_arg(ap, int16_t), 8, UNSIGNED);
+	  gprintln(va_arg(ap, int), 8, UNSIGNED);
 	  break;
 	case 'x':
 	  /* hexadecimal long */
-	  gprintln(va_arg(ap, int16_t), 16, UNSIGNED);
+	  gprintln(va_arg(ap, int), 16, UNSIGNED);
 	  break;
 	}
 	break;

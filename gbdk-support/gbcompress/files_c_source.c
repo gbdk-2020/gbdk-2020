@@ -176,7 +176,7 @@ uint8_t * file_read_c_input_into_buffer(char * filename, uint32_t *p_ret_size) {
 // Writes a buffer to a file in C source format
 // Adds a matching .h if possible
 //
-bool file_write_c_output_from_buffer(char * filename, uint8_t * p_buf, uint32_t data_len, char * var_name, bool var_is_const, uint16_t bank_num) {
+bool file_write_c_output_from_buffer(char * filename, uint8_t * p_buf, uint32_t data_len, char * var_name, char * bankref_name, bool var_is_const, uint16_t bank_num) {
 
     bool status = false;
     size_t wrote_bytes;
@@ -190,7 +190,7 @@ bool file_write_c_output_from_buffer(char * filename, uint8_t * p_buf, uint32_t 
         if (bank_num != BANK_NUM_ROM_UNSET) {
             fprintf(file_out, "#pragma bank %d\n\n", bank_num);
             fprintf(file_out, "#include <gbdk/platform.h>\n\n");
-            fprintf(file_out, "BANKREF(%s)\n\n", var_name);
+            fprintf(file_out, "BANKREF(%s)\n\n", bankref_name);
         }
 
         // Array entry with variable name
@@ -234,7 +234,7 @@ bool file_write_c_output_from_buffer(char * filename, uint8_t * p_buf, uint32_t 
                     // If Bank Num is set add a .h bank ref
                     if (bank_num != BANK_NUM_ROM_UNSET) {
                         fprintf(file_out, "#include <gbdk/metasprites.h>\n\n");
-                        fprintf(file_out, "BANKREF_EXTERN(%s)\n\n", var_name);
+                        fprintf(file_out, "BANKREF_EXTERN(%s)\n\n", bankref_name);
                     }
 
                     fprintf(file_out, "\n\n#define %s_sz_comp %d\n", var_name, size_compressed);
@@ -243,7 +243,7 @@ bool file_write_c_output_from_buffer(char * filename, uint8_t * p_buf, uint32_t 
                     // array entry with variable name
                     fprintf(file_out, "\nextern %s unsigned char %s[];\n\n", (var_is_const) ? "const" : "", var_name);
 
-                    fprintf(file_out, "#endif");
+                    fprintf(file_out, "#endif\n");
 
                     fclose(file_out);
                 }

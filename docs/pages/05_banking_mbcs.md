@@ -18,6 +18,7 @@ Cartridges with MBCs allow the the Game Boy to work with ROMS up to 8MB in size 
   - Bank `0` of the ROM is located in the region at `0000h - 3FFFh`. It is fixed (non-banked) and cannot be switched out for another bank.
   - Banks `1 .. N` can be switched into the upper region at `4000h - 7FFFh`. The upper limit for `N` is determined by the MBC used and available cartridge space.
   - It is not necessary to manually assign Bank `0` for source files, that will happen by default if no bank is specified.
+  - 8MB cartridges have restrictions and limitations, see the @ref SWITCH_ROM_MBC5_8M() documentation for details.
 
 See the @ref Pandocs for more details about the individual MBCs and their capabilities.
 
@@ -142,7 +143,8 @@ See the note about @ref gg_sms_cart_sram_info "enabling Cart SRAM and number of 
 
 1: Max possible size for MBC is shown. When used with generic @ref SWITCH_ROM() the max size may be smaller. For example:
   - The max for MBC1 becomes __Bank 31__ (512K)
-  - The max for MBC5 becomes __Bank 255__ (4MB). To use the full 8MB size of MBC5 see @ref SWITCH_ROM_MBC5_8M().
+  - The max for MBC5 becomes __Bank 255__ (4MB)
+  - To use the full 8MB size of MBC5 see @ref SWITCH_ROM_MBC5_8M(), however note the restrictions and limitations listed in the documentation for the macro
 
 2: For MBC1 some banks in it's range are unavailable. See pandocs for more details https://gbdev.io/pandocs/MBC1
 
@@ -202,6 +204,9 @@ Banked functions (located in a switchable ROM bank)
     - May only use data from fixed Bank 0 and the currently active bank.
     - A @ref wrapped_function_for_banked_data "NONBANKED wrapper function" may be used to access data in other banks.
     - Banks cannot be switched manually from inside a BANKED function (otherwise it will switch out it's own function code as it is executing it, likely leading to a crash).
+
+Incompatible function keywords
+  - Combining the `static` and `BANKED` keywords together for a function is not supported with autobanking, nor is it recommended generally. In that scenario the banked function will not export a symbol for its bank, meaning banked calls to it (even within the same source file) will not have the target bank updated after auto bank assignment and so are likely to crash.
 
 Limitations:
   - SDCC banked calls and far_pointers in GBDK only save one byte for the ROM bank. So, for example, they are limited to __bank 31__ max for MBC1 and __bank 255__ max for MBC5. This is due to the bank switching for those MBCs requiring a second, additional write to select the upper bits for more banks (banks 32+ in MBC1 and banks 256+ in MBC5).

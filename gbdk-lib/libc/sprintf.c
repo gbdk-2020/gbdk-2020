@@ -4,11 +4,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-#if defined(__PORT_mos6502)
 typedef void (*emitter_t)(char, char **) REENTRANT;
-#else
-typedef void (*emitter_t)(char, char **) OLDCALL;
-#endif
 
 static const char _hex[] = "0123456789ABCDEF";
 
@@ -48,14 +44,14 @@ void __printf(const char *format, emitter_t emitter, char **pData, va_list va)
                     switch ((uint8_t)(*++format)) {
                         case 'X' :
                         case 'x' :
-                            _printhexbyte(va_arg(va, char), emitter, pData);
+                            _printhexbyte(va_arg(va, int), emitter, pData);
                             break;
                         case 'u':
-                            uitoa((unsigned char)va_arg(va, char), buf, 10);
+                            uitoa((unsigned char)va_arg(va, int), buf, 10);
                             _printbuf(buf, emitter, pData);
                             break;
                         case 'd':
-                            itoa((signed char)va_arg(va, char), buf, 10);
+                            itoa((signed char)va_arg(va, int), buf, 10);
                             _printbuf(buf, emitter, pData);
                             break;
                     }
@@ -72,7 +68,7 @@ void __printf(const char *format, emitter_t emitter, char **pData, va_list va)
                     _printbuf(va_arg(va, char *), emitter, pData);
                     break;
                 case 'c': 
-                    char c = va_arg(va, char);
+                    char c = va_arg(va, int);
                     (*emitter)(c, pData);
                     break;
                 case 'X':
@@ -90,12 +86,7 @@ void __printf(const char *format, emitter_t emitter, char **pData, va_list va)
     }
 }
 
-#if defined(__PORT_mos6502)
-static void _sprintf_emitter(char c, char ** pData) REENTRANT
-#else
-static void _sprintf_emitter(char c, char ** pData) OLDCALL
-#endif
-{
+static void _sprintf_emitter(char c, char ** pData) REENTRANT {
     **pData = c;
     (*pData)++;
 }

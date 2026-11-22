@@ -408,8 +408,12 @@ void obj_data_process(list_type * p_filelist) {
     for (c = 0; c < arealist.count; c++) {
         banks_assign_area(&(areas[c]));
         // Set linkerfile order based on sort order above
-        // The + 1 is to separate banked from non-banked files so non-banked always go first
-        // (non-banked files aren't passed into this function, so stay at default [0]) 
+        //
+        // All files get processed here, including Fixed bank files.
+        // The Fixed vs Auto sorting guarantees Fixed are always before Auto,
+        // they are then sub-sorted by size
+        //
+        // The + 1 differentiates it from the default LINKERFILE_ORDER_FIRST
         files[ areas[c].file_id ].linkerfile_order = c + 1;
 
         // If area was auto-banked then set bank number in associated file 
@@ -427,8 +431,8 @@ void obj_data_process(list_type * p_filelist) {
         }
     }
 
-    // Check all symbols for matches to banked entries, flag if match found
-    // TODO: ineffecient to loop over symbols for all files
+    // Check all symbols for matching banked entries ("b<symbol>"), flag if match found
+    // TODO: inefficient to loop over symbols for all files
     for (c = 0; c < symbollist.count; c++) {
         if (symbols[c].is_banked_def) {
             for (s = 0; s < symbollist.count; s++) {

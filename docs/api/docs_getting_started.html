@@ -41,7 +41,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GBDK 2020 Docs
-   &#160;<span id="projectnumber">4.5.0</span>
+   &#160;<span id="projectnumber">4.6.0</span>
    </div>
    <div id="projectbrief">API Documentation for GBDK 2020</div>
   </td>
@@ -146,9 +146,10 @@ Linux / macOS / Windows with Make installed:</h2>
 <h3><a class="anchor" id="autotoc_md5"></a>
 macOS security warnings</h3>
 <p >If you get a security warning on macOS that says ("`... developer cannot be verified, macOS cannot verify that this app is free from malware`"), it does not mean that GBDK is malware. It just means the GBDK toolchain binaries are not signed by Apple, so it won't run them without an additional step.</p>
-<p >You will need to unquarrantine the files in the bin folder in order to run them. This can be fixed using the following steps.</p>
+<p >You will need to unquarrantine the files in the bin and libexec/sdcc folders in order to run them. This can be fixed using the following steps.</p>
 <p >Open a terminal and navigate to the gbdk bin folder (<code>"bin/"</code> under your GBDK-2020 install folder). Then type: </p><pre class="fragment">xattr -d com.apple.quarantine *
-</pre><h1><a class="anchor" id="autotoc_md6"></a>
+</pre><p> Next, open a terminal and navigate to the gbdk sdcc folder (<code>"libexec/sdcc/"</code> under your GBDK-2020 install folder). Then type: </p><pre class="fragment">xattr -d com.apple.quarantine *
+</pre> <h1><a class="anchor" id="autotoc_md6"></a>
 3. Use a Template</h1>
 <p ><b>To create a new project use a template!</b></p>
 <p >There are template projects included in the <a class="el" href="docs_example_programs.html">GBDK example projects</a> to help you get up and running. Their folder names start with <code>template_</code>.</p>
